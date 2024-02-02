@@ -1,0 +1,72 @@
+{
+  "intro": "<par>Man kann sich Step-Wise wie ein <strong>Lehrbuch</strong> vorstellen: Es enthält Theorie und eine Menge Übungsaufgaben. Daher brauchst du kein Lehrmaterial zu entwickeln. Es ist bereits vorhanden!</par><par>Aber Step-Wise geht viel weiter als ein einfaches Lehrbuch.<list><item><a>Es ist <strong>interaktiv</strong>. Die Studierenden können mit dem Inhalt experimentieren und ihn aktiv erleben.</a></item><item><b>Es ist <strong>modular</strong> aufgebaut. Du kannst bis ins kleinste Detail genau auswählen, was die Studierenden zu welchem Zeitpunkt lernen sollen.</b></item><item><c>Es <strong>verfolgt</strong> deine Studierenden. Du weißt immer genau, wie weit die ganze Gruppe oder ein einzelner Student fortgeschritten ist und wie viel Zeit er oder sie investiert hat.</c></item></list>Möchtest du sehen, wie es funktioniert? Dann lies weiter, um herauszufinden, wie du einen Kurs einrichtest oder deine Klasse inspizierst.</par>",
+  "courses": {
+    "head": "Bestimme deinen Kurs",
+    "intro": "Wenn du willst, dass deine Studierenden Step-Wise nutzen, richtest du zunächst einen Kurs ein. Dies geschieht in drei Schritten.",
+    "goals": {
+      "head": "Lege die Endziele fest",
+      "par1": "Step-Wise ist auf kleinen Modulen aufgebaut, die als <strong>Kompetenzen</strong> bezeichnet werden. Dabei handelt es sich um Dinge, die die Studierenden tun können, wie z. B. das Lösen einer bestimmten Art von Gleichung oder das Berechnen eines bestimmten physikalischen Werts. Jede Kompetenz umfasst etwa 2-10 Minuten an Informationen.",
+      "par2": "Kompetenzen sind in vielfältiger Weise miteinander verknüpft. Um beispielsweise eine Kompetenz auszuführen, muss man oft zwei oder drei Unterkompetenzen nacheinander ausführen. Diese Verknüpfungen werden in einem <strong>Skill-Tree</strong> (Kompetenzbaum) dargestellt. Die Grundkompetenzen stehen ganz oben und gehen in komplexere Kompetenzen über, je weiter man nach unten geht.",
+      "par3": "Um einen Kurs einzurichten, muss man zunächst die <strong>Endziele festlegen</strong>. Das sind die Kompetenzen, die die Studierenden am Ende des Kurses beherrschen müssen. Kompetenzen, die über diesen Zielen liegen, werden auch gelehrt, Kompetenzen, die darunter liegen, jedoch nicht."
+    },
+    "priorKnowledge": {
+      "head": "Ermittle die Vorkenntnisse",
+      "par1": "Wenn wir von den Endzielen aus nach oben klettern, werden wir alle Kompetenzen finden, die die Studierenden letztendlich beherrschen sollten. Wenn wir aber nur weit genug nach oben gehen, werden wir bestimmt auf Kompetenzen stoßen, die die Studierenden bereits vorher gelernt haben. Diese Kompetenzen sind nicht Teil unseres Kurses: Sie sind <strong>Vorkenntnisse</strong>.",
+      "par2": "Schritt zwei bei der Einrichtung des Kurses besteht darin, diese Vorkenntnisse zu definieren. Wir werden <strong>von den Endzielen aus aufsteigen</strong>, und für jede Kompetenz muss angegeben werden: \"Können die Lernenden dies bereits tun? Oder müssen sie es im Rahmen dieses Kurses lernen?\" Wenn wir feststellen, dass bestimmte Studierende diese Vorkenntnisse nicht gut beherrschen, unterstützen wir sie natürlich weiter."
+    },
+    "blocks": {
+      "head": "Erstelle einer Wochen-/Blockeinteilung",
+      "par1": "Sobald wir wissen, welche Kompetenzen Teil des Kurses sind, können wir den Kurs in <strong>Blöcke unterteilen</strong>. Normalerweise ist ein \"Block\" eine Woche eines Kurses, aber es kann auch eine Lektion, ein Monat, oder was auch immer sein.",
+      "par2": "Um die Blöcke zu definieren, gibst du die <strong>Endziele für jeden Block</strong> an. Daraus ergibt sich automatisch der genaue Inhalt der einzelnen Blöcke. Dein Kurs ist dann vollständig definiert."
+    }
+  },
+  "tracking": {
+    "head": "Die Studierenden verfolgen",
+    "intro": "Sobald der Kurs eingerichtet ist, kannst du die Studierenden einladen oder sie können sich selbst zu dem Kurs hinzufügen. So haben sie einfachen Zugang zu den Inhalten und du kannst ihre <strong>Fortschritte verfolgen</strong>.",
+    "classOverview": {
+      "head": "Überblick über die Gruppe",
+      "par1": "Als erstes kannst du den <strong>Gesamtfortschritt der Gruppe</strong> verfolgen, sowohl nach Blöcken als auch nach Kompetenzen. Du kannst das <strong>Niveau</strong> der Studierenden verfolgen (haben sie es gemeistert) und die <strong>Aktivität</strong> (wie viele Übungen haben sie im Durchschnitt gemacht). So kann man sofort sehen, womit die Gruppe Schwierigkeiten hat, und ob dies auf ihre Bemühungen oder andere Gründe zurückzuführen ist.",
+      "classOverviewImage": {
+        "head1": "Kompetenzen",
+        "head2": "Übungen",
+        "head3": "Zeitaufwand",
+        "block1": "Öffnungswoche",
+        "block2": "Mittlere Woche",
+        "skill1": "Eine Grundkompetenz",
+        "skill2": "Etwas komplizierter",
+        "block3": "Abschlusswoche"
+      }
+    },
+    "studentOverview": {
+      "head": "Überblick über einen Studierenden",
+      "par1": "Neben einem vollständigen Überblick über die Gruppe kannst du auch <strong>einzelne Studierende anschauen</strong>. Wie ist ihr Fortschritt? Und wie viel wurde schon geübt? Diese Übersicht ist sehr nützlich für Coaching-Gespräche, nicht nur für Lehrer, sondern auch für Mentoren ohne Fachkenntnisse.",
+      "studentOverviewImage": {
+        "student": "Alex Albrecht",
+        "head1": "Kompetenzen",
+        "head2": "Übungen",
+        "head3": "Zeitaufwand",
+        "block1": "Öffnungswoche",
+        "block2": "Mittlere Woche",
+        "skill1": "Eine Grundkompetenz",
+        "skill2": "Etwas komplizierter",
+        "block3": "Abschlusswoche"
+      }
+    },
+    "liveHelping": {
+      "head": "Unterstutze die Studierenden beim Üben",
+      "par1": "Step-Wise ist hervorragend geeignet, um auch im Unterricht eingesetzt zu werden. Es gibt sogar einen <strong>Kollaborationsmodus</strong>, in dem die Studierenden gemeinsam üben können: So erhalten sie gemeinsam die gleichen Aufgaben. Und wenn die Studierenden nicht weiterkommen, hilft ihnen die App weiter.",
+      "par2": "Es gibt natürlich immer Sonderfälle, in denen Step-Wise einen Studierenden nicht optimal unterstützen kann. Und da kommt dann der Lehrende (du) ins Spiel. Wenn ein Kursteilnehmer eine Frage stellt, kannst du ihn/sie <strong>schnell nachschlagen</strong> auf deinem Tablet/Smartphone und sofort die zuletzt aktivierte Übungsaufgabe inklusive Lösung sehen, um dem Kursteilnehmer optimal auf seinem Weg zu helfen.",
+      "par3": "Die Erfahrung zeigt, dass mit Step-Wise das <strong>Studenten-Lehrer-Verhältnis um das Dreifache steigen kann</strong>, während die Zufriedenheit der Studenten auf dem gleichen Niveau bleibt oder sogar steigt! So bleibt den Lehrenden viel Zeit, um die Studierenden noch mehr zu unterstützen.",
+      "studentSearchImage": {
+        "search": "Suchen",
+        "name1": "Alex Albrecht",
+        "name2": "Bob Becker",
+        "name3": "Carmen Cramer"
+      }
+    }
+  },
+  "getStarted": {
+		"head": "Los geht's",
+    "intro": "Möchtest du Step-Wise in deinem Kurs verwenden? Step-Wise befindet sich noch in der <strong>Beta-Phase</strong>. Die gute Nachricht ist also: Die Nutzung ist kostenlos! Die schlechte Nachricht ist: Es sind möglicherweise noch nicht alle Inhalte verfügbar. Am besten schickst du einfach eine <strong>E-Mail</strong> an <a>{infoEmail}</a> (Hildo) und wir schauen uns gemeinsam die Möglichkeiten an. Es ist immer schön, wenn mehr Leute Step-Wise nutzen!"
+  }
+}

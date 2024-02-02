@@ -27,7 +27,9 @@
     "settings": "Settings",
     "logOut": "Log out",
     "inspect": "Skill overview",
-    "admin": "User overview"
+    "admin": "User overview",
+    "forStudents": "Step-Wise for students",
+    "forTeachers": "Step-Wise for teachers"
   },
   "tabs": {
     "theory": "Theory",

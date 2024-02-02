@@ -8,6 +8,7 @@ import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
 import { TranslationSection } from 'i18n'
 import { usePaths, useParentPath } from 'ui/routingTools'
+import { Student, Teacher } from 'ui/components'
 import { useFieldRegistration, useFieldControllerContext } from 'ui/form'
 
 import MenuLink from './MenuLink'
@@ -56,6 +57,8 @@ export default function Menu({ className, titleCollapsed }) {
 
 		// Define buttons common to logged-in and non-logged-in users.
 		const commonButtons = <>
+			<MenuLink id="forStudents" icon={Student} />
+			<MenuLink id="forTeachers" icon={Teacher} />
 			<MenuLink id="about" icon={Info} />
 			<MenuLink id="feedback" icon={Feedback} />
 		</>

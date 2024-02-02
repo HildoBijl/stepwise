@@ -1,0 +1,72 @@
+{
+  "intro": "<par>Je kunt Step-Wise als <strong>studieboek</strong> zien: het heeft theorie en een hoop oefenopgaven. Je hoeft dus geen lesmateriaal te ontwikkelen. Het is er al!</par><par>Maar Step-Wise gaat veel verder dan een simpel studieboek.<list><item><a>Het is <strong>interactief</strong>. Studenten kunnen met de inhoud experimenteren en er actief ervaringen mee opdoen.</a></item><item><b>Het is <strong>modulair</strong>. Je kunt, tot het fijnste detail, precies selecteren wat studenten moeten leren en wanneer.</b></item><item><c>Het <strong>volgt</strong> je studenten. Je weet altijd precies hoe ver de gehele klas of een individuele student is, en hoeveel tijd ze erin hebben gestoken.</c></item></list>Wil je zien hoe het werkt? Lees dan verder hoe je een cursus opzet of je klas inspecteert.</par>",
+  "courses": {
+    "head": "Je cursus definiëren",
+    "intro": "Als je wilt dat je studenten Step-Wise gebruiken, dan begin je met het opzetten van een cursus. Dit gaat via drie stappen.",
+    "goals": {
+      "head": "Bepaal de einddoelen",
+      "par1": "Step-Wise is opgebouwd rond kleine modules genaamd <strong>vaardigheden</strong>. Dit zijn dingen die studenten kunnen doen, zoals het oplossen van een bepaald soort vergelijking of het berekenen van een bepaalde natuurkundige waarde. Elke vaardigheid heeft zo'n 2-10 minuten aan informatie.",
+      "par2": "Vaardigheden hebben allerlei soorten links met elkaar. Zo moet men bijvoorbeeld vaak, om een vaardigheid uit te kunnen voeren, twee of drie subvaardigheden achter elkaar uitvoeren. Deze links worden weergegeven in een <strong>skill tree</strong> (vaardighedenboom). Basisvaardigheden staan bovenaan, en deze worden in meer complexe vaardigheden samengevoegd als we meer omlaag gaan.",
+      "par3": "Om je cursus op te zetten, moet je eerst de <strong>einddoelen selecteren</strong>. Dit zijn de vaardigheden die de studenten aan het einde van de cursus moeten beheersen. Vaardigheden erboven worden ook onderwezen, maar vaardigheden eronder niet."
+    },
+    "priorKnowledge": {
+      "head": "Bepaal de voorkennis",
+      "par1": "Als we vanaf de einddoelen naar boven klimmen, dan vinden we alle vaardigheden die de studenten uiteindelijk moeten beheersen. Maar als we maar ver genoeg omhoog gaan, dan vinden we vast en zeker ook vaardigheden die de studenten al eerder geleerd hebben. Deze vaardigheden zijn geen onderdeel van onze cursus: ze zijn <strong>voorkennis</strong>.",
+      "par2": "Stap twee om je cursus op te zetten is het definiëren van deze voorkennis. We <strong>lopen vanaf de einddoelen omhoog</strong> en bij elke vaardigheid moet jij aangeven, \"Kunnen studenten dit al? Of moeten ze het als onderdeel van deze cursus leren?\" Natuurlijk geldt, als we zien dat bepaalde studenten deze voorkennis niet goed beheersen, dat we deze studenten dan ook verder ondersteunen."
+    },
+    "blocks": {
+      "head": "Verdeel alles in weken/blokken",
+      "par1": "Zodra we weten welke vaardigheden onderdeel van de cursus zijn, kunnen we de cursus <strong>onderverdelen in blokken</strong>. Meestal is een \"blok\" een week van een cursus, maar het kan ook een les zijn, een maand, of wat dan ook.",
+      "par2": "Om je blokken te definiëren, geef je de <strong>einddoelen voor elk blok</strong> aan. Hieruit volgt automatisch de exacte inhoud van elk blok. Je cursus is dan volledig vastgelegd."
+    }
+  },
+  "tracking": {
+    "head": "Je studenten volgen",
+    "intro": "Zodra je cursus opgezet is, kun je studenten uitnodigen, of ze kunnen zichzelf aan de cursus toevoegen. Hiermee hebben ze gemakkelijk toegang tot de inhoud, en jij kan hun <strong>voortgang volgen</strong>.",
+    "classOverview": {
+      "head": "Overzicht van de klas",
+      "par1": "Het eerste wat je kan volgen is de <strong>algemene voortgang van de klas</strong>, zowel per blok als per vaardigheid. Je kunt het <strong>niveau</strong> van de studenten (beheersen ze het) en de <strong>activiteit</strong> (hoeveel oefeningen hebben ze gemiddeld gedaan) volgen. Op deze manier kun je gelijk zien waar de klas mee worstelt, en of dit aan hun inzet ligt of aan andere redenen.",
+      "classOverviewImage": {
+        "head1": "Vaardigheden",
+        "head2": "Opgaven",
+        "head3": "Tijdsbesteding",
+        "block1": "Openingsweek",
+        "block2": "Middelste week",
+        "skill1": "Een basisvaardigheid",
+        "skill2": "Iets ingewikkelders",
+        "block3": "Afsluitweek"
+      }
+    },
+    "studentOverview": {
+      "head": "Overzicht van een student",
+      "par1": "Naast een volledig klassenoverzicht kun je ook <strong>individuele studenten bekijken</strong>. Wat is hun voortgang? En hoeveel is er geoefend? Dit overzicht is erg nuttig voor coachingsgesprekken, niet alleen voor docenten maar ook voor mentoren zonder vakkennis.",
+      "studentOverviewImage": {
+        "student": "Alex Alberts",
+        "head1": "Vaardigheden",
+        "head2": "Opgaven",
+        "head3": "Tijdsbesteding",
+        "block1": "Openingsweek",
+        "block2": "Middelste week",
+        "skill1": "Een basisvaardigheid",
+        "skill2": "Iets ingewikkelders",
+        "block3": "Afsluitweek"
+      }
+    },
+    "liveHelping": {
+      "head": "Help studenten live met oefenopgaven",
+      "par1": "Step-Wise is uitstekend uitgerust om ook in het klaslokaal bij oefensessies gebruikt te worden. Er is zelfs een <strong>samenwerkingsmodus</strong> waarmee studenten samen kunnen ofenen: ze krijgen zo samen dezelfde opgaven. En als studenten vastlopen, dan helpt de app ze verder.",
+      "par2": "Er zijn natuurlijk altijd speciale gevallen waarin Step-Wise niet optimaal een student ondersteunen kan. En dat is waar de docent (jij) naar voren komt. Als een student een vraag stelt, dan kun je hem/haar <strong>snel opzoeken</strong> op je tablet/smartphone, en direct de laatst geactiveerde oefenopgave zien, inclusief oplossing, om zo de student optimaal verder op weg te helpen.",
+      "par3": "De ervaring leert dat met Step-Wise de <strong>student-docent-ratio een factor drie omhoog kan</strong>, terwijl de studenttevredenheid op niveau blijft, of zelfs stijgt! Zo blijft er veel docententijd over om de studenten nog meer te ondersteunen.",
+      "studentSearchImage": {
+        "search": "Zoeken",
+        "name1": "Alex Alberts",
+        "name2": "Bob Bakker",
+        "name3": "Carmen Cremers"
+      }
+    }
+  },
+  "getStarted": {
+    "head": "Aan de slag",
+    "intro": "Wil je Step-Wise in jouw cursus gebruiken? Step-Wise zit nog in de <strong>beta-fase</strong>. Het goede nieuws is daarmee: het is gratis om te gebruiken! Het slechte nieuws is: mogelijk is nog niet alle inhoud aanwezig. Het beste wat je kunt doen is even een <strong>email sturen</strong> aan <a>{infoEmail}</a> (Hildo) en dan kijken we samen naar de mogelijkheden. Het is altijd mooi als meer mensen Step-Wise gebruiken!"
+  }
+}

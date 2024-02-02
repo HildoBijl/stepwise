@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function List({ items, useNumbers, className, style }) {
+	if (!items || !Array.isArray(items))
+		throw new Error(`Invalid list items: expected an array "items" property, but received something of type ${typeof items}.`)
 	const classes = useStyles()
 	className = clsx(classes.list, 'list', className)
 	const properties = { className, style }

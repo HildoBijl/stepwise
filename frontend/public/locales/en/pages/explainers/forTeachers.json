@@ -1,0 +1,72 @@
+{
+  "intro": "<par>You can see Step-Wise as a <strong>textbook</strong>: it has theory and lots of practice exercises. No need for you to create any content. It's already there!</par><par>But Step-Wise goes far beyond a simple textbook.<list><item><a>It's <strong>interactive</strong>! Students can play around with the contents and experience it more actively.</a></item><item><b>It's very <strong>modular</strong>. You can select, up to the finest detail, what students need to learn and when.</b></item><item><c>It <strong>tracks</strong> your students. You always know exactly how far along the class or any individual student is, and how much work they put in.</c></item></list>Want to see how it works? Read on about how to set up a course or inspect your class!</par>",
+  "courses": {
+    "head": "Define your course",
+    "intro": "If you want your students to use Step-Wise, the first thing you do is set up your course. There are three steps to do so.",
+    "goals": {
+      "head": "Choose the end goals",
+      "par1": "Step-Wise is based around small modules called <strong>skills</strong>. These are things students can actually do, like solve a particular type of equation or calculate a certain quantity. Each skill is roughly 2-10 minutes worth of information.",
+      "par2": "Skills have all sorts of links between between them. For example, to execute a skill, you often have to execute two or three subskills in order. These links are visualized in a <strong>skill tree</strong>. Basic skills are at the top, and skills are combined into more advanced skills as we move downwards.",
+      "par3": "To set up your course, you first have to <strong>pick the end goals</strong>. These are the skills that students should have mastered at the end of the course. Skills above them will also be taught. Skills below them will not."
+    },
+    "priorKnowledge": {
+      "head": "Define prior knowledge",
+      "par1": "If we walk upwards from the final course goals, we find all the skills that the students have to master altogether. But if we go upwards far enough, we will surely reach skills that the students already mastered previously. These skills are not part of the course: they are <strong>prior knowledge</strong>.",
+      "par2": "Step two to set up your course is to define this prior knowledge. We'll simply <strong>walk up from the goals</strong> and you'll have to tell us for each skill \"Can students already do this? Or do they need to learn it as part of the course?\" Of course, if we find that some students haven't properly mastered the prior knowledge yet, we will support them to learn it."
+    },
+    "blocks": {
+      "head": "Divide into weeks/blocks",
+      "par1": "Once we know the skills that are part of the course, we can <strong>divide the course into blocks</strong>. Usually a \"block\" is a week within a course, but it can also be a lecture, a month, or anything else.",
+      "par2": "To define your blocks, you <strong>specify the final goals for each block</strong>. From this, the exact contents of the blocks automatically follow. Your course is then fully set up."
+    }
+  },
+  "tracking": {
+    "head": "Track your students",
+    "intro": "Once your course is ready, you can invite your students, or they can add the course themselves. This allows them to easily access the contents, but you can also <strong>follow their progress</strong>.",
+    "classOverview": {
+      "head": "Get class overviews",
+      "par1": "The first thing you can track is the <strong>general class progress</strong>, both per block and per skill. You can investigate the student <strong>level</strong> (have they mastered it) and the <strong>activity</strong> (how many times did they on average practice it). In this way you can immediately detect where the class struggles, and if this is because of their effort or because of other reasons.",
+      "classOverviewImage": {
+        "head1": "Mastery",
+        "head2": "Exercises",
+        "head3": "Time spent",
+        "block1": "Opening week",
+        "block2": "Middle week",
+        "skill1": "Some basic skill",
+        "skill2": "A more advanced skill",
+        "block3": "Closing week"
+      }
+    },
+    "studentOverview": {
+      "head": "Get student overviews",
+      "par1": "Next to a full class overview, you can also <strong>check out individual students</strong>. What is the student's progress? And how much has been practiced? This overview is very useful for coaching interviews, not only by course teachers but also by mentors that are not fluent in the content matter.",
+      "studentOverviewImage": {
+        "student": "Alex Adams",
+        "head1": "Mastery",
+        "head2": "Exercises",
+        "head3": "Time spent",
+        "block1": "Opening week",
+        "block2": "Middle week",
+        "skill1": "Some basic skill",
+        "skill2": "A more advanced skill",
+        "block3": "Closing week"
+      }
+    },
+    "liveHelping": {
+      "head": "Help students live with exercises",
+      "par1": "Step-Wise is very well suited to be used in the classroom during practice sessions. There is even a <strong>collaboration mode</strong> where students can practice together, ensuring they get the same exercises to solve together. Whenever students struggle, the app will help them out.",
+      "par2": "However, there are always special cases where Step-Wise cannot optimally support a student. And that's where the teacher (you) comes in. When a student asks a question, it's possible to <strong>quickly look up a student</strong> on your tablet/smartphone, and directly check out the last active exercise, including solution, to optimally get the student back on track again.",
+      "par3": "Experience has shown that using Step-Wise during live practice sessions allows for an <strong>increase of the student-to-teacher ratio by a factor three</strong>, while keeping (and even increasing) student satisfaction ratings! This allows for lots of extra teacher time, to support the students even more.",
+      "studentSearchImage": {
+        "search": "Search",
+        "name1": "Alex Adams",
+        "name2": "Bob Baker",
+        "name3": "Carmen Clarke"
+      }
+    }
+  },
+  "getStarted": {
+    "head": "Get started",
+    "intro": "Do you want to use Step-Wise in your course? Step-Wise is still in the <strong>beta phase</strong>. So the good news is: it's free to use! The bad news: not all content may be there yet. The best thing you can do is <strong>send an email</strong> to <a>{infoEmail}</a> (Hildo) and we can check out the possibilities together. It's always great to have more people use Step-Wise!"
+  }
+}
