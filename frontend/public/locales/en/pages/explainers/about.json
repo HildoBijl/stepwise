@@ -1,0 +1,28 @@
+{
+  "intro": "Step-Wise is a free tutoring web-app that brushes up mathematics, physics and/or mechanics skills to (pre-)university level. Want to know how it works? Then read the dedicated pages <a>for students</a> and <b>for teachers</b>. Below you find more historic and technical information about Step-Wise.",
+  "contact": {
+    "head": "Contact us",
+    "par1": "Want to report a bug? Ask for a new feature? Or simply have an interesting discussion on education? Whatever the reason: we're always open for a quick exchange of ideas! Just send an email to <a>{infoEmail}</a> (Hildo) and you'll get a reply within the day."
+  },
+  "origins": {
+    "head": "Step-Wise origins",
+    "par1": "In 2020, when the corona pandemic hit, everyone was stuck at home. Sure, teachers could provide digital lectures, but the more useful practice sessions were not. You can't exactly quickly look over a student's shoulder and give feedback through a video connection. Students were missing out on proper support.",
+    "par2": "With too much time available during the lock-down, Utrecht University of Applied Sciences teacher <a>Hildo Bijl</a> decided to program a small web app that could provide at least some support and coaching. And so Step-Wise was born.",
+    "par3": "During the first year the focus was on basic thermodynamics. Students were very enthusiastic, especially about the infinite practice material, the intuitive input, and the automated feedback provided by the intelligent physics engine. As a result, the next year also mathematics and engineering mechanics subjects were added. The amount of content grew steadily.",
+    "par4": "With the pandemic subsiding, students went back into the classroom. It turned out that Step-Wise also added significant value there. With the app supporting students and automatically answering most questions, teachers had more time available to support the students that had bigger struggles than could be solved by a web-app. On top of that, a collaboration mode was added so that students could also practice together during classroom sessions.",
+    "par5": "In 2023 Hildo moved to Germany, which led to Step-Wise being available in both English and German as well, on top of Dutch. Various trial applications arose at the Bochum University of Applied Sciences. Slowly more functionalities are being added, allowing multiple universities across various countries to use Step-Wise simultaneously in a fluent manner."
+  },
+  "technical": {
+    "head": "Technical details",
+    "par1": "The Step-Wise app is a so-called <strong>Progressive Web App</strong>: a website that can pretend to be a smartphone app too. It is designed for usage on a laptop, but it can also be added to the home screen of your smartphone.",
+    "par2": "Do you want to know more about how it works behind the scenes? The app is open-source, so all source code is available on the <a>GitHub repository</a>. But we'll briefly give you the summary.",
+    "list": "<list><item><a><strong>Front-end:</strong> The front side of the app is made using <a>React</a> on top of the <a>Create-React-App</a>. This allows us to easily add interactive elements.</a></item><item><b><strong>Design:</strong> The looks of the app are based on the <a>Material UI guidelines</a>, with styling done through <a>JSS</a>.</b></item><item><c><strong>Images:</strong> Not being satisfied with existing tools, we have developed our own <a>easy-to-use toolbox</a> to dynamically generate simple web images, ranging from mathematical geometries to interactive plots.</c></item><item><d><strong>Equations:</strong> Mathematical expressions and equations are rendedered using <a>KaTeX</a>, although we have added our own plug-ins to easily convert equations and physics quantities into TeX code.</d></item><item><e><strong>Mathematics/physics:</strong> Wanting to stick to only one programming language (Javascript), no suitable Computer Algebra System (CAS) was available. So we have set up <a>our own CAS</a>, including a physics engine, to handle all evaluations in Step-Wise.</e></item><item><f><strong>Back-end:</strong> When an exercise is submitted, it is sent to our <a>GraphQL API</a> to be evaluated. This API runs on <a>Apollo</a>.</f></item><item><g><strong>Server:</strong> We use a server based in Amsterdam, provided and maintained by <a>DigitalOcean</a>.</g></item><item><h><strong>Database:</strong> All user data is stored in a <a>PostgreSQL database</a>. It is kept up-to-date and secure by <a>DigitalOcean</a>.</h></item></list>",
+    "par3": "With Step-Wise being open source, everyone can contribute too. Do you want to get involved? (With or without programming knowledge.) Then drop us a note at <a>{infoEmail}</a> and we'll see what's possible!"
+  },
+  "privacy": {
+    "head": "Privacy",
+    "par1": "At Step-Wise we take your privacy seriously. Proper user data handling is built into every part of the app. It's based on two fundamental ideas.",
+    "list": "<list><item><a><strong>Need to know:</strong> You only get access to the data that you need to do what you want to do. Nothing more, nothing less.</a></item><item><b><strong>Ask when needed:</strong> When you engage in an action that allows others to access some of your data (like registering for a course) we will note this and ask for your permission at that exact moment. Not before, and certainly not after.</b></item></list>",
+    "par2": "This gives you a fluent user experience, while at the same time keeping your data secure. Want to know more about how we treat your data? Then check out our full <a>Privacy Policy</a>. This is also the policy you approve of when first logging in."
+  }
+}
