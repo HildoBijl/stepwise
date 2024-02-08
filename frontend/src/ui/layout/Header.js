@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container'
 
 import { TranslationFile } from 'i18n'
 
-import GroupIndicator from 'ui/pages/Groups/Indicator'
+import { GroupIndicator } from 'ui/pages/groups/Indicator'
 
 import Menu from './Menu'
 import Title from './Title'

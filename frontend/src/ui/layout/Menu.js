@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
-import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@material-ui/icons'
+import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
@@ -60,7 +60,6 @@ export default function Menu({ className, titleCollapsed }) {
 			<MenuLink id="forStudents" icon={Student} />
 			<MenuLink id="forTeachers" icon={Teacher} />
 			<MenuLink id="about" icon={Info} />
-			<MenuLink id="feedback" icon={Feedback} />
 		</>
 
 		// Define buttons for admins.
@@ -82,9 +81,10 @@ export default function Menu({ className, titleCollapsed }) {
 						<List>
 							<MenuLink id="courses" icon={MenuBook} />
 							<MenuLink id="groups" icon={People} />
-							{commonButtons}
 							<MenuLink id="settings" path={paths.settings()} icon={Settings} />
 							<MenuLink id="logOut" text='Log out' icon={ExitToApp} />
+							<Divider />
+							{commonButtons}
 						</List>
 						{adminButtons}
 					</> : <>

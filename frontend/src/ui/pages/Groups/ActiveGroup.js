@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function ActiveGroup({ group }) {
+export function ActiveGroup({ group }) {
 	const classes = useStyles()
 	const paths = usePaths()
 	const [deactivateGroup] = useDeactivateGroupMutation()

@@ -1,6 +1,6 @@
 import { isAdmin } from 'api/admin'
 
-import { Feedback, ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
+import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
 import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName } from 'ui/eduTools'
@@ -9,11 +9,6 @@ import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreeP
 export function getRoutes(user = undefined) {
 	// These are pages that are accessible for non-users and users.
 	let routes = {
-		'feedback': {
-			id: 'feedback',
-			page: Feedback,
-			name: 'Feedback',
-		},
 		'forStudents': {
 			id: 'forStudents',
 			page: ForStudents,

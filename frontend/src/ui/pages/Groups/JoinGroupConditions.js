@@ -10,7 +10,7 @@ import { Par, List } from 'ui/components'
 
 import { groupPossibilities } from './util'
 
-export default function JoinGroupConditions({ code }) {
+export function JoinGroupConditions({ code }) {
 	const paths = usePaths()
 	const navigate = useNavigate()
 	const [joinGroup] = useJoinGroupMutation()

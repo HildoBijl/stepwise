@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function OtherGroups({ groups, hasActiveGroup }) {
+export function OtherGroups({ groups, hasActiveGroup }) {
 	const classes = useStyles()
 	return <>
 		<Head><Translation entry="olderGroups.title">Previous groups</Translation></Head>

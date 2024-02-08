@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function GroupCreation() {
+export function GroupCreation() {
 	const classes = useStyles()
 	return <div className={clsx(classes.groupCreation, 'groupCreation')}>
 		<CreateGroup />

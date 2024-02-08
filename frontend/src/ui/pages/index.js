@@ -1,10 +1,8 @@
 export * from './PageTranslationFile'
-export * from './Home/index.js' // ToDo: put back to Home.
-export * from './Feedback.js'
+export * from './Home'
 export * from './explainers'
 export * from './Settings'
-export { default as Groups } from './Groups'
-export { default as NewGroup } from './Groups/NewGroup'
+export * from './groups'
 export * from './SkillOverview.js'
 export * from './LogOut.js'
 export * from './Test.js'

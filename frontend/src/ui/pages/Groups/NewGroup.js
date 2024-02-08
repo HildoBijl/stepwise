@@ -10,7 +10,7 @@ import { Par, List } from 'ui/components'
 
 import { translationPath, groupPossibilities } from './util'
 
-export default function NewGroup() {
+export function NewGroup() {
 	const paths = usePaths()
 	const navigate = useNavigate()
 	const [createGroup] = useCreateGroupMutation()

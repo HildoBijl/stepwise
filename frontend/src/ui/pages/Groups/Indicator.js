@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function GroupIndicator() {
+export function GroupIndicator() {
 	const activeGroup = useActiveGroup()
 	return activeGroup ? <GroupIndicatorInternal group={activeGroup} /> : null
 }
