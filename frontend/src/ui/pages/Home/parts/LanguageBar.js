@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 
 import { useLanguage, useSetLanguage } from 'i18n'
+import { notSelectable } from 'ui/theme'
 
 const useStyles = makeStyles((theme) => ({
 	languageBar: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'row-reverse',
 	},
 	flagContainer: {
+		...notSelectable,
 		background: 'black',
 		cursor: ({ active }) => active ? 'default' : 'pointer',
 		opacity: ({ active }) => active ? 1 : 0.5,
