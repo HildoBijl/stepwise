@@ -7,8 +7,8 @@ export const localStorageKey = 'language' // What key is used to store the langu
 
 // countryToLanguage gets an ISO 3166 Alpha-2 country code and turns it into one of the available languages used on the site.
 export const countryToLanguage = (country) => {
-	// Netherlands, Aruba, Curacao, Saint Martin (Dutch parth), Surinam.
-	if (['NL', 'AW', 'CW', 'SX', 'SR'].includes(country))
+	// Netherlands, Belgium, Aruba, Curacao, Saint Martin (Dutch parth), Surinam.
+	if (['NL', 'BE', 'AW', 'CW', 'SX', 'SR'].includes(country))
 		return 'nl'
 
 	// Germany, Austria, Switzerland, Liechtenstein.
