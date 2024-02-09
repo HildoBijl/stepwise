@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 
+import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -18,10 +19,10 @@ export default function Exercise() {
 const Problem = () => {
 	const { variables, equation } = useSolution()
 	return <>
-		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Los deze op voor <M>{variables.x}.</M></Par>
+		<Par><Translation>Consider the equation <BM>{equation}.</BM> Solve it for <M>{variables.x}</M>.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -32,7 +33,7 @@ const steps = [
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par>Werk eerst de haakjes in de vergelijking uit. (Laat de rest onveranderd staan.)</Par>
+				<Par><Translation>First expand the brackets in the equation. (Leave the rest unchanged.)</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="bracketsExpanded" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -41,14 +42,14 @@ const steps = [
 			</>
 		},
 		Solution: ({ equation, bracketsExpanded }) => {
-			return <Par>Als we de haakjes uitwerken, vermenigvuldigen we <M>{equation.left.terms[0].terms[0].abs()}</M> en <M>{equation.left.terms[0].terms[1].abs()}</M> los met <M>{equation.left.terms[1]}.</M> Hiermee verandert de vergelijking in <BM>{bracketsExpanded}.</BM></Par>
+			return <Par><Translation>To expand the brackets, we multiply <M>{equation.left.terms[0].terms[0].abs()}</M> and <M>{equation.left.terms[0].terms[1].abs()}</M> separately by <M>{equation.left.terms[1]}</M>. This turns the equation into <BM>{bracketsExpanded}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
+				<Par><Translation>Move all terms with <M>{variables.x}</M> to one side of the equation, and all terms without <M>{variables.x}</M> to the other side.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="termsMoved" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -57,14 +58,14 @@ const steps = [
 			</>
 		},
 		Solution: ({ bracketsExpanded, termsMoved }) => {
-			return <Par>We brengen <M>{bracketsExpanded.right.terms[0].abs()}</M> naar links en <M>{bracketsExpanded.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
+			return <Par><Translation>We move <M>{bracketsExpanded.right.terms[0].abs()}</M> to the left and <M>{bracketsExpanded.left.terms[1].abs()}</M> to the right. This gives us <BM>{termsMoved}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par>Haal <M>{variables.x}</M> buiten haakjes. Laat de rest van de vergelijking onveranderd.</Par>
+				<Par><Translation>Pull <M>{variables.x}</M> outside of brackets. Leave the rest of the equation unchanged.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="pulledOut" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -73,39 +74,41 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, termsMoved, bracketTerm, pulledOut }) => {
-			return <Par>Om <M>{variables.x}</M> buiten haakjes te halen, moeten we <M>{termsMoved.left}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right).</M> We zien hiermee dat er tussen haakjes <M>{bracketTerm}</M> moet staan. Zo herschrijven we de vergelijking als <BM>{pulledOut}.</BM></Par>
+			return <Par><Translation>To pull <M>{variables.x}</M> outside of brackets, we must write <M>{termsMoved.left}</M> as <M>{variables.x}\cdot\left(\ldots\right)</M>. This tells us that there should be <M>{bracketTerm}</M> between the brackets. In this way we can rewrite the equation as <BM>{pulledOut}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par>Deel beide kanten van de vergelijking door de term tussen haakjes, om zo <M>{variables.x}</M> op te lossen.</Par>
+				<Par><Translation>Divide both sides of the equation by the term between brackets, to solve for <M>{variables.x}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
 		Solution: ({ variables, bracketTerm, ans }) => {
-			return <Par>Als we beide kanten van de vergelijking delen door <M>{bracketTerm},</M> dan valt links de term tussen haakjes weg. We houden alleen <M>{variables.x}</M> over, en hebben dus <M>{variables.x}</M> vrij gemaakt! Het eindresultaat is <BM>{variables.x} = {ans}.</BM> Uiteraard kan dit antwoord ook anders geschreven worden, maar kleine variaties in schrijfwijze zijn hier niet belangrijk.</Par>
+			return <Par><Translation>If we divide both sides by <M>{bracketTerm}</M>, then on the left the term between brackets disappears. We only remain with <M>{variables.x}</M>, meaning that we have indeed solved the equation for <M>{variables.x}</M>! The final result is <BM>{variables.x} = {ans}.</BM> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
+	const { translate } = exerciseData
+
 	// Define termsMoved checks.
-	const variableOnBothSides = (input, correct, { variables }) => input.left.dependsOn(variables.x) && input.right.dependsOn(variables.x) && <>Beide kanten van de vergelijking bevatten nog een <M>{variables.x}.</M> Haal alle termen met <M>{variables.x}</M> naar <em>dezelfde</em> kant.</>
+	const variableOnBothSides = (input, correct, { variables }) => input.left.dependsOn(variables.x) && input.right.dependsOn(variables.x) && translate(<>Both sides of the equation still contain <M>{variables.x}</M>. Pull all terms with <M>{variables.x}</M> to the <em>same</em> side.</>, 'variableOnBothSides')
 	const termsWithoutVariableInWrongPlace = (input, correct, { variables }) => {
 		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
 		if (!sideWithVariable)
-			return <>Je antwoord bevat helemaal geen <M>{variables.x}.</M> Waar is die heen?</>
+			return translate(<>Your solution does not contain <M>{variables.x}</M>. Where did it go?</>, 'missingVariable')
 		if (!sideWithVariable.isSubtype(Sum))
-			return <>Er zijn meerdere termen met <M>{variables.x}.</M> Je lijkt er maar één te hebben.</>
+			return translate(<>There were multiple terms with <M>{variables.x}</M>, but you only wrote down one.</>, 'oneVariable')
 		const termWithoutVariable = sideWithVariable.terms.find(term => !term.dependsOn(variables.x))
 		if (termWithoutVariable)
-			return <>Je hebt alle termen met <M>{variables.x}</M> wel naar de ene kant gehaald, maar hier staat ook nog een term <M>{termWithoutVariable}</M> bij waar geen <M>{variables.x}</M> in zit.</>
+			return translate(<>You did bring all terms with <M>{variables.x}</M> to one side, but there's also a term <M>{termWithoutVariable}</M> that does not contain <M>{variables.x}</M>.</>, 'termWithoutVariable')
 	}
 	const sumWithWrongTermsAndFlip = (input, correct, solution, isCorrect) => {
 		return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switch().applyMinus(), solution, isCorrect)
@@ -114,19 +117,20 @@ function getFeedback(exerciseData) {
 	// Define pulledOut checks.
 	const sideWithoutVariableEqual = (input, correct, { variables }) => {
 		const sideWithoutVariable = input.findSide(side => !side.dependsOn(variables.x))
+		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
 		if (!sideWithoutVariable)
-			return <>Je hebt weer een <M>{variables.x}</M> aan beide kanten van de vergelijking gestopt. Dat was niet de bedoeling.</>
-		if (!onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
-			return <>De kant zonder <M>{variables.x}</M> moet hetzelfde blijven!</>
+			return translate(<>You put the variable <M>{variables.x}</M> on both sides of the equation again. That was not supposed to happen.</>, 'noSideWithoutVariable')
+		if (sideWithVariable && !onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
+			return translate(<>The side without <M>{variables.x}</M> should remain the same!</>, 'unequalSideWithoutVariable')
 	}
 	const sideWithVariableEqual = (input, correct, { variables }) => {
 		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
 		if (!sideWithVariable)
-			return <>Je hebt <M>{variables.x}</M> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</>
+			return translate(<>You somehow let <M>{variables.x}</M> disappear entirely. That was not supposed to happen.</>, 'disappearedVariable')
 		if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.applyMinus()))
-			return <>De kant met <M>{variables.x}</M> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</>
+			return translate(<>The side with <M>{variables.x}</M> is not equal to what it was before. Something went wrong during the rewriting.</>, 'unequalSide')
 		if (!(sideWithVariable.isSubtype(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
-			return <>Je hebt <M>{variables.x}</M> niet buiten haakjes gehaald. Je moet de kant met <M>{variables.x}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right),</M> met een zo simpel mogelijke uitdrukking op de puntjes.</>
+			return translate(<>You did not pull <M>{variables.x}</M> outside of brackets. You should write the side containing <M>{variables.x}</M> as <M>{variables.x}\cdot\left(\ldots\right)</M>, with on the dots an expression that's as simple as possible.</>, 'notOutsideOfBrackets')
 	}
 
 	// Determine feedback.

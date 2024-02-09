@@ -74,7 +74,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, bracketTerm, ans }) => {
-			return <Par><Translation>If we divide both sides by <M>{bracketTerm}</M>, then on the left the term between brackets disappears. We only remain with <M>{variables.x}</M>, meaning that we have indeed solve the equation for <M>{variables.x}</M>! The final result is <BM>{variables.x} = {ans}.</BM> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</Translation></Par>
+			return <Par><Translation>If we divide both sides by <M>{bracketTerm}</M>, then on the left the term between brackets disappears. We only remain with <M>{variables.x}</M>, meaning that we have indeed solved the equation for <M>{variables.x}</M>! The final result is <BM>{variables.x} = {ans}.</BM> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</Translation></Par>
 		},
 	},
 ]
