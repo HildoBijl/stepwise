@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Vector } from 'step-wise/geometry'
 
+import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
@@ -21,13 +22,15 @@ const Problem = () => {
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
 	return <>
-		<Par>Een balk is aan een muur ingeklemd en belast met een kracht van <M>P = {P}.</M></Par>
-		<Diagram isInputField={false} />
-		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
-		<InputSpace>
-			<Diagram id="loads" isInputField={true} showSupports={false} />
-		</InputSpace>
-		<Par>Bereken hierin de onbekende reactiekrachten/momenten.</Par>
+		<Translation>
+			<Par>A beam is clamped to a wall and subjected to a load of <M>P = {P}</M>.</Par>
+			<Diagram isInputField={false} />
+			<Par>Draw the free body diagram.</Par>
+			<InputSpace>
+				<Diagram id="loads" isInputField={true} showSupports={false} />
+			</InputSpace>
+			<Par>Calculate the unknown support reactions.</Par>
+		</Translation>
 		<InputSpace>
 			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
 		</InputSpace>
@@ -38,18 +41,20 @@ const steps = [
 	{
 		Problem: () => {
 			return <>
-				<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
+				<Translation>
+					<Par>Draw the free body diagram.</Par>
+				</Translation>
 				<InputSpace>
 					<Diagram id="loads" isInputField={true} showSupports={false} />
 				</InputSpace>
 			</>
 		},
 		Solution: ({ hasAdjustedSolution }) => {
-			return <>
-				<Par>Een inklemming voorkomt alle beweging, en zorgt dus voor een horizontale reactiekracht, een verticale reactiekracht en een reactiemoment. Samen met de externe belasting geeft dit het volgende schema.</Par>
+			return <Translation>
+				<Par>A clamp prevents all motion, and hence allows for a horizontal reaction force, a vertical reaction force and a reaction torque. Together with the external load, this gives us the following diagram.</Par>
 				<Diagram showSolution={true} showSupports={false} />
-				<Par>{hasAdjustedSolution ? <>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</> : <>De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</>}</Par>
-			</>
+				<Par><Check value={hasAdjustedSolution}><Check.True>Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</Check.True><Check.False>The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</Check.False></Check></Par>
+			</Translation>
 		},
 	},
 	{
@@ -57,7 +62,9 @@ const steps = [
 			const { loadVariables } = useSolution()
 			const vFAx = loadVariables[1]
 			return <>
-				<Par>Bereken de horizontale reactiekracht <M>{vFAx}.</M></Par>
+				<Translation>
+					<Par>Calculate the horizontal reaction force <M>{vFAx}</M>.</Par>
+				</Translation>
 				<InputSpace>
 					<FloatUnitInput id={vFAx.name} prelabel={<M>{vFAx}=</M>} size="s" />
 				</InputSpace>
@@ -66,14 +73,14 @@ const steps = [
 		Solution: ({ loadVariables, loadValues, directionIndices }) => {
 			const [, vFAx, vFAy, vMA] = loadVariables
 			const [, FAx, ,] = loadValues
-			return <>
+			return <Translation>
 				<Par>
-					Om <M>{vFAx}</M> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <M>{vFAy}</M> en <M>{vMA}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
+					To find <M>{vFAx}</M> we examine the sum of the forces in the horizontal direction. In this case <M>{vFAy}</M> and <M>{vMA}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfForces(false)} P {directionIndices[1] ? '-' : '+'} {vFAx} = 0.</BM>
-					De oplossing volgt als
+					The solution follows as
 					<BM>{vFAx} = {directionIndices[1] ? '' : '-'} P = {FAx}.</BM>
 				</Par>
-			</>
+			</Translation>
 		},
 	},
 	{
@@ -81,7 +88,9 @@ const steps = [
 			const { loadVariables } = useSolution()
 			const vFAy = loadVariables[2]
 			return <>
-				<Par>Bereken de verticale reactiekracht <M>{vFAy}.</M></Par>
+				<Translation>
+					<Par>Calculate the vertical reaction force <M>{vFAy}</M>.</Par>
+				</Translation>
 				<InputSpace>
 					<FloatUnitInput id={vFAy.name} prelabel={<M>{vFAy}=</M>} size="s" />
 				</InputSpace>
@@ -90,13 +99,13 @@ const steps = [
 		Solution: ({ loadVariables, loadValues, directionIndices }) => {
 			const [, vFAx, vFAy, vMA] = loadVariables
 			const [, , FAy,] = loadValues
-			return <>
+			return <Translation>
 				<Par>
-					Om <M>{vFAy}</M> te vinden bekijken we de som van de krachten in de verticale richting. In dit geval hebben <M>{vFAx}</M> en <M>{vMA}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
+					To find <M>{vFAy}</M> we examine the sum of the forces in the vertical direction. In this case <M>{vFAx}</M> and <M>{vMA}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} {vFAy} = 0.</BM>
-					Dit vertelt direct dat <M>{vFAy} = {FAy}.</M>
+					This directly tells us that <M>{vFAy} = {FAy}</M>.
 				</Par>
-			</>
+			</Translation>
 		},
 	},
 	{
@@ -104,7 +113,9 @@ const steps = [
 			const { loadVariables } = useSolution()
 			const vMA = loadVariables[3]
 			return <>
-				<Par>Bereken het reactiemoment <M>{vMA}.</M></Par>
+				<Translation>
+					<Par>Calculate the reaction torque <M>{vMA}</M>.</Par>
+				</Translation>
 				<InputSpace>
 					<FloatUnitInput id={vMA.name} prelabel={<M>{vMA}=</M>} size="s" />
 				</InputSpace>
@@ -113,15 +124,15 @@ const steps = [
 		Solution: ({ loadVariables, loadValues, directionIndices, l2 }) => {
 			const [, vFAx, vFAy, vMA] = loadVariables
 			const [P, , , MA] = loadValues
-			return <>
+			return <Translation>
 				<Par>
-					Om <M>{vMA}</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>{vFAx}</M> en <M>{vFAy}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
+					To find <M>{vMA}</M> we examine the sum of the moments around point <M>A</M>. In this case <M>{vFAx}</M> and <M>{vFAy}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfMoments('A', false)} P l_2 {directionIndices[3] ? '-' : '+'} {vMA} = 0.</BM>
-					De oplossing volgt als
+					The solution follows as
 					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P l_2 = {directionIndices[3] ? '' : '-'} {P.float} \cdot {l2.float} = {MA}.</BM>
-					Hiermee zijn alle reactiekrachten/momenten bekend.
+					And with this all support reactions have been determined.
 				</Par>
-			</>
+			</Translation>
 		},
 	},
 ]

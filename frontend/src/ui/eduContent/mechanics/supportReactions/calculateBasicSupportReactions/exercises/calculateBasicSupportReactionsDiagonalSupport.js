@@ -100,7 +100,7 @@ const steps = [
 		Solution: ({ directionIndices, P, FCy, FAy }) => {
 			return <Translation>
 				<Par>
-					To find <M>F_(Ay)</M> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <M>C,</M> but this is a bit more work.) This gives the equilibrium equation
+					To find <M>F_(Ay)</M> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <M>C</M>, but this is a bit more work.) This gives the equilibrium equation
 					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} F_(Ay) - P {directionIndices[3] ? '+' : '-'} F_(Cy) = 0.</BM>
 					Solving this for <M>F_(Ay)</M> gives
 					<BM>F_(Ay) = {directionIndices[2] ? '' : '-'} P {directionIndices[2] === directionIndices[3] ? '-' : '+'} F_(Cy) = {directionIndices[2] ? '' : '-'} {P.float} {directionIndices[2] === directionIndices[3] ? '-' : '+'} {FCy.float.texWithBrackets} = {FAy}.</BM>
