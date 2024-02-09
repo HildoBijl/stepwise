@@ -27,6 +27,22 @@
   },
   "exampleSkills": {
     "title": "Example skills",
-    "description": "Try out for yourself how intuitive it works."
+    "description": "Try out for yourself how intuitive it works.",
+    "algebra": {
+      "title": "Algebra",
+      "contents": "Solve  <inline-math/>"
+    },
+    "geometry": {
+      "title": "Geometry",
+      "contents": "<span>Calculate <inline-math/> in </span><pythagoras-image/>"
+    },
+    "thermodynamics": {
+      "title": "Thermodynamics",
+      "contents": "Apply  <inline-math/>"
+    },
+    "statics": {
+      "title": "Statics",
+      "contents": "<span>Analyze </span><structure-image/>"
+    }
   }
 }

@@ -27,7 +27,22 @@
 	},
 	"exampleSkills": {
 		"title": "Beispielkompetenzen",
-		"description": "Probiere selbst aus, wie intuitiv es funktioniert."
-	},
-	"logInHU": "Anmelden über Hochschule Utrecht"
+		"description": "Probiere selbst aus, wie intuitiv es funktioniert.",
+    "algebra": {
+      "title": "Algebra",
+      "contents": "Löse  <inline-math/>"
+    },
+    "geometry": {
+      "title": "Geometrie",
+      "contents": "<span>Berechne <inline-math/> in </span><pythagoras-image/>"
+    },
+    "thermodynamics": {
+      "title": "Thermodynamik",
+      "contents": "Wende <inline-math/> an"
+    },
+    "statics": {
+      "title": "Statik",
+      "contents": "<span>Analysiere </span><structure-image/>"
+    }
+	}
 }

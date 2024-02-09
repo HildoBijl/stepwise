@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { useUserId } from 'api/user'
+import { useUserId } from '../user'
 
 import { groupParameters } from './util'
 

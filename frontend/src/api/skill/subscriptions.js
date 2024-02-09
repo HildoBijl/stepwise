@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import { gql } from '@apollo/client'
 
+import { useIsSignedIn } from '../user'
+
 import { skillFields } from './util'
 
 // Subscribe to updates on skills for the given user.
 export function useSkillsSubscription(subscribeToMore, apply = true) {
+	const isSignedIn = useIsSignedIn()
 	useEffect(() => {
-		if (!apply)
+		if (!apply || !isSignedIn)
 			return
 		const unsubscribe = subscribeToMore({
 			document: SKILLS_UPDATED,
@@ -29,7 +32,7 @@ export function useSkillsSubscription(subscribeToMore, apply = true) {
 			}
 		})
 		return () => unsubscribe()
-	}, [apply, subscribeToMore])
+	}, [apply, isSignedIn, subscribeToMore])
 }
 export const SKILLS_UPDATED = gql`
 	subscription skillsUpdate {

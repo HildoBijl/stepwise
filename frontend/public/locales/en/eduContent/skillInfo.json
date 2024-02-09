@@ -54,10 +54,10 @@
     "name": "Multiply/divide all terms"
   },
   "solveBasicLinearEquation": {
-    "name": "Solve a basic linear equations"
+    "name": "Solve a basic linear equation"
   },
   "solveGeneralLinearEquation": {
-    "name": "Solve a general linear equations"
+    "name": "Solve a general linear equation"
   },
   "applySquareRoot": {
     "name": "Apply a square root"

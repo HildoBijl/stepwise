@@ -80,11 +80,16 @@ export function getRoutes(user = undefined) {
 					page: SkillOverview,
 					name: 'Skill overview',
 					children: {
+						'skill/:skillId/:tab': {
+							id: 'skillInspectionTab',
+							page: SkillPage,
+							name: SkillName,
+							Indicator: SkillIndicator,
+						},
 						'skill/:skillId': {
 							id: 'skillInspection',
 							page: SkillPage,
 							name: SkillName,
-							recommendLogIn: true,
 							Indicator: SkillIndicator,
 						},
 						'exercise/:exerciseId': {

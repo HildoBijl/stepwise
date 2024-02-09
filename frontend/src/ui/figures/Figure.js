@@ -8,6 +8,7 @@ export const defaultFigureOptions = {
 	aspectRatio: 0.75, // Height divided by width. Enter a ratio.
 	maxWidth: undefined, // Max width in px. Enter a number. undefined means scale to full width when possible.
 	className: '',
+	style: {},
 	children: null, // What is placed inside the figure.
 }
 
@@ -46,7 +47,7 @@ export const Figure = forwardRef((options, ref) => {
 	}))
 
 	return (
-		<div className={clsx('figure', classes.figure, options.className)} ref={figureOuter}>
+		<div className={clsx('figure', classes.figure, options.className)} style={options.style} ref={figureOuter}>
 			<div className="figureInner" ref={figureInner}>
 				{options.children}
 			</div>

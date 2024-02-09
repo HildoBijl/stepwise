@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client'
 
-import { useUserId } from 'api/user'
+import { useUserId } from '../user'
 
 import { groupParameters, addGroupToList, removeGroupFromList } from './util'
 import { GROUP, MY_ACTIVE_GROUP, MY_GROUPS } from './groupQueries'

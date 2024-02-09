@@ -27,6 +27,22 @@
   },
   "exampleSkills": {
     "title": "Voorbeeldvaardigheden",
-    "description": "Probeer zelf hoe intuïtief het werkt."
+    "description": "Probeer zelf hoe intuïtief het werkt.",
+    "algebra": {
+      "title": "Algebra",
+      "contents": "Los <inline-math/> op"
+    },
+    "geometry": {
+      "title": "Meetkunde",
+      "contents": "<span>Bereken <inline-math/> in </span><pythagoras-image/>"
+    },
+    "thermodynamics": {
+      "title": "Thermodynamica",
+      "contents": "Pas <inline-math/> toe"
+    },
+    "statics": {
+      "title": "Statica",
+      "contents": "<span>Analyseer </span><structure-image/>"
+    }
   }
 }

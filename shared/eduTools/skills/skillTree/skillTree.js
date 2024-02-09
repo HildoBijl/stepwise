@@ -101,12 +101,12 @@ const skillStructure = {
 			},
 			linearEquations: {
 				solveBasicLinearEquation: {
-					name: 'Solve a basic linear equations',
+					name: 'Solve a basic linear equation',
 					setup: and(repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
 					exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 				},
 				solveGeneralLinearEquation: {
-					name: 'Solve a general linear equations',
+					name: 'Solve a general linear equation',
 					setup: and(pick(['simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms'], 2), 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
 					exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 				},
