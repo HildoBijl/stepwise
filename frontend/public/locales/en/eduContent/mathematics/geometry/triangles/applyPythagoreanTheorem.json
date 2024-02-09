@@ -1,0 +1,19 @@
+{
+  "practice": {
+    "applyPythagoreanTheoremGeneral": {
+      "mainProblem": "Given the triangle below, determine the unknown side <inline-math/>.",
+      "step1": {
+        "problem": "Through the Pythagorean therom, set up an equation linking the three sides of the triangle. Use the values <inline-math/>, <inline-math/> and <inline-math/>.",
+        "solution": "We have the two legs <inline-math/> and <inline-math/> and the hypothenuse <inline-math/>. The Pythagorean theorem now directly states that <block-math/>"
+      },
+      "step2": {
+        "problem": "Solve these equation first for <inline-math/>.",
+        "solution": "We can directly find that <block-math/> This can then still be simplified to <block-math/>"
+      },
+      "step3": {
+        "problem": "Determine based on <inline-math/> the value of <inline-math/>.",
+        "solution": "We take the square root of both sides of the equation. This gives us <block-math/> Note that, since we know that the requested distance is positive, we do not need to add a <inline-math/> here. <check><on-true>Optionally, the above result can still be simplified to <block-math/></on-true><on-false>The above result cannot be simplified further.</on-false></check>"
+      }
+    }
+  }
+}

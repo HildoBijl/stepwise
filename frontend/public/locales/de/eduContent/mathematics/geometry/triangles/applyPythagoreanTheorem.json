@@ -1,0 +1,19 @@
+{
+  "practice": {
+    "applyPythagoreanTheoremGeneral": {
+      "mainProblem": "Gegeben ist das untenstehende Dreieck. Finde die unbekannte Seite <inline-math/>.",
+      "step1": {
+        "problem": "Stelle mit Hilfe des Satzes von Pythagoras eine Gleichung für die Seiten des Dreiecks auf. Verwende die Werte <inline-math/>, <inline-math/> und <inline-math/>.",
+        "solution": "Hier haben wir Katheten <inline-math/> und <inline-math/> und eine Hypotenuse <inline-math/>. Der Satz des Pythagoras besagt nun direkt, dass x.<block-math/>"
+      },
+      "step2": {
+        "problem": "Löse zunächst diese Gleichung für <inline-math/>.",
+        "solution": "Wir können direkt feststellen, dass <block-math/> Dies kann dann weiter vereinfacht werden zu <block-math/>"
+      },
+      "step3": {
+        "problem": "Bestimme aus <inline-math/> den Wert von <inline-math/>.",
+        "solution": "Wir ziehen die Wurzel aus beiden Seiten der Gleichung. Auf diese Weise finden wir <block-math/> Beachte, dass wir, da wir wissen, dass der erforderliche Abstand positiv ist, kein <inline-math/> dazu addieren brauchen. <check><on-true>Optional kann die obige Gleichung noch vereinfacht werden zu <block-math/></on-true><on-false>Die obige Gleichung kann nicht weiter vereinfacht werden.</on-false></check>"
+      }
+    }
+  }
+}

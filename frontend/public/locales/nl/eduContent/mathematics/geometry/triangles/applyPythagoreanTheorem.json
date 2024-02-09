@@ -1,0 +1,19 @@
+{
+  "practice": {
+    "applyPythagoreanTheoremGeneral": {
+      "mainProblem": "Gegeven is de onderstaande driehoek. Vind de onbekende zijde <inline-math/>.",
+      "step1": {
+        "problem": "Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek. Gebruik de waarden <inline-math/>, <inline-math/> en <inline-math/>.",
+        "solution": "We hebben hier rechte zijden <inline-math/> en <inline-math/> en schuine zijde <inline-math/>. De stelling van Pythagoras zegt nu direct dat <block-math/>"
+      },
+      "step2": {
+        "problem": "Los deze vergelijking eerst op voor <inline-math/>.",
+        "solution": "We kunnen direct vinden dat <block-math/> Dit kan vervolgens nog vereenvoudigd worden tot <block-math/>"
+      },
+      "step3": {
+        "problem": "Bepaal vanuit <inline-math/> de waarde van <inline-math/>.",
+        "solution": "We nemen van beide kanten van de vergelijking de wortel. Zo vinden we <block-math/> Merk op dat, omdat we weten dat de gevraagde afstand positief is, we hier geen <inline-math/> bij hoeven te plaatsen. <check><on-true>Eventueel kan het bovenstaande nog vereenvoudigd worden tot <block-math/></on-true><on-false>Het bovenstaande kan niet nog verder vereenvoudigd worden.</on-false></check>"
+      }
+    }
+  }
+}

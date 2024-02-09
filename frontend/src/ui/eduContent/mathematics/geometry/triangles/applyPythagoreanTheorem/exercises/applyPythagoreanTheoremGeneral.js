@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Vector } from 'step-wise/geometry'
 
+import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
@@ -17,7 +18,7 @@ const Problem = (state) => {
 	const { x } = solution
 
 	return <>
-		<Par>Gegeven is de onderstaande driehoek. Vind de onbekende zijde <M>{x}.</M></Par>
+		<Par><Translation>Given the triangle below, determine the unknown side <M>{x}</M>.</Translation></Par>
 		<ExerciseFigure state={state} solution={solution} />
 		<InputSpace>
 			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
@@ -31,7 +32,7 @@ const steps = [
 			const { a, b, c } = state
 			const { x } = useSolution()
 			return <>
-				<Par>Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek. Gebruik de waarden <M>{a},</M> <M>{b}</M> en <M>{c}.</M></Par>
+				<Par><Translation>Through the Pythagorean therom, set up an equation linking the three sides of the triangle. Use the values <M>{a}</M>, <M>{b}</M> and <M>{c}</M>.</Translation></Par>
 				<InputSpace>
 					<EquationInput id="equation" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(x)} />
 				</InputSpace>
@@ -40,14 +41,14 @@ const steps = [
 		Solution: (state) => {
 			const { a, b, c } = state
 			const { equation } = useSolution()
-			return <Par>We hebben hier rechte zijden <M>{a}</M> en <M>{b}</M> en schuine zijde <M>{c}.</M> De stelling van Pythagoras zegt nu direct dat <BM>{equation}.</BM></Par>
+			return <Par><Translation>We have the two legs <M>{a}</M> and <M>{b}</M> and the hypothenuse <M>{c}</M>. The Pythagorean theorem now directly states that <BM>{equation}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { x } = useSolution()
 			return <>
-				<Par>Los deze vergelijking eerst op voor <M>{x}^2.</M></Par>
+				<Par><Translation>Solve these equation first for <M>{x}^2</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
@@ -56,14 +57,14 @@ const steps = [
 			</>
 		},
 		Solution: ({ x, ansSquared, ansSquaredSimplified }) => {
-			return <Par>We kunnen direct vinden dat <BM>{x}^2 = {ansSquared}.</BM> Dit kan vervolgens nog vereenvoudigd worden tot <BM>{x}^2 = {ansSquaredSimplified}.</BM></Par>
+			return <Par><Translation>We can directly find that <BM>{x}^2 = {ansSquared}.</BM> This can then still be simplified to <BM>{x}^2 = {ansSquaredSimplified}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { x } = useSolution()
 			return <>
-				<Par>Bepaal vanuit <M>{x}^2</M> de waarde van <M>{x}.</M></Par>
+				<Par><Translation>Determine based on <M>{x}^2</M> the value of <M>{x}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
@@ -72,7 +73,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ x, ansRaw, ans, ansCanBeSimplified }) => {
-			return <Par>We nemen van beide kanten van de vergelijking de wortel. Zo vinden we <BM>{x} = {ansRaw}.</BM> Merk op dat, omdat we weten dat de gevraagde afstand positief is, we hier geen <M>\pm</M> bij hoeven te plaatsen. {ansCanBeSimplified ? <>Eventueel kan het bovenstaande nog vereenvoudigd worden tot <BM>{x} = {ans}.</BM></> : <>Het bovenstaande kan niet nog verder vereenvoudigd worden.</>}</Par>
+			return <Par><Translation>We take the square root of both sides of the equation. This gives us <BM>{x} = {ansRaw}.</BM> Note that, since we know that the requested distance is positive, we do not need to add a <M>\pm</M> here. <Check value={ansCanBeSimplified}><Check.True>Optionally, the above result can still be simplified to <BM>{x} = {ans}.</BM></Check.True><Check.False>The above result cannot be simplified further.</Check.False></Check></Translation></Par>
 		},
 	},
 ]
