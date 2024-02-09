@@ -27,7 +27,7 @@
 	},
 	"exampleSkills": {
 		"title": "Beispielkompetenzen",
-		"description": "Probiere selbst aus, wie intuitiv es funktioniert.",
+		"description": "Probiere selbst aus, wie es funktioniert.",
     "algebra": {
       "title": "Algebra",
       "contents": "Löse  <inline-math/>"

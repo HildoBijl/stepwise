@@ -27,7 +27,7 @@
   },
   "exampleSkills": {
     "title": "Example skills",
-    "description": "Try out for yourself how intuitive it works.",
+    "description": "Try out for yourself how it works.",
     "algebra": {
       "title": "Algebra",
       "contents": "Solve  <inline-math/>"

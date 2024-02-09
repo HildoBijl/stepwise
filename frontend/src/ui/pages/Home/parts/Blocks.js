@@ -100,7 +100,7 @@ export function Blocks() {
 			<Grid item xs={12} md={12} lg={4} className={classes.block}>
 				<TranslationSection entry="exampleSkills">
 					<div className={classes.title}><Translation entry="title">Example skills</Translation></div>
-					<div className={classes.description}><Translation entry="description">Try out for yourself how intuitive it works.</Translation></div>
+					<div className={classes.description}><Translation entry="description">Try out for yourself how it works.</Translation></div>
 					<Grid container spacing={0} className={classes.exampleSkillButtons}>
 						<Grid item xs={12} md={3} lg={6}>
 							<Button variant="contained" className="button" onClick={() => navigate(paths.skill({ skillId: 'solveBasicLinearEquation' }))} color="secondary">
