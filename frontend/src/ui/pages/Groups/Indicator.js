@@ -9,7 +9,7 @@ import { useActiveGroup, useOtherMembers } from 'api/group'
 import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 
-import { translationPath } from './util'
+import { translationPath } from './support'
 
 const useStyles = makeStyles((theme) => ({
 	groupIndicator: {

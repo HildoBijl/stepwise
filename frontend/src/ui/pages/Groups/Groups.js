@@ -3,13 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import { sortByIndices } from 'step-wise/util'
 
+import { TranslationFile, Translation } from 'i18n'
 import { useUserId } from 'api/user'
 import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
-import { TranslationFile, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 
-import { translationPath } from './util'
+import { translationPath } from './support'
 import { JoinGroupConditions } from './JoinGroupConditions'
 import { ActiveGroup } from './ActiveGroup'
 import { OtherGroups } from './OtherGroups'

@@ -8,7 +8,7 @@ import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'
 
-import { translationPath, groupPossibilities } from './util'
+import { translationPath, groupPossibilities } from './support'
 
 export function NewGroup() {
 	const paths = usePaths()

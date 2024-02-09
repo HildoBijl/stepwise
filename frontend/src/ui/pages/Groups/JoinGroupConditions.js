@@ -8,7 +8,7 @@ import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'
 
-import { groupPossibilities } from './util'
+import { groupPossibilities } from './support'
 
 export function JoinGroupConditions({ code }) {
 	const paths = usePaths()
