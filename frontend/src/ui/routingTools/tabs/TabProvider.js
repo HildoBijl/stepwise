@@ -7,7 +7,7 @@ import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit t
 import { getOrderedTabs } from './util'
 
 const TabContext = createContext()
-export default function TabProvider({ children }) {
+export function TabProvider({ children }) {
 	const [tab, setTab] = useState()
 	const [tabs, setTabs] = useState([])
 	const tabIndex = tabs.length === 0 || !tabs.includes(tab) ? 0 : tabs.indexOf(tab)

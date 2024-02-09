@@ -2,7 +2,7 @@ import React from 'react'
 
 import { skillTree } from 'step-wise/eduTools'
 
-import { TitleItem } from 'ui/layout/Title'
+import { TitleItem } from 'ui/routingTools'
 
 import { useSkillId } from '../util'
 

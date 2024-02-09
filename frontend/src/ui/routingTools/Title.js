@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 // Set up the heading in the default breadcrumbs format.
 const TitleContext = createContext()
-export default function Title({ className, setTitleCollapsed }) {
+export function Title({ className, setTitleCollapsed }) {
 	const classes = useStyles()
 	const fullTitleRef = useRef()
 	const partialTitleRef = useRef()

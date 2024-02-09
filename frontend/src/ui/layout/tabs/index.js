@@ -1,7 +1,0 @@
-export * from './TabProvider'
-export { default as tabData } from './tabData'
-export { default as TabProvider } from './TabProvider'
-export { default as TabPages } from './TabPages'
-export { default as Tabs } from './Tabs'
-export { default as TabLabel } from './TabLabel'
-export { default as TabBar } from './TabBar'

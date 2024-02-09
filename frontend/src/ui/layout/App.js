@@ -17,7 +17,7 @@ const withApolloProvider = WrappedComponent => props => (
 	</ApolloProvider>
 )
 
-function App() {
+function AppWithoutProvider() {
 	return (
 		<div id="app">
 			<div id="appInner">
@@ -38,4 +38,5 @@ function App() {
 	)
 }
 
-export default withApolloProvider(App)
+const App = withApolloProvider(AppWithoutProvider)
+export { App }

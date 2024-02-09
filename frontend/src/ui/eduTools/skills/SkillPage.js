@@ -5,7 +5,7 @@ import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
-import { TabPages, tabData } from 'ui/layout/tabs'
+import { TabPages, tabData } from 'ui/routingTools'
 
 import { ExercisePage } from '../exercises'
 

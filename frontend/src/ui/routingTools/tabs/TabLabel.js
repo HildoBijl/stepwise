@@ -4,7 +4,8 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { useTranslator } from 'i18n'
-import tabData from './tabData'
+
+import { tabData } from './tabData'
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function TabLabel({ tab, showLabel, showIcon }) {
+export function TabLabel({ tab, showLabel, showIcon }) {
 	const translate = useTranslator()
 
 	// Extract data (icon, title) on the tab.

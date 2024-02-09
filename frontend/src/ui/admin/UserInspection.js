@@ -9,7 +9,7 @@ import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillD
 
 import { useUserQuery } from 'api/admin'
 import { Par, HorizontalSlider } from 'ui/components'
-import { TitleItem } from 'ui/layout/Title'
+import { TitleItem } from 'ui/routingTools'
 import { SkillFlask } from 'ui/eduTools'
 
 export function UserInspection() {

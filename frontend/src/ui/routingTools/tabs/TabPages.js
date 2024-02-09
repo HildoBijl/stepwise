@@ -11,7 +11,7 @@ import { useRoute, insertParametersIntoPath } from 'ui/routingTools'
 import { getOrderedTabs, useTab } from './util'
 import { useTabs, useTabContext } from './TabProvider'
 
-export default function TabPages({ pages, initialPage, updateUrl = true }) {
+export function TabPages({ pages, initialPage, updateUrl = true }) {
 	const urlTab = useTab()
 	const tabs = useConsistentValue(getOrderedTabs(pages))
 	const tabContext = useTabs(tabs, urlTab || initialPage)

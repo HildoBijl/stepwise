@@ -7,7 +7,7 @@ import MuiTab from '@material-ui/core/Tab'
 import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useTabContext } from './TabProvider'
-import TabLabel from './TabLabel'
+import { TabLabel } from './TabLabel'
 
 // Define limits on tab width where tabs switch their contents.
 const lowerTabWidthLimit = 110 // Below this there is only an icon. Above this there is text.
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Tabs() {
+export function Tabs() {
 	const theme = useTheme()
 	const classes = useStyles()
 	const { tabs, tabIndex, setTabIndex } = useTabContext()

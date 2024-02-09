@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import { TitleItem } from 'ui/layout/Title'
+import { TitleItem } from 'ui/routingTools'
 
 import { courses } from '../../courses'
 

@@ -58,4 +58,4 @@ applyMapping(tabData, (tab, id) => {
 })
 
 // Export the result.
-export default tabData
+export { tabData }

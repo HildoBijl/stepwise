@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function PageContainer({ children }) {
+export function PageContainer({ children }) {
 	const theme = useTheme()
 	const classes = useStyles()
 	return <Container maxWidth={theme.appWidth} className={classes.pageContainer}>{children}</Container>

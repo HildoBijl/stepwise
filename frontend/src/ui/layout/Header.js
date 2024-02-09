@@ -7,11 +7,10 @@ import Container from '@material-ui/core/Container'
 
 import { TranslationFile } from 'i18n'
 
-import { GroupIndicator } from 'ui/pages/groups/Indicator'
+import { Title, TabBar } from 'ui/routingTools'
+import { GroupIndicator } from 'ui/pages'
 
 import Menu from './Menu'
-import Title from './Title'
-import { TabBar } from './tabs'
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Header({ Indicator }) {
+export function Header({ Indicator }) {
 	const theme = useTheme()
 	const classes = useStyles()
 	const [titleCollapsed, setTitleCollapsed] = useState(false)

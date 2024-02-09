@@ -2,11 +2,11 @@ import React from 'react'
 
 import { useRoute } from 'ui/routingTools'
 import { ModalManager, OfflineNotification, RecommendLogIn } from 'ui/components'
+import { TabProvider } from 'ui/routingTools'
 import { FieldController } from 'ui/form'
 
-import PageContainer from './PageContainer'
-import Header from './Header'
-import { TabProvider } from './tabs'
+import { PageContainer } from './PageContainer'
+import { Header } from './Header'
 
 export function Page() {
 	// Determine the contents.

@@ -10,7 +10,7 @@ import { exercises } from 'step-wise/eduTools'
 
 import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
-import { TitleItem } from 'ui/layout/Title'
+import { TitleItem } from 'ui/routingTools'
 
 import { ExerciseContainer } from './ExerciseContainer'
 
