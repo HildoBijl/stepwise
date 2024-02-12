@@ -22,10 +22,11 @@
     "home": "Home",
     "courses": "Cursussen",
     "groups": "Samen oefenen",
-    "about": "Over Step-Wise",
-    "feedback": "Feedback",
     "settings": "Instellingen",
     "logOut": "Uitloggen",
+    "forStudents": "Step-Wise voor studenten",
+    "forTeachers": "Step-Wise voor docenten",
+    "about": "Over Step-Wise",
     "inspect": "Vaardigheden overzicht",
     "admin": "Gebruikersoverzicht"
   },

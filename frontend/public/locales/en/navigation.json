@@ -22,14 +22,13 @@
     "home": "Home",
     "courses": "Courses",
     "groups": "Practice together",
-    "about": "About Step-Wise",
-    "feedback": "Feedback",
     "settings": "Settings",
     "logOut": "Log out",
-    "inspect": "Skill overview",
-    "admin": "User overview",
     "forStudents": "Step-Wise for students",
-    "forTeachers": "Step-Wise for teachers"
+    "forTeachers": "Step-Wise for teachers",
+    "about": "About Step-Wise",
+    "inspect": "Skill overview",
+    "admin": "User overview"
   },
   "tabs": {
     "theory": "Theory",
@@ -41,13 +40,5 @@
     "formulas": "Formulas",
     "references": "Attachments",
     "meta": "Meta-info"
-  },
-  "courses": "Courses",
-  "groups": "Practice together",
-  "info": "About Step-Wise",
-  "feedback": "Feedback",
-  "settings": "Settings",
-  "logOut": "Log out",
-  "inspect": "Skill overview",
-  "admin": "User overview"
+  }
 }

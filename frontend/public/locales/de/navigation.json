@@ -22,10 +22,11 @@
     "home": "Home",
     "courses": "Kurse",
     "groups": "Gemeinsam üben",
-    "about": "Über Step-Wise",
-    "feedback": "Feedback",
     "settings": "Einstellungen",
     "logOut": "Abmelden",
+    "forStudents": "Step-Wise für Studierende",
+    "forTeachers": "Step-Wise für Lehrende",
+    "about": "Über Step-Wise",
     "inspect": "Kompetenzübersicht",
     "admin": "Benutzerübersicht"
   },
