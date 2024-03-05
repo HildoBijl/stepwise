@@ -5,7 +5,7 @@ const { ensureSkillIds } = require('step-wise/eduTools')
 
 const { getUser, getAllUsers } = require('../util/User')
 
-const CURRENT_PRIVACY_POLICY_VERSION = 1
+const CURRENT_PRIVACY_POLICY_VERSION = 2
 
 const resolvers = {
 	User: {
@@ -38,7 +38,8 @@ const resolvers = {
 
 		acceptLatestPrivacyPolicy: async (_source, _args, { getCurrentUser }) => {
 			const user = await getCurrentUser()
-			// Only run update if we are behind
+
+			// Only run update if we are behind.
 			if (!user.privacyPolicyAcceptedVersion || user.privacyPolicyAcceptedVersion < CURRENT_PRIVACY_POLICY_VERSION) {
 				await user.update({
 					privacyPolicyAcceptedVersion: CURRENT_PRIVACY_POLICY_VERSION,

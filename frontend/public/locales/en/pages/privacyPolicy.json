@@ -1,0 +1,15 @@
+{
+  "firstTime": {
+    "title": "Privacy Policy",
+    "intro": "To use Step-Wise, you must approve of the <a>Privacy Policy</a>. In short:",
+    "list": "<ul><li>We use cookies only for sign-in and site settings purposes. No tracking/ads.</li><li>We won't share personal identifiable data with others unless after specific approval.</li><li>You can always remove all your data by deleting your account.</li></ul>"
+  },
+  "update": {
+    "title": "Privacy Policy Update",
+    "intro": "Our <a>Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version."
+  },
+  "buttons": {
+    "reject": "Do not approve: sign out",
+    "approve": "Approve: finish signing in"
+  }
+}

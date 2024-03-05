@@ -1,5 +1,12 @@
 import { useQuery, gql } from '@apollo/client'
 
+// Define the fields we read for the privacy policy consent.
+export const privacyPolicyConsentFields = `
+	version
+	acceptedAt
+	isLatestVersion
+`
+
 // Define the fields we read for users.
 export const userFields = `
 	id
@@ -10,9 +17,7 @@ export const userFields = `
 	role
 	language
 	privacyPolicyConsent {
-		version,
-		acceptedAt,
-		isLatestVersion,
+		${privacyPolicyConsentFields}
 	}
 `
 
@@ -20,7 +25,7 @@ export const userFields = `
 export function useUserQuery() {
 	return useQuery(ME)
 }
-const ME = gql`
+export const ME = gql`
 	{
 		me {
 			${userFields}

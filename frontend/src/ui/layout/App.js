@@ -9,6 +9,7 @@ import { SkillCacher } from 'api/skill'
 import { I18nProvider } from 'i18n'
 import theme from 'ui/theme'
 
+import { PrivacyPolicyWrapper } from './PrivacyPolicy'
 import { Routing } from './Routing'
 
 const withApolloProvider = WrappedComponent => props => (
@@ -25,11 +26,13 @@ function AppWithoutProvider() {
 					<ThemeProvider theme={theme}>
 						<CssBaseline />
 						<UserWrapper>
-							<ActiveGroupProvider>
-								<SkillCacher>
-									<Routing />
-								</SkillCacher>
-							</ActiveGroupProvider>
+							<PrivacyPolicyWrapper>
+								<ActiveGroupProvider>
+									<SkillCacher>
+										<Routing />
+									</SkillCacher>
+								</ActiveGroupProvider>
+							</PrivacyPolicyWrapper>
 						</UserWrapper>
 					</ThemeProvider>
 				</I18nProvider>
