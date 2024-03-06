@@ -4,13 +4,10 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert, AlertTitle } from '@material-ui/lab'
 
-import { apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'settings'
+import { apiAddress, googleClientId, googleRedirectAddress } from 'settings'
 import { useIsUserDataLoaded } from 'api/user'
 import { Translation, useLanguage } from 'i18n'
-import cookies from 'ui/cookies'
-import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import HUlogo from 'ui/images/HU.png'
-import Cookies from 'ui/images/Cookies.jpg'
 
 const useStyles = makeStyles((theme) => ({
 	logInContainer: {
@@ -149,36 +146,13 @@ function HULogInButton() {
 	// How do we send the user to SURFConext?
 	const goToSurfConext = () => window.location.href = `${apiAddress}/auth/surfconext/initiate`
 
-	// When the user clicks to accept cookies, store this and go to SURFconext to sign in.
-	const onCookieConfirm = () => {
-		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 90 * 24 * 60 * 60 })
-		goToSurfConext()
-	}
-
-	// Create a Modal to ask the user about cookies.
-	const [, setModalOpen] = useModal(<PictureConfirmation
-		onConfirm={onCookieConfirm}
-		title='Zijn cookies OK?'
-		picture={<img src={Cookies} alt="Cookies" width="668" height="1002" />}
-		message='Om in te loggen moeten we één klein cookie plaatsen. Geef je daar toestemming toe?'
-		rejectText='Nee! Ik ben allergisch'
-		confirmText='Prima! Log in'
-	/>)
-
-	// Check if Cookies are OK. If so, go to SURFConext. If not, ask.
-	const verifyCookies = () => {
-		if (cookies.get(cookieApprovalName) === '1')
-			goToSurfConext()
-		else
-			setModalOpen(true)
-	}
-
 	// Only show this button on Dutch or English language settings.
 	const language = useLanguage()
 	if (!['nl', 'en'].includes(language))
 		return null
 
-	return <div className={classes.huLogIn} onClick={verifyCookies}>
+	// Render the button.
+	return <div className={classes.huLogIn} onClick={goToSurfConext}>
 		<div className="inner">
 			<div className="img">
 				<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />

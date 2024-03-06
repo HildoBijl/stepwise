@@ -16,7 +16,3 @@ export { apiAddress, logOutAddress, graphqlAddress, graphqlWebsocketAddress }
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 const googleRedirectAddress = process.env.REACT_APP_GOOGLE_REDIRECT_ADDRESS
 export { googleClientId, googleRedirectAddress }
-
-// Cookie settings.
-const cookieApprovalName = 'cookieApproval'
-export { cookieApprovalName }
