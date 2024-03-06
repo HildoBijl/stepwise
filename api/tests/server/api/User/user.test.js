@@ -1,3 +1,4 @@
+const { currentPrivacyPolicyVersion } = require('../../../../../shared/settings')
 const surfConextMockData = require('../../../../surfConextMockData.json')
 const { createClient } = require('../../../client')
 
@@ -81,7 +82,7 @@ describe('privacy policy consent', () => {
 		const after = new Date().getTime()
 
 		expect(errors).toBeUndefined()
-		expect(acceptLatestPrivacyPolicy.version).toEqual(1)
+		expect(acceptLatestPrivacyPolicy.version).toEqual(currentPrivacyPolicyVersion)
 		const acceptedAt = new Date(acceptLatestPrivacyPolicy.acceptedAt).getTime()
 		expect(acceptedAt).toBeGreaterThanOrEqual(before)
 		expect(acceptedAt).toBeLessThanOrEqual(after)
@@ -94,7 +95,7 @@ describe('privacy policy consent', () => {
 		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptLatestPrivacyPolicy.isLatestVersion)
 	})
 
-	it('does not overwrite the `acceptedAt` date if version didn’t advance', async () => {
+	it('does not overwrite the `acceptedAt` date if version didn\'t advance', async () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
@@ -102,7 +103,7 @@ describe('privacy policy consent', () => {
 		const { data: { acceptLatestPrivacyPolicy: firstConsent } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` })
 
 		// Let time progress a little bit and try to accept it again. It should not change things.
-		await new Promise(resolve => setTimeout(resolve, 5));
+		await new Promise(resolve => setTimeout(resolve, 5))
 		const { data: { acceptLatestPrivacyPolicy: secondConsent } } = await client.graphql({ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` })
 		expect(firstConsent).toMatchObject(secondConsent)
 	})

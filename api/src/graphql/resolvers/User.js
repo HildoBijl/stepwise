@@ -1,11 +1,9 @@
 const { UserInputError } = require('apollo-server-express')
 
-const { languages } = require('step-wise/settings/i18n')
+const { languages, currentPrivacyPolicyVersion } = require('step-wise/settings')
 const { ensureSkillIds } = require('step-wise/eduTools')
 
 const { getUser, getAllUsers } = require('../util/User')
-
-const CURRENT_PRIVACY_POLICY_VERSION = 2
 
 const resolvers = {
 	User: {
@@ -19,7 +17,7 @@ const resolvers = {
 			return {
 				version: user.privacyPolicyAcceptedVersion,
 				acceptedAt: user.privacyPolicyAcceptedAt,
-				isLatestVersion: user.privacyPolicyAcceptedVersion === CURRENT_PRIVACY_POLICY_VERSION,
+				isLatestVersion: user.privacyPolicyAcceptedVersion === currentPrivacyPolicyVersion,
 			}
 		}
 	},
@@ -40,9 +38,9 @@ const resolvers = {
 			const user = await getCurrentUser()
 
 			// Only run update if we are behind.
-			if (!user.privacyPolicyAcceptedVersion || user.privacyPolicyAcceptedVersion < CURRENT_PRIVACY_POLICY_VERSION) {
+			if (!user.privacyPolicyAcceptedVersion || user.privacyPolicyAcceptedVersion < currentPrivacyPolicyVersion) {
 				await user.update({
-					privacyPolicyAcceptedVersion: CURRENT_PRIVACY_POLICY_VERSION,
+					privacyPolicyAcceptedVersion: currentPrivacyPolicyVersion,
 					privacyPolicyAcceptedAt: new Date(),
 				})
 			}
