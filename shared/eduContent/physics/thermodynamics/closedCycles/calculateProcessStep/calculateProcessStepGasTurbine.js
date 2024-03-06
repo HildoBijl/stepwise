@@ -54,7 +54,7 @@ function checkInput(exerciseData, step) {
 		case 2:
 			return performComparison(exerciseData, 'process')
 		case 3:
-			return performComparison(exerciseData, exerciseData.input.choice === 1 ? 'T2' : 'p2')
+			return performComparison(exerciseData, exerciseData.input.choice === 1 ? 'T2' : 'V2')
 		case 4:
 			return performComparison(exerciseData, ['p2', 'V2', 'T2'])
 		default:
