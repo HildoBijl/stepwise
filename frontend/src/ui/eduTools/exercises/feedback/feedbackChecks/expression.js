@@ -33,6 +33,10 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
 
+	// When the correct version is not a sum, something is wrong.
+	if (!correct.isSubtype(Sum))
+		throw new Error(`Invalid feedback function call: tried to check for a sum with wrong terms, but the correct answer wasn't a sum.`)
+
 	// Ensure it's a sum.
 	const noSumResult = noSum(input)
 	if (noSumResult)
