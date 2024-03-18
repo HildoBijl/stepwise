@@ -1,13 +1,17 @@
 const { getRandomInteger, selectRandomly, getRandomIndices } = require('../../../../util')
 const { asExpression, Integer, Fraction } = require('../../../../CAS')
 
-function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true) {
+function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true) {
 	// Determine the indices of the elementary functions that we use.
 	const weights = [3, 9, 5, 3, 1, 2, 2, 2, 1, 2, 1]
 	if (!includeConstant)
 		weights[0] = 0
 	if (!includeDivision)
 		weights[2] = 0
+	if (!includeRoots) {
+		weights[3] = 0
+		weights[4] = 0
+	}
 	const indices = getRandomIndices(weights.length, num, true, weights)
 
 	// Set up the respective elementary functions.
