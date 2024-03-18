@@ -1,0 +1,10 @@
+{
+	"noExerciseWarning": "Deze vaardigheid heeft nog geen opgaven. Hij kan op het moment niet geoefend worden. Opgaven komen er waarschijnlijk binnenkort aan.",
+	"title": "Links met andere vaardigheden",
+	"noPrerequisites": "Deze vaardigheid heeft geen <strong>voorkennis</strong>.",
+	"prerequisites": "Deze vaardigheid heeft <counting-word/> <strong>voorkennis</strong>-<count-check><one>vaardigheid</one><not-one>vaardigheden</not-one></count-check>.",
+	"links": "Hij is <strong>soortgelijk</strong> (gecorreleerd) aan <counting-word/> <count-check><one>vaardigheid</one><not-one>vaardigheden</not-one></count-check>.",
+	"noContinuations": "Het is een <strong>einddoel</strong>: hij is niet nodig voor enige andere vaardigheid.",
+	"continuations": "Het is <strong>voorkennis</strong> voor <counting-word/> andere <count-check><one>vaardigheid</one><not-one>vaardigheden</not-one></count-check>.",
+	"sameGroup": "Het is onderdeel van de groep <strong>{group}</strong> bestaande uit in totaal <counting-word/> <count-check><one>vaardigheid</one><not-one>vaardigheden</not-one></count-check>."
+}

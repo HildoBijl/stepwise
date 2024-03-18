@@ -1,0 +1,10 @@
+{
+  "noExerciseWarning": "This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added in the future.",
+  "title": "Links to other skills",
+  "noPrerequisites": "This skill has no <strong>prerequisites</strong>.",
+  "prerequisites": "This skill has <counting-word/> <strong>prerequisite</strong> <count-check><one>skill</one><not-one>skills</not-one></count-check>.",
+  "links": "It is <strong>similar</strong> (correlated) to <counting-word/> <count-check><one>skill</one><not-one>skills</not-one></count-check>.",
+  "noContinuations": "It is an <strong>end goal</strong>: it is not needed for any other skills.",
+  "continuations": "It is a <strong>requirement</strong> for <counting-word/> other <count-check><one>skill</one><not-one>skills</not-one></count-check>.",
+  "sameGroup": "It is part of the group <strong>{group}</strong> consisting of <counting-word/> <count-check><one>skill</one><not-one>skills</not-one></count-check> in total."
+}

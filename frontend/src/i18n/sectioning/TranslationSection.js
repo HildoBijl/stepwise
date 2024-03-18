@@ -4,18 +4,26 @@ import { ensureString } from 'step-wise/util'
 
 const TranslationSectionContext = createContext()
 
-export function TranslationSection({ children, entry }) {
+export function TranslationSection({ children, entry, extend = true }) {
 	// Check the input.
 	entry = ensureString(entry, true)
 
 	// Extend by a potential parent entry.
 	const parentEntry = useTranslationSectionEntry()
-	if (parentEntry)
+	if (extend && parentEntry)
 		entry = `${parentEntry}.${entry}`
 
 	// Render the provider.
 	return (
 		<TranslationSectionContext.Provider value={entry}>
+			{children}
+		</TranslationSectionContext.Provider>
+	)
+}
+
+export function ResetTranslationSection({ children }) {
+	return (
+		<TranslationSectionContext.Provider value={undefined}>
 			{children}
 		</TranslationSectionContext.Provider>
 	)

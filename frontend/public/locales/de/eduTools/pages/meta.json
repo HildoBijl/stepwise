@@ -1,0 +1,10 @@
+{
+	"noExerciseWarning": "Für diese Kompetenz gibt es noch keine Übungen. Sie kann im Moment nicht geübt werden. Übungen werden wahrscheinlich bald kommen.",
+	"title": "Verknüpfung mit anderen Kompetenzen",
+	"noPrerequisites": "Diese Kompetenz erfordert keine <strong>Vorkenntnisse</strong>.",
+	"prerequisites": "Dieze Kompetenz hat <counting-word/> <strong>Vorkenntnisse</strong>-<count-check><one>Kompetenz</one><not-one>Kompetenzen</not-one></count-check>.",
+	"links": "Sie ist <strong>vergleichbar</strong> (korreliert) mit <counting-word/> <count-check><one>Kompetenz</one><not-one>Kompetenzen</not-one></count-check>.",
+	"noContinuations": "Sie ist ein <strong>Endziel</strong>: Sie ist für keine andere Kompetenz erforderlich.",
+	"continuations": "Sie ist <strong>Vorwissen</strong> für <counting-word/> andere <count-check><one>Kompetenzen</one><not-one>Kompetenzen</not-one></count-check>.",
+	"sameGroup": "Sie ist Teil der Gruppe <strong>{group}</strong>, bestehend aus insgesamt <counting-word/> <count-check><one>Kompetenz</one><not-one>Kompetenzen</not-one></count-check>."
+}

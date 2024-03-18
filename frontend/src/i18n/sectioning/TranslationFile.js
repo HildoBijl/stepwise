@@ -2,6 +2,8 @@ import React, { createContext, useContext } from 'react'
 
 import { ensureString } from 'step-wise/util'
 
+import { ResetTranslationSection } from './TranslationSection'
+
 const TranslationFileContext = createContext()
 
 export function TranslationFile({ children, path, extend = true }) {
@@ -13,10 +15,12 @@ export function TranslationFile({ children, path, extend = true }) {
 	if (extend && parentPath)
 		path = `${parentPath}/${path}`
 
-	// Render the provider.
+	// Render the provider. Also reset any potential section.
 	return (
 		<TranslationFileContext.Provider value={path}>
-			{children}
+			<ResetTranslationSection>
+				{children}
+			</ResetTranslationSection>
 		</TranslationFileContext.Provider>
 	)
 }
