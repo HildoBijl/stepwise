@@ -84,6 +84,8 @@ export const noFraction = (input, correct, solution, isCorrect) => !isCorrect &&
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <Translation path={translationPath} entry="expression.hasFractionWithinFraction">Your solution may not contain fractions within fractions. You can still simplify this further.</Translation>
 
 export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
+	if (!correct.isSubtype(Fraction))
+		throw new Error(`Invalid feedback function call: tried to check for a fraction with wrong parts, but the correct answer wasn't a fraction.`)
 	if (isCorrect)
 		return
 	input = input.elementaryClean()
