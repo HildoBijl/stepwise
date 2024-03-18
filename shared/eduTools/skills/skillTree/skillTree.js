@@ -521,11 +521,18 @@ const skillStructure = {
 
 // Turn the skill structure (with grouping) into a flat skillTree look-up object, where all skills are aware of their ID and path.
 const skillTree = {}
+const skillsPerGroup = {}
 function processSkillGroup(skillGroup, path = []) {
 	applyMapping(skillGroup, (obj, key) => {
 		if (obj.name) { // Is it a skill? Only skills have a "name" parameter.
 			obj.id = key
 			obj.path = path
+			const joinedPath = path.join('/')
+			if (skillsPerGroup[joinedPath])
+				skillsPerGroup[joinedPath].push(obj.id)
+			else
+				skillsPerGroup[joinedPath] = [obj.id]
+			obj.skillsInGroup = skillsPerGroup[joinedPath]
 			skillTree[key] = obj
 		} else {
 			processSkillGroup(obj, [...path, key])

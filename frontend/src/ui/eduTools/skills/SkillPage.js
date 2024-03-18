@@ -10,6 +10,7 @@ import { TabPages, tabData } from 'ui/routingTools'
 import { ExercisePage } from '../exercises'
 
 import { useSkillId } from './util'
+import { MetaWrapper } from './MetaWrapper'
 
 export function SkillPage() {
 	const translate = useTranslator()
@@ -46,6 +47,8 @@ export function SkillPage() {
 				pages[firstToLowerCase(key)] = <Component />
 			})
 		}
+		if (pages.meta)
+			pages.meta = <MetaWrapper skillId={skillId}>{pages.meta}</MetaWrapper>
 		return pages
 	}, [loadedForSkillId, skillId, loadedPages])
 
