@@ -78,7 +78,7 @@ function getFeedback(exerciseData) {
 	const fDerivativeIncorrectCheck = (input, correct, solution, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
 
 	// Assemble the checks for all input fields.
-	const derivativeChecks = [originalFunction, incorrectFraction, incorrectFunction]
+	const derivativeChecks = [originalFunction, (input, correct, solution, isCorrect) => incorrectFraction(input, solution.derivativeRaw, solution, isCorrect), incorrectFunction]
 	const fDerivativeChecks = [fDerivativeConstantMultipleCheck, fDerivativeIncorrectCheck]
 
 	// Determine feedback.

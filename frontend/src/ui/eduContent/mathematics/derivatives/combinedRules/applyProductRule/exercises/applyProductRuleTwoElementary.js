@@ -78,7 +78,7 @@ function getFeedback(exerciseData) {
 	const fDerivativeIncorrectCheck = (input, correct, solution, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
 
 	// Assemble the checks for all input fields.
-	const derivativeChecks = [originalFunction, sumWithWrongTerms, incorrectFunction]
+	const derivativeChecks = [originalFunction, (input, correct, solution, isCorrect) => sumWithWrongTerms(input, solution.derivativeRaw, solution, isCorrect), incorrectFunction]
 	const fDerivativeChecks = [fDerivativeConstantMultipleCheck, fDerivativeIncorrectCheck]
 
 	// Determine feedback.

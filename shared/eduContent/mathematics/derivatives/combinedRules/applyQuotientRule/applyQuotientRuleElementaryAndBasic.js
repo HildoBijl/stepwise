@@ -15,8 +15,7 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	const x = selectRandomly(variableSet)
-	const [f1, f2] = getRandomElementaryFunctions(2, false, false).map(func => func.substitute('x', x))
-	const [g] = getRandomElementaryFunctions(1, false, false).map(func => func.substitute('x', x))
+	const [f1, f2, g] = getRandomElementaryFunctions(3, false, false, true, false).map(func => func.substitute('x', x))
 	const c = getRandomInteger(-12, 12, [0])
 	return { c, f1, f2, g }
 }
