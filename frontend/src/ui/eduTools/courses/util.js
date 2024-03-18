@@ -67,12 +67,12 @@ export function getAnalysis(overview, skillsData) {
 	if (overview.all.some(skillId => practiceNeeded[skillId] === undefined))
 		return undefined
 
-	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills.
-	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2)
+	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills. Also ensure that this recommendation has exercises that can be practiced.
+	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
 	if (!recommendation)
-		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2)
+		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
 	if (!recommendation)
-		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 1)
+		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 1 && skillTree[skillId].exercises.length > 0)
 
 	// If no recommendation has been found, then all skills are mastered. Recommend free practice.
 	if (!recommendation)

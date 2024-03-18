@@ -7,10 +7,11 @@ const skillStructure = {
 	test: {
 		test: {
 			name: 'Test exercise',
-			exercises: ['testExercise'],
+			// exercises: ['testExercise'],
 		},
 		demo: {
 			name: 'Demo exercise',
+			setup: repeat('test', 2),
 			exercises: ['demoExercise'],
 		},
 	},
