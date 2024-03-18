@@ -1,16 +1,10 @@
-const { isNumber, keysToObject } = require('../../../util')
+const { keysToObject } = require('../../../util')
 const { getEV, merge, ensureSetup } = require('../../../skillTracking')
-
-const { exercises } = require('../../skills')
 
 const { getDifficulty } = require('./util')
 
-// getExerciseSuccessRates takes a bunch of exercises and calculates the chance, given access to skill data, that the user will succeed in them. It returns an object { successRates: [...], weights: [...] }.
-async function getExerciseSuccessRates(exerciseIds, getSkillDataSet) {
-	// Load exercise data and extract weights.
-	const exerciseMetaDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).metaData)
-	const weights = exerciseMetaDatas.map(exerciseMetaData => (isNumber(exerciseMetaData.weight) ? Math.abs(exerciseMetaData.weight) : 1))
-
+// getExerciseSuccessRates takes an object with exercise meta-data { exercise1: metaData1, exercise2: metaData2 } and calculates the chance, given access to skill data, that the user will succeed in them. It returns an object { exercise1: successRate1, exercise2: successRate2 }.
+async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 	// Figure out all the skills that need to be loaded and load them.
 	let exerciseSkillIds = new Set()
 	exerciseMetaDatas.forEach(exerciseMetaData => {
@@ -26,7 +20,7 @@ async function getExerciseSuccessRates(exerciseIds, getSkillDataSet) {
 	const coefficientSet = keysToObject(exerciseSkillIds, skillId => skillDataSet[skillId].coefficients) // Get the posterior coefficients.
 
 	// Walk through the exercises to calculate success rates (expected values).
-	const successRates = exerciseMetaDatas.map((exerciseMetaData) => {
+	return exerciseMetaDatas.map(exerciseMetaData => {
 		// If there is only a skill (basic exercise) or only a setup (joint exercise) then use that to estimate the success rate.
 		if (!exerciseMetaData.skill || !exerciseMetaData.setup)
 			return getDifficulty(exerciseMetaData).getEV(coefficientSet)
@@ -38,10 +32,5 @@ async function getExerciseSuccessRates(exerciseIds, getSkillDataSet) {
 		const mergedCoefficients = merge([skillCoefficients, setupCoefficients])
 		return getEV(mergedCoefficients)
 	})
-
-	return {
-		successRates,
-		weights,
-	}
 }
 module.exports.getExerciseSuccessRates = getExerciseSuccessRates

@@ -72,3 +72,31 @@ async function getUserSkillDataSet(userId, skillIds, db) {
 	return skillDataSet
 }
 module.exports.getUserSkillDataSet = getUserSkillDataSet
+
+// getUserSkillExercises takes a userId and a skillId and returns a list of the exercises (IDs with states and progresses) that the user has done for that skill.
+async function getUserSkillExercises(userId, skillId, db) {
+	skillId = ensureSkillId(skillId)
+
+	// Pull everything from the database.
+	const user = userId && await db.User.findByPk(userId, {
+		rejectOnEmpty: true,
+		include: {
+			association: 'skills',
+			where: { skillId },
+			required: false,
+			include: {
+				association: 'exercises',
+				order: ['createdAt', 'ASC'],
+				required: false,
+			},
+		},
+	})
+	if (!user)
+		throw new AuthenticationError('No user is logged in.')
+
+	// On a missing skill, there are no exercises.
+	if (!user.skills || user.skills.length === 0)
+		return []
+	return user.skills[0].exercises || []
+}
+module.exports.getUserSkillExercises = getUserSkillExercises

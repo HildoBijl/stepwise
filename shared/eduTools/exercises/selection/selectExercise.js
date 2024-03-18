@@ -1,4 +1,4 @@
-const { isNumber, sum, normalPDF, selectRandomly } = require('../../../util')
+const { isNumber, sum, normalPDF, selectRandomly, keysToObject } = require('../../../util')
 
 const { skillTree, exercises, ensureSkillId } = require('../../skills')
 
@@ -6,18 +6,34 @@ const { mu, sigma, thresholdFactor } = require('./settings')
 const { getExerciseSuccessRates } = require('./successRates')
 
 // selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillDataSet. The return value is the exerciseId.
-async function selectExercise(skillId, getSkillDataSet) {
+async function selectExercise(skillId, getSkillDataSet, previousExercises = []) {
 	// Extract the skill data.
 	skillId = ensureSkillId(skillId)
 	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)
 
-	// Get all exercises and intelligently calculate the selection rate.
-	const exerciseIds = skill.exercises
+	// Verify that exercises exist and load in their data.
+	let exerciseIds = skill.exercises
 	if (exerciseIds.length === 0)
 		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
-	const { successRates, weights } = await getExerciseSuccessRates(exerciseIds, getSkillDataSet)
+	const exerciseMetaDatas = keysToObject(exerciseIds, exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).metaData)
+
+	// Filter exercises out that have been done recently, but only if this doesn't leave us with no possible exercises.
+	previousExercises = previousExercises.sort((a, b) => b.createdAt - a.updatedAt) // Sort descending by date.
+	const filteredExerciseIds = exerciseIds.filter(exerciseId => {
+		const metaData = exerciseMetaDatas[exerciseId]
+		const repeatAfter = isNumber(metaData.repeatAfter) ? metaData.repeatAfter : 1 // Use default value if not given.
+		const exercisesSince = previousExercises.findIndex(exercise => exercise.exerciseId === exerciseId)
+		return exercisesSince === -1 || exercisesSince >= repeatAfter
+	})
+	if (filteredExerciseIds.length > 0)
+		exerciseIds = filteredExerciseIds
+
+	// For the filtered exercises, calculate success rates and weights, and use these to calculate selection rates.
+	const exerciseMetaDatasArray = exerciseIds.map(exerciseId => exerciseMetaDatas[exerciseId])
+	const successRates = await getExerciseSuccessRates(exerciseMetaDatasArray, getSkillDataSet)
+	const weights = exerciseIds.map(exerciseId => (isNumber(exerciseMetaDatas[exerciseId].weight) ? Math.abs(exercisesMetaDatas[exerciseId].weight) : 1))
 	const selectionRates = getSelectionRates(successRates, weights)
 
 	// Select a random exercise, according to the calculated rates, from the list.

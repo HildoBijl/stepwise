@@ -3,7 +3,7 @@ const { toFO, toSO } = require('step-wise/inputTypes')
 const { exercises, getNewExercise } = require('step-wise/eduTools')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
-const { events: skillEvents, getUserSkillDataSet } = require('../util/Skill')
+const { events: skillEvents, getUserSkillDataSet, getUserSkillExercises } = require('../util/Skill')
 const { applySkillUpdatesForUser } = require('../util/Exercise')
 
 const resolvers = {
@@ -32,7 +32,8 @@ const resolvers = {
 
 			// Select a new exercise, store it and return the result.
 			const getSkillDataSet = (skillIds) => getUserSkillDataSet(userId, skillIds, db)
-			const newExercise = await getNewExercise(skillId, getSkillDataSet)
+			const getSkillExercises = (skillId) => getUserSkillExercises(userId, skillId, db)
+			const newExercise = await getNewExercise(skillId, getSkillDataSet, getSkillExercises)
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 		},
 

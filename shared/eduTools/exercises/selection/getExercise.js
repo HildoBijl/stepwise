@@ -3,10 +3,11 @@ const { exercises } = require('../../skills')
 const { selectExercise, selectRandomExercise } = require('./selectExercise')
 
 // getNewExercise takes a skillId and returns exercise data of the form { exerciseId: 'someExercise', state: { a: 3, b: 12 } }. The state is given in FO format.
-async function getNewExercise(skillId, getSkillDataSet) {
+async function getNewExercise(skillId, getSkillDataSet, getSkillExercises) {
 	if (!getSkillDataSet || typeof getSkillDataSet !== 'function')
 		throw new Error(`Invalid getNewExercise call: no getSkillDataSet function was provided. This function is required to be able to select the appropriate exercise. If a fully random exercise is desired, use the getNewRandomExercise function instead.`)
-	const exerciseId = await selectExercise(skillId, getSkillDataSet)
+	const previousExercises = await getSkillExercises(skillId)
+	const exerciseId = await selectExercise(skillId, getSkillDataSet, previousExercises)
 	return getExercise(exerciseId)
 }
 module.exports.getNewExercise = getNewExercise
