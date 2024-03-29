@@ -1,6 +1,6 @@
 const { exercises } = require('../../skills')
 
-const { selectExercise, selectRandomExercise } = require('./selectExercise')
+const { selectExercise, selectRandomExercise, selectRandomExample } = require('./selectExercise')
 
 // getNewExercise takes a skillId and returns exercise data of the form { exerciseId: 'someExercise', state: { a: 3, b: 12 } }. The state is given in FO format.
 async function getNewExercise(skillId, getSkillDataSet, getSkillExercises) {
@@ -18,6 +18,13 @@ function getNewRandomExercise(skillId) {
 	return getExercise(exerciseId)
 }
 module.exports.getNewRandomExercise = getNewRandomExercise
+
+// getNewRandomExample is identical to getNewRandomExercise, but then selects from the examples.
+function getNewRandomExample(skillId) {
+	const exerciseId = selectRandomExample(skillId)
+	return getExercise(exerciseId)
+}
+module.exports.getNewRandomExample = getNewRandomExample
 
 // getExercise takes an exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state, like { exerciseId: 'someExercise', state: { a: 3, b: 12 } }.
 function getExercise(exerciseId) {

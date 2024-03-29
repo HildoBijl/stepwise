@@ -7,7 +7,7 @@ import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/routingTools'
 
-import { ExercisePage } from '../exercises'
+import { ExercisePage, ExamplePage } from '../exercises'
 
 import { useSkillId } from './util'
 import { MetaWrapper } from './MetaWrapper'
@@ -47,7 +47,9 @@ export function SkillPage() {
 				pages[firstToLowerCase(key)] = <Component />
 			})
 		}
-		if (pages.meta)
+		if (skillTree[skillId].examples.length > 0)
+			pages.example = <ExamplePage />
+		if (pages.meta) // Add a wrapper to the Meta information.
 			pages.meta = <MetaWrapper skillId={skillId}>{pages.meta}</MetaWrapper>
 		return pages
 	}, [loadedForSkillId, skillId, loadedPages])

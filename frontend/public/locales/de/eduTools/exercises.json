@@ -1,5 +1,6 @@
 {
   "exercise": "Übung",
+  "example": "Beispielübung",
   "solution": "Lösung",
   "step": "Schritt {step}",
   "loadingNotes": {

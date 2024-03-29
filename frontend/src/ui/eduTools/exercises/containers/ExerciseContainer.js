@@ -10,7 +10,7 @@ import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
-export function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise }) {
+export function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example }) {
 	const translate = useTranslator()
 	const { exerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
@@ -49,6 +49,7 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 	const exerciseData = {
 		exerciseId,
 		state: stateFO,
+		example,
 		groupExercise,
 		history: exercise.history,
 		progress,

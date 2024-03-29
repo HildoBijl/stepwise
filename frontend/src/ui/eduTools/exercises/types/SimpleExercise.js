@@ -24,7 +24,7 @@ export function SimpleExercise(props) {
 
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
-	const { state, progress, history } = useExerciseData()
+	const { state, progress, history, example } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -45,7 +45,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	const showMainFeedback = showInputSpace && (progress.done || isAllInputEqual(feedbackInput))
 
 	return <>
-		<ProblemContainer>
+		<ProblemContainer example={example}>
 			<FormPart readOnly={progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">

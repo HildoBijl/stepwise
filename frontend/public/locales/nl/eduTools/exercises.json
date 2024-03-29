@@ -1,5 +1,6 @@
 {
-  "exercise": "Opgave",
+  "exercise": "Oefenopgave",
+  "example": "Voorbeeldopgave",
   "solution": "Oplossing",
   "step": "Stap {step}",
   "loadingNotes": {

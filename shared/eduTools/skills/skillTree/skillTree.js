@@ -314,6 +314,7 @@ const skillStructure = {
 			constants: {
 				specificGasConstant: {
 					name: 'Look up a specific gas constant',
+					examples: ['specificGasConstant'],
 					exercises: ['specificGasConstant'],
 				},
 				specificHeatRatio: {
@@ -542,8 +543,13 @@ function processSkillGroup(skillGroup, path = []) {
 }
 processSkillGroup(skillStructure)
 
-// Ensure that all skills have an exercises array as parameter.
+// Ensure that all skills have an examples and exercises array as parameter.
 Object.values(skillTree).forEach(skill => {
+	if (!skill.examples)
+		skill.examples = []
+	if (!Array.isArray(skill.examples))
+		skill.examples = [skill.examples]
+	
 	if (!skill.exercises)
 		skill.exercises = []
 	if (!Array.isArray(skill.exercises))

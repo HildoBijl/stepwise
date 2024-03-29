@@ -70,13 +70,28 @@ function selectRandomExercise(skillId) {
 	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)
-	const exerciseIds = skill.exercises
-	if (exerciseIds.length === 0)
-		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
+	return selectExerciseFromList(skill.exercises)
+}
+module.exports.selectRandomExercise = selectRandomExercise
+
+// selectRandomExample takes a skillId and picks an exercise completely randomly.
+function selectRandomExample(skillId) {
+	const skill = skillTree[skillId]
+	if (!skill)
+		throw new Error(`Could not select an example: the skillId "${skillId}" is unknown.`)
+	return selectExerciseFromList(skill.examples)
+}
+module.exports.selectRandomExample = selectRandomExample
+
+// selectExerciseFromList takes a list of exerciseIds and randomly selects an exercise from it. It does take into account exercise weights, but does not take into account skill data.
+function selectExerciseFromList(exerciseIds) {
+	// Check the input.
+	if (!Array.isArray(exerciseIds) || exerciseIds.length === 0)
+		throw new Error(`Invalid request: cannot pick an exercise. No valid list of exercise IDs was provided.`)
 
 	// Select an exercise based on the weights.
 	const exerciseMetaDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).metaData)
 	const weights = exerciseMetaDatas.map(exerciseMetaData => (isNumber(exerciseMetaData.weight) ? Math.abs(exerciseMetaData.weight) : 1))
 	return selectRandomly(exerciseIds, weights)
 }
-module.exports.selectRandomExercise = selectRandomExercise
+module.exports.selectExerciseFromList = selectExerciseFromList
