@@ -47,7 +47,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 
 	return <>
 		<ProblemContainer example={example} refresh={example && startNewExercise}>
-			<FormPart readOnly={progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
+			<FormPart readOnly={!example && progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
 						<Problem {...state} translate={addSection(translate, 'problem')} />

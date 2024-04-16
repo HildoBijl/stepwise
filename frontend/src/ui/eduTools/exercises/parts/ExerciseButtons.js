@@ -161,7 +161,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef()
 	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !progress.done && isAdmin, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
-	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !example && !progress.done, focusRefOnActive: true })
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
@@ -215,8 +215,8 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	return (
 		<div className={classes.buttonContainer}>
 			{isAdmin && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
-			<Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
 			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
+			{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
 		</div >
 	)
 }

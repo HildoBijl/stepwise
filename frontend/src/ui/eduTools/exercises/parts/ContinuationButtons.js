@@ -34,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
 export function ContinuationButtons() {
 	const translate = useTranslator(translationPath)
 	const classes = useStyles()
-	const { progress, startNewExercise, example } = useExerciseData()
+	const { progress, startNewExercise } = useExerciseData()
 	const inTestContext = useTestContext()
 
 	// Check when the buttons have to be shown.
-	const showButtons = inTestContext || (!example && !!progress.done)
+	const showButtons = inTestContext || !!progress.done
 
 	// Include the buttons in the tabbing.
 	const startNewExerciseButtonRef = useRef()
