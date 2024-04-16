@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Collapse from '@material-ui/core/Collapse'
-import { ArrowRight } from '@material-ui/icons'
+import { ArrowRight, Refresh } from '@material-ui/icons'
 
 import { notSelectable } from 'ui/theme'
+import { Button } from 'ui/components'
 
 const useStyles = makeStyles((theme) => ({
 	contentsContainer: {
@@ -61,10 +62,15 @@ const useStyles = makeStyles((theme) => ({
 				padding: 0,
 			},
 		},
+		'& .refreshButton': {
+			minWidth: 'auto',
+			marginLeft: '1rem',
+			padding: '2px 4px',
+		},
 	},
 }))
 
-export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon }) {
+export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon, refresh }) {
 	// Allow for toggles, if desired.
 	let [expand, setExpand] = useState()
 	const toggle = () => setExpand(!expand)
@@ -89,6 +95,7 @@ export function ContentsContainer({ children, display = true, text, onClick, ini
 						<div className="iconContainer"><Icon className="icon" /></div>
 						<div className="textContainer">{text}</div>
 						<div className="line" />
+						{refresh ? <RefreshButton className="refreshButton" onClick={refresh} /> : null}
 					</div>
 					<Collapse in={expand}>
 						<div className="innerContainer">
@@ -103,4 +110,8 @@ export function ContentsContainer({ children, display = true, text, onClick, ini
 
 function getColor(color, theme) {
 	return color ? theme.palette[color].main : theme.palette.text.primary
+}
+
+function RefreshButton(props) {
+	return <Button size="small" variant="contained" color="info" {...props}><Refresh /></Button>
 }

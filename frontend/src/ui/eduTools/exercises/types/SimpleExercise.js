@@ -24,7 +24,7 @@ export function SimpleExercise(props) {
 
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
-	const { state, progress, history, example } = useExerciseData()
+	const { state, progress, history, example, startNewExercise } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -43,9 +43,10 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	const hasSubmissions = hasPreviousInput(history, userId) // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
 	const showMainFeedback = showInputSpace && (progress.done || isAllInputEqual(feedbackInput))
+	const showSolution = example || progress.done
 
 	return <>
-		<ProblemContainer example={example}>
+		<ProblemContainer example={example} refresh={example && startNewExercise}>
 			<FormPart readOnly={progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
@@ -54,26 +55,27 @@ function SimpleExerciseInner({ Problem, Solution }) {
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} />
+			<ExerciseButtons />
 		</ProblemContainer>
-		<SolutionContainer display={!!progress.done} initialExpand={!progress.solved}>
+		<SolutionContainer display={!!showSolution} initialExpand={!example && !progress.solved}>
 			<TranslationSection entry="solution">
 				<Solution {...state} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>
 		</SolutionContainer>
-		<ExerciseButtons />
 	</>
 }
 
 function simpleExerciseGetFeedback(exerciseData) {
 	const { shared } = exerciseData
+	const { getSolution, checkInput } = shared || {}
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
-	if (shared.getSolution)
+	if (getSolution)
 		return getAllFieldInputsFeedback(exerciseData)
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
-	if (shared.checkInput)
-		return { main: shared.checkInput(exerciseData) }
+	if (checkInput)
+		return { main: checkInput(exerciseData) }
 
 	// There is nothing to give feedback based on. (Should never happen.)
 	return {}

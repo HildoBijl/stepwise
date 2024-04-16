@@ -1,6 +1,6 @@
 {
-  "exercise": "Practice exercise",
   "example": "Example exercise",
+  "exercise": "Practice exercise",
   "solution": "Solution",
   "step": "Step {step}",
   "loadingNotes": {
@@ -22,7 +22,8 @@
     "solveStepWise": "Solve this Step-Wise",
     "giveUpStep": "I give up this step",
     "nextExercise": "Next exercise",
-    "solve": "Insert solution"
+    "solve": "Insert solution",
+    "newExampleExercise": "Generate new example"
   },
   "groupExercise": {
     "status": {
