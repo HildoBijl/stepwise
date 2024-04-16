@@ -149,7 +149,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const theme = useTheme()
 	const classes = useStyles()
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
-	const { progress, history, submitting, startNewExercise } = useExerciseData()
+	const { progress, history, submitting, example } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
 
@@ -158,11 +158,10 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const giveUp = useGiveUpAction()
 
 	// Include the buttons in the tabbing.
-	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef(), startNewExerciseButtonRef = useRef()
+	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef()
 	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !progress.done && isAdmin, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
-	useFieldRegistration({ id: 'startNewExerciseButton', element: startNewExerciseButtonRef, apply: !!progress.done, focusRefOnActive: true })
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
@@ -174,14 +173,9 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		onConfirm={giveUp}
 	/>)
 
-	// Is the exercise done? Then return the restart button.
-	if (progress.done) {
-		return (
-			<div className={classes.buttonContainer}>
-				<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>{translate('Next exercise', 'buttons.nextExercise')}</Button>
-			</div>
-		)
-	}
+	// Is the exercise done? Then no buttons are needed.
+	if (!example && progress.done)
+		return null
 
 	// Determine if the input is the same as previously.
 	const lastAction = getLastAction(history)

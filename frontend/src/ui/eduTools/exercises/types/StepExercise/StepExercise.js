@@ -11,7 +11,7 @@ import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } fr
 
 import { useExerciseData } from '../../containers'
 import { ExerciseWrapper } from '../../wrappers'
-import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../parts'
+import { ProblemContainer, SolutionContainer, ExerciseButtons, ContinuationButtons, MainFeedback } from '../../parts'
 import { getAllFieldInputsFeedback } from '../../feedback'
 
 import { Steps } from './Steps'
@@ -58,6 +58,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 		{!expandSolution ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
 		<Steps steps={steps} forceDisplay={expandSolution} />
 		<ExerciseButtons stepwise={true} />
+		<ContinuationButtons />
 	</>
 }
 

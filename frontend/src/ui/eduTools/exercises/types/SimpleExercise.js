@@ -11,7 +11,7 @@ import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } fr
 
 import { useExerciseData } from '../containers'
 import { ExerciseWrapper, useSolution } from '../wrappers'
-import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../parts'
+import { ProblemContainer, SolutionContainer, ExerciseButtons, ContinuationButtons, MainFeedback } from '../parts'
 import { getAllFieldInputsFeedback } from '../feedback'
 
 export function SimpleExercise(props) {
@@ -62,6 +62,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 				<Solution {...state} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>
 		</SolutionContainer>
+		<ContinuationButtons />
 	</>
 }
 
