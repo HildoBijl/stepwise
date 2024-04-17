@@ -184,13 +184,17 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
 	let giveUpText = translate('I give up', 'buttons.giveUp')
 	const step = getStep(progress)
-	if (stepwise)
-		giveUpText = step ? translate('I give up this step', 'buttons.giveUpStep') : translate('Solve this Step-Wise', 'buttons.solveStepWise')
+	if (stepwise) {
+		if (example)
+			giveUpText = translate('Show steps', 'buttons.showSteps')
+		else
+			giveUpText = step ? translate('I give up this step', 'buttons.giveUpStep') : translate('Solve this Step-Wise', 'buttons.solveStepWise')
+	}
 
 	// On giving up, check if a warning needs to be shown.
 	const checkGiveUp = () => {
 		// Should we warn the user that his rating will go down upon a step-wise solution?
-		const showWarning = stepwise && step === 0 && history.length === 0 && !inTestContext
+		const showWarning = !example && stepwise && step === 0 && history.length === 0 && !inTestContext
 		if (showWarning) {
 			setModalOpen(true)
 		} else {

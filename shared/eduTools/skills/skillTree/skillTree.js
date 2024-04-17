@@ -331,6 +331,7 @@ const skillStructure = {
 				gasLaw: {
 					name: 'Apply the gas law',
 					setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
+					examples: ['gasLawLightBulb'],
 					exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 				},
 				recognizeProcessTypes: {

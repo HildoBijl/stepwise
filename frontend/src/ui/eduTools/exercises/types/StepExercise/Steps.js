@@ -9,7 +9,7 @@ import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
 import { useExerciseData } from '../../containers'
 import { useSolution } from '../../wrappers'
-import { ProblemContainer, SolutionContainer, MainFeedback } from '../../parts'
+import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../parts'
 
 export function Steps({ steps, forceDisplay }) {
 	// Walk through the steps, displaying them one by one.
@@ -19,14 +19,14 @@ export function Steps({ steps, forceDisplay }) {
 function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
-	const { state, progress, history } = useExerciseData()
+	const { state, progress, history, example } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
 
 	// Determine what to show.
 	const exerciseStep = getStep(progress) // How far the student is with the exercise.
-	const display = step <= exerciseStep || forceDisplay
+	const display = step <= exerciseStep || forceDisplay || !!example
 	const stepProgress = (forceDisplay ? { done: true, solved: false } : progress[step]) || {}
 
 	// If this step has had a submission, or is still active, show the input space.
@@ -40,11 +40,11 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 		return false // Nothing found.
 	})
 	const doneWithStep = stepProgress.done
-	const showInputSpace = !stepProgress.done || hasSubmissions
+	const showInputSpace = (!stepProgress.done && step === exerciseStep) || hasSubmissions
 	const showMainFeedback = showInputSpace && (stepProgress.done || isAllInputEqual(feedbackInput))
 
 	return <>
-		<ProblemContainer display={display} step={step}>
+		<ProblemContainer display={!!display} step={step}>
 			<FormPart readOnly={doneWithStep} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
 					<TranslationSection entry={`step${step}.problem`}>
@@ -53,8 +53,9 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} step={step} />
+			{!stepProgress.done && step === exerciseStep ? <ExerciseButtons stepwise={true} /> : null}
 		</ProblemContainer>
-		<SolutionContainer display={!!stepProgress.done} initialExpand={forceDisplay || !stepProgress.solved}>
+		<SolutionContainer display={!!(example || stepProgress.done)} initialExpand={!!(forceDisplay || (stepProgress.done && !stepProgress.solved))}>
 			<TranslationSection entry={`step${step}.solution`}>
 				<Solution {...state} {...solution} translate={addSection(translate, `step${step}.solution`)} />
 			</TranslationSection>

@@ -26,7 +26,7 @@ export function StepExercise(props) {
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
-	const { state, progress, history } = useExerciseData()
+	const { state, progress, history, startNewExercise, example } = useExerciseData()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
@@ -45,7 +45,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const showMainFeedback = showInputSpace && (progress.solved || progress.split || isAllInputEqual(feedbackInput))
 
 	return <>
-		<ProblemContainer>
+		<ProblemContainer example={example} refresh={example && startNewExercise}>
 			<FormPart readOnly={doneWithMainProblem} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
 					<TranslationSection entry="mainProblem">
@@ -54,10 +54,10 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} />
+			{progress.split ? null : <ExerciseButtons stepwise={true} />}
 		</ProblemContainer>
-		{!expandSolution ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
+		{!expandSolution && !example ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
 		<Steps steps={steps} forceDisplay={expandSolution} />
-		<ExerciseButtons stepwise={true} />
 		<ContinuationButtons />
 	</>
 }

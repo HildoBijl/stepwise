@@ -21,7 +21,7 @@ export function Substep({ ss, children }) {
 	// If the step is not read-only yet, check if the substep has to be read-only. The same applies for showing hints.
 	if (!settings.readOnly) {
 		const step = getStep(progress)
-		const stepProgress = progress[step]
+		const stepProgress = progress[step] || {}
 		if (stepProgress[ss])
 			settings = { ...settings, readOnly: true, showHints: false }
 	}

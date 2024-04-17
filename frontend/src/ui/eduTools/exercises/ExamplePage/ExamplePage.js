@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from 'step-wise/util'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import { skillTree, getNewRandomExercise } from 'step-wise/eduTools'
+import { skillTree, getNewRandomExample } from 'step-wise/eduTools'
 
 import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
@@ -23,7 +23,7 @@ export function ExamplePage() {
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		async function startNewExerciseAsync() {
-			const newExercise = await getNewRandomExercise(skillId)
+			const newExercise = await getNewRandomExample(skillId)
 			const exercise = { // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: newExercise.exerciseId,
 				state: toSO(newExercise.state), // The state should be in storage format, as if it came from the database.
