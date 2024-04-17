@@ -23,8 +23,10 @@
     "giveUpStep": "I give up this step",
     "nextExercise": "Next exercise",
     "solve": "Insert solution",
-    "newExampleExercise": "Generate new example",
-    "showSteps": "Show steps"
+    "stepSelect": {
+      "tryMain": "Try the main exercise",
+      "tryStep": "Try out step {step}"
+    }
   },
   "groupExercise": {
     "status": {

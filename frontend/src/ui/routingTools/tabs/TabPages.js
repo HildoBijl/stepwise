@@ -51,7 +51,7 @@ export function TabPages({ pages, initialPage, updateUrl = true }) {
 		<TabPagesEffect />
 		{tabs.map(id => <SwiperSlide key={id}>
 			<SwipePageWrapper id={id}>
-				<TranslationSection entry={id}>
+				<TranslationSection entry={id === 'example' ? 'practice' : id}>{/* The example page puts its translations in the practice section too, since they're also exercises. */}
 					{pages[id]}
 				</TranslationSection>
 			</SwipePageWrapper>

@@ -10,7 +10,7 @@ import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
-import { useTranslator, useGetTranslation } from 'i18n'
+import { Translation, useTranslator, useGetTranslation } from 'i18n'
 import { useUserId, useIsAdmin } from 'api/user'
 import { useActiveGroup, useSelfAndOtherMembers } from 'api/group'
 import { getIcon } from 'ui/theme'
@@ -267,8 +267,8 @@ function StepSelect() {
 	// Render the button.
 	return <FormControl variant="outlined" size="small" className="stepSelectOuter">
 		<Select id="stepSelect" value={getStep(progress)} onChange={handleChange} className="stepSelectInner">
-			<MenuItem value={0} key={0}>Try the main exercise</MenuItem>
-			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}>Try out step {index + 1}</MenuItem>)}
+			<MenuItem value={0} key={0}><Translation path={translationPath} entry="buttons.stepSelect.tryMain">Try the main exercise</Translation></MenuItem>
+			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}><Translation path={translationPath} entry="buttons.stepSelect.tryStep">Try out step {{step: index + 1}}</Translation></MenuItem>)}
 		</Select>
 	</FormControl>
 }

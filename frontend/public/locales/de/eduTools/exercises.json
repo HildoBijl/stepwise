@@ -22,7 +22,11 @@
     "solveStepWise": "Schrittweise lösen",
     "giveUpStep": "Ich gebe diesen Schritt auf",
     "nextExercise": "Nächste Übung",
-    "solve": "Lösung eingeben"
+    "solve": "Lösung eingeben",
+    "stepSelect": {
+      "tryMain": "Versuche die Hauptaufgabe",
+      "tryStep": "Versuche Schritt {step}"
+    }
   },
   "groupExercise": {
     "status": {

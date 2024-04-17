@@ -20,33 +20,40 @@ const skillStructure = {
 		inputs: {
 			fillInInteger: {
 				name: 'Fill in an integer',
+				examples: ['fillInInteger'],
 				exercises: ['fillInInteger'],
 			},
 			fillInFloat: {
 				name: 'Fill in a decimal number',
+				examples: ['fillInFloat'],
 				exercises: ['fillInFloat'],
 			},
 			fillInUnit: {
 				name: 'Fill in a unit',
+				examples: ['fillInUnit'],
 				exercises: ['fillInUnit'],
 			},
 			lookUpConstant: {
 				name: 'Look up a constant',
+				examples: ['lookUpConstant'],
 				exercises: ['lookUpConstant'],
 			},
 		},
 		steps: {
 			summation: {
 				name: 'Add numbers',
+				examples: ['summation1'],
 				exercises: ['summation1'],
 			},
 			multiplication: {
 				name: 'Multiply numbers',
+				examples: ['multiplication1'],
 				exercises: ['multiplication1'],
 			},
 			summationAndMultiplication: {
 				name: 'Add and multiply numbers',
 				setup: and(repeat('multiplication', 2), 'summation'),
+				examples: ['summationAndMultiplication1'],
 				exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 			},
 		},
@@ -314,7 +321,6 @@ const skillStructure = {
 			constants: {
 				specificGasConstant: {
 					name: 'Look up a specific gas constant',
-					examples: ['specificGasConstant'],
 					exercises: ['specificGasConstant'],
 				},
 				specificHeatRatio: {
@@ -331,7 +337,6 @@ const skillStructure = {
 				gasLaw: {
 					name: 'Apply the gas law',
 					setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
-					examples: ['gasLawLightBulb'],
 					exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 				},
 				recognizeProcessTypes: {
@@ -550,7 +555,7 @@ Object.values(skillTree).forEach(skill => {
 		skill.examples = []
 	if (!Array.isArray(skill.examples))
 		skill.examples = [skill.examples]
-	
+
 	if (!skill.exercises)
 		skill.exercises = []
 	if (!Array.isArray(skill.exercises))

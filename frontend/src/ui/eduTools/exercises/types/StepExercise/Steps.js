@@ -43,8 +43,6 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const showInputSpace = (!stepProgress.done && step === exerciseStep) || hasSubmissions
 	const showMainFeedback = showInputSpace && (stepProgress.done || isAllInputEqual(feedbackInput))
 
-	console.log(step, exerciseStep, example ? step !== exerciseStep : doneWithStep)
-
 	return <>
 		<ProblemContainer display={!!display} step={step}>
 			<FormPart readOnly={example ? step !== exerciseStep : doneWithStep} showInputSpace={showInputSpace} showHints={!doneWithStep}>

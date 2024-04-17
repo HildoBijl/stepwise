@@ -33,7 +33,7 @@ async function selectExercise(skillId, getSkillDataSet, previousExercises = []) 
 	// For the filtered exercises, calculate success rates and weights, and use these to calculate selection rates.
 	const exerciseMetaDatasArray = exerciseIds.map(exerciseId => exerciseMetaDatas[exerciseId])
 	const successRates = await getExerciseSuccessRates(exerciseMetaDatasArray, getSkillDataSet)
-	const weights = exerciseIds.map(exerciseId => (isNumber(exerciseMetaDatas[exerciseId].weight) ? Math.abs(exercisesMetaDatas[exerciseId].weight) : 1))
+	const weights = exerciseIds.map(exerciseId => (isNumber(exerciseMetaDatas[exerciseId].weight) ? Math.abs(exerciseMetaDatas[exerciseId].weight) : 1))
 	const selectionRates = getSelectionRates(successRates, weights)
 
 	// Select a random exercise, according to the calculated rates, from the list.
