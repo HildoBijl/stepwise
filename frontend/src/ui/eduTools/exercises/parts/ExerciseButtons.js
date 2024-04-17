@@ -1,6 +1,9 @@
-import React, { useRef, useMemo, useCallback } from 'react'
+import React, { useState, useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 
 import { lastOf, keysToObject, isBasicObject } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
@@ -28,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 		margin: '0.2rem 0',
 
-		'& button': {
+		'& button, & > div': {
 			flexGrow: 0,
 			flexShrink: 0,
 			margin: '0.4rem 0 0.4rem 0.8rem',
@@ -36,6 +39,22 @@ const useStyles = makeStyles((theme) => ({
 			[theme.breakpoints.down('xs')]: {
 				marginLeft: '0.4rem',
 				width: '100%',
+			},
+		},
+
+		'& .stepSelectOuter': {
+			'& .stepSelectInner': {
+				background: theme.palette.info.main,
+				color: theme.palette.info.contrastText,
+				fontWeight: '500',
+				textTransform: 'uppercase',
+
+				'& svg': {
+					color: theme.palette.info.contrastText,
+				},
+				'& fieldset': {
+					border: 0,
+				},
 			},
 		},
 	},
@@ -221,8 +240,21 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 			{isAdmin && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
 			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
 			{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
+			{example && stepwise ? <StepSelect /> : null}
 		</div >
 	)
+}
+
+function StepSelect() {
+	const [selectedStep, setSelectedStep] = useState(0)
+	const handleChange = event => console.log(event) || setSelectedStep(event.target.value)
+	return <FormControl variant="outlined" size="small" className="stepSelectOuter">
+		<Select id="stepSelect" value={selectedStep} onChange={handleChange} className="stepSelectInner">
+			<MenuItem value={0}>Try the main exercise</MenuItem>
+			<MenuItem value={1}>Try out step 1</MenuItem>
+			<MenuItem value={2}>Try out step 2</MenuItem>
+		</Select>
+	</FormControl>
 }
 
 function GroupExerciseButtons({ stepwise = false }) {
