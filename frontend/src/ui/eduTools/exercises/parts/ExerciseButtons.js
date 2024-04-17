@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
+import { Check, Clear, Send, Search, Warning } from '@material-ui/icons'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -282,7 +282,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 
 	// Is the exercise done? Then return the restart button.
 	if (progress.done)
-		return <StartNewExerciseButton />
+		return null
 
 	// Render the variety of buttons required.
 	return <div className={classes.buttonGrid}>
@@ -291,23 +291,6 @@ function GroupExerciseButtons({ stepwise = false }) {
 		<GivenUpNote stepwise={stepwise} {...derivedParameters} />
 		<ResolveNote stepwise={stepwise} {...derivedParameters} />
 	</div>
-}
-
-function StartNewExerciseButton() {
-	const getTranslation = useGetTranslation(translationPath)
-	const classes = useStyles()
-	const { startNewExercise } = useExerciseData()
-
-	// Register the button to tab control.
-	const startNewExerciseButtonRef = useRef()
-	useFieldRegistration({ id: 'startNewExerciseButton', element: startNewExerciseButtonRef, focusRefOnActive: true })
-
-	// Render the button.
-	return <>
-		<div className={classes.buttonContainer}>
-			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>{getTranslation('buttons.nextExercise')}</Button>
-		</div>
-	</>
 }
 
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
