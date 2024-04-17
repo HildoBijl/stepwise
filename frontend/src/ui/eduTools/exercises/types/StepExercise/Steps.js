@@ -43,9 +43,11 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const showInputSpace = (!stepProgress.done && step === exerciseStep) || hasSubmissions
 	const showMainFeedback = showInputSpace && (stepProgress.done || isAllInputEqual(feedbackInput))
 
+	console.log(step, exerciseStep, example ? step !== exerciseStep : doneWithStep)
+
 	return <>
 		<ProblemContainer display={!!display} step={step}>
-			<FormPart readOnly={doneWithStep} showInputSpace={showInputSpace} showHints={!doneWithStep}>
+			<FormPart readOnly={example ? step !== exerciseStep : doneWithStep} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
 					<TranslationSection entry={`step${step}.problem`}>
 						<Problem {...state} translate={addSection(translate, `step${step}.problem`)} />
@@ -53,7 +55,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} step={step} />
-			{!stepProgress.done && step === exerciseStep ? <ExerciseButtons stepwise={true} /> : null}
+			{step === exerciseStep && (!stepProgress.done || example) ? <ExerciseButtons stepwise={true} /> : null}
 		</ProblemContainer>
 		<SolutionContainer display={!!(example || stepProgress.done)} initialExpand={!!(forceDisplay || (stepProgress.done && !stepProgress.solved))}>
 			<TranslationSection entry={`step${step}.solution`}>

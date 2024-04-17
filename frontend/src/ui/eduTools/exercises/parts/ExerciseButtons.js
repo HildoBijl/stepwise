@@ -1,11 +1,11 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react'
+import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
-import { lastOf, keysToObject, isBasicObject } from 'step-wise/util'
+import { lastOf, keysToObject, isBasicObject, repeat } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
@@ -241,18 +241,34 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
 			{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
 			{example && stepwise ? <StepSelect /> : null}
-		</div >
+		</div>
 	)
 }
 
 function StepSelect() {
-	const [selectedStep, setSelectedStep] = useState(0)
-	const handleChange = event => console.log(event) || setSelectedStep(event.target.value)
+	const { progress, submitAction, metaData } = useExerciseData()
+	const numSteps = metaData.steps.length
+
+	// Set up a handler that manages the progress on step changes.
+	const handleChange = event => {
+		const newSelectedStep = event.target.value
+		const newProgress = { ...progress }
+		if (newSelectedStep) {
+			newProgress.split = true
+			newProgress.step = newSelectedStep
+			newProgress[newSelectedStep] = newProgress[newSelectedStep] || {}
+		} else {
+			delete newProgress.split
+			delete newProgress.step
+		}
+		submitAction({ type: 'setProgress', newProgress })
+	}
+
+	// Render the button.
 	return <FormControl variant="outlined" size="small" className="stepSelectOuter">
-		<Select id="stepSelect" value={selectedStep} onChange={handleChange} className="stepSelectInner">
-			<MenuItem value={0}>Try the main exercise</MenuItem>
-			<MenuItem value={1}>Try out step 1</MenuItem>
-			<MenuItem value={2}>Try out step 2</MenuItem>
+		<Select id="stepSelect" value={getStep(progress)} onChange={handleChange} className="stepSelectInner">
+			<MenuItem value={0} key={0}>Try the main exercise</MenuItem>
+			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}>Try out step {index + 1}</MenuItem>)}
 		</Select>
 	</FormControl>
 }
