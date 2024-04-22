@@ -7,7 +7,7 @@ const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
 const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)
 
-const SAMPLE_SKILL = 'fillInInteger'
+const SAMPLE_SKILL = 'enterInteger'
 
 const GROUP_CODE = 'PHYS'
 

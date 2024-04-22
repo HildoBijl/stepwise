@@ -5,13 +5,13 @@
   "demo": {
     "name": "Demo-Übung"
   },
-  "fillInInteger": {
-    "name": "Eingeben einer ganzzahligen Zahl"
+  "enterInteger": {
+    "name": "Eingeben einer Ganzzahl"
   },
-  "fillInFloat": {
+  "enterFloat": {
     "name": "Eingeben einer Kommazahl"
   },
-  "fillInUnit": {
+  "enterUnit": {
     "name": "Eingeben einer Einheit"
   },
   "lookUpConstant": {

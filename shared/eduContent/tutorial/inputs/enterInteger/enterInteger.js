@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const metaData = {
-	skill: 'fillInInteger',
+	skill: 'enterInteger',
 }
 
 function generateState() {

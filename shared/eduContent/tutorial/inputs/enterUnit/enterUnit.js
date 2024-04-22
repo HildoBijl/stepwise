@@ -3,7 +3,7 @@ const { Unit } = require('../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const metaData = {
-	skill: 'fillInUnit',
+	skill: 'enterUnit',
 	comparison: { ans: { type: Unit.equalityTypes.exact } },
 }
 

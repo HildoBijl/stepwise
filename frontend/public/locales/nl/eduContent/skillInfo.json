@@ -5,13 +5,13 @@
   "demo": {
     "name": "Demo-opgave"
   },
-  "fillInInteger": {
+  "enterInteger": {
     "name": "Geheel getal invullen"
   },
-  "fillInFloat": {
+  "enterFloat": {
     "name": "Kommagetal invullen"
   },
-  "fillInUnit": {
+  "enterUnit": {
     "name": "Eenheid invullen"
   },
   "lookUpConstant": {

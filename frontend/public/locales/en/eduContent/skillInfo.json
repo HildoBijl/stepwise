@@ -5,14 +5,14 @@
   "demo": {
     "name": "Demo exercise"
   },
-  "fillInInteger": {
-    "name": "Fill in an integer"
+  "enterInteger": {
+    "name": "Enter an integer"
   },
-  "fillInFloat": {
-    "name": "Fill in a decimal number"
+  "enterFloat": {
+    "name": "Enter a decimal number"
   },
-  "fillInUnit": {
-    "name": "Fill in a unit"
+  "enterUnit": {
+    "name": "Enter a unit"
   },
   "lookUpConstant": {
     "name": "Look up a constant"

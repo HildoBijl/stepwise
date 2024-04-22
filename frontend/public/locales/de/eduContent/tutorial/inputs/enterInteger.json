@@ -5,7 +5,7 @@
 		"exercises": "<head>Übungen</head><par>Um eine Kompetenz zu verbessern, kannst du mit verschiedenen randomisierten <term>Übungsaufgaben</term> üben. Es gibt zwei Arten von Aufgaben.</par><list><item><a>Die <term>Beispielaufgaben</term> sind einfache Aufgaben, mit denen man frei experimentieren kann. Du kannst die Lösung vorher sehen, wenn du willst, und das Herumspielen hat keinen Einfluss auf deine Bewertung.</a></item><item><b>Die <term>Übungsaufgaben</term> sind etwas komplexer. Jede Aktion, die du dort ausführst, beeinflusst die geschätzte Erfolgswahrscheinlichkeit.</b></item></list><par>Probiere es selbst aus! Das Step-Wise Eingabesystem ist <term>geeignet für Smartphones</term>, mit unseren eigenen, selbst entwickelten Tastaturen. Es funktioniert sehr einfach, du wirst es sicher herausfinden.</par><par>Sobald du das Ziel für die Kompetenz erreicht hast, erhältst du automatisch eine Benachrichtigung, dass du mit der nächsten Kompetenz weitermachen kannst. Übe weiter, bis du es geschafft hast!</par>"
 	},
   "practice": {
-    "fillInInteger": {
+    "enterInteger": {
       "problem": {
         "text": "Gib die Zahl <inline-math/> ein.",
         "label": "Hier <inline-math/> eingeben"

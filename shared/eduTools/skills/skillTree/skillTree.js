@@ -20,20 +20,20 @@ const skillStructure = {
 
 	tutorial: {
 		inputs: {
-			fillInInteger: {
-				name: 'Fill in an integer',
-				examples: ['fillInInteger'],
-				exercises: ['fillInInteger'],
+			enterInteger: {
+				name: 'Enter an integer',
+				examples: ['enterInteger'],
+				exercises: ['enterInteger'],
 			},
-			fillInFloat: {
-				name: 'Fill in a decimal number',
-				examples: ['fillInFloat'],
-				exercises: ['fillInFloat'],
+			enterFloat: {
+				name: 'Enter a decimal number',
+				examples: ['enterFloat'],
+				exercises: ['enterFloat'],
 			},
-			fillInUnit: {
-				name: 'Fill in a unit',
-				examples: ['fillInUnit'],
-				exercises: ['fillInUnit'],
+			enterUnit: {
+				name: 'Enter a unit',
+				examples: ['enterUnit'],
+				exercises: ['enterUnit'],
 			},
 			lookUpConstant: {
 				name: 'Look up a constant',

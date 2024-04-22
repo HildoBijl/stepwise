@@ -5,7 +5,7 @@
     "exercises": "<head>Exercises</head><par>To get better with a skill, you can practice with a variety of randomly generated <term>exercises</term>. There are two types.</par><list><item><a>The <term>example exercises</term> are basic exercises for free experimentation. You can view the solution in advance if you so desire. Playing around with them doesn't affect your ratings in any way.</a></item><item><b>The <term>practice exercises</term> are slightly more involved exercises to practice on. Every action you make there does effect your estimated success chance.</b></item></list><par>Go ahead and try it out! The Step-Wise input system is <term>smartphone-compatible</term> with our own internally designed keyboards. It's all easy to use. You'll figure it out.</par><par>Once you've reached the goal set for the skill level, you'll get a notification that you can continue to the next skill. Keep on practicing until you've got it!</par>"
   },
   "practice": {
-    "fillInInteger": {
+    "enterInteger": {
       "problem": {
         "text": "Enter the number <inline-math/>.",
         "label": "Enter <inline-math/> here",

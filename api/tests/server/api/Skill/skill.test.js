@@ -9,7 +9,7 @@ const BOB_SURFSUB = 'b000000000000000000000000000000000000000'
 const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)
 const NONEXISTING_SURFSUB = '1234567890abcdef1234567890abcdef12345678'
 
-const SAMPLE_SKILL = 'fillInInteger'
+const SAMPLE_SKILL = 'enterInteger'
 const NONEXISTING_SKILL = 'abcdefghijklmnopqrstuvwxyz'
 
 // Alex is an admin, Bob is a student.

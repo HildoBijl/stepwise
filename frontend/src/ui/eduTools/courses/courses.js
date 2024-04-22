@@ -22,25 +22,25 @@ let courses = {
 	stepwiseTutorial: {
 		name: 'Step-Wise Tutorial',
 		goals: [
-			'fillInInteger',
-			'fillInFloat',
-			'fillInUnit',
+			'enterInteger',
+			'enterFloat',
+			'enterUnit',
 			'lookUpConstant',
 			'summationAndMultiplication',
 		],
 		priorKnowledge: [],
 		startingPoints: [
-			'fillInInteger',
-			'fillInFloat',
-			'fillInUnit',
+			'enterInteger',
+			'enterFloat',
+			'enterUnit',
 			'lookUpConstant',
 			'summation',
 			'multiplication',
 		],
 		blocks: [
 			{
-				name: 'Fill in answers',
-				goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'lookUpConstant'],
+				name: 'Number input',
+				goals: ['enterInteger', 'enterFloat', 'enterUnit', 'lookUpConstant'],
 			},
 			{
 				name: 'Demo Step-Wise exercises',

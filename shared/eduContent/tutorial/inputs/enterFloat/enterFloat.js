@@ -2,7 +2,7 @@ const { getRandomInteger, getRandomExponentialFloat } = require('../../../../inp
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const metaData = {
-	skill: 'fillInFloat',
+	skill: 'enterFloat',
 	comparison: { ans: { significantDigitMargin: 0 } },
 }
 

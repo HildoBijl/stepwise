@@ -5,7 +5,7 @@
 		"exercises": "<head>Oefenopgaven</head><par>Om beter te worden in een vaardigheid, kun je oefenen met verschillende willekeurig gegenereerde <term>opgaven</term>. Er zijn twee soorten opgaven.</par><list><item><a>De <term>voorbeeldopgaven</term> zijn basisopgaven om vrij mee te experimenteren. Je kunt de oplossing vooraf al inzien als je dat graag wilt, en ermee klooien heeft nooit invloed op je ratings.</a></item><item><b>De <term>oefenopgaven</term> zijn iets complexer. Elke actie die je daar uitvoert heeft invloed op de ingeschatte succeskans.</b></item></list><par>Probeer het zelf uit! Het Step-Wise invoersysteem is <term>geschikt voor smartphones</term>, met onze eigen intern ontwikkelde toetsenborden. Het werkt heel simpel, je komt er zeker uit.</par><par>Zodra je het voor de vaardigheid ingestelde doel behaald hebt, krijg je vanzelf een notificatie dat je met de volgende vaardigheid door kan gaan. Ga door met oefenen tot je hem krijgt!</par>"
 	},
 	"practice": {
-		"fillInInteger": {
+		"enterInteger": {
 			"problem": {
 				"text": "Vul het getal <inline-math/> in.",
 				"label": "Vul hier <inline-math/> in"
