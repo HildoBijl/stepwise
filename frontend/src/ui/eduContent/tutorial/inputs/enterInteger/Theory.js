@@ -10,7 +10,7 @@ export function Theory() {
 	return <>
 		<Translation entry="intro">
 			<Par>Welcome to the Step-Wise tutorial! Here you can learn how the web-app is set up and freely play around with the main functionalities.</Par>
-			<Warning>Honestly, don't do this tutorial. This is the 21st century. Apps should be intuitive enough to not need a manual or tutorial, and Step-Wise certainly meets those requirements. But if you really prefer to play around a bit, then by all means continue. We won't stop you.</Warning>
+			<Warning>Honestly, don't do this tutorial. This is the 21st century. Apps should be intuitive enough to not need a manual or tutorial, and Step-Wise certainly meets those requirements. Or if you really want to do the tutorial, just play around with the exercises and only check the theory in the unlikely case that you get stuck. Learn by doing.</Warning>
 		</Translation>
 
 		<Translation entry="skills">

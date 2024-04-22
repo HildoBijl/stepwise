@@ -2,7 +2,7 @@
   "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
     "blocks": {
-      "0": "Fill in answers",
+      "0": "Number input",
       "1": "Demo Step-Wise exercises"
     }
   },

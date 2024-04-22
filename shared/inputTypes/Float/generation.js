@@ -40,7 +40,7 @@ function getRandomExponentialFloat(options) {
 
 	// Set up a random float.
 	const randomExp = getRandom(Math.log10(min), Math.log10(max))
-	const sign = (negative || (randomSign && Math.random()) < 0.5) ? -1 : 1
+	const sign = (negative || (randomSign && Math.random() < 0.5)) ? -1 : 1
 	const number = sign * Math.pow(10, randomExp)
 	const result = processFloat(number, options)
 

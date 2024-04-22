@@ -7,14 +7,15 @@ const metaData = {
 }
 
 function generateState() {
-	return {
-		x: getRandomExponentialFloat({
-			min: 1e-6,
-			max: 1e7,
-			randomSign: true,
-			significantDigits: getRandomInteger(2, 4),
-		})
-	}
+	const x = getRandomExponentialFloat({
+		min: 1e-6,
+		max: 1e7,
+		randomSign: true,
+		significantDigits: getRandomInteger(2, 4),
+	})
+	if (x.getDisplayPower() === 0)
+		return generateState()
+	return { x }
 }
 
 function getSolution({ x }) {

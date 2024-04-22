@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Translation } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput } from 'ui/inputs'
@@ -11,13 +12,13 @@ export default function Exercise() {
 
 function Problem({ x }) {
 	return <>
-		<Par>Voer het getal <M>{x}</M> in.</Par>
+		<Par><Translation entry="text">Enter the number <M>{x}</M>.</Translation></Par>
 		<InputSpace>
-			<Par><FloatInput id="ans" prelabel={<M>{x}=</M>} label={<span>Vul hier <M>{x}</M> in</span>} size='s' /></Par>
+			<Par><FloatInput id="ans" prelabel={<M>{x}=</M>} label={<Translation entry="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
 		</InputSpace>
 	</>
 }
 
 function Solution({ x }) {
-	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x.power !== 0 ? 'Voor de tienmacht gebruik je het keer-teken "*". Je hoeft dan de "10" niet zelf te typen: dat snapt het invoerveld vanzelf. Eventueel is de shortcut "e" (vanuit de wetenschappelijke notatie) ook mogelijk.' : ''}</Par>
+	return <Par><Translation>You can click on the input field and type in the number <M>{x}</M>. For the decimal exponent you use the multiplication star "*". You then don't need to write the "10": the input field will understand automatically. Alternatively, the short-cut "e" (from the scientific notation) is also possible.</Translation></Par>
 }
