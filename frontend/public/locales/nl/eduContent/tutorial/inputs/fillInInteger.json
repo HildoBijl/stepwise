@@ -1,4 +1,9 @@
 {
+	"theory": {
+		"intro": "<par>Welkom bij de Step-Wise tutorial! Hier kun je leren hoe de web-app opgezet is en vrij spelen met de belangrijkste functionaliteiten.</par><warning>Om eerlijk te zijn, sla deze tutorial over. Dit is de 21e eeuw. Apps moeten intuïtief genoeg zijn om geen handleiding of tutorial nodig te hebben, en Step-Wise voldoet zeker aan deze vereisten. Maar als je echt een beetje rondklooien wilt, dan ga gerust je gang. We houden je niet tegen.</warning>",
+		"skills": "<head>Vaardigheden</head><par>Step-Wise is opgebouwd rondom het concept van <term>vaardigheden</term>. Elke vaardigheid is iets dat je daadwerkelijk kan doen. Bijvoorbeeld (zoals bij deze vaardigheid) het invullen van een getal in een invoerveld.</par><par>Voor elke vaardigheid schatten we de <term>waarschijnlijkheid</term> in dat je hem correct uit gaat voeren. We hebben hiervoor onze eigen kansberekeningsscripts ontwikkeld, die talloze factoren meerekenen. <check><on-true>Voor jou is het simpel: je kunt altijd de succeskans zien via de vaardigheidsbol rechtsboven. Ga er met je muis overheen voor meer informatie.</on-true><on-false>Als je ingelogd zou zijn, dan zou je rechtsboven in het scherm ook je succeskans kunnen zien.</on-false></check></par>",
+		"exercises": "<head>Oefenopgaven</head><par>Om beter te worden in een vaardigheid, kun je oefenen met verschillende willekeurig gegenereerde <term>opgaven</term>. Er zijn twee soorten opgaven.</par><list><item><a>De <term>voorbeeldopgaven</term> zijn basisopgaven om vrij mee te experimenteren. Je kunt de oplossing vooraf al inzien als je dat graag wilt, en ermee klooien heeft nooit invloed op je ratings.</a></item><item><b>De <term>oefenopgaven</term> zijn iets complexer. Elke actie die je daar uitvoert heeft invloed op de ingeschatte succeskans.</b></item></list><par>Probeer het zelf uit! Het Step-Wise invoersysteem is <term>geschikt voor smartphones</term>, met onze eigen intern ontwikkelde toetsenborden. Het werkt heel simpel, je komt er zeker uit.</par><par>Zodra je het voor de vaardigheid ingestelde doel behaald hebt, krijg je vanzelf een notificatie dat je met de volgende vaardigheid door kan gaan. Ga door met oefenen tot je hem krijgt!</par>"
+	},
 	"practice": {
 		"fillInInteger": {
 			"problem": {
@@ -11,5 +16,8 @@
 				"unnecessaryMinusSign": "Probeer het minteken te verwijderen."
 			}
 		}
+	},
+	"meta": {
+		"learningGoals": "<par>De <term>Meta-Info pagina</term> bevat achtergrondinformatie over de vaardigheid, zoals het exacte <term>leerdoel</term>. Dit is over het algemeen niet zo nuttig voor studenten, maar des te meer voor docenten. Het helpt bij het gepast in elkaar zetten van een cursus.</par><par>Deze vaardigheid heeft als leerdoel dat studenten <term>gehele getallen invullen</term> in een invoerveld voor gehele getallen. Getallen kunnen positief of negatief zijn en meerdere cijfers bevatten.</par><par>Hieronder vind je ook informatie over <term>links met andere vaardigheden</term>. Wat komt ervoor (vereisten)? Wat komt erna (vervolgstappen)? En welke vaardigheden zijn soortgelijk, bijvoorbeeld omdat ze erop lijken of in dezelfde categorie/groep zitten?</par>"
 	}
 }
