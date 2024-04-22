@@ -5,8 +5,9 @@ const metaData = {
 	skill: 'enterInteger',
 }
 
-function generateState() {
-	return { x: getRandomInteger(-100, 100) }
+function generateState(example) {
+	const limit = example ? 20 : 100
+	return { x: getRandomInteger(-limit, limit) }
 }
 
 function getSolution({ x }) {

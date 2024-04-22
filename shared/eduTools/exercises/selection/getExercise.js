@@ -22,16 +22,16 @@ module.exports.getNewRandomExercise = getNewRandomExercise
 // getNewRandomExample is identical to getNewRandomExercise, but then selects from the examples.
 function getNewRandomExample(skillId) {
 	const exerciseId = selectRandomExample(skillId)
-	return getExercise(exerciseId)
+	return getExercise(exerciseId, true)
 }
 module.exports.getNewRandomExample = getNewRandomExample
 
 // getExercise takes an exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state, like { exerciseId: 'someExercise', state: { a: 3, b: 12 } }.
-function getExercise(exerciseId) {
+function getExercise(exerciseId, example) {
 	const { generateState } = require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`)
 	return {
 		exerciseId,
-		state: generateState(),
+		state: generateState(example),
 	}
 }
 module.exports.getExercise = getExercise

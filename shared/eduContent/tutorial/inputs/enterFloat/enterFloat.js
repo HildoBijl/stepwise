@@ -6,15 +6,15 @@ const metaData = {
 	comparison: { ans: { significantDigitMargin: 0 } },
 }
 
-function generateState() {
+function generateState(example) {
 	const x = getRandomExponentialFloat({
-		min: 1e-6,
-		max: 1e7,
+		min: example ? 1e-4 : 1e-8,
+		max: example ? 1e5 : 1e9,
 		randomSign: true,
-		significantDigits: getRandomInteger(2, 4),
+		significantDigits: getRandomInteger(2, example ? 2 : 4),
 	})
 	if (x.getDisplayPower() === 0)
-		return generateState()
+		return generateState(example)
 	return { x }
 }
 
