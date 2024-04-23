@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-
 export default function Table({ fields, rowHeads, colHeads, rowHeadAlign = 'l', colHeadAlign = 'c', rowAlign = 'c', colAlign = rowHeads ? 'c' : 'lc', className, style }) {
 	// Check what has been given.
 	const numRows = fields.length

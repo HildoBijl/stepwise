@@ -1,4 +1,5 @@
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { firstToUpperCase } from 'step-wise/util'
 import * as constants from 'step-wise/data/constants'
@@ -33,11 +34,20 @@ export const tableValues = {
 	},
 }
 
+const useStyles = makeStyles((theme) => ({
+	table: {
+		'& .col0': {
+			minWidth: '160px',
+		},
+	},
+}))
+
 export function References() {
+	const classes = useStyles()
 	const translate = useTextTranslator()
 	return <>
 		<Par><Translation entry="intro">A few examples of common physical constants are shown in the table below.</Translation></Par>
-		<Table
+		<Table className={classes.table}
 			colHeads={[
 				<Translation entry="header.description">Description</Translation>,
 				<Translation entry="header.symbol">Symbol</Translation>,
