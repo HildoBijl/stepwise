@@ -1,1 +1,28 @@
-{}
+{
+  "theory": {
+    "intro": "<par>When calculating things in physics, it's crucial to use the right <term>units</term>. There is a large difference between, for instance, <inline-math/> and <inline-math/>. However, sometimes units get complicated, with powers, fractions, Greek letters, and even <inline-math/>. How do you enter all that?</par>",
+    "basicFunctionalities": "<head>Basic functionalities</head><par>To enter basic units, keep the following matters in mind.</par><list><item><a><term>Unit products:</term> to separate units in a product, like <inline-math/>, use the multiplication star \"*\", the dot (period) \".\" or the space bar.</a></item><item><b><term>Unit fractions:</term> to add a fraction, like for <inline-math/>, use the dividing slash \"/\" or the downward arrow.</b></item><item><c><term>Unit powers:</term> for powers like <inline-math/> you could optionally use the power hat \"^\" but this isn't even needed. If you type a number inside a unit field, it'll automatically understand it's for a power.</c></item></list><par>This already allows you to type most units.</par><info>Units are case-sensitive! If the input field doesn't understand a unit, it's colored red. In that case, you may want to check your capitalization.</info>",
+    "autoReplace": "<head>Auto-replace</head><par>Most units are basic letters, but there are exceptions. Think of <inline-math/>, <inline-math/> or <inline-math/>. To type these, you can use the <term>auto-replace</term> functionality.</par><list><item><a><term>Greek letters:</term> if you want to write <inline-math/> (lower case mu, for the micro prefix) or <inline-math/> (upper case Omega, for the Ohm unit) then simply type out the full name \"mu\" or \"Omega\"/\"Ohm\" (either works) and the input field will automatically turn it into the Greek letter.</a></item><item><b><term>Degrees:</term> for degrees Celsius you need to write <inline-math/>. (Note: a <inline-math/> does not suffice, since this is a different unit, the Coulomb.) The shortcut for this is \"dC\" or \"degC\" (case-sensitive).</b></item></list><par>If the above doesn't work, you can also always use the internal unit input keyboard, which also contains all units you may need.</par>"
+  },
+  "practice": {
+    "enterUnit": {
+      "problem": {
+        "text": "Enter the unit <inline-math/> exactly as shown.",
+        "label": "Enter the unit here"
+      },
+      "solution": {
+        "°C": "To enter <inline-math/> you use \"dC\" or \"degC\" (degrees Celsius).",
+        "μm": "For the symbol <inline-math/> you type \"mu\". So for the unit <inline-math/> you basically enter \"mum\".",
+        "Ω": "To enter <inline-math/> you can type \"Ohm\" or \"Omega\". Note: this is case-sensitive! Simply typing \"ohm\" won't work.",
+        "other": "You click on the input field and enter <inline-math/>.<list><item><a>For multiplications use the star \"*\" or the period \".\". The space bar also works as short-cut.</a></item><item><b>For divisions use the slash \"/\" or the downward arrow.</b></item><item><c>For powers you can use the power hat \"^\" but this isn't even needed: directly entering numbers also works.</c></item></list>"
+      },
+      "feedback": {
+        "reorderedUnit": "<a>Technically correct, but you must enter the unit <strong>as shown</strong>, including its order.</a>",
+        "equivalentUnit": "<a>Technically correct, but this is a whole different notation. Enter the unit <strong>as shown</strong>.</a>"
+      }
+    }
+  },
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering units</term> for physics applications. In particular, this includes entering more complex units like fractions including powers, as well as Greek letters.</par>"
+  }
+}

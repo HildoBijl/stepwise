@@ -1,0 +1,28 @@
+{
+  "theory": {
+    "intro": "<par>Bij het uitvoeren van berekeningen in de natuurkunde is het cruciaal om de juiste <term>eenheden</term> te gebruiken. Er is een groot verschil tussen bijvoorbeeld <inline-math/> en <inline-math/>. Eenheden kunnen echter complex zijn, met machten, breuken, Griekse letters, en zelfs <inline-math/>. Hoe voer je dit alles in?</par>",
+    "basicFunctionalities": "<head>Basisfunctionaliteiten</head><par>Voor de meer eenvoudige eenheden is het volgende handig om te weten.</par><list><item><a><term>Vermenigvuldigingen:</term> om de eenheden in een product van elkaar te onderscheiden, zoals in <inline-math/>, gebruik je de vermenigvuldigingsster \"*\", de punt \".\" of de spatie.</a></item><item><b><term>Breuken:</term> om een deling toe te voegen, zoals <inline-math/>, gebruik je de deelslash \"/\" of de pijl naar beneden.</b></item><item><c><term>Machten:</term> voor een exponent als <inline-math/> kun je het machtsymbool \"^\" gebruiken, maar dit is niet per se nodig. Als je een nummer in een eenhedenveld invoert, dan snapt hij automatisch dat het voor een macht is.</c></item></list><par>Hiermee kun je de meeste eenheden al invoeren.</par><info>Eenheden zijn hoofdlettergevoelig! Als het invoerveld een eenheid niet begrijpt, dan kleurt hij hem rood. In dat geval wil je waarschijnlijk je hoofdletters controleren.</info>",
+    "autoReplace": "<head>Autovervanging</head><par>De meeste eenheden zijn simpele letters, maar er zijn uitzonderingen. Denk aan <inline-math/>, <inline-math/> of <inline-math/>. Om deze te typen gebruik je de <term>autovervanging</term> functionaliteit.</par><list><item><a><term>Griekse letters:</term> als je <inline-math/> wilt schrijven (kleine letter mu, voor het micro voorvoegsel) of <inline-math/> (hoofdletter Omega, voor de Ohm eenheid) dan typ je simpelweg de volle naam \"mu\" of \"Omega\"/\"Ohm\" in (beiden werken) en het invoerveld zet het automatisch om in de Griekse letter.</a></item><item><b><term>Graden:</term> voor graden Celsius moet je <inline-math/> typen. (Merk op: een <inline-math/> is niet voldoende, omdat dit een andere eenheid is, de Coulomb.) De afkorting hiervoor is \"gC\" of \"dC\" (hoofdlettergevoelig).</b></item></list><par>Als het bovenstaande niet werkt, dan kun je ook altijd het interne eenhedentoetsenbord gebruiken, die ook alle eenheden bevat die je nodig kan hebben.</par>"
+  },
+  "practice": {
+    "enterUnit": {
+      "problem": {
+        "text": "Voer de eenheid <inline-math/> letterlijk in.",
+        "label": "Vul hier de eenheid in"
+      },
+      "solution": {
+        "°C": "Om <inline-math/> in te voeren gebruik je \"gC\" (graden Celsius) of \"dC\" (degrees Celsius).",
+        "μm": "Voor het symbool <inline-math/> type je \"mu\". Voor de eenheid <inline-math/> voer je dus eigenlijk \"mum\" in.",
+        "Ω": "Om <inline-math/> in te vullen kun je \"Ohm\" of \"Omega\" typen. Let op: dit is hoofdlettergevoelig! Simpelweg \"ohm\" typen werkt niet.",
+        "other": "Je klikt op het invoervak en typt <inline-math/> in.<list><item><a>Als vermenigvuldigingsteken kun je de ster \"*\" gebruiken of de punt \".\". Ook de spatie werkt als short-cut.</a></item><item><b>Als deelteken gebruik je de slash \"/\" of de pijl omlaag.</b></item><item><c>Voor machten kun je eventueel het machtteken \"^\" gebruiken maar dit is niet per se nodig: direct getallen invoeren werkt ook.</c></item></list>"
+      },
+      "feedback": {
+        "reorderedUnit": "<a>Technisch correct, maar je moet de eenheid <strong>letterlijk</strong> overnemen, inclusief volgorde.</a>",
+        "equivalentUnit": "<a>Technisch correct, maar dit is een heel andere schrijfwijze. Neem de eenheid <strong>letterlijk</strong> over.</a>"
+      }
+    }
+  },
+  "meta": {
+    "learningGoals": "<par>Het doel van deze vaardigheid is om bekend te raken met het <term>invoeren van eenheden</term> voor natuurkundige toepassingen. Specifieker gaat het hier om de meer complexe eenheden zoals breuken en Griekse letters.</par>"
+  }
+}

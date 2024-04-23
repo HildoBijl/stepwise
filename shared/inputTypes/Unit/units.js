@@ -23,7 +23,7 @@ const unitList = [
 	new BaseUnit({ letter: 'Pa', name: 'Pascal', standard: true, toBase: 'kg / m * s^2', }),
 	new BaseUnit({ letter: 'C', name: 'Coulomb', standard: true, toBase: 'A * s', }),
 	new BaseUnit({ letter: 'V', name: 'Volt', standard: true, toBase: 'kg * m^2 / s^3 * A', }),
-	new BaseUnit({ letter: 'Ω', alternatives: 'Ohm', name: 'Ohm', standard: true, toBase: 'kg * m^2 / s^3 * A^2', }),
+	new BaseUnit({ letter: 'Ω', alternatives: ['Ohm', 'Omega'], name: 'Ohm', standard: true, toBase: 'kg * m^2 / s^3 * A^2', }),
 	new BaseUnit({ letter: 'F', name: 'Farad', standard: true, toBase: 'A^2 * s^4 / kg * m^2', }),
 	new BaseUnit({ letter: 'rad', name: 'radian', plural: 'radians', standard: true, toBase: 'm / m', }),
 	new BaseUnit({ letter: 'Hz', name: 'Hertz', standard: true, toBase: '1 / s', }),

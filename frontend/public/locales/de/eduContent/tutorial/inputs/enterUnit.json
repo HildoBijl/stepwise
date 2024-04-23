@@ -1,0 +1,28 @@
+{
+  "theory": {
+    "intro": "<par>Wenn man in der Physik Berechnungen durchführt, ist es wichtig, die richtigen <term>Einheiten</term> zu verwenden. Es gibt einen großen Unterschied zwischen <inline-math/> und <inline-math/>, zum Beispiel. Einheiten können jedoch komplex sein, mit Potenzen, Brüchen, griechischen Buchstaben und sogar <inline-math/>. Wie gibt man das alles ein?</par>",
+    "basicFunctionalities": "<head>Grundlegende Funktionen</head><par>Für die einfacheren Einheiten sind folgende Hinweise nützlich.</par><list><item><a><term>Multiplikationen:</term> Zur Unterscheidung der Einheiten in einem Produkt, wie in <inline-math/>, verwendet man den Multiplikationsstern \"*\", den Punkt \".\" oder das Leerzeichen.</a></item><item><b><term>Brüche:</term> Um eine Teilung hinzuzufügen, wie z. B. <inline-math/>, verwendet man den Schrägstrich \"/\" oder den Pfeil nach unten.</b></item><item><c><term>Potenzen:</term> Für einen Exponenten wie <inline-math/> kann man das Potenzsymbol \"^\" verwenden, aber das ist nicht unbedingt notwendig. Wenn du eine Zahl in ein Einheitenfeld eingibst, versteht es automatisch, dass es sich um eine Potenz handelt.</c></item></list><par>Damit kann man die meisten Einheiten bereits eingeben.</par><info>Bei den Einheiten wird zwischen Groß- und Kleinschreibung unterschieden! Wenn das Eingabefeld eine Einheit nicht versteht, färbt es sie rot. In diesem Fall solltest du wahrscheinlich die Großschreibung überprüfen.</info>",
+    "autoReplace": "<head>Autoersatz</head><par>Die meisten Einheiten sind einfache Buchstaben, aber es gibt auch Ausnahmen. Beispielsweise <inline-math/>, <inline-math/> oder <inline-math/>. Um diese zu schreiben, verwendet man die <term>automatische Ersetzung</term>.</par><list><item><a><term>Griechische Buchstaben:</term> Wenn du <inline-math/> (Kleinbuchstabe mu, für das Mikro-Präfix) oder <inline-math/> (Großbuchstabe Omega, für die Ohm-Einheit) schreiben willst, gibst du einfach den vollständigen Namen \"mu\" oder \"Omega\"/\"Ohm\" ein (beides funktioniert) und das Eingabefeld wandelt ihn automatisch in den griechischen Buchstaben um.</a></item><item><b><term>Grad:</term> Für Grad Celsius musst du <inline-math/> eingeben. (Hinweis: <inline-math/> reicht nicht aus, da es sich um eine andere Einheit, das Coulomb, handelt.) Die Abkürzung dafür ist \"gC\" oder \"dC\" (Groß- und Kleinschreibung wird berücksichtigt).</b></item></list><par>Wenn das nicht funktioniert, kannst du auch immer die interne Einheitentastatur verwenden, die auch alle Einheiten enthält, die du brauchst.</par>"
+  },
+  "practice": {
+    "enterUnit": {
+      "problem": {
+        "text": "Gib die Einheit <inline-math/> wörtlich ein.",
+        "label": "Hier die Einheit eingeben"
+      },
+      "solution": {
+        "°C": "Um <inline-math/> einzugeben, verwendet man entweder \"gC\" (Grad Celsius) oder \"dC\" (degree Celsius).",
+        "μm": "Für das Symbol <inline-math/> gibst du \"mu\" ein. Für die Einheit <inline-math/> gibt man also eigentlich \"mum\" ein.",
+        "Ω": "Um <inline-math/> einzugeben, kannst du \"Ohm\" oder \"Omega\" schreiben. Hierbei ist die Groß- und Kleinschreibung zu beachten! Einfach nur \"ohm\" zu tippen, funktioniert nicht.",
+        "other": "Du klickst auf das Eingabefeld und gibst <inline-math/> ein.<list><item><a>Als Multiplikator kann der Stern \"*\" oder der Punkt \".\" verwendet werden. Das Leerzeichen funktioniert auch als Abkürzung.</a></item><item><b>Als Teilungszeichen verwendet man den Schrägstrich \"/\" oder den Pfeil nach unten.</b></item><item><c>Für Potenzen kann man eventuell das Potenzzeichen \"^\" verwenden, was aber nicht unbedingt notwendig ist. Die direkte Eingabe von Zahlen funktioniert auch.</c></item></list>"
+      },
+      "feedback": {
+        "reorderedUnit": "<a>Technisch korrekt, aber du musst die Einheit <strong>wörtlich</strong> übernehmen, einschließlich der Reihenfolge.</a>",
+        "equivalentUnit": "<a>Technisch korrekt, aber dies ist eine ganz andere Schreibweise. Schreib die Einheit <strong>wörtlich</strong> ab.</a>"
+      }
+    }
+  },
+  "meta": {
+    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von Einheiten</term> für physikalische Anwendungen vertraut zu machen. Dabei geht es insbesondere um die komplexeren Einheiten wie Brüche und griechische Buchstaben.</par>"
+  }
+}
