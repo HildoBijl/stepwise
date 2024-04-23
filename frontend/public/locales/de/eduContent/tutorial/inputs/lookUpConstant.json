@@ -1,0 +1,35 @@
+{
+  "theory": {
+    "intro": "<par>Bei Übungsaufgaben muss man oft etwas nachschlagen. Zum Beispiel eine physikalische Konstante, wie die Lichtgeschwindigkeit, oder etwas ganz anderes. Hier üben wir das Nachschlagen von Zahlen einschließlich ihrer Eingabe.</par>",
+    "attachments": "<head>Anhänge</head><par>Wenn man physikalische Größen nachschlägt, ist die Standardquelle das Internet. Manchmal kann es jedoch schwierig sein, die richtigen Daten zu finden, oder man landet auf Websites mit anderen oder sogar falschen Werten.</par><par>Um diesen Frust zu vermeiden, verfügt Step-Wise über interne Anhänge zum Nachschlagen von Werten. Wenn eine Aufgabe erfordert, dass du etwas nachschlägst, gibt es immer eine Registerkarte \"Anhänge\" mit den relevanten Daten. Überspringe sie, um zu finden, was du brauchst, und kehre dann zur Aufgabe zurück, um deine neuen Erkenntnisse anzuwenden.</par>",
+    "floatUnitInputs": "<head>Eingabefelder für Kommazahlen mit Einheit</head><par>Physikalische Größen haben immer eine Zahl und eine Einheit. Zum Beispiel kann eine Entfernung <inline-math/> sein, oder eine Temperatur <inline-math/>. Ohne die Einheit ist die Zahl bedeutungslos.</par><par>Die Eingabe von physikalischen Werten in Step-Wise ist einfach: Auch dafür gibt es ein spezielles Eingabefeld. Dieses Feld hat zwei Teile.</par><list><item><a>Ein <term>Zahlenteil</term>: Hier wird die Zahl, einschließlich der Zehnerpotenzen, eingegeben.</a></item><item><b>Ein <term>Einheitenteil</term>: Hier schreibst die Einheit, genau wie du es gewohnt bist.</b></item></list><par>Jeder dieser beiden Teile hat seine eigene interne Tastatur, die sich automatisch anpasst, wenn du von einem Teil zum anderen wechselst. So kannst du problemlos jeden physikalischen Wert eingeben, der sich aus deinen Berechnungen ergibt.</par>"
+  },
+  "practice": {
+    "lookUpConstant": {
+      "problem": {
+        "text": "Finde {constantDescription} <inline-math/>.",
+        "label": "Hier die Konstante eingeben"
+      },
+      "solution": "Wie man im Anhang nachlesen kann, ist der Wert von <inline-math/> gleich <inline-math/>."
+    }
+  },
+  "references": {
+    "intro": "Einige Beispiele für häufig verwendete physikalische Konstanten findet man in der nachstehenden Tabelle.",
+    "header": {
+      "description": "Beschreibung",
+      "symbol": "Symbol",
+      "value": "Wert"
+    },
+    "constants": {
+      "c": "die Lichtgeschwindigkeit",
+      "g": "die Fallbeschleunigung auf der Erde",
+      "R": "die universelle Gaskonstante",
+      "e": "die (elementare) Ladung eines Elektrons",
+      "k": "die Boltzmann-Konstante",
+      "G": "die universelle Gravitationskonstante"
+    }
+  },
+  "meta": {
+    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von physikalischen Werten</term> mit sowohl einer Zahl als auch einer Einheit vertraut zu machen. Dazu gehört auch die Verwendung von Anhängen, in denen die Studierenden nach relevanten Daten suchen können.</par>"
+  }
+}

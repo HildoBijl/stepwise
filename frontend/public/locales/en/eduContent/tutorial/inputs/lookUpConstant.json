@@ -1,1 +1,35 @@
-{}
+{
+  "theory": {
+    "intro": "<par>Often when making exercises you have to look something up. For instance a physical constant like the speed of light, but it can be pretty much anything. Here we practice looking things up as well as entering these numbers.</par>",
+    "attachments": "<head>Attachments</head><par>When looking up physical quantities, the default source is the entire internet. However, it may be a bit hard to find the right data, or maybe you encounter websites with deviating or outright incorrect values.</par><par>To save you from this frustration, Step-Wise has internal attachments to look up data. Whenever an exercise requires you to look something up, there is always an \"Attachments\" tab with said data. Browse it to get what you need, and then return to the exercise to use your newfound discovery.</par>",
+    "floatUnitInputs": "<head>Input fields for decimal numbers with units</head><par>Physical quantities always have a number and a unit. For instance, a distance might be <inline-math/> or a temperature may be <inline-math/>. Without the unit, the number is meaningless.</par><par>Entering physical quantities in Step-Wise is easy: we once more have a custom input field. This field has two parts.</par><list><item><a>A <term>number part</term>: this is where you enter the number, which may also include a ten-power.</a></item><item><b>A <term>unit part</term>: this is where you enter the unit, as you are used to.</b></item></list><par>Each of these two parts has its own internal keyboards, which adjusts automatically as you move from one part to the other. This allows you to easily enter any physical quantity that might come out of your calculations.</par>"
+  },
+  "practice": {
+    "lookUpConstant": {
+      "problem": {
+        "text": "Look up {constantDescription} <inline-math/>.",
+        "label": "Enter the constant here"
+      },
+      "solution": "As can be looked up in the attachment, the value of <inline-math/> is <inline-math/>."
+    }
+  },
+  "references": {
+    "intro": "A few examples of common physical constants are shown in the table below.",
+    "header": {
+      "description": "Description",
+      "symbol": "Symbol",
+      "value": "Value"
+    },
+    "constants": {
+      "c": "the speed of light",
+      "g": "the gravitational acceleration on Earth",
+      "R": "the universal gas constant",
+      "e": "the (elementary) charge of an electron",
+      "k": "the Boltzmann constant",
+      "G": "the universal gravitational constant"
+    }
+  },
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering physical quantities</term> that have both a number and a unit. On top of this, it introduces the attachments where students can look up relevant data.</par>"
+  }
+}

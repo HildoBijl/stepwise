@@ -7,8 +7,8 @@ const metaData = {
 	comparison: { ans: { relativeMargin: 0.0001 } },
 }
 
-function generateState() {
-	return { constant: selectRandomly(['c', 'g', 'R', 'e', 'k', 'G']) }
+function generateState(example) {
+	return { constant: selectRandomly(example ? ['c', 'g', 'R'] : ['c', 'g', 'R', 'e', 'k', 'G']) }
 }
 
 function getSolution({ constant }) {

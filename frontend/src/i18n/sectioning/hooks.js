@@ -66,8 +66,8 @@ export function useTextTranslator(translatorPath) {
 	}, [translatorPath, contextPath, contextEntry, pathsToLoad, languageFiles, fallbackLanguageFiles, language, updateLanguageEntry])
 }
 
-// useGetTranslation will return a getTranslation function (entry, path) => translationEnty that looks up a given translation entry (a string) and returns it, or returns undefined when the entry does not exist or is still loading.
+// useGetTranslation will return a getTranslation function (entry, path, extendEntry) => translationEntry that looks up a given translation entry (a string) and returns it, or returns undefined when the entry does not exist or is still loading.
 export function useGetTranslation(translatorPath) {
 	const translator = useTextTranslator(translatorPath)
-	return useStableCallback((entry, path) => translator(undefined, entry, path))
+	return useStableCallback((entry, path, extendEntry) => translator(undefined, entry, path, extendEntry))
 }

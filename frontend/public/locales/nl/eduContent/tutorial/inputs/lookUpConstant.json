@@ -1,0 +1,35 @@
+{
+  "theory": {
+    "intro": "<par>Vaak moet je bij het maken van oefenopgaven iets opzoeken. Bijvoorbeeld een natuurkundige constante zoals de snelheid van het licht, of juist iets heel anders. Hier oefenen we het opzoeken van getallen inclusief het invoeren ervan.</par>",
+    "attachments": "<head>Bijlagen</head><par>Bij het opzoeken van natuurkundige hoeveelheden is de standaard bron het internet. Soms kan het echter lastig zijn om de juiste data te vinden, of misschien beland je websites met afwijkende of zelfs foutieve waarden.</par><par>Om je deze frustratie te besparen, heeft Step-Wise interne bijlagen om waarden op te zoeken. Als een opgave vereist dat je iets opzoekt, dan is er altijd een \"Bijlagen\" tab met de betreffende data. Sla hem na om te vinden wat je nodig hebt, en keer dan terug naar de opgave om je nieuwe ontdekking toe te passen.</par>",
+    "floatUnitInputs": "<head>Invoervelden voor kommagetallen met eenheid</head><par>Natuurkundige hoeveelheden hebben altijd een getal en een eenheid. Een afstand kan bijvoorbeeld <inline-math/> zijn, of een temperatuur <inline-math/>. Zonder de eenheid is het getal betekenisloos.</par><par>Natuurkundige waarden in Step-Wise invoeren is gemakkelijk: er is wederom een speciaal invoerveld voor. Dit veld heeft twee delen.</par><list><item><a>Een <term>getaldeel</term>: dit is waar je het getal invoert, inclusief eventuele tienmacht.</a></item><item><b>Een <term>eenhedendeel</term>: dit is waar je de eenheid schrijft, precies zoals je gewend bent.</b></item></list><par>Elk van deze twee delen heeft een eigen intern toetsenbord, die zich automatisch aanpast als je van het ene deel naar de ander overgaat. Zo kun je gemakkelijk elke natuurkundige waarde die uit je berekeningen komt invoeren.</par>"
+  },
+  "practice": {
+    "lookUpConstant": {
+      "problem": {
+        "text": "Zoek {constantDescription} <inline-math/> op.",
+        "label": "Vul hier de constante in"
+      },
+      "solution": "Zoals men in de bijlage op kan zoeken, is de waarde van <inline-math/> gelijk aan <inline-math/>."
+    }
+  },
+  "references": {
+    "intro": "Een paar voorbeelden van veelgebruikte natuurkundige constanten vind je in de tabel hieronder.",
+    "header": {
+      "description": "Beschrijving",
+      "symbol": "Symbool",
+      "value": "Waarde"
+    },
+    "constants": {
+      "c": "de snelheid van het licht",
+      "g": "de valversnelling op Aarde",
+      "R": "de universele gasconstante",
+      "e": "de (elementaire) lading van een elektron",
+      "k": "de Boltzmann constante",
+      "G": "de universele gravitatieconstante"
+    }
+  },
+  "meta": {
+    "learningGoals": "<par>Het doel van deze vaardigheid is om bekend te raken met het <term>invoeren van natuurkundige waarden</term> met zowel een getal als een eenheid. Daarnaast wordt ook het gebruik van bijlagen waar studenten relevante data op kunnen zoeken.</par>"
+  }
+}
