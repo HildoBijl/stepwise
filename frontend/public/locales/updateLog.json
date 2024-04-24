@@ -1,1 +1,42 @@
-{}
+{
+  "en": {
+    "eduContent/tutorial/steps/summation": {
+      "theory.intro": {
+        "oldText": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: adding numbers and multiplying them. Afterwards we merge these skills into a more involved skill.</par>",
+        "firstUpdate": "2024-04-24T10:31:16.796Z",
+        "latestUpdate": "2024-04-24T10:49:42.271Z",
+        "latestText": "<par>Yet another basic skill is the skill of adding numbers. This is our last step in preparing for combined skills.</par>"
+      },
+      "theory.addNumbers": {
+        "firstUpdate": "2024-04-24T10:31:16.796Z",
+        "latestUpdate": "2024-04-24T10:31:16.796Z",
+        "latestText": "<head>Adding numbers</head><par>In this skill you have to <term>add two numbers</term>. It's a tutorial - you're allowed to use your calculator - but see if you can do without.</par><par>When calculating a sum, for instance <inline-math/>, you can do the following steps.</par><list><item><a>First add the two rightmost numbers. So <inline-math/> becomes <inline-math/>. The latter digit - the <inline-math/> - shows the rightmost digit of our result.</a></item><item><b>Then add the two second numbers. So <inline-math/> becomes <inline-math/>. This is the second digit of our result. Except: if our first digit was <inline-math/> or more (which in our example it was) then we carry over that <inline-math/> and add it here. So we'd get <inline-math/> here.</b></item><item><c>Merge the two results together to get the final result: <inline-math/>.</c></item></list><par>Try it out yourself!</par>"
+      },
+      "meta.learningGoals": {
+        "firstUpdate": "2024-04-24T10:31:16.796Z",
+        "latestUpdate": "2024-04-24T10:31:16.796Z",
+        "latestText": "<par>This skill focuses on <term>adding two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>.</par>"
+      }
+    },
+    "eduContent/tutorial/steps/multiplication": {
+      "theory.intro": {
+        "oldText": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</par>",
+        "firstUpdate": "2024-04-24T10:35:21.166Z",
+        "latestUpdate": "2024-04-24T10:35:21.212Z",
+        "latestText": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</par>"
+      },
+      "theory.multiplyNumbers": {
+        "oldText": "<head>Multiplying numbers</head><par>In this skill you have to <term>multiply two numbers</term>. When multiplying small numbers, people usually do so from memory. As a child you learned what <inline-math/> is. You don't recalculate it every time. You simply know it's <inline-math/>.</par><par>If you really can't remember what a multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</par>",
+        "firstUpdate": "2024-04-24T10:35:21.166Z",
+        "latestUpdate": "2024-04-24T11:22:44.999Z",
+        "latestText": "<head>Multiplying numbers</head><par>In this skill you have to <term>multiply two numbers</term>. When multiplying small numbers, people usually do so from <term>memory</term>. As a child you learned what <inline-math/> is. You don't recalculate it every time. You simply know it's <inline-math/>.</par><par>If you really can't remember what the result of a certain multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</par>"
+      },
+      "meta.learningGoals": {
+        "oldText": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>",
+        "firstUpdate": "2024-04-24T10:35:21.166Z",
+        "latestUpdate": "2024-04-24T10:35:21.212Z",
+        "latestText": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>"
+      }
+    }
+  }
+}

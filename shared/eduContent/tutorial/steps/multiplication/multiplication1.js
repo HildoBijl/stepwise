@@ -5,10 +5,10 @@ const metaData = {
 	skill: 'multiplication',
 }
 
-function generateState() {
+function generateState(example) {
 	return {
-		a: getRandomInteger(1, 10),
-		b: getRandomInteger(1, 10),
+		a: getRandomInteger(2, example ? 6 : 10),
+		b: getRandomInteger(2, example ? 6 : 10),
 	}
 }
 

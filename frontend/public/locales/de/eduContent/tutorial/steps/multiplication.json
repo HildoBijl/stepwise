@@ -1,8 +1,15 @@
 {
+  "theory": {
+    "intro": "<par>Die ganze Idee von Step-Wise ist es, komplexe Probleme <term>Schritt für Schritt</term> zu lösen: Sie werden in kleinere Schritte zerlegt, die viel einfacher zu lösen sind. Um dir zu zeigen, wie das funktioniert, fangen wir mit zwei einfacheren Aufgaben an: Zahlen multiplizieren und addieren. Dann verschmelzen wir diese beiden Kompetenzen zu einer komplizierteren.</par>",
+    "multiplyNumbers": "<head>Zahlen multiplizieren</head><par>Bei dieser Kompetenz geht es darum, <term>zwei Zahlen zu multiplizieren</term>. Das Multiplizieren von zwei Zahlen wird normalerweise aus dem <term>Gedächtnis</term> gemacht. Als Kind hast du gelernt, was <inline-math/> ist. Du rechnest es nicht jedes Mal neu aus. Du weißt einfach, dass es <inline-math/> ist.</par><par>Wenn du dich wirklich nicht an das Ergebnis einer bestimmten Multiplikation erinnern kannst, kannst du einen Taschenrechner benutzen. Schließlich ist dies ein Tutorium! Aber merke dir das Ergebnis, wenn du es später wieder brauchst!</par>"
+  },
   "practice": {
     "multiplication1": {
       "problem": "<par>Berechne die Multiplikation <inline-math/>.</par><input-space><par><integer-input><label>Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "solution": "Die Lösung ist <inline-math/>."
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Diese Kompetenz konzentriert sich auf <term>Multiplizieren zweier Zahlen</term>. Sie baut auf einer kombinierten Kompetenz auf, bei der wir <skill-link>Zahlen addieren und multiplizieren</skill-link>. Die Zahlen, die wir verwenden, sind klein: nicht größer als <inline-math/>.</par>"
   }
 }

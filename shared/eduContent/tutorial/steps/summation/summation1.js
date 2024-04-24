@@ -5,10 +5,10 @@ const metaData = {
 	skill: 'summation',
 }
 
-function generateState() {
+function generateState(example) {
 	return {
-		a: getRandomInteger(1, 100),
-		b: getRandomInteger(1, 100),
+		a: getRandomInteger(1, example ? 30 : 100),
+		b: getRandomInteger(1, example ? 30 : 100),
 	}
 }
 
