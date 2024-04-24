@@ -37,6 +37,32 @@
         "latestUpdate": "2024-04-24T10:35:21.212Z",
         "latestText": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>"
       }
+    },
+    "eduContent/tutorial/steps/summationAndMultiplication": {
+      "theory.intro": {
+        "oldText": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine this. Our goal is to calculate composite expressions like <inline-math/>.</par>",
+        "firstUpdate": "2024-04-24T12:12:27.087Z",
+        "latestUpdate": "2024-04-24T12:14:30.349Z",
+        "latestText": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine these skills. Our goal is to calculate <term>composite expressions</term>, like for instance <inline-math/>.</par>"
+      },
+      "theory.calculationSteps": {
+        "oldText": "<head>The steps</head><par>To calculate an expression like <inline-math/> you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>",
+        "firstUpdate": "2024-04-24T12:12:27.087Z",
+        "latestUpdate": "2024-04-24T12:13:13.377Z",
+        "latestText": "<head>The steps</head><par>To calculate an expression like <inline-math/>, you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>"
+      },
+      "theory.stepWiseExercises": {
+        "oldText": "<head>Step-Wise exercises</head><par>In Step-Wise, it is always possible to split exercises of composite skills into steps. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: it's just a combination of things you already know!</par><par>Behind the scenes, our skill tracking algorithm takes every action into account. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you. It's there to support you!</par>",
+        "firstUpdate": "2024-04-24T12:12:27.087Z",
+        "latestUpdate": "2024-04-24T12:15:06.307Z",
+        "latestText": "<head>Step-Wise exercises</head><par>In Step-Wise, when practicing composite skills, it is always possible to <term>split exercises into steps</term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: it's just a combination of things you already know!</par><par>Behind the scenes, our skill tracking algorithm will <term>take every action into account</term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you. It's there to support you!</par>"
+      },
+      "meta.learningGoals": {
+        "oldText": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>",
+        "firstUpdate": "2024-04-24T12:12:27.087Z",
+        "latestUpdate": "2024-04-24T12:12:27.143Z",
+        "latestText": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"
+      }
     }
   }
 }
