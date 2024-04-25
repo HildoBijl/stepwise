@@ -7,8 +7,8 @@ const metaData = {
 
 function generateState(example) {
 	return {
-		a: getRandomInteger(1, example ? 30 : 100),
-		b: getRandomInteger(1, example ? 30 : 100),
+		a: getRandomInteger(8, example ? 30 : 100),
+		b: getRandomInteger(8, example ? 30 : 100),
 	}
 }
 

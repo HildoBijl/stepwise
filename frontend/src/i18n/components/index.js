@@ -1,5 +1,3 @@
-export * from '../sectioning/TranslationFile'
-export * from '../sectioning/TranslationSection'
 export * from './Translation'
 export * from './NoTranslation'
 export * from './Check'

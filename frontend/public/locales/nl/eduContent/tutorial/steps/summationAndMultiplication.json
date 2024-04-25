@@ -1,30 +1,54 @@
 {
+  "theory": {
+    "intro": "<par>Nadat we <skill-link>getallen vermenigvuldigen</skill-link> en <skill-link>getallen optellen</skill-link> geleerd hebben, gaan we nu deze vaardigheden combineren. Ons doel is het om <term>samengestelde uitdrukkingen</term>, zoals bijvoorbeeld <inline-math/>, te berekenen.</par>",
+    "calculationSteps": "<head>De stappen</head><par>Om een uitdrukking als <inline-math/> uit te rekenen, voer je de volgende <term>stappen</term> uit.</par><list><item><a>Bepaal de <term>volgorde</term> waarin de operaties uitgevoerd moeten worden. Vermenigvuldigen gaat altijd voor optellen, dus <inline-math/> moet uitgerekend worden voor er ook maar iets opgeteld wordt.</a></item><item><b>Bereken de <term>vermenigvuldiging(en)</term>. We zetten <inline-math/> om in <inline-math/>.</b></item><item><c>Bereken de <term>optelling</term>. Dit zet <inline-math/> vervolgens om in <inline-math/>, wat het eindantwoord is.</c></item></list>",
+    "stepWiseExercises": "<head>Stapsgewijze opgaven</head><par>In Step-Wise kun je, bij het oefenen van een samengestelde vaardigheid, een opgave altijd <term>opsplitsen in stappen</term>. Deze stappen zijn dan verbonden met eerdere vaardigheden, waarvan je al hebt aangetoond dat je ze kan. Dit stelt je altijd in staat om ook de meer complexe opgaven af te ronden: ze zijn simpelweg combinaties van dingen die je al kent!</par><par>Achter de schermen wordt door ons vaardigheidstracking algoritme <term>elke stap meegerekend</term>. Als je bij een bepaalde stap (bijvoorbeeld optellen) de mist in gaat, dan neemt je score voor die stap af. Als hij te veel omlaag valt, dan word je aangeraden om deze vaardigheid los nog wat extra te oefenen. Op deze manier begeleidt de Step-Wise app je bij het oefenen van de voor jou meest gepaste vaardigheid.</par>"
+  },
   "practice": {
     "summationAndMultiplication1": {
       "mainProblem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Antwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "step1": {
-        "problem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Stapantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Merk op dat vermenigvuldigen voorrang heeft op optellen. Eerst berekenen we dus <inline-math/>.</par>"
+        "problem": "<par>Bepaal welke operatie eerst uitgevoerd moet worden.</par><input-space><multiple-choice><choice><a>Optellen komt eerst, voor vermenigvuldigen.</a></choice><choice><b>Vermenigvuldigen komt eerst, voor optellen.</b></choice></multiple-choice></input-space>",
+        "solution": "<par>Vermenigvuldigen gaat altijd voor optellen.</par>"
       },
       "step2": {
-        "problem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Eindantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Dan tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <inline-math/>.</par>"
+        "problem": "<par>Bereken de vermenigvuldiging.</par><input-space><par><integer-input><label>Stapantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "solution": "<par>Het resultaat van de vermenigvuldiging is <inline-math/>.</par>"
+      },
+      "step3": {
+        "problem": "<par>Bereken de optelling.</par><input-space><par><integer-input><label>Eindantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "solution": "<par>Na de vermenigvuldiging tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <inline-math/>.</par>"
+      },
+      "feedback": {
+        "order": {
+          "incorrect": "Dat klopt niet. Optellen komt altijd als laatste. (Tenzij het geprioriteerd wordt door haakjes, maar dat is hier niet het geval.)",
+          "correct": "Ja! Vermenigvuldiging gaat inderdaad voor."
+        }
       }
     },
     "summationAndMultiplication2": {
       "mainProblem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Antwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "step1": {
-        "problem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Stapantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Merk op dat vermenigvuldigen voorrang heeft op optellen. Eerst berekenen we dus <inline-math/>.</par>"
+        "problem": "<par>Bepaal welke operatie eerst uitgevoerd moet worden.</par><input-space><multiple-choice><choice><a>Optellen komt eerst, voor vermenigvuldigen.</a></choice><choice><b>Vermenigvuldigen komt eerst, voor optellen.</b></choice></multiple-choice></input-space>",
+        "solution": "<par>Vermenigvuldigen gaat altijd voor optellen.</par>"
       },
       "step2": {
-        "problem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Stapantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Net zo berekenen we eerst de andere vermenigvuldiging, waarmee we <inline-math/> vinden.</par>"
+        "problem": "<par>Bereken de vermenigvuldigingen.</par><input-space><par><substep><integer-input><label>Stapantwoord</label><prelabel><inline-math/></prelabel></integer-input></substep><substep><integer-input><label>Stapantwoord</label><prelabel><inline-math/></prelabel></integer-input></substep></par></input-space>",
+        "solution": "<par>De resultaten van de vermenigvuldigingen zijn <inline-math/>.</par>"
       },
       "step3": {
-        "problem": "<par>Bereken <inline-math/>.</par><input-space><par><integer-input><label>Eindantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "problem": "<par>Bereken de optelling.</par><input-space><par><integer-input><label>Eindantwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
         "solution": "<par>Ten slotte tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <inline-math/>.</par>"
+      },
+      "feedback": {
+        "order": {
+          "incorrect": "Dat klopt niet. Optellen komt altijd als laatste. (Tenzij het geprioriteerd wordt door haakjes, maar dat is hier niet het geval.)",
+          "correct": "Ja! Vermenigvuldiging gaat inderdaad voor."
+        }
       }
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Het doel van deze vaardigheid is om te laten zien hoe verschillende vaardigheden gecombineerd worden tot een <term>samengestelde vaardigheid</term>. In deze vaardigheid rekenen studenten een uitdrukking als <inline-math/> uit, waar ze eerst getallen moeten <skill-link>vermenigvuldigen</skill-link> en daarna <skill-link>optellen</skill-link>.</par>"
   }
 }

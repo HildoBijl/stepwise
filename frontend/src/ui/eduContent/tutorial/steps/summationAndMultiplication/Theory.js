@@ -22,8 +22,8 @@ export function Theory() {
 
 		<Translation entry="stepWiseExercises">
 			<Head>Step-Wise exercises</Head>
-			<Par>In Step-Wise, when practicing composite skills, it is always possible to <Term>split exercises into steps</Term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: it's just a combination of things you already know!</Par>
-			<Par>Behind the scenes, our skill tracking algorithm will <Term>take every action into account</Term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you. It's there to support you!</Par>
+			<Par>In Step-Wise, when practicing composite skills, it is always possible to <Term>split exercises into steps</Term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: they're just combinations of things you already know!</Par>
+			<Par>Behind the scenes, our skill tracking algorithm will <Term>take every action into account</Term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you.</Par>
 		</Translation>
 	</>
 }

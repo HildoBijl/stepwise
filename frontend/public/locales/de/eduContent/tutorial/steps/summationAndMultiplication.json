@@ -1,30 +1,54 @@
 {
+  "theory": {
+    "intro": "<par>Nachdem wir <skill-link>Zahlen multiplizieren</skill-link> und <skill-link>Zahlen addieren</skill-link> gelernt haben, werden wir nun diese Kompetenzen kombinieren. Unser Ziel ist es, <term>zusammengesetzte Ausdrücke</term> zu berechnen, wie z.B. <inline-math/>.</par>",
+    "calculationSteps": "<head>Die Schritte</head><par>Um einen Ausdruck wie <inline-math/> zu berechnen, führt man die folgenden <term>Schritte</term> aus.</par><list><item><a>Bestimme die <term>Reihenfolge</term>, in der die Operationen durchgeführt werden sollen. Die Multiplikation kommt immer vor der Addition, also muss <inline-math/> berechnet werden, bevor etwas addiert wird.</a></item><item><b>Berechne die <term>Multiplikation(en)</term>. Wir wandeln <inline-math/> in <inline-math/> um.</b></item><item><c>Berechne die <term>Addition</term>. Dies wandelt dann <inline-math/> in <inline-math/> um, was die endgültige Antwort ist.</c></item></list>",
+    "stepWiseExercises": "<head>Schritt-für-Schritt Übungen</head><par>In Step-Wise kannst du beim Üben einer zusammengesetzten Kompetenz immer <term>eine Übung in Schritte unterteilen</term>. Diese Schritte sind dann mit früheren Kompetenzen verknüpft, die du bereits bewiesen hast, dass du sie kannst. Auf diese Weise kannst du auch komplexere Übungen bewältigen: Sie sind einfach Kombinationen von Dingen, die du bereits kennst!</par><par>Hinter den Kulissen zählt unser Algorithmus zur Verfolgung der Kompetenzen <term>jeden Schritt</term>. Wenn du bei einem bestimmten Schritt versagst (z. B. beim Addieren), verringert sich deine Bewertung für diesen Schritt. Wenn die Bewertung zu stark sinkt, wird dir geraten, diese Kompetenz noch einmal separat zu üben. Auf diese Weise leitet die Step-Wise App dich beim Üben der für dich am besten geeigneten Kompetenz an.</par>"
+  },
   "practice": {
     "summationAndMultiplication1": {
       "mainProblem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "step1": {
-        "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Beachte, dass die Multiplikation Vorrang vor der Addition hat. Wir berechnen also zunächst <inline-math/>.</par>"
+        "problem": "<par>Entscheide, welcher der Operationen zuerst ausgeführt werden soll.</par><input-space><multiple-choice><choice><a>Zuerst kommt die Addition, dann die Multiplikation.</a></choice><choice><b>Zuerst kommt die Multiplikation, dann die Addition.</b></choice></multiple-choice></input-space>",
+        "solution": "<par>Die Multiplikation kommt immer vor der Addition.</par>"
       },
       "step2": {
-        "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Endgültige Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "problem": "<par>Berechne die Multiplikation.</par><input-space><par><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "solution": "<par>Das Ergebnis der Multiplikation ist <inline-math/>.</par>"
+      },
+      "step3": {
+        "problem": "<par>Berechne die Addition.</par><input-space><par><integer-input><label>Endgültige Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
         "solution": "<par>Dann addieren wir alles zusammen. Auf diese Weise erhalten wir die endgültige Antwort <inline-math/>.</par>"
+      },
+      "feedback": {
+        "order": {
+          "incorrect": "Das ist nicht richtig. Die Addition kommt immer zuletzt. (Es sei denn, sie wird durch Klammern hervorgehoben, aber das ist hier nicht der Fall.)",
+          "correct": "Genau! Die Multiplikation hat tatsächlich Vorrang."
+        }
       }
     },
     "summationAndMultiplication2": {
       "mainProblem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "step1": {
-        "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Beachte, dass die Multiplikation Vorrang vor der Addition hat. Wir berechnen also zunächst <inline-math/>.</par>"
+        "problem": "<par>Entscheide, welcher der Operationen zuerst ausgeführt werden soll.</par><input-space><multiple-choice><choice><a>Zuerst kommt die Addition, dann die Multiplikation.</a></choice><choice><b>Zuerst kommt die Multiplikation, dann die Addition.</b></choice></multiple-choice></input-space>",
+        "solution": "<par>Die Multiplikation kommt immer vor der Addition.</par>"
       },
       "step2": {
-        "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>In ähnlicher Weise berechnen wir zunächst die andere Multiplikation und finden <inline-math/>.</par>"
+        "problem": "<par>Berechne die Multiplikationen.</par><input-space><par><substep><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></substep><substep><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></substep></par></input-space>",
+        "solution": "<par>Die Ergebnisse der Multiplikationen sind <inline-math/>.</par>"
       },
       "step3": {
-        "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Endgültige Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "problem": "<par>Berechne die Addition.</par><input-space><par><integer-input><label>Endgültige Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
         "solution": "<par>Schließlich addieren wir alles zusammen. Auf diese Weise erhalten wir die endgültige Antwort <inline-math/>.</par>"
+      },
+      "feedback": {
+        "order": {
+          "incorrect": "Das ist nicht richtig. Die Addition kommt immer zuletzt. (Es sei denn, sie wird durch Klammern hervorgehoben, aber das ist hier nicht der Fall.)",
+          "correct": "Genau! Die Multiplikation hat tatsächlich Vorrang."
+        }
       }
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Diese Kompetenz soll zeigen, wie verschiedene Kompetenzen zu einer <term>zusammengesetzten Kompetenz</term> kombiniert werden. In dieser Kompetenz berechnen die Studierenden einen Ausdruck wie <inline-math/>, bei dem sie zuerst Zahlen <skill-link>multiplizieren</skill-link> und dann <skill-link>addieren</skill-link> müssen.</par>"
   }
 }

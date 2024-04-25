@@ -3,20 +3,21 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const metaData = {
 	skill: 'summationAndMultiplication',
-	steps: ['multiplication', 'summation'],
+	steps: [null, 'multiplication', 'summation'],
 }
 addSetupFromSteps(metaData)
 
-function generateState() {
+function generateState(example) {
 	return {
-		a: getRandomInteger(1, 10),
-		b: getRandomInteger(1, 10),
-		c: getRandomInteger(1, 100),
+		a: getRandomInteger(2, example ? 6 : 10),
+		b: getRandomInteger(2, example ? 6 : 10),
+		c: getRandomInteger(8, example ? 30 : 100),
 	}
 }
 
 function getSolution({ a, b, c }) {
 	return {
+		order: 1,
 		ab: a * b,
 		ans: a * b + c,
 	}
@@ -25,6 +26,8 @@ function getSolution({ a, b, c }) {
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
+			return performComparison(exerciseData, 'order')
+		case 2:
 			return performComparison(exerciseData, 'ab')
 		default:
 			return performComparison(exerciseData, 'ans')

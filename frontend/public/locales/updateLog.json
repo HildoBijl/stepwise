@@ -1,67 +1,17 @@
 {
   "en": {
-    "eduContent/tutorial/steps/summation": {
-      "theory.intro": {
-        "oldText": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: adding numbers and multiplying them. Afterwards we merge these skills into a more involved skill.</par>",
-        "firstUpdate": "2024-04-24T10:31:16.796Z",
-        "latestUpdate": "2024-04-24T10:49:42.271Z",
-        "latestText": "<par>Yet another basic skill is the skill of adding numbers. This is our last step in preparing for combined skills.</par>"
-      },
-      "theory.addNumbers": {
-        "firstUpdate": "2024-04-24T10:31:16.796Z",
-        "latestUpdate": "2024-04-24T10:31:16.796Z",
-        "latestText": "<head>Adding numbers</head><par>In this skill you have to <term>add two numbers</term>. It's a tutorial - you're allowed to use your calculator - but see if you can do without.</par><par>When calculating a sum, for instance <inline-math/>, you can do the following steps.</par><list><item><a>First add the two rightmost numbers. So <inline-math/> becomes <inline-math/>. The latter digit - the <inline-math/> - shows the rightmost digit of our result.</a></item><item><b>Then add the two second numbers. So <inline-math/> becomes <inline-math/>. This is the second digit of our result. Except: if our first digit was <inline-math/> or more (which in our example it was) then we carry over that <inline-math/> and add it here. So we'd get <inline-math/> here.</b></item><item><c>Merge the two results together to get the final result: <inline-math/>.</c></item></list><par>Try it out yourself!</par>"
-      },
-      "meta.learningGoals": {
-        "firstUpdate": "2024-04-24T10:31:16.796Z",
-        "latestUpdate": "2024-04-24T10:31:16.796Z",
-        "latestText": "<par>This skill focuses on <term>adding two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>.</par>"
-      }
-    },
-    "eduContent/tutorial/steps/multiplication": {
-      "theory.intro": {
-        "oldText": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</par>",
-        "firstUpdate": "2024-04-24T10:35:21.166Z",
-        "latestUpdate": "2024-04-24T10:35:21.212Z",
-        "latestText": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</par>"
-      },
-      "theory.multiplyNumbers": {
-        "oldText": "<head>Multiplying numbers</head><par>In this skill you have to <term>multiply two numbers</term>. When multiplying small numbers, people usually do so from memory. As a child you learned what <inline-math/> is. You don't recalculate it every time. You simply know it's <inline-math/>.</par><par>If you really can't remember what a multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</par>",
-        "firstUpdate": "2024-04-24T10:35:21.166Z",
-        "latestUpdate": "2024-04-24T11:22:44.999Z",
-        "latestText": "<head>Multiplying numbers</head><par>In this skill you have to <term>multiply two numbers</term>. When multiplying small numbers, people usually do so from <term>memory</term>. As a child you learned what <inline-math/> is. You don't recalculate it every time. You simply know it's <inline-math/>.</par><par>If you really can't remember what the result of a certain multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</par>"
-      },
-      "meta.learningGoals": {
-        "oldText": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>",
-        "firstUpdate": "2024-04-24T10:35:21.166Z",
-        "latestUpdate": "2024-04-24T10:35:21.212Z",
-        "latestText": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>"
-      }
-    },
     "eduContent/tutorial/steps/summationAndMultiplication": {
-      "theory.intro": {
-        "oldText": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine this. Our goal is to calculate composite expressions like <inline-math/>.</par>",
-        "firstUpdate": "2024-04-24T12:12:27.087Z",
-        "latestUpdate": "2024-04-24T12:14:30.349Z",
-        "latestText": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine these skills. Our goal is to calculate <term>composite expressions</term>, like for instance <inline-math/>.</par>"
+      "practice.summationAndMultiplication1.step1.problem": {
+        "oldText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice/></input-space>",
+        "firstUpdate": "2024-04-25T09:12:47.906Z",
+        "latestUpdate": "2024-04-25T09:12:47.956Z",
+        "latestText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice><choice><a>Addition comes first, before multiplication.</a></choice><choice><b>Multiplication comes first, before addition.</b></choice></multiple-choice></input-space>"
       },
-      "theory.calculationSteps": {
-        "oldText": "<head>The steps</head><par>To calculate an expression like <inline-math/> you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>",
-        "firstUpdate": "2024-04-24T12:12:27.087Z",
-        "latestUpdate": "2024-04-24T12:13:13.377Z",
-        "latestText": "<head>The steps</head><par>To calculate an expression like <inline-math/>, you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>"
-      },
-      "theory.stepWiseExercises": {
-        "oldText": "<head>Step-Wise exercises</head><par>In Step-Wise, it is always possible to split exercises of composite skills into steps. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: it's just a combination of things you already know!</par><par>Behind the scenes, our skill tracking algorithm takes every action into account. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you. It's there to support you!</par>",
-        "firstUpdate": "2024-04-24T12:12:27.087Z",
-        "latestUpdate": "2024-04-24T12:15:06.307Z",
-        "latestText": "<head>Step-Wise exercises</head><par>In Step-Wise, when practicing composite skills, it is always possible to <term>split exercises into steps</term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: it's just a combination of things you already know!</par><par>Behind the scenes, our skill tracking algorithm will <term>take every action into account</term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you. It's there to support you!</par>"
-      },
-      "meta.learningGoals": {
-        "oldText": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>",
-        "firstUpdate": "2024-04-24T12:12:27.087Z",
-        "latestUpdate": "2024-04-24T12:12:27.143Z",
-        "latestText": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"
+      "practice.summationAndMultiplication2.step1.problem": {
+        "oldText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice/></input-space>",
+        "firstUpdate": "2024-04-25T09:13:46.133Z",
+        "latestUpdate": "2024-04-25T09:13:46.166Z",
+        "latestText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice><choice><a>Addition comes first, before multiplication.</a></choice><choice><b>Multiplication comes first, before addition.</b></choice></multiple-choice></input-space>"
       }
     }
   }

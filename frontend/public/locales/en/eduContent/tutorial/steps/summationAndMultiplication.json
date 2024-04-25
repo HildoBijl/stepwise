@@ -1,36 +1,52 @@
 {
+  "theory": {
+    "intro": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine these skills. Our goal is to calculate <term>composite expressions</term>, like for instance <inline-math/>.</par>",
+    "calculationSteps": "<head>The steps</head><par>To calculate an expression like <inline-math/>, you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>",
+    "stepWiseExercises": "<head>Step-Wise exercises</head><par>In Step-Wise, when practicing composite skills, it is always possible to <term>split exercises into steps</term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: they're just combinations of things you already know!</par><par>Behind the scenes, our skill tracking algorithm will <term>take every action into account</term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you.</par>"
+  },
   "practice": {
     "summationAndMultiplication1": {
       "mainProblem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "step1": {
-        "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Note that multiplication comes before addition, so first we calculate <inline-math/>.</par>"
+        "problem": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice><choice><a>Addition comes first, before multiplication.</a></choice><choice><b>Multiplication comes first, before addition.</b></choice></multiple-choice></input-space>",
+        "solution": "<par>Multiplication always comes before addition.</par>"
       },
       "step2": {
-        "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Final answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "problem": "<par>Calculate the multiplication.</par><input-space><par><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "solution": "<par>The result of the multiplication is <inline-math/>.</par>"
+      },
+      "step3": {
+        "problem": "<par>Calculate the addition.</par><input-space><par><integer-input><label>Final answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
         "solution": "<par>After the multiplication we add everything together. This gets us the final result <inline-math/>.</par>"
+      },
+      "feedback": {
+        "order": {
+          "incorrect": "That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)",
+          "correct": "Yes! Multiplication indeed comes first."
+        }
       }
     },
     "summationAndMultiplication2": {
       "mainProblem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "step1": {
-        "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Note that multiplication comes before addition, so first we calculate <inline-math/>.</par>"
+        "problem": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice><choice><a>Addition comes first, before multiplication.</a></choice><choice><b>Multiplication comes first, before addition.</b></choice></multiple-choice></input-space>",
+        "solution": "<par>Multiplication always comes before addition.</par>"
       },
       "step2": {
-        "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-        "solution": "<par>Identically we first calculate the other multiplication too, giving us <inline-math/>.</par>"
+        "problem": "<par>Calculate the multiplications.</par><input-space><par><substep><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></substep><substep><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></substep></par></input-space>",
+        "solution": "<par>The results of the multiplications are <inline-math/> and <inline-math/>.</par>"
       },
       "step3": {
-        "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Final answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+        "problem": "<par>Calculate the addition.</par><input-space><par><integer-input><label>Final answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
         "solution": "<par>In the end we add everything together. This get us the final result <inline-math/>.</par>"
+      },
+      "feedback": {
+        "order": {
+          "incorrect": "That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)",
+          "correct": "Yes! Multiplication indeed comes first."
+        }
       }
     }
-  },
-  "theory": {
-    "intro": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine these skills. Our goal is to calculate <term>composite expressions</term>, like for instance <inline-math/>.</par>",
-    "calculationSteps": "<head>The steps</head><par>To calculate an expression like <inline-math/>, you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>",
-    "stepWiseExercises": "<head>Step-Wise exercises</head><par>In Step-Wise, when practicing composite skills, it is always possible to <term>split exercises into steps</term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: it's just a combination of things you already know!</par><par>Behind the scenes, our skill tracking algorithm will <term>take every action into account</term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you. It's there to support you!</par>"
   },
   "meta": {
     "learningGoals": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"

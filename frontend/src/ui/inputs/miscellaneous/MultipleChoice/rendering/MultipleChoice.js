@@ -37,3 +37,10 @@ export function MultipleChoice(options) {
 	</Input>
 }
 MultipleChoice.validation = validation
+
+// Set up custom functions for generating/using translation strings, to get easier translation set-ups.
+MultipleChoice.getTranslationString = (props, getTranslationString) => (props.choices || []).map(choice => `<choice>${getTranslationString(choice)}</choice>`).join('') // ToDo: generalize this in a function translateArray.
+MultipleChoice.translateProps = (props, tree, applyTranslationTree) => ({
+	...props,
+	choices: (props.choices || []).map((choice, index) => applyTranslationTree(choice, tree[index]?.value))
+})
