@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { skillTree } from 'step-wise/eduTools/skills/skillTree'
 
-import { TranslationFile, Translation, Plurals, CountingWord, useGetTranslation } from 'i18n'
-import { useAdjustedPath } from 'ui/routingTools'
+import { TranslationFile, Translation, Plurals, CountingWord } from 'i18n'
 import { Head, Par, List, Warning } from 'ui/components'
+
+import { SkillLink } from './routing'
 
 export function MetaWrapper({ children, skillId }) {
 	const skill = skillTree[skillId]
@@ -68,10 +68,4 @@ function SameGroup({ skillId }) {
 
 function SkillList({ skillIds }) {
 	return <List items={skillIds.map(skillId => <SkillLink skillId={skillId} />)} />
-}
-
-function SkillLink({ skillId }) {
-	const path = useAdjustedPath({ skillId })
-	const getTranslation = useGetTranslation('eduContent/skillInfo')
-	return <Link to={path}>{getTranslation(`${skillId}.name`)}</Link>
 }
