@@ -1,7 +1,7 @@
 import { useStableCallback, getHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 // The registration handlers arrange the registration and deregistration of fields to the FieldController.
-export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate }) {
+export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate, deactivate, refreshKeyboard }) {
 	// updateTabOrder refreshes the tab order, for instance when a new field is added. It adjusts the tab index to keep the same field active when possible.
 	const updateTabOrder = useStableCallback(() => {
 		const newTabOrder = getTabOrder(controllerRef.current, fieldTrackerRef.current)
@@ -20,8 +20,9 @@ export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrder
 			activate(id)
 	})
 
-	// registerElement removes an input field from the tab order.
+	// unregisterElement removes an input field from the tab order.
 	const unregisterElement = useStableCallback((id) => {
+		refreshKeyboard() // Update the keyboard, in case this field was active and disappeared.
 		delete fieldTrackerRef.current[id]
 		updateTabOrder()
 	})

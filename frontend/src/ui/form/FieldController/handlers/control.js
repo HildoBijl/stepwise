@@ -26,7 +26,7 @@ export function useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex) {
 
 	// blur will deactivate any currently active field.
 	const blur = useStableCallback(() => setTabIndex(-1), [setTabIndex])
-	
+
 	// activateFirst focuses on the first field in the form. Optionally a set of IDs can be passed. When this is done, the focus is put on the first field among the given list. (This is for instance used when a form has various faulty fields and wants to activate the first of these.)
 	const activateFirst = useStableCallback((ids) => {
 		if (!ids)

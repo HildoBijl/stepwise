@@ -25,8 +25,8 @@ export function FieldController({ children }) {
 
 	// Define handler functions for various parts of the field control.
 	const { activate, deactivate, blur, activateFirst, incrementTabIndex, decrementTabIndex, getActiveFieldId, isActive } = useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex)
-	const { registerElement, unregisterElement } = useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate })
-	const { keyboardRef, keyboardSettings, keyFunction, storeKeyboard } = useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef)
+	const { keyboardRef, keyboardSettings, keyFunction, refreshKeyboard, storeKeyboard } = useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef)
+	const { registerElement, unregisterElement } = useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate, deactivate, refreshKeyboard })
 
 	// Set up event listening/handling.
 	useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId })
