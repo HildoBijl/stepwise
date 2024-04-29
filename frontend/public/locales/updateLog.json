@@ -1,18 +1,1 @@
-{
-  "en": {
-    "eduContent/tutorial/steps/summationAndMultiplication": {
-      "practice.summationAndMultiplication1.step1.problem": {
-        "oldText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice/></input-space>",
-        "firstUpdate": "2024-04-25T09:12:47.906Z",
-        "latestUpdate": "2024-04-25T09:12:47.956Z",
-        "latestText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice><choice><a>Addition comes first, before multiplication.</a></choice><choice><b>Multiplication comes first, before addition.</b></choice></multiple-choice></input-space>"
-      },
-      "practice.summationAndMultiplication2.step1.problem": {
-        "oldText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice/></input-space>",
-        "firstUpdate": "2024-04-25T09:13:46.133Z",
-        "latestUpdate": "2024-04-25T09:13:46.166Z",
-        "latestText": "<par>Determine which operation must be applied first.</par><input-space><multiple-choice><choice><a>Addition comes first, before multiplication.</a></choice><choice><b>Multiplication comes first, before addition.</b></choice></multiple-choice></input-space>"
-      }
-    }
-  }
-}
+{}
