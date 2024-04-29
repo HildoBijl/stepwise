@@ -28,8 +28,7 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { a, b, c } = state
+		Problem: ({ a, b, c }) => {
 			const { x } = useSolution()
 			return <>
 				<Par><Translation>Through the Pythagorean therom, set up an equation linking the three sides of the triangle. Use the values <M>{a}</M>, <M>{b}</M> and <M>{c}</M>.</Translation></Par>
@@ -38,10 +37,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { a, b, c } = state
-			const { equation } = useSolution()
-			return <Par><Translation>We have the two legs <M>{a}</M> and <M>{b}</M> and the hypothenuse <M>{c}</M>. The Pythagorean theorem now directly states that <BM>{equation}.</BM></Translation></Par>
+		Solution: ({ a, b, c, toFind, x, equation }) => {
+			return <Par><Translation>We have the two legs <M>{toFind === 0 ? x : a}</M> and <M>{toFind === 1 ? x : b}</M> and the hypothenuse <M>{toFind === 2 ? x : c}</M>. The Pythagorean theorem now directly states that <BM>{equation}.</BM></Translation></Par>
 		},
 	},
 	{
