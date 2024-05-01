@@ -6,7 +6,7 @@ import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
-import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
+import { TextInput, defaultTextInputOptions } from '../TextInput'
 import { style as floatStyle, defaultFloatInputOptions } from '../FloatInput'
 import { style as unitStyle } from '../UnitInput'
 
@@ -72,5 +72,5 @@ export function FloatUnitInput(options) {
 		<FloatUnitInputInner />
 	</TextInput>
 }
-applyMapping(textInputFunctions, (func, key) => { FloatUnitInput[key] = func })
 FloatUnitInput.validation = validation
+FloatUnitInput.translatableProps = TextInput.translatableProps

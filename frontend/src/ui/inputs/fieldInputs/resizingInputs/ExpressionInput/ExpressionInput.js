@@ -2,11 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
+import { processOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
-import { MathInput, defaultMathInputOptions, mathInputFunctions } from '../MathInput'
+import { MathInput, defaultMathInputOptions } from '../MathInput'
 
 import { keyboardSettings, errorToMessage } from './support'
 import * as settings from './settings'
@@ -41,6 +41,6 @@ export function ExpressionInput(options) {
 	// Render everything.
 	return <MathInput {...mathInputOptions} />
 }
-applyMapping(mathInputFunctions, (func, key) => { ExpressionInput[key] = func })
 ExpressionInput.validation = validation
 ExpressionInput.settings = settings
+ExpressionInput.translatableProps = MathInput.translatableProps

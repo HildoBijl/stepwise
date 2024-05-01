@@ -1,11 +1,15 @@
 import { isValidElement } from 'react'
 
-import { passOn, isEmptyArray, isBasicObject, numberToAlphabetString, getTagTree, tagTreeToString, camelCaseToDashCase } from 'step-wise/util'
+import { isEmptyArray, isBasicObject, numberToAlphabetString, tagTreeToString, camelCaseToDashCase } from 'step-wise/util'
 
-// elementToString takes a React element like <strong>x: {x}<br/>y: {y}</strong> and turns it into a string for a translation file, like "<a>x: {b}<c/>y: {d}</a>".
+// elementToString takes a React element like <Par>x: {{x}}<br/>y: {{y}}</Par> and turns it into a string for a translation file, like "<par>x: {x}<br/>y: {y}</par>".
 export function elementToString(element, counter = { count: 0 }) {
 	// Define a handler to get a name for a tag/variable when needed.
 	const getName = () => numberToAlphabetString(++counter.count)
+
+	// On a non-existing element, return an empty string.
+	if (element === undefined || element === null)
+		return ''
 
 	// On an array, process the elements individually and paste them together. Do check if there are no two strings together.
 	if (Array.isArray(element)) {
@@ -36,16 +40,47 @@ export function elementToString(element, counter = { count: 0 }) {
 		else
 			name = getName() // Unknown React component. Get a sequentially generated name.
 
-		// Set up a function to determine the translation string. Then run it. This function effectively turns an element's props into tags.
-		const defaultGetTranslationString = (props) => {
-			const contents = props.children
-			return contents ? elementToString(contents, counter) : ''
+		// Determine the contents of the tag.
+		let contents = ''
+		if (element?.type?.translation === false) { // Translation turned off.
+			// No contents needed.
+		} else if (element?.type?.getTranslationString) { // Custom function defined.
+			contents = element.type.getTranslationString(element.props, (element) => elementToString(element, counter), element)
+		} else { // Use default function.
+			// Define a handler to process a prop.
+			const processProp = key => {
+				const prop = element.props[key]
+				if (!prop) { // Undefined prop.
+					return ''
+				} else if (Array.isArray(prop) && key !== 'children') { // Array of items. Use separating tags.
+					const keyDashCase = camelCaseToDashCase(key)
+					const itemTag = (keyDashCase.slice(-1) === 's' ? keyDashCase.slice(0, -1) : `${keyDashCase}-item`) // Turn "someElements" into "some-element", or turn "internalStuff" to "internal-stuff-item".
+					return prop
+						.map(item => elementToString(item, counter))
+						.map(str => str ? `<${itemTag}>${str}</${itemTag}>` : `<${itemTag}/>`)
+						.join('')
+				} else { // Single item or the children prop. Don't use separating tags.
+					return elementToString(element.props[key], counter)
+				}
+			}
+
+			// Depending on the translatableProps set-up, process these props.
+			const translatableProps = element?.type?.translatableProps || 'children'
+			if (typeof translatableProps === 'string') { // Single prop to translate.
+				contents = processProp(translatableProps)
+			} else if (Array.isArray(translatableProps)) { // Array of props. Walk through them and add each existing one with separating tags.
+				contents = translatableProps.map(key => {
+					const propContents = processProp(key)
+					const tag = camelCaseToDashCase(key)
+					return propContents ? `<${tag}>${propContents}</${tag}>` : ''
+				}).join('')
+			} else {
+				throw new Error(`Invalid translatableProps parameter: expected a string or an array of strings, but received "${JSON.stringify(translatableProps)}".`)
+			}
 		}
-		const getTranslationString = element?.type?.getTranslationString || defaultGetTranslationString
-		const contentsString = (element?.type?.translation === false ? '' : getTranslationString(element.props, (element) => elementToString(element, counter), element))
 
 		// Add a tag and return the result.
-		return contentsString ? `<${name}>${contentsString}</${name}>` : `<${name}/>`
+		return contents ? `<${name}>${contents}</${name}>` : `<${name}/>`
 	}
 
 	// Anything remaining is just a variable.
@@ -58,22 +93,43 @@ export function applyNoTranslation(element, key) {
 	if (Array.isArray(element))
 		return element.map((currElement, index) => applyNoTranslation(currElement, index))
 
-	// On a React element, make a copy with processed children.
-	if (isValidElement(element) && element.props.children !== undefined) {
-		// Set up a function to apply the no-translation processing. Then run the function that preprocesses the props.
-		const defaultNoTranslateProps = (props) => {
-			// On a no-child element, leave it as is.
-			const contents = props.children
-			if (!contents || isEmptyArray(contents))
-				return props
+	// On a React element, apply the no-translation function to translatable props. For this, check what kind of translation would normally be applied, to properly no-translate the respective props.
+	if (isValidElement(element)) {
+		// On no translation, keep the element as is.
+		if (element.type.translation === false)
+			return element
 
-			// On an element with children, process the children.
-			return {
-				...props,
-				children: applyNoTranslation(element.props.children),
+		// Set up a noTranslateProps function to be used, either a custom specified one, or a standard one.
+		const noTranslateProps = element.type.translateProps || ((props, _, applyTranslation) => {
+			// Determine which props need translation.
+			const translatableProps = element.type.translatableProps || 'children'
+
+			// On a single translatable prop, process it.
+			if (typeof translatableProps === 'string') {
+				const key = translatableProps
+				const prop = props[key]
+				if (!prop || isEmptyArray(prop))
+					return props
+				return {
+					...props,
+					[key]: applyNoTranslation(prop)
+				}
 			}
-		}
-		const noTranslateProps = (element?.type?.translation === false ? passOn : element?.type?.translateProps || defaultNoTranslateProps)
+
+			// On multiple translatable props, process them together.
+			if (Array.isArray(translatableProps)) {
+				const propsClone = { ...props }
+				translatableProps.forEach(key => {
+					propsClone[key] = applyNoTranslation(props[key])
+				})
+				return propsClone
+			}
+
+			// This should never happen.
+			throw new Error(`Invalid translate case: expected translatableProps to be a string or array, but received "${JSON.stringify(translatableProps)}".`)
+		})
+
+		// Apply the noTranslateProps function to the element and return it.
 		return {
 			...element,
 			key: element.key || key, // Add a key when needed to prevent React warnings.
@@ -93,11 +149,14 @@ export function applyNoTranslation(element, key) {
 	return element
 }
 
-// applyTranslation takes a React element and a string translation and tries to apply the translation to the React element. On any inconsistency between the element and the translation, it throws an error.
-export function applyTranslation(element, translation, tagTree, key) {
-	// If not already done, split up the translation into <tags></tags>, <singleTags/>, {variables} and remaining strings.
-	if (!tagTree)
-		tagTree = getTagTree(translation)
+// applyTranslation takes a React element and a tag-tree of a translation and tries to apply the tag-tree to the React element. On any inconsistency between the element and the translation, it throws an error. Optionally, a key can be provided to be added to the react element, which is sometimes needed to prevent react warnings/errors.
+export function applyTranslation(element, tagTree, key) {
+
+	// ToDo: check if these checks are still relevant.
+
+	// If both the element and the tagTree are undefined (like an undefined in an array of (list) items) then do nothing.
+	if (element === undefined && tagTree === undefined)
+		return
 
 	// If the element is not an array, but the tagTree is a one-element array, zoom in on the tagTree.
 	if (!Array.isArray(element) && Array.isArray(tagTree) && tagTree.length === 1)
@@ -148,14 +207,14 @@ export function applyTranslation(element, translation, tagTree, key) {
 		// By now the two lists should have the same length.
 		if (elementListProcessed.length !== tagTreeProcessed.length)
 			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${tagTreeToString(tagTree)}`)
-		return elementListProcessed.map((currElement, index) => applyTranslation(currElement, undefined, tagTreeProcessed[index], index))
+		return elementListProcessed.map((currElement, index) => applyTranslation(currElement, tagTreeProcessed[index], index))
 	}
 
 	// If the element we received is a string, replace it by the translation.
 	if (typeof element === 'string') {
-		if (tagTree.type !== 'text')
-			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to receive some regular text, but received:\n${tagTreeToString(tagTree)}`)
-		return tagTree.value
+		if (tagTree.type === 'text')
+			return tagTree.value
+		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to receive some regular text, but received:\n${tagTree && tagTreeToString(tagTree)}`)
 	}
 
 	// If the element we received is a single-variable object, include it. If it's a React element, make sure it has a key.
@@ -166,6 +225,7 @@ export function applyTranslation(element, translation, tagTree, key) {
 		if (tagTree.name !== name)
 			throw new Error(`Invalid translation: there was a mismatch in variable names. Expected to include a variable "${name}" but encountered a variable "${tagTree.name}" in the translation.`)
 		let variable = element[name]
+		// ToDo: check if we need this check.
 		if (isValidElement(variable))
 			variable = { ...variable, key: variable.key || `i18n-key-${key}` }
 		return variable
@@ -176,24 +236,47 @@ export function applyTranslation(element, translation, tagTree, key) {
 		if (tagTree.type !== 'tag')
 			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a tag like <${tagTree.name}>...</${tagTree.name}> but instead encountered:\n${tagTreeToString(tagTree)}`)
 
-		// Set up a function to apply the translation. Then run the function. This function effectively preprocesses the props given to an element.
-		const defaultTranslateProps = (props, tagTree, applyTranslationTree) => {
-			// On a no-child element, leave it as is.
-			const contents = props.children
-			if (!contents || isEmptyArray(contents))
-				return props
+		// If no translation is done, keep the element.
+		if (element.type.translation === false)
+			return element
 
-			// On an element with children, take the children and process them with respect to the contents of the tag.
-			return {
-				...props,
-				children: applyTranslationTree(element.props.children, tagTree),
+		// Set up a translateProps function to be used, either a custom specified one, or a standard one.
+		const translateProps = element.type.translateProps || ((props, tagTree, applyTranslation) => {
+			// Determine which props need translation.
+			const translatableProps = element.type.translatableProps || 'children'
+
+			// On a single translatable prop, process it.
+			if (typeof translatableProps === 'string') {
+				const key = translatableProps
+				const prop = props[key]
+				if (!prop)
+					return props
+				if (Array.isArray(prop)) // On an array prop, items have been created. Zoom in on them one by one.
+					return { ...props, [key]: prop.map((propItem, index) => applyTranslation(propItem, tagTree[index])) }
+				return { ...props, [key]: applyTranslation(prop, tagTree) }
 			}
-		}
-		const translateProps = (element?.type?.translation === false ? passOn : element?.type?.translateProps || defaultTranslateProps)
+
+			// On multiple translatable props, process them together.
+			if (Array.isArray(translatableProps)) {
+				const propsClone = { ...props }
+				translatableProps.forEach((key, index) => {
+					let tagTreeChild = tagTree[index].value
+					if (Array.isArray(props[key])) // When the contents are an array, extra tags have been added for separation. Remove these.
+						tagTreeChild = tagTreeChild.map(item => item?.value && item.value[0])
+					propsClone[key] = applyTranslation(props[key], tagTreeChild)
+				})
+				return propsClone
+			}
+
+			// This should never happen.
+			throw new Error(`Invalid translate case: expected translatableProps to be a string or array, but received "${JSON.stringify(translatableProps)}".`)
+		})
+
+		// Apply the translateProps function to the element and return it.
 		return {
 			...element,
 			key: element.key || key, // Add a key when needed to prevent React warnings.
-			props: translateProps(element.props, tagTree.value, (element, tagTree) => applyTranslation(element, undefined, tagTree)),
+			props: translateProps(element.props, tagTree.value, (element, tagTree) => applyTranslation(element, tagTree)),
 		}
 	}
 

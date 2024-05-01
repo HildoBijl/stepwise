@@ -1,3 +1,5 @@
+import { getTagTree } from 'step-wise/util'
+
 import { isLocalhost } from 'util'
 
 import { applyNoTranslation, elementToString, applyTranslation } from '../../transformation'
@@ -15,7 +17,7 @@ export function Translation({ path, entry, children, extendEntry }) {
 
 	// Try to implement the translation.
 	try {
-		return applyTranslation(children, text)
+		return applyTranslation(children, getTagTree(text))
 	} catch (error) {
 		// On a failure to implement the translation, keep the original text.
 		if (isLocalhost()) {

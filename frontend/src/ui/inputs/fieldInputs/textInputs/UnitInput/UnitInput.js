@@ -7,7 +7,7 @@ import { Translation } from 'i18n'
 
 import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
-import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
+import { TextInput, defaultTextInputOptions } from '../TextInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './Unit'
 import { UnitInputInner } from './UnitInputInner'
@@ -158,5 +158,5 @@ export function UnitInput(options) {
 		<UnitInputInner />
 	</TextInput>
 }
-applyMapping(textInputFunctions, (func, key) => { UnitInput[key] = func })
 UnitInput.validation = validation
+UnitInput.translatableProps = TextInput.translatableProps

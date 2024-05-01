@@ -5,7 +5,7 @@ import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
-import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
+import { TextInput, defaultTextInputOptions } from '../TextInput'
 
 import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, keyboardSettings, keyPressToFI, clean, functionalize, errorToMessage } from './support'
 import { IntegerInputInner } from './IntegerInputInner'
@@ -52,5 +52,5 @@ export function IntegerInput(options) {
 		<IntegerInputInner />
 	</TextInput>
 }
-applyMapping(textInputFunctions, (func, key) => { IntegerInput[key] = func })
 IntegerInput.validation = validation
+IntegerInput.translatableProps = TextInput.translatableProps

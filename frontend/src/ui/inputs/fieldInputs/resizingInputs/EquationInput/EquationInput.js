@@ -6,7 +6,7 @@ import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
-import { MathInput, defaultMathInputOptions, mathInputFunctions } from '../MathInput'
+import { MathInput, defaultMathInputOptions } from '../MathInput'
 
 import { keyboardSettings, errorToMessage } from './support'
 import * as settings from './settings'
@@ -48,6 +48,6 @@ export function EquationInput(options) {
 	// Render everything.
 	return <MathInput {...mathInputOptions} />
 }
-applyMapping(mathInputFunctions, (func, key) => { EquationInput[key] = func })
 EquationInput.validation = validation
 EquationInput.settings = settings
+EquationInput.translatableProps = MathInput.translatableProps

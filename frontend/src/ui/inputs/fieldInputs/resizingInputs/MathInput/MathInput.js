@@ -5,7 +5,7 @@ import { options as CASOptions, support as CASSupport } from 'step-wise/CAS'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
-import { ResizingInput, defaultResizingInputOptions, resizingInputFunctions } from '../ResizingInput'
+import { ResizingInput, defaultResizingInputOptions } from '../ResizingInput'
 
 import { mouseClickToCursor } from './support'
 import { expressionFunctions } from './types'
@@ -13,8 +13,6 @@ import { MathInputInner, defaultMathInputInnerOptions } from './MathInputInner'
 
 const { defaultFieldSettings, defaultInterpretationExpressionSettings } = CASOptions
 const { getEmpty, isEmpty } = CASSupport
-
-export const mathInputFunctions = resizingInputFunctions
 
 export const defaultMathInputOptions = {
 	...defaultResizingInputOptions,
@@ -80,3 +78,4 @@ export function MathInput(options) {
 		<MathInputInner {...mathInputInnerOptions} />
 	</ResizingInput>
 }
+MathInput.translatableProps = ResizingInput.translatableProps

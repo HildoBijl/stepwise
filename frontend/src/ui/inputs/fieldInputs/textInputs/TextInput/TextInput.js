@@ -4,11 +4,9 @@ import clsx from 'clsx'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { FieldInput, defaultFieldInputOptions, fieldInputFunctions } from '../../FieldInput'
+import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
 
 export const defaultTextInputOptions = defaultFieldInputOptions
-
-export const textInputFunctions = fieldInputFunctions
 
 const useStyles = makeStyles((theme) => ({
 	textInputContents: {
@@ -70,3 +68,4 @@ export function TextInput(options) {
 		{options.children}
 	</FieldInput>
 }
+TextInput.translatableProps = FieldInput.translatableProps

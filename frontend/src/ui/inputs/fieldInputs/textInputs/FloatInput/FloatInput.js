@@ -6,7 +6,7 @@ import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
-import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
+import { TextInput, defaultTextInputOptions } from '../TextInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
 import { FloatInputInner } from './FloatInputInner'
@@ -60,5 +60,5 @@ export function FloatInput(options) {
 		<FloatInputInner />
 	</TextInput>
 }
-applyMapping(textInputFunctions, (func, key) => { FloatInput[key] = func })
 FloatInput.validation = validation
+FloatInput.translatableProps = TextInput.translatableProps
