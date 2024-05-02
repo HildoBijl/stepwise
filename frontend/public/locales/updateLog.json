@@ -1,12 +1,1 @@
-{
-  "en": {
-    "pages/test": {
-      "test2": {
-        "oldText": "<list><items><item><a>stuff1</a></item><item/><item><b>stuff2</b></item><item>Text</item><item>More text</item></items><param>Basic text</param></list>",
-        "firstUpdate": "2024-05-01T14:46:15.455Z",
-        "latestUpdate": "2024-05-01T14:46:15.455Z",
-        "latestText": "<list><item><a>stuff1</a></item><item/><item><b>stuff2</b></item><item>Text</item><item>More text</item></list>"
-      }
-    }
-  }
-}
+{}

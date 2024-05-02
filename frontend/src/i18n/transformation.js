@@ -256,11 +256,14 @@ export function applyTranslation(element, tagTree, key) {
 				return { ...props, [key]: applyTranslation(prop, tagTree) }
 			}
 
-			// On multiple translatable props, process them together.
+			// On multiple translatable props, process them one by one, using the tag name to match them properly.
 			if (Array.isArray(translatableProps)) {
 				const propsClone = { ...props }
-				translatableProps.forEach((key, index) => {
-					let tagTreeChild = tagTree[index].value
+				translatableProps.forEach(key => {
+					const name = camelCaseToDashCase(key)
+					let tagTreeChild = tagTree.find(item => item.name === name)?.value // Zoom in on the contents of the property tag.
+					if (props[key] && !tagTreeChild)
+						throw new Error(`Invalid translate case: expected to find a tag "${name}" in the translation file, since the component has a property "${key}", but this was not found. Probably the translation file is outdated.`)
 					if (Array.isArray(props[key])) // When the contents are an array, extra tags have been added for separation. Remove these.
 						tagTreeChild = tagTreeChild.map(item => item?.value && item.value[0])
 					propsClone[key] = applyTranslation(props[key], tagTreeChild)
