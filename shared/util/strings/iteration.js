@@ -39,6 +39,13 @@ function getTagTree(originalStr) {
 			if (tag.name !== search[3])
 				throw new Error(`Invalid tag string: an opened tag <${tag.name}> was closed by </${search[3]}>. Make sure tags are properly nested. The full string is:\n${originalStr}`)
 			currentList = stack.length > 0 ? stack[stack.length - 1].value : mainList
+
+			// On no or only one value in the list, replace the list by either undefined or said item.
+			const lastObject = currentList[currentList.length - 1]
+			if (lastObject.value.length === 0)
+				delete lastObject.value
+			else if (lastObject.value.length === 1)
+				lastObject.value = lastObject.value[0]
 		} else if (search[4] !== undefined) { // Self-tag: add it to the list.
 			currentList.push({ type: 'tag', name: search[4] })
 		} else {
@@ -56,9 +63,13 @@ function getTagTree(originalStr) {
 	if (stack.length > 0)
 		throw new Error(`Invalid tag string: an opened tag <${lastOf(stack).name}> was never closed. The full string is:\n${originalStr}`)
 
-	// All in order. Add the last string and return.
+	// All in order. Add the last string.
 	if (str.length > 0)
 		mainList.push({ type: 'text', value: str })
+
+	// On a single element, return said element.
+	if (mainList.length === 1)
+		return mainList[0]
 	return mainList
 }
 module.exports.getTagTree = getTagTree
@@ -70,11 +81,11 @@ function tagTreeToString(tagTree) {
 		if (tagTreeItem.type === 'text')
 			return tagTreeItem.value
 
-			// On a variable, return the variable as encoded.
+		// On a variable, return the variable as encoded.
 		if (tagTreeItem.type === 'variable')
 			return `{${tagTreeItem.name}}`
 
-			// On a tag return either a self-tag (on no value) or a regular tag (on a value) with its contents.
+		// On a tag return either a self-tag (on no value) or a regular tag (on a value) with its contents.
 		if (tagTreeItem.type === 'tag') {
 			if (!tagTreeItem.value)
 				return `<${tagTreeItem.name}/>`

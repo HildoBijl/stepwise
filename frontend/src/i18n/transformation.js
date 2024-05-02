@@ -151,22 +151,9 @@ export function applyNoTranslation(element, key) {
 
 // applyTranslation takes a React element and a tag-tree of a translation and tries to apply the tag-tree to the React element. On any inconsistency between the element and the translation, it throws an error. Optionally, a key can be provided to be added to the react element, which is sometimes needed to prevent react warnings/errors.
 export function applyTranslation(element, tagTree, key) {
-
-	// ToDo: check if these checks are still relevant.
-
-	// If both the element and the tagTree are undefined (like an undefined in an array of (list) items) then do nothing.
-	if (element === undefined && tagTree === undefined)
-		return
-
-	// If the element is not an array, but the tagTree is a one-element array, zoom in on the tagTree.
-	if (!Array.isArray(element) && Array.isArray(tagTree) && tagTree.length === 1)
-		tagTree = tagTree[0]
-
-	// If either the element or a tagTree is an array, the other should be too.
-	if (Array.isArray(element) && !Array.isArray(tagTree))
-		tagTree = [tagTree]
-	if (Array.isArray(tagTree) && !Array.isArray(element))
-		element = [element]
+	// If the element is undefined, throw an error. It must always be present.
+	if (element === undefined)
+		throw new Error(`Invalid element: received undefined as an element, but every translated element must be defined. If you don't want to display a component, render null or an empty string or so.`)
 
 	// If we have arrays, walk through them to match up corresponding elements. After all, it may always happen that one has a string somewhere in-between and the other has not. If that's the case, squeeze in an empty string to have a proper pairing. Then translate these element pairs one by one.
 	if (Array.isArray(element)) {
@@ -224,8 +211,9 @@ export function applyTranslation(element, tagTree, key) {
 			throw new Error(`Invalid translation: there was a mismatch in the translation. Expected to include a variable with name "${name}" and hence encounter "{${name}}" in the translation. Instead, encountered:\n${tagTreeToString(tagTree)}`)
 		if (tagTree.name !== name)
 			throw new Error(`Invalid translation: there was a mismatch in variable names. Expected to include a variable "${name}" but encountered a variable "${tagTree.name}" in the translation.`)
+
+		// If the variable is a React element, then it appears as a React element in a list. React requires it to have a key. If it doesn't have one, add one.
 		let variable = element[name]
-		// ToDo: check if we need this check.
 		if (isValidElement(variable))
 			variable = { ...variable, key: variable.key || `i18n-key-${key}` }
 		return variable
@@ -251,8 +239,8 @@ export function applyTranslation(element, tagTree, key) {
 				const prop = props[key]
 				if (!prop)
 					return props
-				if (Array.isArray(prop)) // On an array prop, items have been created. Zoom in on them one by one.
-					return { ...props, [key]: prop.map((propItem, index) => applyTranslation(propItem, tagTree[index])) }
+				if (Array.isArray(prop) && key !== 'children') // On an array prop, items have been created. Zoom in on them one by one.
+					return { ...props, [key]: prop.map((propItem, index) => applyTranslation(propItem, tagTree[index].value)) }
 				return { ...props, [key]: applyTranslation(prop, tagTree) }
 			}
 
@@ -264,7 +252,7 @@ export function applyTranslation(element, tagTree, key) {
 					let tagTreeChild = tagTree.find(item => item.name === name)?.value // Zoom in on the contents of the property tag.
 					if (props[key] && !tagTreeChild)
 						throw new Error(`Invalid translate case: expected to find a tag "${name}" in the translation file, since the component has a property "${key}", but this was not found. Probably the translation file is outdated.`)
-					if (Array.isArray(props[key])) // When the contents are an array, extra tags have been added for separation. Remove these.
+					if (Array.isArray(props[key]) && key !== 'children') // When the contents are an array, extra tags have been added for separation. Remove these.
 						tagTreeChild = tagTreeChild.map(item => item?.value && item.value[0])
 					propsClone[key] = applyTranslation(props[key], tagTreeChild)
 				})
