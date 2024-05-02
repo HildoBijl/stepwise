@@ -370,3 +370,104 @@ To keep track of when language files are outdated, there is the `updateLog.json`
 It is crucial that translations are updated! If the original is `My name is {name}` but this is changed to `My name is <strong>{name}</strong>` then any old translation will fail to be applied. After all, the format cannot be reconciled anymore. To prevent a site with outdated language files to be deployed, the `updateLog.json` file must always be set back to an empty JSON object `{}` before deploying, as a sign that all language updates have been incorporated.
 
 So before deploying an updated version of Step-Wise, always check the update log. If it's not empty, fix the translations and then clear the update log.
+
+
+## Defining translation set-up for own components.
+
+Suppose you define your own components. These components - and specifically their contents - need to be translated properly. How do you define how they show up and are used in translation files?
+
+### Defining the tag
+
+The first thing you can do is define the tag. For instance, you can set up a mathematics component as follows.
+
+```
+function M({ children }) {
+	// Some rendering code.
+}
+M.tag = 'inline-math'
+```
+
+In a translation file, this will then appear as `<inline-math>...contents...</inline-math>`.
+
+If you don't define a tag, the default approach is to take the component name, for instance `SomeComponent` and turn it into lower-case dashed style `<some-component>...contents</some-component>`. Setting a tag overrides this default behavior.
+
+### Defining whether or not contents should be translated.
+
+In some cases you don't want to further translate component contents. For instance, an equation has mathematical contents which don't need a translation. In this case, we can also set the `translation` property to false.
+
+```
+function M({ children }) { ... }
+M.translation = false
+```
+
+This will ignore any contents of the component on translating. So its translation will render as `<inline-math/>` (assuming that tag has been defined, otherwise it would be `<m/>`).
+
+### Translating props
+
+It could be that you have a component whose properties need translations too. You can define this by setting the `translatableProps` parameter. There are three options here.
+
+#### Option 1: a single prop
+
+Suppose you are developing a new `List` component, which has an `items` parameter. That is, you call it through `<List items={['Text', 'More text']} />`. The definition may then look like this.
+
+```
+function List({ items }) {
+	return items.map((item, index) => <li key={index}>{item}</li>)
+}
+List.translatableProps = 'items'
+```
+
+By defining the translatable properties in this way, the translation toolbox won't look for `children` but only considers the `items` prop.
+
+Often the property is a plain value, like text or some object. In that case, the translation is set up like `<list>...some contents...</list>`. However, in the special case where the property is an array (which is the case in our example) then extra tags are added to separate the respective elements. The names of these tags are derived from the parameter name, mostly by removing an 's' at the end. So the translation here would be `<list><item>Text</item><item>More text</item></list>`.
+
+### Option 2: multiple props
+
+If an element has multiple properties to translate, define their names in a list. For instance, we may have a new `Input` component with parameters `label` and `placeholder` that both require translation. (But the `children`, if present, do not.) In this case you can define it through:
+
+```
+function NewInput({ label, placeholder, someOtherParameter }) {
+	// Some rendering function.
+}
+NewInput.translatableProps = ['label', 'placeholder']
+```
+
+When you render an input field through `<NewInput placeholder="Some value" label={<M>x^2 + y^2</M>} />` then the translation file will contain `<new-input><label><inline-math/></label><placeholder>Some value</placeholder></new-input>`. (Note: the order the parameters will be put in is defined by the array. If a parameter is not defined, it will be left out of the translation file altogether.)
+
+### Option 3: custom translation functions
+
+The final (more advanced) method for setting up translations is to define your own functions. Doing so will override all default functionality. This goes in two parts.
+
+- Define the `getTranslationString(props, getTranslationString)` function to determine how to turn a component into a translation string.
+- Define the `translateProps(props, tagTree, applyTranslation)` function to take a set of props and properly apply a translation (turned into a tagTree) to it.
+
+For the first, you can define it for instance as follows.
+
+```
+function SomeComponent({ prop1, prop2 }) {
+	// Render it.
+}
+SomeComponent.getTranslationString(props, getTranslationString) {
+	return `<prop1>{getTranslationString(props.prop1)}</prop1><anything-is-possible>{getTranslationString(props.prop2)}</anything-is-possible>`
+}
+```
+
+Here the `getTranslationString` function is the default function to turn an object into a translation-string. It is useful to further translate child components, if needed. Generally anything is possible, as long as the result is a proper XML string. Note: only the contents need to be given. The given string is automatically wrapped between `<some-components>...whatever is returned...</some-component>`.
+
+The second function should then be able to decipher the string generated. For instance, it could be something like this.
+
+```
+function translateProps(props, tagTree, applyTranslation) {
+	return {
+		...props,
+		prop1: applyTranslation(props.prop1, tagTree[0].value),
+		prop2: applyTranslation(props.prop1, tagTree[1].value),
+	}
+}
+```
+
+Note: the translateProps function receives the `props` parameter and returns a new variant of said props. It also receives the `tagTree` which is an interpreted version of the XML translation.
+
+The final parameter that the `translateProps` function receives is `applyTranslation(element, tagTree)`. This function is the default function to translate elements, useful for passing on translation calls. This function receives an element including its corresponding tag-tree, and subsequently translates this. It of course may do so by calling the `translateProps` function of said elements.
+
+Usually you won't need the above method of customizing your own translations, but in certain special cases it could be useful to be able to override the default behavior of the translation toolbox.
