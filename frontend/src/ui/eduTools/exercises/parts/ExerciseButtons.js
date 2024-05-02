@@ -253,10 +253,15 @@ function StepSelect() {
 	const handleChange = event => {
 		const newSelectedStep = event.target.value
 		const newProgress = { ...progress }
+		delete newProgress.done
+		delete newProgress.solved
+		for (let i = (newSelectedStep || 0) + 1; newProgress[i]; i++) { delete newProgress[i] } // Delete all step progresses after the given step.
 		if (newSelectedStep) {
 			newProgress.split = true
 			newProgress.step = newSelectedStep
-			newProgress[newSelectedStep] = newProgress[newSelectedStep] || {}
+			newProgress[newSelectedStep] = { ...newProgress[newSelectedStep] } || {}
+			delete newProgress[newSelectedStep].done
+			delete newProgress[newSelectedStep].solved
 		} else {
 			delete newProgress.split
 			delete newProgress.step
@@ -268,7 +273,7 @@ function StepSelect() {
 	return <FormControl variant="outlined" size="small" className="stepSelectOuter">
 		<Select id="stepSelect" value={getStep(progress)} onChange={handleChange} className="stepSelectInner">
 			<MenuItem value={0} key={0}><Translation path={translationPath} entry="buttons.stepSelect.tryMain">Try the main exercise</Translation></MenuItem>
-			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}><Translation path={translationPath} entry="buttons.stepSelect.tryStep">Try out step {{step: index + 1}}</Translation></MenuItem>)}
+			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}><Translation path={translationPath} entry="buttons.stepSelect.tryStep">Try out step {{ step: index + 1 }}</Translation></MenuItem>)}
 		</Select>
 	</FormControl>
 }

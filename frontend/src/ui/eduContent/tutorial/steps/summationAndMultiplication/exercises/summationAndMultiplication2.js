@@ -55,7 +55,7 @@ function getFeedback(exerciseData) {
 		...getFieldInputFeedback(exerciseData, ['ab', 'cd', 'ans']),
 		...getMCFeedback(exerciseData, {
 			order: {
-				step: 0,
+				step: 1,
 				correctText: translate(`Yes! Multiplication indeed comes first.`, 'order.correct'),
 				incorrectText: translate(`That's not correct. Addition always comes last. (Unless it's prioritized by brackets, which is not the case here.)`, 'order.incorrect'),
 			}
