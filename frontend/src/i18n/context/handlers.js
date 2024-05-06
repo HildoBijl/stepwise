@@ -41,7 +41,7 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 				if (language === defaultLanguage)
 					console.error(`Language file loading failed: could not load the language file "${path}". Probably this is because it has not been created yet. Please add the file "frontend/public/locales/${language}/${path}.json" and give it an empty object "{}" as contents. (Yes, this can be automated, but automatic file creation has the potential for massive clutter, so that's why this is left as a manual action.)`)
 				else
-					console.error(`Missing translation file: the translation file "${path}" has not been translated to language setting "${language}" yet.`)
+					console.warn(`Missing translation file: the translation file "${path}" has not been translated to language setting "${language}" yet.`)
 			}
 		})
 	})
