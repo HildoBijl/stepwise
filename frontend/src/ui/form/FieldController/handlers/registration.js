@@ -35,7 +35,7 @@ export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrder
 function getTabOrder(controller, fields) {
 	// If there is no controller initialized, we cannot do anything.
 	if (!controller)
-		return
+		return []
 
 	// Find the element number: the number in which each registered element appears within the tab controller.
 	const tags = [...controller.querySelectorAll('*')]
