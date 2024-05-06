@@ -2,8 +2,9 @@
   "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
     "blocks": {
-      "0": "Getallen invoeren",
-      "1": "Demo stapsgewijze oefeningen"
+      "0": "Invoervelden voor getallen",
+      "1": "Wiskundige invoervelden",
+      "2": "Demo stapsgewijze oefeningen"
     }
   },
   "algebrabasics": {

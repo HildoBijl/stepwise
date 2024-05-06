@@ -17,6 +17,12 @@
   "lookUpConstant": {
     "name": "Constanten opzoeken"
   },
+  "enterExpression": {
+    "name": "Uitdrukking invullen"
+  },
+  "enterEquation": {
+    "name": "Vergelijking invullen"
+  },
   "summation": {
     "name": "Optellen"
   },

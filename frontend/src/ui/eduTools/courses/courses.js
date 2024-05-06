@@ -26,6 +26,8 @@ let courses = {
 			'enterFloat',
 			'enterUnit',
 			'lookUpConstant',
+			'enterExpression',
+			'enterEquation',
 			'summationAndMultiplication',
 		],
 		priorKnowledge: [],
@@ -34,13 +36,19 @@ let courses = {
 			'enterFloat',
 			'enterUnit',
 			'lookUpConstant',
+			'enterExpression',
+			'enterEquation',
 			'summation',
 			'multiplication',
 		],
 		blocks: [
 			{
-				name: 'Number input',
+				name: 'Number input fields',
 				goals: ['enterInteger', 'enterFloat', 'enterUnit', 'lookUpConstant'],
+			},
+			{
+				name: 'Mathematical input fields',
+				goals: ['enterExpression', 'enterEquation'],
 			},
 			{
 				name: 'Demo Step-Wise exercises',

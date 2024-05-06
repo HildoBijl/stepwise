@@ -45,11 +45,13 @@ export function useTextTranslator(translatorPath) {
 		// Get the translation file and extract the respective entry. If the user language fails, try to use the default language as fallback.
 		const fallbackLanguageFile = fallbackLanguageFiles[path]
 		const languageFile = languageFiles[path] || fallbackLanguageFile
-		const text = (languageFile && getDeepParameter(languageFile, entryAsArray(entry))) || (fallbackLanguageFile && getDeepParameter(fallbackLanguageFile, entryAsArray(entry)))
+		let text = (languageFile && getDeepParameter(languageFile, entryAsArray(entry))) || (fallbackLanguageFile && getDeepParameter(fallbackLanguageFile, entryAsArray(entry)))
 
-		// If the language file has loaded but there is no text and no fallbackText, then something is wrong.
-		if (languageFile && text === undefined && fallbackText === undefined)
-			throw new Error(`Invalid translation request: requested translation text for path "${path}" and entry "${entry}" but could not find this entry. Also no fallback text has been provided.`)
+		// If the language file has loaded but there is no text and no fallbackText, then something is wrong. Although maybe the text is rendered later on in the page, so let's not end stuff, and only show a warning.
+		if (languageFile && text === undefined && fallbackText === undefined) {
+			console.error(`Invalid translation request: requested translation text for path "${path}" and entry "${entry}" but could not find this entry. Also no fallback text has been provided.`)
+			text = '[Translation missing]' // Show a placeholder indicating the problem.
+		}
 
 		// If the language file has not loaded yet, and there is no fallback text, then we cannot show anything yet.
 		if (!languageFile && fallbackText === undefined)

@@ -2,8 +2,9 @@
   "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
     "blocks": {
-      "0": "Zahlen eingeben",
-      "1": "Demo schrittweise Übungen"
+      "0": "Eingabefelder für Zahlen",
+      "1": "Mathematische Eingabefelder",
+      "2": "Demo schrittweise Übungen"
     }
   },
   "algebrabasics": {

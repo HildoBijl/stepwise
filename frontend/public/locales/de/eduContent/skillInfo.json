@@ -17,6 +17,12 @@
   "lookUpConstant": {
     "name": "Nachschlagen einer Konstante"
   },
+  "enterExpression": {
+    "name": "Eingeben eines Ausdrucks"
+  },
+  "enterEquation": {
+    "name": "Eingeben einer Gleichung"
+  },
   "summation": {
     "name": "Addieren"
   },

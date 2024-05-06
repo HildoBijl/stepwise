@@ -17,6 +17,12 @@
   "lookUpConstant": {
     "name": "Look up a constant"
   },
+  "enterExpression": {
+    "name": "Enter an expression"
+  },
+  "enterEquation": {
+    "name": "Enter an equation"
+  },
   "summation": {
     "name": "Add numbers"
   },

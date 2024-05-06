@@ -19,7 +19,7 @@ const skillStructure = {
 	},
 
 	tutorial: {
-		inputs: {
+		numberInputs: {
 			enterInteger: {
 				name: 'Enter an integer',
 				examples: ['enterInteger'],
@@ -39,6 +39,18 @@ const skillStructure = {
 				name: 'Look up a constant',
 				examples: ['lookUpConstant'],
 				exercises: ['lookUpConstant'],
+			},
+		},
+		mathInputs: {
+			enterExpression: {
+				name: 'Enter an expression',
+				// examples: ['enterExpression'],
+				// exercises: ['enterExpression'],
+			},
+			enterEquation: {
+				name: 'Enter an equation',
+				// examples: ['enterEquation'],
+				// exercises: ['enterEquation'],
 			},
 		},
 		steps: {
