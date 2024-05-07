@@ -21,8 +21,8 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 	const reload = () => {
 		setLoading(true)
 		Promise.all([
-			import(/* webpackChunkName: "front-end-exercises-15" */ `ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseId}`),
-			import(/* webpackChunkName: "shared-exercises-15" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`),
+			import(/* webpackChunkName: "front-end-exercises-17" */ `ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseId}`),
+			import(/* webpackChunkName: "shared-exercises-17" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`),
 		]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default

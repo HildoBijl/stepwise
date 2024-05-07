@@ -44,8 +44,8 @@ const skillStructure = {
 		mathInputs: {
 			enterExpression: {
 				name: 'Enter an expression',
-				// examples: ['enterExpression'],
-				// exercises: ['enterExpression'],
+				examples: ['enterExpression'],
+				exercises: ['enterExpression'],
 			},
 			enterEquation: {
 				name: 'Enter an equation',

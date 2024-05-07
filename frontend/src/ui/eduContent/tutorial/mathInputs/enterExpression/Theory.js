@@ -26,7 +26,7 @@ export function Theory() {
 			<Par>There are many <Term>mathematical functions</Term> that can be part of expressions. All functions work similarly, but a few important exaples are the following.</Par>
 			<List items={[
 				<><Term>Trigonometric functions:</Term> <M>\sin\left(x\right)</M>. Type them with your regular keyboard as "sin()", "cos()", etcetera. Use their inverses through "asin()", "acos()", and so forth. Input fields will know from the context, where relevant, whether the functions use degrees or radians.</>,
-				<><Term>Roots:</Term> <M>\sqrt[3](x)</M>. Type "root()" or "sqrt()" on your keyboard, and the input field will automatically turn it into a root or square root. A root is by default a base-2 root, but this base can be adjusted by moving the cursor to the right position.</>,
+				<><Term>Roots:</Term> <M>\sqrt[3](x)</M>. Type "root()" on your keyboard, and the input field will automatically turn it into a root like <M>\sqrt(\ldots)</M>. A root is by default a base-2 root, but this base can be adjusted by moving the cursor to the right position. (You can also type "sqrt()" but then you get a square root, whose base cannot be adjusted.)</>,
 				<><Term>Logarithms:</Term> <M>^(2)\!\log\left(x\right)</M>. Type "log()" on your keyboard to get a logarithm. The input field automatically assumes a base-10 logarithm, but this can of course be adjusted.</>
 			]} />
 			<Par>Often an exercise knows which types of functions are required. If certain functions are not needed, they are often <Term>disabled</Term> for the input field, which includes the respective key being grayed out on the internal keyboard. This is so that students not familiar with these functions will not be as confused/overwhelmed as they otherwise might be.</Par>

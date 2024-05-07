@@ -254,7 +254,12 @@ export function applyTranslation(element, tagTree, key) {
 						throw new Error(`Invalid translate case: expected to find a tag "${name}" in the translation file, since the component has a property "${key}", but this was not found. Probably the translation file is outdated.`)
 					if (Array.isArray(props[key]) && key !== 'children') // When the contents are an array, extra tags have been added for separation. Remove these.
 						tagTreeChild = tagTreeChild.map(item => item?.value && item.value[0])
-					propsClone[key] = applyTranslation(props[key], tagTreeChild)
+					if (tagTreeChild !== undefined && props[key] !== undefined)
+						propsClone[key] = applyTranslation(props[key], tagTreeChild)
+					else if (tagTreeChild === undefined && props[key] !== undefined)
+						console.warn(`Invalid translate case: a component has a property "${key}" but this property is not present in the translation file. The translation is likely missing parts.`)
+					else if (tagTreeChild !== undefined && props[key] === undefined)
+						console.warn(`Invalid translate case: a component has a property "${key}" that is undefined, but nevertheless an entry for it exists in the translation file. The translation likely has unused parts.`)
 				})
 				return propsClone
 			}
