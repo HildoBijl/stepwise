@@ -13,11 +13,16 @@ function toLatex(FI, options) {
 	const { value } = FI
 	const [parameter] = value
 	const parameterLatex = getFIFuncs(parameter).toLatex(parameter, options)
-	const nameCharsArray = 'log('.split('')
+	const nameCharsArray = 'log'.split('')
 	nameCharsArray.include = false // Make sure that the name cannot be clicked on for cursor positioning.
 	return {
-		latex: `{}^{${parameterLatex.latex}}{\\rm log}(`,
-		chars: [parameterLatex.chars, nameCharsArray],
+		// This is the set-up with the number in the top left.
+		// latex: `{}^{${parameterLatex.latex}}{\\rm log}(`,
+		// chars: [parameterLatex.chars, nameCharsArray, '(')],
+
+		// This is the set-up with the number in the bottom right.
+		latex: `{\\rm log}_{${parameterLatex.latex}}(`,
+		chars: [nameCharsArray, parameterLatex.chars, '('],
 	}
 }
 
