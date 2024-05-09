@@ -12,7 +12,8 @@ class Log extends Function {
 	}
 
 	toRawTex() {
-		return `{^{${this.base.tex}}}\\!\\log\\left(${this.argument.tex}\\right)`
+		// return `{^{${this.base.tex}}}\\!\\log\\left(${this.argument.tex}\\right)` // This is the notation set-up with the number in the top left.
+		return `\\log_{${this.base.tex}}\\left(${this.argument.tex}\\right)` // This is the notation set-up with the number in the bottom right.
 	}
 
 	requiresTimesBeforeInProductTex(previousTerm) {

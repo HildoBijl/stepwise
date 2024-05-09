@@ -15,12 +15,12 @@ function generateState() {
 	const variables = selectRandomVariables(variableSet, usedVariables)
 	return {
 		expression: selectRandomly([
-			asExpression(`(${getRandomInteger(-12, 12, [0])}-x)/(y+${getRandomInteger(-12, 12, [0])})`), // Fractions.
-			asExpression(`${getRandomInteger(-12, 12, [0])}${variables.x}_${getRandomInteger(1, 3)}^${getRandomInteger(1, 3)} + ${getRandomInteger(-12, 12, [0])}${variables.y}_${getRandomInteger(1, 3)}^${getRandomInteger(1, 3)}`), // Powers/subscripts.
-			asExpression(`(${getRandomInteger(-12, 12, [0])}-x)^(y/${getRandomInteger(2, 6)})`), // Brackets and powers with fractions.
-			asExpression(`${selectRandomly(['sin', 'cos', 'tan'])}(${getRandomInteger(-4, 4, [0, 1])}*${selectRandomly(['asin', 'acos', 'atan'])}(x/y))`), // Trigonometric functions.
-			asExpression(`root[x](${getRandomInteger(-12, 12, [0])}+y)`), // Roots.
-			// ToDo: logarithms.
+			// asExpression(`(${getRandomInteger(-12, 12, [0])}-x)/(y+${getRandomInteger(-12, 12, [0])})`), // Fractions.
+			// asExpression(`${getRandomInteger(-12, 12, [0])}${variables.x}_${getRandomInteger(1, 3)}^${getRandomInteger(1, 3)} + ${getRandomInteger(-12, 12, [0])}${variables.y}_${getRandomInteger(1, 3)}^${getRandomInteger(1, 3)}`), // Powers/subscripts.
+			// asExpression(`(${getRandomInteger(-12, 12, [0])}-x)^(y/${getRandomInteger(2, 6)})`), // Brackets and powers with fractions.
+			// asExpression(`${selectRandomly(['sin', 'cos', 'tan'])}(${getRandomInteger(-4, 4, [0, 1])}*${selectRandomly(['asin', 'acos', 'atan'])}(x/y))`), // Trigonometric functions.
+			// asExpression(`root[x](${getRandomInteger(-12, 12, [0])}+y)`), // Roots.
+			asExpression(`log[x](${getRandomInteger(-12, 12, [0])}y)`), // Logarithms.
 		]).regularClean().substituteVariables(variables)
 	}
 }
