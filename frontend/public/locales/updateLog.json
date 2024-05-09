@@ -1,1 +1,29 @@
-{}
+{
+  "en": {
+    "eduContent/tutorial/mathInputs/enterEquation": {
+      "practice.enterEquation.problem": {
+        "oldText": "<par>Consider the equation <block-math/> Make some small modification to it, so that it's different yet still mathematically equivalent.</par><input-space><par><equation-input><label>Enter the equation here</label></equation-input></par></input-space>",
+        "firstUpdate": "2024-05-09T10:52:16.111Z",
+        "latestUpdate": "2024-05-09T10:59:42.790Z",
+        "latestText": "<par>Consider the equation <block-math/> Make some basic modification to it, so that it's different yet still mathematically equivalent.</par><input-space><par><equation-input><label>Enter the equation here</label></equation-input></par></input-space>"
+      },
+      "practice.enterEquation.solution": {
+        "oldText": "<par>There are many ways in which the equation <inline-math/> can be adjusted. For instance, we can switch the left and the right side, resulting in <block-math/> Of course there are infinitely many other valid solutions too.</par>",
+        "firstUpdate": "2024-05-09T10:52:16.111Z",
+        "latestUpdate": "2024-05-09T10:52:16.195Z",
+        "latestText": "<par>There are many ways in which the equation <inline-math/> can be adjusted. For instance, we can switch the left and the right side, resulting in <block-math/> Of course there are infinitely many other valid solutions too.</par>"
+      },
+      "practice.enterEquation.feedback.exactlyEqual": {
+        "firstUpdate": "2024-05-09T10:54:33.345Z",
+        "latestUpdate": "2024-05-09T10:54:33.345Z",
+        "latestText": "<a>You have entered the equation without making any modifications. You must rewrite the equation to something different.</a>"
+      },
+      "practice.enterEquation.feedback.notEquivalent": {
+        "oldText": "<a>This is not equivalent to the original equation. You have done something to it that's mathematically not allowed.</a>",
+        "firstUpdate": "2024-05-09T10:54:41.788Z",
+        "latestUpdate": "2024-05-09T10:57:30.178Z",
+        "latestText": "<a>This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</a>"
+      }
+    }
+  }
+}

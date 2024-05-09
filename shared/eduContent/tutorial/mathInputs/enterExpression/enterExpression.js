@@ -16,7 +16,7 @@ function generateState() {
 	return {
 		expression: selectRandomly([
 			asExpression(`(${getRandomInteger(-12, 12, [0])}-x)/(y+${getRandomInteger(-12, 12, [0])})`), // Fractions.
-			asExpression(`${getRandomInteger(-12, 12, [0])}${variables.x}_${getRandomInteger(1, 3)}^${getRandomInteger(1, 3)} + ${getRandomInteger(-12, 12, [0])}${variables.y}_${getRandomInteger(1, 3)}^${getRandomInteger(1, 3)}`), // Powers/subscripts.
+			asExpression(`${getRandomInteger(-12, 12, [0])}${variables.x}_${getRandomInteger(1, 3)}^${getRandomInteger(2, 4)} + ${getRandomInteger(-12, 12, [0])}${variables.y}_${getRandomInteger(2, 4)}^${getRandomInteger(1, 3)}`), // Powers/subscripts.
 			asExpression(`${getRandomInteger(-12, 12, [0])}*hat(${variables.x})_${getRandomInteger(1, 3)} + ${getRandomInteger(-12, 12, [0])}*dot(${variables.y})^${getRandomInteger(2, 4)}`), // Accents with powers.
 			asExpression(`(${getRandomInteger(-12, 12, [0])}-x)^(y/${getRandomInteger(2, 6)})`), // Brackets and powers with fractions.
 			asExpression(`${selectRandomly(['sin', 'cos', 'tan'])}(${getRandomInteger(-4, 4, [0, 1])}*${selectRandomly(['asin', 'acos', 'atan'])}(x/y))`), // Trigonometric functions.

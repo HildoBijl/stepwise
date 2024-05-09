@@ -49,8 +49,8 @@ const skillStructure = {
 			},
 			enterEquation: {
 				name: 'Enter an equation',
-				// examples: ['enterEquation'],
-				// exercises: ['enterEquation'],
+				examples: ['enterEquation'],
+				exercises: ['enterEquation'],
 			},
 		},
 		steps: {
