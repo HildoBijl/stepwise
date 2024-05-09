@@ -7,7 +7,7 @@
   "practice": {
     "enterExpression": {
       "problem": "<par>Enter the expression <inline-math/> exactly as shown.</par><input-space><par><expression-input><label>Enter the expression here</label><prelabel><inline-math/></prelabel></expression-input></par></input-space>",
-      "solution": "<par>There isn't much to show for a solution. You simply have to type <inline-math/> into the input field, without any changes. (A multiplication sign does not matter; that one is generally implicit anyway.) You can use either a computer keyboard or the web-app-internal keyboard for smartphones, or a combination of both.</par>",
+      "solution": "<par>There isn't much to show for a solution. You simply have to type <inline-math/> into the input field, without any changes. (A multiplication sign does not matter; that one is generally implicit anyway.) You can use either a computer keyboard or the Step-Wise-internal keyboard for smartphones, or a combination of both.</par>",
       "feedback": {
         "equivalent": "<a>Technically this is equivalent to the expression above, but you must enter the expression <strong>as shown</strong>.</a>",
         "remaining": "<a>This is not equal to the expression shown above.</a>"

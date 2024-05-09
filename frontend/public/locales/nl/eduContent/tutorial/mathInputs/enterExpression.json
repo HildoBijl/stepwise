@@ -7,7 +7,7 @@
   "practice": {
     "enterExpression": {
       "problem": "<par>Voer de uitdrukking <inline-math/> letterlijk in.</par><input-space><par><expression-input><label>Voer hier de uitdrukking in</label><prelabel><inline-math/></prelabel></expression-input></par></input-space>",
-      "solution": "<par>Er is hier niet echt een oplossing om te laten zien. Je moet simpelweg <inline-math/> in het invoerveld intypen, zonder veranderingen. (Een vermenigvuldigingsteken maakt hierbij niet uit; deze is over het algemeen toch impliciet aanwezig.) Je kunt een computertoetsenbord of het web-app-interne smartphonetoetsenbord gebruiken, of een combinatie van beiden.</par>",
+      "solution": "<par>Er is hier niet echt een oplossing om te laten zien. Je moet simpelweg <inline-math/> in het invoerveld intypen, zonder veranderingen. (Een vermenigvuldigingsteken maakt hierbij niet uit; deze is over het algemeen toch impliciet aanwezig.) Je kunt een computertoetsenbord of het Step-Wise-interne smartphonetoetsenbord gebruiken, of een combinatie van beiden.</par>",
       "feedback": {
         "equivalent": "<a>Technisch gezien is dit equivalent aan de bovenstaande uitdrukking, maar je moet de uitdrukking <strong>letterlijk</strong> invoeren.</a>",
         "remaining": "<a>Dit is niet gelijk aan de hierboven weergegeven uitdrukking.</a>"

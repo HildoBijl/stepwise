@@ -22,7 +22,7 @@ function Problem({ expression }) {
 }
 
 function Solution({ expression }) {
-	return <Translation><Par>There isn't much to show for a solution. You simply have to type <M>{expression}</M> into the input field, without any changes. (A multiplication sign does not matter; that one is generally implicit anyway.) You can use either a computer keyboard or the web-app-internal keyboard for smartphones, or a combination of both.</Par></Translation>
+	return <Translation><Par>There isn't much to show for a solution. You simply have to type <M>{expression}</M> into the input field, without any changes. (A multiplication sign does not matter; that one is generally implicit anyway.) You can use either a computer keyboard or the Step-Wise-internal keyboard for smartphones, or a combination of both.</Par></Translation>
 }
 
 function getFeedback(exerciseData) {

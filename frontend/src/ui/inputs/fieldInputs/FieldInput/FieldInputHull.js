@@ -215,8 +215,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	contents: {
-		margin: '0 -0.25em',
-		padding: '0 0.25em', // To make sure the cursor is visible when all the way on the edge, even for expressions starting/ending with large brackets.
+		margin: '0 -0.15em',
+		padding: '0 0.35em', // To make sure the cursor is visible when all the way on the edge, even for expressions starting/ending with large brackets.
 	},
 }))
 
