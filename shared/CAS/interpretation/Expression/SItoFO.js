@@ -19,12 +19,12 @@ function interpretSI(value, settings) {
 		throw new InterpretationError('EmptyExpression', undefined, `Could not interpret an empty Expression.`)
 
 	/* Apply the various interpretation steps. There are four steps.
-	 * - Interpret brackets, including functions with parameters after them. Think of splitting "2x*5sin(3+4)" into parts "2x*5" and a sine function with "3+4" within.
-	 * - Interpret sums. Think of splitting "3+4" into "sum("3", "4")".
-	 * - Interpret products. Think of splitting up "2x*5" into "product("2x", "5")".
-	 * - Interpret remaining matters. Think of turning "2x" into "product(2, x)", turning functions without a parameter after it like "sqrt(y)" into an actual function, and processing subscripts/superscripts, incorporating them into the parameter prior to them.
-	 * Each step calls the next one, so only the first step is activated here.
-	 */
+	* - Interpret brackets, including functions with parameters after them. Think of splitting "2x*5sin(3+4)" into parts "2x*5" and a sine function with "3+4" within.
+	* - Interpret sums. Think of splitting "3+4" into "sum("3", "4")".
+	* - Interpret products. Think of splitting up "2x*5" into "product("2x", "5")".
+	* - Interpret remaining matters. Think of turning "2x" into "product(2, x)", turning functions without a parameter after it like "sqrt(y)" into an actual function, and processing subscripts/superscripts, incorporating them into the parameter prior to them.
+	* Each step calls the next one, so only the first step is activated here.
+	*/
 	const obj = interpretBrackets(value, settings)
 
 	// Apply any extra settings related to the Expression to it.
@@ -375,11 +375,11 @@ function interpretAccent(element, settings) {
 
 	// Verify the input.
 	if (!accents.includes(name))
-		throw new InterpretationError('UnknownAccent', name, `Could not interpret the accent "${alias}${value})" with type "${type}".`)
+		throw new InterpretationError('UnknownAccent', name, `Could not interpret the accent "${alias}${value})". The accent name "${name}" is not known.`)
 	if (value.length === 0)
-		throw new InterpretationError('EmptyAccent', name, `Could not interpret the accent "${alias}${value})" with type "${type}".`)
-	if (value.length > 2)
-		throw new InterpretationError('TooLongAccent', value, `Could not interpret the accent "${alias}${value})" with type "${type}".`)
+		throw new InterpretationError('EmptyAccent', name, `Could not interpret the accent "${alias}${value})". It had no characters in it.`)
+	if (value.length > 1)
+		throw new InterpretationError('TooLongAccent', value, `Could not interpret the accent "${alias}${value})". More than one characters is not supported.`)
 
 	// Process the input.
 	return new Variable({

@@ -31,6 +31,7 @@ export function keyboardSettings(FI, settings) {
 
 // errorToMessage turns an error during interpretation into a message to be displayed.
 export function errorToMessage(error) {
+	console.log('Received', error)
 	const { code, cause } = error
 	switch (code) {
 		// Special cases.
@@ -86,6 +87,8 @@ export function errorToMessage(error) {
 		case 'MisplacedSuperscript':
 			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSuperscript`}>There is an exponent without a term prior to it.</Translation>
 
-		default: return
+		default:
+			console.error(error) // Display the error.
+			return <Translation path={translationPath} entry={`${translationEntry}.remaining`}>Failed to interpret what was written. There's something wrong with the notation used.</Translation>
 	}
 }

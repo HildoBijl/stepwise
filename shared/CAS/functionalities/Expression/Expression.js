@@ -769,7 +769,7 @@ class Variable extends Expression {
 }
 Variable.type = 'Variable'
 Variable.defaultSO = { ...Expression.defaultSO, symbol: 'x', subscript: undefined, accent: undefined }
-Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω∞])\))|([a-zA-Z0-9α-ωΑ-Ω∞]))(_?((.+)|\(([^\(\)]+)\)))?$/
+Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω∞]+)\))|([a-zA-Z0-9α-ωΑ-Ω∞]))(_?((.+)|\(([^\(\)]+)\)))?$/
 Variable.e = new Variable('e')
 Variable.pi = new Variable('π')
 Variable.infinity = new Variable('∞')

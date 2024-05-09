@@ -39,6 +39,7 @@
       "multipleDecimalSeparator": "There is a number with multiple decimal separators.",
       "misplacedSubscript": "There is a subscript \"{subscript}\" without a variable.",
       "misplacedSuperscript": "There is an exponent without a term prior to it.",
+      "remaining": "Failed to interpret what was written. There's something wrong with the notation used.",
       "unknownVariable": "Unknown variable <inline-math/>."
     }
   },
