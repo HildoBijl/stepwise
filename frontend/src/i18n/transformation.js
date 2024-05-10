@@ -249,7 +249,8 @@ export function applyTranslation(element, tagTree, key) {
 				const propsClone = { ...props }
 				translatableProps.forEach(key => {
 					const name = camelCaseToDashCase(key)
-					let tagTreeChild = tagTree.find(item => item.name === name)?.value // Zoom in on the contents of the property tag.
+					const tagTreeArray = Array.isArray(tagTree) ? tagTree : [tagTree] // Ensure the tagTree is also an array.
+					let tagTreeChild = tagTreeArray.find(item => item.name === name)?.value // Zoom in on the contents of the property tag.
 					if (props[key] && !tagTreeChild)
 						throw new Error(`Invalid translate case: expected to find a tag "${name}" in the translation file, since the component has a property "${key}", but this was not found. Probably the translation file is outdated.`)
 					if (Array.isArray(props[key]) && key !== 'children') // When the contents are an array, extra tags have been added for separation. Remove these.
