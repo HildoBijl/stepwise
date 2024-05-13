@@ -109,7 +109,7 @@ export function Blocks() {
 										<div><Translation entry="title">Algebra</Translation></div>
 										<div className="example">
 											<Translation entry="contents">
-												Solve&nbsp;&nbsp;<M>\left(ay+b\right)x = cx</M>
+												Solve&nbsp;&nbsp;<M>\left(ax+b\right)y = cx</M>
 											</Translation>
 										</div>
 									</div>
