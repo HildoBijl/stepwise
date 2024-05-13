@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 	description: {
 		fontWeight: '300',
 		textAlign: 'center',
-		
+
 		fontSize: '0.9em',
 		padding: '1.5em',
 		[theme.breakpoints.up('md')]: {

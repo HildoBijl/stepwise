@@ -27,3 +27,5 @@ export function Translation({ path, entry, children, extendEntry }) {
 		return applyNoTranslation(children)
 	}
 }
+Translation.translation = false // Do not nest Translation components.
+Translation.tag = 'sub-translation'
