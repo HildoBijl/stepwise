@@ -6,17 +6,15 @@ import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutatio
 import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
-import { useSkillId } from '../../skills'
 
 import { ExerciseContainer } from '../containers'
 
-export function ExercisePageForUser() {
+export function ExercisePageForUser({ skillId, onNewExercise }) {
 	const translate = useTranslator()
 
 	// Load in the skill and its exercises.
-	const skillId = useSkillId()
 	const skill = skillTree[skillId]
-	const hasExercises = skill.exercises.length > 0
+	const hasExercises = Array.isArray(skill.exercises) && skill.exercises.length > 0
 
 	// Load the exercise the user has open.
 	const { loading, error, data } = useSkillQuery(skillId)
@@ -27,9 +25,12 @@ export function ExercisePageForUser() {
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		if (hasExercises)
+		if (hasExercises) {
 			startNewExerciseOnServer()
-	}, [startNewExerciseOnServer, hasExercises])
+			if (onNewExercise)
+				onNewExercise()
+		}
+	}, [startNewExerciseOnServer, hasExercises, onNewExercise])
 	const submitAction = useCallback((action, processAction) => {
 		// ToDo later: implement processAction, if it's given, to set up an optimistic response.
 		submitActionToServer({ variables: { action } })

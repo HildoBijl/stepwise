@@ -15,7 +15,7 @@
  * Step 2: put courses itself in the database too.
  */
 
-import { arraysToObject } from 'step-wise/util'
+import { arraysToObject, isBasicObject } from 'step-wise/util'
 import { pick } from 'step-wise/skillTracking'
 
 let courses = {
@@ -26,9 +26,9 @@ let courses = {
 			'enterFloat',
 			'enterUnit',
 			'lookUpConstant',
-			'enterExpression',
-			'enterEquation',
-			'summationAndMultiplication',
+			{ skillId: 'enterExpression', weight: 2 },
+			{ skillId: 'enterEquation', weight: 2 },
+			{ skillId: 'summationAndMultiplication', weight: 4 },
 		],
 		priorKnowledge: [],
 		startingPoints: [
@@ -380,6 +380,20 @@ courses = arraysToObject(Object.keys(courses).map(key => key.toLowerCase()), Obj
 // Add ids for the courses.
 Object.keys(courses).forEach(key => {
 	courses[key].id = key
+})
+
+// Turn the goals array into an array of basic objects with weights. (Weights are used by the free-practice-mode.)
+Object.values(courses).forEach(course => {
+	course.goals = course.goals.map(goal => {
+		if (typeof goal === 'string')
+			goal = { skillId: goal }
+		if (isBasicObject(goal)) {
+			if (goal.weight === undefined)
+				goal.weight = 1
+			return goal
+		}
+		throw new Error(`Invalid course goals: received something of type "${typeof goal}".`)
+	})
 })
 
 export { courses }

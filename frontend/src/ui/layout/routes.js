@@ -170,6 +170,12 @@ export function getRoutes(user = undefined) {
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
+							'freePractice/:tab': {
+								id: 'freePracticeTab',
+								page: FreePracticePage,
+								name: 'Free practice mode',
+								Notification: SkillAdvice,
+							},
 							'freePractice': {
 								id: 'freePractice',
 								page: FreePracticePage,

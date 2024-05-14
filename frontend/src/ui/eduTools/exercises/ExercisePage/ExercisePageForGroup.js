@@ -6,16 +6,13 @@ import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseFo
 import { useGetTranslation } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
-import { useSkillId } from '../../skills'
-
 import { ExerciseContainer } from '../containers'
 
-export function ExercisePageForGroup() {
+export function ExercisePageForGroup({ skillId }) {
 	const getTranslation = useGetTranslation()
 
 	// Load in the skill and its exercises.
 	const group = useActiveGroup()
-	const skillId = useSkillId()
 	const skill = skillTree[skillId]
 	const hasExercises = skill.exercises.length > 0
 	const [requestedNextExercise, setRequestedNextExercise] = useState(false)

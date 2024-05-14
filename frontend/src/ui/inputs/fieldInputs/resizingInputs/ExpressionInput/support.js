@@ -31,7 +31,6 @@ export function keyboardSettings(FI, settings) {
 
 // errorToMessage turns an error during interpretation into a message to be displayed.
 export function errorToMessage(error) {
-	console.log('Received', error)
 	const { code, cause } = error
 	switch (code) {
 		// Special cases.

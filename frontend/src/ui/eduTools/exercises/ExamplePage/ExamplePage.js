@@ -8,14 +8,11 @@ import { skillTree, getNewRandomExample } from 'step-wise/eduTools'
 import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
 
-import { useSkillId } from '../../skills'
-
 import { ExerciseContainer } from '../containers'
 
 // The ExamplePage resembles the ExercisePageForStranger component: it selects an exercise and shows it, but then in demo mode.
-export function ExamplePage() {
+export function ExamplePage({ skillId }) {
 	const getTranslation = useGetTranslation()
-	const skillId = useSkillId()
 	const skill = skillTree[skillId]
 	const hasExamples = skill.examples.length > 0
 

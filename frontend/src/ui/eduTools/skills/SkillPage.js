@@ -1,20 +1,24 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-import { firstToLowerCase } from 'step-wise/util'
+import { firstToLowerCase, applyMapping } from 'step-wise/util'
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/routingTools'
 
-import { ExercisePage, ExamplePage } from '../exercises'
+import { ExamplePage, ExercisePage, ExercisePageForUser } from '../exercises'
 
 import { useSkillId } from './util'
 import { MetaWrapper } from './MetaWrapper'
 
 export function SkillPage() {
-	const translate = useTranslator()
 	const skillId = useSkillId()
+	return <SkillPageForSkill skillId={skillId} />
+}
+
+export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExercise }) {
+	const translate = useTranslator()
 	const [loadedForSkillId, setLoadedForSkillId] = useState()
 	const Pages = useRef(null)
 
@@ -37,7 +41,7 @@ export function SkillPage() {
 
 	// When pages have been loaded, assemble them.
 	const loadedPages = Pages.current
-	const pages = useMemo(() => {
+	let pages = useMemo(() => {
 		// On a non-loaded skill, show the meta page. (Probably not needed, since this case is already caught below.)
 		if (!loadedForSkillId || loadedForSkillId !== skillId)
 			return { meta: <MetaWrapper skillId={skillId} empty={true} /> }
@@ -48,9 +52,11 @@ export function SkillPage() {
 		const hasExamples = Array.isArray(skill.examples) && skill.examples.length > 0
 		const hasExercises = Array.isArray(skill.exercises) && skill.exercises.length > 0
 		if (hasExamples)
-			pages.example = <ExamplePage />
-		if (hasExercises)
-			pages.practice = <ExercisePage />
+			pages.example = <ExamplePage skillId={skillId} />
+		if (hasExercises) {
+			const PageComponent = freePracticeMode ? ExercisePageForUser : ExercisePage
+			pages.practice = <PageComponent skillId={skillId} onNewExercise={onNewExercise} />
+		}
 		let numPages = (hasExamples ? 1 : 0) + (hasExercises ? 1 : 0)
 
 		// Add in other pages that may have loaded.
@@ -70,14 +76,18 @@ export function SkillPage() {
 		else  // Has a page, probably either Theory or Exercises.
 			pages.meta = <MetaWrapper skillId={skillId}>{pages.meta}</MetaWrapper>
 		return pages
-	}, [loadedForSkillId, skillId, loadedPages])
+	}, [loadedForSkillId, skillId, loadedPages, freePracticeMode])
 
 	// Upon loading, show a loading note.
 	if (!loadedForSkillId)
 		return <LoadingNote text={translate('Loading skill pages...', 'loadingNotes.loadingSkillPages', 'eduTools/pages/skillPage')} />
 
+	// When we need to filter tabs, like in the free-practice-mode, then do so.
+	const freePracticeModeTabs = ['practice', 'formulas', 'references']
+	const pagesFiltered = freePracticeMode ? applyMapping(pages, (page, tab) => freePracticeModeTabs.includes(tab) ? page : undefined) : pages
+
 	// Render the pages. Use a key to force a reload on a new skillId.
 	return <TranslationFile path={`eduContent/${skillTree[skillId].path.join('/')}/${skillId}`}>
-		<TabPages key={skillId} pages={pages} initialPage="practice" />
+		<TabPages key={skillId} pages={pagesFiltered} initialPage="practice" />
 	</TranslationFile>
 }

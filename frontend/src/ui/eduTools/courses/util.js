@@ -88,7 +88,7 @@ export function getAnalysis(overview, skillsData) {
 // getPracticeNeeded takes a course set-up and walks through it to determine which skills require practice. It returns an object { skill1: 2, skill2: 0, skill3: 1, ... } which indicates the practice-needed-index for each skill in the course (including prior knowledge skills). It also takes into account the skill hierarchy: if a main skill X has an index (for instance "1") then all subskills have AT MOST that index, possibly lower.
 function getPracticeNeeded(overview, skillsData) {
 	const result = {}
-	overview.goals.forEach(goal => checkPracticeNeeded(goal, skillsData, overview.priorKnowledge, result))
+	overview.goals.forEach(goal => checkPracticeNeeded(goal.skillId, skillsData, overview.priorKnowledge, result))
 	return result
 }
 

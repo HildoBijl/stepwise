@@ -9,7 +9,7 @@ import { ExercisePageForStranger } from './ExercisePageForStranger'
 import { ExercisePageForUser } from './ExercisePageForUser'
 import { ExercisePageForGroup } from './ExercisePageForGroup'
 
-export function ExercisePage() {
+export function ExercisePage({ skillId }) {
 	const translate = useTranslator()
 	const { loading: userLoading } = useUserResult()
 	const { loading: groupLoading } = useActiveGroupResult()
@@ -20,8 +20,8 @@ export function ExercisePage() {
 		return <LoadingNote text={translate('Loading user data...', 'loadingNotes.loadingUserData', 'eduTools/pages/skillPage')} />
 
 	if (activeGroup)
-		return <ExercisePageForGroup />
+		return <ExercisePageForGroup skillId={skillId} />
 	if (user)
-		return <ExercisePageForUser />
-	return <ExercisePageForStranger />
+		return <ExercisePageForUser skillId={skillId} />
+	return <ExercisePageForStranger skillId={skillId} />
 }
