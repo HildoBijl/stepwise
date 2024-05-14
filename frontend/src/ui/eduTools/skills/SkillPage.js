@@ -82,7 +82,7 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 	if (!loadedForSkillId)
 		return <LoadingNote text={translate('Loading skill pages...', 'loadingNotes.loadingSkillPages', 'eduTools/pages/skillPage')} />
 
-	// When we need to filter tabs, like in the free-practice-mode, then do so.
+	// When we need to filter tabs, like in the free practice mode, then do so.
 	const freePracticeModeTabs = ['practice', 'formulas', 'references']
 	const pagesFiltered = freePracticeMode ? applyMapping(pages, (page, tab) => freePracticeModeTabs.includes(tab) ? page : undefined) : pages
 

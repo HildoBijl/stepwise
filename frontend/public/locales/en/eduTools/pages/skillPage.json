@@ -11,11 +11,11 @@
   "notifications": {
     "notPartOfCourse": {
       "noRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>.",
-      "freePracticeRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>. If you want to practice for this course, it's best to use the <b>free-practice-mode</b>.",
+      "freePracticeRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>. If you want to practice for this course, it's best to use the <b>free practice mode</b>.",
       "skillRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>. If you want to practice for this course, it's best to work on <b>{skill}</b>."
     },
     "alreadyMastered": {
-      "freePracticeRecommendation": "You have already sufficiently mastered this skill! It is more effective for the course <a>{course}</a> to use the <b>free-practice-mode</b>.",
+      "freePracticeRecommendation": "You have already sufficiently mastered this skill! It is more effective for the course <a>{course}</a> to use the <b>free practice mode</b>.",
       "skillRecommendation": "You have already sufficiently mastered this skill! It is more effective for the course <a>{course}</a> if you practice <b>{skill}</b>."
     },
     "notMastered": {

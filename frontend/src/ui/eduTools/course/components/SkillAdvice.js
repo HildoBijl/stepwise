@@ -38,7 +38,7 @@ function SkillNotification() {
 		if (recommendation === undefined)
 			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.noRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link>.</Translation></NotificationBar>
 		if (recommendation === strFreePractice)
-			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.freePracticeRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to use the <Link to={paths.freePractice({ courseId })}>free-practice-mode</Link>.</Translation></NotificationBar>
+			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.freePracticeRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to use the <Link to={paths.freePractice({ courseId })}>free practice mode</Link>.</Translation></NotificationBar>
 		const recommendedSkill = skillTree[analysis.recommendation]
 		return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.skillRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to work on <Link to={paths.courseSkill({ courseId, skillId: recommendedSkill.id })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.id}.name`, 'eduContent/skillInfo') }}</Link>.</Translation></NotificationBar>
 	}
@@ -54,7 +54,7 @@ function SkillNotification() {
 
 		case 0: // This skill is already mastered. Show a recommendation.
 			if (recommendation === strFreePractice)
-				return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.freePracticeRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link> to use the <Link to={paths.freePractice({ courseId })}>free-practice-mode</Link>.</Translation></NotificationBar>
+				return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.freePracticeRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link> to use the <Link to={paths.freePractice({ courseId })}>free practice mode</Link>.</Translation></NotificationBar>
 			return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.skillRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'eduContent/courseInfo') }}</Link> if you practice <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{{ skill: translate(skillTree[recommendation].name, `${recommendation}.name`, 'eduContent/skillInfo') }}</Link>.</Translation></NotificationBar>
 
 		case 1: // This skill is reasonable to practice. Don't show a warning.
@@ -221,8 +221,8 @@ export function useSkillAdvice() {
 
 	// There is a skillId. Check if it's OK to work on it.
 	switch (analysis.practiceNeeded[skillId]) {
-		case undefined: // This skill is not part of the course.
-			return {}
+		case undefined: // This skill is not part of the course. Give the general recommendation.
+			return { recommendation: analysis.recommendation }
 
 		case 0: // This skill is already mastered. Show a recommendation, ideally based on the current skill, but otherwise the general course recommendation.
 			return { type: 0, recommendation: findNextSkillToPractice(skillId, analysis.practiceNeeded) || analysis.recommendation }

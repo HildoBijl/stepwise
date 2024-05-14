@@ -382,7 +382,7 @@ Object.keys(courses).forEach(key => {
 	courses[key].id = key
 })
 
-// Turn the goals array into an array of basic objects with weights. (Weights are used by the free-practice-mode.)
+// Turn the goals array into an array of basic objects with weights. (Weights are used by the free practice mode.)
 Object.values(courses).forEach(course => {
 	course.goals = course.goals.map(goal => {
 		if (typeof goal === 'string')
