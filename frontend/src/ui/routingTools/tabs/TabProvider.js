@@ -24,7 +24,7 @@ export function TabProvider({ children }) {
 	const reset = useCallback(() => {
 		setTab(undefined)
 		setTabs([])
-	}, [])
+	}, [setTab, setTabs])
 
 	// Set up the context value.
 	const value = {
@@ -66,15 +66,17 @@ export function useTabs(tabs, initialTab) {
 	// On a change in tabs, update the tabs.
 	useUpdater(() => {
 		setTabs(tabs)
+	}, [tabs])
 
-		// If the old tab is not valid, reset to the initial tab, or otherwise the first tab.
+	// If the old tab is not valid, reset to the initial tab, or otherwise the first tab.
+	useUpdater(() => {
 		if (tabs.length > 0 && (!tab || !tabs.includes(tab))) {
 			if (initialTab && tabs.includes(initialTab))
 				setTab(initialTab)
 			else
 				setTabIndex(0)
 		}
-	}, [tabs])
+	}, [tab, tabs])
 
 	// Return the context for further application. When initializing has not finished, do not include the tab data, since it may be from the previous component, whose dismounting still needs to be applied.
 	return initialized ? context : { ...context, tab: undefined, tabIndex: undefined, tabs: [] }

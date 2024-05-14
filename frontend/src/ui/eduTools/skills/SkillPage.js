@@ -76,7 +76,7 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 		else  // Has a page, probably either Theory or Exercises.
 			pages.meta = <MetaWrapper skillId={skillId}>{pages.meta}</MetaWrapper>
 		return pages
-	}, [loadedForSkillId, skillId, loadedPages, freePracticeMode])
+	}, [loadedForSkillId, skillId, loadedPages, freePracticeMode, onNewExercise])
 
 	// Upon loading, show a loading note.
 	if (!loadedForSkillId)
