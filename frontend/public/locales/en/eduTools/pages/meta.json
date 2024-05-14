@@ -1,4 +1,5 @@
 {
+  "emptySkillWarning": "The contents of this skill have not been created yet.<check><on-false> The default meta-info is shown below.</on-false></check> Theory and exercises will likely be added soon.",
   "noExerciseWarning": "This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.",
   "title": "Links to other skills",
   "noPrerequisites": "This skill has no <strong>prerequisites</strong>.",

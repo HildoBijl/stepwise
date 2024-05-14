@@ -1,5 +1,6 @@
 {
-	"noExerciseWarning": "Für diese Kompetenz gibt es noch keine Übungen. Sie kann im Moment nicht geübt werden. Übungen werden wahrscheinlich bald kommen.",
+	"emptySkillWarning": "Der Inhalt dieser Kompetenz ist noch nicht entwickelt worden.<check><on-false> Die üblichen Metainformationen sind unten zu finden.</on-false></check> Theorie und Übungen werden wahrscheinlich bald folgen.",
+	"noExerciseWarning": "Für diese Kompetenz gibt es noch keine Übungen. Sie kann im Moment nicht geübt werden. Übungen werden wahrscheinlich bald folgen.",
 	"title": "Verknüpfung mit anderen Kompetenzen",
 	"noPrerequisites": "Diese Kompetenz erfordert keine <strong>Vorkenntnisse</strong>.",
 	"prerequisites": "Dieze Kompetenz hat <counting-word/> <strong>Vorkenntnisse</strong>-<count-check><one>Kompetenz</one><not-one>Kompetenzen</not-one></count-check>.",

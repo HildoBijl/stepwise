@@ -2,17 +2,19 @@ import React from 'react'
 
 import { skillTree } from 'step-wise/eduTools/skills/skillTree'
 
-import { TranslationFile, Translation, Plurals, CountingWord } from 'i18n'
+import { TranslationFile, Translation, Check, Plurals, CountingWord } from 'i18n'
 import { Head, Par, List, Warning } from 'ui/components'
 
 import { SkillLink } from './routing'
 
-export function MetaWrapper({ children, skillId }) {
+export function MetaWrapper({ skillId, empty, children }) {
 	const skill = skillTree[skillId]
+	const hasExercises = Array.isArray(skill.exercises) && skill.exercises.length > 0
 	return <>
 		{children}
 		<TranslationFile path="eduTools/pages/meta" extend={false}>
-			{skill.exercises.length === 0 ? <Warning><Translation entry="noExerciseWarning">This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</Translation></Warning> : null}
+			{empty ? <Warning><Translation entry="emptySkillWarning">The contents of this skill have not been created yet.<Check value={!!children}><Check.False> The default meta-info is shown below.</Check.False></Check> Theory and exercises will likely be added soon.</Translation></Warning> : null}
+			{!empty && !hasExercises ? <Warning><Translation entry="noExerciseWarning">This skill has no exercises yet. It cannot be practiced at this moment. Exercises will likely be added soon.</Translation></Warning> : null}
 			<Head><Translation entry="title">Links to other skills</Translation></Head>
 			<Prerequisites skillId={skillId} />
 			<Links skillId={skillId} />
