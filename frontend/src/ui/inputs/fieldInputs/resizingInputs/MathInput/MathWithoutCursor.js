@@ -14,7 +14,10 @@ export function MathWithoutCursor({ type, value }) {
 	// Set up the latex and get the corresponding characters.
 	const { latex, chars } = useMemo(() => {
 		const FI = { type, value }
-		return getFIFuncs(FI).toLatex(FI)
+		const result = getFIFuncs(FI).toLatex(FI)
+		if (result.latex.startsWith('\\left('))
+			result.latex = `\\,${result.latex}` // Brackets often take too much space, so on a bracket, add extra space.
+		return result
 	}, [type, value])
 
 	// Whenever the equation changes, trace all characters to update the character elements.
