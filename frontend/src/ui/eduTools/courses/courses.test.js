@@ -22,10 +22,12 @@ describe('Check all courses:', () => {
 			it('has a non-empty goals array with existing skills', () => {
 				expect(Array.isArray(course.goals)).toBe(true)
 				expect(course.goals).not.toHaveLength(0)
-				expect(hasDuplicates(course.goals)).toBe(false)
 				course.goals.forEach(goal => {
-					expect(typeof skillTree[goal]).toBe('object')
+					expect(typeof goal).toBe('object')
+					expect(typeof goal.skillId).toBe('string')
+					expect(typeof skillTree[goal.skillId]).toBe('object')
 				})
+				expect(hasDuplicates(course.goals.map(goal => goal.skillId))).toBe(false)
 			})
 
 			it('has a prior knowledge array with existing skills', () => {
@@ -62,24 +64,24 @@ describe('Check all courses:', () => {
 			// Check missing or superfluous skills in the general course.
 
 			it('has no superfluous goals', () => {
-				expect(() => getSkillSets(course.goals, course.priorKnowledge)).not.toThrow()
+				expect(() => getSkillSets(course.goals.map(goal => goal.skillId), course.priorKnowledge)).not.toThrow()
 			})
 
 			it('has no superfluous prior knowledge', () => {
-				const { priorKnowledgeSet } = getSkillSets(course.goals, course.priorKnowledge)
+				const { priorKnowledgeSet } = getSkillSets(course.goals.map(goal => goal.skillId), course.priorKnowledge)
 				const unusedPriorKnowledge = course.priorKnowledge.filter(priorKnowledge => !priorKnowledgeSet.has(priorKnowledge))
 				expect(unusedPriorKnowledge).toHaveLength(0)
 			})
 
 			it('has no superfluous starting points', () => {
-				const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
+				const { skillsSet } = getSkillSets(course.goals.map(goal => goal.skillId), course.priorKnowledge)
 				const desiredStartingPoints = [...skillsSet].filter(skillId => skillTree[skillId].prerequisites.length === 0)
 				const superfluousStartingPoints = course.startingPoints.filter(skillId => !desiredStartingPoints.includes(skillId))
 				expect(superfluousStartingPoints).toHaveLength(0)
 			})
 
 			it('has no missing prior knowledge or starting points', () => {
-				const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
+				const { skillsSet } = getSkillSets(course.goals.map(goal => goal.skillId), course.priorKnowledge)
 				const desiredStartingPoints = [...skillsSet].filter(skillId => skillTree[skillId].prerequisites.length === 0)
 				const basicSkillsNotDefinedAsStartingPoint = desiredStartingPoints.filter(skillId => !course.startingPoints.includes(skillId))
 				expect(basicSkillsNotDefinedAsStartingPoint).toHaveLength(0)
@@ -99,7 +101,7 @@ describe('Check all courses:', () => {
 			})
 
 			it('has no blocks with goals outside of the course content', () => {
-				const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
+				const { skillsSet } = getSkillSets(course.goals.map(goal => goal.skillId), course.priorKnowledge)
 				const blockGoals = course.blocks.map(block => block.goals).flat()
 				const blockGoalsOutsideOfCourse = blockGoals.filter(goal => !skillsSet.has(goal))
 				expect(blockGoalsOutsideOfCourse).toHaveLength(0)
@@ -107,7 +109,7 @@ describe('Check all courses:', () => {
 
 			it('has blocks that cover all the course goals', () => {
 				const blockGoals = course.blocks.map(block => block.goals).flat()
-				const goalsNotCoveredByBlocks = course.goals.filter(goal => !blockGoals.includes(goal))
+				const goalsNotCoveredByBlocks = course.goals.filter(goal => !blockGoals.includes(goal.skillId))
 				expect(goalsNotCoveredByBlocks).toHaveLength(0)
 			})
 
@@ -120,7 +122,7 @@ describe('Check all courses:', () => {
 
 			it('has a set-up that does not contain skills outside of the course contents', () => {
 				if (course.setup) {
-					const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
+					const { skillsSet } = getSkillSets(course.goals.map(goal => goal.skillId), course.priorKnowledge)
 					const setupSkillList = course.setup.getSkillList()
 					const skillsNotInCourse = setupSkillList.filter(skillId => !skillsSet.has(skillId))
 					expect(skillsNotInCourse).toHaveLength(0)
