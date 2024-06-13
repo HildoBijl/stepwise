@@ -1,0 +1,8 @@
+{
+  "theory": {
+    "intro": "<par>ToDo</par>"
+  },
+  "meta": {
+    "learningGoals": "<par>In this skill you should master <term>expanding brackets</term>. If you see a term like <inline-math/> you should turn this into <inline-math/>. This includes simplifying the number multiplications (so <inline-math/> becomes <inline-math/>) and turning multiplications of identical factors into powers (so <inline-math/> becomes <inline-math/>).</par>"
+  }
+}

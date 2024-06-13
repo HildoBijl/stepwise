@@ -74,7 +74,31 @@ const skillStructure = {
 	},
 
 	mathematics: {
+		calculation: {
+			powers: {
+				rewritePower: { // Dummy.
+					name: 'Rewrite power',
+				},
+			},
+		},
+
 		algebra: {
+			// New part for skill tree updating.
+			expressions: {
+				simplification: {
+					simplifyNumberProducts: { // Dummy.
+						name: 'Simplify number products',
+					},
+				},
+				brackets: {
+					expandBrackets: {
+						name: 'Expand brackets',
+						setup: and('rewritePower', 'simplifyNumberProducts'),
+					},
+				},
+			},
+
+			// Old part for skill tree updating.
 			fractions: {
 				addRemoveFractionFactors: {
 					name: 'Add/remove fraction factors',
@@ -100,10 +124,10 @@ const skillStructure = {
 				},
 			},
 			brackets: {
-				expandBrackets: {
-					name: 'Expand brackets',
-					exercises: ['expandBrackets1', 'expandBrackets2'],
-				},
+				// expandBrackets: {
+				// 	name: 'Expand brackets',
+				// 	exercises: ['expandBrackets1', 'expandBrackets2'],
+				// },
 				pullOutOfBrackets: {
 					name: 'Pull factor out of brackets',
 					setup: and('mergeSplitFractions', 'expandBrackets'),

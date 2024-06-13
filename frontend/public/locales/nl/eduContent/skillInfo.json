@@ -32,6 +32,15 @@
   "summationAndMultiplication": {
     "name": "Optellen en vermenigvuldigen"
   },
+  "rewritePower": {
+    "name": "Macht herschrijven"
+  },
+  "simplifyNumberProducts": {
+    "name": "Vermenigvuldigingen van getallen vereenvoudigen"
+  },
+  "expandBrackets": {
+    "name": "Haakjes uitwerken"
+  },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
   },
@@ -46,9 +55,6 @@
   },
   "simplifyFraction": {
     "name": "Breuk simplificeren"
-  },
-  "expandBrackets": {
-    "name": "Haakjes uitwerken"
   },
   "pullOutOfBrackets": {
     "name": "Factor buiten haakjes halen"

@@ -32,6 +32,15 @@
   "summationAndMultiplication": {
     "name": "Addieren und Multiplizieren"
   },
+  "rewritePower": {
+    "name": "Potenz umschreiben"
+  },
+  "simplifyNumberProducts": {
+    "name": "Multiplikationen von Zahlen vereinfachen"
+  },
+  "expandBrackets": {
+    "name": "Klammern erweitern"
+  },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"
   },
@@ -46,9 +55,6 @@
   },
   "simplifyFraction": {
     "name": "Vereinfachen von Brüchen"
-  },
-  "expandBrackets": {
-    "name": "Klammern erweitern"
   },
   "pullOutOfBrackets": {
     "name": "Faktor aus Klammern ziehen"

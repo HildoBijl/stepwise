@@ -32,6 +32,15 @@
   "summationAndMultiplication": {
     "name": "Add and multiply numbers"
   },
+  "rewritePower": {
+    "name": "Rewrite power"
+  },
+  "simplifyNumberProducts": {
+    "name": "Simplify number products"
+  },
+  "expandBrackets": {
+    "name": "Expand brackets"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },
@@ -46,9 +55,6 @@
   },
   "simplifyFraction": {
     "name": "Simplify a fraction"
-  },
-  "expandBrackets": {
-    "name": "Expand brackets"
   },
   "pullOutOfBrackets": {
     "name": "Pull factor out of brackets"
