@@ -8,7 +8,7 @@
     "learningGoals": "<par>In deze vaardigheid leer je <term>haakjes uit te werken</term>. Als je een uitdrukking als <inline-math/> ziet, dan kun je dit in <inline-math/> omschrijven. Hierbij hoort het samenvoegen van getallenvermenigvuldigingen (dus <inline-math/> wordt <inline-math/>) en het omzetten van vermenigvuldigingen van gelijke factoren in machten (dus <inline-math/> wordt <inline-math/>).</par>"
   },
   "practice": {
-    "numericFactor": {
+    "basicForm": {
       "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.",
       "step1": {
         "problem": "Neem de factor buiten de haakjes (hier <inline-math/>) en vermenigvuldig deze los met elk van de termen binnen de haakjes (<inline-math/> en <inline-math/>).",

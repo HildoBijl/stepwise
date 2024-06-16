@@ -35,8 +35,8 @@
   "rewritePower": {
     "name": "Macht herschrijven"
   },
-  "simplifyNumberProducts": {
-    "name": "Vermenigvuldigingen van getallen vereenvoudigen"
+  "simplifyNumberProduct": {
+    "name": "Vermenigvuldiging van getallen vereenvoudigen"
   },
   "expandBrackets": {
     "name": "Haakjes uitwerken"

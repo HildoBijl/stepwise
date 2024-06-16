@@ -35,8 +35,8 @@
   "rewritePower": {
     "name": "Potenz umschreiben"
   },
-  "simplifyNumberProducts": {
-    "name": "Multiplikationen von Zahlen vereinfachen"
+  "simplifyNumberProduct": {
+    "name": "Multiplikation von Zahlen vereinfachen"
   },
   "expandBrackets": {
     "name": "Klammern erweitern"

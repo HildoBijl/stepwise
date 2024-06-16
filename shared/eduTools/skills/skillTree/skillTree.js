@@ -86,15 +86,15 @@ const skillStructure = {
 			// New part for skill tree updating.
 			expressions: {
 				simplification: {
-					simplifyNumberProducts: { // Dummy.
-						name: 'Simplify number products',
+					simplifyNumberProduct: { // Dummy.
+						name: 'Simplify number product',
 					},
 				},
 				brackets: {
 					expandBrackets: {
 						name: 'Expand brackets',
-						setup: and('rewritePower', 'simplifyNumberProducts'),
-						examples: ['numericFactor'],
+						setup: and('rewritePower', 'simplifyNumberProduct'),
+						examples: ['basicForm'],
 						exercises: ['factorBehind', 'negativeFactor', 'multipleTerms'],
 					},
 				},

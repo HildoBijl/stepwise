@@ -13,7 +13,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'expandBrackets',
-	steps: [null, 'simplifyNumberProducts', 'rewritePowers'],
+	steps: [null, 'simplifyNumberProduct', 'rewritePowers'],
 	comparison: {
 		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isSubtype(Product) && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
@@ -45,7 +45,6 @@ function getSolution(state) {
 }
 
 function checkInput(exerciseData, step) {
-	console.log(exerciseData, step)
 	switch (step) {
 		case 1:
 			return performComparison(exerciseData, 'expanded')

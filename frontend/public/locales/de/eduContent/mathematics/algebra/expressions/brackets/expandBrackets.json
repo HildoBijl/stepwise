@@ -8,7 +8,7 @@
     "learningGoals": "<par>In dieser Kompetenz lernst du, <term>Klammern zu erweitern</term>. Wenn du einen Ausdruck als <inline-math/> siehst, kannst du ihn in <inline-math/> umschreiben. Dazu gehört das Zusammenfügen von Zahlenmultiplikationen (so wird <inline-math/> zu <inline-math/>) und das Umwandeln von Multiplikationen gleicher Faktoren in Potenzen (so wird <inline-math/> zu <inline-math/>).</par>"
   },
   "practice": {
-    "numericFactor": {
+    "basicForm": {
       "mainProblem": "Betrachte den Ausdruck <block-math/> Erweitere die Klammern und vereinfache das Ergebnis so weit wie möglich.",
       "step1": {
         "problem": "Nimm den Faktor außerhalb der Klammern (hier <inline-math/>) und multipliziere ihn separat mit jedem der Terme innerhalb der Klammern (<inline-math/> und <inline-math/>).",

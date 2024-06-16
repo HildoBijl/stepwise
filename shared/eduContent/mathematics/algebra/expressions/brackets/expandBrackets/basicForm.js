@@ -13,7 +13,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'expandBrackets',
-	steps: [null, 'simplifyNumberProducts', 'rewritePowers'],
+	steps: [null, 'simplifyNumberProduct', 'rewritePowers'],
 	comparison: {
 		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isSubtype(Product) && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
@@ -24,9 +24,9 @@ const metaData = {
 function generateState() {
 	return {
 		x: selectRandomly(variableSet),
-		a: getRandomInteger(2, 8),
-		b: getRandomInteger(2, 8),
-		c: getRandomInteger(2, 8),
+		a: getRandomInteger(2, 6),
+		b: getRandomInteger(2, 6),
+		c: getRandomInteger(2, 6),
 		xFirst: getRandomBoolean(), // Do we use bx+c or c+bx?
 	}
 }
@@ -44,7 +44,6 @@ function getSolution(state) {
 }
 
 function checkInput(exerciseData, step) {
-	console.log(exerciseData, step)
 	switch (step) {
 		case 1:
 			return performComparison(exerciseData, 'expanded')

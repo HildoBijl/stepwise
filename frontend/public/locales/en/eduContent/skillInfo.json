@@ -35,8 +35,8 @@
   "rewritePower": {
     "name": "Rewrite power"
   },
-  "simplifyNumberProducts": {
-    "name": "Simplify number products"
+  "simplifyNumberProduct": {
+    "name": "Simplify number product"
   },
   "expandBrackets": {
     "name": "Expand brackets"
