@@ -18,7 +18,7 @@ const Problem = () => {
 		<Par>Twee parallelle lijnen omsluiten twee driehoeken. Bereken hoek <M>{variables.gamma}</M> in graden.</Par>
 		<ExerciseFigure showGamma={1} />
 		<InputSpace>
-			<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+			<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 		</InputSpace>
 	</>
 }
@@ -31,7 +31,7 @@ const steps = [
 				<Par>Bepaal de hoek <M>{variables.alpha}</M> uit de onderstaande figuur.</Par>
 				<ExerciseFigure showAlpha={1} />
 				<InputSpace>
-					<ExpressionInput id="alpha" prelabel={<M>{variables.alpha}=</M>} size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+					<ExpressionInput id="alpha" prelabel={<M>{variables.alpha}=</M>} size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 				</InputSpace>
 			</>
 		},
@@ -47,7 +47,7 @@ const steps = [
 				<ExerciseFigure showAlpha={2} showBeta={1} />
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="beta" prelabel={<M>{variables.beta}=</M>} size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="beta" prelabel={<M>{variables.beta}=</M>} size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -64,7 +64,7 @@ const steps = [
 				<ExerciseFigure showAlpha={2} showBeta={2} showGamma={1} />
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

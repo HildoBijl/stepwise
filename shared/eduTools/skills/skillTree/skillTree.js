@@ -94,6 +94,8 @@ const skillStructure = {
 					expandBrackets: {
 						name: 'Expand brackets',
 						setup: and('rewritePower', 'simplifyNumberProducts'),
+						examples: ['numericFactor'],
+						exercises: ['factorBehind', 'negativeFactor', 'multipleTerms'],
 					},
 				},
 			},
@@ -674,7 +676,7 @@ Object.values(skillTree).forEach(skill => {
 // Set up an overview of exercise paths.
 const exercises = {}
 Object.values(skillTree).forEach(skill => {
-	skill.exercises.forEach(exerciseId => {
+	[...skill.examples, ...skill.exercises].forEach(exerciseId => {
 		exercises[exerciseId] = {
 			id: exerciseId,
 			path: [...skill.path, skill.id],

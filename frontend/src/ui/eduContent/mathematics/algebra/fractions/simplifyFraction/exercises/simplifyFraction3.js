@@ -20,7 +20,7 @@ const Problem = () => {
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Herschrijf dit tot een enkele breuk.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -34,7 +34,7 @@ const steps = [
 				<Par>Herschrijf de som <BM>{numerator}</BM> als een enkele breuk. Maak deze zo simpel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="numeratorIntermediate" prelabel={<M>{numerator}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="numeratorIntermediate" prelabel={<M>{numerator}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -52,7 +52,7 @@ const steps = [
 				<Par>Herschrijf de som <BM>{denominator}</BM> als een enkele breuk. Maak deze zo simpel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="denominatorIntermediate" prelabel={<M>{denominator}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="denominatorIntermediate" prelabel={<M>{denominator}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -70,7 +70,7 @@ const steps = [
 				<Par>Herschrijf de samengestelde breuk <BM>{intermediate}</BM> als enkele breuk.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{intermediate}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{intermediate}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -79,7 +79,7 @@ const steps = [
 			return <>
 				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{intermediate.numerator.multiply(intermediate.denominator.invert())}.</BM> Als we deze breuken samenvoegen, dan kunnen we dit simplificeren tot <BM>{ans}.</BM> Eventueel kunnen de haakjes nog uitgewerkt worden, maar dat is niet per se nodig hier.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We hadden deze opgave ook op kunnen lossen door de boven- en onderkant van de oorspronkelijke breuk met <M>{variables.x.multiply(variables.y).simplify({ sortProducts: true })}</M> te vermenigvuldigen. Na het wegstrepen van factoren vinden we dan direct dat <BM>{expression}={ans.simplify({ expandProductsOfSums: true, sortProducts: true, mergeProductTerms: true, mergeSumNumbers: true })}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
+				<Par>We hadden deze opgave ook op kunnen lossen door de boven- en onderkant van de oorspronkelijke breuk met <M>{variables.x.multiply(variables.y).simplify({ sortProducts: true })}</M> te vermenigvuldigen. Na het wegstrepen van factoren vinden we dan direct dat <BM>{expression}={ans.simplify({ expandProductsOfSums: true, sortProducts: true, mergeProductFactors: true, mergeSumNumbers: true })}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
 			</>
 		},
 	},

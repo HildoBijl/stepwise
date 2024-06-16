@@ -20,7 +20,7 @@ const Problem = () => {
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Vermenigvuldig zowel de noemer als de teller met een factor <M>{variables.x}.</M> Schrijf de teller en noemer zo simpel mogelijk op.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...ExpressionInput.settings.basicMath, power: true }} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...ExpressionInput.settings.withFractions, power: true }} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>

@@ -1576,8 +1576,8 @@ class Product extends ExpressionList {
 		}
 
 		// If there are terms in this product equal to each other (or with equal base) then merge them into powers. So x*x^2 becomes x^3.
-		if (options.mergeProductTerms) {
-			terms = Product.mergeProductTerms(terms, options)
+		if (options.mergeProductFactors) {
+			terms = Product.mergeProductFactors(terms, options)
 		}
 
 		// Merge all numbers together and put them at the start. Or optionally only do so with minus signs, or only filter out ones.
@@ -1763,8 +1763,8 @@ class Product extends ExpressionList {
 		}
 	}
 
-	// mergeProductTerms takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a. It returns the result as a terms array too.
-	static mergeProductTerms(terms, options) {
+	// mergeProductFactors takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a. It returns the result as a terms array too.
+	static mergeProductFactors(terms, options) {
 		const result = []
 		terms.forEach(term => {
 			const { base, exponent } = term.getBaseAndExponent()

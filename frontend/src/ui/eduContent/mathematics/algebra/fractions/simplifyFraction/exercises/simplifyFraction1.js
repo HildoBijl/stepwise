@@ -20,7 +20,7 @@ const Problem = () => {
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Simplificeer deze zo veel als mogelijk.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -34,7 +34,7 @@ const steps = [
 				<Par>Herschrijf de som van breuken <BM>{expression.denominator}</BM> als een enkele breuk. Maak deze zo simpel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="intermediate" prelabel={<M>{expression.denominator}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="intermediate" prelabel={<M>{expression.denominator}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -53,7 +53,7 @@ const steps = [
 				<Par>Herschrijf de breuk in de breuk <BM>{expressionWithIntermediate}</BM> als enkele breuk. Maak hem wederom zo simpel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{expressionWithIntermediate}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{expressionWithIntermediate}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

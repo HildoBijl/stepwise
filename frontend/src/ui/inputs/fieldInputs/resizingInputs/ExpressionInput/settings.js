@@ -1,46 +1,53 @@
 // Below are several commonly used objects for the allow setting for Expression input fields.
 
+// The following are subgroups that can be added in.
 const noFunctions = {
 	trigonometry: false,
 	logarithm: false,
 }
-
 const noPowers = {
 	power: false,
 	root: false,
 }
-
 const simpleVariables = {
 	subscript: false,
 	accent: false,
 }
 
-const basicMath = {
+// The following are more complete setting objects.
+const elementary = {
 	...noFunctions,
 	...noPowers,
 	...simpleVariables,
 	greek: false,
 	float: false,
-}
-
-const basicMathNoFractions = {
-	...basicMath,
 	divide: false,
 }
 
-const basicMathAndPowers = {
-	...noFunctions,
-	...simpleVariables,
-	greek: false,
-	float: false,
+const withFractions = {
+	...elementary,
+	divide: true,
+}
+
+const polynomes = {
+	...elementary,
+	power: true,
+}
+
+const rational = {
+	...polynomes,
+	divide:  true,
+}
+
+const withRoots = {
+	...rational,
+	roots: true,
 }
 
 const basicTrigonometry = {
-	...basicMath,
+	...withRoots,
 	trigonometry: true,
 	greek: true,
-	root: true,
-	power: true,
 }
 
 const basicTrigonometryInDegrees = {
@@ -54,4 +61,4 @@ const allMathSimpleVariables = {
 	float: false,
 }
 
-export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers, basicTrigonometry, basicTrigonometryInDegrees, allMathSimpleVariables }
+export { noFunctions, noPowers, simpleVariables, elementary, withFractions, polynomes, rational, withRoots, basicTrigonometry, basicTrigonometryInDegrees, allMathSimpleVariables }

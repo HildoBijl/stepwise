@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
+import { processOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 

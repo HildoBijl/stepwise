@@ -25,7 +25,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeProductMinuses: false, // Reduces the negative numbers in products. Turns "-2*x*-3*-1*4" into "-2*x*3*1*4". If mergeProductNumbers is on this option is ignored.
 	mergeInitialMinusOne: false, // Reduces a minus one at the start into a number where appropriate. So "-1 * 2" becomes "-2" but "2 * -1" and "-2 * 1" stay the same.
 	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
-	mergeProductTerms: false, // Merge terms in products into powers. So x*x^2 becomes x^3.
+	mergeProductFactors: false, // Merge factors in products into powers. So x*x^2 becomes x^3.
 	expandProductsOfSums: false, // Reduces a*(b+c) to (a*b+a*c).
 	expandProductsOfSumsWithinSums: false, // Applies expandProductsOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandProductsOfSums is on, this is ignored.
 
@@ -37,7 +37,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
-	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
+	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
 	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
@@ -135,7 +135,7 @@ const basicClean = {
 	crossOutFractionNumbers: true,
 	mergePowerNumbers: true,
 	cancelSumTerms: true,
-	mergeProductTerms: true,
+	mergeProductFactors: true,
 	flattenFractions: true,
 	removeIntegerRoot: true,
 }

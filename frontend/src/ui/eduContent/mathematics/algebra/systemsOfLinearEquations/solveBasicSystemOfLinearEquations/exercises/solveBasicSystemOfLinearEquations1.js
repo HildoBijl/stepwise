@@ -15,8 +15,8 @@ const Problem = () => {
 		<Par>Gegeven is het stelsel van vergelijkingen <BMList><BMPart>{eq1},</BMPart><BMPart>{eq2}.</BMPart></BMList> Los dit stelsel op voor <M>{variables.x}</M> en <M>{variables.y}.</M></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
-				<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+				<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
+				<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 			</Par>
 		</InputSpace>
 	</>
@@ -30,7 +30,7 @@ const steps = [
 				<Par>Los de eerstgenoemde vergelijking <M>{eq1}</M> op voor <M>{variables.x}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="eq1Solution" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="eq1Solution" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -49,7 +49,7 @@ const steps = [
 				<Par>Vul letterlijk je oplossing voor <M>{variables.x}</M> in de tweede vergelijking <M>{eq2}</M> in.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="eq2Substituted" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
+						<EquationInput id="eq2Substituted" size="l" settings={EquationInput.settings.withFractions} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -68,7 +68,7 @@ const steps = [
 				<Par>Los de nieuwe vergelijking op voor <M>{variables.y}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -93,7 +93,7 @@ const steps = [
 				<Par>Vul de gevonden waarde voor <M>{variables.y}</M> in de oplossing voor <M>{variables.x}</M> in.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

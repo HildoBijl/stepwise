@@ -20,7 +20,7 @@ const Problem = () => {
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Splits deze breuk op in twee losse breuken en simplificeer deze zo veel mogelijk.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -34,7 +34,7 @@ const steps = [
 				<Par>Splits de breuk op in twee losse breuken met een {plus ? 'plus' : 'min'}teken ertussen. (Pas nog geen verdere simplificaties toe.)</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="split" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="split" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -50,8 +50,8 @@ const steps = [
 				<Par>Simplificeer de beide breuken zo veel mogelijk. Streep hiervoor factoren weg die in zowel de teller als de noemer voorkomen.</Par>
 				<InputSpace>
 					<Par>
-						<Substep ss={1}><ExpressionInput id="leftAns" prelabel={<M>{leftExpression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} /></Substep>
-						<Substep ss={2}><ExpressionInput id="rightAns" prelabel={<M>{rightExpression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} /></Substep>
+						<Substep ss={1}><ExpressionInput id="leftAns" prelabel={<M>{leftExpression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} /></Substep>
+						<Substep ss={2}><ExpressionInput id="rightAns" prelabel={<M>{rightExpression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} /></Substep>
 					</Par>
 				</InputSpace>
 			</>
@@ -67,7 +67,7 @@ const steps = [
 				<Par>Schrijf de twee gesimplificeerde breuken samen op in één uitdrukking, met uiteraard wederom een {plus ? 'plus' : 'min'}teken ertussen.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

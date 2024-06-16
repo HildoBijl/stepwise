@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
+import { processOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 

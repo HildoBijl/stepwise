@@ -25,7 +25,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const square = asExpression('x^2').substituteVariables(variables)
 	const expression = asExpression(`(${state.flipNumerator ? 'axy' : 'ayx'})/z`).substituteVariables(variables)
-	const ans = expression.multiplyNumDen(variables.x).removeUseless({ mergeSumNumbers: true, mergeProductTerms: true })
+	const ans = expression.multiplyNumDen(variables.x).removeUseless({ mergeSumNumbers: true, mergeProductFactors: true })
 	return { ...state, variables, square, expression, ans }
 }
 

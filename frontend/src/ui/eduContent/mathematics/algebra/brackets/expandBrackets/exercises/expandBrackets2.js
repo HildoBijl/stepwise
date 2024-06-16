@@ -19,7 +19,7 @@ const Problem = () => {
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Werk alle haakjes uit.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathNoFractions} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.elementary} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -33,7 +33,7 @@ const steps = [
 				<Par>Vervang de factor <M>\left({term1}\right)</M> even kort voor een andere ongebruikte variabele, bijvoorbeeld <M>{variables.z}.</M> Werk hiervoor de haakjes uit.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="intermediate" prelabel={<M>{expressionSubstituted}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathNoFractions} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="intermediate" prelabel={<M>{expressionSubstituted}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.elementary} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -49,7 +49,7 @@ const steps = [
 				<Par>Vervang <M>{variables.z}</M> weer terug voor <M>\left({term1}\right).</M> Werk hiervoor wederom alle haakjes uit.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{intermediateSubstituted}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMathNoFractions} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{intermediateSubstituted}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.elementary} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

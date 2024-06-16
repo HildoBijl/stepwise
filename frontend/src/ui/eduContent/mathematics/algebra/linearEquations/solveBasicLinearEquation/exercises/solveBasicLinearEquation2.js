@@ -22,7 +22,7 @@ const Problem = () => {
 		<Par><Translation>Consider the equation <BM>{equation}.</BM> Solve it for <M>{variables.x}</M>.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -36,7 +36,7 @@ const steps = [
 				<Par><Translation>Move all terms with <M>{variables.x}</M> to one side of the equation, and all terms without <M>{variables.x}</M> to the other side.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="termsMoved" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
+						<EquationInput id="termsMoved" size="l" settings={EquationInput.settings.withFractions} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -52,7 +52,7 @@ const steps = [
 				<Par><Translation>Pull <M>{variables.x}</M> outside of brackets. Leave the rest of the equation unchanged.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="pulledOut" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
+						<EquationInput id="pulledOut" size="l" settings={EquationInput.settings.withFractions} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -68,7 +68,7 @@ const steps = [
 				<Par><Translation>Divide both sides of the equation by the term between brackets, to solve for <M>{variables.x}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.withFractions} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
