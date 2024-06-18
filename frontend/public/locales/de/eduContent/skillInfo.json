@@ -38,6 +38,9 @@
   "simplifyNumberProduct": {
     "name": "Multiplikation von Zahlen vereinfachen"
   },
+  "mergeSimilarTerms": {
+    "name": "Gleichartige Terme zusammenfügen"
+  },
   "expandBrackets": {
     "name": "Klammern erweitern"
   },

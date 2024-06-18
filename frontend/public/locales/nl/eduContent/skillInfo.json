@@ -38,6 +38,9 @@
   "simplifyNumberProduct": {
     "name": "Vermenigvuldiging van getallen vereenvoudigen"
   },
+  "mergeSimilarTerms": {
+    "name": "Soortgelijke termen samenvoegen"
+  },
   "expandBrackets": {
     "name": "Haakjes uitwerken"
   },

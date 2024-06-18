@@ -38,6 +38,9 @@
   "simplifyNumberProduct": {
     "name": "Simplify number product"
   },
+  "mergeSimilarTerms": {
+    "name": "Merge similar terms"
+  },
   "expandBrackets": {
     "name": "Expand brackets"
   },

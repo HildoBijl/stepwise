@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, in einer Summe, <term>gleichartige Terme zusammenzufassen</term>. Wenn du zum Beispiel <inline-math/> siehst, solltest du sofort erkennen, dass <inline-math/> und <inline-math/> identisch sind, abgesehen von dem konstanten Faktor davor. Diese Terme können also zu <inline-math/> zusammengeführt werden, wodurch der gesamte Ausdruck in <inline-math/> umgewandelt wird. Diese Kompetenz umfasst auch den Umgang mit negativen Faktoren wie in <inline-math/>.</par>"
+  }
+}

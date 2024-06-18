@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>merge similar terms</term> inside a summation. For instance when seeing <inline-math/> you should immediately realize that <inline-math/> and <inline-math/> are identical, except for the constant factor in front. So these terms can be pulled together into <inline-math/>, resulting in a full expression <inline-math/>. This skill also includes dealing with negative factors like in <inline-math/>.</par>"
+  }
+}

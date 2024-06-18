@@ -89,6 +89,9 @@ const skillStructure = {
 					simplifyNumberProduct: { // Dummy.
 						name: 'Simplify number product',
 					},
+					mergeSimilarTerms: { // Dummy.
+						name: 'Merge similar terms',
+					},
 				},
 				brackets: {
 					expandBrackets: {
