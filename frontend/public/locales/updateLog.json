@@ -1,1 +1,24 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/expressions/brackets/expandDoubleBrackets": {
+      "theory.intro": {
+        "oldText": "<par>ToDo</par>",
+        "firstUpdate": "2024-06-18T15:36:23.225Z",
+        "latestUpdate": "2024-06-18T15:51:02.542Z",
+        "latestText": "<par>We know how to <skill-link>expand brackets</skill-link> like <inline-math/>. But what do we do if we have a multiplication of brackets with brackets? Like <inline-math/>? The answer is: we <term>expand brackets twice</term>. First we expand one, and then we expand the other.</par>"
+      },
+      "theory.rule": {
+        "oldText": "<head>The rule</head><par>If we have a number multiplication, like for instance <inline-math/>, then we can visualize this multiplication using blocks.</par><block-drawing/><par>From this, we see that <inline-math/> can be rewritten to <inline-math/>. Check for yourself: both result into <inline-math/>.</par><par>This works exactly the same if we have an expression like <inline-math/>. Here, <inline-math/>, <inline-math/> and <inline-math/> can be any type of expression, like <inline-math/> or anything similar. We can again visualize this.</par><block-drawing/><par>From this visualization, we see that we may rewrite <inline-math/> to <inline-math/>. We call this <term>expanding the brackets</term>. The accompanying rule is <block-math/> Note that we multiply the factor outside of the brackets (here <inline-math/>) separately with each of the terms inside the brackets (here <inline-math/> and <inline-math/>).</par>",
+        "firstUpdate": "2024-06-18T15:39:09.959Z",
+        "latestUpdate": "2024-06-18T15:51:16.388Z",
+        "latestText": "<head>The rule</head><par>If we have a number multiplication, like for instance <inline-math/>, then we can visualize this multiplication using blocks.</par><block-drawing/><par>From this, we see that <inline-math/> can first be rewritten to <inline-math/> and then to <inline-math/>. Check for yourself: they all result into <inline-math/>.</par><par>This works exactly the same if we have an expression like <inline-math/>. Here, <inline-math/>, <inline-math/>, <inline-math/> and <inline-math/> can be any type of expression, like <inline-math/> or anything similar. We can again visualize this.</par><block-drawing/><par>From this visualization, we see that we may rewrite <inline-math/> to <inline-math/>. We call this <term>expanding double brackets</term>. The accompanying rule is <block-math/> You generally don't need to remember this rule. What you should remember is that you multiply each of the terms from the left brackets (here <inline-math/> and <inline-math/>) with each of the terms from the right brackets (here <inline-math/> and <inline-math/>). If you do this for all combinations of terms, you get the right result.</par>"
+      },
+      "theory.steps": {
+        "oldText": "<head>The steps</head><par>To expand double brackets, like for instance with <inline-math/>, take the following steps.</par><list><item><a>Expand the left brackets. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <block-math/></a></item><item><b>For each of the resulting terms, simplify any potential number multiplications. So <inline-math/> becomes <inline-math/> and <inline-math/> becomes <inline-math/>.</b></item><item><c>Also merge any multiplications of equal factors into powers. So <inline-math/> becomes <inline-math/>.</c></item></list><par>The final result <inline-math/> is as easy as you can possibly write it.</par>",
+        "firstUpdate": "2024-06-18T15:45:32.915Z",
+        "latestUpdate": "2024-06-18T15:52:53.094Z",
+        "latestText": "<head>The steps</head><par>To expand double brackets, like for instance with <inline-math/>, take the following steps.</par><list><item><a><skill-link>Expand the left brackets</skill-link>. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <block-math/></a></item><item><b>Continue by <skill-link>expanding the remaining brackets</skill-link>. For our example, this then gives<block-math/>Note that we can also use a short-cut by directly multiplying each of the terms of the left brackets with each of the terms of the right brackets.</b></item><item><c><skill-link>Merge similar terms</skill-link> - terms that are identical, apart from their number factor - into a single term. In the example, we merge <inline-math/> and <inline-math/> together into <inline-math/>.</c></item></list><par>The final result <inline-math/> is as easy as you can possibly write it.</par>"
+      }
+    }
+  }
+}

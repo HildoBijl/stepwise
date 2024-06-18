@@ -13,7 +13,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'expandBrackets',
-	steps: [null, 'simplifyNumberProduct', 'rewritePowers'],
+	steps: [null, 'simplifyNumberProduct', 'rewritePower'],
 	comparison: {
 		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isSubtype(Product) && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),

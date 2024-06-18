@@ -1,12 +1,13 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { repeatMultidimensional } from 'step-wise/util'
 
 import { Translation } from 'i18n'
+import { usePrimaryColor } from 'ui/theme'
 import { Head, Par, List, Term, M, BM } from 'ui/components'
 import { useIdentityTransformationSettings, Drawing, Rectangle, Element } from 'ui/figures'
+import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
 	return <>
@@ -29,8 +30,8 @@ export function Theory() {
 			<Par>To expand brackets, like for instance with <M>4x \left(2x + 3\right)</M>, take the following steps.</Par>
 			<List items={[
 				<>Multiply the factor outside of the brackets separately with each term inside the brackets. So <M>4x \left(2x + 3\right)</M> becomes <M>4x \cdot 2x + 4x \cdot 3</M>.</>,
-				<>For each of the resulting terms, simplify any potential number multiplications. So <M>4x \cdot 2x</M> becomes <M>8\cdot x \cdot x</M> and <M>4x \cdot 3</M> becomes <M>12x</M>.</>,
-				<>Also merge any multiplications of equal factors into powers. So <M>8 \cdot x \cdot x</M> becomes <M>8x^2</M>.</>
+				<>For each of the resulting terms, <SkillLink skillId="simplifyNumberProduct">simplify any potential number multiplications</SkillLink>. So <M>4x \cdot 2x</M> becomes <M>8\cdot x \cdot x</M> and <M>4x \cdot 3</M> becomes <M>12x</M>.</>,
+				<>Also <SkillLink skillId="rewritePower">merge any multiplications of equal factors into powers</SkillLink>. So <M>8 \cdot x \cdot x</M> becomes <M>8x^2</M>.</>
 			]} />
 			<Par>The final result <M>8x^2 + 12x</M> is as easy as you can possibly write it.</Par>
 		</Translation>
@@ -43,8 +44,8 @@ const size = 24
 const delta = 5
 const a = 4, b = 2, c = 3
 function BlockDrawing({ useLetters = false }) {
-	const theme = useTheme()
-	const rectangleStyle = { fill: alpha(theme.palette.primary.main, 0.2), stroke: theme.palette.primary.main, strokeWidth: 2 }
+	const primaryColor = usePrimaryColor()
+	const rectangleStyle = { fill: alpha(primaryColor, 0.2), stroke: primaryColor, strokeWidth: 2 }
 	const transformationSettings = useIdentityTransformationSettings(left + (b + c) * size + delta, top + a * size)
 	return <Drawing transformationSettings={transformationSettings}>
 		{repeatMultidimensional([b, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + x * size, top + y * size], vector: [size, size] }} style={rectangleStyle} />).flat()}
