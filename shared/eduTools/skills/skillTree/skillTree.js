@@ -100,6 +100,11 @@ const skillStructure = {
 						examples: ['basicForm'],
 						exercises: ['factorBehind', 'negativeFactor', 'multipleTerms'],
 					},
+					expandDoubleBrackets: {
+						name: 'Expand double brackets',
+						setup: and('expandBrackets', 'expandBrackets', 'mergeSimilarTerms'),
+						// ToDo
+					},
 				},
 			},
 

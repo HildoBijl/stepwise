@@ -1,0 +1,8 @@
+{
+  "theory": {
+    "intro": "<par>ToDo</par>"
+  },
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, <term>doppelten Klammern zu erweitern</term>. Wenn wir eine Summe in Klammern mit einer anderen Summe in Klammern multiplizieren, wie in <inline-math/>, solltest du das ohne Klammern schreiben können. In diesem Beispiel erhältst du dann <inline-math/>. Diese Kompetenz umfasst auch komplexere Terme in den Additionssummen innerhalb von Klammern und/oder größere Summen mit mehr Termen.</par>"
+  }
+}

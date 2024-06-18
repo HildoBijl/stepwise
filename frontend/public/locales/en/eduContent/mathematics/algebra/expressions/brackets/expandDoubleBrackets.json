@@ -1,0 +1,8 @@
+{
+  "theory": {
+    "intro": "<par>ToDo</par>"
+  },
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>expand double brackets</term>. If we multiply a sum within brackets by another sum within brackets, like in <inline-math/>, you should be able to write this without brackets. In this example this results in <inline-math/>. This skill also includes somewhat more complicated terms in the sums inside said brackets and/or larger sums with more terms.</par>"
+  }
+}

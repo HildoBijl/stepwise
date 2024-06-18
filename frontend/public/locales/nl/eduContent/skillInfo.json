@@ -44,6 +44,9 @@
   "expandBrackets": {
     "name": "Haakjes uitwerken"
   },
+  "expandDoubleBrackets": {
+    "name": "Dubbele haakjes uitwerken"
+  },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
   },
