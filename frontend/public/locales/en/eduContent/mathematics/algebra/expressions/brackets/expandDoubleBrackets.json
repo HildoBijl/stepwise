@@ -6,5 +6,25 @@
   },
   "meta": {
     "learningGoals": "<par>In this skill you learn to <term>expand double brackets</term>. If we multiply a sum within brackets by another sum within brackets, like in <inline-math/>, you should be able to write this without brackets. In this example this results in <inline-math/>. This skill also includes somewhat more complicated terms in the sums inside said brackets and/or larger sums with more terms.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Expand the left set of brackets (here <inline-math/>) while keeping right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
+        "solution": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand all remaining brackets.",
+        "solution": "Expanding the remaining brackets in the usual way results in <block-math/>"
+      },
+      "step3": {
+        "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
+        "solution": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "feedback": {
+        "wrongBracketsExpanded": "<a>You have not expanded the left brackets <inline-math/> yet.</a>"
+      }
+    }
   }
 }

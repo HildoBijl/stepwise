@@ -18,6 +18,57 @@
         "firstUpdate": "2024-06-18T15:45:32.915Z",
         "latestUpdate": "2024-06-18T15:52:53.094Z",
         "latestText": "<head>The steps</head><par>To expand double brackets, like for instance with <inline-math/>, take the following steps.</par><list><item><a><skill-link>Expand the left brackets</skill-link>. (Or identically, you may start with the right set too.) Keep the other brackets as they are, treating them as a single number. For the example, this gives <block-math/></a></item><item><b>Continue by <skill-link>expanding the remaining brackets</skill-link>. For our example, this then gives<block-math/>Note that we can also use a short-cut by directly multiplying each of the terms of the left brackets with each of the terms of the right brackets.</b></item><item><c><skill-link>Merge similar terms</skill-link> - terms that are identical, apart from their number factor - into a single term. In the example, we merge <inline-math/> and <inline-math/> together into <inline-math/>.</c></item></list><par>The final result <inline-math/> is as easy as you can possibly write it.</par>"
+      },
+      "practice.basicForm.mainProblem": {
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:15:38.843Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.basicForm.step1.problem": {
+        "oldText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:59:57.146Z",
+        "latestText": "Expand the left set of brackets (here <inline-math/>) while keeping right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is."
+      },
+      "practice.basicForm.step1.solution": {
+        "oldText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>",
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:42:30.232Z",
+        "latestText": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
+      },
+      "practice.basicForm.step2.problem": {
+        "oldText": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:32:38.170Z",
+        "latestText": "Expand all remaining brackets."
+      },
+      "practice.basicForm.step2.solution": {
+        "oldText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>",
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:32:38.170Z",
+        "latestText": "Expanding the remaining brackets in the usual way results in <block-math/>"
+      },
+      "practice.basicForm.step3.problem": {
+        "oldText": "Where possible, inside each term, merge products of equal factors into a power.",
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:32:38.170Z",
+        "latestText": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible."
+      },
+      "practice.basicForm.step3.solution": {
+        "oldText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>.",
+        "firstUpdate": "2024-06-19T09:15:38.843Z",
+        "latestUpdate": "2024-06-19T09:40:47.516Z",
+        "latestText": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "practice.basicForm.step1.problem.wrongBracketsExpanded": {
+        "firstUpdate": "2024-06-19T09:59:00.250Z",
+        "latestUpdate": "2024-06-19T09:59:57.105Z",
+        "latestText": "You have not expanded the left brackets <inline-math/> yet."
+      },
+      "practice.basicForm.feedback.wrongBracketsExpanded": {
+        "firstUpdate": "2024-06-19T10:01:49.041Z",
+        "latestUpdate": "2024-06-19T10:01:49.041Z",
+        "latestText": "<a>You have not expanded the left brackets <inline-math/> yet.</a>"
       }
     }
   }

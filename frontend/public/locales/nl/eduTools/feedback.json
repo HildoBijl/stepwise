@@ -106,7 +106,7 @@
     "incorrect": "Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.",
     "correct": "De uitdrukking klopt wel, maar je hebt niet gedaan wat gevraagd is.",
     "noSum": "Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is geen optelling/aftrekking.",
-    "wrongNumberOfSumTerms": "Er wordt hier een optelsom verwacht met {expectedNumTerms} termen, met een plus of minteken ertussen. Nu heb je {inputNumTerms} termen.",
+    "wrongNumberOfSumTerms": "Er wordt hier een optelsom verwacht met {expectedNumTerms} termen, met een plus of minteken ertussen. Jouw invoer heeft {inputNumTerms} termen.",
     "errorInSumTerm": "Er lijkt iets mis te zijn met de <counting-word/> term van je antwoord.",
     "unsimplifiedSumTerm": "Je kunt de <counting-word/> term van je antwoord nog verder vereenvoudigen.",
     "hasX": "Je antwoord bevat nog een <inline-math/>. Dat was niet de bedoeling!",

@@ -106,7 +106,7 @@
     "incorrect": "This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.",
     "correct": "The expression is correct, but you have not done what was required.",
     "noSum": "You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.",
-    "wrongNumberOfSumTerms": "There was supposed to be an addition/subtraction with {expectedNumTerms} terms, each with a plus or minus sign in-between. You only have {inputNumTerms} terms.",
+    "wrongNumberOfSumTerms": "There was supposed to be an addition/subtraction with {expectedNumTerms} terms, each with a plus or minus sign in-between. Your response has {inputNumTerms} terms.",
     "errorInSumTerm": "There seems to be an error in the <counting-word/> term of your solution.",
     "unsimplifiedSumTerm": "You can still further simplify the <counting-word/> term of your solution.",
     "hasX": "Your solution still contains <inline-math/>. It's not supposed to be there anymore.",

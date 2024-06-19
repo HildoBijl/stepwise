@@ -44,7 +44,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 
 	// Check if the number of terms matches.
 	if (correct.terms.length !== input.terms.length)
-		return <Translation path={translationPath} entry="expression.wrongNumberOfSumTerms">There was supposed to be an addition/subtraction with {{ expectedNumTerms: correct.terms.length }} terms, each with a plus or minus sign in-between. You only have {{ inputNumTerms: input.terms.length }} terms.</Translation>
+		return <Translation path={translationPath} entry="expression.wrongNumberOfSumTerms">There was supposed to be an addition/subtraction with {{ expectedNumTerms: correct.terms.length }} terms, each with a plus or minus sign in-between. Your response has {{ inputNumTerms: input.terms.length }} terms.</Translation>
 
 	// Find an input term that is not in the solution.
 	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => equivalent(inputTerm, correctTerm)))
