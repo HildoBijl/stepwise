@@ -86,9 +86,6 @@ function preprocess(latex, advanced = false) {
 		// Escape percentage signs.
 		latex = latex.replaceAll('%', '\\%')
 
-		// Precede a left bracket with a negative space since it adds space around it for no good reason.
-		latex = latex.replaceAll('\\left(', '\\!\\left(')
-
 		// Replace brackets without \left or \right by accolades, since we cannot use accolades in JSX. Only do this in the end.
 		latex = bracketsToAccolades(latex)
 	}
