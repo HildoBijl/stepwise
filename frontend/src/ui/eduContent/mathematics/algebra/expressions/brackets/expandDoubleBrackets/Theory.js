@@ -17,9 +17,9 @@ export function Theory() {
 
 		<Translation entry="rule">
 			<Head>The rule</Head>
-			<Par>If we have a number multiplication, like for instance <M>\left(2+3\right) \cdot \left(4 + 5\right)</M>, then we can visualize this multiplication using blocks.</Par>
+			<Par>If we have a number multiplication, like for instance <M>\left(2+3\right) \left(4 + 5\right)</M>, then we can visualize this multiplication using blocks.</Par>
 			<BlockDrawing useLetters={false} />
-			<Par>From this, we see that <M>\left(2 + 3\right) \cdot \left(4 + 5\right)</M> can first be rewritten to <M>2\left(4 + 5\right) + 3\left(4 + 5\right)</M> and then to <M>2 \cdot 4 + 2 \cdot 5 + 3 \cdot 4 + 3 \cdot 5</M>. Check for yourself: they all result into <M>45</M>.</Par>
+			<Par>From this, we see that <M>\left(2 + 3\right) \left(4 + 5\right)</M> can first be rewritten to <M>2\left(4 + 5\right) + 3\left(4 + 5\right)</M> and then to <M>2 \cdot 4 + 2 \cdot 5 + 3 \cdot 4 + 3 \cdot 5</M>. Check for yourself: they all result into <M>45</M>.</Par>
 			<Par>This works exactly the same if we have an expression like <M>\left(a + b\right)\left(c + d\right)</M>. Here, <M>a</M>, <M>b</M>, <M>c</M> and <M>d</M> can be any type of expression, like <M>4x</M> or anything similar. We can again visualize this.</Par>
 			<BlockDrawing useLetters={true} />
 			<Par>From this visualization, we see that we may rewrite <M>\left(a + b\right)\left(c + d\right)</M> to <M>ac + ad + bc + bd</M>. We call this <Term>expanding double brackets</Term>. The accompanying rule is <BM>\left(a + b\right)\left(c + d\right) = ac + ad + bc + bd.</BM> You generally don't need to remember this rule. What you should remember is that you multiply each of the terms from the left brackets (here <M>a</M> and <M>b</M>) with each of the terms from the right brackets (here <M>c</M> and <M>d</M>). If you do this for all combinations of terms, you get the right result.</Par>
