@@ -6,10 +6,10 @@ const { getStepExerciseProcessor, filterVariables, performComparison } = require
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
-// (ax+b)(cx+d) = acx^2 + (ad+bc)x + bd
+// (ax+b)(cx^2+dx+e) = ...
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd']
+const constants = ['a', 'b', 'c', 'd', 'e']
 
 const metaData = {
 	skill: 'expandDoubleBrackets',
@@ -24,26 +24,29 @@ const metaData = {
 function generateState() {
 	return {
 		x: selectRandomly(variableSet),
-		a: getRandomInteger(2, 6),
-		b: getRandomInteger(2, 6),
-		c: getRandomInteger(2, 6),
-		d: getRandomInteger(2, 6),
-		xFirst: getRandomBoolean(), // Do we use ax+b or b+ax?
+		a: getRandomInteger(-8, 8, [0]),
+		b: getRandomInteger(-8, 8, [0]),
+		c: getRandomInteger(-8, 8, [0]),
+		d: getRandomInteger(-8, 8, [0]),
+		e: getRandomInteger(-8, 8, [0]),
+		switch: getRandomBoolean(),
 	}
 }
 
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor1 = asExpression(state.xFirst ? 'a*x+b' : 'b+a*x').substituteVariables(variables)
-	const factor2 = asExpression(state.xFirst ? 'c*x+d' : 'd+c*x').substituteVariables(variables)
+	const factor1 = asExpression(state.switch ? 'a*x+b' : 'b+a*x').substituteVariables(variables).removeUseless()
+	const factor2 = asExpression(state.switch ? 'c*x^2+d*x+e' : 'e+d*x+c*x^2').substituteVariables(variables).removeUseless()
 	const expression = factor1.multiply(factor2)
 	const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2))
 	const allExpanded = firstExpanded.simplify({ expandProductsOfSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
 	const ans = allExpanded.simplify({ groupSumTerms: true, mergeSumNumbers: true })
-	const xFactors = allExpanded.terms.filter(term => term.isSubtype(Product) && term.factors.some(factor => variables.x.equals(factor)))
-	const xFactorsMerged = xFactors[0].add(xFactors[1]).cleanForAnalysis()
-	return { ...state, variables, factor1, factor2, expression, firstExpanded, allExpanded, ans, xFactors, xFactorsMerged }
+	const xFactors1 = allExpanded.terms.filter(term => variables.x.equals(term) || (term.isSubtype(Product) && term.factors.some(factor => variables.x.equals(factor))))
+	const xFactors2 = allExpanded.terms.filter(term => term.recursiveSome(factor => variables.x.toPower(2).equals(factor)))
+	const xFactors1Merged = xFactors1[0].add(xFactors1[1]).cleanForAnalysis()
+	const xFactors2Merged = xFactors2[0].add(xFactors2[1]).cleanForAnalysis()
+	return { ...state, variables, factor1, factor2, expression, firstExpanded, allExpanded, ans, xFactors1, xFactors2, xFactors1Merged, xFactors2Merged }
 }
 
 function checkInput(exerciseData, step) {

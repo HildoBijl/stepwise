@@ -11,7 +11,7 @@
     "basicForm": {
       "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
       "step1": {
-        "problem": "Expand the left set of brackets (here <inline-math/>) while keeping right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
+        "problem": "Expand the left set of brackets (here <inline-math/>) while keeping the right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
         "solution": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
       },
       "step2": {
@@ -23,7 +23,63 @@
         "solution": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
       },
       "feedback": {
-        "wrongBracketsExpanded": "<a>You have not expanded the left brackets <inline-math/> yet.</a>"
+        "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>"
+      }
+    },
+    "higherPowers": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Expand the left set of brackets (here <inline-math/>) while keeping the right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
+        "solution": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand all remaining brackets.",
+        "solution": "Expanding the remaining brackets in the usual way results in <block-math/>"
+      },
+      "step3": {
+        "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
+        "solution": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "feedback": {
+        "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>"
+      }
+    },
+    "multipleTerms": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Expand the left set of brackets (here <inline-math/>) while keeping the right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
+        "solution": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand all remaining brackets.",
+        "solution": "Expanding the remaining brackets in the usual way results in <block-math/>"
+      },
+      "step3": {
+        "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
+        "solution": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. Identically, <inline-math/> and <inline-math/> can be merged into <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    },
+    "squared": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Use the definition of the square to rewrite <inline-math/> as a multiplication <inline-math/> without any square outside the brackets.",
+        "solution": "A square simply means an expression multiplied by itself. So we can write <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand the left set of brackets, while keeping the right set of brackets intact. Treat the right set of brackets as a single number, which technically it is.",
+        "solution": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
+      },
+      "step3": {
+        "problem": "Expand all remaining brackets.",
+        "solution": "Expanding the remaining brackets in the usual way results in <block-math/>"
+      },
+      "step4": {
+        "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
+        "solution": "<par>There are two terms that have <inline-math/> as a factor, being <inline-math/> and again <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>.</par><sub-head>Short-cut</sub-head><par>There is a possible short-cut for this question. A square of a sum, like <inline-math/>, always comes out as <inline-math/>. Using this knowledge, we could have also directly seen that <block-math/></par>"
+      },
+      "feedback": {
+        "stillHasPower": "<a>There are still brackets with an exponent above it.</a>",
+        "bracketProductRemains": "<a>Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</a>"
       }
     }
   }

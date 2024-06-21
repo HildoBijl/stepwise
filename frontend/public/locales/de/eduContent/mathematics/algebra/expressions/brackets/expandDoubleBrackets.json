@@ -1,8 +1,86 @@
 {
   "theory": {
-    "intro": "<par>ToDo</par>"
+    "intro": "<par>Wir wissen, wie man <skill-link>Klammern erweitert</skill-link> wie in <inline-math/>. Aber was machen wir, wenn wir Klammern mit Klammern multiplizieren? Wie <inline-math/>? Die Antwort ist: Wir <term>erweitern die Klammern zweimal</term>. Erst erweitern wir die eine, dann die andere.</par>",
+    "rule": "<head>Die Regel</head><par>Wenn wir Zahlen multiplizieren, wie z. B. <inline-math/>, können wir dies mit Hilfe von Blöcken veranschaulichen.</par><block-drawing/><par>Daraus ersehen wir, dass <inline-math/> in <inline-math/> und dann in <inline-math/> umgeschrieben werden kann. Überprüfe es selbst: Es kommt alles auf <inline-math/> hinaus.</par><par>Dies funktioniert genau so für einen Ausdruck wie <inline-math/>. Hier können <inline-math/>, <inline-math/>, <inline-math/> und <inline-math/> jede Art von Ausdruck sein, wie <inline-math/> oder etwas Ähnliches. Wir können dies wieder visualisieren.</par><block-drawing/><par>Anhand dieses Bildes sehen wir, dass wir <inline-math/> zu <inline-math/> umschreiben können. Wir nennen dies die <term>Erweiterung der doppelten Klammer</term>. Die entsprechende Regel lautet <block-math/> Du brauchst dir diese Regel jedoch nicht zu merken. Was du dir merken musst, ist, dass du jeden Term aus der linken Klammer (hier <inline-math/> und <inline-math/>) separat mit jedem Term aus der rechten Klammer (hier <inline-math/> und <inline-math/>) multiplizierst. Wenn du dies für alle Kombinationen von Termen tust, erhältst du das richtige Ergebnis.</par>",
+    "steps": "<head>Die Schritte</head><par>Um doppelte Klammern, wie z. B. in <inline-math/>, zu erweitern, ist wie folgt vorzugehen.</par><list><item><a><skill-link>Erweitere die linke Klammer</skill-link>. (Man kann auch identisch mit der rechten Klammer beginnen.) Die anderen Klammern lässt du so, wie sie sind und behandelst sie als eine einzige Zahl. Für das Beispiel ergibt dies <block-math/></a></item><item><b><skill-link>Erweitere alle verbleibenden Klammern</skill-link>. Für unser Beispiel ergibt das <block-math/>Anmerkung: Wir können auch eine Abkürzung anwenden, indem wir jeden der Terme aus der linken Klammer direkt mit jedem der Terme aus der rechten Klammer multiplizieren.</b></item><item><c><skill-link>Füge gleichartige Terme zusammen</skill-link> - Terme die abgesehen von ihrem Zahlenfaktor identisch sind - zu einem einzigen Term. Im Beispiel verschmelzen wir <inline-math/> und <inline-math/> zu <inline-math/>.</c></item></list><par>Das Endergebnis <inline-math/> ist so einfach, wie man es schreiben kann.</par>"
   },
   "meta": {
     "learningGoals": "<par>In dieser Kompetenz lernst du, <term>doppelten Klammern zu erweitern</term>. Wenn wir eine Summe in Klammern mit einer anderen Summe in Klammern multiplizieren, wie in <inline-math/>, solltest du das ohne Klammern schreiben können. In diesem Beispiel erhältst du dann <inline-math/>. Diese Kompetenz umfasst auch komplexere Terme in den Additionssummen innerhalb von Klammern und/oder größere Summen mit mehr Termen.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Erweitere die Klammern und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Erweitere die linke Klammer (hier <inline-math/>), während die rechte Klammer (hier <inline-math/>) erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.",
+        "solution": "Wir multiplizieren jeden der Terme <inline-math/> und <inline-math/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere alle verbleibenden Klammern.",
+        "solution": "Wenn wir die restlichen Klammern auf die übliche Weise erweiteren, erhalten wir <block-math/>"
+      },
+      "step3": {
+        "problem": "Füge gleichartige Terme (mit gleicher Potenz von <inline-math/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.",
+        "solution": "Es gibt zwei Terme mit <inline-math/> als Faktor, nämlich <inline-math/> und <inline-math/>. Zusammen können sie als <inline-math/> geschrieben werden. Der endgültige Ausdruck ist dann <Block-math/> Dies ist unsere endgültige Antwort. Kurz gesagt, <inline-math/>."
+      },
+      "feedback": {
+        "wrongBracketsExpanded": "<a>Achte darauf, dass du alle Klammern außer <inline-math/> erweiterst.</a>"
+      }
+    },
+    "higherPowers": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Erweitere die Klammern und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Erweitere die linke Klammer (hier <inline-math/>), während die rechte Klammer (hier <inline-math/>) erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.",
+        "solution": "Wir multiplizieren jeden der Terme <inline-math/> und <inline-math/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere alle verbleibenden Klammern.",
+        "solution": "Wenn wir die restlichen Klammern auf die übliche Weise erweiteren, erhalten wir <block-math/>"
+      },
+      "step3": {
+        "problem": "Füge gleichartige Terme (mit gleicher Potenz von <inline-math/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.",
+        "solution": "Es gibt zwei Terme mit <inline-math/> als Faktor, nämlich <inline-math/> und <inline-math/>. Diese können zusammen als <inline-math/> geschrieben werden. Der endgültige Ausdruck ist dann <block-math/> Dies ist unsere endgültige Antwort. Kurz gesagt, <inline-math/>."
+      },
+      "feedback": {
+        "wrongBracketsExpanded": "<a>Achte darauf, dass du alle Klammern außer <inline-math/> erweiterst.</a>"
+      }
+    },
+    "multipleTerms": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Erweitere die Klammern und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Erweitere die linke Klammer (hier <inline-math/>), während die rechte Klammer (hier <inline-math/>) erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.",
+        "solution": "Wir multiplizieren jeden der Terme <inline-math/> und <inline-math/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere alle verbleibenden Klammern.",
+        "solution": "Wenn wir die restlichen Klammern auf die übliche Weise erweiteren, erhalten wir <block-math/>"
+      },
+      "step3": {
+        "problem": "Füge gleichartige Terme (mit gleicher Potenz von <inline-math/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.",
+        "solution": "Es gibt zwei Terme mit <inline-math/> als Faktor, nämlich <inline-math/> und <inline-math/>. Diese können zusammen als <inline-math/> geschrieben werden. In gleicher Weise können <inline-math/> und <inline-math/> zu <inline-math/> zusammengefügt werden. Der endgültige Ausdruck ist dann <block-math/> Dies ist unsere endgültige Antwort. Kurz gesagt, <inline-math/>."
+      }
+    },
+    "squared": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Erweitere die Klammern und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Gebruik de definitie van het kwadraat om <inline-math/> te schrijven als een vermenigvuldiging <inline-math/> zonder enig kwadraat buiten de haakjes.",
+        "solution": "Een kwadraat is simpelweg een uitdrukking vermenigvuldigd met zichzelf. We kunnen het dus schrijven als <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere die linke Klammer, während die rechte Klammer erhalten bleibt. Behandle die rechte Klammer als eine einzige Zahl, was immer sie technisch gesehen ist.",
+        "solution": "Wir multiplizieren jeden der Terme <inline-math/> und <inline-math/> aus der linken Klammer mit der vollen rechten Klammer. Dies ergibt <block-math/>"
+      },
+      "step3": {
+        "problem": "Erweitere alle verbleibenden Klammern.",
+        "solution": "Wenn wir die restlichen Klammern auf die übliche Weise erweiteren, erhalten wir <block-math/>"
+      },
+      "step4": {
+        "problem": "Füge gleichartige Terme (mit gleicher Potenz von <inline-math/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.",
+        "solution": "<par>Es gibt zwei Terme mit <inline-math/> als Faktor, nämlich <inline-math/> und einen weiteren <inline-math/>. Diese können zusammen als <inline-math/> geschrieben werden. Der endgültige Ausdruck ist dann <block-math/> Dies ist unsere endgültige Antwort. Kurz gesagt, <inline-math/>.</par><sub-head>Abkürzung</sub-head><par>Für diese Übung gibt es eine mögliche Abkürzung. Ein Quadrat einer Summe, wie <inline-math/>, ergibt immer <inline-math/>. Wenn wir das wissen, können wir auch gleich sehen, dass <block-math/></par>"
+      },
+      "feedback": {
+        "stillHasPower": "<a>Es gibt noch Klammern mit einer Potenz darüber.</a>",
+        "bracketProductRemains": "<a>Achte darauf, dass du nur einen Satz Klammern erweiterst: Du darfst nicht mehr Klammern mit Klammern multipliziert haben.</a>"
+      }
+    }
   }
 }

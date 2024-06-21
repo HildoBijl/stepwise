@@ -1,8 +1,86 @@
 {
   "theory": {
-    "intro": "<par>ToDo</par>"
+    "intro": "<par>We weten hoe we <skill-link>haakjes kunnen uitwerken</skill-link> zoals bij <inline-math/>. Maar wat doen we als we haakjes met haakjes vermenigvuldigen? Zoals <inline-math/>? Het antwoord is: we <term>werken haakjes twee keer uit</term>. Eerst werken we de ene uit, en daarna de ander.</par>",
+    "rule": "<head>De regel</head><par>Als we getallen vermenigvuldigen, zoals bijvoorbeeld <inline-math/>, dan kunnen we dit visualiseren met behulp van blokken.</par><block-drawing/><par>Hieruit zien we dat <inline-math/> herschreven kan worden tot <inline-math/> en vervolgens tot <inline-math/>. Controleer voor jezelf: het komt allemaal uit op <inline-math/>.</par><par>Dit werkt op precies dezelfde manier bij een uitdrukking als <inline-math/>. Hier kunnen <inline-math/>, <inline-math/>, <inline-math/> en <inline-math/> elk soort uitdrukking zijn, zoals <inline-math/> of iets soortgelijks. We kunnen dit weer visualiseren.</par><block-drawing/><par>Uit deze afbeelding zien we dat we <inline-math/> kunnen herschrijven naar <inline-math/>. We noemen dit het <term>uitwerken van dubbele haakjes</term>. De betreffende regel is <block-math/> Deze regel hoef je echter niet te onthouden. Wat je moet onthouden is dat je elke term uit de linker haakjes (hier <inline-math/> en <inline-math/>) los vermenigvuldigt met elke term uit de rechter haakjes (hier <inline-math/> en <inline-math/>). Als je dit voor alle combinaties van termen doet, dan krijg je het juiste resultaat.</par>",
+    "steps": "<head>De stappen</head><par>Om dubbele haakjes uit te werken, zoals bijvoorbeeld bij <inline-math/>, neem je de volgende stappen.</par><list><item><a><skill-link>Werk de linker haakjes uit</skill-link>. (Je mag ook identiek daaraan met de rechter haakjes beginnen.) Laat de andere haakjes zoals ze zijn, waarbij je ze als een enkel getal behandelt. Voor het voorbeeld geeft dit <block-math/></a></item><item><b>Ga verder met het <skill-link>uitwerken van de resterende haakjes</skill-link>. Voor ons voorbeeld komt dit uit op <block-math/>Merk op dat we ook een short-cut kunen toepassen door direct elk van de termen uit de linker haakjes met elk van de termen uit de rechter haakjes te vermenigvuldigen.</b></item><item><c><skill-link>Voeg soortgelijke termen samen</skill-link> - termen die identiek zijn, afgezien van hun getalfactor - tot een enkele term. In het voorbeeld voegen we <inline-math/> en <inline-math/> samen tot <inline-math/>.</c></item></list><par>Het eindresultaat <inline-math/> is zo eenvoudig als je het maar schrijven kan.</par>"
   },
   "meta": {
     "learningGoals": "<par>In deze vaardigheid leer je <term>dubbele haakjes uit te werken</term>. Als we een som binnen haakjes vermenigvuldigen met een andere som binnen haakjes, zoals in <inline-math/>, dan zou je dit zonder haakjes moeten kunnen schrijven. In dit voorbeeld kom je dan uit op <inline-math/>. Deze vaardigheid omvat ook meer complexe termen in de optelsommen binnen de haakjes en/of grotere sommen met meer termen.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Werk de linker haakjes (hier <inline-math/>) uit, terwijl je de rechter set haakjes (hier <inline-math/>) intact laat. Behandel de rechter haakjes als een enkel getal, wat het technisch gezien ook is.",
+        "solution": "We vermenigvuldigen elk van de termen <inline-math/> en <inline-math/> uit de linker haakjes met de volledige rechter haakjes. Dit komt uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle resterende haakjes uit.",
+        "solution": "Het op de gebruikelijke wijze uitwerken van de resterende haakjes geeft <block-math/>"
+      },
+      "step3": {
+        "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
+        "solution": "Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>."
+      },
+      "feedback": {
+        "wrongBracketsExpanded": "<a>Zorg ervoor dat je alle haakjes uitwerkt behalve <inline-math/>.</a>"
+      }
+    },
+    "higherPowers": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Werk de linker haakjes (hier <inline-math/>) uit, terwijl je de rechter set haakjes (hier <inline-math/>) intact laat. Behandel de rechter haakjes als een enkel getal, wat het technisch gezien ook is.",
+        "solution": "We vermenigvuldigen elk van de termen <inline-math/> en <inline-math/> uit de linker haakjes met de volledige rechter haakjes. Dit komt uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle resterende haakjes uit.",
+        "solution": "Het op de gebruikelijke wijze uitwerken van de resterende haakjes geeft <block-math/>"
+      },
+      "step3": {
+        "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
+        "solution": "Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>."
+      },
+      "feedback": {
+        "wrongBracketsExpanded": "<a>Zorg ervoor dat je alle haakjes uitwerkt behalve <inline-math/>.</a>"
+      }
+    },
+    "multipleTerms": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Werk de linker haakjes (hier <inline-math/>) uit, terwijl je de rechter set haakjes (hier <inline-math/>) intact laat. Behandel de rechter haakjes als een enkel getal, wat het technisch gezien ook is.",
+        "solution": "We vermenigvuldigen elk van de termen <inline-math/> en <inline-math/> uit de linker haakjes met de volledige rechter haakjes. Dit komt uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle resterende haakjes uit.",
+        "solution": "Het op de gebruikelijke wijze uitwerken van de resterende haakjes geeft <block-math/>"
+      },
+      "step3": {
+        "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
+        "solution": "Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. Op identische wijze kunnen <inline-math/> en <inline-math/> samengevoegd worden tot <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>."
+      }
+    },
+    "squared": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Gebruik de definitie van het kwadraat om <inline-math/> te schrijven als een vermenigvuldiging <inline-math/> zonder enig kwadraat buiten de haakjes.",
+        "solution": "Een kwadraat is simpelweg een uitdrukking vermenigvuldigd met zichzelf. We kunnen het dus schrijven als <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk de linker haakjes uit, terwijl je de rechter set haakjes intact laat. Behandel de rechter haakjes als een enkel getal, wat het technisch gezien ook is.",
+        "solution": "We vermenigvuldigen elk van de termen <inline-math/> en <inline-math/> uit de linker haakjes met de volledige rechter haakjes. Dit komt uit op <block-math/>"
+      },
+      "step3": {
+        "problem": "Werk alle resterende haakjes uit.",
+        "solution": "Het op de gebruikelijke wijze uitwerken van de resterende haakjes geeft <block-math/>"
+      },
+      "step4": {
+        "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
+        "solution": "<par>Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en nog eens <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>.</par><sub-head>Short-cut</sub-head><par>Deze opgave heeft een mogelijke short-cut. Een kwadraat van een sum, zoals <inline-math/>, komt altijd uit op <inline-math/>. Als we dit weten, kunnen we ook gelijk inzien dat <block-math/></par>"
+      },
+      "feedback": {
+        "stillHasPower": "<a>Er zijn nog steeds haakjes met een macht erboven.</a>",
+        "bracketProductRemains": "<a>Zorg ervoor dat je één set haakjes uitwerkt: je mag niet meer haakjes vermenigvuldigd met haakjes hebben.</a>"
+      }
+    }
   }
 }

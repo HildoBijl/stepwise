@@ -104,6 +104,7 @@ const skillStructure = {
 						name: 'Expand double brackets',
 						setup: and('expandBrackets', 'expandBrackets', 'mergeSimilarTerms'),
 						examples: ['basicForm'],
+						exercises: ['higherPowers', 'squared', 'multipleTerms'],
 					},
 				},
 			},

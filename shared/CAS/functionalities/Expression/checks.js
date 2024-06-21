@@ -15,6 +15,11 @@ function hasSumWithinFraction(input) {
 	return input.recursiveSome(term => term.isSubtype(Fraction) && term.recursiveSome(subTerm => subTerm.isSubtype(Sum)))
 }
 
+// hasSumWithinPowerBase checks if there is a power whose base is a sum.
+function hasSumWithinPowerBase(input) {
+	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Sum)))
+}
+
 // hasFraction checks if there is a fraction inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).
 function hasFraction(input, includeSelf = true) {
 	return input.recursiveSome(term => term.isSubtype(Fraction), includeSelf)
@@ -66,6 +71,7 @@ module.exports = {
 	isInteger,
 	hasSumWithinProduct,
 	hasSumWithinFraction,
+	hasSumWithinPowerBase,
 	hasFraction,
 	hasFractionSatisfying,
 	hasFractionWithinFraction,

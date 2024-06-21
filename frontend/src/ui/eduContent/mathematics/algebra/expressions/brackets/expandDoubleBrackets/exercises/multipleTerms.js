@@ -71,8 +71,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, variables, allExpanded, ans, xFactors, xFactorsMerged }) => {
-			return <Par><Translation>There are two terms that have <M>{variables.x}</M> as a factor, being <M>{xFactors[0]}</M> and <M>{xFactors[1]}</M>. Together these can be written as <M>{xFactorsMerged}</M>. The resulting expression then becomes <BM>{allExpanded} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Translation></Par>
+		Solution: ({ expression, variables, allExpanded, ans, xFactors1, xFactors2, xFactors1Merged, xFactors2Merged }) => {
+			return <Par><Translation>There are two terms that have <M>{variables.x}</M> as a factor, being <M>{xFactors1[0]}</M> and <M>{xFactors1[1]}</M>. Together these can be written as <M>{xFactors1Merged}</M>. Identically, <M>{xFactors2[0]}</M> and <M>{xFactors2[1]}</M> can be merged into <M>{xFactors2Merged}</M>. The resulting expression then becomes <BM>{allExpanded} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Translation></Par>
 		},
 	},
 ]
