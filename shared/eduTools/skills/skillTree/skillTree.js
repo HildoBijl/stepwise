@@ -122,6 +122,11 @@ const skillStructure = {
 						cancelFractionFactors: { // Dummy.
 							name: 'Cancel fraction factors',
 						},
+						simplifyFractionWithVariables: {
+							name: 'Simplify fraction with variables',
+							setup: and('simplifyFraction', 'cancelFractionFactors', 'rewritePower'),
+							// ToDo
+						},
 					},
 					addingSubtracting: {
 

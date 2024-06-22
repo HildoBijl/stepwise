@@ -53,6 +53,9 @@
   "cancelFractionFactors": {
     "name": "Cancel fraction factors"
   },
+  "simplifyFractionWithVariables": {
+    "name": "Simplify fraction with variables"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },

@@ -53,6 +53,9 @@
   "cancelFractionFactors": {
     "name": "Bruchfaktoren entfernen"
   },
+  "simplifyFractionWithVariables": {
+    "name": "Bruch mit Variablen vereinfachen"
+  },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"
   },

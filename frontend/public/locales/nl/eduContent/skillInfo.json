@@ -53,6 +53,9 @@
   "cancelFractionFactors": {
     "name": "Breukfactoren wegstrepen"
   },
+  "simplifyFractionWithVariables": {
+    "name": "Breuk met variabelen vereenvoudigen"
+  },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
   },
