@@ -107,6 +107,16 @@ const skillStructure = {
 						exercises: ['higherPowers', 'squared', 'multipleTerms'],
 					},
 				},
+				fractions: {
+					multiplyingDividing: {
+						cancelFractionFactors: { // Dummy.
+							name: 'Cancel fraction factors',
+						},
+					},
+					addingSubtracting: {
+
+					},
+				},
 			},
 
 			// Old part for skill tree updating.

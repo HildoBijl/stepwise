@@ -47,6 +47,9 @@
   "expandDoubleBrackets": {
     "name": "Doppelte Klammern erweitern"
   },
+  "cancelFractionFactors": {
+    "name": "Bruchfaktoren entfernen"
+  },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"
   },

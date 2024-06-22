@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>cancel fraction factors</term> for fractions containing variables. For instance, if you have a fraction <inline-math/> you should see that multiplying by a number <inline-math/> and then dividing by that same number has no effect, so we might as well write <inline-math/>. This also includes more complex factors, like turning <inline-math/> into <inline-math/> and similar.</par>"
+  }
+}

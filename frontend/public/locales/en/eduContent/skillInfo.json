@@ -47,6 +47,9 @@
   "expandDoubleBrackets": {
     "name": "Expand double brackets"
   },
+  "cancelFractionFactors": {
+    "name": "Cancel fraction factors"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },
