@@ -75,6 +75,16 @@ const skillStructure = {
 
 	mathematics: {
 		calculation: {
+			fractions: {
+				calculating: {
+					simplifyFraction: { // Dummy.
+						name: 'Simplify fraction',
+					},
+				},
+				multiplyingDividing: {},
+				addingSubtracting: {},
+				simplification: {},
+			},
 			powers: {
 				rewritePower: { // Dummy.
 					name: 'Rewrite power',
@@ -138,7 +148,12 @@ const skillStructure = {
 					name: 'Multiply/divide fractions',
 					exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
 				},
-				simplifyFraction: {
+				// simplifyFraction: {
+				// 	name: 'Simplify a fraction',
+				// 	setup: and('mergeSplitFractions', 'multiplyDivideFractions'),
+				// 	exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
+				// },
+				simplifyMultiVariableFraction: {
 					name: 'Simplify a fraction',
 					setup: and('mergeSplitFractions', 'multiplyDivideFractions'),
 					exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
@@ -174,7 +189,7 @@ const skillStructure = {
 				},
 				solveGeneralLinearEquation: {
 					name: 'Solve a general linear equation',
-					setup: and(pick(['simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms'], 2), 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
+					setup: and(pick(['simplifyMultiVariableFraction', 'expandBrackets', 'multiplyDivideAllTerms'], 2), 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
 					exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 				},
 			},

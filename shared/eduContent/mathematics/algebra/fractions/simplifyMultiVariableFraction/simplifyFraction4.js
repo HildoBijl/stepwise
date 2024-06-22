@@ -11,7 +11,7 @@ const usedVariables = ['w', 'x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
-	skill: 'simplifyFraction',
+	skill: 'simplifyMultiVariableFraction',
 	steps: ['mergeSplitFractions', 'mergeSplitFractions', 'multiplyDivideFractions'],
 	comparison: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
 }

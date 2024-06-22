@@ -32,6 +32,9 @@
   "summationAndMultiplication": {
     "name": "Add and multiply numbers"
   },
+  "simplifyFraction": {
+    "name": "Simplify fraction"
+  },
   "rewritePower": {
     "name": "Rewrite power"
   },
@@ -62,7 +65,7 @@
   "multiplyDivideFractions": {
     "name": "Multiply/divide fractions"
   },
-  "simplifyFraction": {
+  "simplifyMultiVariableFraction": {
     "name": "Simplify a fraction"
   },
   "pullOutOfBrackets": {

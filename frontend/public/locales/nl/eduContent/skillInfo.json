@@ -32,6 +32,9 @@
   "summationAndMultiplication": {
     "name": "Optellen en vermenigvuldigen"
   },
+  "simplifyFraction": {
+    "name": "Breuk vereenvoudigen"
+  },
   "rewritePower": {
     "name": "Macht herschrijven"
   },
@@ -62,7 +65,7 @@
   "multiplyDivideFractions": {
     "name": "Breuken vermenigvuldigen/delen"
   },
-  "simplifyFraction": {
+  "simplifyMultiVariableFraction": {
     "name": "Breuk simplificeren"
   },
   "pullOutOfBrackets": {

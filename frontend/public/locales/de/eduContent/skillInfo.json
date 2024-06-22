@@ -32,6 +32,9 @@
   "summationAndMultiplication": {
     "name": "Addieren und Multiplizieren"
   },
+  "simplifyFraction": {
+    "name": "Bruch vereinfachen"
+  },
   "rewritePower": {
     "name": "Potenz umschreiben"
   },
@@ -62,7 +65,7 @@
   "multiplyDivideFractions": {
     "name": "Multiplizieren/Dividieren von Brüchen"
   },
-  "simplifyFraction": {
+  "simplifyMultiVariableFraction": {
     "name": "Vereinfachen von Brüchen"
   },
   "pullOutOfBrackets": {

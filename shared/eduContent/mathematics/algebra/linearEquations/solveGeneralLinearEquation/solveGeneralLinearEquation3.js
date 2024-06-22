@@ -9,7 +9,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveGeneralLinearEquation',
-	steps: ['simplifyFraction', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'],
+	steps: ['simplifyMultiVariableFraction', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'],
 	comparison: {
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && !expressionChecks.hasPower(input.left) && expressionComparisons.equivalent(input.left, correct.left),

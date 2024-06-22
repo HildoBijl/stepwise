@@ -75,7 +75,7 @@ let courses = {
 			},
 			{
 				name: 'Simplify fractions within fractions',
-				goals: ['simplifyFraction'],
+				goals: ['simplifyMultiVariableFraction'],
 			},
 			{
 				name: 'Using brackets',
@@ -90,7 +90,7 @@ let courses = {
 				goals: ['solveGeneralLinearEquation'],
 			},
 		],
-		setup: pick(['simplifyFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
+		setup: pick(['simplifyMultiVariableFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
 	},
 
 	mathematicsFundamentals: {
@@ -114,7 +114,7 @@ let courses = {
 		blocks: [
 			{
 				name: 'Basic rules of algebra',
-				goals: ['expandBrackets', 'simplifyFraction'],
+				goals: ['expandBrackets', 'simplifyMultiVariableFraction'],
 			},
 			{
 				name: 'Linear equations',
