@@ -49,6 +49,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
+	expandPowers: false, // Turns a^3 into a*a*a. Opposite of mergeProductFactors.
 	expandPowersOfProducts: false, // Reduces (a*b)^n to a^n*b^n.
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
 	expandPowersOfSumsWithinSums: false, // Applies expandPowersOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandPowersOfSumsWithinSums is on, this is ignored.

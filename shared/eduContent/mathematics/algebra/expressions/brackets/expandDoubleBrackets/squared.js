@@ -34,7 +34,6 @@ function generateState() {
 }
 
 function getSolution(state) {
-	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
 	const factor = asExpression('a*x^p+b*x^q').substituteVariables(variables).removeUseless()
 	const expression = factor.toPower(2)

@@ -33,7 +33,6 @@ function generateState() {
 }
 
 function getSolution(state) {
-	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
 	const factor = asExpression('a*x^n').substituteVariables(variables).removeUseless()
 	const sum = asExpression(state.xFirst ? 'b*x+c' : 'c+b*x').substituteVariables(variables)

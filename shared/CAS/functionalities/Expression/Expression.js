@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -2369,6 +2369,13 @@ class Power extends Function {
 
 	simplifyBasic(options) {
 		let { base, exponent } = this.simplifyChildren(options)
+
+		// Expand powers. Turn a^3 into a*a*a.
+		if (options.expandPowers) {
+			if (exponent.isSubtype(Integer)) {
+				return new Product(...repeat(exponent.toNumber(), base)).simplifyBasic(options)
+			}
+		}
 
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
 		if (options.removePowersWithinPowers) {

@@ -40,7 +40,6 @@ function generateState() {
 }
 
 function getSolution(state) {
-	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
 	const factor1 = asExpression(state.switch ? 'a*x^p+b*x^q' : 'b*x^q+a*x^p').substituteVariables(variables).removeUseless()
 	const factor2 = asExpression(state.switch ? 'c*x^r+d*x^s' : 'd*x^s+c*x^r').substituteVariables(variables).removeUseless()

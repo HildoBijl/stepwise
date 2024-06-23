@@ -8,7 +8,7 @@ function repeat(times, func) {
 }
 module.exports.repeat = repeat
 
-// repeatWithMinMax will repeat the given function with indices ranging from min to max (both inclusive). So repeatWithMinMax(3, 5, print) will print 3, 4 and 5. If min is larger than max, an error will be thrown. Returned is an array of all outcomes.
+// repeatWithMinMax will repeat the given function with indices ranging from min to max (both inclusive). So repeatWithMinMax(3, 5, print) will print 3, 4 and 5. If min is larger than max, an error will be thrown. Returned is an array of all outcomes. If no function but a value is given, that value is repeated as is.
 function repeatWithMinMax(min, max, func) {
 	// Process input.
 	min = ensureInt(min)
@@ -18,10 +18,11 @@ function repeatWithMinMax(min, max, func) {
 		throw new Error(`Repeat error: needed to repeat a function a number of ${times} times, but this is impossible.`)
 	if (times === 0)
 		return
+	const processedFunc = (typeof func === 'function' ? func : () => func)
 
 	// Iterate using an impromptu array.
 	const arr = (new Array(times)).fill(0)
-	return arr.map((_, index) => func(index + min))
+	return arr.map((_, index) => processedFunc(index + min))
 }
 module.exports.repeatWithMinMax = repeatWithMinMax
 

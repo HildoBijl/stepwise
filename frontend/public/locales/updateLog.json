@@ -1,1 +1,111 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/expressions/fractions/multiplyingDividing/simplifyFractionWithVariables": {
+      "practice.basicForm.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T12:42:10.135Z",
+        "latestText": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)"
+      },
+      "practice.basicForm.step1.problem": {
+        "oldText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T12:40:51.429Z",
+        "latestText": "Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is."
+      },
+      "practice.basicForm.step1.solution": {
+        "oldText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T12:40:51.429Z",
+        "latestText": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>"
+      },
+      "practice.basicForm.step2.problem": {
+        "oldText": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T12:43:58.380Z",
+        "latestText": "Cancel all possible variable factors, to further simplify the fraction."
+      },
+      "practice.basicForm.step2.solution": {
+        "oldText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T12:44:25.842Z",
+        "latestText": "We can cancel <counting-word/> factors of <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
+      },
+      "practice.basicForm.step3.problem": {
+        "oldText": "Where possible, inside each term, merge products of equal factors into a power.",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T09:54:46.438Z",
+        "latestText": "Cross out terms as much as possible, and afterwards merge any remaining repeated multiplications back into powers."
+      },
+      "practice.basicForm.step3.solution": {
+        "oldText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>.",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T09:54:46.438Z",
+        "latestText": "By crossing out terms, we find that <block-math/> This as easy as we can write the variable part of the fraction."
+      },
+      "practice.multipleFactors.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+        "firstUpdate": "2024-06-23T08:35:09.856Z",
+        "latestUpdate": "2024-06-23T08:35:09.922Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.higherPowers.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+        "firstUpdate": "2024-06-23T08:36:16.546Z",
+        "latestUpdate": "2024-06-23T08:36:16.578Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "theory.intro": {
+        "oldText": "<par>We know how to calculate a multiplication like <inline-math/>. But what do we do with something like <inline-math/>? The answer is: we can rewrite this by <term>expanding brackets</term>.</par>",
+        "firstUpdate": "2024-06-23T08:36:36.759Z",
+        "latestUpdate": "2024-06-23T11:50:07.089Z",
+        "latestText": "<par>We know how to cancel terms in a fraction like <inline-math/>. We just cross out the <inline-math/>. But what do we do if we have powers in there, like in <inline-math/>? And what if there are also numbers and other factors involved, like in <inline-math/>? The key is to still cancel factors, but do so for numbers and variable factors separately.</par>"
+      },
+      "theory.rule": {
+        "oldText": "<head>The rule</head><par>If we have a number multiplication, like for instance <inline-math/>, then we can visualize this multiplication using blocks.</par><block-drawing/><par>From this, we see that <inline-math/> can be rewritten to <inline-math/>. Check for yourself: both result into <inline-math/>.</par><par>This works exactly the same if we have an expression like <inline-math/>. Here, <inline-math/>, <inline-math/> and <inline-math/> can be any type of expression, like <inline-math/> or anything similar. We can again visualize this.</par><block-drawing/><par>From this visualization, we see that we may rewrite <inline-math/> to <inline-math/>. We call this <term>expanding the brackets</term>. The accompanying rule is <block-math/> Note that we multiply the factor outside of the brackets (here <inline-math/>) separately with each of the terms inside the brackets (here <inline-math/> and <inline-math/>).</par>",
+        "firstUpdate": "2024-06-23T08:36:36.759Z",
+        "latestUpdate": "2024-06-23T12:26:36.621Z",
+        "latestText": "<head>The rule</head><par>The whole process above can be done more quickly if we turn it into a rule. Effectively, we are canceling factors in the numerator and the denominator, reducing their exponents, until one of them disappears. From this idea, we can find the <term>general rule</term> <block-math/> Here <inline-math/> and <inline-math/> can be any numbers. The first outcome is used if <inline-math/>, while the second is used if <inline-math/>. (Of course, if <inline-math/> and we have a fraction like <inline-math/>, then this directly reduces to <inline-math/>.)</par>"
+      },
+      "theory.steps": {
+        "oldText": "<head>The steps</head><par>To expand brackets, like for instance with <inline-math/>, take the following steps.</par><list><item><a>Multiply the factor outside of the brackets separately with each term inside the brackets. So <inline-math/> becomes <inline-math/>.</a></item><item><b>For each of the resulting terms, <skill-link>simplify any potential number multiplications</skill-link>. So <inline-math/> becomes <inline-math/> and <inline-math/> becomes <inline-math/>.</b></item><item><c>Also <skill-link>merge any multiplications of equal factors into powers</skill-link>. So <inline-math/> becomes <inline-math/>.</c></item></list><par>The final result <inline-math/> is as easy as you can possibly write it.</par>",
+        "firstUpdate": "2024-06-23T08:36:36.759Z",
+        "latestUpdate": "2024-06-23T12:28:33.795Z",
+        "latestText": "<head>The steps</head><par>To simplify a fraction with various multiplications and powers, like <inline-math/>, take the following steps.</par><list><item><a>Pull all numeric factors to the front and <skill-link>simplify the numeric fraction</skill-link>. For the example we turn <inline-math/> into <inline-math/>.</a></item><item><b>Find equal factors in the numerator and the denominator, and use the rule <inline-math/> to remove some. So in <inline-math/> both the numerator and the denominator have three factors of <inline-math/> which can be removed, leaving us with <inline-math/>.</b></item></list>"
+      },
+      "theory.twoParts": {
+        "oldText": "<head>The two parts</head><par>Consider the fraction <inline-math/>. The first thing we can do is focus on all the numeric factors. Since the order of multiplication does not matter, we can pull these factors to the front and write it as <block-math/> We can then <skill-link>simplify this numeric fraction</skill-link> as <block-math/> With this, we are done with the numeric factors.</par><par>The second part is to focus on the variable factors. We have powers of <inline-math/> both in the numerator and the denominator. We can use the <skill-link>definition of the power</skill-link> to write this as <block-math/> From this, we can cross out two factors of <inline-math/> on each side and wind up with <block-math/> This is as simple as we can write it. Including the numeric factor, the final result is <block-math/></par>",
+        "firstUpdate": "2024-06-23T08:57:49.605Z",
+        "latestUpdate": "2024-06-23T12:25:36.300Z",
+        "latestText": "<head>Two parts</head><par>Now consider a more complex fraction like <inline-math/>. This time there are also numbers and other factors. The first thing we can do is focus on all the <term>numeric factors</term>. Since the order of multiplication does not matter, we can pull these factors to the front and write it as <block-math/> We can then <skill-link>simplify this numeric fraction</skill-link> to <inline-math/> This turns the full fraction into <block-math/> The numeric parts cannot be simplified further.</par><par>The second part is to focus on the <term>variable factors</term>. There are powers of <inline-math/> in both the numerator and the denominator. We could take the long way of <skill-link>rewriting powers</skill-link> and <skill-link>canceling fraction factors</skill-link> to write <block-math/> Or alternatively we can use our newfound rule and directly remove three factors of <inline-math/> from the numerator and the denominator. (The factor <inline-math/> simply stays as it is.) This immediately results in <block-math/> Having reduced the variable factors too, this is as simple as it can be written.</par>"
+      },
+      "practice.basicForm.step4.problem": {
+        "oldText": "Merge the numeric part and the variable part together for the final simplified expression.",
+        "firstUpdate": "2024-06-23T09:54:46.387Z",
+        "latestUpdate": "2024-06-23T09:54:46.438Z",
+        "latestText": "Merge the numeric part and the variable part together for the final simplified expression."
+      },
+      "practice.basicForm.step4.solution": {
+        "oldText": "All together, the final result becomes <block-math/>",
+        "firstUpdate": "2024-06-23T09:54:46.387Z",
+        "latestUpdate": "2024-06-23T09:54:46.438Z",
+        "latestText": "All together, the final result becomes <block-math/>"
+      },
+      "theory.idea": {
+        "firstUpdate": "2024-06-23T11:55:05.909Z",
+        "latestUpdate": "2024-06-23T11:55:05.909Z",
+        "latestText": "<head>The idea</head><par>First let's consider a fraction with powers, like <inline-math/>. To simplify this, the key is to see that a power <inline-math/> can be <skill-link>rewritten as a multiplication</skill-link> <inline-math/> and similarly for <inline-math/>. This turns the whole fraction into <block-math/> Once we have written it like this, we can <skill-link>cancel fraction factors</skill-link>. We can remove three <inline-math/>'es both above, in the numerator, and below, in the denominator. Above we are left with <inline-math/>, while below we remain with no factors of <inline-math/>, which comes down to <inline-math/>. So we have <block-math/> Note that at the end we have merged multiplications of repeated factors back into powers, turning <inline-math/> into <inline-math/>. This is as simple as we can write it.</par>"
+      },
+      "practice.basicForm.feedback.unsimplifiedFactors": {
+        "firstUpdate": "2024-06-23T12:55:41.902Z",
+        "latestUpdate": "2024-06-23T12:55:41.902Z",
+        "latestText": "<a>There are still factors that can be canceled out.</a>"
+      },
+      "practice.basicForm.feedback.unsimplifiedNumbers": {
+        "firstUpdate": "2024-06-23T12:56:24.668Z",
+        "latestUpdate": "2024-06-23T12:56:24.668Z",
+        "latestText": "<a>The numbers inside the fraction can still be simplified further.</a>"
+      }
+    }
+  }
+}

@@ -33,7 +33,6 @@ function generateState() {
 }
 
 function getSolution(state) {
-	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
 	const factor1 = asExpression(state.xFirst ? 'a*x+b' : 'b+a*x').substituteVariables(variables)
 	const factor2 = asExpression(state.xFirst ? 'c*x+d' : 'd+c*x').substituteVariables(variables)
