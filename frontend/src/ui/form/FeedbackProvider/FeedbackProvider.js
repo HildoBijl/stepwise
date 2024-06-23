@@ -21,7 +21,9 @@ import { processFeedback } from './processing'
  */
 export function FeedbackProvider({ children, getFeedback, input, exerciseData = {} }) {
 	const theme = useTheme()
-	const translate = addSection(useTranslator(), `practice.${exerciseData.exerciseId}.feedback`, false)
+	const rawTranslate = useTranslator()
+	const translate = addSection(rawTranslate, `practice.${exerciseData.exerciseId}.feedback`, false)
+	const translateCrossExercise = addSection(rawTranslate, `crossExerciseFeedback`, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
@@ -51,7 +53,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 				input: inputFO,
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,
-				translate,
+				translate, translateCrossExercise,
 			})
 			if (!result || !isBasicObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)

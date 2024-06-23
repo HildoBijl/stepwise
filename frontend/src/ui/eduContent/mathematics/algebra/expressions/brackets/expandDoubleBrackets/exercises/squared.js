@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { count } from 'step-wise/util'
-import { Sum, Product, Power } from 'step-wise/CAS'
-
 import { Translation } from 'i18n'
 import { Par, SubHead, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
+
+import { bracketProductRemains, stillHasPower } from './util'
 
 const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, correctExpression, incorrectExpression } = expressionChecks
 
@@ -99,8 +98,6 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
-
 	const feedbackChecks = [
 		originalExpression,
 		hasSumWithinProduct,
@@ -110,16 +107,21 @@ function getFeedback(exerciseData) {
 	]
 	const firstExpandedFeedbackChecks = [
 		originalExpression,
-		(input, correct, solution, isCorrect) => !isCorrect && input.recursiveSome(term => term.isSubtype(Product) && count(term.factors, factor => factor.isSubtype(Sum)) > 1) && translate(<>Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</>, 'bracketProductRemains'),
+		bracketProductRemains,
 		sumWithWrongTerms,
 		incorrectExpression,
 		correctExpression,
 	]
 	const multiplicationChecks = [
 		originalExpression,
-		(input, correct, solution, isCorrect) => !isCorrect && input.recursiveSome(factor => factor.isSubtype(Power) && factor.base.isSubtype(Sum)) && translate(<>There are still brackets with an exponent above it.</>, 'stillHasPower'),
+		stillHasPower,
 		incorrectExpression,
 		correctExpression,
 	]
-	return getFieldInputFeedback(exerciseData, { multiplication: multiplicationChecks, firstExpanded: firstExpandedFeedbackChecks, allExpanded: feedbackChecks, ans: feedbackChecks })
+	return getFieldInputFeedback(exerciseData, {
+		multiplication: multiplicationChecks,
+		firstExpanded: firstExpandedFeedbackChecks,
+		allExpanded: feedbackChecks,
+		ans: feedbackChecks,
+	})
 }

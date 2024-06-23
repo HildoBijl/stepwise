@@ -1,15 +1,14 @@
 import React from 'react'
 
-import { expressionComparisons } from 'step-wise/CAS'
-
 import { Translation, CountingWord } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
+import { unsimplifiedNumbers, unsimplifiedFactors } from './util'
+
 const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
-const { onlyOrderChanges } = expressionComparisons
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -63,13 +62,6 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
-
-	// Define custom feedback checks.
-	const unsimplifiedNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input) && translate(<>The numbers inside the fraction can still be simplified further.</>, 'unsimplifiedNumbers')
-	const unsimplifiedFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true, crossOutFractionTerms: true }), input) && translate(<>There are still factors that can be canceled out.</>, 'unsimplifiedFactors')
-
-	// Set up feedback.
 	return getFieldInputFeedback(exerciseData, {
 		numericSimplified: [originalExpression, incorrectExpression, unsimplifiedNumbers, correctExpression],
 		ans: [originalExpression, incorrectExpression, unsimplifiedNumbers, unsimplifiedFactors, correctExpression],

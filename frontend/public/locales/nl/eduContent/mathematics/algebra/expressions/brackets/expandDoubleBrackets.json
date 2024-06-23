@@ -21,9 +21,6 @@
       "step3": {
         "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
         "solution": "Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>."
-      },
-      "feedback": {
-        "wrongBracketsExpanded": "<a>Zorg ervoor dat je alle haakjes uitwerkt behalve <inline-math/>.</a>"
       }
     },
     "higherPowers": {
@@ -39,9 +36,6 @@
       "step3": {
         "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
         "solution": "Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>."
-      },
-      "feedback": {
-        "wrongBracketsExpanded": "<a>Zorg ervoor dat je alle haakjes uitwerkt behalve <inline-math/>.</a>"
       }
     },
     "multipleTerms": {
@@ -76,11 +70,12 @@
       "step4": {
         "problem": "Voeg soortgelijke termen (met gelijke macht van <inline-math/>) samen om het resultaat zo veel als mogelijk te vereenvoudigen.",
         "solution": "<par>Er zijn twee termen met <inline-math/> als factor, en wel <inline-math/> en nog eens <inline-math/>. Samen kunnen deze geschreven worden als <inline-math/>. De uiteindelijke uitdrukking wordt dan <block-math/> Dit is ons eindantwoord. Kort geschreven geldt <inline-math/>.</par><sub-head>Short-cut</sub-head><par>Deze opgave heeft een mogelijke short-cut. Een kwadraat van een sum, zoals <inline-math/>, komt altijd uit op <inline-math/>. Als we dit weten, kunnen we ook gelijk inzien dat <block-math/></par>"
-      },
-      "feedback": {
-        "stillHasPower": "<a>Er zijn nog steeds haakjes met een macht erboven.</a>",
-        "bracketProductRemains": "<a>Zorg ervoor dat je één set haakjes uitwerkt: je mag niet meer haakjes vermenigvuldigd met haakjes hebben.</a>"
       }
     }
+  },
+  "crossExerciseFeedback": {
+    "wrongBracketsExpanded": "<a>Zorg ervoor dat je alle haakjes uitwerkt behalve <inline-math/>.</a>",
+    "stillHasPower": "<a>Er zijn nog steeds haakjes met een macht erboven.</a>",
+    "bracketProductRemains": "<a>Zorg ervoor dat je één set haakjes uitwerkt: je mag niet meer haakjes vermenigvuldigd met haakjes hebben.</a>"
   }
 }

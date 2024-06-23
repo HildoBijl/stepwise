@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
-
 import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
+
+import { wrongBracketsExpanded } from './util'
 
 const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, correctExpression, incorrectExpression } = expressionChecks
 
@@ -78,8 +78,6 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { translate } = exerciseData
-
 	const feedbackChecks = [
 		originalExpression,
 		hasSumWithinProduct,
@@ -89,10 +87,14 @@ function getFeedback(exerciseData) {
 	]
 	const firstExpandedFeedbackChecks = [
 		originalExpression,
-		(input, correct, { factor2 }, isCorrect) => !isCorrect && input.recursiveSome(term => term.isSubtype(Product) && term.factors.some(factor => factor.isSubtype(Sum) && !expressionComparisons.equivalent(factor, factor2))) && translate(<>Make sure to expand all brackets, except for <M>\left({factor2}\right)</M>.</>, 'wrongBracketsExpanded'),
+		wrongBracketsExpanded,
 		sumWithWrongTerms,
 		incorrectExpression,
 		correctExpression,
 	]
-	return getFieldInputFeedback(exerciseData, { firstExpanded: firstExpandedFeedbackChecks, allExpanded: feedbackChecks, ans: feedbackChecks })
+	return getFieldInputFeedback(exerciseData, {
+		firstExpanded: firstExpandedFeedbackChecks,
+		allExpanded: feedbackChecks,
+		ans: feedbackChecks,
+	})
 }

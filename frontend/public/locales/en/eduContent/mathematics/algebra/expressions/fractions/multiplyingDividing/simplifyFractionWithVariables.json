@@ -27,10 +27,6 @@
       "step4": {
         "problem": "Merge the numeric part and the variable part together for the final simplified expression.",
         "solution": "All together, the final result becomes <block-math/>"
-      },
-      "feedback": {
-        "unsimplifiedFactors": "<a>There are still factors that can be canceled out.</a>",
-        "unsimplifiedNumbers": "<a>The numbers inside the fraction can still be simplified further.</a>"
       }
     },
     "multipleFactors": {
@@ -39,5 +35,9 @@
     "higherPowers": {
       "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
     }
+  },
+  "crossExerciseFeedback": {
+    "unsimplifiedNumbers": "<a>The numbers inside the fraction can still be simplified further.</a>",
+    "unsimplifiedFactors": "<a>There are still factors that can be canceled out.</a>"
   }
 }

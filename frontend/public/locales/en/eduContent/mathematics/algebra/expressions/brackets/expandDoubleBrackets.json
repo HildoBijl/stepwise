@@ -9,21 +9,18 @@
   },
   "practice": {
     "basicForm": {
-      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "mainProblem": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)",
       "step1": {
-        "problem": "Expand the left set of brackets (here <inline-math/>) while keeping the right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
-        "solution": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
+        "problem": "Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.",
+        "solution": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>"
       },
       "step2": {
-        "problem": "Expand all remaining brackets.",
-        "solution": "Expanding the remaining brackets in the usual way results in <block-math/>"
+        "problem": "Cancel all possible variable factors, to further simplify the fraction.",
+        "solution": "We can cancel <counting-word/> factors of <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
       },
       "step3": {
         "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
         "solution": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
-      },
-      "feedback": {
-        "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>"
       }
     },
     "higherPowers": {
@@ -39,9 +36,6 @@
       "step3": {
         "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
         "solution": "There are two terms that have <inline-math/> as a factor, being <inline-math/> and <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>."
-      },
-      "feedback": {
-        "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>"
       }
     },
     "multipleTerms": {
@@ -76,11 +70,12 @@
       "step4": {
         "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
         "solution": "<par>There are two terms that have <inline-math/> as a factor, being <inline-math/> and again <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>.</par><sub-head>Short-cut</sub-head><par>There is a possible short-cut for this question. A square of a sum, like <inline-math/>, always comes out as <inline-math/>. Using this knowledge, we could have also directly seen that <block-math/></par>"
-      },
-      "feedback": {
-        "stillHasPower": "<a>There are still brackets with an exponent above it.</a>",
-        "bracketProductRemains": "<a>Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</a>"
       }
     }
+  },
+  "crossExerciseFeedback": {
+    "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>",
+    "stillHasPower": "<a>There are still brackets with an exponent above it.</a>",
+    "bracketProductRemains": "<a>Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</a>"
   }
 }
