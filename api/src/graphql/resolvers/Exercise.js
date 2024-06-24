@@ -18,7 +18,8 @@ const resolvers = {
 			const lastEvent = getLastEvent(exercise)
 			return (lastEvent && lastEvent.createdAt) || null
 		},
-		history: exercise => (exercise.events || []).sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.,
+		history: exercise => (exercise.events || []).sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.
+		active: exercise => exercise.active && !!exercises[exercise.exerciseId], // Only show active when the exercise also still exists.
 	},
 
 	Event: {

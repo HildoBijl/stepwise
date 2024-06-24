@@ -7,7 +7,6 @@ async function getNewExercise(skillId, getSkillDataSet, getSkillExercises) {
 	if (!getSkillDataSet || typeof getSkillDataSet !== 'function')
 		throw new Error(`Invalid getNewExercise call: no getSkillDataSet function was provided. This function is required to be able to select the appropriate exercise. If a fully random exercise is desired, use the getNewRandomExercise function instead.`)
 	const previousExercises = await getSkillExercises(skillId)
-	console.log(previousExercises.map(ex => ex.exerciseId))
 	const jointExerciseId = await selectExercise(skillId, getSkillDataSet, previousExercises)
 	return getExercise(jointExerciseId)
 }
