@@ -3,6 +3,7 @@ import { useTheme } from '@material-ui/core/styles'
 
 import { isBasicObject, applyMapping, filterProperties, deepEquals } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
+import { getExerciseName } from 'step-wise/eduTools'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTranslator, addSection } from 'i18n'
@@ -22,7 +23,7 @@ import { processFeedback } from './processing'
 export function FeedbackProvider({ children, getFeedback, input, exerciseData = {} }) {
 	const theme = useTheme()
 	const rawTranslate = useTranslator()
-	const translate = addSection(rawTranslate, `practice.${exerciseData.exerciseId}.feedback`, false)
+	const translate = addSection(rawTranslate, `practice.${getExerciseName(exerciseData.exerciseId)}.feedback`, false)
 	const translateCrossExercise = addSection(rawTranslate, `crossExerciseFeedback`, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.

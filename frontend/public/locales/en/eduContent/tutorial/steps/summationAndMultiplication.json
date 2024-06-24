@@ -4,6 +4,9 @@
     "calculationSteps": "<head>The steps</head><par>To calculate an expression like <inline-math/>, you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>",
     "stepWiseExercises": "<head>Step-Wise exercises</head><par>In Step-Wise, when practicing composite skills, it is always possible to <term>split exercises into steps</term>. These steps are then connected to earlier skills, which you have shown mastery of before. This always allows you to complete the more complicated exercises too: they're just combinations of things you already know!</par><par>Behind the scenes, our skill tracking algorithm will <term>take every action into account</term>. If you fail at a specific step (for instance at addition) then your rating for that step will decrease. If it drops too much, you will be suggested to practice this skill separately a bit more. In this way the Step-Wise app coaches you to always practice the skill most relevant to you.</par>"
   },
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"
+  },
   "practice": {
     "summationAndMultiplication1": {
       "mainProblem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
@@ -47,8 +50,5 @@
         }
       }
     }
-  },
-  "meta": {
-    "learningGoals": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"
   }
 }
