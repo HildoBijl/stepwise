@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { toFO } from 'step-wise/inputTypes'
-import { exercises, getLastProgress } from 'step-wise/eduTools'
+import { exercises, getLastProgress, getExerciseName } from 'step-wise/eduTools'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTranslator } from 'i18n'
@@ -19,10 +19,11 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 
 	// Whenever the exercise ID changes, reload the component.
 	const reload = () => {
+		const exerciseName = getExerciseName(exerciseId)
 		setLoading(true)
 		Promise.all([
-			import(/* webpackChunkName: "front-end-exercises-26" */ `ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseId}`),
-			import(/* webpackChunkName: "shared-exercises-26" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`),
+			import(/* webpackChunkName: "front-end-exercises-26" */ `ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseName}`),
+			import(/* webpackChunkName: "shared-exercises-26" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseName}`),
 		]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default

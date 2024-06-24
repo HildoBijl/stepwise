@@ -4,7 +4,7 @@
   "solution": "Solution",
   "step": "Step {step}",
   "loadingNotes": {
-    "missingExerciseId": "The URL has no exercise ID in it.",
+    "missingExerciseName": "The URL has no exercise ID in it.",
     "loadingError": "The exercise failed to load. Please check if the exercise ID is correct.",
     "loadingExercise": "Loading the exercise..."
   },

@@ -1,6 +1,8 @@
 const { isBasicObject, applyMapping, union } = require('../../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../../skillTracking')
 
+const { getExerciseId, splitExerciseId } = require('./util')
+
 // Below is the skillStructure defined for Step-Wise. The set-up of the object must match the folder structure for the files. Also remember that no folders can be named "name" or "tools".
 
 const skillStructure = {
@@ -713,11 +715,20 @@ Object.values(skillTree).forEach(skill => {
 	skill.linkedSkills = skill.links.map(link => link.skills).flat()
 })
 
-// Set up an overview of exercise paths.
+// Set up an overview of exercise paths. Do this for all exercises, except for exercises referring to another skill using a `[skillId].[exerciseId]` reference.
 const exercises = {}
 Object.values(skillTree).forEach(skill => {
-	[...skill.examples, ...skill.exercises].forEach(exerciseId => {
+	// First walk through examples and exercises and ensure they contain IDs and not just names.
+	skill.examples = skill.examples.map(exerciseName => getExerciseId(exerciseName, skill.id))
+	skill.exercises = skill.exercises.map(exerciseName => getExerciseId(exerciseName, skill.id))
+
+	// Then walk through them all to fill the exercises parameter.
+	const allExercises = [...skill.examples, ...skill.exercises]
+	allExercises.forEach(exerciseId => {
+		const exerciseData = splitExerciseId(exerciseId)
 		exercises[exerciseId] = {
+			name: exerciseData.exerciseName,
+			skillId: exerciseData.skillId,
 			id: exerciseId,
 			path: [...skill.path, skill.id],
 		}

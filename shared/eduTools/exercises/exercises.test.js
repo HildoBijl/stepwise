@@ -1,7 +1,7 @@
 const { isBasicObject } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
 
-const { exercises, skillTree } = require('../skills')
+const { exercises, skillTree, getExerciseName } = require('../skills')
 
 const { getDifficulty } = require('./selection')
 
@@ -23,7 +23,7 @@ describe('Check all exercises:', () => {
 			// Load exercise file.
 			let exercise
 			try {
-				exercise = require(`../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`)
+				exercise = require(`../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
 			} catch (e) {
 				it('has a shared file', () => fail())
 			}

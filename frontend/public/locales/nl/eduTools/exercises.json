@@ -4,7 +4,7 @@
   "solution": "Oplossing",
   "step": "Stap {step}",
   "loadingNotes": {
-    "missingExerciseId": "De URL heeft geen opgave-ID.",
+    "missingExerciseName": "De URL heeft geen opgave-ID.",
     "loadingError": "De opgave kon niet geladen worden. Controleer of het opgave-ID correct is.",
     "loadingExercise": "De opgave wordt geladen..."
   },

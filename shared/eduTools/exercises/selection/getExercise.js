@@ -1,4 +1,4 @@
-const { exercises } = require('../../skills')
+const { exercises, getExerciseName } = require('../../skills')
 
 const { selectExercise, selectRandomExercise, selectRandomExample } = require('./selectExercise')
 
@@ -7,8 +7,9 @@ async function getNewExercise(skillId, getSkillDataSet, getSkillExercises) {
 	if (!getSkillDataSet || typeof getSkillDataSet !== 'function')
 		throw new Error(`Invalid getNewExercise call: no getSkillDataSet function was provided. This function is required to be able to select the appropriate exercise. If a fully random exercise is desired, use the getNewRandomExercise function instead.`)
 	const previousExercises = await getSkillExercises(skillId)
-	const exerciseId = await selectExercise(skillId, getSkillDataSet, previousExercises)
-	return getExercise(exerciseId)
+	console.log(previousExercises.map(ex => ex.exerciseId))
+	const jointExerciseId = await selectExercise(skillId, getSkillDataSet, previousExercises)
+	return getExercise(jointExerciseId)
 }
 module.exports.getNewExercise = getNewExercise
 
@@ -26,9 +27,9 @@ function getNewRandomExample(skillId) {
 }
 module.exports.getNewRandomExample = getNewRandomExample
 
-// getExercise takes an exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state, like { exerciseId: 'someExercise', state: { a: 3, b: 12 } }.
+// getExercise takes a joint exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state, like { exerciseId: 'someExercise', state: { a: 3, b: 12 } }.
 function getExercise(exerciseId, example) {
-	const { generateState } = require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`)
+	const { generateState } = require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
 	return {
 		exerciseId,
 		state: generateState(example),

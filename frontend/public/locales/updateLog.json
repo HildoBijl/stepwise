@@ -127,32 +127,70 @@
       "practice.basicForm.mainProblem": {
         "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
         "firstUpdate": "2024-06-23T13:23:39.790Z",
-        "latestUpdate": "2024-06-23T13:23:39.867Z",
-        "latestText": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)"
+        "latestUpdate": "2024-06-24T08:42:18.062Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
       },
       "practice.basicForm.step1.problem": {
         "oldText": "Expand the left set of brackets (here <inline-math/>) while keeping the right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is.",
         "firstUpdate": "2024-06-23T13:23:39.790Z",
-        "latestUpdate": "2024-06-23T13:23:39.867Z",
-        "latestText": "Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is."
+        "latestUpdate": "2024-06-24T09:40:20.975Z",
+        "latestText": "Expand the left set of brackets (here <inline-math/>) while keeping the right set of brackets (here <inline-math/>) intact. Treat the right set of brackets as a single number, which technically it is."
       },
       "practice.basicForm.step1.solution": {
         "oldText": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>",
         "firstUpdate": "2024-06-23T13:23:39.790Z",
-        "latestUpdate": "2024-06-23T13:23:39.867Z",
-        "latestText": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>"
+        "latestUpdate": "2024-06-24T09:40:20.975Z",
+        "latestText": "We multiply each of the terms <inline-math/> and <inline-math/> in the left set of brackets by the full right brackets. This results in <block-math/>"
       },
       "practice.basicForm.step2.problem": {
         "oldText": "Expand all remaining brackets.",
         "firstUpdate": "2024-06-23T13:23:39.790Z",
-        "latestUpdate": "2024-06-23T13:23:39.867Z",
-        "latestText": "Cancel all possible variable factors, to further simplify the fraction."
+        "latestUpdate": "2024-06-24T09:40:20.975Z",
+        "latestText": "Expand all remaining brackets."
       },
       "practice.basicForm.step2.solution": {
         "oldText": "Expanding the remaining brackets in the usual way results in <block-math/>",
         "firstUpdate": "2024-06-23T13:23:39.790Z",
-        "latestUpdate": "2024-06-23T13:23:39.867Z",
-        "latestText": "We can cancel <counting-word/> factors of <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
+        "latestUpdate": "2024-06-24T09:40:20.975Z",
+        "latestText": "Expanding the remaining brackets in the usual way results in <block-math/>"
+      },
+      "practice.expandDoubleBrackets.basicForm.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+        "firstUpdate": "2024-06-24T09:34:52.978Z",
+        "latestUpdate": "2024-06-24T09:36:27.459Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      }
+    },
+    "eduContent/mathematics/algebra/expressions/brackets/expandBrackets": {
+      "practice.basicForm.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+        "firstUpdate": "2024-06-24T08:22:13.618Z",
+        "latestUpdate": "2024-06-24T08:42:02.372Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.basicForm.step1.problem": {
+        "oldText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "firstUpdate": "2024-06-24T08:22:13.618Z",
+        "latestUpdate": "2024-06-24T08:42:43.504Z",
+        "latestText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>)."
+      },
+      "practice.basicForm.step1.solution": {
+        "oldText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>",
+        "firstUpdate": "2024-06-24T08:22:13.618Z",
+        "latestUpdate": "2024-06-24T08:42:43.504Z",
+        "latestText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "practice.basicForm.step2.problem": {
+        "oldText": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "firstUpdate": "2024-06-24T08:22:13.618Z",
+        "latestUpdate": "2024-06-24T08:42:43.504Z",
+        "latestText": "Where possible, inside each term, merge products of numbers together into a single factor."
+      },
+      "practice.basicForm.step2.solution": {
+        "oldText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>",
+        "firstUpdate": "2024-06-24T08:22:13.618Z",
+        "latestUpdate": "2024-06-24T08:42:43.504Z",
+        "latestText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
       }
     }
   }

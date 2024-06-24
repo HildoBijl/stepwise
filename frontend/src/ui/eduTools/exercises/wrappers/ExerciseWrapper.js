@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from 'react'
 
-import { getLastInput } from 'step-wise/eduTools'
+import { getLastInput, getExerciseName } from 'step-wise/eduTools'
 
 import { useUserId } from 'api/user'
 import { TranslationSection } from 'i18n'
@@ -51,5 +51,6 @@ function FeedbackWrapper({ getFeedback, children }) {
 
 function TranslationWrapper({ children }) {
 	const { exerciseId } = useExerciseData()
-	return <TranslationSection entry={`${exerciseId}`}>{children}</TranslationSection>
+	const exerciseName = getExerciseName(exerciseId)
+	return <TranslationSection entry={`${exerciseName}`}>{children}</TranslationSection>
 }

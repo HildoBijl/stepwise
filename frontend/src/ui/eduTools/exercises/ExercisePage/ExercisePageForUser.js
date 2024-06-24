@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree, fixExerciseIdForExercise } from 'step-wise/eduTools'
 
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { useTranslator } from 'i18n'
@@ -37,7 +37,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
-	const exercise = data && data.skill && data.skill.currentExercise
+	const exercise = fixExerciseIdForExercise(data && data.skill && data.skill.currentExercise, skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()
