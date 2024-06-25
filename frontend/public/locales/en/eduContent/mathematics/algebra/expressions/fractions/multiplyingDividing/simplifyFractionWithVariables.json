@@ -30,14 +30,30 @@
       }
     },
     "multipleFactors": {
-      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      "mainProblem": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)",
+      "step1": {
+        "problem": "Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.",
+        "solution": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>"
+      },
+      "step2": {
+        "problem": "Cancel all possible variable factors, to further simplify the fraction.",
+        "solution": "We can cancel a factor <inline-math/> and a factor <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
+      }
     },
     "higherPowers": {
-      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      "mainProblem": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)",
+      "step1": {
+        "problem": "Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.",
+        "solution": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>"
+      },
+      "step2": {
+        "problem": "Cancel all possible variable factors, to further simplify the fraction.",
+        "solution": "We can cancel <counting-word/> factors <inline-math/> and <counting-word/> factors <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
+      }
     }
   },
   "crossExerciseFeedback": {
     "unsimplifiedNumbers": "<a>The numbers inside the fraction can still be simplified further.</a>",
-    "unsimplifiedFactors": "<a>There are still factors that can be canceled out.</a>"
+    "unsimplifiedFactors": "{a}"
   }
 }

@@ -1,11 +1,10 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asExpression, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
+const { asExpression, expressionComparisons } = require('../../../../../../../CAS')
 const { and } = require('../../../../../../../skillTracking')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
-const { hasPower } = expressionChecks
 
 // (a*x^c)/(b*x^d*(x+e)).
 const variableSet = ['x', 'y', 'z']
@@ -16,8 +15,9 @@ const metaData = {
 	skill: 'simplifyFractionWithVariables',
 	steps: ['simplifyFraction', and('rewritePowers', 'cancelFractionFactors')],
 	comparison: {
-		numericSimplified: (input, correct) => onlyOrderChanges(input.simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input) && equivalent(input, correct),
-		ans: (input, correct, { ansExpanded }) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, ansExpanded),
+		// Input is equivalent and cannot be simplified further.
+		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
+		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct),
 	}
 }
 
@@ -37,10 +37,10 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression(state.switch ? '(b*x^d*(x+e))/(a*x^c)' : '(a*x^c)/(b*x^d*(x+e))').substituteVariables(variables).removeUseless()
+	const expression = asExpression('(a*x^c)/(b*x^d*(x+e))').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
 
 	// Set up the numeric parts for display purposes.
-	const numericPartOriginal = asExpression(state.switch ? 'b/a' : 'a/b').substituteVariables(variables).removeUseless()
+	const numericPartOriginal = asExpression('a/b').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
 	const numericPart = numericPartOriginal.regularClean()
 
 	// Apply cleaning.

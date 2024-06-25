@@ -8,7 +8,7 @@ import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } fr
 
 import { unsimplifiedNumbers, unsimplifiedFactors } from './util'
 
-const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, correctExpression, incorrectExpression, noFraction } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -63,7 +63,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
-		numericSimplified: [originalExpression, incorrectExpression, unsimplifiedNumbers, correctExpression],
-		ans: [originalExpression, incorrectExpression, unsimplifiedNumbers, unsimplifiedFactors, correctExpression],
+		numericSimplified: [originalExpression, incorrectExpression, noFraction, unsimplifiedNumbers, correctExpression],
+		ans: [originalExpression, incorrectExpression, noFraction, unsimplifiedNumbers, unsimplifiedFactors, correctExpression],
 	})
 }

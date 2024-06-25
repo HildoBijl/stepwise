@@ -79,7 +79,7 @@ export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !is
 
 export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFraction(input) && <Translation path={translationPath} entry="expression.hasFraction">Your solution still has a fraction. The idea was to remove all fractions.</Translation>
 
-export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(Fraction) && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
+export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.elementaryClean().isSubtype(Fraction) && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <Translation path={translationPath} entry="expression.hasFractionWithinFraction">Your solution may not contain fractions within fractions. You can still simplify this further.</Translation>
 

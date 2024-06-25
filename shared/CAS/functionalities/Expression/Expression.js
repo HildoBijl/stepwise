@@ -163,6 +163,11 @@ class Expression {
 		return new this.constructor(this.SO)
 	}
 
+	// self is a function that simply returns the current object. It doesn't do anything. It can be useful for conditioning chaining, like asExpression('a/b')[applyInversion ? 'invert' : 'self']().
+	self() {
+		return this
+	}
+
 	// applySettings will take a set of expression settings and apply them to all parts of this Expression. It returns shallow clones, not changing the original object.
 	applySettings(settings) {
 		settings = processOptions(settings, defaultExpressionSettings)

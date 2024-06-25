@@ -127,7 +127,8 @@ const skillStructure = {
 						simplifyFractionWithVariables: {
 							name: 'Simplify fraction with variables',
 							setup: and('simplifyFraction', 'cancelFractionFactors', 'rewritePower'),
-							examples: ['basicForm'],
+							// examples: ['basicForm'],
+							examples: ['multipleFactors'],
 							exercises: ['higherPowers', 'multipleFactors'],
 						},
 					},
