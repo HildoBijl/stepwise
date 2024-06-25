@@ -129,7 +129,7 @@ function interpretSums(value, settings) {
 		// Extract the expression and check if it needs a minus sign.
 		let interpretedExpression = interpretProducts(getSubExpression(value, start, end), settings)
 		if (lastSymbol === '-')
-			interpretedExpression = interpretedExpression.applyMinus()
+			interpretedExpression = interpretedExpression.applyMinus(false)
 		sumTerms.push(interpretedExpression)
 	}
 

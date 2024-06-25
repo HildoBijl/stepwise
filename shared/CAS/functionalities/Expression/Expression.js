@@ -2031,7 +2031,7 @@ class Fraction extends Function {
 
 	requiresPlusInSum() {
 		// Sometimes we can pull the minus out of the numerator. For instance, we can display (-2)/(3) as -(2)/(3). In that case, do not use a plus in a sum.
-		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum()
+		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum() || !this.denominator.requiresPlusInSum()
 	}
 
 	isNegative() {
