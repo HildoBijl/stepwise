@@ -1,5 +1,51 @@
 {
+  "theory": {
+    "intro": "<par>Wir wissen, wie man Faktoren in einem Bruch wie <inline-math/> entfernt. Wir entfernen einfach das <inline-math/> auf beiden Seiten. Aber wie können wir einen Bruch vereinfachen, wenn er Potenzen enthält, wie in <inline-math/>? Und was ist, wenn er auch Zahlen und andere Faktoren enthält, wie in <inline-math/>? Die Lösung ist immer noch, die Faktoren zu entfernen, aber getrennt für Zahlen und variable Faktoren.</par>",
+    "idea": "<head>Die Idee</head><par>Wir betrachten zunächst einen Bruch mit Potenzen, wie <inline-math/>. Um dies zu vereinfachen, ist es wichtig zu erkennen, dass eine Potenz wie <inline-math/> als <skill-link>Multiplikation</skill-link> <inline-math/> umgeschrieben werden kann, und ähnlich mit <inline-math/>. Dadurch wird der gesamte Bruch zu <block-math/> Sobald wir ihn so geschrieben haben, können wir <skill-link>Bruchfaktoren entfernen</skill-link>. Wir entfernen drei <inline-math/>'s sowohl oben, im Zähler, als auch unten, im Nenner. Oben bleibt <inline-math/> übrig, während unten keine Faktoren <inline-math/> übrig bleiben, was auf <inline-math/> hinausläuft. So erhalten wir <block-math/> Man beachte, dass wir am Ende wiederholte Multiplikationen gleicher Faktoren in Potenzen zurückverwandelt haben, so dass wir <inline-math/> als <inline-math/> schreiben. Einfacher können wir es nicht machen.</par>",
+    "rule": "<head>Die Regel</head><par>Der gesamte oben beschriebene Prozess kann schneller durchgeführt werden, wenn wir ihn in eine Regel umwandeln. Im Grunde genommen ziehen wir die Faktoren im Zähler und im Nenner ab, wobei der Exponent abnimmt, bis einer von ihnen ganz verschwindet. Aus dieser Idee ergibt sich die <term>allgemeine Regel</term> <block-math/> Hier können <inline-math/> und <inline-math/> eine beliebige Zahl sein. Das erste Ergebnis (Mitte) wird bei <inline-math/> verwendet, während das zweite Ergebnis (rechts) bei <inline-math/> nützlich ist. (Bei <inline-math/> und einem Bruch als <inline-math/> kann man diesen Bruch natürlich direkt auf <inline-math/> reduzieren.)</par>",
+    "twoParts": "<head>Zwei Teile</head><par>Wir sehen uns nun einen komplexeren Bruch als <inline-math/> an. Diesmal enthält er Zahlen und andere Faktoren. Das erste, worauf wir uns richten können, sind alle <term>Zahlenfaktoren</term>. Da die Reihenfolge der Multiplikation keine Rolle spielt, können wir diese Faktoren nach vorne nehmen und sie als <block-math/> schreiben. Wir können dann diesen <skill-link>numerischen Bruch vereinfachen</skill-link> zu <inline-math/>, was den gesamten Bruch in umwandelt <block-math/> Der numerische Teil kann nicht weiter vereinfacht werden.</par><par>Im zweiten Teil betrachten wir die <term>variablen Faktoren</term>. Sowohl im Zähler als auch im Nenner gibt es Potenzen von <inline-math/>. Wir können die Umwege über <skill-link>Potenzen umschreiben</skill-link> und <skill-link>Faktoren entfernen</skill-link> nehmen, um den Bruch zu schreiben als <block-math/> Oder wir können stattdessen unsere neue Regel anwenden und direkt drei Faktoren <inline-math/> aus Zähler und Nenner entfernen. (Der Faktor <inline-math/> bleibt einfach unverändert.) Das ist am Ende gleich <block-math/> Da wir nun auch die variablen Faktoren vereinfacht haben, ist es so einfach wie möglich geschrieben.</par>",
+    "steps": "<head>Die Schritte</head><par>Um einen Bruch wie <inline-math/> mit verschiedenen Multiplikationen und Potenzen zu vereinfachen, ist wie folgt vorzugehen.</par><list><item><a>Ziehe alle Zahlenfaktoren vor und <skill-link>vereinfache den Zahlenbruch</skill-link>. Für das Beispiel wandeln wir <inline-math/> in <inline-math/> um.</a></item><item><b>Finde gleiche Faktoren im Zähler und im Nenner und benutze die Formel <inline-math/>, um so viele Faktoren wie möglich zu entfernen. Bei <inline-math/> haben also sowohl der Zähler als auch der Nenner drei Faktoren <inline-math/>, die wegfallen können, woraufhin <inline-math/> übrig bleibt.</b></item></list>"
+  },
   "meta": {
     "learningGoals": "<par>In dieser Kompetenz lernst du, <term>Brüche mit Variablen zu vereinfachen</term>, wie zum Beispiel <inline-math/> in <inline-math/> umzuwandeln. Dazu gehört das Vereinfachen von Zahlenbrüchen, das Umschreiben von Potenzen und das Entfernen von Bruchfaktoren. Im Grunde handelt es sich um eine Anwendung der Regel <inline-math/>. Die Kompetenz beinhaltet nicht das Addieren/Subtrahieren von Brüchen.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "step1": {
+        "problem": "Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.",
+        "solution": "Die Zahlen im Bruch sind <inline-math/>. Wir können sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, wonach wir <inline-math/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <block-math/>"
+      },
+      "step2": {
+        "problem": "Entferne alle möglichen variablen Faktoren, um den Bruch weiter zu vereinfachen.",
+        "solution": "Wir können <counting-word/> Faktoren <inline-math/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <block-math/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <block-math/>"
+      }
+    },
+    "multipleFactors": {
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "step1": {
+        "problem": "Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.",
+        "solution": "Die Zahlen im Bruch sind <inline-math/>. Wir können sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, wonach wir <inline-math/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <block-math/>"
+      },
+      "step2": {
+        "problem": "Entferne alle möglichen variablen Faktoren, um den Bruch weiter zu vereinfachen.",
+        "solution": "Wir können einen Faktor <inline-math/> und einen Faktor <inline-math/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <block-math/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <block-math/>"
+      }
+    },
+    "higherPowers": {
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "step1": {
+        "problem": "Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.",
+        "solution": "Die Zahlen im Bruch sind <inline-math/>. Wir können sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, wonach wir <inline-math/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <block-math/>"
+      },
+      "step2": {
+        "problem": "Entferne alle möglichen variablen Faktoren, um den Bruch weiter zu vereinfachen.",
+        "solution": "Wir können <counting-word/> Faktoren <inline-math/> und <counting-word/> Faktoren <inline-math/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <block-math/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <block-math/>"
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "unsimplifiedNumbers": "<a>Die Zahlen im Bruch können weiter vereinfacht werden.</a>",
+    "unsimplifiedFactors": "<a>Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.</a>"
   }
 }

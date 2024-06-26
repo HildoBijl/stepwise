@@ -7,7 +7,7 @@ import { SkillLink } from 'ui/eduTools'
 export function Theory() {
 	return <>
 		<Translation entry="intro">
-			<Par>We know how to cancel terms in a fraction like <M>\frac(2x)(3x)</M>. We just cross out the <M>x</M>. But what do we do if we have powers in there, like in <M>\frac(x^5)(x^3)</M>? And what if there are also numbers and other factors involved, like in <M>\frac(6 \cdot 7x^5)(14 x^3 \left(x+1\right))</M>? The key is to still cancel factors, but do so for numbers and variable factors separately.</Par>
+			<Par>We know how to cancel factors in a fraction like <M>\frac(2x)(3x)</M>. We just cross out the <M>x</M> on both sides. But how can we simplify a fraction if we have powers in there, like in <M>\frac(x^5)(x^3)</M>? And what if there are also numbers and other factors involved, like in <M>\frac(6 \cdot 7x^5)(14 x^3 \left(x+1\right))</M>? The key is to still cancel factors, but do so for numbers and variable factors separately.</Par>
 		</Translation>
 
 		<Translation entry="idea">
@@ -17,7 +17,7 @@ export function Theory() {
 
 		<Translation entry="rule">
 			<Head>The rule</Head>
-			<Par>The whole process above can be done more quickly if we turn it into a rule. Effectively, we are canceling factors in the numerator and the denominator, reducing their exponents, until one of them disappears. From this idea, we can find the <Term>general rule</Term> <BM>\frac(x^a)(x^b) = x^(a-b) = \frac(1)(x^(b-a)).</BM> Here <M>a</M> and <M>b</M> can be any numbers. The first outcome is used if <M>a &gt; b</M>, while the second is used if <M>b &gt; a</M>. (Of course, if <M>a = b</M> and we have a fraction like <M>\frac(x^a)(x^a)</M>, then this directly reduces to <M>x^0 = 1</M>.)</Par>
+			<Par>The whole process above can be done more quickly if we turn it into a rule. Effectively, we are canceling factors in the numerator and the denominator, reducing their exponents, until one of them disappears. From this idea, we can find the <Term>general rule</Term> <BM>\frac(x^a)(x^b) = x^(a-b) = \frac(1)(x^(b-a)).</BM> Here <M>a</M> and <M>b</M> can be any numbers. The first outcome (middle) is used if <M>a &gt; b</M>, while the second (right) is useful if <M>b &gt; a</M>. (Of course, if <M>a = b</M> and we have a fraction like <M>\frac(x^a)(x^a)</M>, then this directly reduces to <M>x^0 = 1</M>.)</Par>
 		</Translation>
 
 		<Translation entry="twoParts">
@@ -31,7 +31,7 @@ export function Theory() {
 			<Par>To simplify a fraction with various multiplications and powers, like <M>\frac(6 \cdot 7x^5)(14 x^3 \left(x+1\right))</M>, take the following steps.</Par>
 			<List items={[
 				<>Pull all numeric factors to the front and <SkillLink skillId="simplifyFraction">simplify the numeric fraction</SkillLink>. For the example we turn <M>\frac(6 \cdot 7)(14)</M> into <M>3</M>.</>,
-				<>Find equal factors in the numerator and the denominator, and use the rule <M>\frac(x^a)(x^b) = x^(a-b) = \frac(1)(x^(b-a))</M> to remove some. So in <M>\frac(3x^5)(x^3 \left(x+1\right))</M> both the numerator and the denominator have three factors of <M>x</M> which can be removed, leaving us with <M>\frac(3x^2)(x+1)</M>.</>,
+				<>Find equal factors in the numerator and the denominator, and use the rule <M>\frac(x^a)(x^b) = x^(a-b) = \frac(1)(x^(b-a))</M> to remove as many as possible. So in <M>\frac(3x^5)(x^3 \left(x+1\right))</M> both the numerator and the denominator have three factors of <M>x</M> which can be removed, leaving us with <M>\frac(3x^2)(x+1)</M>.</>,
 			]} />
 		</Translation>
 	</>
