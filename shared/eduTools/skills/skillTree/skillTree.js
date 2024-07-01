@@ -83,8 +83,11 @@ const skillStructure = {
 						name: 'Simplify fraction',
 					},
 				},
-				multiplyingDividing: {},
-				addingSubtracting: {},
+				basicOperations: {
+					multiplyDivideFractions: { // Dummy.
+						name: 'Multiply/divide fractions',
+					},
+				},
 				simplification: {},
 			},
 			powers: {
@@ -152,10 +155,10 @@ const skillStructure = {
 					setup: and(repeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
 					exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
 				},
-				multiplyDivideFractions: {
-					name: 'Multiply/divide fractions',
-					exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
-				},
+				// multiplyDivideFractions: {
+				// 	name: 'Multiply/divide fractions',
+				// 	exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
+				// },
 				// simplifyFraction: {
 				// 	name: 'Simplify a fraction',
 				// 	setup: and('mergeSplitFractions', 'multiplyDivideFractions'),

@@ -35,6 +35,9 @@
   "simplifyFraction": {
     "name": "Bruch vereinfachen"
   },
+  "multiplyDivideFractions": {
+    "name": "Brüche Multiplizieren/Dividieren"
+  },
   "rewritePower": {
     "name": "Potenz umschreiben"
   },
@@ -64,9 +67,6 @@
   },
   "mergeSplitFractions": {
     "name": "Allgemeine Brüche addieren/teilen"
-  },
-  "multiplyDivideFractions": {
-    "name": "Multiplizieren/Dividieren von Brüchen"
   },
   "simplifyMultiVariableFraction": {
     "name": "Vereinfachen von Brüchen"

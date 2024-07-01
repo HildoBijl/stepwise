@@ -35,6 +35,9 @@
   "simplifyFraction": {
     "name": "Simplify fraction"
   },
+  "multiplyDivideFractions": {
+    "name": "Multiply/divide fractions"
+  },
   "rewritePower": {
     "name": "Rewrite power"
   },
@@ -64,9 +67,6 @@
   },
   "mergeSplitFractions": {
     "name": "Merge/split general fractions"
-  },
-  "multiplyDivideFractions": {
-    "name": "Multiply/divide fractions"
   },
   "simplifyMultiVariableFraction": {
     "name": "Simplify a fraction"

@@ -35,6 +35,9 @@
   "simplifyFraction": {
     "name": "Breuk vereenvoudigen"
   },
+  "multiplyDivideFractions": {
+    "name": "Breuken vermenigvuldigen/delen"
+  },
   "rewritePower": {
     "name": "Macht herschrijven"
   },
@@ -64,9 +67,6 @@
   },
   "mergeSplitFractions": {
     "name": "Algemene breuken samenvoegen/splitsen"
-  },
-  "multiplyDivideFractions": {
-    "name": "Breuken vermenigvuldigen/delen"
   },
   "simplifyMultiVariableFraction": {
     "name": "Breuk simplificeren"
