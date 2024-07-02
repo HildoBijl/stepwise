@@ -1,12 +1,14 @@
 import React from 'react'
 
-import { Translation, CountingWord } from 'i18n'
+import { gcd } from 'step-wise/util'
+
+import { Translation, CountingWord, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, correctExpression, incorrectExpression, noFraction } = expressionChecks
+const { originalExpression, correctExpression, incorrectExpression, noFraction, hasFractionWithinFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -29,23 +31,24 @@ const steps = [
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.</Translation></Par>
+				<Par><Translation>Write the fraction of fractions as a single fraction.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="numericSimplified" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="singleFraction" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ b, numericPartOriginal, numericPart, expression, numericSimplified }) => {
-			return <Par><Translation>The numbers inside the fraction equal <M>{numericPartOriginal}</M>. We can divide both the numerator and the denominator by <M>{b}</M>, which leaves us with <M>{numericPart}</M>. Writing this together with the (unchanged) variable factors, we get <BM>{expression} = {numericSimplified}.</BM></Translation></Par>
+		Solution: ({ expression, fraction1, fraction2, singleFraction }) => {
+			const flippedMultiplication = fraction1.multiply(fraction2.invert())
+			return <Par><Translation>When dividing by a fraction, we can also multiply by the inverse. This gives <BM>{expression} = {flippedMultiplication}.</BM> These two fractions can subsequently be merged together, using numerator times numerator and denominator times denominator. This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Cancel all possible variable factors, to further simplify the fraction.</Translation></Par>
+				<Par><Translation>Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -53,15 +56,16 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ d, variables, expression, numericSimplified, ans }) => {
-			return <Par><Translation>We can cancel <CountingWord>{d}</CountingWord> factors of <M>{variables.x}</M> from both the numerator and the denominator, resulting in <BM>{numericSimplified} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+		Solution: ({ a, b, c, d, e, f, p, q, variables, expression, singleFraction, inBetween, ans }) => {
+			const gcdValue = gcd(a * d, b * c)
+			return <Par><Translation>We can merge number products<Check value={gcdValue > 1}><Check.True> and subsequently divide the numerator and the denominator by <M>{gcd(a * d, b * c)}</M></Check.True></Check>. This gives us <BM>{singleFraction} = {inBetween}.</BM> Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(e).removeUseless()}\right)</M> and <CountingWord>{q}</CountingWord> factors of <M>\left({variables.x.add(f).removeUseless()}\right)</M> from both sides. This results in <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
-		numericSimplified: [originalExpression, incorrectExpression, noFraction, correctExpression],
-		ans: [originalExpression, incorrectExpression, noFraction, correctExpression],
+		singleFraction: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, correctExpression],
+		ans: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, correctExpression],
 	})
 }

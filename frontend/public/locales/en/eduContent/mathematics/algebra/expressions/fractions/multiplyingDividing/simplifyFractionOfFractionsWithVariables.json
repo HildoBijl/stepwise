@@ -18,6 +18,20 @@
         "problem": "Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.",
         "solution": "We can divide the numerator and the denominator by <inline-math/>. Next to that, we can cancel <counting-word/> factors of <inline-math/> from both sides. This results in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
       }
+    },
+    "higherPowers": {
+      "mainProblem": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)",
+      "step1": {
+        "problem": "Write the fraction of fractions as a single fraction.",
+        "solution": "When dividing by a fraction, we can also multiply by the inverse. This gives <block-math/> These two fractions can subsequently be merged together, using numerator times numerator and denominator times denominator. This gives <block-math/>"
+      },
+      "step2": {
+        "problem": "Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.",
+        "solution": "We can merge number products<check><on-true> and subsequently divide the numerator and the denominator by <inline-math/></on-true></check>. This gives us <block-math/> Next to that, we can cancel <counting-word/> factors of <inline-math/> and <counting-word/> factors of <inline-math/> from both sides. This results in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
+      }
+    },
+    "multipleFactors": {
+      "mainProblem": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)"
     }
   },
   "crossExerciseFeedback": {

@@ -2031,7 +2031,7 @@ class Fraction extends Function {
 	}
 
 	requiresBracketsFor(level) {
-		return level === bracketLevels.division || level === bracketLevels.powers || (level === bracketLevels.multiplication && !this.requiresPlusInSum()) // When divided, in powers, or in multiplication when there's a precursor minus sign, add brackets.
+		return level === bracketLevels.division || level === bracketLevels.powers // When divided, or in powers, add brackets.
 	}
 
 	requiresPlusInSum() {

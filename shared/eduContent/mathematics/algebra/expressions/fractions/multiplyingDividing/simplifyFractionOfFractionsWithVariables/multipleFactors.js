@@ -1,59 +1,58 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asExpression, expressionComparisons } = require('../../../../../../../CAS')
+const { asExpression, Fraction, expressionChecks, expressionComparisons } = require('../../../../../../../CAS')
 const { and } = require('../../../../../../../skillTracking')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
+const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// (a*x^c)/(b*x^d*(x+e)).
+// (a*(x+c)^p)/(b*(x+c)^q/(x+d)^r).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e']
+const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
 	steps: ['multiplyDivideFractions', 'simplifyFractionWithVariables'],
 	comparison: {
-		// Input is equivalent and cannot be simplified further.
-		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
-		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct),
+		singleFraction: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
+		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
 
 function generateState() {
-	const b = getRandomInteger(2, 6)
-	const a = b * getRandomInteger(2, 6)
-	const d = getRandomInteger(1, 3)
-	const c = d + getRandomInteger(1, 3)
+	const factor = getRandomInteger(2, 6)
+	const a = factor * getRandomInteger(2, 6)
+	const b = factor * getRandomInteger(2, 6, [a / factor])
+	const c = getRandomInteger(-2, 2)
+	const d = getRandomInteger(-2, 2, [c])
+	const p = getRandomInteger(2, 4)
+	const q = p + getRandomInteger(1, 3)
+	const r = getRandomInteger(2, 4)
+
 	return {
 		x: selectRandomly(variableSet),
-		a, b, c, d,
-		e: getRandomInteger(-6, 6, [0]),
-		switch: getRandomBoolean(), // Flip the numerator and the denominator?
+		a, b, c, d, p, q, r,
+		flip: getRandomBoolean(), // Flip the numerator and the denominator?
 	}
 }
 
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('(a*x^c)/(b*x^d*(x+e))').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
-
-	// Set up the numeric parts for display purposes.
-	const numericPartOriginal = asExpression('a/b').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
-	const numericPart = numericPartOriginal.regularClean()
+	const expression = asExpression('(a*(x+c)^p)/(b*(x+c)^q/(x+d)^r)').substituteVariables(variables)[state.flip ? 'invert' : 'self']().removeUseless()
 
 	// Apply cleaning.
-	const numericSimplified = expression.simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true })
+	const singleFraction = expression.simplify({ mergeFractionProducts: true, flattenFractions: true })
 	const ans = expression.regularClean()
-	const ansExpanded = ans.advancedClean()
-	return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans, ansExpanded }
+	return { ...state, variables, expression, singleFraction, ans }
 }
 
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'numericSimplified')
+			return performComparison(exerciseData, 'singleFraction')
 		default:
 			return performComparison(exerciseData, 'ans')
 	}

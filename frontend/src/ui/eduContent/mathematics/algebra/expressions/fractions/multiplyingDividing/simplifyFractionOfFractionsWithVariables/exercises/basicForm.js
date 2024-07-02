@@ -40,7 +40,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ flip, expression, singleFraction }) => {
-			return <Par><Translation><Check value={flip}><Check.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Check.True><Check.False>When dividing by a fraction, we can also multiply by the inverse.</Check.False></Check> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
+			return <Par><Translation><Check value={flip}><Check.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Check.True><Check.False>When dividing by a fraction, we can also multiply by the inverse. The factor can subsequently be pulled into the numerator.</Check.False></Check> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -56,7 +56,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ a, b, c, p, variables, expression, singleFraction, ans }) => {
-			return <Par><Translation>We can divide the numerator and the denominator by <M>{gcd(a, b)}</M>. Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(c)}\right)</M> from both sides. This results in <BM>{singleFraction} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation>We can divide the numerator and the denominator by <M>{gcd(a, b)}</M>. Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(c).removeUseless()}\right)</M> from both sides. This results in <BM>{singleFraction} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]
