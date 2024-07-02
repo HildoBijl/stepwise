@@ -43,9 +43,5 @@
         "solution": "We kunnen <counting-word/> factoren <inline-math/> en <counting-word/> factoren <inline-math/> wegstrepen van zowel de teller als de noemer, waarmee we uitkomen op <block-math/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <block-math/>"
       }
     }
-  },
-  "crossExerciseFeedback": {
-    "unsimplifiedNumbers": "<a>De getallen in de breuk kunnen nog verder vereenvoudigd worden.</a>",
-    "unsimplifiedFactors": "<a>Er zijn nog steeds factoren in de teller en de noemer die weggestreept kunnen worden.</a>"
   }
 }

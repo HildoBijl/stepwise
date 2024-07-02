@@ -133,6 +133,12 @@ const skillStructure = {
 							examples: ['basicForm'],
 							exercises: ['higherPowers', 'multipleFactors'],
 						},
+						simplifyFractionOfFractionsWithVariables: {
+							name: 'Simplify fraction of fractions with variables',
+							setup: and('multiplyDivideFractions', 'simplifyFractionWithVariables'),
+							examples: ['basicForm'],
+							// exercises: ['higherPowers', 'multipleFactors'],
+						},
 					},
 					addingSubtracting: {
 

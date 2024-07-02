@@ -43,9 +43,5 @@
         "solution": "We can cancel <counting-word/> factors <inline-math/> and <counting-word/> factors <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
       }
     }
-  },
-  "crossExerciseFeedback": {
-    "unsimplifiedNumbers": "<a>The numbers inside the fraction can still be simplified further.</a>",
-    "unsimplifiedFactors": "<a>There are still factors that can be canceled in the numerator and the denominator.</a>"
   }
 }

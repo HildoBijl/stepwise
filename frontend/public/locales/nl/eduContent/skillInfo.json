@@ -59,6 +59,9 @@
   "simplifyFractionWithVariables": {
     "name": "Breuk met variabelen vereenvoudigen"
   },
+  "simplifyFractionOfFractionsWithVariables": {
+    "name": "Breuk van breuken met variabelen vereenvoudigen"
+  },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
   },

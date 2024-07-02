@@ -43,9 +43,5 @@
         "solution": "Wir können <counting-word/> Faktoren <inline-math/> und <counting-word/> Faktoren <inline-math/> sowohl vom Zähler als auch vom Nenner entfernen und kommen so zu <block-math/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <block-math/>"
       }
     }
-  },
-  "crossExerciseFeedback": {
-    "unsimplifiedNumbers": "<a>Die Zahlen im Bruch können weiter vereinfacht werden.</a>",
-    "unsimplifiedFactors": "<a>Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.</a>"
   }
 }

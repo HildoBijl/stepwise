@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, correctExpression, incorrectExpression, noFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors } = expressionChecks
+const { originalExpression, correctExpression, incorrectExpression, noFraction } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -37,8 +37,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ factor, numericPartOriginal, numericPart, expression, numericSimplified }) => {
-			return <Par><Translation>The numbers inside the fraction equal <M>{numericPartOriginal}</M>. We can divide both the numerator and the denominator by <M>{factor}</M>, which leaves us with <M>{numericPart}</M>. Writing this together with the (unchanged) variable factors, we get <BM>{expression} = {numericSimplified}.</BM></Translation></Par>
+		Solution: ({ b, numericPartOriginal, numericPart, expression, numericSimplified }) => {
+			return <Par><Translation>The numbers inside the fraction equal <M>{numericPartOriginal}</M>. We can divide both the numerator and the denominator by <M>{b}</M>, which leaves us with <M>{numericPart}</M>. Writing this together with the (unchanged) variable factors, we get <BM>{expression} = {numericSimplified}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -53,15 +53,15 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ p, r, factor1, factor2, expression, numericSimplified, ans }) => {
-			return <Par><Translation>We can cancel <CountingWord>{p}</CountingWord> factors <M>{factor1}</M> and <CountingWord>{r}</CountingWord> factors <M>{factor2}</M> from both the numerator and the denominator, resulting in <BM>{numericSimplified} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+		Solution: ({ d, variables, expression, numericSimplified, ans }) => {
+			return <Par><Translation>We can cancel <CountingWord>{d}</CountingWord> factors of <M>{variables.x}</M> from both the numerator and the denominator, resulting in <BM>{numericSimplified} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
-		numericSimplified: [originalExpression, incorrectExpression, noFraction, unsimplifiedFractionNumbers, correctExpression],
-		ans: [originalExpression, incorrectExpression, noFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, correctExpression],
+		numericSimplified: [originalExpression, incorrectExpression, noFraction, correctExpression],
+		ans: [originalExpression, incorrectExpression, noFraction, correctExpression],
 	})
 }

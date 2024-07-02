@@ -12,8 +12,8 @@ const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'd', 'e']
 
 const metaData = {
-	skill: 'simplifyFractionWithVariables',
-	steps: ['simplifyFraction', and('rewritePowers', 'cancelFractionFactors')],
+	skill: 'simplifyFractionOfFractionsWithVariables',
+	steps: ['multiplyDivideFractions', 'simplifyFractionWithVariables'],
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
 		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
@@ -46,7 +46,8 @@ function getSolution(state) {
 	// Apply cleaning.
 	const numericSimplified = expression.simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true })
 	const ans = expression.regularClean()
-	return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
+	const ansExpanded = ans.advancedClean()
+	return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans, ansExpanded }
 }
 
 function checkInput(exerciseData, step) {

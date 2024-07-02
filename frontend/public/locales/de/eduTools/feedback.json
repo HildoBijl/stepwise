@@ -115,6 +115,8 @@
 		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
 		"noFraction": "Deine Antwort ist kein Bruch. Es wird ein einziger Bruch als Antwort erwartet.",
 		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
+    "unsimplifiedFractionNumbers": "Die Zahlen im Bruch können weiter vereinfacht werden.",
+    "unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
 		"incorrectFraction": {
 			"noFraction": "Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.",
 			"inverted": "Du hast deinen Bruch falsch herum eingegeben. Achte genau darauf, was durch was geteilt werden muss!",

@@ -115,6 +115,8 @@
     "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
     "noFraction": "Your solution is not a fraction. A single fraction was expected as answer.",
     "hasFractionWithinFraction": "Your solution may not contain fractions within fractions. You can still simplify this further.",
+    "unsimplifiedFractionNumbers": "The numbers inside the fraction can still be simplified further.",
+    "unsimplifiedFractionFactors": "There are still factors that can be canceled in the numerator and the denominator.",
     "incorrectFraction": {
       "noFraction": "Hmm ... a fraction was expected as a solution here.",
       "inverted": "You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!",

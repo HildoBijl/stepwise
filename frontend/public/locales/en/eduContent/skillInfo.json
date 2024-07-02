@@ -59,6 +59,9 @@
   "simplifyFractionWithVariables": {
     "name": "Simplify fraction with variables"
   },
+  "simplifyFractionOfFractionsWithVariables": {
+    "name": "Simplify fraction of fractions with variables"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },
