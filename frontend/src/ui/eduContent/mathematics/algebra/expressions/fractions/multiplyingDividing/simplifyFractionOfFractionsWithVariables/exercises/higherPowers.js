@@ -39,8 +39,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, fraction1, fraction2, singleFraction }) => {
-			const flippedMultiplication = fraction1.multiply(fraction2.invert())
+		Solution: ({ flip, expression, fraction1, fraction2, singleFraction }) => {
+			const flippedMultiplication = flip ? fraction2.multiply(fraction1.invert()) : fraction1.multiply(fraction2.invert())
 			return <Par><Translation>When dividing by a fraction, we can also multiply by the inverse. This gives <BM>{expression} = {flippedMultiplication}.</BM> These two fractions can subsequently be merged together, using numerator times numerator and denominator times denominator. This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
@@ -48,7 +48,7 @@ const steps = [
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.</Translation></Par>
+				<Par><Translation>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />

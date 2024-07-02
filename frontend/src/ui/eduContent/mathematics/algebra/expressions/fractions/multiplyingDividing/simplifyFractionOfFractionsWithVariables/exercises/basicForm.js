@@ -47,7 +47,7 @@ const steps = [
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.</Translation></Par>
+				<Par><Translation>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />

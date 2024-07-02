@@ -39,14 +39,14 @@
       "practice.basicForm.step1.solution": {
         "oldText": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>",
         "firstUpdate": "2024-07-02T08:50:42.104Z",
-        "latestUpdate": "2024-07-02T09:06:53.544Z",
-        "latestText": "<check><on-true>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</on-true><on-false>When dividing by a fraction, we can also multiply by the inverse.</on-false></check> This gives <block-math/>"
+        "latestUpdate": "2024-07-02T12:05:08.360Z",
+        "latestText": "<check><on-true>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</on-true><on-false>When dividing by a fraction, we can also multiply by the inverse. The factor can subsequently be pulled into the numerator.</on-false></check> This gives <block-math/>"
       },
       "practice.basicForm.step2.problem": {
         "oldText": "Cancel all possible variable factors, to further simplify the fraction.",
         "firstUpdate": "2024-07-02T08:50:42.104Z",
-        "latestUpdate": "2024-07-02T09:10:19.701Z",
-        "latestText": "Simplify the resulting fractions as much as possible, canceling both numeric and variable factors."
+        "latestUpdate": "2024-07-02T12:05:08.360Z",
+        "latestText": "Simplify the resulting fraction as much as possible, canceling both numeric and variable factors."
       },
       "practice.basicForm.step2.solution": {
         "oldText": "We can cancel <counting-word/> factors of <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>",
@@ -80,8 +80,8 @@
       "practice.higherPowers.step2.problem": {
         "oldText": "Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.",
         "firstUpdate": "2024-07-02T11:14:28.753Z",
-        "latestUpdate": "2024-07-02T11:14:28.783Z",
-        "latestText": "Simplify the resulting fractions as much as possible, canceling both numeric and variable factors."
+        "latestUpdate": "2024-07-02T12:05:24.326Z",
+        "latestText": "Simplify the resulting fraction as much as possible, canceling both numeric and variable factors."
       },
       "practice.higherPowers.step2.solution": {
         "oldText": "We can divide the numerator and the denominator by <inline-math/>. Next to that, we can cancel <counting-word/> factors of <inline-math/> from both sides. This results in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>",
@@ -94,6 +94,28 @@
         "firstUpdate": "2024-07-02T11:20:27.444Z",
         "latestUpdate": "2024-07-02T11:20:27.503Z",
         "latestText": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)"
+      },
+      "practice.multipleFactors.step1.problem": {
+        "firstUpdate": "2024-07-02T11:44:58.263Z",
+        "latestUpdate": "2024-07-02T11:44:58.263Z",
+        "latestText": "Write the fraction of fractions as a single fraction."
+      },
+      "practice.multipleFactors.step1.solution": {
+        "firstUpdate": "2024-07-02T11:44:58.263Z",
+        "latestUpdate": "2024-07-02T11:44:58.263Z",
+        "latestText": "When dividing by a fraction, we can also multiply by the inverse. This gives <block-math/> These two fractions can subsequently be merged together, using numerator times numerator and denominator times denominator. This gives <block-math/>"
+      },
+      "practice.multipleFactors.step2.problem": {
+        "oldText": "Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.",
+        "firstUpdate": "2024-07-02T11:44:58.263Z",
+        "latestUpdate": "2024-07-02T12:04:44.576Z",
+        "latestText": "Simplify the resulting fraction as much as possible, canceling both numeric and variable factors."
+      },
+      "practice.multipleFactors.step2.solution": {
+        "oldText": "We can merge number products<check><on-true> and subsequently divide the numerator and the denominator by <inline-math/></on-true></check>. This gives us <block-math/> Next to that, we can cancel <counting-word/> factors of <inline-math/> and <counting-word/> factors of <inline-math/> from both sides. This results in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>",
+        "firstUpdate": "2024-07-02T11:44:58.263Z",
+        "latestUpdate": "2024-07-02T12:02:19.274Z",
+        "latestText": "We can merge number products<check><on-true> and subsequently divide the numerator and the denominator by <inline-math/></on-true></check>. This gives us <block-math/> Next to that, we can cancel the factors <inline-math/> and <inline-math/> from both sides, as well as merge repeated multiplications into squares. This results in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
       }
     }
   }

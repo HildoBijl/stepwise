@@ -2,7 +2,7 @@ import React from 'react'
 
 import { gcd } from 'step-wise/util'
 
-import { Translation, CountingWord, Check } from 'i18n'
+import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -39,15 +39,16 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ flip, expression, singleFraction }) => {
-			return <Par><Translation><Check value={flip}><Check.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Check.True><Check.False>When dividing by a fraction, we can also multiply by the inverse.</Check.False></Check> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
+		Solution: ({ flip, expression, fraction1, fraction2, singleFraction }) => {
+			const flippedMultiplication = flip ? fraction2.multiply(fraction1.invert()) : fraction1.multiply(fraction2.invert())
+			return <Par><Translation>When dividing by a fraction, we can also multiply by the inverse. This gives <BM>{expression} = {flippedMultiplication}.</BM> These two fractions can subsequently be merged together, using numerator times numerator and denominator times denominator. This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Simplify the resulting fractions as much as possible, canceling both numeric and variable factors.</Translation></Par>
+				<Par><Translation>Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -55,8 +56,9 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ a, b, c, p, variables, expression, singleFraction, ans }) => {
-			return <Par><Translation>We can divide the numerator and the denominator by <M>{gcd(a, b)}</M>. Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(c)}\right)</M> from both sides. This results in <BM>{singleFraction} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+		Solution: ({ a, b, c, d, f, g, variables, expression, singleFraction, inBetween, ans }) => {
+			const gcdValue = gcd(a * d, b * c)
+			return <Par><Translation>We can merge number products<Check value={gcdValue > 1}><Check.True> and subsequently divide the numerator and the denominator by <M>{gcd(a * d, b * c)}</M></Check.True></Check>. This gives us <BM>{singleFraction} = {inBetween}.</BM> Next to that, we can cancel the factors <M>\left({variables.x.add(f).removeUseless()}\right)</M> and <M>\left({variables.x.add(g).removeUseless()}\right)</M> from both sides, as well as merge repeated multiplications into squares. This results in <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

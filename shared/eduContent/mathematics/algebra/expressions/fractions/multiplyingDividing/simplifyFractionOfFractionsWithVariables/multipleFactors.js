@@ -7,10 +7,10 @@ const { getStepExerciseProcessor, filterVariables, performComparison } = require
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// (a*(x+c)^p)/(b*(x+c)^q/(x+d)^r).
+// ((a*(x+e)*(x+f))/(b*(x+g)*(x+h)))/((c*(x+f)*(x+h))/(d*(x+e)*(x+g))).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r']
+const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
@@ -22,18 +22,18 @@ const metaData = {
 }
 
 function generateState() {
-	const factor = getRandomInteger(2, 6)
-	const a = factor * getRandomInteger(2, 6)
-	const b = factor * getRandomInteger(2, 6, [a / factor])
-	const c = getRandomInteger(-2, 2)
-	const d = getRandomInteger(-2, 2, [c])
-	const p = getRandomInteger(2, 4)
-	const q = p + getRandomInteger(1, 3)
-	const r = getRandomInteger(2, 4)
+	const a = getRandomInteger(-12, 12, [-1, 0, 1])
+	const b = getRandomInteger(-12, 12, [-1, 0, 1, a])
+	const c = getRandomInteger(-12, 12, [-1, 0, 1, a, b])
+	const d = getRandomInteger(-12, 12, [-1, 0, 1, a, b, c])
+	const e = getRandomInteger(-3, 3)
+	const f = getRandomInteger(-3, 3, [e])
+	const g = getRandomInteger(-3, 3, [e, f])
+	const h = getRandomInteger(-3, 3, [e, f, g])
 
 	return {
 		x: selectRandomly(variableSet),
-		a, b, c, d, p, q, r,
+		a, b, c, d, e, f, g, h,
 		flip: getRandomBoolean(), // Flip the numerator and the denominator?
 	}
 }
@@ -41,12 +41,15 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('(a*(x+c)^p)/(b*(x+c)^q/(x+d)^r)').substituteVariables(variables)[state.flip ? 'invert' : 'self']().removeUseless()
+	const fraction1 = asExpression('((a*(x+e)*(x+f))/(b*(x+g)*(x+h)))').substituteVariables(variables).removeUseless()
+	const fraction2 = asExpression('((c*(x+f)*(x+h))/(d*(x+e)*(x+g)))').substituteVariables(variables).removeUseless()
+	const expression = fraction1.divide(fraction2)[state.flip ? 'invert' : 'self']().removeUseless()
 
 	// Apply cleaning.
 	const singleFraction = expression.simplify({ mergeFractionProducts: true, flattenFractions: true })
+	const inBetween = singleFraction.basicClean({ mergeProductFactors: false })
 	const ans = expression.regularClean()
-	return { ...state, variables, expression, singleFraction, ans }
+	return { ...state, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }
 }
 
 function checkInput(exerciseData, step) {
