@@ -41,7 +41,7 @@ const steps = [
 		},
 		Solution: ({ flip, expression, fraction1, fraction2, singleFraction }) => {
 			const flippedMultiplication = flip ? fraction2.multiply(fraction1.invert()) : fraction1.multiply(fraction2.invert())
-			return <Par><Translation>When dividing by a fraction, we can also multiply by the inverse. This gives <BM>{expression} = {flippedMultiplication}.</BM> These two fractions can subsequently be merged together, using numerator times numerator and denominator times denominator. This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Translation></Par>
+			return <Par><Translation>When dividing by a fraction, we can also multiply by the inverse. This results in <BM>{expression} = {flippedMultiplication}.</BM> These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator. This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{

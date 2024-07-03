@@ -40,7 +40,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ flip, expression, singleFraction }) => {
-			return <Par><Translation><Check value={flip}><Check.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Check.True><Check.False>When dividing by a fraction, we can also multiply by the inverse. The factor can subsequently be pulled into the numerator.</Check.False></Check> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
+			return <Par><Translation><Check value={flip}><Check.True>When dividing a fraction by a factor, it's also allowed to add that factor to the denominator.</Check.True><Check.False>When dividing by a fraction, we can also multiply by the inverse. The outside factor (the original numerator) can subsequently be pulled into the numerator.</Check.False></Check> This gives <BM>{expression} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{

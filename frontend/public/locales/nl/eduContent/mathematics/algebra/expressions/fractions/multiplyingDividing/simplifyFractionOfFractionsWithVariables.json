@@ -1,0 +1,45 @@
+{
+  "theory": {
+    "intro": "<par>Soms komen we uitdrukkingen tegen waar er breuken in breuken staan. We kunnen bijvoorbeeld <inline-math/> hebben. Hoe kunnen we iets als dit eenvoudiger schrijven?</par>",
+    "idea": "<head>Het idee</head><par>Het lastige deel van ons probleem is dat er er een <term>breuk in een breuk</term> staat. We weten hoe we <skill-link>breuken met getallen kunnen vermenigvuldigen en delen</skill-link>, en hoe de factoren hierbij herschikt worden om op een enkele breuk uit te komen. Als er variabelen bij zijn, werkt dit op exact dezelfde manier! Immers is <inline-math/> net zo zeer een getal als (bijvoorbeeld) het getal <inline-math/>.</par><par>Aan de hand van de standaard regels van het herschrijven van breuken, kunnen we onze voorbeelduitdrukking omvormen tot <block-math/> Merk op dat de noemer van de noemer (hier <inline-math/>) in de teller beland is.</par><par>Zodra we dit gedaan hebben, hebben we een <term>enkele breuk</term> over. We zijn al bekend met het <skill-link>vereenvoudigen van een breuk</skill-link> als deze. We strepen factoren weg, zowel bij de getallen (een factor <inline-math/>) en bij de variabelen (twee factoren <inline-math/>) om uit te komen op <block-math/> Dit is zo eenvoudig als we het maar schrijven kunnen.</par>",
+    "steps": "<head>De stappen</head><par>Om een breuk te vereenvoudigen waarvan de teller en/of de noemer ook breuken zijn, zoals bijvoorbeeld <inline-math/>, neem je de volgende stappen.</par><list><item><a>Gebruik eerst de standaard regels van het <skill-link>vermenigvuldigen en delen van breuken</skill-link> om alles als een enkele breuk te schrijven. Bij het voorbeeld brengen we de noemer van de noemer (hier <inline-math/>) over naar de tellen en krijgen zo <inline-math/>.</a></item><item><b><skill-link>Vereenvoudig de betreffende breuk</skill-link>, waarbij je zo veel mogelijk factoren (zowel met getallen en met variabelen) wegstreept. Bij het voorbeeld komen we zo uit op <inline-math/>.</b></item></list>"
+  },
+  "meta": {
+    "learningGoals": "<par>In deze vaardigheid leer je <term>breuken met daarin verdere breuken met variabelen te vereenvoudigen</term>. Denk aan het omzetten van <inline-math/> in <inline-math/>. Dit omvat het omzetten van een breuk van breuken in een enkele breuk, en hieropvolgend het vereenvoudigen van de betreffende breuk. Deze vaardigheid omvat niet het optellen/aftrekken van breuken.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Bekijk de breuk <block-math/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)",
+      "step1": {
+        "problem": "Schrijf de breuk van breuken als een enkele breuk.",
+        "solution": "<check><on-true>Bij het delen van een breuk door een factor is het ook toegestaan om die factor aan de noemer toe te voegen.</on-true><on-false>Bij het delen door een breuk mogen we ook vermenigvuldigen met het omgekeerde. De factor erbuiten (de oorspronkelijke teller) kan dan ook bij de noemer gevoegd worden.</on-false></check> Zo krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.",
+        "solution": "We kunnen de teller en de noemer door <inline-math/> delen. Hiernaast kunnen we ook <counting-word/> factoren <inline-math/> van beide kanten wegstrepen. Dit geeft <block-math/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <block-math/>"
+      }
+    },
+    "higherPowers": {
+      "mainProblem": "Bekijk de breuk <block-math/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)",
+      "step1": {
+        "problem": "Schrijf de breuk van breuken als een enkele breuk.",
+        "solution": "Bij het delen door een breuk kunnen we ook vermenigvuldigen met het omgekeerde. Zo krijgen we <block-math/> Deze twee breuken kunnen vervolgens samengevoegd worden, door de teller met de teller en de noemer met de noemer te vermenigvuldigen. Dit komt uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.",
+        "solution": "We kunnen getalproducten samenvoegen<check><on-true> en vervolgens de teller en de noemer door <inline-math/> delen</on-true></check>. Dit komt uit op <block-math/> Hiernaast kunnen we ook <counting-word/> factoren <inline-math/> en <counting-word/> factoren <inline-math/> van beide kanten wegstrepen. Dit geeft <block-math/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <block-math/>"
+      }
+    },
+    "multipleFactors": {
+      "mainProblem": "Bekijk de breuk <block-math/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)",
+      "step1": {
+        "problem": "Schrijf de breuk van breuken als een enkele breuk.",
+        "solution": "Bij het delen door een breuk kunnen we ook vermenigvuldigen met het omgekeerde. Zo krijgen we <block-math/> Deze twee breuken kunnen vervolgens samengevoegd worden, door de teller met de teller en de noemer met de noemer te vermenigvuldigen. Dit komt uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.",
+        "solution": "We kunnen getalproducten samenvoegen<check><on-true> en vervolgens de teller en de noemer door <inline-math/> delen</on-true></check>. Dit komt uit op <block-math/> Hiernaast kunnen we ook de factoren <inline-math/> en <inline-math/> van beide kanten wegstrepen, en herhaalde vermenigvuldigingen tot kwadraten samenvoegen. Dit geeft <block-math/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <block-math/>"
+      }
+    }
+  }
+}
