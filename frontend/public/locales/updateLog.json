@@ -1,1 +1,120 @@
-{}
+{
+  "en": {
+    "eduContent/skillInfo": {
+      "addLikeFractionsWithVariables.name": {
+        "oldText": "Add like fractions with variables",
+        "firstUpdate": "2024-07-08T10:52:49.867Z",
+        "latestUpdate": "2024-07-08T10:52:49.934Z",
+        "latestText": "Add like fractions with variables"
+      }
+    },
+    "eduContent/mathematics/algebra/expressions/fractions/addingSubtracting/addLikeFractionsWithVariables": {
+      "theory.intro": {
+        "oldText": "<par>We know how to cancel factors in a fraction like <inline-math/>. We just cross out the <inline-math/> on both sides. But how can we simplify a fraction if we have powers in there, like in <inline-math/>? And what if there are also numbers and other factors involved, like in <inline-math/>? The key is to still cancel factors, but do so for numbers and variable factors separately.</par>",
+        "firstUpdate": "2024-07-08T10:52:50.884Z",
+        "latestUpdate": "2024-07-08T11:08:06.547Z",
+        "latestText": "<par>If we add two number fractions with equal denominator, such as <inline-math/>, then we know how to do so: add up the numerators to get <inline-math/>. But how does this work when variables are involved, like when calculating <inline-math/>? The answer is: exactly the same. But there are a few things to pay attention to.</par>"
+      },
+      "theory.idea": {
+        "oldText": "<head>The idea</head><par>First let's consider a fraction with powers, like <inline-math/>. To simplify this, the key is to see that a power <inline-math/> can be <skill-link>rewritten as a multiplication</skill-link> <inline-math/> and similarly for <inline-math/>. This turns the whole fraction into <block-math/> Once we have written it like this, we can <skill-link>cancel fraction factors</skill-link>. We can remove three <inline-math/>'es both above, in the numerator, and below, in the denominator. Above we are left with <inline-math/>, while below we remain with no factors of <inline-math/>, which comes down to <inline-math/>. So we have <block-math/> Note that at the end we have merged multiplications of repeated factors back into powers, turning <inline-math/> into <inline-math/>. This is as simple as we can write it.</par>",
+        "firstUpdate": "2024-07-08T10:52:50.884Z",
+        "latestUpdate": "2024-07-08T11:08:06.547Z",
+        "latestText": "<head>The idea</head><par>We want to add/subtract two fractions with variables, like <block-math/> Note that these two fractions have an equal denominator. As a result, they're called <term>like fractions</term>. (When this is not the case, things get harder, which will be discussed in a <skill-link>follow-up skill</skill-link>.) When adding First let's consider a fraction with powers, like <inline-math/>. To simplify this, the key is to see that a power <inline-math/> can be <skill-link>rewritten as a multiplication</skill-link> <inline-math/> and similarly for <inline-math/>. This turns the whole fraction into <block-math/> Once we have written it like this, we can <skill-link>cancel fraction factors</skill-link>. We can remove three <inline-math/>'es both above, in the numerator, and below, in the denominator. Above we are left with <inline-math/>, while below we remain with no factors of <inline-math/>, which comes down to <inline-math/>. So we have <block-math/> Note that at the end we have merged multiplications of repeated factors back into powers, turning <inline-math/> into <inline-math/>. This is as simple as we can write it.</par>"
+      },
+      "theory.rule": {
+        "oldText": "<head>The rule</head><par>The whole process above can be done more quickly if we turn it into a rule. Effectively, we are canceling factors in the numerator and the denominator, reducing their exponents, until one of them disappears. From this idea, we can find the <term>general rule</term> <block-math/> Here <inline-math/> and <inline-math/> can be any numbers. The first outcome (middle) is used if <inline-math/>, while the second (right) is useful if <inline-math/>. (Of course, if <inline-math/> and we have a fraction like <inline-math/>, then this directly reduces to <inline-math/>.)</par>",
+        "firstUpdate": "2024-07-08T10:52:50.884Z",
+        "latestUpdate": "2024-07-08T14:29:04.612Z",
+        "latestText": "<head>Applying the rule</head><par>We want to add/subtract two fractions with variables, like <block-math/> Note that these two fractions have an equal denominator. As a result, they're called <term>like fractions</term>. (When the two fractions are not like fractions, they are harder to add up. This will be discussed in a <skill-link>follow-up skill</skill-link>. This current skill only deals with like fractions.)</par><par>To add/subtract two like fractions, the rule says to directly add/subtract the numerators, while keeping the denominator as it is. In general, it says that <block-math/> When applying this rule, and especially when subtracting, brackets are crucial. After all, the two fractions from the example can also be written as <block-math/> If we subsequently subtract the numerators, we get <block-math/> According to the rule, this is what the two subtracted fractions are equal to. Note: the left set of brackets is not needed, but the brackets on the right are crucial. Without them it would be something different.</par>"
+      },
+      "theory.twoParts": {
+        "oldText": "<head>Two parts</head><par>Now consider a more complex fraction like <inline-math/>. This time there are also numbers and other factors. The first thing we can do is focus on all the <term>numeric factors</term>. Since the order of multiplication does not matter, we can pull these factors to the front and write it as <block-math/> We can then <skill-link>simplify this numeric fraction</skill-link> to <inline-math/> This turns the full fraction into <block-math/> The numeric parts cannot be simplified further.</par><par>The second part is to focus on the <term>variable factors</term>. There are powers of <inline-math/> in both the numerator and the denominator. We could take the long way of <skill-link>rewriting powers</skill-link> and <skill-link>canceling fraction factors</skill-link> to write <block-math/> Or alternatively we can use our newfound rule and directly remove three factors of <inline-math/> from the numerator and the denominator. (The factor <inline-math/> simply stays as it is.) This immediately results in <block-math/> Having reduced the variable factors too, this is as simple as it can be written.</par>",
+        "firstUpdate": "2024-07-08T10:52:50.884Z",
+        "latestUpdate": "2024-07-08T10:52:50.898Z",
+        "latestText": "<head>Two parts</head><par>Now consider a more complex fraction like <inline-math/>. This time there are also numbers and other factors. The first thing we can do is focus on all the <term>numeric factors</term>. Since the order of multiplication does not matter, we can pull these factors to the front and write it as <block-math/> We can then <skill-link>simplify this numeric fraction</skill-link> to <inline-math/> This turns the full fraction into <block-math/> The numeric parts cannot be simplified further.</par><par>The second part is to focus on the <term>variable factors</term>. There are powers of <inline-math/> in both the numerator and the denominator. We could take the long way of <skill-link>rewriting powers</skill-link> and <skill-link>canceling fraction factors</skill-link> to write <block-math/> Or alternatively we can use our newfound rule and directly remove three factors of <inline-math/> from the numerator and the denominator. (The factor <inline-math/> simply stays as it is.) This immediately results in <block-math/> Having reduced the variable factors too, this is as simple as it can be written.</par>"
+      },
+      "theory.steps": {
+        "oldText": "<head>The steps</head><par>To simplify a fraction with various multiplications and powers, like <inline-math/>, take the following steps.</par><list><item><a>Pull all numeric factors to the front and <skill-link>simplify the numeric fraction</skill-link>. For the example we turn <inline-math/> into <inline-math/>.</a></item><item><b>Find equal factors in the numerator and the denominator, and use the rule <inline-math/> to remove as many as possible. So in <inline-math/> both the numerator and the denominator have three factors of <inline-math/> which can be removed, leaving us with <inline-math/>.</b></item></list>",
+        "firstUpdate": "2024-07-08T10:52:50.884Z",
+        "latestUpdate": "2024-07-08T14:32:44.142Z",
+        "latestText": "<head>The steps</head><par>To add/subtract two like fractions with variables, like <inline-math/>, take the following steps.</par><list><item><a>Directly add/subtract the numerators, keeping the denominator as it is. Use brackets where necessary. For the example this gives <inline-math/></a></item><item><b><skill-link>Expand all brackets</skill-link> in the numerator. For the example we get <inline-math/>.</b></item><item><c><skill-link>Merge similar terms</skill-link> in the numerator together to simplify it as much as possible. This turns the example into <inline-math/>.</c></item></list>"
+      },
+      "meta.learningGoals": {
+        "oldText": "<par>In this skill you learn to <term>add like fractions with variables</term>, like turning <inline-math/> into <inline-math/>. This includes merging two fractions with equal denominator into one fraction, expanding any potential brackets in the numerator, and subsequently simplifying the numerator by merging similar terms. The skill does not include canceling fraction factors or dealing with fractions with different denominators.</par>",
+        "firstUpdate": "2024-07-08T10:52:50.884Z",
+        "latestUpdate": "2024-07-08T10:52:50.898Z",
+        "latestText": "<par>In this skill you learn to <term>add like fractions with variables</term>, like turning <inline-math/> into <inline-math/>. This includes merging two fractions with equal denominator into one fraction, expanding any potential brackets in the numerator, and subsequently simplifying the numerator by merging similar terms. The skill does not include canceling fraction factors or dealing with fractions with different denominators.</par>"
+      },
+      "practice.basicForm.mainProblem": {
+        "oldText": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)",
+        "firstUpdate": "2024-07-08T10:52:52.232Z",
+        "latestUpdate": "2024-07-08T12:08:01.599Z",
+        "latestText": "Consider the expression <block-math/> Write this as a single fraction and simplify the numerator as much as possible."
+      },
+      "practice.basicForm.step1.problem": {
+        "oldText": "Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.",
+        "firstUpdate": "2024-07-08T10:52:52.232Z",
+        "latestUpdate": "2024-07-08T14:26:26.834Z",
+        "latestText": "Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed."
+      },
+      "practice.basicForm.step1.solution": {
+        "oldText": "The numbers inside the fraction equal <inline-math/>. We can divide both the numerator and the denominator by <inline-math/>, which leaves us with <inline-math/>. Writing this together with the (unchanged) variable factors, we get <block-math/>",
+        "firstUpdate": "2024-07-08T10:52:52.232Z",
+        "latestUpdate": "2024-07-08T12:09:51.492Z",
+        "latestText": "The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <block-math/>"
+      },
+      "practice.basicForm.step2.problem": {
+        "oldText": "Cancel all possible variable factors, to further simplify the fraction.",
+        "firstUpdate": "2024-07-08T10:52:52.232Z",
+        "latestUpdate": "2024-07-08T12:13:54.785Z",
+        "latestText": "Expand all brackets in the numerator."
+      },
+      "practice.basicForm.step2.solution": {
+        "oldText": "We can cancel <counting-word/> factors of <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>",
+        "firstUpdate": "2024-07-08T10:52:52.232Z",
+        "latestUpdate": "2024-07-08T12:18:19.318Z",
+        "latestText": "Using the default rules of expanding brackets, we wind up with <block-math/>"
+      },
+      "practice.biggerDenominator.mainProblem": {
+        "firstUpdate": "2024-07-08T10:52:52.232Z",
+        "latestUpdate": "2024-07-08T10:52:52.232Z",
+        "latestText": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)"
+      },
+      "practice.squaresInNumerator.mainProblem": {
+        "firstUpdate": "2024-07-08T10:53:20.456Z",
+        "latestUpdate": "2024-07-08T10:53:20.456Z",
+        "latestText": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)"
+      },
+      "theory.simplifying": {
+        "oldText": "<head>Simplifying the outcome</head><par>The above result is still overly long and can be simplified. The first step there is to <skill-link>expand all brackets</skill-link> in the numerator. In the example, the left brackets are useless anyway. Expanding the right brackets turns it into <block-math/> Note that minus times minus becomes plus.</par><par>Subsequently, it is often possible to <skill-link>merge similar terms</skill-link> together. Note that <inline-math/> can be turned into <inline-math/> and similarly <inline-math/> can be turned into <inline-math/>. So we can write <block-math/> Altogether, the final result can be written as <block-math/> In some cases there are further simplifications that can be done, like <skill-link>canceling fraction factors</skill-link>. For instance, if we would have gotten <inline-math/> in the end, then a factor <inline-math/> could have been canceled as well. However, for this skill that is not required.</par>",
+        "firstUpdate": "2024-07-08T11:17:51.021Z",
+        "latestUpdate": "2024-07-08T14:32:44.142Z",
+        "latestText": "<head>Simplifying the outcome</head><par>The above result is still unnecessarily long and can be simplified. The first step is to <skill-link>expand all brackets</skill-link> in the numerator. For the example, this results in <block-math/> Note that minus times minus becomes plus.</par><par>Subsequently, it is often possible to <skill-link>merge similar terms</skill-link> together. Note that <inline-math/> can be turned into <inline-math/> and similarly <inline-math/> can be turned into <inline-math/>. So we can write <block-math/> This cannot be simplified further, so we are done. Altogether, the final result can be written as <block-math/> In some cases there are further simplifications that can be done, like <skill-link>canceling fraction factors</skill-link>. For instance, if we for example would have gotten something like <inline-math/> in the end, then a factor <inline-math/> could have been canceled as well. However, for this skill these further simplifications are not required.</par>"
+      },
+      "practice.basicForm.step3.problem": {
+        "oldText": "Cancel all possible variable factors, to further simplify the fraction.",
+        "firstUpdate": "2024-07-08T12:08:01.599Z",
+        "latestUpdate": "2024-07-08T12:21:56.174Z",
+        "latestText": "Simplify the numerator as much as possible by merging similar terms together."
+      },
+      "practice.basicForm.step3.solution": {
+        "oldText": "We can cancel <counting-word/> factors of <inline-math/> from both the numerator and the denominator, resulting in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>",
+        "firstUpdate": "2024-07-08T12:08:01.599Z",
+        "latestUpdate": "2024-07-08T14:17:03.280Z",
+        "latestText": "Merging all numbers together, and merging all terms with <inline-math/> together, we find <block-math/> The numerator here is as simplified as possible. Altogether, the final result is <block-math/><check><on-true>Optionally, this can still be simplified further, written as <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+      }
+    },
+    "eduTools/feedback": {
+      "expression.hasSimilarTerms": {
+        "firstUpdate": "2024-07-08T14:17:08.427Z",
+        "latestUpdate": "2024-07-08T14:17:08.427Z",
+        "latestText": "This can be simplified further: there is a sum with similar terms that can be merged together."
+      },
+      "expression.fractionNumeratorHasSumWithinProduct": {
+        "firstUpdate": "2024-07-08T14:18:52.755Z",
+        "latestUpdate": "2024-07-08T14:18:52.755Z",
+        "latestText": "There are still unexpanded brackets in the numerator."
+      }
+    }
+  }
+}

@@ -2146,8 +2146,8 @@ class Fraction extends Function {
 		}
 
 		// Once more try crossing out fraction terms. Things may have changed after simplifying children.
-		if (options.crossOutFractionTerms) {
-			({ numerator, denominator } = Fraction.crossOutFractionTerms(numerator, denominator, options))
+		if (options.crossOutFractionFactors) {
+			({ numerator, denominator } = Fraction.crossOutFractionFactors(numerator, denominator, options))
 		}
 
 		// See if there is a possibility for polynomial cancellation.
@@ -2183,7 +2183,7 @@ class Fraction extends Function {
 		}
 
 		// Prevent roots in the denominator.
-		if (options.preventRootDenominators && !options.crossOutFractionTerms) {
+		if (options.preventRootDenominators && !options.crossOutFractionFactors) {
 			const denominatorFactors = denominator.getProductFactors().filter(factor => factor.isSubtype(Sqrt) || factor.isSubtype(Root))
 			if (denominatorFactors.length > 0) {
 				const multiplicationFactors = []
@@ -2250,7 +2250,7 @@ class Fraction extends Function {
 		return { numerator: dividePartByDivisor(numerator), denominator: dividePartByDivisor(denominator) }
 	}
 
-	static crossOutFractionTerms(numerator, denominator, options) {
+	static crossOutFractionFactors(numerator, denominator, options) {
 		// Run a very basic check: equality of numerator and denominator.
 		if (numerator.equalsBasic(denominator, true))
 			return { numerator: Integer.one, denominator: Integer.one }

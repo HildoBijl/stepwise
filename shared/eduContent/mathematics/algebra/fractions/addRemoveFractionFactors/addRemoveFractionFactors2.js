@@ -26,7 +26,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const square = asExpression('x^2').substituteVariables(variables)
 	const expression = asExpression(`(${state.flipNumerator ? 'ax^2y' : 'ayx^2'})/(${state.flipDenominator ? 'zx' : 'xz'})`).substituteVariables(variables)
-	const ans = expression.simplify({ ...simplifyOptions.basicClean, crossOutFractionTerms: true })
+	const ans = expression.simplify({ ...simplifyOptions.basicClean, crossOutFractionFactors: true })
 	return { ...state, variables, square, expression, ans }
 }
 

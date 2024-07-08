@@ -292,5 +292,8 @@
   },
   "analyseAirco": {
     "name": "Analyse an air conditioner"
+  },
+  "addLikeFractionsWithVariables": {
+    "name": "Add like fractions with variables"
   }
 }

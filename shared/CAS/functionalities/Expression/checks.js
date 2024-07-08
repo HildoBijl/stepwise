@@ -1,4 +1,5 @@
 const { Integer, Sum, Product, Fraction, Power } = require('./Expression')
+const { onlyOrderChanges } = require('./comparisons')
 
 // isInteger checks if the given quantity reduces to an integer.
 function isInteger(input) {
@@ -18,6 +19,11 @@ function hasSumWithinFraction(input) {
 // hasSumWithinPowerBase checks if there is a power whose base is a sum.
 function hasSumWithinPowerBase(input) {
 	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Sum)))
+}
+
+// hasSimilarTerms checks if a sum has similar terms that can be merged, like 4x+3+2x, which can merge 4x and 2x.
+function hasSimilarTerms(input) {
+	return !onlyOrderChanges(input.removeUseless({ groupSumTerms: true, mergeSumNumbers: true }), input.elementaryClean())
 }
 
 // hasFraction checks if there is a fraction inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).
@@ -72,6 +78,7 @@ module.exports = {
 	hasSumWithinProduct,
 	hasSumWithinFraction,
 	hasSumWithinPowerBase,
+	hasSimilarTerms,
 	hasFraction,
 	hasFractionSatisfying,
 	hasFractionWithinFraction,

@@ -141,7 +141,12 @@ const skillStructure = {
 						},
 					},
 					addingSubtracting: {
-
+						addLikeFractionsWithVariables: {
+							name: 'Add like fractions with variables',
+							setup: and('expandBrackets', 'mergeSimilarTerms'),
+							examples: ['basicForm'],
+							exercises: ['basicForm', 'biggerDenominator', 'squaresInNumerator'],
+						},
 					},
 				},
 			},

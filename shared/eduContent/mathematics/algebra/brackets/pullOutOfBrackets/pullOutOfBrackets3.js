@@ -35,7 +35,7 @@ function getSolution(state) {
 	const fraction = expression.divide(factor)
 	const setup = factor.multiply(fraction)
 	const fractionSplit = fraction.simplify({ splitFractions: true })
-	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, crossOutFractionTerms: true })
+	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, crossOutFractionFactors: true })
 	const ans = factor.multiply(fractionSimplified)
 	return { ...state, variables, expression, factor, fraction, setup, fractionSplit, fractionSimplified, ans }
 }

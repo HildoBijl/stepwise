@@ -77,6 +77,8 @@ export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isC
 
 export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <Translation path={translationPath} entry="expression.hasSumWithinFraction">Your solution has an unseparated fraction.</Translation>
 
+export const hasSimilarTerms = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSimilarTerms(input) && <Translation path={translationPath} entry="expression.hasSimilarTerms">This can be simplified further: there is a sum with similar terms that can be merged together.</Translation>
+
 export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFraction(input) && <Translation path={translationPath} entry="expression.hasFraction">Your solution still has a fraction. The idea was to remove all fractions.</Translation>
 
 export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.elementaryClean().isSubtype(Fraction) && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
@@ -85,7 +87,9 @@ export const hasFractionWithinFraction = (input, correct, solution, isCorrect) =
 
 export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The numbers inside the fraction can still be simplified further.</Translation>
 
-export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true, crossOutFractionTerms: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
+export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true, crossOutFractionFactors: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
+
+export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isSubtype(Fraction) && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
 
 export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
 	if (!correct.isSubtype(Fraction))

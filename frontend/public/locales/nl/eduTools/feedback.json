@@ -112,11 +112,13 @@
     "hasX": "Je antwoord bevat nog een <inline-math/>. Dat was niet de bedoeling!",
     "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
     "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
+    "hasSimilarTerms": "Dit kan nog verder vereenvoudigd worden: er is nog een som met soortgelijke termen die samengevoegd kunnen worden.",
     "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
     "noFraction": "Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.",
     "hasFractionWithinFraction": "Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.",
     "unsimplifiedFractionNumbers": "De getallen in de breuk kunnen nog verder vereenvoudigd worden.",
     "unsimplifiedFractionFactors": "Er zijn nog steeds factoren in de teller en de noemer die weggestreept kunnen worden.",
+    "fractionNumeratorHasSumWithinProduct": "De teller bevat nog onuitgewerkte haakjes.",
     "incorrectFraction": {
       "noFraction": "Hmm ... er was eigenlijk een breuk als antwoord verwacht.",
       "inverted": "Je hebt je breuk verkeerd om ingevuld. Kijk goed wat je waardoor moet delen!",

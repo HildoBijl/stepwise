@@ -112,11 +112,13 @@
 		"hasX": "Deine Antwort enthält einen weiteren <inline-math/>. Das war nicht die Absicht!",
 		"hasSumWithinProduct": "Deine Antwort hat immer noch nicht erweiterte Klammern.",
 		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
+    "hasSimilarTerms": "Dies kann noch weiter vereinfacht werden: Es gibt eine Summe mit ähnlichen Termen, die kombiniert werden können.",
 		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
 		"noFraction": "Deine Antwort ist kein Bruch. Es wird ein einziger Bruch als Antwort erwartet.",
 		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
     "unsimplifiedFractionNumbers": "Die Zahlen im Bruch können weiter vereinfacht werden.",
     "unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
+    "fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
 		"incorrectFraction": {
 			"noFraction": "Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.",
 			"inverted": "Du hast deinen Bruch falsch herum eingegeben. Achte genau darauf, was durch was geteilt werden muss!",

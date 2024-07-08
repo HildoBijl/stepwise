@@ -37,7 +37,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
-	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
+	crossOutFractionFactors: false, // Cancel factors inside fractions. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
 	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
@@ -66,7 +66,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
 	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
 	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
-	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if crossOutFractionTerms is turned on.
+	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if crossOutFractionFactors is turned on.
 
 	// Logarithm options.
 	removeOneLogarithm: false, // Turn log(1) into 0.
@@ -147,7 +147,7 @@ const regularClean = {
 	...basicClean,
 	sortProducts: true,
 	groupSumTerms: true,
-	crossOutFractionTerms: true,
+	crossOutFractionFactors: true,
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
@@ -235,7 +235,7 @@ const forDisplay = {
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,
-	crossOutFractionTerms: false, // Blocks preventRootDenominator.
+	crossOutFractionFactors: false, // Blocks preventRootDenominator.
 }
 module.exports.forDisplay = { ...noSimplify, ...forDisplay }
 
