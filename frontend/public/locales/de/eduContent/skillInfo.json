@@ -62,6 +62,9 @@
   "simplifyFractionOfFractionsWithVariables": {
     "name": "Bruch mit Brüchen mit Variablen vereinfachen"
   },
+  "addLikeFractionsWithVariables": {
+    "name": "Gleichnamige Brüche addieren"
+  },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"
   },

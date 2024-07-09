@@ -1,0 +1,43 @@
+{
+  "theory": {
+    "intro": "<par>Wenn wir zwei Zahlenbrüche mit gleichen Nennern addieren, wie <inline-math/>, wissen wir, wie das geht: Wir addieren die Zähler und erhalten <inline-math/>. Aber wie funktioniert das, wenn Variablen beteiligt sind, wie bei <inline-math/>? Die Antwort lautet: genau so. Aber es gibt ein paar Dinge zu beachten.</par>",
+    "rule": "<head>Die Regel anwenden</head><par>Wir wollen zwei Brüche mit Variablen addieren/subtrahieren, wie <block-math/> Beachte, dass diese beiden Brüche einen gleichen Nenner haben. Deshalb nennen wir sie <term>Gleichnamige Brüche</term>. (Wenn die beiden Brüche nicht gleichnamig sind, sind sie schwieriger zu addieren. Dies wird in einem <skill-link>Folgekompetenz</skill-link> behandelt. Diese aktuelle Kompetenz befasst sich nur mit gleichnamigen Brüchen.)</par><par>Um zwei gleichnamige Brüche zu addieren/subtrahieren, besagt die Regel, dass die beiden Zähler direkt addiert/subtrahiert werden, wobei der Nenner unverändert bleibt. Im Allgemeinen besagt die Regel, dass <block-math/> Bei der Anwendung dieser Regel, insbesondere bei der Subtraktion, sind Klammern von entscheidender Bedeutung. Denn die beiden Brüche aus dem Beispiel können auch geschrieben werden als <block-math/> Subtrahiert man dann die Zähler, wobei der Nenner gleich bleibt, erhält man <block-math/> Das ist laut Regel gleich der Subtraktion der beiden Brüche. Hinweis: Die linke Gruppe von Klammern ist nicht notwendig, aber die Klammern auf der rechten Seite sind entscheidend. Ohne sie wäre das Ergebnis ein ganz anderes.</par>",
+    "simplifying": "<head>Das Ergebnis vereinfachen</head><par>Das obige Ergebnis ist immer noch unnötig lang und kann vereinfacht werden. Der erste Schritt besteht darin, <skill-link>alle Klammern im Zähler zu erweitern</skill-link>. Für das Beispiel ergibt sich <block-math/> Man beachte, dass Minus mal Minus zu Plus wird.</par><par>Danach ist es oft möglich, <skill-link>gleichartige Terme zusammenzufügen</skill-link>. Beachte, dass <inline-math/> in <inline-math/> umgewandelt werden kann, und in ähnlicher Weise kann <inline-math/> in <inline-math/> vereinfacht werden. Wir können also schreiben, dass <block-math/> Dies kann nicht weiter vereinfacht werden, und damit sind wir fertig. Alles in allem kann das Endergebnis geschrieben werden als <block-math/> In einigen Fällen können weitere Vereinfachungen vorgenommen werden, wie z. B. die <skill-link>Entfernung von Bruchfaktoren</skill-link>. Wenn wir zum Beispiel am Ende so etwas wie <inline-math/> als Ergebnis hätten, dann hätte man auch einen Faktor <inline-math/> wegstreichen können. Für diese Kompetenz ist Letzteres jedoch nicht erforderlich.</par>",
+    "steps": "<head>Die Schritte</head><par>Um zwei gleichnamige Brüche wie <inline-math/> zu addieren/subtrahieren, ist wie folgt vorzugehen.</par><list><item><a>Addiere/subtrahiere sofort die Zähler, wobei der Nenner unverändert bleibt. Verwende Klammern, wenn nötig. Für das Beispiel ergibt dies <inline-math/>.</a></item><item><b><skill-link>Erweitere alle Klammern</skill-link> im Zähler. Für das Beispiel erhalten wir <inline-math/>.</b></item><item><c><skill-link>Füge gleichartige Terme im Zähler zusammen</skill-link> und vereinfache sie so weit wie möglich. Dadurch wird das Ergebnis des Beispiels auf <inline-math/> reduziert.</c></item></list>"
+  },
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, <term>Gleichnamige Brüche mit Variablen zu addieren/subtrahieren</term>, wie zum Beispiel <inline-math/> in <inline-math/> umzuwandeln. Dazu gehört es, zwei Brüche mit gleichem Nenner zu einem einzigen Bruch zu vereinen, alle Klammern im Zähler zu erweitern und dann diesen Zähler weiter zu vereinfachen, durch die Zusammenfügung gleichartiger Terme. Bei dieser Kompetenz geht es nicht darum, Bruchfaktoren zu eliminieren oder Brüche mit unterschiedlichen Nennern zusammenzufügen.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Schreibe ihn als einzelnen Bruch und vereinfache den Zähler so weit wie möglich.",
+      "step1": {
+        "problem": "Wende die Regel für Addition/Subtraktion von Brüchen an, um den Ausdruck als einen einzigen Bruch zu schreiben. Verwende Klammern, wenn nötig.",
+        "solution": "Die beiden Brüche haben gleiche Nenner. Das bedeutet, dass wir zum Addieren/Subtrahieren dieser Brüche die Zähler direkt addieren/subtrahieren können und den Nenner stehen lassen. Das ergibt <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere alle Klammern im Zähler.",
+        "solution": "Unter Anwendung der Standardregeln für das Erweitern von Klammern erhalten wir <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereinfache den Zähler so weit wie möglich, durch Zusammenfügen gleichartiger Terme.",
+        "solution": "Fügt man alle Zahlen zusammen und auch alle Terme mit <inline-math/>, so erhält man <block-math/> Der Zähler ist hier so vereinfacht wie möglich. Alles in allem ist das Endergebnis <block-math/><check><on-true>Optional könnte dies noch einfacher geschrieben werden, als <block-math/></on-true><on-false>Dies lässt sich nicht weiter vereinfachen.</on-false></check>"
+      }
+    },
+    "squaresInNumerator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Schreibe ihn als einzelnen Bruch und vereinfache den Zähler so weit wie möglich.",
+      "step1": {
+        "problem": "Wende die Regel für Addition/Subtraktion von Brüchen an, um den Ausdruck als einen einzigen Bruch zu schreiben. Verwende Klammern, wenn nötig.",
+        "solution": "Die beiden Brüche haben gleiche Nenner. Das bedeutet, dass wir zum Addieren/Subtrahieren dieser Brüche die Zähler direkt addieren/subtrahieren können und den Nenner stehen lassen. Das ergibt <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere alle Klammern im Zähler.",
+        "solution": "Unter Anwendung der Standardregeln für das Erweitern von Klammern erhalten wir <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereinfache den Zähler so weit wie möglich, durch Zusammenfügen gleichartiger Terme.",
+        "solution": "Fügt man alle Terme mit <inline-math/> und auch alle Terme mit <inline-math/> zusammen, so erhält man <block-math/> Der Zähler ist hier so vereinfacht wie möglich. Alles in allem ist das Endergebnis <block-math/><check><on-true>Optional könnte dies noch einfacher geschrieben werden, als <block-math/></on-true><on-false>Dies lässt sich nicht weiter vereinfachen.</on-false></check>"
+      }
+    }
+  }
+}

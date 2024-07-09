@@ -62,6 +62,9 @@
   "simplifyFractionOfFractionsWithVariables": {
     "name": "Simplify fraction of fractions with variables"
   },
+  "addLikeFractionsWithVariables": {
+    "name": "Add like fractions with variables"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },
@@ -292,8 +295,5 @@
   },
   "analyseAirco": {
     "name": "Analyse an air conditioner"
-  },
-  "addLikeFractionsWithVariables": {
-    "name": "Add like fractions with variables"
   }
 }

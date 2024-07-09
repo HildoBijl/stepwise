@@ -44,7 +44,7 @@ function getSolution(state) {
 
 	// Apply the various cleaning steps.
 	const singleFraction = fractions[state.switch ? 1 : 0].numerator[state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1].numerator).divide(fractions[0].denominator).removeUseless()
-	const bracketsExpanded = singleFraction.basicClean({ expandProductsOfSums: true })
+	const bracketsExpanded = singleFraction.basicClean({ expandProductsOfSums: true, mergeSumNumbers: false })
 	const ans = bracketsExpanded.basicClean({ groupSumTerms: true })
 	const ansCleaned = ans.regularClean()
 	const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)

@@ -1,0 +1,43 @@
+{
+  "theory": {
+    "intro": "<par>Als we twee getalbreuken met gelijke noemer optellen, zoals <inline-math/>, dan weten we hoe dit moet: we tellen de tellers op en krijgen zo <inline-math/>. Maar hoe werkt dit als er variabelen bij komen kijken, zoals bij <inline-math/>? Het antwoord is: precies hetzelfde. Maar er zijn een paar dingen om rekening mee te houden.</par>",
+    "rule": "<head>De regel toepassen</head><par>We willen twee breuken met variabelen optellen/aftrekken, zoals <block-math/> Merk op dat deze twee breuken een gelijke noemer hebben. We noemen ze hierdoor <term>gelijknamige breuken</term>. (Als de twee breuken niet gelijknamig zijn, dan zijn ze ingewikkelder om op te tellen. Dit wordt besproken in een <skill-link>vervolgvaardigheid</skill-link>. Deze huidige vaardigheid gaat alleen over gelijknamige breuken.)</par><par>Om twee gelijknamige breuken op te tellen/af te trekken, zegt de regel dat je diret de twee tellers op moet tellen/af moet trekken, waarbij je de noemer houdt zoals hij is. In het algemeen zegt de regel dat <block-math/> Bij het toepassen van deze regel, en vooral bij het aftrekken, zijn haakjes cruciaal. Immers geldt dat de twee breuken uit het voorbeeld ook geschreven kunnen worden als <block-math/> Als we vervolgens de tellers aftrekken, waarbij we de gelijke noemer houden, dan krijgen we <block-math/> Volgens de regel is dat wat de twee afgetrokken breuken samen gelijk aan zijn. Merk op: de linker set haakjes is niet nodig, maar de haakjes rechts zijn cruciaal. Zonder deze haakjes zou de uitkomst iets heel anders zijn.</par>",
+    "simplifying": "<head>De uitkomst vereenvoudigen</head><par>De bovenstaande uitkomst is nog onnodig lang en kan vereenvoudigd worden. De eerste stap is het <skill-link>uitwerken van alle haakjes</skill-link> in de teller. Bij het voorbeeld komt dit uit op <block-math/> Merk op dat min keer min een plus wordt.</par><par>Hierna is het vaak mogelijk om <skill-link>soortgelijke termen samen te voegen</skill-link>. Merk op dat <inline-math/> in <inline-math/> omgezet kan worden, en soortgelijk kan <inline-math/> vereenvoudigd worden tot <inline-math/>. Dus kunnen we schrijven dat <block-math/> Dit kan niet verder vereenvoudigd worden, en dus zijn we klaar. Alles bij elkaar kan het eindresultaat geschreven worden als <block-math/> In sommige gevallen zijn er nog verdere vereenvoudigingen die gedaan kunnen worden, zoals het <skill-link>wegstrepen van breukfactoren</skill-link>. Als we bijvoorbeeld op het einde als uitkomst iets als <inline-math/> gehad zouden hebben, dan had ook nog een factor <inline-math/> weggedeeld kunnen worden. Voor deze vaardigheid is dit laatste echter niet vereist.</par>",
+    "steps": "<head>De stappen</head><par>Om twee gelijknamige breuken zoals <inline-math/> op te tellen/af te trekken, neem je de volgende stappen.</par><list><item><a>Tel direct de tellers op/trek ze van elkaar af, waarbij je de noemer laat staan zoals hij is. Gebruik haakjes waar nodig. Bij het voorbeeld geeft dit <inline-math/>.</a></item><item><b><skill-link>Werk alle haakjes uit</skill-link> in de teller. Bij het voorbeeld krijgen we <inline-math/>.</b></item><item><c><skill-link>Voeg soortgelijke termen samen</skill-link> in de teller en vereenvoudig het zo veel als mogelijk. Dit brengt het resultaat van het voorbeeld terug tot <inline-math/>.</c></item></list>"
+  },
+  "meta": {
+    "learningGoals": "<par>In deze vaardigheid leer je <term>gelijknamige breuken met variabelen op te tellen/af te trekken</term>, zoals het omzetten van <inline-math/> in <inline-math/>. Dit omvat het samenvoegen van twee breuken met gelijke noemer tot een enkele breuk, het uitwerken van eventuele haakjes in de teller, en het hieropvolgend vereenvoudigen van deze teller door soortgelijke termen samen te voegen. Deze vaardigheid gaat niet over het wegstrepen van breukfactoren of het samenvoegen van breuken met verschillende noemers.</par>"
+  },
+  "practice": {
+    "basicForm": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Schrijf dit als een enkele breuk en vereenvoudig de teller zo veel als mogelijk.",
+      "step1": {
+        "problem": "Pas de regel voor het optellen/aftrekken van breuken toe om de uitdrukking als enkele breuk te schrijven. Gebruik haakjes waar nodig.",
+        "solution": "De twee breuken hebben gelijke noemers. Dit betekent dat, om deze breuken op te tellen/af te trekken, we direct de tellers kunnen optellen/aftrekken, en de noemer kunnen laten staan. Dit geeft <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle haakjes in de teller uit.",
+        "solution": "Via de standaard regels van het uitwerken van haakjes komen we uit op <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig de teller zo veel als mogelijk door soortgelijke termen samen te voegen.",
+        "solution": "Door alle getallen samen te voegen, en ook alle termen met <inline-math/>, vinden we <block-math/> De teller hier is zo vereenvoudigd als mogelijk. Alles bij elkaar is het eindresultaat <block-math/><check><on-true>Eventueel kan dit nog simpeler geschreven worden, als <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check>"
+      }
+    },
+    "squaresInNumerator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Schrijf dit als een enkele breuk en vereenvoudig de teller zo veel als mogelijk.",
+      "step1": {
+        "problem": "Pas de regel voor het optellen/aftrekken van breuken toe om de uitdrukking als enkele breuk te schrijven. Gebruik haakjes waar nodig.",
+        "solution": "De twee breuken hebben gelijke noemers. Dit betekent dat, om deze breuken op te tellen/af te trekken, we direct de tellers kunnen optellen/aftrekken, en de noemer kunnen laten staan. Dit geeft <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle haakjes in de teller uit.",
+        "solution": "Via de standaard regels van het uitwerken van haakjes komen we uit op <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig de teller zo veel als mogelijk door soortgelijke termen samen te voegen.",
+        "solution": "Door alle termen met <inline-math/> samen te voegen, en ook alle termen met <inline-math/>, vinden we <block-math/> De teller hier is zo vereenvoudigd als mogelijk. Alles bij elkaar is het eindresultaat <block-math/><check><on-true>Eventueel kan dit nog simpeler geschreven worden, als <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check>"
+      }
+    }
+  }
+}

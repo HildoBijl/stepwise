@@ -26,9 +26,9 @@ export function Theory() {
 			<Head>The steps</Head>
 			<Par>To add/subtract two like fractions with variables, like <M>\frac(4x+3)(5x) - \frac(x-2)(5x)</M>, take the following steps.</Par>
 			<List items={[
-				<>Directly add/subtract the numerators, keeping the denominator as it is. Use brackets where necessary. For the example this gives <M>\frac(\left(4x+3\right) - \left(x-2\right))(5x).</M></>,
+				<>Directly add/subtract the numerators, keeping the denominator as it is. Use brackets where necessary. For the example this gives <M>\frac(\left(4x+3\right) - \left(x-2\right))(5x)</M>.</>,
 				<><SkillLink skillId="expandBrackets">Expand all brackets</SkillLink> in the numerator. For the example we get <M>\frac(4x+3-x+2)(5x)</M>.</>,
-				<><SkillLink skillId="mergeSimilarTerms">Merge similar terms</SkillLink> in the numerator together to simplify it as much as possible. This turns the example into <M>\frac(3x+5)(5x)</M>.</>,
+				<><SkillLink skillId="mergeSimilarTerms">Merge similar terms</SkillLink> in the numerator together to simplify it as much as possible. This reduces the example result to <M>\frac(3x+5)(5x)</M>.</>,
 			]} />
 		</Translation>
 	</>
