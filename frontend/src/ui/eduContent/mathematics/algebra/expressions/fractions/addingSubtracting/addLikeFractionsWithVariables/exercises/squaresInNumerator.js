@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { Translation, CountingWord } from 'i18n'
+import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, correctExpression, incorrectExpression, noFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors } = expressionChecks
+const { originalExpression, correctExpression, incorrectExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -15,7 +15,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { variables, expression } = useSolution()
 	return <>
-		<Par><Translation>Consider the fraction <BM>{expression}.</BM> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)</Translation></Par>
+		<Par><Translation>Consider the expression <BM>{expression}.</BM> Write this as a single fraction and simplify the numerator as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -29,23 +29,39 @@ const steps = [
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Focus on the numeric factors first. Simplify these as much as possible, leaving the rest as is.</Translation></Par>
+				<Par><Translation>Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="numericSimplified" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="singleFraction" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ b, numericPartOriginal, numericPart, expression, numericSimplified }) => {
-			return <Par><Translation>The numbers inside the fraction equal <M>{numericPartOriginal}</M>. We can divide both the numerator and the denominator by <M>{b}</M>, which leaves us with <M>{numericPart}</M>. Writing this together with the (unchanged) variable factors, we get <BM>{expression} = {numericSimplified}.</BM></Translation></Par>
+		Solution: ({ expression, singleFraction }) => {
+			return <Par><Translation>The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <BM>{expression} = {singleFraction}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Cancel all possible variable factors, to further simplify the fraction.</Translation></Par>
+				<Par><Translation>Expand all brackets in the numerator.</Translation></Par>
+				<InputSpace>
+					<Par>
+						<ExpressionInput id="bracketsExpanded" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+					</Par>
+				</InputSpace>
+			</>
+		},
+		Solution: ({ singleFraction, bracketsExpanded }) => {
+			return <Par><Translation>Using the default rules of expanding brackets, we wind up with <BM>{singleFraction} = {bracketsExpanded}.</BM></Translation></Par>
+		},
+	},
+	{
+		Problem: () => {
+			const { variables, expression } = useSolution()
+			return <>
+				<Par><Translation>Simplify the numerator as much as possible by merging similar terms together.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -53,15 +69,16 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ d, variables, expression, numericSimplified, ans }) => {
-			return <Par><Translation>We can cancel <CountingWord>{d}</CountingWord> factors of <M>{variables.x}</M> from both the numerator and the denominator, resulting in <BM>{numericSimplified} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+		Solution: ({ variables, expression, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }) => {
+			return <Par><Translation>Merging all terms with <M>{variables.x}</M> together, as well as all terms with <M>{variables.x}^2</M>, we find <BM>{bracketsExpanded} = {ans}.</BM> The numerator here is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM><Check value={isFurtherSimplificationPossible}><Check.True>Optionally, this can still be simplified further, written as <BM>{expression} = {ansCleaned}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
-		numericSimplified: [originalExpression, incorrectExpression, noFraction, unsimplifiedFractionNumbers, correctExpression],
-		ans: [originalExpression, incorrectExpression, noFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, correctExpression],
+		singleFraction: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, correctExpression],
+		bracketsExpanded: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, correctExpression],
+		ans: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, hasSimilarTerms, correctExpression],
 	})
 }

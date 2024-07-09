@@ -8,7 +8,7 @@ function isInteger(input) {
 
 // hasSumWithinProduct checks if there are sums within products, like a*(b+c). It effectively checks whether brackets have been properly expanded.
 function hasSumWithinProduct(input) {
-	return input.recursiveSome(term => term.isSubtype(Product) && term.recursiveSome(subTerm => subTerm.isSubtype(Sum)))
+	return input.recursiveSome(term => term.isSubtype(Product) && term.factors.some(factor => factor.isSubtype(Sum)))
 }
 
 // hasSumWithinFraction checks if there is a sum within a fraction, like (a+b)/c.
@@ -23,7 +23,7 @@ function hasSumWithinPowerBase(input) {
 
 // hasSimilarTerms checks if a sum has similar terms that can be merged, like 4x+3+2x, which can merge 4x and 2x.
 function hasSimilarTerms(input) {
-	return !onlyOrderChanges(input.removeUseless({ groupSumTerms: true, mergeSumNumbers: true }), input.elementaryClean())
+	return !onlyOrderChanges(input.removeUseless({ groupSumTerms: true, mergeSumNumbers: true, mergeProductFactors: true }), input.elementaryClean())
 }
 
 // hasFraction checks if there is a fraction inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).

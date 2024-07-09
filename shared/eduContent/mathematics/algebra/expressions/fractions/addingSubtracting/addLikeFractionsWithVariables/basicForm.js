@@ -6,30 +6,31 @@ const { getStepExerciseProcessor, filterVariables, performComparison } = require
 const { hasSumWithinProduct, hasSimilarTerms, hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// (a*(x+b))/(ex) +/- (c*x+d)/(ex).
+// (a*(x+b))/(e*x+f) +/- (c*x+d)/(e*x+f).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e']
+const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 
 const metaData = {
 	skill: 'addLikeFractionsWithVariables',
 	steps: [null, 'expandBrackets', 'mergeSimilarTerms'],
 	comparison: {
-		singleFraction: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
-		bracketsExpanded: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
-		ans: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
+		singleFraction: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
+		bracketsExpanded: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
+		ans: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
 	}
 }
 
-function generateState() {
+function generateState(example) {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])
 	const b = getRandomInteger(-8, 8, [0])
 	const c = getRandomInteger(-8, 8, [-1, 0, 1])
 	const d = getRandomInteger(-8, 8, [0])
-	const e = getRandomInteger(2, 8)
+	const e = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+	const f = example ? 0 : getRandomInteger(-8, 8, [0])
 	return {
 		x: selectRandomly(variableSet),
-		a, b, c, d, e,
+		a, b, c, d, e, f,
 		switch: getRandomBoolean(), // Switch the two numerators?
 		plus: getRandomBoolean(), // Flip the numerator and the denominator?
 	}
@@ -38,13 +39,13 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const fractions = ['(a*(x+b))/(ex)', '(c*x+d)/(e*x)']
-	const expression = asExpression(`${fractions[state.switch ? 1 : 0]}${state.plus ? '+' : '-'}${fractions[state.switch ? 0 : 1]}`).substituteVariables(variables).removeUseless()
+	const fractions = ['(a*(x+b))/(ex+f)', '(c*x+d)/(e*x+f)'].map(str => asExpression(str).substituteVariables(variables).removeUseless())
+	const expression = fractions[state.switch ? 1 : 0][state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1]).removeUseless()
 
 	// Apply the various cleaning steps.
-	const singleFraction = expression.removeUseless({ mergeFractionSums: true, crossOutFractionFactors: true })
-	const bracketsExpanded = singleFraction.removeUseless({ expandProductsOfSums: true, mergeProductNumbers: true })
-	const ans = bracketsExpanded.removeUseless({ groupSumTerms: true, mergeSumNumbers: true })
+	const singleFraction = fractions[state.switch ? 1 : 0].numerator[state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1].numerator).divide(fractions[0].denominator).removeUseless()
+	const bracketsExpanded = singleFraction.basicClean({ expandProductsOfSums: true })
+	const ans = bracketsExpanded.basicClean({ groupSumTerms: true })
 	const ansCleaned = ans.regularClean()
 	const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }

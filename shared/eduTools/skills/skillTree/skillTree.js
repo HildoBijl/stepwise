@@ -145,7 +145,7 @@ const skillStructure = {
 							name: 'Add like fractions with variables',
 							setup: and('expandBrackets', 'mergeSimilarTerms'),
 							examples: ['basicForm'],
-							exercises: ['basicForm', 'biggerDenominator', 'squaresInNumerator'],
+							exercises: ['basicForm', 'squaresInNumerator'],
 						},
 					},
 				},
