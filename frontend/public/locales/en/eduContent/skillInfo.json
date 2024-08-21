@@ -65,6 +65,9 @@
   "addLikeFractionsWithVariables": {
     "name": "Add like fractions with variables"
   },
+  "addFractionsWithVariables": {
+    "name": "Add fractions with variables"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },

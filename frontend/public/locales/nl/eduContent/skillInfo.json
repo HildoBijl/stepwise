@@ -63,7 +63,10 @@
     "name": "Breuk van breuken met variabelen vereenvoudigen"
   },
   "addLikeFractionsWithVariables": {
-    "name": "Gelijknamige breuken optellen"
+    "name": "Gelijknamige breuken met variabelen optellen"
+  },
+  "addFractionsWithVariables": {
+    "name": "Breuken met variabelen optellen"
   },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"

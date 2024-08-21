@@ -147,6 +147,10 @@ const skillStructure = {
 							examples: ['basicForm'],
 							exercises: ['basicForm', 'squaresInNumerator'],
 						},
+						addFractionsWithVariables: {
+							name: 'Add fractions with variables',
+							setup: and('cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables'),
+						},
 					},
 				},
 			},
