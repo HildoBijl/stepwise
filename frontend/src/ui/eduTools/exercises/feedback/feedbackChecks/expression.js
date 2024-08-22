@@ -16,7 +16,7 @@ const translationPath = 'eduTools/feedback'
 export const originalExpression = (input, correct, { expression }, isCorrect) => {
 	if (!expression)
 		throw new Error(`Invalid originalExpression call: to use the originalExpression feedback check, there must be an "expression" parameter (the starting point) in the solution object to compare to. This is not present.`)
-	return !isCorrect && onlyOrderChanges(input, expression) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
+	return !isCorrect && onlyOrderChanges(input.elementaryClean(), expression.elementaryClean()) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
 }
 
 export const incorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.incorrect">This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>

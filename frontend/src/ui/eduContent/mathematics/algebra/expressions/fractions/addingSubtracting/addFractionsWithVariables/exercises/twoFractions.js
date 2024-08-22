@@ -1,11 +1,14 @@
 import React from 'react'
 
+import { Sum, Fraction, expressionComparisons } from 'step-wise/CAS'
+
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
+const { onlyOrderChanges, equivalent } = expressionComparisons
 const { originalExpression, correctExpression, incorrectExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
 
 export default function Exercise() {
@@ -45,7 +48,7 @@ const steps = [
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Expand all brackets in the numerators.</Translation></Par>
+				<Par><Translation>Simplify all numerators as much as possible, including expanding brackets.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="bracketsExpanded" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -70,15 +73,26 @@ const steps = [
 			</>
 		},
 		Solution: ({ expression, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }) => {
-			return <Par><Translation>Adding up the two fractions using the default rule, and merging similar terms, gives <BM>{bracketsExpanded} = {ans}.</BM> The numerator here is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM><Check value={isFurtherSimplificationPossible}><Check.True>Optionally, this can still be simplified further, written as <BM>{expression} = {ansCleaned}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Translation></Par>
+			return <Par><Translation>Adding up the two fractions using the default rule, and merging similar terms, gives <BM>{bracketsExpanded} = {ans}.</BM> The numerator here is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM><Check value={isFurtherSimplificationPossible}><Check.True>Optionally, this can still be simplified further, written as <BM>{expression} = {ansCleaned}.</BM></Check.True></Check></Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
+	// Set up additional checks for the specific requirements.
+	const notTwoFractions = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSubtype(Sum) && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isSubtype(Fraction)))) && translateCrossExercise(<>We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</>, 'notTwoFractions')
+
+	const unequalDenominators = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !equivalent(...input.terms.map(term => term.find(part => part.isSubtype(Fraction)).denominator)) && translateCrossExercise(<>The two fractions do not have the same denominator.</>, 'unequalDenominators')
+
+	const unsimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !input.terms.every(term => {
+		const numerator = term.find(part => part.isSubtype(Fraction)).numerator
+		return onlyOrderChanges(numerator.elementaryClean(), numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true }))
+	}) && translateCrossExercise(<>You can still further simplify the numerators.</>, 'unsimplifiedNumerator')
+
+	// Merge all checks in the right order.
 	return getFieldInputFeedback(exerciseData, {
-		singleFraction: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, correctExpression],
-		bracketsExpanded: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, correctExpression],
+		sameDenominator: [originalExpression, incorrectExpression, notTwoFractions, unequalDenominators, correctExpression],
+		bracketsExpanded: [originalExpression, incorrectExpression, notTwoFractions, unequalDenominators, unsimplifiedNumerator, correctExpression],
 		ans: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, hasSimilarTerms, correctExpression],
 	})
 }

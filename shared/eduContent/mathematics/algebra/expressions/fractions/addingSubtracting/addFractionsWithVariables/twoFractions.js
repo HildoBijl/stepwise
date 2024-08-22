@@ -1,9 +1,9 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, repeat, getRandomIndices } = require('../../../../../../../util')
-const { asExpression, Fraction, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
+const { asExpression, Sum, Fraction, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
-const { hasSumWithinProduct, hasSimilarTerms, hasFractionWithinFraction } = expressionChecks
+const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
 // (a*x+b)/(c*x+d) +/- (e*x+f)/(g*x+h).
@@ -15,14 +15,16 @@ const metaData = {
 	skill: 'addFractionsWithVariables',
 	steps: ['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables'],
 	comparison: {
-		singleFraction: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
-		bracketsExpanded: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
-		ans: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
+		sameDenominator: (input, correct) => input.isSubtype(Sum) && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isSubtype(Fraction))) && equivalent(...input.terms.map(term => term.find(part => part.isSubtype(Fraction)).denominator)) && equivalent(input, correct),
+		bracketsExpanded: (input, correct) => input.isSubtype(Sum) && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isSubtype(Fraction))) && equivalent(...input.terms.map(term => term.find(part => part.isSubtype(Fraction)).denominator)) && input.terms.every(term => {
+			const numerator = term.find(part => part.isSubtype(Fraction)).numerator
+			return onlyOrderChanges(numerator.elementaryClean(), numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true }))
+		}) && equivalent(input, correct),
+		ans: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && onlyOrderChanges(input.elementaryClean().numerator, input.elementaryClean().numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
 	}
 }
 
 function generateState(example) {
-	example = false // TEMP TODO REMOVE
 	// Define parameters for the exercise.
 	const parameters = repeat(8, index => getRandomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1])) // Ensure even-indexed numbers are positive.
 	if (example) {
@@ -48,16 +50,15 @@ function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
 	const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str).substituteVariables(variables).removeUseless())
-	const joinFractions = fractions => fractions[0][state.plus ? 'add' : 'subtract'](fractions[1]).removeUseless()
+	const joinFractions = fractions => fractions[0].add(state.plus ? fractions[1] : fractions[1].applyMinus(false)).removeUseless()
 	const expression = joinFractions(fractions)
 
 	// Apply the various cleaning steps.
-	console.log(expression, expression.str)
 	const fractionsWithSameDenominator = fractions.map((fraction, index) => fraction.multiplyNumDen(fractions[1 - index].denominator, index === 1))
 	const sameDenominator = joinFractions(fractionsWithSameDenominator)
 	const fractionsWithBracketsExpanded = fractionsWithSameDenominator.map(fraction => fraction.applyToNumerator(numerator => numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true })))
 	const bracketsExpanded = joinFractions(fractionsWithBracketsExpanded)
-	const ans = bracketsExpanded.basicClean({ mergeFractionSums: true, groupSumTerms: true, sortSums: true, sortProducts: true })
+	const ans = bracketsExpanded.basicClean({ mergeFractionSums: true, sortProducts: true }).applyToNumerator(numerator => numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true, sortSums: true }))
 	const ansCleaned = ans.regularClean()
 	const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, fractions, expression, sameDenominator, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
