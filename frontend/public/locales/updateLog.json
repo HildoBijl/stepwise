@@ -48,6 +48,46 @@
         "firstUpdate": "2024-08-21T11:46:31.595Z",
         "latestUpdate": "2024-08-21T12:02:54.498Z",
         "latestText": "<head>Adding the two fractions</head><par>We now have two fractions with equal denominator. Before we add these up, it is wise to first <skill-link>expand all brackets</skill-link> inside the numerators. That makes the next step a bit easier. Doing so gives <block-math/> Note that we leave the denominator unchanged: expanding brackets there is of course allowed, but generally does not make things easier.</par><par>Now that we have two relatively easy fractions with equal denominator, we can <skill-link>add them up</skill-link> in the usual way, by pulling the numerators together. We first get <block-math/> which can then immediately be simplified by <skill-link>merging similar terms</skill-link> into <block-math/> The final result is <block-math/></par>"
+      },
+      "practice.twoFractions.mainProblem": {
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T13:37:39.348Z",
+        "latestText": "Consider the expression <block-math/> Write this as a single fraction and simplify the numerator as much as possible."
+      },
+      "practice.twoFractions.step1.problem": {
+        "oldText": "Apply the rule for adding/subtracting fractions to write the expression as a single fraction. Use brackets where needed.",
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T14:10:18.646Z",
+        "latestText": "Rewrite both fractions to ensure that they have the same denominator."
+      },
+      "practice.twoFractions.step1.solution": {
+        "oldText": "The two fractions have equal denominators. This means that, to add/subtract these fractions, we may directly add/substract the numerators, leaving the denominator as is. This results in <block-math/>",
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T14:10:18.646Z",
+        "latestText": "The first fraction is multiplied above and below by the denominator of the second fraction, being <inline-math/>. The second fraction is multiplied above and below by the denominator of the first fraction, being <inline-math/>. This results in <block-math/>"
+      },
+      "practice.twoFractions.step2.problem": {
+        "oldText": "Expand all brackets in the numerator.",
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T14:10:18.646Z",
+        "latestText": "Expand all brackets in the numerators."
+      },
+      "practice.twoFractions.step2.solution": {
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T13:37:39.348Z",
+        "latestText": "Using the default rules of expanding brackets, we wind up with <block-math/>"
+      },
+      "practice.twoFractions.step3.problem": {
+        "oldText": "Simplify the numerator as much as possible by merging similar terms together.",
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T14:10:18.646Z",
+        "latestText": "Add up the two like fractions and simplify the numerator as much as possible."
+      },
+      "practice.twoFractions.step3.solution": {
+        "oldText": "Merging all numbers together, and merging all terms with <inline-math/> together, we find <block-math/> The numerator here is as simplified as possible. Altogether, the final result is <block-math/><check><on-true>Optionally, this can still be simplified further, written as <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>",
+        "firstUpdate": "2024-08-21T13:37:39.348Z",
+        "latestUpdate": "2024-08-21T14:32:53.913Z",
+        "latestText": "Adding up the two fractions using the default rule, and merging similar terms, gives <block-math/> The numerator here is as simplified as possible. Altogether, the final result is <block-math/><check><on-true>Optionally, this can still be simplified further, written as <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
       }
     }
   }

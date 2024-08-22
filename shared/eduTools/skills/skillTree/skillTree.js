@@ -150,6 +150,8 @@ const skillStructure = {
 						addFractionsWithVariables: {
 							name: 'Add fractions with variables',
 							setup: and('cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables'),
+							examples: ['twoFractions'],
+							exercises: ['twoFractions'],
 						},
 					},
 				},

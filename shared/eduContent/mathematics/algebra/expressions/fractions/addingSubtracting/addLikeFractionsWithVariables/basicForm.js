@@ -32,7 +32,7 @@ function generateState(example) {
 		x: selectRandomly(variableSet),
 		a, b, c, d, e, f,
 		switch: getRandomBoolean(), // Switch the two numerators?
-		plus: getRandomBoolean(), // Flip the numerator and the denominator?
+		plus: getRandomBoolean(),
 	}
 }
 

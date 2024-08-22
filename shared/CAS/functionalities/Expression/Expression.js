@@ -1174,6 +1174,14 @@ class Sum extends ExpressionList {
 		// On a sum of fractions, merge them together. For this, first find the denominator by multiplying all fraction denominators. Then find the numerator by multiplying all terms by the new denominator and simplifying them.
 		if (options.mergeFractionSums) {
 			if (terms.some(term => term.isSubtype(Fraction))) {
+				// If all terms are fractions with same denominator, just keep that denominator.
+				if (terms.every(term => term.isSubtype(Fraction) && terms[0].denominator.equalsBasic(term.denominator))) {
+					const denominator = terms[0].denominator
+					const numerator = new Sum(terms.map(term => term.numerator))
+					return new Fraction(numerator, denominator).simplifyBasic(options)
+				}
+
+				// If fractions have different denominators, multiply all denominators and work from there.
 				const denominator = new Product(terms.map(term => term.isSubtype(Fraction) ? term.denominator : Integer.one)).removeUseless()
 				const numerator = new Sum(terms.map((term, index) => {
 					if (!term.isSubtype(Fraction))
@@ -1183,8 +1191,7 @@ class Sum extends ExpressionList {
 					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isSubtype(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
 					return term.numerator.multiply(factor)
 				}))
-				const res = new Fraction(numerator, denominator).simplifyBasic(options)
-				return res
+				return new Fraction(numerator, denominator).simplifyBasic(options)
 			}
 		}
 
@@ -2053,6 +2060,14 @@ class Fraction extends Function {
 
 	applyToBothSides(func) {
 		return new Fraction(func(this.numerator), func(this.denominator))
+	}
+
+	applyToNumerator(func) {
+		return new Fraction(func(this.numerator), this.denominator)
+	}
+
+	applyToDenominator(func) {
+		return new Fraction(this.numerator, func(this.denominator))
 	}
 
 	multiplyNumDen(expression, putAtStart) {
