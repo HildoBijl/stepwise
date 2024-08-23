@@ -25,6 +25,7 @@ const metaData = {
 }
 
 function generateState(example) {
+	example = false
 	// Define parameters for the exercise.
 	const parameters = repeat(8, index => getRandomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1])) // Ensure even-indexed numbers are positive.
 	if (example) {
