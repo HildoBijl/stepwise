@@ -153,6 +153,10 @@ const skillStructure = {
 							examples: ['twoFractions'],
 							exercises: ['twoFractions'],
 						},
+						simplifyFractionOfFractionSumsWithVariables: {
+							name: 'Simplify fraction of fraction sums with variables',
+							setup: and('addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables'),
+						},
 					},
 				},
 			},

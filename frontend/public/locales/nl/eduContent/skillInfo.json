@@ -68,6 +68,9 @@
   "addFractionsWithVariables": {
     "name": "Breuken met variabelen optellen"
   },
+  "simplifyFractionOfFractionSumsWithVariables": {
+    "name": "Breuk van breuksommen met variabelen vereenvoudigen"
+  },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
   },

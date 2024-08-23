@@ -68,6 +68,9 @@
   "addFractionsWithVariables": {
     "name": "Add fractions with variables"
   },
+  "simplifyFractionOfFractionSumsWithVariables": {
+    "name": "Simplify fraction of fraction sums with variables"
+  },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
   },

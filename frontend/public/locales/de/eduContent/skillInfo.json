@@ -68,6 +68,9 @@
   "addFractionsWithVariables": {
     "name": "Brüche mit Variablen addieren"
   },
+  "simplifyFractionOfFractionSumsWithVariables": {
+    "name": "Bruch mit Bruchsummen mit Variablen vereinfachen"
+  },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"
   },
