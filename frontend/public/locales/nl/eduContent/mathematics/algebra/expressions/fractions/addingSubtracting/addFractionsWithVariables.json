@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "learningGoals": "<par>In deze vaardigheid leer je om <term>breuken met variabelen op te tellen/af te trekken</term>, zoals het herschrijven van <inline-math/> in <inline-math/>. Dit omvat het vermenigvuldigen van beide kanten van een breuk met een factor om dezelfde noemer te krijgen, het uitwerken van (vaak dubbele) haakjes, en het vervolgens optellen van de twee gelijknamige breuken. Deze vaardigheid gaat niet over het achteraf nog wegstrepen van potentiële polynome factoren.</par>"
+  },
+  "theory": {
+    "intro": "<par>Als we twee getalbreuken met ongelijke noemer optellen, zoals <inline-math/>, dan weten we hoe dit werkt: we maken de noemers gelijk door de breuken anders op te schrijven (zoals <inline-math/>) en tellen dan de breuken op om <inline-math/> te krijgen. Maar hoe werkt dit als er variabelen bij zijn, zoals bij het herschrijven van <inline-math/>? Het antwoord is: precies net zo. Maar er zijn een paar dingen om in gedachten te houden.</par>",
+    "equalDenominator": "<head>Dezelfde noemer krijgen</head><par>We willen twee <term>niet-gelijknamige breuken</term> (breuken met ongelijke noemer) optellen/aftrekken, zoals <block-math/> We weten hoe we twee <skill-link>gelijknamige breuken optellen</skill-link> (met gelijke noemer), maar deze keer hebben onze breuken niet dezelfde noemer. Om deze breuken nog steeds op te kunnen tellen, moeten we er eerst voor zorgen dat ze wel dezelfde noemer hebben.</par><par>Om dit voor elkaar te krijgen, nemen we de linker breuk en vermenigvuldigen we deze boven en onder met <inline-math/> (oftewel, de noemer van de andere breuk). Dit zet <inline-math/> om in <inline-math/>. Merk op dat dit hetzelfde is: we kunnen zelfs de <skill-link>breukfactor wegstrepen</skill-link> om weer uit te komen op waar we mee begonnen waren. Op identieke wijze nemen we de rechter breuk en vermenigvuldigen deze boven en onder met <inline-math/> (the noemer van de eerste breuk). Dit zet <inline-math/> om in <inline-math/>. Alles bij elkaar mogen we dus schrijven dat <block-math/> En nu hebben we twee breuken met gelijke noemer!</par>",
+    "addingFractions": "<head>De twee breuken optellen</head><par>We hebben nu twee breuken met gelijke noemer. Voordat we deze optellen, is het handig om eerst in de noemers alle <skill-link>haakjes uit te werken</skill-link>. Dat maakt de volgende stap iets makkelijker. Bij ons voorbeeld geeft dit <block-math/> Merk op dat we de noemer onveranderd laten: haakjes daar uitwerken is natuurlijk toegestaan, maar maakt het over het algemeen niet makkelijker.</par><par>Nu we twee relatief makkelijk geschreven breuken met gelijke noemer hebben, kunnen we ze op de gebruikelijke wijze <skill-link>optellen</skill-link> door de tellers samen te trekken. Eerst krijgen we <block-math/> wat we via het <skill-link>samenvoegen van soortgelijke termen</skill-link> dan gelijk kunnen vereenvoudigen tot <block-math/> Het eindresultaat is <block-math/></par>",
+    "rule": "<head>De regel</head><par>Het bovenstaande idee kan ook in een regel samengevat worden. Als we twee algemene breuken <inline-math/> en <inline-math/> op willen tellen, dan kunnen we schrijven dat <block-math/> Of soortgelijk geldt voor het aftrekken van breuken dat <block-math/></par><par>Met behulp van deze regel kunnen we het voorbeeld direct oplossen via <block-math/> Als je genoeg geoefend hebt om deze short-cut te zien, dan kan je dit wat tijd besparen.</par>",
+    "steps": "<head>De stappen</head><par>Om twee breuken met variabelen op te tellen/af te trekken, zoals <inline-math/>, neem je de volgende stappen.</par><list><item><a>Herschrijf de breuken zo dat ze allen dezelfde noemer hebben. Om dit te doen <skill-link>vermenigvuldig je beide kanten</skill-link> van de linker breuk met de noemer van de rechter breuk, en soortgelijk <skill-link>vermenigvuldig je beide kanten</skill-link> van de rechter breuk met de noemer van de linker breuk. Bij het voorbeeld geeft dit <inline-math/>.</a></item><item><b><skill-link>Werk alle (vaak dubbele) haakjes uit</skill-link> in de tellers. Bij het voorbeeld krijgen we <inline-math/>.</b></item><item><c><skill-link>Tel de gelijknamige breuken op</skill-link> en vereenvoudig het resultaat zo veel mogelijk. Bij het voorbeeld is het eindresultaat <inline-math/>.</c></item></list>"
+  },
+  "practice": {
+    "twoFractions": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Schrijf dit als een enkele breuk en vereenvoudig de teller zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf beide breuken zodat ze dezelfde noemer hebben.",
+        "solution": "De eerste breuk wordt boven en onder met de noemer van de tweede breuk vermenigvuldigd, oftewel met <inline-math/>. De tweede breuk wordt boven en onder vermenigvuldigd met de noemer van de eerste breuk, oftewel met <inline-math/>. Dit resulteert in <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig alle tellers zo veel mogelijk, inclusief het uitwerken van haakjes.",
+        "solution": "Via de standaard regels van het uitwerken van haakjes komen we uit op <block-math/>"
+      },
+      "step3": {
+        "problem": "Voeg de twee gelijknamige breuken samen en vereenvoudig de teller zo veel als mogelijk.",
+        "solution": "Het samenvoegen van de twee breuken via de standaard regel, en het samenvoegen van soortgelijke termen, geeft <block-math/> De teller hier is zo eenvoudig geschreven als mogelijk. Alles bij elkaar is het eindresultaat <block-math/><check><on-true>Eventueel kan dit nog simpeler geschreven worden, als <block-math/></on-true></check>"
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "unequalDenominators": "<a>De twee breuken hebben niet dezelfde noemer.</a>",
+    "notTwoFractions": "<a>We verwachten een som met twee breuken. Herschrijf alleen de breuken en voeg ze nog niet samen.</a>",
+    "unsimplifiedNumerator": "<a>Je kunt de tellers nog verder vereenvoudigen.</a>"
+  }
+}

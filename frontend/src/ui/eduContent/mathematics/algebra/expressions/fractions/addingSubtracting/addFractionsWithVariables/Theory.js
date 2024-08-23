@@ -7,7 +7,7 @@ import { SkillLink } from 'ui/eduTools'
 export function Theory() {
 	return <>
 		<Translation entry="intro">
-			<Par>If we add two number fractions with unequal denominator, such as <M>\frac(1)(2) + \frac(1)(3)</M>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <M>\frac(3)(6) + \frac(2)(6)</M>) and then adding up the fractions to get <M>\frac(3+2)(6)</M>. But how does this work when variables are involved, like when calculating <M>\frac(x+1)(3x) - \frac(2)(x+7)</M>? The answer is: exactly the same. But there are a few things to pay attention to.</Par>
+			<Par>If we add two number fractions with unequal denominator, such as <M>\frac(1)(2) + \frac(1)(3)</M>, then we know how to do so: ensure the denominators are equal by rewriting the fractions (giving <M>\frac(3)(6) + \frac(2)(6)</M>) and then adding up the fractions to get <M>\frac(3+2)(6)</M>. But how does this work when variables are involved, like when rewriting <M>\frac(x+1)(3x) - \frac(2)(x+7)</M>? The answer is: exactly the same. But there are a few things to pay attention to.</Par>
 		</Translation>
 
 		<Translation entry="equalDenominator">
@@ -32,7 +32,7 @@ export function Theory() {
 			<Head>The steps</Head>
 			<Par>To add/subtract two fractions with variables, like <M>\frac(x+1)(3x) - \frac(2)(x+7)</M>, take the following steps.</Par>
 			<List items={[
-				<>Rewrite the fractions so they all have the same denominator. For this, <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the left fraction by the numerator of the right fraction, and similarly <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the right fraction by the numerator of the left fraction. For the example this gives <M>\frac(\left(x+1\right)\left(x+7\right))(3x\left(x+7\right)) - \frac(3x \cdot 2)(3x\left(7+x\right))</M>.</>,
+				<>Rewrite the fractions so they all have the same denominator. For this, <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the left fraction by the denominator of the right fraction, and similarly <SkillLink skillId="cancelFractionFactors">multiply both sides</SkillLink> of the right fraction by the denominator of the left fraction. For the example this gives <M>\frac(\left(x+1\right)\left(x+7\right))(3x\left(x+7\right)) - \frac(3x \cdot 2)(3x\left(7+x\right))</M>.</>,
 				<><SkillLink skillId="expandDoubleBrackets">Expand all (often double) brackets</SkillLink> in the numerators. For the example we get <M>\frac(x^2 + 8x + 7)(3x\left(x+7\right)) - \frac(6x)(3x\left(7+x\right))</M>.</>,
 				<><SkillLink skillId="addLikeFractionsWithVariables">Add the like fractions</SkillLink> and simplify the result as much as possible. For the example the final result is <M>\frac(x^2 + 2x + 7)(3x\left(7+x\right))</M>.</>,
 			]} />
