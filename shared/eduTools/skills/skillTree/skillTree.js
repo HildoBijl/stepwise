@@ -121,6 +121,10 @@ const skillStructure = {
 						examples: ['basicForm'],
 						exercises: ['higherPowers', 'squared', 'multipleTerms'],
 					},
+					pullFactorOutOfBrackets: {
+						name: 'Pull factor out of brackets',
+						setup: and('addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'),
+					},
 				},
 				fractions: {
 					multiplyingDividing: {

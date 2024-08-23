@@ -53,6 +53,9 @@
   "expandDoubleBrackets": {
     "name": "Dubbele haakjes uitwerken"
   },
+  "pullFactorOutOfBrackets": {
+    "name": "Factor buiten haakjes halen"
+  },
   "cancelFractionFactors": {
     "name": "Breukfactoren wegstrepen"
   },

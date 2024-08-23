@@ -53,6 +53,9 @@
   "expandDoubleBrackets": {
     "name": "Doppelte Klammern erweitern"
   },
+  "pullFactorOutOfBrackets": {
+    "name": "Faktor aus Klammern nehmen"
+  },
   "cancelFractionFactors": {
     "name": "Bruchfaktoren entfernen"
   },

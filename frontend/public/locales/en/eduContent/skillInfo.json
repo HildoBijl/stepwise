@@ -53,6 +53,9 @@
   "expandDoubleBrackets": {
     "name": "Expand double brackets"
   },
+  "pullFactorOutOfBrackets": {
+    "name": "Pull factor out of brackets"
+  },
   "cancelFractionFactors": {
     "name": "Cancel fraction factors"
   },
