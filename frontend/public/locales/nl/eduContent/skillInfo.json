@@ -86,9 +86,6 @@
   "simplifyMultiVariableFraction": {
     "name": "Breuk simplificeren"
   },
-  "pullOutOfBrackets": {
-    "name": "Factor buiten haakjes halen"
-  },
   "moveATerm": {
     "name": "Een term verplaatsen"
   },

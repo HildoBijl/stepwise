@@ -54,7 +54,7 @@
     "name": "Doppelte Klammern erweitern"
   },
   "pullFactorOutOfBrackets": {
-    "name": "Faktor aus Klammern nehmen"
+    "name": "Faktor aus Klammern ziehen"
   },
   "cancelFractionFactors": {
     "name": "Bruchfaktoren entfernen"
@@ -85,9 +85,6 @@
   },
   "simplifyMultiVariableFraction": {
     "name": "Vereinfachen von Brüchen"
-  },
-  "pullOutOfBrackets": {
-    "name": "Faktor aus Klammern ziehen"
   },
   "moveATerm": {
     "name": "Verschieben eines Terms"

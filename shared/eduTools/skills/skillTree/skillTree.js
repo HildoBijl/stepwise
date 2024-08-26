@@ -197,17 +197,6 @@ const skillStructure = {
 					exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
 				},
 			},
-			brackets: {
-				// expandBrackets: {
-				// 	name: 'Expand brackets',
-				// 	exercises: ['expandBrackets1', 'expandBrackets2'],
-				// },
-				pullOutOfBrackets: {
-					name: 'Pull factor out of brackets',
-					setup: and('mergeSplitFractions', 'expandBrackets'),
-					exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
-				},
-			},
 			manipulatingEquations: {
 				moveATerm: {
 					name: 'Move a term',
@@ -222,7 +211,7 @@ const skillStructure = {
 			linearEquations: {
 				solveBasicLinearEquation: {
 					name: 'Solve a basic linear equation',
-					setup: and(repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
+					setup: and(repeat('moveATerm', 2), 'pullFactorOutOfBrackets', 'multiplyDivideAllTerms'),
 					exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 				},
 				solveGeneralLinearEquation: {

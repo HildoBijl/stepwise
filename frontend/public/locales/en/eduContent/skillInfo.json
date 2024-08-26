@@ -86,9 +86,6 @@
   "simplifyMultiVariableFraction": {
     "name": "Simplify a fraction"
   },
-  "pullOutOfBrackets": {
-    "name": "Pull factor out of brackets"
-  },
   "moveATerm": {
     "name": "Move a term"
   },
