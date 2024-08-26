@@ -1,11 +1,11 @@
 {
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, <term>Klammern zu erweitern</term>. Wenn du einen Ausdruck als <inline-math/> siehst, kannst du ihn in <inline-math/> umschreiben. Dazu gehört das Zusammenfügen von Zahlenmultiplikationen (so wird <inline-math/> zu <inline-math/>) und das Umwandeln von Multiplikationen gleicher Faktoren in Potenzen (so wird <inline-math/> zu <inline-math/>).</par>"
+  },
   "theory": {
     "intro": "<par>Wir wissen, wie man eine Multiplikation wie <inline-math/> berechnet. Aber was machen wir mit etwas wie <inline-math/>? Die Antwort ist: Wir können es umschreiben, indem wir die <term>Klammern erweitern</term>.</par>",
     "rule": "<head>Die Regel</head><par>Wenn wir Zahlen multiplizieren, wie z. B. <inline-math/>, können wir dies mit Hilfe von Blöcken veranschaulichen.</par><block-drawing/><par>Daraus ersehen wir, dass <inline-math/> in <inline-math/> umgeschrieben werden kann. Überprüfe es selbst: Beide führen zu <inline-math/>.</par><par>Dies funktioniert genau so für einen Ausdruck wie <inline-math/>. Hier können <inline-math/>, <inline-math/> und <inline-math/> jede Art von Ausdruck sein, wie <inline-math/> oder etwas Ähnliches. Wir können dies wieder visualisieren.</par><block-drawing/><par>Aus dieser Abbildung ersehen wir, dass wir <inline-math/> in <inline-math/> umschreiben können. Wir nennen dies die <term>Erweiterung der Klammern</term>. Die entsprechende Regel ist <block-math/> Beachte, dass wir den Faktor außerhalb der Klammern (hier <inline-math/>) separat mit jedem der Terme innerhalb der Klammern (hier <inline-math/> und <inline-math/>) multiplizieren.</par>",
     "steps": "<head>Die Schritte</head><par>Um Klammern, wie z.B. in <inline-math/>, zu erweitern, ist wie folgt vorzugehen.</par><list><item><a>Multipliziere den Faktor außerhalb der Klammern separat mit jedem Term innerhalb der Klammern. So wird <inline-math/> zu <inline-math/>.</a></item><item><b>Für jeden der sich ergebenden Terme fasse die Multiplikationen von Zahlen <skill-link>zu einem einzigen Faktor zusammen</skill-link>. So wird <inline-math/> zu <inline-math/> und <inline-math/> zu <inline-math/>.</b></item><item><c>Fasse auch Multiplikationen von gleichen Faktoren <skill-link>zu einer Potenz zusammen</skill-link>. So wird <inline-math/> zu <inline-math/>.</c></item></list><par>Das Endergebnis <inline-math/> ist so einfach, wie man es schreiben kann.</par>"
-  },
-  "meta": {
-    "learningGoals": "<par>In dieser Kompetenz lernst du, <term>Klammern zu erweitern</term>. Wenn du einen Ausdruck als <inline-math/> siehst, kannst du ihn in <inline-math/> umschreiben. Dazu gehört das Zusammenfügen von Zahlenmultiplikationen (so wird <inline-math/> zu <inline-math/>) und das Umwandeln von Multiplikationen gleicher Faktoren in Potenzen (so wird <inline-math/> zu <inline-math/>).</par>"
   },
   "practice": {
     "basicForm": {

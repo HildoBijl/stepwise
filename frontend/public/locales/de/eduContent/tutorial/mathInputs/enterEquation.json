@@ -1,4 +1,5 @@
 {
+  "meta": "<par>Diese Kompetenz beinhaltet die Eingabe von <term>mathematischen Gleichungen</term>: zwei Ausdrücke mit einem Gleichheitszeichen \"=\" zwischen ihnen. Sie zeigt auch, wie das Step-Wise Computer Algebra System diese Gleichungen <term>prüft</term>.</par>",
   "theory": {
     "intro": "<par>Ein großer Teil der Mathematik dreht sich um das Umschreiben und anschließende Lösen von <term>Gleichungen</term>. Nimm zum Beispiel <inline-math/>. Sie enthält zwei Ausdrücke mit einem Gleichheitszeichen zwischen ihnen. Wie geht Step-Wise damit um?</par>",
     "entering": "<head>Gleichungen eingeben</head><par>Die Eingabe von Gleichungen in Step-Wise ist nicht kompliziert. Gib einfach ein, was du willst. Du wirst auf dem Bildschirm immer genau sehen, was du hast.</par><par>Natürlich gibt es auch bei Gleichungen gewisse <term>Einschränkungen</term>. Sie dürfen nicht mehrere Gleichheitszeichen enthalten, sondern nur eines, und das Gleichheitszeichen darf nicht in der Mitte eines Bruchs oder einer Funktion oder so stehen. Wenn die Eingabe diese Bedingungen nicht erfüllt, wird sie als ungültige Eingabe betrachtet. Du bekommst dann eine subtile Warnung und dein Eintrag wird nicht eingereicht. Nur gültige Einträge werden schließlich geprüft.</par>",
@@ -13,6 +14,5 @@
         "notEquivalent": "<a>Dies ist nicht äquivalent zur ursprünglichen Gleichung. Du hast etwas getan, was mathematisch nicht erlaubt ist, oder es ist zu tiefgründig, als dass wir es nachvollziehen könnten.</a>"
       }
     }
-  },
-  "meta": "<par>Diese Kompetenz beinhaltet die Eingabe von <term>mathematischen Gleichungen</term>: zwei Ausdrücke mit einem Gleichheitszeichen \"=\" zwischen ihnen. Sie zeigt auch, wie das Step-Wise Computer Algebra System diese Gleichungen <term>prüft</term>.</par>"
+  }
 }

@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering physical quantities</term> that have both a number and a unit. On top of this, it introduces the attachments where students can look up relevant data.</par>"
+  },
   "theory": {
     "intro": "<par>Often when making exercises you have to look something up. For instance a physical constant like the speed of light, but it can be pretty much anything. Here we practice looking things up as well as entering these numbers.</par>",
     "attachments": "<head>Attachments</head><par>When looking up physical quantities, the default source is the entire internet. However, it may be a bit hard to find the right data, or maybe you encounter websites with deviating or outright incorrect values.</par><par>To save you from this frustration, Step-Wise has internal attachments to look up data. Whenever an exercise requires you to look something up, there is always an \"Attachments\" tab with said data. Browse it to get what you need, and then return to the exercise to use your newfound discovery.</par>",
@@ -28,8 +31,5 @@
       "k": "the Boltzmann constant",
       "G": "the universal gravitational constant"
     }
-  },
-  "meta": {
-    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering physical quantities</term> that have both a number and a unit. On top of this, it introduces the attachments where students can look up relevant data.</par>"
   }
 }

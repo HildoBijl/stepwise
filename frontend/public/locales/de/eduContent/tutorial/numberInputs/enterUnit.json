@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von Einheiten</term> für physikalische Anwendungen vertraut zu machen. Dabei geht es insbesondere um die komplexeren Einheiten wie Brüche und griechische Buchstaben.</par>"
+  },
   "theory": {
     "intro": "<par>Wenn man in der Physik Berechnungen durchführt, ist es wichtig, die richtigen <term>Einheiten</term> zu verwenden. Es gibt einen großen Unterschied zwischen <inline-math/> und <inline-math/>, zum Beispiel. Einheiten können jedoch komplex sein, mit Potenzen, Brüchen, griechischen Buchstaben und sogar <inline-math/>. Wie gibt man das alles ein?</par>",
     "basicFunctionalities": "<head>Grundlegende Funktionen</head><par>Für die einfacheren Einheiten sind folgende Hinweise nützlich.</par><list><item><a><term>Multiplikationen:</term> Zur Unterscheidung der Einheiten in einem Produkt, wie in <inline-math/>, verwendet man den Multiplikationsstern \"*\", den Punkt \".\" oder das Leerzeichen.</a></item><item><b><term>Brüche:</term> Um eine Teilung hinzuzufügen, wie z. B. <inline-math/>, verwendet man den Schrägstrich \"/\" oder den Pfeil nach unten.</b></item><item><c><term>Potenzen:</term> Für einen Exponenten wie <inline-math/> kann man das Potenzsymbol \"^\" verwenden, aber das ist nicht unbedingt notwendig. Wenn du eine Zahl in ein Einheitenfeld eingibst, versteht es automatisch, dass es sich um eine Potenz handelt.</c></item></list><par>Damit kann man die meisten Einheiten bereits eingeben.</par><info>Bei den Einheiten wird zwischen Groß- und Kleinschreibung unterschieden! Wenn das Eingabefeld eine Einheit nicht versteht, färbt es sie rot. In diesem Fall solltest du wahrscheinlich die Großschreibung überprüfen.</info>",
@@ -21,8 +24,5 @@
         "equivalentUnit": "<a>Technisch korrekt, aber dies ist eine ganz andere Schreibweise. Schreib die Einheit <strong>wörtlich</strong> ab.</a>"
       }
     }
-  },
-  "meta": {
-    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von Einheiten</term> für physikalische Anwendungen vertraut zu machen. Dabei geht es insbesondere um die komplexeren Einheiten wie Brüche und griechische Buchstaben.</par>"
   }
 }

@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>"
+  },
   "theory": {
     "intro": "<par>The whole idea of Step-Wise is to solve complicated problems <term>Step-Wise</term>: break them down into smaller pieces which are a lot simpler to tackle. To show you how that works, we first tackle two simpler tasks: multiplying numbers and adding them. Afterwards we merge these two skills into a more involved skill.</par>",
     "multiplyNumbers": "<head>Multiplying numbers</head><par>In this skill you have to <term>multiply two numbers</term>. When multiplying small numbers, people usually do so from <term>memory</term>. As a child you learned what <inline-math/> is. You don't recalculate it every time. You simply know it's <inline-math/>.</par><par>If you really can't remember what the result of a certain multiplication is, then feel free to use a calculator. This is a tutorial after all! But do remember the result, for if it ever comes up again later!</par>"
@@ -8,8 +11,5 @@
       "problem": "<par>Calculate the multiplication <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "solution": "The solution is <inline-math/>."
     }
-  },
-  "meta": {
-    "learningGoals": "<par>This skill focuses on <term>multiplying two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>. The numbers that are used are both small: at most <inline-math/>.</par>"
   }
 }
