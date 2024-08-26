@@ -7,5 +7,51 @@
     "idea": "<head>The idea</head><par>Suppose that we have an expression like <inline-math/> and we want to pull a <term>factor</term> <inline-math/> out of the brackets. The first step is to write it as <block-math/> For our example, this means that we initially write <block-math/> Note that dividing the original expression by <inline-math/> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</par><par>The fraction within the brackets can be simplified. First we can use the rules of <skill-link>merging/splitting like fractions</skill-link> to split up the fraction, getting <block-math/> Next, we can <skill-link>simplify each of the resulting fractions</skill-link> by canceling fraction factors, giving <block-math/> All together, the final outcome is <block-math/> At the end we can check if we have done everything correctly by <skill-link>expanding the brackets</skill-link>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</par>",
     "shortCut": "<head>The short-cut</head><par>The above procedure with a fraction always works, but often it is a bit elaborate. In practice, it can be done faster. The idea is that we know we will wind up with an expression of the form <block-math/> We only have to figure out what comes on the place of the dots. The first set of dots should be something that, when multiplied by <inline-math/>, becomes <inline-math/>. With some experience we directly see that this is <inline-math/>. Similarly, the second set of dots should be something that, when multiplied by <inline-math/>, becomes <inline-math/>. We can once more realize that this is <inline-math/>. In this way, we directly wind up with <block-math/> If you have enough experience to apply this short-cut, you are of course welcome to do so.</par>",
     "steps": "<head>The steps</head><par>To pull a factor out of brackets, like when pulling <inline-math/> out of <inline-math/>, take the following steps.</par><list><item><a>Start by writing down <inline-math/>. For our example we hence write <inline-math/>.</a></item><item><b>Split the fraction inside the brackets up into multiple fractions using the default rules for <skill-link>merging/splitting fractions</skill-link>. For the example we hence get <inline-math/>.</b></item><item><c><skill-link>Simplify all fractions</skill-link> within the brackets, canceling factors where possible. This turns our example into <inline-math/>.</c></item><item><d>Check your result by <skill-link>expanding the brackets</skill-link> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <inline-math/> then we get <inline-math/>.</d></item></list><par>Note that there are short-cuts that directly get you the required result, if you have the insights to use them properly.</par>"
+  },
+  "practice": {
+    "twoTerms": {
+      "mainProblem": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Write the expression in the standard starting form <inline-math/>.",
+        "solution": "If we write the expression in the starting form for expanding brackets, we get <block-math/>"
+      },
+      "step2": {
+        "problem": "Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)",
+        "solution": "To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <block-math/>"
+      },
+      "step3": {
+        "problem": "Simplify each of the fractions within the brackets as much as possible.",
+        "solution": "By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "step4": {
+        "problem": "Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.",
+        "solution": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
+      }
+    },
+    "threeTerms": {
+      "mainProblem": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Write the expression in the standard starting form <inline-math/>.",
+        "solution": "If we write the expression in the starting form for expanding brackets, we get <block-math/>"
+      },
+      "step2": {
+        "problem": "Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)",
+        "solution": "To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <block-math/>"
+      },
+      "step3": {
+        "problem": "Simplify each of the fractions within the brackets as much as possible.",
+        "solution": "By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "step4": {
+        "problem": "Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.",
+        "solution": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "missingFactor": "<a>Your answer should be of the form <inline-math/>.</a>",
+    "incorrectFractionDenominator": "<a>Your answer should be in the given starting form. Have you put the factor <inline-math/> in the denominator of a fraction?</a>",
+    "incorrectFractionNumerator": "<a>Your answer should be in the given starting form. Have you put the original expression <inline-math/> in the numerator of a fraction?</a>",
+    "hasFractionBeenSplit": "<a>Have you split up the fraction into a summation?</a>"
   }
 }

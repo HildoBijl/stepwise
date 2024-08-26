@@ -124,6 +124,8 @@ const skillStructure = {
 					pullFactorOutOfBrackets: {
 						name: 'Pull factor out of brackets',
 						setup: and('addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'),
+						examples: ['twoTerms'],
+						exercises: ['twoTerms', 'threeTerms'],
 					},
 				},
 				fractions: {
