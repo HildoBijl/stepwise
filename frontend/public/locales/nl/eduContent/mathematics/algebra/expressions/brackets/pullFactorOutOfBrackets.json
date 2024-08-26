@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "learningGoals": "<par>In deze vaardigheid leer je een <term>factor buiten haakjes te halen</term>. Als je een uitdrukking als <inline-math/> ziet, zal je in staat zijn om een factor <inline-math/> en een factor <inline-math/> buiten haakjes te halen om uit te komen op <inline-math/>. Dit betreft ook het begrijpen van waarom dit werkt: het schrijven van de uitdrukking als een breuk, het hieropvolgend opsplitsen van deze breuk en de uitkomst hiervan vereenvoudigen. De vaardigheid omvat niet het herkennen van welke factor handig kan zijn om buiten haakjes te halen.</par>"
+  },
+  "theory": {
+    "intro": "<par>We weten hoe we haakjes uit kunnen werken, en kunnen zo <inline-math/> herschrijven als <inline-math/>. Maar kunnen we het omgekeerde ook doen? Hoe <term>halen we een factor buiten haakjes</term>? Er is een ietwat lange procedure hiervoor die altijd werkt, maar erna bekijken we ook een short-cut die je vaak nemen kan.</par>",
+    "idea": "<head>Het idee</head><par>Stel dat we een uitdrukking als <inline-math/> hebben, en we willen een <term>factor</term> <inline-math/> buiten haakjes halen. De eerste stap is om de uitdrukking te schrijven als <block-math/> Bij ons voorbeeld betekent dit dat we bij aanvang schrijven dat <block-math/> Merk op dat, als we de oorspronkelijke uitdrukking delen door <inline-math/>, en het vervolgens er weer mee vermenigvuldigen, dat het dan onveranderd is. Dus beide kanten van de vergelijking moeten wel hetzelfde zijn.</par><par>De breuk binnen de haakjes kan vereenvoudigd worden. Eerst passen we de regels toe van het <skill-link>samenvoegen/splitsen van breuken</skill-link> om de breuk op te splitsen, en krijgen zo <block-math/> Vervolgens kunnen we elk van de <skill-link>breuken vereenvoudigen</skill-link> door breukfactoren weg te strepen, wat uitkomt op <block-math/> Alles bij elkaar is het eindresultaat <block-math/> Aan het einde kunnen we nog controleren of we alles correct hebben uitgevoerd door de <skill-link>haakjes weer uit te werken</skill-link>. Als we dat doen zouden we weer op de oorspronkelijke uitdrukking uit moeten komen, wat bij ons voorbeeld inderdaad het geval is. Dat betekent dat we geen fout hebben gemaakt.</par>",
+    "shortCut": "<head>De short-cut</head><par>Het bovenstaande plan met een breuk werkt altijd, maar het is vaak wat omslachtig. Het kan meestal sneller. Het idee is dat we al weten dat we uit gaan komen op een uitdrukking van de vorm <block-math/> We hoeven alleen uit te zoeken wat op de plek van de puntjes komt. De eerste set punten moet iets zijn dat, als we het vermenigvuldigen met <inline-math/>, we uitkomen op <inline-math/>. Met een beetje ervaring kunnen we direct inzien dat dit <inline-math/> moet zijn. Op soortgelijke wijze moet de tweede set puntjes iets zijn dat, als we het vermenigvuldigen met <inline-math/>, het uit moet komen op <inline-math/>. We kunnen wederom inzien dat dit <inline-math/> moet zijn. Op deze wijze komen we direct uit op <block-math/> Als je genoeg ervaring hebt om deze short-cut toe te passen, staat het je vrij om hem te gebruiken.</par>",
+    "steps": "<head>De stappen</head><par>Om een factor buiten haakjes te halen, zoals als je <inline-math/> uit <inline-math/> wilt trekken, neem je de volgende stappen.</par><list><item><a>Begin met het opschrijven van <inline-math/>. Voor ons voorbeeld schrijven we dus <inline-math/>.</a></item><item><b>Splits de breuk binnen de haakjes op in meerdere breuken. Gebruik de standaard regels voor het <skill-link>samenvoegen/splitsen van breuken</skill-link>. Voor het voorbeeld krijgen we zo <inline-math/>.</b></item><item><c><skill-link>Vereenvoudig alle breuken</skill-link> binnen de haakjes, waar je waar mogelijk breukfactoren wegstreept. Dit zet ons voorbeeld om in <inline-math/>.</c></item><item><d>Controleer je antwoord door in je eindresultaat de <skill-link>haakjes uit te werken</skill-link>. Je zou weer uit moeten komen op waar je mee begonnen bent. En inderdaad, als we de haakjes uitwerken bij <inline-math/>, dan krijgen we <inline-math/>.</d></item></list><par>Merk op dat er short-cuts zijn die je direct het gewenste resultaat geven, mits je het inzicht hebt om ze correct toe te passen.</par>"
+  },
+  "equationText": {
+    "factor": "Factor",
+    "originalExpression": "Oorspronkelijke uitdrukking"
+  },
+  "practice": {
+    "twoTerms": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Trek een factor <inline-math/> buiten haakjes en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de uitdrukking in de standaard beginvorm <inline-math/>.",
+        "solution": "Als we de uitdrukking in de beginvorm voor het buiten haakjes halen van een factor schrijven, dan krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Splits de breuk in losse breuken op: eentje voor elke term. (Laat de vermenigvuldiging erbuiten onveranderd staan.)",
+        "solution": "Om de breuk op te splitsen moeten we elk van de termen van de teller los delen door de noemer. Dit geeft <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig elk van de breuken tussen haakjes zoveel als mogelijk.",
+        "solution": "Via het wegstrepen van breukfactoren kunnen we alle breuken omzetten in breukloze termen. Het resultaat is <block-math/> Dit is ons eindresultaat. Kort geschreven geldt <inline-math/>."
+      },
+      "step4": {
+        "problem": "Controleer het eindresultaat door de haakjes uit te werken en de uitkomst te vereenvoudigen. Ga na dat dit inderdaad de uitdrukking is waarmee we begonnen zijn.",
+        "solution": "Als we de haakjes in het eindresultaat uitwerken, dan krijgen we <block-math/> Dit is inderdaad waar we mee begonnen zijn, en dus klopt onze oplossing."
+      }
+    },
+    "threeTerms": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Trek een factor <inline-math/> buiten haakjes en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de uitdrukking in de standaard beginvorm <inline-math/>.",
+        "solution": "Als we de uitdrukking in de beginvorm voor het buiten haakjes halen van een factor schrijven, dan krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Splits de breuk in losse breuken op: eentje voor elke term. (Laat de vermenigvuldiging erbuiten onveranderd staan.)",
+        "solution": "Om de breuk op te splitsen moeten we elk van de termen van de teller los delen door de noemer. Dit geeft <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig elk van de breuken tussen haakjes zoveel als mogelijk.",
+        "solution": "Via het wegstrepen van breukfactoren kunnen we alle breuken omzetten in breukloze termen. Het resultaat is <block-math/> Dit is ons eindresultaat. Kort geschreven geldt <inline-math/>."
+      },
+      "step4": {
+        "problem": "Controleer het eindresultaat door de haakjes uit te werken en de uitkomst te vereenvoudigen. Ga na dat dit inderdaad de uitdrukking is waarmee we begonnen zijn.",
+        "solution": "Als we de haakjes in het eindresultaat uitwerken, dan krijgen we <block-math/> Dit is inderdaad waar we mee begonnen zijn, en dus klopt onze oplossing."
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "missingFactor": "<a>Je antwoord moet in de vorm van <inline-math/> zijn.</a>",
+    "incorrectFractionDenominator": "<a>Je antwoord moet in de gegeven beginvorm zijn. Heb je de factor <inline-math/> wel in de noemer van een breuk gezet?</a>",
+    "incorrectFractionNumerator": "<a>Je antwoord moet in de gegeven beginvorm zijn. Heb je de oorspronkelijke uitdrukkking <inline-math/> wel in de teller van een breuk gezet?</a>",
+    "hasFractionBeenSplit": "<a>Heb je de breuk in een optelling omgezet?</a>"
+  }
+}

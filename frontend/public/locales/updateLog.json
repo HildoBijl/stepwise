@@ -28,8 +28,8 @@
       "theory.idea": {
         "oldText": "<head>The idea</head><par>We start with an expression like <inline-math/> and we know that we want to pull a <term>factor</term> <inline-math/> outside of the brackets. The result should of course still be equal to the original expression. So the first step is to write it as <block-math/> For our example, this means that we initially write <block-math/> Note that dividing by <inline-math/> and subsequently multiplying by it leaves the expression unchanged, so both sides must be the same.</par><par>The next step is to simplify the fraction within the brackets. First we can use the rules of <skill-link>merging/splitting like fractions</skill-link> to split up the fraction, getting <block-math/> Next, we can <skill-link>simplify each of the resulting fractions</skill-link> by canceling fraction factors, giving <block-math/> All together, the final outcome is <block-math/> Note that we can also check if we have done everything correctly. If we expand the brackets on the right using the default rules to <skill-link>expand brackets</skill-link>, we indeed see that we wind up with the original expression. That means we did not make a mistake.</par>",
         "firstUpdate": "2024-08-23T13:04:48.543Z",
-        "latestUpdate": "2024-08-23T14:16:10.536Z",
-        "latestText": "<head>The idea</head><par>Suppose that we have an expression like <inline-math/> and we want to pull a <term>factor</term> <inline-math/> out of the brackets. The first step is to write it as <block-math/> For our example, this means that we initially write <block-math/> Note that dividing the original expression by <inline-math/> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</par><par>The fraction within the brackets can be simplified. First we can use the rules of <skill-link>merging/splitting like fractions</skill-link> to split up the fraction, getting <block-math/> Next, we can <skill-link>simplify each of the resulting fractions</skill-link> by canceling fraction factors, giving <block-math/> All together, the final outcome is <block-math/> At the end we can check if we have done everything correctly by <skill-link>expanding the brackets</skill-link>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</par>"
+        "latestUpdate": "2024-08-26T10:25:07.608Z",
+        "latestText": "<head>The idea</head><par>Suppose that we have an expression like <inline-math/> and we want to pull a <term>factor</term> <inline-math/> out of the brackets. The first step is to write the expression as <block-math/> For our example, this means that we initially write <block-math/> Note that dividing the original expression by <inline-math/> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</par><par>The fraction within the brackets can be simplified. First we can use the rules of <skill-link>merging/splitting like fractions</skill-link> to split up the fraction, getting <block-math/> Next, we can <skill-link>simplify each of the resulting fractions</skill-link> by canceling fraction factors, giving <block-math/> All together, the final outcome is <block-math/> At the end we can check if we have done everything correctly by <skill-link>expanding the brackets</skill-link>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</par>"
       },
       "theory.shortCut": {
         "oldText": "<head>The short-cut</head><par>The above procedure with a fraction always works, but often it is a bit elaborate. In practice, it can be done faster.</par><par>The idea here is that we know we will wind up with an expression of the form <block-math/> We only have to figure out what comes on the place of the dots. The first dots should be something that, when multiplied by <inline-math/>, becomes <inline-math/>. With some experience we directly see that this is <inline-math/>. Similarly, the second set of dots should be something that, when multiplied by <inline-math/>, becomes <inline-math/>. We can once more realize that this is <inline-math/>. In this way do we directly wind up with <block-math/> If you have enough experience to apply this short-cut, you are of course welcome to do so.</par>",
@@ -52,8 +52,8 @@
       "practice.twoTerms.step1.solution": {
         "oldText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>",
         "firstUpdate": "2024-08-23T14:04:55.768Z",
-        "latestUpdate": "2024-08-23T14:23:19.766Z",
-        "latestText": "If we write the expression in the starting form for expanding brackets, we get <block-math/>"
+        "latestUpdate": "2024-08-26T10:25:09.009Z",
+        "latestText": "If we write the expression in the starting form for pulling a factor out brackets, we get <block-math/>"
       },
       "practice.twoTerms.step2.problem": {
         "oldText": "Where possible, inside each term, merge products of numbers together into a single factor.",
@@ -127,7 +127,7 @@
       "practice.threeTerms.step1.solution": {
         "firstUpdate": "2024-08-26T09:22:29.182Z",
         "latestUpdate": "2024-08-26T09:22:29.182Z",
-        "latestText": "If we write the expression in the starting form for expanding brackets, we get <block-math/>"
+        "latestText": "If we write the expression in the starting form for pulling a factor out of backets, we get <block-math/>"
       },
       "practice.threeTerms.step2.problem": {
         "firstUpdate": "2024-08-26T09:22:29.182Z",
@@ -158,6 +158,27 @@
         "firstUpdate": "2024-08-26T09:22:29.182Z",
         "latestUpdate": "2024-08-26T09:22:29.182Z",
         "latestText": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
+      },
+      "theory.equationText.factor": {
+        "firstUpdate": "2024-08-26T10:25:07.608Z",
+        "latestUpdate": "2024-08-26T10:25:07.608Z",
+        "latestText": "Factor"
+      },
+      "theory.equationText.originalExpression": {
+        "firstUpdate": "2024-08-26T10:25:07.608Z",
+        "latestUpdate": "2024-08-26T10:25:07.608Z",
+        "latestText": "Original expressssion"
+      },
+      "equationText.factor": {
+        "firstUpdate": "2024-08-26T10:25:57.888Z",
+        "latestUpdate": "2024-08-26T10:25:57.888Z",
+        "latestText": "Factor"
+      },
+      "equationText.originalExpression": {
+        "oldText": "Original expressssion",
+        "firstUpdate": "2024-08-26T10:25:57.888Z",
+        "latestUpdate": "2024-08-26T10:27:38.631Z",
+        "latestText": "Original expression"
       }
     }
   }

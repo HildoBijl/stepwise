@@ -78,7 +78,7 @@ A not-so-commonly-used short-cut is the `useTextTranslation` hook. This only loo
 ```
 import { useTextTranslator } from 'i18n'
 function SomeFancyButton() {
-	const buttonText = useTextTranslation('Click here!', 'buttons.clickHereButton', somePath/someFile')
+	const buttonText = useTextTranslation('Click here!', 'buttons.clickHereButton', 'somePath/someFile')
 	return <Button>{buttonText}</Button>
 }
 ```

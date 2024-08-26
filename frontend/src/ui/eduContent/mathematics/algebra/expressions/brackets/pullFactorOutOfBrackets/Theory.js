@@ -1,18 +1,21 @@
 import React from 'react'
 
-import { Translation } from 'i18n'
+import { Translation, useTextTranslation } from 'i18n'
 import { Head, Par, List, Term, M, BM } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
+	const factor = useTextTranslation('Factor', 'equationText.factor', undefined, false)
+	const originalExpression = useTextTranslation('Original expression', 'equationText.originalExpression', undefined, false).replace(' ', '\\ ')
+	
 	return <>
 		<Translation entry="intro">
-			<Par>We know how to expand brackets, rewriting <M>4x\left(2x - 3\right)</M> as <M>8x^2 - 12x</M>. But can we also do the opposite? How do we <Term>pull a factor out of brackets</Term>? There is a slightly long procedure that always works, but afterwards we also look at a short-cut you can take.</Par>
+			<Par>We know how to expand brackets, rewriting <M>4x\left(2x - 3\right)</M> as <M>8x^2 - 12x</M>. But can we also do the opposite? How do we <Term>pull a factor out of brackets</Term>? There is a slightly long procedure that always works, but afterwards we also look at a short-cut you can often take.</Par>
 		</Translation>
 
 		<Translation entry="idea">
 			<Head>The idea</Head>
-			<Par>Suppose that we have an expression like <M>8x^2 - 12x</M> and we want to pull a <Term>factor</Term> <M>4x</M> out of the brackets. The first step is to write it as <BM>\rm(Original\ expression) = \rm(Factor) \cdot \left(\frac(\rm(Original\ expression))(\rm(Factor))\right).</BM> For our example, this means that we initially write <BM>8x^2 - 12x = 4x \left(\frac(8x^2 - 12x)(4x)\right).</BM> Note that dividing the original expression by <M>4x</M> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</Par>
+			<Par>Suppose that we have an expression like <M>8x^2 - 12x</M> and we want to pull a <Term>factor</Term> <M>4x</M> out of the brackets. The first step is to write the expression as <BM>\rm({originalExpression}) = \rm({factor}) \cdot \left(\frac(\rm({originalExpression}))(\rm({factor}))\right).</BM> For our example, this means that we initially write <BM>8x^2 - 12x = 4x \left(\frac(8x^2 - 12x)(4x)\right).</BM> Note that dividing the original expression by <M>4x</M> and subsequently multiplying by it leaves it unchanged, so both sides of the equation must be the same.</Par>
 			<Par>The fraction within the brackets can be simplified. First we can use the rules of <SkillLink skillId="addLikeFractionsWithVariables">merging/splitting like fractions</SkillLink> to split up the fraction, getting <BM>4x \left(\frac(8x^2 - 12x)(4x)\right) = 4x \left(\frac(8x^2)(4x) - \frac(12x)(4x)\right).</BM> Next, we can <SkillLink skillId="simplifyFractionWithVariables">simplify each of the resulting fractions</SkillLink> by canceling fraction factors, giving <BM>4x \left(\frac(8x^2)(4x) - \frac(12x)(4x)\right) = 4x \left(2x - 3\right).</BM> All together, the final outcome is <BM>8x^2 - 12x = 4x\left(2x - 3\right).</BM> At the end we can check if we have done everything correctly by <SkillLink skillId="expandBrackets">expanding the brackets</SkillLink>. When we do, we should wind up with the original expression, which is indeed the case for our example. That means we did not make a mistake.</Par>
 		</Translation>
 
@@ -25,7 +28,7 @@ export function Theory() {
 			<Head>The steps</Head>
 			<Par>To pull a factor out of brackets, like when pulling <M>4x</M> out of <M>8x^2 - 12x</M>, take the following steps.</Par>
 			<List items={[
-				<>Start by writing down <M>\rm(Original\ expression) = \rm(Factor) \cdot \left(\frac(\rm(Original\ expression))(\rm(Factor))\right)</M>. For our example we hence write <M>8x^2 - 12x = 4x\left(\frac(8x^2 - 12x)(4x)\right)</M>.</>,
+				<>Start by writing down <M>\rm({originalExpression}) = \rm({factor}) \cdot \left(\frac(\rm({originalExpression}))(\rm({factor}))\right)</M>. For our example we hence write <M>8x^2 - 12x = 4x\left(\frac(8x^2 - 12x)(4x)\right)</M>.</>,
 				<>Split the fraction inside the brackets up into multiple fractions using the default rules for <SkillLink skillId="addLikeFractionsWithVariables">merging/splitting fractions</SkillLink>. For the example we hence get <M>4x\left(\frac(8x^2)(4x) - \frac(12x)(4x)\right)</M>.</>,
 				<><SkillLink skillId="simplifyFractionWithVariables">Simplify all fractions</SkillLink> within the brackets, canceling factors where possible. This turns our example into <M>4x \left(2x - 3\right)</M>.</>,
 				<>Check your result by <SkillLink skillId="expandBrackets">expanding the brackets</SkillLink> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <M>4x\left(2x - 3\right)</M> then we get <M>8x^2 - 12x</M>.</>

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Sum, Product, Fraction, expressionComparisons } from 'step-wise/CAS'
 
-import { Translation } from 'i18n'
+import { Translation, useGetTranslation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
@@ -31,8 +31,11 @@ const steps = [
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
+			const getTranslation = useGetTranslation()
+			const factor = getTranslation('equationText.factor', undefined, false)
+			const originalExpression = getTranslation('equationText.originalExpression', undefined, false).replace(' ', '\\ ')
 			return <>
-				<Par><Translation>Write the expression in the standard starting form <M>\rm(Original\ expression) = \rm(Factor) \cdot \left(\frac(\rm(Original\ expression))(\rm(Factor))\right)</M>.</Translation></Par>
+				<Par><Translation>Write the expression in the standard starting form <M>\rm({originalExpression}) = \rm({factor}) \cdot \left(\frac(\rm({originalExpression}))(\rm({factor}))\right)</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="startingForm" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -41,7 +44,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ expression, factor }) => {
-			return <Par><Translation>If we write the expression in the starting form for expanding brackets, we get <BM>{expression} = {factor} \cdot \left(\frac({expression})({factor})\right).</BM></Translation></Par>
+			return <Par><Translation>If we write the expression in the starting form for pulling a factor out brackets, we get <BM>{expression} = {factor} \cdot \left(\frac({expression})({factor})\right).</BM></Translation></Par>
 		},
 	},
 	{
