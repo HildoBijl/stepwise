@@ -79,7 +79,7 @@ let courses = {
 			},
 			{
 				name: 'Using brackets',
-				goals: ['pullOutOfBrackets'],
+				goals: ['pullFactorOutOfBrackets'],
 			},
 			{
 				name: 'Rearranging equations',
