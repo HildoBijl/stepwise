@@ -44,6 +44,9 @@
   "simplifyNumberProduct": {
     "name": "Vermenigvuldiging van getallen vereenvoudigen"
   },
+  "cancelSumTerms": {
+    "name": "Somtermen wegstrepen"
+  },
   "mergeSimilarTerms": {
     "name": "Soortgelijke termen samenvoegen"
   },
@@ -73,6 +76,18 @@
   },
   "simplifyFractionOfFractionSumsWithVariables": {
     "name": "Breuk van breuksommen met variabelen vereenvoudigen"
+  },
+  "addToBothEquationSides": {
+    "name": "Aan beide kanten van een vergelijking optellen"
+  },
+  "moveEquationTerm":{ 
+    "name": "Vergelijkingsterm verplaatsen"
+  },
+  "multiplyBothEquationSides": {
+    "name": "Beide kanten van een vergelijking vermenigvuldigen"
+  },
+  "moveEquationFactor": {
+    "name": "Vergelijkingsfactor verplaatsen"
   },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"

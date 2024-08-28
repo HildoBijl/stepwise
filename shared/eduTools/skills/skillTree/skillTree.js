@@ -79,19 +79,19 @@ const skillStructure = {
 		calculation: {
 			fractions: {
 				calculating: {
-					simplifyFraction: { // Dummy.
+					simplifyFraction: {
 						name: 'Simplify fraction',
 					},
 				},
 				basicOperations: {
-					multiplyDivideFractions: { // Dummy.
+					multiplyDivideFractions: {
 						name: 'Multiply/divide fractions',
 					},
 				},
 				simplification: {},
 			},
 			powers: {
-				rewritePower: { // Dummy.
+				rewritePower: {
 					name: 'Rewrite power',
 				},
 			},
@@ -101,10 +101,13 @@ const skillStructure = {
 			// New part for skill tree updating.
 			expressions: {
 				simplification: {
-					simplifyNumberProduct: { // Dummy.
+					simplifyNumberProduct: {
 						name: 'Simplify number product',
 					},
-					mergeSimilarTerms: { // Dummy.
+					cancelSumTerms: {
+						name: 'Cancel sum terms',
+					},
+					mergeSimilarTerms: {
 						name: 'Merge similar terms',
 					},
 				},
@@ -130,7 +133,7 @@ const skillStructure = {
 				},
 				fractions: {
 					multiplyingDividing: {
-						cancelFractionFactors: { // Dummy.
+						cancelFractionFactors: {
 							name: 'Cancel fraction factors',
 						},
 						simplifyFractionWithVariables: {
@@ -163,6 +166,42 @@ const skillStructure = {
 							name: 'Simplify fraction of fraction sums with variables',
 							setup: and('addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables'),
 						},
+					},
+				},
+			},
+			equations: {
+				manipulating: {
+					numbers: {
+						// Add number to both sides, move number to other side.
+					},
+					terms: {
+						addToBothEquationSides: {
+							name: 'Add to both equation sides',
+						},
+						moveEquationTerm: {
+							name: 'Move equation term',
+							setup: and('addToBothEquationSides', 'cancelSumTerms'),
+						},
+					},
+					factors: {
+						multiplyBothEquationSides: {
+							name: 'Multiply both equation sides',
+						},
+						moveEquationFactor: {
+							name: 'Move equation factor',
+							setup: and('multiplyBothEquationSides', 'cancelFractionFactors'),
+						},
+					},
+					rational: {
+						// Multiply all equation terms, bring equation to standard form.
+					},
+				},
+				solving: {
+					elementaryEquations: {
+						// Summation equations, product equations.
+					},
+					linearEquations: {
+						// Basic, with brackets, with fractions.
 					},
 				},
 			},

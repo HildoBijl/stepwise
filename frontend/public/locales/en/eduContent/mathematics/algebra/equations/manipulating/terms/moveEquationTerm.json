@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>move a term to the other side of an equation</term>. If you start with an equation like <inline-math/> you can bring the term <inline-math/> to the right to get <inline-math/>, or you can bring the <inline-math/> to the left to get <inline-math/>. This includes understanding why this is allowed: <skill-link>adding/subtracting a term to both sides of the equation</skill-link> and subsequently <skill-link>canceling identical sum terms</skill-link>. This skill does not include reasoning about which term would be wise to move.</par>"
+  }
+}

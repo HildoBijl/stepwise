@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, wie du einen <term>Term auf die andere Seite einer Gleichung verschieben</term> kannst. Wenn du eine Gleichung wie <inline-math/> hast, kannst du den <inline-math/>-Term nach rechts nehmen, um <inline-math/> zu erhalten, oder du kannst die <inline-math/> nach links nehmen, um zu <inline-math/> zu gelangen. Dazu gehört, dass man versteht, warum dies erlaubt ist: <skill-link>einen Term auf jeder Seite der Gleichung addieren/subtrahieren</skill-link> und, darauf folgend, <skill-link>identischen Summentermen entfernen</skill-link>. Bei dieser Kompetenz geht es nicht darum, zu überlegen, welche Terme sich am besten verschieben lassen.</par>"
+  }
+}

@@ -44,6 +44,9 @@
   "simplifyNumberProduct": {
     "name": "Simplify number product"
   },
+  "cancelSumTerms": {
+    "name": "Cancel sum terms"
+  },
   "mergeSimilarTerms": {
     "name": "Merge similar terms"
   },
@@ -73,6 +76,18 @@
   },
   "simplifyFractionOfFractionSumsWithVariables": {
     "name": "Simplify fraction of fraction sums with variables"
+  },
+  "addToBothEquationSides": {
+    "name": "Add to both equation sides"
+  },
+  "moveEquationTerm": {
+    "name": "Move equation term"
+  },
+  "multiplyBothEquationSides": {
+    "name": "Multiply both equation sides"
+  },
+  "moveEquationFactor": {
+    "name": "Move equation factor"
   },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"

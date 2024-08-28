@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>cancel sum terms</term>. For instance when seeing <inline-math/> you should immediately realize that adding <inline-math/> and later on subtracting <inline-math/> has no effect. Both terms can therefore be removed from the summation, leaving <inline-math/>. This skill only deals with canceling identical terms, and not with <skill-link>merging similar terms</skill-link> like <inline-math/>.</par>"
+  }
+}

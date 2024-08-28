@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, <term>Summenterme zu entfernen</term>. Wenn du zum Beispiel <inline-math/> siehst, solltest du sofort erkennen, dass die Addition von <inline-math/> und die Subtraktion von <inline-math/> im nächsten Moment keine Wirkung hat. Man kann also beide Terme des Ausdrucks entfernen, so dass <inline-math/> übrig bleibt. Bei dieser Kompetenz geht es nur darum, identische Terme zu entfernen und nicht <skill-link>gleichartige Terme zusammenzufügen</skill-link> wie bei <inline-math/>.</par>"
+  }
+}

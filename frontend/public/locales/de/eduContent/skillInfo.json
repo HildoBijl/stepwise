@@ -44,6 +44,9 @@
   "simplifyNumberProduct": {
     "name": "Multiplikation von Zahlen vereinfachen"
   },
+  "cancelSumTerms": {
+    "name": "Summenterme entfernen"
+  },
   "mergeSimilarTerms": {
     "name": "Gleichartige Terme zusammenfügen"
   },
@@ -73,6 +76,18 @@
   },
   "simplifyFractionOfFractionSumsWithVariables": {
     "name": "Bruch mit Bruchsummen mit Variablen vereinfachen"
+  },
+  "addToBothEquationSides": {
+    "name": "Zu beiden Seiten einer Gleichung addieren"
+  },
+  "moveEquationTerm":{ 
+    "name": "Gleichungsterm verschieben"
+  },
+  "multiplyBothEquationSides": {
+    "name": "Beide Seiten einer Gleichung multiplizieren"
+  },
+  "moveEquationFactor": {
+    "name": "Gleichungsfaktor verschieben"
   },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"

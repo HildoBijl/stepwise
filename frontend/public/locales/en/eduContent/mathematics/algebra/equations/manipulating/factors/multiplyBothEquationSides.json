@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>multiply/divide both sides of an equation by a factor</term>. If you start with an equation like <inline-math/> then you will be able to multiply this by a number like <inline-math/> to get <inline-math/>. This also includes multiplying by a variable factor (like <inline-math/>), or dividing by a number/factor to for instance get <inline-math/>. This skill does not include simplifying the resulting outcome, like <skill-link>expanding brackets</skill-link> or <skill-link>canceling fraction factors</skill-link>.</par>"
+  }
+}
