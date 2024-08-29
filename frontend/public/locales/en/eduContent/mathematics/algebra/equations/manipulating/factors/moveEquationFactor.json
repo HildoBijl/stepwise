@@ -19,17 +19,9 @@
       "step2": {
         "problem": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible.",
         "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
-      },
-      "step3": {
-        "problem": "Simplify each of the fractions within the brackets as much as possible.",
-        "solution": "By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <block-math/> This is our final answer. In short, <inline-math/>."
-      },
-      "step4": {
-        "problem": "Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.",
-        "solution": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
       }
     },
-    "multiplication": {
+    "basicMultiplication": {
       "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)",
       "step1": {
         "problem": "<emp>Multiply</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is currently being <emp>divided by</emp>.)",
@@ -37,7 +29,7 @@
       },
       "step2": {
         "problem": "Simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> side by canceling fraction factors where possible.",
-        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/>This is the final result, with <inline-math/> now on the <check><on-true>right</on-true><on-false>left</on-false></check> side."
       }
     },
     "division": {
@@ -55,16 +47,16 @@
         "solution": "Dividing a fraction by a factor will add that factor to the denominator. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
       }
     },
-    "basicMultiplication": {
+    "multiplication": {
+      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)",
       "step1": {
-        "solution": "If we multiply both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>",
-        "problem": "<emp>Multiply</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is currently being <emp>divided by</emp>.)"
+        "problem": "<emp>Multiply</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is currently being <emp>divided by</emp>.)",
+        "solution": "If we multiply both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
       },
       "step2": {
-        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/>This is the final result, with <inline-math/> now on the <check><on-true>right</on-true><on-false>left</on-false></check> side.",
-        "problem": "Simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> side by canceling fraction factors where possible."
-      },
-      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
+        "problem": "Simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> side by canceling fraction factors where possible.",
+        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+      }
     }
   }
 }

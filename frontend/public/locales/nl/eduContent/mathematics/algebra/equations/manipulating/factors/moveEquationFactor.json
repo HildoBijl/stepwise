@@ -1,5 +1,62 @@
 {
   "meta": {
     "learningGoals": "<par>In deze vaardigheid leer je een <term>factor naar de andere kant van de vergelijking te brengen</term>. Bij een vergelijking als <inline-math/> zul je <inline-math/> naar de andere kant kunnen brengen om <inline-math/> te krijgen, of je kunt dan <inline-math/> naar de andere kant brengen om op <inline-math/> uit te komen. Dit omvat het begrijpen van het idee hierachter: het <skill-link>vermenigvuldigen van beide kanten met een factor</skill-link> en het hieropvolgende <skill-link>wegstrepen van breukfactoren</skill-link>. Deze vaardigheid betreft niet het omgaan met <skill-link>vergelijkingen met meerdere termen</skill-link>.</par>"
+  },
+  "theory": {
+    "intro": "<par>Een <term>productvergelijking</term> is een vergelijking zoals <inline-math/> waar beide kanten van de vergelijking alleen vermenigvuldigingen/delingen hebben; geen optellingen of aftrekkingen. Bij zo'n vergelijking is het handig om <term>factoren te kunnen verplaatsen</term> tussen de twee kanten van de vergelijking. Dat is waar deze vaardigheid over gaat. We kijken hoe dit werkt, en welke short-cuts we mogelijk nemen kunnen.</par>",
+    "removingMultiplications": "<head>Een vermenigvuldiging wegwerken</head><par>Het eerste wat we kunnen doen met de vergelijking <inline-math/> is het wegwerken van de <term>vermenigvuldigingsfactor</term> <inline-math/> aan de linker kant. Om dit te doen kunnen we eerst <skill-link>beide kanten van de vergelijking delen</skill-link> door <inline-math/>. Dit geeft <block-math/> Beide kanten van de vergelijking kunnen nog vereenvoudigd worden. Links kunnen we <skill-link>breukfactoren wegstrepen</skill-link> om de <inline-math/> aan beide kanten van de breuk weg te krijgen, waarmee we overblijven met <inline-math/>. We zien dat de <inline-math/> inderdaad van de linker kant van de vergelijking verdwijnt, wat ons doel was. Rechts kunnen we de <skill-link>breukdeling vereenvoudigen</skill-link> om uit te komen op <inline-math/> (of eventueel <inline-math/>). Het eindresultaat is <block-math/> Merk op dat we de vermenigvuldigingsfactor <inline-math/> van links naar rechts verplaatst hebben, en hierbij is hij veranderd in een delingsfactor.</par>",
+    "removingDivisions": "<head>Een deling wegwerken</head><par>We hadden ook iets anders met de vergelijking <inline-math/> kunnen doen, en wel de <term>delingsfactor</term> <inline-math/> aan de rechter kant wegwerken. Om dit voor elkaar te krijgen kunnen we <skill-link>beide kanten van de vergelijking vermenigvuldigen</skill-link> met <inline-math/>. Dit ze het om naar <block-math/> Rechts zullen de deling door <inline-math/> en de vermenigvuldiging met <inline-math/> elkaar <skill-link>wegstrepen</skill-link>, waardoor deze kant vereenvoudigt tot slechts <inline-math/>. Het resultaat van geschreven worden als <block-math/> Merk op dat we de delingsfactor <inline-math/> van rechts naar links gehaald hebben, waar hij veranderd is in een vermenigvuldigingsfactor.</par>",
+    "shortCut": "<head>De short-cut</head><par>We kunnen de bovenstaande ideeën samenvatten in een handige short-cut. Als we een factor (vermenigvuldiging of deling) van de ene kant van de vergelijking naar de andere halen, dan moeten we het volgende uitvoeren.</par><list><item><a>Als de factor een vermenigvuldigingsfactor is (hij staat in de teller van een breuk, of simpelweg in een vermenigvuldiging) dan komt hij aan de andere kant als delingsfactor te staan (in de noemer van een breuk). Dus <inline-math/> verandert in <inline-math/>.</a></item><item><b>Als de factor een delingsfactor is (hij staat in de noemer van een breuk) dan komt hij aan de andere kant als vermenigvuldigingsfactor te staan (in de teller van een breuk, of simpelweg in een vermenigvuldiging). Dus <inline-math/> wordt omgezet in <inline-math/>.</b></item></list><par>Met dit idee kunnen we factoren ook direct rondschuiven, zonder de tussenliggende stappen uit te voeren.</par>",
+    "steps": "<head>De stappen</head><par>Om een factor van de ene kant van een productvergelijking naar de andere te krijgen, zoals bij het verplaatsen van de factor <inline-math/> in de vergelijking <inline-math/>, neem je de volgende stappen.</par><list><item><a>Als de factor in een vermenigvuldiging staat, <skill-link>deel beide kanten van de vergelijking</skill-link> door deze factor. Of soortgelijk, als door de factor gedeeld wordt, <skill-link>vermenigvuldig beide kanten van de vergelijking</skill-link> met de factor. Bij het voorbeeld delen we door <inline-math/> om <inline-math/> te krijgen.</a></item><item><b><skill-link>Streep breukfactoren weg</skill-link> om de factor die verplaatst moet worden weg te krijgen. Bij het voorbeeld zetten we <inline-math/> om in <inline-math/>.</b></item><item><c>Afhankelijk van de situatie kan het nodig zijn om een <skill-link>breuk in een breuk te vereenvoudigen</skill-link> tot een enkele breuk. Bij het voorbeeld herschrijven we <inline-math/> tot <inline-math/>, wat eventueel ook nog als <inline-math/> geschreven kan worden.</c></item></list><par>Merk op dat je ook een short-cut kan gebruiken: als een factor oorspronkelijk aan de ene kant mee vermenigvuldigd wordt, zal hij aan de andere kant door gedeeld worden, en vice versa.</par>"
+  },
+  "practice": {
+    "basicDivision": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng de factor <inline-math/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)",
+      "step1": {
+        "problem": "<emp>Deel</emp> beide kanten van de vergelijking door <inline-math/>. (De factor <inline-math/> zit immers in een <emp>vermenigvuldiging</emp>.)",
+        "solution": "Als we beide kanten van de vergelijking <inline-math/> delen door de factor <inline-math/>, dan komen we direct uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de breuk aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant door waar mogelijk breukfactoren weg te strepen.",
+        "solution": "We kunnen aan beide kanten van de breuk de factor <inline-math/> wegstrepen. Dit geeft het resultaat <block-math/><check><on-true>Eventueel kan dit nog verder vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check>"
+      }
+    },
+    "basicMultiplication": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng de factor <inline-math/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)",
+      "step1": {
+        "problem": "<emp>Vermenigvuldig</emp> beide kanten van de vergelijking met <inline-math/>. (De factor <inline-math/> wordt immers <emp>door gedeeld</emp>.)",
+        "solution": "Als we beide kanten van de vergelijking <inline-math/> met de factor <inline-math/> vermenigvuldigen, dan komen we direct uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de breuk aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant door waar mogelijk breukfactoren weg te strepen.",
+        "solution": "We kunnen aan beide kanten van de breuk de factor <inline-math/> wegstrepen. Dit geeft het resultaat <block-math/>Dit is het eindresultaat, met <inline-math/> nu aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant."
+      }
+    },
+    "division": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng de factor <inline-math/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)",
+      "step1": {
+        "problem": "<emp>Deel</emp> beide kanten van de vergelijking door <inline-math/>. (De factor <inline-math/> zit immers in een <emp>vermenigvuldiging</emp>.)",
+        "solution": "Als we beide kanten van de vergelijking <inline-math/> delen door de factor <inline-math/>, dan komen we direct uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de breuk aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant door waar mogelijk breukfactoren weg te strepen.",
+        "solution": "We kunnen aan beide kanten van de breuk de factor <inline-math/> wegstrepen. Dit geeft het resultaat <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig ook de breuk aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check> (als je dit niet al gedaan hebt) om zeker te stellen dat er geen breuk van breuken in het eindresultaat zit.",
+        "solution": "Een breuk door een factor delen voegt die factor toe aan de noemer. Dit geeft het resultaat <block-math/><check><on-true>Eventueel kan dit nog verder vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check>"
+      }
+    },
+    "multiplication": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng de factor <inline-math/> naar de andere kant. (Zorg er ook voor dat er geen breuken van breuken in het eindresultaat zitten.)",
+      "step1": {
+        "problem": "<emp>Vermenigvuldig</emp> beide kanten van de vergelijking met <inline-math/>. (De factor <inline-math/> wordt immers <emp>door gedeeld</emp>.)",
+        "solution": "Als we beide kanten van de vergelijking <inline-math/> met de factor <inline-math/> vermenigvuldigen, dan komen we direct uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de breuk aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant door waar mogelijk breukfactoren weg te strepen.",
+        "solution": "We kunnen aan beide kanten van de breuk de factor <inline-math/> wegstrepen. Dit geeft het resultaat <block-math/><check><on-true>Eventueel kan dit nog verder vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check>"
+      }
+    }
   }
 }

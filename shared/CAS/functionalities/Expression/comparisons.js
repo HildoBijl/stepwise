@@ -60,12 +60,16 @@ function integerMultiple(input, correct) {
 	return check(comparison1) || check(comparison2)
 
 	// ToDo: put this back later on, when the CAS is complete.
-	const comparison = input.divide(correct).cleanForAnalysis()
-	return comparison.isSubtype(Integer)
+// 	const comparison = input.divide(correct).cleanForAnalysis()
+// 	return comparison.isSubtype(Integer)
 }
 
 // constantMultiple checks if the two arguments only differ by a non-zero constant ratio, like (2/3) or (pi^2/e). We divide input/correct and check if the simplification reduces to a non-zero numeric value. (If it's zero, then a zero input would be equal to everything, which would not be desirable.)
 function constantMultiple(input, correct) {
+	// ToDo: remove this check, when the CAS is complete. (It currently detects a few edge cases which the check below does not detect.)
+	if (equivalent(input, correct) || equivalent(input.applyMinus(), correct))
+		return true
+
 	// Manually check for minus signs.
 	const comparison1 = input.divide(correct).cleanForAnalysis()
 	const comparison2 = input.applyMinus().divide(correct).cleanForAnalysis()

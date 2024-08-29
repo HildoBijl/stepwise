@@ -190,8 +190,7 @@ const skillStructure = {
 						moveEquationFactor: {
 							name: 'Move equation factor',
 							setup: and('multiplyBothEquationSides', 'cancelFractionFactors', part('multiplyDivideFractions', 1 / 2)),
-							examples: ['multiplication'],
-							// examples: ['basicDivision', 'basicMultiplication'],
+							examples: ['basicDivision', 'basicMultiplication'],
 							exercises: ['division', 'multiplication'],
 						},
 					},
