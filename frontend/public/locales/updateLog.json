@@ -40,7 +40,7 @@
         "oldText": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible.",
         "firstUpdate": "2024-08-28T15:05:13.372Z",
         "latestUpdate": "2024-08-28T15:15:07.586Z",
-        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)"
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
       },
       "practice.basicDivision.step1.problem": {
         "oldText": "Write the expression in the standard starting form <inline-math/>.",
@@ -90,13 +90,13 @@
         "oldText": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible.",
         "firstUpdate": "2024-08-28T15:05:13.372Z",
         "latestUpdate": "2024-08-29T10:41:01.043Z",
-        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)"
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
       },
       "practice.division.mainProblem": {
         "oldText": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible.",
         "firstUpdate": "2024-08-28T15:05:14.518Z",
         "latestUpdate": "2024-08-29T10:40:50.916Z",
-        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)"
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
       },
       "practice.basicMultiplication.step1.solution": {
         "oldText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>",
@@ -111,10 +111,10 @@
         "latestText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/>This is the final result, with <inline-math/> now on the <check><on-true>right</on-true><on-false>left</on-false></check> side."
       },
       "practice.basicMultiplication.mainProblem": {
-        "oldText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)",
+        "oldText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)",
         "firstUpdate": "2024-08-29T10:40:50.586Z",
         "latestUpdate": "2024-08-29T10:40:50.652Z",
-        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)"
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
       },
       "practice.basicMultiplication.step1.problem": {
         "oldText": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)",
@@ -137,23 +137,55 @@
       "practice.multiplication.step1.problem": {
         "oldText": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)",
         "firstUpdate": "2024-08-29T10:41:03.466Z",
-        "latestUpdate": "2024-08-29T10:41:03.698Z",
-        "latestText": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)"
+        "latestUpdate": "2024-08-29T11:35:07.603Z",
+        "latestText": "<emp>Multiply</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is currently being <emp>divided by</emp>.)"
       },
       "practice.multiplication.step1.solution": {
+        "oldText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>",
         "firstUpdate": "2024-08-29T10:41:07.164Z",
-        "latestUpdate": "2024-08-29T10:41:07.164Z",
-        "latestText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
+        "latestUpdate": "2024-08-29T11:35:07.603Z",
+        "latestText": "If we multiply both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
       },
       "practice.multiplication.step2.problem": {
+        "oldText": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible.",
         "firstUpdate": "2024-08-29T10:41:07.164Z",
-        "latestUpdate": "2024-08-29T10:41:07.164Z",
-        "latestText": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible."
+        "latestUpdate": "2024-08-29T11:35:07.603Z",
+        "latestText": "Simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> side by canceling fraction factors where possible."
       },
       "practice.multiplication.step2.solution": {
         "firstUpdate": "2024-08-29T10:41:12.409Z",
         "latestUpdate": "2024-08-29T10:41:12.409Z",
         "latestText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+      },
+      "practice.division.step1.solution": {
+        "oldText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>",
+        "firstUpdate": "2024-08-29T11:14:39.027Z",
+        "latestUpdate": "2024-08-29T11:14:39.075Z",
+        "latestText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
+      },
+      "practice.division.step2.problem": {
+        "oldText": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible.",
+        "firstUpdate": "2024-08-29T11:14:39.027Z",
+        "latestUpdate": "2024-08-29T11:14:39.075Z",
+        "latestText": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible."
+      },
+      "practice.division.step2.solution": {
+        "oldText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>",
+        "firstUpdate": "2024-08-29T11:14:39.027Z",
+        "latestUpdate": "2024-08-29T11:18:19.613Z",
+        "latestText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/>"
+      },
+      "practice.division.step3.problem": {
+        "oldText": "Also simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> (if not already done) to ensure there is no fraction of fractions in the final result.",
+        "firstUpdate": "2024-08-29T11:18:19.542Z",
+        "latestUpdate": "2024-08-29T11:28:02.810Z",
+        "latestText": "Also simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> (if not already done) to ensure that there is no fraction of fractions in the final result."
+      },
+      "practice.division.step3.solution": {
+        "oldText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>",
+        "firstUpdate": "2024-08-29T11:18:19.542Z",
+        "latestUpdate": "2024-08-29T11:28:45.514Z",
+        "latestText": "Dividing a fraction by a factor will add that factor to the denominator. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
       }
     },
     "eduTools/feedback": {

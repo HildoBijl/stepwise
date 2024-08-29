@@ -8,7 +8,7 @@ const { onlyOrderChanges, equivalentSides } = equationComparisons
 // a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'n']
+const constants = ['a', 'b']
 
 const metaData = {
 	skill: 'moveEquationFactor',
@@ -33,7 +33,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const factor = variables.x
 	const equation = asEquation('a=b/x')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const bothSidesChanged = equation.multiply(factor).basicClean()
+	const bothSidesChanged = equation.multiply(factor).removeUseless({ mergeFractionProducts: true })
 	const ans = bothSidesChanged.basicClean({ mergeProductFactors: true, crossOutFractionFactors: true })
 	return { ...state, variables, factor, equation, bothSidesChanged, ans }
 }

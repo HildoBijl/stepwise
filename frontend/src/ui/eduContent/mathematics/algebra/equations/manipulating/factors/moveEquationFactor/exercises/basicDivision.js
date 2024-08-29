@@ -15,7 +15,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { factor, equation } = useSolution()
 	return <>
-		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the factor <M>{factor}</M> to the other side. (Make sure that there are no fractions of fractions in the final result.)</Translation></Par>
+		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the factor <M>{factor}</M> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</Translation></Par>
 		<InputSpace>
 			<Par>
 				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />

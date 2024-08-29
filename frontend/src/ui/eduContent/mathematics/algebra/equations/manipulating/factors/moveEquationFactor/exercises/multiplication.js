@@ -15,7 +15,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { factor, equation } = useSolution()
 	return <>
-		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the factor <M>{factor}</M> to the other side. (Make sure that there are no fractions of fractions in the final result.)</Translation></Par>
+		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the factor <M>{factor}</M> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</Translation></Par>
 		<InputSpace>
 			<Par>
 				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
@@ -29,7 +29,7 @@ const steps = [
 		Problem: () => {
 			const { factor, equation } = useSolution()
 			return <>
-				<Par><Translation><Emp>Divide</Emp> both sides of the equation by <M>{factor}</M>. (After all, the factor <M>{factor}</M> is inside a <Emp>multiplication</Emp>.)</Translation></Par>
+				<Par><Translation><Emp>Multiply</Emp> both sides of the equation by <M>{factor}</M>. (After all, the factor <M>{factor}</M> is currently being <Emp>divided by</Emp>.)</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
@@ -38,14 +38,14 @@ const steps = [
 			</>
 		},
 		Solution: ({ equation, factor, bothSidesChanged }) => {
-			return <Par><Translation>If we divide both sides of the equation <M>{equation}</M> by the factor <M>{factor}</M>, then we directly wind up with <BM>{bothSidesChanged}.</BM></Translation></Par>
+			return <Par><Translation>If we multiply both sides of the equation <M>{equation}</M> by the factor <M>{factor}</M>, then we directly wind up with <BM>{bothSidesChanged}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { switchSides, equation } = useSolution()
 			return <>
-				<Par><Translation>Simplify the fraction on the <Check value={switchSides}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling fraction factors where possible.</Translation></Par>
+				<Par><Translation>Simplify the fraction on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side by canceling fraction factors where possible.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
@@ -61,7 +61,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define an alternate feedback check for the final answer, to take into account allowed simplifications.
-	const ansCheck = (input, correct, { switchSides, ansCleaned }, isCorrect) => (switchSides ? rightOnlyOrderChangesFeedback : leftOnlyOrderChangesFeedback)(input, correct, {}, isCorrect)
+	const ansCheck = (input, correct, { switchSides }, isCorrect) => (switchSides ? leftOnlyOrderChangesFeedback : rightOnlyOrderChangesFeedback)(input, correct, {}, isCorrect)
 
 	// Set up the overview of feedback checks.
 	return getFieldInputFeedback(exerciseData, {

@@ -8,7 +8,7 @@ const { onlyOrderChanges, equivalentSides, leftOnlyOrderChanges, rightOnlyOrderC
 // ax = b => x = b/a.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'n']
+const constants = ['a', 'b']
 
 const metaData = {
 	skill: 'moveEquationFactor',
