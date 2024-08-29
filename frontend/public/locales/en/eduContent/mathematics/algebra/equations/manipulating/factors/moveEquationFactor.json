@@ -30,10 +30,32 @@
       }
     },
     "multiplication": {
-      "mainProblem": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)",
+      "step1": {
+        "problem": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)",
+        "solution": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible.",
+        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+      }
     },
     "division": {
-      "mainProblem": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)",
+      "step1": {
+        "problem": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)"
+      }
+    },
+    "basicMultiplication": {
+      "step1": {
+        "solution": "If we multiply both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>",
+        "problem": "<emp>Multiply</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is currently being <emp>divided by</emp>.)"
+      },
+      "step2": {
+        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/>This is the final result, with <inline-math/> now on the <check><on-true>right</on-true><on-false>left</on-false></check> side.",
+        "problem": "Simplify the fraction on the <check><on-true>left</on-true><on-false>right</on-false></check> side by canceling fraction factors where possible."
+      },
+      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)"
     }
   }
 }

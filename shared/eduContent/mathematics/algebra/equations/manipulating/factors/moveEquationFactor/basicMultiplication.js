@@ -1,58 +1,47 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asExpression, expressionComparisons, Product, Sum } = require('../../../../../../../CAS')
+const { asEquation, equationComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
-const { onlyOrderChanges, equivalent } = expressionComparisons
+const { onlyOrderChanges, equivalentSides } = equationComparisons
 
-// ax^n(bx + c) = abx + ac.
+// a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'n']
 
 const metaData = {
-	skill: 'pullFactorOutOfBrackets',
-	steps: [null, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'],
+	skill: 'moveEquationFactor',
+	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
 	comparison: {
-		startingForm: (input, correct) => onlyOrderChanges(input, correct),
-		splitUp: (input, correct, { expression, factor }) => input.isSubtype(Product) && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSubtype(Sum) && inputFactor.terms.length === expression.terms.length) && equivalent(input, correct),
-		ans: (input, correct) => onlyOrderChanges(input.basicClean(), correct),
-		check: (input, correct) => onlyOrderChanges(input.basicClean(), correct),
+		bothSidesChanged: equivalentSides,
+		ans: onlyOrderChanges,
 	}
 }
 
-function generateState(example) {
-	const b = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+function generateState() {
+	const a = getRandomInteger(-8, 8, [-1, 0, 1])
+	const b = getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
 	return {
 		x: selectRandomly(variableSet),
-		a: getRandomInteger(example || b < 0 ? 2 : -8, 8, [-1, 0, 1]), // Don't allow a and b to both be negative.
-		b,
-		c: getRandomInteger(-8, 8, [-1, 0, 1, -b, b]),
-		n: example ? 1 : getRandomInteger(2, 4),
-		descending: example ? true : getRandomBoolean(), // Do we use bx+c or c+bx?
+		a, b,
+		switchSides: getRandomBoolean(), // Do we switch equation sides?
 	}
 }
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('a*x^n').substituteVariables(variables).removeUseless()
-	const sum = asExpression(state.descending ? 'b*x+c' : 'c+b*x').substituteVariables(variables)
-	const ans = factor.multiply(sum)
-	const expression = ans.basicClean({ expandProductsOfSums: true })
-	const startingForm = factor.multiply(expression.divide(factor))
-	const splitUp = factor.multiply(expression.divide(factor).basicClean({ splitFractions: true }))
-	const check = expression
-	return { ...state, variables, factor, sum, expression, startingForm, splitUp, ans, check }
+	const factor = variables.x
+	const equation = asEquation('a=b/x')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const bothSidesChanged = equation.multiply(factor).basicClean()
+	const ans = bothSidesChanged.basicClean({ mergeProductFactors: true, crossOutFractionFactors: true })
+	return { ...state, variables, factor, equation, bothSidesChanged, ans }
 }
 
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'startingForm')
-		case 2:
-			return performComparison(exerciseData, 'splitUp')
-		case 4:
-			return performComparison(exerciseData, 'check')
+			return performComparison(exerciseData, 'bothSidesChanged')
 		default:
 			return performComparison(exerciseData, 'ans')
 	}

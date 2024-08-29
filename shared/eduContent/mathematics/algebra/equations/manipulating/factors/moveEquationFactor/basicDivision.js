@@ -5,7 +5,7 @@ const { getStepExerciseProcessor, filterVariables, performComparison } = require
 
 const { onlyOrderChanges, equivalentSides, leftOnlyOrderChanges, rightOnlyOrderChanges } = equationComparisons
 
-// ax = b => x = a/b.
+// ax = b => x = b/a.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'n']
