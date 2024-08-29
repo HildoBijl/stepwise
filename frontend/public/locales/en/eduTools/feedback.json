@@ -134,6 +134,11 @@
     "incorrectLeftSide": "The left side of the equation is not what was expected.",
     "incorrectRightSide": "The right side of the equation is not what was expected.",
     "correct": "The equation is correct, but you have not done what was required.",
+    "fullFeedback": {
+      "oneSideCorrect": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but something's wrong on the <check><on-true>right</on-true><on-false>left</on-false></check> side. <check><on-true>You have not done what was required.</on-true><on-false>You took a wrong step somewhere.</on-false></check>",
+      "sidesSwitched": "Oops ... you have switched the left and the right side of the equation. Try switching them back!",
+      "oneSideSwitched": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of your equation is correct, but it should be on the <check><on-true>right</on-true><on-false>left</on-false></check>. The <check><on-true>right</on-true><on-false>left</on-false></check> side of your equation still has some errors you might want to look at."
+    },
     "noSum": "You have only written a single term on the <check><on-true>left</on-true><on-false>right</on-false></check> side. A sum was expected here: an addition/subtraction of terms.",
     "hasSum": "You have written a sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side: an addition/subtraction of terms. Only a single term was expected here.",
     "wrongNumberOfSumTerms": "The sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equals sign has <counting-word/> terms. <counting-word/> terms were expected.",

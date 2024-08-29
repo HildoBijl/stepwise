@@ -134,6 +134,11 @@
 		"incorrectLeftSide": "Die linke Seite der Gleichung ist nicht das, was erwartet wurde.",
 		"incorrectRightSide": "Die rechte Seite der Gleichung ist nicht das, was erwartet wurde.",
 		"correct": "Die Gleichung ist korrekt, aber du hast nicht getan, was verlangt wurde.",
+    "fullFeedback": {
+      "oneSideCorrect": "Die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite der Gleichung ist richtig, aber auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite läuft etwas schief. <check><on-true>Du hast nicht getan, was verlangt wurde.</on-true><on-false>Du hast irgendwo einen Fehler gemacht.</on-false></check>",
+      "sidesSwitched": "Ups ... Du hast die linke und rechte Seite der Gleichung vertauscht. Versuche, sie wieder umzudrehen!",
+      "oneSideSwitched": "Die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite deiner Gleichung ist korrect, aber sie sollte auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite stehen. Darüber hinaus hat die <check><on-true>rechte</on-true><on-false>linke</on-false></check> Seite deiner Gleichung einige Fehler, die dur dir ansehen solltest."
+    },
 		"noSum": "Du hast nur einen einzigen Term auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite angegeben. Hier wurde eine Summe erwartet: eine Addition/Subtraktion von Termen.",
 		"hasSum": "Du hast eine Summe auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite angegeben: eine Addition/Subtraktion von Termen. Hier wurde nur ein Term erwartet.",
 		"wrongNumberOfSumTerms": "Die Addition <check><on-true>links</on-true><on-false>rechts</on-false></check> vom Gleichheitszeichen hat <counting-word/> Terme. Erwartet wurden <counting-word/>.",

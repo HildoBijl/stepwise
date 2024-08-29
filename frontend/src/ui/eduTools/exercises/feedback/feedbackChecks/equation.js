@@ -25,6 +25,92 @@ export const correctEquationWithMessage = (message) => ((input, correct, solutio
 export const correctEquation = correctEquationWithMessage(<Translation path={translationPath} entry="equation.correct">The equation is correct, but you have not done what was required.</Translation>)
 
 /*
+ * Full equation feedback functions.
+ */
+
+export const onlyOrderChangesFeedback = (input, correct, solution, isCorrect) => {
+	// On a correct entry, give no error feedback.
+	if (isCorrect)
+		return
+
+	// Check if one side does match.
+	const isLeftSideCorrect = expressionComparisons.onlyOrderChanges(input.left, correct.left)
+	const isRightSideCorrect = expressionComparisons.onlyOrderChanges(input.right, correct.right)
+	if ((isLeftSideCorrect && !isRightSideCorrect) || (!isLeftSideCorrect && isRightSideCorrect))
+		return oneSideCorrect(isLeftSideCorrect, isLeftSideCorrect ? expressionComparisons.equivalent(input.right, correct.right) : expressionComparisons.equivalent(input.left, correct.left))
+
+	// Check if sides are mixed up.
+	const leftIsRight = expressionComparisons.onlyOrderChanges(input.left, correct.right)
+	const rightIsLeft = expressionComparisons.onlyOrderChanges(input.right, correct.left)
+	if (leftIsRight && rightIsLeft)
+		return sidesSwitched()
+	if (leftIsRight || rightIsLeft)
+		return oneSideSwitched(leftIsRight)
+
+	// Default to correct/incorrect.
+	return incorrectEquation(input, correct, solution, isCorrect) || correctEquation(input, correct, solution, isCorrect)
+}
+
+export const equivalentFeedback = (input, correct, solution, isCorrect) => {
+	// On a correct entry, give no error feedback.
+	if (isCorrect)
+		return
+
+	// Check if one side does match.
+	const isLeftSideCorrect = expressionComparisons.equivalent(input.left, correct.left)
+	const isRightSideCorrect = expressionComparisons.equivalent(input.right, correct.right)
+	if ((isLeftSideCorrect && !isRightSideCorrect) || (!isLeftSideCorrect && isRightSideCorrect))
+		return oneSideCorrect(isLeftSideCorrect, false)
+
+	// Check if sides are mixed up.
+	const leftIsRight = expressionComparisons.equivalent(input.left, correct.right)
+	const rightIsLeft = expressionComparisons.equivalent(input.right, correct.left)
+	if (leftIsRight && rightIsLeft)
+		return sidesSwitched()
+	if (leftIsRight || rightIsLeft)
+		return oneSideSwitched(leftIsRight)
+
+	// Default to correct/incorrect.
+	return incorrectEquation(input, correct, solution, isCorrect) || correctEquation(input, correct, solution, isCorrect)
+}
+
+export const leftOnlyOrderChangesFeedback = (input, correct, solution, isCorrect, exerciseData) => oneSideOnlyOrderChangesFeedback(input, correct, solution, isCorrect, exerciseData, true)
+export const rightOnlyOrderChangesFeedback = (input, correct, solution, isCorrect, exerciseData) => oneSideOnlyOrderChangesFeedback(input, correct, solution, isCorrect, exerciseData, false)
+export const oneSideOnlyOrderChangesFeedback = (input, correct, solution, isCorrect, exerciseData, leftSideOOC) => {
+	// On a correct entry, give no error feedback.
+	if (isCorrect)
+		return
+
+	// Check if one side does match.
+	const leftSideCorrect = expressionComparisons[leftSideOOC ? 'onlyOrderChanges' : 'equivalent'](input.left, correct.left)
+	const rightSideCorrect = expressionComparisons[leftSideOOC ? 'equivalent' : 'onlyOrderChanges'](input.right, correct.right)
+	if ((leftSideCorrect && !rightSideCorrect) || (!leftSideCorrect && rightSideCorrect))
+		return oneSideCorrect(leftSideCorrect, leftSideCorrect === leftSideOOC ? false : expressionComparisons.equivalent(input[leftSideOOC ? 'left' : 'right'], correct[leftSideOOC ? 'left' : 'right']))
+	
+	// Check if sides are mixed up.
+	const leftIsRight = expressionComparisons[leftSideOOC ? 'equivalent' : 'onlyOrderChanges'](input.left, correct.right)
+	const rightIsLeft = expressionComparisons[leftSideOOC ? 'onlyOrderChanges' : 'equivalent'](input.right, correct.left)
+	if (leftIsRight && rightIsLeft)
+		return sidesSwitched()
+	if (leftIsRight || rightIsLeft)
+		return oneSideSwitched(leftIsRight)
+
+	// Default to correct/incorrect.
+	return incorrectEquation(input, correct, solution, isCorrect) || correctEquation(input, correct, solution, isCorrect)
+}
+
+// The following functions are support functions for the full-equation feedback functions.
+function oneSideCorrect(isLeftSideCorrect, isIncorrectSideEquivalent) {
+	return <Translation path={translationPath} entry="equation.fullFeedback.oneSideCorrect">The <Check value={isLeftSideCorrect}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equation is correct, but something's wrong on the <Check value={isLeftSideCorrect}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side. <Check value={isIncorrectSideEquivalent}><Check.True>You have not done what was required.</Check.True><Check.False>You took a wrong step somewhere.</Check.False></Check></Translation>
+}
+function sidesSwitched() {
+	return <Translation path={translationPath} entry="equation.fullFeedback.sidesSwitched">Oops ... you have switched the left and the right side of the equation. Try switching them back!</Translation>
+}
+function oneSideSwitched(leftIsRight) {
+	return <Translation path={translationPath} entry="equation.fullFeedback.oneSideSwitched">The <Check value={leftIsRight}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of your equation is correct, but it should be on the <Check value={leftIsRight}><Check.True>right</Check.True><Check.False>left</Check.False></Check>. The <Check value={leftIsRight}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of your equation still has some errors you might want to look at.</Translation>
+}
+
+/*
  * Sum and terms checks.
  */
 

@@ -1,5 +1,39 @@
 {
   "meta": {
     "learningGoals": "<par>In this skill you learn to <term>move a factor to the other side of an equation</term>. If you have an equation like <inline-math/> you will be able to bring <inline-math/> to the other side to get <inline-math/>, or to then bring <inline-math/> to the other side to get <inline-math/>. This includes understanding the idea behind this: <skill-link>multiplying both sides of an equation by a factor</skill-link> and subsequently <skill-link>canceling fraction factors</skill-link>. The skill does not include dealing with <skill-link>equations with multiple terms</skill-link>.</par>"
+  },
+  "theory": {
+    "intro": "<par>A <term>product equation</term> is an equation like <inline-math/> where both sides of the equation only have multiplications/divisions; no additions or subtractions. When we have such an equation, it is helpful to be able to <term>move factors</term> around in the equation. That's what this skill is about. We look at how we do this, and what short-cuts we can take.</par>",
+    "removingMultiplications": "<head>Getting rid of a multiplication</head><par>One thing that we can do with the equation <inline-math/> is to get rid of the <term>multiplication factor</term> <inline-math/> on the left. To do so, we can first <skill-link>divide both sides of the equation</skill-link> by <inline-math/>. This gives <block-math/> Both sides of the equation can be simplified. On the left we can <skill-link>cancel fraction factors</skill-link> to get rid of the <inline-math/> on both sides of the fraction, leaving us with just <inline-math/>. We see that the <inline-math/> indeed disappears from the left side of the equation, as was our goal. On the right, we can <skill-link>simplify the fraction division</skill-link> to get <inline-math/> (or alternatively <inline-math/>). The final result is <block-math/> Note that we have moved the multiplication factor <inline-math/> from the left to the right, and when we did, it turned into a division factor.</par>",
+    "removingDivisions": "<head>Getting rid of a division</head><par>We could've also done something different with the equation <inline-math/>, which is to get rid of the <term>division factor</term> <inline-math/> on the right. To do so, we can <skill-link>multiply both sides of the equation</skill-link> by <inline-math/>. This turns it into <block-math/> On the right, the division by <inline-math/> and the multiplication by <inline-math/> <skill-link>cancel out</skill-link>, so this side reduces to just <inline-math/>. The result can be rewritten as <block-math/> Note that we have moved the division factor <inline-math/> from the right to the left, where it turned into a multiplication factor.</par>",
+    "shortCut": "<head>The short-cut</head><par>We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of the equation to the other, we should do the following.</par><list><item><a>If the factor is a multiplication factor (it's in the numerator of a fraction, or just in a multiplication) then on the other side it will appear as a division factor (in the denominator of a fraction). So <inline-math/> turns into <inline-math/>.</a></item><item><b>If the factor is a division factor (in the denominator of a fraction) then on the other side it will appear as a multiplication factor (in the numerator of a fraction, or just in a multiplication). So <inline-math/> turns into <inline-math/>.</b></item></list><par>Using this idea, we can also directly move factors around, without applying the in-between steps.</par>",
+    "steps": "<head>The steps</head><par>To move a factor from one side of a product equation to the other, like when moving the factor <inline-math/> in the equation <inline-math/>, take the following steps.</par><list><item><a>If the factor is in a multiplication, <skill-link>divide both sides of the equation</skill-link> by the factor. Or alternatively, if the factor is being divided by, <skill-link>multiply both sides of the equation</skill-link> by the factor. For the example, we divide by <inline-math/> to get <inline-math/>.</a></item><item><b><skill-link>Cancel fraction factors</skill-link> to get rid of the factor that had to be moved. For the example, we turn <inline-math/> into <inline-math/>.</b></item><item><c>Depending on the situation, it may also be needed to <skill-link>simplify a fraction inside a fraction</skill-link> into a single fraction. For the example, we turn <inline-math/> into <inline-math/>, which optionally can still be written as <inline-math/>.</c></item></list><par>Note that you can also use a short-cut: if a factor is originally multiplied on one side, it will be divided by on the other side, and vice versa.</par>"
+  },
+  "practice": {
+    "basicDivision": {
+      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)",
+      "step1": {
+        "problem": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)",
+        "solution": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible.",
+        "solution": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+      },
+      "step3": {
+        "problem": "Simplify each of the fractions within the brackets as much as possible.",
+        "solution": "By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "step4": {
+        "problem": "Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.",
+        "solution": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
+      }
+    },
+    "multiplication": {
+      "mainProblem": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible."
+    },
+    "division": {
+      "mainProblem": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible."
+    }
   }
 }

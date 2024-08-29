@@ -134,6 +134,11 @@
     "incorrectLeftSide": "De linkerkant van de vergelijking is niet wat verwacht werd.",
     "incorrectRightSide": "De rechterkant van de vergelijking is niet wat verwacht werd.",
     "correct": "De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.",
+    "fullFeedback": {
+      "oneSideCorrect": "De <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant van je vergelijking klopt, maar er gaat iets mis aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant. <check><on-true>Je hebt niet gedaan wat gevraagd is.</on-true><on-false>Je hebt ergens een foutje gemaakt.</on-false></check>",
+      "sidesSwitched": "Oeps ... je hebt de linker en de rechter kant van de vergelijking omgewisseld. Probeer het weer terug om te keren!",
+      "oneSideSwitched": "De <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant van je vergelijking klopt, maar hij moet aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant staan. De <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant van je vergelijking heeft daarnaast nog wat foutjes waar je naar wilt kijken."
+    },
     "noSum": "Je hebt aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant slechts een enkele term gegeven. Hier werd een som verwacht: een optelling/aftrekking van termen.",
     "hasSum": "Je hebt aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant een som gezet: een optelling/aftrekking van termen. Hier werd maar één term verwacht.",
     "wrongNumberOfSumTerms": "De optelsom <check><on-true>links</on-true><on-false>rechts</on-false></check> van het is-teken heeft <counting-word/> termen. Er werden er <counting-word/> verwacht.",

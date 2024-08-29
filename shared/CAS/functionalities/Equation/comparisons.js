@@ -73,9 +73,19 @@ function equivalent(input, correct) {
 	return expressionComparisons.constantMultiple(input.left.subtract(input.right), correct.left.subtract(correct.right))
 }
 
+// leftOnlyOrderChanges checks that the left side is equal with only order changes, and the right side is equivalent. Obviously no interactions between sides are allowed here.
+function leftOnlyOrderChanges(input, correct) {
+	return expressionComparisons.onlyOrderChanges(input.left, correct.left) && expressionComparisons.equivalent(input.right, correct.right)
+}
+function rightOnlyOrderChanges(input, correct) {
+	return expressionComparisons.onlyOrderChanges(input.right, correct.right) && expressionComparisons.equivalent(input.left, correct.left)
+}
+
 module.exports = {
 	...module.exports,
 	equivalentSides,
 	equivalentSidesAndSwitch,
 	equivalent,
+	leftOnlyOrderChanges,
+	rightOnlyOrderChanges,
 }

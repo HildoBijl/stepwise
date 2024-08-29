@@ -120,6 +120,11 @@ class Equation {
 	 * Mathematical operations.
 	 */
 
+	// self does nothing and just returns this equation.
+	self() {
+		return this
+	}
+
 	// applyToBothSides takes a function and applies it to both sides of the equation, returning a new equation.
 	applyToBothSides(operation) {
 		return new Equation(operation(this.left), operation(this.right))

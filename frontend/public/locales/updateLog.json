@@ -1,1 +1,140 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/equations/manipulating/factors/moveEquationFactor": {
+      "theory.intro": {
+        "oldText": "<par>We know how to expand brackets, rewriting <inline-math/> as <inline-math/>. But can we also do the opposite? How do we <term>pull a factor out of brackets</term>? There is a slightly long procedure that always works, but afterwards we also look at a short-cut you can often take.</par>",
+        "firstUpdate": "2024-08-28T12:46:16.725Z",
+        "latestUpdate": "2024-08-28T13:10:49.835Z",
+        "latestText": "<par>A <term>product equation</term> is an equation like <inline-math/> where both sides of the equation only have multiplications/divisions; no additions or subtractions. When we have such an equation, it is helpful to be able to <term>move factors</term> around in the equation. That's what this skill is about. We look at how we do this, and what short-cuts we can take.</par>"
+      },
+      "theory.idea": {
+        "firstUpdate": "2024-08-28T12:46:16.725Z",
+        "latestUpdate": "2024-08-28T12:46:16.725Z",
+        "latestText": "<head>The idea</head>"
+      },
+      "theory.steps": {
+        "oldText": "<head>The steps</head><par>To pull a factor out of brackets, like when pulling <inline-math/> out of <inline-math/>, take the following steps.</par><list><item><a><skill-link>Simplify all fractions</skill-link> within the brackets, canceling factors where possible. This turns our example into <inline-math/>.</a></item><item><b>Check your result by <skill-link>expanding the brackets</skill-link> in your final result. You should wind up with exactly what you started with. And indeed, if we expand the brackets for <inline-math/> then we get <inline-math/>.</b></item></list><par>Note that there are short-cuts that directly get you the required result, if you have the insights to use them properly.</par>",
+        "firstUpdate": "2024-08-28T12:46:16.725Z",
+        "latestUpdate": "2024-08-28T13:26:34.310Z",
+        "latestText": "<head>The steps</head><par>To move a factor from one side of a product equation to the other, like when moving the factor <inline-math/> in the equation <inline-math/>, take the following steps.</par><list><item><a>If the factor is in a multiplication, <skill-link>divide both sides of the equation</skill-link> by the factor. Or alternatively, if the factor is being divided by, <skill-link>multiply both sides of the equation</skill-link> by the factor. For the example, we divide by <inline-math/> to get <inline-math/>.</a></item><item><b><skill-link>Cancel fraction factors</skill-link> to get rid of the factor that had to be moved. For the example, we turn <inline-math/> into <inline-math/>.</b></item><item><c>Depending on the situation, it may also be needed to <skill-link>simplify a fraction inside a fraction</skill-link> into a single fraction. For the example, we turn <inline-math/> into <inline-math/>, which optionally can still be written as <inline-math/>.</c></item></list><par>Note that you can also use a short-cut: if a factor is originally multiplied on one side, it will be divided by on the other side, and vice versa.</par>"
+      },
+      "theory.removingMultiplications": {
+        "oldText": "<head>Getting rid of a multiplication</head><par>One thing that we can do with the equation <inline-math/> is to get rid of the factor <inline-math/> on the left. To do so, we can first <skill-link>divide both sides of the equation</skill-link> by <inline-math/>. This gives <block-math/> Now, both sides of the equation can be simplified. On the left we can <skill-link>cancel fraction factors</skill-link>, where we see that the <inline-math/> indeed disappears from the left side of the equation, as was our goal. On the right, we can <skill-link>simplify the fraction division</skill-link> to get <inline-math/> (or alternatively <inline-math/>). The final result is <block-math/> Note that we have moved the factor <inline-math/> from the left to the right, and when we did, it turned from a multiplication (above) into a division (below).</par>",
+        "firstUpdate": "2024-08-28T13:10:13.971Z",
+        "latestUpdate": "2024-08-28T13:14:48.677Z",
+        "latestText": "<head>Getting rid of a multiplication</head><par>One thing that we can do with the equation <inline-math/> is to get rid of the <term>multiplication factor</term> <inline-math/> on the left. To do so, we can first <skill-link>divide both sides of the equation</skill-link> by <inline-math/>. This gives <block-math/> Both sides of the equation can be simplified. On the left we can <skill-link>cancel fraction factors</skill-link> to get rid of the <inline-math/> on both sides of the fraction, leaving us with just <inline-math/>. We see that the <inline-math/> indeed disappears from the left side of the equation, as was our goal. On the right, we can <skill-link>simplify the fraction division</skill-link> to get <inline-math/> (or alternatively <inline-math/>). The final result is <block-math/> Note that we have moved the multiplication factor <inline-math/> from the left to the right, and when we did, it turned into a division factor.</par>"
+      },
+      "theory.removingDivisions": {
+        "oldText": "<head>Getting rid of divisions</head><par>We could've also done something different with the equation <inline-math/>: get rid of the division by <inline-math/> on the right. To do so, we can <skill-link>multiply both sides of the equation</skill-link> by <inline-math/>. This turns it into <block-math/>. On the right, the division by <inline-math/> and the multiplication by <inline-math/> cancel out, so this reduces to <inline-math/>. The result can be rewritten as <block-math/> Note that we have moved the division by <inline-math/> on the right to the left, where it turned into a multiplication.</par>",
+        "firstUpdate": "2024-08-28T13:10:13.971Z",
+        "latestUpdate": "2024-08-28T13:23:24.030Z",
+        "latestText": "<head>Getting rid of a division</head><par>We could've also done something different with the equation <inline-math/>, which is to get rid of the <term>division factor</term> <inline-math/> on the right. To do so, we can <skill-link>multiply both sides of the equation</skill-link> by <inline-math/>. This turns it into <block-math/> On the right, the division by <inline-math/> and the multiplication by <inline-math/> <skill-link>cancel out</skill-link>, so this side reduces to just <inline-math/>. The result can be rewritten as <block-math/> Note that we have moved the division factor <inline-math/> from the right to the left, where it turned into a multiplication factor.</par>"
+      },
+      "theory.shortCut": {
+        "oldText": "<head>The short-cut</head><par>We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of the equation to another, we should do the following.</par><list><item><a>If the factor is above (in a multiplication, or in the numerator of a fraction) then on the other side it will appear below.</a></item><item><b>If the factor is below (in the denominator of a fraction) then on the other side it will appear above (in a multiplication, or in the numerator of a fraction).</b></item></list><par>Using this idea, we can also move factors around without applying the in-between steps.</par>",
+        "firstUpdate": "2024-08-28T13:10:13.971Z",
+        "latestUpdate": "2024-08-28T13:24:24.013Z",
+        "latestText": "<head>The short-cut</head><par>We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of the equation to the other, we should do the following.</par><list><item><a>If the factor is a multiplication factor (it's in the numerator of a fraction, or just in a multiplication) then on the other side it will appear as a division factor (in the denominator of a fraction). So <inline-math/> turns into <inline-math/>.</a></item><item><b>If the factor is a division factor (in the denominator of a fraction) then on the other side it will appear as a multiplication factor (in the numerator of a fraction, or just in a multiplication). So <inline-math/> turns into <inline-math/>.</b></item></list><par>Using this idea, we can also directly move factors around, without applying the in-between steps.</par>"
+      },
+      "practice.basicDivision.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible.",
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:15:07.586Z",
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Make sure that there are no fractions of fractions in the final result.)"
+      },
+      "practice.basicDivision.step1.problem": {
+        "oldText": "Write the expression in the standard starting form <inline-math/>.",
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-29T09:53:08.227Z",
+        "latestText": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)"
+      },
+      "practice.basicDivision.step1.solution": {
+        "oldText": "If we write the expression in the starting form for pulling a factor out brackets, we get <block-math/>",
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-29T09:39:36.091Z",
+        "latestText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>"
+      },
+      "practice.basicDivision.step2.problem": {
+        "oldText": "Split the fraction up into separate fractions: one for each term. (Keep the multiplication around it as is.)",
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:29:09.323Z",
+        "latestText": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible."
+      },
+      "practice.basicDivision.step2.solution": {
+        "oldText": "To split up the fraction, we must divide each of the terms in the numerator separately by the denominator. This gives <block-math/>",
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-29T09:40:00.061Z",
+        "latestText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>"
+      },
+      "practice.basicDivision.step3.problem": {
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:05:13.372Z",
+        "latestText": "Simplify each of the fractions within the brackets as much as possible."
+      },
+      "practice.basicDivision.step3.solution": {
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:05:13.372Z",
+        "latestText": "By canceling factors within each fraction, we can turn all fractions into fractionless terms. The result is <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "practice.basicDivision.step4.problem": {
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:05:13.372Z",
+        "latestText": "Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with."
+      },
+      "practice.basicDivision.step4.solution": {
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:05:13.372Z",
+        "latestText": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
+      },
+      "practice.multiplication.mainProblem": {
+        "firstUpdate": "2024-08-28T15:05:13.372Z",
+        "latestUpdate": "2024-08-28T15:05:13.372Z",
+        "latestText": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible."
+      },
+      "practice.division.mainProblem": {
+        "firstUpdate": "2024-08-28T15:05:14.518Z",
+        "latestUpdate": "2024-08-28T15:05:14.518Z",
+        "latestText": "Consider the expression <block-math/> Pull a factor <inline-math/> out of brackets and simplify the result as much as possible."
+      }
+    },
+    "eduTools/feedback": {
+      "equation.onlyOrderChanges.incorrectEquation": {
+        "firstUpdate": "2024-08-29T08:12:35.143Z",
+        "latestUpdate": "2024-08-29T08:12:35.143Z",
+        "latestText": "The equation is not equivalent to what was expected. You took a wrong step somewhere in rewriting it."
+      },
+      "equation.onlyOrderChanges.oneSideCorrect": {
+        "firstUpdate": "2024-08-29T08:13:05.549Z",
+        "latestUpdate": "2024-08-29T08:13:05.549Z",
+        "latestText": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but something's wrong on the <check><on-true>right</on-true><on-false>left</on-false></check> side. <check><on-true>You have not done what was required.</on-true><on-false>It's not equivalent to what was expected, so you took a wrong step somewhere.</on-false></check>"
+      },
+      "equation.onlyOrderChanges.sidesSwitched": {
+        "firstUpdate": "2024-08-29T08:16:14.281Z",
+        "latestUpdate": "2024-08-29T08:16:14.281Z",
+        "latestText": "Oops ... you have switched the left and the right side of the equation. Try switching them back!"
+      },
+      "equation.onlyOrderChanges.oneSideSwitched": {
+        "oldText": "There's a few things wrong here. First of all, you switched the equation sides. And then the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation (which should be on the <check><on-true>right</on-true><on-false>left</on-false></check>) still isn't what it's expected to be.",
+        "firstUpdate": "2024-08-29T08:16:19.370Z",
+        "latestUpdate": "2024-08-29T08:20:19.244Z",
+        "latestText": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but it should be on the <check><on-true>right</on-true><on-false>left</on-false></check>. The <check><on-true>right</on-true><on-false>left</on-false></check> side of the equation still has some errors you might want to look at."
+      },
+      "equation.equivalent.oneSideCorrect": {
+        "firstUpdate": "2024-08-29T08:26:36.441Z",
+        "latestUpdate": "2024-08-29T08:26:36.441Z",
+        "latestText": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but something's wrong on the <check><on-true>right</on-true><on-false>left</on-false></check> side. You took a wrong step there at some point."
+      },
+      "equation.onlyOrderChanges.correctEquation": {
+        "firstUpdate": "2024-08-29T08:26:46.153Z",
+        "latestUpdate": "2024-08-29T08:26:46.153Z",
+        "latestText": "This is not the right answer. The equation itself is correct though. Have you done what was required?"
+      },
+      "equation.fullFeedback.oneSideCorrect": {
+        "oldText": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but something's wrong on the <check><on-true>right</on-true><on-false>left</on-false></check> side. <check><on-true>You have not done what was required.</on-true><on-false>It's not equivalent to what was expected, so you took a wrong step somewhere.</on-false></check>",
+        "firstUpdate": "2024-08-29T09:38:14.123Z",
+        "latestUpdate": "2024-08-29T09:38:14.123Z",
+        "latestText": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but something's wrong on the <check><on-true>right</on-true><on-false>left</on-false></check> side. <check><on-true>You have not done what was required.</on-true><on-false>You took a wrong step somewhere.</on-false></check>"
+      }
+    }
+  }
+}
