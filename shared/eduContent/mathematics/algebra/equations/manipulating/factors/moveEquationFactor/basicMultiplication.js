@@ -1,9 +1,7 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asEquation, equationComparisons } = require('../../../../../../../CAS')
+const { asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
-
-const { onlyOrderChanges, equivalentSides } = equationComparisons
 
 // a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']
@@ -14,8 +12,8 @@ const metaData = {
 	skill: 'moveEquationFactor',
 	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
 	comparison: {
-		bothSidesChanged: equivalentSides,
-		ans: onlyOrderChanges,
+		bothSidesChanged: { check: expressionComparisons.equivalent },
+		ans: {},
 	}
 }
 

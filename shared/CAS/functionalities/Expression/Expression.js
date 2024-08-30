@@ -873,7 +873,7 @@ class Integer extends Constant {
 			SO = { value: parseInt(SO) }
 		}
 		if (!isInt(SO.value))
-			throw new Error(`Invalid integer: tried to create an Integer but only a parameter of type "${typeof SO}" with value "${JSON.stringify(SO)}" was given.`)
+			throw new Error(`Invalid integer: tried to create an Integer but only a parameter of type "${typeof SO}/${SO.constructor.name}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
 	}
 
@@ -935,7 +935,7 @@ class Float extends Constant {
 		if (typeof SO === 'number')
 			SO = { value: SO }
 		if (!isNumber(SO.value))
-			throw new Error(`Invalid float: tried to create a Float but only a parameter of type "${typeof SO}" with value "${JSON.stringify(SO)}" was given.`)
+			throw new Error(`Invalid float: tried to create a Float but only a parameter of type "${typeof SO}/${SO.constructor.name}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
 	}
 
@@ -2769,7 +2769,7 @@ function ensureExpression(expression) {
 		return new expressionSubtypes[expression.subtype](expression)
 
 	// Cannot be interpreted.
-	throw new Error(`Invalid Expression: expected an expression object but received a parameter of type "${typeof expression}" with value "${JSON.stringify(expression)}". Could not process this.`)
+	throw new Error(`Invalid Expression: expected an expression object but received a parameter of type "${typeof expression}/${expression.constructor.name}" with value "${JSON.stringify(expression)}". Could not process this.`)
 }
 module.exports.ensureExpression = ensureExpression
 

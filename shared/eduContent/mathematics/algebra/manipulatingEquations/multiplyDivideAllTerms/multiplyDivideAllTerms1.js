@@ -2,7 +2,7 @@ const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../..
 const { asExpression, Integer, Equation, equationComparisons, equationChecks } = require('../../../../../CAS')
 const { getStepExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
-const { onlyElementaryClean, equivalent } = equationComparisons
+const { onlyOrderChanges, equivalent } = equationComparisons
 const { hasSumWithinProduct } = equationChecks
 
 // Multiply "ay/x + bz/y + cz/x + dx/z = 0" by x.
@@ -14,8 +14,8 @@ const metaData = {
 	skill: 'multiplyDivideAllTerms',
 	steps: [null, 'expandBrackets', 'addRemoveFractionFactors'],
 	comparison: {
-		default: (input, correct) => onlyElementaryClean(input, correct.removeUseless()),
-		intermediateWithBrackets: (input, correct) => onlyElementaryClean(input.removeUseless(), correct.removeUseless()), // This is to avoid "0*x" from being an issue.
+		default: (input, correct) => onlyOrderChanges(input, correct.removeUseless()),
+		intermediateWithBrackets: (input, correct) => onlyOrderChanges(input.removeUseless(), correct.removeUseless()), // This is to avoid "0*x" from being an issue.
 		intermediateWithoutBrackets: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 	},
 }

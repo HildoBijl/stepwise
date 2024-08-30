@@ -241,15 +241,33 @@ class Equation {
 		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
 		if (options.allToLeft && !Integer.zero.equalsBasic(this.right))
 			return new Equation(this.left.subtract(this.right), Integer.zero).simplifyBasic(options)
-	
+
 		// Apply the simplification to both sides.
 		return this.applyToBothSides(part => part.simplifyBasic(options))
 	}
 
 	// equals compares of two equations are the same, subject to various options.
-	equals(equation, ...options) {
+	equals(equation, options = {}) {
+		// Check the input.
 		equation = ensureEquation(equation)
-		return this.everySide((side, part) => side.equals(equation[part], ...options))
+		options = processOptions(options, Equation.defaultEqualsOptions)
+
+		// Find the right processing and checking functions.
+		const leftPreprocess = options.leftPreprocess || options.preprocess
+		const rightPreprocess = options.rightPreprocess || options.preprocess
+		const leftCheck = options.leftCheck || options.check
+		const rightCheck = options.rightCheck || options.check
+
+		// Check direct equality.
+		const left = leftPreprocess(this.left)
+		const right = rightPreprocess(this.right)
+		if (leftCheck(leftPreprocess(equation.left), left, options) && rightCheck(rightPreprocess(equation.right), right, options))
+			return true
+
+		// Check for equality on a switch, if allowed.
+		if (options.allowSwitch && leftCheck(leftPreprocess(equation.right), left, options) && rightCheck(rightPreprocess(equation.left), right, options))
+			return true
+		return false
 	}
 
 	/*
@@ -308,6 +326,16 @@ class Equation {
 	}
 }
 module.exports.Equation = Equation
+Equation.defaultEqualsOptions = {
+	preprocess: expression => expression.elementaryClean(),
+	leftPreprocess: undefined,
+	rightPreprocess: undefined,
+	check: (other, self, options) => self.equals(other, options.allowOrderChanges),
+	leftCheck: undefined,
+	rightCheck: undefined,
+	allowSwitch: false,
+	allowOrderChanges: undefined,
+}
 
 // ensureEquation ensures that the given object is an equation. It could already be an equation or a SO of an equation. It may not be a string.
 function ensureEquation(equation) {

@@ -1,7 +1,7 @@
 const { expressionSubtypes, expressionComparisons } = require('.')
 
 const { Variable, Integer } = expressionSubtypes
-const { exactEqual, onlyOrderChanges, onlyElementaryClean, equivalent, integerMultiple, constantMultiple } = expressionComparisons
+const { exactEqual, onlyOrderChanges, equivalent, integerMultiple, constantMultiple } = expressionComparisons
 
 const x = new Variable('x')
 const y = new Variable('y')
@@ -247,24 +247,17 @@ describe('Check expression comparison: ', () => {
 		})
 		it('distinguishes unequal expressions', () => {
 			expect(exactEqual(x.add(y), y.add(x))).toBe(false) // x + y = y + x
+			expect(exactEqual(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(false) // (2*3)/4 = 2*(3/4)
 		})
 	})
 
 	describe('onlyOrderChanges', () => {
 		it('matches equal expressions', () => {
 			expect(onlyOrderChanges(x.add(y), y.add(x))).toBe(true) // x + y = y + x
+			expect(onlyOrderChanges(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(true) // (2*3)/4 = 2*(3/4)
 		})
 		it('distinguishes unequal expressions', () => {
-			expect(onlyOrderChanges(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(false) // (2*3)/4 = 2*(3/4)
-		})
-	})
-
-	describe('onlyElementaryClean', () => {
-		it('matches equal expressions', () => {
-			expect(onlyElementaryClean(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(true) // (2*3)/4 = 2*(3/4)
-		})
-		it('distinguishes unequal expressions', () => {
-			expect(onlyElementaryClean(Integer.two.multiply(x.add(y)), Integer.two.multiply(x).add(Integer.two.multiply(y)))).toBe(false) // 2(x+y) = 2x+2y
+			expect(onlyOrderChanges(Integer.two.multiply(x.add(y)), Integer.two.multiply(x).add(Integer.two.multiply(y)))).toBe(false) // 2(x+y) = 2x+2y
 		})
 	})
 

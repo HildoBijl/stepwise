@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
-const { onlyElementaryClean: expressionOnlyElementaryClean } = expressionComparisons
+const { onlyOrderChanges: expressionOnlyOrderChanges } = expressionComparisons
 const { originalEquation, incorrectEquation, correctEquation, correctEquationWithMessage, sumWithWrongTerms, sumWithUnsimplifiedTerms, hasSumWithinFraction } = equationChecks
 
 export default function Exercise() {
@@ -85,7 +85,7 @@ function getFeedback(exerciseData) {
 	// There is a side that's not like [something]/x. (Ignore this if this side has zero or one term.)
 	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !variables.x.equals(side.denominator))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\frac(\ldots)({variables.x})</M> zijn.</>
 	// There is a side that does not contain the original expression part in the numerator. (Ignore this if this side is zero.)
-	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !expressionOnlyElementaryClean(side.numerator, equation[part]))) && <>Je hebt in de tellers van de breuken niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
+	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !expressionOnlyOrderChanges(side.numerator, equation[part]))) && <>Je hebt in de tellers van de breuken niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 
 	// Determine feedback.
 	return getFieldInputFeedback(exerciseData, {

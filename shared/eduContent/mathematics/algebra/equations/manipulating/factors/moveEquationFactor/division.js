@@ -1,23 +1,26 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asEquation, equationChecks, equationComparisons } = require('../../../../../../../CAS')
+const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
+const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = equationChecks
-const { onlyOrderChanges, equivalentSides, leftOnlyOrderChanges, rightOnlyOrderChanges } = equationComparisons
 
 // ax = b/c => [..] = b/(c[..]).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c']
 
+const ansEqualsOptions = ({ switchSides }) => ({ preprocess: side => side.basicClean({ flattenFractions: false }), leftCheck: switchSides ? equivalent : onlyOrderChanges, rightCheck: switchSides ? onlyOrderChanges : equivalent })
+
 const metaData = {
 	skill: 'moveEquationFactor',
 	steps: ['multiplyBothEquationSides', 'cancelFractionFactors', 'multiplyDivideFractions'],
+	ansEqualsOptions,
 	comparison: {
-		bothSidesChanged: (input, correct) => equivalentSides(input, correct),
-		fractionFactorsCanceled: (input, correct, { switchSides }) => (switchSides ? rightOnlyOrderChanges : leftOnlyOrderChanges)(input, correct),
-		ans: (input, correct, { switchSides }) => !hasFractionWithinFraction(input) && (switchSides ? rightOnlyOrderChanges : leftOnlyOrderChanges)(input, correct),
+		bothSidesChanged: { check: equivalent },
+		fractionFactorsCanceled: (input, correct, solution) => correct.equals(input, ansEqualsOptions(solution)),
+		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
 	}
 }
 
@@ -41,7 +44,7 @@ function getSolution(state) {
 	const fractionFactorsCanceled = bothSidesChanged[state.switchSides ? 'applyToRight' : 'applyToLeft'](side => side.basicClean({ crossOutFractionNumbers: true, crossOutFractionFactors: true, flattenFractions: false }))
 	const ans = fractionFactorsCanceled.removeUseless({ flattenFractions: true })
 	const ansCleaned = ans.basicClean({ crossOutFractionNumbers: true })
-	const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
+	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, factor, equation, bothSidesChanged, fractionFactorsCanceled, ans, ansCleaned, isFurtherSimplificationPossible }
 }
 

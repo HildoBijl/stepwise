@@ -5,7 +5,7 @@ import { Sum, Fraction, expressionChecks, expressionComparisons } from 'step-wis
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
 
-const { onlyElementaryClean, onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
+const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
 
 const translationPath = 'eduTools/feedback'
 
@@ -62,7 +62,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		return sumWithWrongTermsResult
 
 	// Find an input term that is not in the solution when checking only for order changes.
-	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyElementaryClean(inputTerm, correctTerm)))
+	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyOrderChanges(inputTerm, correctTerm)))
 	if (index !== -1)
 		return <Translation path={translationPath} entry="expression.unsimplifiedSumTerm">You can still further simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term of your solution.</Translation>
 }

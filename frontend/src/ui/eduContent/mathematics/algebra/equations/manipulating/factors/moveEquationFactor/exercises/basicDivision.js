@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
-const { originalEquation, leftOnlyOrderChangesFeedback, rightOnlyOrderChangesFeedback, equivalentFeedback } = equationChecks
+const { hasFractionWithinFraction, originalEquation, fullEquationFeedback } = equationChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -60,12 +60,12 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	// Define an alternate feedback check for the final answer, to take into account allowed simplifications.
-	const ansCheck = (input, correct, { switchSides, ansCleaned }, isCorrect) => (switchSides ? rightOnlyOrderChangesFeedback : leftOnlyOrderChangesFeedback)(input, correct, {}, isCorrect)
+	// Define an alternate feedback check for the final answer, to take into account the variations that are possible depending on switchSides.
+	const ansCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metaData.ansEqualsOptions)
 
 	// Set up the overview of feedback checks.
 	return getFieldInputFeedback(exerciseData, {
-		bothSidesChanged: [originalEquation, equivalentFeedback],
-		ans: [originalEquation, ansCheck],
+		bothSidesChanged: [originalEquation],
+		ans: [originalEquation, hasFractionWithinFraction, ansCheck],
 	})
 }

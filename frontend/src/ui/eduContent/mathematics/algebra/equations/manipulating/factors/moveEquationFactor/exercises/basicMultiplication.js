@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
-const { originalEquation, onlyOrderChangesFeedback, equivalentFeedback } = equationChecks
+const { originalEquation } = equationChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -61,7 +61,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
-		bothSidesChanged: [originalEquation, equivalentFeedback],
-		ans: [originalEquation, onlyOrderChangesFeedback],
+		bothSidesChanged: [originalEquation],
+		ans: [originalEquation],
 	})
 }

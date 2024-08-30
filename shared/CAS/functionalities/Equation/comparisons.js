@@ -1,3 +1,5 @@
+const { passOn } = require('../../../util')
+
 const { Sum, expressionComparisons } = require('../Expression')
 
 /*
@@ -6,17 +8,17 @@ const { Sum, expressionComparisons } = require('../Expression')
 
 // exactEqual checks if two expressions are exactly equal, in every way.
 function exactEqual(input, correct) {
-	return correct.equals(input, false)
+	return correct.equals(input, { preprocess: passOn, allowOrderChanges: false })
 }
 
 // onlyOrderChanges checks if two equations are equal, allowing order changes in sums and products. So "2*x=3+5" equals "x*2=5+3" but not "3+5=2*x".
 function onlyOrderChanges(input, correct) {
-	return correct.equals(input, true)
+	return correct.equals(input)
 }
 
 // onlyOrderChangesAndSwitch checks if two equations are equal, allowing order changes and side switches. So "2*x=3+5" equals both "x*2=5+3" and "5+3=x*2".
 function onlyOrderChangesAndSwitch(input, correct) {
-	return onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.switch())
+	return correct.equals(input, { allowSwitch: true })
 }
 
 // onlyOrderChangesAndShifts checks if two equations are equal, where terms may be shifted from one side to the other. Switching sides completely (effectively taking the negative of the equation) is also allowed. So "a+b=c+d" equals "a+b-c=d" and also "d=a+b-c". To figure this out, all terms are brought to one side and the resulting expressions are checked for equality allowing order changes.
@@ -29,29 +31,11 @@ function onlyOrderChangesAndShifts(input, correct) {
 	return onlyOrderChanges(inputSum, correctSum) || onlyOrderChanges(inputSum, correctSumNegative)
 }
 
-// onlyElementaryClean checks if the two sides are equal after an elementary clean. (Order changes are still allowed.)
-function onlyElementaryClean(input, correct) {
-	return onlyOrderChanges(input.elementaryClean(), correct.elementaryClean())
-}
-
-// onlyElementaryCleanAndSwitch also allows side switches.
-function onlyElementaryCleanAndSwitch(input, correct) {
-	return onlyOrderChangesAndSwitch(input.elementaryClean(), correct.elementaryClean())
-}
-
-// onlyElementaryCleanAndShifts allows shifting of terms too.
-function onlyElementaryCleanAndShifts(input, correct) {
-	return onlyOrderChangesAndShifts(input.elementaryClean(), correct.elementaryClean())
-}
-
 module.exports = {
 	exactEqual,
 	onlyOrderChanges,
 	onlyOrderChangesAndSwitch,
 	onlyOrderChangesAndShifts,
-	onlyElementaryClean,
-	onlyElementaryCleanAndSwitch,
-	onlyElementaryCleanAndShifts,
 }
 
 /*
