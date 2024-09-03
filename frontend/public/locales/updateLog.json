@@ -36,6 +36,52 @@
         "firstUpdate": "2024-09-03T10:32:42.639Z",
         "latestUpdate": "2024-09-03T10:33:04.747Z",
         "latestText": "<head>Moving a subtracted term</head><par>But what if we started with a different equation, containing a minus sign? Like <inline-math/>? In this case the procedure would have been nearly the same, but this time we have to <emp>add</emp> <inline-math/> to both sides. This gives <block-math/> On the left, we can <skill-link>cancel sum terms</skill-link> again, to end up at <block-math/> Note that we have once more moved the term <inline-math/> to the other side of the equation. Where before (on the left) it had a minus sign, it now (on the right) has a plus sign.</par>"
+      },
+      "practice.moveSingleTerm.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)",
+        "firstUpdate": "2024-09-03T12:20:56.464Z",
+        "latestUpdate": "2024-09-03T12:46:35.803Z",
+        "latestText": "Consider the equation <block-math/> Move the term <inline-math/> to the other side. Simplify the result as much as possible."
+      },
+      "practice.moveSingleTerm.step1.problem": {
+        "oldText": "<emp>Divide</emp> both sides of the equation by <inline-math/>. (After all, the factor <inline-math/> is inside a <emp>multiplication</emp>.)",
+        "firstUpdate": "2024-09-03T12:20:56.464Z",
+        "latestUpdate": "2024-09-03T12:41:45.325Z",
+        "latestText": "<check><on-true><emp>Subtract</emp> the term <inline-math/> from</on-true><on-false><emp>Add</emp> the term <inline-math/> to</on-false></check> both sides of the equation. (After all, the term <inline-math/> is currently being <check><on-true><emp>added</emp></on-true><on-false><emp>subtracted</emp></on-false></check>.)"
+      },
+      "practice.moveSingleTerm.step1.solution": {
+        "oldText": "If we divide both sides of the equation <inline-math/> by the factor <inline-math/>, then we directly wind up with <block-math/>",
+        "firstUpdate": "2024-09-03T12:20:56.464Z",
+        "latestUpdate": "2024-09-03T12:44:00.018Z",
+        "latestText": "If we <check><on-true>subtract</on-true><on-false>add</on-false></check> <inline-math/> on both sides, then we directly wind up with <block-math/>"
+      },
+      "practice.moveSingleTerm.step2.problem": {
+        "oldText": "Simplify the fraction on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling fraction factors where possible.",
+        "firstUpdate": "2024-09-03T12:20:56.464Z",
+        "latestUpdate": "2024-09-03T12:46:35.803Z",
+        "latestText": "Simplify the expression on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling sum terms where possible. Also apply any potential other simplifications."
+      },
+      "practice.moveSingleTerm.step2.solution": {
+        "oldText": "We can cancel out the factor <inline-math/> on both sides of the fraction. This gives the result <block-math/><check><on-true>Optionally, this can still be simplified to <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check>",
+        "firstUpdate": "2024-09-03T12:20:56.464Z",
+        "latestUpdate": "2024-09-03T12:44:53.314Z",
+        "latestText": "Subsequently adding and subtracting <inline-math/> has no effect, so these two terms can be canceled. We remain with <block-math/> Note that <inline-math/> has moved to the other side, and is now being <check><on-true>subtracted</on-true><on-false>added</on-false></check>."
+      },
+      "practice.moveAllTerms.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)",
+        "firstUpdate": "2024-09-03T12:20:56.464Z",
+        "latestUpdate": "2024-09-03T12:20:56.508Z",
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
+      },
+      "crossExerciseFeedback.wrongSignUsed": {
+        "firstUpdate": "2024-09-03T13:14:08.308Z",
+        "latestUpdate": "2024-09-03T13:14:08.308Z",
+        "latestText": "<a>If the term is <check><on-true>added (with plus sign)</on-true><on-false>subtracted (with minus sign)</on-false></check> on one side, then when it's brought to the other side it should be <check><on-true>subtracted (with minus sign)</on-true><on-false>added (with plus sign)</on-false></check>.</a>"
+      },
+      "crossExerciseFeedback.termsNotCanceled": {
+        "firstUpdate": "2024-09-03T13:14:42.310Z",
+        "latestUpdate": "2024-09-03T13:14:42.310Z",
+        "latestText": "<a>You <check><on-true>subtracted the right term from</on-true><on-false>added the right term to</on-false></check> both sides, but you still have to cancel some terms.</a>"
       }
     }
   }

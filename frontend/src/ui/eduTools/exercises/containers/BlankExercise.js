@@ -37,7 +37,7 @@ function BlankExerciseInner({ exerciseId }) {
 	const reload = () => {
 		setLoading(true)
 		setError(false)
-		import(/* webpackChunkName: "shared-exercises-34" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).then(importedModule => {
+		import(/* webpackChunkName: "shared-exercises-35" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).then(importedModule => {
 			ExerciseShared.current = importedModule.default
 			setLoading(false)
 		}).catch((err) => {

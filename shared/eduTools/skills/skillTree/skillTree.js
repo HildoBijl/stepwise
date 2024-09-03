@@ -181,6 +181,8 @@ const skillStructure = {
 						moveEquationTerm: {
 							name: 'Move equation term',
 							setup: and('addToBothEquationSides', 'cancelSumTerms'),
+							examples: ['moveSingleTerm'],
+							exercises: ['moveSingleTerm', 'moveAllTerms'],
 						},
 					},
 					factors: {
