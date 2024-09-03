@@ -35,7 +35,7 @@ export function Theory() {
 			<Par>To move a factor from one side of a product equation to the other, like when moving the factor <M>2</M> in the equation <M>2x = \frac(5)(3)</M>, take the following steps.</Par>
 			<List items={[
 				<>If the factor is in a multiplication, <SkillLink skillId="multiplyBothEquationSides">divide both sides of the equation</SkillLink> by the factor. Or alternatively, if the factor is being divided by, <SkillLink skillId="multiplyBothEquationSides">multiply both sides of the equation</SkillLink> by the factor. For the example, we divide by <M>2</M> to get <M>\frac(2x)(2) = \frac(5/3)(2)</M>.</>,
-				<><SkillLink skillId="cancelFractionFactors">Cancel fraction factors</SkillLink> to get rid of the factor that had to be moved. For the example, we turn <M>\frac(2x)(2)</M> into <M>x</M>.</>,
+				<><SkillLink skillId="cancelFractionFactors">Cancel fraction factors</SkillLink> to get rid of the factor that has to be moved. For the example, we turn <M>\frac(2x)(2)</M> into <M>x</M>.</>,
 				<>Depending on the situation, it may also be needed to <SkillLink skillId="multiplyDivideFractions">simplify a fraction inside a fraction</SkillLink> into a single fraction. For the example, we turn <M>\frac(5/3)(2)</M> into <M>\frac(5)(2 \cdot 3)</M>, which optionally can still be written as <M>\frac(5)(6)</M>.</>,
 			]} />
 			<Par>Note that you can also use a short-cut: if a factor is originally multiplied on one side, it will be divided by on the other side, and vice versa.</Par>
