@@ -10,9 +10,13 @@ export function Theory() {
 			<Par>Equations often have summations with various <Term>terms</Term>. For instance in <M>x^2 + 2x = 3</M> the left side has terms <M>x^2</M> and <M>2x</M> while the right side has the term <M>3</M>. A common thing we can do with equations is <Term>move terms</Term> to the other side of the equation. We'll first study the idea of how we can do that, and then summarize this idea into a short-cut.</Par>
 		</Translation>
 
-		<Translation entry="movingATerm">
-			<Head>Moving a term</Head>
+		<Translation entry="movingAnAddedTerm">
+			<Head>Moving an added term</Head>
 			<Par>Suppose we have the equation <M>x^2 + 2x = 3</M> and (for whatever reason) we want to get rid of the term <M>2x</M> on the left. To do so, the first step is to <SkillLink skillId="addToBothEquationSides">subtract <M>2x</M> from both sides</SkillLink>. We are allowed to do this because, when we add or subtract the same term from both sides of the equation, the equation still remains valid. In this way we get <BM>x^2 + 2x - 2x = 3 - 2x.</BM> Subsequently, we can see that on the left side adding <M>2x</M> and subsequently subtracting <M>2x</M> has no effect. We can hence <SkillLink skillId="cancelSumTerms">cancel these sum terms</SkillLink> to get <BM>x^2 = 3 - 2x.</BM> Note that, when we compare this to the original equation <M>x^2 + 2x = 3</M>, we have removed the term <M>2x</M> from the left side, while keeping the equation valid. The result is that this term <M>2x</M> has moved to the right side of the equation, and while it used to have a plus sign on the left, now it has a minus sign on the right.</Par>
+		</Translation>
+
+		<Translation entry="movingASubtractedTerm">
+			<Head>Moving a subtracted term</Head>
 			<Par>But what if we started with a different equation, containing a minus sign? Like <M>x^2 - 2x = 3</M>? In this case the procedure would have been nearly the same, but this time we have to <Emp>add</Emp> <M>2x</M> to both sides. This gives <BM>x^2 - 2x + 2x = 3 + 2x.</BM> On the left, we can <SkillLink skillId="cancelSumTerms">cancel sum terms</SkillLink> again, to end up at <BM>x^2 = 3 + 2x.</BM> Note that we have once more moved the term <M>2x</M> to the other side of the equation. Where before (on the left) it had a minus sign, it now (on the right) has a plus sign.</Par>
 		</Translation>
 

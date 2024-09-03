@@ -186,10 +186,12 @@ const skillStructure = {
 					factors: {
 						multiplyBothEquationSides: {
 							name: 'Multiply both equation sides',
+							links: { skill: 'addToBothEquationSides', correlation: 0.5 },
 						},
 						moveEquationFactor: {
 							name: 'Move equation factor',
 							setup: and('multiplyBothEquationSides', 'cancelFractionFactors', part('multiplyDivideFractions', 1 / 2)),
+							links: { skill: 'moveEquationTerm', correlation: 0.5 },
 							examples: ['basicDivision', 'basicMultiplication'],
 							exercises: ['division', 'multiplication'],
 						},
