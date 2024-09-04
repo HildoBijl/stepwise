@@ -1,5 +1,41 @@
 {
   "meta": {
     "learningGoals": "<par>In deze vaardigheid leer je een <term>term naar de andere kant van een vergelijking te brengen</term>. Als je een vergelijking als <inline-math/> hebt, dan kun je de term <inline-math/> naar rechts halen om <inline-math/> te krijgen, of je kunt de <inline-math/> naar links halen om op <inline-math/> uit te komen. Dit omvat het begrijpen waarom dit toegestaan is: het <skill-link>optellen/aftrekken van een term aan beide kanten van de vergelijking</skill-link> en hieropvolgend het <skill-link>wegstrepen van identieke somtermen</skill-link>. Deze vaardigheid betreft niet het redeneren over welke termen handig zijn om te verplaatsen.</par>"
+  },
+  "theory": {
+    "intro": "<par>Vergelijkingen hebben vaak optellingen met meerdere <term>termen</term>. Bijvoorbeeld bij <inline-math/> heeft de linker kant de termen <inline-math/> en <inline-math/> terwijl de rechter kant de term <inline-math/> heeft. Iets dat veel voorkomt bij vergelijkingen is dat we een <term>term naar de andere kant brengen</term>. We bekijken eerst hoe dit werkt, en vatten dit idee vervolgens samen in een short-cut.</par>",
+    "movingAnAddedTerm": "<head>Een opgetelde term verplaatsen</head><par>Stel dat we de vergelijking <inline-math/> hebben en we willen (voor wat voor reden dan ook) aan de linker kant de term <inline-math/> weg hebben. Om dit voor elkaar te krijgen, is de eerste stap om <skill-link>van beide kanten <inline-math/> af te trekken</skill-link>. We mogen dit doen omdat, als we bij beide kanten van een vergelijking hetzelfde optellen of aftrekken, de vergelijking nog steeds kloppend blijft. Op deze wijze krijgen we <block-math/> Hierna kunnen we aan de linker kant zien dat het optellen van <inline-math/> en het vervolgens aftrekken van <inline-math/> geen effect heeft. We kunnen dus deze <skill-link>termen wegstrepen</skill-link> om uit te komen op <block-math/> Merk op dat, als we dit met de oorspronkelijke vergelijking <inline-math/> vergelijken, dat we de term <inline-math/> aan de linker kant weg hebben gehaald, terwijl de vergelijking nog steeds kloppend is. Als gevolg hiervan staat de term <inline-math/> nu aan de rechter kant, en waar hij eerst links nog een plusteken had, heeft hij nu rechts een minteken.</par>",
+    "movingASubtractedTerm": "<head>Een afgetrokken term verplaatsen</head><par>Maar wat als we met een andere vergelijking, met een minteken, begonnen waren? Zoals <inline-math/>? In dit geval gaat alles op bijna exact dezelfde wijze, maar nu moeten we <inline-math/> aan beide kanten optellen. Dit geeft <block-math/> Links kunnen we nu weer <skill-link>somtermen wegstrepen</skill-link> om uit te komen op <block-math/> Merk op dat we wederom de term <inline-math/> naar de andere kant van de vergelijking hebben gehaald. Waar hij eerst (links) een minteken had, heeft hij nu (rechts) een plusteken.</par>",
+    "steps": "<head>De stappen</head><par>Om een term van de ene kant van een vergelijking naar de andere kant te brengen, zoals bij het verplaatsen van de term <inline-math/> in de vergelijking <inline-math/>, neem je de volgende stappen.</par><list><item><a>Als de term opgeteld wordt (met plusteken), <skill-link>trek deze term dan van beide kanten van de vergelijking af</skill-link>. Of omgekeerd, als de term afgetrokken wordt (met minteken), <skill-link>tel deze term dan aan beide kanten van de vergelijking op</skill-link>. Bij het voorbeeld trekken we <inline-math/> af om <inline-math/> te krijgen.</a></item><item><b><skill-link>Streep termen weg</skill-link> om af te komen van de term die verplaatst moet worden. Bij het voorbeeld zal <inline-math/> verdwijnen, en blijft de vergelijking over als <inline-math/>.</b></item></list>",
+    "shortCut": "<head>De short-cut</head><par>In plaats van de bovenstaande stappen uit te voeren, kunnen we ook een short-cut nemen en direct een term verplaatsen.</par><list><item><a>Als de term aan de oorspronkelijke kant opgeteld was (met plusteken), dan zal hij aan de andere kant afgetrokken worden (met minteken). Dus <inline-math/> wordt dan <inline-math/>.</a></item><item><b>Als de term aan de oorsprinkelijke kant afgetrokken was (met minteken), dan zal hij aan de andere kant opgeteld worden (met plusteken). Dus <inline-math/> wordt dan <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "moveSingleTerm": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng de term <inline-math/> naar de andere kant. Vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "<check><on-true><emp>Trek</emp> de term <inline-math/> van beide kanten van de vergelijking af.</on-true><on-false><emp>Tel</emp> de term <inline-math/> bij beide kanten van de vergelijking op.</on-false></check> (Immers wordt de term <inline-math/> nu <check><on-true><emp>opgeteld</emp></on-true><on-false><emp>afgetrokken</emp></on-false></check>.)",
+        "solution": "Na het <check><on-true>aftrekken</on-true><on-false>optellen</on-false></check> van <inline-math/> aan beide kanten komen we direct uit op <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de uitdrukking aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant door waar mogelijk somtermen weg te strepen. Voer waar mogelijk ook andere vereenvoudigingen uit.",
+        "solution": "Het opvolgend optellen en aftrekken van <inline-math/> heeft geen effect, dus deze twee termen kunnen tegen elkaar weggestreept worden. We blijven over met <block-math/> Merk op dat <inline-math/> aan de andere kant staat, en nu wordt <check><on-true>afgetrokken</on-true><on-false>opgeteld</on-false></check>."
+      }
+    },
+    "moveAllTerms": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng alle termen naar de <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant. Vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "<check><on-true>Tel de term <inline-math/> bij beide kanten van de vergelijking op.</on-true><on-false>Trek de term <inline-math/> van beide kanten van de vergelijking af.</on-false></check> <check><on-true>Tel vervolgens ook de term <inline-math/> aan beide kanten van de vergelijking op.</on-true><on-false>Trek vervolgens ook de term <inline-math/> van beide kanten van de vergelijking af.</on-false></check>",
+        "solution": "Letterlijk doen wat gevraagd wordt zet de vergelijking om in <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereenvoudig de uitdrukking aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant door waar mogelijk somtermen weg te strepen.",
+        "solution": "Als we somtermen wegstrepen, zien we dat alles aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant van de vergelijking wegvalt. Het eindresultaat is <block-math/> Merk op dat alle termen nu inderdaad aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant staan. Aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant blijft niets (nul) over."
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "termsNotCanceled": "<a><check><on-true>Je hebt de juiste term van beide kanten afgehaald</on-true><on-false>Je hebt de juiste term bij beide kanten opgeteld</on-false></check>, maar je moet nog enkele term wegstrepen.</a>",
+    "termsLeft": "<a>Er staan nog steeds termen aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant van de vergelijking.</a>",
+    "wrongSignUsed": "<a>Als de term aan de ene kant <check><on-true>opgeteld wordt (met plusteken)</on-true><on-false>afgetrokken wordt (met minteken)</on-false></check>, dan moet hij aan de andere kant juist <check><on-true>afgetrokken worden (met minteken)</on-true><on-false>opgeteld worden (met plusteken)</on-false></check>.</a>"
   }
 }

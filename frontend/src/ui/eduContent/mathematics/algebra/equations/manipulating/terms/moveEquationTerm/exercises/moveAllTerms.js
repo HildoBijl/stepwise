@@ -56,7 +56,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ toLeft, ans }) => {
-			return <Par><Translation>By canceling terms, we see that everything on the <Check value={toLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of the equation reduces to zero. We are left with <BM>{ans}.</BM> Note that all terms have indeed been moved to the <Check value={toLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check>. The right has nothing (zero) left.</Translation></Par>
+			return <Par><Translation>By canceling terms, we see that everything on the <Check value={toLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of the equation reduces to zero. We are left with <BM>{ans}.</BM> Note that all terms have indeed been moved to the <Check value={toLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check>. The <Check value={toLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side has nothing (zero) left.</Translation></Par>
 		},
 	},
 ]

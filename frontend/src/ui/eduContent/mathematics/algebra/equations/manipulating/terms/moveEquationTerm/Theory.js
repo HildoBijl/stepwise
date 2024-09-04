@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Translation } from 'i18n'
-import { Head, Par, List, Term, Emp, M, BM } from 'ui/components'
+import { Head, Par, List, Term, M, BM } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 
 export function Theory() {
@@ -17,17 +17,7 @@ export function Theory() {
 
 		<Translation entry="movingASubtractedTerm">
 			<Head>Moving a subtracted term</Head>
-			<Par>But what if we started with a different equation, containing a minus sign? Like <M>x^2 - 2x = 3</M>? In this case the procedure would have been nearly the same, but this time we have to <Emp>add</Emp> <M>2x</M> to both sides. This gives <BM>x^2 - 2x + 2x = 3 + 2x.</BM> On the left, we can <SkillLink skillId="cancelSumTerms">cancel sum terms</SkillLink> again, to end up at <BM>x^2 = 3 + 2x.</BM> Note that we have once more moved the term <M>2x</M> to the other side of the equation. Where before (on the left) it had a minus sign, it now (on the right) has a plus sign.</Par>
-		</Translation>
-
-		<Translation entry="shortCut">
-			<Head>The short-cut</Head>
-			<Par>We can summarize the above ideas into a useful short-cut. It is always possible to move a term to the other side of the equation.</Par>
-			<List items={[
-				<>If the term was added (had a plus sign) on the original side, then it will be subtracted (have a minus sign) on the other side. So <M>x^2 + 2x = 3</M> turns into <M>x^2 = 3 - 2x</M>.</>,
-				<>If the term was subtracted (had a minus sign) on the original side, then it will be added (have a plus sign) on the other side. So <M>x^2 - 2x = 3</M> turns into <M>x^2 = 3 + 2x</M>.</>
-			]} />
-			<Par>Using this idea, we can also directly move terms around, without applying the in-between steps.</Par>
+			<Par>But what if we started with a different equation, containing a minus sign? Like <M>x^2 - 2x = 3</M>? In this case the procedure would have been nearly the same, but this time we have to add <M>2x</M> to both sides. This gives <BM>x^2 - 2x + 2x = 3 + 2x.</BM> On the left, we can <SkillLink skillId="cancelSumTerms">cancel sum terms</SkillLink> again, to end up at <BM>x^2 = 3 + 2x.</BM> Note that we have once more moved the term <M>2x</M> to the other side of the equation. Where before (on the left) it had a minus sign, it now (on the right) has a plus sign.</Par>
 		</Translation>
 
 		<Translation entry="steps">
@@ -37,7 +27,15 @@ export function Theory() {
 				<>If the term is being added (has a plus sign), <SkillLink skillId="addToBothEquationSides">subtract this term from both sides of the equation</SkillLink>. Or alternatively, if the term is being subtracted (has a minus sign), <SkillLink skillId="addToBothEquationSides">add this term to both sides of the equation</SkillLink>. For the example, we subtract <M>2x</M> to get <M>x^2 + 2x - 2x = 3 - 2x</M>.</>,
 				<><SkillLink skillId="cancelSumTerms">Cancel sum terms</SkillLink> to get rid of the term that has to be moved. For the example, we have <M>+2x-2x</M> disappearing, leaving the equation as <M>x^2 = 3 - 2x</M>.</>,
 			]} />
-			<Par>Note that you can also use a short-cut: if a term is originally added on one side, it will be subtracted on the other side, and vice versa.</Par>
+		</Translation>
+
+		<Translation entry="shortCut">
+			<Head>The short-cut</Head>
+			<Par>Instead of going through all of the above steps, we can also take a short-cut and directly move the equation term.</Par>
+			<List items={[
+				<>If the term was added (had a plus sign) on the original side, then it will be subtracted (have a minus sign) on the other side. So <M>x^2 + 2x = 3</M> directly turns into <M>x^2 = 3 - 2x</M>.</>,
+				<>If the term was subtracted (had a minus sign) on the original side, then it will be added (have a plus sign) on the other side. So <M>x^2 - 2x = 3</M> directly turns into <M>x^2 = 3 + 2x</M>.</>
+			]} />
 		</Translation>
 	</>
 }
