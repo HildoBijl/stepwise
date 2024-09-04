@@ -47,7 +47,7 @@ const steps = [
 		Problem: () => {
 			const { switchSides, toMove, equation } = useSolution()
 			return <>
-				<Par><Translation>Simplify the expression on the <Check value={switchSides[toMove]}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling sum terms where possible. Also apply any potential other simplifications.</Translation></Par>
+				<Par><Translation>Simplify the expression on the <Check value={switchSides[toMove]}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling sum terms where possible. Also apply any other potential simplifications.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />

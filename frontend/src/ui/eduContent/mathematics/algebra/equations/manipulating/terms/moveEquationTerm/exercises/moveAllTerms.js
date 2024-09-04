@@ -1,24 +1,26 @@
 import React from 'react'
 
 import { Translation, Check } from 'i18n'
-import { Par, M, BM, Emp } from 'ui/components'
+import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
-const { hasFractionWithinFraction, originalEquation, fullEquationFeedback } = equationChecks
+import { termsLeft, wrongSignUsed } from './util'
+
+const { originalEquation, sumWithUnsimplifiedTerms } = equationChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
 const Problem = () => {
-	const { factor, equation } = useSolution()
+	const { equation, toLeft } = useSolution()
 	return <>
-		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move the factor <M>{factor}</M> to the other side. (Also make sure that there are no fractions of fractions in the final result.)</Translation></Par>
+		<Par><Translation>Consider the equation <BM>{equation}.</BM> Move all terms to the <Check value={toLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side. Simplify the result as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+				<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
 			</Par>
 		</InputSpace>
 	</>
@@ -27,45 +29,41 @@ const Problem = () => {
 const steps = [
 	{
 		Problem: () => {
-			const { factor, equation } = useSolution()
+			const { equation, termsToMove } = useSolution()
 			return <>
-				<Par><Translation><Emp>Divide</Emp> both sides of the equation by <M>{factor}</M>. (After all, the factor <M>{factor}</M> is inside a <Emp>multiplication</Emp>.)</Translation></Par>
+				<Par><Translation><Check value={termsToMove[0].isNegative()}><Check.True>Add the term <M>{termsToMove[0].abs()}</M> to</Check.True><Check.False>Subtract the term <M>{termsToMove[0].abs()}</M> from</Check.False></Check> both sides of the equation. Then also <Check value={termsToMove[1].isNegative()}><Check.True>add the term <M>{termsToMove[1].abs()}</M> to</Check.True><Check.False>subtract the term <M>{termsToMove[1].abs()}</M> from</Check.False></Check> both sides of the equation.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ equation, factor, bothSidesChanged }) => {
-			return <Par><Translation>If we divide both sides of the equation <M>{equation}</M> by the factor <M>{factor}</M>, then we directly wind up with <BM>{bothSidesChanged}.</BM></Translation></Par>
+		Solution: ({ bothSidesChanged }) => {
+			return <Par><Translation>Doing as requested turns the equation into <BM>{bothSidesChanged}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
-			const { switchSides, equation } = useSolution()
+			const { toLeft, equation } = useSolution()
 			return <>
-				<Par><Translation>Simplify the fraction on the <Check value={switchSides}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling fraction factors where possible.</Translation></Par>
+				<Par><Translation>Simplify the expression on the <Check value={toLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side by canceling sum terms where possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
+						<EquationInput id="ans" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ factor, ans, ansCleaned, isFurtherSimplificationPossible }) => {
-			return <Par><Translation>We can cancel out the factor <M>{factor}</M> on both sides of the fraction. This gives the result <BM>{ans}.</BM><Check value={isFurtherSimplificationPossible}><Check.True>Optionally, this can still be simplified to <BM>{ansCleaned}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Translation></Par>
+		Solution: ({ toLeft, ans }) => {
+			return <Par><Translation>By canceling terms, we see that everything on the <Check value={toLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of the equation reduces to zero. We are left with <BM>{ans}.</BM> Note that all terms have indeed been moved to the <Check value={toLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check>. The right has nothing (zero) left.</Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
-	// Define an alternate feedback check for the final answer, to take into account the variations that are possible depending on switchSides.
-	const ansCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metaData.ansEqualsOptions)
-
-	// Set up the overview of feedback checks.
 	return getFieldInputFeedback(exerciseData, {
 		bothSidesChanged: [originalEquation],
-		ans: [originalEquation, hasFractionWithinFraction, ansCheck],
+		ans: [originalEquation, termsLeft, wrongSignUsed, sumWithUnsimplifiedTerms],
 	})
 }

@@ -43,7 +43,7 @@ function getSolution(state) {
 	const termIsLeft = !state.switchSides[state.toMove]
 	const positive = !terms[state.toMove].isNegative()
 	const termToMove = terms[state.toMove].abs()
-	const bothSidesChanged = equation.applyToBothSides(side => side[positive ? 'subtract' : 'add'](termToMove))
+	const bothSidesChanged = equation[positive ? 'subtract' : 'add'](termToMove)
 	const ans = bothSidesChanged.basicClean()
 
 	// Also set up possibly wrong answers.

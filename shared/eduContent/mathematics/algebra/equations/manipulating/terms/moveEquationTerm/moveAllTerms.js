@@ -1,47 +1,57 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
+const { selectRandomly, getRandomInteger, getRandomBoolean, getRandomIndices } = require('../../../../../../../util')
+const { asEquation, expressionComparisons, Equation, Integer } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { hasFractionWithinFraction } = equationChecks
 
-// ax = b => x = b/a.
+// ax^3 + bx^2 + cx + d = 0.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b']
-
-const ansEqualsOptions = ({ switchSides }) => ({ preprocess: side => side.basicClean({ flattenFractions: false }), leftCheck: switchSides ? equivalent : onlyOrderChanges, rightCheck: switchSides ? onlyOrderChanges : equivalent })
+const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
-	skill: 'moveEquationFactor',
-	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
-	ansEqualsOptions,
+	skill: 'moveEquationTerm',
+	steps: ['addToBothEquationSides', 'cancelSumTerms'],
 	comparison: {
 		bothSidesChanged: { check: equivalent },
-		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
+		ans: { check: onlyOrderChanges },
 	}
 }
 
-function generateState() {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
+function generateState(example) {
+	const a = getRandomInteger(-8, 8, [0])
+	const b = getRandomInteger(-8, 8, [0, a, -a])
+	const c = getRandomInteger(-8, 8, [0, a, -a, b, -b])
+	const d = getRandomInteger(-8, 8, [0, a, -a, b, -b, c, -c])
 	return {
 		x: selectRandomly(variableSet),
-		a, b,
-		switchSides: getRandomBoolean(), // Do we switch equation sides?
+		a, b, c, d,
+		termsLeft: getRandomIndices(4, 2),
+		toLeft: getRandomBoolean(),
 	}
 }
 
 function getSolution(state) {
+	// Set up the equation.
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = variables.a
-	const equation = asEquation('a*x=b')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const bothSidesChanged = equation.divide(factor)
-	const ans = bothSidesChanged[state.switchSides ? 'applyToRight' : 'applyToLeft'](side => side.basicClean({ crossOutFractionNumbers: true }))
-	const ansCleaned = ans.basicClean({ crossOutFractionNumbers: true })
-	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
-	return { ...state, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
+	let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substituteVariables(variables).removeUseless()
+	state.termsLeft.forEach(index => {
+		equation = equation.subtract(equation.right.terms[index])
+	})
+	equation = equation.regularClean()
+
+	// Find the term to move, add/subtract it and simplify.
+	const sideToMove = equation[state.toLeft ? 'right' : 'left']
+	const termsToMove = sideToMove.terms
+	const positive = termsToMove.some(term => !term.isNegative())
+	const bothSidesChanged = equation.subtract(sideToMove)
+	const ans = bothSidesChanged.basicClean()
+
+	// Also set up possibly wrong answers.
+	const sidesAdded = equation.left.add(equation.right)
+	const ansWithWrongSignUsed = new Equation({ left: state.toLeft ? sidesAdded : Integer.zero, right: state.toLeft ? Integer.zero : sidesAdded }).regularClean()
+	return { ...state, variables, equation, sideToMove, termsToMove, positive, bothSidesChanged, ans, ansWithWrongSignUsed }
 }
 
 function checkInput(exerciseData, step) {

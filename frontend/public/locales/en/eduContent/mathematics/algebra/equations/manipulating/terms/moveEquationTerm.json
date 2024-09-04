@@ -17,16 +17,25 @@
         "solution": "If we <check><on-true>subtract</on-true><on-false>add</on-false></check> <inline-math/> on both sides, then we directly wind up with <block-math/>"
       },
       "step2": {
-        "problem": "Simplify the expression on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling sum terms where possible. Also apply any potential other simplifications.",
+        "problem": "Simplify the expression on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling sum terms where possible. Also apply any other potential simplifications.",
         "solution": "Subsequently adding and subtracting <inline-math/> has no effect, so these two terms can be canceled. We remain with <block-math/> Note that <inline-math/> has moved to the other side, and is now being <check><on-true>subtracted</on-true><on-false>added</on-false></check>."
       }
     },
     "moveAllTerms": {
-      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
+      "mainProblem": "Consider the equation <block-math/> Move all terms to the <check><on-true>left</on-true><on-false>right</on-false></check> side. Simplify the result as much as possible.",
+      "step1": {
+        "problem": "<check><on-true>Add the term <inline-math/> to</on-true><on-false>Subtract the term <inline-math/> from</on-false></check> both sides of the equation. Then also <check><on-true>add the term <inline-math/> to</on-true><on-false>subtract the term <inline-math/> from</on-false></check> both sides of the equation.",
+        "solution": "Doing as requested turns the equation into <block-math/>"
+      },
+      "step2": {
+        "solution": "By canceling terms, we see that everything on the <check><on-true>right</on-true><on-false>left</on-false></check> side of the equation reduces to zero. We are left with <block-math/> Note that all terms have indeed been moved to the <check><on-true>left</on-true><on-false>right</on-false></check>. The right has nothing (zero) left.",
+        "problem": "Simplify the expression on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling sum terms where possible."
+      }
     }
   },
   "crossExerciseFeedback": {
-    "wrongSignUsed": "<a>If the term is <check><on-true>added (with plus sign)</on-true><on-false>subtracted (with minus sign)</on-false></check> on one side, then when it's brought to the other side it should be <check><on-true>subtracted (with minus sign)</on-true><on-false>added (with plus sign)</on-false></check>.</a>",
-    "termsNotCanceled": "<a>You <check><on-true>subtracted the right term from</on-true><on-false>added the right term to</on-false></check> both sides, but you still have to cancel some terms.</a>"
+    "termsNotCanceled": "<a>You <check><on-true>subtracted the correct term from</on-true><on-false>added the correct term to</on-false></check> both sides, but you still have to cancel some terms.</a>",
+    "termsLeft": "<a>There are still terms left on the <check><on-true>right</on-true><on-false>left</on-false></check> side of the equation.</a>",
+    "wrongSignUsed": "<a>If the term is <check><on-true>added (with plus sign)</on-true><on-false>subtracted (with minus sign)</on-false></check> on one side, then when it's brought to the other side it should be <check><on-true>subtracted (with minus sign)</on-true><on-false>added (with plus sign)</on-false></check>.</a>"
   }
 }
