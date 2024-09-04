@@ -243,10 +243,10 @@ const skillStructure = {
 				},
 			},
 			manipulatingEquations: {
-				moveATerm: {
-					name: 'Move a term',
-					exercises: ['moveATerm1', 'moveATerm2'],
-				},
+				// moveATerm: {
+				// 	name: 'Move a term',
+				// 	exercises: ['moveATerm1', 'moveATerm2'],
+				// },
 				multiplyDivideAllTerms: {
 					name: 'Multiply/divide all terms',
 					setup: and('expandBrackets', 'addRemoveFractionFactors'),
@@ -256,7 +256,7 @@ const skillStructure = {
 			linearEquations: {
 				solveBasicLinearEquation: {
 					name: 'Solve a basic linear equation',
-					setup: and(repeat('moveATerm', 2), 'pullFactorOutOfBrackets', 'multiplyDivideAllTerms'),
+					setup: and(repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyDivideAllTerms'),
 					exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 				},
 				solveGeneralLinearEquation: {
@@ -276,12 +276,12 @@ const skillStructure = {
 				},
 				solveBasicQuadraticEquation: {
 					name: 'Solve a basic quadratic equation',
-					setup: and('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+					setup: and('moveEquationTerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 					exercises: [], // ToDo
 				},
 				solveGeneralQuadraticEquation: {
 					name: 'Solve a general quadratic equation',
-					setup: and('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+					setup: and('moveEquationTerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 					exercises: [], // ToDo
 				},
 			},

@@ -66,7 +66,7 @@ let courses = {
 			'addRemoveFractionFactors',
 			'mergeSplitBasicFractions',
 			'multiplyDivideFractions',
-			'moveATerm',
+			'moveEquationTerm',
 		],
 		blocks: [
 			{
@@ -83,7 +83,7 @@ let courses = {
 			},
 			{
 				name: 'Rearranging equations',
-				goals: ['moveATerm', 'multiplyDivideAllTerms'],
+				goals: ['moveEquationTerm', 'multiplyDivideAllTerms'],
 			},
 			{
 				name: 'Solve linear equations',
@@ -102,7 +102,7 @@ let courses = {
 			'addRemoveFractionFactors',
 			'mergeSplitBasicFractions',
 			'multiplyDivideFractions',
-			'moveATerm',
+			'moveEquationTerm',
 			'applySquareRoot',
 			'applyQuadraticFormula',
 			'determine2DAngles',
