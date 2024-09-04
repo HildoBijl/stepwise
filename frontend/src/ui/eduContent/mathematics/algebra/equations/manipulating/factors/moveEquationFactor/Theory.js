@@ -20,16 +20,6 @@ export function Theory() {
 			<Par>We could've also done something different with the equation <M>2x = \frac(5)(3)</M>, which is to get rid of the <Term>division factor</Term> <M>3</M> on the right. To do so, we can <SkillLink skillId="multiplyBothEquationSides">multiply both sides of the equation</SkillLink> by <M>3</M>. This turns it into <BM>2x \cdot 3 = \frac(5)(3) \cdot 3.</BM> On the right, the division by <M>3</M> and the multiplication by <M>3</M> <SkillLink skillId="cancelFractionFactors">cancel out</SkillLink>, so this side reduces to just <M>5</M>. The result can be rewritten as <BM>2 \cdot 3x = 5.</BM> Note that we have moved the division factor <M>3</M> from the right to the left, where it turned into a multiplication factor.</Par>
 		</Translation>
 
-		<Translation entry="shortCut">
-			<Head>The short-cut</Head>
-			<Par>We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of the equation to the other, we should do the following.</Par>
-			<List items={[
-				<>If the factor is a multiplication factor (it's in the numerator of a fraction, or just in a multiplication) then on the other side it will appear as a division factor (in the denominator of a fraction). So <M>2x = \frac(5)(3)</M> turns into <M>x = \frac(5)(2 \cdot 3)</M>.</>,
-				<>If the factor is a division factor (in the denominator of a fraction) then on the other side it will appear as a multiplication factor (in the numerator of a fraction, or just in a multiplication). So <M>2x = \frac(5)(3)</M> turns into <M>2 \cdot 3x = 5</M>.</>
-			]} />
-			<Par>Using this idea, we can also directly move factors around, without applying the in-between steps.</Par>
-		</Translation>
-
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To move a factor from one side of a product equation to the other, like when moving the factor <M>2</M> in the equation <M>2x = \frac(5)(3)</M>, take the following steps.</Par>
@@ -38,7 +28,16 @@ export function Theory() {
 				<><SkillLink skillId="cancelFractionFactors">Cancel fraction factors</SkillLink> to get rid of the factor that has to be moved. For the example, we turn <M>\frac(2x)(2)</M> into <M>x</M>.</>,
 				<>Depending on the situation, it may also be needed to <SkillLink skillId="multiplyDivideFractions">simplify a fraction inside a fraction</SkillLink> into a single fraction. For the example, we turn <M>\frac(5/3)(2)</M> into <M>\frac(5)(2 \cdot 3)</M>, which optionally can still be written as <M>\frac(5)(6)</M>.</>,
 			]} />
-			<Par>Note that you can also use a short-cut: if a factor is originally multiplied on one side, it will be divided by on the other side, and vice versa.</Par>
+		</Translation>
+
+		<Translation entry="shortCut">
+			<Head>The short-cut</Head>
+			<Par>We can summarize the above ideas into a useful short-cut. If we move a factor (multiplication or division) from one side of a product equation to the other, we should do the following.</Par>
+			<List items={[
+				<>If the factor is a multiplication factor (it's in the numerator of a fraction, or just in a multiplication) then on the other side it will appear as a division factor (in the denominator of a fraction). So <M>2x = \frac(5)(3)</M> turns into <M>x = \frac(5)(2 \cdot 3)</M>.</>,
+				<>If the factor is a division factor (in the denominator of a fraction) then on the other side it will appear as a multiplication factor (in the numerator of a fraction, or just in a multiplication). So <M>2x = \frac(5)(3)</M> turns into <M>2 \cdot 3x = 5</M>.</>
+			]} />
+			<Par>Using this idea, we can also directly move factors around, without applying the in-between steps.</Par>
 		</Translation>
 	</>
 }

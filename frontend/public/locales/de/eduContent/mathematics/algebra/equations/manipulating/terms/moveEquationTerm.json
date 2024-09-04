@@ -1,5 +1,41 @@
 {
   "meta": {
     "learningGoals": "<par>In dieser Kompetenz lernst du, wie du einen <term>Term auf die andere Seite einer Gleichung verschieben</term> kannst. Wenn du eine Gleichung wie <inline-math/> hast, kannst du den <inline-math/>-Term nach rechts nehmen, um <inline-math/> zu erhalten, oder du kannst die <inline-math/> nach links nehmen, um zu <inline-math/> zu gelangen. Dazu gehört, dass man versteht, warum dies erlaubt ist: <skill-link>einen Term auf jeder Seite der Gleichung addieren/subtrahieren</skill-link> und, darauf folgend, <skill-link>identischen Summentermen entfernen</skill-link>. Bei dieser Kompetenz geht es nicht darum, zu überlegen, welche Terme sich am besten verschieben lassen.</par>"
+  },
+  "theory": {
+    "intro": "<par>Gleichungen haben oft Additionen mit mehreren <term>Termen</term>. Zum Beispiel in <inline-math/> hat die linke Seite die Terme <inline-math/> und <inline-math/>, während die rechte Seite den Term <inline-math/> hat. In Gleichungen kommt es häufig vor, dass wir einen <term>Term auf die andere Seite bringen</term>. Wir sehen uns zunächst an, wie das funktioniert, und fassen dann diese Idee in einer Abkürzung zusammen.</par>",
+    "movingAnAddedTerm": "<head>Einen addierten Term verschieben</head><par>Nehmen wir an, wir haben die Gleichung <inline-math/> und wollen (aus welchem Grund auch immer) den Term <inline-math/> auf der linken Seite loswerden. Um dies zu erreichen, <skill-link>subtrahieren wir zunächst von beiden Seiten <inline-math/></skill-link>. Wir können dies tun, weil die Gleichung immer noch wahr ist, wenn wir dasselbe bei beiden Seiten einer Gleichung addieren oder subtrahieren. Auf diese Weise erhalten wir <block-math/> Danach können wir auf der linken Seite sehen, dass das Addieren von <inline-math/> und das anschließende Subtrahieren von <inline-math/> keine Wirkung hat. Wir können also diese <skill-link>Terme</skill-link> entfernen, um anzukommen bei <block-math/> Man beachte, dass wir im Vergleich zur ursprünglichen Gleichung <inline-math/> den Term <inline-math/> auf der linken Seite entfernt haben, während die Gleichung weiterhin korrekt ist. Das Ergebnis ist, dass der Term <inline-math/> jetzt auf der rechten Seite steht, und wo er vorher ein Pluszeichen auf der linken Seite hatte, hat er jetzt ein Minuszeichen auf der rechten Seite.</par>",
+    "movingASubtractedTerm": "<head>Einen subtrahierten Term verschieben</head><par>Aber was wäre, wenn wir mit einer anderen Gleichung begonnen hätten, mit einem Minuszeichen? Wie <inline-math/>? In diesem Fall läuft alles fast genauso ab, aber jetzt müssen wir <inline-math/> auf beiden Seiten addieren. Das ergibt <block-math/> Auf der linken Seite können wir nun wieder <skill-link>Summenterme entfernen</skill-link>, um zu gelangen zu <block-math/> Beachte, dass wir den Term <inline-math/> wieder auf die andere Seite der Gleichung verschoben haben. Wo er zuerst (links) ein Minuszeichen hatte, hat er jetzt (rechts) ein Pluszeichen.</par>",
+    "steps": "<head>Die Schritte</head><par>Um einen Term von einer Seite einer Gleichung auf die andere zu verschieben, wie beim Verschieben des Terms <inline-math/> in der Gleichung <inline-math/>, ist wie folgt vorzugehen.</par><list><item><a>Wenn der Term addiert wird (mit Pluszeichen), <skill-link>subtrahiere diesen Term von beiden Seiten der Gleichung</skill-link>. Oder umgekehrt, wenn der Term subtrahiert wird (mit Minuszeichen), <skill-link>ziehe dann diesen Term von beiden Seiten der Gleichung ab</skill-link>. In dem Beispiel subtrahieren wir <inline-math/> und erhalten <inline-math/>.</a></item><item><b><skill-link>Entferne Terme</skill-link>, um den zu verschiebenden Term loszuwerden. Im Beispiel wird <inline-math/> verschwinden und es bleibt die Gleichung <inline-math/>.</b></item></list>",
+    "shortCut": "<head>Die Abkürzung</head><par>Statt die oben genannten Schritte auszuführen, können wir auch eine Abkürzung nehmen und einen Term direkt verschieben.</par><list><item><a>Wenn der Term auf der ursprünglichen Seite addiert wurde (mit Pluszeichen), wird er auf der anderen Seite subtrahiert (mit Minuszeichen). So wird aus <inline-math/> dann <inline-math/>.</a></item><item><b>Wenn der Term auf der ursprünglichen Seite subtrahiert wurde (mit Minuszeichen), wird er auf der anderen Seite addiert (mit Pluszeichen). So wird aus <inline-math/> dann <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "moveSingleTerm": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Bringe den Term <inline-math/> auf die andere Seite. Vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "<check><on-true><emp>Subtrahiere</emp> den Term <inline-math/> von beiden Seiten der Gleichung.</on-true><on-false><emp>Addiere</emp> den Term <inline-math/> zu beiden Seiten der Gleichung.</on-false></check> (Schließlich wird der Term <inline-math/> jetzt <check><on-true><emp>addiert</emp></on-true><on-false><emp>subtrahiert</emp></on-false></check>.)",
+        "solution": "Nach der <check><on-true>Subtraktion</on-true><on-false>Addition</on-false></check> von <inline-math/> auf beiden Seiten kommen wir direkt zu <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereinfache den Ausdruck auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite, indem du wo möglich Summenterme entfernst. Führe gegebenenfalls auch andere Vereinfachungen durch.",
+        "solution": "Die aufeinanderfolgende Addition und Subtraktion von <inline-math/> hat keine Auswirkung, so dass diese beiden Terme gegeneinander aufgelöst werden können. Übrig bleibt <block-math/> Beachte, dass <inline-math/> auf der anderen Seite steht, und nun <check><on-true>subtrahiert</on-true><on-false>addiert</on-false></check> wird."
+      }
+    },
+    "moveAllTerms": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Bringe alle Terme auf die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite. Vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "<check><on-true>Addiere den Term <inline-math/> zu beiden Seiten der Gleichung.</on-true><on-false>Subtrahiere den Term <inline-math/> von beiden Seiten der Gleichung.</on-false></check> <check><on-true>Addiere dann auch den Term <inline-math/> auf beiden Seiten der Gleichung.</on-true><on-false>Subtrahiere dann auch den Term <inline-math/> von beiden Seiten der Gleichung.</on-false></check>",
+        "solution": "Wenn man die Aufgabe wörtlich ausführt, wird die Gleichung umgewandelt in <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereinfache den Ausdruck auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite, indem du wo möglich Summenterme entfernst.",
+        "solution": "Wenn wir die Summenterme entfernen, sehen wir, dass alles auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite der Gleichung wegfällt. Das Endergebnis ist <block-math/> Beachte, dass alle Terme nun tatsächlich auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite sind. Auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite bleibt nichts (Null) übrig."
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "termsNotCanceled": "<a><check><on-true>Du hast den richtigen Term von beiden Seiten subtrahiert</on-true><on-false>Du hast den richtigen Term bei beiden Seiten addiert</on-false></check>, aber du musst noch einige Terme entfernen.</a>",
+    "termsLeft": "<a>Es gibt immer noch Terme auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite der Gleichung.</a>",
+    "wrongSignUsed": "<a>Wenn der Term auf der einen Seite <check><on-true>addiert wird (mit Pluszeichen)</on-true><on-false>subtrahiert wird (mit Minuszeichen)</on-false></check>, muss er auf der anderen Seite <check><on-true>subtrahiert werden (mit Minuszeichen)</on-true><on-false>addiert werden (mit Pluszeichen)</on-false></check>.</a>"
   }
 }
