@@ -1,1 +1,27 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/equations/verifying/checkEquationSolution": {
+      "meta.learningGoals": {
+        "oldText": "<par>In this skill you learn to <term>move a factor to the other side of an equation</term>. If you have an equation like <inline-math/> you will be able to bring <inline-math/> to the other side to get <inline-math/>, or to then bring <inline-math/> to the other side to get <inline-math/>. This includes understanding the idea behind this: <skill-link>multiplying both sides of an equation by a factor</skill-link> and subsequently <skill-link>canceling fraction factors</skill-link>. The skill does not include dealing with <skill-link>equations with multiple terms</skill-link>.</par>",
+        "firstUpdate": "2024-09-06T11:26:19.528Z",
+        "latestUpdate": "2024-09-06T11:38:23.277Z",
+        "latestText": "<par>In this skill you learn to <term>check an equation solution</term>. Given an equation like <inline-math/> and a potential solution like <inline-math/> or <inline-math/> you will be able to determine whether or not the number balances the equation. This includes applying number substitution to the expression on each side of the equation, as well as calculating the resulting sum/product, turning it into a single number. Knowledge of fractions, powers, etcetera is not required. </par>"
+      }
+    },
+    "eduContent/skillInfo": {
+      "solveProductEquation.name": {
+        "firstUpdate": "2024-09-06T11:26:41.240Z",
+        "latestUpdate": "2024-09-06T11:26:41.240Z",
+        "latestText": "Solve product equation"
+      }
+    },
+    "eduContent/mathematics/algebra/equations/solving/elementaryEquations/solveProductEquation": {
+      "meta.learningGoals": {
+        "oldText": "<par>In this skill you learn to <term>move a factor to the other side of an equation</term>. If you have an equation like <inline-math/> you will be able to bring <inline-math/> to the other side to get <inline-math/>, or to then bring <inline-math/> to the other side to get <inline-math/>. This includes understanding the idea behind this: <skill-link>multiplying both sides of an equation by a factor</skill-link> and subsequently <skill-link>canceling fraction factors</skill-link>. The skill does not include dealing with <skill-link>equations with multiple terms</skill-link>.</par>",
+        "firstUpdate": "2024-09-06T11:26:41.258Z",
+        "latestUpdate": "2024-09-06T11:52:40.174Z",
+        "latestText": "<par>In this skill you learn to <term>solve a product equation</term>. Given an equation with only multiplications/divisions, like <inline-math/> or <inline-math/>, you will be able to find the solution, like <inline-math/>. This includes <skill-link>moving equation factors around in the equation</skill-link> until the unknown variable has been isolated, as well as simplifying the result (often a fraction) as much as possible. The equations do not include summations, powers, multiple variables, or anything similar.</par>"
+      }
+    }
+  }
+}

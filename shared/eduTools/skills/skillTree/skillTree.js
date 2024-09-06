@@ -170,6 +170,11 @@ const skillStructure = {
 				},
 			},
 			equations: {
+				verifying: {
+					checkEquationSolution: {
+						name: 'Check equation solution',
+					},
+				},
 				manipulating: {
 					numbers: {
 						// Add number to both sides, move number to other side.
@@ -204,6 +209,10 @@ const skillStructure = {
 				},
 				solving: {
 					elementaryEquations: {
+						solveProductEquation: {
+							name: 'Solve product equation',
+							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFraction', 'checkEquationSolution')
+						},
 						// Summation equations, product equations.
 					},
 					linearEquations: {

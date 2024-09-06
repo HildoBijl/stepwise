@@ -316,5 +316,11 @@
   },
   "analyseAirco": {
     "name": "Analyse an air conditioner"
+  },
+  "checkEquationSolution": {
+    "name": "Check equation solution"
+  },
+  "solveProductEquation": {
+    "name": "Solve product equation"
   }
 }
