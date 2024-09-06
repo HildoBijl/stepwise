@@ -77,6 +77,9 @@
   "simplifyFractionOfFractionSumsWithVariables": {
     "name": "Simplify fraction of fraction sums with variables"
   },
+  "checkEquationSolution": {
+    "name": "Check equation solution"
+  },
   "addToBothEquationSides": {
     "name": "Add to both equation sides"
   },
@@ -88,6 +91,9 @@
   },
   "moveEquationFactor": {
     "name": "Move equation factor"
+  },
+  "solveProductEquation": {
+    "name": "Solve product equation"
   },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
@@ -316,11 +322,5 @@
   },
   "analyseAirco": {
     "name": "Analyse an air conditioner"
-  },
-  "checkEquationSolution": {
-    "name": "Check equation solution"
-  },
-  "solveProductEquation": {
-    "name": "Solve product equation"
   }
 }

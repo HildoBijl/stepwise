@@ -77,6 +77,9 @@
   "simplifyFractionOfFractionSumsWithVariables": {
     "name": "Breuk van breuksommen met variabelen vereenvoudigen"
   },
+  "checkEquationSolution": {
+    "name": "Oplossing van een vergelijking controleren"
+  },
   "addToBothEquationSides": {
     "name": "Aan beide kanten van een vergelijking optellen"
   },
@@ -88,6 +91,9 @@
   },
   "moveEquationFactor": {
     "name": "Vergelijkingsfactor verplaatsen"
+  },
+  "solveProductEquation": {
+    "name": "Productvergelijking oplossen"
   },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
