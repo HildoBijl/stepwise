@@ -38,6 +38,9 @@
   "multiplyDivideFractions": {
     "name": "Brüche Multiplizieren/Dividieren"
   },
+  "simplifyFractionOfFractions": {
+    "name": "Bruch mit Brüchen vereinfachen"
+  },
   "rewritePower": {
     "name": "Potenz umschreiben"
   },

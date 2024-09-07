@@ -7,7 +7,7 @@ import { SkillLink } from 'ui/eduTools'
 export function Theory() {
 	return <>
 		<Translation entry="intro">
-			<Par>A <Term>product equation</Term> is an equation like <M>2x = \frac(5)(3)</M> where both sides of the equation only have multiplications/divisions; no additions or subtractions. When we have such an equation, it is helpful to be able to <Term>move factors</Term> around in the equation. That's what this skill is about. We look at how we do this, and what short-cuts we can take.</Par>
+			<Par>A <Term>product equation</Term> is an equation like <M>2x = \frac(5)(3)</M> where both sides of the equation only have multiplications and divisions; no additions or subtractions. When we have such an equation, it is helpful to be able to <Term>move factors</Term> around in the equation. That's what this skill is about. We look at how we do this, and what short-cuts we can take.</Par>
 		</Translation>
 
 		<Translation entry="removingMultiplications">

@@ -38,6 +38,9 @@
   "multiplyDivideFractions": {
     "name": "Multiply/divide fractions"
   },
+  "simplifyFractionOfFractions": {
+    "name": "Simplify fraction of fractions"
+  },
   "rewritePower": {
     "name": "Rewrite power"
   },

@@ -38,6 +38,9 @@
   "multiplyDivideFractions": {
     "name": "Breuken vermenigvuldigen/delen"
   },
+  "simplifyFractionOfFractions": {
+    "name": "Breuk van breuken vereenvoudigen"
+  },
   "rewritePower": {
     "name": "Macht herschrijven"
   },

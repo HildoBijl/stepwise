@@ -88,7 +88,11 @@ const skillStructure = {
 						name: 'Multiply/divide fractions',
 					},
 				},
-				simplification: {},
+				simplification: {
+					simplifyFractionOfFractions: {
+						name: 'Simplify fraction of fractions',
+					},
+				},
 			},
 			powers: {
 				rewritePower: {
@@ -211,7 +215,7 @@ const skillStructure = {
 					elementaryEquations: {
 						solveProductEquation: {
 							name: 'Solve product equation',
-							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFraction', 'checkEquationSolution')
+							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionOfFractions', 'checkEquationSolution')
 						},
 						// Summation equations, product equations.
 					},
