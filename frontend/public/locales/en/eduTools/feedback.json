@@ -116,7 +116,7 @@
     "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
     "noFraction": "Your solution is not a fraction. A single fraction was expected as answer.",
     "hasFractionWithinFraction": "Your solution may not contain fractions within fractions. You can still simplify this further.",
-    "unsimplifiedFractionNumbers": "The numbers inside the fraction can still be simplified further.",
+    "unsimplifiedFractionNumbers": "The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.",
     "unsimplifiedFractionFactors": "There are still factors that can be canceled in the numerator and the denominator.",
     "fractionNumeratorHasSumWithinProduct": "There are still unexpanded brackets in the numerator.",
     "incorrectFraction": {

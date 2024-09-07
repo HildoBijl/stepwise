@@ -116,7 +116,7 @@
     "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
     "noFraction": "Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.",
     "hasFractionWithinFraction": "Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.",
-    "unsimplifiedFractionNumbers": "De getallen in de breuk kunnen nog verder vereenvoudigd worden.",
+    "unsimplifiedFractionNumbers": "De breuk kan nog verder vereenvoudigd worden. Probeer de teller en de noemer door het juiste getal te delen.",
     "unsimplifiedFractionFactors": "Er zijn nog steeds factoren in de teller en de noemer die weggestreept kunnen worden.",
     "fractionNumeratorHasSumWithinProduct": "De teller bevat nog onuitgewerkte haakjes.",
     "incorrectFraction": {

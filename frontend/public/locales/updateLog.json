@@ -1,1 +1,54 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/equations/solving/elementaryEquations/solveProductEquation": {
+      "practice.inNumerator.mainProblem": {
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T14:56:41.892Z",
+        "latestText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      },
+      "practice.inNumerator.step1.problem": {
+        "oldText": "Move all factors on the side of <inline-math/> to the other side, except <inline-math/> itself, to isolate <inline-math/>.",
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T14:57:18.337Z",
+        "latestText": "Move all factors on the side of <inline-math/> to the other side, except <inline-math/> itself."
+      },
+      "practice.inNumerator.step1.solution": {
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T14:56:41.892Z",
+        "latestText": "We move the factor <inline-math/> to the other side, where it turns into a division.<check><on-false> We also move the factor <inline-math/> to the other side, where it becomes a multiplication.</on-false></check> All together, we wind up with <block-math/> Note that <inline-math/> has been isolated."
+      },
+      "practice.inNumerator.step2.problem": {
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T14:56:41.892Z",
+        "latestText": "Simplify the result for <inline-math/> as much as possible."
+      },
+      "practice.inNumerator.step2.solution": {
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T14:56:41.892Z",
+        "latestText": "First we write the fraction as a division between numbers, which is <block-math/> We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further."
+      },
+      "practice.inNumerator.step3.problem": {
+        "oldText": "Check your solution by inserting it into the original equation, simplifying both sides as much as possible, and seeing if they reduce to the same result.",
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T16:04:52.225Z",
+        "latestText": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible."
+      },
+      "practice.inNumerator.step3.solution": {
+        "oldText": "The left side of the equation becomes, in order, <block-math/> Similarly, the right side will be <block-math/> This is the same number, which shows that the solution that we have found is indeed a solution to the given equation.",
+        "firstUpdate": "2024-09-07T14:56:41.892Z",
+        "latestUpdate": "2024-09-07T16:13:22.337Z",
+        "latestText": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/> so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/> so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
+      },
+      "practice.inDenominator.mainProblem": {
+        "firstUpdate": "2024-09-07T14:56:43.287Z",
+        "latestUpdate": "2024-09-07T14:56:43.287Z",
+        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
+      },
+      "crossExerciseFeedback.unbalancedEquation": {
+        "firstUpdate": "2024-09-07T16:05:26.160Z",
+        "latestUpdate": "2024-09-07T16:05:26.160Z",
+        "latestText": "<a>The two sides of the equation should in the end be the same. This value is not equal to the other one.</a>"
+      }
+    }
+  }
+}

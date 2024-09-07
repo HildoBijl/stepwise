@@ -116,7 +116,7 @@
 		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
 		"noFraction": "Deine Antwort ist kein Bruch. Es wird ein einziger Bruch als Antwort erwartet.",
 		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
-    "unsimplifiedFractionNumbers": "Die Zahlen im Bruch können weiter vereinfacht werden.",
+    "unsimplifiedFractionNumbers": "Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.",
     "unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
     "fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
 		"incorrectFraction": {
