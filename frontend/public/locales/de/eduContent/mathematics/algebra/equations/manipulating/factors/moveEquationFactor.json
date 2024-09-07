@@ -43,7 +43,7 @@
         "solution": "Wir können den Faktor <inline-math/> auf beiden Seiten des Bruchs entfernen. Dies führt zu dem Ergebnis <block-math/>"
       },
       "step3": {
-        "problem": "Vereinfache auch den Bruch auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite (falls du das noch nicht getan hast), um sicherzustellen, dass das Endergebnis keinen Bruch von Brüchen enthält.",
+        "problem": "Vereinfache auch den Bruch auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite (falls du das noch nicht getan hast), um sicherzustellen, dass das Endergebnis keinen Bruch mit Brüchen enthält.",
         "solution": "Bei der Division eines Bruchs durch einen Faktor wird dieser Faktor zum Nenner hinzugefügt. Dies führt zu dem Ergebnis <block-math/><check><on-true>Optional kann dies weiter vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check>"
       }
     },
