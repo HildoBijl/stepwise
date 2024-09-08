@@ -8,5 +8,44 @@
     "idea": "<head>Het idee</head><par>We willen <inline-math/> isoleren bij een vergelijking zoals <inline-math/>. Een eerste probleem is dat <inline-math/> op dit moment in de noemer van een breuk staat, wat het moeilijk maakt om hem te isoleren. Om dit op te lossen <skill-link>brengen we <inline-math/> naar de andere kant</skill-link>, wat uitkomt op <block-math/> Nu staat <inline-math/> niet meer in de noemer, wat het hele proces makkelijker maakt.</par><par>Als <inline-math/> niet in een noemer staat, kunnen we hem gaan isoleren. Hiervoor brengen we <emp>alle</emp> factoren behalve <inline-math/> naar de andere kant. Bij het voorbeeld halen we de <inline-math/> naar rechts en krijgen zo <block-math/> We hebben <inline-math/> geïsoleerd!</par>",
     "afterwards": "<head>Na het oplossen</head><par>Technisch gezien is de bovenstaande oplossing een geldige oplossing van de vergelijking. We zijn echter nog niet klaar. Vaak wordt gevraagd om de meest eenvoudige oplossing te geven, en dus moeten we de uitkomst nog vereenvoudigen. De <skill-link>breuk vereenvoudigen</skill-link> geeft <block-math/> Dit is zo simpel geschreven als mogelijk.</par><par>Zodra we een vereenvoudigde oplossing hebben, is een waardevolle laatste stap om hem te <skill-link>controleren</skill-link>: is het echt een oplossing van de oorspronkelijke vergelijking? Het is erg makkelijk om een klein foutje te maken, en op deze wijze kun je inzien of je wel of niet iets fout gedaan hebt. Om de oplossing <inline-math/> te controleren, stoppen we hem in de <emp>oorspronkelijke</emp> vergelijking <inline-math/> en kijken we of de vergelijking nog in balans is. We krijgen <block-math/> Als we de breuk rechts vereenvoudigen, dan zien we dat hij reduceert tot <inline-math/>, wat ook de linker kant van de vergelijking is. De twee kanten komen overeen, en dus is de oplossing correct!</par>",
     "steps": "<head>De stappen</head><par>Om een productvergelijking als <inline-math/> op te lossen neem je de volgende stappen.</par><list><item><a>Als de onbekende in de noemer staat, haal hem daar dan uit door hem <skill-link>naar de andere kant van de vergelijking te brengen</skill-link>. Bij het voorbeeld krijgen we <inline-math/>.</a></item><item><b><skill-link>Breng alle factoren</skill-link> die aan dezelfde kant als de onbekende staan naar de andere kant. Dit zet ons voorbeeld om in <inline-math/>.</b></item><item><c><skill-link>Vereenvoudig</skill-link> het resultaat zo veel mogelijk. Ons voorbeeld wordt zo teruggebracht tot <inline-math/>.</c></item><item><d><skill-link>Controleer je oplossing</skill-link> door hem in de oorspronkelijke vergelijking te stoppen en te checken dat beide kanten op hetzelfde getal uitkomen. Bij het voorbeeld zorgt het invoeren van de oplossing ervoor dat beide kanten op <inline-math/> uitkomen, wat overeenkomt.</d></item></list>"
+  },
+  "practice": {
+    "inNumerator": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng alle factoren aan de kant van <inline-math/> naar de andere kant, behalve <inline-math/> zelf.",
+        "solution": "We brengen de factor <inline-math/> naar de andere kant, waar hij als deling terecht komt.<check><on-false> We verplaatsen de factor <inline-math/> ook naar de andere kant, waar het een vermenigvuldiging wordt.</on-false></check> Alles bij elkaar komen we uit op <block-math/> Merk op dat <inline-math/> hiermee geïsoleerd is."
+      },
+      "step2": {
+        "problem": "Vereenvoudig het resultaat voor <inline-math/> zo veel als mogelijk.",
+        "solution": "Eerst schrijven we de breuk als deling van getallen, wat neerkomt op <block-math/> <check><on-true>We vereenvoudigen dan deze breuk door een factor <inline-math/> weg te strepen in zowel de teller als de noemer. Dit geeft ons de eindoplossing, <block-math/> Het is niet mogelijk dit verder te vereenvoudigen.</on-true><on-false>Er kunnen bij deze breuk geen verdere factoren weggestreept worden: hij is al zo eenvoudig als mogelijk.</on-false></check>"
+      },
+      "step3": {
+        "problem": "Controleer de oplossing voor <inline-math/>: vul hem in de oorspronkelijke vergelijking in en vereenvoudig elke kant zo veel als mogelijk.",
+        "solution": "<par><check><on-true>De linker kant van de oorspronkelijke vergelijking is al een getal zonder <inline-math/>, dus hier is geen substitutie nodig. <check><on-true>Het kan nog wel vereenvoudigd worden tot <block-math/></on-true><on-false>Het kan ook niet vereenvoudigd worden, en dus blijft het staan als <inline-math/>.</on-false></check></on-true><on-false>Het invullen van <inline-math/> in de linker kant van de oorspronkelijke uitdrukking geeft <block-math/> Het vereenvoudigen van de hieruit volgende breuk zet dit om in <block-math/></on-false></check></par><par><check><on-true>De rechter kant van de oorspronkelijke vergelijking is al een getal zonder <inline-math/>, dus hier is geen substitutie nodig. <check><on-true>Het kan nog wel vereenvoudigd worden tot <block-math/></on-true><on-false>Het kan ook niet vereenvoudigd worden, en dus blijft het staan als <inline-math/>.</on-false></check></on-true><on-false>Het invullen van <inline-math/> in de rechter kant van de oorspronkelijke uitdrukking geeft <block-math/> Het vereenvoudigen van de hieruit volgende breuk zet dit om in <block-math/></on-false></check></par><par>Beide kanten van de vergelijking reduceren tot hetzelfde getal, wat betekent dat de oplossing klopt.</par>"
+      }
+    },
+    "inDenominator": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng de factor <inline-math/> naar de andere kant van de vergelijking.",
+        "solution": "Omdat er eerst door <inline-math/> gedeeld werd, wordt er aan de andere kant mee vermenigvuldigd. Dit geeft <block-math/> Merk op dat <inline-math/> niet meer ergens in een noemer staat."
+      },
+      "step2": {
+        "problem": "Breng alle factoren aan de kant van <inline-math/> naar de andere kant, behalve <inline-math/> zelf.",
+        "solution": "We brengen de factor <inline-math/> naar de andere kant, waar hij als deling terecht komt.<check><on-false> We verplaatsen de factor <inline-math/> ook naar de andere kant, waar het een vermenigvuldiging wordt.</on-false></check> Alles bij elkaar komen we uit op <block-math/> Merk op dat <inline-math/> hiermee geïsoleerd is."
+      },
+      "step3": {
+        "problem": "Vereenvoudig het resultaat voor <inline-math/> zo veel als mogelijk.",
+        "solution": "Eerst schrijven we de breuk als deling van getallen, wat neerkomt op <block-math/> <check><on-true>We vereenvoudigen dan deze breuk door een factor <inline-math/> weg te strepen in zowel de teller als de noemer. Dit geeft ons de eindoplossing, <block-math/> Het is niet mogelijk dit verder te vereenvoudigen.</on-true><on-false>Er kunnen bij deze breuk geen verdere factoren weggestreept worden: hij is al zo eenvoudig als mogelijk.</on-false></check>"
+      },
+      "step4": {
+        "problem": "Controleer de oplossing voor <inline-math/>: vul hem in de oorspronkelijke vergelijking in en vereenvoudig elke kant zo veel als mogelijk.",
+        "solution": "<par><check><on-true>De linker kant van de oorspronkelijke vergelijking is al een getal zonder <inline-math/>, dus hier is geen substitutie nodig. <check><on-true>Het kan nog wel vereenvoudigd worden tot <block-math/></on-true><on-false>Het kan ook niet vereenvoudigd worden, en dus blijft het staan als <inline-math/>.</on-false></check></on-true><on-false>Het invullen van <inline-math/> in de linker kant van de oorspronkelijke uitdrukking geeft <block-math/> Het vereenvoudigen van de hieruit volgende breuk zet dit om in <block-math/></on-false></check></par><par><check><on-true>De rechter kant van de oorspronkelijke vergelijking is al een getal zonder <inline-math/>, dus hier is geen substitutie nodig. <check><on-true>Het kan nog wel vereenvoudigd worden tot <block-math/></on-true><on-false>Het kan ook niet vereenvoudigd worden, en dus blijft het staan als <inline-math/>.</on-false></check></on-true><on-false>Het invullen van <inline-math/> in de rechter kant van de oorspronkelijke uitdrukking geeft <block-math/> Het vereenvoudigen van de hieruit volgende breuk zet dit om in <block-math/></on-false></check></par><par>Beide kanten van de vergelijking reduceren tot hetzelfde getal, wat betekent dat de oplossing klopt.</par>"
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "unbalancedEquation": "<a>De twee kanten van de vergelijking moeten op het einde hetzelfde zijn. Deze waarde is niet gelijk aan de ander.</a>"
   }
 }
