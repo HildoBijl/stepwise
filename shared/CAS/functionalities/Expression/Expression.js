@@ -2243,8 +2243,8 @@ class Fraction extends Function {
 		const leadingNumbers = terms.map(term => Product.extractLeadingNumber(term))
 		let divisor = gcd(...leadingNumbers)
 
-		// If the denominator starts with a minus sign, make the divisor negative to fix this.
-		if (leadingNumbers[0] < 0)
+		// Ensure the denominator becomes positive. If the denominator starts with a minus sign, and the GCD is positive, force the divisor to be negative to fix this.
+		if (leadingNumbers[0] < 0 && divisor > 0)
 			divisor = -divisor
 
 		// Apply the divisor for simple cases.

@@ -21,6 +21,8 @@ export const originalExpression = (input, correct, { expression }, isCorrect) =>
 
 export const incorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.incorrect">This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
 
+export const incorrectSolution = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.incorrectSolution">This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.</Translation>
+
 export const correctExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <Translation path={translationPath} entry="expression.correct">The expression is correct, but you have not done what was required.</Translation>
 
 /*

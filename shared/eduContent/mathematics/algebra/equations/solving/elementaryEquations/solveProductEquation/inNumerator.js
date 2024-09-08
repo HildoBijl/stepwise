@@ -1,10 +1,9 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
-const { asEquation, expressionComparisons, equationChecks } = require('../../../../../../../CAS')
+const { asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { hasFractionWithinFraction } = equationChecks
 
 // a*x/b = c/d.
 const variableSet = ['x', 'y', 'z']
@@ -45,12 +44,13 @@ function getSolution(state) {
 	const isolatedSolution = isolated[switchSides ? 'left' : 'right']
 	const isolatedSolutionSimplified = isolatedSolution.basicClean()
 	const fractionGcd = gcd(isolatedSolutionSimplified.numerator.number, isolatedSolutionSimplified.denominator.number)
+	const canSimplifyFraction = (fractionGcd !== 1)
 	const ans = isolatedSolution.regularClean()
 	const equationWithSolution = equation.substituteVariables({ [state.x]: ans })
 	const checkLeft = equationWithSolution.left.regularClean()
 	const checkRight = equationWithSolution.right.regularClean()
 	const canNumberSideBeSimplified = !onlyOrderChanges(equationWithSolution[switchSides ? 'left' : 'right'], switchSides ? checkLeft : checkRight)
-	return { ...state, variables, equation, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
+	return { ...state, variables, equation, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
 }
 
 function checkInput(exerciseData, step) {

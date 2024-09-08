@@ -104,6 +104,7 @@
   "expression": {
     "original": "Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.",
     "incorrect": "Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.",
+    "incorrectSolution": "Dit is niet de juiste oplossing, noch is het equivalent eraan. Controleer de stappen waarmee je dit gevonden hebt.",
     "correct": "De uitdrukking klopt wel, maar je hebt niet gedaan wat gevraagd is.",
     "noSum": "Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is geen optelling/aftrekking.",
     "wrongNumberOfSumTerms": "Er wordt hier een optelsom verwacht met {expectedNumTerms} termen, met een plus of minteken ertussen. Jouw invoer heeft {inputNumTerms} termen.",

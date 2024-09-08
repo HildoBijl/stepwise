@@ -1,55 +1,68 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
+const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
+const { asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { hasFractionWithinFraction } = equationChecks
 
-// a = b/(cx) => a[..] = b/[..].
+// a/b = c/(d*x).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c']
+const constants = ['a', 'b', 'c', 'd']
 
 const ansEqualsOptions = ({ switchSides }) => ({ preprocess: side => side.basicClean({ flattenFractions: false }), leftCheck: switchSides ? equivalent : onlyOrderChanges, rightCheck: switchSides ? onlyOrderChanges : equivalent })
 
 const metaData = {
-	skill: 'moveEquationFactor',
-	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
+	skill: 'solveProductEquation',
+	steps: ['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionOfFractions', 'checkEquationSolution'],
 	ansEqualsOptions,
 	comparison: {
-		bothSidesChanged: { check: equivalent },
-		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
+		moved: { check: equivalent, allowSwitch: true },
+		isolated: { check: equivalent, allowSwitch: true },
+		ans: onlyOrderChanges,
+		checkLeft: onlyOrderChanges,
+		checkRight: onlyOrderChanges,
 	}
 }
 
-function generateState() {
+function generateState(example) {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
+	const b = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
 	const c = getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
+	const d = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b, c, -c])
 	return {
 		x: selectRandomly(variableSet),
-		a, b, c,
+		a, b, c, d,
 		switchSides: getRandomBoolean(), // Do we switch equation sides?
-		type: getRandomInteger(0, 2), // 0 is move c, 1 is move x, 2 is move c and x together.
 	}
 }
 
 function getSolution(state) {
+	const { switchSides } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][state.type]
-	const equation = asEquation('a=b/(c*x)')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const bothSidesChanged = equation.multiply(factor).removeUseless({ mergeFractionProducts: true })
-	const ans = bothSidesChanged[state.switchSides ? 'applyToLeft' : 'applyToRight'](side => side.basicClean({ crossOutFractionNumbers: state.type !== 1, crossOutFractionFactors: true }))
-	const ansCleaned = ans.basicClean({ crossOutFractionNumbers: true })
-	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
-	return { ...state, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
+	const equation = asEquation('a/b=c/(d*x)')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const moved = asEquation('a*x/b=c/d')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const isolated = asEquation('x = (c*b)/(d*a)')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const isolatedSolution = isolated[switchSides ? 'left' : 'right']
+	const isolatedSolutionSimplified = isolatedSolution.basicClean()
+	const fractionGcd = gcd(isolatedSolutionSimplified.numerator.number, isolatedSolutionSimplified.denominator.number)
+	const canSimplifyFraction = (fractionGcd !== 1)
+	const ans = isolatedSolution.regularClean()
+	const equationWithSolution = equation.substituteVariables({ [state.x]: ans })
+	const checkLeft = equationWithSolution.left.regularClean()
+	const checkRight = equationWithSolution.right.regularClean()
+	const canNumberSideBeSimplified = !onlyOrderChanges(equationWithSolution[switchSides ? 'right' : 'left'], switchSides ? checkRight : checkLeft)
+	return { ...state, variables, equation, moved, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
 }
 
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'bothSidesChanged')
+			return performComparison(exerciseData, 'moved')
+		case 2:
+			return performComparison(exerciseData, 'isolated')
+		case 4:
+			return performComparison(exerciseData, ['checkLeft', 'checkRight'])
 		default:
 			return performComparison(exerciseData, 'ans')
 	}

@@ -18,15 +18,31 @@
       },
       "step2": {
         "problem": "Simplify the result for <inline-math/> as much as possible.",
-        "solution": "First we write the fraction as a division between numbers, which is <block-math/> We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further."
+        "solution": "First we write the fraction as a division between numbers, which is <block-math/> <check><on-true>We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further.</on-true><on-false>No further factors can be canceled from this fraction: it is already as simplified as possible.</on-false></check>"
       },
       "step3": {
         "problem": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
-        "solution": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/> so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/> so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
+        "solution": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
       }
     },
     "inDenominator": {
-      "mainProblem": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Move the factor <inline-math/> to the other side of the equation.",
+        "solution": "Because <inline-math/> was divided by, on the other side it will be multiplied by. This gives <block-math/> Note that <inline-math/> is not in a denominator anymore."
+      },
+      "step2": {
+        "problem": "Move all factors on the side of <inline-math/> to the other side, except <inline-math/> itself.",
+        "solution": "We move the factor <inline-math/> to the other side, where it turns into a division.<check><on-false> We also move the factor <inline-math/> to the other side, where it becomes a multiplication.</on-false></check> All together, we wind up with <block-math/> Note that <inline-math/> has been isolated."
+      },
+      "step3": {
+        "problem": "Simplify the result for <inline-math/> as much as possible.",
+        "solution": "First we write the fraction as a division between numbers, which is <block-math/> <check><on-true>We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further.</on-true><on-false>No further factors can be canceled from this fraction: it is already as simplified as possible.</on-false></check>"
+      },
+      "step4": {
+        "problem": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
+        "solution": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
+      }
     }
   },
   "crossExerciseFeedback": {

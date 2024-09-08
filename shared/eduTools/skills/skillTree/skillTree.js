@@ -216,8 +216,7 @@ const skillStructure = {
 						solveProductEquation: {
 							name: 'Solve product equation',
 							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionOfFractions', 'checkEquationSolution'),
-							examples: ['inNumerator'],
-							// examples: ['inNumerator', 'inDenominator'],
+							examples: ['inNumerator', 'inDenominator'],
 							exercises: ['inNumerator', 'inDenominator'],
 						},
 						// Summation equations, product equations.

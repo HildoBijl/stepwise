@@ -34,16 +34,16 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 		return oneSideCorrect(isLeftSideCorrect, isLeftSideCorrect ? expressionComparisons.equivalent(input.right, correct.right) : expressionComparisons.equivalent(input.left, correct.left))
 
 	// Check if sides are mixed up.
-	const leftIsRight = leftCheck(leftPreprocess(input.right), left, comparison)
-	const rightIsLeft = rightCheck(rightPreprocess(input.left), right, comparison)
+	const correctLeftIsRight = leftCheck(leftPreprocess(input.right), left, comparison)
+	const correctRightIsLeft = rightCheck(rightPreprocess(input.left), right, comparison)
 	if (comparison.allowSwitch) {
-		if (leftIsRight || rightIsLeft)
-			return oneSideCorrect(leftIsRight, leftIsRight ? expressionComparisons.equivalent(input.right, correct.left) : expressionComparisons.equivalent(input.left, correct.right))
+		if (correctLeftIsRight || correctRightIsLeft)
+			return oneSideCorrect(correctRightIsLeft, correctRightIsLeft ? expressionComparisons.equivalent(input.right, correct.left) : expressionComparisons.equivalent(input.left, correct.right))
 	} else {
-		if (leftIsRight && rightIsLeft)
+		if (correctLeftIsRight && correctRightIsLeft)
 			return sidesSwitched()
-		if (leftIsRight || rightIsLeft)
-			return oneSideSwitched(leftIsRight)
+		if (correctLeftIsRight || correctRightIsLeft)
+			return oneSideSwitched(correctRightIsLeft)
 	}
 
 	// Check if the equation itself is still correct or incorrect.
@@ -57,8 +57,8 @@ function oneSideCorrect(isLeftSideCorrect, isIncorrectSideEquivalent) {
 function sidesSwitched() {
 	return <Translation path={translationPath} entry="equation.fullFeedback.sidesSwitched">Oops ... you have switched the left and the right side of the equation. Try switching them back!</Translation>
 }
-function oneSideSwitched(leftIsRight) {
-	return <Translation path={translationPath} entry="equation.fullFeedback.oneSideSwitched">The <Check value={leftIsRight}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of your equation is correct, but it should be on the <Check value={leftIsRight}><Check.True>right</Check.True><Check.False>left</Check.False></Check>. The <Check value={leftIsRight}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of your equation still has some errors you might want to look at.</Translation>
+function oneSideSwitched(correctRightIsLeft) {
+	return <Translation path={translationPath} entry="equation.fullFeedback.oneSideSwitched">The <Check value={correctRightIsLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of your equation is correct, but it should be on the <Check value={correctRightIsLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check>. The <Check value={correctRightIsLeft}><Check.True>right</Check.True><Check.False>left</Check.False></Check> side of your equation still has some errors you might want to look at.</Translation>
 }
 
 /*

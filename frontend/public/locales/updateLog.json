@@ -23,9 +23,10 @@
         "latestText": "Simplify the result for <inline-math/> as much as possible."
       },
       "practice.inNumerator.step2.solution": {
+        "oldText": "First we write the fraction as a division between numbers, which is <block-math/> We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further.",
         "firstUpdate": "2024-09-07T14:56:41.892Z",
-        "latestUpdate": "2024-09-07T14:56:41.892Z",
-        "latestText": "First we write the fraction as a division between numbers, which is <block-math/> We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further."
+        "latestUpdate": "2024-09-08T09:19:36.125Z",
+        "latestText": "First we write the fraction as a division between numbers, which is <block-math/> <check><on-true>We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further.</on-true><on-false>No further factors can be canceled from this fraction: it is already as simplified as possible.</on-false></check>"
       },
       "practice.inNumerator.step3.problem": {
         "oldText": "Check your solution by inserting it into the original equation, simplifying both sides as much as possible, and seeing if they reduce to the same result.",
@@ -37,17 +38,66 @@
         "oldText": "The left side of the equation becomes, in order, <block-math/> Similarly, the right side will be <block-math/> This is the same number, which shows that the solution that we have found is indeed a solution to the given equation.",
         "firstUpdate": "2024-09-07T14:56:41.892Z",
         "latestUpdate": "2024-09-07T16:13:22.337Z",
-        "latestText": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/> so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/> so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
+        "latestText": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
       },
       "practice.inDenominator.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)",
         "firstUpdate": "2024-09-07T14:56:43.287Z",
-        "latestUpdate": "2024-09-07T14:56:43.287Z",
-        "latestText": "Consider the equation <block-math/> Move the factor <inline-math/> to the other side. (Also make sure that there are no fractions of fractions in the final result.)"
+        "latestUpdate": "2024-09-08T08:36:03.078Z",
+        "latestText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
       },
       "crossExerciseFeedback.unbalancedEquation": {
         "firstUpdate": "2024-09-07T16:05:26.160Z",
         "latestUpdate": "2024-09-07T16:05:26.160Z",
         "latestText": "<a>The two sides of the equation should in the end be the same. This value is not equal to the other one.</a>"
+      },
+      "practice.inDenominator.step1.problem": {
+        "oldText": "Move all factors on the side of <inline-math/> to the other side, except <inline-math/> itself.",
+        "firstUpdate": "2024-09-08T08:36:03.078Z",
+        "latestUpdate": "2024-09-08T08:40:12.314Z",
+        "latestText": "Move the factor <inline-math/> to the other side of the equation."
+      },
+      "practice.inDenominator.step1.solution": {
+        "oldText": "We move the factor <inline-math/> to the other side, where it turns into a division.<check><on-false> We also move the factor <inline-math/> to the other side, where it becomes a multiplication.</on-false></check> All together, we wind up with <block-math/> Note that <inline-math/> has been isolated.",
+        "firstUpdate": "2024-09-08T08:36:03.078Z",
+        "latestUpdate": "2024-09-08T08:41:24.556Z",
+        "latestText": "Because <inline-math/> was divided by, on the other side it will be multiplied by. This gives <block-math/> Note that <inline-math/> is not in a denominator anymore."
+      },
+      "practice.inDenominator.step2.problem": {
+        "oldText": "Simplify the result for <inline-math/> as much as possible.",
+        "firstUpdate": "2024-09-08T08:36:03.078Z",
+        "latestUpdate": "2024-09-08T08:40:12.314Z",
+        "latestText": "Move all factors on the side of <inline-math/> to the other side, except <inline-math/> itself."
+      },
+      "practice.inDenominator.step2.solution": {
+        "oldText": "First we write the fraction as a division between numbers, which is <block-math/> We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further.",
+        "firstUpdate": "2024-09-08T08:36:03.078Z",
+        "latestUpdate": "2024-09-08T08:40:12.314Z",
+        "latestText": "We move the factor <inline-math/> to the other side, where it turns into a division.<check><on-false> We also move the factor <inline-math/> to the other side, where it becomes a multiplication.</on-false></check> All together, we wind up with <block-math/> Note that <inline-math/> has been isolated."
+      },
+      "practice.inDenominator.step3.problem": {
+        "oldText": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
+        "firstUpdate": "2024-09-08T08:36:03.078Z",
+        "latestUpdate": "2024-09-08T08:40:12.314Z",
+        "latestText": "Simplify the result for <inline-math/> as much as possible."
+      },
+      "practice.inDenominator.step3.solution": {
+        "oldText": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>",
+        "firstUpdate": "2024-09-08T08:36:03.078Z",
+        "latestUpdate": "2024-09-08T09:02:59.454Z",
+        "latestText": "First we write the fraction as a division between numbers, which is <block-math/> <check><on-true>We then simplify this fraction by canceling a factor <inline-math/> in both the numerator and the denominator. This results in the final solution, <block-math/> It is not possible to simplify this any further.</on-true><on-false>No further factors can be canceled from this fraction: it is already as simplified as possible.</on-false></check>"
+      },
+      "practice.inDenominator.step4.problem": {
+        "oldText": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
+        "firstUpdate": "2024-09-08T08:40:12.263Z",
+        "latestUpdate": "2024-09-08T08:40:12.314Z",
+        "latestText": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible."
+      },
+      "practice.inDenominator.step4.solution": {
+        "oldText": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>",
+        "firstUpdate": "2024-09-08T08:40:12.263Z",
+        "latestUpdate": "2024-09-08T08:40:12.314Z",
+        "latestText": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
       }
     }
   }
