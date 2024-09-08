@@ -8,5 +8,44 @@
     "idea": "<head>Die Idee</head><par>Wir wollen <inline-math/> aus einer Gleichung wie <inline-math/> isolieren. Ein erstes Problem ist, dass <inline-math/> im Nenner eines Bruchs steht, was es schwierig macht, es zu isolieren. Um dieses Problem zu lösen, <skill-link>verschieben wir <inline-math/> auf die andere Seite</skill-link>, was führt zu <block-math/> Jetzt steht <inline-math/> nicht mehr im Nenner, was den ganzen Prozess vereinfacht.</par><par>Wenn <inline-math/> nicht in einem Nenner steht, können wir damit beginnen, ihn zu isolieren. Dazu bringen wir <emp>alle</emp> Faktoren außer <inline-math/> auf die andere Seite. Im Beispiel verschieben wir <inline-math/> nach rechts und erhalten <block-math/> Wir haben <inline-math/> isoliert!</par>",
     "afterwards": "<head>Nach dem Lösen</head><par>Technisch gesehen, ist die obige Lösung eine gültige Lösung der Gleichung. Wir sind jedoch noch nicht fertig. Oft wird nach der einfachsten Lösung gefragt, und so müssen wir das Ergebnis noch vereinfachen. Die <skill-link>Vereinfachung des Bruches</skill-link> ergibt <block-math/> Dies ist so einfach wie möglich geschrieben.</par><par>Sobald wir eine vereinfachte Lösung haben, ist es ein wertvoller letzter Schritt, sie zu <skill-link>überprüfen</skill-link>: ist sie wirklich eine Lösung der ursprünglichen Gleichung? Es ist sehr leicht, einen kleinen Fehler zu machen, und auf diese Weise kann man sehen, ob man etwas falsch gemacht hat oder nicht. Um die Lösung <inline-math/> zu überprüfen, setzen wir sie in die <emp>ursprüngliche</emp> Gleichung <inline-math/> ein und sehen, ob die Gleichung noch ausgeglichen ist. Wir erhalten <block-math/> Wenn wir den Bruch auf der rechten Seite vereinfachen, sehen wir, dass er sich auf <inline-math/> reduziert, was auch die linke Seite der Gleichung ist. Die beiden Seiten stimmen überein, die Lösung ist also richtig!</par>",
     "steps": "<head>Die Schritte</head><par>Um eine Produktgleichung wie <inline-math/> zu lösen, ist wie folgt vorzugehen.</par><list><item><a>Wenn die Unbekannte im Nenner steht, nimm sie heraus, indem du sie <skill-link>auf die andere Seite der Gleichung bringst</skill-link>. Für das Beispiel erhalten wir <inline-math/>.</a></item><item><b><skill-link>Bringe alle Faktoren</skill-link>, die sich auf der gleichen Seite wie die Unbekannte befinden, auf die andere Seite. Dies wandelt unser Beispiel in <inline-math/> um.</b></item><item><c><skill-link>Vereinfache</skill-link> das Ergebnis so weit wie möglich. Unser Beispiel reduziert sich also auf <inline-math/>.</c></item><item><d><skill-link>Überprüfe deine Lösung</skill-link>, indem du sie in die ursprüngliche Gleichung einsetzt und überprüfst, ob beide Seiten die gleiche Zahl ergeben. Im Beispiel führt die Eingabe der Lösung dazu, dass beide Seiten <inline-math/> ergeben, was übereinstimmt.</d></item></list>"
+  },
+  "practice": {
+    "inNumerator": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Verschiebe alle Faktoren auf der Seite von <inline-math/> auf die andere Seite, außer <inline-math/> selbst.",
+        "solution": "Wir bringen den Faktor <inline-math/> auf die andere Seite, wo er als Division endet.<check><on-false> Wir verschieben auch den Faktor <inline-math/> auf die andere Seite, wo er zu einer Multiplikation wird.</on-false></check> Alles in allem erhalten wir <block-math/>. Beachte, dass <inline-math/> hierdurch isoliert wird."
+      },
+      "step2": {
+        "problem": "Vereinfache das Ergebnis für <inline-math/> so weit wie möglich.",
+        "solution": "Zunächst schreiben wir den Bruch als Division von Zahlen, was hinausläuft auf <block-math/> <check><on-true>Anschließend vereinfachen wir diesen Bruch, indem wir sowohl im Zähler als auch im Nenner einen Faktor <inline-math/> entfernen. So erhalten wir die endgültige Lösung, <block-math/> Es gibt keine Möglichkeit, dies weiter zu vereinfachen.</on-true><on-false>Aus diesem Bruch können keine weiteren Faktoren entfernt werden: Er ist bereits so einfach wie möglich.</on-false></check>"
+      },
+      "step3": {
+        "problem": "Prüfe die Lösung für <inline-math/>: Setze sie in die ursprüngliche Gleichung ein und vereinfache jede Seite so weit wie möglich.",
+        "solution": "<par><check><on-true>Die linke Seite der ursprünglichen Gleichung ist bereits eine Zahl ohne <inline-math/>, so dass hier keine Substitution erforderlich ist. <check><on-true>Sie kann noch vereinfacht werden zu <block-math/></on-true><on-false>Sie kann auch nicht vereinfacht werden, und so bleibt es bei <inline-math/>.</on-false></check></on-true><on-false>Das Einsetzen von <inline-math/> auf der linken Seite der ursprünglichen Gleichung ergibt <block-math/> Durch Vereinfachung des sich ergebenden Bruches wird daraus <block-math/></on-false></check></par><par><check><on-true>Die rechte Seite der ursprünglichen Gleichung ist bereits eine Zahl ohne <inline-math/>, so dass hier keine Substitution erforderlich ist. <check><on-true>Sie kann noch vereinfacht werden zu <block-math/></on-true><on-false>Sie kann auch nicht vereinfacht werden, und so bleibt es bei <inline-math/>.</on-false></check></on-true><on-false>Das Einsetzen von <inline-math/> auf der rechten Seite der ursprünglichen Gleichung ergibt <block-math/> Durch Vereinfachung des sich ergebenden Bruches wird daraus <block-math/></on-false></check></par><par>Beide Seiten der Gleichung ergeben die gleiche Zahl, was bedeutet, dass die Lösung richtig ist.</par>"
+      }
+    },
+    "inDenominator": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Bringe den Faktor <inline-math/> auf die andere Seite der Gleichung.",
+        "solution": "Da es zuerst durch <inline-math/> geteilt wurde, wird es auf der anderen Seite multipliziert. Dies ergibt <block-math/> Beachte, dass <inline-math/> nirgendwo mehr in einem Nenner steht."
+      },
+      "step2": {
+        "problem": "Verschiebe alle Faktoren auf der Seite von <inline-math/> auf die andere Seite, außer <inline-math/> selbst.",
+        "solution": "Wir bringen den Faktor <inline-math/> auf die andere Seite, wo er als Division endet.<check><on-false> Wir verschieben auch den Faktor <inline-math/> auf die andere Seite, wo er zu einer Multiplikation wird.</on-false></check> Alles in allem erhalten wir <block-math/> Beachte, dass <inline-math/> hierdurch isoliert wird."
+      },
+      "step3": {
+        "problem": "Vereinfache das Ergebnis für <inline-math/> so weit wie möglich.",
+        "solution": "Zunächst schreiben wir den Bruch als Division von Zahlen, was hinausläuft auf <block-math/> <check><on-true>Anschließend vereinfachen wir diesen Bruch, indem wir sowohl im Zähler als auch im Nenner einen Faktor <inline-math/> entfernen. So erhalten wir die endgültige Lösung, <block-math/> Es gibt keine Möglichkeit, dies weiter zu vereinfachen.</on-true><on-false>Aus diesem Bruch können keine weiteren Faktoren entfernt werden: Er ist bereits so einfach wie möglich.</on-false></check>"
+      },
+      "step4": {
+        "problem": "Prüfe die Lösung für <inline-math/>: Setze sie in die ursprüngliche Gleichung ein und vereinfache jede Seite so weit wie möglich.",
+        "solution": "<par><check><on-true>Die linke Seite der ursprünglichen Gleichung ist bereits eine Zahl ohne <inline-math/>, so dass hier keine Substitution erforderlich ist. <check><on-true>Sie kann noch vereinfacht werden zu <block-math/></on-true><on-false>Sie kann auch nicht vereinfacht werden, und so bleibt es bei <inline-math/>.</on-false></check></on-true><on-false>Das Einsetzen von <inline-math/> auf der linken Seite der ursprünglichen Gleichung ergibt <block-math/> Durch Vereinfachung des sich ergebenden Bruches wird daraus <block-math/></on-false></check></par><par><check><on-true>Die rechte Seite der ursprünglichen Gleichung ist bereits eine Zahl ohne <inline-math/>, so dass hier keine Substitution erforderlich ist. <check><on-true>Sie kann noch vereinfacht werden zu <block-math/></on-true><on-false>Sie kann auch nicht vereinfacht werden, und so bleibt es bei <inline-math/>.</on-false></check></on-true><on-false>Das Einsetzen von <inline-math/> auf der rechten Seite der ursprünglichen Gleichung ergibt <block-math/> Durch Vereinfachung des sich ergebenden Bruches wird daraus <block-math/></on-false></check></par><par>Beide Seiten der Gleichung ergeben die gleiche Zahl, was bedeutet, dass die Lösung richtig ist.</par>"
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "unbalancedEquation": "<a>Die beiden Seiten der Gleichung müssen am Ende gleich groß sein. Dieser Wert ist nicht gleich dem anderen.</a>"
   }
 }
