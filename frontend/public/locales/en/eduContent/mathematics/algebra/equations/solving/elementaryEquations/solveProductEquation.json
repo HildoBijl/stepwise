@@ -1,6 +1,6 @@
 {
   "meta": {
-    "learningGoals": "<par>In this skill you learn to <term>solve a product equation</term>. Given an equation with only multiplications and divisions, like <inline-math/> or <inline-math/>, you will be able to find the solution, like <inline-math/>. This includes <skill-link>moving equation factors around in the equation</skill-link> until the unknown variable has been isolated, as well as <skill-link>simplifying the result</skill-link> (often a fraction) as much as possible. The equations do not include summations, powers, multiple variables, or anything similar.</par>"
+    "learningGoals": "<par>In this skill you learn to <term>solve a product equation</term>. Given an equation with only multiplications and divisions, like <inline-math/> or <inline-math/>, you will be able to find the solution, like <inline-math/>. This includes <skill-link>moving equation factors around in the equation</skill-link> until the unknown variable has been isolated, as well as <skill-link>simplifying the result</skill-link> (often a fraction) as much as possible, and subsequently <skill-link>checking it</skill-link>. The equations do not include summations, powers, multiple variables, or anything similar.</par>"
   },
   "theory": {
     "intro": "<par>A <term>product equation</term> is an equation with only multiplications and divisions, like <inline-math/>. When given such an equation, the usual goal is to solve it. This skill teaches you exactly how to do that.</par>",

@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>solve a linear equation</term>. If you have an equation like <inline-math/> then you will be able to determine the solution for <inline-math/>. This includes <skill-link>expanding any potential brackets</skill-link>, <skill-link>moving terms around</skill-link>, <skill-link>merging similar terms</skill-link> together and eventually <skill-link>solving the resulting product equation</skill-link>. The latter also includes simplifying the result as well as checking it. This skill does not deal with equations with fractions containing <inline-math/> in the denominator, which is left for a <skill-link>follow-up skill</skill-link>.</par>"
+  }
+}
