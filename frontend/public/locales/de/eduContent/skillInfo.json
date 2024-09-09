@@ -95,8 +95,17 @@
   "moveEquationFactor": {
     "name": "Gleichungsfaktor verschieben"
   },
+  "multiplyAllEquationTerms": {
+    "name": "Alle Gleichungsterme multiplizieren"
+  },
   "solveProductEquation": {
     "name": "Produktgleichung lösen"
+  },
+  "solveLinearEquation": {
+    "name": "Lineare Gleichung lösen"
+  },
+  "solveLinearEquationWithFractions": {
+    "name": "Lineare Gleichung mit Brüchen lösen"
   },
   "addRemoveFractionFactors": {
     "name": "Addieren/Entfernen von Bruchfaktoren"

@@ -206,6 +206,10 @@ const skillStructure = {
 							examples: ['basicDivision', 'basicMultiplication'],
 							exercises: ['division', 'multiplication'],
 						},
+						multiplyAllEquationTerms: {
+							name: 'Multiply all equation terms',
+							setup: and('multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables'),
+						},
 					},
 					rational: {
 						// Multiply all equation terms, bring equation to standard form.
@@ -222,7 +226,14 @@ const skillStructure = {
 						// Summation equations, product equations.
 					},
 					linearEquations: {
-						// Basic, with brackets, with fractions.
+						solveLinearEquation: {
+							name: 'Solve linear equation',
+							setup: and(part('expandBrackets', 2/3), 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'),
+						},
+						solveLinearEquationWithFractions: {
+							name: 'Solve linear equation with fractions',
+							setup: and('multiplyAllEquationTerms', part('multiplyAllEquationTerms', 0.5), 'solveLinearEquation'),
+						},
 					},
 				},
 			},
@@ -431,10 +442,10 @@ const skillStructure = {
 
 	physics: {
 		physicsMathematics: {
-			solveLinearEquation: {
-				name: 'Solve a linear equation',
-				exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],
-			},
+			// solveLinearEquation: {
+			// 	name: 'Solve a linear equation',
+			// 	exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],
+			// },
 			solveExponentEquation: {
 				name: 'Solve an exponent equation',
 				exercises: ['solveExponentEquation1', 'solveExponentEquation2', 'solveExponentEquation3', 'solveExponentEquation4'],

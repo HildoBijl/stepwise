@@ -95,8 +95,17 @@
   "moveEquationFactor": {
     "name": "Move equation factor"
   },
+  "multiplyAllEquationTerms": {
+    "name": "Multiply all equation terms"
+  },
   "solveProductEquation": {
     "name": "Solve product equation"
+  },
+  "solveLinearEquation": {
+    "name": "Solve linear equation"
+  },
+  "solveLinearEquationWithFractions": {
+    "name": "Solve linear equation with fractions"
   },
   "addRemoveFractionFactors": {
     "name": "Add/remove fraction factors"
@@ -196,9 +205,6 @@
   },
   "calculateBasicSupportReactions": {
     "name": "Calculate basic support reactions"
-  },
-  "solveLinearEquation": {
-    "name": "Solve a linear equation"
   },
   "solveExponentEquation": {
     "name": "Solve an exponent equation"

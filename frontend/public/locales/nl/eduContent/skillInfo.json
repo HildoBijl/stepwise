@@ -95,8 +95,17 @@
   "moveEquationFactor": {
     "name": "Vergelijkingsfactor verplaatsen"
   },
+  "multiplyAllEquationTerms": {
+    "name": "Alle vergelijkingstermen vermenigvuldigen"
+  },
   "solveProductEquation": {
     "name": "Productvergelijking oplossen"
+  },
+  "solveLinearEquation": {
+    "name": "Lineaire vergelijking oplossen"
+  },
+  "solveLinearEquationWithFractions": {
+    "name": "Lineaire vergelijking met breuken oplossen"
   },
   "addRemoveFractionFactors": {
     "name": "Breukfactoren toevoegen/wegstrepen"
@@ -196,9 +205,6 @@
   },
   "calculateBasicSupportReactions": {
     "name": "Basis reactiekrachten berekenen"
-  },
-  "solveLinearEquation": {
-    "name": "Lineaire vergelijking oplossen"
   },
   "solveExponentEquation": {
     "name": "Exponent-vergelijking oplossen"
