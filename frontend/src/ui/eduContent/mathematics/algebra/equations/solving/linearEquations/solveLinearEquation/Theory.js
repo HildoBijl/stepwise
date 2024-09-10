@@ -27,7 +27,7 @@ export function Theory() {
 				<>If there are any brackets containing the unknown, <SkillLink skillId="expandBrackets">expand them</SkillLink>. This turns the example into <M>5x-10=3x+4</M>.</>,
 				<><SkillLink skillId="moveEquationTerms">Move all terms</SkillLink> with the unknown to one side and all terms without the unknown to the other side. For the example, if we move everything with <M>x</M> to the left and the rest to the right, we get <M>5x-3x=10+4</M>.</>,
 				<><SkillLink skillId="mergeSimilarTerms">Merge similar terms together</SkillLink> on both sides. Doing so for the example reduces it to <M>2x=14</M>.</>,
-				<><SkillLink skillId="solveProductEquation">Solve the resulting product equation</SkillLink> in the usual way, including simplifying the outcome and checking it. For the example we end up with <M>x = 7</M> which indeed balances the original equation.</>
+				<><SkillLink skillId="solveProductEquation">Solve the resulting product equation</SkillLink> in the usual way, including simplifying the outcome and checking it. For the example we end up with <M>x = 7</M> which indeed balances the original equation.</>,
 			]} />
 		</Translation>
 	</>

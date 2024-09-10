@@ -232,7 +232,7 @@ const skillStructure = {
 						},
 						solveLinearEquationWithFractions: {
 							name: 'Solve linear equation with fractions',
-							setup: and('multiplyAllEquationTerms', part('multiplyAllEquationTerms', 0.5), 'solveLinearEquation'),
+							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'solveLinearEquation'),
 						},
 					},
 				},
