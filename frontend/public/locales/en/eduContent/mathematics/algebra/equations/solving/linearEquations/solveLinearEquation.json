@@ -7,5 +7,25 @@
     "cleaning": "<head>Cleaning up the equation</head><par>The first thing we always do when solving an equation like <inline-math/> is clean it up. That starts with <skill-link>expanding brackets</skill-link>: if there are any containing <inline-math/>, get rid of them. Doing so for the example gives <block-math/> Next, we want to sort out the terms: we <skill-link>move the terms</skill-link> with <inline-math/> to one side (for instance the left) and the terms without <inline-math/> to the other side (the right). For our example this turns it into <block-math/> Finally we <skill-link>merge terms together</skill-link> on both sides. The example then reduces to <block-math/> We have rewritten the equation to a form that is a lot simpler! In fact, you may recognize that it's now a <skill-link>product equation</skill-link>.</par>",
     "solving": "<head>Solving the cleaned equation</head><par>To solve the cleaned equation, we use the default approach for <skill-link>solving product equations</skill-link>. We <skill-link>move the factor</skill-link> before the <inline-math/> to the other side and <skill-link>simplify</skill-link> the result. This gives <block-math/> Finally we insert this solution into the original equation to <skill-link>check</skill-link> it. Doing so gives <block-math/> Both sides reduce to <inline-math/>, which is the same. The solution is correct!</par>",
     "steps": "<head>The steps</head><par>To solve a linear equation like <inline-math/>, take the following steps.</par><list><item><a>If there are any brackets containing the unknown, <skill-link>expand them</skill-link>. This turns the example into <inline-math/>.</a></item><item><b><skill-link>Move all terms</skill-link> with the unknown to one side and all terms without the unknown to the other side. For the example, if we move everything with <inline-math/> to the left and the rest to the right, we get <inline-math/>.</b></item><item><c><skill-link>Merge similar terms together</skill-link> on both sides. Doing so for the example reduces it to <inline-math/>.</c></item><item><d><skill-link>Solve the resulting product equation</skill-link> in the usual way, including simplifying the outcome and checking it. For the example we end up with <inline-math/> which indeed balances the original equation.</d></item></list>"
+  },
+  "practice": {
+    "withoutBrackets": {
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Move all terms containing <inline-math/> to one side, and all terms without <inline-math/> to the other side.",
+        "solution": "If we move all terms with <inline-math/> to the left and all terms without <inline-math/> to the right, then we get <block-math/>"
+      },
+      "step2": {
+        "problem": "Clean up both equation sides separately by merging terms together.",
+        "solution": "On the left we merge terms with <inline-math/> together, and on the right we simply add together the numbers. This results in <block-math/>"
+      },
+      "step3": {
+        "problem": "Solve the resulting equation for <inline-math/>.",
+        "solution": "<par><check><on-true>As usual when solving a product equation, we move the factor <inline-math/> to the other side, where it will be divided by. This gives the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out. As a result, we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      }
+    },
+    "withBrackets": {
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+    }
   }
 }

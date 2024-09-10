@@ -267,6 +267,12 @@ class Equation {
 		// Check for equality on a switch, if allowed.
 		if (options.allowSwitch && leftCheck(leftPreprocess(equation.right), left, options) && rightCheck(rightPreprocess(equation.left), right, options))
 			return true
+
+		// Check if, with a minus sign, things work out.
+		if (options.allowMinus && this.applyMinus().equals(equation, { ...options, allowMinus: false }))
+			return true
+
+		// No possible equality found.
 		return false
 	}
 
@@ -334,6 +340,7 @@ Equation.defaultEqualsOptions = {
 	leftCheck: undefined,
 	rightCheck: undefined,
 	allowSwitch: false,
+	allowMinus: false,
 	allowOrderChanges: undefined,
 }
 

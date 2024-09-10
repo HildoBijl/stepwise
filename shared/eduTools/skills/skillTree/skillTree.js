@@ -228,7 +228,9 @@ const skillStructure = {
 					linearEquations: {
 						solveLinearEquation: {
 							name: 'Solve linear equation',
-							setup: and(part('expandBrackets', 2/3), 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'),
+							setup: and(part('expandBrackets', 2 / 3), 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'),
+							examples: ['withoutBrackets'],
+							exercises: ['withoutBrackets', 'withBrackets'],
 						},
 						solveLinearEquationWithFractions: {
 							name: 'Solve linear equation with fractions',
