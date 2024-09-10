@@ -208,7 +208,7 @@ const skillStructure = {
 						},
 						multiplyAllEquationTerms: {
 							name: 'Multiply all equation terms',
-							setup: and('multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables'),
+							setup: and('multiplyBothEquationSides', pick(['expandBrackets', 'addLikeFractionsWithVariables']), 'simplifyFractionWithVariables'),
 						},
 					},
 					rational: {
