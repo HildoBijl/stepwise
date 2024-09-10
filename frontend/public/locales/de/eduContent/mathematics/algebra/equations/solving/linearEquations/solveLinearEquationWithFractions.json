@@ -1,6 +1,6 @@
 {
   "meta": {
-    "learningGoals": "<par>In dieser Kompetenz lernst du, eine <term>lineare Gleichung mit Brüchen zu lösen</term>, bei der die Unbekannte im Nenner steht. Für eine Gleichung wie <inline-math/> wirst du die Lösung <inline-math/> finden können. Dabei werden <skill-link>alle Terme der Gleichung multipliziert</skill-link> mit einem Faktor, um <inline-math/> aus allen Nennern zu entfernen, und anschließend wird auf die übliche Weise die entsprechende <skill-link>lineare Gleichung gelöst</skill-link>. Im Prinzip kann man jede lineare Gleichung auf diese Weise lösen.</par>"
+    "learningGoals": "<par>In dieser Kompetenz lernst du, eine <term>lineare Gleichung mit Brüchen zu lösen</term>, bei der die Unbekannte im Nenner steht. Für eine Gleichung wie <inline-math/> wirst du die Lösung <inline-math/> finden können. Dabei werden <skill-link>Faktoren in der Gleichung verschoben</skill-link>, um <inline-math/> aus allen Nennern zu entfernen, und anschließend wird auf die übliche Weise die entsprechende <skill-link>lineare Gleichung gelöst</skill-link>. Im Prinzip kann man jede lineare Gleichung auf diese Weise lösen.</par>"
   },
   "theory": {
     "intro": "<par>Es gibt Gleichungen, bei denen die Unbekannte im Nenner eines Bruchs steht. Nehmen wir zum Beispiel <inline-math/>. Manchmal sind diese Gleichungen eigentlich <term>verschleierte lineare Gleichungen</term>. Hier lernen wir, wie man das überprüft und wie man diese Gleichungen löst.</par>",

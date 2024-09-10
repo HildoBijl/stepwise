@@ -1,6 +1,6 @@
 {
   "meta": {
-    "learningGoals": "<par>In deze vaardigheid leer je om een <term>lineaire vergelijking met breuken op te lossen</term> waar de onbekende in de noemer staat. Bij een vergelijking als <inline-math/> zul je in staat zijn om de oplossing <inline-math/> te vinden. Dit omvat het <skill-link>vermenigvuldigen van alle vergelijkingstermen</skill-link> met een factor om <inline-math/> uit alle noemers te halen, en hieropvolgend het op de standaardwijze <skill-link>oplossen van de betreffende lineaire vergelijking</skill-link>. In principe kun je op deze wijze elke lineaire vergelijking oplossen.</par>"
+    "learningGoals": "<par>In deze vaardigheid leer je om een <term>lineaire vergelijking met breuken op te lossen</term> waar de onbekende in de noemer staat. Bij een vergelijking als <inline-math/> zul je in staat zijn om de oplossing <inline-math/> te vinden. Dit omvat het <skill-link>verplaatsen van factoren in de vergelijking</skill-link> om <inline-math/> uit alle noemers te halen, en hieropvolgend het op de standaardwijze <skill-link>oplossen van de betreffende lineaire vergelijking</skill-link>. In principe kun je op deze wijze elke lineaire vergelijking oplossen.</par>"
   },
   "theory": {
     "intro": "<par>We kunnen vergelijkingen tegen komen waar de onbekende in de noemer van een breuk staat. Denk aan bijvoorbeeld <inline-math/>. Soms zijn deze vergelijkingen in werkelijkheid <term>vermomde lineaire vergelijkingen</term>. Hier leren we hoe we dat kunnen controleren, en hoe we deze vergelijkingen vervolgens op kunnen lossen.</par>",

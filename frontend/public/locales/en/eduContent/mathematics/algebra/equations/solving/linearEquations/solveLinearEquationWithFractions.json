@@ -1,6 +1,6 @@
 {
   "meta": {
-    "learningGoals": "<par>In this skill you learn to <term>solve a linear equation that has fractions</term> with the unknown in the denominator. For an equation like <inline-math/> you will be able to find the solution <inline-math/>. This includes <skill-link>multiplying all equation terms</skill-link> by a factor to get <inline-math/> out of any denominator, and subsequently <skill-link>solving the resulting linear equation</skill-link> in the default way. Effectively, this allows the solution of any type of linear equation.</par>"
+    "learningGoals": "<par>In this skill you learn to <term>solve a linear equation that has fractions</term> with the unknown in the denominator. For an equation like <inline-math/> you will be able to find the solution <inline-math/>. This includes <skill-link>moving equation factors</skill-link> to get <inline-math/> out of any denominator, and subsequently <skill-link>solving the resulting linear equation</skill-link> in the default way. Effectively, this allows the solution of any type of linear equation.</par>"
   },
   "theory": {
     "intro": "<par>We may run into equations where the unknown is in the denominator of a fraction. Think of for instance <inline-math/>. Sometimes these equations are actually <term>linear equations in disguise</term>. Here we learn how to check that, and how to subsequently solve such equations.</par>",
