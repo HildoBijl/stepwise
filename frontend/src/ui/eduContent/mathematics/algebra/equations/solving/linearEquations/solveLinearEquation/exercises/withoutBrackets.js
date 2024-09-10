@@ -72,7 +72,7 @@ const steps = [
 		},
 		Solution: ({ variables, factor, solution, canCleanSolution, ans, equationInserted, sideValue }) => {
 			return <Translation>
-				<Par><Check value={factor.number !== 1}><Check.True>As usual when solving a product equation, we move the factor <M>{factor}</M> to the other side, where it will be divided by. This gives the solution <BM>{variables.x} = {solution}.</BM><Check value={canCleanSolution}><Check.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Check.True><Check.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out. As a result, we have already found the solution, <BM>{variables.x} = {ans}.</BM></Check.False></Check></Par>
+				<Par><Check value={factor.number !== 1}><Check.True>As usual when solving a product equation, we move the factor in front of <M>{variables.x}</M> (here <M>{factor}</M>) to the other side, where it will be divided by. This gives the solution <BM>{variables.x} = {solution}.</BM><Check value={canCleanSolution}><Check.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Check.True><Check.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out. As a result, we have already found the solution, <BM>{variables.x} = {ans}.</BM></Check.False></Check></Par>
 				<Par>The last thing to do is to check the solution. Inserting it into the original equation gives <BM>{equationInserted}.</BM> Both sides reduce to <M>{sideValue}</M> which shows that the solution is correct.</Par>
 			</Translation>
 		},

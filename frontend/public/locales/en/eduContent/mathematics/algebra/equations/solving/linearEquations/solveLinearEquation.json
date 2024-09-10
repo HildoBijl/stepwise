@@ -21,11 +21,27 @@
       },
       "step3": {
         "problem": "Solve the resulting equation for <inline-math/>.",
-        "solution": "<par><check><on-true>As usual when solving a product equation, we move the factor <inline-math/> to the other side, where it will be divided by. This gives the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out. As a result, we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+        "solution": "<par><check><on-true>As usual when solving a product equation, we move the factor in front of <inline-math/> (here <inline-math/>) to the other side, where it will be divided by. This gives the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out. As a result, we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
       }
     },
     "withBrackets": {
-      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Expand all brackets in the equation.",
+        "solution": "By expanding the brackets, the equation turns into <block-math/>"
+      },
+      "step2": {
+        "problem": "Move all terms containing <inline-math/> to one side, and all terms without <inline-math/> to the other side.",
+        "solution": "If we move all terms with <inline-math/> to the left and all terms without <inline-math/> to the right, then we get <block-math/>"
+      },
+      "step3": {
+        "problem": "Clean up both equation sides separately by merging terms together.",
+        "solution": "On the left we merge terms with <inline-math/> together, and on the right we simply add together the numbers. This results in <block-math/>"
+      },
+      "step4": {
+        "problem": "Solve the resulting equation for <inline-math/>.",
+        "solution": "<par><check><on-true>As usual when solving a product equation, we move the factor in front of <inline-math/> (here <inline-math/>) to the other side, where it will be divided by. This gives the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out. As a result, we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      }
     }
   }
 }
