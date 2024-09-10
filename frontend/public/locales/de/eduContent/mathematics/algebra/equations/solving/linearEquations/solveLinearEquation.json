@@ -7,5 +7,41 @@
     "cleaning": "<head>Die Gleichung bereinigen</head><par>Das erste, was wir immer tun, wenn wir eine Gleichung wie <inline-math/> lösen, ist sie zu bereinigen. Das fängt damit an, dass wir <skill-link>Klammern erweitern</skill-link>: Wenn es Klammern mit <inline-math/> darin gibt, lösen wir sie auf. Wenn wir dies auf das Beispiel anwendet, erhalten wir <block-math/> Als Nächstes wollen wir die Terme aufräumen: Wir <skill-link>verschieben die Terme</skill-link> mit <inline-math/> auf eine Seite (zum Beispiel links) und die Terme ohne <inline-math/> auf die andere Seite (rechts). Dadurch wird unser Beispiel umgewandelt in <block-math/> Schließlich <skill-link>fügen wir Terme zusammen</skill-link> auf beiden Seiten. Das Beispiel wird dann reduziert auf <block-math/> Wir haben die Gleichung in eine viel einfachere Form umgeschrieben! Du erkennst vielleicht schon, dass es sich jetzt um eine <skill-link>Produktgleichung</skill-link> handelt.</par>",
     "solving": "<head>Die bereinigte Gleichung lösen</head><par>Wir können die aufgeräumte Gleichung mit dem Standardansatz zum <skill-link>Lösen von Produktgleichungen</skill-link> lösen. Wir <skill-link>bringen den Faktor</skill-link> vor der <inline-math/> auf die andere Seite und <skill-link>vereinfachen</skill-link> das Ergebnis. Das ergibt <block-math/> Schließlich setzen wir diese Lösung in die ursprüngliche Gleichung ein, um sie zu <skill-link>überprüfen</skill-link>. Daraus wird dann <block-math/> Beide Seiten ergeben <inline-math/>, was das Gleiche ist. Die Lösung ist richtig!</par>",
     "steps": "<head>Die Schritte</head><par>Um eine lineare Gleichung wie <inline-math/> zu lösen, ist wie folgt vorzugehen.</par><list><item><a>Wenn es Klammern mit der Unbekannten darin gibt, <skill-link>erweitere sie</skill-link>. Dadurch wird das Beispiel in <inline-math/> umgewandelt.</a></item><item><b><skill-link>Bringe alle Terme</skill-link> mit der Unbekannten auf die eine Seite und alle Terme ohne die Unbekannte auf die andere Seite. Wenn wir für das Beispiel alles mit <inline-math/> auf die linke und den Rest auf die rechte Seite bringen, erhalten wir <inline-math/>.</b></item><item><c><skill-link>Füge gleichartige Terme zusammen</skill-link> auf beiden Seiten. Dies auf das Beispiel anwenden, reduziert es auf <inline-math/>.</c></item><item><d><skill-link>Löse die erhaltene Produktgleichung</skill-link> nach der üblichen Methode, einschließlich der Vereinfachung des Ergebnisses und seiner Überprüfung. Für das Beispiel kommt <inline-math/> heraus, was die ursprüngliche Gleichung tatsächlich ausgleicht.</d></item></list>"
+  },
+  "practice": {
+    "withoutBrackets": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Bringe alle Terme mit <inline-math/> auf die eine Seite, und alle Terme ohne <inline-math/> auf die andere Seite.",
+        "solution": "Wenn wir alle Terme mit <inline-math/> nach links und alle Terme ohne <inline-math/> nach rechts bringen, erhalten wir <block-math/>"
+      },
+      "step2": {
+        "problem": "Bereinige beide Seiten der Gleichung, indem du die Terme zusammenfügst.",
+        "solution": "Auf der linken Seite fügen wir die Terme mit <inline-math/> zusammen, und auf der rechten Seite addieren wir einfach die Zahlen. Das ergibt <block-math/>"
+      },
+      "step3": {
+        "problem": "Löse die erhaltene Gleichung für <inline-math/>.",
+        "solution": "<par><check><on-true>Wie beim Lösen einer Produktgleichung üblich, bringen wir den Faktor vor dem <inline-math/> (hier <inline-math/>) auf die andere Seite, wo er als Division endet. Dies ergibt die Lösung <block-math/><check><on-true>Dies kann noch vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check></on-true><on-false>Zufälligerweise ist der Faktor vor dem <inline-math/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <block-math/></on-false></check></par><par>Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <block-math/> Beide Seiten vereinfachen sich zu <inline-math/>, was zeigt, dass die Lösung korrekt ist.</par>"
+      }
+    },
+    "withBrackets": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Erweitere die Klammern in der Gleichung.",
+        "solution": "Durch das Erweitern der Klammern wird die Gleichung umgewandelt in <block-math/>"
+      },
+      "step2": {
+        "problem": "Bringe alle Terme mit <inline-math/> auf die eine Seite, und alle Terme ohne <inline-math/> auf die andere Seite.",
+        "solution": "Wenn wir alle Terme mit <inline-math/> nach links und alle Terme ohne <inline-math/> nach rechts bringen, erhalten wir <block-math/>"
+      },
+      "step3": {
+        "problem": "Bereinige beide Seiten der Gleichung, indem du die Terme zusammenfügst.",
+        "solution": "Auf der linken Seite fügen wir die Terme mit <inline-math/> zusammen, und auf der rechten Seite addieren wir einfach die Zahlen. Das ergibt <block-math/>"
+      },
+      "step4": {
+        "problem": "Löse die erhaltene Gleichung für <inline-math/>.",
+        "solution": "<par><check><on-true>Wie beim Lösen einer Produktgleichung üblich, bringen wir den Faktor vor dem <inline-math/> (hier <inline-math/>) auf die andere Seite, wo er als Division endet. Dies ergibt die Lösung <block-math/><check><on-true>Dies kann noch vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check></on-true><on-false>Zufälligerweise ist der Faktor vor dem <inline-math/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <block-math/></on-false></check></par><par>Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <block-math/> Beide Seiten vereinfachen sich zu <inline-math/>, was zeigt, dass die Lösung korrekt ist.</par>"
+      }
+    }
   }
 }

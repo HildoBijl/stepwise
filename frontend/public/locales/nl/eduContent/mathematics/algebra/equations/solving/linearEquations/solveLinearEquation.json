@@ -7,5 +7,41 @@
     "cleaning": "<head>De vergelijking opruimen</head><par>Het eerste dat we altijd doen bij het oplossen van een vergelijking als <inline-math/> is hem opruimen. Het begint met het <skill-link>uitwerken van haakjes</skill-link>: als er haakjes zijn met <inline-math/> erin, werk ze dan weg. Dit toepassen op het voorbeeld geeft <block-math/> Vervolgens willen we de termen opruimen: we <skill-link>brengen de termen</skill-link> met <inline-math/> naar de ene kant (bijvoorbeeld links) en de termen zonder <inline-math/> naar de andere kant (rechts). Dit zet ons voorbeeld om in <block-math/> Uiteindelijk <skill-link>voegen we termen samen</skill-link> aan beide kanten. Het voorbeeld wordt dan teruggebracht tot <block-math/> We hebben de vergelijking herschreven naar een vorm die veel eenvoudiger is! Je herkent mogelijk al dat het nu een <skill-link>productvergelijking</skill-link> is.</par>",
     "solving": "<head>De opgeruimde vergelijking oplossen</head><par>We kunnen de opgeruimde vergelijking oplossen via de standaard aanpak voor het <skill-link>oplossen van productvergelijkingen</skill-link>. We <skill-link>brengen de factor</skill-link> voor de <inline-math/> naar de andere kant en <skill-link>vereenvoudigen</skill-link> de uitkomst. Dit geeft <block-math/> Uiteindelijk vullen we deze oplossing in de oorspronkelijke vergelijking in om hem te <skill-link>controleren</skill-link>. Dit wordt dan <block-math/> Beide kanten komen uit op <inline-math/>, wat hetzelfde is. De oplossing klopt!</par>",
     "steps": "<head>De stappen</head><par>Om een lineaire vergelijking zoals <inline-math/> op te lossen, neem je de volgende stappen.</par><list><item><a>Als er haakjes zijn met de onbekende erin, <skill-link>werk deze dan uit</skill-link>. Dit zet het voorbeeld om in <inline-math/>.</a></item><item><b><skill-link>Breng alle termen</skill-link> met de onbekende naar de ene kant en alle termen zonder de onbekende naar de andere kant. Bij het voorbeeld komen we, als we alles met <inline-math/> naar links brengen en de rest naar rechts, uit op <inline-math/>.</b></item><item><c><skill-link>Voeg soortgelijke termen samen</skill-link> aan beide kanten. Dit toepassen op het voorbeeld brengt hem terug tot <inline-math/>.</c></item><item><d><skill-link>Los de resulterende productvergelijking op</skill-link> via de gebruikelijke methode, inclusief het vereenvoudigen van de uitkomst en het controleren ervan. Bij het voorbeeld komt er <inline-math/> uit, wat de oorspronkelijke vergelijking inderdaad in balans brengt.</d></item></list>"
+  },
+  "practice": {
+    "withoutBrackets": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng alle termen met <inline-math/> naar de ene kant, en alle termen zonder <inline-math/> naar de andere kant.",
+        "solution": "Als we alle termen met <inline-math/> naar links brengen en alle termen zonder <inline-math/> naar rechts, dan krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Ruim beide kanten van de vergelijking op door termen samen te voegen.",
+        "solution": "Links voegen we de termen met <inline-math/> samen, en rechts tellen we simpelweg de getallen op. Dit komt uit op <block-math/>"
+      },
+      "step3": {
+        "problem": "Los de verkregen vergelijking op voor <inline-math/>.",
+        "solution": "<par><check><on-true>Zoals gebruikelijk bij het oplossen van een productvergelijking, brengen we de factor voor de <inline-math/> (hier <inline-math/>) naar de andere kant, waar hij als deling terecht komt. Dit geeft de oplossing <block-math/><check><on-true>Dit kan nog vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check></on-true><on-false>Toevallig is de factor voor de <inline-math/> al weggevallen. We hebben hierdoor de oplossing al gevonden, <block-math/></on-false></check></par><par>Het laatste dat we nog moeten doen is de oplossing controleren. Hem invullen in de oorspronkelijke vergelijking geeft <block-math/> Beide kanten vereenvoudigen tot <inline-math/> wat aantoont dat de oplossing klopt.</par>"
+      }
+    },
+    "withBrackets": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Werk alle haakjes in de vergelijking uit.",
+        "solution": "Door haakjes uit te werken wordt de vergelijking omgezet in <block-math/>"
+      },
+      "step2": {
+        "problem": "Breng alle termen met <inline-math/> naar de ene kant, en alle termen zonder <inline-math/> naar de andere kant.",
+        "solution": "Als we alle termen met <inline-math/> naar links brengen en alle termen zonder <inline-math/> naar rechts, dan krijgen we <block-math/>"
+      },
+      "step3": {
+        "problem": "Ruim beide kanten van de vergelijking op door termen samen te voegen.",
+        "solution": "Links voegen we de termen met <inline-math/> samen, en rechts tellen we simpelweg de getallen op. Dit komt uit op <block-math/>"
+      },
+      "step4": {
+        "problem": "Los de verkregen vergelijking op voor <inline-math/>.",
+        "solution": "<par><check><on-true>Zoals gebruikelijk bij het oplossen van een productvergelijking, brengen we de factor voor de <inline-math/> (hier <inline-math/>) naar de andere kant, waar hij als deling terecht komt. Dit geeft de oplossing <block-math/><check><on-true>Dit kan nog vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check></on-true><on-false>Toevallig is de factor voor de <inline-math/> al weggevallen. We hebben hierdoor de oplossing al gevonden, <block-math/></on-false></check></par><par>Het laatste dat we nog moeten doen is de oplossing controleren. Hem invullen in de oorspronkelijke vergelijking geeft <block-math/> Beide kanten vereenvoudigen tot <inline-math/> wat aantoont dat de oplossing klopt.</par>"
+      }
+    }
   }
 }
