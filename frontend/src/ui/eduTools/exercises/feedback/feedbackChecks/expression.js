@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { Sum, Fraction, expressionChecks, expressionComparisons } from 'step-wise/CAS'
+import { Sum, Fraction, Integer, expressionChecks, expressionComparisons } from 'step-wise/CAS'
 
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
@@ -93,16 +93,21 @@ export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect)
 
 export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isSubtype(Fraction) && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
 
-export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
-	if (!correct.isSubtype(Fraction))
-		throw new Error(`Invalid feedback function call: tried to check for a fraction with wrong parts, but the correct answer wasn't a fraction.`)
+export const invertedFraction = (input, correct, solution, isCorrect) => !console.log(input.str, correct.invert().str, equivalent(input, correct.invert())) && !isCorrect && equivalent(input, correct.invert()) && <Translation path={translationPath} entry="expression.incorrectFraction.inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
+
+export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
 	input = input.elementaryClean()
-	if (!input.isSubtype(Fraction))
+	if (correct.isSubtype(Fraction) && !input.isSubtype(Fraction))
 		return <Translation path={translationPath} entry="expression.incorrectFraction.noFraction">Hmm ... a fraction was expected as a solution here.</Translation>
-	if (equivalent(input, correct.invert()))
-		return <Translation path={translationPath} entry="expression.incorrectFraction.inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
+	const invertedFractionResult = invertedFraction(input, correct, solution, isCorrect)
+	if (invertedFractionResult)
+		return invertedFractionResult
+
+	// If we didn't receive a Fraction, it's probably because accidentally things got canceled out and we remain with [stuff]/1. So put it back in that form.
+	if (!correct.isSubtype(Fraction))
+		correct = new Fraction({ numerator: correct, denominator: Integer.one })
 	if (!constantMultiple(input.numerator, correct.numerator))
 		return <Translation path={translationPath} entry="expression.incorrectFraction.incorrectNumerator">The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</Translation>
 	if (!constantMultiple(input.denominator, correct.denominator))
