@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
-const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -37,5 +37,5 @@ function getFeedback(exerciseData) {
 	const asFraction = (input, correct, { upper, ans }) => upper && onlyOrderChanges(ans.divide(Integer.one), input) && <>Je hebt goed de termen weggestreept, maar het resultaat kan nog verder gesimplificeerd worden.</>
 
 	// Determine feedback.
-	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, asFraction, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, asFraction, equivalentExpression, nonEquivalentExpression] })
 }

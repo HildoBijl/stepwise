@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { SimpleExercise, useSolution, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
-const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -35,5 +35,5 @@ function getFeedback(exerciseData) {
 	const oneVariableCancelled = (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDen(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDen(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
 
 	// Determine feedback.
-	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, oneVariableCancelled, equivalentExpression, nonEquivalentExpression] })
 }

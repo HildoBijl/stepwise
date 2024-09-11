@@ -5,7 +5,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
-const { hasX, incorrectFraction, incorrectExpression } = expressionChecks
+const { hasX, incorrectFraction, nonEquivalentExpression } = expressionChecks
 const { originalEquation, correctEquation, incorrectEquation, hasFraction, hasSumWithinProduct } = equationChecks
 
 export default function Exercise() {
@@ -78,7 +78,7 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Determine feedback.
 	return getFieldInputFeedback(exerciseData, {
-		ans: [hasX, incorrectFraction, incorrectExpression],
+		ans: [hasX, incorrectFraction, nonEquivalentExpression],
 		multiplied: [originalEquation, hasFraction, incorrectEquation, correctEquation],
 		expanded: [hasSumWithinProduct, hasFraction, incorrectEquation, correctEquation],
 	})

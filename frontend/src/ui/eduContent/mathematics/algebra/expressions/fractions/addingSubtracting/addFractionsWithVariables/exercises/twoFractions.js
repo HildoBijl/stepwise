@@ -9,7 +9,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { originalExpression, correctExpression, incorrectExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
+const { originalExpression, equivalentExpression, nonEquivalentExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -91,8 +91,8 @@ function getFeedback(exerciseData) {
 
 	// Merge all checks in the right order.
 	return getFieldInputFeedback(exerciseData, {
-		sameDenominator: [originalExpression, incorrectExpression, notTwoFractions, unequalDenominators, correctExpression],
-		bracketsExpanded: [originalExpression, incorrectExpression, notTwoFractions, unequalDenominators, unsimplifiedNumerator, correctExpression],
-		ans: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, hasSimilarTerms, correctExpression],
+		sameDenominator: [originalExpression, nonEquivalentExpression, notTwoFractions, unequalDenominators, equivalentExpression],
+		bracketsExpanded: [originalExpression, nonEquivalentExpression, notTwoFractions, unequalDenominators, unsimplifiedNumerator, equivalentExpression],
+		ans: [originalExpression, nonEquivalentExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, hasSimilarTerms, equivalentExpression],
 	})
 }

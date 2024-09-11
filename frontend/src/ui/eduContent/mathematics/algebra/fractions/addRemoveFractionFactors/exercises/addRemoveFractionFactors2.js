@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
-const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -35,5 +35,5 @@ function getFeedback(exerciseData) {
 	const squareDisappeared = (input, correct, { square, variables, ans }) => onlyOrderChanges(input, ans.divide(variables.x).regularClean()) && <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>
 
 	// Determine feedback.
-	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, squareDisappeared, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, squareDisappeared, equivalentExpression, nonEquivalentExpression] })
 }

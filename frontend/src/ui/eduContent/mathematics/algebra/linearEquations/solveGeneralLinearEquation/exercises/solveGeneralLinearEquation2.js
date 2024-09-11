@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
-const { hasX, hasFractionWithinFraction, incorrectFraction, incorrectExpression, correctExpression } = expressionChecks
+const { hasX, hasFractionWithinFraction, incorrectFraction, nonEquivalentExpression, equivalentExpression } = expressionChecks
 const { originalEquation, correctEquation, incorrectEquation, hasFraction, hasSumWithinProduct } = equationChecks
 
 export default function Exercise() {
@@ -97,13 +97,13 @@ function getFeedback(exerciseData) {
 	const simplifiedChecks = [
 		(input, correct) => !expressionComparisons.onlyOrderChanges(input.right, correct.right) && <>Laat de rechter kant van de vergelijking onveranderd!</>,
 		(input, correct, solution, isCorrect) => hasFractionWithinFraction(input.left, correct.left, solution, isCorrect),
-		(input, correct, solution, isCorrect) => incorrectExpression(input.left, correct.left, solution, isCorrect),
-		(input, correct, solution, isCorrect) => correctExpression(input.left, correct.left, solution, isCorrect),
+		(input, correct, solution, isCorrect) => nonEquivalentExpression(input.left, correct.left, solution, isCorrect),
+		(input, correct, solution, isCorrect) => equivalentExpression(input.left, correct.left, solution, isCorrect),
 	]
 
 	// Determine feedback.
 	return getFieldInputFeedback(exerciseData, {
-		ans: [hasX, correctExpression, incorrectFraction],
+		ans: [hasX, equivalentExpression, incorrectFraction],
 		simplified: simplifiedChecks,
 		multiplied: [originalEquation, hasFraction, incorrectEquation, correctEquation],
 		expanded: [hasSumWithinProduct, hasFraction, incorrectEquation, correctEquation],

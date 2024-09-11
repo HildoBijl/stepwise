@@ -9,7 +9,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
-const { originalExpression, sumWithUnsimplifiedTerms, hasSumWithinProduct, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, sumWithUnsimplifiedTerms, hasSumWithinProduct, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -109,9 +109,9 @@ function getFeedback(exerciseData) {
 	const hasFractionBeenSplit = (input, correct, { expression }, isCorrect, { translateCrossExercise}) => !isCorrect && !(input.isSubtype(Product) && input.factors.find(inputFactor => inputFactor.isSubtype(Sum) && inputFactor.terms.length === expression.terms.length)) && translateCrossExercise(<>Have you split up the fraction into a summation?</>, 'hasFractionBeenSplit')
 
 	return getFieldInputFeedback(exerciseData, {
-		startingForm: [originalExpression, missingFactor, incorrectFractionDenominator, incorrectFractionNumerator, incorrectExpression, correctExpression],
-		splitUp: [missingFactor, hasFractionBeenSplit, incorrectExpression, correctExpression],
-		ans: [missingFactor, hasFractionBeenSplit, incorrectExpression, correctExpression],
-		check: [hasSumWithinProduct, sumWithUnsimplifiedTerms, incorrectExpression, correctExpression],
+		startingForm: [originalExpression, missingFactor, incorrectFractionDenominator, incorrectFractionNumerator, nonEquivalentExpression, equivalentExpression],
+		splitUp: [missingFactor, hasFractionBeenSplit, nonEquivalentExpression, equivalentExpression],
+		ans: [missingFactor, hasFractionBeenSplit, nonEquivalentExpression, equivalentExpression],
+		check: [hasSumWithinProduct, sumWithUnsimplifiedTerms, nonEquivalentExpression, equivalentExpression],
 	})
 }

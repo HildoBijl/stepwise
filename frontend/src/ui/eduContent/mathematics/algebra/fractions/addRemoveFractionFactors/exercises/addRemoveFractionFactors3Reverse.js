@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
-const { noFraction, incorrectExpression } = expressionChecks
+const { noFraction, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -39,5 +39,5 @@ function getFeedback(exerciseData) {
 	const wrongPart = (input, correct, { upper, sum }) => input.isSubtype(Fraction) && !onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>
 
 	// Determine feedback.
-	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, noFraction, wrongPart, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, noFraction, wrongPart, nonEquivalentExpression] })
 }

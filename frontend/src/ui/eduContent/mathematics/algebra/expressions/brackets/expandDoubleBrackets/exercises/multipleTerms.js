@@ -8,7 +8,7 @@ import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } fr
 
 import { wrongBracketsExpanded } from './util'
 
-const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -82,15 +82,15 @@ function getFeedback(exerciseData) {
 		originalExpression,
 		hasSumWithinProduct,
 		sumWithWrongTerms,
-		incorrectExpression,
-		correctExpression,
+		nonEquivalentExpression,
+		equivalentExpression,
 	]
 	const firstExpandedFeedbackChecks = [
 		originalExpression,
 		wrongBracketsExpanded,
 		sumWithWrongTerms,
-		incorrectExpression,
-		correctExpression,
+		nonEquivalentExpression,
+		equivalentExpression,
 	]
 	return getFieldInputFeedback(exerciseData, {
 		firstExpanded: firstExpandedFeedbackChecks,

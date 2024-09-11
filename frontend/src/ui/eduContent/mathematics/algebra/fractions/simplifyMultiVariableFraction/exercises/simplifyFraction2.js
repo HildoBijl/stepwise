@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { originalExpression, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, noFraction, hasFractionWithinFraction, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -71,14 +71,14 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define checks for ans.
-	const ansCorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
+	const ansequivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
 
 	const ansChecks = [
 		originalExpression,
-		incorrectExpression,
+		nonEquivalentExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		ansCorrectExpression,
+		ansequivalentExpression,
 	]
 
 	// Define checks for intermediate.
@@ -94,8 +94,8 @@ function getFeedback(exerciseData) {
 		hasFractionWithinFraction,
 		wrongIntermediateDenominator,
 		wrongIntermediateNumerator,
-		incorrectExpression,
-		correctExpression,
+		nonEquivalentExpression,
+		equivalentExpression,
 	]
 
 	return getFieldInputFeedback(exerciseData, { ans: ansChecks, intermediate: intermediateChecks})

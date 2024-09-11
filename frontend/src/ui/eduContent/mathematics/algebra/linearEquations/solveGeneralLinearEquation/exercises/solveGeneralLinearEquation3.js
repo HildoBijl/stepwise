@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
-const { hasX, hasFractionWithinFraction, incorrectFraction, hasPower, incorrectExpression, correctExpression } = expressionChecks
+const { hasX, hasFractionWithinFraction, incorrectFraction, hasPower, nonEquivalentExpression, equivalentExpression } = expressionChecks
 const { originalEquation, correctEquation, incorrectEquation, hasFraction } = equationChecks
 
 export default function Exercise() {
@@ -84,13 +84,13 @@ function getFeedback(exerciseData) {
 		(input, correct) => !expressionComparisons.onlyOrderChanges(input.right, correct.right) && <>Laat de rechter kant van de vergelijking onveranderd!</>,
 		(input, correct, solution, isCorrect) => hasFractionWithinFraction(input.left, correct.left, solution, isCorrect),
 		(input, correct, solution, isCorrect) => hasPower(input.left, correct.left, solution, isCorrect),
-		(input, correct, solution, isCorrect) => incorrectExpression(input.left, correct.left, solution, isCorrect),
-		(input, correct, solution, isCorrect) => correctExpression(input.left, correct.left, solution, isCorrect),
+		(input, correct, solution, isCorrect) => nonEquivalentExpression(input.left, correct.left, solution, isCorrect),
+		(input, correct, solution, isCorrect) => equivalentExpression(input.left, correct.left, solution, isCorrect),
 	]
 
 	// Determine feedback.
 	return getFieldInputFeedback(exerciseData, {
-		ans: [hasX, incorrectFraction, incorrectExpression],
+		ans: [hasX, incorrectFraction, nonEquivalentExpression],
 		simplified: simplifiedChecks,
 		multiplied: [originalEquation, hasFraction, incorrectEquation, correctEquation],
 	})

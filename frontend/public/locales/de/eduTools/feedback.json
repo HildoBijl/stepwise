@@ -104,7 +104,7 @@
 	"expression": {
 		"original": "Dies ist der ursprüngliche Ausdruck. Du hast noch nichts damit gemacht.",
 		"incorrect": "Dieser Ausdruck ist nicht gleich dem, was gegeben ist. Du hast beim Umschreiben etwas getan, was nicht erlaubt ist.",
-		"incorrectSolution": "Dies ist weder die richtige Lösung, noch deren Äquivalent. Überprüfe die Schritte, mit denen du dies gefunden hast.",
+		"nonEquivalentSolution": "Dies ist weder die richtige Lösung, noch deren Äquivalent. Überprüfe die Schritte, mit denen du dies gefunden hast.",
 		"correct": "Der Ausdruck ist korrekt, aber du hast nicht getan, was verlangt wurde.",
 		"noSum": "Du solltest deine Antwort als eine Addition/Subtraktion von Termen schreiben. Die von dir gegebene Antwort ist keine Addition/Subtraktion.",
 		"wrongNumberOfSumTerms": "Was hier erwartet wird, ist eine Addition mit {expectedNumTerms} Termen, mit einem Plus- oder Minuszeichen dazwischen. Deine Eingabe hat {inputNumTerms} Terme.",

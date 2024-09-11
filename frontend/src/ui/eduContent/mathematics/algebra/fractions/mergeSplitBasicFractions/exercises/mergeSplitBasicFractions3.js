@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { equivalent } = expressionComparisons
-const { originalExpression, noSum, sumWithWrongTerms, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, noSum, sumWithWrongTerms, noFraction, hasFractionWithinFraction, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -46,16 +46,16 @@ function getFeedback(exerciseData) {
 		originalExpression,
 		noSum,
 		sumWithWrongTerms,
-		correctExpression,
-		incorrectExpression,
+		equivalentExpression,
+		nonEquivalentExpression,
 	] : [
 		originalExpression,
 		noFraction,
 		wrongDenominator,
 		wrongNumerator,
 		hasFractionWithinFraction,
-		correctExpression,
-		incorrectExpression,
+		equivalentExpression,
+		nonEquivalentExpression,
 	]
 
 	// Determine feedback.

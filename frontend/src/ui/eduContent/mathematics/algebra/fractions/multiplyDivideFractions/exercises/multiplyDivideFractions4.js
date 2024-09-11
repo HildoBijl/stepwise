@@ -5,7 +5,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, noFraction, hasFractionWithinFraction, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -33,10 +33,10 @@ const Solution = ({ expression, ans }) => {
 function getFeedback(exerciseData) {
 	const feedbackChecks = [
 		originalExpression,
-		incorrectExpression,
+		nonEquivalentExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		correctExpression,
+		equivalentExpression,
 	]
 	return getFieldInputFeedback(exerciseData, { ans: feedbackChecks })
 }

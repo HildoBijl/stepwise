@@ -9,7 +9,7 @@ import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { hasX, incorrectFraction, incorrectExpression } = expressionChecks
+const { hasX, incorrectFraction, nonEquivalentExpression } = expressionChecks
 const { originalEquation, hasSumWithinProduct, correctEquation, incorrectEquation, sumWithWrongTerms } = equationChecks
 
 export default function Exercise() {
@@ -135,7 +135,7 @@ function getFeedback(exerciseData) {
 
 	// Determine feedback.
 	return getFieldInputFeedback(exerciseData, {
-		ans: [hasX, incorrectFraction, incorrectExpression],
+		ans: [hasX, incorrectFraction, nonEquivalentExpression],
 		bracketsExpanded: [originalEquation, hasSumWithinProduct, incorrectEquation, correctEquation],
 		termsMoved: [variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
 		pulledOut: [sideWithoutVariableEqual, sideWithVariableEqual, incorrectEquation, correctEquation],

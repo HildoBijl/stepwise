@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
-const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -35,5 +35,5 @@ function getFeedback(exerciseData) {
 	const oneVariableAdded = (input, correct, { variables, expression }) => (onlyOrderChanges(input, expression.multiplyNumDen(variables.y)) || onlyOrderChanges(input, expression.multiplyNumDen(variables.z))) && <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>
 
 	// Determine feedback.
-	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, oneVariableAdded, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, oneVariableAdded, equivalentExpression, nonEquivalentExpression] })
 }

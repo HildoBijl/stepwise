@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, correctExpression, incorrectExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
+const { originalExpression, equivalentExpression, nonEquivalentExpression, hasSimilarTerms, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -77,8 +77,8 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
-		singleFraction: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, correctExpression],
-		bracketsExpanded: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, correctExpression],
-		ans: [originalExpression, incorrectExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, hasSimilarTerms, correctExpression],
+		singleFraction: [originalExpression, nonEquivalentExpression, noFraction, hasFractionWithinFraction, equivalentExpression],
+		bracketsExpanded: [originalExpression, nonEquivalentExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, equivalentExpression],
+		ans: [originalExpression, nonEquivalentExpression, noFraction, hasFractionWithinFraction, fractionNumeratorHasSumWithinProduct, hasSimilarTerms, equivalentExpression],
 	})
 }

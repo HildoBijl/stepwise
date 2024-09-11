@@ -104,7 +104,7 @@
   "expression": {
     "original": "This is the original expression. You have not rewritten it yet.",
     "incorrect": "This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.",
-    "incorrectSolution": "This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.",
+    "nonEquivalentSolution": "This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.",
     "correct": "The expression is correct, but you have not done what was required.",
     "noSum": "You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.",
     "wrongNumberOfSumTerms": "There was supposed to be an addition/subtraction with {expectedNumTerms} terms, each with a plus or minus sign in-between. Your response has {inputNumTerms} terms.",

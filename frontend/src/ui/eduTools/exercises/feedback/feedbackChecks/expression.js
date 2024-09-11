@@ -19,11 +19,13 @@ export const originalExpression = (input, correct, { expression }, isCorrect) =>
 	return !isCorrect && onlyOrderChanges(input.elementaryClean(), expression.elementaryClean()) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
 }
 
-export const incorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.incorrect">This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
+// nonEquivalentExpression checks for equivalency and is useful for exercises where an expression needs to be rewritten. The text assumes an expression was given.
+export const nonEquivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.incorrect">This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.</Translation>
 
-export const incorrectSolution = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.incorrectSolution">This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.</Translation>
+// nonEquivalentSolution does the same as nonEquivalentSolution but the message focuses on a solution. It assumes the given expression is the solution of solving some type of equation or similar.
+export const nonEquivalentSolution = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <Translation path={translationPath} entry="expression.nonEquivalentSolution">This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.</Translation>
 
-export const correctExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <Translation path={translationPath} entry="expression.correct">The expression is correct, but you have not done what was required.</Translation>
+export const equivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <Translation path={translationPath} entry="expression.correct">The expression is correct, but you have not done what was required.</Translation>
 
 /*
  * Sum and terms checks.

@@ -8,7 +8,7 @@ import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
-const { originalExpression, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, noFraction, hasFractionWithinFraction, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -91,10 +91,10 @@ function getFeedback(exerciseData) {
 	// Define checks for ans.
 	const ansChecks = [
 		originalExpression,
-		incorrectExpression,
+		nonEquivalentExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		correctExpression,
+		equivalentExpression,
 	]
 
 	// Define checks for intermediate.
@@ -112,8 +112,8 @@ function getFeedback(exerciseData) {
 		hasFractionWithinFraction,
 		wrongIntermediateDenominator,
 		wrongIntermediateNumerator,
-		incorrectExpression,
-		correctExpression,
+		nonEquivalentExpression,
+		equivalentExpression,
 	]
 	const denominatorChecks = [
 		denominatorOriginalExpression,

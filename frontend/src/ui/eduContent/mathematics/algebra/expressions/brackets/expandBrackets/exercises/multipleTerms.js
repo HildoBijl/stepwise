@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, correctExpression, incorrectExpression } = expressionChecks
+const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -80,8 +80,8 @@ function getFeedback(exerciseData) {
 		originalExpression,
 		hasSumWithinProduct,
 		sumWithWrongTerms,
-		incorrectExpression,
-		correctExpression,
+		nonEquivalentExpression,
+		equivalentExpression,
 	]
 	return getFieldInputFeedback(exerciseData, { expanded: feedbackChecks, numbersMerged: feedbackChecks, ans: feedbackChecks })
 }
