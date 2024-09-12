@@ -1,65 +1,65 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asExpression, asEquation, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
+const { selectRandomly, getRandomInteger } = require('../../../../../../../util')
+const { asExpression, asEquation, expressionComparisons, equationChecks } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
+const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 
-// a*(x+b)+e=c*(x+d).
+// (x+a)/(x+b)=(x+c)/(x+d).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e']
+const constants = ['a', 'b', 'c', 'd']
+
+const factorMovedComparison = { check: equivalent, allowSwitch: true }
+const expandedComparison = { check: equivalent, allowSwitch: true }
 
 const metaData = {
-	weight: 2,
-	skill: 'solveProductEquation',
-	steps: ['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
+	skill: 'solveLinearEquationWithFractions',
+	steps: ['moveEquationFactor', 'expandDoubleBrackets', 'solveLinearEquation'],
+	factorMovedComparison,
+	expandedComparison,
 	comparison: {
-		expanded: (input, correct) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
-		moved: { check: equivalent, allowSwitch: true, allowMinus: true },
-		cleaned: { check: onlyOrderChanges, allowSwitch: true, allowMinus: true },
+		factorMoved: (input, correct, { variables }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
+		expanded: (input, correct) => !hasSumWithinProduct(input) && correct.equals(input, expandedComparison),
 		ans: onlyOrderChanges,
 	}
 }
 
-function generateState(example) {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
+function generateState() {
+	const a = getRandomInteger(-8, 8, [0])
 	const b = getRandomInteger(-8, 8, [0, a, -a])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1, a])
-	const d = getRandomInteger(-8, 8, [0])
-	const e = getRandomInteger(-8, 8, [0])
+	const c = getRandomInteger(-8, 8, [0, a, -a, b, -b])
+	const d = getRandomInteger(-8, 8, [0, a, -a, b, -b, c, -c, b + c - a])
 	return {
 		x: selectRandomly(variableSet),
-		a, b, c, d, e,
-		switchSides: getRandomBoolean(),
-		bracketsRight: getRandomBoolean(),
+		a, b, c, d,
 	}
 }
 
 function getSolution(state) {
-	const { a, b, c, d, e, switchSides, bracketsRight } = state
+	const { a, b, c, d } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const expanded = equation.regularClean({ expandProductsOfSums: true })
-	const moved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`)[switchSides ? 'applyMinus' : 'self']()[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const cleaned = moved.regularClean()
-	const factor = asExpression(switchSides ? c - a : a - c)
-	const solution = asExpression(`${(bracketsRight ? c * d : d) - (a * b + e)}/${a - c}`)
+	const equation = asEquation('(x+a)/(x+b)=(x+c)/(x+d)').substituteVariables(variables).removeUseless()
+	const factorMoved = asEquation('(x+a)(x+d)=(x+c)(x+b)').substituteVariables(variables).removeUseless()
+	const expanded = factorMoved.regularClean({ expandProductsOfSums: true })
+	const termMoved = asEquation(`(${a + d})*x - (${b + c})*x = ${c * b}-(${a * d})`).substituteVariables(variables).removeUseless()
+	const cleaned = termMoved.regularClean()
+	const factor = asExpression(a + d - b - c)
+	const solution = asExpression(`${(c * b - a * d)}/${(a + d - b - c)}`)
 	const ans = solution.regularClean()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
 	const equationInserted = equation.substituteVariables({ [variables.x]: ans })
 	const sideValue = equationInserted.left.regularClean()
-	return { ...state, variables, equation, expanded, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
+	return { ...state, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'expanded')
+			return performComparison(exerciseData, 'factorMoved')
 		case 2:
-			return performComparison(exerciseData, 'moved')
-		case 3:
-			return performComparison(exerciseData, 'cleaned')
+			return performComparison(exerciseData, 'expanded')
 		default:
 			return performComparison(exerciseData, 'ans')
 	}

@@ -143,7 +143,7 @@
     },
     "noSum": "You have only written a single term on the <check><on-true>left</on-true><on-false>right</on-false></check> side. A sum was expected here: an addition/subtraction of terms.",
     "hasSum": "You have written a sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side: an addition/subtraction of terms. Only a single term was expected here.",
-    "wrongNumberOfSumTerms": "The sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equals sign has <counting-word/> terms. <counting-word/> terms were expected.",
+    "wrongNumberOfSumTerms": "The sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equals sign has <counting-word/> terms. There were <counting-word/> terms expected.",
     "errorInSumTerm": "There seems to be an error in the <counting-word/> term on the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
     "errorInSide": "There seems to be an error in the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation.",
     "unsimplifiedSumTerm": "You can still simplify the <counting-word/> term on the <check><on-true>left</on-true><on-false>right</on-false></check> side.",

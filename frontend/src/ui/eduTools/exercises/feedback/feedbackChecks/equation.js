@@ -124,7 +124,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 		if (correctSide.isSubtype(Sum)) {
 			// Check that it has the right number of terms.
 			if (correctSide.terms.length !== inputSide.terms.length)
-				return <Translation path={translationPath} entry="equation.wrongNumberOfSumTerms">The sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equals sign has <CountingWord>{inputSide.terms.length}</CountingWord> terms. <CountingWord upperCase={true}>{correctSide.terms.length}</CountingWord> terms were expected.</Translation>
+				return <Translation path={translationPath} entry="equation.wrongNumberOfSumTerms">The sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equals sign has <CountingWord>{inputSide.terms.length}</CountingWord> terms. There were <CountingWord>{correctSide.terms.length}</CountingWord> terms expected.</Translation>
 
 			// Find an input term that is not in the solution.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.equivalent(inputTerm, correctTerm)))

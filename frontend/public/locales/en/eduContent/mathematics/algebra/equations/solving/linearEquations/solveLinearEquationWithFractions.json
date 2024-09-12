@@ -29,13 +29,45 @@
       }
     },
     "oneFractionWithVariable": {
-      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Move the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore.",
+        "solution": "The factor <inline-math/> appears on the <check><on-true>left</on-true><on-false>right</on-false></check> as a multiplication. This turns the equation into <block-math/>"
+      },
+      "step2": {
+        "problem": "Solve the resulting equation for <inline-math/>.",
+        "solution": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      }
     },
     "oneFractionWithNumber": {
-      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Before starting, simplify the equation a bit by bringing the <inline-math/> to the other side and merging numbers together.",
+        "solution": "By bringing the <inline-math/> to the <check><on-true>left</on-true><on-false>right</on-false></check> and <check><on-true>subtracting it from</on-true><on-false>adding it to</on-false></check> the <inline-math/>, we get <block-math/>"
+      },
+      "step2": {
+        "problem": "Move the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore.",
+        "solution": "The factor <inline-math/> appears on the <check><on-true>left</on-true><on-false>right</on-false></check> as a multiplication. This turns the equation into <block-math/>"
+      },
+      "step3": {
+        "problem": "Solve the resulting equation for <inline-math/>.",
+        "solution": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> The only term with <inline-math/> is already on the <check><on-true>left</on-true><on-false>right</on-false></check> so we can keep it there. Moving all numbers to the <check><on-true>right</on-true><on-false>left</on-false></check> and pulling them together results in <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      }
     },
     "twoFractionsWithVariable": {
-      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Move both the factor <inline-math/> and the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore.",
+        "solution": "The factor <inline-math/> appears on the right as a multiplication, and similarly the factor <inline-math/> appears on the left as a multiplication. This turns the equation into <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand the double brackets on both sides to make sure there are no brackets left.",
+        "solution": "To get rid of the double brackets, we multiply each term from the left brackets separately with each term from the right brackets. And we do this for both sides. Out comes <block-math/>"
+      },
+      "step3": {
+        "problem": "Note that the term <inline-math/> cancels on both sides of the equation. Solve the remaining equation for <inline-math/>.",
+        "solution": "<par>We follow the default approach. Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      }
     }
   }
 }

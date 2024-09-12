@@ -7,7 +7,7 @@ import { ExpressionInput, EquationInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
 const { nonEquivalentSolution, equivalentExpression, hasFractionWithinFraction, unsimplifiedFractionNumbers, invertedFraction } = expressionChecks
-const { originalEquation, hasSumWithinProduct, sumWithWrongTerms } = equationChecks
+const { originalEquation, hasXInDenominator, fullEquationFeedback } = equationChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -30,48 +30,32 @@ const steps = [
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par><Translation>Expand all brackets in the equation.</Translation></Par>
+				<Par><Translation>Before starting, simplify the equation a bit by bringing the <M>{variables.c.abs()}</M> to the other side and merging numbers together.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="expanded" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
+						<EquationInput id="termMoved" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expanded }) => {
-			return <Par><Translation>By expanding the brackets, the equation turns into <BM>{expanded}.</BM></Translation></Par>
+		Solution: ({ variables, switchSides, termMoved }) => {
+			return <Par><Translation>By bringing the <M>{variables.c.abs()}</M> to the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> and <Check value={variables.c.number > 0}><Check.True>subtracting it from</Check.True><Check.False>adding it to</Check.False></Check> the <M>{variables.d}</M>, we get <BM>{termMoved}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
-			const { variables } = useSolution()
+			const { termMoved, switchSides, variables } = useSolution()
 			return <>
-				<Par><Translation>Move all terms containing <M>{variables.x}</M> to one side, and all terms without <M>{variables.x}</M> to the other side.</Translation></Par>
+				<Par><Translation>Move the factor <M>{termMoved[switchSides ? 'right' : 'left'].denominator}</M> to the other side to ensure there is no <M>{variables.x}</M> in any denominator anymore.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="moved" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
+						<EquationInput id="factorMoved" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ variables, moved }) => {
-			return <Par><Translation>If we move all terms with <M>{variables.x}</M> to the left and all terms without <M>{variables.x}</M> to the right, then we get <BM>{moved}.</BM></Translation></Par>
-		},
-	},
-	{
-		Problem: () => {
-			const { variables } = useSolution()
-			return <>
-				<Par><Translation>Clean up both equation sides separately by merging terms together.</Translation></Par>
-				<InputSpace>
-					<Par>
-						<EquationInput id="cleaned" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
-					</Par>
-				</InputSpace>
-			</>
-		},
-		Solution: ({ variables, cleaned }) => {
-			return <Par><Translation>On the left we merge terms with <M>{variables.x}</M> together, and on the right we simply add together the numbers. This results in <BM>{cleaned}.</BM></Translation></Par>
+		Solution: ({ termMoved, switchSides, factorMoved }) => {
+			return <Par><Translation>The factor <M>{termMoved[switchSides ? 'right' : 'left'].denominator}</M> appears on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> as a multiplication. This turns the equation into <BM>{factorMoved}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -86,9 +70,9 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ variables, factor, solution, canCleanSolution, ans, equationInserted, sideValue }) => {
+		Solution: ({ variables, switchSides, expanded, cleaned, factor, solution, canCleanSolution, ans, equationInserted, sideValue }) => {
 			return <Translation>
-				<Par><Check value={factor.number !== 1}><Check.True>As usual when solving a product equation, we move the factor in front of <M>{variables.x}</M> (here <M>{factor}</M>) to the other side, where it will be divided by. This gives the solution <BM>{variables.x} = {solution}.</BM><Check value={canCleanSolution}><Check.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Check.True><Check.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out. As a result, we have already found the solution, <BM>{variables.x} = {ans}.</BM></Check.False></Check></Par>
+				<Par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <BM>{expanded}.</BM> The only term with <M>{variables.x}</M> is already on the <Check value={switchSides}><Check.True>left</Check.True><Check.False>right</Check.False></Check> so we can keep it there. Moving all numbers to the <Check value={switchSides}><Check.True>right</Check.True><Check.False>left</Check.False></Check> and pulling them together results in <BM>{cleaned}.</BM><Check value={factor.number !== 1}><Check.True>Dividing by <M>{factor}</M> gives us the solution <BM>{variables.x} = {solution}.</BM><Check value={canCleanSolution}><Check.True>This can still be simplified into <BM>{variables.x} = {ans}.</BM></Check.True><Check.False>This cannot be simplified further.</Check.False></Check></Check.True><Check.False>Coincidentally the factor before the <M>{variables.x}</M> has already dropped out, so we have already found the solution, <BM>{variables.x} = {ans}.</BM></Check.False></Check></Par>
 				<Par>The last thing to do is to check the solution. Inserting it into the original equation gives <BM>{equationInserted}.</BM> Both sides reduce to <M>{sideValue}</M> which shows that the solution is correct.</Par>
 			</Translation>
 		},
@@ -96,10 +80,12 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
+	// Set up the default feedback function for the factorMoved field.
+	const factorMovedCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metaData.factorMovedComparison)
+
 	return getFieldInputFeedback(exerciseData, {
-		expanded: [originalEquation, hasSumWithinProduct, sumWithWrongTerms],
-		moved: [originalEquation],
-		cleaned: [originalEquation],
+		termMoved: [originalEquation],
+		factorMoved: [originalEquation, hasXInDenominator, factorMovedCheck],
 		ans: [invertedFraction, nonEquivalentSolution, hasFractionWithinFraction, unsimplifiedFractionNumbers, equivalentExpression],
 	})
 }

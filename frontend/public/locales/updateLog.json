@@ -71,6 +71,102 @@
         "firstUpdate": "2024-09-11T10:16:22.250Z",
         "latestUpdate": "2024-09-11T10:16:22.250Z",
         "latestText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      },
+      "practice.oneFractionWithVariable.step1.problem": {
+        "oldText": "Move both the factor <inline-math/> and the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore.",
+        "firstUpdate": "2024-09-12T07:47:52.654Z",
+        "latestUpdate": "2024-09-12T07:50:56.549Z",
+        "latestText": "Move the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore."
+      },
+      "practice.oneFractionWithVariable.step1.solution": {
+        "oldText": "The factor <inline-math/> appears on the right as a multiplication, and similarly the factor <inline-math/> appears on the left as a multiplication. This turns the equation into <block-math/>",
+        "firstUpdate": "2024-09-12T07:47:52.654Z",
+        "latestUpdate": "2024-09-12T07:52:06.535Z",
+        "latestText": "The factor <inline-math/> appears on the <check><on-true>left</on-true><on-false>right</on-false></check> as a multiplication. This turns the equation into <block-math/>"
+      },
+      "practice.oneFractionWithVariable.step2.problem": {
+        "oldText": "Solve the resulting equation for <inline-math/>.",
+        "firstUpdate": "2024-09-12T07:47:52.654Z",
+        "latestUpdate": "2024-09-12T07:47:52.685Z",
+        "latestText": "Solve the resulting equation for <inline-math/>."
+      },
+      "practice.oneFractionWithVariable.step2.solution": {
+        "oldText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>",
+        "firstUpdate": "2024-09-12T07:47:52.654Z",
+        "latestUpdate": "2024-09-12T07:47:52.685Z",
+        "latestText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      },
+      "practice.oneFractionWithNumber.step1.problem": {
+        "oldText": "Move both the factor <inline-math/> and the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore.",
+        "firstUpdate": "2024-09-12T07:56:49.881Z",
+        "latestUpdate": "2024-09-12T08:07:16.586Z",
+        "latestText": "Before starting, simplify the equation a bit by bringing the <inline-math/> to the other side and merging numbers together."
+      },
+      "practice.oneFractionWithNumber.step1.solution": {
+        "oldText": "The factor <inline-math/> appears on the right as a multiplication, and similarly the factor <inline-math/> appears on the left as a multiplication. This turns the equation into <block-math/>",
+        "firstUpdate": "2024-09-12T07:56:49.881Z",
+        "latestUpdate": "2024-09-12T08:17:30.420Z",
+        "latestText": "By bringing the <inline-math/> to the <check><on-true>left</on-true><on-false>right</on-false></check> and <check><on-true>subtracting it from</on-true><on-false>adding it to</on-false></check> the <inline-math/>, we get <block-math/>"
+      },
+      "practice.oneFractionWithNumber.step2.problem": {
+        "oldText": "Solve the resulting equation for <inline-math/>.",
+        "firstUpdate": "2024-09-12T07:56:49.881Z",
+        "latestUpdate": "2024-09-12T08:07:16.586Z",
+        "latestText": "Move the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore."
+      },
+      "practice.oneFractionWithNumber.step2.solution": {
+        "oldText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>",
+        "firstUpdate": "2024-09-12T07:56:49.881Z",
+        "latestUpdate": "2024-09-12T08:07:16.586Z",
+        "latestText": "The factor <inline-math/> appears on the <check><on-true>left</on-true><on-false>right</on-false></check> as a multiplication. This turns the equation into <block-math/>"
+      },
+      "practice.oneFractionWithNumber.step3.problem": {
+        "oldText": "Solve the resulting equation for <inline-math/>.",
+        "firstUpdate": "2024-09-12T08:07:16.548Z",
+        "latestUpdate": "2024-09-12T08:07:16.586Z",
+        "latestText": "Solve the resulting equation for <inline-math/>."
+      },
+      "practice.oneFractionWithNumber.step3.solution": {
+        "oldText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>",
+        "firstUpdate": "2024-09-12T08:07:16.548Z",
+        "latestUpdate": "2024-09-12T08:12:38.610Z",
+        "latestText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> The only term with <inline-math/> is already on the <check><on-true>left</on-true><on-false>right</on-false></check> so we can keep it there. Moving all numbers to the <check><on-true>right</on-true><on-false>left</on-false></check> and pulling them together results in <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
+      },
+      "practice.twoFractionsWithVariable.step1.problem": {
+        "oldText": "Move both the factor <inline-math/> and the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore.",
+        "firstUpdate": "2024-09-12T08:17:55.718Z",
+        "latestUpdate": "2024-09-12T08:17:55.754Z",
+        "latestText": "Move both the factor <inline-math/> and the factor <inline-math/> to the other side to ensure there is no <inline-math/> in any denominator anymore."
+      },
+      "practice.twoFractionsWithVariable.step1.solution": {
+        "oldText": "The factor <inline-math/> appears on the right as a multiplication, and similarly the factor <inline-math/> appears on the left as a multiplication. This turns the equation into <block-math/>",
+        "firstUpdate": "2024-09-12T08:17:55.718Z",
+        "latestUpdate": "2024-09-12T08:17:55.754Z",
+        "latestText": "The factor <inline-math/> appears on the right as a multiplication, and similarly the factor <inline-math/> appears on the left as a multiplication. This turns the equation into <block-math/>"
+      },
+      "practice.twoFractionsWithVariable.step2.problem": {
+        "oldText": "Solve the resulting equation for <inline-math/>.",
+        "firstUpdate": "2024-09-12T08:17:55.718Z",
+        "latestUpdate": "2024-09-12T08:25:10.573Z",
+        "latestText": "Expand the double brackets on both sides to make sure there are no brackets left."
+      },
+      "practice.twoFractionsWithVariable.step2.solution": {
+        "oldText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>",
+        "firstUpdate": "2024-09-12T08:17:55.718Z",
+        "latestUpdate": "2024-09-12T08:25:10.573Z",
+        "latestText": "To get rid of the double brackets, we multiply each term from the left brackets separately with each term from the right brackets. And we do this for both sides. Out comes <block-math/>"
+      },
+      "practice.twoFractionsWithVariable.step3.problem": {
+        "oldText": "Solve the resulting equation for <inline-math/>.",
+        "firstUpdate": "2024-09-12T08:25:10.492Z",
+        "latestUpdate": "2024-09-12T08:26:35.238Z",
+        "latestText": "Note that the term <inline-math/> cancels on both sides of the equation. Solve the remaining equation for <inline-math/>."
+      },
+      "practice.twoFractionsWithVariable.step3.solution": {
+        "oldText": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>",
+        "firstUpdate": "2024-09-12T08:25:10.492Z",
+        "latestUpdate": "2024-09-12T08:26:35.238Z",
+        "latestText": "<par>We follow the default approach. Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
       }
     }
   }
