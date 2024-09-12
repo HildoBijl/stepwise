@@ -206,12 +206,12 @@ const skillStructure = {
 							examples: ['basicDivision', 'basicMultiplication'],
 							exercises: ['division', 'multiplication'],
 						},
+					},
+					rational: {
 						multiplyAllEquationTerms: {
 							name: 'Multiply all equation terms',
 							setup: and('multiplyBothEquationSides', pick(['expandBrackets', 'addLikeFractionsWithVariables']), 'simplifyFractionWithVariables'),
 						},
-					},
-					rational: {
 						// Multiply all equation terms, bring equation to standard form.
 					},
 				},
