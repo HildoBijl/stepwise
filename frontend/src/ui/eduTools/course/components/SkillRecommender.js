@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { darken } from '@material-ui/core/styles/colorManipulator'
 
+import { skillTree } from 'step-wise/eduTools'
+
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -47,7 +49,8 @@ export function SkillRecommender({ courseId, recommendation }) {
 		message = getTranslation('freePracticeRecommendation', 'eduTools/pages/coursesPage')
 	} else {
 		link = paths.courseSkill({ courseId, skillId: recommendation })
-		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${recommendation}.name`, 'eduContent/skillInfo')}`
+		const skill = skillTree[recommendation]
+		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
 	}
 
 	// Show the button.

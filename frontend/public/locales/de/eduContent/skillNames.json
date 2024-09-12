@@ -1,0 +1,161 @@
+{
+  "miscellaneous": {
+    "unknownSkill": "Unknown skill"
+  },
+  "test": {
+    "test": "Testübung",
+    "demo": "Demo-Übung"
+  },
+  "tutorial": {
+    "numberInputs": {
+      "enterInteger": "Eingeben einer Ganzzahl",
+      "enterFloat": "Eingeben einer Kommazahl",
+      "enterUnit": "Eingeben einer Einheit",
+      "lookUpConstant": "Nachschlagen einer Konstante"
+    },
+    "mathInputs": {
+      "enterExpression": "Eingeben eines Ausdrucks",
+      "enterEquation": "Eingeben einer Gleichung"
+    },
+    "steps": {
+      "multiplication": "Multiplizieren",
+      "summation": "Addieren",
+      "summationAndMultiplication": "Addieren und Multiplizieren"
+    }
+  },
+  "mathematics": {
+    "calculation": {
+      "fractions": {
+        "calculating": {
+          "simplifyFraction": "Bruch vereinfachen"
+        },
+        "basicOperations": {
+          "multiplyDivideFractions": "Brüche multiplizieren/dividieren"
+        },
+        "simplification": {
+          "simplifyFractionOfFractions": "Bruch mit Brüchen vereinfachen"
+        }
+      },
+      "powers": {
+        "rewritePower": "Potenz umschreiben"
+      }
+    },
+    "algebra": {
+      "expressions": {
+        "simplification": {
+          "simplifyNumberProduct": "Multiplikation von Zahlen vereinfachen",
+          "cancelSumTerms": "Summenterme entfernen",
+          "mergeSimilarTerms": "Gleichartige Terme zusammenfügen"
+        },
+        "brackets": {
+          "expandBrackets": "Klammern erweitern",
+          "expandDoubleBrackets": "Doppelte Klammern erweitern",
+          "pullFactorOutOfBrackets": "Faktor aus Klammern ziehen"
+        },
+        "fractions": {
+          "multiplyingDividing": {
+            "cancelFractionFactors": "Bruchfaktoren entfernen",
+            "simplifyFractionWithVariables": "Bruch mit Variablen vereinfachen",
+            "simplifyFractionOfFractionsWithVariables": "Bruch mit Brüchen mit Variablen vereinfachen"
+          },
+          "addingSubtracting": {
+            "addLikeFractionsWithVariables": "Gleichnamige Brüche mit Variablen addieren",
+            "addFractionsWithVariables": "Brüche mit Variablen addieren",
+            "simplifyFractionOfFractionSumsWithVariables": "Bruch mit Bruchsummen mit Variablen vereinfachen"
+          }
+        }
+      },
+      "equations": {
+        "verifying": {
+          "checkEquationSolution": "Lösung einer Gleichung prüfen"
+        },
+        "manipulating": {
+          "terms": {
+            "addToBothEquationSides": "Zu beiden Seiten einer Gleichung addieren",
+            "moveEquationTerm": "Gleichungsterm verschieben"
+          },
+          "factors": {
+            "multiplyBothEquationSides": "Beide Seiten einer Gleichung multiplizieren",
+            "moveEquationFactor": "Gleichungsfaktor verschieben"
+          },
+          "rational": {
+            "multiplyAllEquationTerms": "Alle Gleichungsterme multiplizieren"
+          }
+        },
+        "solving": {
+          "elementaryEquations": {
+            "solveProductEquation": "Produktgleichung lösen"
+          },
+          "linearEquations": {
+            "solveLinearEquation": "Lineare Gleichung lösen",
+            "solveLinearEquationWithFractions": "Lineare Gleichung mit Brüchen lösen"
+          }
+        }
+      },
+      "fractions": {
+        "addRemoveFractionFactors": "Addieren/Entfernen von Bruchfaktoren",
+        "mergeSplitBasicFractions": "Zusammenfügen/Spalten von gleichnamige Brüche",
+        "mergeSplitFractions": "Allgemeine Brüche addieren/teilen",
+        "simplifyMultiVariableFraction": "Vereinfachen von Brüchen"
+      },
+      "manipulatingEquations": {
+        "multiplyDivideAllTerms": "Alle Terme multiplizieren/dividieren"
+      },
+      "linearEquations": {
+        "solveBasicLinearEquation": "Einfache lineare Gleichung lösen",
+        "solveGeneralLinearEquation": "Allgemeine lineare Gleichung lösen"
+      },
+      "quadraticEquations": {
+        "applySquareRoot": "Quadratwurzel anwenden",
+        "applyQuadraticFormula": "Wurzelformel anwenden",
+        "solveBasicQuadraticEquation": "Einfache quadratische Gleichung lösen",
+        "solveGeneralQuadraticEquation": "Allgemeine quadratische Gleichung lösen"
+      },
+      "systemsOfLinearEquations": {
+        "solveBasicSystemOfLinearEquations": "Einfaches System linearer Gleichungen lösen",
+        "solveGeneralSystemOfLinearEquations": "Allgemeines System linearer Gleichungen lösen"
+      }
+    },
+    "geometry": {
+      "triangles": {
+        "applyPythagoreanTheorem": "Satz des Pythagoras anwenden",
+        "applySineCosineTangent": "Sinus/Kosinus/Tangens anwenden",
+        "applySimilarTriangles": "Ähnliche Dreiecke anwenden",
+        "calculateTriangle": "Dreiecken durchrechnen"
+      },
+      "anglesAndDistances": {
+        "determine2DAngles": "2D-Winkel bestimmen",
+        "determine2DDistances": "2D-Distanzen bestimmen"
+      },
+      "areasAndVolumes": {
+        "calculate2DShape": "2D-Form durchrechnen",
+        "calculate3DShape": "3D-Form durchrechnen"
+      }
+    },
+    "derivatives": {
+      "basicRules": {
+        "lookUpElementaryDerivative": "Elementare Ableitung nachschlagen",
+        "findBasicDerivative": "Einfache Ableitung bestimmen"
+      },
+      "combinedRules": {
+        "applyProductRule": "Produktregel anwenden",
+        "applyQuotientRule": "Quotientenregel anwenden",
+        "applyChainRule": "Kettenregel anwenden"
+      },
+      "generalDerivatives": {
+        "findGeneralDerivative": "Allgemeine Ableitung bestimmen",
+        "findAdvancedDerivative": "Komplizierte Ableitung bestimmen"
+      }
+    }
+  },
+  "mechanics": {
+    "equilibrium": {
+      "calculateForceOrMoment": "Kraft oder Moment berechnen"
+    },
+    "supportReactions": {
+      "schematizeSupport": "Befestigung schematisieren",
+      "drawFreeBodyDiagram": "Freikörperdiagramm zeichnen",
+      "calculateBasicSupportReactions": "Auflagerreaktionen berechnen"
+    }
+  }
+}

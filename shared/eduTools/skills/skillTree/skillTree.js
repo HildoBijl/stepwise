@@ -531,6 +531,12 @@ const skillStructure = {
 					setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 					exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 				},
+				calculateClosedCycle: {
+					name: 'Calculate a closed cycle',
+					setup: repeat('calculateProcessStep', 3),
+					exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
+					thresholds: { pass: 0.5 },
+				},
 				calculateHeatAndWork: {
 					name: 'Calculate heat and work',
 					setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2)),
@@ -540,12 +546,6 @@ const skillStructure = {
 					name: 'Calculate with internal energy',
 					setup: and(pick(['gasLaw', 'poissonsLaw']), pick(['specificHeats', 'calculateHeatAndWork']), 'solveLinearEquation'),
 					exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
-				},
-				calculateClosedCycle: {
-					name: 'Calculate a closed cycle',
-					setup: repeat('calculateProcessStep', 3),
-					exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
-					thresholds: { pass: 0.5 },
 				},
 				createClosedCycleEnergyOverview: {
 					name: 'Create a closed-cycle energy overview',

@@ -1,0 +1,241 @@
+{
+  "miscellaneous": {
+    "unknownSkill": "Unknown skill"
+  },
+  "test": {
+    "test": "Testopgave",
+    "demo": "Demo-opgave"
+  },
+  "tutorial": {
+    "numberInputs": {
+      "enterInteger": "Geheel getal invullen",
+      "enterFloat": "Kommagetal invullen",
+      "enterUnit": "Eenheid invullen",
+      "lookUpConstant": "Constanten opzoeken"
+    },
+    "mathInputs": {
+      "enterExpression": "Uitdrukking invullen",
+      "enterEquation": "Vergelijking invullen"
+    },
+    "steps": {
+      "multiplication": "Vermenigvuldigen",
+      "summation": "Optellen",
+      "summationAndMultiplication": "Optellen en vermenigvuldigen"
+    }
+  },
+  "mathematics": {
+    "calculation": {
+      "fractions": {
+        "calculating": {
+          "simplifyFraction": "Breuk vereenvoudigen"
+        },
+        "basicOperations": {
+          "multiplyDivideFractions": "Breuken vermenigvuldigen/delen"
+        },
+        "simplification": {
+          "simplifyFractionOfFractions": "Breuk van breuken vereenvoudigen"
+        }
+      },
+      "powers": {
+        "rewritePower": "Macht herschrijven"
+      }
+    },
+    "algebra": {
+      "expressions": {
+        "simplification": {
+          "simplifyNumberProduct": "Vermenigvuldiging van getallen vereenvoudigen",
+          "cancelSumTerms": "Somtermen wegstrepen",
+          "mergeSimilarTerms": "Soortgelijke termen samenvoegen"
+        },
+        "brackets": {
+          "expandBrackets": "Haakjes uitwerken",
+          "expandDoubleBrackets": "Dubbele haakjes uitwerken",
+          "pullFactorOutOfBrackets": "Factor buiten haakjes halen"
+        },
+        "fractions": {
+          "multiplyingDividing": {
+            "cancelFractionFactors": "Breukfactoren wegstrepen",
+            "simplifyFractionWithVariables": "Breuk met variabelen vereenvoudigen",
+            "simplifyFractionOfFractionsWithVariables": "Breuk van breuken met variabelen vereenvoudigen"
+          },
+          "addingSubtracting": {
+            "addLikeFractionsWithVariables": "Gelijknamige breuken met variabelen optellen",
+            "addFractionsWithVariables": "Breuken met variabelen optellen",
+            "simplifyFractionOfFractionSumsWithVariables": "Breuk van breuksommen met variabelen vereenvoudigen"
+          }
+        }
+      },
+      "equations": {
+        "verifying": {
+          "checkEquationSolution": "Oplossing van een vergelijking controleren"
+        },
+        "manipulating": {
+          "terms": {
+            "addToBothEquationSides": "Aan beide kanten van een vergelijking optellen",
+            "moveEquationTerm": "Vergelijkingsterm verplaatsen"
+          },
+          "factors": {
+            "multiplyBothEquationSides": "Beide kanten van een vergelijking vermenigvuldigen",
+            "moveEquationFactor": "Vergelijkingsfactor verplaatsen"
+          },
+          "rational": {
+            "multiplyAllEquationTerms": "Alle vergelijkingstermen vermenigvuldigen"
+          }
+        },
+        "solving": {
+          "elementaryEquations": {
+            "solveProductEquation": "Productvergelijking oplossen"
+          },
+          "linearEquations": {
+            "solveLinearEquation": "Lineaire vergelijking oplossen",
+            "solveLinearEquationWithFractions": "Lineaire vergelijking met breuken oplossen"
+          }
+        }
+      },
+      "fractions": {
+        "addRemoveFractionFactors": "Breukfactoren toevoegen/wegstrepen",
+        "mergeSplitBasicFractions": "Gelijknamige breuken samenvoegen/splitsen",
+        "mergeSplitFractions": "Algemene breuken samenvoegen/splitsen",
+        "simplifyMultiVariableFraction": "Breuk simplificeren"
+      },
+      "manipulatingEquations": {
+        "multiplyDivideAllTerms": "Alle termen vermenigvuldigen/delen"
+      },
+      "linearEquations": {
+        "solveBasicLinearEquation": "Basis lineaire vergelijking oplossen",
+        "solveGeneralLinearEquation": "Algemene lineaire vergelijking oplossen"
+      },
+      "quadraticEquations": {
+        "applySquareRoot": "Wortel toepassen",
+        "applyQuadraticFormula": "Wortelformule toepassen",
+        "solveBasicQuadraticEquation": "Basis kwadratische vergelijking oplossen",
+        "solveGeneralQuadraticEquation": "Algemene kwadratische vergelijking oplossen"
+      },
+      "systemsOfLinearEquations": {
+        "solveBasicSystemOfLinearEquations": "Basis stelsel van lineaire vergelijkingen oplossen",
+        "solveGeneralSystemOfLinearEquations": "Algemeen stelsel van lineaire vergelijkingen oplossen"
+      }
+    },
+    "geometry": {
+      "triangles": {
+        "applyPythagoreanTheorem": "De stelling van Pythagoras toepassen",
+        "applySineCosineTangent": "Sinus/cosinus/tangens toepassen",
+        "applySimilarTriangles": "Gelijkvormige driehoeken toepassen",
+        "calculateTriangle": "Driehoek doorrekenen"
+      },
+      "anglesAndDistances": {
+        "determine2DAngles": "2D hoeken bepalen",
+        "determine2DDistances": "2D afstanden bepalen"
+      },
+      "areasAndVolumes": {
+        "calculate2DShape": "2D vorm doorrekenen",
+        "calculate3DShape": "3D vorm doorrekenen"
+      }
+    },
+    "derivatives": {
+      "basicRules": {
+        "lookUpElementaryDerivative": "Elementaire afgeleide opzoeken",
+        "findBasicDerivative": "Basis afgeleide bepalen"
+      },
+      "combinedRules": {
+        "applyProductRule": "Productregel toepassen",
+        "applyQuotientRule": "Quotiëntregel toepassen",
+        "applyChainRule": "Kettingregel toepassen"
+      },
+      "generalDerivatives": {
+        "findGeneralDerivative": "Algemene afgeleide bepalen",
+        "findAdvancedDerivative": "Geavanceerde afgeleide bepalen"
+      }
+    }
+  },
+  "mechanics": {
+    "equilibrium": {
+      "calculateForceOrMoment": "Kracht of moment berekenen"
+    },
+    "supportReactions": {
+      "schematizeSupport": "Bevestiging schematiseren",
+      "drawFreeBodyDiagram": "Vrijlichaamsschema tekenen",
+      "calculateBasicSupportReactions": "Basis reactiekrachten berekenen"
+    }
+  },
+  "physics": {
+    "physicsMathematics": {
+      "solveExponentEquation": "Exponent-vergelijking oplossen",
+      "linearInterpolation": "Lineair interpoleren"
+    },
+    "fundamentals": {
+      "units": {
+        "calculateWithPressure": "Rekenen met druk",
+        "calculateWithVolume": "Rekenen met volume",
+        "calculateWithMass": "Rekenen met massa",
+        "calculateWithTemperature": "Rekenen met temperatuur"
+      },
+      "efficiency": {
+        "calculateWithEfficiency": "Rekenen met rendement",
+        "calculateWithCOP": "Rekenen met koudefactor/warmtefactor"
+      }
+    },
+    "thermodynamics": {
+      "constants": {
+        "specificGasConstant": "Specifieke gasconstante opzoeken",
+        "specificHeatRatio": "De k-waarde opzoeken",
+        "specificHeats": "Soortelijke warmten opzoeken"
+      },
+      "basicLaws": {
+        "gasLaw": "De gaswet toepassen",
+        "recognizeProcessTypes": "Soorten processen herkennen",
+        "poissonsLaw": "Poisson's wet"
+      },
+      "closedCycles": {
+        "calculateProcessStep": "Processtap doorrekenen",
+        "calculateClosedCycle": "Gesloten kringproces doorrekenen",
+        "calculateHeatAndWork": "Warmte en arbeid berekenen",
+        "calculateWithInternalEnergy": "Rekenen met inwendige energie",
+        "createClosedCycleEnergyOverview": "Gesloten kringproces energie-overzicht maken",
+        "analyseClosedCycle": "Gesloten kringproces analyseren"
+      },
+      "openCycles": {
+        "calculateWithSpecificQuantities": "Rekenen met specifieke grootheden",
+        "massFlowTrick": "De massastroom-truc toepassen",
+        "calculateOpenProcessStep": "Open processtap doorrekenen",
+        "calculateOpenCycle": "Open kringproces doorrekenen",
+        "calculateSpecificHeatAndMechanicalWork": "Specifieke warmte en technische arbeid berekenen",
+        "calculateWithEnthalpy": "Rekenen met enthalpie",
+        "createOpenCycleEnergyOverview": "Open kringproces energie-overzicht maken",
+        "analyseOpenCycle": "Open kringproces analyseren"
+      },
+      "entropy": {
+        "calculateEntropyChange": "Entropieverandering berekenen",
+        "calculateMissedWork": "Gemiste arbeid berekenen",
+        "useIsentropicEfficiency": "Isentropisch rendement gebruiken"
+      },
+      "gasTurbines": {
+        "analyseGasTurbine": "Gasturbine analyseren"
+      },
+      "steam": {
+        "properties": {
+          "lookUpSteamProperties": "Stoomeigenschappen opzoeken",
+          "useVaporFraction": "Dampfractie gebruiken"
+        },
+        "rankineCycle": {
+          "createRankineCycleOverview": "Overzicht Rankine-cyclus maken",
+          "analyseRankineCycle": "Rankine-cyclus analyseren"
+        }
+      },
+      "cooling": {
+        "properties": {
+          "findFridgeTemperatures": "Koelmachinetemperaturen bepalen",
+          "determineRefrigerantProcess": "Koelmiddelproces bepalen"
+        },
+        "coolingCycles": {
+          "createCoolingCycleOverview": "Overzicht koelcyclus maken",
+          "analyseCoolingCycle": "Koelcyclus analyseren"
+        }
+      },
+      "humidity": {
+        "readMollierDiagram": "Mollier diagram aflezen",
+        "analyseAirco": "Airco analyseren"
+      }
+    }
+  }
+}
