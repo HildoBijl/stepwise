@@ -10,12 +10,9 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'd']
 
-const ansEqualsOptions = ({ switchSides }) => ({ preprocess: side => side.basicClean({ flattenFractions: false }), leftCheck: switchSides ? equivalent : onlyOrderChanges, rightCheck: switchSides ? onlyOrderChanges : equivalent })
-
 const metaData = {
 	skill: 'solveProductEquation',
 	steps: ['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionOfFractions', 'checkEquationSolution'],
-	ansEqualsOptions,
 	comparison: {
 		moved: { check: equivalent, allowSwitch: true },
 		isolated: { check: equivalent, allowSwitch: true },

@@ -117,6 +117,7 @@
     "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
     "noFraction": "Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.",
     "hasFractionWithinFraction": "Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.",
+    "hasXInDenominator": "Je mag geen <inline-math/> meer in de noemer van een breuk hebben.",
     "unsimplifiedFractionNumbers": "De breuk kan nog verder vereenvoudigd worden. Probeer de teller en de noemer door het juiste getal te delen.",
     "unsimplifiedFractionFactors": "Er zijn nog steeds factoren in de teller en de noemer die weggestreept kunnen worden.",
     "fractionNumeratorHasSumWithinProduct": "De teller bevat nog onuitgewerkte haakjes.",
@@ -146,11 +147,6 @@
     "errorInSumTerm": "Er lijkt iets mis te zijn met de <counting-word/> term aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant.",
     "errorInSide": "Er lijkt iets mis te zijn met de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant van de vergelijking.",
     "unsimplifiedSumTerm": "Je kunt de <counting-word/> term aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant nog verder vereenvoudigen.",
-    "unsimplifiedSide": "Je kunt de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant nog verder vereenvoudigen.",
-    "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
-    "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
-    "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
-    "hasFractionWithinFraction": "Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.",
-    "hasFractionWithX": "Je antwoord heeft nog een breuk met <inline-math/> in de noemer. Het idee was om dit juist niet meer te hebben."
+    "unsimplifiedSide": "Je kunt de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant nog verder vereenvoudigen."
   }
 }

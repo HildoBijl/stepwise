@@ -117,6 +117,7 @@
 		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
 		"noFraction": "Deine Antwort ist kein Bruch. Es wird ein einziger Bruch als Antwort erwartet.",
 		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
+		"hasXInDenominator": "Du kannst nicht mehr <inline-math/> im Nenner eines Bruchs haben.",
 		"unsimplifiedFractionNumbers": "Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.",
 		"unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
 		"fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
@@ -146,11 +147,6 @@
 		"errorInSumTerm": "Mit dem <counting-word/>n Term auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite scheint etwas nicht zu stimmen.",
 		"errorInSide": "Mit der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite der Gleichung scheint etwas nicht zu stimmen.",
 		"unsimplifiedSumTerm": "Du kannst den <counting-word/>n Term auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite noch weiter vereinfachen.",
-		"unsimplifiedSide": "Du kannst die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite noch weiter vereinfachen.",
-		"hasSumWithinProduct": "Deine Antwort hat immer noch nicht erweiterte Klammern.",
-		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
-		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
-		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
-		"hasFractionWithX": "Deine Antwort hat noch einen Bruch mit <inline-math/> im Nenner. Die Idee war ja gerade, dies nicht mehr zu haben."
+		"unsimplifiedSide": "Du kannst die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite noch weiter vereinfachen."
 	}
 }

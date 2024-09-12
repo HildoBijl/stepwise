@@ -12,7 +12,7 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 
 const metaData = {
 	weight: 2,
-	skill: 'solveLinearEquation',
+	skill: 'solveProductEquation',
 	steps: ['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
 	comparison: {
 		expanded: (input, correct) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),

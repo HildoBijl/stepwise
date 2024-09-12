@@ -11,7 +11,7 @@ const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
-	skill: 'solveProductEquation',
+	skill: 'solveLinearEquation',
 	steps: ['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
 	comparison: {
 		moved: { check: equivalent, allowSwitch: true, allowMinus: true },

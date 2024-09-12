@@ -117,6 +117,7 @@
     "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
     "noFraction": "Your solution is not a fraction. A single fraction was expected as answer.",
     "hasFractionWithinFraction": "Your solution may not contain fractions within fractions. You can still simplify this further.",
+    "hasXInDenominator": "You cannot have <inline-math/> appear in any denominator anymore.",
     "unsimplifiedFractionNumbers": "The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.",
     "unsimplifiedFractionFactors": "There are still factors that can be canceled in the numerator and the denominator.",
     "fractionNumeratorHasSumWithinProduct": "There are still unexpanded brackets in the numerator.",
@@ -146,11 +147,6 @@
     "errorInSumTerm": "There seems to be an error in the <counting-word/> term on the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
     "errorInSide": "There seems to be an error in the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation.",
     "unsimplifiedSumTerm": "You can still simplify the <counting-word/> term on the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
-    "unsimplifiedSide": "You can still simplify the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
-    "hasSumWithinProduct": "Your solution has unexpanded brackets.",
-    "hasSumWithinFraction": "Your solution has an unseparated fraction.",
-    "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
-    "hasFractionWithinFraction": "Your solution may not contain fractions within fractions. You can still simplify this further.",
-    "hasFractionWithX": "Your solution still has a fraction with <inline-math/> in the denominator. The idea was to not have these occurrences."
+    "unsimplifiedSide": "You can still simplify the <check><on-true>left</on-true><on-false>right</on-false></check> side."
   }
 }

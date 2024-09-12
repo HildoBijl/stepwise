@@ -235,6 +235,9 @@ const skillStructure = {
 						solveLinearEquationWithFractions: {
 							name: 'Solve linear equation with fractions',
 							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'solveLinearEquation'),
+							// examples: ['twoFractionsWithNumber'],
+							examples: ['twoFractionsWithNumber'],
+							exercises: ['oneFractionWithNumber', 'oneFractionWithVariable', 'twoFractionsWithNumber', 'twoFractionsWithVariable'],
 						},
 					},
 				},

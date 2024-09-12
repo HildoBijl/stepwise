@@ -41,6 +41,11 @@ function hasFractionWithinFraction(input) {
 	return hasFractionSatisfying(input, fraction => hasFraction(fraction, false))
 }
 
+// hasVariableInDenominator checks if there is a fraction that has the given variable in the denominator.
+function hasVariableInDenominator(input, variable) {
+	return hasFractionSatisfying(input, fraction => fraction.denominator.dependsOn(variable))
+}
+
 // hasPower checks if there is a power inside this Expression.
 function hasPower(input, includeSelf = true) {
 	return input.recursiveSome(term => term.isSubtype(Power), includeSelf)
@@ -82,6 +87,7 @@ module.exports = {
 	hasFraction,
 	hasFractionSatisfying,
 	hasFractionWithinFraction,
+	hasVariableInDenominator,
 	hasPower,
 	isPolynomial,
 	isRational,

@@ -1,11 +1,12 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
 import { arrayFind, resolveFunctions, resolveFunctionsShallow, processOptions } from 'step-wise/util'
-import { Sum, Equation, expressionComparisons, equationComparisons, equationChecks } from 'step-wise/CAS'
+import { Sum, Equation, expressionComparisons, equationComparisons } from 'step-wise/CAS'
 
 import { Translation, Check, CountingWord } from 'i18n'
-import { M } from 'ui/components'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/inputs'
+
+import * as expressionFeedbackChecks from './expression'
 
 const translationPath = 'eduTools/feedback'
 
@@ -177,12 +178,12 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
  * Form of equation checks.
  */
 
-export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="equation.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
+export const hasSumWithinProduct = (input, correct, solution, isCorrect) => expressionFeedbackChecks.hasSumWithinProduct(input.left, correct.left, solution, isCorrect) || expressionFeedbackChecks.hasSumWithinProduct(input.right, correct.right, solution, isCorrect)
 
-export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasSumWithinFraction(input) && <Translation path={translationPath} entry="equation.hasSumWithinFraction">Your solution has an unseparated fraction.</Translation>
+export const hasSumWithinFraction = (input, correct, solution, isCorrect) => expressionFeedbackChecks.hasSumWithinFraction(input.left, correct.left, solution, isCorrect) || expressionFeedbackChecks.hasSumWithinFraction(input.right, correct.right, solution, isCorrect)
 
-export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasFraction(input) && <Translation path={translationPath} entry="equation.hasFraction">Your solution still has a fraction. The idea was to remove all fractions.</Translation>
+export const hasFraction = (input, correct, solution, isCorrect) => expressionFeedbackChecks.hasFraction(input.left, correct.left, solution, isCorrect) || expressionFeedbackChecks.hasFraction(input.right, correct.right, solution, isCorrect)
 
-export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasFractionWithinFraction(input) && <Translation path={translationPath} entry="equation.hasFractionWithinFraction">Your solution may not contain fractions within fractions. You can still simplify this further.</Translation>
+export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => expressionFeedbackChecks.hasFractionWithinFraction(input.left, correct.left, solution, isCorrect) || expressionFeedbackChecks.hasFractionWithinFraction(input.right, correct.right, solution, isCorrect)
 
-export const hasFractionWithX = (input, correct, { variables }, isCorrect) => !isCorrect && equationChecks.hasFractionSatisfying(input, fraction => fraction.denominator.dependsOn(variables.x)) && <Translation path={translationPath} entry="equation.hasFractionWithX">Your solution still has a fraction with <M>{variables.x}</M> in the denominator. The idea was to not have these occurrences.</Translation>
+export const hasXInDenominator = (input, correct, solution, isCorrect) => expressionFeedbackChecks.hasXInDenominator(input.left, correct.left, solution, isCorrect) || expressionFeedbackChecks.hasXInDenominator(input.right, correct.right, solution, isCorrect)
