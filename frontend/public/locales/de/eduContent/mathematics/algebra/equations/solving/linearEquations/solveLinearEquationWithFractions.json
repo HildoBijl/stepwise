@@ -7,5 +7,59 @@
     "cleaning": "<head>Die Gleichung bereinigen</head><par>Wie bei Gleichungen üblich, beginnen wir damit, sie zu bereinigen. In der Gleichung <inline-math/> sehen wir, dass die Unbekannte <inline-math/> in einem Nenner steht, was unangenehm ist. Um dies zu beheben,  <skill-link>bringen wir den Faktor <inline-math/> auf die andere Seite</skill-link> und erhalten so <block-math/> Auf die gleiche Weise bringen wir auch den Faktor <inline-math/> auf die andere Seite, um zu gelangen zu <block-math/> Jetzt steht <inline-math/> nicht mehr in einem Nenner, und wenn wir unser Ergebnis genau betrachten, sehen wir, dass wir eine lineare Gleichung erhalten haben!</par>",
     "solving": "<head>Die lineare Gleichung lösen</head><par>Wir können nun die <skill-link>lineare Gleichung</skill-link> auf die übliche Weise lösen. Das Erweitern der Klammern ergibt <block-math/> Nimmt man alle Terme mit <inline-math/> nach links und alle Terme ohne nach rechts, erhält man <block-math/> Durch das Zusammenfügen gleichartiger Terme vereinfacht sich die Gleichung zu <block-math/> Wenn wir nun den Faktor <inline-math/> zur anderen Seite bringen, erhalten wir die endgültige Lösung <block-math/> Zur Kontrolle setzen wir dies in die ursprüngliche Gleichung ein und erhalten <block-math/> Mit etwas Arbeit können wir sehen, dass beide Seiten am Ende <inline-math/> ergeben, was übereinstimmt. Die Lösung ist richtig.</par>",
     "steps": "<head>Die Schritte</head><par>Um eine verdeckte lineare Gleichung wie <inline-math/> zu lösen, ist wie folgt vorzugehen.</par><list><item><a>Wenn die Unbekannte irgendwo im Nenner eines Bruchs liegt, <skill-link>bring diesen Nenner (als Faktor) auf die andere Seite der Gleichung</skill-link>, um das Problem zu beheben. Für das Beispiel machen wir das zweimal und erhalten <inline-math/>.</a></item><item><b>Wenn die resultierende Gleichung eine lineare Gleichung ist, <skill-link>löse sie auf die übliche Weise</skill-link>. Im Beispiel erhalten wir tatsächlich eine lineare Gleichung, und die Lösung folgt als <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "twoFractionsWithNumber": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Bringe sowohl den Faktor <inline-math/> als auch den Faktor <inline-math/> auf die andere Seite, um sicherzustellen, dass sich kein <inline-math/> mehr im Nenner befindet.",
+        "solution": "Der Faktor <inline-math/> kommt auf der rechten Seite als Multiplikation, und ebenso kommt der Faktor <inline-math/> auf der linken Seite als Multiplikation. Dies wandelt die Gleichung um in <block-math/>"
+      },
+      "step2": {
+        "problem": "Löse die entsprechende Gleichung für <inline-math/>.",
+        "solution": "<par>Wie beim Lösen einer linearen Gleichung üblich, beginnen wir mit dem Erweitern von Klammern. Dies wandelt die Gleichung um in <block-math/> Wenn wir alles mit <inline-math/> nach links und alles ohne <inline-math/> nach rechts bringen, ergibt das <block-math/> Die Zusammenführung von Termen zur Bereinigung der Gleichung reduziert diese auf <block-math/><check><on-true>Das Dividieren durch <inline-math/> ergibt die Lösung <block-math/><check><on-true>Dies kann noch vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check></on-true><on-false>Zufälligerweise ist der Faktor vor dem <inline-math/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <block-math/></on-false></check></par><par>Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <block-math/> Beide Seiten vereinfachen sich zu <inline-math/>, was zeigt, dass die Lösung korrekt ist.</par>"
+      }
+    },
+    "oneFractionWithVariable": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Bringe den Faktor <inline-math/> auf die andere Seite, um sicherzustellen, dass sich kein <inline-math/> mehr in einem Nenner befindet.",
+        "solution": "Der Faktor <inline-math/> kommt auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite als Multiplikation. Dies wandelt die Gleichung um in <block-math/>"
+      },
+      "step2": {
+        "problem": "Löse die entsprechende Gleichung für <inline-math/>.",
+        "solution": "<par>Wie beim Lösen einer linearen Gleichung üblich, beginnen wir mit dem Erweitern von Klammern. Dies wandelt die Gleichung um in <block-math/> Wenn wir alles mit <inline-math/> nach links und alles ohne <inline-math/> nach rechts bringen, ergibt das <block-math/> Die Zusammenführung von Termen zur Bereinigung der Gleichung reduziert diese auf <block-math/><check><on-true>Das Dividieren durch <inline-math/> ergibt die Lösung <block-math/><check><on-true>Dies kann noch vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check></on-true><on-false>Zufälligerweise ist der Faktor vor dem <inline-math/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <block-math/></on-false></check></par><par>Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <block-math/> Beide Seiten vereinfachen sich zu <inline-math/>, was zeigt, dass die Lösung korrekt ist.</par>"
+      }
+    },
+    "oneFractionWithNumber": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Bevor du anfängst, vereinfache die Gleichung ein wenig, indem du die <inline-math/> auf die andere Seite verschiebst und die Zahlen zusammenfügst.",
+        "solution": "Indem wir <inline-math/> nach <check><on-true>links</on-true><on-false>rechts</on-false></check> bringen und dies <check><on-true>subtrahieren von</on-true><on-false>addieren zu</on-false></check> <inline-math/> erhalten wir <block-math/>"
+      },
+      "step2": {
+        "problem": "Bringe den Faktor <inline-math/> auf die andere Seite, um sicherzustellen, dass sich kein <inline-math/> mehr in einem Nenner befindet.",
+        "solution": "Der Faktor <inline-math/> kommt auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite als Multiplikation. Dies wandelt die Gleichung um in <block-math/>"
+      },
+      "step3": {
+        "problem": "Löse die entsprechende Gleichung für <inline-math/>.",
+        "solution": "<par>Wie beim Lösen einer linearen Gleichung üblich, beginnen wir mit dem Erweitern von Klammern. Dies wandelt die Gleichung um in <block-math/> The only term with <inline-math/> is already on the <check><on-true>left</on-true><on-false>right</on-false></check> so we can keep it there. Moving all numbers to the <check><on-true>right</on-true><on-false>left</on-false></check> and pulling them together results in <block-math/><check><on-true>Das Dividieren durch <inline-math/> ergibt die Lösung <block-math/><check><on-true>Dies kann noch vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check></on-true><on-false>Zufälligerweise ist der Faktor vor dem <inline-math/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <block-math/></on-false></check></par><par>Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <block-math/> Beide Seiten vereinfachen sich zu <inline-math/>, was zeigt, dass die Lösung korrekt ist.</par>"
+      }
+    },
+    "twoFractionsWithVariable": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Bringe sowohl den Faktor <inline-math/> als auch den Faktor <inline-math/> auf die andere Seite, um sicherzustellen, dass sich kein <inline-math/> mehr im Nenner befindet.",
+        "solution": "Der Faktor <inline-math/> kommt auf der rechten Seite als Multiplikation, und ebenso kommt der Faktor <inline-math/> auf der linken Seite als Multiplikation. Dies wandelt die Gleichung um in <block-math/>"
+      },
+      "step2": {
+        "problem": "Erweitere die doppelten Klammern auf beiden Seiten, um sicherzustellen, dass es keine weiteren Klammern gibt.",
+        "solution": "Um die doppelte Klammer zu erweitern, multiplizieren wir jeden Term der linken Klammer separat mit jedem Term der rechten Klammer. Und das tun wir für beide Seiten. Daraus ergibt sich <block-math/>"
+      },
+      "step3": {
+        "problem": "Beachte, dass der Term <inline-math/> auf beiden Seiten der Gleichung wegfällt. Löse die verbleibende Gleichung für <inline-math/>.",
+        "solution": "<par>Wir verfolgen den Standardansatz. Wenn wir alles mit <inline-math/> nach links und alles ohne <inline-math/> nach rechts bringen, ergibt das <block-math/> Die Zusammenführung von Termen zur Bereinigung der Gleichung reduziert diese auf <block-math/><check><on-true>Das Dividieren durch <inline-math/> ergibt die Lösung <block-math/><check><on-true>Dies kann noch vereinfacht werden zu <block-math/></on-true><on-false>Dies kann nicht weiter vereinfacht werden.</on-false></check></on-true><on-false>Zufälligerweise ist der Faktor vor dem <inline-math/> bereits gestrichen worden. Daher haben wir bereits die Lösung gefunden, <block-math/></on-false></check></par><par>Als Letztes müssen wir noch die Lösung überprüfen. Das Einsetzen in die ursprüngliche Gleichung ergibt <block-math/> Beide Seiten vereinfachen sich zu <inline-math/>, was zeigt, dass die Lösung korrekt ist.</par>"
+      }
+    }
   }
 }

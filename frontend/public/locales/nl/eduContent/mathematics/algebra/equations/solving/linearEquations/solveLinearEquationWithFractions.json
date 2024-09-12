@@ -7,5 +7,59 @@
     "cleaning": "<head>De vergelijking opruimen</head><par>Zoals gewoonlijk met vergelijkingen, beginnen we met ze opruimen. In de vergelijking <inline-math/> zien we dat de onbekende <inline-math/> in een noemer staat, wat onhandig is. Om dit op te lossen <skill-link>brengen we de factor <inline-math/> naar de andere kant</skill-link> en krijgen zo <block-math/> Op identieke wijze brengen we ook de factor <inline-math/> naar de andere kant om uit te komen op <block-math/> Nu staat <inline-math/> niet meer in een noemer, en als we ons resultaat goed bekijken, dan zien we dat we op een lineaire vergelijking uitgekomen zijn!</par>",
     "solving": "<head>De lineaire vergelijking oplossen</head><par>We kunnen nu op de standaard wijze de <skill-link>lineaire vergelijking oplossen</skill-link>. Haakjes uitwerken geeft <block-math/> Alle termen met <inline-math/> naar links halen en alle termen zonder naar rechts leidt tot <block-math/> Het samenvoegen van soortgelijke termen vereenvoudigt dit tot <block-math/> Als we dan nog de factor <inline-math/> naar de andere kant halen, krijgen we de eindoplossing <block-math/> Als controle vullen we dit in de oorspronkelijke vergelijking in en krijgen zo <block-math/> Met wat werk kunnen we zien dat beide kanten uitkomen op <inline-math/>, wat overeenkomt. De oplossing klopt.</par>",
     "steps": "<head>De stappen</head><par>Om een vermomde lineaire vergelijking op te lossen, zoals <inline-math/>, neem je de volgende stappen.</par><list><item><a>Als de onbekende ergens in een noemer van een breuk staat, <skill-link>breng deze noemer (als factor) naar de andere kant van de vergelijking</skill-link> om dit op te lossen. Bij het voorbeeld doen we dit twee maal en krijgen zo <inline-math/>.</a></item><item><b>Als de hieruit volgende vergelijking een lineaire vergelijking is, dan <skill-link>los je deze op de standaardwijze op</skill-link>. Bij het voorbeeld krijgen we inderdaad een lineaire vergelijking, en de oplossing volgt als <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "twoFractionsWithNumber": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng zowel de factor <inline-math/> als de factor <inline-math/> naar de andere kant om ervoor te zorgen dat er geen <inline-math/> meer in een noemer staat.",
+        "solution": "De factor <inline-math/> komt rechts als een vermenigvuldiging, en net zo komt de factor <inline-math/> links als een vermenigvuldiging. Dit zet de vergelijking om in <block-math/>"
+      },
+      "step2": {
+        "problem": "Los de betreffende vergelijking op voor <inline-math/>.",
+        "solution": "<par>Zoals gewoonlijk bij het oplossen van een lineaire vergelijking beginnen we met het uitwerken van haakjes. Dit zet de vergelijking om in <block-math/> Als we alles met <inline-math/> naar links halen en alles zonder <inline-math/> naar rechts, dan geeft dat <block-math/> Termen samenvoegen om de vergelijking op te ruimen brengt dit terug tot <block-math/><check><on-true>Delen door <inline-math/> geeft ons de oplossing <block-math/><check><on-true>Dit kan nog vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check></on-true><on-false>Toevallig is de factor voor de <inline-math/> al weggevallen. We hebben hierdoor de oplossing al gevonden, <block-math/></on-false></check></par><par>Het laatste dat we nog moeten doen is de oplossing controleren. Hem invullen in de oorspronkelijke vergelijking geeft <block-math/> Beide kanten vereenvoudigen tot <inline-math/> wat aantoont dat de oplossing klopt.</par>"
+      }
+    },
+    "oneFractionWithVariable": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng de factor <inline-math/> naar de andere kant om ervoor te zorgen dat er geen <inline-math/> meer in een noemer staat.",
+        "solution": "De factor <inline-math/> komt <check><on-true>links</on-true><on-false>rechts</on-false></check> als een vermenigvuldiging. Dit zet de vergelijking om in <block-math/>"
+      },
+      "step2": {
+        "problem": "Los de betreffende vergelijking op voor <inline-math/>.",
+        "solution": "<par>Zoals gewoonlijk bij het oplossen van een lineaire vergelijking beginnen we met het uitwerken van haakjes. Dit zet de vergelijking om in <block-math/> Als we alles met <inline-math/> naar links halen en alles zonder <inline-math/> naar rechts, dan geeft dat <block-math/> Termen samenvoegen om de vergelijking op te ruimen brengt dit terug tot <block-math/><check><on-true>Delen door <inline-math/> geeft ons de oplossing <block-math/><check><on-true>Dit kan nog vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check></on-true><on-false>Toevallig is de factor voor de <inline-math/> al weggevallen. We hebben hierdoor de oplossing al gevonden, <block-math/></on-false></check></par><par>Het laatste dat we nog moeten doen is de oplossing controleren. Hem invullen in de oorspronkelijke vergelijking geeft <block-math/> Beide kanten vereenvoudigen tot <inline-math/> wat aantoont dat de oplossing klopt.</par>"
+      }
+    },
+    "oneFractionWithNumber": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Voor je begint, vereenvoudig de vergelijking wat door de <inline-math/> naar de andere kant te brengen en getallen samen te voegen.",
+        "solution": "Via het brengen van <inline-math/> naar de <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant en het <check><on-true>aftrekken van</on-true><on-false>optellen bij</on-false></check> <inline-math/> krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Breng de factor <inline-math/> naar de andere kant om ervoor te zorgen dat er geen <inline-math/> meer in een noemer staat.",
+        "solution": "De factor <inline-math/> komt <check><on-true>links</on-true><on-false>rechts</on-false></check> als een vermenigvuldiging. Dit zet de vergelijking om in <block-math/>"
+      },
+      "step3": {
+        "problem": "Los de betreffende vergelijking op voor <inline-math/>.",
+        "solution": "<par>Zoals gewoonlijk bij het oplossen van een lineaire vergelijking beginnen we met het uitwerken van haakjes. Dit zet de vergelijking om in <block-math/> The only term with <inline-math/> is already on the <check><on-true>left</on-true><on-false>right</on-false></check> so we can keep it there. Moving all numbers to the <check><on-true>right</on-true><on-false>left</on-false></check> and pulling them together results in <block-math/><check><on-true>Delen door <inline-math/> geeft ons de oplossing <block-math/><check><on-true>Dit kan nog vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check></on-true><on-false>Toevallig is de factor voor de <inline-math/> al weggevallen. We hebben hierdoor de oplossing al gevonden, <block-math/></on-false></check></par><par>Het laatste dat we nog moeten doen is de oplossing controleren. Hem invullen in de oorspronkelijke vergelijking geeft <block-math/> Beide kanten vereenvoudigen tot <inline-math/> wat aantoont dat de oplossing klopt.</par>"
+      }
+    },
+    "twoFractionsWithVariable": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng zowel de factor <inline-math/> als de factor <inline-math/> naar de andere kant om ervoor te zorgen dat er geen <inline-math/> meer in een noemer staat.",
+        "solution": "De factor <inline-math/> komt rechts als een vermenigvuldiging, en net zo komt de factor <inline-math/> links als een vermenigvuldiging. Dit zet de vergelijking om in <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk de dubbele haakjes aan beide kanten uit om ervoor te zorgen dat er geen haakjes meer zijn.",
+        "solution": "Om de dubbele haakjes uit te werken, vermenigvuldigingen we elke term van de linker haakjes los met elke term van de rechter haakjes. En we doen dit voor beide kanten. Hieruit komt <block-math/>"
+      },
+      "step3": {
+        "problem": "Merk op dat de term <inline-math/> aan beide kanten van de vergelijking wegvalt. Los de overgebleven vergelijking op voor <inline-math/>.",
+        "solution": "<par>We volgen de standaard aanpak. Als we alles met <inline-math/> naar links halen en alles zonder <inline-math/> naar rechts, dan geeft dat <block-math/> Termen samenvoegen om de vergelijking op te ruimen brengt dit terug tot <block-math/><check><on-true>Delen door <inline-math/> geeft ons de oplossing <block-math/><check><on-true>Dit kan nog vereenvoudigd worden tot <block-math/></on-true><on-false>Dit kan niet verder vereenvoudigd worden.</on-false></check></on-true><on-false>Toevallig is de factor voor de <inline-math/> al weggevallen. We hebben hierdoor de oplossing al gevonden, <block-math/></on-false></check></par><par>Het laatste dat we nog moeten doen is de oplossing controleren. Hem invullen in de oorspronkelijke vergelijking geeft <block-math/> Beide kanten vereenvoudigen tot <inline-math/> wat aantoont dat de oplossing klopt.</par>"
+      }
+    }
   }
 }

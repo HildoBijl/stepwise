@@ -18,14 +18,6 @@
       "step2": {
         "problem": "Solve the resulting equation for <inline-math/>.",
         "solution": "<par>As usual when solving a linear equation, we first expand brackets. This turns the equation into <block-math/> Moving everything with <inline-math/> to the left and everything without <inline-math/> to the right gives <block-math/> Merging terms to clean up the equation reduces it to <block-math/><check><on-true>Dividing by <inline-math/> gives us the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out, so we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
-      },
-      "step3": {
-        "problem": "Clean up both equation sides separately by merging terms together.",
-        "solution": "On the left we merge terms with <inline-math/> together, and on the right we simply add together the numbers. This results in <block-math/>"
-      },
-      "step4": {
-        "problem": "Solve the resulting equation for <inline-math/>.",
-        "solution": "<par><check><on-true>As usual when solving a product equation, we move the factor in front of <inline-math/> (here <inline-math/>) to the other side, where it will be divided by. This gives the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out. As a result, we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>"
       }
     },
     "oneFractionWithVariable": {
