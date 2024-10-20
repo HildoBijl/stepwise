@@ -85,7 +85,7 @@ function getFeedback(exerciseData) {
 	// Define termsMoved checks.
 	const variableOnBothSides = (input, correct, { variables }) => input.left.dependsOn(variables.x) && input.right.dependsOn(variables.x) && translate(<>Both sides of the equation still contain <M>{variables.x}</M>. Pull all terms with <M>{variables.x}</M> to the <em>same</em> side.</>, 'variableOnBothSides')
 	const termsWithoutVariableInWrongPlace = (input, correct, { variables }) => {
-		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
+		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x)).side
 		if (!sideWithVariable)
 			return translate(<>Your solution does not contain <M>{variables.x}</M>. Where did it go?</>, 'missingVariable')
 		if (!sideWithVariable.isSubtype(Sum))
@@ -100,15 +100,15 @@ function getFeedback(exerciseData) {
 
 	// Define pulledOut checks.
 	const sideWithoutVariableEqual = (input, correct, { variables }) => {
-		const sideWithoutVariable = input.findSide(side => !side.dependsOn(variables.x))
-		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
+		const sideWithoutVariable = input.findSide(side => !side.dependsOn(variables.x)).side
+		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x)).side
 		if (!sideWithoutVariable)
 			return translate(<>You put the variable <M>{variables.x}</M> on both sides of the equation again. That was not supposed to happen.</>, 'noSideWithoutVariable')
 		if (sideWithVariable && !onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
 			return translate(<>The side without <M>{variables.x}</M> should remain the same!</>, 'unequalSideWithoutVariable')
 	}
 	const sideWithVariableEqual = (input, correct, { variables }) => {
-		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
+		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x)).side
 		if (!sideWithVariable)
 			return translate(<>You somehow let <M>{variables.x}</M> disappear entirely. That was not supposed to happen.</>, 'disappearedVariable')
 		if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.applyMinus()))

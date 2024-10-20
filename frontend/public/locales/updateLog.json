@@ -828,8 +828,8 @@
       "practice.multiplyTerms.step2.solution": {
         "oldText": "To expand the brackets we multiply each of the terms within brackets separately by the factor outside of the brackets. When doing so, we may pull this multiplying factor into the numerator (above) as well. This results in <block-math/>",
         "firstUpdate": "2024-10-20T10:52:19.993Z",
-        "latestUpdate": "2024-10-20T11:02:34.446Z",
-        "latestText": "To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. When doing so, we may pull this multiplying factor into the numerator (above) as well. This results in <block-math/>"
+        "latestUpdate": "2024-10-20T12:05:54.938Z",
+        "latestText": "To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. This gives <block-math/> It is wise to already simplify the products a bit further, giving us <block-math/>"
       },
       "practice.multiplyTerms.step3.problem": {
         "oldText": "Separately simplify each of the resulting terms.",
@@ -840,8 +840,19 @@
       "practice.multiplyTerms.step3.solution": {
         "oldText": "Crossing out factors of <inline-math/> and merging number products where relevant, we end up with <block-math/>",
         "firstUpdate": "2024-10-20T10:52:19.993Z",
-        "latestUpdate": "2024-10-20T11:02:34.446Z",
-        "latestText": "Crossing out factors of <inline-math/> and merging number products where relevant, we end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
+        "latestUpdate": "2024-10-20T12:07:16.970Z",
+        "latestText": "The only thing left to do is crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
+      },
+      "crossExerciseFeedback.incorrectFactor": {
+        "firstUpdate": "2024-10-20T11:52:45.912Z",
+        "latestUpdate": "2024-10-20T11:52:45.912Z",
+        "latestText": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>"
+      },
+      "crossExerciseFeedback.incorrectPartInBrackets": {
+        "oldText": "<a>Both sides should be of the form <inline-math/>, where the brackets should be copied from the original equation. You didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>",
+        "firstUpdate": "2024-10-20T11:58:24.537Z",
+        "latestUpdate": "2024-10-20T11:59:58.756Z",
+        "latestText": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
       }
     }
   }

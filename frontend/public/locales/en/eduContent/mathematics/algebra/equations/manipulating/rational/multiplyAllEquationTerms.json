@@ -33,12 +33,16 @@
       },
       "step2": {
         "problem": "Expand all the brackets that are present.",
-        "solution": "To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. When doing so, we may pull this multiplying factor into the numerator (above) as well. This results in <block-math/>"
+        "solution": "To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. This gives <block-math/> It is wise to already simplify the products a bit further, giving us <block-math/>"
       },
       "step3": {
         "problem": "Simplify each of the resulting terms as much as possible.",
-        "solution": "Crossing out factors of <inline-math/> and merging number products where relevant, we end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
+        "solution": "The only thing left to do is crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
       }
     }
+  },
+  "crossExerciseFeedback": {
+    "incorrectFactor": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>",
+    "incorrectPartInBrackets": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
   }
 }

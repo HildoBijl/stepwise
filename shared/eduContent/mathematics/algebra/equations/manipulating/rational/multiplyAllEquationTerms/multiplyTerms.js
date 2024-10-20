@@ -1,10 +1,10 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
-const { asExpression, Equation, Integer, equationComparisons, equationChecks } = require('../../../../../../../CAS')
+const { asExpression, Equation, Integer, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
-const { onlyOrderChanges, equivalent } = equationComparisons
-const { hasSumWithinProduct } = equationChecks
+const { onlyOrderChanges, equivalent } = expressionComparisons
+const { hasSumWithinProduct } = expressionChecks
 
 // Multiply a/x^2+b/x+c+dx=0 by ex.
 const variableSet = ['x', 'y', 'z']
@@ -15,23 +15,23 @@ const metaData = {
 	skill: 'multiplyAllEquationTerms',
 	steps: ['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables'],
 	comparison: {
-		form: equivalent,
-		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
-		ans: onlyOrderChanges,
+		form: { check: equivalent },
+		expanded: { check: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct) },
+		ans: { check: onlyOrderChanges },
 	}
 }
 
 function generateState(example) {
-	example = !example // ToDo: remove.
+	// example = !example // ToDo: remove.
 	return {
 		x: selectRandomly(variableSet),
-		a: example ? 0 : getRandomInteger(-8, 8, [0]),
+		a: getRandomInteger(-8, 8, [0]),
 		b: getRandomInteger(-8, 8, [0]),
 		c: getRandomInteger(-8, 8, [0]),
-		d: getRandomInteger(-8, 8, [0]),
+		d: example ? 0 : getRandomInteger(-8, 8, [0]),
 		e: example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1]),
-		aLeft: getRandomBoolean(),
-		bLeft: example ? true : getRandomBoolean(),
+		aLeft: example ? true : getRandomBoolean(),
+		bLeft: getRandomBoolean(),
 		cLeft: getRandomBoolean(),
 		dLeft: getRandomBoolean(),
 	}
@@ -40,7 +40,7 @@ function generateState(example) {
 function getSolution(state) {
 	// Assemble the equation.
 	const variables = filterVariables(state, usedVariables, constants)
-	const terms = ['a/x^2', 'b/x', 'c', 'd*x'].map(term => asExpression(term).substituteVariables(variables))
+	const terms = ['a*x', 'b', 'c/x', 'd/x^2'].map(term => asExpression(term).substituteVariables(variables))
 	let left = Integer.zero
 	let right = Integer.zero
 	terms.forEach((term, index) => {
@@ -54,9 +54,10 @@ function getSolution(state) {
 
 	// Manipulate the equation.
 	const form = equation.multiply(factor, true)
-	const expanded = form.elementaryClean({ expandProductsOfSums: true, mergeFractionProducts: true })
-	const ans = expanded.basicClean({ crossOutFractionFactors: true, mergeProductFactors: true, mergeSumNumbers: true })
-	return { ...state, variables, equation, factor, form, expanded, ans }
+	const expandedIntermediate = form.removeUseless({ mergeFractionProducts: false, expandProductsOfSums: true })
+	const expanded = expandedIntermediate.basicClean({ expandProductsOfSums: true, mergeFractionProducts: true })
+	const ans = expanded.basicClean({ crossOutFractionFactors: true })
+	return { ...state, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 }
 
 function checkInput(exerciseData, step) {

@@ -193,7 +193,7 @@ class Equation {
 	// findSide checks if there is a side for which the given check returns true and returns that side. It returns undefined if it did not find anything.
 	findSide(check) {
 		const part = parts.find(part => check(this[part], part))
-		return part && this[part]
+		return part && { part, side: this[part], value: check(this[part], part) }
 	}
 
 	/*
