@@ -98,9 +98,6 @@
         "mergeSplitFractions": "Merge/split general fractions",
         "simplifyMultiVariableFraction": "Simplify a fraction"
       },
-      "manipulatingEquations": {
-        "multiplyDivideAllTerms": "Multiply/divide all terms"
-      },
       "linearEquations": {
         "solveBasicLinearEquation": "Solve a basic linear equation",
         "solveGeneralLinearEquation": "Solve a general linear equation"

@@ -274,26 +274,15 @@ const skillStructure = {
 					exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
 				},
 			},
-			manipulatingEquations: {
-				// moveATerm: {
-				// 	name: 'Move a term',
-				// 	exercises: ['moveATerm1', 'moveATerm2'],
-				// },
-				multiplyDivideAllTerms: {
-					name: 'Multiply/divide all terms',
-					setup: and('expandBrackets', 'addRemoveFractionFactors'),
-					exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
-				},
-			},
 			linearEquations: {
 				solveBasicLinearEquation: {
 					name: 'Solve a basic linear equation',
-					setup: and(repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyDivideAllTerms'),
+					setup: and(repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms'),
 					exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 				},
 				solveGeneralLinearEquation: {
 					name: 'Solve a general linear equation',
-					setup: and(pick(['simplifyMultiVariableFraction', 'expandBrackets', 'multiplyDivideAllTerms'], 2), 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
+					setup: and(pick(['simplifyMultiVariableFraction', 'expandBrackets', 'multiplyAllEquationTerms'], 2), 'multiplyAllEquationTerms', 'solveBasicLinearEquation'),
 					exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 				},
 			},
@@ -308,12 +297,12 @@ const skillStructure = {
 				},
 				solveBasicQuadraticEquation: {
 					name: 'Solve a basic quadratic equation',
-					setup: and('moveEquationTerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+					setup: and('moveEquationTerm', 'multiplyAllEquationTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 					exercises: [], // ToDo
 				},
 				solveGeneralQuadraticEquation: {
 					name: 'Solve a general quadratic equation',
-					setup: and('moveEquationTerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+					setup: and('moveEquationTerm', 'multiplyAllEquationTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 					exercises: [], // ToDo
 				},
 			},

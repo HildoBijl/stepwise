@@ -98,9 +98,6 @@
         "mergeSplitFractions": "Allgemeine Brüche addieren/teilen",
         "simplifyMultiVariableFraction": "Vereinfachen von Brüchen"
       },
-      "manipulatingEquations": {
-        "multiplyDivideAllTerms": "Alle Terme multiplizieren/dividieren"
-      },
       "linearEquations": {
         "solveBasicLinearEquation": "Einfache lineare Gleichung lösen",
         "solveGeneralLinearEquation": "Allgemeine lineare Gleichung lösen"

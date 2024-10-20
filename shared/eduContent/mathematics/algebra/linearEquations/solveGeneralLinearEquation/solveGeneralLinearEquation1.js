@@ -10,7 +10,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveGeneralLinearEquation',
-	steps: [repeat('multiplyDivideAllTerms', 2), repeat('expandBrackets', 2), 'solveBasicLinearEquation'],
+	steps: [repeat('multiplyAllEquationTerms', 2), repeat('expandBrackets', 2), 'solveBasicLinearEquation'],
 	comparison: {
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 		multiplied: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
