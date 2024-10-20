@@ -8,5 +8,37 @@
     "dividing": "<head>Divide all terms</head><par>We can do the same in reverse. After all, if we have an equation like <inline-math/>, we are also allowed to <skill-link>divide both sides of the equation</skill-link> by a factor. Dividing by <inline-math/> gives <block-math/> The fraction on the left can subsequently be <skill-link>split up into separate fractions</skill-link> through <block-math/> Finally we can <skill-link>simplify fractions</skill-link> to get back to <block-math/> Again look at how this follows from the starting point <inline-math/>. Effectively we have divided each term by <inline-math/>.</par>",
     "steps": "<head>The steps</head><par>To multiply or divide all terms in an equation by a factor, like when multiplying <inline-math/> by <inline-math/>, take the following steps.</par><list><item><a><skill-link>Apply the multiplication/division</skill-link> to the full equation. This turns the example into <inline-math/>.</a></item><item><b>On a multiplication <skill-link>expand the brackets</skill-link>, or on a division <skill-link>split up the fraction</skill-link>. For the example, we get <inline-math/>.</b></item><item><c>Simplify the resulting outcome, which usually comes down to <skill-link>simplifying various fractions</skill-link>, canceling terms where needed. This reduces the example to <inline-math/>.</c></item></list>",
     "shortCut": "<head>The short-cut</head><par>We can summarize the above ideas into a useful short-cut. If we want to multiply or divide an entire equation by a factor, we can directly apply that multiplication/division to each individual term, simplifying these terms as we go. So if we multiply the equation <inline-math/> by the factor <inline-math/>, we can immediately see that this turns into <inline-math/>. And if we then divide this by <inline-math/> again, we right away get back to <inline-math/>.</par>"
+  },
+  "practice": {
+    "divideTerms": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/>, <inline-math/> and <inline-math/>).",
+        "solution": "If we set up the two multiplications, keeping any pluses/minuses in-between, we wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "solution": "All three terms have a multiplication of two numbers. We can simplify all of them. This gives us <block-math/>"
+      },
+      "step3": {
+        "problem": "Where possible, inside each term, merge products of equal factors into a power.",
+        "solution": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>, and the multiplication of <inline-math/> with <inline-math/> becomes <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    },
+    "multiplyTerms": {
+      "mainProblem": "Consider the equation <block-math/> Multiply all terms by <inline-math/> and simplify each resulting term as much as possible.",
+      "step1": {
+        "problem": "Multiply both sides of the equation by <inline-math/>.",
+        "solution": "When we multiply each side of the equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same."
+      },
+      "step2": {
+        "problem": "Expand all the brackets that are present.",
+        "solution": "To expand the brackets, we multiply each of the terms within brackets separately by the factor outside of the brackets. When doing so, we may pull this multiplying factor into the numerator (above) as well. This results in <block-math/>"
+      },
+      "step3": {
+        "problem": "Simplify each of the resulting terms as much as possible.",
+        "solution": "Crossing out factors of <inline-math/> and merging number products where relevant, we end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
+      }
+    }
   }
 }
