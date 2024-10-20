@@ -6,10 +6,10 @@ const { getStepExerciseProcessor, filterVariables, performComparison } = require
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
-// Multiply a/x^2+b/x+c+dx=0 by ex.
+// Multiply a*x+b+c/x+d/x^2=0 by ex^n.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e']
+const constants = ['a', 'b', 'c', 'd', 'e', 'n']
 
 const metaData = {
 	skill: 'multiplyAllEquationTerms',
@@ -22,14 +22,14 @@ const metaData = {
 }
 
 function generateState(example) {
-	// example = !example // ToDo: remove.
 	return {
 		x: selectRandomly(variableSet),
-		a: getRandomInteger(-8, 8, [0]),
+		a: getRandomInteger(-8, 8, [-1, 0, 1]),
 		b: getRandomInteger(-8, 8, [0]),
-		c: getRandomInteger(-8, 8, [0]),
+		c: getRandomInteger(-8, 8, [-1, 0, 1]),
 		d: example ? 0 : getRandomInteger(-8, 8, [0]),
-		e: example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1]),
+		e: getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
+		n: example ? 1 : getRandomInteger(1, 3),
 		aLeft: example ? true : getRandomBoolean(),
 		bLeft: getRandomBoolean(),
 		cLeft: getRandomBoolean(),
@@ -50,13 +50,13 @@ function getSolution(state) {
 			right = right.add(term)
 	})
 	const equation = new Equation(left, right).removeUseless()
-	const factor = asExpression('e*x').substituteVariables(variables).removeUseless()
+	const factor = asExpression('e*x^n').substituteVariables(variables).removeUseless()
 
 	// Manipulate the equation.
 	const form = equation.multiply(factor, true)
 	const expandedIntermediate = form.removeUseless({ mergeFractionProducts: false, expandProductsOfSums: true })
 	const expanded = expandedIntermediate.basicClean({ expandProductsOfSums: true, mergeFractionProducts: true })
-	const ans = expanded.basicClean({ crossOutFractionFactors: true })
+	const ans = expanded.basicClean({ crossOutFractionNumbers: true, crossOutFractionFactors: true })
 	return { ...state, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 }
 

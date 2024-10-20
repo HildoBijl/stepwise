@@ -8,5 +8,41 @@
     "dividing": "<head>Alle Terme dividieren</head><par>Wir können auch den umgekehrten Weg gehen. In einer Gleichung wie <inline-math/> können wir nämlich auch <skill-link>beide Seiten der Gleichung dividieren</skill-link> durch einen Faktor. Dividiert man durch <inline-math/>, erhält man <block-math/> Der Bruch auf der linken Seite kann dann <skill-link>in einzelne Brüche zerlegt werden</skill-link>, was führt zu <block-math/> Schließlich können wir <skill-link>Brüche vereinfachen</skill-link>, um wieder zu gelangen zu <block-math/> Schau wieder, wie dies aus dem Ausgangspunkt <inline-math/> folgt. Eigentlich haben wir jeden Term durch <inline-math/> dividiert.</par>",
     "steps": "<head>Die Schritte</head><par>Um alle Terme einer Gleichung mit einem Faktor zu multiplizieren oder zu dividieren, wie bei der Multiplikation von <inline-math/> mit <inline-math/>, ist wie folgt vorzugehen.</par><list><item><a>Führe die <skill-link>Multiplikation/Division</skill-link> an der ganzzahligen Gleichung durch. Damit wird das Beispiel in <inline-math/> umgewandelt.</a></item><item><b>Bei einer Multiplikation <skill-link>erweitere die Klammern</skill-link>, oder bei einer Division <skill-link>spalte den Bruch</skill-link>. Für das Beispiel erhalten wir so <inline-math/>.</b></item><item><c>Vereinfache die sich ergebende Gleichung, was in der Regel darauf hinausläuft, mehrere <skill-link>Brüche zu vereinfachen</skill-link> und dabei gegebenenfalls Faktoren zu entfernen. Dadurch wird das Beispiel auf <inline-math/> reduziert.</c></item></list>",
     "shortCut": "<head>Die Abkürzung</head><par>Wir können die obigen Ideen in einer praktischen Abkürzung zusammenfassen. Wenn wir eine ganze Gleichung mit einem Faktor multiplizieren oder dividieren wollen, können wir diese Multiplikation/Division auch direkt auf jeden einzelnen Term anwenden und diese Terme sofort vereinfachen. Wenn wir also die Gleichung <inline-math/> mit dem Faktor <inline-math/> multiplizieren, können wir auch gleich sehen, dass dies <inline-math/> ergibt. Und wenn wir das dann wieder durch <inline-math/> dividieren, kommen wir gleich wieder auf <inline-math/>.</par>"
+  },
+  "practice": {
+    "divideTerms": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Dividiere alle Terme durch <inline-math/> und vereinfache jeden resultierenden Term so weit wie möglich.",
+      "step1": {
+        "problem": "Dividiere beide Seiten der Gleichung durch <inline-math/>.",
+        "solution": "Wenn wir eine Seite einer Gleichung durch <inline-math/> dividieren, ist es wichtig, den gesamten ursprünglichen Ausdruck in den Zähler (oben) zu setzen. Dass ergibt dann <block-math/>"
+      },
+      "step2": {
+        "problem": "Spalte alle Brüche in einzelne Brüche, so dass keine Summe mehr in irgendeinem Zähler steht.",
+        "solution": "Beim Spalten eines Bruchs wird jeder Term im Zähler (oben) durch den gesamten Nenner (unten) dividiert. Dadurch wird die Gleichung umgewandelt in <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereinfache die einzelnen Terme so weit wie möglich.",
+        "solution": "Zunächst können wir gemeinsame Zahlenfaktoren entfernen. Das ergibt <block-math/> Wenn wir dann auch noch die Faktoren <inline-math/> herausnehmen, erhalten wir <block-math/> Beachte, dass jeder Term durch den Faktor <inline-math/> dividiert wird."
+      }
+    },
+    "multiplyTerms": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Multipliziere alle Terme mit <inline-math/> und vereinfache jeden resultierenden Term so weit wie möglich.",
+      "step1": {
+        "problem": "Multipliziere beide Seiten der Gleichung mit <inline-math/>.",
+        "solution": "Wenn wir eine Seite einer Gleichung mit <inline-math/> multiplizieren, ist es wichtig, Klammern zu verwenden. Dies ergibt <block-math/> Dabei spielt es keine Rolle, ob die Multiplikation auf der linken oder der rechten Seite erfolgt: Es läuft auf dasselbe hinaus."
+      },
+      "step2": {
+        "problem": "Erweitere alle vorhandenen Klammern.",
+        "solution": "Um die Klammern zu erweitern, multiplizieren wir jeden Term innerhalb der Klammern mit dem Faktor außerhalb der Klammern. Dies ergibt <block-math/> Es ist hilfreich, die Produkte schon ein wenig weiter zu vereinfachen, womit wir kommen zu <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereinfache die einzelnen Terme so weit wie möglich.",
+        "solution": "Alles, was noch zu tun bleibt, ist, die Brüche zu vereinfachen, indem man die Faktoren <inline-math/> entfernt. So erhalten wir <block-math/> Beachte, dass jeder Term separat mit dem Faktor <inline-math/> multipliziert wird."
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "incorrectForm": "<a>Beide Seiten sollten die Form <inline-math/> haben. Deine <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite ist nicht auf diese Weise eingerichtet.</a>",
+    "incorrectCopy": "<a>Es scheint, dass du die ursprüngliche Gleichung auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite nicht korrekt kopiert hast.</a>"
   }
 }

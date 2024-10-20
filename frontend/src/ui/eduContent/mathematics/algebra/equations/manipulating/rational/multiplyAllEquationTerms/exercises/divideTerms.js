@@ -1,24 +1,28 @@
 import React from 'react'
 
+import { Sum, Fraction, expressionComparisons } from 'step-wise/CAS'
 import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
+import { EquationInput } from 'ui/inputs'
+import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
-const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, equivalentExpression, nonEquivalentExpression } = expressionChecks
+import { incorrectFormMessage, incorrectCopyMessage } from './util'
+
+const { onlyOrderChanges } = expressionComparisons
+const { originalEquation, sumWithWrongTerms, sumWithUnsimplifiedTerms, hasSumWithinProduct } = equationChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
 const Problem = () => {
-	const { variables, expression } = useSolution()
+	const { equation, factor, variables } = useSolution()
 	return <>
-		<Par><Translation>Consider the expression <BM>{expression}.</BM> Expand the brackets and simplify the result as much as possible.</Translation></Par>
+		<Par><Translation>Consider the equation <BM>{equation}.</BM> Divide all terms by <M>{factor}</M> and simplify each resulting term as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -27,61 +31,63 @@ const Problem = () => {
 const steps = [
 	{
 		Problem: () => {
-			const { variables, sum, factor, expression } = useSolution()
+			const { variables, factor } = useSolution()
 			return <>
-				<Par><Translation>Take the factor outside of the bracket (here <M>{factor}</M>) and multiply it separately with each of the terms within the brackets (<M>{sum.terms[0]}</M>, <M>{sum.terms[1]}</M> and <M>{sum.terms[2]}</M>).</Translation></Par>
+				<Par><Translation>Divide both sides of the equation by <M>{factor}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="expanded" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<EquationInput id="form" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, expanded }) => {
-			return <Par><Translation>If we set up the two multiplications, keeping any pluses/minuses in-between, we wind up with <BM>{expression} = {expanded}.</BM></Translation></Par>
+		Solution: ({ factor, form }) => {
+			return <Par><Translation>When we divide a side of an equation by <M>{factor}</M> it is important to put the entire original expression in the numerator (above). Doing so results in <BM>{form}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
-			const { variables, expression } = useSolution()
+			const { variables } = useSolution()
 			return <>
-				<Par><Translation>Where possible, inside each term, merge products of numbers together into a single factor.</Translation></Par>
+				<Par><Translation>Split up all fractions into separate fractions, so that there is no sum in any numerator anymore.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="numbersMerged" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<EquationInput id="expanded" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expanded, numbersMerged }) => {
-			return <Par><Translation>All three terms have a multiplication of two numbers. We can simplify all of them. This gives us <BM>{expanded} = {numbersMerged}.</BM></Translation></Par>
+		Solution: ({ expanded }) => {
+			return <Par><Translation>When splitting up a fraction, we divide every term in the numerator (above) separately by the entire denominator (below). This turns the equation into <BM>{expanded}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
-			const { variables, expression } = useSolution()
+			const { variables } = useSolution()
 			return <>
-				<Par><Translation>Where possible, inside each term, merge products of equal factors into a power.</Translation></Par>
+				<Par><Translation>Simplify each of the resulting terms as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<EquationInput id="ans" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, variables, numbersMerged, ans }) => {
-			return <Par><Translation>We can turn the multiplication of <M>{variables.x}</M> with itself into <M>{variables.x}^2</M>, and the multiplication of <M>{variables.x}</M> with <M>{variables.x}^2</M> becomes <M>{variables.x}^3</M>. This turns the full expression into <BM>{numbersMerged} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Translation></Par>
+		Solution: ({ variables, ansIntermediate, ans, factor }) => {
+			return <Par><Translation>First we can cancel out any shared numerical factors. This gets us <BM>{ansIntermediate}.</BM> If we then also cross out factors of <M>{variables.x}</M>, we end up with <BM>{ans}.</BM> Note that every term has been divided individually by the factor <M>{factor}</M>.</Translation></Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
-	const feedbackChecks = [
-		originalExpression,
-		hasSumWithinProduct,
-		sumWithWrongTerms,
-		nonEquivalentExpression,
-		equivalentExpression,
-	]
-	return getFieldInputFeedback(exerciseData, { expanded: feedbackChecks, numbersMerged: feedbackChecks, ans: feedbackChecks })
+	// Set up checks to check the form of the first step, first checking if the factor is set up properly and then whether or not the original expression has been copied properly.
+	const incorrectForm = (input, correct, { equation, factor }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Fraction) && onlyOrderChanges(side.denominator, factor)) && translateCrossExercise(incorrectFormMessage(part, <M>\frac(\left(\ldots\right))({factor})</M>), 'incorrectForm'))?.value
+	const incorrectCopy = (input, correct, { equation }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Fraction) && onlyOrderChanges(side.numerator, equation[part])) && translateCrossExercise(incorrectCopyMessage(part), 'incorrectCopy'))?.value
+
+	// Assemble all the feedback checks.
+	return getFieldInputFeedback(exerciseData, {
+		form: [originalEquation, incorrectForm, incorrectCopy],
+		expanded: [originalEquation, hasSumWithinProduct, sumWithWrongTerms],
+		ans: [originalEquation, hasSumWithinProduct, sumWithUnsimplifiedTerms],
+	})
 }

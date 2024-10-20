@@ -211,8 +211,7 @@ const skillStructure = {
 						multiplyAllEquationTerms: {
 							name: 'Multiply all equation terms',
 							setup: and('multiplyBothEquationSides', pick(['expandBrackets', 'addLikeFractionsWithVariables']), 'simplifyFractionWithVariables'),
-							examples: ['multiplyTerms'],
-							// examples: ['multiplyTerms', 'divideTerms'],
+							examples: ['multiplyTerms', 'divideTerms'],
 							exercises: ['multiplyTerms', 'divideTerms'],
 						},
 						// Multiply all equation terms, bring equation to standard form.

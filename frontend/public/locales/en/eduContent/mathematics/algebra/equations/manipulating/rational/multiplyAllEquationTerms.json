@@ -11,25 +11,25 @@
   },
   "practice": {
     "divideTerms": {
-      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "mainProblem": "Consider the equation <block-math/> Divide all terms by <inline-math/> and simplify each resulting term as much as possible.",
       "step1": {
-        "problem": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/>, <inline-math/> and <inline-math/>).",
-        "solution": "If we set up the two multiplications, keeping any pluses/minuses in-between, we wind up with <block-math/>"
+        "problem": "Divide both sides of the equation by <inline-math/>.",
+        "solution": "When we divide a side of an equation by <inline-math/> it is important to put the entire original expression in the numerator (above). Doing so results in <block-math/>"
       },
       "step2": {
-        "problem": "Where possible, inside each term, merge products of numbers together into a single factor.",
-        "solution": "All three terms have a multiplication of two numbers. We can simplify all of them. This gives us <block-math/>"
+        "problem": "Split up all fractions into separate fractions, so that there is no sum in any numerator anymore.",
+        "solution": "When splitting up a fraction, we divide every term in the numerator (above) separately by the entire denominator (below). This turns the equation into <block-math/>"
       },
       "step3": {
-        "problem": "Where possible, inside each term, merge products of equal factors into a power.",
-        "solution": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>, and the multiplication of <inline-math/> with <inline-math/> becomes <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+        "problem": "Simplify each of the resulting terms as much as possible.",
+        "solution": "First we can cancel out any shared numerical factors. This gets us <block-math/> If we then also cross out factors of <inline-math/>, we end up with <block-math/> Note that every term has been divided individually by the factor <inline-math/>."
       }
     },
     "multiplyTerms": {
       "mainProblem": "Consider the equation <block-math/> Multiply all terms by <inline-math/> and simplify each resulting term as much as possible.",
       "step1": {
         "problem": "Multiply both sides of the equation by <inline-math/>.",
-        "solution": "When we multiply each side of the equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same."
+        "solution": "When we multiply a side of an equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same."
       },
       "step2": {
         "problem": "Expand all the brackets that are present.",
@@ -37,12 +37,12 @@
       },
       "step3": {
         "problem": "Simplify each of the resulting terms as much as possible.",
-        "solution": "The only thing left to do is crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
+        "solution": "The only thing left to do is simplifying the fractions by crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
       }
     }
   },
   "crossExerciseFeedback": {
-    "incorrectFactor": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>",
-    "incorrectPartInBrackets": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
+    "incorrectForm": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>",
+    "incorrectCopy": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
   }
 }

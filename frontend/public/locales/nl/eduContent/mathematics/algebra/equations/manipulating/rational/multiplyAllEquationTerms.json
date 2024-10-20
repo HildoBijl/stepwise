@@ -8,5 +8,41 @@
     "dividing": "<head>Alle termen delen</head><par>We kunnen ook het omgekeerde uitvoeren. Bij een vergelijking als <inline-math/> kunnen we immers ook <skill-link>beide kanten van de vergelijking delen</skill-link> door een factor. Delen door <inline-math/> geeft <block-math/> De breuk links kan vervolgens <skill-link>in losse breuken opgesplitst</skill-link> worden wat leidt tot <block-math/> Ten slotte kunnen we <skill-link>breuken vereenvoudigen</skill-link> om weer terug te komen bij <block-math/> Kijk wederom hoe dit volgt vanuit het beginpunt <inline-math/>. Eigenlijk hebben we elke term gedeeld door <inline-math/>.</par>",
     "steps": "<head>De stappen</head><par>Om alle termen in een vergelijking met een factor te vermenigvuldigen of delen, zoals bij het vermenigvuldigen van <inline-math/> met <inline-math/>, voer je de volgende stappen uit.</par><list><item><a><skill-link>Voer de vermenigvuldiging/deling uit</skill-link> op de gehele vergelijking. Dit zet het voorbeeld om in <inline-math/>.</a></item><item><b>Bij een vermenigvuldiging <skill-link>werk je de haakjes uit</skill-link>, of bij een deling <skill-link>splits je de breuk op</skill-link>. Bij het voorbeeld krijgen we zo <inline-math/>.</b></item><item><c>Vereenvoudig de hieruitvolgende vergelijking, wat meestal neerkomt op het <skill-link>vereenvoudigen van verschillende breuken</skill-link>, waarbij je waar nodig factoren wegstreept. Dit brengt het voorbeeld terug tot <inline-math/>.</c></item></list>",
     "shortCut": "<head>De short-cut</head><par>We kunnen de bovenstaande ideeën samenvatten in een handige short-cut. Als we een gehele vergelijking met een factor willen vermenigvuldigen of delen, kunnen we die vermenigvuldiging/deling ook direct toepassen op elke losse term, waarbij we die termen dan ook gelijk vereenvoudigen. Dus als we de vergelijking <inline-math/> vermenigvuldigen met de factor <inline-math/>, kunnen we ook gelijk inzien dat dit uitkomt op <inline-math/>. En als we dit dan weer delen door <inline-math/>, komen we gelijk terug bij <inline-math/>.</par>"
+  },
+  "practice": {
+    "divideTerms": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Deel alle termen door <inline-math/> en vereenvoudig elke hieruit volgende term zo veel als mogelijk.",
+      "step1": {
+        "problem": "Deel beide kanten van de vergelijking door <inline-math/>.",
+        "solution": "Als we een kant van een vergelijking door <inline-math/> delen, is het belangrijk om de gehele oorspronkelijke uitdrukking in de teller (bovenin) te zetten. Dit geeft dan <block-math/>"
+      },
+      "step2": {
+        "problem": "Splits alle breuken in losse breuken op, zodat er geen som meer in enige teller staat.",
+        "solution": "Bij het opsplitsen van een breuk delen we elke term in de teller (boven) los door de gehele noemer (onder). Dit zet de vergelijking om in <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig elk van de termen zo veel als mogelijk.",
+        "solution": "Eerst kunnen we gedeelde getalfactoren wegstrepen. Dit geeft <block-math/> Als we dan ook nog factoren <inline-math/> wegstrepen, dan komen we uit op <block-math/> Merk op dat elke term los door de factor <inline-math/> gedeeld is."
+      }
+    },
+    "multiplyTerms": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Vermenigvuldig alle termen met <inline-math/> en vereenvoudig elke hieruit volgende term zo veel als mogelijk.",
+      "step1": {
+        "problem": "Vermenigvuldig beide kanten van de vergelijking met <inline-math/>.",
+        "solution": "Als we een kant van een vergelijking met <inline-math/> vermenigvuldigen, dan is het belangrijk om haakjes te gebruiken. Dit toepassen geeft <block-math/> Merk op dat het niet uitmaakt of de vermenigvuldiging aan de linker of de rechterkant zetten: dit komt op hetzelfde neer."
+      },
+      "step2": {
+        "problem": "Werk alle aanwezige haakjes uit.",
+        "solution": "Om de haakjes uit te werken, vermenigvuldigen we los elke term binnen de haakjes met de factor buiten de haakjes. Dit geeft <block-math/> Het is handig om de producten al een beetje verder te vereenvoudigen, waarmee we uitkomen op <block-math/>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig elk van de termen zo veel als mogelijk.",
+        "solution": "Het enige dat nog gedaan moet worden is de breuken vereenvoudigen door factoren van <inline-math/> weg te strepen. Zo komen we uit op <block-math/> Merk op dat elke term los met de factor <inline-math/> vermenigvuldigd is."
+      }
+    }
+  },
+  "crossExerciseFeedback": {
+    "incorrectForm": "<a>Beide kanten moeten van de vorm <inline-math/> zijn. Je <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant is niet op deze manier opgezet.</a>",
+    "incorrectCopy": "<a>Het lijkt erop dat je de oorspronkelijke vergelijking aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant niet correct overgenomen hebt.</a>"
   }
 }

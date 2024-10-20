@@ -767,39 +767,46 @@
     },
     "eduContent/mathematics/algebra/equations/manipulating/rational/multiplyAllEquationTerms": {
       "practice.divideTerms.mainProblem": {
+        "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+        "latestUpdate": "2024-10-20T14:35:40.618Z",
+        "latestText": "Consider the equation <block-math/> Divide all terms by <inline-math/> and simplify each resulting term as much as possible."
       },
       "practice.divideTerms.step1.problem": {
+        "oldText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/>, <inline-math/> and <inline-math/>).",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/>, <inline-math/> and <inline-math/>)."
+        "latestUpdate": "2024-10-20T14:35:40.618Z",
+        "latestText": "Divide both sides of the equation by <inline-math/>."
       },
       "practice.divideTerms.step1.solution": {
+        "oldText": "If we set up the two multiplications, keeping any pluses/minuses in-between, we wind up with <block-math/>",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "If we set up the two multiplications, keeping any pluses/minuses in-between, we wind up with <block-math/>"
+        "latestUpdate": "2024-10-20T14:59:32.687Z",
+        "latestText": "When we divide a side of an equation by <inline-math/> it is important to put the entire original expression in the numerator (above). Doing so results in <block-math/>"
       },
       "practice.divideTerms.step2.problem": {
+        "oldText": "Where possible, inside each term, merge products of numbers together into a single factor.",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "Where possible, inside each term, merge products of numbers together into a single factor."
+        "latestUpdate": "2024-10-20T14:36:23.432Z",
+        "latestText": "Split up all fractions into separate fractions, so that there is no sum in any numerator anymore."
       },
       "practice.divideTerms.step2.solution": {
+        "oldText": "All three terms have a multiplication of two numbers. We can simplify all of them. This gives us <block-math/>",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "All three terms have a multiplication of two numbers. We can simplify all of them. This gives us <block-math/>"
+        "latestUpdate": "2024-10-20T15:01:37.162Z",
+        "latestText": "When splitting up a fraction, we divide every term in the numerator (above) separately by the entire denominator (below). This turns the equation into <block-math/>"
       },
       "practice.divideTerms.step3.problem": {
+        "oldText": "Where possible, inside each term, merge products of equal factors into a power.",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "Where possible, inside each term, merge products of equal factors into a power."
+        "latestUpdate": "2024-10-20T14:29:58.406Z",
+        "latestText": "Simplify each of the resulting terms as much as possible."
       },
       "practice.divideTerms.step3.solution": {
+        "oldText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>, and the multiplication of <inline-math/> with <inline-math/> becomes <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>.",
         "firstUpdate": "2024-10-20T10:32:21.296Z",
-        "latestUpdate": "2024-10-20T10:32:21.296Z",
-        "latestText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>, and the multiplication of <inline-math/> with <inline-math/> becomes <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+        "latestUpdate": "2024-10-20T15:01:37.162Z",
+        "latestText": "First we can cancel out any shared numerical factors. This gets us <block-math/> If we then also cross out factors of <inline-math/>, we end up with <block-math/> Note that every term has been divided individually by the factor <inline-math/>."
       },
       "practice.multiplyTerms.mainProblem": {
         "oldText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
@@ -814,10 +821,10 @@
         "latestText": "Multiply both sides of the equation by <inline-math/>."
       },
       "practice.multiplyTerms.step1.solution": {
-        "oldText": "When we multiply each side of the equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/>",
+        "oldText": "When we multiply a side of an equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/>",
         "firstUpdate": "2024-10-20T10:52:19.993Z",
         "latestUpdate": "2024-10-20T10:54:00.922Z",
-        "latestText": "When we multiply each side of the equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same."
+        "latestText": "When we multiply a side of an equation by <inline-math/> it is important to use brackets. Doing so results in <block-math/> Note that it does not matter if we put the multiplication on the left or on the right: this comes down to the same."
       },
       "practice.multiplyTerms.step2.problem": {
         "oldText": "Expand all brackets.",
@@ -840,18 +847,28 @@
       "practice.multiplyTerms.step3.solution": {
         "oldText": "Crossing out factors of <inline-math/> and merging number products where relevant, we end up with <block-math/>",
         "firstUpdate": "2024-10-20T10:52:19.993Z",
-        "latestUpdate": "2024-10-20T12:07:16.970Z",
-        "latestText": "The only thing left to do is crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
+        "latestUpdate": "2024-10-20T15:05:47.616Z",
+        "latestText": "The only thing left to do is simplifying the fractions by crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
       },
-      "crossExerciseFeedback.incorrectFactor": {
+      "crossExerciseFeedback.incorrectForm": {
         "firstUpdate": "2024-10-20T11:52:45.912Z",
         "latestUpdate": "2024-10-20T11:52:45.912Z",
         "latestText": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>"
       },
-      "crossExerciseFeedback.incorrectPartInBrackets": {
+      "crossExerciseFeedback.incorrectCopy": {
         "oldText": "<a>Both sides should be of the form <inline-math/>, where the brackets should be copied from the original equation. You didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>",
         "firstUpdate": "2024-10-20T11:58:24.537Z",
         "latestUpdate": "2024-10-20T11:59:58.756Z",
+        "latestText": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
+      },
+      "crossExerciseFeedback.incorrectDenominator": {
+        "firstUpdate": "2024-10-20T14:54:48.492Z",
+        "latestUpdate": "2024-10-20T14:54:48.492Z",
+        "latestText": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>"
+      },
+      "crossExerciseFeedback.incorrectPartInNumerator": {
+        "firstUpdate": "2024-10-20T14:55:12.876Z",
+        "latestUpdate": "2024-10-20T14:55:12.876Z",
         "latestText": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
       }
     }
