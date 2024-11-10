@@ -59,7 +59,7 @@ let courses = {
 
 	algebraBasics: {
 		name: 'Mathematics: algebra basics',
-		goals: ['solveGeneralLinearEquation'],
+		goals: ['pullFactorOutOfBrackets', 'addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables', 'solveLinearEquationWithFractions'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -83,14 +83,14 @@ let courses = {
 			},
 			{
 				name: 'Rearranging equations',
-				goals: ['moveEquationTerm', 'multiplyDivideAllTerms'],
+				goals: ['moveEquationTerm', 'moveEquationFactor'],
 			},
 			{
 				name: 'Solve linear equations',
-				goals: ['solveGeneralLinearEquation'],
+				goals: ['solveLinearEquationWithFractions'],
 			},
 		],
-		setup: pick(['simplifyMultiVariableFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
+		setup: pick(['pullFactorOutOfBrackets', 'addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables', 'solveLinearEquation', 'solveLinearEquationWithFractions']),
 	},
 
 	mathematicsFundamentals: {
