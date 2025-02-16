@@ -28,3 +28,26 @@ function forceIntoShape(list, shape) {
 	return result
 }
 module.exports.forceIntoShape = forceIntoShape
+
+// getAllCombinations takes an array of arrays, like [[a,b],[c],[d,e,f]] and returns a list of all possible combinations from one element of each array. So it returns [[a,c,d],[a,c,e],[a,c,f],[b,c,d],[b,c,e],[b,c,f]].
+function getAllCombinations(list) {
+	// Check the input.
+	if (!Array.isArray(list) || list.some(entry => !Array.isArray(entry)))
+		throw new Error(`Invalid input argument: getAllCombinations expects its input to be an array of arrays, but this was not the case. It received: ${JSON.stringify(list)}`)
+
+	// On a single list-element, return it directly as a list of single-length arrays.
+	if (list.length === 1)
+		return list[0].map(entry => [entry])
+
+	// Recursively go through the list.
+	const result = []
+	const leftEntry = list[0]
+	const laterCombinations = getAllCombinations(list.slice(1))
+	leftEntry.forEach(entry => {
+		laterCombinations.forEach(combination => {
+			result.push([entry, ...combination])
+		})
+	})
+	return result
+}
+module.exports.getAllCombinations = getAllCombinations

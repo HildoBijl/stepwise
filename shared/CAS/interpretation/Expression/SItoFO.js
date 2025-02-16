@@ -1,6 +1,6 @@
 const { isLetter, getNextSymbol, lastOf, processOptions, filterOptions, InterpretationError } = require('../../../util')
 
-const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
+const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
@@ -126,10 +126,12 @@ function interpretSums(value, settings) {
 		if (start.part === end.part && start.cursor === end.cursor)
 			return
 
-		// Extract the expression and check if it needs a minus sign.
+		// Extract the expression and check if it needs a minus or plus/minus sign.
 		let interpretedExpression = interpretProducts(getSubExpression(value, start, end), settings)
 		if (lastSymbol === '-')
 			interpretedExpression = interpretedExpression.applyMinus(false)
+		else if (lastSymbol === '±')
+			interpretedExpression = interpretedExpression.multiply(new PlusMinus(), true)
 		sumTerms.push(interpretedExpression)
 	}
 
@@ -142,10 +144,10 @@ function interpretSums(value, settings) {
 
 		// Walk through the plus/minuses and process the resulting parts.
 		const str = element.value
-		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-'], startFrom + 1)
+		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-', '±'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
 			const currentSymbol = str[nextPlusMinus]
-			const end = { part, cursor: nextPlusMinus }
+			let end = { part, cursor: nextPlusMinus }
 
 			// Check that there is no plus at the start.
 			if (end.part === 0 && end.cursor === 0 && currentSymbol === '+')
@@ -153,13 +155,21 @@ function interpretSums(value, settings) {
 
 			// Check that there are not two consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (start.part === end.part && start.cursor === end.cursor) {
-				if (lastSymbol === '-' || currentSymbol === '+')
+				if (lastSymbol === currentSymbol || currentSymbol === '+')
 					throw new InterpretationError('DoublePlusMinus', `${lastSymbol}${currentSymbol}`, `Could not interpret the Expression due to a double plus/minus.`)
 			}
 
-			// Check if there is a minus sign preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
-			if (currentSymbol === '-' && str[nextPlusMinus - 1] === '*')
+			// Check if there is a minus sign or plus/minus preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
+			if ((currentSymbol === '-' || currentSymbol === '±') && str[nextPlusMinus - 1] === '*')
 				continue
+
+			// If we have "2+-3" or "2±-3" or "2-±3" or similar, then jump over the second plus/minus character and incorporate it into the string to be interpreted.
+			if (start.part === end.part && start.cursor === end.cursor) {
+				nextPlusMinus = getNextPlusMinus(nextPlusMinus)
+				if (nextPlusMinus === -1)
+					break
+				end = { part, cursor: nextPlusMinus }
+			}
 
 			// Extract the expression from the last plus or minus and interpret it.
 			addTerm(start, end)
@@ -189,13 +199,14 @@ function interpretProducts(value, settings) {
 	// Set up a handler to add factors to the product.
 	const productFactors = []
 	const addFactor = (start, end) => {
-		// Add the factor to the product. If there is a minus at the start of this term, like in "3*-5", then apply this: move the start cursor one to the right and multiply the result by minus one.
-		const minusAfterTimes = (value[start.part].value[start.cursor] === '-')
+		// Add the factor to the product. If there is a minus at the start of this term, like in "3*-5", then apply this: move the start cursor one to the right and multiply the result by minus one. Or identically with a plus/minus "3*±5" do the same.
+		const firstChar = value[start.part].value[start.cursor]
+		const minusAfterTimes = (firstChar === '-' || firstChar === '±')
 		if (minusAfterTimes)
 			start = moveRight(start)
 		let interpretedExpression = interpretRemaining(getSubExpression(value, start, end), settings)
 		if (minusAfterTimes)
-			interpretedExpression = interpretedExpression.applyMinus()
+			interpretedExpression = (firstChar === '-' ? interpretedExpression.applyMinus() : interpretedExpression.multiply(new PlusMinus(), true))
 		productFactors.push(interpretedExpression)
 	}
 

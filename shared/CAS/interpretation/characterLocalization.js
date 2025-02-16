@@ -16,7 +16,7 @@ module.exports.findNextClosingBracket = findNextClosingBracket
 
 // findEndOfTerm takes an Expression value and a cursor position, and searches for the end of the term in the given direction. (Default: toRight = true.) If atLeastOneCharacter is set to "true" (default false) then the first character encountered is ignored. Basically this function searches for the first plus/minus/times/closing-bracket in the given direction when the net bracket count is zero. This is useful when for instance creating a fraction, to know what needs to be placed inside the fraction.
 function findEndOfTerm(value, cursor, toRight = true, atLeastOneCharacter = false) {
-	const endOfTermCharacters = ['=', '+', '-', '*', '/', toRight ? ')' : '(']
+	const endOfTermCharacters = ['=', '+', '-', '±', '*', '/', toRight ? ')' : '(']
 	return findCharacterAtZeroBracketCount(value, cursor, endOfTermCharacters, toRight, atLeastOneCharacter)
 }
 module.exports.findEndOfTerm = findEndOfTerm

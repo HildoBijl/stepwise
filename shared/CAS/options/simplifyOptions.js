@@ -4,7 +4,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Constant options.
 	turnFloatsIntoIntegers: false, // Turns floats into integers whenever they are floats. So when 4.5/1.5 is reduced to 3.0 it becomes 3.
 	factorizeIntegers: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
-
+	
 	// Sum options.
 	flattenSums: false, // Turn x+(y+z) into x+y+z.
 	removeTrivialSums: false, // Turn a sum with zero or one element into 0 or said element, respectively.
@@ -21,6 +21,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	removeTrivialProducts: false, // Turn a product with zero or one element into 1 or said element, respectively.
 	removeTimesZeroFromProduct: false, // Turn "[...]*0" into "0".
 	removeTimesOneFromProducts: false, // Remove "*1" from products.
+	pullPlusMinusToFront: false, // Within products pull the plus/minus symbol to the front and merge multiple plus/minus symbols.
 	mergeProductNumbers: false, // Reduce the number of numbers that are used in products. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z.
 	mergeProductMinuses: false, // Reduces the negative numbers in products. Turns "-2*x*-3*-1*4" into "-2*x*3*1*4". If mergeProductNumbers is on this option is ignored.
 	mergeInitialMinusOne: false, // Reduces a minus one at the start into a number where appropriate. So "-1 * 2" becomes "-2" but "2 * -1" and "-2 * 1" stay the same.
@@ -107,6 +108,7 @@ const elementaryClean = {
 	...structureOnly,
 	mergeFractionProducts: true,
 	mergeInitialMinusOne: true, // This is necessary to make "-(2)/(3)" equal to "(-2)/(3)" and not get confused with "((-1)*2)/(3)".
+	pullPlusMinusToFront: true,
 }
 module.exports.elementaryClean = { ...noSimplify, ...elementaryClean }
 
