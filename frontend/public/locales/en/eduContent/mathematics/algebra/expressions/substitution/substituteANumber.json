@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>substitute</term> a variable in an expression by a number. For instance, given the expression <inline-math/> you can insert <inline-math/> to wind up with the number <inline-math/>. Subsequently you can simplify this to a single number like <inline-math/>. So this skill encompasses the simplification of the resulting expression as well, but only up to the point of using summations and multiplications. No skills related to fractions, powers, etcetera are required.</par>"
+  }
+}

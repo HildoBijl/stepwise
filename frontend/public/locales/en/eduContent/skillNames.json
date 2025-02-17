@@ -47,7 +47,7 @@
     "algebra": {
       "expressions": {
         "substitution": {
-          "applyNumberSubstitution": "Apply number substitution"
+          "substituteANumber": "Substitute a number"
         },
         "simplification": {
           "simplifyNumberProduct": "Simplify number product",

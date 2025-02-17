@@ -113,8 +113,8 @@ const skillStructure = {
 			// New part for skill tree updating.
 			expressions: {
 				substitution: {
-					applyNumberSubstitution: {
-						name: 'Apply number substitution',
+					substituteANumber: {
+						name: 'Substitute a number',
 					},
 				},
 				simplification: {
@@ -260,7 +260,7 @@ const skillStructure = {
 					quadraticEquations: {
 						solveQuadraticEquation: {
 							name: 'Solve quadratic equation',
-							setup: and('applyNumberSubstitution', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution'), // Note: these skills have not been implemented yet.
+							setup: and('substituteANumber', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution'), // Note: these skills have not been implemented yet.
 							examples: ['oneSolution'],
 							examples: ['noSolutions', 'oneSolution', 'twoIntegerSolutions', 'twoRandomSolutions'],
 						},

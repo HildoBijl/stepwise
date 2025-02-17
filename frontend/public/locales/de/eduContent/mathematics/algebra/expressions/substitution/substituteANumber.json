@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, wie du eine Zahl anstelle einer Variablen <term>einsetzen</term> kannst. Zum Beispiel im Ausdruck <inline-math/> kannst du <inline-math/> eingeben, um die Zahl <inline-math/> zu erhalten. Anschließend kannst du diese zu einer einzigen Zahl als <inline-math/> vereinfachen. Diese Kompetenz umfasst also auch die Vereinfachung des sich ergebenden Ausdrucks, aber nur bis zum Punkt der Vereinfachung von Additionen/Multiplikationen. Es sind keine Kenntnisse über Brüche, Potenzen und so weiter erforderlich.</par>"
+  }
+}
