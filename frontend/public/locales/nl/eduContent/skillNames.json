@@ -33,15 +33,22 @@
           "multiplyDivideFractions": "Breuken vermenigvuldigen/delen"
         },
         "simplification": {
-          "simplifyFractionOfFractions": "Breuk van breuken vereenvoudigen"
+          "simplifyFractionOfFractions": "Breuk van breuken vereenvoudigen",
+          "simplifyFractionSum": "Som van breuken vereenvoudigen"
         }
       },
       "powers": {
         "rewritePower": "Macht herschrijven"
+      },
+      "roots": {
+        "simplifyRoot": "Wortel vereenvoudigen"
       }
     },
     "algebra": {
       "expressions": {
+        "substitution": {
+          "applyNumberSubstitution": "Getal substituëren"
+        },
         "simplification": {
           "simplifyNumberProduct": "Vermenigvuldiging van getallen vereenvoudigen",
           "cancelSumTerms": "Somtermen wegstrepen",
@@ -79,7 +86,8 @@
             "moveEquationFactor": "Vergelijkingsfactor verplaatsen"
           },
           "rational": {
-            "multiplyAllEquationTerms": "Alle vergelijkingstermen vermenigvuldigen"
+            "multiplyAllEquationTerms": "Alle vergelijkingstermen vermenigvuldigen",
+            "bringEquationToStandardForm": "Vergelijking in standaardvorm brengen"
           }
         },
         "solving": {
@@ -89,6 +97,10 @@
           "linearEquations": {
             "solveLinearEquation": "Lineaire vergelijking oplossen",
             "solveLinearEquationWithFractions": "Lineaire vergelijking met breuken oplossen"
+          },
+          "quadraticEquations": {
+            "solveQuadraticEquation": "Kwadratische vergelijking oplossen",
+            "solveRewrittenQuadraticEquation": "Herschreven kwadratische vergelijking oplossen"
           }
         }
       },

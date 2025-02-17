@@ -92,6 +92,9 @@ const skillStructure = {
 					simplifyFractionOfFractions: {
 						name: 'Simplify fraction of fractions',
 					},
+					simplifyFractionSum: {
+						name: 'Simplify fraction sum',
+					},
 				},
 			},
 			powers: {
@@ -99,11 +102,21 @@ const skillStructure = {
 					name: 'Rewrite power',
 				},
 			},
+			roots: {
+				simplifyRoot: {
+					name: 'Simplify root',
+				},
+			},
 		},
 
 		algebra: {
 			// New part for skill tree updating.
 			expressions: {
+				substitution: {
+					applyNumberSubstitution: {
+						name: 'Apply number substitution',
+					},
+				},
 				simplification: {
 					simplifyNumberProduct: {
 						name: 'Simplify number product',
@@ -214,7 +227,10 @@ const skillStructure = {
 							examples: ['multiplyTerms', 'divideTerms'],
 							exercises: ['multiplyTerms', 'divideTerms'],
 						},
-						// Multiply all equation terms, bring equation to standard form.
+						bringEquationToStandardForm: {
+							name: 'Bring equation to standard form',
+							setup: and('multiplyAllEquationTerms', 'expandDoubleBrackets', 'moveEquationTerm'),
+						},
 					},
 				},
 				solving: {
@@ -239,6 +255,18 @@ const skillStructure = {
 							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'solveLinearEquation'),
 							examples: ['twoFractionsWithNumber'],
 							exercises: ['oneFractionWithNumber', 'oneFractionWithVariable', 'twoFractionsWithNumber', 'twoFractionsWithVariable'],
+						},
+					},
+					quadraticEquations: {
+						solveQuadraticEquation: {
+							name: 'Solve quadratic equation',
+							setup: and('applyNumberSubstitution', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution'), // Note: these skills have not been implemented yet.
+							examples: ['oneSolution'],
+							examples: ['noSolutions', 'oneSolution', 'twoIntegerSolutions', 'twoRandomSolutions'],
+						},
+						solveRewrittenQuadraticEquation: {
+							name: 'Solve rewritten quadratic equation',
+							setup: and('bringEquationToStandardForm', 'solveQuadraticEquation'),
 						},
 					},
 				},

@@ -33,15 +33,22 @@
           "multiplyDivideFractions": "Multiply/divide fractions"
         },
         "simplification": {
-          "simplifyFractionOfFractions": "Simplify fraction of fractions"
+          "simplifyFractionOfFractions": "Simplify fraction of fractions",
+          "simplifyFractionSum": "Simplify fraction sum"
         }
       },
       "powers": {
         "rewritePower": "Rewrite power"
+      },
+      "roots": {
+        "simplifyRoot": "Simplify root"
       }
     },
     "algebra": {
       "expressions": {
+        "substitution": {
+          "applyNumberSubstitution": "Apply number substitution"
+        },
         "simplification": {
           "simplifyNumberProduct": "Simplify number product",
           "cancelSumTerms": "Cancel sum terms",
@@ -79,7 +86,8 @@
             "moveEquationFactor": "Move equation factor"
           },
           "rational": {
-            "multiplyAllEquationTerms": "Multiply all equation terms"
+            "multiplyAllEquationTerms": "Multiply all equation terms",
+            "bringEquationToStandardForm": "Bring equation to standard form"
           }
         },
         "solving": {
@@ -89,6 +97,10 @@
           "linearEquations": {
             "solveLinearEquation": "Solve linear equation",
             "solveLinearEquationWithFractions": "Solve linear equation with fractions"
+          },
+          "quadraticEquations": {
+            "solveQuadraticEquation": "Solve quadratic equation",
+            "solveRewrittenQuadraticEquation": "Solve rewritten quadratic equation"
           }
         }
       },

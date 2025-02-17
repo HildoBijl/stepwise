@@ -33,15 +33,22 @@
           "multiplyDivideFractions": "Brüche multiplizieren/dividieren"
         },
         "simplification": {
-          "simplifyFractionOfFractions": "Bruch mit Brüchen vereinfachen"
+          "simplifyFractionOfFractions": "Bruch mit Brüchen vereinfachen",
+          "simplifyFractionSum": "Summe von Brüchen vereinfachen"
         }
       },
       "powers": {
         "rewritePower": "Potenz umschreiben"
+      },
+      "roots": {
+        "simplifyRoot": "Wurzel vereinfachen"
       }
     },
     "algebra": {
       "expressions": {
+        "substitution": {
+          "applyNumberSubstitution": "Einsetzen einer Zahl"
+        },
         "simplification": {
           "simplifyNumberProduct": "Multiplikation von Zahlen vereinfachen",
           "cancelSumTerms": "Summenterme entfernen",
@@ -79,7 +86,8 @@
             "moveEquationFactor": "Gleichungsfaktor verschieben"
           },
           "rational": {
-            "multiplyAllEquationTerms": "Alle Gleichungsterme multiplizieren"
+            "multiplyAllEquationTerms": "Alle Gleichungsterme multiplizieren",
+            "bringEquationToStandardForm": "Gleichung in Standardform bringen"
           }
         },
         "solving": {
@@ -89,6 +97,10 @@
           "linearEquations": {
             "solveLinearEquation": "Lineare Gleichung lösen",
             "solveLinearEquationWithFractions": "Lineare Gleichung mit Brüchen lösen"
+          },
+          "quadraticEquations": {
+            "solveQuadraticEquation": "Quadratische Gleichung lösen",
+            "solveRewrittenQuadraticEquation": "Umgeschriebene quadratische Gleichung lösen"
           }
         }
       },
