@@ -18,6 +18,19 @@ function numberArray(p1, p2) {
 }
 module.exports.numberArray = numberArray
 
+// range creates an array with numbers from start (inclusive) to end (inclusive) with the given number of steps. When given n steps, the array will have n+1 points. For instance, range(2, 4, 5) will give [2, 2.4, 2.8, 3.2, 3.6, 4] so it has five steps but six points.
+function range(start, end, numSteps) {
+	// Check input.
+	start = ensureNumber(start)
+	end = ensureNumber(end)
+	numSteps = ensureInt(numSteps, true, true) // We need a positive number of steps.
+
+	// Iterate.
+	const step = (end - start) / numSteps
+	return numberArray(0, numSteps).map(index => start + index * step)
+}
+module.exports.range = range
+
 // spread creates an array with numbers from start (inclusive) to end (inclusive if possible) with the given step. So spread(5,11,2) gives [5,7,9,11] while spread(5,10,2) gives [5,7,9]. It is similar to Python's 5:11:2 (except Python does not include the end point while this function does).
 function spread(start, end, step = 1) {
 	// Check input.

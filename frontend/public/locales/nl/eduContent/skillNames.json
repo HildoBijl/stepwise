@@ -47,7 +47,7 @@
     "algebra": {
       "expressions": {
         "substitution": {
-          "substituteANumber": "Getal substituëren"
+          "substituteANumber": "Getal invullen"
         },
         "simplification": {
           "simplifyNumberProduct": "Vermenigvuldiging van getallen vereenvoudigen",
