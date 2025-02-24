@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>solve a quadratic equation</term> when it is in its standard form <inline-math/>. For instance, with <inline-math/> you can determine there is one solution <inline-math/>, with <inline-math/> you can find the two solutions <inline-math/> and reduce this to <inline-math/> or <inline-math/>, and with <inline-math/> you can end up at <inline-math/>. This includes determining the number of solutions, <skill-link>simplifying the square root</skill-link> (pulling out factors) and <skill-link>simplifying the resulting fraction</skill-link>. This skill does not include <skill-link>rewritten quadratic equations</skill-link> which still have to be <skill-link>brought to standard form</skill-link> first.</par>"
+  }
+}

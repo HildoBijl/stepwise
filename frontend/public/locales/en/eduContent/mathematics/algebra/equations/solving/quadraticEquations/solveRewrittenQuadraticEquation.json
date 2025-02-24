@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>solve a quadratic equation</term> even when it is written in a different form. If you have an equation like <inline-math/> then you will be able to reduce this to <inline-math/> and subsequently solve this as <inline-math/>. This includes <skill-link>bringing the equation to the standard form</skill-link> and subsequently <skill-link>solving the quadratic equation</skill-link>, simplifying the result as much as possible. This skill does not include solving equations that do not reduce to a quadratic equation.</par>"
+  }
+}
