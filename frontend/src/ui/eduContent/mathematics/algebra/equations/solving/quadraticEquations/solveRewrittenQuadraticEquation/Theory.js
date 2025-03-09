@@ -14,7 +14,7 @@ export function Theory() {
 
 		<Translation entry="firstClean">
 			<Head>Always start with cleaning</Head>
-			<Par>Consider an equation like <BM>\frac(2)(x-4) + 2 = \frac(3)(x+1).</BM> When you encounter an equation like this, the first thing you'll always do (no matter the type of equation) is tidy it up. If possible, <SkillLink skillId="bringEquationToStandardForm">bring it to the standard form</SkillLink>. For the above example equation, we can multiply by the denominators of both fractions to write it as <BM>2\left(x+1\right) + 2\left(x-4\right)\left(x+1\right) = 3\left(x-4\right).</BM> Subsequently, we can expand all the brackets and bring all the terms to the right to wind up with <BM>2x^2 - 7x + 6 = 0.</BM> We have simplified the equation as much as we can, bringing it to standard form. (Optionally we can still normalize it.)</Par>
+			<Par>Consider an equation like <BM>\frac(2)(x-4) + 2 = \frac(3)(x+1).</BM> When you encounter an equation like this, the first thing you'll always do (no matter the type of equation) is tidy it up. If possible, <SkillLink skillId="bringEquationToStandardForm">bring it to the standard form</SkillLink>. For the above example equation, we can multiply all terms by the denominators of both fractions to write it as <BM>2\left(x+1\right) + 2\left(x-4\right)\left(x+1\right) = 3\left(x-4\right).</BM> Subsequently, we can expand all the brackets and bring all the terms to the left to wind up with <BM>2x^2 - 7x + 6 = 0.</BM> We have simplified the equation as much as we can, bringing it to standard form. (Optionally we can still normalize it.)</Par>
 		</Translation>
 		
 		<Translation entry="recognizeAndSolve">

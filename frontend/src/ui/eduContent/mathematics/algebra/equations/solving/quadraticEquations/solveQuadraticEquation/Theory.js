@@ -50,7 +50,7 @@ export function Theory() {
 				<BM>x = \frac(8 \pm \sqrt(-16))(4).</BM>
 				Note that we now have a square root of a negative number. This is a mathematical impossibility: we cannot take square roots of negative numbers. Because our general solution gives a mathematical impossibility, there are no solutions possible to our equation.
 			</Par>
-			<Par>In short: if the square root of the solution contains a negative number (so <M>b^2 - 4ac &lt; 0</M>) then the quadratic equation has no solutions. </Par>
+			<Par>In short: if the square root within the solution contains a negative number (so <M>b^2 - 4ac &lt; 0</M>) then the quadratic equation has no solutions. </Par>
 		</Translation>
 
 		<Translation entry="oneSolution">
