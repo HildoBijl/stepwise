@@ -31,11 +31,11 @@
         "problem": "Simplify the expression on the <check><on-true>right</on-true><on-false>left</on-false></check> side by canceling sum terms where possible.",
         "solution": "By canceling terms, we see that everything on the <check><on-true>right</on-true><on-false>left</on-false></check> side of the equation reduces to zero. We are left with <block-math/> Note that all terms have indeed been moved to the <check><on-true>left</on-true><on-false>right</on-false></check>. The <check><on-true>right</on-true><on-false>left</on-false></check> side has nothing (zero) left."
       }
+    },
+    "crossExercise": {
+      "termsNotCanceled": "<a>You <check><on-true>subtracted the correct term from</on-true><on-false>added the correct term to</on-false></check> both sides, but you still have to cancel some terms.</a>",
+      "termsLeft": "<a>There are still terms left on the <check><on-true>right</on-true><on-false>left</on-false></check> side of the equation.</a>",
+      "wrongSignUsed": "<a>If the term is <check><on-true>added (with plus sign)</on-true><on-false>subtracted (with minus sign)</on-false></check> on one side, then when it's brought to the other side it should be <check><on-true>subtracted (with minus sign)</on-true><on-false>added (with plus sign)</on-false></check>.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "termsNotCanceled": "<a>You <check><on-true>subtracted the correct term from</on-true><on-false>added the correct term to</on-false></check> both sides, but you still have to cancel some terms.</a>",
-    "termsLeft": "<a>There are still terms left on the <check><on-true>right</on-true><on-false>left</on-false></check> side of the equation.</a>",
-    "wrongSignUsed": "<a>If the term is <check><on-true>added (with plus sign)</on-true><on-false>subtracted (with minus sign)</on-false></check> on one side, then when it's brought to the other side it should be <check><on-true>subtracted (with minus sign)</on-true><on-false>added (with plus sign)</on-false></check>.</a>"
   }
 }

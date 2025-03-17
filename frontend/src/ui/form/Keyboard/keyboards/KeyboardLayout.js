@@ -45,7 +45,6 @@ export function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, 
 
 	// Check which keys are needed.
 	keys = resolveFunctions(keys, properties)
-
 	return (
 		<div ref={keyboardLayoutRef} className={clsx(classes.keyboardLayout, 'keyboardLayout')}>
 			{keys.map(keyID => (

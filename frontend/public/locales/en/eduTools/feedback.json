@@ -121,14 +121,15 @@
     "unsimplifiedFractionNumbers": "The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.",
     "unsimplifiedFractionFactors": "There are still factors that can be canceled in the numerator and the denominator.",
     "fractionNumeratorHasSumWithinProduct": "There are still unexpanded brackets in the numerator.",
+    "hasPower": "Your solution still has an exponent. You can simplify this further.",
+    "wrongSign": "You haven't used the right sign. Check your pluses and minuses.",
     "incorrectFraction": {
       "noFraction": "Hmm ... a fraction was expected as a solution here.",
       "inverted": "You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!",
       "incorrectNumerator": "The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?",
       "incorrectDenominator": "The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?",
       "constantMultiple": "You seem to be off by a constant multiple."
-    },
-    "hasPower": "Your solution still has an exponent. You can simplify this further."
+    }
   },
   "equation": {
     "original": "This is the original equation. You have not rewritten it yet.",

@@ -88,7 +88,7 @@
 	},
 	"numeric": {
 		"withinMargin": "Deine Antwort liegt noch innerhalb des Bereichs, könnte aber genauer sein.",
-		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfen Sie Plus- und Minuszeichen.",
+		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.",
 		"nearby": "Du bist sehr nah dran! Mach deine Antwort ein bisschen genauer.",
 		"notZeroPositive": "Null ist leider nicht richtig. Wir erwarten hier eine Zahl.",
 		"notZeroNegative": "Null ist leider nicht richtig. Wir erwarten hier eine (möglicherweise negative) Zahl.",
@@ -121,14 +121,15 @@
 		"unsimplifiedFractionNumbers": "Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.",
 		"unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
 		"fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
+		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben.",
+		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.",
 		"incorrectFraction": {
 			"noFraction": "Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.",
 			"inverted": "Du hast deinen Bruch falsch herum eingegeben. Achte genau darauf, was durch was geteilt werden muss!",
 			"incorrectNumerator": "Der Zähler deines Bruches (oben) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?",
 			"incorrectDenominator": "Der Nenner deines Bruchs (unten) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?",
 			"constantMultiple": "Du scheinst dich um eine konstante Multiplikation zu irren."
-		},
-		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben."
+		}
 	},
 	"equation": {
 		"original": "Dies ist die ursprüngliche Gleichung. Du hast noch nichts damit gemacht.",

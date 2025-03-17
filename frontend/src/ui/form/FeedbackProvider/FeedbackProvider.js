@@ -13,6 +13,8 @@ import { useFormData } from '../Form'
 import { FeedbackContext } from './context'
 import { processFeedback } from './processing'
 
+export const crossExerciseTranslationPath = `practice.crossExercise`
+
 /* The FeedbackProvider takes the following properties.
  * - children: whatever is shown inside the Provider.
  * - input: the input which feedback should be given on. When it changes, the feedback is automatically updated.
@@ -22,9 +24,11 @@ import { processFeedback } from './processing'
  */
 export function FeedbackProvider({ children, getFeedback, input, exerciseData = {} }) {
 	const theme = useTheme()
+
+	// Add some useful translation handlers.
 	const rawTranslate = useTranslator()
 	const translate = addSection(rawTranslate, `practice.${getExerciseName(exerciseData.exerciseId)}.feedback`, false)
-	const translateCrossExercise = addSection(rawTranslate, `crossExerciseFeedback`, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
+	const translateCrossExercise = addSection(rawTranslate, crossExerciseTranslationPath, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
@@ -50,7 +54,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const inputFO = toFO(input, true)
 			const previousInputFO = toFO(previousInput, true)
 			let result = getFeedback({
-				...filterProperties(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state']),
+				...filterProperties(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state', 'example']),
 				input: inputFO,
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,

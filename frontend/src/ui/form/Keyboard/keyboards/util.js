@@ -31,6 +31,8 @@ export function simplifyKey(key) {
 			return '+'
 		case 'Minus':
 			return '-'
+		case 'PlusMinus':
+			return '±'
 		case 'Times':
 			return '*'
 		case 'Divide':

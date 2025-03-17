@@ -39,10 +39,10 @@
         "problem": "Vereenvoudig elk van de termen zo veel als mogelijk.",
         "solution": "Het enige dat nog gedaan moet worden is de breuken vereenvoudigen door factoren van <inline-math/> weg te strepen. Zo komen we uit op <block-math/> Merk op dat elke term los met de factor <inline-math/> vermenigvuldigd is."
       }
+    },
+    "crossExercise": {
+      "incorrectForm": "<a>Beide kanten moeten van de vorm <inline-math/> zijn. Je <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant is niet op deze manier opgezet.</a>",
+      "incorrectCopy": "<a>Het lijkt erop dat je de oorspronkelijke vergelijking aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant niet correct overgenomen hebt.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "incorrectForm": "<a>Beide kanten moeten van de vorm <inline-math/> zijn. Je <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant is niet op deze manier opgezet.</a>",
-    "incorrectCopy": "<a>Het lijkt erop dat je de oorspronkelijke vergelijking aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant niet correct overgenomen hebt.</a>"
   }
 }

@@ -39,10 +39,10 @@
         "problem": "Simplify each of the resulting terms as much as possible.",
         "solution": "The only thing left to do is simplifying the fractions by crossing out factors of <inline-math/>. We end up with <block-math/> Note that every term has been multiplied individually by the factor <inline-math/>."
       }
+    },
+    "crossExercise": {
+      "incorrectForm": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>",
+      "incorrectCopy": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "incorrectForm": "<a>Both sides should be of the form <inline-math/>. Your <check><on-true>left</on-true><on-false>right</on-false></check> side is not set up this way.</a>",
-    "incorrectCopy": "<a>It looks like you didn't copy the original equation properly on the <check><on-true>left</on-true><on-false>right</on-false></check> side.</a>"
   }
 }

@@ -71,11 +71,11 @@
         "problem": "Merge similar terms (with equal power of <inline-math/>) together to simplify the result as much as possible.",
         "solution": "<par>There are two terms that have <inline-math/> as a factor, being <inline-math/> and again <inline-math/>. Together these can be written as <inline-math/>. The resulting expression then becomes <block-math/> This is our final answer. In short, <inline-math/>.</par><sub-head>Short-cut</sub-head><par>There is a possible short-cut for this question. A square of a sum, like <inline-math/>, always comes out as <inline-math/>. Using this knowledge, we could have also directly seen that <block-math/></par>"
       }
+    },
+    "crossExercise": {
+      "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>",
+      "stillHasPower": "<a>There are still brackets with an exponent above it.</a>",
+      "bracketProductRemains": "<a>Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "wrongBracketsExpanded": "<a>Make sure to expand all brackets, except for <inline-math/>.</a>",
-    "stillHasPower": "<a>There are still brackets with an exponent above it.</a>",
-    "bracketProductRemains": "<a>Make sure to expand one set of brackets: you cannot have brackets multiplied by brackets anymore.</a>"
   }
 }

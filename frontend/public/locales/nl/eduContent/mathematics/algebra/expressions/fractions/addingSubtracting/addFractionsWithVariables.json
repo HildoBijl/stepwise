@@ -24,11 +24,11 @@
         "problem": "Voeg de twee gelijknamige breuken samen en vereenvoudig de teller zo veel als mogelijk.",
         "solution": "Het samenvoegen van de twee breuken via de standaard regel, en het samenvoegen van soortgelijke termen, geeft <block-math/> De teller hier is zo eenvoudig geschreven als mogelijk. Alles bij elkaar is het eindresultaat <block-math/><check><on-true>Eventueel kan dit nog simpeler geschreven worden, als <block-math/></on-true></check>"
       }
+    },
+    "crossExercise": {
+      "unequalDenominators": "<a>De twee breuken hebben niet dezelfde noemer.</a>",
+      "notTwoFractions": "<a>We verwachten een som met twee breuken. Herschrijf alleen de breuken en voeg ze nog niet samen.</a>",
+      "unsimplifiedNumerator": "<a>Je kunt de tellers nog verder vereenvoudigen.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "unequalDenominators": "<a>De twee breuken hebben niet dezelfde noemer.</a>",
-    "notTwoFractions": "<a>We verwachten een som met twee breuken. Herschrijf alleen de breuken en voeg ze nog niet samen.</a>",
-    "unsimplifiedNumerator": "<a>Je kunt de tellers nog verder vereenvoudigen.</a>"
   }
 }

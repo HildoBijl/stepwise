@@ -3,7 +3,7 @@ import React from 'react'
 import { range } from 'step-wise/util'
 
 import { Translation } from 'i18n'
-import { Head, Par, List, Term, Emp, M, BM } from 'ui/components'
+import { Head, Par, List, Term, Emp, M, BM, Info } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
 import { Drawing, usePlotTransformationSettings, Axes, Group, Curve } from 'ui/figures'
 
@@ -67,17 +67,21 @@ export function Theory() {
 			<Par>In short: if the square root of the solution becomes zero (which is the case when <M>b^2 - 4ac = 0</M>) then the quadratic solution has exactly one solution.</Par>
 		</Translation>
 
+		<Translation entry="discriminant">
+			<Info>You have seen that the number within the square root determines how many solutions the equation has. Because of this, this number <M>D = b^2 - 4ac</M> is called the <Term>discriminant</Term> of the equation.</Info>
+		</Translation>
+
 		<Translation entry="steps">
 			<Head>The steps</Head>
 			<Par>To solve a quadratic equation, like <M>2x^2 - 8x + 6 = 0</M>, take the following steps.</Par>
 			<List items={[
 				<>Compare the equation to the standard form <M>ax^2 + bx + c = 0</M> to determine <M>a</M>, <M>b</M> and <M>c</M>. If there is a minus sign, the corresponding number should be negative. For our example we have <M>a = 2</M>, <M>b = -8</M> and <M>c = 6</M>.</>,
 				<><SkillLink skillId="substituteANumber">Substitute</SkillLink> <M>a</M>, <M>b</M> and <M>c</M> into the general solution <M>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a)</M>. For our example we get <M>x = \frac(8 \pm \sqrt(8^2 - 4 \cdot 2 \cdot 6))(2 \cdot 2)</M>.</>,
-				<><SkillLink skillId="simplifyRoot">Simplify the root</SkillLink> and use this to determine the number of solutions.
+				<><SkillLink skillId="simplifyRoot">Simplify the root</SkillLink> and use the number within it (the discriminant) to determine the number of solutions.
 					<List items={[
-						<>If the number in the root is <Emp>positive</Emp> then there are <Emp>two solutions</Emp>.</>,
-						<>If the number in the root is <Emp>negative</Emp> then there are <Emp>no solutions</Emp>.</>,
-						<>If the number in the root is <Emp>zero</Emp> then there is exactly <Emp>one solution</Emp>.</>,
+						<>If the discriminant is <Emp>positive</Emp> then there are <Emp>two solutions</Emp>.</>,
+						<>If the discriminant is <Emp>negative</Emp> then there are <Emp>no solutions</Emp>.</>,
+						<>If the discriminant is <Emp>zero</Emp> then there is exactly <Emp>one solution</Emp>.</>,
 					]} />
 					For our example we get <M>\sqrt(16)</M> so there are two solutions.</>,
 				<><SkillLink skillId="simplifyFractionSum">Simplify the resulting fraction</SkillLink>, canceling fraction factors where possible. For our example <M>x = \frac(8 \pm 4)(4)</M> reduces to <M>x = 2 \pm 1</M>.</>,

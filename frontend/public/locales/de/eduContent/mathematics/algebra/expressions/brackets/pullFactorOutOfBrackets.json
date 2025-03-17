@@ -50,12 +50,12 @@
         "problem": "Prüfe das Endergebnis, indem du die Klammern erweiterst und das Ergebnis vereinfachst. Kontrolliere, ob dies tatsächlich der Ausdruck ist, mit dem wir begonnen haben.",
         "solution": "Wenn wir die Klammern im Endergebnis erweitern, erhalten wir <block-math/> Das ist in der Tat das, womit wir angefangen haben, und daher ist unsere Lösung korrekt."
       }
+    },
+    "crossExercise": {
+      "missingFactor": "<a>Deine Antwort sollte in Form von <inline-math/> sein.</a>",
+      "incorrectFractionDenominator": "<a>Deine Antwort sollte in der angegebenen Anfangsform sein. Hast du den Faktor <inline-math/> in den Nenner eines Bruchs gesetzt?</a>",
+      "incorrectFractionNumerator": "<a>Deine Antwort sollte in der angegebenen Anfangsform sein. Hast du den Anfangsausdruck <inline-math/> in den Zähler eines Bruchs gesetzt?</a>",
+      "hasFractionBeenSplit": "<a>Hast du den Bruch in eine Addition umgewandelt?</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "missingFactor": "<a>Deine Antwort sollte in Form von <inline-math/> sein.</a>",
-    "incorrectFractionDenominator": "<a>Deine Antwort sollte in der angegebenen Anfangsform sein. Hast du den Faktor <inline-math/> in den Nenner eines Bruchs gesetzt?</a>",
-    "incorrectFractionNumerator": "<a>Deine Antwort sollte in der angegebenen Anfangsform sein. Hast du den Anfangsausdruck <inline-math/> in den Zähler eines Bruchs gesetzt?</a>",
-    "hasFractionBeenSplit": "<a>Hast du den Bruch in eine Addition umgewandelt?</a>"
   }
 }

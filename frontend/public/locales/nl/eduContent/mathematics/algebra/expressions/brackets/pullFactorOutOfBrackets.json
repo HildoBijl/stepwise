@@ -50,12 +50,12 @@
         "problem": "Controleer het eindresultaat door de haakjes uit te werken en de uitkomst te vereenvoudigen. Ga na dat dit inderdaad de uitdrukking is waarmee we begonnen zijn.",
         "solution": "Als we de haakjes in het eindresultaat uitwerken, dan krijgen we <block-math/> Dit is inderdaad waar we mee begonnen zijn, en dus klopt onze oplossing."
       }
+    },
+    "crossExercise": {
+      "missingFactor": "<a>Je antwoord moet in de vorm van <inline-math/> zijn.</a>",
+      "incorrectFractionDenominator": "<a>Je antwoord moet in de gegeven beginvorm zijn. Heb je de factor <inline-math/> wel in de noemer van een breuk gezet?</a>",
+      "incorrectFractionNumerator": "<a>Je antwoord moet in de gegeven beginvorm zijn. Heb je de oorspronkelijke uitdrukkking <inline-math/> wel in de teller van een breuk gezet?</a>",
+      "hasFractionBeenSplit": "<a>Heb je de breuk in een optelling omgezet?</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "missingFactor": "<a>Je antwoord moet in de vorm van <inline-math/> zijn.</a>",
-    "incorrectFractionDenominator": "<a>Je antwoord moet in de gegeven beginvorm zijn. Heb je de factor <inline-math/> wel in de noemer van een breuk gezet?</a>",
-    "incorrectFractionNumerator": "<a>Je antwoord moet in de gegeven beginvorm zijn. Heb je de oorspronkelijke uitdrukkking <inline-math/> wel in de teller van een breuk gezet?</a>",
-    "hasFractionBeenSplit": "<a>Heb je de breuk in een optelling omgezet?</a>"
   }
 }

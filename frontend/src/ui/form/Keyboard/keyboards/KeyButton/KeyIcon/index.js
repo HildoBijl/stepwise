@@ -7,6 +7,7 @@ import Shift from './Shift'
 import TenPower from './TenPower'
 import Plus from './Plus'
 import Minus from './Minus'
+import PlusMinus from './PlusMinus'
 import Times from './Times'
 import Divide from './Divide'
 import Power from './Power'
@@ -48,6 +49,8 @@ export default function KeyIcon({ keyID, properties }) {
 		case '-':
 		case 'Minus':
 			return <Minus />
+		case 'PlusMinus':
+			return <PlusMinus />
 		case 'Times':
 			return <Times />
 		case 'Divide':

@@ -1,1 +1,181 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/equations/solving/quadraticEquations/solveQuadraticEquation": {
+      "practice.oneSolution.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T16:11:24.405Z",
+        "latestText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      },
+      "practice.oneSolution.step1.problem": {
+        "oldText": "Move all terms containing <inline-math/> to one side, and all terms without <inline-math/> to the other side.",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>."
+      },
+      "practice.oneSolution.step1.solution": {
+        "oldText": "If we move all terms with <inline-math/> to the left and all terms without <inline-math/> to the right, then we get <block-math/>",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
+      },
+      "practice.oneSolution.step2.problem": {
+        "oldText": "Clean up both equation sides separately by merging terms together.",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)"
+      },
+      "practice.oneSolution.step2.solution": {
+        "oldText": "On the left we merge terms with <inline-math/> together, and on the right we simply add together the numbers. This results in <block-math/>",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>"
+      },
+      "practice.oneSolution.step3.problem": {
+        "oldText": "Solve the resulting equation for <inline-math/>.",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "Calculate the value of the discriminant (the number within the square root)."
+      },
+      "practice.oneSolution.step3.solution": {
+        "oldText": "<par><check><on-true>As usual when solving a product equation, we move the factor in front of <inline-math/> (here <inline-math/>) to the other side, where it will be divided by. This gives the solution <block-math/><check><on-true>This can still be simplified into <block-math/></on-true><on-false>This cannot be simplified further.</on-false></check></on-true><on-false>Coincidentally the factor before the <inline-math/> has already dropped out. As a result, we have already found the solution, <block-math/></on-false></check></par><par>The last thing to do is to check the solution. Inserting it into the original equation gives <block-math/> Both sides reduce to <inline-math/> which shows that the solution is correct.</par>",
+        "firstUpdate": "2025-03-09T15:26:14.798Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>"
+      },
+      "practice.oneSolution.step4.problem": {
+        "oldText": "Based on the value of the contents of the square root, determine how many solutions the given equation has.",
+        "firstUpdate": "2025-03-09T18:24:36.419Z",
+        "latestUpdate": "2025-03-16T15:59:46.326Z",
+        "latestText": "Based on the value of the discriminant, determine how many solutions the given equation has."
+      },
+      "practice.oneSolution.step4.solution": {
+        "oldText": "<par>When the square root reduces to zero, the plus/minus in the solution vanishes and the equation will have exactly one solution.</par>",
+        "firstUpdate": "2025-03-09T18:24:36.419Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "<par>When the square root reduces to zero, the plus/minus in the solution vanishes and the equation will have exactly one solution.</par>"
+      },
+      "practice.oneSolution.step5.problem": {
+        "oldText": "Write down the final solution of the given equation, simplified as much as possible.",
+        "firstUpdate": "2025-03-09T18:24:36.419Z",
+        "latestUpdate": "2025-03-16T11:48:26.938Z",
+        "latestText": "Write down the final solution of the given equation, simplified as much as possible."
+      },
+      "practice.oneSolution.step5.solution": {
+        "oldText": "<par>Basic calculations turn <inline-math/> into <inline-math/>.</par>",
+        "firstUpdate": "2025-03-09T18:24:36.419Z",
+        "latestUpdate": "2025-03-16T12:05:23.311Z",
+        "latestText": "<par>By calculating <inline-math/> we can reduce it to a single number <inline-math/>.</par>"
+      },
+      "theory.determinant": {
+        "oldText": "<info>Todo</info>",
+        "firstUpdate": "2025-03-09T18:30:21.134Z",
+        "latestUpdate": "2025-03-09T18:31:00.084Z",
+        "latestText": "<info>You have seen that the number within the square root determines how many solutions the equation has. Because of this, this number <inline-math/> is called the <term>determinant</term> of the equation.</info>"
+      },
+      "theory.discriminant": {
+        "firstUpdate": "2025-03-13T09:57:02.596Z",
+        "latestUpdate": "2025-03-13T09:57:02.596Z",
+        "latestText": "<info>You have seen that the number within the square root determines how many solutions the equation has. Because of this, this number <inline-math/> is called the <term>discriminant</term> of the equation.</info>"
+      },
+      "theory.steps": {
+        "oldText": "<head>The steps</head><par>To solve a quadratic equation, like <inline-math/>, take the following steps.</par><list><item><a>Compare the equation to the standard form <inline-math/> to determine <inline-math/>, <inline-math/> and <inline-math/>. If there is a minus sign, the corresponding number should be negative. For our example we have <inline-math/>, <inline-math/> and <inline-math/>.</a></item><item><b><skill-link>Substitute</skill-link> <inline-math/>, <inline-math/> and <inline-math/> into the general solution <inline-math/>. For our example we get <inline-math/>.</b></item><item><c><skill-link>Simplify the root</skill-link> and use the number within it (the determinant) to determine the number of solutions.<list><item><d>If the determinant is <emp>positive</emp> then there are <emp>two solutions</emp>.</d></item><item><e>If the determinant is <emp>negative</emp> then there are <emp>no solutions</emp>.</e></item><item><f>If the determinant is <emp>zero</emp> then there is exactly <emp>one solution</emp>.</f></item></list>For our example we get <inline-math/> so there are two solutions.</c></item><item><g><skill-link>Simplify the resulting fraction</skill-link>, canceling fraction factors where possible. For our example <inline-math/> reduces to <inline-math/>.</g></item><item><h>Finally write the two solutions (if they exist) side by side. For our example we get <inline-math/> and <inline-math/>.</h></item></list>",
+        "firstUpdate": "2025-03-13T09:57:02.596Z",
+        "latestUpdate": "2025-03-13T09:57:02.596Z",
+        "latestText": "<head>The steps</head><par>To solve a quadratic equation, like <inline-math/>, take the following steps.</par><list><item><a>Compare the equation to the standard form <inline-math/> to determine <inline-math/>, <inline-math/> and <inline-math/>. If there is a minus sign, the corresponding number should be negative. For our example we have <inline-math/>, <inline-math/> and <inline-math/>.</a></item><item><b><skill-link>Substitute</skill-link> <inline-math/>, <inline-math/> and <inline-math/> into the general solution <inline-math/>. For our example we get <inline-math/>.</b></item><item><c><skill-link>Simplify the root</skill-link> and use the number within it (the discriminant) to determine the number of solutions.<list><item><d>If the discriminant is <emp>positive</emp> then there are <emp>two solutions</emp>.</d></item><item><e>If the discriminant is <emp>negative</emp> then there are <emp>no solutions</emp>.</e></item><item><f>If the discriminant is <emp>zero</emp> then there is exactly <emp>one solution</emp>.</f></item></list>For our example we get <inline-math/> so there are two solutions.</c></item><item><g><skill-link>Simplify the resulting fraction</skill-link>, canceling fraction factors where possible. For our example <inline-math/> reduces to <inline-math/>.</g></item><item><h>Finally write the two solutions (if they exist) side by side. For our example we get <inline-math/> and <inline-math/>.</h></item></list>"
+      },
+      "practice.oneSolution.mainProblem.numSolutions": {
+        "oldText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+        "firstUpdate": "2025-03-16T15:49:51.807Z",
+        "latestUpdate": "2025-03-16T15:50:41.570Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "practice.oneSolution.mainProblem.problem": {
+        "oldText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+        "firstUpdate": "2025-03-16T15:54:49.259Z",
+        "latestUpdate": "2025-03-16T15:54:49.308Z",
+        "latestText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      },
+      "practice.oneSolution.mainProblem.numSolutionsInput": {
+        "oldText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+        "firstUpdate": "2025-03-16T15:54:49.259Z",
+        "latestUpdate": "2025-03-16T15:54:49.308Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "practice.oneSolution.step4.problem.numSolutionsInput": {
+        "oldText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+        "firstUpdate": "2025-03-16T15:55:13.878Z",
+        "latestUpdate": "2025-03-16T15:56:33.834Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "practice.oneSolution.step4.problem.problem": {
+        "oldText": "Based on the value of the discriminant, determine how many solutions the given equation has.",
+        "firstUpdate": "2025-03-16T15:56:10.805Z",
+        "latestUpdate": "2025-03-16T15:56:10.858Z",
+        "latestText": "Based on the value of the discriminant, determine how many solutions the given equation has."
+      },
+      "practice.crossExercise.numSolutionsInput": {
+        "oldText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+        "firstUpdate": "2025-03-16T15:58:55.246Z",
+        "latestUpdate": "2025-03-16T15:58:55.283Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "crossExercise.0Incorrect": {
+        "oldText": "<a>This is not correct. This would be the case when the discriminant <inline-math/> is smaller than zero.</a>",
+        "firstUpdate": "2025-03-16T16:08:17.355Z",
+        "latestUpdate": "2025-03-16T16:08:17.401Z",
+        "latestText": "<a>This is not correct. This would be the case when the discriminant <inline-math/> is smaller than zero.</a>"
+      },
+      "crossExercise.1Correct": {
+        "firstUpdate": "2025-03-16T16:08:23.597Z",
+        "latestUpdate": "2025-03-16T16:08:23.597Z",
+        "latestText": "<a>Spot on! The discriminant <inline-math/> is equal to zero.</a>"
+      },
+      "crossExercise.2Incorrect": {
+        "firstUpdate": "2025-03-16T16:08:30.560Z",
+        "latestUpdate": "2025-03-16T16:08:30.560Z",
+        "latestText": "<a>This doesn't add up. This would be the case when the discriminant <inline-math/> is larger than zero.</a>"
+      },
+      "crossExercise.3Incorrect": {
+        "firstUpdate": "2025-03-16T16:08:36.179Z",
+        "latestUpdate": "2025-03-16T16:08:36.179Z",
+        "latestText": "<a>No, this cannot be the case. A quadratic equation never has more than two solutions.</a>"
+      },
+      "crossExerciseInput.numSolutionsInput": {
+        "firstUpdate": "2025-03-16T16:09:56.914Z",
+        "latestUpdate": "2025-03-16T16:09:56.914Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "practice.oneSolution.mainProblem.crossExerciseInput.numSolutionsInput": {
+        "oldText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+        "firstUpdate": "2025-03-16T16:10:06.077Z",
+        "latestUpdate": "2025-03-16T16:11:24.405Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "crossExercise.numSolutionsInput": {
+        "oldText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+        "firstUpdate": "2025-03-16T16:12:58.546Z",
+        "latestUpdate": "2025-03-16T16:18:30.759Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "practice.crossExercise.0Incorrect": {
+        "oldText": "<a>This is not correct. This would be the case when the discriminant <inline-math/> is smaller than zero.</a>",
+        "firstUpdate": "2025-03-16T16:18:10.336Z",
+        "latestUpdate": "2025-03-16T16:18:10.376Z",
+        "latestText": "<a>This is not correct. This would be the case when the discriminant <inline-math/> is smaller than zero.</a>"
+      },
+      "TEST.TODO.REMOVE.numSolutionsInput": {
+        "firstUpdate": "2025-03-16T16:30:02.250Z",
+        "latestUpdate": "2025-03-16T16:30:02.250Z",
+        "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      }
+    },
+    "eduTools/feedback": {
+      "expression.wrongSign": {
+        "firstUpdate": "2025-03-13T10:28:42.274Z",
+        "latestUpdate": "2025-03-13T10:28:42.274Z",
+        "latestText": "You haven't used the right sign. Check your pluses and minuses."
+      }
+    }
+  }
+}

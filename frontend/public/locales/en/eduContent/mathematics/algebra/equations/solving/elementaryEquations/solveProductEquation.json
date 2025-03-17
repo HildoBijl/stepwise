@@ -43,9 +43,9 @@
         "problem": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
         "solution": "<par><check><on-true>The left side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the left side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par><check><on-true>The right side of the original equation is already a number without <inline-math/>, so no substitution is necessary. <check><on-true>It can still be simplified into <block-math/></on-true><on-false>It also cannot be simplified, so it remains as is, being <inline-math/>.</on-false></check></on-true><on-false>Substituting <inline-math/> into the right side of the original equation gives us <block-math/> Simplifying the resulting fraction turns it into <block-math/></on-false></check></par><par>Both sides of the equation reduce to the same number, which means that the solution is correct.</par>"
       }
+    },
+    "crossExercise": {
+      "unbalancedEquation": "<a>The two sides of the equation should in the end be the same. This value is not equal to the other one.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "unbalancedEquation": "<a>The two sides of the equation should in the end be the same. This value is not equal to the other one.</a>"
   }
 }

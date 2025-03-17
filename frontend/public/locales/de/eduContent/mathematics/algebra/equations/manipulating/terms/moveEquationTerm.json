@@ -31,11 +31,11 @@
         "problem": "Vereinfache den Ausdruck auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite, indem du wo möglich Summenterme entfernst.",
         "solution": "Wenn wir die Summenterme entfernen, sehen wir, dass alles auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite der Gleichung wegfällt. Das Endergebnis ist <block-math/> Beachte, dass alle Terme nun tatsächlich auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite sind. Auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite bleibt nichts (Null) übrig."
       }
+    },
+    "crossExercise": {
+      "termsNotCanceled": "<a><check><on-true>Du hast den richtigen Term von beiden Seiten subtrahiert</on-true><on-false>Du hast den richtigen Term bei beiden Seiten addiert</on-false></check>, aber du musst noch einige Terme entfernen.</a>",
+      "termsLeft": "<a>Es gibt immer noch Terme auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite der Gleichung.</a>",
+      "wrongSignUsed": "<a>Wenn der Term auf der einen Seite <check><on-true>addiert wird (mit Pluszeichen)</on-true><on-false>subtrahiert wird (mit Minuszeichen)</on-false></check>, muss er auf der anderen Seite <check><on-true>subtrahiert werden (mit Minuszeichen)</on-true><on-false>addiert werden (mit Pluszeichen)</on-false></check>.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "termsNotCanceled": "<a><check><on-true>Du hast den richtigen Term von beiden Seiten subtrahiert</on-true><on-false>Du hast den richtigen Term bei beiden Seiten addiert</on-false></check>, aber du musst noch einige Terme entfernen.</a>",
-    "termsLeft": "<a>Es gibt immer noch Terme auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite der Gleichung.</a>",
-    "wrongSignUsed": "<a>Wenn der Term auf der einen Seite <check><on-true>addiert wird (mit Pluszeichen)</on-true><on-false>subtrahiert wird (mit Minuszeichen)</on-false></check>, muss er auf der anderen Seite <check><on-true>subtrahiert werden (mit Minuszeichen)</on-true><on-false>addiert werden (mit Pluszeichen)</on-false></check>.</a>"
   }
 }

@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { range } from 'step-wise/util'
-
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, M, BM } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'

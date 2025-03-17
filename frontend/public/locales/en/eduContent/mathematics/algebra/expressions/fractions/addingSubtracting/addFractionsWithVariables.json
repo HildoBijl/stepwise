@@ -24,11 +24,11 @@
         "problem": "Add up the two like fractions and simplify the numerator as much as possible.",
         "solution": "Adding up the two fractions using the default rule, and merging similar terms, gives <block-math/> The numerator here is as simplified as possible. Altogether, the final result is <block-math/><check><on-true>Optionally, this can still be simplified further, written as <block-math/></on-true></check>"
       }
+    },
+    "crossExercise": {
+      "unequalDenominators": "<a>The two fractions do not have the same denominator.</a>",
+      "notTwoFractions": "<a>We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</a>",
+      "unsimplifiedNumerator": "<a>You can still further simplify the numerators.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "unequalDenominators": "<a>The two fractions do not have the same denominator.</a>",
-    "notTwoFractions": "<a>We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</a>",
-    "unsimplifiedNumerator": "<a>You can still further simplify the numerators.</a>"
   }
 }

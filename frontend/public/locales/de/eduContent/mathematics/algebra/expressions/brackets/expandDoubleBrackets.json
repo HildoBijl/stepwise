@@ -71,11 +71,11 @@
         "problem": "Füge gleichartige Terme (mit gleicher Potenz von <inline-math/>) zusammen, um das Ergebnis so weit wie möglich zu vereinfachen.",
         "solution": "<par>Es gibt zwei Terme mit <inline-math/> als Faktor, nämlich <inline-math/> und einen weiteren <inline-math/>. Diese können zusammen als <inline-math/> geschrieben werden. Der endgültige Ausdruck ist dann <block-math/> Dies ist unsere endgültige Antwort. Kurz gesagt, <inline-math/>.</par><sub-head>Abkürzung</sub-head><par>Für diese Übung gibt es eine mögliche Abkürzung. Ein Quadrat einer Summe, wie <inline-math/>, ergibt immer <inline-math/>. Wenn wir das wissen, können wir auch gleich sehen, dass <block-math/></par>"
       }
+    },
+    "crossExercise": {
+      "wrongBracketsExpanded": "<a>Achte darauf, dass du alle Klammern außer <inline-math/> erweiterst.</a>",
+      "stillHasPower": "<a>Es gibt noch Klammern mit einer Potenz darüber.</a>",
+      "bracketProductRemains": "<a>Achte darauf, dass du nur einen Satz Klammern erweiterst: Du darfst nicht mehr Klammern mit Klammern multipliziert haben.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "wrongBracketsExpanded": "<a>Achte darauf, dass du alle Klammern außer <inline-math/> erweiterst.</a>",
-    "stillHasPower": "<a>Es gibt noch Klammern mit einer Potenz darüber.</a>",
-    "bracketProductRemains": "<a>Achte darauf, dass du nur einen Satz Klammern erweiterst: Du darfst nicht mehr Klammern mit Klammern multipliziert haben.</a>"
   }
 }

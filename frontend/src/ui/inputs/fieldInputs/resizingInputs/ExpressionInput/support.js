@@ -23,8 +23,8 @@ export function keyboardSettings(FI, settings) {
 	// Pass on settings.
 	return {
 		keySettings,
-		basicMath: {},
-		textMath: {},
+		basicMath: settings.basicMath && {},
+		textMath: settings.textMath && {},
 		greek: settings.greek && {},
 	}
 }

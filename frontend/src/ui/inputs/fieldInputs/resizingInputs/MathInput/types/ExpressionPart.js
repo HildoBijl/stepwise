@@ -122,6 +122,8 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return settings.plus
 	if (key === '-')
 		return settings.minus
+	if (key === '±')
+		return settings.plusMinus
 	if (key === '*')
 		return settings.times
 	if (key === '/')
@@ -228,6 +230,8 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		return addStrToFI('+', FI)
 	if (key === '-') // Minus.
 		return addStrToFI('-', FI)
+	if (key === '±') // PlusMinus.
+		return addStrToFI('±', FI)
 	if (key === '*') // Times.
 		return addStrToFI('*', FI)
 	if (key === '.' || key === ',') // Period.

@@ -39,10 +39,10 @@
         "problem": "Vereinfache die einzelnen Terme so weit wie möglich.",
         "solution": "Alles, was noch zu tun bleibt, ist, die Brüche zu vereinfachen, indem man die Faktoren <inline-math/> entfernt. So erhalten wir <block-math/> Beachte, dass jeder Term separat mit dem Faktor <inline-math/> multipliziert wird."
       }
+    },
+    "crossExercise": {
+      "incorrectForm": "<a>Beide Seiten sollten die Form <inline-math/> haben. Deine <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite ist nicht auf diese Weise eingerichtet.</a>",
+      "incorrectCopy": "<a>Es scheint, dass du die ursprüngliche Gleichung auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite nicht korrekt kopiert hast.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "incorrectForm": "<a>Beide Seiten sollten die Form <inline-math/> haben. Deine <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite ist nicht auf diese Weise eingerichtet.</a>",
-    "incorrectCopy": "<a>Es scheint, dass du die ursprüngliche Gleichung auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite nicht korrekt kopiert hast.</a>"
   }
 }

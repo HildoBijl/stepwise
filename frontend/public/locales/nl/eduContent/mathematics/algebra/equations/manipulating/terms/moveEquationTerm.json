@@ -31,11 +31,11 @@
         "problem": "Vereenvoudig de uitdrukking aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant door waar mogelijk somtermen weg te strepen.",
         "solution": "Als we somtermen wegstrepen, zien we dat alles aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant van de vergelijking wegvalt. Het eindresultaat is <block-math/> Merk op dat alle termen nu inderdaad aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check> kant staan. Aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant blijft niets (nul) over."
       }
+    },
+    "crossExercise": {
+      "termsNotCanceled": "<a><check><on-true>Je hebt de juiste term van beide kanten afgehaald</on-true><on-false>Je hebt de juiste term bij beide kanten opgeteld</on-false></check>, maar je moet nog enkele term wegstrepen.</a>",
+      "termsLeft": "<a>Er staan nog steeds termen aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant van de vergelijking.</a>",
+      "wrongSignUsed": "<a>Als de term aan de ene kant <check><on-true>opgeteld wordt (met plusteken)</on-true><on-false>afgetrokken wordt (met minteken)</on-false></check>, dan moet hij aan de andere kant juist <check><on-true>afgetrokken worden (met minteken)</on-true><on-false>opgeteld worden (met plusteken)</on-false></check>.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "termsNotCanceled": "<a><check><on-true>Je hebt de juiste term van beide kanten afgehaald</on-true><on-false>Je hebt de juiste term bij beide kanten opgeteld</on-false></check>, maar je moet nog enkele term wegstrepen.</a>",
-    "termsLeft": "<a>Er staan nog steeds termen aan de <check><on-true>rechter</on-true><on-false>linker</on-false></check> kant van de vergelijking.</a>",
-    "wrongSignUsed": "<a>Als de term aan de ene kant <check><on-true>opgeteld wordt (met plusteken)</on-true><on-false>afgetrokken wordt (met minteken)</on-false></check>, dan moet hij aan de andere kant juist <check><on-true>afgetrokken worden (met minteken)</on-true><on-false>opgeteld worden (met plusteken)</on-false></check>.</a>"
   }
 }

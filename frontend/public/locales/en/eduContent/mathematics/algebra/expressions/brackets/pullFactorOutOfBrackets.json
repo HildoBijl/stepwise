@@ -50,12 +50,12 @@
         "problem": "Check your result by expanding the brackets and simplifying the result. Verify that this is indeed the expression we started with.",
         "solution": "If we expand the brackets in our final result, we get <block-math/> This is indeed what we started with, so our solution is correct."
       }
+    },
+    "crossExercise": {
+      "missingFactor": "<a>Your answer should be of the form <inline-math/>.</a>",
+      "incorrectFractionDenominator": "<a>Your answer should be in the given starting form. Have you put the factor <inline-math/> in the denominator of a fraction?</a>",
+      "incorrectFractionNumerator": "<a>Your answer should be in the given starting form. Have you put the original expression <inline-math/> in the numerator of a fraction?</a>",
+      "hasFractionBeenSplit": "<a>Have you split up the fraction into a summation?</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "missingFactor": "<a>Your answer should be of the form <inline-math/>.</a>",
-    "incorrectFractionDenominator": "<a>Your answer should be in the given starting form. Have you put the factor <inline-math/> in the denominator of a fraction?</a>",
-    "incorrectFractionNumerator": "<a>Your answer should be in the given starting form. Have you put the original expression <inline-math/> in the numerator of a fraction?</a>",
-    "hasFractionBeenSplit": "<a>Have you split up the fraction into a summation?</a>"
   }
 }

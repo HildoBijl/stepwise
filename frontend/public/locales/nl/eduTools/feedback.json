@@ -121,14 +121,15 @@
     "unsimplifiedFractionNumbers": "De breuk kan nog verder vereenvoudigd worden. Probeer de teller en de noemer door het juiste getal te delen.",
     "unsimplifiedFractionFactors": "Er zijn nog steeds factoren in de teller en de noemer die weggestreept kunnen worden.",
     "fractionNumeratorHasSumWithinProduct": "De teller bevat nog onuitgewerkte haakjes.",
+    "hasPower": "Je antwoord heeft nog een macht. Je kunt dit simpeler schrijven.",
+    "wrongSign": "Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.",
     "incorrectFraction": {
       "noFraction": "Hmm ... er was eigenlijk een breuk als antwoord verwacht.",
       "inverted": "Je hebt je breuk verkeerd om ingevuld. Kijk goed wat je waardoor moet delen!",
       "incorrectNumerator": "De teller van je breuk (bovenin) is niet wat verwacht werd. Heb je alle regels correct toegepast?",
       "incorrectDenominator": "De noemer van je breuk (onderin) is niet wat verwacht werd. Heb je alle regels correct toegepast?",
       "constantMultiple": "Je lijkt er een constante vermenigvuldiging naast te zitten."
-    },
-    "hasPower": "Je antwoord heeft nog een macht. Je kunt dit simpeler schrijven."
+    }
   },
   "equation": {
     "original": "Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.",

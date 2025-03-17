@@ -43,9 +43,9 @@
         "problem": "Prüfe die Lösung für <inline-math/>: Setze sie in die ursprüngliche Gleichung ein und vereinfache jede Seite so weit wie möglich.",
         "solution": "<par><check><on-true>Die linke Seite der ursprünglichen Gleichung ist bereits eine Zahl ohne <inline-math/>, so dass hier keine Substitution erforderlich ist. <check><on-true>Sie kann noch vereinfacht werden zu <block-math/></on-true><on-false>Sie kann auch nicht vereinfacht werden, und so bleibt es bei <inline-math/>.</on-false></check></on-true><on-false>Das Einsetzen von <inline-math/> auf der linken Seite der ursprünglichen Gleichung ergibt <block-math/> Durch Vereinfachung des sich ergebenden Bruches wird daraus <block-math/></on-false></check></par><par><check><on-true>Die rechte Seite der ursprünglichen Gleichung ist bereits eine Zahl ohne <inline-math/>, so dass hier keine Substitution erforderlich ist. <check><on-true>Sie kann noch vereinfacht werden zu <block-math/></on-true><on-false>Sie kann auch nicht vereinfacht werden, und so bleibt es bei <inline-math/>.</on-false></check></on-true><on-false>Das Einsetzen von <inline-math/> auf der rechten Seite der ursprünglichen Gleichung ergibt <block-math/> Durch Vereinfachung des sich ergebenden Bruches wird daraus <block-math/></on-false></check></par><par>Beide Seiten der Gleichung ergeben die gleiche Zahl, was bedeutet, dass die Lösung richtig ist.</par>"
       }
+    },
+    "crossExercise": {
+      "unbalancedEquation": "<a>Die beiden Seiten der Gleichung müssen am Ende gleich groß sein. Dieser Wert ist nicht gleich dem anderen.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "unbalancedEquation": "<a>Die beiden Seiten der Gleichung müssen am Ende gleich groß sein. Dieser Wert ist nicht gleich dem anderen.</a>"
   }
 }

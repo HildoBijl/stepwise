@@ -120,17 +120,17 @@ function interpretBrackets(value, settings) {
 function interpretSums(value, settings) {
 	// Set up a handler to add terms to the sum.
 	const sumTerms = []
-	let lastSymbol = ''
-	const addTerm = (start, end) => {
+	let symbolBefore = ''
+	const addTerm = (start, end, symbolBefore) => {
 		// Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
 		if (start.part === end.part && start.cursor === end.cursor)
 			return
 
 		// Extract the expression and check if it needs a minus or plus/minus sign.
 		let interpretedExpression = interpretProducts(getSubExpression(value, start, end), settings)
-		if (lastSymbol === '-')
+		if (symbolBefore === '-')
 			interpretedExpression = interpretedExpression.applyMinus(false)
-		else if (lastSymbol === '±')
+		else if (symbolBefore === '±')
 			interpretedExpression = interpretedExpression.multiply(new PlusMinus(), true)
 		sumTerms.push(interpretedExpression)
 	}
@@ -146,45 +146,46 @@ function interpretSums(value, settings) {
 		const str = element.value
 		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-', '±'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
-			const currentSymbol = str[nextPlusMinus]
+			let symbolAfter = str[nextPlusMinus]
 			let end = { part, cursor: nextPlusMinus }
 
 			// Check that there is no plus at the start.
-			if (end.part === 0 && end.cursor === 0 && currentSymbol === '+')
+			if (end.part === 0 && end.cursor === 0 && symbolAfter === '+')
 				throw new InterpretationError('PlusAtStart', '+', `Could not interpret the Expression due to it starting with a plus.`)
 
 			// Check that there are not two consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (start.part === end.part && start.cursor === end.cursor) {
-				if (lastSymbol === currentSymbol || currentSymbol === '+')
-					throw new InterpretationError('DoublePlusMinus', `${lastSymbol}${currentSymbol}`, `Could not interpret the Expression due to a double plus/minus.`)
+				if (symbolBefore === symbolAfter || symbolAfter === '+')
+					throw new InterpretationError('DoublePlusMinus', `${symbolBefore}${symbolAfter}`, `Could not interpret the Expression due to a double plus/minus.`)
 			}
-
-			// Check if there is a minus sign or plus/minus preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
-			if ((currentSymbol === '-' || currentSymbol === '±') && str[nextPlusMinus - 1] === '*')
-				continue
 
 			// If we have "2+-3" or "2±-3" or "2-±3" or similar, then jump over the second plus/minus character and incorporate it into the string to be interpreted.
 			if (start.part === end.part && start.cursor === end.cursor) {
 				nextPlusMinus = getNextPlusMinus(nextPlusMinus)
 				if (nextPlusMinus === -1)
 					break
+				symbolAfter = str[nextPlusMinus]
 				end = { part, cursor: nextPlusMinus }
 			}
 
+			// Check if there is a minus sign or plus/minus preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
+			if ((symbolAfter === '-' || symbolAfter === '±') && str[nextPlusMinus - 1] === '*')
+				continue
+
 			// Extract the expression from the last plus or minus and interpret it.
-			addTerm(start, end)
+			addTerm(start, end, symbolBefore)
 
 			// Store parameters for the next iteration.
-			lastSymbol = currentSymbol
+			symbolBefore = symbolAfter
 			start = moveRight(end)
 		}
 	})
 
 	// Check for a plus or minus at the end. If it's not there, add the remaining part.
 	const end = getEndCursor(value)
-	if (start.part === end.part && start.cursor === end.cursor && lastSymbol)
-		throw new InterpretationError('PlusMinusAtEnd', lastSymbol, `Could not interpret the Expression due to it ending with "${lastSymbol}".`)
-	addTerm(start, end)
+	if (start.part === end.part && start.cursor === end.cursor && symbolBefore)
+		throw new InterpretationError('PlusMinusAtEnd', symbolBefore, `Could not interpret the Expression due to it ending with "${symbolBefore}".`)
+	addTerm(start, end, symbolBefore)
 
 	// Assemble all terms in a sum.
 	if (sumTerms.length === 0)

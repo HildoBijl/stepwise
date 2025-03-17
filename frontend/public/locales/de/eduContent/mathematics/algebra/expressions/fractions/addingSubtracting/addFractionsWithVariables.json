@@ -24,11 +24,11 @@
         "problem": "Addiere die beiden gleichnamigen Brüche zusammen und vereinfache den Zähler so weit wie möglich.",
         "solution": "Die Zusammenführung der beiden Brüche nach der Standardregel und die Zusammenführung ähnlicher Terme ergibt <block-math/> Der Zähler ist hier so einfach wie möglich geschrieben. Alles in allem ist das Endergebnis <block-math/><check><on-true>Optional könnte dies noch einfacher geschrieben werden, als <block-math/></on-true></check>"
       }
+    },
+    "crossExercise": {
+      "unequalDenominators": "<a>Die beiden Brüche haben nicht den gleichen Nenner.</a>",
+      "notTwoFractions": "<a>Wir erwarten eine Summe mit zwei Brüchen. Schreibe die Brüche nur um und addiere sie noch nicht zusammen.</a>",
+      "unsimplifiedNumerator": "<a>Du kannst die Zähler noch weiter vereinfachen.</a>"
     }
-  },
-  "crossExerciseFeedback": {
-    "unequalDenominators": "<a>Die beiden Brüche haben nicht den gleichen Nenner.</a>",
-    "notTwoFractions": "<a>Wir erwarten eine Summe mit zwei Brüchen. Schreibe die Brüche nur um und addiere sie noch nicht zusammen.</a>",
-    "unsimplifiedNumerator": "<a>Du kannst die Zähler noch weiter vereinfachen.</a>"
   }
 }

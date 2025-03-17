@@ -97,7 +97,15 @@ export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect)
 
 export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isSubtype(Fraction) && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
 
-export const invertedFraction = (input, correct, solution, isCorrect) => !console.log(input.str, correct.invert().str, equivalent(input, correct.invert())) && !isCorrect && equivalent(input, correct.invert()) && <Translation path={translationPath} entry="expression.incorrectFraction.inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
+export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <Translation path={translationPath} entry="expression.hasPower">Your solution still has an exponent. You can simplify this further.</Translation>
+
+/*
+ * Common mistake checks.
+ */
+
+export const wrongSign = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.applyMinus()) && <Translation path={translationPath} entry="expression.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
+
+export const invertedFraction = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.invert()) && <Translation path={translationPath} entry="expression.incorrectFraction.inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
 
 export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
@@ -118,5 +126,3 @@ export const incorrectFraction = (input, correct, solution, isCorrect) => {
 		return <Translation path={translationPath} entry="expression.incorrectFraction.incorrectDenominator">The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?</Translation>
 	return <Translation path={translationPath} entry="expression.incorrectFraction.constantMultiple">You seem to be off by a constant multiple.</Translation>
 }
-
-export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <Translation path={translationPath} entry="expression.hasPower">Your solution still has an exponent. You can simplify this further.</Translation>

@@ -28,7 +28,7 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 		currOptions = { text: currOptions }
 
 	// Extract given parameters.
-	const { input, progress, solution } = exerciseData
+	const { input, progress, solution, example } = exerciseData
 	let { correct, done, step, substep, text, correctText, incorrectText } = currOptions
 
 	// Attempt to get correct answer if not given.
@@ -37,8 +37,8 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 	if (correct === undefined)
 		correct = performIndividualComparison(currInput, currSolution, undefined, solution)
 
-	// Attempt to determine "done".
-	if (done === undefined) {
+	// Attempt to determine "done". (Accept for examples. Because they can be retried, they're never done.)
+	if (!example && done === undefined) {
 		if (progress.done) {
 			done = progress.done
 		} else if (step !== undefined) {
