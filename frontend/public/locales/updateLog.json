@@ -4,8 +4,8 @@
       "practice.oneSolution.mainProblem": {
         "oldText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
         "firstUpdate": "2025-03-09T15:26:14.798Z",
-        "latestUpdate": "2025-03-16T16:11:24.405Z",
-        "latestText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+        "latestUpdate": "2025-03-17T16:27:15.078Z",
+        "latestText": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)"
       },
       "practice.oneSolution.step1.problem": {
         "oldText": "Move all terms containing <inline-math/> to one side, and all terms without <inline-math/> to the other side.",
@@ -64,8 +64,8 @@
       "practice.oneSolution.step5.solution": {
         "oldText": "<par>Basic calculations turn <inline-math/> into <inline-math/>.</par>",
         "firstUpdate": "2025-03-09T18:24:36.419Z",
-        "latestUpdate": "2025-03-16T12:05:23.311Z",
-        "latestText": "<par>By calculating <inline-math/> we can reduce it to a single number <inline-math/>.</par>"
+        "latestUpdate": "2025-03-17T12:26:03.351Z",
+        "latestText": "<par>By calculating <inline-math/> we can reduce it to a single number <inline-math/>.</par><par>As final check, we insert the solution <inline-math/> into the original equation, <block-math/> This indeed holds, so the solution we have found is correct.</par>"
       },
       "theory.determinant": {
         "oldText": "<info>Todo</info>",
@@ -168,6 +168,209 @@
         "firstUpdate": "2025-03-16T16:30:02.250Z",
         "latestUpdate": "2025-03-16T16:30:02.250Z",
         "latestText": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>"
+      },
+      "practice.twoIntegerSolutions.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T16:27:13.401Z",
+        "latestText": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)"
+      },
+      "practice.twoIntegerSolutions.step1.problem": {
+        "oldText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>."
+      },
+      "practice.twoIntegerSolutions.step1.solution": {
+        "oldText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>.",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
+      },
+      "practice.twoIntegerSolutions.step2.problem": {
+        "oldText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)"
+      },
+      "practice.twoIntegerSolutions.step2.solution": {
+        "oldText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>"
+      },
+      "practice.twoIntegerSolutions.step3.problem": {
+        "oldText": "Calculate the value of the discriminant (the number within the square root).",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "Calculate the value of the discriminant (the number within the square root)."
+      },
+      "practice.twoIntegerSolutions.step3.solution": {
+        "oldText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>"
+      },
+      "practice.twoIntegerSolutions.step4.problem": {
+        "oldText": "Based on the value of the discriminant, determine how many solutions the given equation has.",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:09:40.884Z",
+        "latestText": "Based on the value of the discriminant, determine how many solutions the given equation has."
+      },
+      "practice.twoIntegerSolutions.step4.solution": {
+        "oldText": "<par>When the square root reduces to zero, the plus/minus in the solution vanishes and the equation will have exactly one solution.</par>",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:37:46.222Z",
+        "latestText": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus-minus symbol will result in two different values.</par>"
+      },
+      "practice.twoIntegerSolutions.step5.problem": {
+        "oldText": "Write down the final solution of the given equation, simplified as much as possible.",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T12:37:46.222Z",
+        "latestText": "Find the solutions of the given equation and write them down separately from one another, simplified as much as possible."
+      },
+      "practice.twoIntegerSolutions.step5.solution": {
+        "oldText": "<par>By calculating <inline-math/> we can reduce it to a single number <inline-math/>.</par>",
+        "firstUpdate": "2025-03-17T12:09:40.835Z",
+        "latestUpdate": "2025-03-17T13:43:16.764Z",
+        "latestText": "<par>It is wise to first simplify the expression with the plus/minus. This gets us <block-math/> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <block-math/><block-math/></par><par>As final check, we insert the two solutions <inline-math/> and <inline-math/> into the original equation. This results in <block-math/><block-math/> Both of these equations hold, so the solutions we found are correct.</par>"
+      },
+      "practice.crossExercise.2Correct": {
+        "firstUpdate": "2025-03-17T13:46:46.239Z",
+        "latestUpdate": "2025-03-17T13:46:46.239Z",
+        "latestText": "<a>Exactly! After all, the discriminant <inline-math/> is larger than zero.</a>"
+      },
+      "practice.crossExercise.1Incorrect": {
+        "oldText": "<a>That can't be true. This is only the case when the discriminant <inline-math/> is equal to zero.</a>",
+        "firstUpdate": "2025-03-17T13:55:40.627Z",
+        "latestUpdate": "2025-03-17T13:55:40.675Z",
+        "latestText": "<a>That can't be true. This is only the case when the discriminant <inline-math/> is equal to zero.</a>"
+      },
+      "practice.twoNonIntegerSolutions.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T16:27:14.272Z",
+        "latestText": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)"
+      },
+      "practice.twoNonIntegerSolutions.step1.problem": {
+        "oldText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>."
+      },
+      "practice.twoNonIntegerSolutions.step1.solution": {
+        "oldText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>.",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
+      },
+      "practice.twoNonIntegerSolutions.step2.problem": {
+        "oldText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)"
+      },
+      "practice.twoNonIntegerSolutions.step2.solution": {
+        "oldText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>"
+      },
+      "practice.twoNonIntegerSolutions.step3.problem": {
+        "oldText": "Calculate the value of the discriminant (the number within the square root).",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "Calculate the value of the discriminant (the number within the square root)."
+      },
+      "practice.twoNonIntegerSolutions.step3.solution": {
+        "oldText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>"
+      },
+      "practice.twoNonIntegerSolutions.step4.problem": {
+        "oldText": "Based on the value of the discriminant, determine how many solutions the given equation has.",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "Based on the value of the discriminant, determine how many solutions the given equation has."
+      },
+      "practice.twoNonIntegerSolutions.step4.solution": {
+        "oldText": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus-minus symbol will result in two different values.</par>",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus-minus symbol will result in two different values.</par>"
+      },
+      "practice.twoNonIntegerSolutions.step5.problem": {
+        "oldText": "Find the solutions of the given equation and write them down separately from one another, simplified as much as possible.",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T13:59:33.338Z",
+        "latestText": "Find the solutions of the given equation and write them down separately from one another, simplified as much as possible."
+      },
+      "practice.twoNonIntegerSolutions.step5.solution": {
+        "oldText": "<par>It is wise to first simplify the expression with the plus/minus. This gets us <block-math/> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <block-math/><block-math/></par><par>As final check, we insert the two solutions <inline-math/> and <inline-math/> into the original equation. This results in <block-math/><block-math/> Both of these equations hold, so the solutions we found are correct.</par>",
+        "firstUpdate": "2025-03-17T13:59:33.261Z",
+        "latestUpdate": "2025-03-17T14:02:04.488Z",
+        "latestText": "<par>It is wise to first simplify the expression with the plus/minus. This gets us <block-math/> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <block-math/><block-math/></par><par>As final check, we insert the two solutions <inline-math/> and <inline-math/> into the original equation. This results in <block-math/><block-math/> With some work, we can verify that both of these equations hold, so the solutions we found are correct.</par>"
+      },
+      "practice.noSolutions.mainProblem": {
+        "oldText": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible: pull factors out of roots and cancel factors within fractions.",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T16:19:16.484Z",
+        "latestText": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)"
+      },
+      "practice.noSolutions.step1.problem": {
+        "oldText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>."
+      },
+      "practice.noSolutions.step1.solution": {
+        "oldText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>.",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
+      },
+      "practice.noSolutions.step2.problem": {
+        "oldText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)"
+      },
+      "practice.noSolutions.step2.solution": {
+        "oldText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>"
+      },
+      "practice.noSolutions.step3.problem": {
+        "oldText": "Calculate the value of the discriminant (the number within the square root).",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "Calculate the value of the discriminant (the number within the square root)."
+      },
+      "practice.noSolutions.step3.solution": {
+        "oldText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>"
+      },
+      "practice.noSolutions.step4.problem": {
+        "oldText": "Based on the value of the discriminant, determine how many solutions the given equation has.",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "Based on the value of the discriminant, determine how many solutions the given equation has."
+      },
+      "practice.noSolutions.step4.solution": {
+        "oldText": "<par>Because the value within the square root (the discriminant) is negative, the square root is impossible to evaluate. There are hence no possible solutions to the quadratic equation.</par>",
+        "firstUpdate": "2025-03-17T15:30:46.161Z",
+        "latestUpdate": "2025-03-17T15:30:46.207Z",
+        "latestText": "<par>Because the value within the square root (the discriminant) is negative, the square root is impossible to evaluate. There are hence no possible solutions to the quadratic equation.</par>"
+      },
+      "practice.crossExercise.0Correct": {
+        "oldText": "<a>Exactly. The discriminant <inline-math/> is negative, so the square root has no valid outcomes.</a>",
+        "firstUpdate": "2025-03-17T16:17:15.097Z",
+        "latestUpdate": "2025-03-17T16:17:15.133Z",
+        "latestText": "<a>Exactly. The discriminant <inline-math/> is negative, so the square root has no valid outcomes.</a>"
       }
     },
     "eduTools/feedback": {

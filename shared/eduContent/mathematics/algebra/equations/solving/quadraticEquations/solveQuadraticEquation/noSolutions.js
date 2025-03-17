@@ -13,7 +13,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 1,
-	steps: ['substituteANumber', 'substituteANumber', null, null, 'simplifyFraction'],
+	steps: ['substituteANumber', 'substituteANumber', null, null],
 	// steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null, 'simplifyFraction'], // ToDo: implement calculateSumOfProducts skill.
 	comparison: {
 		a: {},
@@ -27,15 +27,12 @@ const metaData = {
 }
 
 function generateState(example) {
-	// We want integer coefficients in the equation, but a possibly non-integer solution "numerator/denominator". So we set up the equation a*(x - numerator/denominator)^2 = 0, rewrite it to a*x^2 - 2*a*(numerator/denominator) + a*(numerator/denominator)^2 = 0, and check if this gives integer coefficients.
-	let a, denominator, numerator
-	while (a === undefined || (2 * a * numerator % denominator !== 0) || (a * numerator ** 2 % denominator ** 2 !== 0)) {
+	let a, b, c
+	while (a === undefined || b ** 2 - 4 * a * c >= 0) {
 		a = getRandomInteger(-6, 6, [0])
-		numerator = getRandomInteger(-12, 12)
-		denominator = getRandomInteger(-6, 6, [0])
+		b = getRandomInteger(-12, 12)
+		c = getRandomInteger(-40, 40)
 	}
-	const b = -2 * a * numerator / denominator
-	const c = a * (numerator / denominator) ** 2
 
 	return {
 		x: selectRandomly(variableSet),
@@ -53,14 +50,8 @@ function getSolution(state) {
 	const rootFull = solutionFull.find(term => term.isSubtype(Sqrt))
 	const DFull = rootFull.argument
 	const D = DFull.regularClean()
-	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substituteVariables({ ...variables, D }).removeUseless({ removeZeroRoot: false })
-	const solution = solutionFull.regularClean()
-	const solutionsSplit = solution.getSingular().map(s => s.removeUseless())
-	const solutions = solutionsSplit.map(s => s.regularClean())
-	const numSolutions = solutions.length
-	const [ans1] = solutions
-	const equationSubstituted = equation.substituteVariables({ [variables.x]: ans1 })
-	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationSubstituted, ans1 }
+	const numSolutions = 0
+	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, numSolutions }
 }
 
 function checkInput(exerciseData, step) {
@@ -71,12 +62,8 @@ function checkInput(exerciseData, step) {
 			return performComparison(exerciseData, 'solutionFull')
 		case 3:
 			return performComparison(exerciseData, 'D')
-		case 4:
-			return performComparison(exerciseData, 'numSolutions')
-		case 5:
-			return performComparison(exerciseData, 'ans1')
 		default:
-			return performComparison(exerciseData, ['numSolutions', 'ans1'])
+			return performComparison(exerciseData, 'numSolutions')
 	}
 }
 

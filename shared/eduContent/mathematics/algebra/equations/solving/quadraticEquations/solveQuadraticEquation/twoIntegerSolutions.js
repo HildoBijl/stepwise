@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomInteger } = require('../../../../../../../util')
 const { asExpression, asEquation, expressionComparisons, Integer, Sqrt } = require('../../../../../../../CAS')
 
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -12,7 +12,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveQuadraticEquation',
-	weight: 1,
+	weight: 2,
 	steps: ['substituteANumber', 'substituteANumber', null, null, 'simplifyFraction'],
 	// steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null, 'simplifyFraction'], // ToDo: implement calculateSumOfProducts skill.
 	comparison: {
@@ -23,19 +23,16 @@ const metaData = {
 		D: {},
 		numSolutions: {},
 		ans1: onlyOrderChanges,
+		ans2: onlyOrderChanges,
 	}
 }
 
 function generateState(example) {
-	// We want integer coefficients in the equation, but a possibly non-integer solution "numerator/denominator". So we set up the equation a*(x - numerator/denominator)^2 = 0, rewrite it to a*x^2 - 2*a*(numerator/denominator) + a*(numerator/denominator)^2 = 0, and check if this gives integer coefficients.
-	let a, denominator, numerator
-	while (a === undefined || (2 * a * numerator % denominator !== 0) || (a * numerator ** 2 % denominator ** 2 !== 0)) {
-		a = getRandomInteger(-6, 6, [0])
-		numerator = getRandomInteger(-12, 12)
-		denominator = getRandomInteger(-6, 6, [0])
-	}
-	const b = -2 * a * numerator / denominator
-	const c = a * (numerator / denominator) ** 2
+	const a = getRandomInteger(example ? 2 : -6, 6, [0])
+	const x1 = getRandomInteger(example ? -8 : -12, example ? 8 : 12)
+	const x2 = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [x1])
+	const b = -a * (x1 + x2)
+	const c = a * x1 * x2
 
 	return {
 		x: selectRandomly(variableSet),
@@ -58,9 +55,9 @@ function getSolution(state) {
 	const solutionsSplit = solution.getSingular().map(s => s.removeUseless())
 	const solutions = solutionsSplit.map(s => s.regularClean())
 	const numSolutions = solutions.length
-	const [ans1] = solutions
-	const equationSubstituted = equation.substituteVariables({ [variables.x]: ans1 })
-	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationSubstituted, ans1 }
+	const equationSubstituted = solutions.map(s => equation.substituteVariables({ [variables.x]: s }))
+	const [ans1, ans2] = solutions
+	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationSubstituted, ans1, ans2 }
 }
 
 function checkInput(exerciseData, step) {
@@ -74,9 +71,9 @@ function checkInput(exerciseData, step) {
 		case 4:
 			return performComparison(exerciseData, 'numSolutions')
 		case 5:
-			return performComparison(exerciseData, 'ans1')
+			return performListComparison(exerciseData, ['ans1', 'ans2'])
 		default:
-			return performComparison(exerciseData, ['numSolutions', 'ans1'])
+			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['ans1', 'ans2'])
 	}
 }
 

@@ -6,9 +6,7 @@ import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, expressionChecks, CrossExerciseTranslation } from 'ui/eduTools'
-
-const { wrongSign, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, equivalentExpression } = expressionChecks
+import { useSolution, StepExercise, getFieldInputFeedback, getFieldInputListFeedback, getMCFeedback, CrossExerciseTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -92,7 +90,7 @@ const steps = [
 		},
 		Solution: () => {
 			return <Translation>
-				<Par>When the square root reduces to zero, the plus/minus in the solution vanishes and the equation will have exactly one solution.</Par>
+				<Par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus-minus symbol will result in two different values.</Par>
 			</Translation>
 		},
 	},
@@ -100,7 +98,7 @@ const steps = [
 		Problem: ({ x }) => {
 			const { numSolutions } = useSolution()
 			return <>
-				<Par><Translation>Write down the final solution of the given equation, simplified as much as possible.</Translation></Par>
+				<Par><Translation>Find the solutions of the given equation and write them down separately from one another, simplified as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
 						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={<M>{numSolutions === 1 ? x : `{x}_{index}`}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
@@ -109,10 +107,10 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, solutionHalfSimplified, ans1, equationSubstituted }) => {
+		Solution: ({ x, solutionHalfSimplified, solution, solutionsSplit, solutions, equationSubstituted }) => {
 			return <Translation>
-				<Par>By calculating <M>{solutionHalfSimplified}</M> we can reduce it to a single number <M>{x} = {ans1}</M>.</Par>
-				<Par>As final check, we insert the solution <M>{x}</M> into the original equation, <BM>{equationSubstituted}.</BM> This indeed holds, so the solution we have found is correct.</Par>
+				<Par>It is wise to first simplify the expression with the plus/minus. This gets us <BM>{x} = {solutionHalfSimplified} = {solution}.</BM> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <BM>{x}_1 = {solutionsSplit[0]} = {solutions[0]},</BM><BM>{x}_2 = {solutionsSplit[1]} = {solutions[1]}.</BM></Par>
+				<Par>As final check, we insert the two solutions <M>{x}_1</M> and <M>{x}_2</M> into the original equation. This results in <BM>{equationSubstituted[0]},</BM><BM>{equationSubstituted[1]}.</BM> Both of these equations hold, so the solutions we found are correct.</Par>
 			</Translation>
 		},
 	},
@@ -124,17 +122,16 @@ function getFeedback(exerciseData) {
 		...getMCFeedback(exerciseData, {
 			numSolutions: [
 				translateCrossExercise(<>This is not correct. This would be the case when the discriminant <M>D = b^2 - 4ac</M> is smaller than zero.</>, "0Incorrect"),
-				translateCrossExercise(<>Spot on! The discriminant <M>D = b^2 - 4ac</M> is equal to zero.</>, "1Correct"),
-				translateCrossExercise(<>This doesn't add up. This would be the case when the discriminant <M>D = b^2 - 4ac</M> is larger than zero.</>, "2Incorrect"),
+				translateCrossExercise(<>That can't be true. This is only the case when the discriminant <M>D = b^2 - 4ac</M> is equal to zero.</>, "1Incorrect"),
+				translateCrossExercise(<>Exactly! After all, the discriminant <M>D = b^2 - 4ac</M> is larger than zero.</>, "2Correct"),
 				translateCrossExercise(<>No, this cannot be the case. A quadratic equation never has more than two solutions.</>, "3Incorrect"),
 			],
 		}),
 		...getFieldInputFeedback(exerciseData, ['a', 'b', 'c', 'D']),
 		...getFieldInputFeedback(exerciseData, {
 			solutionFull: [],
-			ans1: [wrongSign, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, equivalentExpression],
 		}),
-		ans2: selectRandomIncorrect(true),
+		...getFieldInputListFeedback(exerciseData, ['ans1', 'ans2']),
 		ans3: selectRandomIncorrect(true),
 	}
 }

@@ -6,9 +6,7 @@ import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace, useInput, selectRandomIncorrect } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, expressionChecks, CrossExerciseTranslation } from 'ui/eduTools'
-
-const { wrongSign, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, equivalentExpression } = expressionChecks
+import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, CrossExerciseTranslation } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -92,27 +90,7 @@ const steps = [
 		},
 		Solution: () => {
 			return <Translation>
-				<Par>When the square root reduces to zero, the plus/minus in the solution vanishes and the equation will have exactly one solution.</Par>
-			</Translation>
-		},
-	},
-	{
-		Problem: ({ x }) => {
-			const { numSolutions } = useSolution()
-			return <>
-				<Par><Translation>Write down the final solution of the given equation, simplified as much as possible.</Translation></Par>
-				<InputSpace>
-					<Par>
-						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={<M>{numSolutions === 1 ? x : `{x}_{index}`}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
-						)}
-					</Par>
-				</InputSpace>
-			</>
-		},
-		Solution: ({ x, solutionHalfSimplified, ans1, equationSubstituted }) => {
-			return <Translation>
-				<Par>By calculating <M>{solutionHalfSimplified}</M> we can reduce it to a single number <M>{x} = {ans1}</M>.</Par>
-				<Par>As final check, we insert the solution <M>{x}</M> into the original equation, <BM>{equationSubstituted}.</BM> This indeed holds, so the solution we have found is correct.</Par>
+				<Par>Because the value within the square root (the discriminant) is negative, the square root is impossible to evaluate. There are hence no possible solutions to the quadratic equation.</Par>
 			</Translation>
 		},
 	},
@@ -123,8 +101,8 @@ function getFeedback(exerciseData) {
 	return {
 		...getMCFeedback(exerciseData, {
 			numSolutions: [
-				translateCrossExercise(<>This is not correct. This would be the case when the discriminant <M>D = b^2 - 4ac</M> is smaller than zero.</>, "0Incorrect"),
-				translateCrossExercise(<>Spot on! The discriminant <M>D = b^2 - 4ac</M> is equal to zero.</>, "1Correct"),
+				translateCrossExercise(<>Exactly. The discriminant <M>D = b^2 - 4ac</M> is negative, so the square root has no valid outcomes.</>, "0Correct"),
+				translateCrossExercise(<>That can't be true. This is only the case when the discriminant <M>D = b^2 - 4ac</M> is equal to zero.</>, "1Incorrect"),
 				translateCrossExercise(<>This doesn't add up. This would be the case when the discriminant <M>D = b^2 - 4ac</M> is larger than zero.</>, "2Incorrect"),
 				translateCrossExercise(<>No, this cannot be the case. A quadratic equation never has more than two solutions.</>, "3Incorrect"),
 			],
@@ -132,8 +110,8 @@ function getFeedback(exerciseData) {
 		...getFieldInputFeedback(exerciseData, ['a', 'b', 'c', 'D']),
 		...getFieldInputFeedback(exerciseData, {
 			solutionFull: [],
-			ans1: [wrongSign, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, equivalentExpression],
 		}),
+		ans1: selectRandomIncorrect(true),
 		ans2: selectRandomIncorrect(true),
 		ans3: selectRandomIncorrect(true),
 	}

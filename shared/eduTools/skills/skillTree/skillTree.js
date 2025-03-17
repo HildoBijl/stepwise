@@ -261,8 +261,8 @@ const skillStructure = {
 						solveQuadraticEquation: {
 							name: 'Solve quadratic equation',
 							setup: and('substituteANumber', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution'),
-							examples: ['oneSolution'],
-							// exercises: ['noSolutions', 'oneSolution', 'twoIntegerSolutions', 'twoNonIntegerSolutions'],
+							examples: ['oneSolution', 'twoIntegerSolutions'],
+							exercises: ['noSolutions', 'oneSolution', 'twoIntegerSolutions', 'twoNonIntegerSolutions'],
 						},
 						solveRewrittenQuadraticEquation: {
 							name: 'Solve rewritten quadratic equation',
