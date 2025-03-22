@@ -1923,7 +1923,7 @@ class Product extends ExpressionList {
 		if (term.isSubtype(Integer))
 			return term.number
 		if (term.isSubtype(Product))
-			return Product.extractLeadingNumber(term.terms[0])
+			return Product.extractLeadingNumber(term.factors.find(factor => (factor instanceof Integer)) || term.factors[0])
 		if (term.isSubtype(Fraction))
 			return Product.extractLeadingNumbers(fraction.numerator)
 		return 1 // Also for floats. In that case just don't divide by any number.
@@ -2375,8 +2375,8 @@ class Fraction extends Function {
 			if (term.isSubtype(Integer))
 				return new Integer(term.number / divisor)
 			if (term.isSubtype(Product))
-				return term.applyToTerm(0, divideTermByDivisor).simplifyBasic(options)
-			throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
+				return term.applyToTerm(term.factors.findIndex(factor => (factor instanceof Integer)) || 0, divideTermByDivisor).simplifyBasic(options)
+			throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction. We encountered a term (subtype ${term.subtype}) with value "${term.str}".`)
 		}
 		const dividePartByDivisor = (part) => part.isSubtype(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
 		return { numerator: dividePartByDivisor(numerator), denominator: dividePartByDivisor(denominator) }
