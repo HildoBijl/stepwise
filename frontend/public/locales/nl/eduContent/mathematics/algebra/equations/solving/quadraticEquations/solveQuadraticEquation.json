@@ -11,5 +11,105 @@
     "discriminant": "<info>Je hebt gezien dat het getal binnen de wortel bepaalt hoeveel oplossingen de vergelijking heeft. Dit getal <inline-math/> wordt daarom de <term>discriminant</term> van de vergelijking genoemd.</info>",
     "steps": "<head>De stappen</head><par>Om een kwadratische vergelijking als <inline-math/> op te lossen neem je de volgende stappen.</par><list><item><a>Vergelijk de vergelijking met de standaardvorm <inline-math/> om <inline-math/>, <inline-math/> en <inline-math/> te bepalen. Bij een minteken moet het bijbehorende getal negatief zijn. Bij ons voorbeeld hebben we <inline-math/>, <inline-math/> en <inline-math/>.</a></item><item><b><skill-link>Vul hiermee</skill-link> <inline-math/>, <inline-math/> en <inline-math/> in de algemene oplossing <inline-math/> in. Bij ons voorbeeld krijgen we zo <inline-math/>.</b></item><item><c><skill-link>Vereenvoudig de wortel</skill-link> en bepaal aan de hand van het getal erin (de discriminant) het aantal oplossingen.<list><item><d>Als de discriminant <emp>positief</emp> is dan zijn er <emp>twee oplossingen</emp>.</d></item><item><e>Als de discriminant <emp>negatief</emp> is dan zijn er <emp>geen oplossingen</emp>.</e></item><item><f>Als de discriminant gelijk is aan <emp>nul</emp> dan is er precies <emp>één oplossing</emp>.</f></item></list>Bij ons voorbeeld komen we uit op <inline-math/> en dus zijn er twee oplossingen.</c></item><item><g><skill-link>Vereenvoudig de resulterende breuk</skill-link>, waarbij je waar mogelijk breukfactoren wegstreept. Bij ons voorbeeld wordt <inline-math/> teruggebracht tot <inline-math/>.</g></item><item><h>Schrijf uiteindelijk de oplossingen (als ze bestaan) los van elkaar op. Bij ons voorbeeld krijgen we <inline-math/> en <inline-math/>.</h></item></list>",
     "derivation": "<head>Achtergrond: afleiding van de kwadratische formule</head><par>Hoewel het niet nodig is voor deze vaardigheid, kunnen we kijken naar waar de kwadratische formule vandaan komt. Om precies te zijn kunnen we hem zelf afleiden! Het is leuk om deze afleiding eens gezien te hebben, al was het maar zodat je weet waarom hij opgebouwd is zoals hij is.</par><par>Ons beginpunt is de kwadratische vergelijking <block-math/>Om redenen die je zo zal zien, vermenigvuldigen we alle termen in deze vergelijking met <inline-math/> om uit te komen op <block-math/>We tellen ook <inline-math/> erbij op en halen het er gelijk weer vanaf,<block-math/>De reden dat we dit doen is omdat we nu de eerste drie termen in een groot kwadraat samen kunnen voegen, als <block-math/>Merk op dat, als je de haakjes uitwerkt, dat we weer uitkomen op waar we mee begonnen waren, wat betekent dat de vergelijking nog steeds klopt. In de volgende stap brengen we de andere termen naar de rechterkant van de vergelijking, <block-math/> We kunnen nu het kwadraat wegwerken door van beide kanten van de vergelijking de wortel te nemen. Als we dit doen, dan zegt de regel dat we voor de wortel ook een plus/minus-teken toe moeten voegen. Zo krijgen we <block-math/> Het aftrekken van <inline-math/> en het vervolgens delen door <inline-math/> zet dit om in <block-math/> We hebben de abc-formule afgeleid, waarmee we bewezen hebben dat hij klopt! Natuurlijk kun je, elke keer dat je een kwadratische vergelijking op wilt lossen, ook elke keer alle bovenstaande stappen volgen, maar het simpelweg invullen van een paar getallen in de abc-formule is een veel makkelijkere manier om kwadratische vergelijkingen op te lossen.</par>"
+  },
+  "practice": {
+    "noSolutions": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Vind alle mogelijke oplossingen voor <inline-math/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)",
+      "step1": {
+        "problem": "Bepaal de waarden van <inline-math/>, <inline-math/> en <inline-math/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <inline-math/>.",
+        "solution": "Door de vergelijkingen naast elkaar te leggen, zien we in dat <inline-math/>, <inline-math/> en <inline-math/>."
+      },
+      "step2": {
+        "problem": "Vul <inline-math/>, <inline-math/> en <inline-math/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt \"pm\".)",
+        "solution": "De kwadratische formule luidt <block-math/> Het invullen van de waarden <inline-math/>, <inline-math/> en <inline-math/> zet dit om naar <block-math/>"
+      },
+      "step3": {
+        "problem": "Bereken de waarde van de discriminant (het getal binnen de wortel).",
+        "solution": "<par>We kunnen direct berekenen dat <inline-math/> gelijk is aan <inline-math/>.</par>"
+      },
+      "step4": {
+        "problem": "Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.",
+        "solution": "<par>Omdat het getal binnen de wortel (de discriminant) negatief is, is het onmogelijk om de wortel te berekenen. Er zijn dus geen mogelijke oplossingen voor de kwadratische vergelijking.</par>"
+      }
+    },
+    "oneSolution": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Vind alle mogelijke oplossingen voor <inline-math/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)",
+      "step1": {
+        "problem": "Bepaal de waarden van <inline-math/>, <inline-math/> en <inline-math/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <inline-math/>.",
+        "solution": "Door de vergelijkingen naast elkaar te leggen, zien we in dat <inline-math/>, <inline-math/> en <inline-math/>."
+      },
+      "step2": {
+        "problem": "Vul <inline-math/>, <inline-math/> en <inline-math/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt \"pm\".)",
+        "solution": "De kwadratische formule luidt <block-math/> Het invullen van de waarden <inline-math/>, <inline-math/> en <inline-math/> zet dit om naar <block-math/>"
+      },
+      "step3": {
+        "problem": "Bereken de waarde van de discriminant (het getal binnen de wortel).",
+        "solution": "<par>We kunnen direct berekenen dat <inline-math/> gelijk is aan <inline-math/>.</par>"
+      },
+      "step4": {
+        "problem": "Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.",
+        "solution": "<par>Als de wortel op nul uitkomt, dan verdwijnt de plus/minus in de oplossing en heeft de vergelijking precies één oplossing.</par>"
+      },
+      "step5": {
+        "problem": "Schrijf de uiteindelijke oplossing van de vergelijking op, zo vereenvoudigd als mogelijk.",
+        "solution": "<par>Door <inline-math/> uit te rekenen, kunnen we het tot een enkel getal <inline-math/> terugbrengen.</par><par>Als laatste check vullen we de oplossing <inline-math/> in de oorspronkelijke vergelijking in, <block-math/> Dit klopt inderdaad, wat betekent dat de oplossing die we gevonden hebben correct is.</par>"
+      }
+    },
+    "twoIntegerSolutions": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Vind alle mogelijke oplossingen voor <inline-math/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)",
+      "step1": {
+        "problem": "Bepaal de waarden van <inline-math/>, <inline-math/> en <inline-math/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <inline-math/>.",
+        "solution": "Door de vergelijkingen naast elkaar te leggen, zien we in dat <inline-math/>, <inline-math/> en <inline-math/>."
+      },
+      "step2": {
+        "problem": "Vul <inline-math/>, <inline-math/> en <inline-math/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt \"pm\".)",
+        "solution": "De kwadratische formule luidt <block-math/> Het invullen van de waarden <inline-math/>, <inline-math/> en <inline-math/> zet dit om naar <block-math/>"
+      },
+      "step3": {
+        "problem": "Bereken de waarde van de discriminant (het getal binnen de wortel).",
+        "solution": "<par>We kunnen direct berekenen dat <inline-math/> gelijk is aan <inline-math/>.</par>"
+      },
+      "step4": {
+        "problem": "Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.",
+        "solution": "<par>Als de discriminant groter dan nul is, dan heeft de vergelijking twee geldige oplossingen. Het plus/minus symbool zorgt dan immers voor twee mogelijke waarden.</par>"
+      },
+      "step5": {
+        "problem": "Bepaal de oplossingen van de gegeven vergelijking en schrijf ze los van elkaar op, zo vereenvoudigd als mogelijk.",
+        "solution": "<par>Het is handig om eerst de uitdrukking met de plus/minus te vereenvoudigen. Dit brengt ons <block-math/> Zodra dit vereenvoudigd is, vullen we ofwel een plus ofwel een min in. Dit geeft de twee oplossingen <block-math/><block-math/></par><par>Als laatste check vullen we de twee oplossingen <inline-math/> en <inline-math/> in de oorspronkelijke vergelijking in. Dit geeft <block-math/><block-math/> Beide bovenstaande vergelijkingen kloppen, wat betekent dat de gevonden oplossingen correct zijn.</par>"
+      }
+    },
+    "twoNonIntegerSolutions": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Vind alle mogelijke oplossingen voor <inline-math/> en vereenvoudig deze zo veel als mogelijk. (Dit omvat ook het trekken van factoren uit wortels en het wegstrepen van breukfactoren.)",
+      "step1": {
+        "problem": "Bepaal de waarden van <inline-math/>, <inline-math/> en <inline-math/> zodat de gegeven vergelijking overeenkomt met de standaardvorm voor kwadratische vergelijkingen <inline-math/>.",
+        "solution": "Door de vergelijkingen naast elkaar te leggen, zien we in dat <inline-math/>, <inline-math/> en <inline-math/>."
+      },
+      "step2": {
+        "problem": "Vul <inline-math/>, <inline-math/> en <inline-math/> in de kwadratische formule in. (Je kunt het plus/minus symbool van de app's interne toetsenbord gebruiken, of je typt \"pm\".)",
+        "solution": "De kwadratische formule luidt <block-math/> Het invullen van de waarden <inline-math/>, <inline-math/> en <inline-math/> zet dit om naar <block-math/>"
+      },
+      "step3": {
+        "problem": "Bereken de waarde van de discriminant (het getal binnen de wortel).",
+        "solution": "<par>We kunnen direct berekenen dat <inline-math/> gelijk is aan <inline-math/>.</par>"
+      },
+      "step4": {
+        "problem": "Gebaseerd op de waarde van de discriminant, bepaal hoeveel oplossingen de gegeven vergelijking heeft.",
+        "solution": "<par>Als de discriminant groter dan nul is, dan heeft de vergelijking twee geldige oplossingen. Het plus/minus symbool zorgt dan immers voor twee mogelijke waarden.</par>"
+      },
+      "step5": {
+        "problem": "Bepaal de oplossingen van de gegeven vergelijking en schrijf ze los van elkaar op, zo vereenvoudigd als mogelijk.",
+        "solution": "<par>Het is handig om eerst de uitdrukking met de plus/minus te vereenvoudigen. Dit brengt ons <block-math/> Zodra dit vereenvoudigd is, vullen we ofwel een plus ofwel een min in. Dit geeft de twee oplossingen <block-math/><block-math/></par><par>Als laatste check vullen we de twee oplossingen <inline-math/> en <inline-math/> in de oorspronkelijke vergelijking in. Dit geeft <block-math/><block-math/> Met wat werk kunnen we nagaan dat beide van de bovenstaande vergelijkingen inderdaad kloppen, wat betekent dat de gevonden oplossingen correct zijn.</par>"
+      }
+    },
+    "crossExercise": {
+      "numSolutionsInput": "<multiple-choice><choice><a>Er zijn geen mogelijke oplossingen voor <inline-math/>.</a></choice><choice><b>Er is <inline-math/> oplossing voor <inline-math/>.</b></choice><choice><c>Er zijn <inline-math/> oplossingen voor <inline-math/>.</c></choice><choice><d>Er zijn <inline-math/> oplossingen voor <inline-math/>.</d></choice></multiple-choice>",
+      "0Correct": "<a>Juist. De discriminant <inline-math/> is negatief, dus de wortel heeft geen mogelijke uitkomsten.</a>",
+      "0Incorrect": "<a>Dit is niet correct. Dit zou het geval zijn als de discriminant <inline-math/> kleiner dan nul is.</a>",
+      "1Correct": "<a>Precies! De discriminant <inline-math/> is gelijk aan nul.</a>",
+      "1Incorrect": "<a>Dat kan het niet zijn. Dit is alleen het geval als de discriminant <inline-math/> gelijk aan nul is.</a>",
+      "2Correct": "<a>Precies! De discriminant <inline-math/> is immers groter dan nul.</a>",
+      "2Incorrect": "<a>Dit klopt niet. Dit zou het geval zijn als de discriminant <inline-math/> groter dan nul is.</a>",
+      "3Incorrect": "<a>Nee, dit kan niet het geval zijn. Een kwadratische vergelijking heeft nooit meer dan twee oplossingen.</a>"
+    }
   }
 }

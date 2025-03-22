@@ -11,5 +11,105 @@
     "discriminant": "<info>Du hast gesehen, dass die Zahl in der Wurzel bestimmt, wie viele Lösungen die Gleichung hat. Diese Zahl <inline-math/> nennt man daher die <term>Diskriminante</term> der Gleichung.</info>",
     "steps": "<head>Die Schritte</head><par>Um eine quadratische Gleichung wie <inline-math/> zu lösen, ist wie folgt vorzugehen.</par><list><item><a>Vergleiche die Gleichung mit der Standardform <inline-math/>, um <inline-math/>, <inline-math/> und <inline-math/> zu bestimmen. Bei einem Minuszeichen muss die entsprechende Zahl negativ sein. In unserem Beispiel haben wir <inline-math/>, <inline-math/> und <inline-math/>.</a></item><item><b><skill-link>Gib damit</skill-link> <inline-math/>, <inline-math/> und <inline-math/> in die allgemeine Lösung <inline-math/> ein. In unserem Beispiel erhalten wir so <inline-math/>.</b></item><item><c><skill-link>Vereinfache die Wurzel</skill-link> und bestimme anhand der darin enthaltenen Zahl (der Diskriminante) die Anzahl der Lösungen.<list><item><d>Wenn die Diskriminante <emp>positiv</emp> ist, gibt es <emp>zwei Lösungen</emp>.</d></item><item><e>Wenn die Diskriminante <emp>negativ</emp> ist, gibt es <emp>keine Lösungen</emp>.</e></item><item><f>Wenn die Diskriminante gleich <emp>Null</emp> ist, gibt es genau <emp>eine Lösung</emp>.</f></item></list>In unserem Beispiel erhalten wir <inline-math/> und somit gibt es zwei Lösungen.</c></item><item><g><skill-link>Vereinfache den sich ergebenden Bruch</skill-link>, und eliminiert Bruchfaktoren, wo immer möglich. In unserem Beispiel wird <inline-math/> auf <inline-math/> reduziert.</g></item><item><h>Schreibe schließlich die Lösungen (falls es sie gibt) getrennt auf. In unserem Beispiel erhalten wir <inline-math/> und <inline-math/>.</h></item></list>",
     "derivation": "<head>Hintergrund: Herleitung der quadratischen Formel</head><par>Obwohl es für diese Kompetenz nicht notwendig ist, können wir uns ansehen, woher die quadratische Formel kommt. Um genau zu sein, können wir sie selbst herleiten! Es ist gut, diese Herleitung einmal gesehen zu haben, und sei es nur, um zu wissen, warum sie so konstruiert ist, wie sie ist.</par><par>Unser Ausgangspunkt ist die quadratische Gleichung <block-math/>Aus Gründen, die du gleich sehen wirst, multiplizieren wir alle Terme dieser Gleichung mit <inline-math/>, um <block-math/>zu erhalten. Wir addieren auch <inline-math/> und subtrahieren es gleich, <block-math/>Der Grund dafür ist, dass wir jetzt die ersten drei Terme zu einem großen Quadrat zusammenfügen können, wie <block-math/>Beachte, dass wir, wenn wir die Klammern erweitern, wieder am Anfang landen, was bedeutet, dass die Gleichung immer noch korrekt ist. Im nächsten Schritt bringen wir die anderen Terme auf die rechte Seite der Gleichung, <block-math/>Wir können nun das Quadrat eliminieren, indem wir die Wurzel aus beiden Seiten der Gleichung ziehen. Die Regel besagt, dass wir vor der Wurzel auch ein Plus-/Minus-Zeichen hinzufügen sollen. So erhalten wir <block-math/> Wenn wir <inline-math/> subtrahieren und dann durch <inline-math/> dividieren, wird daraus <block-math/> Wir haben die abc-Formel abgeleitet und bewiesen, dass sie richtig ist! Natürlich kann man jedes Mal, wenn man eine quadratische Gleichung lösen will, auch alle oben genannten Schritte befolgen, aber es ist viel einfacher, quadratische Gleichungen zu lösen, indem man einfach ein paar Zahlen in die abc-Formel einsetzt.</par>"
+  },
+  "practice": {
+    "noSolutions": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Finde alle möglichen Lösungen für <inline-math/> und vereinfache sie so weit wie möglich. (Dazu gehört das Ziehen von Faktoren aus Wurzeln und das Eliminieren von Bruchfaktoren.)",
+      "step1": {
+        "problem": "Bestimme die Werte von <inline-math/>, <inline-math/> und <inline-math/> so, dass die gegebene Gleichung der Standardform für quadratische Gleichungen <inline-math/> entspricht.",
+        "solution": "Wenn wir die Gleichungen nebeneinander stellen, sehen wir, dass <inline-math/>, <inline-math/> und <inline-math/>."
+      },
+      "step2": {
+        "problem": "Gib <inline-math/>, <inline-math/> und <inline-math/> in die quadratische Formel ein. (Du kannst das Plus/Minus-Symbol der app-internen Tastatur verwenden, oder \"pm\" eintippen.)",
+        "solution": "Die quadratische Formel lautet <block-math/> Durch Einsetzen der Werte <inline-math/>, <inline-math/> und <inline-math/> wird daraus <block-math/>"
+      },
+      "step3": {
+        "problem": "Berechne den Wert der Diskriminante (die Zahl innerhalb der Wurzel).",
+        "solution": "<par>Wir können direkt berechnen, dass <inline-math/> gleich <inline-math/> ist.</par>"
+      },
+      "step4": {
+        "problem": "Bestimme auf der Grundlage des Wertes der Diskriminante, wie viele Lösungen die gegebene Gleichung hat.",
+        "solution": "<par>Da die Zahl innerhalb der Wurzel (die Diskriminante) negativ ist, ist es unmöglich, die Wurzel zu berechnen. Es gibt also keine möglichen Lösungen für die quadratische Gleichung.</par>"
+      }
+    },
+    "oneSolution": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Finde alle möglichen Lösungen für <inline-math/> und vereinfache sie so weit wie möglich. (Dazu gehört das Ziehen von Faktoren aus Wurzeln und das Eliminieren von Bruchfaktoren.)",
+      "step1": {
+        "problem": "Bestimme die Werte von <inline-math/>, <inline-math/> und <inline-math/> so, dass die gegebene Gleichung der Standardform für quadratische Gleichungen <inline-math/> entspricht.",
+        "solution": "Wenn wir die Gleichungen nebeneinander stellen, sehen wir, dass <inline-math/>, <inline-math/> und <inline-math/>."
+      },
+      "step2": {
+        "problem": "Gib <inline-math/>, <inline-math/> und <inline-math/> in die quadratische Formel ein. (Du kannst das Plus/Minus-Symbol der app-internen Tastatur verwenden, oder \"pm\" eintippen.)",
+        "solution": "Die quadratische Formel lautet <block-math/> Durch Einsetzen der Werte <inline-math/>, <inline-math/> und <inline-math/> wird daraus <block-math/>"
+      },
+      "step3": {
+        "problem": "Berechne den Wert der Diskriminante (die Zahl innerhalb der Wurzel).",
+        "solution": "<par>Wir können direkt berechnen, dass <inline-math/> gleich <inline-math/> ist.</par>"
+      },
+      "step4": {
+        "problem": "Bestimme auf der Grundlage des Wertes der Diskriminante, wie viele Lösungen die gegebene Gleichung hat.",
+        "solution": "<par>Wenn die Wurzel den Wert Null annimmt, verschwindet das Plus/Minus in der Lösung und die Gleichung hat genau eine Lösung.</par>"
+      },
+      "step5": {
+        "problem": "Schreibe die endgültige Lösung der Gleichung so vereinfacht wie möglich auf.",
+        "solution": "<par>Durch die Berechnung von <inline-math/> können wir sie auf eine einzige Zahl <inline-math/> reduzieren.</par><par>Als letzte Kontrolle setzen wir die Lösung <inline-math/> in die ursprüngliche Gleichung ein, <block-math/> Diese ist tatsächlich korrekt, was bedeutet, dass die gefundene Lösung richtig ist.</par>"
+      }
+    },
+    "twoIntegerSolutions": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Finde alle möglichen Lösungen für <inline-math/> und vereinfache sie so weit wie möglich. (Dazu gehört das Ziehen von Faktoren aus Wurzeln und das Eliminieren von Bruchfaktoren.)",
+      "step1": {
+        "problem": "Bestimme die Werte von <inline-math/>, <inline-math/> und <inline-math/> so, dass die gegebene Gleichung der Standardform für quadratische Gleichungen <inline-math/> entspricht.",
+        "solution": "Wenn wir die Gleichungen nebeneinander stellen, sehen wir, dass <inline-math/>, <inline-math/> und <inline-math/>."
+      },
+      "step2": {
+        "problem": "Gib <inline-math/>, <inline-math/> und <inline-math/> in die quadratische Formel ein. (Du kannst das Plus/Minus-Symbol der app-internen Tastatur verwenden, oder \"pm\" eintippen.)",
+        "solution": "Die quadratische Formel lautet <block-math/> Durch Einsetzen der Werte <inline-math/>, <inline-math/> und <inline-math/> wird daraus <block-math/>"
+      },
+      "step3": {
+        "problem": "Berechne den Wert der Diskriminante (die Zahl innerhalb der Wurzel).",
+        "solution": "<par>Wir können direkt berechnen, dass <inline-math/> gleich <inline-math/> ist.</par>"
+      },
+      "step4": {
+        "problem": "Bestimme auf der Grundlage des Wertes der Diskriminante, wie viele Lösungen die gegebene Gleichung hat.",
+        "solution": "<par>Wenn die Diskriminante größer als Null ist, hat die Gleichung zwei gültige Lösungen. Das Plus-/Minus-Symbol liefert dann nämlich zwei mögliche Werte.</par>"
+      },
+      "step5": {
+        "problem": "Bestimme die Lösungen der gegebenen Gleichung und schreibe sie getrennt auf, so vereinfacht wie möglich.",
+        "solution": "<par>Es ist sinnvoll, zunächst den Ausdruck mit dem Plus/Minus zu vereinfachen. Dies bringt uns <block-math/> Sobald dies vereinfacht ist, füllen wir entweder ein Plus oder ein Minus ein. Das ergibt die beiden Lösungen <block-math/><block-math/></par><par>Als letzte Kontrolle setzen wir die beiden Lösungen <inline-math/> und <inline-math/> in die ursprüngliche Gleichung ein. Dies ergibt <block-math/><block-math/> Beide obigen Gleichungen sind korrekt, was bedeutet, dass die gefundenen Lösungen richtig sind.</par>"
+      }
+    },
+    "twoNonIntegerSolutions": {
+      "mainProblem": "Beachte die Gleichung <block-math/> Finde alle möglichen Lösungen für <inline-math/> und vereinfache sie so weit wie möglich. (Dazu gehört das Ziehen von Faktoren aus Wurzeln und das Eliminieren von Bruchfaktoren.)",
+      "step1": {
+        "problem": "Bestimme die Werte von <inline-math/>, <inline-math/> und <inline-math/> so, dass die gegebene Gleichung der Standardform für quadratische Gleichungen <inline-math/> entspricht.",
+        "solution": "Wenn wir die Gleichungen nebeneinander stellen, sehen wir, dass <inline-math/>, <inline-math/> und <inline-math/>."
+      },
+      "step2": {
+        "problem": "Gib <inline-math/>, <inline-math/> und <inline-math/> in die quadratische Formel ein. (Du kannst das Plus/Minus-Symbol der app-internen Tastatur verwenden, oder \"pm\" eintippen.)",
+        "solution": "Die quadratische Formel lautet <block-math/> Durch Einsetzen der Werte <inline-math/>, <inline-math/> und <inline-math/> wird daraus <block-math/>"
+      },
+      "step3": {
+        "problem": "Berechne den Wert der Diskriminante (die Zahl innerhalb der Wurzel).",
+        "solution": "<par>Wir können direkt berechnen, dass <inline-math/> gleich <inline-math/> ist.</par>"
+      },
+      "step4": {
+        "problem": "Bestimme auf der Grundlage des Wertes der Diskriminante, wie viele Lösungen die gegebene Gleichung hat.",
+        "solution": "<par>Wenn die Diskriminante größer als Null ist, hat die Gleichung zwei gültige Lösungen. Das Plus-/Minus-Symbol liefert dann nämlich zwei mögliche Werte.</par>"
+      },
+      "step5": {
+        "problem": "Bestimme die Lösungen der gegebenen Gleichung und schreibe sie getrennt auf, so vereinfacht wie möglich.",
+        "solution": "<par>Es ist sinnvoll, zunächst den Ausdruck mit dem Plus/Minus zu vereinfachen. Dies bringt uns <block-math/> Sobald dies vereinfacht ist, füllen wir entweder ein Plus oder ein Minus ein. Das ergibt die beiden Lösungen <block-math/><block-math/></par><par>Als letzte Kontrolle setzen wir die beiden Lösungen <inline-math/> und <inline-math/> in die ursprüngliche Gleichung ein. Dies ergibt <block-math/><block-math/> Mit etwas Arbeit können wir feststellen, dass die beiden obigen Gleichungen tatsächlich korrekt sind und somit auch die gefundenen Lösungen richtig sind.</par>"
+      }
+    },
+    "crossExercise": {
+      "numSolutionsInput": "<multiple-choice><choice><a>Es gibt keine möglichen Lösungen für <inline-math/>.</a></choice><choice><b>Es gibt <inline-math/> Lösung für <inline-math/>.</b></choice><choice><c>Es gibt <inline-math/> Lösungen für <inline-math/>.</c></choice><choice><d>Es gibt <inline-math/> Lösungen für <inline-math/>.</d></choice></multiple-choice>",
+      "0Correct": "<a>Richtig. Die Diskriminante <inline-math/> ist negativ, also hat die Wurzel keine möglichen Ergebnisse.</a>",
+      "0Incorrect": "<a>Dies ist nicht korrekt. Dies wäre der Fall, wenn die Diskriminante <inline-math/> kleiner als Null ist.</a>",
+      "1Correct": "<a>Ganz genau! Die Diskriminante <inline-math/> ist gleich Null.</a>",
+      "1Incorrect": "<a>Das kann nicht sein. Das ist nur dann der Fall, wenn die Diskriminante <inline-math/> gleich Null ist.</a>",
+      "2Correct": "<a>Ganz genau! Schließlich ist die Diskriminante <inline-math/> größer als Null.</a>",
+      "2Incorrect": "<a>Dies ist nicht korrekt. Dies wäre der Fall, wenn die Diskriminante <inline-math/> größer als Null ist.</a>",
+      "3Incorrect": "<a>Nein, das kann nicht der Fall sein. Eine quadratische Gleichung hat nie mehr als zwei Lösungen.</a>"
+    }
   }
 }

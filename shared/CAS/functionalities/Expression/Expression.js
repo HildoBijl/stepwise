@@ -1018,7 +1018,7 @@ class PlusMinus extends Constant {
 	}
 
 	requiresPlusInSum() {
-		return false // The plus-minus is already inherent.
+		return false // The plus/minus is already inherent.
 	}
 
 	isPlural() {

@@ -29,7 +29,7 @@ export function cleanUp(FI, settings) {
 	// Step 4 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
 	FI = alternateExpressionParts(FI, settings)
 
-	// Step 5 is to auto-replace functions. The auto-replace on ExpressionPart level for symbols (Greek alphabet, plus-minus, ...) was already done by cleaning them (and running an extra cleaning upon merging) but this concerns expression-wide auto-replace like functions (root, log, ...) and accents (dot, hat, ...).
+	// Step 5 is to auto-replace functions. The auto-replace on ExpressionPart level for symbols (Greek alphabet, plus/minus, ...) was already done by cleaning them (and running an extra cleaning upon merging) but this concerns expression-wide auto-replace like functions (root, log, ...) and accents (dot, hat, ...).
 	FI = applyAutoReplace(FI, settings)
 
 	// Return the result with or without a cursor.

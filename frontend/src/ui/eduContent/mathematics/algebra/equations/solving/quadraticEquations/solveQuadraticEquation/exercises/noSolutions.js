@@ -33,7 +33,7 @@ const steps = [
 			const { variables } = useSolution()
 			const { x } = variables
 			return <>
-				<Par><Translation>Find the values for <M>a</M>, <M>b</M> and <M>c</M> so that the given equation matches the general form for quadratic equations <M>a{x}^2 + b{x}+c = 0</M>.</Translation></Par>
+				<Par><Translation>Find the values for <M>a</M>, <M>b</M> and <M>c</M> so that the given equation matches the standard form for quadratic equations <M>a{x}^2 + b{x}+c = 0</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="a" prelabel={<M>a=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} />

@@ -13,10 +13,29 @@
     "derivation": "<head>Background: derivation of the quadratic formula</head><par>Though not needed for this skill, we can look at where the quadratic equation comes from. To be precise, we can derive it ourselves! It's fun to see this derivation some time, if only so you know why it's set up the way it is.</par><par>Our starting point is the quadratic equation<block-math/>For reasons which will become clear later, we multiple all terms in this equation by <inline-math/> to get<block-math/>We also add and subtract <inline-math/> to the equation to find<block-math/>The reason why we did this, is because now we can pull the first three terms into a big square, like<block-math/>Note that, if you expand the brackets, we come back to what we started with, so the equation is still valid. The next step is to bring the other terms to the right-hand side,<block-math/>Now we can cancel the square by taking the square root of both sides of the equation. When doing so, the rule says that we must also add a plus/minus symbol prior to the square root. So we get<block-math/>Subtracting <inline-math/> and subsequently dividing by <inline-math/> turns this into<block-math/>We have derived the quadratic formula, proving its correctness! Of course you could take the above steps every time you try to solve a quadratic equation, but simply inserting some numbers into the quadratic formula is a much easier way of solving quadratic equations.</par>"
   },
   "practice": {
+    "noSolutions": {
+      "mainProblem": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)",
+      "step1": {
+        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the standard form for quadratic equations <inline-math/>.",
+        "solution": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
+      },
+      "step2": {
+        "problem": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)",
+        "solution": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>"
+      },
+      "step3": {
+        "problem": "Calculate the value of the discriminant (the number within the square root).",
+        "solution": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>"
+      },
+      "step4": {
+        "problem": "Based on the value of the discriminant, determine how many solutions the given equation has.",
+        "solution": "<par>Because the value within the square root (the discriminant) is negative, the square root is impossible to evaluate. There are hence no possible solutions to the quadratic equation.</par>"
+      }
+    },
     "oneSolution": {
       "mainProblem": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)",
       "step1": {
-        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
+        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the standard form for quadratic equations <inline-math/>.",
         "solution": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
       },
       "step2": {
@@ -36,20 +55,10 @@
         "solution": "<par>By calculating <inline-math/> we can reduce it to a single number <inline-math/>.</par><par>As final check, we insert the solution <inline-math/> into the original equation, <block-math/> This indeed holds, so the solution we have found is correct.</par>"
       }
     },
-    "crossExercise": {
-      "numSolutionsInput": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
-      "0Incorrect": "<a>This is not correct. This would be the case when the discriminant <inline-math/> is smaller than zero.</a>",
-      "1Correct": "<a>Spot on! The discriminant <inline-math/> is equal to zero.</a>",
-      "2Incorrect": "<a>This doesn't add up. This would be the case when the discriminant <inline-math/> is larger than zero.</a>",
-      "3Incorrect": "<a>No, this cannot be the case. A quadratic equation never has more than two solutions.</a>",
-      "2Correct": "<a>Exactly! After all, the discriminant <inline-math/> is larger than zero.</a>",
-      "1Incorrect": "<a>That can't be true. This is only the case when the discriminant <inline-math/> is equal to zero.</a>",
-      "0Correct": "<a>Exactly. The discriminant <inline-math/> is negative, so the square root has no valid outcomes.</a>"
-    },
     "twoIntegerSolutions": {
       "mainProblem": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)",
       "step1": {
-        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
+        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the standard form for quadratic equations <inline-math/>.",
         "solution": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
       },
       "step2": {
@@ -62,7 +71,7 @@
       },
       "step4": {
         "problem": "Based on the value of the discriminant, determine how many solutions the given equation has.",
-        "solution": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus-minus symbol will result in two different values.</par>"
+        "solution": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus/minus symbol will result in two different values.</par>"
       },
       "step5": {
         "problem": "Find the solutions of the given equation and write them down separately from one another, simplified as much as possible.",
@@ -72,7 +81,7 @@
     "twoNonIntegerSolutions": {
       "mainProblem": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)",
       "step1": {
-        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
+        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the standard form for quadratic equations <inline-math/>.",
         "solution": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
       },
       "step2": {
@@ -85,31 +94,22 @@
       },
       "step4": {
         "problem": "Based on the value of the discriminant, determine how many solutions the given equation has.",
-        "solution": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus-minus symbol will result in two different values.</par>"
+        "solution": "<par>When the discriminant is larger than zero, then the equation will have two valid solutions. After all, the plus/minus symbol will result in two different values.</par>"
       },
       "step5": {
         "problem": "Find the solutions of the given equation and write them down separately from one another, simplified as much as possible.",
         "solution": "<par>It is wise to first simplify the expression with the plus/minus. This gets us <block-math/> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <block-math/><block-math/></par><par>As final check, we insert the two solutions <inline-math/> and <inline-math/> into the original equation. This results in <block-math/><block-math/> With some work, we can verify that both of these equations hold, so the solutions we found are correct.</par>"
       }
     },
-    "noSolutions": {
-      "mainProblem": "Consider the equation <block-math/> Find all possible solutions for <inline-math/> and simplify them as much as possible. (This includes pulling factors out of roots and canceling factors within fractions.)",
-      "step1": {
-        "problem": "Find the values for <inline-math/>, <inline-math/> and <inline-math/> so that the given equation matches the general form for quadratic equations <inline-math/>.",
-        "solution": "By comparing the equations, we can see that <inline-math/>, <inline-math/> and <inline-math/>."
-      },
-      "step2": {
-        "problem": "Substitute <inline-math/>, <inline-math/> and <inline-math/> into the quadratic formula. (You can use the plus/minus symbol from the app's internal keyboard, or type \"pm\".)",
-        "solution": "The quadratic formula states that <block-math/> Entering the values <inline-math/>, <inline-math/> and <inline-math/> turns this into <block-math/>"
-      },
-      "step3": {
-        "problem": "Calculate the value of the discriminant (the number within the square root).",
-        "solution": "<par>We can directly calculate that <inline-math/> equals <inline-math/>.</par>"
-      },
-      "step4": {
-        "problem": "Based on the value of the discriminant, determine how many solutions the given equation has.",
-        "solution": "<par>Because the value within the square root (the discriminant) is negative, the square root is impossible to evaluate. There are hence no possible solutions to the quadratic equation.</par>"
-      }
+    "crossExercise": {
+      "numSolutionsInput": "<multiple-choice><choice><a>There are no possible solutions for <inline-math/>.</a></choice><choice><b>There is <inline-math/> solution for <inline-math/>.</b></choice><choice><c>There are <inline-math/> solutions for <inline-math/>.</c></choice><choice><d>There are <inline-math/> solutions for <inline-math/>.</d></choice></multiple-choice>",
+      "0Correct": "<a>Exactly. The discriminant <inline-math/> is negative, so the square root has no valid outcomes.</a>",
+      "0Incorrect": "<a>This is not correct. This would be the case when the discriminant <inline-math/> is smaller than zero.</a>",
+      "1Correct": "<a>Spot on! The discriminant <inline-math/> is equal to zero.</a>",
+      "1Incorrect": "<a>That can't be true. This is only the case when the discriminant <inline-math/> is equal to zero.</a>",
+      "2Correct": "<a>Exactly! After all, the discriminant <inline-math/> is larger than zero.</a>",
+      "2Incorrect": "<a>This doesn't add up. This would be the case when the discriminant <inline-math/> is larger than zero.</a>",
+      "3Incorrect": "<a>No, this cannot be the case. A quadratic equation never has more than two solutions.</a>"
     }
   }
 }
