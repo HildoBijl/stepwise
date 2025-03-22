@@ -14,8 +14,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 3,
-	steps: ['substituteANumber', 'substituteANumber', null, null, and('simplifyFraction', 'simplifyRoot')],
-	// steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null, 'simplifyFraction'], // ToDo: implement calculateSumOfProducts skill.
+	steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null, and('simplifyFraction', 'simplifyRoot')],
 	comparison: {
 		a: {},
 		b: {},

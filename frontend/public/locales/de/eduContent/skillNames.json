@@ -25,6 +25,11 @@
   },
   "mathematics": {
     "calculation": {
+      "fundamentals": {
+        "combinations": {
+          "calculateSumOfProducts": "Summe der Produkte berechnen"
+        }
+      },
       "fractions": {
         "calculating": {
           "simplifyFraction": "Bruch vereinfachen"

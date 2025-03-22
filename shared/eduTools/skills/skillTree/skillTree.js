@@ -77,6 +77,16 @@ const skillStructure = {
 
 	mathematics: {
 		calculation: {
+			fundamentals: {
+				addition: {},
+				subtraction: {},
+				multiplication: {},
+				combinations: {
+					calculateSumOfProducts: {
+						name: 'Calculate sum of products',
+					},
+				},
+			},
 			fractions: {
 				calculating: {
 					simplifyFraction: {
@@ -260,7 +270,7 @@ const skillStructure = {
 					quadraticEquations: {
 						solveQuadraticEquation: {
 							name: 'Solve quadratic equation',
-							setup: and('substituteANumber', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution'),
+							setup: and('substituteANumber', 'calculateSumOfProducts', 'simplifyFractionSum', part('simplifyRoot', 0.5), 'checkEquationSolution'),
 							examples: ['oneSolution', 'twoIntegerSolutions'],
 							exercises: ['noSolutions', 'oneSolution', 'twoIntegerSolutions', 'twoNonIntegerSolutions'],
 						},

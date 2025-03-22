@@ -25,6 +25,11 @@
   },
   "mathematics": {
     "calculation": {
+      "fundamentals": {
+        "combinations": {
+          "calculateSumOfProducts": "Calculate sum of products"
+        }
+      },
       "fractions": {
         "calculating": {
           "simplifyFraction": "Simplify fraction"

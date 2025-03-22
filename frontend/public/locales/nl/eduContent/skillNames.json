@@ -25,6 +25,11 @@
   },
   "mathematics": {
     "calculation": {
+      "fundamentals": {
+        "combinations": {
+          "calculateSumOfProducts": "Som van producten berekenen"
+        }
+      },
       "fractions": {
         "calculating": {
           "simplifyFraction": "Breuk vereenvoudigen"
