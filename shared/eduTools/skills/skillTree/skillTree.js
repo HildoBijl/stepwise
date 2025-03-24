@@ -239,7 +239,7 @@ const skillStructure = {
 						},
 						bringEquationToStandardForm: {
 							name: 'Bring equation to standard form',
-							setup: and('multiplyAllEquationTerms', 'expandDoubleBrackets', 'moveEquationTerm'),
+							setup: and(part('multiplyAllEquationTerms', 0.5), pick(['expandBrackets', 'expandDoubleBrackets']), 'moveEquationTerm', 'mergeSimilarTerms', 'multiplyAllEquationTerms'),
 						},
 					},
 				},
