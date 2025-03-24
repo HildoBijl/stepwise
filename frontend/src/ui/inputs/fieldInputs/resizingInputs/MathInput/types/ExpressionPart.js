@@ -142,8 +142,10 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return settings.logarithm
 	if (accents.includes(key))
 		return settings.accent
+	if (key === 'eMath')
+		return settings.eMath
 	if (greekAlphabet[key] !== undefined)
-		return key === 'pi' || settings.greek
+		return (key === 'pi' && settings.pi) || settings.greek
 	if (basicFunctions.includes(key) || advancedFunctions.includes(key))
 		return true
 	if (key === '=')

@@ -11,6 +11,8 @@ module.exports = {
 	times: true,
 	divide: true,
 	brackets: true,
+	pi: true,
+	eMath: true,
 	float: true,
 	greek: true,
 

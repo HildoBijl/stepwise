@@ -19,7 +19,7 @@ const Problem = () => {
 		<Par><Translation>Consider the equation <BM>{equation}.</BM> Solve this equation for <M>{variables.x}</M> and simplify the result as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
 			</Par>
 		</InputSpace>
 	</>
@@ -81,7 +81,7 @@ const steps = [
 				<Par><Translation>Solve the resulting equation for <M>{variables.x}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

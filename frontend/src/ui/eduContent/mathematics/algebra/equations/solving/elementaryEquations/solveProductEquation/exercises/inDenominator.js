@@ -21,7 +21,7 @@ const Problem = () => {
 		<Par><Translation>Consider the equation <BM>{equation}.</BM> Solve this equation for <M>{variables.x}</M> and simplify the result as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
 			</Par>
 		</InputSpace>
 	</>
@@ -67,7 +67,7 @@ const steps = [
 				<Par><Translation>Simplify the result for <M>{variables.x}</M> as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -83,8 +83,8 @@ const steps = [
 				<Par><Translation>Check the solution for <M>{variables.x}</M>: insert it into the original equation and simplify each side as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="checkLeft" prelabel={<M>{equation.left}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.numeric} />
-						<ExpressionInput id="checkRight" prelabel={<M>{equation.right}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="checkLeft" prelabel={<M>{equation.left}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="checkRight" prelabel={<M>{equation.right}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

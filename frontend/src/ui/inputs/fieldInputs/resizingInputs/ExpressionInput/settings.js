@@ -25,6 +25,8 @@ export const elementary = {
 	float: false,
 	divide: false,
 	plusMinus: false,
+	pi: false,
+	eMath: false,
 }
 
 export const withFractions = {
@@ -71,7 +73,7 @@ export const numericElementary = {
 }
 
 export const numericWithFractions = {
-	...elementary,
+	...withFractions,
 	textMath: false,
 }
 
