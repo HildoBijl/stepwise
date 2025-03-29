@@ -243,7 +243,7 @@ class Expression {
 	}
 
 	// requiresBracketsFor checks whether the string representation requires brackets to properly display it. See the bracketLevels options.
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return true
 	}
 
@@ -703,7 +703,7 @@ class Variable extends Expression {
 		return `${this.accent || ''}${this.symbol}${this.subscript || ''}`
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return false
 	}
 
@@ -839,7 +839,7 @@ class Constant extends Expression {
 		return this.str.replace('.', decimalSeparatorTex)
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		if (this.value >= 0)
 			return false
 		if (level === bracketLevels.addition || level === bracketLevels.multiplication)
@@ -1010,11 +1010,8 @@ class PlusMinus extends Constant {
 		return '\\pm 1'
 	}
 
-	// ToDo
 	requiresBracketsFor(level) {
-		if (level === bracketLevels.addition || level === bracketLevels.multiplication)
-			return false
-		return true
+		return (level === bracketLevels.addition || level === bracketLevels.multiplication)
 	}
 
 	requiresPlusInSum() {
@@ -1179,7 +1176,7 @@ class Sum extends ExpressionList {
 				result += '+'
 
 			// Add brackets when necessary.
-			const addBrackets = term.requiresBracketsFor(bracketLevels.addition)
+			const addBrackets = term.requiresBracketsFor(bracketLevels.addition, index)
 			result += addBrackets ? `(${term.str})` : term.str
 		})
 		return result
@@ -1193,13 +1190,13 @@ class Sum extends ExpressionList {
 				result += '+'
 
 			// Add brackets when necessary.
-			const addBrackets = term.requiresBracketsFor(bracketLevels.addition)
+			const addBrackets = term.requiresBracketsFor(bracketLevels.addition, index)
 			result += addBrackets ? `\\left(${term.tex}\\right)` : term.tex
 		})
 		return result
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return level !== bracketLevels.addition // Always add brackets, except in an addition.
 	}
 
@@ -1584,7 +1581,7 @@ class Product extends ExpressionList {
 					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
 				if (index < array.length - 1 && factor.isSubtype(PlusMinus) && !(nextFactor instanceof Constant))
 					return `${precursor}±` // Do the same for the plus/minus.
-				if (factor.requiresBracketsFor(bracketLevels.multiplication))
+				if (factor.requiresBracketsFor(bracketLevels.multiplication, index))
 					return `${precursor}(${factor.str})`
 				return `${precursor}${factor.str}`
 			}
@@ -1607,7 +1604,7 @@ class Product extends ExpressionList {
 					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
 				if (index < array.length - 1 && factor.isSubtype(PlusMinus) && !(nextFactor instanceof Constant))
 					return `${precursor} \\pm ` // Do the same for the plus/minus.
-				if (factor.requiresBracketsFor(bracketLevels.multiplication))
+				if (factor.requiresBracketsFor(bracketLevels.multiplication, index))
 					return `${precursor}\\left(${factor.tex}\\right)`
 				return `${precursor}${factor.tex}`
 			}
@@ -1617,7 +1614,7 @@ class Product extends ExpressionList {
 		return arrayToTex(this.factors)
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return level === bracketLevels.division || level === bracketLevels.powers
 	}
 
@@ -2020,7 +2017,7 @@ class Function extends Expression {
 		return result
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return level === bracketLevels.powers
 	}
 
@@ -2132,12 +2129,12 @@ class Fraction extends Function {
 		const useMinus = !this.requiresPlusInSum()
 		const usedNumerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
 		let numStr = usedNumerator.toString()
-		if (usedNumerator.requiresBracketsFor(bracketLevels.division))
+		if (usedNumerator.requiresBracketsFor(bracketLevels.division, 0))
 			numStr = `(${numStr})`
 
 		// Add the denominator.
 		let denStr = this.denominator.toString()
-		if (this.denominator.requiresBracketsFor(bracketLevels.division))
+		if (this.denominator.requiresBracketsFor(bracketLevels.division, 1))
 			denStr = `(${denStr})`
 
 		// Put them together.
@@ -2154,8 +2151,8 @@ class Fraction extends Function {
 		return previousTerm.isSubtype(Fraction) // Only put a times before a fraction if there's another fraction.
 	}
 
-	requiresBracketsFor(level) {
-		return level === bracketLevels.division || level === bracketLevels.powers || (level === bracketLevels.multiplication && !this.requiresPlusInSum()) // When divided, or in powers, or in a multiplication when having a minus sign, add brackets.
+	requiresBracketsFor(level, index) {
+		return level === bracketLevels.division || level === bracketLevels.powers || (level === bracketLevels.multiplication && !this.requiresPlusInSum() && index !== 0) // When divided, or in powers, or in a multiplication when having a minus sign (and not being the first factor), add brackets.
 	}
 
 	requiresPlusInSum() {
@@ -2426,12 +2423,12 @@ class Power extends Function {
 	toString() {
 		// Get the base.
 		let baseStr = this.base.toString()
-		if (this.base.requiresBracketsFor(bracketLevels.powers))
+		if (this.base.requiresBracketsFor(bracketLevels.powers, 0))
 			baseStr = `(${baseStr})`
 
 		// Add the exponent.
 		let exponentStr = this.exponent.toString()
-		if (this.exponent.requiresBracketsFor(bracketLevels.powers))
+		if (this.exponent.requiresBracketsFor(bracketLevels.powers, 1))
 			exponentStr = `(${exponentStr})`
 
 		// Put them together.
@@ -2441,7 +2438,7 @@ class Power extends Function {
 	toRawTex() {
 		// Get the base.
 		let baseTex = this.base.tex
-		if (this.base.requiresBracketsFor(bracketLevels.powers))
+		if (this.base.requiresBracketsFor(bracketLevels.powers, 0))
 			baseTex = `\\left(${baseTex}\\right)`
 
 		// Add the exponent. It never requires a bracket, because it's a superscript.

@@ -240,6 +240,9 @@ const skillStructure = {
 						bringEquationToStandardForm: {
 							name: 'Bring equation to standard form',
 							setup: and(part('multiplyAllEquationTerms', 0.5), pick(['expandBrackets', 'expandDoubleBrackets']), 'moveEquationTerm', 'mergeSimilarTerms', 'multiplyAllEquationTerms'),
+							examples: ['quadraticTwoFractions'],
+							// examples: ['cubicOneFraction'],
+							exercises: ['quadraticTwoFractions', 'cubicOneFraction'],
 						},
 					},
 				},

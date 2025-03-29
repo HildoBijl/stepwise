@@ -12,7 +12,7 @@ const { Integer, ensureExpression } = require('./Expression')
 function exactEqual(input, correct) {
 	input = ensureExpression(input)
 	correct = ensureExpression(correct)
-	return correct.equals(input, false)
+	return correct.elementaryClean().equals(input.elementaryClean(), false)
 }
 // onlyOrderChanges compares two expressions for equality where order changes in sums/products are allowed. "2*3" and "3*2" are equal, but they are both different from "6". It also automatically includes an elementary clean, so that 2*(3/4) and (2*3)/4 are considered equal.
 function onlyOrderChanges(input, correct) {
@@ -67,8 +67,8 @@ function integerMultiple(input, correct) {
 	return check(comparison1) || check(comparison2)
 
 	// ToDo: put this back later on, when the CAS is complete.
-// 	const comparison = input.divide(correct).cleanForAnalysis()
-// 	return comparison.isSubtype(Integer)
+	// 	const comparison = input.divide(correct).cleanForAnalysis()
+	// 	return comparison.isSubtype(Integer)
 }
 
 // constantMultiple checks if the two arguments only differ by a non-zero constant ratio, like (2/3) or (pi^2/e). We divide input/correct and check if the simplification reduces to a non-zero numeric value. (If it's zero, then a zero input would be equal to everything, which would not be desirable.)

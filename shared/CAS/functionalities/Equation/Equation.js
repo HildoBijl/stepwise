@@ -140,6 +140,11 @@ class Equation {
 		return new Equation(this.left, operation(this.right))
 	}
 
+	// applyToEvery takes a function and applies it to both sides and all of its children.
+	applyToEvery(operation) {
+		return this.applyToBothSides(side => side.applyToEvery(operation))
+	}
+
 	// add will add up an expression to both sides of the equation.
 	add(addition) {
 		return this.applyToBothSides(part => part.add(addition))
