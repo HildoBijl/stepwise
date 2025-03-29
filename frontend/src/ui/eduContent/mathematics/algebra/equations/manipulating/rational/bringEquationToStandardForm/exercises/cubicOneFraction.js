@@ -38,7 +38,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, multiplied }) => {
-			return <Par><Translation>There are two fractions that have <M>{variables.x}</M> in the denominator. To fix this, we multiply all terms by these denominators. This gives us <BM>{multiplied}.</BM></Translation></Par>
+			return <Par><Translation>There is only one fraction with <M>{variables.x}</M> in the denominator. So we multiply both sides of the equation by this denominator. This gives us <BM>{multiplied}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -54,7 +54,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ expanded }) => {
-			return <Par><Translation>Expanding all brackets (including double brackets) turns the equation into <BM>{expanded}.</BM></Translation></Par>
+			return <Par><Translation>Expanding all brackets turns the equation into <BM>{expanded}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -70,7 +70,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ merged, moved }) => {
-			return <Par><Translation>It is slightly easier to first merge similar terms on both sides of the equation. This gives us <BM>{merged}.</BM> By subsequently moving all terms to the left and once more merging similar terms, we end up with <BM>{moved}.</BM></Translation></Par>
+			return <Par><Translation>By moving all terms to the left and by merging similar terms, we can find that <BM>{moved}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -86,7 +86,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, normalize, divisor, ans }) => {
-			return <Par><Translation>Note that previously we had already sorted the terms. The only thing that is left to do is clean up the coefficients. <Check value={normalize}><Check.True>To normalize the equation, we divide by the factor before the highest power of <M>{variables.x}</M>. That is, we divide all terms by <M>{divisor}</M>. This results in <BM>{ans}.</BM> This is the normalized version of the equation.</Check.True><Check.False>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <M>{divisor}</M> without obtaining any fractions. Doing so will result in <BM>{ans}.</BM> This equation is as simplified as it can be.</Check.False></Check></Translation></Par>
+			return <Par><Translation>Note that in the prior step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <Check value={normalize}><Check.True>To normalize the equation, we divide by the factor before the highest power of <M>{variables.x}</M>. That is, we divide all terms by <M>{divisor}</M>. This results in <BM>{ans}.</BM> This is the normalized version of the equation.</Check.True><Check.False>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <M>{divisor}</M> without obtaining any fractions. Doing so will result in <BM>{ans}.</BM> This equation is as simplified as it can be.</Check.False></Check></Translation></Par>
 		},
 	},
 ]

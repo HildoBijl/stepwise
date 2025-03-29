@@ -7,7 +7,7 @@ const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons
 const { equivalent } = equationComparisons
 
-// a/(x+b) + c = d/(x+e).
+// ax+b=(cx(x+d))/(x^2+e)
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'd', 'e']
@@ -24,7 +24,6 @@ const metaData = {
 }
 
 function generateState(example) {
-	example = false // TODO REMOVE
 	// Set up general state parameters.
 	const x = selectRandomly(variableSet)
 	const normalize = example ? false : getRandomBoolean()
@@ -41,19 +40,20 @@ function generateState(example) {
 }
 
 function getParameters(example) {
-	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+	const a = getRandomInteger(-8, 8, [-1, 0, 1])
 	const b = getRandomInteger(-8, 8, [-1, 0, 1])
 	const c = getRandomInteger(-8, 8, [-1, 0, 1])
-	const d = getRandomInteger(-8, 8, [-1, 0, 1])
-	const e = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
+	const d = getRandomInteger(-8, 8, [-1, 0, 1, b / a])
+	const e = getRandomInteger(-8, 8, [-1, 0, 1])
 	return [a, b, c, d, e]
 }
 
 function getCoefficients([a, b, c, d, e], flip) {
-	const p = c
-	const q = a + c * (b + e) - d
-	const r = (c * b * e + a * e - d * b)
-	let coefficients = [p, q, r]
+	const p = a
+	const q = b - c
+	const r = a * e - c * d
+	const s = b * e
+	let coefficients = [p, q, r, s]
 	if (flip)
 		coefficients = coefficients.map(v => -v)
 	return coefficients
@@ -63,10 +63,10 @@ function getSolution(state) {
 	// Assemble the equation.
 	const { a, b, c, d, e, flip, normalize } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a/(x+b) + c = d/(x+e)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
+	const equation = asEquation('ax+b=(cx(x+d))/(x^2+e)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
 
 	// Rewrite the equation in various ways.
-	const multiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
+	const multiplied = asEquation('(ax+b)(x^2+e) = cx(x+d)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
 	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isSubtype(Power) ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 	const merged = expanded.regularClean({ sortSums: true })
 	const moved = merged.subtract(merged.right).regularClean({ sortSums: true })

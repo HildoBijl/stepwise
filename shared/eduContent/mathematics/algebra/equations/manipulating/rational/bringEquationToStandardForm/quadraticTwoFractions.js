@@ -24,7 +24,6 @@ const metaData = {
 }
 
 function generateState(example) {
-	example = false // TODO REMOVE
 	// Set up general state parameters.
 	const x = selectRandomly(variableSet)
 	const normalize = example ? false : getRandomBoolean()

@@ -8,5 +8,45 @@
     "bringingToStandardForm": "<head>Een vergelijking in standaardvorm brengen</head><par>Hoe krijgen we dan een ingewikkelde vergelijking zoals het voorbeeld in standaardvorm? Eerst willen we <inline-math/> uit alle breuknoemers halen. Dus <skill-link>vermenigvuldigen we alle termen</skill-link> met zowel <inline-math/> als ook <inline-math/>. Dit resulteert in <block-math/> Vervolgens willen we alle haakjes wegwerken. Het <skill-link>uitwerken van haakjes</skill-link> zet dit om naar <block-math/> Het <skill-link>samenvoegen van soortgelijke termen</skill-link> geeft dan <block-math/> Als we tenslotte <skill-link>alle termen naar links halen</skill-link>, dan krijgen we het eindresultaat <block-math/> We hebben de vergelijking in de standaardvorm gebracht.</par>",
     "normalization": "<head>Normaliseren of niet normaliseren</head><par>Merk op dat onze vergelijking voldoet aan de eisen die we gesteld hebben. We kunnen de vergelijking echter nog delen door <inline-math/> om uit te komen op <block-math/> Oftewel, we zorgen ervoor dat de hoogste macht van <inline-math/> geen getal (nouja, technisch gezien het getal <inline-math/>) ervoor heeft staan. Als we dit doen, dan <term>normaliseren</term> we de vergelijking.</par><par>Maar welke vorm is netter? Wiskundigen verschillen hier van mening. Sommigen vinden dat de eerste vorm netter is, aangezien er helemaal geen breuken in staan, zelfs niet bij de getallen. Anderen vinden dat de tweede genormaliseerde vorm netter is. Immers zijn er oneindig veel manieren om de vergelijking conform onze eisen op te schrijven (we kunnen het met elk getal vermenigvuldigen) maar er is maar één variant waar de hoogste macht van <inline-math/> geen getal ervoor heeft staan. Deze vorm is uniek!</par><par>In werkelijkheid hangt het van de situatie af wat handiger is. Soms wil je de vergelijking normaliseren, en soms is het handiger om eventuele breuken weg te werken. Bij opgaven geven we dus duidelijk aan wat er verwacht wordt.</par>",
     "steps": "<head>De stappen</head><par>Om een rationele vergelijking als <inline-math/> in standaardvorm te brengen, voer je de volgende stappen uit.</par><list><item><a>Als <inline-math/> in de noemer van een breuk staat, <skill-link>vermenigvuldig alle termen van de vergelijking</skill-link> met deze noemer om hem eruit te krijgen. Bij ons voorbeeld doen we dit tweemaal en krijgen zo <inline-math/>.</a></item><item><b><skill-link>Werk alle haakjes</skill-link> in de vergelijking uit. Dit zet ons voorbeeld om in <inline-math/>.</b></item><item><c><skill-link>Breng alle termen naar links</skill-link> en <skill-link>voeg soortgelijke termen samen</skill-link>, waar je de termen sorteert aan de hand van de macht van <inline-math/>, met de hoogste macht eerst. Bij ons voorbeeld komen we uit op <inline-math/>.</c></item><item><d>Afhankelijk van de exacte eisen wil je de vergelijking nog normaliseren of eventuele getalbreuken wegwerken. <skill-link>Vermenigvuldig met/deel door</skill-link> het juiste getal om dit voor elkaar te krijgen. Als we bij ons voorbeeld de vergelijking willen normaliseren, dan delen we door <inline-math/> en krijgen zo <inline-math/>.</d></item></list>"
+  },
+  "practice": {
+    "quadraticTwoFractions": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng deze vergelijking in de standaardvorm en <check><on-true>normaliseer het resultaat</on-true><on-false>zorg ervoor dat de coëfficiënten allemaal zo klein mogelijke gehele getallen zijn</on-false></check>.",
+      "step1": {
+        "problem": "Zorg ervoor dat <inline-math/> niet meer in enige noemer voorkomt.",
+        "solution": "Er zijn twee breuken met <inline-math/> in de noemer. Om dit weg te werken, vermenigvuldigen we alle termen met deze noemers. Zo krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle haakjes uit.",
+        "solution": "Het uitwerken van alle haakjes zet de vergelijking om in <block-math/>"
+      },
+      "step3": {
+        "problem": "Breng alle termen naar links en voeg soortgelijke termen samen, om zo het aantal termen in de vergelijking te minimaliseren.",
+        "solution": "Het is iets makkelijker om eerst aan beide kanten van de vergelijking soortgelijke termen samen te voegen. Dit geeft <block-math/> Via het verplaatsen van alle termen naar links, en vervolgens weer het samenvoegen van soortgelijke termen, komen we uit op <block-math/>"
+      },
+      "step4": {
+        "problem": "Zorg ervoor dat de termen gesorteerd zijn op aflopende macht van <inline-math/>. <check><on-true>Normaliseer hiernaast ook de vergelijking</on-true><on-false>Zorg er hiernaast ook voor dat de coëfficiënten allemaal zo klein mogelijke gehele getallen zijn</on-false></check>.",
+        "solution": "Merk op dat we in de stap hiervoor de termen al gesorteerd hebben. Het enige dat we nog moeten doen is het opschonen van de coëfficiënten. <check><on-true>Om de vergelijking te normaliseren, delen we door de factor voor de hoogste macht van <inline-math/>. Oftewel, we delen alle termen door <inline-math/>. Dit levert <block-math/> Dit is de genormaliseerde versie van de vergelijking.</on-true><on-false>Merk op dat alle coëfficiënten van de vergelijking een gemeenschappelijke factor hebben. Om precies te zijn kunnen we ze allemaal door <inline-math/> delen zonder enige breuk te krijgen. Als we dit doen, dan komen we uit op <block-math/> Deze vergelijking is zo vereenvoudigd mogelijk opgeschreven.</on-false></check>"
+      }
+    },
+    "cubicOneFraction": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Breng deze vergelijking in de standaardvorm en <check><on-true>normaliseer het resultaat</on-true><on-false>zorg ervoor dat de coëfficiënten allemaal zo klein mogelijke gehele getallen zijn</on-false></check>.",
+      "step1": {
+        "problem": "Zorg ervoor dat <inline-math/> niet meer in enige noemer voorkomt.",
+        "solution": "Er is maar één breuk met <inline-math/> in de noemer. Dus kunnen we beide kanten van de vergelijking met deze noemer vermenigvuldigen. Zo krijgen we <block-math/>"
+      },
+      "step2": {
+        "problem": "Werk alle haakjes uit.",
+        "solution": "Het uitwerken van alle haakjes zet de vergelijking om in <block-math/>"
+      },
+      "step3": {
+        "problem": "Breng alle termen naar links en voeg soortgelijke termen samen, om zo het aantal termen in de vergelijking te minimaliseren.",
+        "solution": "Door alle termen naar links te brengen en soortgelijke termen samen te voegen, vinden we dat <block-math/>"
+      },
+      "step4": {
+        "problem": "Zorg ervoor dat de termen gesorteerd zijn op aflopende macht van <inline-math/>. <check><on-true>Normaliseer hiernaast ook de vergelijking</on-true><on-false>Zorg er hiernaast ook voor dat de coëfficiënten allemaal zo klein mogelijke gehele getallen zijn</on-false></check>.",
+        "solution": "Merk op dat we in de stap hiervoor de termen al gesorteerd hebben. Het enige dat we nog moeten doen is het opschonen van de coëfficiënten. <check><on-true>Om de vergelijking te normaliseren, delen we door de factor voor de hoogste macht van <inline-math/>. Oftewel, we delen alle termen door <inline-math/>. Dit levert <block-math/> Dit is de genormaliseerde versie van de vergelijking.</on-true><on-false>Merk op dat alle coëfficiënten van de vergelijking een gemeenschappelijke factor hebben. Om precies te zijn kunnen we ze allemaal door <inline-math/> delen zonder enige breuk te krijgen. Als we dit doen, dan komen we uit op <block-math/> Deze vergelijking is zo vereenvoudigd mogelijk opgeschreven.</on-false></check>"
+      }
+    }
   }
 }

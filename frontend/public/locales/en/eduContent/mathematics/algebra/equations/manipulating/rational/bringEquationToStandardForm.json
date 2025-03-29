@@ -8,5 +8,45 @@
     "bringingToStandardForm": "<head>Bring an equation into standard form</head><par>So how do we get a complicated equation like the example above into such a standard form? First we want to get <inline-math/> out of any fraction denominator. So we <skill-link>multiply all terms</skill-link> by both <inline-math/> and by <inline-math/>. This results in <block-math/> Next, we also want to get rid of the brackets. <skill-link>Expanding all brackets</skill-link> turns this into <block-math/> <skill-link>Merging similar terms</skill-link> subsequently results in <block-math/> <skill-link>Bringing all terms to the left</skill-link> turns this into the final result <block-math/> We have brought the equation into its standard form.</par>",
     "normalization": "<head>To normalize or not to normalize</head><par>Note that our equation satisfies the conditions we set. However, we can still divide it by <inline-math/> to get <block-math/> That is, we ensure that the highest power of <inline-math/> has no number (well, technically the number <inline-math/>) in front of it. When we do this, we <term>normalize</term> the equation.</par><par>But which form is cleaner? Mathematicians have different opinions here. Some argue that the first form is cleaner, since it has no fraction at all, even for the numbers. Others argue that the second normalized version is cleaner. After all, there are infinitely many versions of the equation that meet our requirements (we can multiply it by any number) but there is only one version where the highest power of <inline-math/> has no number in front of it. It is unique!</par><par>In practice, it really depends on the situation what is more convenient. Sometimes you want to normalize the equation, and sometimes it is easier to get rid of any potential fractions. So at exercises, we will clearly indicate what needs to be done.</par>",
     "steps": "<head>The steps</head><par>To bring a rational equation like <inline-math/> into standard form, take the following steps.</par><list><item><a>If <inline-math/> is in some fraction denominator, <skill-link>multiply all equation terms</skill-link> by this denominator to get it out. For our example we do this twice to get <inline-math/>.</a></item><item><b><skill-link>Expand all brackets</skill-link> in the equation. This turns our example into <inline-math/>.</b></item><item><c><skill-link>Move all terms to the left</skill-link> and <skill-link>merge similar terms</skill-link>, sorting them by the power of <inline-math/>, with the highest power first. For our example we end up with <inline-math/>.</c></item><item><d>Depending on the exact requirements, you may need to normalize the equation or get rid of potential number fractions. <skill-link>Multiply/divide</skill-link> by the right number to make this happen. For our example, if we need to normalize the equation, we divide by <inline-math/> to get <inline-math/>.</d></item></list>"
+  },
+  "practice": {
+    "quadraticTwoFractions": {
+      "mainProblem": "Consider the equation <block-math/> Bring this equation to the standard form and <check><on-true>normalize the result</on-true><on-false>ensure that the coefficients are all integers that are as small as possible</on-false></check>.",
+      "step1": {
+        "problem": "Make sure that <inline-math/> does not appear in any denominator anymore.",
+        "solution": "There are two fractions that have <inline-math/> in the denominator. To fix this, we multiply all terms by these denominators. This gives us <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand all brackets.",
+        "solution": "Expanding all brackets turns the equation into <block-math/>"
+      },
+      "step3": {
+        "problem": "Move all terms to the left and merge similar terms together, minimizing the number of terms in the equation.",
+        "solution": "It is slightly easier to first merge similar terms on both sides of the equation. This gives us <block-math/> By subsequently moving all terms to the left and once more merging similar terms, we end up with <block-math/>"
+      },
+      "step4": {
+        "problem": "Make sure that the terms are sorted by decreasing power of <inline-math/>. On top of this, <check><on-true>normalize the equation</on-true><on-false>ensure that the coefficients are all integers that are as small as possible</on-false></check>.",
+        "solution": "Note that previously we had already sorted the terms. The only thing that is left to do is clean up the coefficients. <check><on-true>To normalize the equation, we divide by the factor before the highest power of <inline-math/>. That is, we divide all terms by <inline-math/>. This results in <block-math/> This is the normalized version of the equation.</on-true><on-false>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <inline-math/> without obtaining any fractions. Doing so will result in <block-math/> This equation is as simplified as it can be.</on-false></check>"
+      }
+    },
+    "cubicOneFraction": {
+      "mainProblem": "Consider the equation <block-math/> Bring this equation to the standard form and <check><on-true>normalize the result</on-true><on-false>ensure that the coefficients are all integers that are as small as possible</on-false></check>.",
+      "step1": {
+        "problem": "Make sure that <inline-math/> does not appear in any denominator anymore.",
+        "solution": "There is only one fraction with <inline-math/> in the denominator. So we multiply both sides of the equation by this denominator. This gives us <block-math/>"
+      },
+      "step2": {
+        "problem": "Expand all brackets.",
+        "solution": "Expanding all brackets turns the equation into <block-math/>"
+      },
+      "step3": {
+        "problem": "Move all terms to the left and merge similar terms together, minimizing the number of terms in the equation.",
+        "solution": "By moving everything to the left and by merging similar terms, we can find that <block-math/>"
+      },
+      "step4": {
+        "problem": "Make sure that the terms are sorted by decreasing power of <inline-math/>. On top of this, <check><on-true>normalize the equation</on-true><on-false>ensure that the coefficients are all integers that are as small as possible</on-false></check>.",
+        "solution": "Note that previously we had already sorted the terms. The only thing that is left to do is clean up the coefficients. <check><on-true>To normalize the equation, we divide by the factor before the highest power of <inline-math/>. That is, we divide all terms by <inline-math/>. This results in <block-math/> This is the normalized version of the equation.</on-true><on-false>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <inline-math/> without obtaining any fractions. Doing so will result in <block-math/> This equation is as simplified as it can be.</on-false></check>"
+      }
+    }
   }
 }
