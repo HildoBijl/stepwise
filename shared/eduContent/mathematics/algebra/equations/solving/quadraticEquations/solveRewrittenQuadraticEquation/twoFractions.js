@@ -13,7 +13,18 @@ const metaData = {
 	skill: 'solveRewrittenQuadraticEquation',
 	steps: ['bringEquationToStandardForm', 'solveQuadraticEquation'],
 	comparison: {
-		standardForm: { leftCheck: constantMultiple, rightCheck: exactEqual },
+		standardForm: {
+			leftCheck: (input, correct) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
+				if (constantMultiple(input, correct))
+					return true
+				const getFactor = value => {
+					const powerTerm = value.find(term => term.isSubtype(Product) && term.factors.some(factor => factor.isSubtype(Power)))
+					return (powerTerm && powerTerm.find(factor => factor.isNumeric())?.number) || 1
+				}
+				const adjustmentFactor = getFactor(input) / getFactor(correct)
+				return constantMultiple(input, correct.multiply(adjustmentFactor).regularClean())
+			}, rightCheck: exactEqual
+		},
 		ans1: onlyOrderChanges,
 		ans2: onlyOrderChanges,
 	}
@@ -33,7 +44,6 @@ function generateState(example) {
 	}
 	while (zeroSolutions !== hasZeroSolutions(parameters))
 		parameters = getParameters(example)
-
 
 	// All done. Return the state.
 	const [a, b, c, d, e] = parameters

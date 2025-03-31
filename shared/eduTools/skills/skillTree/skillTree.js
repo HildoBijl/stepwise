@@ -279,8 +279,8 @@ const skillStructure = {
 						solveRewrittenQuadraticEquation: {
 							name: 'Solve rewritten quadratic equation',
 							setup: and('bringEquationToStandardForm', 'solveQuadraticEquation'),
-							examples: ['twoFractions'],
-							// examples: ['oneFractionWithSquare'], // ToDo: remove
+							// examples: ['twoFractions'],
+							examples: ['oneFractionWithSquare'], // ToDo: remove
 							exercises: ['twoFractions', 'oneFractionWithSquare'],
 						},
 					},

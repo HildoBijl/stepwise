@@ -36,7 +36,7 @@ const steps = [
 		Problem: () => {
 			const { variables } = useSolution()
 			return <>
-				<Par><Translation>Bring the equation to its standard form. (Normalization is not required.)</Translation></Par>
+				<Par><Translation>Bring the equation to its standard form.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="standardForm" size="l" settings={EquationInput.settings.rational} validate={EquationInput.validation.validWithVariables(variables)} />
@@ -45,7 +45,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, multiplied, expanded, merged, moved, divisor, standardForm }) => {
-			return <Par><Translation>First we want to get <M>{variables.x}</M> out of any denominator. To do so, we multiply all terms by the denominators of the two fractions. This gives us <BM>{multiplied}.</BM> Expanding all brackets turns this into <BM>{expanded}.</BM> Merging terms reduces this to <BM>{merged}.</BM> If we then move everything to the left, we find <BM>{moved}.</BM> <Check value={divisor === 1}><Check.True>This equation is already in its simplest form.</Check.True><Check.False>This equation can still be written simpler if we divide all terms by <M>{divisor}</M>. This results in <BM>{standardForm}.</BM></Check.False></Check></Translation></Par>
+			return <Par><Translation>First we want to get <M>{variables.x}</M> out of any denominator. To do so, we multiply all terms by the denominators of the two fractions. This gives us <BM>{multiplied}.</BM> Expanding all brackets turns this into <BM>{expanded}.</BM> Merging terms reduces this to <BM>{merged}.</BM> If we then move everything to the left, we find <BM>{moved}.</BM> <Check value={divisor === 1}><Check.True>This equation is already in its simplest form.</Check.True><Check.False>This equation can still be written simpler (optional) if we divide all terms by <M>{divisor}</M>. This results in <BM>{standardForm}.</BM></Check.False></Check></Translation></Par>
 		},
 	},
 	{
@@ -94,7 +94,7 @@ function getFeedback(exerciseData) {
 			},
 		}),
 		...getFieldInputFeedback(exerciseData, {
-			normalized: [originalEquation, sumWithUnsimplifiedTerms],
+			standardForm: [originalEquation, sumWithUnsimplifiedTerms],
 		}),
 		...{
 			ans1: selectRandomIncorrect(true),

@@ -1,19 +1,30 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
-const { asExpression, asEquation, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
+const { asExpression, asEquation, Product, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
 
-// a/(x+b) + c = d/(x+e).
+// (x+a)^2/(x+b) = cx+d.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e']
+const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'solveRewrittenQuadraticEquation',
 	steps: ['bringEquationToStandardForm', 'solveQuadraticEquation'],
 	comparison: {
-		standardForm: { leftCheck: constantMultiple, rightCheck: exactEqual },
+		standardForm: {
+			leftCheck: (input, correct) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
+				if (constantMultiple(input, correct))
+					return true
+				const getFactor = value => {
+					const powerTerm = value.find(term => term.isSubtype(Product) && term.factors.some(factor => factor.isSubtype(Power)))
+					return (powerTerm && powerTerm.find(factor => factor.isNumeric())?.number) || 1
+				}
+				const adjustmentFactor = getFactor(input) / getFactor(correct)
+				return constantMultiple(input, correct.multiply(adjustmentFactor).regularClean())
+			}, rightCheck: exactEqual
+		},
 		ans1: onlyOrderChanges,
 		ans2: onlyOrderChanges,
 	}
@@ -34,25 +45,23 @@ function generateState(example) {
 	while (zeroSolutions !== hasZeroSolutions(parameters))
 		parameters = getParameters(example)
 
-
 	// All done. Return the state.
 	const [a, b, c, d, e] = parameters
 	return { a, b, c, d, e, x, flip }
 }
 
 function getParameters(example) {
-	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1])
+	const a = getRandomInteger(-8, 8, [-1, 0, 1])
+	const b = getRandomInteger(-8, 8, [-1, 0, 1, a])
 	const c = getRandomInteger(-8, 8, [-1, 0, 1])
-	const d = getRandomInteger(-8, 8, [-1, 0, 1])
-	const e = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
-	return [a, b, c, d, e]
+	const d = getRandomInteger(-8, 8, [-1, 0, 1, a * c, b * c])
+	return [a, b, c, d]
 }
 
-function getCoefficients([a, b, c, d, e], flip) {
-	const p = c
-	const q = a + c * (b + e) - d
-	const r = (c * b * e + a * e - d * b)
+function getCoefficients([a, b, c, d], flip) {
+	const p = 1 - c
+	const q = 2 * a - c * b - d
+	const r = a ** 2 - b * d
 	let coefficients = [p, q, r]
 	if (flip)
 		coefficients = coefficients.map(v => -v)
@@ -61,12 +70,12 @@ function getCoefficients([a, b, c, d, e], flip) {
 
 function getSolution(state) {
 	// Assemble the equation.
-	const { a, b, c, d, e, flip, normalize } = state
+	const { a, b, c, d, e, flip } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a/(x+b) + c = d/(x+e)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
+	const equation = asEquation('(x+a)^2/(x+b) = cx+d').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
 
 	// Bring the equation into standard form.
-	const multiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
+	const multiplied = asEquation('(x+a)^2 = (cx+d)(x+b)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
 	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isSubtype(Power) ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 	const merged = expanded.regularClean({ sortSums: true })
 	const moved = merged.subtract(merged.right).regularClean({ sortSums: true })
@@ -102,7 +111,7 @@ function checkInput(exerciseData, step) {
 
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'normalized')
+			return performComparison(exerciseData, 'standardForm')
 		default:
 			return performComparison(exerciseData, 'numSolutions') && (numSolutions !== 1 || performComparison(exerciseData, 'ans1')) && (numSolutions !== 2 || performListComparison(exerciseData, ['ans1', 'ans2']))
 	}
