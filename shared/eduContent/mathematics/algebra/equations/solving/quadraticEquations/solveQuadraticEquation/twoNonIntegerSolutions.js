@@ -54,9 +54,9 @@ function getSolution(state) {
 	const solutionsSplit = solution.getSingular().map(s => s.removeUseless())
 	const solutions = solutionsSplit.map(s => s.regularClean())
 	const numSolutions = solutions.length
-	const equationSubstituted = solutions.map(s => equation.substituteVariables({ [variables.x]: s }))
+	const equationsSubstituted = solutions.map(s => equation.substituteVariables({ [variables.x]: s }))
 	const [ans1, ans2] = solutions
-	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationSubstituted, ans1, ans2 }
+	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
 }
 
 function checkInput(exerciseData, step) {

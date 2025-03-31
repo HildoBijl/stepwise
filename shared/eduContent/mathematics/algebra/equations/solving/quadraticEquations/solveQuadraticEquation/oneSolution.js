@@ -58,8 +58,8 @@ function getSolution(state) {
 	const solutions = solutionsSplit.map(s => s.regularClean())
 	const numSolutions = solutions.length
 	const [ans1] = solutions
-	const equationSubstituted = equation.substituteVariables({ [variables.x]: ans1 })
-	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationSubstituted, ans1 }
+	const equationsSubstituted = equation.substituteVariables({ [variables.x]: ans1 })
+	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationsSubstituted, ans1 }
 }
 
 function checkInput(exerciseData, step) {

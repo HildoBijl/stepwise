@@ -61,7 +61,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ a, b, c, solutionFull }) => {
-			return <Par><Translation>The quadratic formula states that <BM>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a).</BM> Entering the values <M>a = {a}</M>, <M>b = {b}</M> and <M>c = {c}</M> turns this into <BM>{solutionFull}</BM></Translation></Par>
+			return <Par><Translation>The quadratic formula states that <BM>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a).</BM> Entering the values <M>a = {a}</M>, <M>b = {b}</M> and <M>c = {c}</M> turns this into <BM>{solutionFull}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -109,10 +109,10 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, solutionHalfSimplified, ans1, equationSubstituted }) => {
+		Solution: ({ x, solutionHalfSimplified, ans1, equationsSubstituted }) => {
 			return <Translation>
 				<Par>By calculating <M>{solutionHalfSimplified}</M> we can reduce it to a single number <M>{x} = {ans1}</M>.</Par>
-				<Par>As final check, we insert the solution <M>{x}</M> into the original equation, <BM>{equationSubstituted}.</BM> This indeed holds, so the solution we have found is correct.</Par>
+				<Par>As final check, we insert the solution <M>{x}</M> into the original equation, <BM>{equationsSubstituted}.</BM> This indeed holds, so the solution we have found is correct.</Par>
 			</Translation>
 		},
 	},

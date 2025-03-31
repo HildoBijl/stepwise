@@ -37,7 +37,7 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 	if (correct === undefined)
 		correct = performIndividualComparison(currInput, currSolution, undefined, solution)
 
-	// Attempt to determine "done". (Accept for examples. Because they can be retried, they're never done.)
+	// Attempt to determine "done". (Except for examples. Because they can be retried, they're never done.)
 	if (!example && done === undefined) {
 		if (progress.done) {
 			done = progress.done

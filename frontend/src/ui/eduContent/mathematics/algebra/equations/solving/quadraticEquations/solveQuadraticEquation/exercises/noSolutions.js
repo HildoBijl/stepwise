@@ -59,7 +59,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ a, b, c, solutionFull }) => {
-			return <Par><Translation>The quadratic formula states that <BM>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a).</BM> Entering the values <M>a = {a}</M>, <M>b = {b}</M> and <M>c = {c}</M> turns this into <BM>{solutionFull}</BM></Translation></Par>
+			return <Par><Translation>The quadratic formula states that <BM>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a).</BM> Entering the values <M>a = {a}</M>, <M>b = {b}</M> and <M>c = {c}</M> turns this into <BM>{solutionFull}.</BM></Translation></Par>
 		},
 	},
 	{

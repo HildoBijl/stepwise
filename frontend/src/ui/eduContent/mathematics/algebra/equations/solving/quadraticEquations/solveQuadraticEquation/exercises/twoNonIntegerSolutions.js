@@ -59,7 +59,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ a, b, c, solutionFull }) => {
-			return <Par><Translation>The quadratic formula states that <BM>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a).</BM> Entering the values <M>a = {a}</M>, <M>b = {b}</M> and <M>c = {c}</M> turns this into <BM>{solutionFull}</BM></Translation></Par>
+			return <Par><Translation>The quadratic formula states that <BM>x = \frac(-b \pm \sqrt(b^2 - 4ac))(2a).</BM> Entering the values <M>a = {a}</M>, <M>b = {b}</M> and <M>c = {c}</M> turns this into <BM>{solutionFull}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -107,10 +107,10 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, solutionHalfSimplified, solution, solutionsSplit, solutions, equationSubstituted }) => {
+		Solution: ({ x, solutionHalfSimplified, solution, solutionsSplit, solutions, equationsSubstituted }) => {
 			return <Translation>
 				<Par>It is wise to first simplify the expression with the plus/minus. This gets us <BM>{x} = {solutionHalfSimplified} = {solution}.</BM> Once it's been simplified, we enter either a plus or a minus. This gives the two solutions <BM>{x}_1 = {solutionsSplit[0]} = {solutions[0]},</BM><BM>{x}_2 = {solutionsSplit[1]} = {solutions[1]}.</BM></Par>
-				<Par>As final check, we insert the two solutions <M>{x}_1</M> and <M>{x}_2</M> into the original equation. This results in <BM>{equationSubstituted[0]},</BM><BM>{equationSubstituted[1]}.</BM> With some work, we can verify that both of these equations hold, so the solutions we found are correct.</Par>
+				<Par>As final check, we insert the two solutions <M>{x}_1</M> and <M>{x}_2</M> into the original equation. This results in <BM>{equationsSubstituted[0]},</BM><BM>{equationsSubstituted[1]}.</BM> With some work, we can verify that both of these equations hold, so the solutions we found are correct.</Par>
 			</Translation>
 		},
 	},
