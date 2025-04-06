@@ -1011,7 +1011,7 @@ class PlusMinus extends Constant {
 	}
 
 	requiresBracketsFor(level) {
-		return (level === bracketLevels.addition || level === bracketLevels.multiplication)
+		return level === bracketLevels.multiplication || level === bracketLevels.powers
 	}
 
 	requiresPlusInSum() {
@@ -1246,7 +1246,7 @@ class Sum extends ExpressionList {
 
 		// If there are at least two constants, merge them together and put them at the end.
 		if (options.mergeSumNumbers) {
-			const isConstant = term => term instanceof Constant
+			const isConstant = term => (term instanceof Constant && term.isSingular())
 			if (count(terms, isConstant) > 1) {
 				let number = 0
 				terms = terms.filter(term => {
