@@ -211,10 +211,11 @@ const skillStructure = {
 				verifying: {
 					checkEquationSolution: {
 						name: 'Check equation solution',
+						setup: and('substituteANumber', 'calculateSumOfProducts'),
 					},
 					checkMultiVariableEquationSolution: {
 						name: 'Check multi-variable equation solution',
-						setup: and('substituteAnExpression', 'expandBrackets', 'mergeSimilarTerms', 'simplifyFractionWithVariables'),
+						setup: and('substituteAnExpression', 'expandBrackets', 'mergeSimilarTerms'),
 					},
 				},
 				manipulating: {

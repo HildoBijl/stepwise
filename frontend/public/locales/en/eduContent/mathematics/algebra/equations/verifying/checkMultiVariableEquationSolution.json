@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>check the solution of an equation with multiple variables</term>. Given an equation like <inline-math/> and a potential solution like <inline-math/> you will be able to determine whether or not the expression balances the equation. This includes substituting the solution (the full expression) into the equation, simplifying both sides and seeing if they reduce to the same. Simplifications may include <skill-link>expanding brackets</skill-link> and <skill-link>merging terms</skill-link>. The exercises will not require <skill-link>double brackets</skill-link> or <skill-link>fractions with variables</skill-link>.</par>"
+  }
+}

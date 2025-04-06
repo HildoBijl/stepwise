@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>substitute</term> a variable in an expression by another expression. For instance, given the expression <inline-math/> you can insert <inline-math/> to wind up with the expression <inline-math/>. No further simplifications are required yet. Since this skill only concerns the substitution, no skills related to fractions, powers, etcetera are required.</par>"
+  }
+}
