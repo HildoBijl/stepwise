@@ -74,7 +74,9 @@
           "addingSubtracting": {
             "addLikeFractionsWithVariables": "Gelijknamige breuken met variabelen optellen",
             "addFractionsWithVariables": "Breuken met variabelen optellen",
-            "simplifyFractionOfFractionSumsWithVariables": "Breuk van breuksommen met variabelen vereenvoudigen"
+            "simplifyFractionOfFractionSumsWithVariables": "Breuk van breuksommen met variabelen vereenvoudigen",
+            "addFractionsWithMultipleVariables": "Breuken met meerdere variabelen optellen",
+            "simplifyFractionOfFractionSumsWithMultipleVariables": "Breuk van breuksommen met meerdere variabelen vereenvoudigen"
           }
         }
       },
@@ -99,15 +101,22 @@
         },
         "solving": {
           "elementaryEquations": {
-            "solveProductEquation": "Productvergelijking oplossen"
+            "solveProductEquation": "Productvergelijking oplossen",
+            "solveMultiVariableProductEquation": "Productvergelijking met meerdere variabelen oplossen"
           },
           "linearEquations": {
             "solveLinearEquation": "Lineaire vergelijking oplossen",
-            "solveLinearEquationWithFractions": "Lineaire vergelijking met breuken oplossen"
+            "solveLinearEquationWithFractions": "Lineaire vergelijking met breuken oplossen",
+            "solveMultiVariableLinearEquation": "Lineaire vergelijking met meerdere variabelen oplossen",
+            "solveMultiVariableLinearEquationWithFractions": "Lineaire vergelijking meerdere variabelen en breuken oplossen"
           },
           "quadraticEquations": {
             "solveQuadraticEquation": "Kwadratische vergelijking oplossen",
             "solveRewrittenQuadraticEquation": "Herschreven kwadratische vergelijking oplossen"
+          },
+          "systemsOfEquations": {
+            "solveSystemOfLinearEquations": "Stelsel van lineaire vergelijkingen oplossen",
+            "solveMultiVariableSystemOfLinearEquations": "Stelsel van lineaire vergelijkingen met meerdere variabelen oplossen"
           }
         }
       },

@@ -74,7 +74,9 @@
           "addingSubtracting": {
             "addLikeFractionsWithVariables": "Gleichnamige Brüche mit Variablen addieren",
             "addFractionsWithVariables": "Brüche mit Variablen addieren",
-            "simplifyFractionOfFractionSumsWithVariables": "Bruch mit Bruchsummen mit Variablen vereinfachen"
+            "simplifyFractionOfFractionSumsWithVariables": "Bruch mit Bruchsummen mit Variablen vereinfachen",
+            "addFractionsWithMultipleVariables": "Brüche mit mehreren Variablen addieren",
+            "simplifyFractionOfFractionSumsWithMultipleVariables": "Bruch mit Bruchsummen mit mehreren Variablen vereinfachen"
           }
         }
       },
@@ -99,15 +101,22 @@
         },
         "solving": {
           "elementaryEquations": {
-            "solveProductEquation": "Produktgleichung lösen"
+            "solveProductEquation": "Produktgleichung lösen",
+            "solveMultiVariableProductEquation": "Produktgleichung mit mehreren Variablen lösen"
           },
           "linearEquations": {
             "solveLinearEquation": "Lineare Gleichung lösen",
-            "solveLinearEquationWithFractions": "Lineare Gleichung mit Brüchen lösen"
+            "solveLinearEquationWithFractions": "Lineare Gleichung mit Brüchen lösen",
+            "solveMultiVariableLinearEquation": "Lineare Gleichung mit mehreren Variablen lösen",
+            "solveMultiVariableLinearEquationWithFractions": "Lineare Gleichung mit mehreren Variablen und Brüchen lösen"
           },
           "quadraticEquations": {
             "solveQuadraticEquation": "Quadratische Gleichung lösen",
             "solveRewrittenQuadraticEquation": "Umgeschriebene quadratische Gleichung lösen"
+          },
+          "systemsOfEquations": {
+            "solveSystemOfLinearEquations": "Lineares Gleichungssystem lösen",
+            "solveMultiVariableSystemOfLinearEquations": "Lineares Gleichungssystem mit mehreren Variablen lösen"
           }
         }
       },

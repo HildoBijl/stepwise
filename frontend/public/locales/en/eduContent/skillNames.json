@@ -74,7 +74,9 @@
           "addingSubtracting": {
             "addLikeFractionsWithVariables": "Add like fractions with variables",
             "addFractionsWithVariables": "Add fractions with variables",
-            "simplifyFractionOfFractionSumsWithVariables": "Simplify fraction of fraction sums with variables"
+            "simplifyFractionOfFractionSumsWithVariables": "Simplify fraction of fraction sums with variables",
+            "addFractionsWithMultipleVariables": "Add fractions with multiple variables",
+            "simplifyFractionOfFractionSumsWithMultipleVariables": "Simplify fraction of fraction sums with multiple variables"
           }
         }
       },
@@ -99,15 +101,22 @@
         },
         "solving": {
           "elementaryEquations": {
-            "solveProductEquation": "Solve product equation"
+            "solveProductEquation": "Solve product equation",
+            "solveMultiVariableProductEquation": "Solve multi-variable product equation"
           },
           "linearEquations": {
             "solveLinearEquation": "Solve linear equation",
-            "solveLinearEquationWithFractions": "Solve linear equation with fractions"
+            "solveLinearEquationWithFractions": "Solve linear equation with fractions",
+            "solveMultiVariableLinearEquation": "Solve multi-variable linear equation",
+            "solveMultiVariableLinearEquationWithFractions": "Solve multi-variable linear equation with fractions"
           },
           "quadraticEquations": {
             "solveQuadraticEquation": "Solve quadratic equation",
             "solveRewrittenQuadraticEquation": "Solve rewritten quadratic equation"
+          },
+          "systemsOfEquations": {
+            "solveSystemOfLinearEquations": "Solve system of linear equations",
+            "solveMultiVariableSystemOfLinearEquations": "Solve multi-variable system of linear equations"
           }
         }
       },

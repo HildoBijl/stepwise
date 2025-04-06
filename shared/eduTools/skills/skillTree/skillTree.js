@@ -196,6 +196,14 @@ const skillStructure = {
 							name: 'Simplify fraction of fraction sums with variables',
 							setup: and('addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables'),
 						},
+						addFractionsWithMultipleVariables: {
+							name: 'Add fractions with multiple variables',
+							setup: and('cancelFractionFactors', 'expandBrackets', 'addLikeFractionsWithVariables'),
+						},
+						simplifyFractionOfFractionSumsWithMultipleVariables: {
+							name: 'Simplify fraction of fraction sums with multiple variables',
+							setup: and('addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'),
+						},
 					},
 				},
 			},
@@ -260,6 +268,10 @@ const skillStructure = {
 							examples: ['inNumerator', 'inDenominator'],
 							exercises: ['inNumerator', 'inDenominator'],
 						},
+						solveMultiVariableProductEquation: {
+							name: 'Solve multi-variable product equation',
+							setup: and('simplifyFraction', 'moveEquationFactor'),
+						},
 						// Summation equations, product equations.
 					},
 					linearEquations: {
@@ -275,6 +287,14 @@ const skillStructure = {
 							examples: ['twoFractionsWithNumber'],
 							exercises: ['oneFractionWithNumber', 'oneFractionWithVariable', 'twoFractionsWithNumber', 'twoFractionsWithVariable'],
 						},
+						solveMultiVariableLinearEquation: {
+							name: 'Solve multi-variable linear equation',
+							setup: and(part('expandBrackets', 0.5), 'moveEquationTerm', 'pullFactorOutOfBrackets', 'solveMultiVariableProductEquation'),
+						},
+						solveMultiVariableLinearEquationWithFractions: {
+							name: 'Solve multi-variable linear equation with fractions',
+							setup: and('multiplyAllEquationTerms', part('expandDoubleBrackets', 0.5), 'solveMultiVariableLinearEquation')
+						},
 					},
 					quadraticEquations: {
 						solveQuadraticEquation: {
@@ -289,6 +309,16 @@ const skillStructure = {
 							// examples: ['twoFractions'],
 							examples: ['oneFractionWithSquare'], // ToDo: remove
 							exercises: ['twoFractions', 'oneFractionWithSquare'],
+						},
+					},
+					systemsOfEquations: {
+						solveSystemOfLinearEquations: {
+							name: 'Solve system of linear equations',
+							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteAnExpression'),
+						},
+						solveMultiVariableSystemOfLinearEquations: {
+							name: 'Solve multi-variable system of linear equations',
+							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', 'substituteAnExpression'),
 						},
 					},
 				},
