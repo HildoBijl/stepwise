@@ -25,8 +25,9 @@ const metaData = {
 				return constantMultiple(input, correct.multiply(adjustmentFactor).regularClean())
 			}, rightCheck: exactEqual
 		},
-		ans1: onlyOrderChanges,
-		ans2: onlyOrderChanges,
+		// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
+		ans1: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),
+		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),
 	}
 }
 
