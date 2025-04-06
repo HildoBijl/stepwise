@@ -26,7 +26,7 @@
       },
       "step4": {
         "problem": "Make sure that the terms are sorted by decreasing power of <inline-math/>. On top of this, <check><on-true>normalize the equation</on-true><on-false>ensure that the coefficients are all integers that are as small as possible</on-false></check>.",
-        "solution": "Note that previously we had already sorted the terms. The only thing that is left to do is clean up the coefficients. <check><on-true>To normalize the equation, we divide by the factor before the highest power of <inline-math/>. That is, we divide all terms by <inline-math/>. This results in <block-math/> This is the normalized version of the equation.</on-true><on-false>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <inline-math/> without obtaining any fractions. Doing so will result in <block-math/> This equation is as simplified as it can be.</on-false></check>"
+        "solution": "Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <check><on-true>To normalize the equation, we divide by the factor before the highest power of <inline-math/>. That is, we divide all terms by <inline-math/>. This results in <block-math/> This is the normalized version of the equation.</on-true><on-false>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <inline-math/> without obtaining any fractions. Doing so will result in <block-math/> This equation is as simplified as it can be.</on-false></check>"
       }
     },
     "cubicOneFraction": {
@@ -41,11 +41,11 @@
       },
       "step3": {
         "problem": "Move all terms to the left and merge similar terms together, minimizing the number of terms in the equation.",
-        "solution": "By moving everything to the left and by merging similar terms, we can find that <block-math/>"
+        "solution": "By moving all terms to the left and by merging similar terms, we can find that <block-math/>"
       },
       "step4": {
         "problem": "Make sure that the terms are sorted by decreasing power of <inline-math/>. On top of this, <check><on-true>normalize the equation</on-true><on-false>ensure that the coefficients are all integers that are as small as possible</on-false></check>.",
-        "solution": "Note that previously we had already sorted the terms. The only thing that is left to do is clean up the coefficients. <check><on-true>To normalize the equation, we divide by the factor before the highest power of <inline-math/>. That is, we divide all terms by <inline-math/>. This results in <block-math/> This is the normalized version of the equation.</on-true><on-false>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <inline-math/> without obtaining any fractions. Doing so will result in <block-math/> This equation is as simplified as it can be.</on-false></check>"
+        "solution": "Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <check><on-true>To normalize the equation, we divide by the factor before the highest power of <inline-math/>. That is, we divide all terms by <inline-math/>. This results in <block-math/> This is the normalized version of the equation.</on-true><on-false>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <inline-math/> without obtaining any fractions. Doing so will result in <block-math/> This equation is as simplified as it can be.</on-false></check>"
       }
     }
   }

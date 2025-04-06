@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
-const { asExpression, asEquation, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
+const { asExpression, asEquation, Product, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
@@ -112,7 +112,7 @@ function checkInput(exerciseData, step) {
 
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'normalized')
+			return performComparison(exerciseData, 'standardForm')
 		default:
 			return performComparison(exerciseData, 'numSolutions') && (numSolutions !== 1 || performComparison(exerciseData, 'ans1')) && (numSolutions !== 2 || performListComparison(exerciseData, ['ans1', 'ans2']))
 	}

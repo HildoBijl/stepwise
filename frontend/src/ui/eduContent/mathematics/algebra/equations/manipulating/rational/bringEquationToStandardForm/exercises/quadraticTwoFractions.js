@@ -86,7 +86,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, normalize, divisor, ans }) => {
-			return <Par><Translation>Note that in the prior step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <Check value={normalize}><Check.True>To normalize the equation, we divide by the factor before the highest power of <M>{variables.x}</M>. That is, we divide all terms by <M>{divisor}</M>. This results in <BM>{ans}.</BM> This is the normalized version of the equation.</Check.True><Check.False>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <M>{divisor}</M> without obtaining any fractions. Doing so will result in <BM>{ans}.</BM> This equation is as simplified as it can be.</Check.False></Check></Translation></Par>
+			return <Par><Translation>Note that in the previous step we already sorted the terms. The only thing that is left to do is clean up the coefficients. <Check value={normalize}><Check.True>To normalize the equation, we divide by the factor before the highest power of <M>{variables.x}</M>. That is, we divide all terms by <M>{divisor}</M>. This results in <BM>{ans}.</BM> This is the normalized version of the equation.</Check.True><Check.False>Note that all coefficients of the equation have a factor in common. Specifically, we can divide them all by <M>{divisor}</M> without obtaining any fractions. Doing so will result in <BM>{ans}.</BM> This equation is as simplified as it can be.</Check.False></Check></Translation></Par>
 		},
 	},
 ]
