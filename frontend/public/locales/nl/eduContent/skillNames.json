@@ -52,7 +52,8 @@
     "algebra": {
       "expressions": {
         "substitution": {
-          "substituteANumber": "Getal invullen"
+          "substituteANumber": "Getal invullen",
+          "substituteAnExpression": "Uitdrukking invullen"
         },
         "simplification": {
           "simplifyNumberProduct": "Vermenigvuldiging van getallen vereenvoudigen",
@@ -79,7 +80,8 @@
       },
       "equations": {
         "verifying": {
-          "checkEquationSolution": "Oplossing van een vergelijking controleren"
+          "checkEquationSolution": "Vergelijkingsoplossing controleren",
+          "checkMultiVariableEquationSolution": "Vergelijkingsoplossing met variabelen controleren"
         },
         "manipulating": {
           "terms": {

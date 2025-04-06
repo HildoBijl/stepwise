@@ -52,7 +52,8 @@
     "algebra": {
       "expressions": {
         "substitution": {
-          "substituteANumber": "Substitute a number"
+          "substituteANumber": "Substitute a number",
+          "substituteAnExpression": "Substitute an expression"
         },
         "simplification": {
           "simplifyNumberProduct": "Simplify number product",
@@ -79,7 +80,8 @@
       },
       "equations": {
         "verifying": {
-          "checkEquationSolution": "Check equation solution"
+          "checkEquationSolution": "Check equation solution",
+          "checkMultiVariableEquationSolution": "Check multi-variable equation solution"
         },
         "manipulating": {
           "terms": {

@@ -126,6 +126,9 @@ const skillStructure = {
 					substituteANumber: {
 						name: 'Substitute a number',
 					},
+					substituteAnExpression: {
+						name: 'Substitute an expression',
+					},
 				},
 				simplification: {
 					simplifyNumberProduct: {
@@ -200,6 +203,10 @@ const skillStructure = {
 				verifying: {
 					checkEquationSolution: {
 						name: 'Check equation solution',
+					},
+					checkMultiVariableEquationSolution: {
+						name: 'Check multi-variable equation solution',
+						setup: and('substituteAnExpression', 'expandBrackets', 'mergeSimilarTerms', 'simplifyFractionWithVariables'),
 					},
 				},
 				manipulating: {
