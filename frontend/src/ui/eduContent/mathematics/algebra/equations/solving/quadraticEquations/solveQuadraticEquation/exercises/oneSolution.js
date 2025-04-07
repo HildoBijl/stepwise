@@ -22,7 +22,7 @@ const Problem = () => {
 		<InputSpace>
 			<NumSolutionsInput />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={<M>{x}_{index}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={numSolutions === 1 ? <M>x=</M> : <M>{x}_{index}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
 				)}
 			</Par> : null}
 		</InputSpace>
@@ -103,7 +103,7 @@ const steps = [
 				<Par><Translation>Write down the final solution of the given equation, simplified as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={<M>{numSolutions === 1 ? x : `{x}_{index}`}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
+						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={numSolutions === 1 ? <M>x=</M> : <M>{x}_{index}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
 						)}
 					</Par>
 				</InputSpace>
