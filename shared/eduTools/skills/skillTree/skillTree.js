@@ -236,12 +236,12 @@ const skillStructure = {
 					factors: {
 						multiplyBothEquationSides: {
 							name: 'Multiply both equation sides',
-							links: { skill: 'addToBothEquationSides', correlation: 0.5 },
+							links: { skill: 'addToBothEquationSides', correlation: 0.4 },
 						},
 						moveEquationFactor: {
 							name: 'Move equation factor',
 							setup: and('multiplyBothEquationSides', 'cancelFractionFactors', part('multiplyDivideFractions', 1 / 2)),
-							links: { skill: 'moveEquationTerm', correlation: 0.5 },
+							links: { skill: 'moveEquationTerm', correlation: 0.4 },
 							examples: ['basicDivision', 'basicMultiplication'],
 							exercises: ['division', 'multiplication'],
 						},
@@ -265,13 +265,14 @@ const skillStructure = {
 					elementaryEquations: {
 						solveProductEquation: {
 							name: 'Solve product equation',
-							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionOfFractions', 'checkEquationSolution'),
+							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFraction', 'checkEquationSolution'),
 							examples: ['inNumerator', 'inDenominator'],
 							exercises: ['inNumerator', 'inDenominator'],
 						},
 						solveMultiVariableProductEquation: {
 							name: 'Solve multi-variable product equation',
-							setup: and('simplifyFraction', 'moveEquationFactor'),
+							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution'),
+							links: { skill: 'solveProductEquation', correlation: 0.7 },
 						},
 						// Summation equations, product equations.
 					},

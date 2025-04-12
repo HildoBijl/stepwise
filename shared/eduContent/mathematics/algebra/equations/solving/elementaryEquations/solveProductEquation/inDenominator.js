@@ -12,7 +12,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'solveProductEquation',
-	steps: ['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionOfFractions', 'checkEquationSolution'],
+	steps: ['moveEquationFactor', 'moveEquationFactor', 'simplifyFraction', 'checkEquationSolution'],
 	comparison: {
 		moved: { check: equivalent, allowSwitch: true },
 		isolated: { check: equivalent, allowSwitch: true },
