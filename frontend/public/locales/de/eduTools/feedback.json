@@ -121,7 +121,6 @@
 		"unsimplifiedFractionNumbers": "Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.",
 		"unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
 		"fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
-		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben.",
 		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.",
 		"incorrectFraction": {
 			"noFraction": "Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.",
@@ -129,7 +128,9 @@
 			"incorrectNumerator": "Der Zähler deines Bruches (oben) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?",
 			"incorrectDenominator": "Der Nenner deines Bruchs (unten) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?",
 			"constantMultiple": "Du scheinst dich um eine konstante Multiplikation zu irren."
-		}
+		},
+		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben.",
+    "unsimplifiedPowerMerging": "Es gibt immer noch Faktoren in einem Produkt, die als Potenz kombiniert werden können."
 	},
 	"equation": {
 		"original": "Dies ist die ursprüngliche Gleichung. Du hast noch nichts damit gemacht.",

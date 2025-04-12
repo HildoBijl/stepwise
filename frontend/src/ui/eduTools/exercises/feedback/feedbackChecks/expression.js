@@ -99,6 +99,8 @@ export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, i
 
 export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <Translation path={translationPath} entry="expression.hasPower">Your solution still has an exponent. You can simplify this further.</Translation>
 
+export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedPowerMerging">There are still factors in a product that can be pulled together into a power.</Translation>
+
 /*
  * Common mistake checks.
  */

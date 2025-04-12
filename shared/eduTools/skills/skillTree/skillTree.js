@@ -263,6 +263,7 @@ const skillStructure = {
 				},
 				solving: {
 					elementaryEquations: {
+						// Summation equation can still be added here.
 						solveProductEquation: {
 							name: 'Solve product equation',
 							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFraction', 'checkEquationSolution'),
@@ -273,8 +274,10 @@ const skillStructure = {
 							name: 'Solve multi-variable product equation',
 							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution'),
 							links: { skill: 'solveProductEquation', correlation: 0.7 },
+							examples: ['inNumerator'],
+							// examples: ['inNumerator', 'inDenominator'],
+							exercises: ['inNumerator', 'inDenominator'],
 						},
-						// Summation equations, product equations.
 					},
 					linearEquations: {
 						solveLinearEquation: {

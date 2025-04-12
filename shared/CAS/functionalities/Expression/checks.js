@@ -64,7 +64,7 @@ function isPolynomial(input) {
 	})
 }
 
-// is Rational checks if this expression is a rational expression: only polynomes and fractions.
+// isRational checks if this expression is a rational expression: only polynomes and fractions.
 function isRational(input) {
 	return input.recursiveEvery(term => {
 		if (!(term instanceof Function))
