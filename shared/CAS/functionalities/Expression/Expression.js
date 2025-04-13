@@ -2127,7 +2127,7 @@ class Fraction extends Function {
 	toString() {
 		// Get the numerator.
 		const useMinus = !this.requiresPlusInSum()
-		const usedNumerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
+		const usedNumerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)).elementaryClean() : this.numerator
 		let numStr = usedNumerator.toString()
 		if (usedNumerator.requiresBracketsFor(bracketLevels.division, 0))
 			numStr = `(${numStr})`
@@ -2143,7 +2143,7 @@ class Fraction extends Function {
 
 	toRawTex() {
 		const useMinus = !this.requiresPlusInSum()
-		const numerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
+		const numerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)).elementaryClean() : this.numerator
 		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
 	}
 
