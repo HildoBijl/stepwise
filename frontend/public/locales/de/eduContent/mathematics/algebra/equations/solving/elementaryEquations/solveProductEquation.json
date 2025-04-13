@@ -14,7 +14,7 @@
       "mainProblem": "Beachte die Gleichung <block-math/> Löse diese Gleichung für <inline-math/> und vereinfache das Ergebnis so weit wie möglich.",
       "step1": {
         "problem": "Verschiebe alle Faktoren auf der Seite von <inline-math/> auf die andere Seite, außer <inline-math/> selbst.",
-        "solution": "Wir bringen den Faktor <inline-math/> auf die andere Seite, wo er als Division endet.<check><on-false> Wir verschieben auch den Faktor <inline-math/> auf die andere Seite, wo er zu einer Multiplikation wird.</on-false></check> Alles in allem erhalten wir <block-math/>. Beachte, dass <inline-math/> hierdurch isoliert wird."
+        "solution": "Wir bringen den Faktor <inline-math/> auf die andere Seite, wo er als Division endet.<check><on-false> Wir verschieben auch den Faktor <inline-math/> auf die andere Seite, wo er zu einer Multiplikation wird.</on-false></check> Alles in allem erhalten wir <block-math/> Beachte, dass <inline-math/> hierdurch isoliert wird."
       },
       "step2": {
         "problem": "Vereinfache das Ergebnis für <inline-math/> so weit wie möglich.",

@@ -1,14 +1,14 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
 const { asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
-// a/b = c/(d*x).
-const variableSet = ['x', 'y', 'z']
-const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd']
+// (ay)/(bx) = cz.
+const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
+const usedVariables = ['x', 'y', 'z']
+const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveMultiVariableProductEquation',
@@ -23,33 +23,32 @@ const metaData = {
 }
 
 function generateState(example) {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
-	const d = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b, c, -c])
+	const variableSet = selectRandomly(availableVariableSets)
 	return {
-		x: selectRandomly(variableSet),
-		a, b, c, d,
-		switchSides: getRandomBoolean(), // Do we switch equation sides?
+		...selectRandomVariables(variableSet, usedVariables),
+		a: getRandomInteger(-12, 12, [0]),
+		b: example ? 1 : getRandomInteger(1, 12, [0]),
+		c: getRandomInteger(-12, 12, [0]),
+		switchSides: getRandomBoolean(),
 	}
 }
 
 function getSolution(state) {
-	const { switchSides } = state
+	const { x, a, b, c, switchSides } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a/b=c/(d*x)')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const moved = asEquation('a*x/b=c/d')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const isolated = asEquation('x = (c*b)/(d*a)')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const isolatedSolution = isolated[switchSides ? 'left' : 'right']
-	const isolatedSolutionSimplified = isolatedSolution.basicClean()
-	const fractionGcd = gcd(isolatedSolutionSimplified.numerator.number, isolatedSolutionSimplified.denominator.number)
+	const equation = asEquation('(a*y)/(b*x) = c*z')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const factor = equation[switchSides ? 'left' : 'right']
+	const moved = asEquation('(a*y)/b = c*z*x')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const isolated = asEquation('(a*y)/(b*c*z) = x')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const isolatedSolution = isolated[switchSides ? 'right' : 'left']
+	const fractionGcd = gcd(a, b * c)
 	const canSimplifyFraction = (fractionGcd !== 1)
 	const ans = isolatedSolution.regularClean()
-	const equationWithSolution = equation.substituteVariables({ [state.x]: ans })
+	const equationWithSolution = equation.substituteVariables({ [x]: ans })
+	const equationWithSolutionCleaned = equationWithSolution.regularClean()
 	const checkLeft = equationWithSolution.left.regularClean()
 	const checkRight = equationWithSolution.right.regularClean()
-	const canNumberSideBeSimplified = !onlyOrderChanges(equationWithSolution[switchSides ? 'right' : 'left'], switchSides ? checkRight : checkLeft)
-	return { ...state, variables, equation, moved, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
+	return { ...state, variables, equation, factor, moved, isolated, isolatedSolution, fractionGcd, canSimplifyFraction, ans, equationWithSolution, equationWithSolutionCleaned, checkLeft, checkRight }
 }
 
 function checkInput(exerciseData, step) {

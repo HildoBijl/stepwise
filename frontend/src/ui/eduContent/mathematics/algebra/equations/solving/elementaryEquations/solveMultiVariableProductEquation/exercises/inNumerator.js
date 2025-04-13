@@ -2,7 +2,7 @@ import React from 'react'
 
 import { expressionComparisons } from 'step-wise/CAS'
 
-import { Translation } from 'i18n'
+import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
@@ -56,8 +56,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, ans }) => {
-			return <Par><Translation>Merging repeated multiplications into squares, as well as simplifying all the numbers, turns the solution into <BM>{x} = {ans}.</BM> It is not possible to simplify this any further.</Translation></Par>
+		Solution: ({ canSimplifyFraction, x, ans }) => {
+			return <Par><Translation>Merging repeated multiplications into squares<Check value={canSimplifyFraction}><Check.True>, as well as simplifying all the numbers,</Check.True><Check.False></Check.False></Check> turns the solution into <BM>{x} = {ans}.</BM> It is not possible to simplify this any further.</Translation></Par>
 		},
 	},
 	{
@@ -75,7 +75,7 @@ const steps = [
 		},
 		Solution: ({ x, ans, equationWithSolution, equationWithSolutionCleaned }) => {
 			return <Translation>
-				<Par>We can directly insert <M>{x} = {ans}</M> into the equation. This results in <BM>{equationWithSolution}.</BM> Simplifying the fraction within the fraction, as well as simplifying the numbers within the fraction, reduces this to <BM>{equationWithSolutionCleaned}.</BM> Since both sides of the equation reduce to the same outcome, the solution is correct.</Par>
+				<Par>We can directly insert <M>{x} = {ans}</M> into the equation. This results in <BM>{equationWithSolution}.</BM> Simplifying the fraction within the fraction, as well as canceling fraction factors, reduces this to <BM>{equationWithSolutionCleaned}.</BM> Since both sides of the equation reduce to the same outcome, the solution is correct.</Par>
 			</Translation>
 		},
 	},

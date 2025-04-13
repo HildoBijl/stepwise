@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Integer, expressionComparisons } from 'step-wise/CAS'
+import { expressionComparisons } from 'step-wise/CAS'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -21,7 +21,7 @@ const Problem = () => {
 		<Par><Translation>Consider the equation <BM>{equation}.</BM> Solve this equation for <M>{variables.x}</M> and simplify the result as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
+				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -56,8 +56,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ variables, isolated }) => {
-			return <Par><Translation>We move the factor <M>{variables.a}</M> to the other side, where it turns into a division.<Check value={Integer.one.equals(variables.b)}><Check.False> We also move the factor <M>{variables.b}</M> to the other side, where it becomes a multiplication.</Check.False></Check> All together, we wind up with <BM>{isolated}.</BM> Note that <M>{variables.x}</M> has been isolated.</Translation></Par>
+		Solution: ({ factor, x, isolated }) => {
+			return <Par><Translation>We move the factor <M>{factor}</M> to the other side, where it turns into a division. This results in <BM>{isolated}.</BM> Note that <M>{x}</M> has been isolated.</Translation></Par>
 		},
 	},
 	{
@@ -67,13 +67,13 @@ const steps = [
 				<Par><Translation>Simplify the result for <M>{variables.x}</M> as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ variables, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans }) => {
-			return <Par><Translation>First we write the fraction as a division between numbers, which is <BM>{variables.x} = {canSimplifyFraction ? isolatedSolutionSimplified : ans}.</BM> <Check value={canSimplifyFraction}><Check.True>We then simplify this fraction by canceling a factor <M>{fractionGcd}</M> in both the numerator and the denominator. This results in the final solution, <BM>{variables.x} = {ans}.</BM> It is not possible to simplify this any further.</Check.True><Check.False>No further factors can be canceled from this fraction: it is already as simplified as possible.</Check.False></Check></Translation></Par>
+		Solution: ({ x, fractionGcd, canSimplifyFraction, ans }) => {
+			return <Par><Translation><Check value={canSimplifyFraction}><Check.True>It is still possible to cancel some factors within the numbers of the fraction. Dividing both the numerator and the denominator by <M>{fractionGcd}</M> results in <BM>{x} = {ans}.</BM></Check.True><Check.False>This time it is not possible to simplify the fraction any further. So we remain with the final result, <BM>{x} = {ans}.</BM></Check.False></Check></Translation></Par>
 		},
 	},
 	{
@@ -83,17 +83,15 @@ const steps = [
 				<Par><Translation>Check the solution for <M>{variables.x}</M>: insert it into the original equation and simplify each side as much as possible.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="checkLeft" prelabel={<M>{equation.left}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
-						<ExpressionInput id="checkRight" prelabel={<M>{equation.right}=</M>} size="l" settings={ExpressionInput.settings.numericWithFractions} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="checkLeft" prelabel={<M>{equation.left}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="checkRight" prelabel={<M>{equation.right}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ switchSides, variables, equation, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }) => {
+		Solution: ({ x, ans, equationWithSolution, equationWithSolutionCleaned }) => {
 			return <Translation>
-				<Par><Check value={!switchSides}><Check.True>The left side of the original equation is already a number without <M>{variables.x}</M>, so no substitution is necessary. <Check value={canNumberSideBeSimplified}><Check.True>It can still be simplified into <BM>{equation.left} = {checkLeft}.</BM></Check.True><Check.False>It also cannot be simplified, so it remains as is, being <M>{checkLeft}</M>.</Check.False></Check></Check.True><Check.False>Substituting <M>{variables.x} = {ans}</M> into the left side of the original equation gives us <BM>{equation.left} = {equationWithSolution.left}.</BM> Simplifying the resulting fraction turns it into <BM>{equationWithSolution.left} = {checkLeft}.</BM></Check.False></Check></Par>
-				<Par><Check value={switchSides}><Check.True>The right side of the original equation is already a number without <M>{variables.x}</M>, so no substitution is necessary. <Check value={canNumberSideBeSimplified}><Check.True>It can still be simplified into <BM>{equation.right} = {checkRight}.</BM></Check.True><Check.False>It also cannot be simplified, so it remains as is, being <M>{checkRight}</M>.</Check.False></Check></Check.True><Check.False>Substituting <M>{variables.x} = {ans}</M> into the right side of the original equation gives us <BM>{equation.right} = {equationWithSolution.right}.</BM> Simplifying the resulting fraction turns it into <BM>{equationWithSolution.right} = {checkRight}.</BM></Check.False></Check></Par>
-				<Par>Both sides of the equation reduce to the same number, which means that the solution is correct.</Par>
+				<Par>We can directly insert <M>{x} = {ans}</M> into the equation. This results in <BM>{equationWithSolution}.</BM> Simplifying the fraction within the fraction, as well as canceling fraction factors, reduces this to <BM>{equationWithSolutionCleaned}.</BM> Since both sides of the equation reduce to the same outcome, the solution is correct.</Par>
 			</Translation>
 		},
 	},

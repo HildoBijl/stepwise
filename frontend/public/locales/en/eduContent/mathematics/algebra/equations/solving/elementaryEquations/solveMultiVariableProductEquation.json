@@ -18,15 +18,34 @@
       },
       "step2": {
         "problem": "Simplify the result for <inline-math/> as much as possible.",
-        "solution": "Merging repeated multiplications into squares, as well as simplifying all the numbers, turns the solution into <block-math/> It is not possible to simplify this any further."
+        "solution": "Merging repeated multiplications into squares<check><on-true>, as well as simplifying all the numbers,</on-true><on-false/></check> turns the solution into <block-math/> It is not possible to simplify this any further."
       },
       "step3": {
         "problem": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
-        "solution": "<par>We can directly insert <inline-math/> into the equation. This results in <block-math/> Simplifying the fraction within the fraction, as well as simplifying the numbers within the fraction, reduces this to <block-math/> Since both sides of the equation reduce to the same outcome, the solution is correct.</par>"
+        "solution": "<par>We can directly insert <inline-math/> into the equation. This results in <block-math/> Simplifying the fraction within the fraction, as well as canceling fraction factors, reduces this to <block-math/> Since both sides of the equation reduce to the same outcome, the solution is correct.</par>"
       }
     },
     "inDenominator": {
-      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible."
+      "mainProblem": "Consider the equation <block-math/> Solve this equation for <inline-math/> and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Move the factor <inline-math/> to the other side of the equation.",
+        "solution": "Because <inline-math/> was divided by, on the other side it will be multiplied by. This gives <block-math/> Note that <inline-math/> is not in a denominator anymore."
+      },
+      "step2": {
+        "problem": "Move all factors on the side of <inline-math/> to the other side, except <inline-math/> itself.",
+        "solution": "We move the factor <inline-math/> to the other side, where it turns into a division. This results in <block-math/> Note that <inline-math/> has been isolated."
+      },
+      "step3": {
+        "problem": "Simplify the result for <inline-math/> as much as possible.",
+        "solution": "<check><on-true>It is still possible to cancel some factors within the numbers of the fraction. Dividing both the numerator and the denominator by <inline-math/> results in <block-math/></on-true><on-false>This time it is not possible to simplify the fraction any further. So we remain with the final result, <block-math/></on-false></check>"
+      },
+      "step4": {
+        "problem": "Check the solution for <inline-math/>: insert it into the original equation and simplify each side as much as possible.",
+        "solution": "<par>We can directly insert <inline-math/> into the equation. This results in <block-math/> Simplifying the fraction within the fraction, as well as canceling fraction factors, reduces this to <block-math/> Since both sides of the equation reduce to the same outcome, the solution is correct.</par>"
+      }
+    },
+    "crossExercise": {
+      "unbalancedEquation": "<a>The two sides of the equation should in the end be the same. This value is not equal to the other one.</a>"
     }
   }
 }
