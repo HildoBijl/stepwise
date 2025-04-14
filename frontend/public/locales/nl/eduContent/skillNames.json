@@ -108,7 +108,7 @@
             "solveLinearEquation": "Lineaire vergelijking oplossen",
             "solveLinearEquationWithFractions": "Lineaire vergelijking met breuken oplossen",
             "solveMultiVariableLinearEquation": "Lineaire vergelijking met meerdere variabelen oplossen",
-            "solveMultiVariableLinearEquationWithFractions": "Lineaire vergelijking meerdere variabelen en breuken oplossen"
+            "solveMultiVariableLinearEquationWithFractions": "Lineaire vergelijking met meerdere variabelen en breuken oplossen"
           },
           "quadraticEquations": {
             "solveQuadraticEquation": "Kwadratische vergelijking oplossen",
