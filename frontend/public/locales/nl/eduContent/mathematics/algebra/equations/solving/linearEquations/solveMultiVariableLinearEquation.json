@@ -4,8 +4,70 @@
 	},
 	"theory": {
 		"intro": "<par>Bekijk een vergelijking als <inline-math/>. Deze vergelijking is een <term>lineaire vergelijking</term> ten opzichte van <inline-math/>: als we alle andere variabelen (<inline-math/> en <inline-math/>) als getal beschouwen, dan zijn alle termen ofwel een getal ofwel een getal keer <inline-math/>. Een lineaire vergelijking mag ook getallen vermenigvuldigd met haakjes hebben, zoals in <inline-math/>, maar er zijn geen kwadraten <inline-math/> of ingewikkeldere termen. Deze vaardigheid gaat over het oplossen van zo'n vergelijking om te vinden voor welke waarde van <inline-math/> hij kloppend is. Dit is erg soortgelijk aan het <skill-link>oplossen van een lineaire vergelijking met één variabele</skill-link>, maar er zijn een paar kleine verschillen.</par>",
-		"solving": "<head>De vergelijking oplossen</head><par>Het eerste dat we altijd doen bij het oplossen van een vergelijking als <inline-math/> is hem opruimen. Dat begint met het <skill-link>uitwerken van haakjes</skill-link>: als er haakjes zijn met <inline-math/> erin, dan moeten we daar vanaf komen. Bij het voorbeeld krijgen we zo <block-math/> Vervolgens willen we de termen opschonen: we <skill-link>brengen de termen</skill-link> met <inline-math/> naar de ene kant (bijvoorbeeld links) en de termen zonder <inline-math/> naar de andere kant (rechts). Dit zet ons voorbeeld om in <block-math/> Uiteindelijk <skill-link>halen we <inline-math/> buiten haakjes</skill-link>. Dit brengt het voorbeeld terug tot <block-math/> We hebben de vergelijking omgeschreven naar een vorm die veel eenvoudiger is! Je herkent mogelijk dat het nu een <skill-link>productvergelijking met meerdere variebelen</skill-link> is. We kunnen hem op de standaardwijze oplossen: we <skill-link>brengen de factor</skill-link> voor de <inline-math/> naar de andere kant. Dit geeft <block-math/> Dit is de oplossing van de vergelijking.</par>",
+		"solving": "<head>De vergelijking oplossen</head><par>Het eerste dat we altijd doen bij het oplossen van een vergelijking als <inline-math/> is hem opruimen. Dat begint met het <skill-link>uitwerken van haakjes</skill-link>: als er haakjes zijn met <inline-math/> erin, dan moeten we daar vanaf komen. Bij het voorbeeld krijgen we zo <block-math/> Vervolgens willen we de termen opschonen: we <skill-link>brengen de termen</skill-link> met <inline-math/> naar de ene kant (bijvoorbeeld links) en de termen zonder <inline-math/> naar de andere kant (rechts). Dit zet ons voorbeeld om in <block-math/> Uiteindelijk <skill-link>halen we <inline-math/> buiten haakjes</skill-link>. Dit brengt het voorbeeld terug tot <block-math/> We hebben de vergelijking omgeschreven naar een vorm die veel eenvoudiger is! Je herkent mogelijk dat het nu een <skill-link>productvergelijking met meerdere variebelen</skill-link> is. Hij heeft immers de vorm \"getal keer <inline-math/> = ander getal\". We kunnen hem op de standaardwijze oplossen: we <skill-link>brengen de factor</skill-link> voor de <inline-math/> naar de andere kant. Dit geeft <block-math/> Dit is de oplossing van de vergelijking.</par>",
 		"checking": "<head>De oplossing controleren</head><par>Zoals gewoonlijk willen we de oplossing nog in de oorspronkelijke vergelijking invullen om te <skill-link>controleren of hij klopt</skill-link>. Zo krijgen we <block-math/> We moeten nu kijken of beide kanten teruggebracht kunnen worden tot dezelfde uitdrukking. Dit is ietwat ingewikkeld, maar de eerste stap die we kunnen doen is de constanten <inline-math/> en <inline-math/> omzetten in een breuk met ook <inline-math/> in de noemer. Dit geeft <block-math/> Als we de <skill-link>haakjes uitwerken</skill-link> in de tellers, dan krijgen we <block-math/> Het <skill-link>samenvoegen van breuken</skill-link> zet dit vervolgens om in <block-math/> Het <skill-link>uitwerken van de haakjes</skill-link> links geeft uiteindelijk <block-math/> Beide kanten van de vergelijking worden inderdaad teruggebracht tot hetzelfde, wat betekent dat de oplossing die we gevonden hebben kloppend is.</par><par>Je hebt mogelijk opgemerkt dat het controleren van de oplossing meer werk is dan het vinden van die oplossing. Hierdoor zul je merken dat, als je deze vaardigheid beter gaat beheersen, je niet altijd meer je oplossing controleert. Het is echter nog steeds aan te raden om het de eerste paar keer wel te doen, juist om deze vaardigheid goed te leren beheersen.</par>",
 		"steps": "<head>De stappen</head><par>Om een lineaire vergelijking zoals <inline-math/> voor de doelvariabele <inline-math/> op te lossen, neem je de volgende stappen.</par><list><item><a>Als er ergens haakjes zijn met de doelvariabele erin, <skill-link>werk deze dan uit</skill-link>. Dit zet het voorbeeld om in <inline-math/>.</a></item><item><b><skill-link>Breng alle termen</skill-link> met de doelvariabele naar de ene kant van de vergelijking, en zonder de doelvariabele naar de andere kant. Bij het voorbeeld, als we alles met <inline-math/> naar links halen en alls zonder naar rechts, dan krijgen we <inline-math/>.</b></item><item><c><skill-link>Haal de doelvariabele buiten haakjes</skill-link>. Het buiten haakjes halen van <inline-math/> zet het voorbeeld om in <inline-math/>.</c></item><item><d><skill-link>Los de betreffende productvergelijking op</skill-link> door de factor binnen haakjes naar de andere kant te brengen. Vereenvoudig ook waar mogelijk het resultaat en controleer deze. Bij het voorbeeld komen we uit op <inline-math/>, wat inderdaad de vergelijking uitbalanceert.</d></item></list>"
+	},
+	"practice": {
+		"basic": {
+			"mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/>.",
+			"step1": {
+				"problem": "Breng alle termen met <inline-math/> naar de ene kant van de vergelijking, en alle zonder <inline-math/> naar de andere kant.",
+				"solution": "We brengen <inline-math/> naar links en <inline-math/> naar rechts. Zo vinden we <block-math/>"
+			},
+			"step2": {
+				"problem": "Haal <inline-math/> buiten haakjes. Laat de rest van de vergelijking onveranderd.",
+				"solution": "Om <inline-math/> buiten haakjes te halen, moeten we <inline-math/> schrijven als <inline-math/> We zien hiermee dat er tussen haakjes <inline-math/> moet staan. Zo herschrijven we de vergelijking als <block-math/>"
+			},
+			"step3": {
+				"problem": "Breng de factor tussen haakjes naar de andere kant, om zo <inline-math/> op te lossen.",
+				"solution": "<par>Als we beide kanten van de vergelijking delen door <inline-math/>, dan valt links de term tussen haakjes weg. We houden alleen <inline-math/> over, en hebben dus <inline-math/> vrij gemaakt! Het eindresultaat is <block-math/> Uiteraard kan dit antwoord ook anders geschreven worden, maar kleine variaties in schrijfwijze zijn hier niet belangrijk.</par><par>Een laatste aanbevolen stap is om de oplossing te controleren. Als we letterlijk de oplossing in de oorspronkelijke vergelijking invullen, dan krijgen we <block-math/> We kunnen elke kant als enkele grote breuk opschrijven via <block-math/> Het uitwerken van haakjes en wegstrepen van somtermen zet dit vervolgens om in <block-math/> Merk op dat beide kanten tot hetzelfde teruggebracht zijn. Dit betekent dat de oplossing klopt.</par>"
+			}
+		},
+		"withBrackets": {
+			"mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/>.",
+			"step1": {
+				"problem": "Werk eerst de haakjes in de vergelijking uit. (Laat de rest onveranderd staan.)",
+				"solution": "Als we de haakjes uitwerken, vermenigvuldigen we <inline-math/> en <inline-math/> los met <inline-math/>. Hiermee verandert de vergelijking in <block-math/>"
+			},
+			"step2": {
+				"problem": "Breng alle termen met <inline-math/> naar de ene kant van de vergelijking, en alle zonder <inline-math/> naar de andere kant.",
+				"solution": "We brengen <inline-math/> naar links en <inline-math/> naar rechts. Zo vinden we <block-math/>"
+			},
+			"step3": {
+				"problem": "Haal <inline-math/> buiten haakjes. Laat de rest van de vergelijking onveranderd.",
+				"solution": "Om <inline-math/> buiten haakjes te halen, moeten we <inline-math/> schrijven als <inline-math/> We zien hiermee dat er tussen haakjes <inline-math/> moet staan. Zo herschrijven we de vergelijking als <block-math/>"
+			},
+			"step4": {
+				"problem": "Breng de factor tussen haakjes naar de andere kant, om zo <inline-math/> op te lossen.",
+				"solution": "<par>Als we beide kanten van de vergelijking delen door <inline-math/>, dan valt links de term tussen haakjes weg. We houden alleen <inline-math/> over, en hebben dus <inline-math/> vrij gemaakt! Het eindresultaat is <block-math/> Uiteraard kan dit antwoord ook anders geschreven worden, maar kleine variaties in schrijfwijze zijn hier niet belangrijk.</par><par>Een laatste aanbevolen stap is om de oplossing te controleren. Als we letterlijk de oplossing in de oorspronkelijke vergelijking invullen, dan krijgen we <block-math/> We kunnen elke kant als enkele grote breuk opschrijven via <block-math/> Het uitwerken van haakjes en wegstrepen van somtermen zet dit vervolgens om in <block-math/> Merk op dat beide kanten tot hetzelfde teruggebracht zijn. Dit betekent dat de oplossing klopt.</par>"
+			}
+		},
+		"withFraction": {
+			"mainProblem": "Bekijk de vergelijking <block-math/> Los deze vergelijking op voor <inline-math/>.",
+			"step1": {
+				"problem": "Breng alle termen met <inline-math/> naar de ene kant van de vergelijking, en alle zonder <inline-math/> naar de andere kant.",
+				"solution": "We brengen <inline-math/> naar links en <inline-math/> naar rechts. Zo vinden we <block-math/>"
+			},
+			"step2": {
+				"problem": "Haal <inline-math/> buiten haakjes. Laat de rest van de vergelijking onveranderd.",
+				"solution": "Om <inline-math/> buiten haakjes te halen, moeten we <inline-math/> schrijven als <inline-math/> We zien hiermee dat er tussen haakjes <inline-math/> moet staan. Zo herschrijven we de vergelijking als <block-math/>"
+			},
+			"step3": {
+				"problem": "Breng de factor tussen haakjes naar de andere kant, om zo <inline-math/> op te lossen.",
+				"solution": "<par>Als we beide kanten van de vergelijking delen door <inline-math/> dan valt links de term tussen haakjes weg. We houden alleen <inline-math/> over, en hebben dus <inline-math/> vrij gemaakt! Het eindresultaat is <block-math/> Eventueel kan dit nog makkelijker geschreven worden als <block-math/> maar dat is niet per se nodig hier.</par><par>Een laatste aanbevolen stap is om de oplossing te controleren. Als we letterlijk de oplossing in de oorspronkelijke vergelijking invullen, dan krijgen we <block-math/> We kunnen links <inline-math/> wegstrepen en elke kant als enkele grote breuk opschrijven via <block-math/> Het uitwerken van haakjes en wegstrepen van somtermen zet dit vervolgens om in <block-math/> Merk op dat beide kanten tot hetzelfde teruggebracht zijn. Dit betekent dat de oplossing klopt.</par>"
+			}
+		},
+		"crossExercise": {
+			"variableOnBothSides": "<a>Beide kanten van de vergelijking bevatten nog een <inline-math/>. Haal alle termen met <inline-math/> naar <em>dezelfde</em> kant.</a>",
+			"missingVariable": "<a>Je antwoord bevat helemaal geen <inline-math/>. Waar is die heen?</a>",
+			"oneVariable": "<a>Er waren meerdere termen met <inline-math/>, maar je hebt er maar één opgeschreven.</a>",
+			"termWithoutVariable": "<a>Je hebt alle termen met <inline-math/> wel naar de ene kant gehaald, maar hier staat ook nog een term <inline-math/> bij waar geen <inline-math/> in zit.</a>",
+			"noSideWithoutVariable": "<a>Je hebt weer een <inline-math/> aan beide kanten van de vergelijking gestopt. Dat was niet de bedoeling.</a>",
+			"unequalSideWithoutVariable": "<a>De kant zonder <inline-math/> moet hetzelfde blijven!</a>",
+			"disappearedVariable": "<a>Je hebt <inline-math/> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</a>",
+			"unequalSide": "<a>De kant met <inline-math/> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</a>",
+			"notOutsideOfBrackets": "<a>Je hebt <inline-math/> niet buiten haakjes gehaald. Je moet de kant met <inline-math/> schrijven als <inline-math/>, met een zo simpel mogelijke uitdrukking op de puntjes.</a>"
+		}
 	}
 }

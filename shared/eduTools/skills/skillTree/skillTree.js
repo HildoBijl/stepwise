@@ -294,10 +294,12 @@ const skillStructure = {
 						solveMultiVariableLinearEquation: {
 							name: 'Solve multi-variable linear equation',
 							setup: and(part('expandBrackets', 0.5), 'moveEquationTerm', 'pullFactorOutOfBrackets', 'solveMultiVariableProductEquation'),
+							examples: ['basic'],
+							exercises: ['basic', 'withBrackets', 'withFraction'],
 						},
 						solveMultiVariableLinearEquationWithFractions: {
 							name: 'Solve multi-variable linear equation with fractions',
-							setup: and('multiplyAllEquationTerms', part('expandDoubleBrackets', 0.5), 'solveMultiVariableLinearEquation')
+							setup: and('multiplyAllEquationTerms', part('expandDoubleBrackets', 0.5), 'solveMultiVariableLinearEquation'),
 						},
 					},
 					quadraticEquations: {

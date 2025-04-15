@@ -4,8 +4,70 @@
   },
   "theory": {
     "intro": "<par>Consider an equation like <inline-math/>. This equation is a <term>linear equation</term> with respect to <inline-math/>: if we consider all other variables (<inline-math/> and <inline-math/>) as numbers, then all terms are either a number or a number times <inline-math/>. A linear equation may also contain numbers multiplied by brackets, like in <inline-math/>, but there are no squares <inline-math/> or more complicated terms. This skill is about solving such an equation to find which value of <inline-math/> satisfies it. This is very similar to solving a <skill-link>solving a linear equation with one variable</skill-link>, but there are a few small differences.</par>",
-    "solving": "<head>Solving the equation</head><par>The first thing we always do when solving an equation like <inline-math/> is clean it up. That starts with <skill-link>expanding brackets</skill-link>: if there are any containing <inline-math/>, get rid of them. Doing so for the example gives <block-math/> Next, we want to sort out the terms: we <skill-link>move the terms</skill-link> with <inline-math/> to one side (for instance the left) and the terms without <inline-math/> to the other side (the right). For our example this turns it into <block-math/> Finally we <skill-link>pull <inline-math/> out of brackets</skill-link>. The example then reduces to <block-math/> We have rewritten the equation to a form that is a lot simpler! In fact, you may recognize that it's now a <skill-link>product equation with multiple variables</skill-link>. We can solve it in the default way: we <skill-link>move the factor</skill-link> before the <inline-math/> to the other side. This gives <block-math/> This is the solution to the equation.</par>",
+    "solving": "<head>Solving the equation</head><par>The first thing we always do when solving an equation like <inline-math/> is clean it up. That starts with <skill-link>expanding brackets</skill-link>: if there are any containing <inline-math/>, get rid of them. Doing so for the example gives <block-math/> Next, we want to sort out the terms: we <skill-link>move the terms</skill-link> with <inline-math/> to one side (for instance the left) and the terms without <inline-math/> to the other side (the right). For our example this turns it into <block-math/> Finally we <skill-link>pull <inline-math/> out of brackets</skill-link>. The example then reduces to <block-math/> We have rewritten the equation to a form that is a lot simpler! In fact, you may recognize that it's now a <skill-link>product equation with multiple variables</skill-link>. After all, it has the form of \"number times <inline-math/> = other number\". We can solve it in the default way: we <skill-link>move the factor</skill-link> before the <inline-math/> to the other side. This gives <block-math/> This is the solution to the equation.</par>",
     "checking": "<head>Checking the solution</head><par>As usual, we still want to insert this solution into the original equation to <skill-link>check</skill-link> it. Doing so gives <block-math/> We should now check if both sides reduce to the same expression. This is a bit more complicated, but the first step we can do is turn the constants <inline-math/> and <inline-math/> into a fraction that also have <inline-math/> in the denominator. This gives <block-math/> If we <skill-link>expand brackets</skill-link> in the numerators, we get <block-math/> <skill-link>Merging fractions together</skill-link> then turns this into <block-math/> <skill-link>Expanding the brackets</skill-link> on the left side finally turns this into <block-math/> Indeed, both sides reduce to the same, which shows that the solution we have found is correct.</par><par>You may notice that checking the equation solution is in fact more work than solving the equation itself. As a result, you'll find that as you become more proficient with this skill, you don't always check your equation solution anymore. It is however recommended to still do so the first few times, to obtain this proficiency.</par>",
     "steps": "<head>The steps</head><par>To solve a linear equation like <inline-math/> for the target variable <inline-math/>, take the following steps.</par><list><item><a>If there are any brackets containing the target variable, <skill-link>expand them</skill-link>. This turns the example into <inline-math/>.</a></item><item><b><skill-link>Move all terms</skill-link> with the target variable to one side and all terms without the target variable to the other side. For the example, if we move everything with <inline-math/> to the left and the rest to the right, we get <inline-math/>.</b></item><item><c><skill-link>Pull the target variable out of the brackets</skill-link>. Pulling <inline-math/> out will turn the example into <inline-math/>.</c></item><item><d><skill-link>Solve the resulting product equation</skill-link> by moving the factor between brackets to the other side. Also simplify the result where possible and check it. For the example we end up with <inline-math/>, which can be shown to balance the equation.</d></item></list>"
+  },
+  "practice": {
+    "basic": {
+      "mainProblem": "Consider the equation <block-math/> Solve it for <inline-math/>.",
+      "step1": {
+        "problem": "Move all terms with <inline-math/> to one side of the equation, and all terms without <inline-math/> to the other side.",
+        "solution": "We move <inline-math/> to the left and <inline-math/> to the right. This gives us <block-math/>"
+      },
+      "step2": {
+        "problem": "Pull <inline-math/> outside of brackets. Leave the rest of the equation unchanged.",
+        "solution": "To pull <inline-math/> outside of brackets, we must write <inline-math/> as <inline-math/>. This tells us that there should be <inline-math/> between the brackets. In this way we can rewrite the equation as <block-math/>"
+      },
+      "step3": {
+        "problem": "Move the factor between brackets to the other side, to solve for <inline-math/>.",
+        "solution": "<par>If we divide both sides by <inline-math/>, then on the left the factor between brackets disappears. We only remain with <inline-math/>, meaning that we have indeed solved the equation for <inline-math/>! The final result is <block-math/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</par><par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <block-math/> We can write each side as one large fraction to get <block-math/> Subsequently expanding brackets and canceling sum terms turns this into <block-math/> Note that both sides have reduced to the same. This means that our solution is correct.</par>"
+      }
+    },
+    "withBrackets": {
+      "mainProblem": "Consider the equation <block-math/> Solve it for <inline-math/>.",
+      "step1": {
+        "problem": "First expand the brackets in the equation. (Leave the rest unchanged.)",
+        "solution": "To expand the brackets, we multiply <inline-math/> and <inline-math/> separately by <inline-math/>. This turns the equation into <block-math/>"
+      },
+      "step2": {
+        "problem": "Move all terms with <inline-math/> to one side of the equation, and all terms without <inline-math/> to the other side.",
+        "solution": "We move <inline-math/> to the left and <inline-math/> to the right. This gives us <block-math/>"
+      },
+      "step3": {
+        "problem": "Pull <inline-math/> outside of brackets. Leave the rest of the equation unchanged.",
+        "solution": "To pull <inline-math/> outside of brackets, we must write <inline-math/> as <inline-math/>. This tells us that there should be <inline-math/> between the brackets. In this way we can rewrite the equation as <block-math/>"
+      },
+      "step4": {
+        "problem": "Move the factor between brackets to the other side, to solve for <inline-math/>.",
+        "solution": "<par>If we divide both sides by <inline-math/>, then on the left the factor between brackets disappears. We only remain with <inline-math/>, meaning that we have indeed solved the equation for <inline-math/>! The final result is <block-math/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</par><par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <block-math/> We can write each side as one large fraction to get <block-math/> Subsequently expanding brackets and canceling sum terms turns this into <block-math/> Note that both sides have reduced to the same. This means that our solution is correct.</par>"
+      }
+    },
+    "withFraction": {
+      "mainProblem": "Consider the equation <block-math/> Solve it for <inline-math/>.",
+      "step1": {
+        "problem": "Move all terms with <inline-math/> to one side of the equation, and all terms without <inline-math/> to the other side.",
+        "solution": "We move <inline-math/> to the left and <inline-math/> to the right. This gives us <block-math/>"
+      },
+      "step2": {
+        "problem": "Pull <inline-math/> outside of brackets. Leave the rest of the equation unchanged.",
+        "solution": "To pull <inline-math/> outside of brackets, we must write <inline-math/> as <inline-math/>. This tells us that there should be <inline-math/> between the brackets. In this way we can rewrite the equation as <block-math/>"
+      },
+      "step3": {
+        "problem": "Move the factor between brackets to the other side, to solve for <inline-math/>.",
+        "solution": "<par>If we divide both sides by <inline-math/>, then on the left the term between brackets disappears. We only remain with <inline-math/>, meaning that we have indeed solved the equation for <inline-math/>! The final result is <block-math/> Optionally this can still be simplified to <block-math/> but that is not necessarily required here.</par><par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <block-math/> We can and cross out <inline-math/> on the left and write each side as one large fraction to get <block-math/> Subsequently expanding brackets and canceling sum terms turns this into <block-math/> Note that both sides have reduced to the same. This means that our solution is correct.</par>"
+      }
+    },
+    "crossExercise": {
+      "variableOnBothSides": "<a>Both sides of the equation still contain <inline-math/>. Pull all terms with <inline-math/> to the <em>same</em> side.</a>",
+      "missingVariable": "<a>Your solution does not contain <inline-math/>. Where did it go?</a>",
+      "oneVariable": "<a>There were multiple terms with <inline-math/>, but you only wrote down one.</a>",
+      "termWithoutVariable": "<a>You did bring all terms with <inline-math/> to one side, but there's also a term <inline-math/> that does not contain <inline-math/>.</a>",
+      "noSideWithoutVariable": "<a>You put the variable <inline-math/> on both sides of the equation again. That was not supposed to happen.</a>",
+      "unequalSideWithoutVariable": "<a>The side without <inline-math/> should remain the same!</a>",
+      "disappearedVariable": "<a>You somehow let <inline-math/> disappear entirely. That was not supposed to happen.</a>",
+      "unequalSide": "<a>The side with <inline-math/> is not equal to what it was before. Something went wrong during the rewriting.</a>",
+      "notOutsideOfBrackets": "<a>You did not pull <inline-math/> outside of brackets. You should write the side containing <inline-math/> as <inline-math/>, with on the dots an expression that's as simple as possible.</a>"
+    }
   }
 }
