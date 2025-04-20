@@ -199,10 +199,12 @@ const skillStructure = {
 						addFractionsWithMultipleVariables: {
 							name: 'Add fractions with multiple variables',
 							setup: and(pick(['cancelFractionFactors', 'simplifyFractionWithVariables']), 'addLikeFractionsWithVariables'),
+							links: { skill: 'addFractionsWithVariables', correlation: 0.5 },
 						},
 						simplifyFractionOfFractionSumsWithMultipleVariables: {
 							name: 'Simplify fraction of fraction sums with multiple variables',
 							setup: and('addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'),
+							links: { skill: 'simplifyFractionOfFractionSumsWithVariables', correlation: 0.6 },
 						},
 					},
 				},
