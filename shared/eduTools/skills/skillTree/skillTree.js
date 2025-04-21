@@ -198,7 +198,9 @@ const skillStructure = {
 						},
 						addFractionsWithMultipleVariables: {
 							name: 'Add fractions with multiple variables',
-							setup: and(pick(['cancelFractionFactors', 'simplifyFractionWithVariables']), 'addLikeFractionsWithVariables'),
+							setup: and('simplifyFractionWithVariables', 'addLikeFractionsWithVariables'),
+							examples: ['mergeFractionsNumberInDenominator', 'splitFractionsNumberInDenominator'],
+							exercises: ['mergeFractionsNumberInDenominator', 'splitFractionsNumberInDenominator', 'mergeFractionsSquareAppearing', 'splitFractionsSquareAppearing', 'mergeFractionsVariableDenominator', 'splitFractionsVariableDenominator'],
 							links: { skill: 'addFractionsWithVariables', correlation: 0.5 },
 						},
 						simplifyFractionOfFractionSumsWithMultipleVariables: {

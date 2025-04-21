@@ -7,5 +7,112 @@
     "adding": "<head>Twee breuken optellen</head><par>We willen twee <term>niet-gelijknamige breuken</term> (breuken met ongelijke noemer) optellen/aftrekken, zoals <block-math/> We weten hoe we twee <skill-link>gelijknamige breuken optellen</skill-link> (met gelijke noemer), maar deze keer hebben onze breuken niet dezelfde noemer. Om deze breuken nog steeds op te kunnen tellen, moeten we er eerst voor zorgen dat ze wel dezelfde noemer hebben.</par><par>De eerste stap is het vinden van de <term>kleinste gemeenschappelijke veelvoud</term> van de twee noemers. Merk op dat de ene noemer gelijk is aan <inline-math/> terwijl de andere noemer <inline-math/> is. Elke factor die in één of beiden van deze noemers verschijnt, zit ook in de kleinste gemeenschappelijke veelvoud, die daarmee uitkomt op <inline-math/>.</par><par>De tweede stap is het herschrijven van de beide breuken zodat ze <inline-math/> als noemer hebben. Dit geeft <block-math/> Merk op dat hier gelijkheid geldt: we kunnen zelfs weer <skill-link>factoren wegstrepen</skill-link> om terug te komen op waar we mee begonnen.</par><par>Nu we twee breuken met gelijke noemer hebben, kunnen we ze op de gebruikelijke wijze <skill-link>optellen</skill-link>. We voegen de tellers samen en krijgen zo <block-math/> We hebben de twee breuken als enkele breuk geschreven.</par>",
     "splitting": "<head>Breuken opsplitsen</head><par>We kunnen ook het omgekeerde van het bovenstaande doen. Stel dat we een breuk als <inline-math/> hebben, met meerdere termen in de teller. Hoe kunnen we deze dan in losse breuken opsplitsen?</par><par>De eerste stap is het letterlijk opsplitsen ervan, waarbij we precies het omgekeerde doen van als we <skill-link>gelijknamige breuken optellen</skill-link>: elke term uit de teller krijgt zo een eigen breuk, elk met dezelfde noemer. Dit geeft <block-math/> Vervolgens <skill-link>vereenvoudigen we de breuken</skill-link>, waarbij we zo veel mogelijk breukfactoren wegstrepen. Zo vinden we <block-math/> Dit is waar we oorspronkelijk mee begonnen, wat laat zien dat we inderdaad precies het omgekeerde gedaan hebben van breuken samenvoegen.</par>",
     "steps": "<head>De stappen</head><par>Om twee breuken met meerdere variabelen op te tellen/af te trekken, zoals <inline-math/>, neem je de volgende stappen.</par><list><item><a>Vind de kleinste gemeenschappelijke veelvoud van de noemers van de twee breuken. Bij het voorbeeld is dit <inline-math/>.</a></item><item><b>Herschrijf beide breuken via het <skill-link>toevoegen van factoren</skill-link> om ze beiden deze noemer te geven. Dit zet het voorbeeld om in <inline-math/>.</b></item><item><c><skill-link>Tel de gelijknamige breuken op</skill-link> in de gebruikelijke wijze. Bij het voorbeeld krijgen we zo het eindresultaat <inline-math/>.</c></item></list><par>Voor het omgekeerde, bij het opsplitsen van een breuk als <inline-math/>, zijn de stappen soortgelijk.</par><list><item><d><skill-link>Splits de breuk op in gelijknamige breuken</skill-link>. Dit zet het voorbeeld om in <inline-math/>.</d></item><item><e><skill-link>Vereenvoudig de breuken</skill-link> zo veel als mogelijk. In het voorbeeld wordt het eindresultaat zo <inline-math/>.</e></item></list>"
+  },
+  "practice": {
+    "mergeFractionsNumberInDenominator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Schrijf dit als enkele breuk en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Vind de kleinste gedeelde veelvoud van de twee noemers <inline-math/> en <inline-math/>.",
+        "solution": "Vanwege <inline-math/> hebben we een factor <inline-math/> nodig, en door <inline-math/> is er een factor <inline-math/> benodigd. Hiernaast moeten we ook een factor <inline-math/> hebben. Dit is immers de kleinste gedeelde veelvoud van <inline-math/> en <inline-math/>. Op deze wijze vinden we <block-math/> Dit is de kleinste gedeelde veelvoud van zowel <inline-math/> als <inline-math/>."
+      },
+      "step2": {
+        "problem": "Herschrijf de beide breuken zodat ze <inline-math/> als noemer hebben.",
+        "solution": "We vermenigvuldigen de eerste breuk boven en onder met <inline-math/>. Dit geeft <block-math/> De tweede breuk wordt boven en onder vermenigvuldigd met <inline-math/>. Dit komt uit op <block-math/> Beide breuken hebben nu <inline-math/> als noemer."
+      },
+      "step3": {
+        "problem": "Voeg de twee herschreven breuken samen tot één breuk.",
+        "solution": "Als we alles bij elkaar voegen, dan vinden we <block-math/> Hiermee zijn de twee breuken samengevoegd als één breuk. Omdat we de kleinste gedeelde veelvoud als noemer gebruikt hebben, zijn er geen verdere vereenvoudigingen mogelijk."
+      }
+    },
+    "mergeFractionsSquareAppearing": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Schrijf dit als enkele breuk en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Vind de kleinste gedeelde veelvoud van de twee noemers <inline-math/> en <inline-math/>.",
+        "solution": "De noemers <inline-math/> en <inline-math/> hebben geen factoren gemeenschappelijk. We kunnen ze daarom met elkaar vermenigvuldigen om hun (kleinst mogelijke) gedeelde veelvoud te vinden. Dit geeft <block-math/>"
+      },
+      "step2": {
+        "problem": "Herschrijf de beide breuken zodat ze <inline-math/> als noemer hebben.",
+        "solution": "We vermenigvuldigen de eerste breuk boven en onder met <inline-math/>. Dit geeft <block-math/> De tweede breuk wordt boven en onder vermenigvuldigd met <inline-math/>. Dit komt uit op <block-math/> Beide breuken hebben nu <inline-math/> als noemer."
+      },
+      "step3": {
+        "problem": "Voeg de twee herschreven breuken samen tot één breuk.",
+        "solution": "Als we alles bij elkaar voegen, dan vinden we <block-math/> Hiermee zijn de twee breuken samengevoegd als één breuk. Omdat we de kleinste gedeelde veelvoud als noemer gebruikt hebben, zijn er geen verdere vereenvoudigingen mogelijk."
+      }
+    },
+    "mergeFractionsVariableDenominator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Schrijf dit als enkele breuk en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Vind de kleinste gedeelde veelvoud van de twee noemers <inline-math/> en <inline-math/>.",
+        "solution": "Vanwege <inline-math/> hebben we factoren <inline-math/> en <inline-math/> nodig. En door <inline-math/> zijn er ook factoren <inline-math/> en <inline-math/> benodigd. Alles bij elkaar moeten we dus de factoren <inline-math/>, <inline-math/> en <inline-math/> hebben. Dit geeft de veelvoud <block-math/>. Dit is de kleinste gedeelde veelvoud van zowel <inline-math/> als <inline-math/>. De factor <inline-math/> moet hierbij <strong>niet</strong> twee keer aanwezig zijn."
+      },
+      "step2": {
+        "problem": "Herschrijf de beide breuken zodat ze <inline-math/> als noemer hebben.",
+        "solution": "We vermenigvuldigen de eerste breuk boven en onder met <inline-math/>. Dit geeft <block-math/> De tweede breuk wordt boven en onder vermenigvuldigd met <inline-math/>. Dit komt uit op <block-math/> Beide breuken hebben nu <inline-math/> als noemer."
+      },
+      "step3": {
+        "problem": "Voeg de twee herschreven breuken samen tot één breuk.",
+        "solution": "Als we alles bij elkaar voegen, dan vinden we <block-math/> Hiermee zijn de twee breuken samengevoegd als één breuk. Omdat we de kleinste gedeelde veelvoud als noemer gebruikt hebben, zijn er geen verdere vereenvoudigingen mogelijk."
+      }
+    },
+    "splitFractionsNumberInDenominator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Splits deze breuk op in twee losse breuken, elk zonder enige optelling/aftrekking erin. Vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Splits de breuk op in twee losse breuken met een <check><on-true>plus</on-true><on-false>min</on-false></check>teken ertussen. (Pas nog geen verdere vereenvoudigingen toe.)",
+        "solution": "Als we een breuk opsplitsen, dan blijft de noemer (de onderkant) hetzelfde bij beide breuken. Alleen de teller (de bovenkant) wordt opgeplitst. Zo vinden we <block-math/> Hiermee is de breuk opgeplitst in twee breuken die we nog verder kunnen vereenvoudigen."
+      },
+      "step2": {
+        "problem": "Vereenvoudig de beide breuken zo veel mogelijk. Streep hiervoor factoren weg die in zowel de teller als de noemer voorkomen.",
+        "solution": "Bij de eerste breuk kunnen we <inline-math/> wegdelen. Zo vinden we <block-math/> Voor de tweede breuk delen we <inline-math/> weg om uit te komen op <block-math/>"
+      },
+      "step3": {
+        "problem": "Schrijf de twee vereenvoudigde breuken samen op in één uitdrukking, met wederom een <check><on-true>plus</on-true><on-false>min</on-false></check>teken ertussen.",
+        "solution": "Het eindresultaat van de twee breuken samen is <block-math/> Deze breuken zijn zo vereenvoudigd als we deze breuken kunnen schrijven."
+      }
+    },
+    "splitFractionsSquareAppearing": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Splits deze breuk op in twee losse breuken, elk zonder enige optelling/aftrekking erin. Vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Splits de breuk op in twee losse breuken met een <check><on-true>plus</on-true><on-false>min</on-false></check>teken ertussen. (Pas nog geen verdere vereenvoudigingen toe.)",
+        "solution": "Als we een breuk opsplitsen, dan blijft de noemer (de onderkant) hetzelfde bij beide breuken. Alleen de teller (de bovenkant) wordt opgeplitst. Zo vinden we <block-math/> Hiermee is de breuk opgeplitst in twee breuken die we nog verder kunnen vereenvoudigen."
+      },
+      "step2": {
+        "problem": "Vereenvoudig de beide breuken zo veel mogelijk. Streep hiervoor factoren weg die in zowel de teller als de noemer voorkomen.",
+        "solution": "Bij de eerste breuk kunnen we <inline-math/> wegdelen. Zo vinden we <block-math/> Voor de tweede breuk delen we <inline-math/> weg om uit te komen op <block-math/>"
+      },
+      "step3": {
+        "problem": "Schrijf de twee vereenvoudigde breuken samen op in één uitdrukking, met wederom een <check><on-true>plus</on-true><on-false>min</on-false></check>teken ertussen.",
+        "solution": "Het eindresultaat van de twee breuken samen is <block-math/> Deze breuken zijn zo vereenvoudigd als we deze breuken kunnen schrijven."
+      }
+    },
+    "splitFractionsVariableDenominator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Splits deze breuk op in twee losse breuken, elk zonder enige optelling/aftrekking erin. Vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Splits de breuk op in twee losse breuken met een <check><on-true>plus</on-true><on-false>min</on-false></check>teken ertussen. (Pas nog geen verdere vereenvoudigingen toe.)",
+        "solution": "Als we een breuk opsplitsen, dan blijft de noemer (de onderkant) hetzelfde bij beide breuken. Alleen de teller (de bovenkant) wordt opgeplitst. Zo vinden we <block-math/> Hiermee is de breuk opgeplitst in twee breuken die we nog verder kunnen vereenvoudigen."
+      },
+      "step2": {
+        "problem": "Vereenvoudig de beide breuken zo veel mogelijk. Streep hiervoor factoren weg die in zowel de teller als de noemer voorkomen.",
+        "solution": "Bij de eerste breuk kunnen we <inline-math/> wegdelen. Zo vinden we <block-math/> Voor de tweede breuk delen we <inline-math/> weg om uit te komen op <block-math/>"
+      },
+      "step3": {
+        "problem": "Schrijf de twee vereenvoudigde breuken samen op in één uitdrukking, met wederom een <check><on-true>plus</on-true><on-false>min</on-false></check>teken ertussen.",
+        "solution": "Het eindresultaat van de twee breuken samen is <block-math/> Deze breuken zijn zo vereenvoudigd als we deze breuken kunnen schrijven."
+      }
+    },
+    "crossExercise": {
+      "smallestCommonMultiple": "Kleinste gedeelde veelvoud",
+      "denominatorEquivalent": "<a>Technisch correct, maar je kan dit nog makkelijker schrijven.</a>",
+      "denominatorNotSmallestMultiple": "<a>Dit is wel een veelvoud van de twee noemers, maar niet de <strong>kleinste</strong> gedeelde veelvoud.</a>",
+      "denominatorWrongFactor": "<a>De variabelen kloppen, maar er gaat iets mis met het getal dat je ingevoerd hebt.</a>",
+      "denominatorMissingDependency": "<a>Er zit helemaal geen <inline-math/> in je antwoord. Deze variabele werd wel ergens verwacht.</a>",
+      "wrongDenominator": "<a>Je breuk heeft niet de beoogde noemer <inline-math/>.</a>",
+      "wrongNumerator": "<a>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</a>",
+      "nonSimplifiedNumerator": "<a>Je kunt de teller van je breuk nog makkelijker schrijven.</a>",
+      "correctFraction": "<a>De breuk klopt, maar je kunt hem nog makkelijker schrijven.</a>",
+      "ansEquivalent": "<a>Dit klopt wel, maar je kunt het nog simpeler schrijven.</a>",
+      "denominatorCorrect": "<a>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</a>",
+      "nonSimplifiedFirstTerm": "<a>De eerste term van je antwoord kan nog verder vereenvoudigd worden.</a>",
+      "nonSimplifiedSecondTerm": "<a>De tweede term van je antwoord kan nog verder vereenvoudigd worden.</a>"
+    }
   }
 }

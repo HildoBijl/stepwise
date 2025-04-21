@@ -80,7 +80,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const nonsimplifiedTerms = (input, correct) => {
+	const nonSimplifiedTerms = (input, correct) => {
 		const unsimplifiedTerm = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyOrderChanges(inputTerm, correctTerm)))
 		if (unsimplifiedTerm !== -1)
 			return [
@@ -99,7 +99,7 @@ function getFeedback(exerciseData) {
 		originalExpression,
 		noSum,
 		sumWithWrongTerms,
-		nonsimplifiedTerms,
+		nonSimplifiedTerms,
 		equivalentExpression,
 		nonEquivalentExpression,
 	]

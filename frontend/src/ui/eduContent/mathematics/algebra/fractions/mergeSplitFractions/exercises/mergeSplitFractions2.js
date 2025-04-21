@@ -17,7 +17,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { variables, expression } = useSolution()
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk. Simplificeer je antwoord zo veel mogelijk.</Par>
+		<Par>Bekijk de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk. Simplificeer je antwoord zo veel mogelijk.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -102,7 +102,7 @@ function getFeedback(exerciseData) {
 
 	const wrongNumerator = (input, correct) => !equivalent(correct.numerator, input.numerator) && <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>
 
-	const nonsimplifiedNumerator = (input, correct) => !onlyOrderChanges(correct.numerator, input.numerator) && <>Je kunt de teller van je breuk nog makkelijker schrijven.</>
+	const nonSimplifiedNumerator = (input, correct) => !onlyOrderChanges(correct.numerator, input.numerator) && <>Je kunt de teller van je breuk nog makkelijker schrijven.</>
 
 	// Assemble the checks for all input fields.
 	const ansChecks = [
@@ -124,7 +124,7 @@ function getFeedback(exerciseData) {
 		wrongDenominator,
 		wrongNumerator,
 		hasFractionWithinFraction,
-		nonsimplifiedNumerator,
+		nonSimplifiedNumerator,
 		equivalentExpression,
 		nonEquivalentExpression,
 	]

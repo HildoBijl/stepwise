@@ -7,5 +7,112 @@
     "adding": "<head>Zwei Brüche addieren</head><par>Wir wollen zwei <term>nicht ähnliche Brüche</term> (Brüche mit ungleichem Nenner) addieren/subtrahieren, wie <block-math/> Wir wissen, wie man zwei <skill-link>ähnliche Brüche</skill-link> (mit gleichem Nenner) addiert, aber dieses Mal haben unsere Brüche nicht den gleichen Nenner. Um diese Brüche trotzdem addieren zu können, müssen wir zunächst sicherstellen, dass sie den gleichen Nenner haben.</par><par>Der erste Schritt besteht darin, das <term>kleinste gemeinsame Vielfache</term> der beiden Nenner zu finden. Beachte, dass der eine Nenner gleich <inline-math/> ist, während der andere Nenner <inline-math/> ist. Jeder Faktor, der in einem oder beiden Nennern vorkommt, ist auch im kleinsten gemeinsamen Vielfachen enthalten, das somit gleich <inline-math/> ist.</par><par>Der zweite Schritt besteht darin, beide Brüche so umzuschreiben, dass sie <inline-math/> im Nenner haben. Das ergibt <block-math/> Beachte, dass hier Gleichheit gilt: Wir können sogar <skill-link>Faktoren wieder entfernen</skill-link>, um zum Ausgangspunkt zurückzukehren.</par><par>Nun, da wir zwei Brüche mit gleichen Nennern haben, können wir sie auf die übliche Weise <skill-link>addieren</skill-link>. Wir addieren die Zähler zusammen und erhalten <block-math/>Wir haben die beiden Brüche als einen einzigen Bruch geschrieben.</par>",
     "splitting": "<head>Brüche trennen</head><par>Wir können auch den umgekehrten Weg gehen. Nehmen wir an, wir haben einen Bruch wie <inline-math/>, mit mehreren Termen im Zähler. Wie können wir ihn dann in einzelne Brüche zerlegen?</par><par>Der erste Schritt besteht darin, ihn buchstäblich zu zerlegen, indem wir genau umgekehrt vorgehen, als wenn wir <skill-link>gleichnamige Brüche addieren</skill-link>: Jeder Term des Zählers erhält also seinen eigenen Bruch, jeder mit demselben Nenner. Das ergibt <block-math/> Als Nächstes <skill-link>vereinfachen wir die Brüche</skill-link>, indem wir so viele Bruchfaktoren wie möglich eliminieren. So erhalten wir <block-math/> Das ist das, womit wir ursprünglich begonnen haben, und zeigt, dass wir genau das Gegenteil getan haben, als Brüche zusammenzufügen.</par>",
     "steps": "<head>Die Schritte</head><par>Um zwei Brüche mit mehreren Variablen zu addieren/subtrahieren, wie <inline-math/>, ist wie folgt vorzugehen.</par><list><item><a>Finde das kleinste gemeinsame Vielfache der Nenner der beiden Brüche. Im Beispiel ist dies <inline-math/>.</a></item><item><b>Schreibe beide Brüche über <skill-link>Faktoren hinzufügen</skill-link> so um, dass sie beide diesen Nenner erhalten. Dies wandelt das Beispiel in <inline-math/> um.</b></item><item><c><skill-link>Addiere die gleichnamigen Brüche</skill-link> auf die übliche Weise. Für das Beispiel erhalten wir so das Endergebnis <inline-math/>.</c></item></list><par>Für den umgekehrten Fall, dass ein Bruch als <inline-math/> zerlegt wird, sind die Schritte ähnlich.</par><list><item><d><skill-link>Zerlege den Bruch in gleichnamige Brüche</skill-link>. Dies wandelt das Beispiel in <inline-math/> um.</d></item><item><e><skill-link>Vereinfache die Brüche</skill-link> so weit wie möglich. Im Beispiel wird das Endergebnis <inline-math/>.</e></item></list>"
+  },
+  "practice": {
+    "mergeFractionsNumberInDenominator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Schreibe ihn als einzelnen Bruch und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Finde das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/>.",
+        "solution": "Wegen <inline-math/> brauchen wir einen Faktor <inline-math/>, und wegen <inline-math/> brauchen wir einen Faktor <inline-math/>. Außerdem benötigen wir noch einen Faktor <inline-math/>. Dieser ist nämlich das kleinste gemeinsame Vielfache von <inline-math/> und <inline-math/>. Auf diese Weise finden wir <block-math/> Dies ist das kleinste gemeinsame Vielfache von <inline-math/> und <inline-math/>."
+      },
+      "step2": {
+        "problem": "Schreibe beide Brüche so um, dass sie <inline-math/> als Nenner haben.",
+        "solution": "Wir multiplizieren den ersten Bruch oben und unten mit <inline-math/>. Das ergibt <block-math/> Der zweite Bruch wird oben und unten mit <inline-math/> multipliziert. Das Resultat ist <block-math/> Beide Brüche haben nun <inline-math/> im Nenner."
+      },
+      "step3": {
+        "problem": "Füge die beiden umgeschriebenen Brüche zu einem einzigen Bruch zusammen.",
+        "solution": "Wenn wir alles zusammenfügen, finden wir <block-math/> Dies fasst die beiden Brüche zu einem einzigen Bruch zusammen. Da wir das kleinste gemeinsame Vielfache als Nenner verwendet haben, sind keine weiteren Vereinfachungen möglich."
+      }
+    },
+    "mergeFractionsSquareAppearing": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Schreibe ihn als einzelnen Bruch und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Finde das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/>.",
+        "solution": "Die Nenner <inline-math/> und <inline-math/> haben keine gemeinsamen Faktoren. Wir können sie also miteinander multiplizieren, um ihr (kleinstmögliches) gemeinsames Vielfaches zu finden. Das ergibt <block-math/>"
+      },
+      "step2": {
+        "problem": "Schreibe beide Brüche so um, dass sie <inline-math/> als Nenner haben.",
+        "solution": "Wir multiplizieren den ersten Bruch oben und unten mit <inline-math/>. Das ergibt <block-math/> Der zweite Bruch wird oben und unten mit <inline-math/> multipliziert. Das Resultat ist <block-math/> Beide Brüche haben nun <inline-math/> im Nenner."
+      },
+      "step3": {
+        "problem": "Füge die beiden umgeschriebenen Brüche zu einem einzigen Bruch zusammen.",
+        "solution": "Wenn wir alles zusammenfügen, finden wir <block-math/> Dies fasst die beiden Brüche zu einem einzigen Bruch zusammen. Da wir das kleinste gemeinsame Vielfache als Nenner verwendet haben, sind keine weiteren Vereinfachungen möglich."
+      }
+    },
+    "mergeFractionsVariableDenominator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Schreibe ihn als einzelnen Bruch und vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Finde das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/>.",
+        "solution": "Wegen <inline-math/> brauchen wir die Faktoren <inline-math/> und <inline-math/>. Und wegen <inline-math/> brauchen wir auch die Faktoren <inline-math/> und <inline-math/>. Insgesamt brauchen wir also die Faktoren <inline-math/>, <inline-math/> und <inline-math/>. Das ergibt das Vielfache <block-math/> Dies ist das kleinste gemeinsame Vielfache von sowohl <inline-math/> als auch <inline-math/>. Hier sollte der Faktor <inline-math/> <strong>nicht</strong> doppelt vorhanden sein."
+      },
+      "step2": {
+        "problem": "Schreibe beide Brüche so um, dass sie <inline-math/> als Nenner haben.",
+        "solution": "Wir multiplizieren den ersten Bruch oben und unten mit <inline-math/>. Das ergibt <block-math/> Der zweite Bruch wird oben und unten mit <inline-math/> multipliziert. Das Resultat ist <block-math/> Beide Brüche haben nun <inline-math/> im Nenner."
+      },
+      "step3": {
+        "problem": "Füge die beiden umgeschriebenen Brüche zu einem einzigen Bruch zusammen.",
+        "solution": "Wenn wir alles zusammenfügen, finden wir <block-math/> Dies fasst die beiden Brüche zu einem einzigen Bruch zusammen. Da wir das kleinste gemeinsame Vielfache als Nenner verwendet haben, sind keine weiteren Vereinfachungen möglich."
+      }
+    },
+    "splitFractionsNumberInDenominator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Zerlege diesen Bruch in zwei separate Brüche, die jeweils keine Addition/Subtraktion enthalten. Vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Zerlege den Bruch in zwei separate Brüche mit einem <check><on-true>Plus</on-true><on-false>Minus</on-false></check>zeichen. (Wende noch keine weiteren Vereinfachungen an.)",
+        "solution": "Wenn wir einen Bruch spalten, bleibt der Nenner (der untere Teil) bei beiden Brüchen derselbe. Nur der Zähler (der obere Teil) wird getrennt. So finden wir <block-math/> Dies teilt den Bruch in zwei Brüche, die wir noch weiter vereinfachen können."
+      },
+      "step2": {
+        "problem": "Vereinfache beide Brüche so weit wie möglich. Entferne dazu die Faktoren, die sowohl im Zähler als auch im Nenner vorkommen.",
+        "solution": "Für den ersten Bruch können wir <inline-math/> wegdividieren. So finden wir <block-math/> Für den zweiten Bruch teilen wir <inline-math/> weg, um zu erhalten dass <block-math/>"
+      },
+      "step3": {
+        "problem": "Schreibe die beiden vereinfachten Brüche zusammen in einen Ausdruck, wiederum mit einem <check><on-true>Plus</on-true><on-false>Minus</on-false></check>zeichen dazwischen.",
+        "solution": "Das Endergebnis der beiden Brüche zusammen ist <block-math/> Diese Brüche sind so vereinfacht, wie wir diese Brüche schreiben können."
+      }
+    },
+    "splitFractionsSquareAppearing": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Zerlege diesen Bruch in zwei separate Brüche, die jeweils keine Addition/Subtraktion enthalten. Vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Zerlege den Bruch in zwei separate Brüche mit einem <check><on-true>Plus</on-true><on-false>Minus</on-false></check>zeichen. (Wende noch keine weiteren Vereinfachungen an.)",
+        "solution": "Wenn wir einen Bruch spalten, bleibt der Nenner (der untere Teil) bei beiden Brüchen derselbe. Nur der Zähler (der obere Teil) wird getrennt. So finden wir <block-math/> Dies teilt den Bruch in zwei Brüche, die wir noch weiter vereinfachen können."
+      },
+      "step2": {
+        "problem": "Vereinfache beide Brüche so weit wie möglich. Entferne dazu die Faktoren, die sowohl im Zähler als auch im Nenner vorkommen.",
+        "solution": "Für den ersten Bruch können wir <inline-math/> wegdividieren. So finden wir <block-math/> Für den zweiten Bruch teilen wir <inline-math/> weg, um zu erhalten dass <block-math/>"
+      },
+      "step3": {
+        "problem": "Schreibe die beiden vereinfachten Brüche zusammen in einen Ausdruck, wiederum mit einem <check><on-true>Plus</on-true><on-false>Minus</on-false></check>zeichen dazwischen.",
+        "solution": "Das Endergebnis der beiden Brüche zusammen ist <block-math/> Diese Brüche sind so vereinfacht, wie wir diese Brüche schreiben können."
+      }
+    },
+    "splitFractionsVariableDenominator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Zerlege diesen Bruch in zwei separate Brüche, die jeweils keine Addition/Subtraktion enthalten. Vereinfache das Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Zerlege den Bruch in zwei separate Brüche mit einem <check><on-true>Plus</on-true><on-false>Minus</on-false></check>zeichen. (Wende noch keine weiteren Vereinfachungen an.)",
+        "solution": "Wenn wir einen Bruch spalten, bleibt der Nenner (der untere Teil) bei beiden Brüchen derselbe. Nur der Zähler (der obere Teil) wird getrennt. So finden wir <block-math/> Dies teilt den Bruch in zwei Brüche, die wir noch weiter vereinfachen können."
+      },
+      "step2": {
+        "problem": "Vereinfache beide Brüche so weit wie möglich. Entferne dazu die Faktoren, die sowohl im Zähler als auch im Nenner vorkommen.",
+        "solution": "Für den ersten Bruch können wir <inline-math/> wegdividieren. So finden wir <block-math/> Für den zweiten Bruch teilen wir <inline-math/> weg, um zu erhalten dass <block-math/>"
+      },
+      "step3": {
+        "problem": "Schreibe die beiden vereinfachten Brüche zusammen in einen Ausdruck, wiederum mit einem <check><on-true>Plus</on-true><on-false>Minus</on-false></check>zeichen dazwischen.",
+        "solution": "Das Endergebnis der beiden Brüche zusammen ist <block-math/> Diese Brüche sind so vereinfacht, wie wir diese Brüche schreiben können."
+      }
+    },
+    "crossExercise": {
+      "smallestCommonMultiple": "Kleinstes gemeinsames Vielfaches",
+      "denominatorEquivalent": "<a>Technisch korrekt, aber du kannst es noch einfacher schreiben.</a>",
+      "denominatorNotSmallestMultiple": "<a>Dies ist zwar ein Vielfaches der beiden Nenner, aber nicht das <strong>kleinste</strong> gemeinsame Vielfache.</a>",
+      "denominatorWrongFactor": "<a>Die Variablen sind korrekt, aber mit der eingegebenen Zahl stimmt etwas nicht.</a>",
+      "denominatorMissingDependency": "<a>Deine Antwort enthält überhaupt kein <inline-math/>. Diese Variable wurde aber irgendwo erwartet.</a>",
+      "wrongDenominator": "<a>Dein Bruch hat nicht den vorgesehenen Nenner <inline-math/>.</a>",
+      "wrongNumerator": "<a>Der Nenner ist richtig, aber im Zähler deines Bruchs stimmt etwas nicht.</a>",
+      "nonSimplifiedNumerator": "<a>Du kannst den Zähler deines Bruchs noch einfacher schreiben.</a>",
+      "correctFraction": "<a>Der Bruch ist richtig, aber man kann ihn noch einfacher schreiben.</a>",
+      "ansEquivalent": "<a>Das ist richtig, aber man kann es noch einfacher schreiben.</a>",
+      "denominatorCorrect": "<a>Der Nenner ist richtig, aber im Zähler deines Bruchs stimmt etwas nicht.</a>",
+      "nonSimplifiedFirstTerm": "<a>Der erste Term deiner Antwort kann weiter vereinfacht werden.</a>",
+      "nonSimplifiedSecondTerm": "<a>Der zweite Term deiner Antwort kann weiter vereinfacht werden.</a>"
+    }
   }
 }

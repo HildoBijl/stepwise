@@ -7,5 +7,112 @@
     "adding": "<head>Adding two fractions</head><par>We want to add/subtract two <term>unlike fractions</term> (fractions with unequal denominator), such as <block-math/> We know how to <skill-link>add two like fractions</skill-link> (with equal denominators), but this time our fractions do not have equal denominators. To still be able to add these two fractions, we must force them to have the same denominator.</par><par>The first step is to find the <term>smallest common multiple</term> of the two denominators. Note that one denominator equals <inline-math/> while the other denominator equals <inline-math/>. Every factor that appears in one or both of these denominators also appears in the smallest common multiple, which then becomes <inline-math/>.</par><par>The second step is to adjust both fractions such that they have <inline-math/> as denominator. This gives <block-math/> Note that equality holds: we could even <skill-link>cancel factors</skill-link> again to get back to where we started.</par><par>Now that we have two fractions with equal denominator, we can <skill-link>add them up</skill-link> in the usual way. We merge the numerators together to get <block-math/> We have written the two fractions as a single fraction.</par>",
     "splitting": "<head>Splitting fractions</head><par>We could also do the exact opposite of the above. Suppose that we have a fraction like <inline-math/> with multiple terms in the numerator. How can we split it up into separate fractions?</par><par>The first step is to literally split them up, doing the exact opposite of <skill-link>adding like fractions</skill-link>: each term from the numerator gets its own fraction, all having the same denominator. This gives <block-math/> Next, we <skill-link>simplify the fractions</skill-link>, canceling factors as much as possible. This results in <block-math/> This is what we originally started off with, showing that we have indeed done the exact opposite of merging the fractions together.</par>",
     "steps": "<head>The steps</head><par>To add/subtract two fractions with multiple variables, like <inline-math/>, take the following steps.</par><list><item><a>Find the smallest common multiple of the two fraction denominators. For the example, this is <inline-math/>.</a></item><item><b>Rewrite both fractions, <skill-link>adding factors</skill-link>, to give both fractions this denominator. This turns the example into <inline-math/>.</b></item><item><c><skill-link>Add the like fractions</skill-link> together in the usual way. For the example we get the final result <inline-math/>.</c></item></list><par>For the opposite, when splitting up a fraction like <inline-math/>, the steps are similar.</par><list><item><d><skill-link>Split the fraction into like fractions</skill-link>. This turns the example into <inline-math/>.</d></item><item><e><skill-link>Simplify the fractions</skill-link> as much as possible. For the example, the final result becomes <inline-math/>.</e></item></list>"
+  },
+  "practice": {
+    "mergeFractionsNumberInDenominator": {
+      "mainProblem": "Consider the expression <block-math/> Write this as a single fraction and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>.",
+        "solution": "Because of <inline-math/> we need a factor <inline-math/>, and due to <inline-math/> we need a factor <inline-math/>. Next to this, we also require a factor <inline-math/>. After all, this is the smallest common multiple of <inline-math/> and <inline-math/>. In this way we find <block-math/> This is the smallest common multiple of both <inline-math/> and <inline-math/>."
+      },
+      "step2": {
+        "problem": "Rewrite both fractions so that they have <inline-math/> as denominator.",
+        "solution": "We multiply the first fraction above and below by <inline-math/>. This gives <block-math/> The second fraction is multiplied above and below by <inline-math/>. This results in <block-math/> Both fractions now have <inline-math/> as denominator."
+      },
+      "step3": {
+        "problem": "Merge the two rewritten fractions into a single fraction.",
+        "solution": "If we put it all together, we find <block-math/> This has merged the two fractions into a single fraction. Because we used the smallest common multiple in the denominator, no further simplifications are possible."
+      }
+    },
+    "mergeFractionsSquareAppearing": {
+      "mainProblem": "Consider the expression <block-math/> Write this as a single fraction and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>.",
+        "solution": "The denominators <inline-math/> and <inline-math/> do not have any common factors. We can hence multiply them to get their (smallest possible) common multiple. This gives <block-math/>"
+      },
+      "step2": {
+        "problem": "Rewrite both fractions so that they have <inline-math/> as denominator.",
+        "solution": "We multiply the first fraction above and below by <inline-math/>. This gives <block-math/> The second fraction is multiplied above and below by <inline-math/>. This results in <block-math/> Both fractions now have <inline-math/> as denominator."
+      },
+      "step3": {
+        "problem": "Merge the two rewritten fractions into a single fraction.",
+        "solution": "If we put it all together, we find <block-math/> This has merged the two fractions into a single fraction. Because we used the smallest common multiple in the denominator, no further simplifications are possible."
+      }
+    },
+    "mergeFractionsVariableDenominator": {
+      "mainProblem": "Consider the expression <block-math/> Write this as a single fraction and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>.",
+        "solution": "Because of <inline-math/> we need the factors <inline-math/> and <inline-math/>. Due to <inline-math/> we also require the factors <inline-math/> and <inline-math/>. All together, we hence need the factors <inline-math/>, <inline-math/> and <inline-math/>. This gives the multiple <block-math/>. This is the smallest common multiple of both <inline-math/> and <inline-math/>. The factor <inline-math/> should <strong>not</strong> be present twice."
+      },
+      "step2": {
+        "problem": "Rewrite both fractions so that they have <inline-math/> as denominator.",
+        "solution": "We multiply the first fraction above and below by <inline-math/>. This gives <block-math/> The second fraction is multiplied above and below by <inline-math/>. This results in <block-math/> Both fractions now have <inline-math/> as denominator."
+      },
+      "step3": {
+        "problem": "Merge the two rewritten fractions into a single fraction.",
+        "solution": "If we put it all together, we find <block-math/> This has merged the two fractions into a single fraction. Because we used the smallest common multiple in the denominator, no further simplifications are possible."
+      }
+    },
+    "splitFractionsNumberInDenominator": {
+      "mainProblem": "Consider the expression <block-math/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.",
+      "step1": {
+        "problem": "Split the fraction up into two fractions with a <check><on-true>plus</on-true><on-false>minus</on-false></check> sign in-between. (Don't apply any further simplifications.)",
+        "solution": "When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <block-math/> This has split up the fraction into two fractions that can still be simplified further."
+      },
+      "step2": {
+        "problem": "Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.",
+        "solution": "At the first fraction we can cancel out the factor <inline-math/>. This results in <block-math/> For the second fraction we cancel out <inline-math/> to find <block-math/>"
+      },
+      "step3": {
+        "problem": "Write the two simplified fractions together in one expression, with once more a <check><on-true>plus</on-true><on-false>minus</on-false></check> sign in-between.",
+        "solution": "The final result of the two fractions is <block-math/> These fractions are as simplified as we can possibly write them."
+      }
+    },
+    "splitFractionsSquareAppearing": {
+      "mainProblem": "Consider the expression <block-math/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.",
+      "step1": {
+        "problem": "Split the fraction up into two fractions with a <check><on-true>plus</on-true><on-false>minus</on-false></check> sign in-between. (Don't apply any further simplifications.)",
+        "solution": "When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <block-math/> This has split up the fraction into two fractions that can still be simplified further."
+      },
+      "step2": {
+        "problem": "Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.",
+        "solution": "At the first fraction we can cancel out the factor <inline-math/>. This results in <block-math/> For the second fraction we cancel out <inline-math/> to find <block-math/>"
+      },
+      "step3": {
+        "problem": "Write the two simplified fractions together in one expression, with once more a <check><on-true>plus</on-true><on-false>minus</on-false></check> sign in-between.",
+        "solution": "The final result of the two fractions is <block-math/> These fractions are as simplified as we can possibly write them."
+      }
+    },
+    "splitFractionsVariableDenominator": {
+      "mainProblem": "Consider the expression <block-math/> Split this fraction into separate fractions, each without any addition/subtraction inside of them. Simplify the result as much as possible.",
+      "step1": {
+        "problem": "Split the fraction up into two fractions with a <check><on-true>plus</on-true><on-false>minus</on-false></check> sign in-between. (Don't apply any further simplifications.)",
+        "solution": "When splitting up a fraction, the denominator (below) remains the same for both fractions. Only the numerator (above) will be split. This idea gives us <block-math/> This has split up the fraction into two fractions that can still be simplified further."
+      },
+      "step2": {
+        "problem": "Simplify both fractions as much as possible. Cancel out any factors appearing in both the numerator and the denominator.",
+        "solution": "At the first fraction we can cancel out the factor <inline-math/>. This results in <block-math/> For the second fraction we cancel out <inline-math/> to find <block-math/>"
+      },
+      "step3": {
+        "problem": "Write the two simplified fractions together in one expression, with once more a <check><on-true>plus</on-true><on-false>minus</on-false></check> sign in-between.",
+        "solution": "The final result of the two fractions is <block-math/> These fractions are as simplified as we can possibly write them."
+      }
+    },
+    "crossExercise": {
+      "smallestCommonMultiple": "Smallest common multiple",
+      "denominatorEquivalent": "<a>Technically correct, but you can still simplify this.</a>",
+      "denominatorNotSmallestMultiple": "<a>This is indeed a multiple of both denominators, but it is not the <strong>smallest</strong> common multiple.</a>",
+      "denominatorWrongFactor": "<a>You've got the variables correct, but something is wrong with the number that you entered.</a>",
+      "denominatorMissingDependency": "<a>I can't find any <inline-math/> in your answer. This variable was expected somewhere.</a>",
+      "wrongDenominator": "<a>Your fraction doesn't have the desired denominator <inline-math/>.</a>",
+      "wrongNumerator": "<a>The denominator is correct, but something is off in the numerator of your fraction.</a>",
+      "nonSimplifiedNumerator": "<a>You can still simplify the numerator of your fraction.</a>",
+      "correctFraction": "<a>The fraction is correct, but you can still simplify it further.</a>",
+      "ansEquivalent": "<a>This is correct, but it can be written simpler.</a>",
+      "denominatorCorrect": "<a>The denominator is correct, but something is off in the numerator of your fraction.</a>",
+      "nonSimplifiedFirstTerm": "<a>The first term of your answer can be simplified further.</a>",
+      "nonSimplifiedSecondTerm": "<a>The second term of your answer can be simplified further.</a>"
+    }
   }
 }

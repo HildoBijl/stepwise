@@ -17,7 +17,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { variables, expression } = useSolution()
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Herschrijf dit tot een enkele breuk.</Par>
+		<Par>Bekijk de uitdrukking <BM>{expression}.</BM> Herschrijf dit tot een enkele breuk.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
