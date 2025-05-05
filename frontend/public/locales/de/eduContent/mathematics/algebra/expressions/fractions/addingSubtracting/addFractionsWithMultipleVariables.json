@@ -100,7 +100,7 @@
       }
     },
     "crossExercise": {
-      "smallestCommonMultiple": "Kleinstes gemeinsames Vielfaches",
+      "smallestCommonMultiple": "Kleinste gemeinsame Vielfache",
       "denominatorEquivalent": "<a>Technisch korrekt, aber du kannst es noch einfacher schreiben.</a>",
       "denominatorNotSmallestMultiple": "<a>Dies ist zwar ein Vielfaches der beiden Nenner, aber nicht das <strong>kleinste</strong> gemeinsame Vielfache.</a>",
       "denominatorWrongFactor": "<a>Die Variablen sind korrekt, aber mit der eingegebenen Zahl stimmt etwas nicht.</a>",

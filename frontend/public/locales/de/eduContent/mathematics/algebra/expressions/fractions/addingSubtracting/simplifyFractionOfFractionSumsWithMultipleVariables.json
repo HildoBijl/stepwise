@@ -7,5 +7,64 @@
     "adding": "<head>Brüche addieren</head><par>Der erste Schritt besteht darin, Brüche zu addieren, wo immer dies möglich ist. In diesem Fall gibt es nur eine Summe von Brüchen. Um sie zu addieren, stellen wir zunächst sicher, dass sie denselben Nenner haben. Dadurch wird der ursprüngliche Ausdruck umgewandelt in <block-math/> Die Addition der Brüche ergibt dann <block-math/> Jetzt gibt es keine Additionen/Subtraktionen von Brüchen mehr.</par>",
     "simplifying": "<head>Bruchteilungen vereinfachen</head><par>Der zweite und letzte Schritt besteht darin, die Division von Brüchen zu vereinfachen. Zunächst verwenden wir die Standardregeln für die Division von Brüchen, um sie als einen einzigen Bruch zu schreiben, <block-math/> Die Zahlen in diesem Bruch können noch weiter vereinfacht werden. Um genau zu sein, können wir sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, sodass <block-math/> Natürlich können wir die Klammern noch erweitern, aber es ist eine Frage der Vorliebe, ob dies tatsächlich \"einfacher\" ist, daher ist dies hier nicht zwingend erforderlich.</par>",
     "steps": "<head>Die Schritte</head><par>Um einen Bruch von Bruchsummen wie <inline-math/> zu vereinfachen, ist wie folgt vorzugehen.</par><list><item><a><skill-link>Schreib jede Addition/Subtraktion von Brüchen als einzelne Brüche</skill-link>. Damit wird das Beispiel in <inline-math/> umgewandelt.</a></item><item><b><skill-link>Vereinfache den Bruch von Brüchen</skill-link>, indem du ihn als einen einzigen Bruch aufschreibst und so viele Faktoren wie möglich eliminierst. Für das Beispiel erhalten wir so das Endergebnis <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "sumInDenominator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Vereinfache ihn so weit wie möglich.",
+      "step1": {
+        "problem": "Schreibe die Summe der Brüche <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Um den Nenner <inline-math/> als einen Bruch zu schreiben, muss man zunächst das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/> finden. Dies ist <inline-math/>. Beide Brüche müssen also einen Nenner <inline-math/> bekommen.</par><par>Für den ersten Bruch multiplizieren wir oben und unten mit <inline-math/>. So erhalten wir <block-math/> Für den zweiten Bruch multiplizieren wir oben und unten mit <inline-math/>. Das ergibt <block-math/> Wenn wir diese beiden Brüche kombinieren, erhalten wir <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Schreibe den Bruch von Brüchen <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Wenn wir etwas durch einen Bruch dividieren, sagt die Regel, dass wir auch mit dem Kehrwert multiplizieren dürfen. Wir können das also auch schreiben als <block-math/> Wenn wir dann die Brüche zusammenfügen und durch den Faktor <inline-math/> teilen, der auf beiden Seiten in allen Termen vorkommt, können wir das vereinfachen zu <block-math/> Das lässt sich nicht weiter vereinfachen.</par><sub-head>Abkürzung</sub-head><par>Wir hätten auch beide Seiten des ursprünglichen Bruchs mit <inline-math/> multiplizieren können. Nach Vereinfachung der inneren Brüche finden wir also direkt, dass <block-math/> Diese Abkürzung erfordert jedoch Einsicht, die man nur durch viel Übung erlangen kann.</par>"
+      }
+    },
+    "sumInNumerator": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Vereinfache ihn so weit wie möglich.",
+      "step1": {
+        "problem": "Schreibe die Summe der Brüche <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Um den Zähler <inline-math/> als einen Bruch zu schreiben, müssen wir zunächst das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/> finden. Dies ist <inline-math/>. Beide Brüche müssen also einen Nenner <inline-math/> bekommen.</par><par>Für den ersten Bruch multiplizieren wir oben und unten mit <inline-math/>. So erhalten wir <block-math/> Für den zweiten Bruch multiplizieren wir oben und unten mit <inline-math/>. Das ergibt <block-math/> Wenn wir diese beiden Brüche kombinieren, erhalten wir <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Schreibe den Bruch von Brüchen <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Wenn wir einen Bruch durch einen Faktor dividieren, können wir ihn auch direkt in den Nenner des Bruchs ziehen. So erhalten wir <block-math/> Dies kann nicht weiter vereinfacht werden.</par><sub-head>Abkürzung</sub-head><par>Wir hätten auch beide Seiten des ursprünglichen Bruchs mit <inline-math/> multiplizieren können. Nach Vereinfachung der inneren Brüche finden wir also direkt, dass <block-math/> Diese Abkürzung erfordert jedoch Einsicht, die man nur durch viel Übung erlangen kann.</par>"
+      }
+    },
+    "sumsWithIntegers": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Vereinfache ihn so weit wie möglich.",
+      "step1": {
+        "problem": "Schreibe die Summe der Brüche <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Um den Zähler <inline-math/> als einzelnen Bruch zu schreiben, müssen wir <inline-math/> in einen Bruch umwandeln, bei dem der Nenner gleich <inline-math/> ist. Das können wir erreichen, indem wir oben und unten mit <inline-math/> multiplizieren. So erhalten wir <block-math/> Wir können nun die Brüche zusammenfügen zu <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Schreibe die Summe der Brüche <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Um den Nenner <inline-math/> als einzelnen Bruch zu schreiben, müssen wir <inline-math/> in einen Bruch umwandeln, bei dem der Nenner gleich <inline-math/> ist. Das können wir erreichen, indem wir oben und unten mit <inline-math/> multiplizieren. So erhalten wir <block-math/> Wir können nun die Brüche zusammenfügen zu <block-math/></par>"
+      },
+      "step3": {
+        "problem": "Schreibe den Bruch von Brüchen <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Wenn wir etwas durch einen Bruch dividieren, sagt die Regel, dass wir auch mit dem Kehrwert multiplizieren dürfen. Wir können das also auch schreiben als <block-math/> Wenn wir dann die Brüche zusammenfügen, können wir das schreiben als <block-math/> Optional können wir noch die Klammern erweitern, aber das ist hier nicht unbedingt notwendig.</par><sub-head>Abkürzung</sub-head><par>Wir hätten auch beide Seiten des ursprünglichen Bruchs mit <inline-math/> multiplizieren können. Nach Vereinfachung der inneren Brüche finden wir also direkt, dass <block-math/> Diese Abkürzung erfordert jedoch Einsicht, die man nur durch viel Übung erlangen kann.</par>"
+      }
+    },
+    "sumsWithFractions": {
+      "mainProblem": "Betrachte den Ausdruck <block-math/> Vereinfache ihn so weit wie möglich.",
+      "step1": {
+        "problem": "Schreibe die Summe der Brüche <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Um den Zähler <inline-math/> als einen Bruch zu schreiben, müssen wir zunächst das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/> finden. Dies ist <inline-math/>. Beide Brüche müssen also einen Nenner <inline-math/> bekommen.</par><par>Für den ersten Bruch multiplizieren wir oben und unten mit <inline-math/>. So erhalten wir <block-math/> Für den zweiten Bruch multiplizieren wir oben und unten mit <inline-math/>. Das ergibt <block-math/> Wenn wir diese beiden Brüche kombinieren, erhalten wir <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Schreibe die Summe der Brüche <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Um den Nenner <inline-math/> als einen Bruch zu schreiben, muss man zunächst das kleinste gemeinsame Vielfache der beiden Nenner <inline-math/> und <inline-math/> finden. Dies ist <inline-math/>. Beide Brüche müssen also einen Nenner <inline-math/> bekommen.</par><par>Für den ersten Bruch multiplizieren wir oben und unten mit <inline-math/>. So erhalten wir <block-math/> Für den zweiten Bruch multiplizieren wir oben und unten mit <inline-math/>. Das ergibt <block-math/> Wenn wir diese beiden Brüche kombinieren, erhalten wir <block-math/></par>"
+      },
+      "step3": {
+        "problem": "Schreibe den Bruch von Brüchen <block-math/> in einen einzigen Bruch um. Vereinfache ihn so weit wie möglich.",
+        "solution": "<par>Wenn wir etwas durch einen Bruch dividieren, sagt die Regel, dass wir auch mit dem Kehrwert multiplizieren dürfen. Wir können dies also auch schreiben als <block-math/> Wenn wir dann die Brüche zusammenfügen, können wir dies vereinfachen zu <block-math/> Wir können dies weiter aufräumen zu <block-math/></par><sub-head>Abkürzung</sub-head><par>Wir hätten auch beide Seiten des ursprünglichen Bruchs mit <inline-math/> multiplizieren können. Nach Vereinfachung der inneren Brüche finden wir also direkt, dass <block-math/> Diese Abkürzung erfordert jedoch Einsicht, die man nur durch viel Übung erlangen kann.</par>"
+      }
+    },
+    "crossExercise": {
+      "wrongDenominatorWithSCM": "<a>Dein Bruch hat nicht den richtigen Nenner. Ist dein Nenner tatsächlich das kleinste gemeinsame Vielfache von <inline-math/> und <inline-math/>?</a>",
+      "wrongDenominatorWithExpectation": "<a>Dein Bruch hat nicht den richtigen Nenner. Versuche, einen Bruch mit <inline-math/> im Nenner aufzustellen.</a>",
+      "wrongNumerator": "<a>Der Nenner ist richtig, aber im Zähler deines Bruchs stimmt etwas nicht.</a>"
+    }
   }
 }

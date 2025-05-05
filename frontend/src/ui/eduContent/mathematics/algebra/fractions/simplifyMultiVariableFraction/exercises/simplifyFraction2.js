@@ -63,7 +63,7 @@ const steps = [
 			return <>
 				<Par>We hebben een breuk die we delen door een factor. In dit geval kunnen we de noemer ook direct met de factor vermenigvuldigen. Zo krijgen we <BM>{expressionWithIntermediate} = {simplifiedExpressionWithIntermediate} = {ans}.</BM> Dit kan niet nog verder gesimplificeerd worden.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>Eventueel hadden we in het begin ook direct de boven- en onderkant van de grote breuk met <M>{factor}</M> kunnen vermenigvuldigen. We hadden dan, na het simplificeren van de breuken bovenin, direct gevonden dat <BM>{expression}={ans}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
+				<Par>Eventueel hadden we in het begin ook direct de boven- en onderkant van de grote breuk met <M>{factor}</M> kunnen vermenigvuldigen. We hadden dan, na het simplificeren van de breuken bovenin, direct gevonden dat <BM>{expression}={ans}.</BM> Deze short-cut vereist echter inzicht dat je alleen via veel oefenen kan krijgen.</Par>
 			</>
 		},
 	},
@@ -71,14 +71,14 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define checks for ans.
-	const ansequivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
+	const ansEquivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
 
 	const ansChecks = [
 		originalExpression,
 		nonEquivalentExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		ansequivalentExpression,
+		ansEquivalentExpression,
 	]
 
 	// Define checks for intermediate.

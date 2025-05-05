@@ -62,7 +62,7 @@ const steps = [
 			return <>
 				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{numerator.multiply(intermediate.invert())}.</BM> Als we deze breuken samenvoegen, en de factor <M>{variables.x}</M> die boven en onder in alle termen voorkomt wegstrepen, dan kunnen we dit simplificeren tot <BM>{ans}.</BM> Dit kan niet nog verder gesimplificeerd worden.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>Eventueel hadden we bij de oorspronkelijke uitdrukking ook direct de boven- en onderkant van de grote breuk met <M>{variables.x.toPower(2).multiply(variables.y).divide(gcdValue).regularClean()}</M> kunnen vermenigvuldigen. Na het simplificeren van breuken binnenin vinden we dan direct <BM>{expression}={ans}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
+				<Par>Eventueel hadden we bij de oorspronkelijke uitdrukking ook direct de boven- en onderkant van de grote breuk met <M>{variables.x.toPower(2).multiply(variables.y).divide(gcdValue).regularClean()}</M> kunnen vermenigvuldigen. Na het simplificeren van breuken binnenin vinden we dan direct <BM>{expression}={ans}.</BM> Deze short-cut vereist echter inzicht dat je alleen via veel oefenen kan krijgen.</Par>
 			</>
 		},
 	},
@@ -70,14 +70,14 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define checks for ans.
-	const ansequivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
+	const ansEquivalentExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
 
 	const ansChecks = [
 		originalExpression,
 		nonEquivalentExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		ansequivalentExpression,
+		ansEquivalentExpression,
 	]
 
 	// Define checks for intermediate.

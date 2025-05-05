@@ -7,5 +7,64 @@
     "adding": "<head>Adding fractions</head><par>The first step is to add fractions where possible. In this case there is only one sum of fractions. To add them together, we first make sure they have equal denominator. This turns the original expression into <block-math/> Adding the fractions together then gives <block-math/> Now there are no additions/subtractions of fractions anymore.</par>",
     "simplifying": "<head>Simplifying fraction divisions</head><par>The second and final step is to simplify the division of fractions. First we use the default rules for dividing fractions to write it as a single fraction, <block-math/> The numbers in this fraction can still be simplified further. Specifically, we can divide both the numerator and the denominator by <inline-math/> to get <block-math/> This is as simple as it gets. Of course the brackets could still be expanded, but it is a matter of preference whether that is actually \"simpler\" so this is optional here.</par>",
     "steps": "<head>The steps</head><par>To simplify a fraction of fraction sums, like <inline-math/>, take the following steps.</par><list><item><a><skill-link>Write all additions/subtractions of fractions as single fractions</skill-link>. This turns the example into <inline-math/>.</a></item><item><b><skill-link>Simplify the fraction of fractions</skill-link>, writing it as a single fraction and canceling factors where possible. For the example we get the final result <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "sumInDenominator": {
+      "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
+      "step1": {
+        "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>When dividing something by a fraction, the rule says we may also multiply it by its inverse. So we can write this as <block-math/> If we subsequently merge the fractions, as well as cancel the factor <inline-math/> that appears in all terms on both sides, then we can simplify this to <block-math/> This cannot be simplified further.</par><sub-head>Short-cut</sub-head><par>We could have also multiplied both sides of the original fraction by <inline-math/>. After simplifying the inner fractions, we then directly find that <block-math/> However, this short-cut requires insights that are generally only obtained through lots of practice.</par>"
+      }
+    },
+    "sumInNumerator": {
+      "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
+      "step1": {
+        "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>When dividing a fraction by a factor, we may also directly pull this factor into the denominator. This gives us <block-math/> This cannot be simplified further.</par><sub-head>Short-cut</sub-head><par>We could have also multiplied both sides of the original fraction by <inline-math/>. After simplifying the inner fractions, we then directly find that <block-math/> However, this short-cut requires insights that are generally only obtained through lots of practice.</par>"
+      }
+    },
+    "sumsWithIntegers": {
+      "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
+      "step1": {
+        "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we should turn <inline-math/> into a fraction with denominator equal to <inline-math/>. This can be accomplished by multiplying above and below by <inline-math/>. This results in <block-math/> We can now merge the fractions into <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we should turn <inline-math/> into a fraction with denominator equal to <inline-math/>. This can be accomplished by multiplying above and below by <inline-math/>. This results in <block-math/> We can now merge the fractions into <block-math/></par>"
+      },
+      "step3": {
+        "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>When dividing something by a fraction, the rule says we may also multiply it by its inverse. So we can write this as <block-math/> If we subsequently merge the fractions, then we can simplify this to <block-math/> Optionally we can also expand the brackets here, but this is not necessarily required.</par><sub-head>Short-cut</sub-head><par>We could have also multiplied both sides of the original fraction by <inline-math/>. After simplifying the inner fractions, we then directly find that <block-math/> However, this short-cut requires insights that are generally only obtained through lots of practice.</par>"
+      }
+    },
+    "sumsWithFractions": {
+      "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
+      "step1": {
+        "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+      },
+      "step3": {
+        "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
+        "solution": "<par>When dividing something by a fraction, the rule says we may also multiply it by its inverse. So we can write this as <block-math/> If we subsequently merge the fractions, then we can simplify this to <block-math/> We could still reorder this a bit to <block-math/></par><sub-head>Short-cut</sub-head><par>We could have also multiplied both sides of the original fraction by <inline-math/>. After simplifying the inner fractions, we then directly find that <block-math/> However, this short-cut requires insights that are generally only obtained through lots of practice.</par>"
+      }
+    },
+    "crossExercise": {
+      "wrongDenominatorWithSCM": "<a>Your fraction does not have the right denominator. Is your denominator the smallest common multiple of <inline-math/> and <inline-math/>?</a>",
+      "wrongDenominatorWithExpectation": "<a>Your fraction does not have the right denominator. Try setting up a fraction with <inline-math/> in the denominator.</a>",
+      "wrongNumerator": "<a>The denominator is correct, but there's something wrong in the numerator of your fraction.</a>"
+    }
   }
 }

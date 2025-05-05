@@ -7,5 +7,64 @@
     "adding": "<head>Breuken optellen</head><par>De eerste stap is het waar mogelijk optellen van breuken. In dit geval is er slechts één som van breuken. Om ze op te tellen, zorgen we er eerst voor dat ze dezelfde noemer hebben. Dit zet de oorspronkelijke uitdrukking om in <block-math/> De breuken samenvoegen geeft vervolgens <block-math/> Nu zijn er geen optellingen/aftrekkingen van breuken meer.</par>",
     "simplifying": "<head>Breukdelingen vereenvoudigen</head><par>De tweede en laatste stap is het vereenvoudigen van de deling van breuken. Eerst gebruiken we de standaard regels voor het delen van breuken om het als een enkele breuk te schrijven, <block-math/> De getallen in deze breuk kunnen nog verder vereenvoudigd worden. Om precies te zijn kunnen we zowel de teller als de noemer door <inline-math/> delen om uit te komen op <block-math/> Dit is zo eenvoudig als maar kan. Natuurlijk kunnen we de haakjes nog uitwerken, maar het is een kwestie van voorkeur of dit daadwerkelijk \"eenvoudiger\" is, dus dit is hier niet verplicht.</par>",
     "steps": "<head>De stappen</head><par>Om een breuk van breuksommen als <inline-math/> te vereenvoudigen, neem je de volgende stappen.</par><list><item><a><skill-link>Schrijf alle optellingen/aftrekkingen van breuken als enkele breuk</skill-link>. Dit zet het voorbeeld om in <inline-math/>.</a></item><item><b><skill-link>Vereenvoudig de breuk van breuken</skill-link>, waarbij je hem als enkele breuk opschrijft en zo veel factoren als mogelijk wegstreept. Bij het voorbeeld krijgen we zo het eindresultaat <inline-math/>.</b></item></list>"
+  },
+  "practice": {
+    "sumInDenominator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Vereenvoudig deze zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de som van breuken <block-math/> als een enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Om de noemer <inline-math/> als één breuk te schrijven, moeten we eerst de kleinste gemeenschappelijke veelvoud van de twee noemers <inline-math/> en <inline-math/> vinden. Deze is <inline-math/>. Beide breuken moeten dus een noemer <inline-math/> krijgen.</par><par>Voor de eerste breuk vermenigvuldigen we boven en onder met <inline-math/>. Zo krijgen we <block-math/> Voor de tweede breuk vermenigvuldigen we boven en onder met <inline-math/>. Dit geeft <block-math/> Als we deze twee breuken samenvoegen, dan vinden we <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Herschrijf de breuk van breuken <block-math/> als enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Als we iets door een breuk delen, dan zegt de regel dat we ook mogen vermenigvuldigen met het omgekeerde. Dus kunnen we dit ook schrijven als <block-math/> Als we vervolgens de breuken samenvoegen, en delen door de factor <inline-math/> die aan beide kanten in alle termen verschijnt, dan kunnen we dit vereenvoudigen tot <block-math/> Dit kan niet nog verder vereenvoudigd worden.</par><sub-head>Short-cut</sub-head><par>We hadden ook beide kanten van de oorspronkelijke breuk met <inline-math/> kunnen vermenigvuldigen. Na het vereenvoudigen van de binnenste breuken, vinden we zo direct dat <block-math/> Deze short-cut vereist echter inzicht dat je alleen via veel oefenen kan krijgen.</par>"
+      }
+    },
+    "sumInNumerator": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Vereenvoudig deze zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de som van breuken <block-math/> als een enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Om de teller <inline-math/> als één breuk te schrijven, moeten we eerst de kleinste gemeenschappelijke veelvoud van de twee noemers <inline-math/> en <inline-math/> vinden. Deze is <inline-math/>. Beide breuken moeten dus een noemer <inline-math/> krijgen.</par><par>Voor de eerste breuk vermenigvuldigen we boven en onder met <inline-math/>. Zo krijgen we <block-math/> Voor de tweede breuk vermenigvuldigen we boven en onder met <inline-math/>. Dit geeft <block-math/> Als we deze twee breuken samenvoegen, dan vinden we <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Herschrijf de breuk van breuken <block-math/> als enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Als we een breuk door een factor delen, dan mogen we deze ook direct in de noemer van de breuk trekken. Zo krijgen we <block-math/> Dit kan niet nog verder vereenvoudigd worden.</par><sub-head>Short-cut</sub-head><par>We hadden ook beide kanten van de oorspronkelijke breuk met <inline-math/> kunnen vermenigvuldigen. Na het vereenvoudigen van de binnenste breuken, vinden we zo direct dat <block-math/> Deze short-cut vereist echter inzicht dat je alleen via veel oefenen kan krijgen.</par>"
+      }
+    },
+    "sumsWithIntegers": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Vereenvoudig deze zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de som van breuken <block-math/> als een enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Om de teller <inline-math/> als enkele breuk te schrijven, moeten we <inline-math/> omzetten in een breuk met de noemer gelijk aan <inline-math/>. Dit kunnen we voor elkaar krijgen door boven en onder met <inline-math/> te vermenigvuldigen. Zo vinden we <block-math/> We kunnen de breuken nu samenvoegen tot <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Herschrijf de som van breuken <block-math/> als een enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Om de noemer <inline-math/> als enkele breuk te schrijven, moeten we <inline-math/> omzetten in een breuk met de noemer gelijk aan <inline-math/>. Dit kunnen we voor elkaar krijgen door boven en onder met <inline-math/> te vermenigvuldigen. Zo vinden we <block-math/> We kunnen de breuken nu samenvoegen tot <block-math/></par>"
+      },
+      "step3": {
+        "problem": "Herschrijf de breuk van breuken <block-math/> als enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Als we iets door een breuk delen, dan zegt de regel dat we ook mogen vermenigvuldigen met het omgekeerde. Dus kunnen we dit ook schrijven als <block-math/> Als we de breuken vervolgens samenvoegen, dan kunnen we dit schrijven als <block-math/> Eventueel kunnen we de haakjes nog uitwerken, maar dat is niet per se nodig hier.</par><sub-head>Short-cut</sub-head><par>We hadden ook beide kanten van de oorspronkelijke breuk met <inline-math/> kunnen vermenigvuldigen. Na het vereenvoudigen van de binnenste breuken, vinden we zo direct dat <block-math/> Deze short-cut vereist echter inzicht dat je alleen via veel oefenen kan krijgen.</par>"
+      }
+    },
+    "sumsWithFractions": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Vereenvoudig deze zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de som van breuken <block-math/> als een enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Om de teller <inline-math/> als één breuk te schrijven, moeten we eerst de kleinste gemeenschappelijke veelvoud van de twee noemers <inline-math/> en <inline-math/> vinden. Deze is <inline-math/>. Beide breuken moeten dus een noemer <inline-math/> krijgen.</par><par>Voor de eerste breuk vermenigvuldigen we boven en onder met <inline-math/>. Zo krijgen we <block-math/> Voor de tweede breuk vermenigvuldigen we boven en onder met <inline-math/>. Dit geeft <block-math/> Als we deze twee breuken samenvoegen, dan vinden we <block-math/></par>"
+      },
+      "step2": {
+        "problem": "Herschrijf de som van breuken <block-math/> als een enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Om de noemer <inline-math/> als één breuk te schrijven, moeten we eerst de kleinste gemeenschappelijke veelvoud van de twee noemers <inline-math/> en <inline-math/> vinden. Deze is <inline-math/>. Beide breuken moeten dus een noemer <inline-math/> krijgen.</par><par>Voor de eerste breuk vermenigvuldigen we boven en onder met <inline-math/>. Zo krijgen we <block-math/> Voor de tweede breuk vermenigvuldigen we boven en onder met <inline-math/>. Dit geeft <block-math/> Als we deze twee breuken samenvoegen, dan vinden we <block-math/></par>"
+      },
+      "step3": {
+        "problem": "Herschrijf de breuk van breuken <block-math/> als enkele breuk. Vereenvoudig deze zo veel als mogelijk.",
+        "solution": "<par>Als we iets door een breuk delen, dan zegt de regel dat we ook mogen vermenigvuldigen met het omgekeerde. Dus kunnen we dit ook schrijven als <block-math/> Als we vervolgens de breuken samenvoegen, dan kunnen we dit vereenvoudigen tot <block-math/> We kunnen dit nog verder opruimen tot <block-math/></par><sub-head>Short-cut</sub-head><par>We hadden ook beide kanten van de oorspronkelijke breuk met <inline-math/> kunnen vermenigvuldigen. Na het vereenvoudigen van de binnenste breuken, vinden we zo direct dat <block-math/> Deze short-cut vereist echter inzicht dat je alleen via veel oefenen kan krijgen.</par>"
+      }
+    },
+    "crossExercise": {
+      "wrongDenominatorWithSCM": "<a>Je breuk heeft niet de juiste noemer. Is je noemer wel de kleinste gemeenschappelijke veelvoud van <inline-math/> en <inline-math/>?</a>",
+      "wrongDenominatorWithExpectation": "<a>Je breuk heeft niet de juiste noemer. Probeer een breuk op te zetten met <inline-math/> in de noemer.</a>",
+      "wrongNumerator": "<a>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</a>"
+    }
   }
 }
