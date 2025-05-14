@@ -305,7 +305,7 @@ const skillStructure = {
 						},
 						solveMultiVariableLinearEquationWithFractions: {
 							name: 'Solve multi-variable linear equation with fractions',
-							setup: and('multiplyAllEquationTerms', part('expandDoubleBrackets', 0.5), 'solveMultiVariableLinearEquation'),
+							setup: and(part('simplifyFractionOfFractionSumsWithMultipleVariables', 0.5), 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation'),
 						},
 					},
 					quadraticEquations: {
@@ -325,11 +325,12 @@ const skillStructure = {
 					systemsOfEquations: {
 						solveSystemOfLinearEquations: {
 							name: 'Solve system of linear equations',
-							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteAnExpression'),
+							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber'),
 						},
 						solveMultiVariableSystemOfLinearEquations: {
 							name: 'Solve multi-variable system of linear equations',
-							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', 'substituteAnExpression'),
+							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables'),
+							links: { skill: 'solveSystemOfLinearEquations', correlation: 0.4 },
 						},
 					},
 				},
