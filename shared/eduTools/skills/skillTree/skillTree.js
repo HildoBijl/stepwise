@@ -306,6 +306,8 @@ const skillStructure = {
 						solveMultiVariableLinearEquationWithFractions: {
 							name: 'Solve multi-variable linear equation with fractions',
 							setup: and(part('simplifyFractionOfFractionSumsWithMultipleVariables', 0.5), 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation'),
+							examples: ['multipleBasicFractions'],
+							exercises: ['multipleBasicFractions', 'extraFractionInDenominator', 'extraFractionInNumerator'],
 						},
 					},
 					quadraticEquations: {

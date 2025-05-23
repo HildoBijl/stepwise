@@ -22,7 +22,7 @@ export function Theory() {
 
 		<Translation entry="checking">
 			<Head>Checking the solution</Head>
-			<Par>It is still wise to check the solution. To do so, we insert the solution into the original equation. Doing so gets us <BM>\frac(a)(b + \frac(1)(\frac(c)(3a - bc))) = \frac(c)(3).</BM> Simplifying the innermost fraction turns this into <BM>\frac(a)(b + \frac(3a - bc)(c)) = \frac(c)(3).</BM> Multiplying both sides of the outer fraction by <M>c</M> further reduces this to <BM>\frac(ac)(bc + \left(3a - bc\right)) = \frac(c)(3).</BM> Finally getting rid of the brackets, canceling the <M>bc</M> term and subsequently the <M>a</M> factor will reduce this to <BM>\frac(c)(3) = \frac(c)(3).</BM> This equation obviously holds, which means that the solution we found is correct.</Par>
+			<Par>It is still wise to check the solution. To do so, we insert the solution into the original equation. Doing so gets us <BM>\frac(a)(b + \frac(1)(\frac(c)(3a - bc))) = \frac(c)(3).</BM> Simplifying the innermost fraction turns this into <BM>\frac(a)(b + \frac(3a - bc)(c)) = \frac(c)(3).</BM> Multiplying both sides of the outer fraction by <M>c</M> further reduces this to <BM>\frac(ac)(bc + \left(3a - bc\right)) = \frac(c)(3).</BM> Finally getting rid of the brackets, canceling the <M>bc</M> term and subsequently canceling the factor <M>a</M> in the fraction will reduce this to <BM>\frac(c)(3) = \frac(c)(3).</BM> This equation obviously holds, which means that the solution we found is correct.</Par>
 		</Translation>
 
 		<Translation entry="steps">
