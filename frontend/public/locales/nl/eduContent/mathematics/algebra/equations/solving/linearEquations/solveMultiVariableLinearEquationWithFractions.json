@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "learningGoals": "<par>In deze vaardigheid leer je een <term>lineaire vergelijking met meerdere variabelen en met breuken op te lossen</term>. Bij een vergelijking als <inline-math/> zul je de oplossing voor <inline-math/> kunnen bepalen als <inline-math/>. Dit omvat het <skill-link>vereenvoudigen van een breuk met breukensom in een enkele breuk</skill-link>, het <skill-link>vermenigvuldigen van alle termen met de noemers</skill-link> en het uiteindelijke <skill-link>oplossen van de betreffende lineaire vergelijking</skill-link>.</par>"
+  },
+  "theory": {
+    "intro": "<par>Bekijk een vergelijking als <inline-math/> waar de doelvariabele <inline-math/> in de noemer van een breuk staat. Soms zijn deze vergelijkingen in werkelijkheid <term>vermomde lineaire vergelijkingen</term>. Hier leren we hoe we dat kunnen controleren, en hoe we deze vergelijkingen vervolgens op kunnen lossen.</par>",
+    "cleaning": "<head>De vergelijking opruimen</head><par>Het eerste dat we altijd doen is de vergelijking opruimen. Als er ergens breuken binnen breuken staan, willen we dat wegwerken en het <skill-link>tot een enkele breuk terugbrengen</skill-link>. Bij het voorbeeld kunnen we de teller en noemer van de breuk links met <inline-math/> vermenigvuldigen om uit te komen op <block-math/> Hierna merken we op dat de doelvariabele <inline-math/> nog steeds in een noemer staat. We kunnen dit verhelpen door <skill-link>all termen te vermenigvuldigen</skill-link> met de noemer <inline-math/>. Eventueel kunnen we alle termen ook met <inline-math/> vermenigvuldigen om de breuk rechts weg te werken. Dit geeft <block-math/> We hebben ervoor gezorgd dat er geen breuken meer zijn met <inline-math/> in de noemer, en dus hebben we de vergelijking voldoende opgeruimd. Nu kunnen we zien we dat de vergelijking daadwerkelijk lineair is ten opzichte van <inline-math/>. Oftewel, er zijn geen machten van <inline-math/> of soortgelijk. Alleen vermenigvuldigingen met constanten en niet-doel-variabelen (die je ook als constanten mag beschouwen).</par>",
+    "solving": "<head>De lineaire vergelijking oplossen</head><par>We kunnen nu op de standaard wijze de <skill-link>lineaire vergelijking oplossen</skill-link>. Haakjes uitwerken geeft <block-math/> Alle termen met <inline-math/> naar links halen en alle termen zonder naar rechts leidt tot <block-math/> Het buiten haakjes halen van <inline-math/> brengt dit dan terug tot <block-math/> De eindoplossing volgt via het delen door de term tussen haakjes, wat uitkomt op <block-math/> Dit is de oplossing van de vergelijking.</par>",
+    "checking": "<head>De oplossing controleren</head><par>Het is nog steeds verstandig om de oplossing te controleren. Om dit te doen, vullen we de oplossing in de oorspronkelijke vergelijking in. Zo krijgen we <block-math/> De binnenste breuk vereenvoudigen zet dit om naar <block-math/> Beide kanten van de buitenste breuk vermenigvuldigen met <inline-math/> brengt dit verder terug tot <block-math/> De haakjes wegwerken en het wegstrepen van de term <inline-math/> en vervolgens de factor <inline-math/> in de breuk vereenvoudigt dit tot <block-math/> Deze vergelijking klopt uiteraard, wat betekent dat de oplossing die we gevonden hebben klopt.</par>",
+    "steps": "<head>De stappen</head><par>Om een vermomde lineaire vergelijking als <inline-math/> voor een doelvariabele <inline-math/> op te lossen, neem je de volgende stappen.</par><list><item><a>Als er ergens breuken binnen breuken staan, <skill-link>vereenvoudig deze dan tot enkele breuk</skill-link>. Dit zet het voorbeeld om naar <inline-math/>.</a></item><item><b>Als de doelvariabele in een noemer staat, <skill-link>vermenigvuldig alle termen met deze noemer</skill-link> om dit te verhelpen. Eventueel kun je alle breuken wegwerken; ook die zonder doelvariabele in de noemer. Bij het voorbeeld zetten we de vergelijking om naar <inline-math/>.</b></item><item><c>Als de vergelijking inderdaad lineair is, <skill-link>los dan de lineaire vergelijking op</skill-link> via de gebruikelijke stappen. In het voorbeeld, als we haakjes uitwerken, termen verschuiven, <inline-math/> buiten haakjes halen, en delen door de betreffende factor, komen we uit op <inline-math/>.</c></item></list>"
+  },
+  "practice": {
+    "multipleBasicFractions": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Herschrijf de vergelijking zodat er geen breuken meer in staan.",
+        "solution": "We vermenigvuldigen alle termen met zowel <inline-math/> als <inline-math/>. Bij de eerste term verdwijnt <inline-math/> uit de noemer, en de overgebleven factor wordt vermenigvuldigd met <inline-math/>. Bij de andere twee termen is het juist <inline-math/> die uit de noemer verdwijnt, en de overgebleven factoren worden met <inline-math/> vermenigvuldigd. Het resultaat is <block-math/>"
+      },
+      "step2": {
+        "problem": "Los de vereenvoudigde vergelijking op voor <inline-math/>. Vereenvoudig je resultaat zo veel als mogelijk.",
+        "solution": "De vergelijking is lineair, en dus gebruiken we de standaard aanpak. Eerst werken we alle haakjes uit en vinden zo <block-math/> We brengen vervolgens alle termen met <inline-math/> naar de ene kant en alle termen zonder <inline-math/> naar de andere kant. Oftewel, <inline-math/> gaat naar links en <inline-math/> gaat naar rechts. Dit geeft <block-math/> Vervolgens halen we <inline-math/> buiten haakjes. Dit zet het bovenstaande om in <block-math/> Uiteindelijk delen we beide kanten van de vergelijking door <inline-math/> om hem op te lossen voor <inline-math/>. Het resultaat is <block-math/>"
+      }
+    },
+    "extraFractionInNumerator": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng de breuk van breuken terug tot een enkele breuk. (Laat de rest onveranderd staan.)",
+        "solution": "De short-cut om de breuk van breuken te vereenvoudigen is door de teller en noemer met <inline-math/> te vermenigvuldigen en vervolgens door <inline-math/> te delen. <check><on-true>Hiermee</on-true><on-false>Hiermee, en via het wegstrepen van mintekens,</on-false></check> brengen we de breuk terug tot <block-math/> Door dit in te vullen in de vergelijking, kunnen we hem schrijven als <block-math/>"
+      },
+      "step2": {
+        "problem": "Herschrijf de vergelijking zodat er geen breuken meer in staan.",
+        "solution": "We vermenigvuldigen beide kanten van de vergelijking met <inline-math/> Na het wegstrepen van factoren, blijven we over met <block-math/>"
+      },
+      "step3": {
+        "problem": "Los de vereenvoudigde vergelijking op voor <inline-math/>. Vereenvoudig je resultaat zo veel als mogelijk.",
+        "solution": "De vergelijking is lineair, en dus gebruiken we de standaard aanpak. We brengen alle termen met <inline-math/> naar de ene kant en alle termen zonder <inline-math/> naar de andere kant. In dit geval is het gemakkelijker om <inline-math/> naar rechts te halen, zodat <block-math/> Vervolgens halen we <inline-math/> buiten haakjes. Dit zet het bovenstaande om in <block-math/> Uiteindelijk delen we beide kanten van de vergelijking door <inline-math/> om hem op te lossen voor <inline-math/>. Het resultaat is <block-math/>"
+      }
+    },
+    "extraFractionInDenominator": {
+      "mainProblem": "Bekijk de vergelijking <block-math/> Los deze op voor <inline-math/> en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Breng de breuk van breuken terug tot een enkele breuk. (Laat de rest onveranderd staan.)",
+        "solution": "De short-cut om de breuk van breuken te vereenvoudigen is door de teller en de noemer met zowel <inline-math/> als <inline-math/> te vermenigvuldigen. Dit zet de breuk om in <block-math/> Door dit in te vullen in de vergelijking, kunnen we hem schrijven als <block-math/>"
+      },
+      "step2": {
+        "problem": "Herschrijf de vergelijking zodat er geen breuken meer in staan.",
+        "solution": "We vermenigvuldigen beide kanten van de vergelijking met zowel <inline-math/> als <inline-math/>. Na het wegstrepen van factoren blijven we over met <block-math/>"
+      },
+      "step3": {
+        "problem": "Los de vereenvoudigde vergelijking op voor <inline-math/>. Vereenvoudig je resultaat zo veel als mogelijk.",
+        "solution": "De vergelijking is lineair, en dus gebruiken we de standaard aanpak. Eerst werken we alle haakjes uit en vinden zo <block-math/> We brengen vervolgens alle termen met <inline-math/> naar de ene kant en alle termen zonder <inline-math/> naar de andere kant. Oftewel, <inline-math/> gaat naar links, zodat <block-math/> Vervolgens halen we <inline-math/> buiten haakjes. Dit zet het bovenstaande om in <block-math/> Uiteindelijk delen we beide kanten van de vergelijking door <inline-math/> om hem op te lossen voor <inline-math/>. Het resultaat is <block-math/>"
+      }
+    },
+    "crossExercise": {
+      "rightSideChanged": "<a>Laat de rechterkant van de vergelijking onveranderd staan!</a>"
+    }
+  }
+}
