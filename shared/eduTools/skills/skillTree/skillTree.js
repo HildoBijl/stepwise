@@ -328,6 +328,8 @@ const skillStructure = {
 						solveSystemOfLinearEquations: {
 							name: 'Solve system of linear equations',
 							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber'),
+							examples: ['basicSystem'],
+							exercises: ['basicSystem'],
 						},
 						solveMultiVariableSystemOfLinearEquations: {
 							name: 'Solve multi-variable system of linear equations',
