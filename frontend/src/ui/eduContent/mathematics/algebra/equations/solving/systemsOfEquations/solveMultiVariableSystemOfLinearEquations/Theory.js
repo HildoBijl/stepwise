@@ -29,7 +29,7 @@ export function Theory() {
 				</BMList> We finally note that, in each of the fractions, we can pull a factor out of the brackets. This gives us <BMList>
 					<BMPart>b\frac(a^2 + 3c)(a^2 + 3c) = b,</BMPart>
 					<BMPart>8\frac(a^2 + 3c)(a^2 + 3c) = 8.</BMPart>
-				</BMList> Both these equations obviously hold for all values of <M>a</M>, <M>b</M> and <M>c</M>, since the fractions can be removed as they equal <M>1</M>. As a result, we conclude that the solution we found is correct.</Par>
+				</BMList> Both these equations obviously hold for all values of <M>a</M>, <M>b</M> and <M>c</M>, since the fractions equal <M>1</M> and can hence be removed. As a result, we conclude that the solution we found is correct.</Par>
 			<Par>You may note that checking the solution is just as much work, or possibly even more, than finding the solution. As a result, as you gain more experience with this skill and learn to work thoroughly, you don't always check your results anymore. But in case of doubt, it is still a useful trick to have.</Par>
 		</Translation>
 

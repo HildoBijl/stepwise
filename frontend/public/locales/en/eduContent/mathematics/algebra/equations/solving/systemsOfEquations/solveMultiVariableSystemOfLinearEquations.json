@@ -5,7 +5,47 @@
   "theory": {
     "intro": "<par>Suppose that we have two equations, like <inline-math/> and <inline-math/>. We could define two target variables (like <inline-math/> and <inline-math/>) that we want to solve for, treating all other variables as constants. How would we find the solutions for <inline-math/> and <inline-math/>?</par>",
     "solving": "<head>Solving the system of equations</head><par>The procedure of solving a system of linear equations with multiple variables is actually identical to <skill-link>solving a system of linear equations</skill-link> where there are only two variables. (So without any non-target variables.) First we pick one equation and <skill-link>solve it</skill-link> for one target variable. Solving the first equation for <inline-math/> would for instance give <block-math/> This solution is then <skill-link>inserted</skill-link> into the <emp>other</emp> equation. This results in <block-math/> This is a linear equation which can be <skill-link>solved</skill-link> for <inline-math/>. Multiplying all terms by <inline-math/> and expanding brackets gives us <block-math/> The solution for <inline-math/> follows as <block-math/> Now that <inline-math/> is solved, we can <skill-link>insert</skill-link> this into the solution we found earlier for <inline-math/>. This gives us <block-math/> This is a valid solution, but it contains a fraction within a fraction which is undesirable and should be <skill-link>simplified</skill-link>. Taking the respective steps, we end up with <block-math/> This is as simple as we can write the solution. Now that we have solutions for <inline-math/> and <inline-math/>, we have solved the system of equations.</par>",
-    "checking": "<head>Checking the solution</head><par>After solving a system of equations, it's always worth while to check your solution, just to make sure you haven't made an error along the way. To do so, we <skill-link>insert</skill-link> both solutions into both equations. This gives us <math-list/> The solution is correct if both equations always hold. To see if this is the case, we must simplify the equations. Note that all fractions have the same denominator, so we can merge the fractions together, giving <math-list/> Expanding brackets and canceling sum terms turns the above into <math-list/> We finally note that, in each of the fractions, we can pull a factor out of the brackets. This gives us <math-list/> Both these equations obviously hold for all values of <inline-math/>, <inline-math/> and <inline-math/>, since the fractions can be removed as they equal <inline-math/>. As a result, we conclude that the solution we found is correct.</par><par>You may note that checking the solution is just as much work, or possibly even more, than finding the solution. As a result, as you gain more experience with this skill and learn to work thoroughly, you don't always check your results anymore. But in case of doubt, it is still a useful trick to have.</par>",
+    "checking": "<head>Checking the solution</head><par>After solving a system of equations, it's always worth while to check your solution, just to make sure you haven't made an error along the way. To do so, we <skill-link>insert</skill-link> both solutions into both equations. This gives us <math-list/> The solution is correct if both equations always hold. To see if this is the case, we must simplify the equations. Note that all fractions have the same denominator, so we can merge the fractions together, giving <math-list/> Expanding brackets and canceling sum terms turns the above into <math-list/> We finally note that, in each of the fractions, we can pull a factor out of the brackets. This gives us <math-list/> Both these equations obviously hold for all values of <inline-math/>, <inline-math/> and <inline-math/>, since the fractions equal <inline-math/> and can hence be removed. As a result, we conclude that the solution we found is correct.</par><par>You may note that checking the solution is just as much work, or possibly even more, than finding the solution. As a result, as you gain more experience with this skill and learn to work thoroughly, you don't always check your results anymore. But in case of doubt, it is still a useful trick to have.</par>",
     "steps": "<head>The steps</head><par>To solve a system of linear equation like <inline-math/> and <inline-math/> for target variables <inline-math/> and <inline-math/>, take the following steps.</par><list><item><a><skill-link>Solve one equation for one variable</skill-link>. For the example, we can solve the first equation for <inline-math/> to find <inline-math/>.</a></item><item><b><skill-link>Substitute this solution</skill-link> into the <emp>other</emp> equation. For the example, we get <inline-math/>.</b></item><item><c><skill-link>Solve the resulting equation</skill-link> for the remaining target variable. In our example we end up with <inline-math/>.</c></item><item><d><skill-link>Insert the found value</skill-link> into the solution you found in the second step and subsequently <skill-link>simplify it</skill-link>. In the example, we insert the solution for <inline-math/> into the earlier result for <inline-math/> and simplify the result to find <inline-math/>.</d></item><item><e>Check your solution by <skill-link>inserting both results</skill-link> into the original equations. In the example, we find that both <inline-math/> and <inline-math/> indeed hold true.</e></item></list>"
+  },
+  "practice": {
+    "threeTerms": {
+      "mainProblem": "Consider the system of equations <math-list/> Solve this system for <inline-math/> and <inline-math/>, expressing them both in <inline-math/>. Simplify your results as much as possible.",
+      "step1": {
+        "problem": "Solve the first equation <inline-math/> for <inline-math/>.",
+        "solution": "We bring all terms without <inline-math/> to the right and subsequently divide by <inline-math/>. The solution follows as <block-math/>"
+      },
+      "step2": {
+        "problem": "Insert your solution for <inline-math/> into the second equation <inline-math/>.",
+        "solution": "We replace every <inline-math/> by <inline-math/>, where we apply brackets where needed. The result is <block-math/>"
+      },
+      "step3": {
+        "problem": "Solve the new equation for <inline-math/>.",
+        "solution": "We first get rid of the fraction: we multiply all terms by <inline-math/>. This results in <block-math/> Next, we expand the brackets to get <block-math/> If we leave all terms with <inline-math/> on the left and move all terms without <inline-math/> to the right, then we get <block-math/> Merging sum terms turns this into <block-math/> The solution follows as <block-math/>"
+      },
+      "step4": {
+        "problem": "Insert the resulting value for <inline-math/> into the solution for <inline-math/> and simplify the outcome.",
+        "solution": "<par>In an earlier step we found that <block-math/> If we insert <inline-math/> into this, we get <block-math/> This can be simplified to <block-math/> The solution of the system of equations then is <inline-math/> and <inline-math/>.</par><par>To check if this solution is correct, we can insert these values into the original equations. So we write<math-list/>If we simplify this, we see that both sides of each equation indeed come out as equal, which means that the solution is correct.</par>"
+      }
+    },
+    "fourVariables": {
+      "mainProblem": "Consider the system of equations <math-list/> Solve this system for <inline-math/> and <inline-math/>, expressing them both in <inline-math/> and <inline-math/>. Simplify your results as much as possible.",
+      "step1": {
+        "problem": "Solve the first equation <inline-math/> for <inline-math/>.",
+        "solution": "We bring all terms without <inline-math/> to the right and subsequently divide by <inline-math/>. The solution follows as <block-math/>"
+      },
+      "step2": {
+        "problem": "Insert your solution for <inline-math/> into the second equation <inline-math/>.",
+        "solution": "We replace every <inline-math/> by <inline-math/>, where we apply brackets where needed. The result is <block-math/>"
+      },
+      "step3": {
+        "problem": "Solve the new equation for <inline-math/>.",
+        "solution": "We first get rid of the fraction: we multiply all terms by <inline-math/>. This results in <block-math/> Next, we expand the brackets to get <block-math/> If we leave all terms with <inline-math/> on the left and move all terms without <inline-math/> to the right, then we get <block-math/> Merging sum terms turns this into <block-math/> The solution follows as <block-math/>"
+      },
+      "step4": {
+        "problem": "Insert the resulting value for <inline-math/> into the solution for <inline-math/> and simplify the outcome.",
+        "solution": "<par>In an earlier step we found that <block-math/> If we insert <inline-math/> into this, we get <block-math/> This can be simplified to <block-math/> The solution of the system of equations then is <inline-math/> and <inline-math/>.</par><par>To check if this solution is correct, we can insert these values into the original equations. So we write<math-list/>If we simplify this, we see that both sides of each equation indeed come out as equal, which means that the solution is correct.</par>"
+      }
+    }
   }
 }

@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "learningGoals": "<par>In deze vaardigheid leer je een <term>stelsel van lineaire vergelijkingen met meerdere variabelen op te lossen</term>. Als je twee vergelijkingen hebt, zoals <inline-math/> en <inline-math/>, en twee doelvariabelen <inline-math/> en <inline-math/>, dan zul je de oplossing voor <inline-math/> en <inline-math/> kunnen bepalen als <inline-math/> en <inline-math/>. Dit omvat het <skill-link>oplossen van de ene vergelijking</skill-link> voor de ene onbekende, het <skill-link>invullen van deze oplossing</skill-link> in de andere vergelijking, het <skill-link>oplossen van die vergelijking</skill-link>, het weer <skill-link>invullen van dit resultaat</skill-link> in de eerste oplossing en het <skill-link>vereenvoudigen van de breuk van breuken tot een enkele breuk</skill-link>.</par>"
+  },
+  "theory": {
+    "intro": "<par>Stel dat we twee vergelijkingen hebben, zoals <inline-math/> en <inline-math/>. We kunnen twee doelvariabelen definiëren (zoals <inline-math/> en <inline-math/>) waar we de vergelijkingen voor op willen lossen, waarbij we dan alle andere variabelen als constanten zien. Hoe kunnen we dan de oplossingen voor <inline-math/> en <inline-math/> bepalen?</par>",
+    "solving": "<head>Het stelsel van vergelijkingen oplossen</head><par>De wijze waarin we een stelsel van lineaire vergelijkingen met meerdere variabelen oplossen is identiek aan hoe we <skill-link>een stelsel van lineaire vergelijkingen met slechts twee variabelen oplossen</skill-link>. (Dus zonder extra variabelen die geen doelvariabele zijn.) Eerst nemen we de ene vergelijking en <skill-link>lossen deze op</skill-link> voor de ene doelvariabele. Het oplossen van de eerste vergelijkin voor <inline-math/> zou bijvoorbeeld geven dat <block-math/> Deze oplossing wordt dan <skill-link>ingevuld</skill-link> in de <emp>andere</emp> vergelijking. Zo krijgen we <block-math/> Dit is een lineaire vergelijking, die we weer <skill-link>op kunnen lossen</skill-link> voor <inline-math/>. Het vermenigvuldigen van alle termen met <inline-math/> en het uitwerken van haakjes geeft <block-math/> De oplossing voor <inline-math/> volgt als <block-math/> Nu we voor <inline-math/> opgelost hebben, kunnen we dit <skill-link>invullen</skill-link> in de oplossing voor <inline-math/> die we eerder vonden. Zo krijgen we <block-math/> Dit is een geldige oplossing, maar het bevat een breuk binnen een breuk, wat ongewenst is en dus verder <skill-link>vereenvoudigd</skill-link> moet worden. Via de betreffende stappen komen we uit op <block-math/> Dit is zo eenvoudig als we het maar kunnen schrijven. Nu we de oplossingen voor zowel <inline-math/> als <inline-math/> hebben, hebben we het stelsel van vergelijkingen opgelost.</par>",
+    "checking": "<head>De oplossing controleren</head><par>Na het oplossen van een stelsel van vergelijkingen, is het altijd de moeite waard om de oplossing te controleren, puur om er zeker van te zijn dat je niet ergens onderweg een klein foutje hebt gemaakt. Om dit te doen, <skill-link>vullen we beide oplossingen in</skill-link> in de twee oorspronkelijke vergelijkingen. Dit geeft dan <math-list/> De oplossing klopt als beide vergelijkingen altijd kloppend zijn. Om te zien of dit het geval is, moeten we de vergelijkingen vereenvoudigen. Merk op dat alle breuken dezelfde noemer hebben, zodat we de breuken samen kunnen trekken, waardoor <math-list/> Haakjes uitwerken en het wegstrepen van somtermen zet het bovenstaande om in <math-list/> Uiteindelijk merken we op dat we, in elk van de breuken, een factor buiten haakjes kunnen halen. Dit geeft dan <math-list/> Deze beide vergelijkingen kloppen uiteraard voor alle mogelijke waarden van <inline-math/>, <inline-math/> en <inline-math/>, aangezien de breuken gelijk aan <inline-math/> zijn en dus weggestreept mogen worden. Als gevolg hiervan komen we tot de conclusie dat de oplossing die we gevonden hebben klopt.</par><par>Je hebt mogelijk opgemerkt dat het controleren van de oplossing net zo veel werk is, zo niet meer, als het vinden van de oplossing. Hierdoor geldt dat, als je meer ervaring krijgt met deze vaardigheid en leert zorgvuldig te werken, je niet altijd meer je resultaten op deze wijze controleert. Maar in geval van twijfel is het nog steeds een handige truc om achter de hand te hebben.</par>",
+    "steps": "<head>De stappen</head><par>Om een stelsel van vergelijkingen als <inline-math/> en <inline-math/> voor de doelvariabelen <inline-math/> en <inline-math/> op te lossen neem je de volgende stappen.</par><list><item><a><skill-link>Los de ene vergelijking op</skill-link> voor de ene variabele. Bij het voorbeeld kunnen we de eerste vergelijking voor <inline-math/> oplossen om te vinden dat <inline-math/>.</a></item><item><b><skill-link>Vul deze oplossing in</skill-link> in de <emp>andere</emp> vergelijking. Bij het voorbeeld krijgen we dan <inline-math/>.</b></item><item><c><skill-link>Los de betreffende vergelijking op</skill-link> voor de resterende doelvariabele. In ons voorbeeld komen we uit op <inline-math/>.</c></item><item><d><skill-link>Vul de gevonden waarde in</skill-link> in de oplossing die je in de tweede stap gevonden had, en <skill-link>vereenvoudig het resultaat</skill-link>. In het voorbeeld vullen we de oplossing voor <inline-math/> in de eerder gevonden oplossing voor <inline-math/> in en vereenvoudigen het resultaat tot <inline-math/>.</d></item><item><e>Controleer je oplossing door beide gevonden waarden in de oorspronkelijke vergelijkingen <skill-link>in te vullen</skill-link>. In het voorbeeld vinden we dat zowel <inline-math/> als <inline-math/> inderdaad altijd kloppen.</e></item></list>"
+  },
+  "practice": {
+    "threeTerms": {
+      "mainProblem": "Bekijk het stelsel van vergelijkingen <math-list/> Los dit stelsel op voor <inline-math/> en <inline-math/>, waarbij je ze beiden in <inline-math/> uitdrukt. Vereenvoudig je resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Los de eerstgenoemde vergelijking <inline-math/> op voor <inline-math/>.",
+        "solution": "We brengen alle termen zonder <inline-math/> naar rechts en delen vervolgens door <inline-math/>. De oplossing volgt als <block-math/>"
+      },
+      "step2": {
+        "problem": "Vul je oplossing voor <inline-math/> in de tweede vergelijking <inline-math/> in.",
+        "solution": "We vervangen elke <inline-math/> voor <inline-math/>, waarbij we waar nodig gebruik maken van haakjes. Het resultaat is <block-math/>"
+      },
+      "step3": {
+        "problem": "Los de nieuwe vergelijking op voor <inline-math/>.",
+        "solution": "We werken eerst de breuk weg: we vermenigvuldigen alle termen met <inline-math/>. Hiermee krijgen we <block-math/> We werken vervolgens de haakjes uit en herschrijven de vergelijking zo tot <block-math/> Als we alle termen met <inline-math/> links laten en alle termen zonder <inline-math/> naar rechts brengen, dan krijgen we <block-math/> Het samenvoegen van somtermen zet dit om naar <block-math/> De oplossing volgt als <block-math/>"
+      },
+      "step4": {
+        "problem": "Vul de gevonden waarde voor <inline-math/> in de oplossing voor <inline-math/> in en vereenvoudig het resultaat.",
+        "solution": "<par>Eerder vonden we al dat <block-math/> Als we hier <inline-math/> invullen, dan krijgen we <block-math/> Dit kan vereenvoudigd worden tot <block-math/> De oplossing van het stelsel van vergelijkingen is dus <inline-math/> en <inline-math/>.</par><par>Om te controleren of deze oplossing klopt, kunnen we hem invullen in de oorspronkelijke vergelijkingen. We schrijven dan <math-list/> Als we dit vereenvoudigen, dan zien we dat beide kanten van elke vergelijking op hetzelfde uitkomen, wat betekent dat de oplossing klopt.</par>"
+      }
+    },
+    "fourVariables": {
+      "mainProblem": "Bekijk het stelsel van vergelijkingen <math-list/> Los dit stelsel op voor <inline-math/> en <inline-math/>, waarbij je ze beiden in <inline-math/> en <inline-math/> uitdrukt. Vereenvoudig je resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Los de eerstgenoemde vergelijking <inline-math/> op voor <inline-math/>.",
+        "solution": "We brengen alle termen zonder <inline-math/> naar rechts en delen vervolgens door <inline-math/>. De oplossing volgt als <block-math/>"
+      },
+      "step2": {
+        "problem": "Vul je oplossing voor <inline-math/> in de tweede vergelijking <inline-math/> in.",
+        "solution": "We vervangen elke <inline-math/> voor <inline-math/>, waarbij we waar nodig gebruik maken van haakjes. Het resultaat is <block-math/>"
+      },
+      "step3": {
+        "problem": "Los de nieuwe vergelijking op voor <inline-math/>.",
+        "solution": "We werken eerst de breuk weg: we vermenigvuldigen alle termen met <inline-math/>. Hiermee krijgen we <block-math/> We werken vervolgens de haakjes uit en herschrijven de vergelijking zo tot <block-math/> Als we alle termen met <inline-math/> links laten en alle termen zonder <inline-math/> naar rechts brengen, dan krijgen we <block-math/> Het samenvoegen van somtermen zet dit om naar <block-math/> De oplossing volgt als <block-math/>"
+      },
+      "step4": {
+        "problem": "Vul de gevonden waarde voor <inline-math/> in de oplossing voor <inline-math/> in en vereenvoudig het resultaat.",
+        "solution": "<par>Eerder vonden we al dat <block-math/> Als we hier <inline-math/> invullen, dan krijgen we <block-math/> Dit kan vereenvoudigd worden tot <block-math/> De oplossing van het stelsel van vergelijkingen is dus <inline-math/> en <inline-math/>.</par><par>Om te controleren of deze oplossing klopt, kunnen we hem invullen in de oorspronkelijke vergelijkingen. We schrijven dan <math-list/> Als we dit vereenvoudigen, dan zien we dat beide kanten van elke vergelijking op hetzelfde uitkomen, wat betekent dat de oplossing klopt.</par>"
+      }
+    }
+  }
+}

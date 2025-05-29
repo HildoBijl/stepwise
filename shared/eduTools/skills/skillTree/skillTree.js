@@ -335,6 +335,8 @@ const skillStructure = {
 							name: 'Solve multi-variable system of linear equations',
 							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables'),
 							links: { skill: 'solveSystemOfLinearEquations', correlation: 0.4 },
+							examples: ['threeTerms'],
+							exercises: ['threeTerms', 'fourVariables'],
 						},
 					},
 				},

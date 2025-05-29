@@ -75,7 +75,9 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
  * Expression form checks.
  */
 
-export const hasX = (input, correct, { variables }, isCorrect) => !isCorrect && input.dependsOn(variables.x) && <Translation path={translationPath} entry="expression.hasX">Your solution still contains <M>{variables.x}</M>. It's not supposed to be there anymore.</Translation>
+export const hasVariable = (variableName) => ((input, correct, { variables }, isCorrect) => !isCorrect && input.dependsOn(variables[variableName]) && <Translation path={translationPath} entry="expression.hasX">Your solution still contains <M>{variables[variableName]}</M>. It's not supposed to be there anymore.</Translation>)
+
+export const hasX = hasVariable('x')
 
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="expression.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
 

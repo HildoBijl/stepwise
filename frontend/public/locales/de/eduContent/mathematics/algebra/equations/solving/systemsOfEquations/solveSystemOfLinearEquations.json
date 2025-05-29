@@ -22,7 +22,7 @@
       },
       "step3": {
         "problem": "Löse die neue Gleichung für <inline-math/>.",
-        "solution": "Wir erarbeiten zunächst den Bruch: Wir multiplizieren alle Terme mit <inline-math/>. Das ergibt <block-math/> Dann erweitern wir die Klammern und fügen die Zahlen zusammen. So schreiben wir die Gleichung um zu <block-math/> Wenn wir alle Terme mit <inline-math/> links stehen lassen und alle Terme ohne <inline-math/> nach rechts verschieben, erhalten wir <block-math/> Die Lösung folgt als <block-math/>"
+        "solution": "Wir eliminieren zunächst den Bruch: Wir multiplizieren alle Terme mit <inline-math/>. Das ergibt <block-math/> Dann erweitern wir die Klammern und fügen die Zahlen zusammen. So schreiben wir die Gleichung um zu <block-math/> Wenn wir alle Terme mit <inline-math/> links stehen lassen und alle Terme ohne <inline-math/> nach rechts verschieben, erhalten wir <block-math/> Die Lösung folgt als <block-math/>"
       },
       "step4": {
         "problem": "Setze den für <inline-math/> gefundenen Wert in die Lösung für <inline-math/> ein und vereinfache das Ergebnis.",

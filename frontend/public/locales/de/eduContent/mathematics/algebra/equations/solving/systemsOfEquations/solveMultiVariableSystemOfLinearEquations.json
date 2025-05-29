@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "learningGoals": "<par>In dieser Kompetenz lernst du, ein <term>System von linearen Gleichungen mit mehreren Variablen zu lösen</term>. Bei zwei Gleichungen wie <inline-math/> und <inline-math/> und zwei Zielvariablen <inline-math/> und <inline-math/> kannst du die Lösung für <inline-math/> und <inline-math/> als <inline-math/> und <inline-math/> bestimmen. Dazu gehört das <skill-link>Lösen einer Gleichung</skill-link> für eine Unbekannte, das <skill-link>Einsetzen dieser Lösung</skill-link> in die andere Gleichung, das <skill-link>Lösen dieser Gleichung</skill-link>, das <skill-link>erneute Einsetzen dieses Ergebnisses</skill-link> in die erste Lösung und das <skill-link>Vereinfachen des Bruches von Brüchen in einen einzigen Bruch</skill-link>.</par>"
+  },
+  "theory": {
+    "intro": "<par>Nehmen wir an, wir haben zwei Gleichungen, zum Beispiel <inline-math/> und <inline-math/>. Wir können zwei Zielvariablen definieren (wie <inline-math/> und <inline-math/>), für die wir die Gleichungen lösen wollen, wobei wir alle anderen Variablen als Konstanten betrachten. Wie kann man dann die Lösungen für <inline-math/> und <inline-math/> bestimmen?</par>",
+    "solving": "<head>Lösen des Gleichungssystems</head><par>Die Art und Weise, wie wir ein System linearer Gleichungen mit mehreren Variablen lösen, ist identisch mit der Art und Weise, wie wir ein <skill-link>System linearer Gleichungen mit nur zwei Variablen lösen</skill-link>. (Also ohne zusätzliche Variablen, die keine Zielvariablen sind.) Zuerst nehmen wir die eine Gleichung und <skill-link>lösen sie</skill-link> für die eine Zielvariable. Wenn man zum Beispiel die erste Gleichung für <inline-math/> löst, erhält man <block-math/> Diese Lösung wird dann <skill-link>eingesetzt</skill-link> in die <emp>andere</emp> Gleichung. Wir erhalten also <block-math/> Dies ist eine lineare Gleichung, die wir wiederum <skill-link>lösen</skill-link> können für <inline-math/>. Die Multiplikation aller Terme mit <inline-math/> und das Erweitern der Klammern ergibt <block-math/> Die Lösung für <inline-math/> folgt als <block-math/> Da wir nun für <inline-math/> gelöst haben, können wir diese <skill-link>einsetzen</skill-link> in die Lösung für <inline-math/>, die wir zuvor gefunden haben. So erhalten wir <block-math/> Dies ist eine gültige Lösung, aber sie enthält einen Bruch innerhalb eines Bruchs, was unerwünscht ist und daher weiter <skill-link>vereinfacht</skill-link> werden muss. Durch die entsprechenden Schritte kommen wir zu <block-math/> Dies ist so einfach, wie wir es schreiben können. Da wir nun die Lösungen für <inline-math/> und <inline-math/> haben, haben wir das Gleichungssystem gelöst.</par>",
+    "checking": "<head>Die Lösung überprüfen</head><par>Nach dem Lösen eines Gleichungssystems lohnt es sich immer, die Lösung zu überprüfen, um sicherzustellen, dass man nicht irgendwo einen kleinen Fehler gemacht hat. Dazu <skill-link>setzt man beide Lösungen in die beiden ursprünglichen Gleichungen ein</skill-link>. Das ergibt dann <math-list/> Die Lösung ist richtig, wenn beide Gleichungen immer richtig sind. Um zu sehen, ob dies der Fall ist, müssen wir die Gleichungen vereinfachen. Man beachte, dass alle Brüche den gleichen Nenner haben, so dass man die Brüche zusammenziehen kann, sodass <math-list/> Wenn man die Klammern erweitert und die Summenterme entfernt, ergibt sich <math-list/> Schließlich stellt man fest, dass man in jedem der Brüche einen Faktor außerhalb der Klammern ziehen kann. Das ergibt dann <math-list/> Diese beiden Gleichungen sind offensichtlich für alle möglichen Werte von <inline-math/>, <inline-math/> und <inline-math/> wahr, da die Brüche gleich <inline-math/> sind und somit weggelassen werden können. Daraus schließen wir, dass die von uns gefundene Lösung richtig ist.</par><par>Du hast vielleicht bemerkt, dass das Überprüfen der Lösung genauso viel Arbeit macht wie das Finden der Lösung, wenn nicht sogar mehr. Deshalb wirst du mit zunehmender Erfahrung und bei sorgfältiger Arbeit deine Ergebnisse nicht mehr immer auf diese Weise überprüfen. Aber im Zweifelsfall ist es immer noch ein praktischer Trick, den man im Hinterkopf haben sollte.</par>",
+    "steps": "<head>Die Schritte</head><par>Um ein Gleichungssystem wie <inline-math/> und <inline-math/> für die Zielvariablen <inline-math/> und <inline-math/> zu lösen, ist wie folgt vorzugehen.</par><list><item><a><skill-link>Löse die eine Gleichung</skill-link> für die eine Variable. Für das Beispiel können wir die erste Gleichung für <inline-math/> lösen, um herauszufinden, dass <inline-math/>.</a></item><item><b><skill-link>Setze diese Lösung</skill-link> in die <emp>andere</emp> Gleichung ein. Für das Beispiel erhalten wir dann <inline-math/>.</b></item><item><c><skill-link>Löse die entsprechende Gleichung</skill-link> für die verbleibende Zielvariable. In unserem Beispiel erhalten wir <inline-math/>.</c></item><item><d><skill-link>Setze den gefundenen Wert</skill-link> in die Lösung ein, die du im zweiten Schritt gefunden hast, und <skill-link>Vereinfache das Ergebnis</skill-link>. Im Beispiel setzen wir die Lösung für <inline-math/> in die zuvor gefundene Lösung für <inline-math/> ein und vereinfachen das Ergebnis zu <inline-math/>.</d></item><item><e>Überprüfe deine Lösung, indem du die beiden gefundenen Werte in die ursprünglichen Gleichungen <skill-link>einsetzt</skill-link>. Im Beispiel zeigt sich, dass sowohl <inline-math/> als auch <inline-math/> tatsächlich immer richtig sind.</e></item></list>"
+  },
+  "practice": {
+    "threeTerms": {
+      "mainProblem": "Betrachte das Gleichungssystem <math-list/> Löse dieses System für <inline-math/> und <inline-math/> und drücke sie beide in <inline-math/> aus. Vereinfache dein Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Löse die erste Gleichung <inline-math/> für <inline-math/>.",
+        "solution": "Wir bringen alle Terme ohne <inline-math/> nach rechts und dividieren dann durch <inline-math/>. Die Lösung folgt als <block-math/>"
+      },
+      "step2": {
+        "problem": "Setze deine Lösung für <inline-math/> in die zweite Gleichung <inline-math/> ein.",
+        "solution": "Wir ersetzen jedes <inline-math/> durch <inline-math/>, wobei wir, wo nötig, Klammern verwenden. Das Ergebnis ist <block-math/>"
+      },
+      "step3": {
+        "problem": "Löse die neue Gleichung für <inline-math/>.",
+        "solution": "Wir eliminieren zunächst den Bruch: Wir multiplizieren alle Terme mit <inline-math/>. Damit erhalten wir <block-math/> Wir erweitern dann die Klammern heraus und schreiben die Gleichung so um zu <block-math/> Wenn wir alle Terme mit <inline-math/> links stehen lassen und alle Terme ohne <inline-math/> nach rechts verschieben, erhalten wir <block-math/> Durch das Zusammenfügen von Summentermen wird dies zu <block-math/> Die Lösung folgt als <block-math/>"
+      },
+      "step4": {
+        "problem": "Setze den für <inline-math/> gefundenen Wert in die Lösung für <inline-math/> ein und vereinfache das Ergebnis.",
+        "solution": "<par>Vorhin haben wir festgestellt, dass <block-math/> Wenn wir hier <inline-math/> eingeben, erhalten wir <block-math/> Dies kann vereinfacht werden zu <block-math/> Die Lösung des Gleichungssystems ist also <inline-math/> und <inline-math/>.</par><par>Um zu überprüfen, ob diese Lösung korrekt ist, können wir sie in die ursprünglichen Gleichungen einsetzen. Wir schreiben dann <math-list/> Wenn wir dies vereinfachen, sehen wir, dass beide Seiten jeder Gleichung das Gleiche ergeben, was bedeutet, dass die Lösung richtig ist.</par>"
+      }
+    },
+    "fourVariables": {
+      "mainProblem": "Betrachte das Gleichungssystem <math-list/> Löse dieses System für <inline-math/> und <inline-math/> und drücke sie sowohl in <inline-math/> als auch in <inline-math/> aus. Vereinfache dein Ergebnis so weit wie möglich.",
+      "step1": {
+        "problem": "Löse die erste Gleichung <inline-math/> für <inline-math/>.",
+        "solution": "Wir bringen alle Terme ohne <inline-math/> nach rechts und dividieren dann durch <inline-math/>. Die Lösung folgt als <block-math/>"
+      },
+      "step2": {
+        "problem": "Setze deine Lösung für <inline-math/> in die zweite Gleichung <inline-math/> ein.",
+        "solution": "Wir ersetzen jedes <inline-math/> durch <inline-math/>, wobei wir, wo nötig, Klammern verwenden. Das Ergebnis ist <block-math/>"
+      },
+      "step3": {
+        "problem": "Löse die neue Gleichung für <inline-math/>.",
+        "solution": "Wir eliminieren zunächst den Bruch: Wir multiplizieren alle Terme mit <inline-math/>. Damit erhalten wir <block-math/> Wir erweitern dann die Klammern heraus und schreiben die Gleichung so um zu <block-math/> Wenn wir alle Terme mit <inline-math/> links stehen lassen und alle Terme ohne <inline-math/> nach rechts verschieben, erhalten wir <block-math/> Durch das Zusammenfügen von Summentermen wird dies zu <block-math/> Die Lösung folgt als <block-math/>"
+      },
+      "step4": {
+        "problem": "Setze den für <inline-math/> gefundenen Wert in die Lösung für <inline-math/> ein und vereinfache das Ergebnis.",
+        "solution": "<par>Vorhin haben wir festgestellt, dass <block-math/> Wenn wir hier <inline-math/> eingeben, erhalten wir <block-math/> Dies kann vereinfacht werden zu <block-math/> Die Lösung des Gleichungssystems ist also <inline-math/> und <inline-math/>.</par><par>Um zu überprüfen, ob diese Lösung korrekt ist, können wir sie in die ursprünglichen Gleichungen einsetzen. Wir schreiben dann <math-list/> Wenn wir dies vereinfachen, sehen wir, dass beide Seiten jeder Gleichung das Gleiche ergeben, was bedeutet, dass die Lösung richtig ist.</par>"
+      }
+    }
+  }
+}

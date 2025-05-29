@@ -110,7 +110,7 @@
 		"wrongNumberOfSumTerms": "Was hier erwartet wird, ist eine Addition mit {expectedNumTerms} Termen, mit einem Plus- oder Minuszeichen dazwischen. Deine Eingabe hat {inputNumTerms} Terme.",
 		"errorInSumTerm": "Mit dem <counting-word/>n Term deiner Antwort scheint etwas nicht in Ordnung zu sein.",
 		"unsimplifiedSumTerm": "Du kannst den <counting-word/>n Term deiner Antwort noch weiter vereinfachen.",
-		"hasX": "Deine Antwort enthält einen weiteren <inline-math/>. Das war nicht die Absicht!",
+		"hasX": "Deine Antwort enthält immer noch ein <inline-math/>. Das war nicht die Absicht!",
 		"hasSumWithinProduct": "Deine Antwort hat immer noch nicht erweiterte Klammern.",
 		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
 		"hasSimilarTerms": "Dies kann noch weiter vereinfacht werden: Es gibt eine Summe mit ähnlichen Termen, die kombiniert werden können.",
