@@ -535,10 +535,6 @@ const skillStructure = {
 
 	physics: {
 		physicsMathematics: {
-			// solveLinearEquation: {
-			// 	name: 'Solve a linear equation',
-			// 	exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],
-			// },
 			solveExponentEquation: {
 				name: 'Solve an exponent equation',
 				exercises: ['solveExponentEquation1', 'solveExponentEquation2', 'solveExponentEquation3', 'solveExponentEquation4'],
@@ -606,7 +602,7 @@ const skillStructure = {
 				},
 				recognizeProcessTypes: {
 					name: 'Recognize process types',
-					exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
+					exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'],
 				},
 				poissonsLaw: {
 					name: `Apply Poisson's law`,
