@@ -120,7 +120,6 @@ const skillStructure = {
 		},
 
 		algebra: {
-			// New part for skill tree updating.
 			expressions: {
 				substitution: {
 					substituteANumber: {
@@ -341,82 +340,6 @@ const skillStructure = {
 					},
 				},
 			},
-
-			// Old part for skill tree updating.
-			fractions: {
-				addRemoveFractionFactors: {
-					name: 'Add/remove fraction factors',
-					exercises: ['addRemoveFractionFactors1', 'addRemoveFractionFactors1Reverse', 'addRemoveFractionFactors2', 'addRemoveFractionFactors2Reverse', 'addRemoveFractionFactors3', 'addRemoveFractionFactors3Reverse'],
-				},
-				mergeSplitBasicFractions: {
-					name: 'Merge/split fractions with equal denominator',
-					exercises: ['mergeSplitBasicFractions1', 'mergeSplitBasicFractions2', 'mergeSplitBasicFractions3'],
-				},
-				mergeSplitFractions: {
-					name: 'Merge/split general fractions',
-					setup: and(repeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
-					exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
-				},
-				// multiplyDivideFractions: {
-				// 	name: 'Multiply/divide fractions',
-				// 	exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
-				// },
-				// simplifyFraction: {
-				// 	name: 'Simplify a fraction',
-				// 	setup: and('mergeSplitFractions', 'multiplyDivideFractions'),
-				// 	exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
-				// },
-				simplifyMultiVariableFraction: {
-					name: 'Simplify a fraction',
-					setup: and('mergeSplitFractions', 'multiplyDivideFractions'),
-					exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
-				},
-			},
-			linearEquations: {
-				solveBasicLinearEquation: {
-					name: 'Solve a basic linear equation',
-					setup: and(repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms'),
-					exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
-				},
-				solveGeneralLinearEquation: {
-					name: 'Solve a general linear equation',
-					setup: and(pick(['simplifyMultiVariableFraction', 'expandBrackets', 'multiplyAllEquationTerms'], 2), 'multiplyAllEquationTerms', 'solveBasicLinearEquation'),
-					exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
-				},
-			},
-			quadraticEquations: {
-				applySquareRoot: {
-					name: 'Apply a square root',
-					exercises: [], // ToDo
-				},
-				applyQuadraticFormula: {
-					name: 'Apply the quadratic formula',
-					exercises: ['applyQuadraticFormulaNoSolutions', 'applyQuadraticFormulaOneSolution', 'applyQuadraticFormulaTwoIntegerSolutions', 'applyQuadraticFormulaTwoRandomSolutions'],
-				},
-				solveBasicQuadraticEquation: {
-					name: 'Solve a basic quadratic equation',
-					setup: and('moveEquationTerm', 'multiplyAllEquationTerms', 'applySquareRoot', 'applyQuadraticFormula'),
-					exercises: [], // ToDo
-				},
-				solveGeneralQuadraticEquation: {
-					name: 'Solve a general quadratic equation',
-					setup: and('moveEquationTerm', 'multiplyAllEquationTerms', 'applySquareRoot', 'applyQuadraticFormula'),
-					exercises: [], // ToDo
-				},
-			},
-			systemsOfLinearEquations: {
-				solveBasicSystemOfLinearEquations: {
-					name: 'Solve a basic system of linear equations',
-					setup: repeat('solveBasicLinearEquation', 2),
-					exercises: ['solveBasicSystemOfLinearEquations1'],
-				},
-				solveGeneralSystemOfLinearEquations: {
-					name: 'Solve a general system of linear equations',
-					setup: and('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
-					links: { skill: 'solveBasicSystemOfLinearEquations', correlation: 0.5 },
-					exercises: ['solveGeneralSystemOfLinearEquations1', 'solveGeneralSystemOfLinearEquations2'],
-				},
-			},
 		},
 
 		geometry: {
@@ -435,7 +358,7 @@ const skillStructure = {
 				},
 				calculateTriangle: {
 					name: 'Calculate a triangle',
-					setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveBasicLinearEquation', 'solveBasicQuadraticEquation'])),
+					setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveLinearEquation', 'solveQuadraticEquation'])),
 					exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
 				},
 			},

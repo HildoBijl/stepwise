@@ -10,11 +10,12 @@
   "algebrabasics": {
     "name": "Mathematik: Algebra Grundlagen",
     "blocks": {
-      "0": "Brüchen zusammenführen/spalten",
-      "1": "Brüchen in Brüchen vereinfachen",
-      "2": "Klammern verwenden",
-      "3": "Gleichungen umstellen",
-      "4": "Lineare Gleichungen lösen"
+      "0": "Klammern erweitern",
+      "1": "Brüche addieren",
+      "2": "Brüche vereinfachen",
+      "3": "Lineare Gleichungen lösen",
+      "4": "Brüche mit mehreren Variablen vereinfachen",
+      "5": "Lineare Gleichungen mit mehreren Variablen lösen"
     }
   },
   "mathematicsfundamentals": {

@@ -119,26 +119,6 @@
             "solveMultiVariableSystemOfLinearEquations": "Solve multi-variable system of linear equations"
           }
         }
-      },
-      "fractions": {
-        "addRemoveFractionFactors": "Add/remove fraction factors",
-        "mergeSplitBasicFractions": "Merge/split fractions with equal denominator",
-        "mergeSplitFractions": "Merge/split general fractions",
-        "simplifyMultiVariableFraction": "Simplify a fraction"
-      },
-      "linearEquations": {
-        "solveBasicLinearEquation": "Solve a basic linear equation",
-        "solveGeneralLinearEquation": "Solve a general linear equation"
-      },
-      "quadraticEquations": {
-        "applySquareRoot": "Apply a square root",
-        "applyQuadraticFormula": "Apply the quadratic formula",
-        "solveBasicQuadraticEquation": "Solve a basic quadratic equation",
-        "solveGeneralQuadraticEquation": "Solve a general quadratic equation"
-      },
-      "systemsOfLinearEquations": {
-        "solveBasicSystemOfLinearEquations": "Solve a basic system of linear equations",
-        "solveGeneralSystemOfLinearEquations": "Solve a general system of linear equations"
       }
     },
     "geometry": {

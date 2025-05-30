@@ -10,11 +10,12 @@
   "algebrabasics": {
     "name": "Algebra: basisvaardigheden",
     "blocks": {
-      "0": "Breuken samenvoegen/splitsen",
-      "1": "Breuken binnen breuken simplificeren",
-      "2": "Werken met haakjes",
-      "3": "Vergelijkingen omschrijven",
-      "4": "Lineaire vergelijkingen oplossen"
+      "0": "Haakjes uitwerken",
+      "1": "Breuken optellen",
+      "2": "Breuken vereenvoudigen",
+      "3": "Lineaire vergelijkingen oplossen",
+      "4": "Breuken met meerdere variabelen vereenvoudigen",
+      "5": "Lineaire vergelijkingen met meerdere variabelen oplossen"
     }
   },
   "mathematicsfundamentals": {

@@ -10,11 +10,12 @@
   "algebrabasics": {
     "name": "Mathematics: algebra basics",
     "blocks": {
-      "0": "Merge/split fractions",
-      "1": "Simplify fractions within fractions",
-      "2": "Using brackets",
-      "3": "Rearranging equations",
-      "4": "Solve linear equations"
+      "0": "Expanding brackets",
+      "1": "Adding fractions",
+      "2": "Simplifying fractions",
+      "3": "Solving linear equations",
+      "4": "Simplifying fractions with multiple variables",
+      "5": "Solve linear equations with multiple variables"
     }
   },
   "mathematicsfundamentals": {

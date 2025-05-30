@@ -119,26 +119,6 @@
             "solveMultiVariableSystemOfLinearEquations": "Stelsel van lineaire vergelijkingen met meerdere variabelen oplossen"
           }
         }
-      },
-      "fractions": {
-        "addRemoveFractionFactors": "Breukfactoren toevoegen/wegstrepen",
-        "mergeSplitBasicFractions": "Gelijknamige breuken samenvoegen/splitsen",
-        "mergeSplitFractions": "Algemene breuken samenvoegen/splitsen",
-        "simplifyMultiVariableFraction": "Breuk simplificeren"
-      },
-      "linearEquations": {
-        "solveBasicLinearEquation": "Basis lineaire vergelijking oplossen",
-        "solveGeneralLinearEquation": "Algemene lineaire vergelijking oplossen"
-      },
-      "quadraticEquations": {
-        "applySquareRoot": "Wortel toepassen",
-        "applyQuadraticFormula": "Wortelformule toepassen",
-        "solveBasicQuadraticEquation": "Basis kwadratische vergelijking oplossen",
-        "solveGeneralQuadraticEquation": "Algemene kwadratische vergelijking oplossen"
-      },
-      "systemsOfLinearEquations": {
-        "solveBasicSystemOfLinearEquations": "Basis stelsel van lineaire vergelijkingen oplossen",
-        "solveGeneralSystemOfLinearEquations": "Algemeen stelsel van lineaire vergelijkingen oplossen"
       }
     },
     "geometry": {

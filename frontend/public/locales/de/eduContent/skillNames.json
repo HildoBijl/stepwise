@@ -119,26 +119,6 @@
             "solveMultiVariableSystemOfLinearEquations": "Lineares Gleichungssystem mit mehreren Variablen lösen"
           }
         }
-      },
-      "fractions": {
-        "addRemoveFractionFactors": "Addieren/Entfernen von Bruchfaktoren",
-        "mergeSplitBasicFractions": "Zusammenfügen/Spalten von gleichnamige Brüche",
-        "mergeSplitFractions": "Allgemeine Brüche addieren/teilen",
-        "simplifyMultiVariableFraction": "Vereinfachen von Brüchen"
-      },
-      "linearEquations": {
-        "solveBasicLinearEquation": "Einfache lineare Gleichung lösen",
-        "solveGeneralLinearEquation": "Allgemeine lineare Gleichung lösen"
-      },
-      "quadraticEquations": {
-        "applySquareRoot": "Quadratwurzel anwenden",
-        "applyQuadraticFormula": "Wurzelformel anwenden",
-        "solveBasicQuadraticEquation": "Einfache quadratische Gleichung lösen",
-        "solveGeneralQuadraticEquation": "Allgemeine quadratische Gleichung lösen"
-      },
-      "systemsOfLinearEquations": {
-        "solveBasicSystemOfLinearEquations": "Einfaches System linearer Gleichungen lösen",
-        "solveGeneralSystemOfLinearEquations": "Allgemeines System linearer Gleichungen lösen"
       }
     },
     "geometry": {
