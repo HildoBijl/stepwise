@@ -97,56 +97,56 @@ let courses = {
 		setup: pick(['simplifyFractionOfFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation']),
 	},
 
-	// mathematicsFundamentals: {
-	// 	name: 'Mathematics: fundamentals',
-	// 	goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
-	// 	priorKnowledge: [],
-	// 	startingPoints: [
-	// 		'expandBrackets',
-	// 		'addRemoveFractionFactors',
-	// 		'mergeSplitBasicFractions',
-	// 		'multiplyDivideFractions',
-	// 		'moveEquationTerm',
-	// 		'applySquareRoot',
-	// 		'applyQuadraticFormula',
-	// 		'determine2DAngles',
-	// 		'applyPythagoreanTheorem',
-	// 		'applySineCosineTangent',
-	// 		'applySimilarTriangles',
-	// 		'calculate2DShape',
-	// 	],
-	// 	blocks: [
-	// 		{
-	// 			name: 'Basic rules of algebra',
-	// 			goals: ['expandBrackets', 'simplifyMultiVariableFraction'],
-	// 		},
-	// 		{
-	// 			name: 'Linear equations',
-	// 			goals: ['solveGeneralLinearEquation'],
-	// 		},
-	// 		{
-	// 			name: 'Angles and distances',
-	// 			goals: ['determine2DDistances'],
-	// 		},
-	// 		{
-	// 			name: 'Systems of equations',
-	// 			goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations'],
-	// 		},
-	// 		{
-	// 			name: 'Quadratic equations',
-	// 			goals: ['solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation'],
-	// 		},
-	// 		{
-	// 			name: 'Analyzing triangles',
-	// 			goals: ['calculateTriangle'],
-	// 		},
-	// 		{
-	// 			name: 'Areas and volumes',
-	// 			goals: ['calculate3DShape'],
-	// 		},
-	// 	],
-	// 	setup: pick(['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'determine2DDistances', 'calculateTriangle', 'calculate2DShape']),
-	// },
+	mathematicsFundamentals: {
+		name: 'Mathematics: fundamentals',
+		goals: ['solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'determine2DDistances', 'calculateTriangle', 'calculate3DShape'],
+		priorKnowledge: [
+			'multiplyDivideFractions', 'simplifyFractionWithVariables', // For simplifyFractionOfFractionsWithVariables
+			'addFractionsWithMultipleVariables', // For simplifyFractionOfFractionSumsWithMultipleVariables
+			'expandBrackets', 'expandDoubleBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation', 'moveEquationFactor', // For solveLinearEquation
+			'pullFactorOutOfBrackets', 'solveMultiVariableProductEquation', // For solveMultiVariableLinearEquation
+			'substituteANumber', 'substituteAnExpression', // For solveSystemOfLinearEquations
+			'calculateSumOfProducts', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution', 'multiplyAllEquationTerms', // For solveQuadraticEquation
+		],
+		startingPoints: [ // The starting points are mainly for the geometry part, which doesn't have a tree going up all the way.
+			'determine2DAngles',
+			'applyPythagoreanTheorem',
+			'applySineCosineTangent',
+			'applySimilarTriangles',
+			'calculate2DShape',
+		],
+		blocks: [
+			{
+				name: 'Basic rules of algebra',
+				goals: ['simplifyFractionOfFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
+			},
+			{
+				name: 'Rewritten linear equations',
+				goals: ['solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions'],
+			},
+			{
+				name: 'Angles and distances',
+				goals: ['determine2DDistances'],
+			},
+			{
+				name: 'Systems of equations',
+				goals: ['solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations'],
+			},
+			{
+				name: 'Quadratic equations',
+				goals: ['solveRewrittenQuadraticEquation'],
+			},
+			{
+				name: 'Analyzing triangles',
+				goals: ['calculateTriangle'],
+			},
+			{
+				name: 'Areas and volumes',
+				goals: ['calculate3DShape'],
+			},
+		],
+		setup: pick(['solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'calculateTriangle', 'calculate3DShape']),
+	},
 
 	mathematicsDerivatives: {
 		name: 'Mathematics: derivatives',

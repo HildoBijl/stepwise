@@ -10,7 +10,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveMultiVariableLinearEquation',
-	steps: [repeat('moveATerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms'],
+	steps: [repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms'],
 	comparison: {
 		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
 		default: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
