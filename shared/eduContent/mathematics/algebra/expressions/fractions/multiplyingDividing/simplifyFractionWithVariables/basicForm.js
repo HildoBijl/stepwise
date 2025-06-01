@@ -1,8 +1,7 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
 const { asExpression, expressionComparisons } = require('../../../../../../../CAS')
 const { and } = require('../../../../../../../skillTracking')
-
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
@@ -13,13 +12,14 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 
 const metaData = {
 	skill: 'simplifyFractionWithVariables',
-	steps: ['simplifyFraction', and('rewritePowers', 'cancelFractionFactors')],
+	steps: ['simplifyFraction', and('rewritePower', 'cancelFractionFactors')],
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
 		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, crossOutFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
 		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct),
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const b = getRandomInteger(2, 6)

@@ -12,6 +12,7 @@ const assertSkillSetup = (setup) => {
 	setup = ensureSetup(setup)
 	const skillIds = setup.getSkillList()
 	skillIds.forEach(skillId => {
+		expect(typeof skillId).toBe('string')
 		expect(typeof skillTree[skillId]).toBe('object')
 	})
 }

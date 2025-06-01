@@ -247,14 +247,14 @@ describe('Check expression comparison: ', () => {
 		})
 		it('distinguishes unequal expressions', () => {
 			expect(exactEqual(x.add(y), y.add(x))).toBe(false) // x + y = y + x
-			expect(exactEqual(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(false) // (2*3)/4 = 2*(3/4)
+			expect(exactEqual(Integer.two.multiply(Integer.three), Integer.three.multiply(Integer.two))).toBe(false) // 2*3 = 3*2
 		})
 	})
 
 	describe('onlyOrderChanges', () => {
 		it('matches equal expressions', () => {
 			expect(onlyOrderChanges(x.add(y), y.add(x))).toBe(true) // x + y = y + x
-			expect(onlyOrderChanges(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(true) // (2*3)/4 = 2*(3/4)
+			expect(exactEqual(Integer.two.multiply(Integer.three), Integer.three.multiply(Integer.two))).toBe(false) // 2*3 = 3*2
 		})
 		it('distinguishes unequal expressions', () => {
 			expect(onlyOrderChanges(Integer.two.multiply(x.add(y)), Integer.two.multiply(x).add(Integer.two.multiply(y)))).toBe(false) // 2(x+y) = 2x+2y

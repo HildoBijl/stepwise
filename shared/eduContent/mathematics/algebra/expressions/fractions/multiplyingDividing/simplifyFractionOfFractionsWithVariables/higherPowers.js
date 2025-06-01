@@ -1,7 +1,5 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
 const { asExpression, Fraction, expressionChecks, expressionComparisons } = require('../../../../../../../CAS')
-const { and } = require('../../../../../../../skillTracking')
-
 const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
