@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>Het doel van deze vaardigheid is om bekend te raken met het <term>invoeren van eenheden</term> voor natuurkundige toepassingen. Specifieker gaat het hier om de meer complexe eenheden zoals breuken en Griekse letters.</par>"
+  },
   "theory": {
     "intro": "<par>Bij het uitvoeren van berekeningen in de natuurkunde is het cruciaal om de juiste <term>eenheden</term> te gebruiken. Er is een groot verschil tussen bijvoorbeeld <inline-math/> en <inline-math/>. Eenheden kunnen echter complex zijn, met machten, breuken, Griekse letters, en zelfs <inline-math/>. Hoe voer je dit alles in?</par>",
     "basicFunctionalities": "<head>Basisfunctionaliteiten</head><par>Voor de meer eenvoudige eenheden is het volgende handig om te weten.</par><list><item><a><term>Vermenigvuldigingen:</term> om de eenheden in een product van elkaar te onderscheiden, zoals in <inline-math/>, gebruik je de vermenigvuldigingsster \"*\", de punt \".\" of de spatie.</a></item><item><b><term>Breuken:</term> om een deling toe te voegen, zoals <inline-math/>, gebruik je de deelslash \"/\" of de pijl naar beneden.</b></item><item><c><term>Machten:</term> voor een exponent als <inline-math/> kun je het machtsymbool \"^\" gebruiken, maar dit is niet per se nodig. Als je een nummer in een eenhedenveld invoert, dan snapt hij automatisch dat het voor een macht is.</c></item></list><par>Hiermee kun je de meeste eenheden al invoeren.</par><info>Eenheden zijn hoofdlettergevoelig! Als het invoerveld een eenheid niet begrijpt, dan kleurt hij hem rood. In dat geval wil je waarschijnlijk je hoofdletters controleren.</info>",
@@ -21,8 +24,5 @@
         "equivalentUnit": "<a>Technisch correct, maar dit is een heel andere schrijfwijze. Neem de eenheid <strong>letterlijk</strong> over.</a>"
       }
     }
-  },
-  "meta": {
-    "learningGoals": "<par>Het doel van deze vaardigheid is om bekend te raken met het <term>invoeren van eenheden</term> voor natuurkundige toepassingen. Specifieker gaat het hier om de meer complexe eenheden zoals breuken en Griekse letters.</par>"
   }
 }

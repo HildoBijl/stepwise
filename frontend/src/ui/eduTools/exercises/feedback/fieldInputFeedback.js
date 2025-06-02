@@ -1,6 +1,7 @@
 import { isValidElement } from 'react'
 
 import { arrayFind, isBasicObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
+import { Equation } from 'step-wise/CAS'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison } from 'step-wise/eduTools'
 
@@ -8,6 +9,7 @@ import { Translation } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomNonNumeric } from 'ui/inputs'
 
 import { processParameterOptions } from './util'
+import { equationChecks } from './feedbackChecks'
 
 const defaultOptions = {
 	comparison: {}, // A comparison function or object that will be used to check for correctness. If not given, it will be looked for in the exercise metaData.
@@ -125,6 +127,8 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.number) }
 	if (currInput.constructor === FloatUnit)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.float.number) }
+	if (currInput.constructor === Equation)
+		return { correct, text: equationChecks.fullEquationFeedback(currInput, currSolution, solution, correct, comparison) }
 
 	// No clue what kind of type we have.
 	throw new Error(`Default feedback error: could not set up specific feedback for parameter "${currParameter}". Its type does not support automatic feedback. You can use a comparison function for comparison, and then feedback checks for specific feedback.`)

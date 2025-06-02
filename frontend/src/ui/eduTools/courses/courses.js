@@ -59,66 +59,71 @@ let courses = {
 
 	algebraBasics: {
 		name: 'Mathematics: algebra basics',
-		goals: ['solveGeneralLinearEquation'],
-		priorKnowledge: [],
-		startingPoints: [
-			'expandBrackets',
-			'addRemoveFractionFactors',
-			'mergeSplitBasicFractions',
-			'multiplyDivideFractions',
-			'moveATerm',
+		goals: ['addFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
+		priorKnowledge: [
+			'simplifyNumberProduct', 'mergeSimilarTerms', // Prerequisites for expanding brackets.
+			'cancelFractionFactors', // Prerequisites for adding fractions.
+			'multiplyDivideFractions', 'simplifyFraction', 'rewritePower', // Prerequisites for simplifying fractions.
+			'checkEquationSolution', 'cancelSumTerms', 'addToBothEquationSides', 'multiplyBothEquationSides', // Prerequisites for solving linear equations.
+			'checkMultiVariableEquationSolution', // Prerequisites for solving multi-variable linear equations.
 		],
+		startingPoints: [], // All starting points are covered by the prior knowledge.
 		blocks: [
 			{
-				name: 'Merge/split fractions',
-				goals: ['mergeSplitFractions'],
+				name: 'Expanding brackets',
+				goals: ['expandDoubleBrackets'],
 			},
 			{
-				name: 'Simplify fractions within fractions',
-				goals: ['simplifyFraction'],
+				name: 'Adding fractions',
+				goals: ['addFractionsWithVariables'],
 			},
 			{
-				name: 'Using brackets',
-				goals: ['pullOutOfBrackets'],
+				name: 'Simplifying fractions',
+				goals: ['simplifyFractionOfFractionsWithVariables'],
 			},
 			{
-				name: 'Rearranging equations',
-				goals: ['moveATerm', 'multiplyDivideAllTerms'],
+				name: 'Solving linear equations',
+				goals: ['solveLinearEquation'],
 			},
 			{
-				name: 'Solve linear equations',
-				goals: ['solveGeneralLinearEquation'],
+				name: 'Simplifying fractions with multiple variables',
+				goals: ['simplifyFractionOfFractionSumsWithMultipleVariables'],
+			},
+			{
+				name: 'Solve linear equations with multiple variables',
+				goals: ['solveMultiVariableLinearEquation'],
 			},
 		],
-		setup: pick(['simplifyFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
+		setup: pick(['solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation']),
 	},
 
 	mathematicsFundamentals: {
 		name: 'Mathematics: fundamentals',
-		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
-		priorKnowledge: [],
-		startingPoints: [
-			'expandBrackets',
-			'addRemoveFractionFactors',
-			'mergeSplitBasicFractions',
-			'multiplyDivideFractions',
-			'moveATerm',
-			'applySquareRoot',
-			'applyQuadraticFormula',
-			'determine2DAngles',
+		goals: ['addFractionsWithVariables', 'solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
+		priorKnowledge: [
+			'cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables', // For addFractionsWithVariables
+			'multiplyDivideFractions', 'simplifyFractionWithVariables', // For simplifyFractionOfFractionsWithVariables
+			'addFractionsWithMultipleVariables', // For simplifyFractionOfFractionSumsWithMultipleVariables
+			'expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation', 'moveEquationFactor', // For solveLinearEquation
+			'pullFactorOutOfBrackets', 'solveMultiVariableProductEquation', // For solveMultiVariableLinearEquation
+			'substituteANumber', 'substituteAnExpression', // For solveSystemOfLinearEquations
+			'calculateSumOfProducts', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution', 'multiplyAllEquationTerms', // For solveQuadraticEquation
+		],
+		startingPoints: [ // The starting points are mainly for the geometry part, which doesn't have a tree going up all the way.
 			'applyPythagoreanTheorem',
 			'applySineCosineTangent',
 			'applySimilarTriangles',
+			'determine2DAngles',
 			'calculate2DShape',
 		],
 		blocks: [
 			{
 				name: 'Basic rules of algebra',
-				goals: ['expandBrackets', 'simplifyFraction'],
+				goals: ['addFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
 			},
 			{
-				name: 'Linear equations',
-				goals: ['solveGeneralLinearEquation'],
+				name: 'Rewritten linear equations',
+				goals: ['solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions'],
 			},
 			{
 				name: 'Angles and distances',
@@ -126,11 +131,11 @@ let courses = {
 			},
 			{
 				name: 'Systems of equations',
-				goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations'],
+				goals: ['solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations'],
 			},
 			{
 				name: 'Quadratic equations',
-				goals: ['solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation'],
+				goals: ['solveRewrittenQuadraticEquation'],
 			},
 			{
 				name: 'Analyzing triangles',
@@ -141,7 +146,7 @@ let courses = {
 				goals: ['calculate3DShape'],
 			},
 		],
-		setup: pick(['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'determine2DDistances', 'calculateTriangle', 'calculate2DShape']),
+		setup: pick(['solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'calculateTriangle', 'calculate3DShape']),
 	},
 
 	mathematicsDerivatives: {

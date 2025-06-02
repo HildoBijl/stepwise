@@ -88,7 +88,7 @@
 	},
 	"numeric": {
 		"withinMargin": "Deine Antwort liegt noch innerhalb des Bereichs, könnte aber genauer sein.",
-		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfen Sie Plus- und Minuszeichen.",
+		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.",
 		"nearby": "Du bist sehr nah dran! Mach deine Antwort ein bisschen genauer.",
 		"notZeroPositive": "Null ist leider nicht richtig. Wir erwarten hier eine Zahl.",
 		"notZeroNegative": "Null ist leider nicht richtig. Wir erwarten hier eine (möglicherweise negative) Zahl.",
@@ -104,17 +104,24 @@
 	"expression": {
 		"original": "Dies ist der ursprüngliche Ausdruck. Du hast noch nichts damit gemacht.",
 		"incorrect": "Dieser Ausdruck ist nicht gleich dem, was gegeben ist. Du hast beim Umschreiben etwas getan, was nicht erlaubt ist.",
+		"nonEquivalentSolution": "Dies ist weder die richtige Lösung, noch deren Äquivalent. Überprüfe die Schritte, mit denen du dies gefunden hast.",
 		"correct": "Der Ausdruck ist korrekt, aber du hast nicht getan, was verlangt wurde.",
 		"noSum": "Du solltest deine Antwort als eine Addition/Subtraktion von Termen schreiben. Die von dir gegebene Antwort ist keine Addition/Subtraktion.",
-		"wrongNumberOfSumTerms": "Was hier erwartet wird, ist eine Addition mit {expectedNumTerms} Termen, mit einem Plus- oder Minuszeichen dazwischen. Jetzt hast du {inputNumTerms} Terme.",
+		"wrongNumberOfSumTerms": "Was hier erwartet wird, ist eine Addition mit {expectedNumTerms} Termen, mit einem Plus- oder Minuszeichen dazwischen. Deine Eingabe hat {inputNumTerms} Terme.",
 		"errorInSumTerm": "Mit dem <counting-word/>n Term deiner Antwort scheint etwas nicht in Ordnung zu sein.",
 		"unsimplifiedSumTerm": "Du kannst den <counting-word/>n Term deiner Antwort noch weiter vereinfachen.",
-		"hasX": "Deine Antwort enthält einen weiteren <inline-math/>. Das war nicht die Absicht!",
+		"hasX": "Deine Antwort enthält immer noch ein <inline-math/>. Das war nicht die Absicht!",
 		"hasSumWithinProduct": "Deine Antwort hat immer noch nicht erweiterte Klammern.",
 		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
+		"hasSimilarTerms": "Dies kann noch weiter vereinfacht werden: Es gibt eine Summe mit ähnlichen Termen, die kombiniert werden können.",
 		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
 		"noFraction": "Deine Antwort ist kein Bruch. Es wird ein einziger Bruch als Antwort erwartet.",
 		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
+		"hasXInDenominator": "Du kannst nicht mehr <inline-math/> im Nenner eines Bruchs haben.",
+		"unsimplifiedFractionNumbers": "Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.",
+		"unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
+		"fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
+		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.",
 		"incorrectFraction": {
 			"noFraction": "Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.",
 			"inverted": "Du hast deinen Bruch falsch herum eingegeben. Achte genau darauf, was durch was geteilt werden muss!",
@@ -122,7 +129,8 @@
 			"incorrectDenominator": "Der Nenner deines Bruchs (unten) entspricht nicht dem, was erwartet wurde. Hast du alle Regeln richtig angewandt?",
 			"constantMultiple": "Du scheinst dich um eine konstante Multiplikation zu irren."
 		},
-		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben."
+		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben.",
+    "unsimplifiedPowerMerging": "Es gibt immer noch Faktoren in einem Produkt, die als Potenz kombiniert werden können."
 	},
 	"equation": {
 		"original": "Dies ist die ursprüngliche Gleichung. Du hast noch nichts damit gemacht.",
@@ -130,17 +138,17 @@
 		"incorrectLeftSide": "Die linke Seite der Gleichung ist nicht das, was erwartet wurde.",
 		"incorrectRightSide": "Die rechte Seite der Gleichung ist nicht das, was erwartet wurde.",
 		"correct": "Die Gleichung ist korrekt, aber du hast nicht getan, was verlangt wurde.",
+		"fullFeedback": {
+			"oneSideCorrect": "Die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite der Gleichung ist richtig, aber auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite läuft etwas schief. <check><on-true>Du hast nicht getan, was verlangt wurde.</on-true><on-false>Du hast irgendwo einen Fehler gemacht.</on-false></check>",
+			"sidesSwitched": "Ups ... Du hast die linke und rechte Seite der Gleichung vertauscht. Versuche, sie wieder umzudrehen!",
+			"oneSideSwitched": "Die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite deiner Gleichung ist korrect, aber sie sollte auf der <check><on-true>rechten</on-true><on-false>linken</on-false></check> Seite stehen. Darüber hinaus hat die <check><on-true>rechte</on-true><on-false>linke</on-false></check> Seite deiner Gleichung einige Fehler, die dur dir ansehen solltest."
+		},
 		"noSum": "Du hast nur einen einzigen Term auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite angegeben. Hier wurde eine Summe erwartet: eine Addition/Subtraktion von Termen.",
 		"hasSum": "Du hast eine Summe auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite angegeben: eine Addition/Subtraktion von Termen. Hier wurde nur ein Term erwartet.",
 		"wrongNumberOfSumTerms": "Die Addition <check><on-true>links</on-true><on-false>rechts</on-false></check> vom Gleichheitszeichen hat <counting-word/> Terme. Erwartet wurden <counting-word/>.",
 		"errorInSumTerm": "Mit dem <counting-word/>n Term auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite scheint etwas nicht zu stimmen.",
 		"errorInSide": "Mit der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite der Gleichung scheint etwas nicht zu stimmen.",
 		"unsimplifiedSumTerm": "Du kannst den <counting-word/>n Term auf der <check><on-true>linken</on-true><on-false>rechten</on-false></check> Seite noch weiter vereinfachen.",
-		"unsimplifiedSide": "Du kannst die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite noch weiter vereinfachen.",
-		"hasSumWithinProduct": "Deine Antwort hat immer noch nicht erweiterte Klammern.",
-		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
-		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
-		"hasFractionWithinFraction": "Deine Antwort sollte keine weiteren Brüche innerhalb eines Bruchs enthalten. Du kannst sie weiter vereinfachen.",
-		"hasFractionWithX": "Deine Antwort hat noch einen Bruch mit <inline-math/> im Nenner. Die Idee war ja gerade, dies nicht mehr zu haben."
+		"unsimplifiedSide": "Du kannst die <check><on-true>linke</on-true><on-false>rechte</on-false></check> Seite noch weiter vereinfachen."
 	}
 }

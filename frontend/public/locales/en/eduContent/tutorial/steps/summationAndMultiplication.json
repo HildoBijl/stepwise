@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"
+  },
   "theory": {
     "intro": "<par>After having learned how to <skill-link>multiply numbers</skill-link> and how to <skill-link>add numbers</skill-link>, we now combine these skills. Our goal is to calculate <term>composite expressions</term>, like for instance <inline-math/>.</par>",
     "calculationSteps": "<head>The steps</head><par>To calculate an expression like <inline-math/>, you take the following <term>steps</term>.</par><list><item><a>Determine the <term>order</term> in which operations should be applied. Multiplications is always done before summation, so <inline-math/> should be calculated before anything is added up.</a></item><item><b>Calculate the <term>multiplication(s)</term>. We turn <inline-math/> into <inline-math/>.</b></item><item><c>Calculate the <term>addition</term>. This then turns <inline-math/> into <inline-math/> which is the final result.</c></item></list>",
@@ -47,8 +50,5 @@
         }
       }
     }
-  },
-  "meta": {
-    "learningGoals": "<par>The goal of this skill is to show how different skills are combined into a <term>composite skill</term>. In this skill, students calculate an expression like <inline-math/>, where they first have to <skill-link>multiply</skill-link> numbers and then <skill-link>add</skill-link> them.</par>"
   }
 }

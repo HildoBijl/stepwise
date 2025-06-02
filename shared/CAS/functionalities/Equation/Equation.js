@@ -120,6 +120,11 @@ class Equation {
 	 * Mathematical operations.
 	 */
 
+	// self does nothing and just returns this equation.
+	self() {
+		return this
+	}
+
 	// applyToBothSides takes a function and applies it to both sides of the equation, returning a new equation.
 	applyToBothSides(operation) {
 		return new Equation(operation(this.left), operation(this.right))
@@ -133,6 +138,11 @@ class Equation {
 	// applyToRight takes a function and applies it to the right side of the equation.
 	applyToRight(operation) {
 		return new Equation(this.left, operation(this.right))
+	}
+
+	// applyToEvery takes a function and applies it to both sides and all of its children.
+	applyToEvery(operation) {
+		return this.applyToBothSides(side => side.applyToEvery(operation))
 	}
 
 	// add will add up an expression to both sides of the equation.
@@ -188,7 +198,7 @@ class Equation {
 	// findSide checks if there is a side for which the given check returns true and returns that side. It returns undefined if it did not find anything.
 	findSide(check) {
 		const part = parts.find(part => check(this[part], part))
-		return part && this[part]
+		return part && { part, side: this[part], value: check(this[part], part) }
 	}
 
 	/*
@@ -236,15 +246,39 @@ class Equation {
 		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
 		if (options.allToLeft && !Integer.zero.equalsBasic(this.right))
 			return new Equation(this.left.subtract(this.right), Integer.zero).simplifyBasic(options)
-	
+
 		// Apply the simplification to both sides.
 		return this.applyToBothSides(part => part.simplifyBasic(options))
 	}
 
 	// equals compares of two equations are the same, subject to various options.
-	equals(equation, ...options) {
+	equals(equation, options = {}) {
+		// Check the input.
 		equation = ensureEquation(equation)
-		return this.everySide((side, part) => side.equals(equation[part], ...options))
+		options = processOptions(options, Equation.defaultEqualsOptions)
+
+		// Find the right processing and checking functions.
+		const leftPreprocess = options.leftPreprocess || options.preprocess
+		const rightPreprocess = options.rightPreprocess || options.preprocess
+		const leftCheck = options.leftCheck || options.check
+		const rightCheck = options.rightCheck || options.check
+
+		// Check direct equality.
+		const left = leftPreprocess(this.left)
+		const right = rightPreprocess(this.right)
+		if (leftCheck(leftPreprocess(equation.left), left, options) && rightCheck(rightPreprocess(equation.right), right, options))
+			return true
+
+		// Check for equality on a switch, if allowed.
+		if (options.allowSwitch && leftCheck(leftPreprocess(equation.right), left, options) && rightCheck(rightPreprocess(equation.left), right, options))
+			return true
+
+		// Check if, with a minus sign, things work out.
+		if (options.allowMinus && this.applyMinus().equals(equation, { ...options, allowMinus: false }))
+			return true
+
+		// No possible equality found.
+		return false
 	}
 
 	/*
@@ -303,6 +337,17 @@ class Equation {
 	}
 }
 module.exports.Equation = Equation
+Equation.defaultEqualsOptions = {
+	preprocess: expression => expression.elementaryClean(),
+	leftPreprocess: undefined,
+	rightPreprocess: undefined,
+	check: (other, self, options) => self.equals(other, options.allowOrderChanges),
+	leftCheck: undefined,
+	rightCheck: undefined,
+	allowSwitch: false,
+	allowMinus: false,
+	allowOrderChanges: undefined,
+}
 
 // ensureEquation ensures that the given object is an equation. It could already be an equation or a SO of an equation. It may not be a string.
 function ensureEquation(equation) {

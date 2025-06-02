@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>Deze vaardigheid richt zich op het <term>optellen van twee getallen</term>. Het bouwt op tot een gecombineerde vaardigheid waar we <skill-link>getallen optellen en vermenigvuldigen</skill-link>.</par>"
+  },
   "theory": {
     "intro": "<par>Nog een basisvaardigheid is het optellen van getallen. Dit is onze laatste stap in de voorbereiding naar een gecombineerde vaardigheid.</par>",
     "addNumbers": "<head>Getallen optellen</head><par>In deze vaardigheid ga je <term>twee getallen optellen</term>. Het is een tutorial - je mag je rekenmachine gebruiken - maar kijk of je het zonder kan doen.</par><par>Bij het berekenen van een optelling, bijvoorbeeld <inline-math/>, voer je de volgende stappen uit.</par><list><item><a>Eerst tel je de twee rechter getallen op. Dus <inline-math/> wordt <inline-math/>. Het laatste cijfer - de <inline-math/> - is het rechter cijfer van je eindresultaat.</a></item><item><b>Tel hierna beide tweede getallen op. Dus <inline-math/> wordt <inline-math/>. Dit is het tweede cijfer van je eindresultaat. Behalve: als ons eerste getal <inline-math/> of meer was (wat in ons voorbeeld het geval was) dan dragen we die <inline-math/> over en tellen het hier erbij op. We krijgen hier dan <inline-math/>.</b></item><item><c>Voeg de twee resultaten samen om het eindantwoord te krijgen: <inline-math/>.</c></item></list><par>Probeer het zelf uit!</par>"
@@ -8,8 +11,5 @@
       "problem": "<par>Bereken de optelsom <inline-math/>.</par><input-space><par><integer-input><label>Antwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "solution": "De oplossing is <inline-math/>."
     }
-  },
-  "meta": {
-    "learningGoals": "<par>Deze vaardigheid richt zich op het <term>optellen van twee getallen</term>. Het bouwt op tot een gecombineerde vaardigheid waar we <skill-link>getallen optellen en vermenigvuldigen</skill-link>.</par>"
   }
 }

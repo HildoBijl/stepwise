@@ -92,7 +92,7 @@ export function getRoutes(user = undefined) {
 							name: SkillName,
 							Indicator: SkillIndicator,
 						},
-						'exercise/:exerciseId': {
+						'exercise/:skillId/:exerciseName': {
 							id: 'exerciseInspection',
 							page: BlankExercise,
 							name: ExerciseName,

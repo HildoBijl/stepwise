@@ -1,3 +1,5 @@
+const { exercises } = require('step-wise/eduTools')
+
 const { getSubscription } = require('../util/subscriptions')
 const { events, getUserSkill, getUserSkills } = require('../util/Skill')
 
@@ -6,7 +8,7 @@ const commonResolvers = {} // None at the moment.
 const resolvers = {
 	Skill: {
 		...commonResolvers,
-		currentExercise: skill => skill.exercises.find(exercise => exercise.active),
+		currentExercise: skill => skill.exercises.find(exercise => exercise.active && exercises[exercise.exerciseId]) // Find the exercise that is active and whose exercise script still exists.
 	},
 
 	SkillWithoutExercises: {

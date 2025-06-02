@@ -9,8 +9,8 @@ import { useSkillId } from '../util'
 export function SkillName() {
 	const skillId = useSkillId() // ToDo later: add error handling if skill ID is not known.
 	const skill = skillTree[skillId]
-	const skillInfoPath = 'eduContent/skillInfo'
+	const skillNames = 'eduContent/skillNames'
 	if (!skill || !skill.name)
-		return <TitleItem path={skillInfoPath} entry={`unknownSkill.name`} name="Unknown skill" />
-	return <TitleItem path={skillInfoPath} entry={`${skillId}.name`} name={skill?.name} />
+		return <TitleItem path={skillNames} entry={`miscellaneous.unknownSkill`} name="Unknown skill" />
+	return <TitleItem path={skillNames} entry={`${skill.path.join('.')}.${skill.id}`} name={skill?.name} />
 }

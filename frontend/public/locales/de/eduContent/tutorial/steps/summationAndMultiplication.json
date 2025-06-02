@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>Diese Kompetenz soll zeigen, wie verschiedene Kompetenzen zu einer <term>zusammengesetzten Kompetenz</term> kombiniert werden. In dieser Kompetenz berechnen die Studierenden einen Ausdruck wie <inline-math/>, bei dem sie zuerst Zahlen <skill-link>multiplizieren</skill-link> und dann <skill-link>addieren</skill-link> müssen.</par>"
+  },
   "theory": {
     "intro": "<par>Nachdem wir <skill-link>Zahlen multiplizieren</skill-link> und <skill-link>Zahlen addieren</skill-link> gelernt haben, werden wir nun diese Kompetenzen kombinieren. Unser Ziel ist es, <term>zusammengesetzte Ausdrücke</term> zu berechnen, wie z.B. <inline-math/>.</par>",
     "calculationSteps": "<head>Die Schritte</head><par>Um einen Ausdruck wie <inline-math/> zu berechnen, führt man die folgenden <term>Schritte</term> aus.</par><list><item><a>Bestimme die <term>Reihenfolge</term>, in der die Operationen durchgeführt werden sollen. Die Multiplikation kommt immer vor der Addition, also muss <inline-math/> berechnet werden, bevor etwas addiert wird.</a></item><item><b>Berechne die <term>Multiplikation(en)</term>. Wir wandeln <inline-math/> in <inline-math/> um.</b></item><item><c>Berechne die <term>Addition</term>. Dies wandelt dann <inline-math/> in <inline-math/> um, was die endgültige Antwort ist.</c></item></list>",
@@ -47,8 +50,5 @@
         }
       }
     }
-  },
-  "meta": {
-    "learningGoals": "<par>Diese Kompetenz soll zeigen, wie verschiedene Kompetenzen zu einer <term>zusammengesetzten Kompetenz</term> kombiniert werden. In dieser Kompetenz berechnen die Studierenden einen Ausdruck wie <inline-math/>, bei dem sie zuerst Zahlen <skill-link>multiplizieren</skill-link> und dann <skill-link>addieren</skill-link> müssen.</par>"
   }
 }

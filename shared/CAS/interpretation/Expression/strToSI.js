@@ -262,7 +262,7 @@ function applyFraction(value, cursor, settings) {
 	const beforeSymbol = cursor
 	const afterSymbol = moveRight(cursor)
 	const leftSide = findEndOfTerm(value, beforeSymbol, false)
-	const rightSide = findEndOfTerm(value, afterSymbol, true)
+	const rightSide = findEndOfTerm(value, afterSymbol, true, true)
 	const end = getEndCursor(value)
 
 	// Set up the fraction value.

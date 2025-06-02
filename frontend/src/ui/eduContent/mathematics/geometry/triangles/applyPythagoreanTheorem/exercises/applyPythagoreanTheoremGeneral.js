@@ -21,7 +21,7 @@ const Problem = (state) => {
 		<Par><Translation>Given the triangle below, determine the unknown side <M>{x}</M>.</Translation></Par>
 		<ExerciseFigure state={state} solution={solution} />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
+			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.withRoots} validate={ExpressionInput.validation.numeric} />
 		</InputSpace>
 	</>
 }
@@ -33,7 +33,7 @@ const steps = [
 			return <>
 				<Par><Translation>Through the Pythagorean therom, set up an equation linking the three sides of the triangle. Use the values <M>{a}</M>, <M>{b}</M> and <M>{c}</M>.</Translation></Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(x)} />
+					<EquationInput id="equation" settings={EquationInput.settings.withRoots} validate={EquationInput.validation.validWithVariables(x)} />
 				</InputSpace>
 			</>
 		},
@@ -48,7 +48,7 @@ const steps = [
 				<Par><Translation>Solve these equation first for <M>{x}^2</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={ExpressionInput.settings.withRoots} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -64,7 +64,7 @@ const steps = [
 				<Par><Translation>Determine based on <M>{x}^2</M> the value of <M>{x}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.withRoots} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

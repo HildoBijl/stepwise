@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering decimal numbers</term>. On top of this, students get to experience the useful features built into <term>Step-Wise input fields</term>.</par>"
+  },
   "theory": {
     "intro": "<par>In the field of physics, people work a lot with <term>decimal numbers</term> like <inline-math/>. When these numbers get larger or smaller, we use <term>decimal exponents</term> to keep the notation manageable. This gives numbers like <inline-math/>. How can you enter these numbers into Step-Wise?</par>",
     "inputFields": "<head>Custom input fields</head><par>Step-Wise has specific input fields for decimal numbers. On the left side is the <term>number</term>. This part properly deals with:</par><list><item><a><term>Minus signs:</term> at most one, and always at the start.</a></item><item><b><term>Decimal points:</term> at most one. It doesn't matter if you use a dot or a comma, we'll adjust accordingly.</b></item><item><c><term>Only numbers:</term> we'll filter out everything else.</c></item></list>On the right side of the field is the <term>decimal exponent</term>. It also has various useful features.<list><item><d><term>Easy creation:</term> as soon as you type a multiplication star \"*\", or alternatively the scientific notation \"e\", we'll create the decimal exponent for you. No need to type the \"10\" yourself.</d></item><item><e><term>Automatic formatting:</term> you can write in the power exactly as it's displayed formally. You'll always see what you'll get.</e></item><item><f><term>Smart number management:</term> at most one minus sign and no decimal points.</f></item></list><par>As usual, the input field is <term>smart-phone compatible</term>, with a custom-designed keyboard specifically for writing decimal numbers.</par><par>The best way to experience, is to try it out!</par>"
@@ -11,8 +14,5 @@
       },
       "solution": "You can click on the input field and type in the number <inline-math/>. For the decimal exponent you use the multiplication star \"*\". You then don't need to write the \"10\": the input field will understand automatically. Alternatively, the short-cut \"e\" (from the scientific notation) is also possible."
     }
-  },
-  "meta": {
-    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering decimal numbers</term>. On top of this, students get to experience the useful features built into <term>Step-Wise input fields</term>.</par>"
   }
 }

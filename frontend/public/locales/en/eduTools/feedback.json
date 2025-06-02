@@ -104,17 +104,24 @@
   "expression": {
     "original": "This is the original expression. You have not rewritten it yet.",
     "incorrect": "This expression is not equal to what has been given. In rewriting it you took a wrong step somewhere.",
+    "nonEquivalentSolution": "This is not the right solution, nor is it equivalent to it. Check your steps leading up to this.",
     "correct": "The expression is correct, but you have not done what was required.",
     "noSum": "You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.",
-    "wrongNumberOfSumTerms": "There was supposed to be an addition/subtraction with {expectedNumTerms} terms, each with a plus or minus sign in-between. You only have {inputNumTerms} terms.",
+    "wrongNumberOfSumTerms": "There was supposed to be an addition/subtraction with {expectedNumTerms} terms, each with a plus or minus sign in-between. Your response has {inputNumTerms} terms.",
     "errorInSumTerm": "There seems to be an error in the <counting-word/> term of your solution.",
     "unsimplifiedSumTerm": "You can still further simplify the <counting-word/> term of your solution.",
     "hasX": "Your solution still contains <inline-math/>. It's not supposed to be there anymore.",
     "hasSumWithinProduct": "Your solution has unexpanded brackets.",
     "hasSumWithinFraction": "Your solution has an unseparated fraction.",
+    "hasSimilarTerms": "This can be simplified further: there is a sum with similar terms that can be merged together.",
     "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
     "noFraction": "Your solution is not a fraction. A single fraction was expected as answer.",
     "hasFractionWithinFraction": "Your solution may not contain fractions within fractions. You can still simplify this further.",
+    "hasXInDenominator": "You cannot have <inline-math/> appear in any denominator anymore.",
+    "unsimplifiedFractionNumbers": "The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.",
+    "unsimplifiedFractionFactors": "There are still factors that can be canceled in the numerator and the denominator.",
+    "fractionNumeratorHasSumWithinProduct": "There are still unexpanded brackets in the numerator.",
+    "wrongSign": "You haven't used the right sign. Check your pluses and minuses.",
     "incorrectFraction": {
       "noFraction": "Hmm ... a fraction was expected as a solution here.",
       "inverted": "You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!",
@@ -122,7 +129,8 @@
       "incorrectDenominator": "The denominator of your fraction (below) is not what was expected. Did you apply all the rules correctly?",
       "constantMultiple": "You seem to be off by a constant multiple."
     },
-    "hasPower": "Your solution still has an exponent. You can simplify this further."
+    "hasPower": "Your solution still has an exponent. You can simplify this further.",
+    "unsimplifiedPowerMerging": "There are still factors in a product that can be pulled together into a power."
   },
   "equation": {
     "original": "This is the original equation. You have not rewritten it yet.",
@@ -130,17 +138,17 @@
     "incorrectLeftSide": "The left side of the equation is not what was expected.",
     "incorrectRightSide": "The right side of the equation is not what was expected.",
     "correct": "The equation is correct, but you have not done what was required.",
+    "fullFeedback": {
+      "oneSideCorrect": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation is correct, but something's wrong on the <check><on-true>right</on-true><on-false>left</on-false></check> side. <check><on-true>You have not done what was required.</on-true><on-false>You took a wrong step somewhere.</on-false></check>",
+      "sidesSwitched": "Oops ... you have switched the left and the right side of the equation. Try switching them back!",
+      "oneSideSwitched": "The <check><on-true>left</on-true><on-false>right</on-false></check> side of your equation is correct, but it should be on the <check><on-true>right</on-true><on-false>left</on-false></check>. The <check><on-true>right</on-true><on-false>left</on-false></check> side of your equation still has some errors you might want to look at."
+    },
     "noSum": "You have only written a single term on the <check><on-true>left</on-true><on-false>right</on-false></check> side. A sum was expected here: an addition/subtraction of terms.",
     "hasSum": "You have written a sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side: an addition/subtraction of terms. Only a single term was expected here.",
-    "wrongNumberOfSumTerms": "The sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equals sign has <counting-word/> terms. <counting-word/> terms were expected.",
+    "wrongNumberOfSumTerms": "The sum on the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equals sign has <counting-word/> terms. There were <counting-word/> terms expected.",
     "errorInSumTerm": "There seems to be an error in the <counting-word/> term on the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
     "errorInSide": "There seems to be an error in the <check><on-true>left</on-true><on-false>right</on-false></check> side of the equation.",
     "unsimplifiedSumTerm": "You can still simplify the <counting-word/> term on the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
-    "unsimplifiedSide": "You can still simplify the <check><on-true>left</on-true><on-false>right</on-false></check> side.",
-    "hasSumWithinProduct": "Your solution has unexpanded brackets.",
-    "hasSumWithinFraction": "Your solution has an unseparated fraction.",
-    "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
-    "hasFractionWithinFraction": "Your solution may not contain fractions within fractions. You can still simplify this further.",
-    "hasFractionWithX": "Your solution still has a fraction with <inline-math/> in the denominator. The idea was to not have these occurrences."
+    "unsimplifiedSide": "You can still simplify the <check><on-true>left</on-true><on-false>right</on-false></check> side."
   }
 }

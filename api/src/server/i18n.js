@@ -49,12 +49,12 @@ function createI18nRouter() {
 					Object.keys(updates[language][path]).forEach(entry => {
 						const text = updates[language][path][entry]
 						const entrySplit = entry.split('.')
-						oldText = getDeepParameter(languageFile, entrySplit)
+						formerText = getDeepParameter(languageFile, entrySplit)
 						languageFile = setDeepParameter(languageFile, entrySplit, text)
 
 						// Also update the log.
 						const logEntry = {
-							oldText,
+							formerText,
 							firstUpdate: now,
 							...(getDeepParameter(logFile, [language, path, entry]) || {}),
 							latestUpdate: now,

@@ -1,11 +1,18 @@
 // The input settings are the settings that can be provided to an Expression input field. They determine what can and cannot be entered.
 module.exports = {
+	// Settings related to keyboards.
+	basicMath: true,
+	textMath: true,
+	
 	// Settings only targeting buttons.
 	plus: true,
 	minus: true,
+	plusMinus: true,
 	times: true,
 	divide: true,
 	brackets: true,
+	pi: true,
+	eMath: true,
 	float: true,
 	greek: true,
 

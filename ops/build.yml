@@ -2,7 +2,7 @@ version: '3'
 services:
   shared:
     build: ../shared
-    image: shared_build
+    image: shared-build
   frontend:
     build:
       context: ../frontend
@@ -11,7 +11,7 @@ services:
         REACT_APP_API_WEBSOCKET_ENDPOINT: "graphql-ws"
         REACT_APP_GOOGLE_CLIENT_ID: "212013243072-slab3pojp2u1pirqfr5g7p78280l2b8q.apps.googleusercontent.com"
         REACT_APP_GOOGLE_REDIRECT_ADDRESS: "https://step-wise.com"
-    image: frontend_build
+    image: frontend-build
   gateway:
     build: gateway
     image: stepwisecom/gateway

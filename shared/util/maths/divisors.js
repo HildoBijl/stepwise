@@ -3,20 +3,24 @@ const { ensureInt } = require('../numbers')
 // gcd returns the greatest common divisor of various integer numbers.
 function gcd(...params) {
 	// Check input.
-	params = params.map(number => Math.abs(ensureInt(number)))
+	params = params.map(number => ensureInt(number))
 	if (params.length === 1)
 		return params[0]
 	if (params.length > 2)
 		return gcd(gcd(params[0], params[1]), ...params.slice(2))
 
 	// Calculate GCD through Euclides' algorithm.
-	let a = params[0]
-	let b = params[1]
+	let a = Math.abs(params[0])
+	let b = Math.abs(params[1])
 	while (b > 0) {
 		const c = b
 		b = a % b
 		a = c
 	}
+
+	// On two negative numbers, also give a negative GCD.
+	if (params[0] < 0 && params[1] < 0)
+		a = -a
 	return a
 }
 module.exports.gcd = gcd

@@ -19,12 +19,14 @@ export function keyboardSettings(FI, settings) {
 		const key = simplifyKey(keyboardKey)
 		keySettings[keyboardKey] = expressionFunctions.acceptsKey({ key }, FI, settings)
 	})
+	if (!settings.textMath && !settings.eMath)
+		keySettings.eMath = false // A manual fix to hide the "e" mathematical button when no text keyboard is shown. (Because the eMath key is simplified to "e" for the acceptance check.)
 
 	// Pass on settings.
 	return {
 		keySettings,
-		basicMath: {},
-		textMath: {},
+		basicMath: settings.basicMath && {},
+		textMath: settings.textMath && {},
 		greek: settings.greek && {},
 	}
 }

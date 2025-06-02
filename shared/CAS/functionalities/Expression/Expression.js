@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, getAllCombinations, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -163,6 +163,11 @@ class Expression {
 		return new this.constructor(this.SO)
 	}
 
+	// self is a function that simply returns the current object. It doesn't do anything. It can be useful for conditioning chaining, like asExpression('a/b')[applyInversion ? 'invert' : 'self']().
+	self() {
+		return this
+	}
+
 	// applySettings will take a set of expression settings and apply them to all parts of this Expression. It returns shallow clones, not changing the original object.
 	applySettings(settings) {
 		settings = processOptions(settings, defaultExpressionSettings)
@@ -238,7 +243,7 @@ class Expression {
 	}
 
 	// requiresBracketsFor checks whether the string representation requires brackets to properly display it. See the bracketLevels options.
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return true
 	}
 
@@ -405,6 +410,23 @@ class Expression {
 		return this.isPolynomial() // Will be overwritten.
 	}
 
+	// isSingular checks if the Expression is a single expression. So it has no plus/minus or similar that would give multiple values.
+	isSingular() {
+		return !this.isPlural()
+	}
+
+	// isPlural checks if the expression is a plural expression giving multiple values.
+	isPlural() {
+		return this.recursiveSome(term => term.isPlural(), false)
+	}
+
+	// getSingular takes a (possibly plural) expression like 2±3 and turns it into an array of singular expressions. On a singular expression, this will give an array with one element.
+	getSingular() {
+		if (this.isPlural()) // This function should be overwritten for subclasses that may not be plural.
+			throw new Error(`Invalid getSingular call: it was called on a subclass that has not implemented the getSingular method yet. This is an error in the CAS, which means the CAS has to be extended.`)
+		return [this]
+	}
+
 	// hasFloat checks if there is a float anywhere in this expression. It affects the way numbers are simplified. For instance, 6/4 becomes 3/2 and stays like that, but 5.5/4 should simply become a new float 1.125.
 	hasFloat() {
 		return this.recursiveSome(term => term instanceof Float)
@@ -434,10 +456,17 @@ class Expression {
 	}
 
 	get number() {
-		const number = this.toNumber()
-		if (compareNumbers(number, 0))
-			return 0
-		return number
+		return this.toNumber()
+	}
+
+	toNumber() {
+		// On a plural number, first get the singular ones.
+		if (this.isPlural())
+			return this.getSingular().map(expression => expression.toNumber())
+
+		// On a singular number, still run a manual comparison with 0 to prevent numerical inaccuracies.
+		const number = this.toNumberBasic()
+		return compareNumbers(number, 0) ? 0 : number
 	}
 
 	getConstantAndVariablePart() {
@@ -527,11 +556,21 @@ class Expression {
 
 	// equals checks if one expression is equal to another. This is only done in a basic way: either they have to be exactly the same, or simple order changes are still allowed (latter is default). For more complex equality checks: simplify expressions first and then compare equality.
 	equals(expression, allowOrderChanges) {
-		// Check the input.
+		// Check the given expression and apply cleaning.
 		expression = ensureExpression(expression)
 		const thisCleaned = this.cleanStructure()
 		const expressionCleaned = expression.cleanStructure()
-		return thisCleaned.equalsBasic(expressionCleaned, allowOrderChanges)
+
+		// On a singular expression, run an equals comparison.
+		if (thisCleaned.isSingular() && expressionCleaned.isSingular())
+			return thisCleaned.equalsBasic(expressionCleaned, allowOrderChanges)
+
+		// On a plural expression, try to find a matching between all singular expressions.
+		const thisCleanedList = thisCleaned.getSingular()
+		const expressionCleanedList = expressionCleaned.getSingular()
+		if (thisCleanedList.length !== expressionCleanedList.length)
+			return false
+		return hasSimpleMatching(thisCleanedList, expressionCleanedList, (a, b) => a.equals(b, allowOrderChanges))
 	}
 
 	/*
@@ -664,7 +703,7 @@ class Variable extends Expression {
 		return `${this.accent || ''}${this.symbol}${this.subscript || ''}`
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return false
 	}
 
@@ -707,7 +746,11 @@ class Variable extends Expression {
 		return true
 	}
 
-	toNumber() {
+	isPlural() {
+		return false
+	}
+
+	toNumberBasic() {
 		if (this.isPi())
 			return Math.PI
 		if (this.isE())
@@ -796,7 +839,7 @@ class Constant extends Expression {
 		return this.str.replace('.', decimalSeparatorTex)
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		if (this.value >= 0)
 			return false
 		if (level === bracketLevels.addition || level === bracketLevels.multiplication)
@@ -816,6 +859,10 @@ class Constant extends Expression {
 		return true
 	}
 
+	isPlural() {
+		return false
+	}
+
 	getVariableStrings() {
 		return new Set() // Empty set: there are no variables.
 	}
@@ -828,7 +875,7 @@ class Constant extends Expression {
 		return new this.constructor(-this.toNumber())
 	}
 
-	toNumber() {
+	toNumberBasic() {
 		return this.value
 	}
 
@@ -843,6 +890,7 @@ class Constant extends Expression {
 	equalsBasic(expression) {
 		if (!(expression instanceof Constant))
 			return false
+		// ToDo: find a way to compare plural numbers.
 		return compareNumbers(expression.toNumber(), this.toNumber())
 	}
 
@@ -868,7 +916,7 @@ class Integer extends Constant {
 			SO = { value: parseInt(SO) }
 		}
 		if (!isInt(SO.value))
-			throw new Error(`Invalid integer: tried to create an Integer but only a parameter of type "${typeof SO}" with value "${JSON.stringify(SO)}" was given.`)
+			throw new Error(`Invalid integer: tried to create an Integer but only a parameter of type "${typeof SO}/${SO.constructor.name}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
 	}
 
@@ -930,7 +978,7 @@ class Float extends Constant {
 		if (typeof SO === 'number')
 			SO = { value: SO }
 		if (!isNumber(SO.value))
-			throw new Error(`Invalid float: tried to create a Float but only a parameter of type "${typeof SO}" with value "${JSON.stringify(SO)}" was given.`)
+			throw new Error(`Invalid float: tried to create a Float but only a parameter of type "${typeof SO}/${SO.constructor.name}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
 	}
 
@@ -948,6 +996,47 @@ class Float extends Constant {
 Float.type = 'Float'
 Float.defaultSO = { ...Constant.defaultSO }
 module.exports.Float = Float
+
+/*
+ * The PlusMinus effectively functions as the "plus or minus one" constant. (The one-value is implicit.) As such, it can be used in products.
+ */
+
+class PlusMinus extends Constant {
+	toString() {
+		return '±1'
+	}
+
+	toRawTex() {
+		return '\\pm 1'
+	}
+
+	requiresBracketsFor(level) {
+		return level === bracketLevels.multiplication || level === bracketLevels.powers
+	}
+
+	requiresPlusInSum() {
+		return false // The plus/minus is already inherent.
+	}
+
+	isPlural() {
+		return true
+	}
+
+	applyMinus() {
+		return this
+	}
+
+	getSingular() {
+		return [Integer.one, Integer.minusOne]
+	}
+
+	equalsBasic(expression) {
+		return expression.subtype === this.subtype
+	}
+}
+PlusMinus.type = 'PlusMinus'
+PlusMinus.defaultSO = { ...Expression.defaultSO }
+module.exports.PlusMinus = PlusMinus
 
 /*
  * ExpressionList: an abstract class for Expressions that have a list of child-Expressions. Think of a Sum or a Product.
@@ -1048,6 +1137,12 @@ class ExpressionList extends Expression {
 		return includeSelf ? func(obj) : obj
 	}
 
+	getSingular() {
+		const singularTerms = this.terms.map(term => term.getSingular())
+		const combinations = getAllCombinations(singularTerms)
+		return combinations.map(terms => new this.constructor({ ...this.shallowSO, terms }))
+	}
+
 	equalsBasic(expression, allowOrderChanges = true) {
 		// Check that the list type is equal.
 		if (this.constructor !== expression.constructor)
@@ -1081,7 +1176,7 @@ class Sum extends ExpressionList {
 				result += '+'
 
 			// Add brackets when necessary.
-			const addBrackets = term.requiresBracketsFor(bracketLevels.addition)
+			const addBrackets = term.requiresBracketsFor(bracketLevels.addition, index)
 			result += addBrackets ? `(${term.str})` : term.str
 		})
 		return result
@@ -1095,18 +1190,18 @@ class Sum extends ExpressionList {
 				result += '+'
 
 			// Add brackets when necessary.
-			const addBrackets = term.requiresBracketsFor(bracketLevels.addition)
+			const addBrackets = term.requiresBracketsFor(bracketLevels.addition, index)
 			result += addBrackets ? `\\left(${term.tex}\\right)` : term.tex
 		})
 		return result
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return level !== bracketLevels.addition // Always add brackets, except in an addition.
 	}
 
-	toNumber() {
-		return sum(this.terms.map(term => term.toNumber()))
+	toNumberBasic() {
+		return sum(this.terms.map(term => term.toNumberBasic()))
 	}
 
 	applyMinus(applySpecific = true) {
@@ -1151,7 +1246,7 @@ class Sum extends ExpressionList {
 
 		// If there are at least two constants, merge them together and put them at the end.
 		if (options.mergeSumNumbers) {
-			const isConstant = term => term instanceof Constant
+			const isConstant = term => (term instanceof Constant && term.isSingular())
 			if (count(terms, isConstant) > 1) {
 				let number = 0
 				terms = terms.filter(term => {
@@ -1169,6 +1264,14 @@ class Sum extends ExpressionList {
 		// On a sum of fractions, merge them together. For this, first find the denominator by multiplying all fraction denominators. Then find the numerator by multiplying all terms by the new denominator and simplifying them.
 		if (options.mergeFractionSums) {
 			if (terms.some(term => term.isSubtype(Fraction))) {
+				// If all terms are fractions with same denominator, just keep that denominator.
+				if (terms.every(term => term.isSubtype(Fraction) && terms[0].denominator.equalsBasic(term.denominator))) {
+					const denominator = terms[0].denominator
+					const numerator = new Sum(terms.map(term => term.numerator))
+					return new Fraction(numerator, denominator).simplifyBasic(options)
+				}
+
+				// If fractions have different denominators, multiply all denominators and work from there.
 				const denominator = new Product(terms.map(term => term.isSubtype(Fraction) ? term.denominator : Integer.one)).removeUseless()
 				const numerator = new Sum(terms.map((term, index) => {
 					if (!term.isSubtype(Fraction))
@@ -1178,8 +1281,7 @@ class Sum extends ExpressionList {
 					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isSubtype(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
 					return term.numerator.multiply(factor)
 				}))
-				const res = new Fraction(numerator, denominator).simplifyBasic(options)
-				return res
+				return new Fraction(numerator, denominator).simplifyBasic(options)
 			}
 		}
 
@@ -1316,8 +1418,8 @@ class Sum extends ExpressionList {
 			}
 			const aPower = getPowerInTerm(aVariable, a)
 			const bPower = getPowerInTerm(bVariable, b)
-			if (aPower.isNumeric()) {
-				if (bPower.isNumeric()) {
+			if (aPower.isNumeric() && aPower.isSingular()) {
+				if (bPower.isNumeric() && aPower.isSingular()) {
 					const difference = bPower.toNumber() - aPower.toNumber()
 					if (!compareNumbers(difference, 0))
 						return difference // Put highest power first.
@@ -1468,41 +1570,51 @@ class Product extends ExpressionList {
 
 	toString() {
 		const arrayToString = (array) => {
-			const termToString = (term, index) => {
-				const previousTerm = index > 0 && array[index - 1]
-				const nextTerm = index < array.length - 1 && array[index + 1]
-				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) && (!Integer.minusOne.equals(previousTerm) || term instanceof Constant) ? '*' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
-				if (index < array.length - 1 && Integer.minusOne.equalsBasic(term) && !(nextTerm instanceof Constant))
+			const hasPlusMinus = array.some(factor => factor.isSubtype('PlusMinus'))
+			if (hasPlusMinus)
+				array = array.filter(factor => !factor.isSubtype('PlusMinus'))
+			const factorToString = (factor, index) => {
+				const previousFactor = index > 0 && array[index - 1]
+				const nextFactor = index < array.length - 1 && array[index + 1]
+				const precursor = index > 0 && (factor.requiresTimesBeforeInProduct(previousFactor) || previousFactor.requiresTimesAfterInProduct(factor)) && (!Integer.minusOne.equals(previousFactor) || factor instanceof Constant) ? '*' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
+				if (index < array.length - 1 && Integer.minusOne.equalsBasic(factor) && !(nextFactor instanceof Constant))
 					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
-				if (term.requiresBracketsFor(bracketLevels.multiplication))
-					return `${precursor}(${term.str})`
-				return `${precursor}${term.str}`
+				if (index < array.length - 1 && factor.isSubtype(PlusMinus) && !(nextFactor instanceof Constant))
+					return `${precursor}±` // Do the same for the plus/minus.
+				if (factor.requiresBracketsFor(bracketLevels.multiplication, index))
+					return `${precursor}(${factor.str})`
+				return `${precursor}${factor.str}`
 			}
-			return array.map(termToString).join('')
+			return (hasPlusMinus ? '±' : '') + array.map(factorToString).join('')
 		}
 
-		return arrayToString(this.terms)
+		return arrayToString(this.factors)
 	}
 
 	toRawTex() {
 		const arrayToTex = (array) => {
-			const termToTex = (term, index) => {
+			const hasPlusMinus = array.some(factor => factor.isSubtype('PlusMinus'))
+			if (hasPlusMinus)
+				array = array.filter(factor => !factor.isSubtype('PlusMinus'))
+			const factorToTex = (factor, index) => {
 				const previousTerm = index > 0 && array[index - 1]
 				const nextTerm = index < array.length - 1 && array[index + 1]
-				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex(previousTerm) || previousTerm.requiresTimesAfterInProductTex(term)) && (!Integer.minusOne.equals(previousTerm) || term instanceof Constant) ? ' \\cdot ' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
-				if (index < array.length - 1 && Integer.minusOne.equalsBasic(term) && !(nextTerm instanceof Constant))
+				const precursor = index > 0 && (factor.requiresTimesBeforeInProductTex(previousTerm) || previousTerm.requiresTimesAfterInProductTex(factor)) && (!Integer.minusOne.equals(previousTerm) || factor instanceof Constant) ? ' \\cdot ' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
+				if (index < array.length - 1 && Integer.minusOne.equalsBasic(factor) && !(nextTerm instanceof Constant))
 					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
-				if (term.requiresBracketsFor(bracketLevels.multiplication))
-					return `${precursor}\\left(${term.tex}\\right)`
-				return `${precursor}${term.tex}`
+				if (index < array.length - 1 && factor.isSubtype(PlusMinus) && !(nextFactor instanceof Constant))
+					return `${precursor} \\pm ` // Do the same for the plus/minus.
+				if (factor.requiresBracketsFor(bracketLevels.multiplication, index))
+					return `${precursor}\\left(${factor.tex}\\right)`
+				return `${precursor}${factor.tex}`
 			}
-			return array.map(termToTex).join('')
+			return (hasPlusMinus ? ' \\pm ' : '') + array.map(factorToTex).join('')
 		}
 
-		return arrayToTex(this.terms)
+		return arrayToTex(this.factors)
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return level === bracketLevels.division || level === bracketLevels.powers
 	}
 
@@ -1518,8 +1630,8 @@ class Product extends ExpressionList {
 		return lastOf(this.terms).requiresTimesAfterInProduct(nextTerm)
 	}
 
-	toNumber() {
-		return product(this.terms.map(term => term.toNumber()))
+	toNumberBasic() {
+		return product(this.terms.map(term => term.toNumberBasic()))
 	}
 
 	getProductFactors() {
@@ -1576,32 +1688,34 @@ class Product extends ExpressionList {
 		}
 
 		// If there are terms in this product equal to each other (or with equal base) then merge them into powers. So x*x^2 becomes x^3.
-		if (options.mergeProductTerms) {
-			terms = Product.mergeProductTerms(terms, options)
+		if (options.mergeProductFactors) {
+			terms = Product.mergeProductFactors(terms, options)
 		}
 
 		// Merge all numbers together and put them at the start. Or optionally only do so with minus signs, or only filter out ones.
 		if (options.mergeProductNumbers) {
 			let number = 1
 			terms = terms.filter(term => {
-				if (term instanceof Constant) {
+				if (term instanceof Constant && !term.isPlural()) {
 					number *= term.number
 					return false
 				}
 				return true
 			})
+			if (terms.some(term => term.isSubtype(PlusMinus)))
+				number = Math.abs(number)
 			if (number !== 1)
 				terms.unshift(Constant.interpret(number))
 		} else {
 			// Turn all negative constants into positive ones. Count how many times this is done and prepend a minus one on an odd number.
 			if (options.mergeProductMinuses) {
-				const isNegative = term => (term instanceof Constant) && term.number < 0
+				const isNegative = term => (term instanceof Constant && !term.isPlural()) && term.number < 0
 				const negativeCount = count(terms, isNegative)
 				if (negativeCount % 2 === 0 && Integer.minusOne.equalsBasic(terms[0]))
 					terms = terms.slice(1) // Ensure that "-x*-2" turn into "x*2" and not "1*x*2".
 				if (negativeCount > 0)
 					terms = terms.map(term => isNegative(term) ? term.applyMinus() : term)
-				if (negativeCount % 2 === 1) {
+				if (negativeCount % 2 === 1 && !terms.some(term => term.isSubtype(PlusMinus))) {
 					if (terms[0] instanceof Constant) {
 						terms[0] = terms[0].applyMinus(false)
 					} else {
@@ -1620,6 +1734,12 @@ class Product extends ExpressionList {
 			if (options.removeTimesOneFromProducts) {
 				terms = terms.filter(term => !Integer.one.equalsBasic(term))
 			}
+		}
+
+		// Pull plus/minuses to the front.
+		if (options.pullPlusMinusToFront) {
+			if (terms.some(term => term.subtype === 'PlusMinus'))
+				terms = [new PlusMinus(), ...terms.filter(term => term.subtype !== 'PlusMinus')]
 		}
 
 		// Check for structure simplifications.
@@ -1763,8 +1883,8 @@ class Product extends ExpressionList {
 		}
 	}
 
-	// mergeProductTerms takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a. It returns the result as a terms array too.
-	static mergeProductTerms(terms, options) {
+	// mergeProductFactors takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a. It returns the result as a terms array too.
+	static mergeProductFactors(terms, options) {
 		const result = []
 		terms.forEach(term => {
 			const { base, exponent } = term.getBaseAndExponent()
@@ -1800,7 +1920,7 @@ class Product extends ExpressionList {
 		if (term.isSubtype(Integer))
 			return term.number
 		if (term.isSubtype(Product))
-			return Product.extractLeadingNumber(term.terms[0])
+			return Product.extractLeadingNumber(term.factors.find(factor => (factor instanceof Integer)) || term.factors[0])
 		if (term.isSubtype(Fraction))
 			return Product.extractLeadingNumbers(fraction.numerator)
 		return 1 // Also for floats. In that case just don't divide by any number.
@@ -1897,7 +2017,7 @@ class Function extends Expression {
 		return result
 	}
 
-	requiresBracketsFor(level) {
+	requiresBracketsFor(level, index) {
 		return level === bracketLevels.powers
 	}
 
@@ -1949,6 +2069,12 @@ class Function extends Expression {
 		return new this.constructor(newSO)
 	}
 
+	getSingular() {
+		const singularArgs = this.args.map(term => term.getSingular())
+		const combinations = getAllCombinations(singularArgs)
+		return combinations.map(args => new this.constructor(...args).applySettingsToSelf(this.settings))
+	}
+
 	simplifyBasic(options) {
 		return new this.constructor({
 			...this.simplifyChildren(options),
@@ -1994,21 +2120,21 @@ module.exports.Function = Function
  */
 
 class Fraction extends Function {
-	toNumber() {
-		return this.numerator.toNumber() / this.denominator.toNumber()
+	toNumberBasic() {
+		return this.numerator.toNumberBasic() / this.denominator.toNumberBasic()
 	}
 
 	toString() {
 		// Get the numerator.
 		const useMinus = !this.requiresPlusInSum()
-		const usedNumerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
+		const usedNumerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)).elementaryClean() : this.numerator
 		let numStr = usedNumerator.toString()
-		if (usedNumerator.requiresBracketsFor(bracketLevels.division))
+		if (usedNumerator.requiresBracketsFor(bracketLevels.division, 0))
 			numStr = `(${numStr})`
 
 		// Add the denominator.
 		let denStr = this.denominator.toString()
-		if (this.denominator.requiresBracketsFor(bracketLevels.division))
+		if (this.denominator.requiresBracketsFor(bracketLevels.division, 1))
 			denStr = `(${denStr})`
 
 		// Put them together.
@@ -2017,7 +2143,7 @@ class Fraction extends Function {
 
 	toRawTex() {
 		const useMinus = !this.requiresPlusInSum()
-		const numerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
+		const numerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)).elementaryClean() : this.numerator
 		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
 	}
 
@@ -2025,13 +2151,13 @@ class Fraction extends Function {
 		return previousTerm.isSubtype(Fraction) // Only put a times before a fraction if there's another fraction.
 	}
 
-	requiresBracketsFor(level) {
-		return level === bracketLevels.division || level === bracketLevels.powers || (level === bracketLevels.multiplication && !this.requiresPlusInSum()) // When divided, in powers, or in multiplication when there's a precursor minus sign, add brackets.
+	requiresBracketsFor(level, index) {
+		return level === bracketLevels.division || level === bracketLevels.powers || (level === bracketLevels.multiplication && !this.requiresPlusInSum() && index !== 0) // When divided, or in powers, or in a multiplication when having a minus sign (and not being the first factor), add brackets.
 	}
 
 	requiresPlusInSum() {
 		// Sometimes we can pull the minus out of the numerator. For instance, we can display (-2)/(3) as -(2)/(3). In that case, do not use a plus in a sum.
-		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum()
+		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum() || !this.denominator.requiresPlusInSum()
 	}
 
 	isNegative() {
@@ -2048,6 +2174,14 @@ class Fraction extends Function {
 
 	applyToBothSides(func) {
 		return new Fraction(func(this.numerator), func(this.denominator))
+	}
+
+	applyToNumerator(func) {
+		return new Fraction(func(this.numerator), this.denominator)
+	}
+
+	applyToDenominator(func) {
+		return new Fraction(this.numerator, func(this.denominator))
 	}
 
 	multiplyNumDen(expression, putAtStart) {
@@ -2141,8 +2275,8 @@ class Fraction extends Function {
 		}
 
 		// Once more try crossing out fraction terms. Things may have changed after simplifying children.
-		if (options.crossOutFractionTerms) {
-			({ numerator, denominator } = Fraction.crossOutFractionTerms(numerator, denominator, options))
+		if (options.crossOutFractionFactors) {
+			({ numerator, denominator } = Fraction.crossOutFractionFactors(numerator, denominator, options))
 		}
 
 		// See if there is a possibility for polynomial cancellation.
@@ -2178,7 +2312,7 @@ class Fraction extends Function {
 		}
 
 		// Prevent roots in the denominator.
-		if (options.preventRootDenominators && !options.crossOutFractionTerms) {
+		if (options.preventRootDenominators && !options.crossOutFractionFactors) {
 			const denominatorFactors = denominator.getProductFactors().filter(factor => factor.isSubtype(Sqrt) || factor.isSubtype(Root))
 			if (denominatorFactors.length > 0) {
 				const multiplicationFactors = []
@@ -2223,8 +2357,8 @@ class Fraction extends Function {
 		const leadingNumbers = terms.map(term => Product.extractLeadingNumber(term))
 		let divisor = gcd(...leadingNumbers)
 
-		// If the denominator starts with a minus sign, make the divisor negative to fix this.
-		if (leadingNumbers[0] < 0)
+		// Ensure the denominator becomes positive. If the denominator starts with a minus sign, and the GCD is positive, force the divisor to be negative to fix this.
+		if (leadingNumbers[0] < 0 && divisor > 0)
 			divisor = -divisor
 
 		// Apply the divisor for simple cases.
@@ -2238,14 +2372,14 @@ class Fraction extends Function {
 			if (term.isSubtype(Integer))
 				return new Integer(term.number / divisor)
 			if (term.isSubtype(Product))
-				return term.applyToTerm(0, divideTermByDivisor).simplifyBasic(options)
-			throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
+				return term.applyToTerm(term.factors.findIndex(factor => (factor instanceof Integer)) || 0, divideTermByDivisor).simplifyBasic(options)
+			throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction. We encountered a term (subtype ${term.subtype}) with value "${term.str}".`)
 		}
 		const dividePartByDivisor = (part) => part.isSubtype(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
 		return { numerator: dividePartByDivisor(numerator), denominator: dividePartByDivisor(denominator) }
 	}
 
-	static crossOutFractionTerms(numerator, denominator, options) {
+	static crossOutFractionFactors(numerator, denominator, options) {
 		// Run a very basic check: equality of numerator and denominator.
 		if (numerator.equalsBasic(denominator, true))
 			return { numerator: Integer.one, denominator: Integer.one }
@@ -2282,19 +2416,19 @@ module.exports.Fraction = Fraction
  */
 
 class Power extends Function {
-	toNumber() {
-		return Math.pow(this.base.toNumber(), this.exponent.toNumber())
+	toNumberBasic() {
+		return Math.pow(this.base.toNumberBasic(), this.exponent.toNumberBasic())
 	}
 
 	toString() {
 		// Get the base.
 		let baseStr = this.base.toString()
-		if (this.base.requiresBracketsFor(bracketLevels.powers))
+		if (this.base.requiresBracketsFor(bracketLevels.powers, 0))
 			baseStr = `(${baseStr})`
 
 		// Add the exponent.
 		let exponentStr = this.exponent.toString()
-		if (this.exponent.requiresBracketsFor(bracketLevels.powers))
+		if (this.exponent.requiresBracketsFor(bracketLevels.powers, 1))
 			exponentStr = `(${exponentStr})`
 
 		// Put them together.
@@ -2304,7 +2438,7 @@ class Power extends Function {
 	toRawTex() {
 		// Get the base.
 		let baseTex = this.base.tex
-		if (this.base.requiresBracketsFor(bracketLevels.powers))
+		if (this.base.requiresBracketsFor(bracketLevels.powers, 0))
 			baseTex = `\\left(${baseTex}\\right)`
 
 		// Add the exponent. It never requires a bracket, because it's a superscript.
@@ -2370,6 +2504,13 @@ class Power extends Function {
 	simplifyBasic(options) {
 		let { base, exponent } = this.simplifyChildren(options)
 
+		// Expand powers. Turn a^3 into a*a*a.
+		if (options.expandPowers) {
+			if (exponent.isSubtype(Integer)) {
+				return new Product(...repeat(exponent.toNumberBasic(), base)).simplifyBasic(options)
+			}
+		}
+
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
 		if (options.removePowersWithinPowers) {
 			if (base.isSubtype(Power)) {
@@ -2414,8 +2555,8 @@ class Power extends Function {
 
 		// Check for powers of sums. Reduce (a+b)^3 to (a^3 + 3a^2b + 3ab^2 + b^3). Only do this for non-negative integer powers.
 		if (options.expandPowersOfSums) {
-			if (base.isSubtype(Sum) && exponent.isSubtype(Integer) && exponent.toNumber() > 1) {
-				const num = exponent.toNumber()
+			if (base.isSubtype(Sum) && exponent.isSubtype(Integer) && exponent.toNumberBasic() > 1) {
+				const num = exponent.toNumberBasic()
 				const term1 = base.terms[0]
 				const term2 = new Sum(base.terms.slice(1)).cleanStructure()
 				const sumTerms = []
@@ -2492,8 +2633,8 @@ class Ln extends SingleArgumentFunction {
 		return Variable.e
 	}
 
-	toNumber() {
-		return Math.log(this.argument.toNumber())
+	toNumberBasic() {
+		return Math.log(this.argument.toNumberBasic())
 	}
 
 	toRawTex() {
@@ -2535,8 +2676,8 @@ class Sqrt extends SingleArgumentFunction {
 		return Integer.two // The square root always has base 2.
 	}
 
-	toNumber() {
-		return Math.sqrt(this.argument.toNumber())
+	toNumberBasic() {
+		return Math.sqrt(this.argument.toNumberBasic())
 	}
 
 	toRawTex() {
@@ -2603,8 +2744,8 @@ module.exports.Sqrt = Sqrt
  */
 
 class Root extends Function {
-	toNumber() {
-		return Math.pow(this.argument.toNumber(), 1 / this.base.toNumber())
+	toNumberBasic() {
+		return Math.pow(this.argument.toNumberBasic(), 1 / this.base.toNumberBasic())
 	}
 
 	toRawTex() {
@@ -2742,7 +2883,7 @@ function ensureExpression(expression) {
 		return new expressionSubtypes[expression.subtype](expression)
 
 	// Cannot be interpreted.
-	throw new Error(`Invalid Expression: expected an expression object but received a parameter of type "${typeof expression}" with value "${JSON.stringify(expression)}". Could not process this.`)
+	throw new Error(`Invalid Expression: expected an expression object but received a parameter of type "${typeof expression}/${expression.constructor.name}" with value "${JSON.stringify(expression)}". Could not process this.`)
 }
 module.exports.ensureExpression = ensureExpression
 
@@ -2762,5 +2903,5 @@ module.exports.checkSubstitutionParameters = checkSubstitutionParameters
 Variable.minusInfinity = Variable.infinity.applyMinus() // Put it here, after the definition of integers and products.
 
 // Exports.
-const expressionSubtypes = { Variable, Integer, Float, Sum, Product, Fraction, Power, Ln, Sqrt, Root }
+const expressionSubtypes = { Variable, Integer, Float, Sum, Product, Fraction, Power, Ln, Sqrt, Root, PlusMinus }
 module.exports.expressionSubtypes = expressionSubtypes

@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "learningGoals": "<par>Het doel van deze vaardigheid is om te laten zien hoe verschillende vaardigheden gecombineerd worden tot een <term>samengestelde vaardigheid</term>. In deze vaardigheid rekenen studenten een uitdrukking als <inline-math/> uit, waar ze eerst getallen moeten <skill-link>vermenigvuldigen</skill-link> en daarna <skill-link>optellen</skill-link>.</par>"
+  },
   "theory": {
     "intro": "<par>Nadat we <skill-link>getallen vermenigvuldigen</skill-link> en <skill-link>getallen optellen</skill-link> geleerd hebben, gaan we nu deze vaardigheden combineren. Ons doel is het om <term>samengestelde uitdrukkingen</term>, zoals bijvoorbeeld <inline-math/>, te berekenen.</par>",
     "calculationSteps": "<head>De stappen</head><par>Om een uitdrukking als <inline-math/> uit te rekenen, voer je de volgende <term>stappen</term> uit.</par><list><item><a>Bepaal de <term>volgorde</term> waarin de operaties uitgevoerd moeten worden. Vermenigvuldigen gaat altijd voor optellen, dus <inline-math/> moet uitgerekend worden voor er ook maar iets opgeteld wordt.</a></item><item><b>Bereken de <term>vermenigvuldiging(en)</term>. We zetten <inline-math/> om in <inline-math/>.</b></item><item><c>Bereken de <term>optelling</term>. Dit zet <inline-math/> vervolgens om in <inline-math/>, wat het eindantwoord is.</c></item></list>",
@@ -47,8 +50,5 @@
         }
       }
     }
-  },
-  "meta": {
-    "learningGoals": "<par>Het doel van deze vaardigheid is om te laten zien hoe verschillende vaardigheden gecombineerd worden tot een <term>samengestelde vaardigheid</term>. In deze vaardigheid rekenen studenten een uitdrukking als <inline-math/> uit, waar ze eerst getallen moeten <skill-link>vermenigvuldigen</skill-link> en daarna <skill-link>optellen</skill-link>.</par>"
   }
 }

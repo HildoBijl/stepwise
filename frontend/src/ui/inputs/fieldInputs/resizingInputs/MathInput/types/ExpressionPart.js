@@ -122,6 +122,8 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return settings.plus
 	if (key === '-')
 		return settings.minus
+	if (key === '±')
+		return settings.plusMinus
 	if (key === '*')
 		return settings.times
 	if (key === '/')
@@ -140,8 +142,10 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return settings.logarithm
 	if (accents.includes(key))
 		return settings.accent
+	if (key === 'eMath')
+		return settings.eMath
 	if (greekAlphabet[key] !== undefined)
-		return key === 'pi' || settings.greek
+		return (key === 'pi' && settings.pi) || settings.greek
 	if (basicFunctions.includes(key) || advancedFunctions.includes(key))
 		return true
 	if (key === '=')
@@ -228,6 +232,8 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		return addStrToFI('+', FI)
 	if (key === '-') // Minus.
 		return addStrToFI('-', FI)
+	if (key === '±') // PlusMinus.
+		return addStrToFI('±', FI)
 	if (key === '*') // Times.
 		return addStrToFI('*', FI)
 	if (key === '.' || key === ',') // Period.

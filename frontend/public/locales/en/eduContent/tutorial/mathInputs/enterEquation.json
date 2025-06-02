@@ -1,4 +1,5 @@
 {
+  "meta": "<par>This skill is about entering <term>mathematical equations</term>: two expressions with an equals-sign \"=\" in-between. It also demonstrates the ways in which the Step-Wise Computer Algebra System can <term>evaluate</term> these equations.</par>",
   "theory": {
     "intro": "<par>A large part of mathematics resolves around manipulating and subsequently solving <term>equations</term>. Think of <inline-math/>. It consists of two expressions with an equals-sign in-between. So how does Step-Wise deal with these?</par>",
     "entering": "<head>Entering equations</head><par>Entering equations into Step-Wise isn't hard. Just type what you want to get. You'll always see on the screen exactly what you have at any point in time.</par><par>Obviously equations have various <term>constraints</term>. There may not be multiple equals-signs in there - just one - and the equals sign should also not be in the middle of a fraction or function or so. If whatever you enter does not meet these criteria, it's considered an invalid submission. You will get a friendly warning and your submission will not be sent. Only valid submissions are eventually checked for correctness.</par>",
@@ -13,6 +14,5 @@
         "notEquivalent": "<a>This is not equivalent to the original equation. You have done something to it that's mathematically not allowed, or that's too different for us to detect.</a>"
       }
     }
-  },
-  "meta": "<par>This skill is about entering <term>mathematical equations</term>: two expressions with an equals-sign \"=\" in-between. It also demonstrates the ways in which the Step-Wise Computer Algebra System can <term>evaluate</term> these equations.</par>"
+  }
 }

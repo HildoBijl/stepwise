@@ -6,8 +6,8 @@ const variableSet = ['x', 'y', 'z']
 
 const metaData = {
 	skill: 'calculateTriangle',
-	setup: 'applyQuadraticFormula',
-	steps: [null, null, null, 'applyQuadraticFormula'],
+	setup: 'solveQuadraticEquation',
+	steps: [null, null, null, 'solveQuadraticEquation'],
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),

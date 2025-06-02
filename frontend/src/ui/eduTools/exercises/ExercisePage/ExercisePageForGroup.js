@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree, fixExerciseIdForExercise } from 'step-wise/eduTools'
 
 import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
 import { useGetTranslation } from 'i18n'
@@ -37,7 +37,7 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// If there is no exercise, start one.
 	const { loading, error } = useActiveGroupExercisesResult()
-	const exercise = useActiveGroupExerciseForSkill(skillId)
+	const exercise = fixExerciseIdForExercise(useActiveGroupExerciseForSkill(skillId), skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

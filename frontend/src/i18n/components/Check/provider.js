@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 
-export const SwitchContext = createContext({})
+export const CheckContext = createContext({})
 
-export function useSwitchValue() {
-	return useContext(SwitchContext)
+export function useCheckValue() {
+	return useContext(CheckContext)
 }

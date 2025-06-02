@@ -1,4 +1,5 @@
 const { Integer, Sum, Product, Fraction, Power } = require('./Expression')
+const { onlyOrderChanges } = require('./comparisons')
 
 // isInteger checks if the given quantity reduces to an integer.
 function isInteger(input) {
@@ -7,12 +8,22 @@ function isInteger(input) {
 
 // hasSumWithinProduct checks if there are sums within products, like a*(b+c). It effectively checks whether brackets have been properly expanded.
 function hasSumWithinProduct(input) {
-	return input.recursiveSome(term => term.isSubtype(Product) && term.recursiveSome(subTerm => subTerm.isSubtype(Sum)))
+	return input.recursiveSome(term => term.isSubtype(Product) && term.factors.some(factor => factor.isSubtype(Sum)))
 }
 
 // hasSumWithinFraction checks if there is a sum within a fraction, like (a+b)/c.
 function hasSumWithinFraction(input) {
 	return input.recursiveSome(term => term.isSubtype(Fraction) && term.recursiveSome(subTerm => subTerm.isSubtype(Sum)))
+}
+
+// hasSumWithinPowerBase checks if there is a power whose base is a sum.
+function hasSumWithinPowerBase(input) {
+	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Sum)))
+}
+
+// hasSimilarTerms checks if a sum has similar terms that can be merged, like 4x+3+2x, which can merge 4x and 2x.
+function hasSimilarTerms(input) {
+	return !onlyOrderChanges(input.removeUseless({ groupSumTerms: true, mergeSumNumbers: true, mergeProductFactors: true }), input.elementaryClean())
 }
 
 // hasFraction checks if there is a fraction inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).
@@ -28,6 +39,11 @@ function hasFractionSatisfying(input, check) {
 // hasFractionWithinFraction checks if there are fractions inside this Expression that have further fractions inside them.
 function hasFractionWithinFraction(input) {
 	return hasFractionSatisfying(input, fraction => hasFraction(fraction, false))
+}
+
+// hasVariableInDenominator checks if there is a fraction that has the given variable in the denominator.
+function hasVariableInDenominator(input, variable) {
+	return hasFractionSatisfying(input, fraction => fraction.denominator.dependsOn(variable))
 }
 
 // hasPower checks if there is a power inside this Expression.
@@ -48,7 +64,7 @@ function isPolynomial(input) {
 	})
 }
 
-// is Rational checks if this expression is a rational expression: only polynomes and fractions.
+// isRational checks if this expression is a rational expression: only polynomes and fractions.
 function isRational(input) {
 	return input.recursiveEvery(term => {
 		if (!(term instanceof Function))
@@ -66,9 +82,12 @@ module.exports = {
 	isInteger,
 	hasSumWithinProduct,
 	hasSumWithinFraction,
+	hasSumWithinPowerBase,
+	hasSimilarTerms,
 	hasFraction,
 	hasFractionSatisfying,
 	hasFractionWithinFraction,
+	hasVariableInDenominator,
 	hasPower,
 	isPolynomial,
 	isRational,
