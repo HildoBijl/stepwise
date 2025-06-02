@@ -5,7 +5,8 @@
 		"test": "jest .*\\.test\\.js",
 		"test:watch": "jest --watch .*\\.test\\.js"
 	},
+	"dependencies": {},
 	"devDependencies": {
-		"jest": "^29.7.0"
+		"jest": "^26.0.1"
 	}
 }

@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von physikalischen Werten</term> mit sowohl einer Zahl als auch einer Einheit vertraut zu machen. Dazu gehört auch die Verwendung von Anhängen, in denen die Studierenden nach relevanten Daten suchen können.</par>"
-  },
   "theory": {
     "intro": "<par>Bei Übungsaufgaben muss man oft etwas nachschlagen. Zum Beispiel eine physikalische Konstante, wie die Lichtgeschwindigkeit, oder etwas ganz anderes. Hier üben wir das Nachschlagen von Zahlen einschließlich ihrer Eingabe.</par>",
     "attachments": "<head>Anhänge</head><par>Wenn man physikalische Größen nachschlägt, ist die Standardquelle das Internet. Manchmal kann es jedoch schwierig sein, die richtigen Daten zu finden, oder man landet auf Websites mit anderen oder sogar falschen Werten.</par><par>Um diesen Frust zu vermeiden, verfügt Step-Wise über interne Anhänge zum Nachschlagen von Werten. Wenn eine Aufgabe erfordert, dass du etwas nachschlägst, gibt es immer eine Registerkarte \"Anhänge\" mit den relevanten Daten. Überspringe sie, um zu finden, was du brauchst, und kehre dann zur Aufgabe zurück, um deine neuen Erkenntnisse anzuwenden.</par>",
@@ -31,5 +28,8 @@
       "k": "die Boltzmann-Konstante",
       "G": "die universelle Gravitationskonstante"
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von physikalischen Werten</term> mit sowohl einer Zahl als auch einer Einheit vertraut zu machen. Dazu gehört auch die Verwendung von Anhängen, in denen die Studierenden nach relevanten Daten suchen können.</par>"
   }
 }

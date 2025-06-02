@@ -140,11 +140,6 @@ const startEndMarginFix = (addition = '', margin = 0) => ({
 })
 export { startEndMarginFix }
 
-// Easy ways of accessing colors.
-export function usePrimaryColor() {
-	return useTheme().palette.primary.main
-}
-
 // Define icons to be used in the app.
 const Icons = {
 	success: SuccessIcon,

@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>The <term>Meta-Info page</term> contains background information about the skill, like the exact <term>learning goal</term>. This is generally not so useful to students, but more so for teachers. It helps to properly assemble a course.</par><par>This current skill has as learning goal that students can <term>enter integer numbers</term> into an integer input field. Numbers can be positive or negative and have multiple digits.</par><par>Below you also find information about <term>links to other skills</term>. What comes before (prerequisites)? What can come after (follow-ups)? And which skills are related to it, for instance by being similar or by being in the same category/grouping?</par>"
-  },
   "theory": {
     "intro": "<par>Welcome to the Step-Wise tutorial! Here you can learn how the web-app is set up and freely play around with the main functionalities.</par><warning>Honestly, don't do this tutorial. This is the 21st century. Apps should be intuitive enough to not need a manual or tutorial, and Step-Wise certainly meets those requirements. Or if you really want to do the tutorial, just play around with the exercises and only check the theory in the unlikely case that you get stuck. Learn by doing.</warning>",
     "skills": "<head>Skills</head><par>Step-Wise is structured around the concept of <term>skills</term>. Every skill is something that you can actually do. For instance (like for this skill) simply entering a number into a field.</par><par>For every skill we estimate the <term>likelihood</term> that you will do it correctly. We developed our own probability theory script for this, which takes into account lots of different factors. <check><on-true>For you it's simple: you can always see the success chance through the skill orb in the top right corner. Feel free to hover over it for more information.</on-true><on-false>If you were logged in, you could also see that success chance in the top right corner of the screen.</on-false></check></par>",
@@ -20,5 +17,8 @@
         "unnecessaryMinusSign": "Try removing the minus sign."
       }
     }
+  },
+  "meta": {
+    "learningGoals": "<par>The <term>Meta-Info page</term> contains background information about the skill, like the exact <term>learning goal</term>. This is generally not so useful to students, but more so for teachers. It helps to properly assemble a course.</par><par>This current skill has as learning goal that students can <term>enter integer numbers</term> into an integer input field. Numbers can be positive or negative and have multiple digits.</par><par>Below you also find information about <term>links to other skills</term>. What comes before (prerequisites)? What can come after (follow-ups)? And which skills are related to it, for instance by being similar or by being in the same category/grouping?</par>"
   }
 }

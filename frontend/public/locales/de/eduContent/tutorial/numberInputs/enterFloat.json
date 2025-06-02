@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von Kommazahlen</term> vertraut zu machen. Darüber hinaus werden die Studierenden mit den nützlichen Funktionen der <term>Step-Wise-Eingabefelder</term> vertraut gemacht.</par>"
-  },
   "theory": {
     "intro": "<par>In der Physik arbeiten wir viel mit <term>Kommazahlen</term> wie <inline-math/>. Wenn diese Zahlen größer oder kleiner werden, verwenden wir <term>dezimale Exponenten</term>, um die Notation handhabbar zu halten. Das ergibt Zahlen wie <inline-math/>. Wie kann man diese Zahlen in Step-Wise eingeben?</par>",
     "inputFields": "<head>Speziell erstellte Eingabefelder</head><par>Step-Wise hat spezielle Eingabefelder für Kommazahlen. Auf der linken Seite befindet sich der <term>Nummer</term>. Dieser Teil behandelt entsprechend:</par><list><item><a><term>Minuszeichen:</term> höchstens eine, und zwar immer am Anfang.</a></item><item><b><term>Kommas/Punkte:</term> maximal eine. Es spielt keine Rolle, ob du ein Komma oder einen Punkt verwendest, wir werden es entsprechend verarbeiten.</b></item><item><c><term>Nur Zahlen:</term> wir filtern alles andere heraus.</c></item></list>Rechts des Eingabefeldes befindet sich der <term>Dezimale Exponent</term>. Auch dieser hat mehrere nützliche Funktionen.<list><item><d><term>Leicht herzustellen:</term> Sobald du einen Multiplikationsstern \"*\" oder alternativ die wissenschaftliche Schreibweise \"e\" verwendest, stellen wir den dezimalen Exponenten für dich ein. Du musst die \"10\" nicht selbst eintippen.</d></item><item><e><term>Automatische Formatierung:</term> man kann direkt in den Exponenten tippen, so wie er formal angezeigt wird. Du siehst immer genau das, was du eingibst.</e></item><item><f><term>Intelligente Zahlenverarbeitung:</term> maximal ein Minuszeichen und keine Kommas.</f></item></list><par>Wie üblich ist das Eingabefeld <term>für Smartphones geeignet</term>, mit einer speziell für Kommazahlen entworfenen Tastatur.</par><par>Der beste Weg, es zu erleben, ist, es auszuprobieren!</par>"
@@ -14,5 +11,8 @@
       },
       "solution": "Du klickst auf das Eingabefeld und gibst <inline-math/> ein. Für die Zehnerpotenz verwendet man den Multiplikationsstern \"*\". Die \"10\" muss man dann nicht selbst eintippen: Das Eingabefeld versteht das automatisch. Optional ist auch die Abkürzung \"e\" (aus der wissenschaftlichen Notation) möglich."
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Ziel dieser Kompetenz ist es, sich mit der <term>Eingabe von Kommazahlen</term> vertraut zu machen. Darüber hinaus werden die Studierenden mit den nützlichen Funktionen der <term>Step-Wise-Eingabefelder</term> vertraut gemacht.</par>"
   }
 }

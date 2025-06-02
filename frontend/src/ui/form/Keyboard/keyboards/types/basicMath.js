@@ -9,8 +9,8 @@ import { KeyboardLayout } from '../KeyboardLayout'
 export const Tab = () => <M>\rm sin\left(\pi\right)</M>
 
 const keyGrid = [
-	...['1', '2', '3', 'Plus', 'Minus', 'sin', 'asin', 'root', 'PlusMinus', 'pi'],
-	...['4', '5', '6', 'Times', 'Divide', 'cos', 'acos', 'ln', 'dot', 'eMath'],
+	...['1', '2', '3', 'Plus', 'Minus', 'sin', 'asin', 'root', 'dot', 'pi'],
+	...['4', '5', '6', 'Times', 'Divide', 'cos', 'acos', 'ln', 'hat', 'eMath'],
 	...['7', '8', '9', 'Power', 'Underscore', 'tan', 'atan', 'log', 'ArrowUp', 'Backspace'],
 	...['Equals', '0', 'DecimalSeparator', 'BracketOpen', 'BracketClose', 'Spacebar', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
 ]

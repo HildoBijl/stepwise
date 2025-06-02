@@ -1,2 +1,2 @@
-export * from './Meta'
 export * from './Theory'
+export * from './Meta'

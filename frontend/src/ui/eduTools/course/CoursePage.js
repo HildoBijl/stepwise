@@ -41,8 +41,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CoursePage(props) {
-	const landscape = useMediaQuery('(orientation: landscape)')
-
 	// Load in relevant data about the course.
 	const { courseId, course, overview, analysis } = useCourseData()
 	const recommendation = analysis?.recommendation
@@ -57,18 +55,21 @@ export function CoursePage(props) {
 
 	// Track which block is active.
 	const [activeBlock, setActiveBlock] = useState() // -1 means prior knowledge. Undefined means none selected.
-	const toggleActiveBlock = useCallback((index) => setActiveBlock(activeBlock => activeBlock === index && !landscape ? undefined : index), [setActiveBlock, landscape])
+	const toggleActiveBlock = useCallback((index) => setActiveBlock(activeBlock => activeBlock === index ? undefined : index), [setActiveBlock])
 
 	// Make the block with the recommendation active when figuring out said recommendation.
 	useEffect(() => {
-		if (hasRecommendation && activeBlock === undefined) {
+		if (hasRecommendation) {
 			setActiveBlock(activeBlock => {
 				if (activeBlock !== undefined)
 					return activeBlock
 				return recommendationBlock
 			})
 		}
-	}, [hasRecommendation, recommendationBlock, activeBlock, setActiveBlock])
+	}, [hasRecommendation, recommendationBlock, setActiveBlock])
+
+	// Determine other important data for rendering.
+	const landscape = useMediaQuery('(orientation: landscape)')
 
 	// If there is an unknown course, display this.
 	if (!course)

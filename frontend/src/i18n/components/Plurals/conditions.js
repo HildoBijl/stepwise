@@ -17,7 +17,3 @@ export function Zero({ children }) {
 export function Multiple({ children }) {
 	return <Condition check={value => value > 1}>{children}</Condition>
 }
-
-export function Two({ children }) {
-	return <Condition check={value => value === 2}>{children}</Condition>
-}

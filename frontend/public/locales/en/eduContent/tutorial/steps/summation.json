@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>This skill focuses on <term>adding two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>.</par>"
-  },
   "theory": {
     "intro": "<par>Yet another basic skill is the skill of adding numbers. This is our last step in preparing for combined skills.</par>",
     "addNumbers": "<head>Adding numbers</head><par>In this skill you have to <term>add two numbers</term>. It's a tutorial - you're allowed to use your calculator - but see if you can do without.</par><par>When calculating a sum, for instance <inline-math/>, you can do the following steps.</par><list><item><a>First add the two rightmost numbers. So <inline-math/> becomes <inline-math/>. The latter digit - the <inline-math/> - shows the rightmost digit of our result.</a></item><item><b>Then add the two second numbers. So <inline-math/> becomes <inline-math/>. This is the second digit of our result. Except: if our first digit was <inline-math/> or more (which in our example it was) then we carry over that <inline-math/> and add it here. So we'd get <inline-math/> here.</b></item><item><c>Merge the two results together to get the final result: <inline-math/>.</c></item></list><par>Try it out yourself!</par>"
@@ -11,5 +8,8 @@
       "problem": "<par>Calculate the addition <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "solution": "The solution is <inline-math/>."
     }
+  },
+  "meta": {
+    "learningGoals": "<par>This skill focuses on <term>adding two numbers</term>. It builds up to to a combined skill where we both <skill-link>add and multiply numbers</skill-link>.</par>"
   }
 }

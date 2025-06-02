@@ -1,6 +1,6 @@
 const { isLetter, getNextSymbol, lastOf, processOptions, filterOptions, InterpretationError } = require('../../../util')
 
-const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
+const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
@@ -120,18 +120,16 @@ function interpretBrackets(value, settings) {
 function interpretSums(value, settings) {
 	// Set up a handler to add terms to the sum.
 	const sumTerms = []
-	let symbolBefore = ''
-	const addTerm = (start, end, symbolBefore) => {
+	let lastSymbol = ''
+	const addTerm = (start, end) => {
 		// Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
 		if (start.part === end.part && start.cursor === end.cursor)
 			return
 
-		// Extract the expression and check if it needs a minus or plus/minus sign.
+		// Extract the expression and check if it needs a minus sign.
 		let interpretedExpression = interpretProducts(getSubExpression(value, start, end), settings)
-		if (symbolBefore === '-')
-			interpretedExpression = interpretedExpression.applyMinus(false)
-		else if (symbolBefore === '±')
-			interpretedExpression = interpretedExpression.multiply(new PlusMinus(), true)
+		if (lastSymbol === '-')
+			interpretedExpression = interpretedExpression.applyMinus()
 		sumTerms.push(interpretedExpression)
 	}
 
@@ -144,48 +142,39 @@ function interpretSums(value, settings) {
 
 		// Walk through the plus/minuses and process the resulting parts.
 		const str = element.value
-		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-', '±'], startFrom + 1)
+		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
-			let symbolAfter = str[nextPlusMinus]
-			let end = { part, cursor: nextPlusMinus }
+			const currentSymbol = str[nextPlusMinus]
+			const end = { part, cursor: nextPlusMinus }
 
 			// Check that there is no plus at the start.
-			if (end.part === 0 && end.cursor === 0 && symbolAfter === '+')
+			if (end.part === 0 && end.cursor === 0 && currentSymbol === '+')
 				throw new InterpretationError('PlusAtStart', '+', `Could not interpret the Expression due to it starting with a plus.`)
 
 			// Check that there are not two consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (start.part === end.part && start.cursor === end.cursor) {
-				if (symbolBefore === symbolAfter || symbolAfter === '+')
-					throw new InterpretationError('DoublePlusMinus', `${symbolBefore}${symbolAfter}`, `Could not interpret the Expression due to a double plus/minus.`)
+				if (lastSymbol === '-' || currentSymbol === '+')
+					throw new InterpretationError('DoublePlusMinus', `${lastSymbol}${currentSymbol}`, `Could not interpret the Expression due to a double plus/minus.`)
 			}
 
-			// If we have "2+-3" or "2±-3" or "2-±3" or similar, then jump over the second plus/minus character and incorporate it into the string to be interpreted.
-			if (start.part === end.part && start.cursor === end.cursor) {
-				nextPlusMinus = getNextPlusMinus(nextPlusMinus)
-				if (nextPlusMinus === -1)
-					break
-				symbolAfter = str[nextPlusMinus]
-				end = { part, cursor: nextPlusMinus }
-			}
-
-			// Check if there is a minus sign or plus/minus preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
-			if ((symbolAfter === '-' || symbolAfter === '±') && str[nextPlusMinus - 1] === '*')
+			// Check if there is a minus sign preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
+			if (currentSymbol === '-' && str[nextPlusMinus - 1] === '*')
 				continue
 
 			// Extract the expression from the last plus or minus and interpret it.
-			addTerm(start, end, symbolBefore)
+			addTerm(start, end)
 
 			// Store parameters for the next iteration.
-			symbolBefore = symbolAfter
+			lastSymbol = currentSymbol
 			start = moveRight(end)
 		}
 	})
 
 	// Check for a plus or minus at the end. If it's not there, add the remaining part.
 	const end = getEndCursor(value)
-	if (start.part === end.part && start.cursor === end.cursor && symbolBefore)
-		throw new InterpretationError('PlusMinusAtEnd', symbolBefore, `Could not interpret the Expression due to it ending with "${symbolBefore}".`)
-	addTerm(start, end, symbolBefore)
+	if (start.part === end.part && start.cursor === end.cursor && lastSymbol)
+		throw new InterpretationError('PlusMinusAtEnd', lastSymbol, `Could not interpret the Expression due to it ending with "${lastSymbol}".`)
+	addTerm(start, end)
 
 	// Assemble all terms in a sum.
 	if (sumTerms.length === 0)
@@ -200,14 +189,13 @@ function interpretProducts(value, settings) {
 	// Set up a handler to add factors to the product.
 	const productFactors = []
 	const addFactor = (start, end) => {
-		// Add the factor to the product. If there is a minus at the start of this term, like in "3*-5", then apply this: move the start cursor one to the right and multiply the result by minus one. Or identically with a plus/minus "3*±5" do the same.
-		const firstChar = value[start.part].value[start.cursor]
-		const minusAfterTimes = (firstChar === '-' || firstChar === '±')
+		// Add the factor to the product. If there is a minus at the start of this term, like in "3*-5", then apply this: move the start cursor one to the right and multiply the result by minus one.
+		const minusAfterTimes = (value[start.part].value[start.cursor] === '-')
 		if (minusAfterTimes)
 			start = moveRight(start)
 		let interpretedExpression = interpretRemaining(getSubExpression(value, start, end), settings)
 		if (minusAfterTimes)
-			interpretedExpression = (firstChar === '-' ? interpretedExpression.applyMinus() : interpretedExpression.multiply(new PlusMinus(), true))
+			interpretedExpression = interpretedExpression.applyMinus()
 		productFactors.push(interpretedExpression)
 	}
 

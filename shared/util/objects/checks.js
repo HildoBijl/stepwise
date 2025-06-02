@@ -6,7 +6,7 @@ module.exports.isObject = isObject
 
 // isBasicObject checks if a variable is a simple object made through {...}. So not one through a constructor with various methods.
 function isBasicObject(obj) {
-	return isObject(obj) && obj.constructor === Object && obj.$$typeof !== Symbol.for('react.element')
+	return isObject(obj) && obj.constructor === Object
 }
 module.exports.isBasicObject = isBasicObject
 

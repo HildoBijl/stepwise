@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>Deze vaardigheid richt zich op het <term>vermenigvuldigen van twee getallen</term>. Het bouwt op tot een gecombineerde vaardigheid waar we <skill-link>getallen optellen en vermenigvuldigen</skill-link>. De getallen die we gebruiken zijn klein: niet groter dan <inline-math/>.</par>"
-  },
   "theory": {
     "intro": "<par>Het hele idee van Step-Wise is om complexe problemen <term>stapsgewijs</term> op te lossen: het opsplitsen in kleinere stappen die veel makkelijker op te lossen zijn. Om je te laten zien hoe dit werkt, vangen we met twee simpelere taken aan: getallen vermenigvuldigen en ze optellen. Daarna voegen we deze twee vaardigheden samen in een meer ingewikkelde vaardigheid.</par>",
     "multiplyNumbers": "<head>Getallen vermenigvuldigen</head><par>Bij deze vaardigheid moet je <term>twee getallen vermenigvuldigen</term>. Het vermenigvuldigen van twee getallen doet men meestal uit <term>geheugen</term>. Als kind heb je geleerd wat <inline-math/> is. Je rekent het niet elke keer opnieuw uit. Je weet simpelweg dat het <inline-math/> is.</par><par>Als je je echt niet kan herinneren wat de uitkomst van een bepaalde vermenigvuldiging is, voel je dan vrij om een rekenmachine te gebruiken. Dit is immers een tutorial! Maar onthoud wel het resultaat, voor als het later nog eens terug komt!</par>"
@@ -11,5 +8,8 @@
       "problem": "<par>Bereken de vermenigvuldiging <inline-math/>.</par><input-space><par><integer-input><label>Antwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "solution": "De oplossing is <inline-math/>."
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Deze vaardigheid richt zich op het <term>vermenigvuldigen van twee getallen</term>. Het bouwt op tot een gecombineerde vaardigheid waar we <skill-link>getallen optellen en vermenigvuldigen</skill-link>. De getallen die we gebruiken zijn klein: niet groter dan <inline-math/>.</par>"
   }
 }

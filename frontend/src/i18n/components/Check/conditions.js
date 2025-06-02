@@ -1,8 +1,8 @@
-import { useCheckValue } from './provider'
+import { useSwitchValue } from './provider'
 
-// Condition is a component that verifies if the value from the encompassing Check component matches a condition (a function). If so, it's displayed. Otherwise it's not. It is implemented by various useful components.
+// Condition is a component that verifies if the value from the encompassing Switch component matches a condition (a function). If so, it's displayed. Otherwise it's not. It is implemented by various useful components.
 export function Condition({ check, children }) {
-	const value = useCheckValue()
+	const value = useSwitchValue()
 	return check(value) ? children : null
 }
 Condition.tag = 'on-condition'

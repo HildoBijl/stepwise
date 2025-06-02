@@ -153,7 +153,7 @@ Finally there are a few useful checking functions.
 
 - `someSide(check)` tries to find a side satisfying the check. Effectively it returns `check(exp.left) || check(exp.right)`.
 - `everySide(check)` checks if all sides satisfy the check. Effectively it returns `check(exp.left) && check(exp.right)`.
-- `findSide(check)` finds a side satisfying the check. It returns an object of the form `{ part, side, value }` where `part` is `left` or `right`, `side` is the `Expression` object for that side, and `value` is the value given by the check-functino. If none of the sides match, undefined is given.
+- `findSide(check)` finds a side satisfying the check. It returns the given side. If none of the sides match, undefined is given.
 
 See the [Equation source code](Equation/Equation.js) for more information about all these functions.
 

@@ -1,8 +1,6 @@
 const { isBasicObject, applyMapping, union } = require('../../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../../skillTracking')
 
-const { getExerciseId, splitExerciseId } = require('./util')
-
 // Below is the skillStructure defined for Step-Wise. The set-up of the object must match the folder structure for the files. Also remember that no folders can be named "name" or "tools".
 
 const skillStructure = {
@@ -76,268 +74,96 @@ const skillStructure = {
 	},
 
 	mathematics: {
-		calculation: {
-			fundamentals: {
-				addition: {},
-				subtraction: {},
-				multiplication: {},
-				combinations: {
-					calculateSumOfProducts: {
-						name: 'Calculate sum of products',
-					},
-				},
-			},
-			fractions: {
-				calculating: {
-					simplifyFraction: {
-						name: 'Simplify fraction',
-					},
-				},
-				basicOperations: {
-					multiplyDivideFractions: {
-						name: 'Multiply/divide fractions',
-					},
-				},
-				simplification: {
-					simplifyFractionOfFractions: {
-						name: 'Simplify fraction of fractions',
-					},
-					simplifyFractionSum: {
-						name: 'Simplify fraction sum',
-					},
-				},
-			},
-			powers: {
-				rewritePower: {
-					name: 'Rewrite power',
-				},
-			},
-			roots: {
-				simplifyRoot: {
-					name: 'Simplify root',
-				},
-			},
-		},
-
 		algebra: {
-			expressions: {
-				substitution: {
-					substituteANumber: {
-						name: 'Substitute a number',
-					},
-					substituteAnExpression: {
-						name: 'Substitute an expression',
-					},
+			fractions: {
+				addRemoveFractionFactors: {
+					name: 'Add/remove fraction factors',
+					exercises: ['addRemoveFractionFactors1', 'addRemoveFractionFactors1Reverse', 'addRemoveFractionFactors2', 'addRemoveFractionFactors2Reverse', 'addRemoveFractionFactors3', 'addRemoveFractionFactors3Reverse'],
 				},
-				simplification: {
-					simplifyNumberProduct: {
-						name: 'Simplify number product',
-					},
-					cancelSumTerms: {
-						name: 'Cancel sum terms',
-					},
-					mergeSimilarTerms: {
-						name: 'Merge similar terms',
-					},
+				mergeSplitBasicFractions: {
+					name: 'Merge/split fractions with equal denominator',
+					exercises: ['mergeSplitBasicFractions1', 'mergeSplitBasicFractions2', 'mergeSplitBasicFractions3'],
 				},
-				brackets: {
-					expandBrackets: {
-						name: 'Expand brackets',
-						setup: and('rewritePower', 'simplifyNumberProduct'),
-						examples: ['basicForm'],
-						exercises: ['factorBehind', 'negativeFactor', 'multipleTerms'],
-					},
-					expandDoubleBrackets: {
-						name: 'Expand double brackets',
-						setup: and('expandBrackets', 'expandBrackets', 'mergeSimilarTerms'),
-						examples: ['basicForm'],
-						exercises: ['higherPowers', 'squared', 'multipleTerms'],
-					},
-					pullFactorOutOfBrackets: {
-						name: 'Pull factor out of brackets',
-						setup: and('addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'),
-						examples: ['twoTerms'],
-						exercises: ['twoTerms', 'threeTerms'],
-					},
+				mergeSplitFractions: {
+					name: 'Merge/split general fractions',
+					setup: and(repeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
+					exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
 				},
-				fractions: {
-					multiplyingDividing: {
-						cancelFractionFactors: {
-							name: 'Cancel fraction factors',
-						},
-						simplifyFractionWithVariables: {
-							name: 'Simplify fraction with variables',
-							setup: and('simplifyFraction', 'cancelFractionFactors', 'rewritePower'),
-							examples: ['basicForm'],
-							exercises: ['higherPowers', 'multipleFactors'],
-						},
-						simplifyFractionOfFractionsWithVariables: {
-							name: 'Simplify fraction of fractions with variables',
-							setup: and('multiplyDivideFractions', 'simplifyFractionWithVariables'),
-							examples: ['basicForm'],
-							exercises: ['higherPowers', 'multipleFactors'],
-						},
-					},
-					addingSubtracting: {
-						addLikeFractionsWithVariables: {
-							name: 'Add like fractions with variables',
-							setup: and('expandBrackets', 'mergeSimilarTerms'),
-							examples: ['basicForm'],
-							exercises: ['basicForm', 'squaresInNumerator'],
-						},
-						addFractionsWithVariables: {
-							name: 'Add fractions with variables',
-							setup: and('cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables'),
-							examples: ['twoFractions'],
-							exercises: ['twoFractions'],
-						},
-						simplifyFractionOfFractionSumsWithVariables: {
-							name: 'Simplify fraction of fraction sums with variables',
-							setup: and('addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables'),
-						},
-						addFractionsWithMultipleVariables: {
-							name: 'Add fractions with multiple variables',
-							setup: and('simplifyFractionWithVariables', 'addLikeFractionsWithVariables'),
-							links: { skill: 'addFractionsWithVariables', correlation: 0.5 },
-							examples: ['mergeFractionsNumberInDenominator', 'splitFractionsNumberInDenominator'],
-							exercises: ['mergeFractionsNumberInDenominator', 'splitFractionsNumberInDenominator', 'mergeFractionsSquareAppearing', 'splitFractionsSquareAppearing', 'mergeFractionsVariableDenominator', 'splitFractionsVariableDenominator'],
-						},
-						simplifyFractionOfFractionSumsWithMultipleVariables: {
-							name: 'Simplify fraction of fraction sums with multiple variables',
-							setup: and('addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'),
-							links: { skill: 'simplifyFractionOfFractionSumsWithVariables', correlation: 0.6 },
-							examples: ['sumInDenominator', 'sumInNumerator'],
-							exercises: ['sumInDenominator', 'sumInNumerator', 'sumsWithIntegers', 'sumsWithFractions'],
-						},
-					},
+				multiplyDivideFractions: {
+					name: 'Multiply/divide fractions',
+					exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
+				},
+				simplifyFraction: {
+					name: 'Simplify a fraction',
+					setup: and('mergeSplitFractions', 'multiplyDivideFractions'),
+					exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
 				},
 			},
-			equations: {
-				verifying: {
-					checkEquationSolution: {
-						name: 'Check equation solution',
-						setup: and('substituteANumber', 'calculateSumOfProducts'),
-					},
-					checkMultiVariableEquationSolution: {
-						name: 'Check multi-variable equation solution',
-						setup: and('substituteAnExpression', 'expandBrackets', 'mergeSimilarTerms'),
-					},
+			brackets: {
+				expandBrackets: {
+					name: 'Expand brackets',
+					exercises: ['expandBrackets1', 'expandBrackets2'],
 				},
-				manipulating: {
-					numbers: {
-						// Add number to both sides, move number to other side.
-					},
-					terms: {
-						addToBothEquationSides: {
-							name: 'Add to both equation sides',
-						},
-						moveEquationTerm: {
-							name: 'Move equation term',
-							setup: and('addToBothEquationSides', 'cancelSumTerms'),
-							examples: ['moveSingleTerm'],
-							exercises: ['moveSingleTerm', 'moveAllTerms'],
-						},
-					},
-					factors: {
-						multiplyBothEquationSides: {
-							name: 'Multiply both equation sides',
-							links: { skill: 'addToBothEquationSides', correlation: 0.4 },
-						},
-						moveEquationFactor: {
-							name: 'Move equation factor',
-							setup: and('multiplyBothEquationSides', 'cancelFractionFactors', part('multiplyDivideFractions', 1 / 2)),
-							links: { skill: 'moveEquationTerm', correlation: 0.4 },
-							examples: ['basicDivision', 'basicMultiplication'],
-							exercises: ['division', 'multiplication'],
-						},
-					},
-					rational: {
-						multiplyAllEquationTerms: {
-							name: 'Multiply all equation terms',
-							setup: and('multiplyBothEquationSides', pick(['expandBrackets', 'addLikeFractionsWithVariables']), 'simplifyFractionWithVariables'),
-							examples: ['multiplyTerms', 'divideTerms'],
-							exercises: ['multiplyTerms', 'divideTerms'],
-						},
-						bringEquationToStandardForm: {
-							name: 'Bring equation to standard form',
-							setup: and(part('multiplyAllEquationTerms', 0.5), pick(['expandBrackets', 'expandDoubleBrackets']), 'moveEquationTerm', 'mergeSimilarTerms', 'multiplyAllEquationTerms'),
-							examples: ['quadraticTwoFractions'],
-							exercises: ['quadraticTwoFractions', 'cubicOneFraction'],
-						},
-					},
+				pullOutOfBrackets: {
+					name: 'Pull factor out of brackets',
+					setup: and('mergeSplitFractions', 'expandBrackets'),
+					exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
 				},
-				solving: {
-					elementaryEquations: {
-						// Summation equation can still be added here.
-						solveProductEquation: {
-							name: 'Solve product equation',
-							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFraction', 'checkEquationSolution'),
-							examples: ['inNumerator', 'inDenominator'],
-							exercises: ['inNumerator', 'inDenominator'],
-						},
-						solveMultiVariableProductEquation: {
-							name: 'Solve multi-variable product equation',
-							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution'),
-							links: { skill: 'solveProductEquation', correlation: 0.7 },
-							examples: ['inNumerator', 'inDenominator'],
-							exercises: ['inNumerator', 'inDenominator'],
-						},
-					},
-					linearEquations: {
-						solveLinearEquation: {
-							name: 'Solve linear equation',
-							setup: and(part('expandBrackets', 2 / 3), 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'),
-							examples: ['withoutBrackets'],
-							exercises: ['withoutBrackets', 'withBrackets'],
-						},
-						solveLinearEquationWithFractions: {
-							name: 'Solve linear equation with fractions',
-							setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'solveLinearEquation'),
-							examples: ['twoFractionsWithNumber'],
-							exercises: ['oneFractionWithNumber', 'oneFractionWithVariable', 'twoFractionsWithNumber', 'twoFractionsWithVariable'],
-						},
-						solveMultiVariableLinearEquation: {
-							name: 'Solve multi-variable linear equation',
-							setup: and(part('expandBrackets', 0.5), 'moveEquationTerm', 'pullFactorOutOfBrackets', 'solveMultiVariableProductEquation'),
-							examples: ['basic'],
-							exercises: ['basic', 'withBrackets', 'withFraction'],
-						},
-						solveMultiVariableLinearEquationWithFractions: {
-							name: 'Solve multi-variable linear equation with fractions',
-							setup: and(part('simplifyFractionOfFractionSumsWithMultipleVariables', 0.5), 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation'),
-							examples: ['multipleBasicFractions'],
-							exercises: ['multipleBasicFractions', 'extraFractionInDenominator', 'extraFractionInNumerator'],
-						},
-					},
-					quadraticEquations: {
-						solveQuadraticEquation: {
-							name: 'Solve quadratic equation',
-							setup: and('substituteANumber', 'calculateSumOfProducts', 'simplifyFractionSum', part('simplifyRoot', 0.5), 'checkEquationSolution'),
-							examples: ['oneSolution', 'twoIntegerSolutions'],
-							exercises: ['noSolutions', 'oneSolution', 'twoIntegerSolutions', 'twoNonIntegerSolutions'],
-						},
-						solveRewrittenQuadraticEquation: {
-							name: 'Solve rewritten quadratic equation',
-							setup: and('bringEquationToStandardForm', 'solveQuadraticEquation'),
-							examples: ['twoFractions'],
-							exercises: ['twoFractions', 'oneFractionWithSquare'],
-						},
-					},
-					systemsOfEquations: {
-						solveSystemOfLinearEquations: {
-							name: 'Solve system of linear equations',
-							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber'),
-							examples: ['basicSystem'],
-							exercises: ['basicSystem'],
-						},
-						solveMultiVariableSystemOfLinearEquations: {
-							name: 'Solve multi-variable system of linear equations',
-							setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables'),
-							links: { skill: 'solveSystemOfLinearEquations', correlation: 0.4 },
-							examples: ['threeTerms'],
-							exercises: ['threeTerms', 'fourVariables'],
-						},
-					},
+			},
+			manipulatingEquations: {
+				moveATerm: {
+					name: 'Move a term',
+					exercises: ['moveATerm1', 'moveATerm2'],
+				},
+				multiplyDivideAllTerms: {
+					name: 'Multiply/divide all terms',
+					setup: and('expandBrackets', 'addRemoveFractionFactors'),
+					exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
+				},
+			},
+			linearEquations: {
+				solveBasicLinearEquation: {
+					name: 'Solve a basic linear equation',
+					setup: and(repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
+					exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
+				},
+				solveGeneralLinearEquation: {
+					name: 'Solve a general linear equation',
+					setup: and(pick(['simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms'], 2), 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
+					exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
+				},
+			},
+			quadraticEquations: {
+				applySquareRoot: {
+					name: 'Apply a square root',
+					exercises: [], // ToDo
+				},
+				applyQuadraticFormula: {
+					name: 'Apply the quadratic formula',
+					exercises: ['applyQuadraticFormulaNoSolutions', 'applyQuadraticFormulaOneSolution', 'applyQuadraticFormulaTwoIntegerSolutions', 'applyQuadraticFormulaTwoRandomSolutions'],
+				},
+				solveBasicQuadraticEquation: {
+					name: 'Solve a basic quadratic equation',
+					setup: and('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+					exercises: [], // ToDo
+				},
+				solveGeneralQuadraticEquation: {
+					name: 'Solve a general quadratic equation',
+					setup: and('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+					exercises: [], // ToDo
+				},
+			},
+			systemsOfLinearEquations: {
+				solveBasicSystemOfLinearEquations: {
+					name: 'Solve a basic system of linear equations',
+					setup: repeat('solveBasicLinearEquation', 2),
+					exercises: ['solveBasicSystemOfLinearEquations1'],
+				},
+				solveGeneralSystemOfLinearEquations: {
+					name: 'Solve a general system of linear equations',
+					setup: and('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
+					links: { skill: 'solveBasicSystemOfLinearEquations', correlation: 0.5 },
+					exercises: ['solveGeneralSystemOfLinearEquations1', 'solveGeneralSystemOfLinearEquations2'],
 				},
 			},
 		},
@@ -358,7 +184,7 @@ const skillStructure = {
 				},
 				calculateTriangle: {
 					name: 'Calculate a triangle',
-					setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveLinearEquation', 'solveQuadraticEquation'])),
+					setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveBasicLinearEquation', 'solveBasicQuadraticEquation'])),
 					exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
 				},
 			},
@@ -458,6 +284,10 @@ const skillStructure = {
 
 	physics: {
 		physicsMathematics: {
+			solveLinearEquation: {
+				name: 'Solve a linear equation',
+				exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],
+			},
 			solveExponentEquation: {
 				name: 'Solve an exponent equation',
 				exercises: ['solveExponentEquation1', 'solveExponentEquation2', 'solveExponentEquation3', 'solveExponentEquation4'],
@@ -525,7 +355,7 @@ const skillStructure = {
 				},
 				recognizeProcessTypes: {
 					name: 'Recognize process types',
-					exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'],
+					exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 				},
 				poissonsLaw: {
 					name: `Apply Poisson's law`,
@@ -539,12 +369,6 @@ const skillStructure = {
 					setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 					exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 				},
-				calculateClosedCycle: {
-					name: 'Calculate a closed cycle',
-					setup: repeat('calculateProcessStep', 3),
-					exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
-					thresholds: { pass: 0.5 },
-				},
 				calculateHeatAndWork: {
 					name: 'Calculate heat and work',
 					setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2)),
@@ -554,6 +378,12 @@ const skillStructure = {
 					name: 'Calculate with internal energy',
 					setup: and(pick(['gasLaw', 'poissonsLaw']), pick(['specificHeats', 'calculateHeatAndWork']), 'solveLinearEquation'),
 					exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
+				},
+				calculateClosedCycle: {
+					name: 'Calculate a closed cycle',
+					setup: repeat('calculateProcessStep', 3),
+					exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
+					thresholds: { pass: 0.5 },
 				},
 				createClosedCycleEnergyOverview: {
 					name: 'Create a closed-cycle energy overview',
@@ -817,20 +647,11 @@ Object.values(skillTree).forEach(skill => {
 	skill.linkedSkills = skill.links.map(link => link.skills).flat()
 })
 
-// Set up an overview of exercise paths. Do this for all exercises, except for exercises referring to another skill using a `[skillId].[exerciseId]` reference.
+// Set up an overview of exercise paths.
 const exercises = {}
 Object.values(skillTree).forEach(skill => {
-	// First walk through examples and exercises and ensure they contain IDs and not just names.
-	skill.examples = skill.examples.map(exerciseName => getExerciseId(exerciseName, skill.id))
-	skill.exercises = skill.exercises.map(exerciseName => getExerciseId(exerciseName, skill.id))
-
-	// Then walk through them all to fill the exercises parameter.
-	const allExercises = [...skill.examples, ...skill.exercises]
-	allExercises.forEach(exerciseId => {
-		const exerciseData = splitExerciseId(exerciseId)
+	skill.exercises.forEach(exerciseId => {
 		exercises[exerciseId] = {
-			name: exerciseData.exerciseName,
-			skillId: exerciseData.skillId,
 			id: exerciseId,
 			path: [...skill.path, skill.id],
 		}

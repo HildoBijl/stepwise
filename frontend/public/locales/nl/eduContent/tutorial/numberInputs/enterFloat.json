@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>Het doel van deze vaardigheid is om bekend te raken met het <term>invoeren van kommagetallen</term>. Hier bovenop raken studenten bekend met de nuttige mogelijkheden die in de <term>Step-Wise invoervelden</term> ingebouwd zijn.</par>"
-  },
   "theory": {
     "intro": "<par>In de natuurkunde werkt men veel met <term>kommagetallen</term> zoals <inline-math/>. Als deze getallen groter of kleiner worden, gebruiken we <term>decimale exponenten</term> om de notatie behapbaar te houden. Dit geeft getallen als <inline-math/>. Hoe kan je deze getallen in Step-Wise invoeren?</par>",
     "inputFields": "<head>Speciaal gemaakte invoervelden</head><par>Step-Wise heeft specifieke invoervelden voor kommagetallen. Aan de linker kant is er het <term>getal</term>. Dit deel gaat gepast om met:</par><list><item><a><term>Mintekens:</term> maximaal één, en altijd aan het begin.</a></item><item><b><term>Komma's/punten:</term> maximaal één. Het maakt niet uit of je een komma of een punt gebruikt, we verwerken het op gepaste wijze.</b></item><item><c><term>Alleen cijfers:</term> we filteren al het andere eruit.</c></item></list>Aan de rechterkant van het invoerveld is de <term>decimale exponent</term>. Deze heeft ook verschillende nuttige functionaliteiten.<list><item><d><term>Gemakkelijk te maken:</term> zodra je een vermenigvuldigingsster \"*\", of als alternatief de wetenschappelijke notatie \"e\" gebruikt, zetten wij de decimale exponent voor je op. Je hoeft niet zelf de \"10\" te typen.</d></item><item><e><term>Automatische opmaak:</term> je kunt gelijk in de exponent typen, net zoals het formeel weergegeven wordt. Je ziet altijd exact wat je hebt.</e></item><item><f><term>Slimme nummerverwerking:</term> maximaal één minteken en geen komma's.</f></item></list><par>Zoals gewoonlijk is het invoerveld <term>geschikt voor smartphones</term>, met een op maat ontworpen toetsenbord specifiek voor kommagetallen.</par><par>De beste manier om het te ervaren, is door het uit te proberen!</par>"
@@ -14,5 +11,8 @@
       },
       "solution": "Je klikt op het invoervak en typt <inline-math/> in. Voor de tienmacht gebruik je het keer-teken \"*\". Je hoeft dan de \"10\" niet zelf te typen: dat snapt het invoerveld vanzelf. Eventueel is de shortcut \"e\" (vanuit de wetenschappelijke notatie) ook mogelijk."
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Het doel van deze vaardigheid is om bekend te raken met het <term>invoeren van kommagetallen</term>. Hier bovenop raken studenten bekend met de nuttige mogelijkheden die in de <term>Step-Wise invoervelden</term> ingebouwd zijn.</par>"
   }
 }

@@ -7,7 +7,7 @@ const variableSet = ['α', 'β', 'γ']
 
 const metaData = {
 	skill: 'calculateTriangle',
-	steps: [null, null, null, and('solveLinearEquation', 'applySineCosineTangent')],
+	steps: [null, null, null, and('solveBasicLinearEquation', 'applySineCosineTangent')],
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),

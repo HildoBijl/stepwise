@@ -1,5 +1,4 @@
 {
-  "meta": "<par>Deze vaardigheid betreft het invoeren van <term>wiskundige vergelijkingen</term>: twee uitdrukkingen met een is-gelijk teken \"=\" ertussen. Het toont ook de wijze waarop het Step-Wise Computer Algebra Systeem deze vergelijkingen <term>nakijkt</term>.</par>",
   "theory": {
     "intro": "<par>Een groot deel van de wiskunde draait om het herschrijven en vervolgens oplossen van <term>vergelijkingen</term>. Denk aan <inline-math/>. Het bevat twee uitdrukkingen met een is-gelijk teken ertussen. Hoe gaat Step-Wise hiermee om?</par>",
     "entering": "<head>Vergelijkingen invoeren</head><par>Vergelijkingen in Step-Wise invoeren is niet ingewikkeld. Typ simpelweg wat je wilt hebben. Je ziet op het scherm altijd precies wat je hebt.</par><par>Natuurlijk hebben vergelijkingen ook bepaalde <term>beperkingen</term>. Er mogen niet meerdere is-gelijk tekens in zitten - slechts één - en het is-gelijk teken mag ook niet middenin een breuk of functie ofzo staan. Als wat je hebt ingevoerd niet aan deze voorwaarden voldoet, wordt het als ongeldige invoer beschouwd. Je krijgt dan een subtiele waarschuwing en je invoer wordt niet ingezonden. Alleen geldige invoeren worden uiteindelijk nagekeken.</par>",
@@ -14,5 +13,6 @@
         "notEquivalent": "<a>Dit is niet equivalent aan de oorspronkelijke vergelijking. Je hebt iets gedaan wat wiskundig niet toegestaan is, of dat te diepgaand is voor ons om na te volgen.</a>"
       }
     }
-  }
+  },
+  "meta": "<par>Deze vaardigheid betreft het invoeren van <term>wiskundige vergelijkingen</term>: twee uitdrukkingen met een is-gelijk teken \"=\" ertussen. Het toont ook de wijze waarop het Step-Wise Computer Algebra Systeem deze vergelijkingen <term>nakijkt</term>.</par>"
 }

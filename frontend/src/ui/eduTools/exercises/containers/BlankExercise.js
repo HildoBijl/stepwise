@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from 'step-wise/util'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import { exercises, getExerciseId, getExerciseName } from 'step-wise/eduTools'
+import { exercises } from 'step-wise/eduTools'
 
 import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
@@ -16,10 +16,9 @@ import { ExerciseContainer } from './ExerciseContainer'
 
 export function BlankExercise() {
 	const translate = useTranslator()
-	const { skillId, exerciseName } = useParams()
-	if (!exerciseName)
-		return <ErrorNote text={translate('The URL has no exercise name in it.', 'loadingNotes.missingExerciseName', 'eduTools/exercises')} />
-	const exerciseId = getExerciseId(exerciseName, skillId)
+	const { exerciseId } = useParams()
+	if (!exerciseId)
+		return <ErrorNote text={translate('The URL has no exercise ID in it.', 'loadingNotes.missingExerciseId', 'eduTools/exercises')} />
 	return <TranslationFile path={`eduContent/${exercises[exerciseId].path.join('/')}`}>
 		<TranslationSection entry="practice">
 			<BlankExerciseInner exerciseId={exerciseId} />
@@ -37,7 +36,7 @@ function BlankExerciseInner({ exerciseId }) {
 	const reload = () => {
 		setLoading(true)
 		setError(false)
-		import(/* webpackChunkName: "shared-exercises-56" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).then(importedModule => {
+		import(/* webpackChunkName: "shared-exercises-18" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).then(importedModule => {
 			ExerciseShared.current = importedModule.default
 			setLoading(false)
 		}).catch((err) => {
@@ -90,6 +89,6 @@ function BlankExerciseInner({ exerciseId }) {
 }
 
 export function ExerciseName() {
-	const { skillId, exerciseName } = useParams()
-	return <TitleItem name={`${skillId}.${exerciseName}`} />
+	const { exerciseId } = useParams()
+	return <TitleItem name={exerciseId} />
 }

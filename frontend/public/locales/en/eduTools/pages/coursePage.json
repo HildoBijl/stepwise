@@ -9,6 +9,5 @@
   "unknownCourse": {
     "title": "Unknown course",
     "message": "Oops... The course you wanted to visit is unknown here. Perhaps something is wrong in the URL?"
-  },
-  "noExercises": "This skill has no exercises yet. They are probably coming soon."
+  }
 }

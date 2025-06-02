@@ -1,0 +1,272 @@
+{
+  "test": {
+    "name": "Testopgave"
+  },
+  "demo": {
+    "name": "Demo-opgave"
+  },
+  "enterInteger": {
+    "name": "Geheel getal invullen"
+  },
+  "enterFloat": {
+    "name": "Kommagetal invullen"
+  },
+  "enterUnit": {
+    "name": "Eenheid invullen"
+  },
+  "lookUpConstant": {
+    "name": "Constanten opzoeken"
+  },
+  "enterExpression": {
+    "name": "Uitdrukking invullen"
+  },
+  "enterEquation": {
+    "name": "Vergelijking invullen"
+  },
+  "summation": {
+    "name": "Optellen"
+  },
+  "multiplication": {
+    "name": "Vermenigvuldigen"
+  },
+  "summationAndMultiplication": {
+    "name": "Optellen en vermenigvuldigen"
+  },
+  "addRemoveFractionFactors": {
+    "name": "Breukfactoren toevoegen/wegstrepen"
+  },
+  "mergeSplitBasicFractions": {
+    "name": "Gelijknamige breuken samenvoegen/splitsen"
+  },
+  "mergeSplitFractions": {
+    "name": "Algemene breuken samenvoegen/splitsen"
+  },
+  "multiplyDivideFractions": {
+    "name": "Breuken vermenigvuldigen/delen"
+  },
+  "simplifyFraction": {
+    "name": "Breuk simplificeren"
+  },
+  "expandBrackets": {
+    "name": "Haakjes uitwerken"
+  },
+  "pullOutOfBrackets": {
+    "name": "Factor buiten haakjes halen"
+  },
+  "moveATerm": {
+    "name": "Een term verplaatsen"
+  },
+  "multiplyDivideAllTerms": {
+    "name": "Alle termen vermenigvuldigen/delen"
+  },
+  "solveBasicLinearEquation": {
+    "name": "Basis lineaire vergelijking oplossen"
+  },
+  "solveGeneralLinearEquation": {
+    "name": "Algemene lineaire vergelijking oplossen"
+  },
+  "applySquareRoot": {
+    "name": "Wortel toepassen"
+  },
+  "applyQuadraticFormula": {
+    "name": "Wortelformule toepassen"
+  },
+  "solveBasicQuadraticEquation": {
+    "name": "Basis kwadratische vergelijking oplossen"
+  },
+  "solveGeneralQuadraticEquation": {
+    "name": "Algemene kwadratische vergelijking oplossen"
+  },
+  "solveBasicSystemOfLinearEquations": {
+    "name": "Basis stelsel van lineaire vergelijkingen oplossen"
+  },
+  "solveGeneralSystemOfLinearEquations": {
+    "name": "Algemeen stelsel van lineaire vergelijkingen oplossen"
+  },
+  "determine2DAngles": {
+    "name": "2D hoeken bepalen"
+  },
+  "applyPythagoreanTheorem": {
+    "name": "De stelling van Pythagoras toepassen"
+  },
+  "applySineCosineTangent": {
+    "name": "Sinus/cosinus/tangens toepassen"
+  },
+  "applySimilarTriangles": {
+    "name": "Gelijkvormige driehoeken toepassen"
+  },
+  "determine2DDistances": {
+    "name": "2D afstanden bepalen"
+  },
+  "calculateTriangle": {
+    "name": "Driehoek doorrekenen"
+  },
+  "calculate2DShape": {
+    "name": "2D vorm doorrekenen"
+  },
+  "calculate3DShape": {
+    "name": "3D vorm doorrekenen"
+  },
+  "lookUpElementaryDerivative": {
+    "name": "Elementaire afgeleide opzoeken"
+  },
+  "findBasicDerivative": {
+    "name": "Basis afgeleide bepalen"
+  },
+  "applyProductRule": {
+    "name": "Productregel toepassen"
+  },
+  "applyQuotientRule": {
+    "name": "Quotiëntregel toepassen"
+  },
+  "applyChainRule": {
+    "name": "Kettingregel toepassen"
+  },
+  "findGeneralDerivative": {
+    "name": "Algemene afgeleide bepalen"
+  },
+  "findAdvancedDerivative": {
+    "name": "Geavanceerde afgeleide bepalen"
+  },
+  "calculateForceOrMoment": {
+    "name": "Kracht of moment berekenen"
+  },
+  "schematizeSupport": {
+    "name": "Bevestiging schematiseren"
+  },
+  "drawFreeBodyDiagram": {
+    "name": "Vrijlichaamsschema tekenen"
+  },
+  "calculateBasicSupportReactions": {
+    "name": "Basis reactiekrachten berekenen"
+  },
+  "solveLinearEquation": {
+    "name": "Lineaire vergelijking oplossen"
+  },
+  "solveExponentEquation": {
+    "name": "Exponent-vergelijking oplossen"
+  },
+  "linearInterpolation": {
+    "name": "Lineair interpoleren"
+  },
+  "calculateWithPressure": {
+    "name": "Rekenen met druk"
+  },
+  "calculateWithVolume": {
+    "name": "Rekenen met volume"
+  },
+  "calculateWithMass": {
+    "name": "Rekenen met massa"
+  },
+  "calculateWithTemperature": {
+    "name": "Rekenen met temperatuur"
+  },
+  "specificGasConstant": {
+    "name": "Specifieke gasconstante opzoeken"
+  },
+  "specificHeatRatio": {
+    "name": "De k-waarde opzoeken"
+  },
+  "specificHeats": {
+    "name": "Soortelijke warmten opzoeken"
+  },
+  "gasLaw": {
+    "name": "De gaswet toepassen"
+  },
+  "recognizeProcessTypes": {
+    "name": "Soorten processen herkennen"
+  },
+  "poissonsLaw": {
+    "name": "Poisson's wet"
+  },
+  "calculateProcessStep": {
+    "name": "Processtap doorrekenen"
+  },
+  "calculateClosedCycle": {
+    "name": "Gesloten kringproces doorrekenen"
+  },
+  "calculateHeatAndWork": {
+    "name": "Warmte en arbeid berekenen"
+  },
+  "calculateWithInternalEnergy": {
+    "name": "Rekenen met inwendige energie"
+  },
+  "createClosedCycleEnergyOverview": {
+    "name": "Gesloten kringproces energie-overzicht maken"
+  },
+  "calculateWithEfficiency": {
+    "name": "Rekenen met rendement"
+  },
+  "calculateWithCOP": {
+    "name": "Rekenen met koudefactor/warmtefactor"
+  },
+  "analyseClosedCycle": {
+    "name": "Gesloten kringproces analyseren"
+  },
+  "calculateWithSpecificQuantities": {
+    "name": "Rekenen met specifieke grootheden"
+  },
+  "massFlowTrick": {
+    "name": "De massastroom-truc toepassen"
+  },
+  "calculateOpenProcessStep": {
+    "name": "Open processtap doorrekenen"
+  },
+  "calculateOpenCycle": {
+    "name": "Open kringproces doorrekenen"
+  },
+  "calculateSpecificHeatAndMechanicalWork": {
+    "name": "Specifieke warmte en technische arbeid berekenen"
+  },
+  "calculateWithEnthalpy": {
+    "name": "Rekenen met enthalpie"
+  },
+  "createOpenCycleEnergyOverview": {
+    "name": "Open kringproces energie-overzicht maken"
+  },
+  "analyseOpenCycle": {
+    "name": "Open kringproces analyseren"
+  },
+  "calculateEntropyChange": {
+    "name": "Entropieverandering berekenen"
+  },
+  "calculateMissedWork": {
+    "name": "Gemiste arbeid berekenen"
+  },
+  "useIsentropicEfficiency": {
+    "name": "Isentropisch rendement gebruiken"
+  },
+  "analyseGasTurbine": {
+    "name": "Gasturbine analyseren"
+  },
+  "lookUpSteamProperties": {
+    "name": "Stoomeigenschappen opzoeken"
+  },
+  "useVaporFraction": {
+    "name": "Dampfractie gebruiken"
+  },
+  "createRankineCycleOverview": {
+    "name": "Overzicht Rankine-cyclus maken"
+  },
+  "analyseRankineCycle": {
+    "name": "Rankine-cyclus analyseren"
+  },
+  "findFridgeTemperatures": {
+    "name": "Koelmachinetemperaturen bepalen"
+  },
+  "determineRefrigerantProcess": {
+    "name": "Koelmiddelproces bepalen"
+  },
+  "createCoolingCycleOverview": {
+    "name": "Overzicht koelcyclus maken"
+  },
+  "analyseCoolingCycle": {
+    "name": "Koelcyclus analyseren"
+  },
+  "readMollierDiagram": {
+    "name": "Mollier diagram aflezen"
+  },
+  "analyseAirco": {
+    "name": "Airco analyseren"
+  }
+}

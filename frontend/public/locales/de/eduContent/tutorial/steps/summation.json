@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>Diese Kompetenz konzentriert sich auf das <term>Addieren zweier Zahlen</term>. Sie baut auf einer kombinierten Kompetenz auf, bei der wir <skill-link>Zahlen addieren und multiplizieren</skill-link>.</par>"
-  },
   "theory": {
     "intro": "<par>Eine weitere Grundkompetenz ist das Addieren von Zahlen. Dies ist der letzte Schritt in der Vorbereitung auf eine kombinierte Kompetenz.</par>",
     "addNumbers": "<head>Zahlen addieren</head><par>Bei dieser Kompetenz geht es darum, <term>zwei Zahlen zu addieren</term>. Es ist ein Tutorial - du darfst deinen Taschenrechner benutzen - aber schau, ob du es auch ohne schaffst.</par><par>Bei der Berechnung einer Addition, z. B. <inline-math/>, führt man die folgenden Schritte aus.</par><list><item><a>Zuerst addiert man die beiden rechten Zahlen. So wird <inline-math/> zu <inline-math/>. Die letzte Ziffer - die <inline-math/> - ist die rechte Ziffer deines Endergebnisses.</a></item><item><b>Danach addierst du die beiden zweiten Zahlen. So wird <inline-math/> zu <inline-math/>. Das ist die zweite Zahl deines Endergebnisses. Nur: Wenn unsere erste Zahl <inline-math/> oder mehr war (was in unserem Beispiel der Fall war), dann übertragen wir diese <inline-math/> und addieren sie hier. Wir erhalten dann <inline-math/> hier.</b></item><item><c>Füge die beiden Ergebnisse zusammen, um die endgültige Antwort zu erhalten: <inline-math/>.</c></item></list><par>Probier es selbst aus!</par>"
@@ -11,5 +8,8 @@
       "problem": "<par>Berechne die Summe <inline-math/>.</par><input-space><par><integer-input><label>Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
       "solution": "Die Lösung ist <inline-math/>."
     }
+  },
+  "meta": {
+    "learningGoals": "<par>Diese Kompetenz konzentriert sich auf das <term>Addieren zweier Zahlen</term>. Sie baut auf einer kombinierten Kompetenz auf, bei der wir <skill-link>Zahlen addieren und multiplizieren</skill-link>.</par>"
   }
 }

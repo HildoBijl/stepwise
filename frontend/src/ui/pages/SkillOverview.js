@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { filterDuplicates } from 'step-wise/util'
-import { skillTree, splitExerciseId } from 'step-wise/eduTools'
+import { skillTree } from 'step-wise/eduTools'
 
 import { useTranslator } from 'i18n'
 import { usePaths } from 'ui/routingTools'
@@ -16,27 +15,12 @@ export function SkillOverview() {
 		<ul>
 			{Object.values(skillTree).map(skill => (
 				<li key={skill.id}>
-					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</Link>
-					<ExerciseSkillList skill={skill} />
+					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(skill.name, `${skill.id}.name`, 'eduContent/skillInfo')}</Link>
+					<ul>
+						{skill.exercises.map(exerciseId => <li key={exerciseId}><Link to={paths.exerciseInspection({ exerciseId })}>{exerciseId}</Link></li>)}
+					</ul>
 				</li>
 			))}
 		</ul>
 	</>
-}
-
-function ExerciseSkillList({ skill }) {
-	const paths = usePaths()
-	const exercises = filterDuplicates([...skill.examples, ...skill.exercises])
-	return <ul>
-		{exercises.map(exerciseId => {
-			const { skillId, exerciseName } = splitExerciseId(exerciseId)
-			const isExample = !skill.exercises.includes(exerciseId)
-			const isReference = skill.id !== skillId
-
-			// Render the link to the skill.
-			return <li key={exerciseId}>
-				<Link to={paths.exerciseInspection({ skillId, exerciseName })}>{exerciseName}{isReference ? ` (at skill ${skillId})` : ''}{isExample ? ` [example only]` : ''}</Link>
-			</li>
-		})}
-	</ul>
 }

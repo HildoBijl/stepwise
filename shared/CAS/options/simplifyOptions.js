@@ -4,7 +4,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Constant options.
 	turnFloatsIntoIntegers: false, // Turns floats into integers whenever they are floats. So when 4.5/1.5 is reduced to 3.0 it becomes 3.
 	factorizeIntegers: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
-	
+
 	// Sum options.
 	flattenSums: false, // Turn x+(y+z) into x+y+z.
 	removeTrivialSums: false, // Turn a sum with zero or one element into 0 or said element, respectively.
@@ -21,12 +21,11 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	removeTrivialProducts: false, // Turn a product with zero or one element into 1 or said element, respectively.
 	removeTimesZeroFromProduct: false, // Turn "[...]*0" into "0".
 	removeTimesOneFromProducts: false, // Remove "*1" from products.
-	pullPlusMinusToFront: false, // Within products pull the plus/minus symbol to the front and merge multiple plus/minus symbols.
 	mergeProductNumbers: false, // Reduce the number of numbers that are used in products. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z.
 	mergeProductMinuses: false, // Reduces the negative numbers in products. Turns "-2*x*-3*-1*4" into "-2*x*3*1*4". If mergeProductNumbers is on this option is ignored.
 	mergeInitialMinusOne: false, // Reduces a minus one at the start into a number where appropriate. So "-1 * 2" becomes "-2" but "2 * -1" and "-2 * 1" stay the same.
 	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
-	mergeProductFactors: false, // Merge factors in products into powers. So x*x^2 becomes x^3.
+	mergeProductTerms: false, // Merge terms in products into powers. So x*x^2 becomes x^3.
 	expandProductsOfSums: false, // Reduces a*(b+c) to (a*b+a*c).
 	expandProductsOfSumsWithinSums: false, // Applies expandProductsOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandProductsOfSums is on, this is ignored.
 
@@ -38,7 +37,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
-	crossOutFractionFactors: false, // Cancel factors inside fractions. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
+	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
 	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
@@ -50,7 +49,6 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
-	expandPowers: false, // Turns a^3 into a*a*a. Opposite of mergeProductFactors.
 	expandPowersOfProducts: false, // Reduces (a*b)^n to a^n*b^n.
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
 	expandPowersOfSumsWithinSums: false, // Applies expandPowersOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandPowersOfSumsWithinSums is on, this is ignored.
@@ -67,7 +65,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
 	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
 	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
-	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if crossOutFractionFactors is turned on.
+	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if crossOutFractionTerms is turned on.
 
 	// Logarithm options.
 	removeOneLogarithm: false, // Turn log(1) into 0.
@@ -108,7 +106,6 @@ const elementaryClean = {
 	...structureOnly,
 	mergeFractionProducts: true,
 	mergeInitialMinusOne: true, // This is necessary to make "-(2)/(3)" equal to "(-2)/(3)" and not get confused with "((-1)*2)/(3)".
-	pullPlusMinusToFront: true,
 }
 module.exports.elementaryClean = { ...noSimplify, ...elementaryClean }
 
@@ -135,9 +132,10 @@ const basicClean = {
 	...removeUseless,
 	mergeSumNumbers: true,
 	mergeProductNumbers: true,
+	crossOutFractionNumbers: true,
 	mergePowerNumbers: true,
 	cancelSumTerms: true,
-	mergeProductFactors: true,
+	mergeProductTerms: true,
 	flattenFractions: true,
 	removeIntegerRoot: true,
 }
@@ -148,8 +146,7 @@ const regularClean = {
 	...basicClean,
 	sortProducts: true,
 	groupSumTerms: true,
-	crossOutFractionNumbers: true,
-	crossOutFractionFactors: true,
+	crossOutFractionTerms: true,
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
@@ -237,7 +234,7 @@ const forDisplay = {
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,
-	crossOutFractionFactors: false, // Blocks preventRootDenominator.
+	crossOutFractionTerms: false, // Blocks preventRootDenominator.
 }
 module.exports.forDisplay = { ...noSimplify, ...forDisplay }
 

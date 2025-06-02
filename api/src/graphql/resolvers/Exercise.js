@@ -1,6 +1,6 @@
 
 const { toFO, toSO } = require('step-wise/inputTypes')
-const { exercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
+const { exercises, getNewExercise } = require('step-wise/eduTools')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
 const { events: skillEvents, getUserSkillDataSet, getUserSkillExercises } = require('../util/Skill')
@@ -18,8 +18,7 @@ const resolvers = {
 			const lastEvent = getLastEvent(exercise)
 			return (lastEvent && lastEvent.createdAt) || null
 		},
-		history: exercise => (exercise.events || []).sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.
-		active: exercise => exercise.active && !!exercises[exercise.exerciseId], // Only show active when the exercise also still exists.
+		history: exercise => (exercise.events || []).sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.,
 	},
 
 	Event: {
@@ -51,8 +50,7 @@ const resolvers = {
 
 			// Update the progress parameter.
 			const previousProgress = getExerciseProgress(exercise)
-			const exerciseId = fixExerciseId(exercise.exerciseId, skillId)
-			const { processAction } = require(`step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
+			const { processAction } = require(`step-wise/eduContent/${exercises[exercise.exerciseId].path.join('/')}/${exercise.exerciseId}`)
 			const progress = processAction({ action, state: toFO(exercise.state), progress: previousProgress, history: exercise.events, updateSkills })
 			if (!progress)
 				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)

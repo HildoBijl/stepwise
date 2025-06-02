@@ -40,7 +40,6 @@
       "misplacedSubscript": "Es gibt ein tiefgestelltes \"{subscript}\", dem keine Variable vorangestellt ist.",
       "misplacedSuperscript": "Es gibt eine Potenz ohne vorgehendes Term.",
       "remaining": "Die Eingabe konnte nicht interpretiert werden. Etwas stimmt nicht mit der verwendeten Notation.",
-      "notANumber": "Dies ist keine Zahl. Es wurde etwas ohne Variablen erwartet.",
       "unknownVariable": "Unbekannte Variable <inline-math/>."
     }
   },

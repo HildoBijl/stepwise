@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 import { Translation } from 'i18n'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 

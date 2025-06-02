@@ -9,7 +9,7 @@ export function any() { }
 // Numeric checks if the expression can be reduced to a single number and hence does not depend on variables.
 export function numeric(expression) {
 	if (!expression.isNumeric())
-		return <Translation path="inputs" entry="expressionInput.validation.notANumber">This is not a number. Something without any variables was expected.</Translation>
+		return <>Dit is geen getal.</>
 }
 
 // validWithVariables is a validation-function-generating function. Give it a set of variables that are accepted, and it checks that only those variables are used.

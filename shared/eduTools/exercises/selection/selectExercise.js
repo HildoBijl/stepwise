@@ -1,11 +1,11 @@
 const { isNumber, sum, normalPDF, selectRandomly, keysToObject } = require('../../../util')
 
-const { skillTree, exercises, getExerciseName, fixExerciseId, ensureSkillId } = require('../../skills')
+const { skillTree, exercises, ensureSkillId } = require('../../skills')
 
 const { mu, sigma, thresholdFactor } = require('./settings')
 const { getExerciseSuccessRates } = require('./successRates')
 
-// selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillDataSet. The return value is an exerciseId of the form 'someSkillId.someExerciseName'.
+// selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillDataSet. The return value is the exerciseId.
 async function selectExercise(skillId, getSkillDataSet, previousExercises = []) {
 	// Extract the skill data.
 	skillId = ensureSkillId(skillId)
@@ -17,14 +17,14 @@ async function selectExercise(skillId, getSkillDataSet, previousExercises = []) 
 	let exerciseIds = skill.exercises
 	if (exerciseIds.length === 0)
 		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
-	const exerciseMetaDatas = keysToObject(exerciseIds, exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).metaData)
+	const exerciseMetaDatas = keysToObject(exerciseIds, exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).metaData)
 
 	// Filter exercises out that have been done recently, but only if this doesn't leave us with no possible exercises.
 	previousExercises = previousExercises.sort((a, b) => b.createdAt - a.updatedAt) // Sort descending by date.
 	const filteredExerciseIds = exerciseIds.filter(exerciseId => {
 		const metaData = exerciseMetaDatas[exerciseId]
 		const repeatAfter = isNumber(metaData.repeatAfter) ? metaData.repeatAfter : 1 // Use default value if not given.
-		const exercisesSince = previousExercises.findIndex(exercise => fixExerciseId(exercise.exerciseId, skillId) === exerciseId)
+		const exercisesSince = previousExercises.findIndex(exercise => exercise.exerciseId === exerciseId)
 		return exercisesSince === -1 || exercisesSince >= repeatAfter
 	})
 	if (filteredExerciseIds.length > 0)
@@ -83,14 +83,14 @@ function selectRandomExample(skillId) {
 }
 module.exports.selectRandomExample = selectRandomExample
 
-// selectExerciseFromList takes a list of exerciseIds and randomly selects an exercise from it, returning it in joint form. It does take into account exercise weights, but does not take into account skill data.
+// selectExerciseFromList takes a list of exerciseIds and randomly selects an exercise from it. It does take into account exercise weights, but does not take into account skill data.
 function selectExerciseFromList(exerciseIds) {
 	// Check the input.
 	if (!Array.isArray(exerciseIds) || exerciseIds.length === 0)
 		throw new Error(`Invalid request: cannot pick an exercise. No valid list of exercise IDs was provided.`)
 
 	// Select an exercise based on the weights.
-	const exerciseMetaDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).metaData)
+	const exerciseMetaDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).metaData)
 	const weights = exerciseMetaDatas.map(exerciseMetaData => (isNumber(exerciseMetaData.weight) ? Math.abs(exerciseMetaData.weight) : 1))
 	return selectRandomly(exerciseIds, weights)
 }

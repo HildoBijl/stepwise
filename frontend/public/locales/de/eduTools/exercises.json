@@ -4,7 +4,7 @@
   "solution": "Lösung",
   "step": "Schritt {step}",
   "loadingNotes": {
-    "missingExerciseName": "Die URL enthält keine Übungs-ID.",
+    "missingExerciseId": "Die URL enthält keine Übungs-ID.",
     "loadingError": "Die Übung konnte nicht geladen werden. Bitte prüfe, ob die Übungs-ID korrekt ist.",
     "loadingExercise": "Die Übung wird geladen..."
   },

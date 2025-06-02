@@ -1,7 +1,4 @@
 {
-	"meta": {
-		"learningGoals": "<par>Die <term>Meta-Info-Seite</term> enthält Hintergrundinformationen über die Kompetenz, wie zum Beispiel das genaue <term>Lernziel</term>. Dies ist im Allgemeinen nicht so nützlich für Studierende, dafür aber umso mehr für Lehrende. </par><par>Dieser Kompetenz liegt das Lernziel zugrunde, dass die Studierenden <term>Ganzzahlen</term> in ein Ganzzahl-Eingabefeld eingeben. Zahlen können positiv oder negativ sein und mehrere Ziffern enthalten.</par><par>Nachfolgend gibt es auch Informationen zu <term>Verbindungen zu anderen Kompetenzen</term>. Was kommt davor (Voraussetzungen)? Was kommt danach (Folgekompetenzen)? Und welche Kompetenzen sind vergleichbar, z.B. weil sie ähnlich sind oder zur gleichen Kategorie/Gruppe gehören?</par>"
-	},
 	"theory": {
 		"intro": "<par>Willkommen zum Step-Wise-Tutorial! Hier kannst du lernen, wie die Web-App eingerichtet ist und mit ihren Hauptfunktionen spielen.</par><warning>Um ehrlich zu sein, überspringe dieses Tutorial. Wir leben im 21. Jahrhundert. Jahrhundert. Apps sollten so intuitiv sein, dass sie kein Handbuch oder Tutorial benötigen, und Step-Wise erfüllt diese Anforderungen mit Sicherheit. Oder wenn du wirklich das Tutorial machen willst, spiel einfach mit den Übungen herum und benutze die Theorie nur für den unwahrscheinlichen Fall, dass du nicht weiterkommst. Lernen durch Tun.</warning>",
 		"skills": "<head>Kompetenzen</head><par>Step-Wise ist auf dem Konzept der <term>Kompetenzen</term> aufgebaut. Jede Kompetenz ist etwas, das man tatsächlich tun kann. Zum Beispiel (wie in dieser Kompetenz) die Eingabe einer Zahl in ein Eingabefeld.</par><par>Für jede Kompetenz schätzen wir die <term>Wahrscheinlichkeit</term>, dass du sie richtig ausführen wirst. Dazu haben wir unsere eigenen Wahrscheinlichkeitsskripte entwickelt, die zahlreiche Faktoren berücksichtigen. <check><on-true>Für dich ist es ganz einfach: Du kannst die Erfolgsquote immer über die Kompetenzkugel oben rechts sehen. Bewege den Mauszeiger darüber, um weitere Informationen zu erhalten.</on-true><on-false>Wenn du eingeloggt bist, kannst du auch deine Erfolgsquote oben rechts auf dem Bildschirm sehen.</on-false></check></par>",
@@ -19,5 +16,8 @@
         "unnecessaryMinusSign": "Versuche, das Minuszeichen zu entfernen."
       }
     }
-  }
+  },
+	"meta": {
+		"learningGoals": "<par>Die <term>Meta-Info-Seite</term> enthält Hintergrundinformationen über die Kompetenz, wie zum Beispiel das genaue <term>Lernziel</term>. Dies ist im Allgemeinen nicht so nützlich für Studierende, dafür aber umso mehr für Lehrende. </par><par>Dieser Kompetenz liegt das Lernziel zugrunde, dass die Studierenden <term>Ganzzahlen</term> in ein Ganzzahl-Eingabefeld eingeben. Zahlen können positiv oder negativ sein und mehrere Ziffern enthalten.</par><par>Nachfolgend gibt es auch Informationen zu <term>Verbindungen zu anderen Kompetenzen</term>. Was kommt davor (Voraussetzungen)? Was kommt danach (Folgekompetenzen)? Und welche Kompetenzen sind vergleichbar, z.B. weil sie ähnlich sind oder zur gleichen Kategorie/Gruppe gehören?</par>"
+	}
 }

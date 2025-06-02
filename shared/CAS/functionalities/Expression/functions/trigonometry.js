@@ -14,7 +14,7 @@ const d2rFactor = Variable.pi.divide(180)
  */
 
 class Sin extends SingleArgumentFunction {
-	toNumberBasic() {
+	toNumber() {
 		return Math.sin(this.useDegrees ? deg2rad(this.argument.toNumber()) : this.argument.toNumber())
 	}
 
@@ -72,7 +72,7 @@ module.exports.Sin = Sin
  */
 
 class Cos extends SingleArgumentFunction {
-	toNumberBasic() {
+	toNumber() {
 		return Math.cos(this.useDegrees ? deg2rad(this.argument.toNumber()) : this.argument.toNumber())
 	}
 
@@ -135,7 +135,7 @@ module.exports.Cos = Cos
  */
 
 class Tan extends SingleArgumentFunction {
-	toNumberBasic() {
+	toNumber() {
 		return Math.tan(this.useDegrees ? deg2rad(this.argument.toNumber()) : this.argument.toNumber())
 	}
 
@@ -207,7 +207,7 @@ class Arcsin extends SingleArgumentFunction {
 		return 'asin'
 	}
 
-	toNumberBasic() {
+	toNumber() {
 		const result = Math.asin(this.argument.toNumber())
 		return this.useDegrees ? rad2deg(result) : result
 	}
@@ -272,7 +272,7 @@ class Arccos extends SingleArgumentFunction {
 		return 'acos'
 	}
 
-	toNumberBasic() {
+	toNumber() {
 		const result = Math.acos(this.argument.toNumber())
 		return this.useDegrees ? rad2deg(result) : result
 	}
@@ -337,7 +337,7 @@ class Arctan extends SingleArgumentFunction {
 		return 'atan'
 	}
 
-	toNumberBasic() {
+	toNumber() {
 		const result = Math.atan(this.argument.toNumber())
 		return this.useDegrees ? rad2deg(result) : result
 	}

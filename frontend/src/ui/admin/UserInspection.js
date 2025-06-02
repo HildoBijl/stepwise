@@ -107,8 +107,8 @@ function getUserNameFromQueryResult(res) {
 
 function useSkillsList(user) {
 	return useMemo(() => {
-		// Process the skills into a raw data set. (Also filter them to remove outdated skills not in the skill tree anymore.)
-		const skillsProcessed = user.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
+		// Process the skills into a raw data set.
+		const skillsProcessed = user.skills.map(skill => processSkill(skill))
 		const skillIds = skillsProcessed.map(skill => skill.skillId)
 		const skillsAsObject = arraysToObject(skillIds, skillsProcessed)
 

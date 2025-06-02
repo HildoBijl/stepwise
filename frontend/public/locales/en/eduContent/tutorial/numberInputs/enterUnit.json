@@ -1,7 +1,4 @@
 {
-  "meta": {
-    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering units</term> for physics applications. In particular, this includes entering more complex units like fractions including powers, as well as Greek letters.</par>"
-  },
   "theory": {
     "intro": "<par>When calculating things in physics, it's crucial to use the right <term>units</term>. There is a large difference between, for instance, <inline-math/> and <inline-math/>. However, sometimes units get complicated, with powers, fractions, Greek letters, and even <inline-math/>. How do you enter all that?</par>",
     "basicFunctionalities": "<head>Basic functionalities</head><par>To enter basic units, keep the following matters in mind.</par><list><item><a><term>Unit products:</term> to separate units in a product, like <inline-math/>, use the multiplication star \"*\", the dot (period) \".\" or the space bar.</a></item><item><b><term>Unit fractions:</term> to add a fraction, like for <inline-math/>, use the dividing slash \"/\" or the downward arrow.</b></item><item><c><term>Unit powers:</term> for powers like <inline-math/> you could optionally use the power hat \"^\" but this isn't even needed. If you type a number inside a unit field, it'll automatically understand it's for a power.</c></item></list><par>This already allows you to type most units.</par><info>Units are case-sensitive! If the input field doesn't understand a unit, it's colored red. In that case, you may want to check your capitalization.</info>",
@@ -24,5 +21,8 @@
         "equivalentUnit": "<a>Technically correct, but this is a whole different notation. Enter the unit <strong>as shown</strong>.</a>"
       }
     }
+  },
+  "meta": {
+    "learningGoals": "<par>The goal of this skill is to get familiar with <term>entering units</term> for physics applications. In particular, this includes entering more complex units like fractions including powers, as well as Greek letters.</par>"
   }
 }

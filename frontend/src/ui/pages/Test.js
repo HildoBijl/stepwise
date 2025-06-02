@@ -4,10 +4,8 @@ import { getHexColor } from 'ui/theme'
 import { Par, Head, M, BM } from 'ui/components'
 
 import CAS from 'step-wise/CAS'
-import * as Stuff from 'step-wise/CAS/functionalities/Expression'
 
 window.CAS = CAS
-window.Stuff = Stuff
 
 export function Test() {
 	const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])

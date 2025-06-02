@@ -1,5 +1,5 @@
 FROM node:16.13.0-alpine
-COPY --from=shared-build /app /shared
+COPY --from=shared_build /app /shared
 WORKDIR /app
 COPY . .
 ARG REACT_APP_API_ADDRESS

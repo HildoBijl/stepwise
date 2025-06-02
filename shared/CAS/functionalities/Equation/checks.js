@@ -6,7 +6,6 @@ const hasSumWithinFraction = (input) => input.someSide(side => expressionChecks.
 const hasFraction = (input) => input.someSide(side => expressionChecks.hasFraction(side))
 const hasFractionSatisfying = (input, check) => input.someSide(side => expressionChecks.hasFractionSatisfying(side, check))
 const hasFractionWithinFraction = (input) => input.someSide(side => expressionChecks.hasFractionWithinFraction(side))
-const hasVariableInDenominator = (input, variable) => input.someSide(side => expressionChecks.hasVariableInDenominator(side, variable))
 const hasPower = (input) => input.someSide(side => expressionChecks.hasPower(side))
 
 module.exports = {
@@ -16,6 +15,5 @@ module.exports = {
 	hasFraction,
 	hasFractionSatisfying,
 	hasFractionWithinFraction,
-	hasVariableInDenominator,
 	hasPower,
 }
