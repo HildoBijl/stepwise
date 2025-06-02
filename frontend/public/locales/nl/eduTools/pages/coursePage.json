@@ -9,5 +9,6 @@
   "unknownCourse": {
     "title": "Onbekende cursus",
     "message": "Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?"
-  }
+  },
+  "noExercises": "Deze vaardigheid heeft nog geen opgaven. Ze komen er waarschijnlijk binnenkort aan."
 }

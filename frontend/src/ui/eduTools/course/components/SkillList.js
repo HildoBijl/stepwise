@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
-import { Check } from '@material-ui/icons'
+import { Check, Info } from '@material-ui/icons'
 
 import { skillTree } from 'step-wise/eduTools'
 
@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
 			'& .iconContainer': {
 				lineHeight: 0,
 
+				'& .noExercises': {
+					color: theme.palette.info.main,
+				},
 				'& .check': {
 					color: theme.palette.success.main,
 				},
@@ -115,26 +118,34 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 		return <div className="skillItem dummy"><Translation entry="noSkills">This block is still under development: no skills/exercises have been added yet. They will be here shortly!</Translation></div>
 
 	// Determine the tooltip to show under a "mastered" checkmark.
-	let iconText = ''
+	let noExercisesText = '', masteryText = ''
 	const skill = skillTree[skillId]
-	if (practiceNeeded === 0) {
+	if (skill.exercises.length === 0) {
+		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
+	} else if (practiceNeeded === 0) {
 		if (isPracticeNeeded(skillData, isPriorKnowledge, skill.thresholds) === 0)
-			iconText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
+			masteryText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
 		else
-			iconText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
+			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
 	}
 
 	return (
 		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
 			{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} /> : null}
 			<div className="skillName">{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</div>
-			{practiceNeeded === 0 ? (
-				<Tooltip title={iconText} arrow>
+			{skill.exercises.length === 0 ? (
+				<Tooltip title={noExercisesText} arrow>
+					<div className="iconContainer">
+						<Info className="noExercises" />
+					</div>
+				</Tooltip>
+			) : (practiceNeeded === 0 ? (
+				<Tooltip title={masteryText} arrow>
 					<div className="iconContainer">
 						<Check className="check" />
 					</div>
 				</Tooltip>
-			) : null}
+			) : null)}
 			{recommend ? (
 				<Tooltip title={translate('This is currently the recommended skill to practice.', 'practiceRecommendation')} arrow>
 					<div className="iconContainer">

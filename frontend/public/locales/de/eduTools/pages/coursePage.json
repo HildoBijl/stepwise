@@ -9,5 +9,6 @@
   "unknownCourse": {
     "title": "Unbekannter Kurs",
     "message": "Ups... Der Kurs, den du besuchen wolltest, ist hier unbekannt. Vielleicht ist etwas in der URL falsch?"
-  }
+  },
+"noExercises": "Für diese Kompetenz gibt es noch keine Übungen. Sie werden wahrscheinlich bald folgen."
 }
