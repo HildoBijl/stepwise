@@ -59,7 +59,7 @@ let courses = {
 
 	algebraBasics: {
 		name: 'Mathematics: algebra basics',
-		goals: ['simplifyFractionOfFractionSumsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
+		goals: ['addFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
 		priorKnowledge: [
 			'simplifyNumberProduct', 'mergeSimilarTerms', // Prerequisites for expanding brackets.
 			'cancelFractionFactors', // Prerequisites for adding fractions.
@@ -79,7 +79,7 @@ let courses = {
 			},
 			{
 				name: 'Simplifying fractions',
-				goals: ['simplifyFractionOfFractionSumsWithVariables'],
+				goals: ['simplifyFractionOfFractionsWithVariables'],
 			},
 			{
 				name: 'Solving linear equations',
@@ -94,16 +94,17 @@ let courses = {
 				goals: ['solveMultiVariableLinearEquation'],
 			},
 		],
-		setup: pick(['simplifyFractionOfFractionSumsWithMultipleVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation']),
+		setup: pick(['solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation']),
 	},
 
 	mathematicsFundamentals: {
 		name: 'Mathematics: fundamentals',
-		goals: ['simplifyFractionOfFractionSumsWithVariables', 'solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
+		goals: ['addFractionsWithVariables', 'solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [
-			'addFractionsWithVariables', 'simplifyFractionOfFractionsWithVariables', // For simplifyFractionOfFractionSumsWithVariables
+			'cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables', // For addFractionsWithVariables
+			'multiplyDivideFractions', 'simplifyFractionWithVariables', // For simplifyFractionOfFractionsWithVariables
 			'addFractionsWithMultipleVariables', // For simplifyFractionOfFractionSumsWithMultipleVariables
-			'expandBrackets', 'expandDoubleBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation', 'moveEquationFactor', // For solveLinearEquation
+			'expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation', 'moveEquationFactor', // For solveLinearEquation
 			'pullFactorOutOfBrackets', 'solveMultiVariableProductEquation', // For solveMultiVariableLinearEquation
 			'substituteANumber', 'substituteAnExpression', // For solveSystemOfLinearEquations
 			'calculateSumOfProducts', 'simplifyFractionSum', 'simplifyRoot', 'checkEquationSolution', 'multiplyAllEquationTerms', // For solveQuadraticEquation
@@ -118,7 +119,7 @@ let courses = {
 		blocks: [
 			{
 				name: 'Basic rules of algebra',
-				goals: ['simplifyFractionOfFractionSumsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
+				goals: ['addFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
 			},
 			{
 				name: 'Rewritten linear equations',
