@@ -31,9 +31,9 @@ jobs:
             -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
             postgres:15.2
       - name: Build project
-        # Use docker-compose instead of docker compose because GitHub uses Ubuntu for testing.
+        # Use docker compose instead of docker compose because GitHub uses Ubuntu for testing. Also cut the dash, corresponding to https://docs.docker.com/compose/releases/migrate/.
         run: |
-          docker-compose -f ops/build.yml build
+          docker compose -f ops/build.yml build
       - name: Run shared code tests
         run: docker run --rm -t shared_build npm test
       - name: Run frontend tests
