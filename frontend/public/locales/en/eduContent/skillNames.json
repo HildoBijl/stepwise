@@ -87,7 +87,7 @@
         },
         "manipulating": {
           "terms": {
-            "addToBothEquationSides": "Add to both equation sides",
+            "addTermToBothEquationSides": "Add term to both equation sides",
             "moveEquationTerm": "Move equation term"
           },
           "factors": {

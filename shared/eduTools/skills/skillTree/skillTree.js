@@ -127,6 +127,7 @@ const skillStructure = {
 					},
 					substituteAnExpression: {
 						name: 'Substitute an expression',
+						links: { skill: 'substituteANumber', correlation: 0.4 },
 					},
 				},
 				simplification: {
@@ -228,12 +229,12 @@ const skillStructure = {
 						// Add number to both sides, move number to other side.
 					},
 					terms: {
-						addToBothEquationSides: {
-							name: 'Add to both equation sides',
+						addTermToBothEquationSides: {
+							name: 'Add term to both equation sides',
 						},
 						moveEquationTerm: {
 							name: 'Move equation term',
-							setup: and('addToBothEquationSides', 'cancelSumTerms'),
+							setup: and('addTermToBothEquationSides', 'cancelSumTerms'),
 							examples: ['moveSingleTerm'],
 							exercises: ['moveSingleTerm', 'moveAllTerms'],
 						},
@@ -241,7 +242,7 @@ const skillStructure = {
 					factors: {
 						multiplyBothEquationSides: {
 							name: 'Multiply both equation sides',
-							links: { skill: 'addToBothEquationSides', correlation: 0.4 },
+							links: { skill: 'addTermToBothEquationSides', correlation: 0.4 },
 						},
 						moveEquationFactor: {
 							name: 'Move equation factor',

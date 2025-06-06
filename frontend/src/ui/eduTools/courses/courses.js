@@ -64,7 +64,7 @@ let courses = {
 			'simplifyNumberProduct', 'mergeSimilarTerms', // Prerequisites for expanding brackets.
 			'cancelFractionFactors', // Prerequisites for adding fractions.
 			'multiplyDivideFractions', 'simplifyFraction', 'rewritePower', // Prerequisites for simplifying fractions.
-			'checkEquationSolution', 'cancelSumTerms', 'addToBothEquationSides', 'multiplyBothEquationSides', // Prerequisites for solving linear equations.
+			'checkEquationSolution', 'cancelSumTerms', 'addTermToBothEquationSides', 'multiplyBothEquationSides', // Prerequisites for solving linear equations.
 			'checkMultiVariableEquationSolution', // Prerequisites for solving multi-variable linear equations.
 		],
 		startingPoints: [], // All starting points are covered by the prior knowledge.

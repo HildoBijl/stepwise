@@ -87,7 +87,7 @@
         },
         "manipulating": {
           "terms": {
-            "addToBothEquationSides": "Aan beide kanten van een vergelijking optellen",
+            "addTermToBothEquationSides": "Term aan beide kanten van een vergelijking optellen",
             "moveEquationTerm": "Vergelijkingsterm verplaatsen"
           },
           "factors": {
