@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, repeat, getRandomIndices } = require('../../../../../../../util')
 const { asExpression, Sum, Fraction, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -23,6 +23,7 @@ const metaData = {
 		ans: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && onlyOrderChanges(input.elementaryClean().numerator, input.elementaryClean().numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState(example) {
 	example = false

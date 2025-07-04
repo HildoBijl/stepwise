@@ -1,6 +1,6 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
 const { asExpression, Fraction, expressionChecks, expressionComparisons } = require('../../../../../../../CAS')
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -18,6 +18,7 @@ const metaData = {
 		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-12, 12, [-1, 0, 1])

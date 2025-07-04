@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
 const { asEquation, Power, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
 const { and } = require('../../../../../../../skillTracking')
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons
@@ -22,6 +22,7 @@ const metaData = {
 		ans: (input, correct, { normalize }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.applyMinus()))) && exactEqual(input.right, correct.right),
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState(example) {
 	// Set up general state parameters.

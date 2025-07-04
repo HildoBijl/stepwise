@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
 const { asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 // a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']
@@ -16,6 +16,7 @@ const metaData = {
 		ans: {},
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

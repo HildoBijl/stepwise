@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
 const { asExpression, Equation, Integer, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
@@ -20,6 +20,7 @@ const metaData = {
 		ans: { check: onlyOrderChanges },
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState(example) {
 	return {

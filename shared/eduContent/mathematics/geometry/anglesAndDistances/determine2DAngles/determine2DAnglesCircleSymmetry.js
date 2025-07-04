@@ -1,5 +1,5 @@
 const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
-const { getStepExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ', 'δ']
 const usedVariables = ['alpha', 'beta', 'gamma', 'delta']
@@ -10,6 +10,7 @@ const metaData = {
 	steps: [null, null, null, null],
 	comparison: { default: {} },
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const limit = 30

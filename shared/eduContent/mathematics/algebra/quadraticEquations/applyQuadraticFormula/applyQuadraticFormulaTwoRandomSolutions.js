@@ -1,6 +1,6 @@
 const { selectRandomly, getRandomInteger, applyMapping } = require('../../../../../util')
 const { asExpression, asEquation, Integer, Sqrt, expressionComparisons } = require('../../../../../CAS')
-const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../eduTools')
 
 // a*x^2 + b*x + c = 0.
 const variableSet = ['x', 'y', 'z']
@@ -11,6 +11,7 @@ const metaData = {
 	steps: [null, null, null, null],
 	comparison: expressionComparisons.equalNumber,
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let a, b, c

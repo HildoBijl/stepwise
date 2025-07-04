@@ -1,6 +1,6 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
 const { asExpression, asEquation, Product, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
-const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
 
@@ -30,6 +30,7 @@ const metaData = {
 		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState(example) {
 	// Set up general state parameters.

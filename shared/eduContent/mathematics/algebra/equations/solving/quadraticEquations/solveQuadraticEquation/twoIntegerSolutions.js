@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomInteger } = require('../../../../../../../util')
 const { asExpression, asEquation, expressionComparisons, Integer, Sqrt } = require('../../../../../../../CAS')
 
-const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -25,6 +25,7 @@ const metaData = {
 		ans2: onlyOrderChanges,
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(example ? 2 : -6, 6, [0])

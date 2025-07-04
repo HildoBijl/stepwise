@@ -1,6 +1,6 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../util')
 const { asExpression, Integer, Equation, equationComparisons, equationChecks } = require('../../../../../CAS')
-const { getStepExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
 const { onlyElementaryClean, equivalent } = equationComparisons
 const { hasSumWithinFraction } = equationChecks
@@ -19,6 +19,7 @@ const metaData = {
 		intermediateWithoutBrackets: (input, correct) => !hasSumWithinFraction(input) && equivalent(input, correct),
 	},
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

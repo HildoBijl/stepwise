@@ -1,6 +1,6 @@
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, equationComparisons, Variable, Integer } = require('../../../../../CAS')
-const { getStepExerciseProcessor, selectRandomVariables, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison } = require('../../../../../eduTools')
 
 const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)'], [3, 4, 5], [5, 12, 13]]
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,6 +15,7 @@ const metaData = {
 		equation2: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate random data.

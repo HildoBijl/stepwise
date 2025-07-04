@@ -1,6 +1,6 @@
 const { deg2rad, getRandomInteger } = require('../../../../util')
 const { Vector } = require('../../../../geometry/Vector')
-const { getStepExerciseProcessor, performComparison } = require('../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, getDefaultMoment, isLoadAtPoint } = require('../../tools')
 
@@ -14,6 +14,7 @@ const metaData = {
 		default: {},
 	},
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	return {

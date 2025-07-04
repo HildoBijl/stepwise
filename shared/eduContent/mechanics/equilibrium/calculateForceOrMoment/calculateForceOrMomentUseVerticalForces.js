@@ -2,7 +2,7 @@ const { deg2rad, numberArray, getRandomBoolean, getRandomInteger } = require('..
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
-const { getStepExerciseProcessor, performComparison } = require('../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, decomposeForce } = require('../../tools')
 
@@ -19,6 +19,7 @@ const metaData = {
 		method: {},
 	},
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate state.

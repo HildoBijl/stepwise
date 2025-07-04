@@ -26,7 +26,7 @@ describe('Check all exercises:', () => {
 			try {
 				exercise = require(`../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
 			} catch (e) {
-				it('has a shared file', () => fail())
+				it('has a shared file', () => { throw new Error(`Shared file for exercise ${exerciseId} failed to load.`) })
 			}
 			if (!exercise)
 				return
@@ -75,6 +75,9 @@ describe('Check all exercises:', () => {
 							assertSkillSetup(step)
 						}
 					})
+				})
+				it('has a set-up', () => {
+					expect(exercise.metaData.setup).toBeDefined()
 				})
 			}
 		})

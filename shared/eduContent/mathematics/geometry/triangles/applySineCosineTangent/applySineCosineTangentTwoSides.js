@@ -1,6 +1,6 @@
 const { applyMapping, selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
-const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
 
@@ -12,6 +12,7 @@ const metaData = {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the sides.

@@ -1,6 +1,6 @@
 const { selectRandomly, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, Integer, expressionComparisons } = require('../../../../../CAS')
-const { getStepExerciseProcessor, filterVariables, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../eduTools')
 
 // a*x^2 + b*x + c = 0.
 const variableSet = ['x', 'y', 'z']
@@ -11,6 +11,7 @@ const metaData = {
 	steps: [null, null, null, null],
 	comparison: expressionComparisons.equalNumber,
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// We want integer coefficients in the equation, but a possibly non-integer solution. So we set up the equation a*(x - solution/denominator)^2 = 0, rewrite it to a*x^2 - 2*a*(solution/denominator) + a*(solution/denominator)^2 = 0, and check if this gives integer coefficients.

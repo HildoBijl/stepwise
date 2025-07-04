@@ -1,6 +1,6 @@
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Variable, Integer, Sqrt } = require('../../../../../CAS')
-const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
 const variableSet = ['x', 'y', 'z']
@@ -13,6 +13,7 @@ const metaData = {
 		equation: equationComparisons.equivalent,
 	},
 }
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate random data.

@@ -2,7 +2,7 @@ const { selectRandomly, getRandomInteger } = require('../../../../../../../util'
 const { asExpression, asEquation, expressionComparisons, Integer, Sqrt } = require('../../../../../../../CAS')
 const { and } = require('../../../../../../../skillTracking')
 
-const { getStepExerciseProcessor, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -27,6 +27,7 @@ const metaData = {
 		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),
 	}
 }
+addSetupFromSteps(metaData)
 
 function generateState(example) {
 	let a, b, c
