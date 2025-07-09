@@ -31,6 +31,15 @@ To provide individual users with exercises, there are the following tables.
 - `exerciseEvents` represent any event/action the user does for the exercise. Think of an input submission or simply giving up. It has an `exerciseSampleId` (for which exercise is this event) an `action` parameter (what did the user do?) and a `progress` parameter (how far along was the student after said action?) to track everything.
 
 
+## Course system
+
+For the course registration system, there are the following tables.
+
+- `courses` represents the courses available on Step-Wise. It has a code (url), name, description, list of goals (skillIds), list of startingPoints (skillIds) and an optional set-up object.
+- `courseSubscriptions` is the n-n link between courses and users. There is a role available too (default: 'student').
+- `courseBlocks` contains the blocks (weeks) for each course, with the respective goals per week. Through the `order` parameter (must be unique for each course) the blocks are put in order.
+
+
 ## Group practice
 
 For group practice there is another set of tables.
