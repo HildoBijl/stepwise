@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 
 module.exports = {
 	up: async (queryInterface) => {
-		await queryInterface.createTable('groups', {
+		await queryInterface.createTable('courses', {
 			id: {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
@@ -13,41 +13,24 @@ module.exports = {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			createdAt: {
-				type: DataTypes.DATE,
+			name: {
+				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			updatedAt: {
-				type: DataTypes.DATE,
+			description: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
+			goals: {
+				type: DataTypes.ARRAY(DataTypes.STRING),
 				allowNull: false,
 			},
-		})
-		await queryInterface.addIndex('groups', {
-			fields: ['code'],
-			unique: true,
-		})
-
-		await queryInterface.createTable('groupMemberships', {
-			userId: {
-				type: DataTypes.UUID,
-				references: {
-					model: 'users',
-					key: 'id',
-				},
-				onUpdate: 'cascade',
-				onDelete: 'cascade',
+			startingPoints: {
+				type: DataTypes.ARRAY(DataTypes.STRING),
+				allowNull: false,
 			},
-			groupId: {
-				type: DataTypes.UUID,
-				references: {
-					model: 'groups',
-					key: 'id',
-				},
-				onUpdate: 'cascade',
-				onDelete: 'cascade',
-			},
-			active: {
-				type: DataTypes.BOOLEAN,
+			setup: {
+				type: DataTypes.JSON,
 				allowNull: true,
 			},
 			createdAt: {
@@ -59,16 +42,57 @@ module.exports = {
 				allowNull: false,
 			},
 		})
-		await queryInterface.addIndex('groupMemberships', {
+		await queryInterface.addIndex('courses', {
+			fields: ['code'],
+			unique: true,
+		})
+
+		await queryInterface.createTable('courseSubscriptions', {
+			userId: {
+				type: DataTypes.UUID,
+				references: {
+					model: 'users',
+					key: 'id',
+				},
+				onUpdate: 'cascade',
+				onDelete: 'cascade',
+			},
+			courseId: {
+				type: DataTypes.UUID,
+				references: {
+					model: 'groups',
+					key: 'id',
+				},
+				onUpdate: 'cascade',
+				onDelete: 'cascade',
+			},
+			role: {
+				type: DataTypes.ENUM([
+					'student',
+					'teacher',
+				]),
+				defaultValue: 'student',
+				allowNull: false,
+			},
+			createdAt: {
+				type: DataTypes.DATE,
+				allowNull: false,
+			},
+			updatedAt: {
+				type: DataTypes.DATE,
+				allowNull: false,
+			},
+		})
+		await queryInterface.addIndex('courseSubscriptions', {
 			fields: ['userId'],
 		})
-		await queryInterface.addIndex('groupMemberships', {
-			fields: ['groupId'],
+		await queryInterface.addIndex('courseSubscriptions', {
+			fields: ['courseId'],
 		})
 	},
 
 	down: async (queryInterface) => {
-		await queryInterface.dropTable('groupMemberships')
-		await queryInterface.dropTable('groups')
+		await queryInterface.dropTable('courseSubscriptions')
+		await queryInterface.dropTable('courses')
 	},
 }

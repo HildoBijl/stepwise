@@ -45,5 +45,4 @@ module.exports = {
 	down: async (queryInterface) => {
 		queryInterface.dropTable('exerciseSamples')
 	},
-
 }

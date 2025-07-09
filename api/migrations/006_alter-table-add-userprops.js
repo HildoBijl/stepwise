@@ -51,5 +51,4 @@ module.exports = {
 		await queryInterface.removeColumn('surfConextProfiles', 'locale')
 		await queryInterface.sequelize.query('drop type enum_users_role;')
 	},
-
 }

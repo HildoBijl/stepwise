@@ -2,37 +2,32 @@ const { DataTypes } = require('sequelize')
 
 module.exports = {
 	up: async (queryInterface) => {
-		await queryInterface.createTable('groupExerciseSamples', {
+		await queryInterface.createTable('courseBlocks', {
 			id: {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
 				allowNull: false,
 				primaryKey: true,
 			},
-			groupId: {
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			goals: {
+				type: DataTypes.ARRAY(DataTypes.STRING),
+				allowNull: false,
+			},
+			courseId: {
 				type: DataTypes.UUID,
 				references: {
-					model: 'groups',
+					model: 'courses',
 					key: 'id',
 				},
 				onUpdate: 'cascade',
 				onDelete: 'cascade',
 			},
-			skillId: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			exerciseId: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			state: {
-				type: DataTypes.JSON,
-				allowNull: false,
-			},
-			active: {
-				type: DataTypes.BOOLEAN,
-				defaultValue: true,
+			order: {
+				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
 			createdAt: {
@@ -44,9 +39,13 @@ module.exports = {
 				allowNull: false,
 			},
 		})
+		await queryInterface.addIndex('courseBlocks', {
+			fields: ['courseId', 'order'],
+			unique: true,
+		})
 	},
 
 	down: async (queryInterface) => {
-		queryInterface.dropTable('groupExerciseSamples')
+		await queryInterface.dropTable('courseBlocks')
 	},
 }
