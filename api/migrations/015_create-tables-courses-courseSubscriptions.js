@@ -60,7 +60,7 @@ module.exports = {
 			courseId: {
 				type: DataTypes.UUID,
 				references: {
-					model: 'groups',
+					model: 'courses',
 					key: 'id',
 				},
 				onUpdate: 'cascade',

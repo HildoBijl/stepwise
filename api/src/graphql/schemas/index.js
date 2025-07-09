@@ -4,6 +4,7 @@ const schemaKeys = [
 	'User',
 	'Skill',
 	'Exercise',
+	'Course',
 	'Group',
 	'GroupExercise',
 ]

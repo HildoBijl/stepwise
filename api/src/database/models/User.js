@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize')
+const CourseSubscription  = require('./CourseSubscription')
 const GroupMembership  = require('./GroupMembership')
 
 module.exports = (sequelize) => {
@@ -10,8 +11,7 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 		},
 		name: {
-			// This is the full name, potentially including
-			// the academic title
+			// This is the full name, potentially including the academic title.
 			type: DataTypes.TEXT,
 		},
 		givenName: {
@@ -48,8 +48,9 @@ module.exports = (sequelize) => {
 	})
 
 	User.associate = models => {
-		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE' })
 		User.hasMany(models.SurfConextProfile, { onDelete: 'CASCADE' })
+		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE' })
+		User.belongsToMany(models.Course, { as: 'courses', through: CourseSubscription(sequelize) })
 		User.belongsToMany(models.Group, { as: 'groups', through: GroupMembership(sequelize) })
 	}
 
