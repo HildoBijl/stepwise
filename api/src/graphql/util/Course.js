@@ -18,6 +18,7 @@ async function getCourseByCode(db, code) {
 		include: [
 			{ association: 'blocks' },
 		],
+		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
 	})
 	if (!course)
 		throw new Error(`Failed to load course with code "${code}".`)
@@ -36,6 +37,7 @@ async function getUserCourses(db, userId) {
 				{ association: 'teachers' },
 			],
 		},
+		order: [[{ model: db.Course, as: 'courses' }, { model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
 	})
 
 	// Extract the courses, check them and return them.
@@ -78,6 +80,7 @@ async function getCourseByConditionsForUser(db, conditions, userId, requireTeach
 				...(!addStudents ? [] : [{ association: 'students' }]), // For teachers, also load student data.
 			],
 		},
+		order: [[{ model: db.Course, as: 'courses' }, { model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
 	})
 
 	// ToDo: for teacher mode, take the course and derive all skills related to it. Then, for those skillIds, and for all respective students, load in skill data.

@@ -8,6 +8,11 @@ module.exports = (sequelize) => {
 			allowNull: false,
 			primaryKey: true,
 		},
+		index: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+			allowNull: false,
+		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -16,10 +21,9 @@ module.exports = (sequelize) => {
 			type: DataTypes.ARRAY(DataTypes.STRING),
 			allowNull: false,
 		},
-		order: {
-			type: DataTypes.INTEGER,
-			defaultValue: 0,
-			allowNull: false,
+	}, {
+		defaultScope: {
+			order: [['index', 'ASC']]
 		},
 	})
 

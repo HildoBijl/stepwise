@@ -40,10 +40,23 @@ const resolvers = {
 
 	Mutation: {
 		createCourse: async (_source, { input }, { db, getCurrentUser }) => {
+			// Check the user's rights.
 			const user = await getCurrentUser()
 			if (user.role !== 'teacher' && user.role !== 'admin')
 				throw new Error(`Invalid createCourse call: user does not have the rights to create a new course.`)
-			return await createCourse(db, input, user.id)
+
+			// Set up the course.
+			const { blocks, ...courseData } = input
+			const course = await createCourse(db, courseData, user.id)
+
+			// Add in the blocks.
+			if (blocks) {
+				const newBlocks = await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index })))
+				course.blocks = newBlocks
+			}
+
+			// Return the result.
+			return course
 		},
 
 		updateCourse: async (_source, { courseId, input }, { db, getCurrentUser }) => {
@@ -55,7 +68,17 @@ const resolvers = {
 			// If a course has been found matching the ID and that can be changed, adjust it.
 			if (!course)
 				throw new Error(`Invalid course update call: cannot find a course with ID "${courseId}" that the current user with ID "${user.id}" is allowed to change.`)
-			await course.update(input)
+			const { blocks, ...courseData } = input
+			await course.update(courseData)
+
+			// Also update the blocks.
+			if (blocks) {
+				await course.setBlocks([]) // Destroy existing blocks.
+				const newBlocks = await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index })))
+				course.blocks = newBlocks
+			}
+
+			// Return the result.
 			return course
 		},
 

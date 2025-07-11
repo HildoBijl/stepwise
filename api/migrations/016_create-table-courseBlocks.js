@@ -9,14 +9,6 @@ module.exports = {
 				allowNull: false,
 				primaryKey: true,
 			},
-			name: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			goals: {
-				type: DataTypes.ARRAY(DataTypes.STRING),
-				allowNull: false,
-			},
 			courseId: {
 				type: DataTypes.UUID,
 				references: {
@@ -26,9 +18,17 @@ module.exports = {
 				onUpdate: 'cascade',
 				onDelete: 'cascade',
 			},
-			order: {
+			index: {
 				type: DataTypes.INTEGER,
 				defaultValue: 0,
+				allowNull: false,
+			},
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			goals: {
+				type: DataTypes.ARRAY(DataTypes.STRING),
 				allowNull: false,
 			},
 			createdAt: {
@@ -41,7 +41,7 @@ module.exports = {
 			},
 		})
 		await queryInterface.addIndex('courseBlocks', {
-			fields: ['courseId', 'order'],
+			fields: ['courseId', 'index'],
 			unique: true,
 		})
 	},

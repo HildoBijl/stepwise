@@ -39,24 +39,6 @@ const schema = gql`
 		deleteCourse(courseId: ID!): Boolean!
 	}
 
-	input CreateCourseInput {
-		code: String!
-		name: String!
-		description: String
-		goals: [String]!
-		startingPoints: [String]!
-		setup: JSON
-	}
-
-	input UpdateCourseInput {
-		code: String
-		name: String
-		description: String
-		goals: [String]
-		startingPoints: [String]
-		setup: JSON
-	}
-
 	type Course {
 		${Course}
 	}
@@ -69,11 +51,34 @@ const schema = gql`
 		${CourseForTeacher}
 	}
 
+	input CreateCourseInput {
+		code: String!
+		name: String!
+		description: String
+		goals: [String]!
+		startingPoints: [String]!
+		setup: JSON
+  	blocks: [CourseBlockInput]
+	}
+
+	input UpdateCourseInput {
+		code: String
+		name: String
+		description: String
+		goals: [String]
+		startingPoints: [String]
+		setup: JSON
+  	blocks: [CourseBlockInput]
+	}
+
 	type CourseBlock {
-		id: ID!
 		name: String!
 		goals: [String]!
-		order: Int!
+	}
+
+	input CourseBlockInput {
+		name: String!
+		goals: [String]!
 	}
 `
 
