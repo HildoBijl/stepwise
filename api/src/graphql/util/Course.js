@@ -119,15 +119,15 @@ async function unsubscribeUserFromCourse(db, userId, courseId) {
 module.exports.unsubscribeUserFromCourse = unsubscribeUserFromCourse
 
 // createCourse creates a new course. Added is also a userId, who is creating the course. This will be the course's first teacher.
-async function createCourse(db, courseData, userId) {
+async function createCourse(db, courseData, userId, transaction) {
 	// Check the user's rights.
 	const user = await getUser(db, userId)
 	if (!(user.role === 'teacher' || user.role === 'admin'))
 		throw new Error(`Invalid rights: the user with ID ${userId} has role ${user.role} and is hence not allowed to create a course.`)
 
 	// Set up the course from the user's perspective and upgrade the courseSubscription to teacher.
-	const course = await user.createCourse(courseData)
-	await course.addParticipant(user, { through: { role: 'teacher' } })
+	const course = await user.createCourse(courseData, { transaction })
+	await course.addParticipant(user, { through: { role: 'teacher' }, transaction })
 
 	// All done. Return the course.
 	course.blocks = [] // Add an empty blocks list.
