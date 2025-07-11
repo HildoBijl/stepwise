@@ -27,9 +27,8 @@ function createApolloContext(database, pubsub) {
 		getCurrentUser: async () => {
 			const principal = getPrincipalOrThrow(req)
 			const user = await database.User.findByPk(principal.id)
-			if (!user) {
+			if (!user)
 				throw new AuthenticationError('No such user in the system.')
-			}
 			return user
 		},
 
@@ -57,9 +56,8 @@ function createApolloContext(database, pubsub) {
  * Returns the principal object or throws an error.
  */
 function getPrincipalOrThrow(request) {
-	if (!request.session.principal || !request.session.principal.id) {
+	if (!request.session.principal || !request.session.principal.id)
 		throw new AuthenticationError('No user is logged in.')
-	}
 	return request.session.principal
 }
 

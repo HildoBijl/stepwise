@@ -1,30 +1,41 @@
-const { getAllCourses, getUserCourses, getCourseByCode, createCourse, subscribeUserToCourse, unsubscribeUserFromCourse } = require('../util/Course')
+const { getAllCourses, getCourseByCode, getUserCourses, getCourseByCodeForUser, createCourse, subscribeUserToCourse, unsubscribeUserFromCourse } = require('../util/Course')
+
+const courseResolvers = {
+}
+const courseForStudentResolvers = {
+	...courseResolvers,
+	role: course => course.courseSubscription?.role,
+}
+const courseForTeacherResolvers = {
+	...courseForStudentResolvers,
+}
 
 const resolvers = {
-	Course: {
-
-	},
-
-	CourseBlock: {
-
-	},
-
-	CourseParticipant: {
-
-	},
+	Course: courseResolvers,
+	CourseForStudent: courseForStudentResolvers,
+	CourseForTeacher: courseForTeacherResolvers,
+	CourseBlock: {},
 
 	Query: {
 		allCourses: async (_source, { }, { db }) => {
 			return await getAllCourses(db)
 		},
 
+		course: async (_source, { code }, { db }) => {
+			return await getCourseByCode(db, code)
+		},
+
 		myCourses: async (_source, { }, { db, getCurrentUserId }) => {
 			return await getUserCourses(db, getCurrentUserId())
 		},
 
-		course: async (_source, { code }, { db }) => {
-			return await getCourseByCode(db, code)
-		}
+		courseForStudent: async (_source, { code }, { db, getCurrentUserId }) => {
+			return await getCourseByCodeForUser(db, code, getCurrentUserId())
+		},
+
+		courseForTeacher: async (_source, { code }, { db, getCurrentUserId }) => {
+			return await getCourseByCodeForUser(db, code, getCurrentUserId(), true)
+		},
 	},
 
 	Mutation: {

@@ -3,22 +3,42 @@ const { getUser } = require('./User')
 // getAllCourses return the list of all available courses.
 async function getAllCourses(db) {
 	return await db.Course.findAll({
-		include: { association: 'blocks' },
+		include: [
+			{ association: 'blocks' },
+			{ association: 'teachers' },
+		],
 	})
 }
 module.exports.getAllCourses = getAllCourses
 
-// getUserWithCourses searches for a user and all its courses.
-async function getUserWithCourses(db, userId) {
-	return await db.User.findByPk(userId, {
-		include: { association: 'courses' },
+// getCourseByCode takes a course code and returns the corresponding course. It does this for anonymous users, so only limited data is loaded.
+async function getCourseByCode(db, code) {
+	const course = await db.Course.findOne({
+		where: { code },
+		include: [
+			{ association: 'blocks' },
+		],
 	})
+	if (!course)
+		throw new Error(`Failed to load course with code "${code}".`)
+	return course
 }
-module.exports.getUserWithCourses = getUserWithCourses
+module.exports.getCourseByCode = getCourseByCode
 
 // getUserCourses returns the list of courses that the given user is subscribed to (in any role).
 async function getUserCourses(db, userId) {
-	const userWithCourses = await getUserWithCourses(db, userId)
+	// Load the user with the associated courses.
+	const userWithCourses = await db.User.findByPk(userId, {
+		include: {
+			association: 'courses',
+			include: [
+				{ association: 'blocks' },
+				{ association: 'teachers' },
+			],
+		},
+	})
+
+	// Extract the courses, check them and return them.
 	const courses = userWithCourses?.courses
 	if (!courses)
 		throw new Error(`Failed to load courses of user with ID "${userId}".`)
@@ -26,31 +46,37 @@ async function getUserCourses(db, userId) {
 }
 module.exports.getUserCourses = getUserCourses
 
-// getCourseByCode takes a course code and returns the corresponding course.
-async function getCourseByCode(db, code) {
-	return await db.Course.findOne({
-		where: { code },
-		include: { association: 'blocks' },
+// getCourseByCodeForUser takes a course code and returns the corresponding course. It does this from the perspective of a given user. If the user is marked as a teacher (indicated through an extra function argument) then student data is included too.
+async function getCourseByCodeForUser(db, code, userId, isTeacher = false) {
+	// Load the user with the associated courses.
+	const userWithCourses = await db.User.findByPk(userId, {
+		include: {
+			association: 'courses',
+			where: { code },
+			include: [
+				...(!isTeacher ? [] : [{ // If this is a teacher, only show this course if the user is a teacher of it.
+					association: 'participants',
+					where: { id: userId }, // The teacher must be among the participants ...
+					through: { where: { role: 'teacher' } }, // ... with role of teacher.
+					required: true, // This is a hard requirement: throw out the course if not the case.
+					attributes: [], // We don’t need the current data in the result.
+				}]),
+				{ association: 'blocks' },
+				{ association: 'teachers' },
+				...(!isTeacher ? [] : [{ association: 'students' }]), // For teachers, also load student data.
+			],
+		},
 	})
+
+	// ToDo: for teacher mode, take the course and derive all skills related to it. Then, for those skillIds, and for all respective students, load in skill data.
+
+	// Extract the course, check it and return it.
+	const courses = userWithCourses?.courses
+	if (!courses || courses.length === 0)
+		throw new Error(`Failed to load the course with code "${code}" for user with ID "${userId}" through the role of ${isTeacher ? 'teacher' : 'student'}.`)
+	return courses[0]
 }
-module.exports.getCourseByCode = getCourseByCode
-
-// createCourse creates a new course. Added is also a userId, who is creating the course. This will be the course's first teacher.
-async function createCourse(db, courseData, userId) {
-	// Check the user's rights.
-	const user = await getUser(db, userId)
-	if (!(user.role === 'teacher' || user.role === 'admin'))
-		throw new Error(`Invalid rights: the user with ID ${userId} has role ${user.role} and is hence not allowed to create a course.`)
-
-	// Set up the course from the user's perspective and upgrade the courseSubscription to teacher.
-	const course = await user.createCourse(courseData)
-	await course.addParticipant(user, { through: { role: 'teacher' } })
-
-	// All done. Return the course.
-	course.blocks = [] // Add an empty blocks list.
-	return course
-}
-module.exports.createCourse = createCourse
+module.exports.getCourseByCodeForUser = getCourseByCodeForUser
 
 // subscribeUserToCourse subscribes a user to an existing course.
 async function subscribeUserToCourse(db, userId, courseId) {
@@ -77,3 +103,20 @@ async function unsubscribeUserFromCourse(db, userId, courseId) {
 	return course
 }
 module.exports.unsubscribeUserFromCourse = unsubscribeUserFromCourse
+
+// createCourse creates a new course. Added is also a userId, who is creating the course. This will be the course's first teacher.
+async function createCourse(db, courseData, userId) {
+	// Check the user's rights.
+	const user = await getUser(db, userId)
+	if (!(user.role === 'teacher' || user.role === 'admin'))
+		throw new Error(`Invalid rights: the user with ID ${userId} has role ${user.role} and is hence not allowed to create a course.`)
+
+	// Set up the course from the user's perspective and upgrade the courseSubscription to teacher.
+	const course = await user.createCourse(courseData)
+	await course.addParticipant(user, { through: { role: 'teacher' } })
+
+	// All done. Return the course.
+	course.blocks = [] // Add an empty blocks list.
+	return course
+}
+module.exports.createCourse = createCourse

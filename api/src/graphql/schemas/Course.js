@@ -1,19 +1,6 @@
 const { gql } = require('apollo-server-express')
 
-const schema = gql`
-	extend type Query {
-		allCourses: [Course]!
-		myCourses: [Course]!
-		course(code: String!): Course
-	}
-
-	extend type Mutation {
-		createCourse(code: String!, name: String!, description: String, goals: [String]!, startingPoints: [String]!, setup: JSON): Course!
-		subscribeToCourse(courseId: ID!): Course!
-		unsubscribeFromCourse(courseId: ID!): Course!
-	}
-
-	type Course {
+const Course = `
 		id: ID!
 		code: String!
 		name: String!
@@ -22,6 +9,44 @@ const schema = gql`
 		startingPoints: [String]!
 		setup: JSON
 		blocks: [CourseBlock]!
+`
+
+const CourseForStudent = `
+		${Course}
+		role: String
+		teachers: [UserPublic]!
+`
+
+const CourseForTeacher = `
+		${CourseForStudent}
+		students: [UserPrivate]!
+`
+
+const schema = gql`
+	extend type Query {
+		allCourses: [Course]!
+		course(code: String!): Course!
+		myCourses: [CourseForStudent]!
+		courseForStudent(code: String!): CourseForStudent!
+		courseForTeacher(code: String!): CourseForTeacher!
+	}
+
+	extend type Mutation {
+		subscribeToCourse(courseId: ID!): CourseForStudent!
+		unsubscribeFromCourse(courseId: ID!): CourseForStudent!
+		createCourse(code: String!, name: String!, description: String, goals: [String]!, startingPoints: [String]!, setup: JSON): CourseForStudent!
+	}
+
+	type Course {
+		${Course}
+	}
+
+	type CourseForStudent {
+		${CourseForStudent}
+	}
+
+	type CourseForTeacher {
+		${CourseForTeacher}
 	}
 
 	type CourseBlock {
@@ -29,16 +54,6 @@ const schema = gql`
 		name: String!
 		goals: [String]!
 		order: Int!
-	}
-
-	type CourseParticipant {
-		id: ID!
-		name: String
-		givenName: String
-		familyName: String
-		email: EmailAddress
-		role: String!
-		lastActivity: DateTime!
 	}
 `
 
