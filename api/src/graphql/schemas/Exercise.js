@@ -20,7 +20,7 @@ const schema = gql`
 
 	type ExerciseActionResult {
 		updatedExercise: Exercise!
-		adjustedSkills: [SkillWithoutExercises]!
+		adjustedSkills: [SkillLevel]!
 	}
 	
 	type Event {

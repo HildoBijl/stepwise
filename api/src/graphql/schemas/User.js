@@ -1,14 +1,39 @@
 const { gql } = require('apollo-server-express')
 
+// What can you see from users when you know they exist on the site?
+const UserPublic = `
+		id: ID!
+		name: String
+		givenName: String
+		familyName: String
+`
+
+// What can you see when people have given you permission to access their data?
+const UserPrivate = `
+		${UserPublic}
+		email: EmailAddress
+		skills(ids: [String]): [SkillLevel]!
+`
+
+// What data can you get for yourself?
+const UserFull = `
+		${UserPrivate}
+		role: String!
+		language: String
+		createdAt: DateTime!
+		updatedAt: DateTime!
+		privacyPolicyConsent: PrivacyPolicyConsent!
+`
+
 const schema = gql`
   extend type Query {
-		me: User
-		user(userId: ID!): User
-		allUsers: [User]
+		me: UserFull
+		user(userId: ID!): UserPrivate
+		allUsers: [UserPrivate]
   }
 
 	extend type Mutation {
-		setLanguage(language: String!): User!
+		setLanguage(language: String!): UserFull!
 		acceptLatestPrivacyPolicy: PrivacyPolicyConsent!
 		shutdownAccount(confirmEmail: String!): ID!
 	}
@@ -19,18 +44,16 @@ const schema = gql`
 		isLatestVersion: Boolean!
 	}
 
-	type User {
-		id: ID!
-		name: String
-		givenName: String
-		familyName: String
-		email: EmailAddress
-		role: String!
-		language: String
-		createdAt: DateTime!
-		updatedAt: DateTime!
-		skills(ids: [String]): [SkillWithoutExercises]!
-		privacyPolicyConsent: PrivacyPolicyConsent!
+	type UserPublic {
+		${UserPublic}
+	}
+
+	type UserPrivate {
+		${UserPrivate}
+	}
+
+	type UserFull {
+		${UserFull}
 	}
 `
 

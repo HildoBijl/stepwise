@@ -5,22 +5,31 @@ const { ensureSkillIds } = require('step-wise/eduTools')
 
 const { getUser, getAllUsers } = require('../util/User')
 
-const resolvers = {
-	User: {
-		skills: async (user, { ids }) => {
-			if (!ids)
-				return await user.getSkills()
-			ids = ensureSkillIds(ids)
-			return await user.getSkills({ where: { skillId: ids } })
-		},
-		privacyPolicyConsent: (user) => {
-			return {
-				version: user.privacyPolicyAcceptedVersion,
-				acceptedAt: user.privacyPolicyAcceptedAt,
-				isLatestVersion: user.privacyPolicyAcceptedVersion === currentPrivacyPolicyVersion,
-			}
+const userPublicResolvers = {}
+const userPrivateResolvers = {
+	...userPublicResolvers,
+	skills: async (user, { ids }) => {
+		if (!ids)
+			return await user.getSkills()
+		ids = ensureSkillIds(ids)
+		return await user.getSkills({ where: { skillId: ids } })
+	},
+}
+const userFullResolvers = {
+	...userPrivateResolvers,
+	privacyPolicyConsent: (user) => {
+		return {
+			version: user.privacyPolicyAcceptedVersion,
+			acceptedAt: user.privacyPolicyAcceptedAt,
+			isLatestVersion: user.privacyPolicyAcceptedVersion === currentPrivacyPolicyVersion,
 		}
 	},
+}
+
+const resolvers = {
+	UserPublic: userPublicResolvers,
+	UserPrivate: userPrivateResolvers,
+	UserFull: userFullResolvers,
 
 	Mutation: {
 		setLanguage: async (_source, { language }, { getCurrentUser }) => {
