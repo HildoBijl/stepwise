@@ -36,6 +36,7 @@ const schema = gql`
 		unsubscribeFromCourse(courseId: ID!): CourseForStudent!
 		createCourse(input: CreateCourseInput!): CourseForStudent!
 		updateCourse(courseId: ID!, input: UpdateCourseInput!): CourseForStudent!
+		deleteCourse(courseId: ID!): Boolean!
 	}
 
 	input CreateCourseInput {

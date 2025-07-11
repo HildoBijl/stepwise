@@ -54,9 +54,22 @@ const resolvers = {
 
 			// If a course has been found matching the ID and that can be changed, adjust it.
 			if (!course)
-				throw new Error(`Invalid course adjustment: cannot find a course with ID "${courseId}" that the current user is allowed to change.`)
+				throw new Error(`Invalid course update call: cannot find a course with ID "${courseId}" that the current user with ID "${user.id}" is allowed to change.`)
 			await course.update(input)
 			return course
+		},
+
+		deleteCourse: async (_source, { courseId, input }, { db, getCurrentUser }) => {
+			// Load the course. Ensure that the user is either an admin, or a teacher of the course.
+			const user = await getCurrentUser()
+			const requireTeacherRole = (user.role !== 'admin')
+			const course = await getCourseByIdForUser(db, courseId, user.id, requireTeacherRole, false)
+
+			// If a course has been found matching the ID and that can be changed, adjust it.
+			if (!course)
+				throw new Error(`Invalid course deletion cll: cannot find a course with ID "${courseId}" that the current user with ID "${user.id}" is allowed to change.`)
+			await course.destroy()
+			return true
 		},
 
 		subscribeToCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
