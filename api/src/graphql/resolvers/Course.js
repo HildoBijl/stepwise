@@ -1,4 +1,4 @@
-const { getAllCourses, getCourseByCode, getUserCourses, getCourseByCodeForUser, createCourse, subscribeUserToCourse, unsubscribeUserFromCourse } = require('../util/Course')
+const { getAllCourses, getCourseByCode, getUserCourses, getCourseByCodeForUser, getCourseByIdForUser, createCourse, subscribeUserToCourse, unsubscribeUserFromCourse } = require('../util/Course')
 
 const courseResolvers = {
 }
@@ -39,9 +39,24 @@ const resolvers = {
 	},
 
 	Mutation: {
-		createCourse: async (_source, { code, name, description, goals, startingPoints, setup }, { db, getCurrentUserId }) => {
-			const userId = getCurrentUserId()
-			return await createCourse(db, { code, name, description, goals, startingPoints, setup }, userId)
+		createCourse: async (_source, { input }, { db, getCurrentUser }) => {
+			const user = await getCurrentUser()
+			if (user.role !== 'teacher' && user.role !== 'admin')
+				throw new Error(`Invalid createCourse call: user does not have the rights to create a new course.`)
+			return await createCourse(db, input, user.id)
+		},
+
+		updateCourse: async (_source, { courseId, input }, { db, getCurrentUser }) => {
+			// Load the course. Ensure that the user is either an admin, or a teacher of the course.
+			const user = await getCurrentUser()
+			const requireTeacherRole = (user.role !== 'admin')
+			const course = await getCourseByIdForUser(db, courseId, user.id, requireTeacherRole, false)
+
+			// If a course has been found matching the ID and that can be changed, adjust it.
+			if (!course)
+				throw new Error(`Invalid course adjustment: cannot find a course with ID "${courseId}" that the current user is allowed to change.`)
+			await course.update(input)
+			return course
 		},
 
 		subscribeToCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {

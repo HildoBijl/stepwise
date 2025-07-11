@@ -47,14 +47,26 @@ async function getUserCourses(db, userId) {
 module.exports.getUserCourses = getUserCourses
 
 // getCourseByCodeForUser takes a course code and returns the corresponding course. It does this from the perspective of a given user. If the user is marked as a teacher (indicated through an extra function argument) then student data is included too.
-async function getCourseByCodeForUser(db, code, userId, isTeacher = false) {
+async function getCourseByCodeForUser(db, code, ...args) {
+	return await getCourseByConditionsForUser(db, { code }, ...args)
+}
+module.exports.getCourseByCodeForUser = getCourseByCodeForUser
+
+// getCourseByIdForUser takes a courseId and returns the corresponding course. It does this from the perspective of a given user. If the user is marked as a teacher (indicated through an extra function argument) then student data is included too.
+async function getCourseByIdForUser(db, courseId, ...args) {
+	return await getCourseByConditionsForUser(db, { id: courseId }, ...args)
+}
+module.exports.getCourseByIdForUser = getCourseByIdForUser
+
+// getCourseByConditionsForUser takes a set of conditions for a course (like an ID, code or so) and looks up the corresponding course.
+async function getCourseByConditionsForUser(db, conditions, userId, requireTeacherRole = false, addStudents = requireTeacherRole) {
 	// Load the user with the associated courses.
 	const userWithCourses = await db.User.findByPk(userId, {
 		include: {
 			association: 'courses',
-			where: { code },
+			where: conditions,
 			include: [
-				...(!isTeacher ? [] : [{ // If this is a teacher, only show this course if the user is a teacher of it.
+				...(!requireTeacherRole ? [] : [{ // If this is a teacher, only show this course if the user is a teacher of it.
 					association: 'participants',
 					where: { id: userId }, // The teacher must be among the participants ...
 					through: { where: { role: 'teacher' } }, // ... with role of teacher.
@@ -63,7 +75,7 @@ async function getCourseByCodeForUser(db, code, userId, isTeacher = false) {
 				}]),
 				{ association: 'blocks' },
 				{ association: 'teachers' },
-				...(!isTeacher ? [] : [{ association: 'students' }]), // For teachers, also load student data.
+				...(!addStudents ? [] : [{ association: 'students' }]), // For teachers, also load student data.
 			],
 		},
 	})
@@ -73,10 +85,9 @@ async function getCourseByCodeForUser(db, code, userId, isTeacher = false) {
 	// Extract the course, check it and return it.
 	const courses = userWithCourses?.courses
 	if (!courses || courses.length === 0)
-		throw new Error(`Failed to load the course with code "${code}" for user with ID "${userId}" through the role of ${isTeacher ? 'teacher' : 'student'}.`)
+		throw new Error(`Failed to load the course with properties "${JSON.stringify(conditions)}" for the user with ID "${userId}". Does this course exist, and is this user a teacher of this course?`)
 	return courses[0]
 }
-module.exports.getCourseByCodeForUser = getCourseByCodeForUser
 
 // subscribeUserToCourse subscribes a user to an existing course.
 async function subscribeUserToCourse(db, userId, courseId) {
