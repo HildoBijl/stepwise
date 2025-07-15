@@ -34,7 +34,7 @@ module.exports = (sequelize) => {
 			allowNull: true,
 		},
 		organization: {
-			type: DataTypes.String,
+			type: DataTypes.STRING,
 			allowNull: false,
 			defaultValue: 'stepwise',
 		},

@@ -8,6 +8,7 @@ const Course = `
 		goals: [String]!
 		startingPoints: [String]!
 		setup: JSON
+		organization: String!
 		blocks: [CourseBlock]!
 `
 
@@ -58,7 +59,7 @@ const schema = gql`
 		goals: [String]!
 		startingPoints: [String]!
 		setup: JSON
-		organization: String!
+		organization: String
   	blocks: [CourseBlockInput]
 	}
 

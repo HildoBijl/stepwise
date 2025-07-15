@@ -1,7 +1,8 @@
-const { getAllCourses, getCourseByCode, getUserCourses, getCourseByCodeForUser, getCourseByIdForUser, createCourse, subscribeUserToCourse, unsubscribeUserFromCourse } = require('../util/Course')
+const { getAllCourses, getCourseByCode, getUserCourses, getCourseByCodeForUser, getCourseByIdForUser } = require('../util/Course')
 
-const courseResolvers = {
-}
+const { ensureValidCourseEndpoints, ensureValidCourseSetup, ensureValidCourseBlocks } = require('step-wise/eduTools')
+
+const courseResolvers = {}
 const courseForStudentResolvers = {
 	...courseResolvers,
 	role: course => course.courseSubscription?.role,
@@ -45,6 +46,12 @@ const resolvers = {
 			if (user.role !== 'teacher' && user.role !== 'admin')
 				throw new Error(`Invalid createCourse call: user does not have the rights to create a new course.`)
 
+			// Check that the goals and starting points are valid for a course.
+			const { goals, startingPoints, setup, blocks } = input
+			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints)
+			ensureValidCourseSetup(processedCourse, setup)
+			ensureValidCourseBlocks(processedCourse, blocks)
+
 			// Set up the course.
 			return await db.transaction(async (transaction) => {
 				const { blocks, ...courseData } = input
@@ -67,6 +74,15 @@ const resolvers = {
 			const user = await getCurrentUser()
 			const requireTeacherRole = (user.role !== 'admin')
 			const course = await getCourseByIdForUser(db, courseId, user.id, requireTeacherRole, false)
+
+			// Check that the goals and starting points are valid for a course.
+			const goals = input.goals || course.goals
+			const startingPoints = input.startingPoints || course.startingPoints
+			const setup = input.setup || course.setup
+			const blocks = input.blocks || course.blocks
+			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints)
+			ensureValidCourseSetup(processedCourse, setup)
+			ensureValidCourseBlocks(processedCourse, blocks)
 
 			// If a course has been found matching the ID and that can be changed, adjust it.
 			return await db.transaction(async (transaction) => {
@@ -99,13 +115,27 @@ const resolvers = {
 		},
 
 		subscribeToCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
+			// Get the course, ensuring it exists.
 			const userId = getCurrentUserId()
-			return await subscribeUserToCourse(db, userId, courseId)
+			const course = await db.Course.findByPk(courseId, { include: { association: 'blocks' } })
+			if (!course)
+				throw new Error(`Missing course: could not subscribe the user to the course with code "${courseCode}" since this course does not seem to exist.`)
+
+			// Add the user to the course and return the result.
+			await course.addParticipant(userId)
+			return course
 		},
 
 		unsubscribeFromCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
+			// Get the course, ensuring it exists.
 			const userId = getCurrentUserId()
-			return await unsubscribeUserFromCourse(db, userId, courseId)
+			const course = await db.Course.findByPk(courseId)
+			if (!course)
+				throw new Error(`Missing course: could not unsubscribe the user from the course with code "${courseCode}" since this course does not seem to exist.`)
+
+			// Remove the user from the course and return the result.
+			await course.removeParticipant(userId)
+			return course
 		},
 	},
 }

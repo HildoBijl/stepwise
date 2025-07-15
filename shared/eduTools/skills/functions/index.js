@@ -1,5 +1,6 @@
 module.exports = {
 	...require('./checks'),
 	...require('./prerequisites'),
-	...require('./processing')
+	...require('./processing'),
+	...require('./search'),
 }
