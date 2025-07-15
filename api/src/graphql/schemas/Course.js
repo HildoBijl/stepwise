@@ -58,6 +58,7 @@ const schema = gql`
 		goals: [String]!
 		startingPoints: [String]!
 		setup: JSON
+		organization: String!
   	blocks: [CourseBlockInput]
 	}
 

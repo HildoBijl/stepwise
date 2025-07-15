@@ -33,6 +33,11 @@ module.exports = {
 				type: DataTypes.JSON,
 				allowNull: true,
 			},
+			organization: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: 'stepwise',
+			},
 			createdAt: {
 				type: DataTypes.DATE,
 				allowNull: false,

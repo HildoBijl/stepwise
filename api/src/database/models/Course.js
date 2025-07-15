@@ -33,6 +33,11 @@ module.exports = (sequelize) => {
 			type: DataTypes.JSON,
 			allowNull: true,
 		},
+		organization: {
+			type: DataTypes.String,
+			allowNull: false,
+			defaultValue: 'stepwise',
+		},
 		createdAt: {
 			type: DataTypes.DATE,
 			allowNull: false,
