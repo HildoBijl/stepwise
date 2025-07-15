@@ -23,6 +23,13 @@ class SkillListSetup extends SkillSetup {
 		this.skills = skills
 	}
 
+	get SO() {
+		return { ...super.SO, skills: this.skills.map(skill => skill.SO) }
+	}
+	static fromSO(SO, objToSetup) {
+		return new this(...SO.skills.map(skill => objToSetup(skill)))
+	}
+
 	isDeterministic() {
 		return this.skills.every(skill => skill.isDeterministic())
 	}

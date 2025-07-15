@@ -17,6 +17,13 @@ class Part extends SkillItemSetup {
 			throw new Error(`Invalid skill part: the "part" parameter of the skill set-up must be a number between 0 and 1. This is not the case: a value of "${this.part}" was given.`)
 	}
 
+	get SO() {
+		return { ...super.SO, part: this.part }
+	}
+	static fromSO(SO, objToSetup) {
+		return new this(objToSetup(SO.skill), SO.part)
+	}
+
 	isDeterministic() {
 		return false
 	}

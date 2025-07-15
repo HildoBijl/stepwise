@@ -14,6 +14,13 @@ class SkillItemSetup extends SkillSetup {
 		this.skill = ensureSetup(skill)
 	}
 
+	get SO() {
+		return { ...super.SO, skill: this.skill }
+	}
+	static fromSO(SO, objToSetup) {
+		return new this.constructor(objToSetup(SO.skill))
+	}
+
 	isDeterministic() {
 		return this.skill.isDeterministic()
 	}

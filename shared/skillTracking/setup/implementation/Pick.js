@@ -22,6 +22,13 @@ class Pick extends SkillListSetup {
 		this.weights = ensureNumberArray(weights, true, true)
 	}
 
+	get SO() {
+		return { ...super.SO, number: this.number, weights: this.weights }
+	}
+	static fromSO(SO, objToSetup) {
+		return new this(objToSetup(SO.skill), SO.number, SO.weights)
+	}
+
 	isDeterministic() {
 		return false
 	}

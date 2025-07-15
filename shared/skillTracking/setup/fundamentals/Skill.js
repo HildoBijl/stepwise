@@ -13,6 +13,14 @@ class Skill extends SkillSetup {
 		this.skill = skill
 	}
 
+	get SO() {
+		return this.skill
+	}
+	static fromSO(SO) {
+		console.log('Here?', SO)
+		return new Skill(SO)
+	}
+
 	toString() {
 		return `"${this.skill}"`
 	}

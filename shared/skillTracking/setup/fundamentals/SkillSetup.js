@@ -12,6 +12,10 @@ class SkillSetup {
 			throw new Error(`Cannot instantiate abstract class SkillSetup.`)
 	}
 
+	get SO() {
+		return { type: this.constructor.name }
+	}
+
 	// Display functions.
 
 	// toString gives a string representation of this set-up.

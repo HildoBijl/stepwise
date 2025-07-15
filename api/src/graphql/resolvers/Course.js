@@ -49,7 +49,7 @@ const resolvers = {
 			// Check that the goals and starting points are valid for a course.
 			const { goals, startingPoints, setup, blocks } = input
 			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints)
-			ensureValidCourseSetup(processedCourse, setup)
+			ensureValidCourseSetup(processedCourse, setup, true)
 			ensureValidCourseBlocks(processedCourse, blocks)
 
 			// Set up the course.
@@ -81,7 +81,7 @@ const resolvers = {
 			const setup = input.setup || course.setup
 			const blocks = input.blocks || course.blocks
 			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints)
-			ensureValidCourseSetup(processedCourse, setup)
+			ensureValidCourseSetup(processedCourse, setup, true)
 			ensureValidCourseBlocks(processedCourse, blocks)
 
 			// If a course has been found matching the ID and that can be changed, adjust it.

@@ -1,4 +1,5 @@
 const { hasDuplicates } = require('../../util')
+const { objToSetup } = require('../../skillTracking')
 
 const { ensureSkillIds } = require('../skills')
 
@@ -33,9 +34,15 @@ module.exports.ensureValidCourseEndpoints = ensureValidCourseEndpoints
 
 // ensureValidCourseSetup takes a course (goals and endpoints) and a corresponding set-up and ensures that the set-up is valid for that course. If not, an error is thrown. This function assumes that the course itself has been checked for validity already.
 function ensureValidCourseSetup(course, setup, allowMissing = false) {
-	// ToDo: check the set-up.
-	// Check that it's a valid set-up.
-	// Check that all skills used are in fact part of the course contents.
+	// If no set-up is allowed, check for this.
+	if (allowMissing && !setup)
+		return
+
+	// Interpret the set-up and check if its skills are all part of the course.
+	const functionalSetup = objToSetup(setup)
+	const setupSkills = [...functionalSetup.getSkillSet()]
+	if (setupSkills.some(skillId => !course.contents.includes(skillId)))
+		throw new Error(`Invalid course set-up: the skills in the set-up of the course ${JSON.stringify(setupSkills)} are not all part of the course. Make sure that the set-up only references skills that are actually taught.`)
 }
 module.exports.ensureValidCourseSetup = ensureValidCourseSetup
 

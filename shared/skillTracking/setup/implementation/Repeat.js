@@ -12,6 +12,13 @@ class Repeat extends SkillItemSetup {
 		this.repeat = ensureInt(repeat, true, true)
 	}
 
+	get SO() {
+		return { ...super.SO, repeat: this.repeat }
+	}
+	static fromSO(SO, objToSetup) {
+		return new this(objToSetup(SO.skill), SO.repeat)
+	}
+
 	getPolynomialMatrix() {
 		// Get the polynomial matrix of the given skill.
 		const matrix = this.skill.getPolynomialMatrix()
