@@ -16,7 +16,7 @@ function ensureValidCourseEndpoints(goals, startingPoints) {
 		throw new Error(`Invalid course starting points: there are duplicates in the list.`)
 
 	// Process the course based on the given skill lists. Check the outcome.
-	const course = processCourse(goals, startingPoints)
+	const course = processCourse({ goals, startingPoints })
 	const { superfluousGoals, missingStartingPoints, externalStartingPoints, superfluousStartingPoints } = course
 	if (externalStartingPoints.length > 0)
 		throw new Error(`Invalid course starting points: there are starting points that are not required for any of the goals. Check out ${JSON.stringify(externalStartingPoints)}.`)

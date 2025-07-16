@@ -96,17 +96,17 @@ export function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 	const goToRecommendation = (evt) => {
 		evt.preventDefault() // Prevent the tile link from working.
 		if (recommendation === strFreePractice)
-			navigate(paths.freePractice({ courseId: course.id }))
+			navigate(paths.freePractice({ courseId: course.code }))
 		else if (recommendation)
-			navigate(paths.courseSkill({ courseId: course.id, skillId: recommendation }))
+			navigate(paths.courseSkill({ courseId: course.code, skillId: recommendation }))
 	}
 
 	return (
-		<Link to={paths.course({ courseId: course.id })} className={clsx(classes.tile, 'tile')}>
+		<Link to={paths.course({ courseId: course.code })} className={clsx(classes.tile, 'tile')}>
 			<Box boxShadow={1} className="tileBox">
 				<div className="nameContainer">
 					<div className="name">
-						{translate(course.name, `${course.id}.name`, 'eduContent/courseInfo')}
+						{translate(course.name, `${course.code}.name`, 'eduContent/courseInfo')}
 					</div>
 				</div>
 				<div className="info">

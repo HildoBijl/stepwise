@@ -3,16 +3,13 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { count } from 'step-wise/util'
+import { processCourse } from 'step-wise/eduTools'
 
-import { useSkillsData } from 'api/skill'
-import { TranslationFile, useLanguage } from 'i18n'
+import { useSkillsData, useMyCoursesQuery } from 'api'
+import { TranslationFile } from 'i18n'
 
-import { getOverview, getAnalysis } from './util'
-
-import { courses } from './courses'
+import { getAnalysis } from './util'
 import { Tile } from './Tile'
-
-const courseOverviews = Object.values(courses).map(getOverview)
 
 const useStyles = makeStyles((theme) => ({
 	courses: {
@@ -24,23 +21,32 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CoursesPage() {
-	// Load all the skills data for the courses and use it to determine which skills are left (i.e., need practice).
-	const language = useLanguage()
-	const classes = useStyles()
-	const allSkills = [...new Set(courseOverviews.map(courseOverview => courseOverview.all).flat())] // A list of all relevant skills for all courses.
+	const myCoursesResult = useMyCoursesQuery()
+	if (myCoursesResult.loading)
+		return <p>Loading courses...</p> // ToDo: translate.
+	if (myCoursesResult.error)
+		return <p>Failed to load courses. Check your connection?</p> // ToDo: translate.
+	const myCourses = myCoursesResult.data.myCourses
+	return <CoursePageForCourses courses={myCourses} />
+}
+
+function CoursePageForCourses({ courses }) {
+	// // Load all the skills data for the courses and use it to determine which skills need practice.
+	const processedCourses = useMemo(() => courses.map(rawCourse => processCourse(rawCourse)), [courses])
+	const allSkills = [...new Set(processedCourses.map(processedCourse => processedCourse.all).flat())] // A list of all relevant skills for all courses.
 	const skillsData = useSkillsData(allSkills) // The SkillData objects for all skills.
-	const analyses = useMemo(() => Object.values(courseOverviews).map(courseOverview => getAnalysis(courseOverview, skillsData)), [skillsData])
+	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillsData)), [processedCourses, skillsData])
 
 	// Render all the tiles with corresponding data.
-	const courseList = Object.values(courses).filter(course => !course.languages || course.languages.includes(language)) // Only render courses that should be shown in this language.
+	const classes = useStyles()
 	return (
 		<TranslationFile path="eduTools/pages/coursesPage">
 			<div className={clsx(classes.courses, 'courses')}>
-				{courseList.map((course, index) => <Tile
+				{courses.map((course, index) => <Tile
 					key={course.id}
 					course={course}
-					skillsTotal={courseOverviews[index].course.length}
-					skillsDone={analyses[index] ? count(courseOverviews[index].course, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
+					skillsTotal={processedCourses[index].contents.length}
+					skillsDone={analyses[index] ? count(processedCourses[index].contents, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
 					recommendation={analyses[index]?.recommendation}
 				/>)}
 			</div>

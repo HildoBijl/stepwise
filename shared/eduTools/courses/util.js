@@ -1,3 +1,5 @@
+const { sortByIndices } = require('../../util')
+
 const { skillTree, isSkillRequiredFor } = require('../skills')
 
 /* processCourse takes a list of course goals and starting points and retrieves all the skillIds related to the course, in various useful lists. (Starting points are all the skills in the tree with at least one prerequisite being prior knowledge.) These include:
@@ -18,7 +20,9 @@ const { skillTree, isSkillRequiredFor } = require('../skills')
  * - externalStartingPoints: all starting points that are mentioned but are not required for any of the goals.
  * - superfluousStartingPoints: all starting points that did not need to be mentioned. They are those for which all prerequisites are also already part of the course.
  */
-function processCourse(originalGoals, originalStartingPoints) {
+function processCourse(rawCourse) {
+	const { goals: originalGoals, startingPoints: originalStartingPoints } = rawCourse
+
 	// Filter out unknown skillIds.
 	const unknownGoals = originalGoals.filter(goalId => !skillTree[goalId])
 	const filteredGoals = originalGoals.filter(goalId => skillTree[goalId])
@@ -41,7 +45,7 @@ function processCourse(originalGoals, originalStartingPoints) {
 	const priorKnowledge = []
 	startingPoints.forEach(startingPointId => {
 		skillTree[startingPointId].prerequisites.forEach(prerequisiteId => {
-			if (!contents.includes(prerequisiteId))
+			if (!contents.includes(prerequisiteId) && !priorKnowledge.includes(prerequisiteId))
 				priorKnowledge.push(prerequisiteId)
 		})
 	})
@@ -76,7 +80,7 @@ function processSkillForCourse(skillId, skillLists, isOriginalGoal = false) {
 	}
 }
 
-// getSkillsBetween takes a list of course goals and prior knowledge and finds all skills between them (including goals and excluding prior knowledge). It does not do any checks: it assumes the lists are valid.
+// getSkillsBetween takes a list of course goals and prior knowledge and finds all skills between them (including goals and excluding prior knowledge). It does not do any checks: it assumes the lists are valid for the current skill tree.
 function getSkillsBetween(goals, priorKnowledge) {
 	// Set up a handler to recursively add skills.
 	const contents = []
@@ -92,3 +96,44 @@ function getSkillsBetween(goals, priorKnowledge) {
 	return contents
 }
 module.exports.getSkillsBetween = getSkillsBetween
+
+// getCourseOverview takes a course object (as given by the database API) and turns it into an overview that can be rendered properly. So it determines all contents, also per block, and puts it in the right order. It goes further than processCourse in the sense that processCourse only checks what needs to be part of the course, and this function also determines the blocks and the order.
+function getCourseOverview(rawCourse) {
+	// On no input, return empty lists.
+	if (!rawCourse)
+		return { priorKnowledge: [], goals: [], blocks: [], contents: [], all: [] }
+
+	// Determine all that needs to be in the course.
+	const processedCourse = processCourse(rawCourse)
+
+	// Sort the prior knowledge by the order of the skills tree object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskill of a skill of an earlier-encountered prior knowledge skill.
+	const allSkillIds = Object.keys(skillTree)
+	const indices = processedCourse.priorKnowledge.map(skillId => allSkillIds.indexOf(skillId))
+	const priorKnowledgeSorted = sortByIndices(processedCourse.priorKnowledge, indices)
+
+	// Walk through the blocks to determine what must be in each.
+	const contentsSoFar = [] // Contains the contents in all blocks up to the current block.
+	const blocks = rawCourse.blocks.map(block => {
+		const contents = [] // Contains the contents of the current block.
+		const addToBlockContents = (skillId) => {
+			const skill = skillTree[skillId]
+			if (!skill || priorKnowledgeSorted.includes(skillId) || contentsSoFar.includes(skillId))
+				return // Ignore non-existing skills (try to render stuff anyway), prior knowledge skills and previously considered skills.
+			contentsSoFar.push(skillId) // Remember this skill, to not consider it again.
+			skill.prerequisites.forEach(prerequisiteId => addToBlockContents(prerequisiteId)) // Add all prerequisites first.
+			contents.push(skillId) // Then add this skill.
+		}
+		block.goals.forEach(goalId => addToBlockContents(goalId))
+		return { ...block, contents }
+	})
+
+	// Return all sets as arrays.
+	return {
+		priorKnowledge: priorKnowledgeSorted,
+		goals: processedCourse.goals,
+		blocks,
+		contents: processedCourse.contents,
+		all: processedCourse.all,
+	}
+}
+module.exports.getCourseOverview = getCourseOverview
