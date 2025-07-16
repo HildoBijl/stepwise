@@ -221,7 +221,7 @@ const skillStructure = {
 					},
 					checkMultiVariableEquationSolution: {
 						name: 'Check multi-variable equation solution',
-						setup: and('substituteAnExpression', 'expandBrackets', 'mergeSimilarTerms'),
+						setup: and('substituteAnExpression', 'simplifyNumberProduct', 'mergeSimilarTerms'),
 					},
 				},
 				manipulating: {

@@ -5,6 +5,6 @@ const { skillTree } = require('../skillTree')
 function isSkillRequiredFor(childId, parentId) {
 	if (parentId === childId)
 		return true
-	return !!(skillTree[parentId].prerequisites.find(prerequisiteId => isSkillRequiredFor(prerequisiteId, childId)))
+	return !!(skillTree[parentId].prerequisites.find(prerequisiteId => isSkillRequiredFor(childId, prerequisiteId)))
 }
 module.exports.isSkillRequiredFor = isSkillRequiredFor

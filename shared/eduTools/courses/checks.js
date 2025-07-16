@@ -48,6 +48,11 @@ module.exports.ensureValidCourseSetup = ensureValidCourseSetup
 
 // ensureValidCourseBlocks takes a course (goals and endpoints) and a corresponding set of blocks and ensures that the blocks are valid for that course. If not, an error is thrown. This function assumes that the course itself has been checked for validity already.
 function ensureValidCourseBlocks(course, blocks) {
+	// Check that there are blocks.
+	if (!blocks)
+		throw new Error(`Invalid course blocks: no blocks have been provided.`)
+
+	// Walk through the blocks to check them one by one.
 	let blockGoalsSoFar = [], contentsSoFar = []
 	blocks.forEach(({ goals }) => {
 		goals = ensureSkillIds(goals)

@@ -68,7 +68,7 @@ function processSkillForCourse(skillId, skillLists, isOriginalGoal = false) {
 	// Run various checks depending on whether we're at a regular starting point, an out-of-tree skill or an in-tree skill.
 	if (filteredStartingPoints.includes(skillId)) { // The skill is a starting point.
 		startingPoints.push(skillId) // Mark it as a valid starting point.
-		skillTree[skillId].prerequisites.forEach(prerequisiteId => filteredStartingPoints.find(startingPointId => isSkillRequiredFor(startingPointId, skillId)) && processSkillForCourse(prerequisiteId, skillLists)) // Also add those prerequisites that follow from another starting point. Ignore the rest.
+		skillTree[skillId].prerequisites.forEach(prerequisiteId => filteredStartingPoints.find(startingPointId => isSkillRequiredFor(startingPointId, prerequisiteId)) && processSkillForCourse(prerequisiteId, skillLists)) // Also add those prerequisites that follow from another starting point. Ignore the rest.
 	} else if (!filteredStartingPoints.find(startingPointId => isSkillRequiredFor(startingPointId, skillId))) { // The skill is a skill without any links to starting points. We're out-of-tree.
 		startingPoints.push(skillId) // Add the skill as a starting point and don't continue to iterate.
 	} else { // We have a regular in-tree skill.
