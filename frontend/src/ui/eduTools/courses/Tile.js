@@ -81,7 +81,7 @@ export function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 	let tooltip
 	switch (recommendation) {
 		case undefined:
-			tooltip = translate('Your progress is being loaded...', 'loadingNotification')
+			tooltip = translate('Your progress is being loaded...', 'loadingSkillData')
 			break
 		case strFreePractice:
 			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')

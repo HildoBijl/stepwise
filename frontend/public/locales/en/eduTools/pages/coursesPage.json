@@ -1,5 +1,8 @@
 {
-  "loadingNotification": "Your progress is being loaded...",
+  "loadingCourses": "<a><b>Loading courses...</b>We are loading your courses from the database. This shouldn't take long.</a>",
+  "failedLoadingCourses": "<a><b>Loading courses failed</b>Oops ... something went wrong loading your courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.</a>",
+  "noSubscribedCourses": "<a><b>You haven't subscribed to a course yet!</b>Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.</a>",
+  "loadingSkillData": "Your progress is being loaded...",
   "freePracticeRecommendation": "You have all skills on a sufficient level! The next step is the free practice mode.",
   "skillRecommendation": "Our practice recommendation:"
 }
