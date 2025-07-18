@@ -12,17 +12,14 @@ import { useCourseData } from './components'
 const translationPath = 'eduTools/pages/freePracticePage'
 
 export function FreePracticePage() {
-	const { course } = useCourseData()
+	const { overview } = useCourseData()
 	const [skillId, setSkillId] = useState()
 
 	// Select a skillId to display, taking into account the weights defined for the course.
 	const changeSkill = useCallback((previousSkillId) => {
-		if (!course?.goals)
-			return
-
 		// Get the skillIds and weights. Turn the weights of skills without exercises to zero.
-		const skillIds = course.goals.map(goal => goal.skillId)
-		const weights = course.goals.map(goal => goal.weight === undefined ? 1 : goal.weight)
+		const skillIds = overview.goals
+		const weights = overview.goalWeights || overview.goals.map(() => 1)
 		skillIds.forEach((skillId, index) => {
 			if (!Array.isArray(skillTree[skillId].exercises) || skillTree[skillId].exercises.length === 0)
 				weights[index] = 0
@@ -43,7 +40,7 @@ export function FreePracticePage() {
 			setSkillId(selectRandomly(skillIds, weights))
 		else
 			setSkillId(null) // Null means there's an error.
-	}, [course, setSkillId])
+	}, [overview, setSkillId])
 
 	// On loading, pick a random skill.
 	useEffect(() => {

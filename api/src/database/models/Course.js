@@ -25,6 +25,10 @@ module.exports = (sequelize) => {
 			type: DataTypes.ARRAY(DataTypes.STRING),
 			allowNull: false,
 		},
+		goalWeights: {
+			type: DataTypes.ARRAY(DataTypes.INTEGER),
+			allowNull: true,
+		},
 		startingPoints: {
 			type: DataTypes.ARRAY(DataTypes.STRING),
 			allowNull: false,

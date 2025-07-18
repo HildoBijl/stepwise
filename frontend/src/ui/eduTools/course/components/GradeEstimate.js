@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 export function GradeEstimate() {
 	const classes = useStyles()
-	const { skillsDataLoaded, skillsData, course } = useCourseData()
+	const { skillsDataLoaded, skillsData, overview } = useCourseData()
 
 	// Do not show an estimate when no set-up has been given.
-	const { setup } = course
+	const { setup } = overview
 	if (!skillsDataLoaded || !setup)
 		return null
 

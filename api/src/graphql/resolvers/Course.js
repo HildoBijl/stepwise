@@ -47,8 +47,8 @@ const resolvers = {
 				throw new Error(`Invalid createCourse call: user does not have the rights to create a new course.`)
 
 			// Check that the goals and starting points are valid for a course.
-			const { goals, startingPoints, setup, blocks } = input
-			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints)
+			const { goals, goalWeights, startingPoints, setup, blocks } = input
+			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints, goalWeights)
 			ensureValidCourseSetup(processedCourse, setup, true)
 			ensureValidCourseBlocks(processedCourse, blocks)
 
@@ -77,10 +77,11 @@ const resolvers = {
 
 			// Check that the goals and starting points are valid for a course.
 			const goals = input.goals || course.goals
+			const goalWeights = input.goalWeights || course.goalWeights
 			const startingPoints = input.startingPoints || course.startingPoints
 			const setup = input.setup || course.setup
 			const blocks = input.blocks || course.blocks
-			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints)
+			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints, goalWeights)
 			ensureValidCourseSetup(processedCourse, setup, true)
 			ensureValidCourseBlocks(processedCourse, blocks)
 

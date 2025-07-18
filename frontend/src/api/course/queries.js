@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 
-// Define the fields we read for users.
+// Define the default fields we read for a course.
 export const courseFields = `
 	id
 	code
@@ -60,7 +60,6 @@ export const MYCOURSES = gql`
 `
 
 export function useCourseForStudentQuery(code) {
-	console.log(code)
 	return useQuery(COURSEFORSTUDENT, { variables: { code } })
 }
 export const COURSEFORSTUDENT = gql`

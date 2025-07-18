@@ -6,6 +6,7 @@ const Course = `
 		name: String!
 		description: String
 		goals: [String]!
+		goalWeights: [Int]
 		startingPoints: [String]!
 		setup: JSON
 		organization: String!
@@ -57,6 +58,7 @@ const schema = gql`
 		name: String!
 		description: String
 		goals: [String]!
+		goalWeights: [Int]
 		startingPoints: [String]!
 		setup: JSON
 		organization: String
@@ -68,6 +70,7 @@ const schema = gql`
 		name: String
 		description: String
 		goals: [String]
+		goalWeights: [Int]
 		startingPoints: [String]
 		setup: JSON
   	blocks: [CourseBlockInput]

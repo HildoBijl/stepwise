@@ -1,4 +1,4 @@
-const { hasDuplicates } = require('../../util')
+const { ensureInt, hasDuplicates } = require('../../util')
 const { objToSetup } = require('../../skillTracking')
 
 const { ensureSkillIds } = require('../skills')
@@ -6,7 +6,7 @@ const { ensureSkillIds } = require('../skills')
 const { processCourse, getSkillsBetween } = require('./util')
 
 // ensureValidCourseEndpoints takes a course goals and starting points and ensures that it's all in order. If not, an error is thrown. It returns a course object with all the respective lists from processCourse in it.
-function ensureValidCourseEndpoints(goals, startingPoints) {
+function ensureValidCourseEndpoints(goals, startingPoints, goalWeights) {
 	// Ensure that the parameters are valid skill lists without duplicates.
 	goals = ensureSkillIds(goals)
 	startingPoints = ensureSkillIds(startingPoints)
@@ -16,7 +16,7 @@ function ensureValidCourseEndpoints(goals, startingPoints) {
 		throw new Error(`Invalid course starting points: there are duplicates in the list.`)
 
 	// Process the course based on the given skill lists. Check the outcome.
-	const course = processCourse({ goals, startingPoints })
+	const course = processCourse({ goals, startingPoints, goalWeights })
 	const { superfluousGoals, missingStartingPoints, externalStartingPoints, superfluousStartingPoints } = course
 	if (externalStartingPoints.length > 0)
 		throw new Error(`Invalid course starting points: there are starting points that are not required for any of the goals. Check out ${JSON.stringify(externalStartingPoints)}.`)
@@ -26,6 +26,14 @@ function ensureValidCourseEndpoints(goals, startingPoints) {
 		throw new Error(`Invalid course starting points: there are superfluous starting points. You do not need to add ${JSON.stringify(superfluousStartingPoints)}.`)
 	if (superfluousGoals.length > 0)
 		throw new Error(`Invalid course goals: there are superfluous course goals. You do not need to add ${JSON.stringify(superfluousGoals)}.`)
+
+	// Process the goal weights.
+	if (goalWeights) {
+		goalWeights = ensureArray(goalWeights)
+		goalWeights.forEach(weight => ensureInt(weight, true))
+		if (goalWeights.length !== goals.length)
+			throw new Error(`Invalid goal weights: there are currently ${goals.length} goals, but ${goalWeights.length} goal weights. Make sure the sizes of these two lists match.`)
+	}
 
 	// All is fine. Return the course.
 	return course

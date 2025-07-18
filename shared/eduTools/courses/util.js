@@ -1,4 +1,5 @@
 const { sortByIndices } = require('../../util')
+const { objToSetup } = require('../../skillTracking')
 
 const { skillTree, isSkillRequiredFor } = require('../skills')
 
@@ -21,7 +22,7 @@ const { skillTree, isSkillRequiredFor } = require('../skills')
  * - superfluousStartingPoints: all starting points that did not need to be mentioned. They are those for which all prerequisites are also already part of the course.
  */
 function processCourse(rawCourse) {
-	const { goals: originalGoals, startingPoints: originalStartingPoints } = rawCourse
+	const { goals: originalGoals, startingPoints: originalStartingPoints, goalWeights } = rawCourse
 
 	// Filter out unknown skillIds.
 	const unknownGoals = originalGoals.filter(goalId => !skillTree[goalId])
@@ -52,7 +53,7 @@ function processCourse(rawCourse) {
 	const all = [...priorKnowledge, ...contents]
 
 	// Return all lists within one big object.
-	return { contents, goals, startingPoints, priorKnowledge, all, originalGoals, originalStartingPoints, unknownGoals, unknownStartingPoints, superfluousGoals, missingStartingPoints, externalStartingPoints, superfluousStartingPoints }
+	return { contents, goals, startingPoints, priorKnowledge, all, originalGoals, originalStartingPoints, unknownGoals, unknownStartingPoints, superfluousGoals, missingStartingPoints, externalStartingPoints, superfluousStartingPoints, goalWeights }
 }
 module.exports.processCourse = processCourse
 
@@ -127,13 +128,21 @@ function getCourseOverview(rawCourse) {
 		return { ...block, contents }
 	})
 
+	// In case the goals are different from the original goals, apply the proper mapping to the goalWeights array.
+	const goalWeights = rawCourse.goalWeights && processedCourse.goals.map(goalId => rawCourse.goalWeights[rawCourse.goals.indexOf(goalId)])
+
+	// Make sure that the set-up, if it exists, is a set-up object.
+	const setup = rawCourse.setup && objToSetup(rawCourse.setup)
+
 	// Return all sets as arrays.
 	return {
 		priorKnowledge: priorKnowledgeSorted,
 		goals: processedCourse.goals,
+		goalWeights,
 		blocks,
 		contents: processedCourse.contents,
 		all: processedCourse.all,
+		setup,
 	}
 }
 module.exports.getCourseOverview = getCourseOverview
