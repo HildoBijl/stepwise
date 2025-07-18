@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function SkillList({ courseId, skillIds, display = true, landscape, isPriorKnowledge, analysis }) {
+export function SkillList({ courseCode, skillIds, display = true, landscape, isPriorKnowledge, analysis }) {
 	const classes = useStyles()
 
 	// If we should not display this skill list, show nothing instead.
@@ -98,7 +98,7 @@ export function SkillList({ courseId, skillIds, display = true, landscape, isPri
 		<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
 			{skillIds.map((skillId) => <SkillItem
 				key={skillId}
-				courseId={courseId}
+				courseCode={courseCode}
 				skillId={skillId}
 				isPriorKnowledge={isPriorKnowledge}
 				recommend={skillId === analysis?.recommendation}
@@ -108,7 +108,7 @@ export function SkillList({ courseId, skillIds, display = true, landscape, isPri
 	)
 }
 
-function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2 }) {
+function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2 }) {
 	const translate = useTranslator()
 	const paths = usePaths()
 	const skillData = useSkillData(skillId)
@@ -130,7 +130,7 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 	}
 
 	return (
-		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
+		<Link to={paths.courseSkill({ courseCode, skillId })} className={clsx('skillItem', { recommend })}>
 			{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} /> : null}
 			<div className="skillName">{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</div>
 			{skill.exercises.length === 0 ? (

@@ -61,19 +61,19 @@ function addToSkillSets(skillId, priorKnowledge, courseSet, blockSet, priorKnowl
 // getAnalysis checks, for a given course overview and a given set of skills data, which skills have been mastered and which skill is recommended to practice next. It returns an object of the form { practiceNeeded: { skill1: 2, skill2: 0, skill3: 1, ... }, recommendation: 'skill2' }. The recommendation can also be undefined (not enough data loaded yet) or the freePractice string.
 const strFreePractice = 'StepWiseFreePracticeMode'
 export { strFreePractice }
-export function getAnalysis(processedCourse, skillsData) {
-	const practiceNeeded = getPracticeNeeded(processedCourse, skillsData)
+export function getAnalysis(overview, skillsData) {
+	const practiceNeeded = getPracticeNeeded(overview, skillsData)
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
-	if (processedCourse.all.some(skillId => practiceNeeded[skillId] === undefined))
+	if (overview.all.some(skillId => practiceNeeded[skillId] === undefined))
 		return undefined
 
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills. Also ensure that this recommendation has exercises that can be practiced.
-	let recommendation = processedCourse.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
+	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
 	if (!recommendation)
-		recommendation = processedCourse.contents.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
+		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
 	if (!recommendation)
-		recommendation = processedCourse.contents.find(skillId => practiceNeeded[skillId] === 1 && skillTree[skillId].exercises.length > 0)
+		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 1 && skillTree[skillId].exercises.length > 0)
 
 	// If no recommendation has been found, then all skills are mastered. Recommend free practice.
 	if (!recommendation)
@@ -87,9 +87,9 @@ export function getAnalysis(processedCourse, skillsData) {
 }
 
 // getPracticeNeeded takes a course set-up and walks through it to determine which skills require practice. It returns an object { skill1: 2, skill2: 0, skill3: 1, ... } which indicates the practice-needed-index for each skill in the course (including prior knowledge skills). It also takes into account the skill hierarchy: if a main skill X has an index (for instance "1") then all subskills have AT MOST that index, possibly lower.
-function getPracticeNeeded(processedCourse, skillsData) {
+function getPracticeNeeded(overview, skillsData) {
 	const result = {}
-	processedCourse.goals.forEach(goalId => checkPracticeNeeded(goalId, skillsData, processedCourse.priorKnowledge, result))
+	overview.goals.forEach(goalId => checkPracticeNeeded(goalId, skillsData, overview.priorKnowledge, result))
 	return result
 }
 

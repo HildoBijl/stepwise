@@ -150,7 +150,7 @@ export function getRoutes(user = undefined) {
 				page: CoursesPage,
 				name: 'Courses',
 				children: {
-					'course/:courseId': {
+					'course/:courseCode': {
 						id: 'course',
 						page: CoursePage,
 						name: CourseName,
@@ -198,7 +198,7 @@ export function getRoutes(user = undefined) {
 	return processRoutes(routes)
 }
 
-// processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects, and ensures all names are react objects.
+// processRoutes takes a routes object and automatically add paths (like '/courses/:courseCode/deadlines') and parent objects, and ensures all names are react objects.
 function processRoutes(routes, initialPath = '', parent = undefined) {
 	// Walk through all the routes, processing them one by one.
 	Object.keys(routes).forEach(key => {

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function SkillRecommender({ courseId, recommendation }) {
+export function SkillRecommender({ courseCode, recommendation }) {
 	const getTranslation = useGetTranslation()
 	const paths = usePaths()
 	const classes = useStyles()
@@ -45,10 +45,10 @@ export function SkillRecommender({ courseId, recommendation }) {
 	// Determine what to show on the button.
 	let link, message
 	if (recommendation === strFreePractice) {
-		link = paths.freePractice({ courseId })
+		link = paths.freePractice({ courseCode })
 		message = getTranslation('freePracticeRecommendation', 'eduTools/pages/coursesPage')
 	} else {
-		link = paths.courseSkill({ courseId, skillId: recommendation })
+		link = paths.courseSkill({ courseCode, skillId: recommendation })
 		const skill = skillTree[recommendation]
 		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
 	}

@@ -1,4 +1,4 @@
-// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object {courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around).
+// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseCode" and a parameters-object {courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around).
 export function insertParametersIntoPath(parameters = {}, path = '/') {
 	// Insert all given parameters into the given path.
 	Object.keys(parameters).forEach(key => {

@@ -41,15 +41,22 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CoursePage(props) {
-	const landscape = useMediaQuery('(orientation: landscape)')
+	const { loading, error } = useCourseData()
+	if (loading)
+		return <p>Loading course...</p>
+	if (error)
+		return <p>Error while loading course...</p>
+	return <CoursePageInner {...props} />
+}
 
+function CoursePageInner(props) {
 	// Load in relevant data about the course.
-	const { courseId, course, overview, analysis } = useCourseData()
+	const { course, overview, analysis } = useCourseData()
 	const recommendation = analysis?.recommendation
 	const hasRecommendation = !!recommendation
 
 	// Determine which block to open up at the start.
-	let recommendationBlock = overview.blocks.findIndex(blockList => blockList.includes(recommendation)) // Find the block containing the recommendation.
+	let recommendationBlock = overview.blocks.findIndex(block => block.contents.includes(recommendation)) // Find the block containing the recommendation.
 	if (overview.priorKnowledge.includes(recommendation))
 		recommendationBlock = -1 // -1 means prior knowledge.
 	if (recommendation === strFreePractice)
@@ -57,6 +64,7 @@ export function CoursePage(props) {
 
 	// Track which block is active.
 	const [activeBlock, setActiveBlock] = useState() // -1 means prior knowledge. Undefined means none selected.
+	const landscape = useMediaQuery('(orientation: landscape)')
 	const toggleActiveBlock = useCallback((index) => setActiveBlock(activeBlock => activeBlock === index && !landscape ? undefined : index), [setActiveBlock, landscape])
 
 	// Make the block with the recommendation active when figuring out said recommendation.
@@ -77,7 +85,7 @@ export function CoursePage(props) {
 	// Render the component.
 	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
 	return <TranslationFile path="eduTools/pages/coursePage">
-		{hasRecommendation ? <SkillRecommender courseId={courseId} recommendation={recommendation} /> : null}
+		{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</TranslationFile>
 }
@@ -94,7 +102,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 	else if (activeBlock === -1)
 		skillIds = overview.priorKnowledge
 	else
-		skillIds = overview.blocks[activeBlock]
+		skillIds = overview.blocks[activeBlock].contents
 
 	// Determine other important data.
 	const hasPriorKnowledge = overview.priorKnowledge.length > 0
@@ -104,7 +112,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 			<div className="blockList">
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
-					courseId={course.id}
+					courseCode={course.code}
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
@@ -112,21 +120,21 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					isPriorKnowledge={true}
 					analysis={analysis}
 				/> : null}
-				{course.blocks.map((block, index) => <Block
+				{overview.blocks.map((block, index) => <Block
 					key={index}
 					landscape={landscape}
-					courseId={course.id}
-					skillIds={overview.blocks[index]}
+					courseCode={course.code}
+					skillIds={block.contents}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					name={translate(block.name, `${course.id}.blocks.${index}`, 'eduContent/courseInfo')}
+					name={translate(block.name, `${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
 				/>)}
 				<GradeEstimate />
 			</div>
-			<SkillList courseId={course.id} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
+			<SkillList courseCode={course.code} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
 		</div>
 	)
 }
@@ -142,7 +150,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 			<div className={clsx(classes.blockList, 'blockList')}>
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
-					courseId={course.id}
+					courseCode={course.code}
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
@@ -150,15 +158,15 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					isPriorKnowledge={true}
 					analysis={analysis}
 				/> : null}
-				{course.blocks.map((block, index) => (
+				{overview.blocks.map((block, index) => (
 					<Block
 						key={index}
 						landscape={landscape}
-						courseId={course.id}
-						skillIds={overview.blocks[index]}
+						courseCode={course.code}
+						skillIds={block.contents}
 						active={activeBlock === index}
 						toggleActive={() => toggleActiveBlock(index)}
-						name={translate(block.name, `${course.id}.blocks.${index}`, 'eduContent/courseInfo')}
+						name={translate(block.name, `${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 						number={index + 1}
 						isPriorKnowledge={false}
 						analysis={analysis}

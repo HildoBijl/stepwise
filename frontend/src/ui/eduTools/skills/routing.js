@@ -8,18 +8,18 @@ import { usePaths } from 'ui/routingTools'
 
 // useSkillPath returns a pathing function. This pathing function gets a skillId and returns the path to said skill. This is done content-dependent: if we are in a course, then we stay within the course.
 export function useSkillPath() {
-	const { courseId } = useParams()
+	const { courseCode } = useParams()
 	const paths = usePaths()
 	return useCallback((skillId, tab) => {
-		if (courseId) {
+		if (courseCode) {
 			if (tab)
-				return paths.courseSkillTab({ courseId, skillId, tab })
-			return paths.courseSkill({ courseId, skillId })
+				return paths.courseSkillTab({ courseCode, skillId, tab })
+			return paths.courseSkill({ courseCode, skillId })
 		}
 		if (tab)
 			return paths.skillTab({ skillId, tab })
 		return paths.skill({ skillId })
-	}, [paths, courseId])
+	}, [paths, courseCode])
 }
 
 // SkillLink is an extension of the Link component that creates a link to a given skill. It does it context-dependent, using the useSkillPath function.

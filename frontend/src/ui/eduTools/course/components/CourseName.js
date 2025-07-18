@@ -1,15 +1,13 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 
 import { TitleItem } from 'ui/routingTools'
 
-import { courses } from '../../courses'
+import { useCourseData } from './CourseProvider'
 
 export function CourseName() {
-	const { courseId } = useParams()
-	const course = courses[courseId.toLowerCase()]
+	const { course } = useCourseData()
 	const courseInfoPath = 'eduContent/courseInfo'
 	if (!course)
 		return <TitleItem path="eduTools/pages/coursePage" entry="unknownCourse.title" name="Unknown course" />
-	return <TitleItem path={courseInfoPath} entry={`${course.id}.name`} name={course.name} />
+	return <TitleItem path={courseInfoPath} entry={`${course.code}.name`} name={course.name} />
 }
