@@ -1,4 +1,4 @@
-const { ensureInt, hasDuplicates } = require('../../util')
+const { ensureInt, ensureArray, hasDuplicates } = require('../../util')
 const { objToSetup } = require('../../skillTracking')
 
 const { ensureSkillIds } = require('../skills')
@@ -62,16 +62,18 @@ function ensureValidCourseBlocks(course, blocks) {
 
 	// Walk through the blocks to check them one by one.
 	let blockGoalsSoFar = [], contentsSoFar = []
-	blocks.forEach(({ goals }) => {
+	blocks.forEach(({ name, goals }) => {
 		goals = ensureSkillIds(goals)
 
 		// Ensure that all block goals are part of the course.
-		if (goals.some(goalId => !course.contents.includes(goalId)))
-			throw new Error(`Invalid block goals: the block with goals ${JSON.stringify(goals)} contains contents that are not part of the course.`)
+		const goalNotInCourse = goals.find(goalId => !course.contents.includes(goalId))
+		if (goalNotInCourse)
+			throw new Error(`Invalid block goals: the goal "${goalNotInCourse}" in the block "${name}" is not part of the course. It may hence not be a block goal. Or include it in the course goals.`)
 
 		// Ensure that the block goals are not already treated earlier in the course.
-		if (goals.some(goalId => contentsSoFar.includes(goalId)))
-			throw new Error(`Invalid block goals: the block with goals ${JSON.stringify(goals)} has contents that are already treated in an earlier block.`)
+		const goalTreatedBefore = goals.find(goalId => contentsSoFar.includes(goalId))
+		if (goalTreatedBefore)
+			throw new Error(`Invalid block goals: the goal "${goalTreatedBefore}" in the block "${name}" has already been treated in an earlier block. It may hence not be part of the goals of this block.`)
 
 		// Ensure that the block is not empty.
 		if (goals.length === 0)

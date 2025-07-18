@@ -6,6 +6,7 @@ const courseResolvers = {}
 const courseForStudentResolvers = {
 	...courseResolvers,
 	role: course => course.courseSubscription?.role,
+	subscribedOn: course => course.courseSubscription?.createdAt,
 }
 const courseForTeacherResolvers = {
 	...courseForStudentResolvers,

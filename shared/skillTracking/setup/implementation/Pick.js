@@ -23,10 +23,15 @@ class Pick extends SkillListSetup {
 	}
 
 	get SO() {
-		return { ...super.SO, number: this.number, weights: this.weights }
+		const SO = { ...super.SO }
+		if (this.number !== 1)
+			SO.number = this.number
+		if (!this.weights.every(weight => weight === 1))
+			SO.weights = this.weights
+		return SO
 	}
 	static fromSO(SO, objToSetup) {
-		return new this(objToSetup(SO.skill), SO.number, SO.weights)
+		return new this(SO.skills.map(skill => objToSetup(skill)), SO.number, SO.weights)
 	}
 
 	isDeterministic() {

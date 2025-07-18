@@ -22,6 +22,15 @@ export const teacherFields = `
 	familyName
 `
 
+export const courseForStudentFields = `
+	${courseFields}
+	role
+	subscribedOn
+	teachers {
+		${teacherFields}
+	}
+`
+
 export function useAllCoursesQuery() {
 	return useQuery(ALLCOURSES)
 }
@@ -50,11 +59,7 @@ export function useMyCoursesQuery() {
 export const MYCOURSES = gql`
 	{
 		myCourses {
-			${courseFields}
-			role
-			teachers {
-				${teacherFields}
-			}
+			${courseForStudentFields}
 		}
 	}
 `
@@ -65,11 +70,7 @@ export function useCourseForStudentQuery(code) {
 export const COURSEFORSTUDENT = gql`
 	query courseForStudent($code: String!) {
 		courseForStudent(code: $code) {
-			${courseFields}
-			role
-			teachers {
-				${teacherFields}
-			}
+			${courseForStudentFields}
 		}
 	}
 `

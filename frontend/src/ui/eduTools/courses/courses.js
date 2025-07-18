@@ -21,6 +21,7 @@ import { pick } from 'step-wise/skillTracking'
 let courses = {
 	stepwiseTutorial: {
 		name: 'Step-Wise Tutorial',
+		description: 'In this brief demo you can play around with how Step-Wise works.',
 		goals: [
 			'enterInteger',
 			'enterFloat',
@@ -59,6 +60,7 @@ let courses = {
 
 	algebraBasics: {
 		name: 'Mathematics: algebra basics',
+		description: 'This small course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.',
 		goals: ['addFractionsWithVariables', 'solveLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables', 'solveMultiVariableLinearEquation'],
 		priorKnowledge: [
 			'simplifyNumberProduct', 'mergeSimilarTerms', // Prerequisites for expanding brackets.
@@ -67,7 +69,7 @@ let courses = {
 			'checkEquationSolution', 'cancelSumTerms', 'addTermToBothEquationSides', 'multiplyBothEquationSides', // Prerequisites for solving linear equations.
 			'checkMultiVariableEquationSolution', // Prerequisites for solving multi-variable linear equations.
 		],
-		startingPoints: [], // All starting points are covered by the prior knowledge.
+		startingPoints: ["expandBrackets", "expandDoubleBrackets", "addLikeFractionsWithVariables", "addFractionsWithVariables", "simplifyFractionWithVariables", "simplifyFractionOfFractionsWithVariables", "moveEquationTerm", "moveEquationFactor", "solveLinearEquation", "solveProductEquation", "solveMultiVariableProductEquation"],
 		blocks: [
 			{
 				name: 'Expanding brackets',
@@ -99,6 +101,7 @@ let courses = {
 
 	mathematicsFundamentals: {
 		name: 'Mathematics: fundamentals',
+		description: 'This course discusses the fundamentals of algebra, up to solving quadratic equations as well as solving systems of linear equations.',
 		goals: ['addFractionsWithVariables', 'solveLinearEquationWithFractions', 'solveMultiVariableLinearEquationWithFractions', 'solveSystemOfLinearEquations', 'solveMultiVariableSystemOfLinearEquations', 'solveRewrittenQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [
 			'cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables', // For addFractionsWithVariables
@@ -115,6 +118,7 @@ let courses = {
 			'applySimilarTriangles',
 			'determine2DAngles',
 			'calculate2DShape',
+			"addFractionsWithVariables", "solveLinearEquationWithFractions", "solveSystemOfLinearEquations", "solveMultiVariableSystemOfLinearEquations", "solveRewrittenQuadraticEquation", "solveLinearEquation", "solveQuadraticEquation",
 		],
 		blocks: [
 			{
@@ -151,6 +155,7 @@ let courses = {
 
 	mathematicsDerivatives: {
 		name: 'Mathematics: derivatives',
+		description: 'This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.',
 		goals: ['findAdvancedDerivative'],
 		priorKnowledge: [],
 		startingPoints: ['lookUpElementaryDerivative'],
@@ -172,6 +177,7 @@ let courses = {
 
 	staticsFundamentals: {
 		name: 'Statics: fundamentals',
+		description: 'This tiny course is used to demonstrate the possibilities of Step-Wise related to engineering mechanics. It is not a fully fledged course yet.',
 		goals: ['calculateBasicSupportReactions'],
 		priorKnowledge: [],
 		startingPoints: [
@@ -192,6 +198,7 @@ let courses = {
 
 	thermodynamicsFundamentals: {
 		name: 'Thermodynamics: fundamentals',
+		description: 'This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [
 			'calculateWithPressure',
@@ -246,6 +253,7 @@ let courses = {
 
 	thermodynamicsApplications: {
 		name: 'Thermodynamics: applications',
+		description: 'This advanced thermodynamics course teaches all sorts of thermodynamic cycles, including gas turbines, Rankine cycles and cooling cycles.',
 		goals: [
 			'analyseClosedCycle',
 			'analyseOpenCycle',
@@ -311,6 +319,7 @@ let courses = {
 
 	thermodynamicsApplications2: {
 		name: 'Thermodynamics: applications',
+		description: 'This advanced thermodynamics course teaches all sorts of thermodynamic cycles, including gas turbines, Rankine cycles and cooling cycles.',
 		languages: ['nl'],
 		goals: [
 			'analyseClosedCycle',

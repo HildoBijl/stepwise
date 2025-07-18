@@ -1,16 +1,18 @@
-import React, { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert, AlertTitle } from '@material-ui/lab'
 
 import { count } from 'step-wise/util'
-import { processCourse } from 'step-wise/eduTools'
+import { skillTree, processCourse, getSkillsBetween } from 'step-wise/eduTools'
 
-import { useSkillsData, useMyCoursesQuery } from 'api'
+import { useUser, useSkillsData, useMyCoursesQuery, useCreateCourseMutation } from 'api'
 import { Translation, TranslationFile } from 'i18n'
 
 import { getAnalysis } from './util'
 import { Tile } from './Tile'
+
+import { courses as hardcodedCourses } from './courses'
 
 const translationPath = 'eduTools/pages/coursesPage'
 
@@ -48,19 +50,21 @@ export function CoursesPage() {
 }
 
 function CoursePageForCourses({ courses }) {
-	// // Load all the skills data for the courses and use it to determine which skills need practice.
-	const processedCourses = useMemo(() => courses.map(rawCourse => processCourse(rawCourse)), [courses])
+	// Load all the skills data for the courses and use it to determine which skills need practice.
+	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedOn) - new Date(c2.subscribedOn)), [courses]) // Sort by subscription date, so that later courses come at the end.
+	const processedCourses = useMemo(() => sortedCourses.map(rawCourse => processCourse(rawCourse)), [sortedCourses])
 	const allSkills = [...new Set(processedCourses.map(processedCourse => processedCourse.all).flat())] // A list of all relevant skills for all courses.
 	const skillsData = useSkillsData(allSkills) // The SkillData objects for all skills.
 	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillsData)), [processedCourses, skillsData])
 
 	// Render all the tiles with corresponding data.
 	const classes = useStyles()
-	return (
+	return <>
+		<CourseAdditionCheck databaseCourses={sortedCourses} />
 		<TranslationFile path={translationPath}>
-			{courses.length > 0 ?
+			{sortedCourses.length > 0 ?
 				<div className={clsx(classes.courses, 'courses')}>
-					{courses.map((course, index) => <Tile
+					{sortedCourses.map((course, index) => <Tile
 						key={course.id}
 						course={course}
 						skillsTotal={processedCourses[index].contents.length}
@@ -76,5 +80,48 @@ function CoursePageForCourses({ courses }) {
 					</Alert>
 				</Translation>}
 		</TranslationFile>
-	)
+	</>
+}
+
+// The CourseAdditionCheck is a temporary component to populate the database with courses, up until we have a tool that can actually create them live.
+// ToDo: at some point this can be removed. In that case the courses.js file can also be removed accordingly.
+function CourseAdditionCheck({ databaseCourses }) {
+	const called = useRef()
+	const [createCourseMutation] = useCreateCourseMutation()
+
+	// Only call for admins.
+	const user = useUser()
+	if (user.role !== 'admin')
+		return null
+
+	// Only call the API once.
+	if (called.current)
+		return null
+	called.current = true
+
+	// Run it for all known courses.
+	Object.values(hardcodedCourses).forEach(hardcodedCourse => {
+		// If the course is already in the database, don't add it again.
+		if (databaseCourses.find(databaseCourse => databaseCourse.code === hardcodedCourse.id))
+			return
+
+		// Set up the object to be sent to the API.
+		const goals = hardcodedCourse.goals.map(goal => (typeof goal === 'string' ? goal : goal.skillId))
+		const course = {
+			code: hardcodedCourse.id,
+			name: hardcodedCourse.name,
+			description: hardcodedCourse.description,
+			goals,
+			startingPoints: getSkillsBetween(goals, hardcodedCourse.priorKnowledge).filter(skillId => skillTree[skillId].prerequisites.length === 0 || skillTree[skillId].prerequisites.some(prerequisiteId => hardcodedCourse.priorKnowledge.includes(prerequisiteId))),
+			blocks: hardcodedCourse.blocks
+		}
+		const weights = hardcodedCourse.goals.map(goal => goal?.weight || 1)
+		if (!weights.every(weight => weight === 1))
+			course.goalWeights = weights
+		if (hardcodedCourse.setup)
+			course.setup = hardcodedCourse.setup.SO
+
+		// Send the call to the API.
+		createCourseMutation(course)
+	})
 }
