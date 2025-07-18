@@ -1,62 +1,6 @@
-import { sortByIndices } from 'step-wise/util'
 import { skillTree } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'
-
-// getOverview takes a course set-up and returns an overview object { priorKnowledge: ['priorSkill1', ...], course: ['firstSkill', ..., 'lastSkill'], blocks: [['firstSkill', ...], ..., [..., 'lastSkill']], goals: [...], all: ['priorSkill1', ..., 'firstSkill', ...] }. It lists all the skills belonging to the course in the right order.
-// ToDo: remove this function. It's deprecated, with a function in the shared folder doing this better.
-export function getOverview(courseSetup) {
-	// Check input.
-	if (!courseSetup)
-		return { priorKnowledge: [], goals: [], blocks: [], course: [], all: [] }
-
-	// Fill up all the skill sets.
-	const { blocks, priorKnowledge } = courseSetup
-	const courseSet = new Set()
-	const priorKnowledgeSet = new Set()
-	const blockSets = blocks.map(block => {
-		const blockSet = new Set()
-		block.goals.forEach(goal => addToSkillSets(goal, priorKnowledge, courseSet, blockSet, priorKnowledgeSet))
-		return blockSet
-	})
-
-	// Sort the prior knowledge by the order of the skills object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskill of a skill of an earlier-encountered prior knowledge skill.
-	const allSkillIds = Object.keys(skillTree)
-	const indices = priorKnowledge.map(skillId => allSkillIds.indexOf(skillId))
-	const priorKnowledgeSorted = sortByIndices(priorKnowledge, indices)
-
-	// Return all sets as arrays.
-	return {
-		priorKnowledge: priorKnowledgeSorted, // Use the prior knowledge sorted according to the skill tree file instead.
-		goals: courseSetup.goals,
-		blocks: blockSets.map(blockSet => [...blockSet]),
-		course: [...courseSet],
-		all: [...priorKnowledgeSet, ...courseSet],
-	}
-}
-
-function addToSkillSets(skillId, priorKnowledge, courseSet, blockSet, priorKnowledgeSet) {
-	// If we already added this skill, don't add it again. This prevents multiple blocks to have the same skill.
-	if (courseSet.has(skillId))
-		return
-
-	// If this skill is prior knowledge, we don't need to learn it. Do add it to the prior knowledge set so we know in which order we should go through prior knowledge.
-	if (priorKnowledge.includes(skillId)) {
-		priorKnowledgeSet.add(skillId)
-		return
-	}
-
-	// Recursively add prerequisites.
-	const skill = skillTree[skillId]
-	if (!skill)
-		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
-	if (skill.prerequisites)
-		skill.prerequisites.forEach(prerequisiteId => addToSkillSets(prerequisiteId, priorKnowledge, courseSet, blockSet, priorKnowledgeSet))
-
-	// Add this skill to the sets.
-	courseSet.add(skillId)
-	blockSet.add(skillId)
-}
 
 // getAnalysis checks, for a given course overview and a given set of skills data, which skills have been mastered and which skill is recommended to practice next. It returns an object of the form { practiceNeeded: { skill1: 2, skill2: 0, skill3: 1, ... }, recommendation: 'skill2' }. The recommendation can also be undefined (not enough data loaded yet) or the freePractice string.
 const strFreePractice = 'StepWiseFreePracticeMode'
