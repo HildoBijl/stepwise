@@ -1,0 +1,4 @@
+{
+  "loadingCourses": "<a><b>Cursussen worden geladen...</b>We zijn alle beschikbare cursussen uit de database aan het laden. Dit zou zo gedaan moeten zijn.</a>",
+  "failedLoadingCourses": "<a><b>Fout bij laden van cursussen</b>Oeps ... er is iets mis gegaan bij het laden van alle cursussen. Misschien is het jouw verbinding? Misschien ligt onze server plat? We weten het niet! Probeer in elk geval de pagina te vernieuwen, en probeer het anders later opnieuw.</a>"
+}
