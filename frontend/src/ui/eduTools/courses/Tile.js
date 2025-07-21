@@ -62,6 +62,23 @@ const useStyles = makeStyles((theme) => ({
 					width: '3rem',
 				},
 			},
+
+			'& .plus': {
+				color: theme.palette.primary.main,
+				fontWeight: '200',
+				fontSize: '5rem',
+				margin: '-0.4rem 0 -1.4rem',
+				opacity: 0.5,
+				textAlign: 'center',
+				width: '100%',
+			},
+			'& .addCourseTitle': {
+				color: theme.palette.primary.main,
+				fontWeight: 500,
+				opacity: 0.5,
+				textAlign: 'center',
+				width: '100%',
+			},
 		},
 	},
 	tooltip: {
@@ -122,4 +139,17 @@ export function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 			</Box>
 		</Link>
 	)
+}
+
+export function AddCourseTile() {
+	const translate = useTranslator()
+	const paths = usePaths()
+
+	const classes = useStyles()
+	return <Link to={paths.addCourse()} className={clsx(classes.tile, 'tile')}>
+		<Box boxShadow={1} className="tileBox">
+			<div className="plus">+</div>
+			<div className="addCourseTitle">{translate('Add course', 'addCourse')}</div>
+		</Box>
+	</Link>
 }

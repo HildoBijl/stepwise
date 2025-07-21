@@ -11,7 +11,7 @@ import { Translation, TranslationFile } from 'i18n'
 import { Head } from 'ui/components'
 
 import { getAnalysis } from './util'
-import { Tile } from './Tile'
+import { Tile, AddCourseTile } from './Tile'
 
 import { courses as hardcodedCourses } from './courses'
 
@@ -52,41 +52,43 @@ export function CoursesPage() {
 
 function CoursePageForCourses({ courses }) {
 	// Split the courses based on teacher and student roles.
-	const studentCourses = courses.filter(course => course.role === 'student')
-	const teacherCourses = courses.filter(course => course.role === 'teacher')
+	const studentCourses = useMemo(() => courses.filter(course => course.role === 'student'), [courses])
+	const teacherCourses = useMemo(() => courses.filter(course => course.role === 'teacher'), [courses])
+
+	// Check if only one category is shown.
+	if (teacherCourses.length === 0)
+		return <StudentCourses courses={courses} />
+	if (studentCourses.length === 0)
+		return <TeacherCourses courses={courses} />
 
 	// Render each of them separately. Put the one with the most courses first.
 	if (studentCourses.length >= teacherCourses.length)
 		return <>
-			<StudentCourses courses={studentCourses} showHeader={teacherCourses.length > 0} />
-			<TeacherCourses courses={teacherCourses} showHeader={studentCourses.length > 0} />
+			<StudentCourses courses={studentCourses} showHeader={true} />
+			<TeacherCourses courses={teacherCourses} showHeader={true} />
 		</>
 	return <>
 		<CourseAdditionCheck databaseCourses={courses} />
-		<TeacherCourses courses={teacherCourses} showHeader={studentCourses.length > 0} />
-		<StudentCourses courses={studentCourses} showHeader={teacherCourses.length > 0} />
+		<TeacherCourses courses={teacherCourses} showHeader={true} />
+		<StudentCourses courses={studentCourses} showHeader={true} />
 	</>
 }
 
 function StudentCourses({ courses, showHeader }) {
-	if (courses.length === 0)
-		return null
 	return <>
 		{showHeader && <Head><Translation path={translationPath} entry="studentCourses">Courses where you are a student</Translation></Head>}
-		<CourseList courses={courses} />
+		<CourseList courses={courses} showAddButton={true} />
 	</>
 }
 
 function TeacherCourses({ courses, showHeader }) {
-	if (courses.length === 0)
-		return null
 	return <>
 		{showHeader && <Head><Translation path={translationPath} entry="teacherCourses">Courses where you are a teacher</Translation></Head>}
 		<CourseList courses={courses} />
 	</>
 }
 
-function CourseList({ courses }) {
+function CourseList({ courses, showAddButton }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedOn) - new Date(c2.subscribedOn)), [courses]) // Sort by subscription date, so that later courses come at the end.
 	const processedCourses = useMemo(() => sortedCourses.map(rawCourse => processCourse(rawCourse)), [sortedCourses])
@@ -107,15 +109,21 @@ function CourseList({ courses }) {
 						skillsDone={analyses[index] ? count(processedCourses[index].contents, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
 						recommendation={analyses[index]?.recommendation}
 					/>)}
+					{showAddButton && <AddCourseTile />}
 				</div>
 				:
-				<Translation path={translationPath} entry="noSubscribedCourses">
-					<Alert severity="info">
-						<AlertTitle>You haven't subscribed to a course yet!</AlertTitle>
-						Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.
-					</Alert>
-				</Translation>}
-		</TranslationFile>
+				<>
+					<Translation path={translationPath} entry="noSubscribedCourses">
+						<Alert severity="info" style={{ marginBottom: '1rem' }}>
+							<AlertTitle>You haven't subscribed to a course yet!</AlertTitle>
+							Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.
+						</Alert>
+					</Translation>
+					<div className={clsx(classes.courses, 'courses')}>
+						{showAddButton && <AddCourseTile />}
+					</div>
+				</>}
+		</TranslationFile >
 	</>
 }
 
