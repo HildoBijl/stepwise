@@ -8,7 +8,7 @@
   "unsubscribedUser": {
     "subscribe": {
       "title": "Anmelden",
-      "description": "<check><on-true>Indem du dich für den Kurs anmeldest, fügst du ihn zu deiner Kursliste hinzu.</on-true><on-false>Mit der Einschreibung in den Kurs erklärst du dich damit einverstanden, dass deine Fortschritte im Kurs mit den (aktuellen und zukünftigen) Lehrenden dieses Kurses geteilt werden. Du kannst dies jederzeit rückgängig machen, indem du dich von dem Kurs abmeldest.</on-false></check>",
+      "description": "<check><on-true>Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu.</on-true><on-false>Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu. Außerdem erlaubst du den (aktuellen und zukünftigen) Lehrenden dieses Kurses, deine Fortschritte in diesem Kurs einzusehen. Du kannst dies jederzeit rückgängig machen, indem du dich von dem Kurs abmeldest.</on-false></check>",
       "button": "Zum Kurs anmelden"
     },
     "teachers": {

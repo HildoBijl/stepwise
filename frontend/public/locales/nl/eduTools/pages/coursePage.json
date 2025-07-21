@@ -8,7 +8,7 @@
   "unsubscribedUser": {
     "subscribe": {
       "title": "Inschrijven",
-      "description": "<check><on-true>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht.</on-true><on-false>Door je in te schrijven voor de cursus, geef je toestemming om je voortgang binnen de cursus met de (huidige en toekomstige) docenten van deze cursus te delen. Je kunt dit altijd ongedaan maken door je uit te schrijven voor de cursus.</on-false></check>",
+      "description": "<check><on-true>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht.</on-true><on-false>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht. Je geeft hiermee ook toestemming aan de (huidige en toekomstige) docenten van deze cursus om je voortgang binnen de cursus in te zien. Je kunt dit op elk moment weer ongedaan maken door je uit te schrijven voor de cursus.</on-false></check>",
       "button": "Inschrijven voor de cursus"
     },
     "teachers": {

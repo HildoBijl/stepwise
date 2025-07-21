@@ -32,7 +32,7 @@ function Subscribe({ course }) {
 	const organization = getOrganization(course.organization)
 	return <>
 		<Head><Translation entry="subscribe.title">Subscribe</Translation></Head>
-		<Par><Translation entry="subscribe.description"><Check value={!!organization.noTeachers}><Check.True>Subscribing to this course adds it to your course list.</Check.True><Check.False>By subscribing to this course, you agree to share your progress within the course with the (current and future) teachers of this course. You can always undo this by unsubscribing from the course.</Check.False></Check></Translation></Par>
+		<Par><Translation entry="subscribe.description"><Check value={!!organization.noTeachers}><Check.True>Subscribing to this course adds it to your course list.</Check.True><Check.False>Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</Check.False></Check></Translation></Par>
 		<SubscribeButton course={course} />
 	</>
 }

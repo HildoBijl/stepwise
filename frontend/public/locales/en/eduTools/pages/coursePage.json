@@ -8,7 +8,7 @@
   "unsubscribedUser": {
     "subscribe": {
       "title": "Subscribe",
-      "description": "<check><on-true>Subscribing to this course adds it to your course list.</on-true><on-false>By subscribing to this course, you agree to share your progress within the course with the (current and future) teachers of this course. You can always undo this by unsubscribing from the course.</on-false></check>",
+      "description": "<check><on-true>Subscribing to this course adds it to your course list.</on-true><on-false>Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</on-false></check>",
       "button": "Subscribe to this course"
     },
     "teachers": {
