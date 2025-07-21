@@ -8,6 +8,7 @@ import { skillTree, processCourse, getSkillsBetween } from 'step-wise/eduTools'
 
 import { useUser, useSkillsData, useMyCoursesQuery, useCreateCourseMutation } from 'api'
 import { Translation, TranslationFile } from 'i18n'
+import { Head } from 'ui/components'
 
 import { getAnalysis } from './util'
 import { Tile } from './Tile'
@@ -50,6 +51,42 @@ export function CoursesPage() {
 }
 
 function CoursePageForCourses({ courses }) {
+	// Split the courses based on teacher and student roles.
+	const studentCourses = courses.filter(course => course.role === 'student')
+	const teacherCourses = courses.filter(course => course.role === 'teacher')
+
+	// Render each of them separately. Put the one with the most courses first.
+	if (studentCourses.length >= teacherCourses.length)
+		return <>
+			<StudentCourses courses={studentCourses} showHeader={teacherCourses.length > 0} />
+			<TeacherCourses courses={teacherCourses} showHeader={studentCourses.length > 0} />
+		</>
+	return <>
+		<CourseAdditionCheck databaseCourses={courses} />
+		<TeacherCourses courses={teacherCourses} showHeader={studentCourses.length > 0} />
+		<StudentCourses courses={studentCourses} showHeader={teacherCourses.length > 0} />
+	</>
+}
+
+function StudentCourses({ courses, showHeader }) {
+	if (courses.length === 0)
+		return null
+	return <>
+		{showHeader && <Head><Translation path={translationPath} entry="studentCourses">Courses where you are a student</Translation></Head>}
+		<CourseList courses={courses} />
+	</>
+}
+
+function TeacherCourses({ courses, showHeader }) {
+	if (courses.length === 0)
+		return null
+	return <>
+		{showHeader && <Head><Translation path={translationPath} entry="teacherCourses">Courses where you are a teacher</Translation></Head>}
+		<CourseList courses={courses} />
+	</>
+}
+
+function CourseList({ courses }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedOn) - new Date(c2.subscribedOn)), [courses]) // Sort by subscription date, so that later courses come at the end.
 	const processedCourses = useMemo(() => sortedCourses.map(rawCourse => processCourse(rawCourse)), [sortedCourses])
@@ -60,7 +97,6 @@ function CoursePageForCourses({ courses }) {
 	// Render all the tiles with corresponding data.
 	const classes = useStyles()
 	return <>
-		<CourseAdditionCheck databaseCourses={sortedCourses} />
 		<TranslationFile path={translationPath}>
 			{sortedCourses.length > 0 ?
 				<div className={clsx(classes.courses, 'courses')}>

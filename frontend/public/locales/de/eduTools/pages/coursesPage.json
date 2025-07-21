@@ -4,5 +4,7 @@
   "noSubscribedCourses": "<a><b>Du hast dich noch nicht für einen Kurs angemeldet!</b>Wähle einen Kurs aus der Liste der verfügbaren Kurse, um mit dem Lernen zu beginnen. Keine Sorge: Es ist alles kostenlos und du kannst so viele Kurse hinzufügen/löschen, wie du willst.</a>",
   "loadingSkillData": "Deine Fortschritte werden noch geladen...",
   "freePracticeRecommendation": "Du beherrschst alle Kompetenzen! Der nächste Schritt ist der freie Übungsmodus.",
-  "skillRecommendation": "Unser Übungsvorschlag:"
+  "skillRecommendation": "Unser Übungsvorschlag:",
+  "studentCourses": "Kurse, in denen du ein Studierender bist",
+  "teacherCourses": "Kurse, bei denen du ein Lehrender bist"
 }

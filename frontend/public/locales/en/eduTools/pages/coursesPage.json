@@ -4,5 +4,7 @@
   "noSubscribedCourses": "<a><b>You haven't subscribed to a course yet!</b>Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.</a>",
   "loadingSkillData": "Your progress is being loaded...",
   "freePracticeRecommendation": "You have all skills on a sufficient level! The next step is the free practice mode.",
-  "skillRecommendation": "Our practice recommendation:"
+  "skillRecommendation": "Our practice recommendation:",
+  "studentCourses": "Courses where you are a student",
+  "teacherCourses": "Courses where you are a teacher"
 }

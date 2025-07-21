@@ -4,5 +4,7 @@
   "noSubscribedCourses": "<a><b>Je hebt je nog niet voor een cursus ingeschreven!</b>Kies een cursus uit de lijst van beschikbare cursussen om te beginnen met leren. Geen zorgen: het is allemaal gratis en je kan zo veel cursussen toevoegen/verwijderen als je wilt.</a>",
   "loadingSkillData": "Je voortgang wordt nog ingeladen...",
   "freePracticeRecommendation": "Je beheerst alle vaardigheden! Ga naar de vrij-oefenen-modus.",
-  "skillRecommendation": "Onze oefensuggestie:"
+  "skillRecommendation": "Onze oefensuggestie:",
+  "studentCourses": "Cursussen waar je leerling bent",
+  "teacherCourses": "Cursussen waar je docent bent"
 }
