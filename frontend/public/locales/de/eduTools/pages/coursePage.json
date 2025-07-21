@@ -1,4 +1,8 @@
 {
+  "loadingCourseTitle": "Kurs wird geladen...",
+  "loadingCourse": "<a><b>Kurs wird geladen...</b> Wir laden den Kurs aus der Datenbank. Dies sollte sofort erledigt werden.</a>",
+  "unknownCourseTitle": "Unbekannter Kurs",
+  "failedLoadingCourse": "<a><b>Fehler beim Laden des Kurses</b>Ups ... beim Laden des Kurses ist etwas schief gelaufen. Vielleicht existiert der Kurs gar nicht? Vielleicht liegt es an deiner Verbindung? Vielleicht ist unser Server ausgefallen? Wir wissen es nicht! Überprüfe, ob die URL korrekt ist, und aktualisiere die Seite, ansonsten versuche es später noch einmal.</a>",
   "priorKnowledge": "Vorkenntnisse",
   "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!",
   "gradeEstimate": "Auf der Grundlage deiner bisherigen Übung erwarten wir eine Punktzahl von etwa <a>{percentage}</a> (etwa <b>{lowerPercentage} - {upperPercentage}</b>) im Abschlusstest.",
@@ -6,9 +10,5 @@
   "practiceRecommendation": "Dies ist nun die empfohlene Kompetenz zum Üben.",
   "sufficientMastery": "Du beherrschst diese Kompetenz gut.",
   "followUpMastery": "Du hast eine Folgekompetenz gemeistert, also stufen wir auch diese als ausreichend ein.",
-  "unknownCourse": {
-    "title": "Unbekannter Kurs",
-    "message": "Ups... Der Kurs, den du besuchen wolltest, ist hier unbekannt. Vielleicht ist etwas in der URL falsch?"
-  },
-"noExercises": "Für diese Kompetenz gibt es noch keine Übungen. Sie werden wahrscheinlich bald folgen."
+  "noExercises": "Für diese Kompetenz gibt es noch keine Übungen. Sie werden wahrscheinlich bald folgen."
 }

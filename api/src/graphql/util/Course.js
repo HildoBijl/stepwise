@@ -83,9 +83,25 @@ async function getCourseByConditionsForUser(db, conditions, userId, requireTeach
 
 	// ToDo: for teacher mode, take the course and derive all skills related to it. Then, for those skillIds, and for all respective students, load in skill data.
 
-	// Extract the course, check it and return it.
-	const courses = userWithCourses?.courses
-	if (!courses || courses.length === 0)
-		throw new Error(`Failed to load the course with properties "${JSON.stringify(conditions)}" for the user with ID "${userId}". Does this course exist, and is this user a teacher of this course?`)
-	return courses[0]
+	// If a user subscribed to the course was found, process the results.
+	if (userWithCourses) {
+		// Extract the course, check it and return it.
+		const courses = userWithCourses?.courses
+		if (!courses || courses.length === 0)
+			throw new Error(`Failed to load the course with properties "${JSON.stringify(conditions)}" for the user with ID "${userId}". Does this course exist, and is this user a teacher of this course?`)
+		return courses[0]
+	}
+
+	// If the course cannot be found through the user, then this is because the user is not subscribed to the course. Load in the course separately.
+	const course = await db.Course.findOne({
+		where: conditions,
+		include: [
+			{ association: 'blocks' },
+			{ association: 'teachers' },
+		],
+		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
+	})
+	if (!course)
+		throw new Error(`Failed to load the course with properties "${JSON.stringify(conditions)}". Does this course exist?`)
+	return course
 }

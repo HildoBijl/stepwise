@@ -1,4 +1,8 @@
 {
+  "loadingCourseTitle": "Loading course...",
+  "loadingCourse": "<a><b>Loading course...</b>We are loading the course from the database. This shouldn't take long.</a>",
+  "unknownCourseTitle": "Unknown course",
+  "failedLoadingCourse": "<a><b>Loading course failed</b>Oops ... something went wrong loading the course. Maybe the course doesn't exist? Maybe it's your connection? Maybe our server is down? We're not sure! Make sure the URL is correct, try refreshing the page, and otherwise try again later.</a>",
   "priorKnowledge": "Prior knowledge",
   "noSkills": "This block is still under development: no skills/exercises have been added yet. They will be here shortly!",
   "gradeEstimate": "Based on your practice so far, we expect a score of roughly <strong>{percentage}</strong> (about <strong>{lowerPercentage} - {upperPercentage}</strong>) on the final test.",
@@ -6,9 +10,5 @@
   "practiceRecommendation": "This is currently the recommended skill to practice.",
   "sufficientMastery": "You have sufficiently mastered this skill.",
   "followUpMastery": "You have mastered a follow-up skill, so we mark this one as sufficient as well.",
-  "unknownCourse": {
-    "title": "Unknown course",
-    "message": "Oops... The course you wanted to visit is unknown here. Perhaps something is wrong in the URL?"
-  },
   "noExercises": "This skill has no exercises yet. They are probably coming soon."
 }

@@ -2,12 +2,15 @@ import React, { useState, useCallback, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { Alert, AlertTitle } from '@material-ui/lab'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
 
 import { strFreePractice } from '../courses'
 
 import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from './components'
+
+const translationPath = 'eduTools/pages/coursePage'
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -40,18 +43,37 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function CoursePage(props) {
-	const { loading, error } = useCourseData()
+export function CoursePage() {
+	const { loading, error, course } = useCourseData()
+
+	// When we don't have the data, show a relevant indication of what's going on.
 	if (loading)
-		return <p>Loading course...</p>
-	if (error)
-		return <p>Error while loading course...</p>
-	return <CoursePageInner {...props} />
+		return <Translation path={translationPath} entry="loadingCourse">
+			<Alert severity="info">
+				<AlertTitle>Loading course...</AlertTitle>
+				We are loading the course from the database. This shouldn't take long.
+			</Alert>
+		</Translation>
+	if (error || !course)
+		return <Translation path={translationPath} entry="failedLoadingCourse">
+			<Alert severity="error">
+				<AlertTitle>Loading course failed</AlertTitle>
+				Oops ... something went wrong loading the course. Maybe the course doesn't exist? Maybe it's your connection? Maybe our server is down? We're not sure! Make sure the URL is correct, try refreshing the page, and otherwise try again later.
+			</Alert>
+		</Translation>
+
+	// When we do have data, determine what page to show.
+	if (course.role === 'student')
+		return <CoursePageForCourse />
+	if (course.role === 'teacher')
+		return <CoursePageForTeacher />
+	return <CoursePageForUnsubscribedUser />
 }
 
-function CoursePageInner(props) {
+function CoursePageForCourse() {
 	// Load in relevant data about the course.
 	const { course, overview, analysis } = useCourseData()
+	console.log(course)
 	const recommendation = analysis?.recommendation
 	const hasRecommendation = !!recommendation
 
@@ -78,13 +100,9 @@ function CoursePageInner(props) {
 		}
 	}, [hasRecommendation, recommendationBlock, activeBlock, setActiveBlock])
 
-	// If there is an unknown course, display this.
-	if (!course)
-		return <TranslationFile path="eduTools/pages/coursePage"><div><Translation entry="unknownCourse.message">Oops... The course you wanted to visit is unknown here. Perhaps something is wrong in the URL?</Translation></div></TranslationFile>
-
 	// Render the component.
-	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
-	return <TranslationFile path="eduTools/pages/coursePage">
+	const data = { course, overview, analysis, activeBlock, toggleActiveBlock }
+	return <TranslationFile path={translationPath}>
 		{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</TranslationFile>
@@ -176,4 +194,13 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 			</div>
 		</div>
 	)
+}
+
+function CoursePageForTeacher() {
+	return <p>The teacher interface for a course is still under development...</p>
+}
+
+function CoursePageForUnsubscribedUser() {
+	const { course } = useCourseData()
+	return <p>Want to subscribe to the course {course.name}?</p>
 }

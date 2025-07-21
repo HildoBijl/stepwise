@@ -16,7 +16,7 @@ const Course = `
 const CourseForStudent = `
 		${Course}
 		role: String
-		subscribedOn: DateTime!
+		subscribedOn: DateTime
 		teachers: [UserPublic]!
 `
 
