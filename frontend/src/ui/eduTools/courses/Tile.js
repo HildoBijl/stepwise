@@ -64,18 +64,14 @@ const useStyles = makeStyles((theme) => ({
 			},
 
 			'& .plus': {
-				color: theme.palette.primary.main,
-				fontWeight: '200',
+				fontWeight: 100,
 				fontSize: '5rem',
 				margin: '-0.4rem 0 -1.4rem',
-				opacity: 0.5,
 				textAlign: 'center',
 				width: '100%',
 			},
 			'& .addCourseTitle': {
-				color: theme.palette.primary.main,
 				fontWeight: 500,
-				opacity: 0.5,
 				textAlign: 'center',
 				width: '100%',
 			},
