@@ -1,4 +1,4 @@
-export * from '../components/users'
+export * from './organizations'
 export * from './exercises'
 export * from './skills'
 export * from './courses'

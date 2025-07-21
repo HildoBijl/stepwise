@@ -1,14 +1,33 @@
 {
-  "loadingCourseTitle": "Cursus wordt geladen...",
-  "loadingCourse": "<a><b>Cursus wordt geladen...</b>We zijn de cursus uit de database aan het laden. Dit zou zo gedaan moeten zijn.</a>",
-  "unknownCourseTitle": "Onbekende cursus",
-  "failedLoadingCourse": "<a><b>Fout bij laden van cursus</b>Oeps ... er is iets mis gegaan bij het laden van de cursus. Misschien bestaat de cursus niet? Misschien is het jouw verbinding? Misschien ligt onze server plat? We weten het niet! Check that de URL correct is, probeer de pagina te vernieuwen, en probeer het anders later opnieuw.</a>",
-  "priorKnowledge": "Voorkennis",
-  "noSkills": "Dit blok is nog in ontwikkeling: er zijn nog geen vaardigheden/oefeningen toegevoegd. Ze komen er zo snel mogelijk aan!",
-  "gradeEstimate": "Gebaseerd op je oefening tot nu toe, verwachten we een score van grofweg <a>{percentage}</a> (zo'n <b>{lowerPercentage} - {upperPercentage}</b>) op de eindtoets.",
-  "disclaimer": "Aan deze schatting kunnen geen rechten worden ontleend.",
-  "practiceRecommendation": "Dit is nu de aanbevolen vaardigheid om te oefenen.",
-  "sufficientMastery": "Je beheerst deze vaardigheid goed.",
-  "followUpMastery": "Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.",
-  "noExercises": "Deze vaardigheid heeft nog geen opgaven. Ze komen er waarschijnlijk binnenkort aan."
+  "loading": {
+    "loadingCourseTitle": "Cursus wordt geladen...",
+    "loadingCourse": "<a><b>Cursus wordt geladen...</b>We zijn de cursus uit de database aan het laden. Dit zou zo gedaan moeten zijn.</a>",
+    "unknownCourseTitle": "Onbekende cursus",
+    "failedLoadingCourse": "<a><b>Fout bij laden van cursus</b>Oeps ... er is iets mis gegaan bij het laden van de cursus. Misschien bestaat de cursus niet? Misschien is het jouw verbinding? Misschien ligt onze server plat? We weten het niet! Check that de URL correct is, probeer de pagina te vernieuwen, en probeer het anders later opnieuw.</a>"
+  },
+  "unsubscribedUser": {
+    "subscribe": {
+      "title": "Inschrijven",
+      "description": "<check><on-true>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht.</on-true><on-false>Door je in te schrijven voor de cursus, geef je toestemming om je voortgang binnen de cursus met de (huidige en toekomstige) docenten van deze cursus te delen. Je kunt dit altijd ongedaan maken door je uit te schrijven voor de cursus.</on-false></check>",
+      "button": "Inschrijven voor de cursus"
+    },
+    "teachers": {
+      "title": "Docenten",
+      "description": "<count-check><zero>De cursus heeft op dit moment nog geen docenten.</zero><not-zero>Deze cursus wordt gegeven door <word-list/>.</not-zero></count-check>"
+    },
+    "learningGoals": {
+      "title": "Leerdoelen",
+      "description": "De cursus heeft <count-check><one>het volgende einddoel</one><not-one>de volgende einddoelen</not-one></count-check>."
+    }
+  },
+  "student": {
+    "priorKnowledge": "Voorkennis",
+    "gradeEstimate": "Gebaseerd op je oefening tot nu toe, verwachten we een score van grofweg <a>{percentage}</a> (zo'n <b>{lowerPercentage} - {upperPercentage}</b>) op de eindtoets.",
+    "disclaimer": "Aan deze schatting kunnen geen rechten worden ontleend.",
+    "practiceRecommendation": "Dit is nu de aanbevolen vaardigheid om te oefenen.",
+    "sufficientMastery": "Je beheerst deze vaardigheid goed.",
+    "followUpMastery": "Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.",
+    "noExercises": "Deze vaardigheid heeft nog geen opgaven. Ze komen er waarschijnlijk binnenkort aan.",
+    "noSkills": "Dit blok is nog in ontwikkeling: er zijn nog geen vaardigheden/oefeningen toegevoegd. Ze komen er zo snel mogelijk aan!"
+  }
 }

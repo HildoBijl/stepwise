@@ -1,6 +1,7 @@
 {
   "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
+    "description": "In this brief demo you can play around with how Step-Wise works.",
     "blocks": {
       "0": "Number input fields",
       "1": "Mathematical input fields",
@@ -9,6 +10,7 @@
   },
   "algebrabasics": {
     "name": "Mathematics: algebra basics",
+    "description": "This small course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.",
     "blocks": {
       "0": "Expanding brackets",
       "1": "Adding fractions",
@@ -20,6 +22,7 @@
   },
   "mathematicsfundamentals": {
     "name": "Mathematics: fundamentals",
+    "description": "This course discusses the fundamentals of algebra, up to solving quadratic equations as well as solving systems of linear equations.",
     "blocks": {
       "0": "Basic rules of algebra",
       "1": "Rewritten linear equations",
@@ -32,6 +35,7 @@
   },
   "mathematicsderivatives": {
     "name": "Mathematics: derivatives",
+    "description": "This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.",
     "blocks": {
       "0": "Derivative basics",
       "1": "Derivative rules",
@@ -40,6 +44,7 @@
   },
   "staticsfundamentals": {
     "name": "Statics: fundamentals",
+    "description": "This tiny course is used to demonstrate the possibilities of Step-Wise related to engineering mechanics. It is not a fully fledged course yet.",
     "blocks": {
       "0": "Drawing free body diagrams",
       "1": "Calculate support reactions"
@@ -47,6 +52,7 @@
   },
   "thermodynamicsfundamentals": {
     "name": "Thermodynamics: fundamentals",
+    "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.",
     "blocks": {
       "0": "Gas properties and the gas law",
       "1": "Thermodynamic processes and Poisson's law",
@@ -59,6 +65,7 @@
   },
   "thermodynamicsapplications": {
     "name": "Thermodynamics: applications",
+    "description": "This advanced thermodynamics course teaches all sorts of thermodynamic cycles, including gas turbines, Rankine cycles and cooling cycles.",
     "blocks": {
       "0": "Closed systems and cycles",
       "1": "Open systems and enthalpy",
@@ -71,6 +78,7 @@
   },
   "thermodynamicsapplications2": {
     "name": "Thermodynamics: applications",
+    "description": "This advanced thermodynamics course teaches all sorts of thermodynamic cycles, including gas turbines, Rankine cycles and cooling cycles.",
     "blocks": {
       "0": "Thermodynamic processes",
       "1": "Closed systems and cycles",

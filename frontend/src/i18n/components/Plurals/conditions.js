@@ -14,6 +14,10 @@ export function Zero({ children }) {
 	return <Condition check={value => value === 0}>{children}</Condition>
 }
 
+export function NotZero({ children }) {
+	return <Condition check={value => value !== 0}>{children}</Condition>
+}
+
 export function Multiple({ children }) {
 	return <Condition check={value => value > 1}>{children}</Condition>
 }

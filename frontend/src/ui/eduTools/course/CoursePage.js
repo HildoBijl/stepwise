@@ -1,61 +1,39 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Alert, AlertTitle } from '@material-ui/lab'
 
-import { TranslationFile, Translation, useTranslator } from 'i18n'
+import { Translation } from 'i18n'
+import { usePaths } from 'ui/routingTools'
 
-import { strFreePractice } from '../courses'
-
-import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from './components'
+import { useCourseData } from './components'
+import { CoursePageForUnsubscribedUser } from './CoursePageForUnsubscribedUser'
+import { CoursePageForStudent } from './CoursePageForStudent'
+import { CoursePageForTeacher } from './CoursePageForTeacher'
 
 const translationPath = 'eduTools/pages/coursePage'
-
-const useStyles = makeStyles((theme) => ({
-	courseOverview: {
-		alignItems: 'flex-start',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		width: '100%',
-	},
-	landscapeOverview: {
-		'& .blockList': {
-			marginRight: '1rem',
-			width: '50%',
-		},
-		'& .skillList': {
-			width: '50%',
-		},
-	},
-	portraitOverview: {
-		'& .blockList': {
-			width: '100%',
-		},
-	},
-	gradeEstimate: {
-		padding: '0.5rem',
-		width: '100%',
-
-		'& .disclaimer': {
-			fontSize: '0.6rem',
-		},
-	},
-}))
 
 export function CoursePage() {
 	const { loading, error, course } = useCourseData()
 
+	// If we are on the addCourse URL, and the user is already subscribed to the course, then adjust the URL to the regular course URL. (This is usually called right upon subscribing to a course.)
+	const location = useLocation()
+	const paths = usePaths()
+	const navigate = useNavigate()
+	useEffect(() => {
+		if (course?.role && location.pathname.includes('/addCourse/'))
+			navigate(paths.course({ courseCode: course.code }))
+	}, [course, location, paths, navigate])
+
 	// When we don't have the data, show a relevant indication of what's going on.
 	if (loading)
-		return <Translation path={translationPath} entry="loadingCourse">
+		return <Translation path={translationPath} entry="loading.loadingCourse">
 			<Alert severity="info">
 				<AlertTitle>Loading course...</AlertTitle>
 				We are loading the course from the database. This shouldn't take long.
 			</Alert>
 		</Translation>
 	if (error || !course)
-		return <Translation path={translationPath} entry="failedLoadingCourse">
+		return <Translation path={translationPath} entry="loading.failedLoadingCourse">
 			<Alert severity="error">
 				<AlertTitle>Loading course failed</AlertTitle>
 				Oops ... something went wrong loading the course. Maybe the course doesn't exist? Maybe it's your connection? Maybe our server is down? We're not sure! Make sure the URL is correct, try refreshing the page, and otherwise try again later.
@@ -64,143 +42,8 @@ export function CoursePage() {
 
 	// When we do have data, determine what page to show.
 	if (course.role === 'student')
-		return <CoursePageForCourse />
+		return <CoursePageForStudent />
 	if (course.role === 'teacher')
 		return <CoursePageForTeacher />
 	return <CoursePageForUnsubscribedUser />
-}
-
-function CoursePageForCourse() {
-	// Load in relevant data about the course.
-	const { course, overview, analysis } = useCourseData()
-	console.log(course)
-	const recommendation = analysis?.recommendation
-	const hasRecommendation = !!recommendation
-
-	// Determine which block to open up at the start.
-	let recommendationBlock = overview.blocks.findIndex(block => block.contents.includes(recommendation)) // Find the block containing the recommendation.
-	if (overview.priorKnowledge.includes(recommendation))
-		recommendationBlock = -1 // -1 means prior knowledge.
-	if (recommendation === strFreePractice)
-		recommendationBlock = overview.blocks.length - 1 // When everything is mastered, open up the last block.
-
-	// Track which block is active.
-	const [activeBlock, setActiveBlock] = useState() // -1 means prior knowledge. Undefined means none selected.
-	const landscape = useMediaQuery('(orientation: landscape)')
-	const toggleActiveBlock = useCallback((index) => setActiveBlock(activeBlock => activeBlock === index && !landscape ? undefined : index), [setActiveBlock, landscape])
-
-	// Make the block with the recommendation active when figuring out said recommendation.
-	useEffect(() => {
-		if (hasRecommendation && activeBlock === undefined) {
-			setActiveBlock(activeBlock => {
-				if (activeBlock !== undefined)
-					return activeBlock
-				return recommendationBlock
-			})
-		}
-	}, [hasRecommendation, recommendationBlock, activeBlock, setActiveBlock])
-
-	// Render the component.
-	const data = { course, overview, analysis, activeBlock, toggleActiveBlock }
-	return <TranslationFile path={translationPath}>
-		{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
-		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
-	</TranslationFile>
-}
-
-function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
-	const translate = useTranslator()
-	const landscape = true
-	const classes = useStyles({ landscape })
-
-	// Determine which skillIds to show on the right.
-	let skillIds = null
-	if (activeBlock === undefined)
-		skillIds = []
-	else if (activeBlock === -1)
-		skillIds = overview.priorKnowledge
-	else
-		skillIds = overview.blocks[activeBlock].contents
-
-	// Determine other important data.
-	const hasPriorKnowledge = overview.priorKnowledge.length > 0
-
-	return (
-		<div className={clsx(classes.courseOverview, classes.landscapeOverview)}>
-			<div className="blockList">
-				{hasPriorKnowledge ? <Block
-					landscape={landscape}
-					courseCode={course.code}
-					skillIds={overview.priorKnowledge}
-					active={activeBlock === -1}
-					toggleActive={() => toggleActiveBlock(-1)}
-					name={translate('Prior knowledge', 'priorKnowledge')}
-					isPriorKnowledge={true}
-					analysis={analysis}
-				/> : null}
-				{overview.blocks.map((block, index) => <Block
-					key={index}
-					landscape={landscape}
-					courseCode={course.code}
-					skillIds={block.contents}
-					active={activeBlock === index}
-					toggleActive={() => toggleActiveBlock(index)}
-					name={translate(block.name, `${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
-					number={index + 1}
-					isPriorKnowledge={false}
-					analysis={analysis}
-				/>)}
-				<GradeEstimate />
-			</div>
-			<SkillList courseCode={course.code} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
-		</div>
-	)
-}
-
-function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
-	const translate = useTranslator()
-	const landscape = false
-	const classes = useStyles({ landscape })
-	const hasPriorKnowledge = overview.priorKnowledge.length > 0
-
-	return (
-		<div className={clsx(classes.courseOverview, classes.portraitOverview)}>
-			<div className={clsx(classes.blockList, 'blockList')}>
-				{hasPriorKnowledge ? <Block
-					landscape={landscape}
-					courseCode={course.code}
-					skillIds={overview.priorKnowledge}
-					active={activeBlock === -1}
-					toggleActive={() => toggleActiveBlock(-1)}
-					name={translate('Prior knowledge', 'priorKnowledge')}
-					isPriorKnowledge={true}
-					analysis={analysis}
-				/> : null}
-				{overview.blocks.map((block, index) => (
-					<Block
-						key={index}
-						landscape={landscape}
-						courseCode={course.code}
-						skillIds={block.contents}
-						active={activeBlock === index}
-						toggleActive={() => toggleActiveBlock(index)}
-						name={translate(block.name, `${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
-						number={index + 1}
-						isPriorKnowledge={false}
-						analysis={analysis}
-					/>
-				))}
-				<GradeEstimate />
-			</div>
-		</div>
-	)
-}
-
-function CoursePageForTeacher() {
-	return <p>The teacher interface for a course is still under development...</p>
-}
-
-function CoursePageForUnsubscribedUser() {
-	const { course } = useCourseData()
-	return <p>Want to subscribe to the course {course.name}?</p>
 }

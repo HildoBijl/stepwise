@@ -1,6 +1,7 @@
 {
   "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
+    "description": "In deze korte demo kun je wat spelen met hoe Step-Wise in elkaar zit.",
     "blocks": {
       "0": "Invoervelden voor getallen",
       "1": "Wiskundige invoervelden",
@@ -9,6 +10,7 @@
   },
   "algebrabasics": {
     "name": "Algebra: basisvaardigheden",
+    "description": "Deze kleine cursus leidt je door de basics van algebra, van het vereenvoudigen van breuken tot het oplossen van verschillende soorten lineaire vergelijkingen.",
     "blocks": {
       "0": "Haakjes uitwerken",
       "1": "Breuken optellen",
@@ -20,6 +22,7 @@
   },
   "mathematicsfundamentals": {
     "name": "Exacte Wetenschap A: Wiskunde",
+    "description": "Deze cursus gaat over de fundamenten van algebra, tot en met het oplossen van kwadratische vergelijkingen en het oplossen van stelsels van lineaire vergelijkingen.",
     "blocks": {
       "0": "Basisregels algebra",
       "1": "Herschreven lineaire vergelijkingen",
@@ -32,6 +35,7 @@
   },
   "mathematicsderivatives": {
     "name": "Exacte Wetenschap B: Differentiëren",
+    "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
     "blocks": {
       "0": "Basis afgeleiden",
       "1": "Differentieerregels toepassen",
@@ -40,6 +44,7 @@
   },
   "staticsfundamentals": {
     "name": "Exacte Wetenschap A: Statica basisvaardigheden",
+    "description": "Deze minicursus laat zien wat de mogelijkheden in Step-Wise zijn voor het opzetten van mechanica-opgaven. Het is nog geen volledige cursus.",
     "blocks": {
       "0": "Vrijlichaamsschema tekenen",
       "1": "Reactiekrachten berekenen"
@@ -47,6 +52,7 @@
   },
   "thermodynamicsfundamentals": {
     "name": "Exacte Wetenschap D: Natuurkunde",
+    "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen.",
     "blocks": {
       "0": "Gaseigenschappen en de gaswet",
       "1": "Processen en Poisson's wet",
@@ -59,6 +65,7 @@
   },
   "thermodynamicsapplications": {
     "name": "Processen en Modelleren",
+    "description": "Deze geavanceerde thermodynamicacursus bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
     "blocks": {
       "0": "Gesloten systemen en kringprocessen",
       "1": "Open systemen en enthalpie",
@@ -71,6 +78,7 @@
   },
   "thermodynamicsapplications2": {
     "name": "Deeltijd: Modelleren en Processen",
+    "description": "Deze geavanceerde thermodynamicacursus bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
     "blocks": {
       "0": "Thermodynamische processen",
       "1": "Gesloten systemen en kringprocessen",

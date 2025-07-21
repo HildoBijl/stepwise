@@ -6,6 +6,7 @@ export const courseFields = `
 	code
 	name
 	description
+	organization
 	goals
 	startingPoints
 	setup
@@ -32,9 +33,9 @@ export const courseForStudentFields = `
 `
 
 export function useAllCoursesQuery() {
-	return useQuery(ALLCOURSES)
+	return useQuery(ALL_COURSES)
 }
-export const ALLCOURSES = gql`
+export const ALL_COURSES = gql`
 	{
 		allCourses {
 			${courseFields}
@@ -54,9 +55,9 @@ export const COURSE = gql`
 `
 
 export function useMyCoursesQuery() {
-	return useQuery(MYCOURSES)
+	return useQuery(MY_COURSES)
 }
-export const MYCOURSES = gql`
+export const MY_COURSES = gql`
 	{
 		myCourses {
 			${courseForStudentFields}

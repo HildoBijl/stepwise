@@ -1,6 +1,7 @@
 {
   "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
+    "description": "In dieser kurzen Demo kannst du ein wenig damit spielen, wie Step-Wise funktioniert.",
     "blocks": {
       "0": "Eingabefelder für Zahlen",
       "1": "Mathematische Eingabefelder",
@@ -9,6 +10,7 @@
   },
   "algebrabasics": {
     "name": "Mathematik: Algebra Grundlagen",
+    "description": "Dieser kleine Kurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.",
     "blocks": {
       "0": "Klammern erweitern",
       "1": "Brüche addieren",
@@ -20,6 +22,7 @@
   },
   "mathematicsfundamentals": {
     "name": "Mathematik: Grundlagen",
+    "description": "Dieser Kurs deckt die Grundlagen der Algebra ab, bis hin zum Lösen quadratischer Gleichungen und zum Lösen linearer Gleichungssysteme.",
     "blocks": {
       "0": "Grundregeln der Algebra",
       "1": "Umgeformte lineare Gleichungen",
@@ -32,6 +35,7 @@
   },
   "mathematicsderivatives": {
     "name": "Mathematik: Ableitungen",
+    "description": "Dieser Kurs behandelt Ableitungen, von der Bestimmung der grundlegenden Ableitungen bis zur Anwendung von Kombinationen von Regeln.",
     "blocks": {
       "0": "Basisableitungen",
       "1": "Ableitungsregeln anwenden",
@@ -40,6 +44,7 @@
   },
   "staticsfundamentals": {
     "name": "Statik: Grundlagen",
+    "description": "Dieser Minikurs zeigt die Möglichkeiten von Step-Wise zur Erstellung von Mechanik-Aufgaben. Es handelt sich noch nicht um einen vollständigen Kurs.",
     "blocks": {
       "0": "Freikörperdiagrammen zeichnen",
       "1": "Reaktionenskräfte berechnen"
@@ -47,6 +52,7 @@
   },
   "thermodynamicsfundamentals": {
     "name": "Thermodynamik: Grundlagen",
+    "description": "In diesem Einführungskurs in die Thermodynamik werden die Grundlagen thermodynamischer Prozesse bis hin zur Analyse von Kreislaufprozessen behandelt.",
     "blocks": {
       "0": "Gaseigenschaften und das Gasgesetz",
       "1": "Thermodynamische Prozesse und das Poisson'sche Gesetz",
@@ -59,6 +65,7 @@
   },
   "thermodynamicsapplications": {
     "name": "Thermodynamik: Anwendungen",
+    "description": "In diesem Kurs über fortgeschrittene Thermodynamik werden alle Arten von thermodynamischen Kreisläufen behandelt, darunter Gasturbinen, Rankine-Kreisläufe und Kühlkreisläufe.",
     "blocks": {
       "0": "Geschlossene Systeme und Kreisläufe",
       "1": "Offene Systeme und Enthalpie",
@@ -71,6 +78,7 @@
   },
   "thermodynamicsapplications2": {
     "name": "Thermodynamik: Anwendungen",
+    "description": "In diesem Kurs über fortgeschrittene Thermodynamik werden alle Arten von thermodynamischen Kreisläufen behandelt, darunter Gasturbinen, Rankine-Kreisläufe und Kühlkreisläufe.",
     "blocks": {
       "0": "Thermodynamische Prozesse",
       "1": "Geschlossene Systeme und Kreisläufe",

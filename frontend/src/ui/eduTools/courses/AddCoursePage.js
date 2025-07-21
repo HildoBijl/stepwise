@@ -36,6 +36,6 @@ function AddCoursePageForCourses({ courses }) {
 	const paths = usePaths()
 	return <>
 		<Par>Choose a new course from the below list of available courses.</Par>
-		<List items={courses.map(course => <Link to={paths.course({ courseCode: course.code })}><div key={course.id}>{course.name}</div></Link>)} />
+		<List items={courses.map(course => <Link to={paths.addCourseCourse({ courseCode: course.code })}><div key={course.id}>{course.name}</div></Link>)} />
 	</>
 }

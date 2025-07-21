@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export function MemberList({ members, className }) {
 	const classes = useStyles()
 	return <div className={clsx(classes.memberList, 'memberList', className)}>
-		{members.map(member => <Member key={member.userId} member={member} />)}
+		{members.map(member => <Member key={member.id || member.userId} member={member} />)}
 	</div>
 }
 

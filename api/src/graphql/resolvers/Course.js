@@ -119,24 +119,26 @@ const resolvers = {
 		subscribeToCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
 			// Get the course, ensuring it exists.
 			const userId = getCurrentUserId()
-			const course = await db.Course.findByPk(courseId, { include: { association: 'blocks' } })
+			const course = await getCourseByIdForUser(db, courseId, userId)
 			if (!course)
 				throw new Error(`Missing course: could not subscribe the user to the course with code "${courseCode}" since this course does not seem to exist.`)
 
 			// Add the user to the course and return the result.
-			await course.addParticipant(userId)
+			const result = await course.addParticipant(userId)
+			course.courseSubscription = result[0]
 			return course
 		},
 
 		unsubscribeFromCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
 			// Get the course, ensuring it exists.
 			const userId = getCurrentUserId()
-			const course = await db.Course.findByPk(courseId)
+			const course = await getCourseByIdForUser(db, courseId, userId)
 			if (!course)
 				throw new Error(`Missing course: could not unsubscribe the user from the course with code "${courseCode}" since this course does not seem to exist.`)
 
 			// Remove the user from the course and return the result.
 			await course.removeParticipant(userId)
+			course.courseSubscription = undefined
 			return course
 		},
 	},

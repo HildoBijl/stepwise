@@ -154,6 +154,14 @@ export function getRoutes(user = undefined) {
 						id: 'addCourse',
 						page: AddCoursePage,
 						name: 'Add course',
+						children: {
+							':courseCode': {
+								id: 'addCourseCourse',
+								page: CoursePage,
+								name: CourseName,
+								provider: CourseProvider,
+							},
+						},
 					},
 					'course/:courseCode': {
 						id: 'course',

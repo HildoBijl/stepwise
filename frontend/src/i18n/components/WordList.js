@@ -1,4 +1,4 @@
-import { lastOf } from 'step-wise/util'
+import { Fragment } from 'react'
 
 import { useGetTranslation } from '../sectioning'
 
@@ -12,6 +12,10 @@ export function WordList({ words }) {
 	let and = getTranslation('and')
 
 	// Set up the appropriate list.
-	return words.slice(0, -1).join(', ') + (words.length > 1 ? ` ${and} ` : '') + lastOf(words)
+	return words.map((word, index) => <Fragment key={index}>
+		{word}
+		{index < words.length - 2 && `, `}
+		{index === words.length - 2 && ` ${and} `}
+	</Fragment>)
 }
 WordList.translation = false

@@ -1,14 +1,33 @@
 {
-  "loadingCourseTitle": "Kurs wird geladen...",
-  "loadingCourse": "<a><b>Kurs wird geladen...</b> Wir laden den Kurs aus der Datenbank. Dies sollte sofort erledigt werden.</a>",
-  "unknownCourseTitle": "Unbekannter Kurs",
-  "failedLoadingCourse": "<a><b>Fehler beim Laden des Kurses</b>Ups ... beim Laden des Kurses ist etwas schief gelaufen. Vielleicht existiert der Kurs gar nicht? Vielleicht liegt es an deiner Verbindung? Vielleicht ist unser Server ausgefallen? Wir wissen es nicht! Überprüfe, ob die URL korrekt ist, und aktualisiere die Seite, ansonsten versuche es später noch einmal.</a>",
-  "priorKnowledge": "Vorkenntnisse",
-  "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!",
-  "gradeEstimate": "Auf der Grundlage deiner bisherigen Übung erwarten wir eine Punktzahl von etwa <a>{percentage}</a> (etwa <b>{lowerPercentage} - {upperPercentage}</b>) im Abschlusstest.",
-  "disclaimer": "Aus dieser Schätzung können keine Rechte abgeleitet werden.",
-  "practiceRecommendation": "Dies ist nun die empfohlene Kompetenz zum Üben.",
-  "sufficientMastery": "Du beherrschst diese Kompetenz gut.",
-  "followUpMastery": "Du hast eine Folgekompetenz gemeistert, also stufen wir auch diese als ausreichend ein.",
-  "noExercises": "Für diese Kompetenz gibt es noch keine Übungen. Sie werden wahrscheinlich bald folgen."
+  "loading": {
+    "loadingCourseTitle": "Kurs wird geladen...",
+    "loadingCourse": "<a><b>Kurs wird geladen...</b> Wir laden den Kurs aus der Datenbank. Dies sollte sofort erledigt werden.</a>",
+    "unknownCourseTitle": "Unbekannter Kurs",
+    "failedLoadingCourse": "<a><b>Fehler beim Laden des Kurses</b>Ups ... beim Laden des Kurses ist etwas schief gelaufen. Vielleicht existiert der Kurs gar nicht? Vielleicht liegt es an deiner Verbindung? Vielleicht ist unser Server ausgefallen? Wir wissen es nicht! Überprüfe, ob die URL korrekt ist, und aktualisiere die Seite, ansonsten versuche es später noch einmal.</a>"
+  },
+  "unsubscribedUser": {
+    "subscribe": {
+      "title": "Anmelden",
+      "description": "<check><on-true>Indem du dich für den Kurs anmeldest, fügst du ihn zu deiner Kursliste hinzu.</on-true><on-false>Mit der Einschreibung in den Kurs erklärst du dich damit einverstanden, dass deine Fortschritte im Kurs mit den (aktuellen und zukünftigen) Lehrenden dieses Kurses geteilt werden. Du kannst dies jederzeit rückgängig machen, indem du dich von dem Kurs abmeldest.</on-false></check>",
+      "button": "Zum Kurs anmelden"
+    },
+    "teachers": {
+      "title": "Lehrenden",
+      "description": "<count-check><zero>Der Kurs hat derzeit keine Lehrenden.</zero><not-zero>Dieser Kurs wird von <word-list/> unterrichtet.</not-zero></count-check>"
+    },
+    "learningGoals": {
+      "title": "Lernziele",
+      "description": "Der Kurs hat <count-check><one>das folgende Endziel</one><not-one>die folgenden Endziele</not-one></count-check>."
+    }
+  },
+  "student": {
+    "priorKnowledge": "Vorkenntnisse",
+    "gradeEstimate": "Auf der Grundlage deiner bisherigen Übung erwarten wir eine Punktzahl von etwa <a>{percentage}</a> (etwa <b>{lowerPercentage} - {upperPercentage}</b>) im Abschlusstest.",
+    "disclaimer": "Aus dieser Schätzung können keine Rechte abgeleitet werden.",
+    "practiceRecommendation": "Dies ist nun die empfohlene Kompetenz zum Üben.",
+    "sufficientMastery": "Du beherrschst diese Kompetenz gut.",
+    "followUpMastery": "Du hast eine Folgekompetenz gemeistert, also stufen wir auch diese als ausreichend ein.",
+    "noExercises": "Für diese Kompetenz gibt es noch keine Übungen. Sie werden wahrscheinlich bald folgen.",
+    "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!"
+  }
 }
