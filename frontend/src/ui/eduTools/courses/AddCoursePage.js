@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import { HowToReg as SubscribeIcon } from '@material-ui/icons'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { getCourseOverview } from 'step-wise/eduTools'
 
@@ -131,7 +132,9 @@ function CourseEntry({ course }) {
 
 	// Render the row for the course.
 	return <>
-		<div className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.code}.name`}>{course.name}</Translation></div>
+		<Tooltip open={hover} arrow title={<Translation path="eduContent/courseInfo" entry={`${course.code}.description`}>{course.description}</Translation>}>
+			<div className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.code}.name`}>{course.name}</Translation></div>
+		</Tooltip>
 		<div className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{overview.blocks.length}</div>
 		<div className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.all.length}</div>
 		<div className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.role ? 1 : 0.05 }} /></div>
