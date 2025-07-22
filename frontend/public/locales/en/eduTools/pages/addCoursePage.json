@@ -1,4 +1,11 @@
 {
-	"loadingCourses": "<a><b>Loading courses...</b>We are loading all available courses from the database. This shouldn't take long.</a>",
-	"failedLoadingCourses": "<a><b>Loading courses failed</b>Oops ... something went wrong loading all courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.</a>"
+  "loading": {
+    "loading": "<a><b>Loading courses...</b>We are loading all available courses from the database. This shouldn't take long.</a>",
+    "failed": "<a><b>Loading courses failed</b>Oops ... something went wrong loading all courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.</a>"
+  },
+  "table": {
+    "courseName": "Course name",
+    "blocks": "Blocks",
+    "skills": "Skills"
+  }
 }

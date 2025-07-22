@@ -31,6 +31,10 @@ const resolvers = {
 			return await getUserCourses(db, getCurrentUserId())
 		},
 
+		allCoursesForStudent: async (_source, { }, { db, getCurrentUserId }) => {
+			return await getAllCourses(db, getCurrentUserId())
+		},
+
 		courseForStudent: async (_source, { code }, { db, getCurrentUserId }) => {
 			return await getCourseByCodeForUser(db, code, getCurrentUserId())
 		},

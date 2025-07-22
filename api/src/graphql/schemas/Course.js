@@ -30,6 +30,7 @@ const schema = gql`
 		allCourses: [Course]!
 		course(code: String!): Course!
 		myCourses: [CourseForStudent]!
+		allCoursesForStudent: [CourseForStudent]!
 		courseForStudent(code: String!): CourseForStudent!
 		courseForTeacher(code: String!): CourseForTeacher!
 	}

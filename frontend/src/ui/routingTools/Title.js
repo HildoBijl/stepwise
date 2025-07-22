@@ -99,6 +99,7 @@ export function Title({ className, setTitleCollapsed }) {
 	}, [fullTitleRef, partialTitleRef, pageNames, setTitleCollapsed])
 	const checkUpdateTitle = useStaggeredFunction(updateTitle)
 	useResizeListener(checkUpdateTitle)
+	useEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.
 	const pageName = lastOf(pageNames)

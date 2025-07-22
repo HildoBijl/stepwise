@@ -1,11 +1,23 @@
 // getAllCourses return the list of all available courses.
-async function getAllCourses(db) {
-	return await db.Course.findAll({
+async function getAllCourses(db, userId) {
+	// Load in the courses.
+	const courses = await db.Course.findAll({
 		include: [
 			{ association: 'blocks' },
 			{ association: 'teachers' },
+			{
+				association: 'participants',
+				where: { id: userId },
+				required: false,
+			},
 		],
 	})
+
+	// Add in the course subscriptions manually.
+	courses.forEach(course => {
+		course.courseSubscription = course.courseSubscription || course.participants[0]?.courseSubscription
+	})
+	return courses
 }
 module.exports.getAllCourses = getAllCourses
 

@@ -65,6 +65,17 @@ export const MY_COURSES = gql`
 	}
 `
 
+export function useAllCoursesForStudentQuery() {
+	return useQuery(ALL_COURSES_FOR_STUDENT)
+}
+export const ALL_COURSES_FOR_STUDENT = gql`
+	{
+		allCoursesForStudent {
+			${courseForStudentFields}
+		}
+	}
+`
+
 export function useCourseForStudentQuery(code) {
 	return useQuery(COURSEFORSTUDENT, { variables: { code } })
 }

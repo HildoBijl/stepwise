@@ -21,7 +21,7 @@ export function CoursePage() {
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (course?.role && location.pathname.includes('/addCourse/'))
-			navigate(paths.course({ courseCode: course.code }))
+			navigate(paths.course({ courseCode: course.code }), { replace: true })
 	}, [course, location, paths, navigate])
 
 	// When we don't have the data, show a relevant indication of what's going on.
