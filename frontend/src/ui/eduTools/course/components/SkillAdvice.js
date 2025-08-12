@@ -34,6 +34,10 @@ function SkillNotification() {
 	const courseCode = course?.code
 	const skillId = useSkillId()
 
+	// If the course has not loaded, no recommendation is given.
+	if (!course)
+		return null
+
 	// First check if the skill is part of the course.
 	if (skillId && !overview.all.includes(skillId)) {
 		if (recommendation === undefined)
@@ -44,7 +48,7 @@ function SkillNotification() {
 		return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.skillRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.code}.name`, 'eduContent/courseInfo') }}</Link>. If you want to practice for this course, it's best to work on <Link to={paths.courseSkill({ courseCode, skillId: recommendedSkill.id })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.path.join('.')}.${recommendedSkill.id}`, 'eduContent/skillNames') }}</Link>.</Translation></NotificationBar>
 	}
 
-	// Check if there is a recommendation. If not, not all data is loaded yet.
+	// If there is no recommendation, some data is still loading/missing.
 	if (!recommendation)
 		return null
 

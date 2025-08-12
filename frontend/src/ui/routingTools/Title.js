@@ -64,7 +64,11 @@ export function Title({ className, setTitleCollapsed }) {
 
 	// Define a handler that will adjust what is shown in the title to match the page size.
 	const updateTitle = useCallback(() => {
-		// Try the full set-up.
+		// On missing references, don't do anything yet.
+		if (!fullTitleRef.current || !partialTitleRef.current)
+			return
+
+		// First try the full set-up.
 		const title = lastOf(pageNames)
 		const contents = partialTitleRef.current.getElementsByTagName('span')[0]
 		contents.innerText = title
