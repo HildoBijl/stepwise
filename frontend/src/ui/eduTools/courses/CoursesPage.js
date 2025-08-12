@@ -8,7 +8,7 @@ import { skillTree, processCourse, getSkillsBetween } from 'step-wise/eduTools'
 
 import { useUser, useSkillsData, useMyCoursesQuery, useCreateCourseMutation } from 'api'
 import { Translation, TranslationFile } from 'i18n'
-import { Head } from 'ui/components'
+import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { getAnalysis } from './util'
 import { Tile, AddCourseTile } from './Tile'
@@ -31,19 +31,9 @@ export function CoursesPage() {
 
 	// When we don't have the data, show a relevant indication of what's going on.
 	if (myCoursesResult.loading)
-		return <Translation path={translationPath} entry="loadingCourses">
-			<Alert severity="info">
-				<AlertTitle>Loading courses...</AlertTitle>
-				We are loading your courses from the database. This shouldn't take long.
-			</Alert>
-		</Translation>
+		return <LoadingIndicator />
 	if (myCoursesResult.error)
-		return <Translation path={translationPath} entry="failedLoadingCourses">
-			<Alert severity="error">
-				<AlertTitle>Loading courses failed</AlertTitle>
-				Oops ... something went wrong loading your courses. Maybe it's your connection? Maybe our server is down? We're not sure! Either way, try refreshing the page, and otherwise try again later.
-			</Alert>
-		</Translation>
+		return <ErrorNote />
 
 	// When we have the data, render it accordingly.
 	const myCourses = myCoursesResult.data.myCourses

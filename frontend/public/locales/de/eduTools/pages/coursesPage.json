@@ -1,6 +1,4 @@
 {
-  "loadingCourses": "<a><b>Kurse werden geladen...</b> Wir laden die Kurse aus der Datenbank. Dies sollte sofort erledigt werden.</a>",
-  "failedLoadingCourses": "<a><b>Fehler beim Laden der Kurse</b>Ups ... beim Laden deiner Kurse ist etwas schief gelaufen. Vielleicht liegt es an deiner Verbindung? Vielleicht ist unser Server ausgefallen? Wir wissen es nicht! Versuche auf jeden Fall, die Seite zu aktualisieren, und versuche es ansonsten später noch einmal.</a>",
   "noSubscribedCourses": "<a><b>Du hast dich noch nicht für einen Kurs angemeldet!</b>Wähle einen Kurs aus der Liste der verfügbaren Kurse, um mit dem Lernen zu beginnen. Keine Sorge: Es ist alles kostenlos und du kannst so viele Kurse hinzufügen/löschen, wie du willst.</a>",
   "loadingSkillData": "Deine Fortschritte werden noch geladen...",
   "freePracticeRecommendation": "Du beherrschst alle Kompetenzen! Der nächste Schritt ist der freie Übungsmodus.",

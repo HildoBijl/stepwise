@@ -1,9 +1,7 @@
 {
   "loading": {
     "loadingCourseTitle": "Loading course...",
-    "loadingCourse": "<a><b>Loading course...</b>We are loading the course from the database. This shouldn't take long.</a>",
-    "unknownCourseTitle": "Unknown course",
-    "failedLoadingCourse": "<a><b>Loading course failed</b>Oops ... something went wrong loading the course. Maybe the course doesn't exist? Maybe it's your connection? Maybe our server is down? We're not sure! Make sure the URL is correct, try refreshing the page, and otherwise try again later.</a>"
+    "unknownCourseTitle": "Unknown course"
   },
   "unsubscribedUser": {
     "subscribe": {

@@ -1,9 +1,7 @@
 {
   "loading": {
     "loadingCourseTitle": "Cursus wordt geladen...",
-    "loadingCourse": "<a><b>Cursus wordt geladen...</b>We zijn de cursus uit de database aan het laden. Dit zou zo gedaan moeten zijn.</a>",
-    "unknownCourseTitle": "Onbekende cursus",
-    "failedLoadingCourse": "<a><b>Fout bij laden van cursus</b>Oeps ... er is iets mis gegaan bij het laden van de cursus. Misschien bestaat de cursus niet? Misschien is het jouw verbinding? Misschien ligt onze server plat? We weten het niet! Check that de URL correct is, probeer de pagina te vernieuwen, en probeer het anders later opnieuw.</a>"
+    "unknownCourseTitle": "Onbekende cursus"
   },
   "unsubscribedUser": {
     "subscribe": {
