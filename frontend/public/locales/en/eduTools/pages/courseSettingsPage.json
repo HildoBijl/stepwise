@@ -1,0 +1,5 @@
+{
+  "loading": {
+    "loadingCourse": "<a><b>Loading course...</b>We are loading the course from the database. This shouldn't take long.</a>"
+  }
+}
