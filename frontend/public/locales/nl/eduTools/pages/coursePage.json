@@ -3,20 +3,23 @@
     "loadingCourseTitle": "Cursus wordt geladen...",
     "unknownCourseTitle": "Onbekende cursus"
   },
-  "unsubscribedUser": {
-    "subscribe": {
-      "title": "Inschrijven",
-      "description": "<check><on-true>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht.</on-true><on-false>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht. Je geeft hiermee ook toestemming aan de (huidige en toekomstige) docenten van deze cursus om je voortgang binnen de cursus in te zien. Je kunt dit op elk moment weer ongedaan maken door je uit te schrijven voor de cursus.</on-false></check>",
-      "button": "Inschrijven voor de cursus"
-    },
-    "teachers": {
-      "title": "Docenten",
-      "description": "<count-check><zero>De cursus heeft op dit moment nog geen docenten.</zero><not-zero>Deze cursus wordt gegeven door <word-list/>.</not-zero></count-check>"
-    },
-    "learningGoals": {
-      "title": "Leerdoelen",
-      "description": "De cursus heeft <count-check><one>het volgende einddoel</one><not-one>de volgende einddoelen</not-one></count-check>."
-    }
+  "subscribe": {
+    "title": "Inschrijven",
+    "description": "<check><on-true>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht.</on-true><on-false>Door je in te schrijven voor de cursus voeg je hem toe aan je cursussenoverzicht. Je geeft hiermee ook toestemming aan de (huidige en toekomstige) docenten van deze cursus om je voortgang binnen de cursus in te zien. Je kunt dit op elk moment weer ongedaan maken door je uit te schrijven voor de cursus.</on-false></check>",
+    "button": "Inschrijven voor de cursus"
+  },
+  "teachers": {
+    "title": "Docenten",
+    "description": "<count-check><zero>De cursus heeft op dit moment nog geen docenten.</zero><not-zero>Deze cursus wordt gegeven door <word-list/>.</not-zero></count-check>"
+  },
+  "learningGoals": {
+    "title": "Leerdoelen",
+    "description": "De cursus heeft <count-check><one>het volgende einddoel</one><not-one>de volgende einddoelen</not-one></count-check>."
+  },
+  "unsubscribe": {
+    "title": "Uitschrijven",
+    "description": "<check><on-true>Door je uit te schrijven uit de cursus verwijder je hem van je cursussenoverzicht. Je kunt je altijd opnieuw inschrijven.</on-true><on-false>Door je uit te schrijven uit de cursus verwijder je hem van je cursussenoverzicht. Het ontzegt ook de toestemming aan de docenten van de cursus om je voortgang binnen de cursus te volgen. Je kunt je altijd opnieuw inschrijven.</on-false></check>",
+    "button": "Uitschrijven uit de cursus"
   },
   "student": {
     "priorKnowledge": "Voorkennis",

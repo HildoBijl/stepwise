@@ -5,9 +5,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import { TranslationFile,TranslationSection, useTranslator } from 'i18n'
 
-import { strFreePractice } from '../courses'
+import { strFreePractice } from '../../courses'
 
-import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from './components'
+import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from '../components'
 
 const translationPath = 'eduTools/pages/coursePage'
 

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 
-import { useCourseData } from './components'
+import { useCourseData } from '../components'
 import { CoursePageForUnsubscribedUser } from './CoursePageForUnsubscribedUser'
 import { CoursePageForStudent } from './CoursePageForStudent'
 import { CoursePageForTeacher } from './CoursePageForTeacher'

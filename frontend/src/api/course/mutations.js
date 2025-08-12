@@ -47,3 +47,30 @@ const SUBSCRIBE_TO_COURSE = gql`
 		}
 	}
 `
+
+export function useUnsubscribeFromCourseMutation() {
+	const [unsubscribe, data] = useMutation(UNSUBSCRIBE_FROM_COURSE, {
+		update(cache, { data }) { // Add an update function to automatically update the myCourses query.
+			// Load the newly subscribed course.
+			const removedCourse = data?.unsubscribeFromCourse
+			if (!removedCourse)
+				return
+
+			// Describe how to modify the cache based on this.
+			cache.modify({
+				fields: {
+					myCourses: (existingCourseRefs = [], { readField }) => existingCourseRefs.filter(courseRef => readField('id', courseRef) !== removedCourse.id),
+				},
+			})
+		}
+	})
+	const unsubscribeFromCourse = courseId => unsubscribe({ variables: { courseId } })
+	return [unsubscribeFromCourse, data]
+}
+const UNSUBSCRIBE_FROM_COURSE = gql`
+	mutation unsubscribeFromCourse($courseId: ID!) {
+		unsubscribeFromCourse(courseId: $courseId) {
+			${courseForStudentFields}
+		}
+	}
+`
