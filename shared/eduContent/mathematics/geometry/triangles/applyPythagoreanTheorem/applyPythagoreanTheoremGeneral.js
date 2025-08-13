@@ -13,7 +13,6 @@ const metaData = {
 		equation: equationComparisons.equivalent,
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate random data.

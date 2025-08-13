@@ -12,7 +12,6 @@ const metaData = {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the sides.

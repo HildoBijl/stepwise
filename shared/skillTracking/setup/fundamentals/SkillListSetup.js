@@ -17,6 +17,8 @@ class SkillListSetup extends SkillSetup {
 			skills = skills[0]
 		if (!Array.isArray(skills))
 			skills = [skills]
+		if (skills.length === 0)
+			throw new Error(`Invalid skills list: expected at least one skill.`)
 		skills = skills.map(skill => ensureSetup(skill))
 
 		// Store the input.

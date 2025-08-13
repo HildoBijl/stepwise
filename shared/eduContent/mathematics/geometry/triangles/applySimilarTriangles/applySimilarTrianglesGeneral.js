@@ -15,7 +15,6 @@ const metaData = {
 		equation2: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate random data.

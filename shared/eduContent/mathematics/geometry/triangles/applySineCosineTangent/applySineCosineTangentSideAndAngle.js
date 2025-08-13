@@ -12,7 +12,6 @@ const metaData = {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine what is known and what is requested.

@@ -17,7 +17,6 @@ class Skill extends SkillSetup {
 		return this.skill
 	}
 	static fromSO(SO) {
-		console.log('Here?', SO)
 		return new Skill(SO)
 	}
 

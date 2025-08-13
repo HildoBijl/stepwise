@@ -62,7 +62,7 @@ const resolvers = {
 			await db.transaction(async (transaction) => {
 				// Apply all the skill updates that were collected so far.
 				adjustedSkills = await applySkillUpdatesForUser(skillUpdates, userId, db, transaction)
-
+				
 				// Store the submission and on a correct one update the active field of the exercise to solved.
 				const newEvent = await exercise.createEvent({ action, progress }, { transaction })
 				exercise.events.push(newEvent) // In Sequelize we have to manually add the new action to the current object.
