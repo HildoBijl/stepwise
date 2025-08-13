@@ -140,7 +140,7 @@ function getCourseOverview(rawCourse) {
 		goals: processedCourse.goals,
 		goalWeights,
 		blocks,
-		contents: processedCourse.contents,
+		contents: blocks.map(block => block.contents).flat(), // Use the order of the skills as defined by the blocks.
 		all: processedCourse.all,
 		setup,
 	}
