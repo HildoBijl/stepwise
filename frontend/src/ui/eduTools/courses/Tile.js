@@ -13,6 +13,8 @@ import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
 
+import { getOrganization } from '../organizations'
+
 import { strFreePractice } from './util'
 
 const useStyles = makeStyles((theme) => ({
@@ -29,10 +31,23 @@ const useStyles = makeStyles((theme) => ({
 			height: '100%',
 			overflow: 'hidden',
 			padding: '0.3rem',
+			position: 'relative',
 			...linkStyleReset,
 
 			'&:hover': {
 				background: ({ buttonHover }) => alpha(theme.palette.primary.main, buttonHover ? 0.03 : 0.1),
+			},
+
+			'& .logo': {
+				objectFit: 'contain',
+				opacity: 0.05,
+				position: 'absolute',
+				height: '90%',
+				left: '50%',
+				transform: 'translate(-50%, -50%)',
+				width: '90%',
+				top: '50%',
+				...notSelectable,
 			},
 
 			'& .nameContainer': {
@@ -114,27 +129,27 @@ export function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 			navigate(paths.courseSkill({ courseCode: course.code, skillId: recommendation }))
 	}
 
-	return (
-		<Link to={paths.course({ courseCode: course.code })} className={clsx(classes.tile, 'tile')}>
-			<Box boxShadow={1} className="tileBox">
-				<div className="nameContainer">
-					<div className="name">
-						{translate(course.name, `${course.code}.name`, 'eduContent/courseInfo')}
-					</div>
+	const organization = getOrganization(course.organization)
+	return <Link to={paths.course({ courseCode: course.code })} className={clsx(classes.tile, 'tile')}>
+		<Box boxShadow={1} className="tileBox">
+			<img src={organization.logo} alt={`Logo ${organization.name}`} className={clsx(classes.logo, 'logo')} />
+			<div className="nameContainer">
+				<div className="name">
+					{translate(course.name, `${course.code}.name`, 'eduContent/courseInfo')}
 				</div>
-				<div className="info">
-					<ProgressIndicator total={skillsTotal} done={skillsDone} size={60} />
-					<div>
-						<Tooltip title={tooltip} arrow classes={{ tooltip: classes.tooltip }}>
-							<Button variant="contained" color="info" className="directPractice" onMouseEnter={() => setButtonHover(true)} onMouseLeave={() => setButtonHover(false)} onClick={goToRecommendation}>
-								<QuickPractice />
-							</Button>
-						</Tooltip>
-					</div>
+			</div>
+			<div className="info">
+				<ProgressIndicator total={skillsTotal} done={skillsDone} size={60} />
+				<div>
+					<Tooltip title={tooltip} arrow classes={{ tooltip: classes.tooltip }}>
+						<Button variant="contained" color="info" className="directPractice" onMouseEnter={() => setButtonHover(true)} onMouseLeave={() => setButtonHover(false)} onClick={goToRecommendation}>
+							<QuickPractice />
+						</Button>
+					</Tooltip>
 				</div>
-			</Box>
-		</Link>
-	)
+			</div>
+		</Box>
+	</Link>
 }
 
 export function AddCourseTile() {
