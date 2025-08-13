@@ -8,6 +8,7 @@ export const courseFields = `
 	description
 	organization
 	goals
+	goalWeights
 	startingPoints
 	setup
 	blocks {

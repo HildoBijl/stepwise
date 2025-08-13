@@ -102,7 +102,7 @@ module.exports.getSkillsBetween = getSkillsBetween
 function getCourseOverview(rawCourse) {
 	// On no input, return empty lists.
 	if (!rawCourse)
-		return { priorKnowledge: [], goals: [], blocks: [], contents: [], all: [] }
+		return { priorKnowledge: [], goals: [], goalWeights: [], blocks: [], contents: [], all: [] }
 
 	// Determine all that needs to be in the course.
 	const processedCourse = processCourse(rawCourse)

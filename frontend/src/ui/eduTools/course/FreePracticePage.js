@@ -17,6 +17,10 @@ export function FreePracticePage() {
 
 	// Select a skillId to display, taking into account the weights defined for the course.
 	const changeSkill = useCallback((previousSkillId) => {
+		// When the course has not load yet, do nothing.
+		if (!overview)
+			return
+
 		// Get the skillIds and weights. Turn the weights of skills without exercises to zero.
 		const skillIds = overview.goals
 		const weights = overview.goalWeights || overview.goals.map(() => 1)
@@ -46,7 +50,7 @@ export function FreePracticePage() {
 	useEffect(() => {
 		if (!skillId)
 			changeSkill()
-	}, [skillId, changeSkill])
+	}, [skillId, overview, changeSkill])
 
 	// When no skill has been chosen, show a loading message.
 	if (skillId === undefined) {
