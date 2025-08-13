@@ -93,6 +93,10 @@ const useCoursesStyles = makeStyles((theme) => ({
 }))
 
 function CoursesPerOrganization({ organization, courses }) {
+	// Sort the courses alphabetically by name.
+	const coursesSorted = useMemo(() => courses.sort((a, b) => a.name.localeCompare(b.name)), [courses])
+
+	// Render the list.
 	const classes = useCoursesStyles()
 	return <>
 		<Head style={{ margin: '1.5rem 0 0.5rem 0.4rem' }}>
@@ -101,7 +105,7 @@ function CoursesPerOrganization({ organization, courses }) {
 		</Head>
 		<div className={classes.courses}>
 			<CourseHeader />
-			{courses.map(course => <CourseEntry key={course.id} course={course} />)}
+			{coursesSorted.map(course => <CourseEntry key={course.id} course={course} />)}
 		</div>
 	</>
 }
