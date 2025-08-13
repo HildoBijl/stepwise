@@ -9,8 +9,8 @@
     }
   },
   "algebrabasics": {
-    "name": "Algebra: basisvaardigheden",
-    "description": "Deze kleine cursus leidt je door de basics van algebra, van het vereenvoudigen van breuken tot het oplossen van verschillende soorten lineaire vergelijkingen.",
+    "name": "Wiskunde: basis algebra",
+    "description": "Deze begincursus leidt je door de basis van algebra, van het vereenvoudigen van breuken tot het oplossen van verschillende soorten lineaire vergelijkingen.",
     "blocks": {
       "0": "Haakjes uitwerken",
       "1": "Breuken optellen",
@@ -20,21 +20,27 @@
       "5": "Lineaire vergelijkingen met meerdere variabelen oplossen"
     }
   },
-  "mathematicsfundamentals": {
-    "name": "Exacte Wetenschap A: Wiskunde",
-    "description": "Deze cursus gaat over de fundamenten van algebra, tot en met het oplossen van kwadratische vergelijkingen en het oplossen van stelsels van lineaire vergelijkingen.",
+  "algebrasolvingequations": {
+    "name": "Wiskunde: vergelijkingen oplossen",
+    "description": "Deze cursus past de basis van algebra toe bij het oplossen van verschillende soorten vergelijkingen, variërend van stelsels van lineaire vergelijkingen tot en met herschreven kwadratische vergelijkingen.",
     "blocks": {
       "0": "Basisregels algebra",
       "1": "Herschreven lineaire vergelijkingen",
-      "2": "Hoeken en afstanden",
-      "3": "Stelsels van vergelijkingen",
-      "4": "Kwadratische vergelijkingen",
-      "5": "Driehoeken doorrekenen",
-      "6": "Oppervlakten en volumes"
+      "2": "Stelsels van vergelijkingen",
+      "3": "Kwadratische vergelijkingen"
     }
   },
-  "mathematicsderivatives": {
-    "name": "Exacte Wetenschap B: Differentiëren",
+  "mathematicsgeometry": {
+    "name": "Wiskunde: basis meetkunde",
+    "description": "In deze kleine cursus oefen je enkele meetkunde basisvaardigheden, zoals het uitrekenen van hoeken en afstanden.",
+    "blocks": {
+      "0": "Rechthoekige driehoeken",
+      "1": "Basisvaardigheden: vergelijkingen oplossen",
+      "2": "Algemene driehoeken"
+    }
+  },
+  "derivativesbasics": {
+    "name": "Wiskunde: Differentiëren",
     "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
     "blocks": {
       "0": "Basis afgeleiden",
@@ -43,51 +49,23 @@
     }
   },
   "staticsfundamentals": {
-    "name": "Exacte Wetenschap A: Statica basisvaardigheden",
-    "description": "Deze minicursus laat zien wat de mogelijkheden in Step-Wise zijn voor het opzetten van mechanica-opgaven. Het is nog geen volledige cursus.",
+    "name": "Statica: vrijlichaamschema's",
+    "description": "Deze minicursus helpt je bekend te worden met het idee van vrijlichaamschema's en het toepassen ervan om reactiekrachten binnen structuren te berekenen.",
     "blocks": {
       "0": "Vrijlichaamsschema tekenen",
       "1": "Reactiekrachten berekenen"
     }
   },
   "thermodynamicsfundamentals": {
-    "name": "Exacte Wetenschap D: Natuurkunde",
-    "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen.",
+    "name": "Thermodynamica: kringprocessen",
+    "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen. Op het einde wordt luchtvochtigheid ook behandeld.",
     "blocks": {
       "0": "Gaseigenschappen en de gaswet",
       "1": "Processen en Poisson's wet",
       "2": "Arbeid en warmte",
       "3": "Kringprocessen: doorrekenen",
       "4": "Kringprocessen: energie en rendement",
-      "5": "Stoomturbines en koelmachines",
-      "6": "Luchtvochtigheid en airco's"
-    }
-  },
-  "thermodynamicsapplications": {
-    "name": "Processen en Modelleren",
-    "description": "Deze geavanceerde thermodynamicacursus bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
-    "blocks": {
-      "0": "Gesloten systemen en kringprocessen",
-      "1": "Open systemen en enthalpie",
-      "2": "Entropie en de tweede hoofdwet",
-      "3": "Gasturbines",
-      "4": "Dampen en diagrammen",
-      "5": "Stoomturbines",
-      "6": "Koelmachines en warmtepompen"
-    }
-  },
-  "thermodynamicsapplications2": {
-    "name": "Deeltijd: Modelleren en Processen",
-    "description": "Deze geavanceerde thermodynamicacursus bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
-    "blocks": {
-      "0": "Thermodynamische processen",
-      "1": "Gesloten systemen en kringprocessen",
-      "2": "Open systemen en enthalpie",
-      "3": "Entropie en de tweede hoofdwet",
-      "4": "Gasturbines",
-      "5": "Dampen en diagrammen",
-      "6": "Stoomturbines",
-      "7": "Koelmachines en warmtepompen"
+      "5": "Luchtvochtigheid en airco's"
     }
   }
 }

@@ -1,19 +1,17 @@
-import { useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert, AlertTitle } from '@material-ui/lab'
 
 import { count } from 'step-wise/util'
-import { skillTree, processCourse, getSkillsBetween } from 'step-wise/eduTools'
+import { processCourse } from 'step-wise/eduTools'
 
-import { useUser, useSkillsData, useMyCoursesQuery, useCreateCourseMutation } from 'api'
+import { useSkillsData, useMyCoursesQuery } from 'api'
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { getAnalysis } from './util'
 import { Tile, AddCourseTile } from './Tile'
-
-import { courses as hardcodedCourses } from './courses'
 
 const translationPath = 'eduTools/pages/coursesPage'
 
@@ -45,11 +43,9 @@ function CoursePageForCourses({ courses }) {
 	const studentCourses = useMemo(() => courses.filter(course => course.role === 'student'), [courses])
 	const teacherCourses = useMemo(() => courses.filter(course => course.role === 'teacher'), [courses])
 
-	// Check if only one category is shown.
+	// If there are no teacher courses, only show student courses.
 	if (teacherCourses.length === 0)
 		return <StudentCourses courses={courses} />
-	if (studentCourses.length === 0)
-		return <TeacherCourses courses={courses} />
 
 	// Render each of them separately. Put the one with the most courses first.
 	if (studentCourses.length >= teacherCourses.length)
@@ -58,7 +54,6 @@ function CoursePageForCourses({ courses }) {
 			<TeacherCourses courses={teacherCourses} showHeader={true} />
 		</>
 	return <>
-		<CourseAdditionCheck databaseCourses={courses} />
 		<TeacherCourses courses={teacherCourses} showHeader={true} />
 		<StudentCourses courses={studentCourses} showHeader={true} />
 	</>
@@ -115,47 +110,4 @@ function CourseList({ courses, showAddButton }) {
 				</>}
 		</TranslationFile >
 	</>
-}
-
-// The CourseAdditionCheck is a temporary component to populate the database with courses, up until we have a tool that can actually create them live.
-// ToDo: at some point this can be removed. In that case the courses.js file can also be removed accordingly.
-function CourseAdditionCheck({ databaseCourses }) {
-	const called = useRef()
-	const [createCourseMutation] = useCreateCourseMutation()
-
-	// Only call for admins.
-	const user = useUser()
-	if (user.role !== 'admin')
-		return null
-
-	// Only call the API once.
-	if (called.current)
-		return null
-	called.current = true
-
-	// Run it for all known courses.
-	Object.values(hardcodedCourses).forEach(hardcodedCourse => {
-		// If the course is already in the database, don't add it again.
-		if (databaseCourses.find(databaseCourse => databaseCourse.code === hardcodedCourse.id))
-			return
-
-		// Set up the object to be sent to the API.
-		const goals = hardcodedCourse.goals.map(goal => (typeof goal === 'string' ? goal : goal.skillId))
-		const course = {
-			code: hardcodedCourse.id,
-			name: hardcodedCourse.name,
-			description: hardcodedCourse.description,
-			goals,
-			startingPoints: getSkillsBetween(goals, hardcodedCourse.priorKnowledge).filter(skillId => skillTree[skillId].prerequisites.length === 0 || skillTree[skillId].prerequisites.some(prerequisiteId => hardcodedCourse.priorKnowledge.includes(prerequisiteId))),
-			blocks: hardcodedCourse.blocks
-		}
-		const weights = hardcodedCourse.goals.map(goal => goal?.weight || 1)
-		if (!weights.every(weight => weight === 1))
-			course.goalWeights = weights
-		if (hardcodedCourse.setup)
-			course.setup = hardcodedCourse.setup.SO
-
-		// Send the call to the API.
-		createCourseMutation(course)
-	})
 }

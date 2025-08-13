@@ -54,7 +54,7 @@ function AddCoursePageForCourses({ courses }) {
 
 	// Render the courses per organization.
 	return <TranslationFile path={translationPath}>
-		{Object.values(organizations).map(organization => <CoursesPerOrganization key={organization.id} organization={organization} courses={coursesPerOrganization[organization.id]} />)}
+		{Object.values(organizations).map(organization => <CoursesPerOrganization key={organization.id} organization={organization} courses={coursesPerOrganization[organization.id] || []} />)}
 	</TranslationFile>
 }
 
@@ -93,11 +93,16 @@ const useCoursesStyles = makeStyles((theme) => ({
 }))
 
 function CoursesPerOrganization({ organization, courses }) {
+	const classes = useCoursesStyles()
+
 	// Sort the courses alphabetically by name.
 	const coursesSorted = useMemo(() => courses.sort((a, b) => a.name.localeCompare(b.name)), [courses])
 
+	// On no courses, don't show the organization.
+	if (courses.length === 0)
+		return null
+
 	// Render the list.
-	const classes = useCoursesStyles()
 	return <>
 		<Head style={{ margin: '1.5rem 0 0.5rem 0.4rem' }}>
 			<img src={organization.logo} alt={`Logo ${organization.name}`} style={{ display: 'inline-block', maxHeight: '0.9em', maxWidth: '2em', marginRight: '0.5em', transform: 'translateY(1pt)' }} />

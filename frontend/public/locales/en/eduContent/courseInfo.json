@@ -10,7 +10,7 @@
   },
   "algebrabasics": {
     "name": "Mathematics: algebra basics",
-    "description": "This small course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.",
+    "description": "This introductory course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.",
     "blocks": {
       "0": "Expanding brackets",
       "1": "Adding fractions",
@@ -20,20 +20,26 @@
       "5": "Solve linear equations with multiple variables"
     }
   },
-  "mathematicsfundamentals": {
-    "name": "Mathematics: fundamentals",
-    "description": "This course discusses the fundamentals of algebra, up to solving quadratic equations as well as solving systems of linear equations.",
+  "algebrasolvingequations": {
+    "name": "Mathematics: solving equations",
+    "description": "This course applies the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.",
     "blocks": {
       "0": "Basic rules of algebra",
       "1": "Rewritten linear equations",
-      "2": "Angles and distances",
-      "3": "Systems of equations",
-      "4": "Quadratic equations",
-      "5": "Analyzing triangles",
-      "6": "Areas and volumes"
+      "2": "Systems of equations",
+      "3": "Quadratic equations"
     }
   },
-  "mathematicsderivatives": {
+  "geometrybasics": {
+    "name": "Mathematics: geometry basics",
+    "description": "In this small course you practice some basic geometry skills like calculating angles and distances.",
+    "blocks": {
+      "0": "Right-angled triangles",
+      "1": "Fundamentals: solving equations",
+      "2": "General triangles"
+    }
+  },
+  "derivativesbasics": {
     "name": "Mathematics: derivatives",
     "description": "This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.",
     "blocks": {
@@ -43,51 +49,23 @@
     }
   },
   "staticsfundamentals": {
-    "name": "Statics: fundamentals",
-    "description": "This tiny course is used to demonstrate the possibilities of Step-Wise related to engineering mechanics. It is not a fully fledged course yet.",
+    "name": "Statics: free body diagrams",
+    "description": "This tiny course helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.",
     "blocks": {
       "0": "Drawing free body diagrams",
       "1": "Calculate support reactions"
     }
   },
   "thermodynamicsfundamentals": {
-    "name": "Thermodynamics: fundamentals",
-    "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.",
+    "name": "Thermodynamics: cycles",
+    "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles. Air humidity is also briefly considered at the end.",
     "blocks": {
       "0": "Gas properties and the gas law",
       "1": "Thermodynamic processes and Poisson's law",
       "2": "Work and heat",
       "3": "Cycles: analysis",
       "4": "Cycles: energy and efficiency",
-      "5": "Steam turbines and cooling machines",
-      "6": "Humidity and air conditioning"
-    }
-  },
-  "thermodynamicsapplications": {
-    "name": "Thermodynamics: applications",
-    "description": "This advanced thermodynamics course teaches all sorts of thermodynamic cycles, including gas turbines, Rankine cycles and cooling cycles.",
-    "blocks": {
-      "0": "Closed systems and cycles",
-      "1": "Open systems and enthalpy",
-      "2": "Entropy and the second law",
-      "3": "Gas turbines",
-      "4": "Vapors and diagrams",
-      "5": "Steam turbines",
-      "6": "Cooling machines and heat pumps"
-    }
-  },
-  "thermodynamicsapplications2": {
-    "name": "Thermodynamics: applications",
-    "description": "This advanced thermodynamics course teaches all sorts of thermodynamic cycles, including gas turbines, Rankine cycles and cooling cycles.",
-    "blocks": {
-      "0": "Thermodynamic processes",
-      "1": "Closed systems and cycles",
-      "2": "Open systems and enthalpy",
-      "3": "Entropy and the second law",
-      "4": "Gasturbines",
-      "5": "Vapors and diagrams",
-      "6": "Steam turbines",
-      "7": "Cooling machines and heat pumps"
+      "5": "Humidity and air conditioning"
     }
   }
 }

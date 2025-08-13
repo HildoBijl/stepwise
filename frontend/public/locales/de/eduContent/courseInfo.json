@@ -10,7 +10,7 @@
   },
   "algebrabasics": {
     "name": "Mathematik: Algebra Grundlagen",
-    "description": "Dieser kleine Kurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.",
+    "description": "Dieser Einführungskurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.",
     "blocks": {
       "0": "Klammern erweitern",
       "1": "Brüche addieren",
@@ -20,20 +20,26 @@
       "5": "Lineare Gleichungen mit mehreren Variablen lösen"
     }
   },
-  "mathematicsfundamentals": {
-    "name": "Mathematik: Grundlagen",
-    "description": "Dieser Kurs deckt die Grundlagen der Algebra ab, bis hin zum Lösen quadratischer Gleichungen und zum Lösen linearer Gleichungssysteme.",
+  "algebrasolvingequations": {
+    "name": "Mathematik: Gleichungen lösen",
+    "description": "Dieser Kurs wendet die Grundlagen der Algebra auf die Lösung verschiedener Arten von Gleichungen an, von linearen Gleichungssystemen bis hin zu umgeschriebenen quadratischen Gleichungen.",
     "blocks": {
       "0": "Grundregeln der Algebra",
       "1": "Umgeformte lineare Gleichungen",
-      "2": "Winkel und Distanzen",
-      "3": "Systeme von Gleichungen",
-      "4": "Quadratische Gleichungen",
-      "5": "Berechnung von Dreiecken",
-      "6": "Flächen und Volumen"
+      "2": "Systeme von Gleichungen",
+      "3": "Quadratische Gleichungen"
     }
   },
-  "mathematicsderivatives": {
+  "geometrybasics": {
+    "name": "Mathematik: Geometrie Grundlagen",
+    "description": "In diesem kleinen Kurs übst du einige grundlegende geometrische Kompetenzen, wie das Berechnen von Winkeln und Distanzen.",
+    "blocks": {
+      "0": "Rechteckige Dreiecke",
+      "1": "Grundlagen: Gleichungen lösen",
+      "2": "Allgemeine Dreiecke"
+    }
+  },
+  "derivativesbasics": {
     "name": "Mathematik: Ableitungen",
     "description": "Dieser Kurs behandelt Ableitungen, von der Bestimmung der grundlegenden Ableitungen bis zur Anwendung von Kombinationen von Regeln.",
     "blocks": {
@@ -43,51 +49,23 @@
     }
   },
   "staticsfundamentals": {
-    "name": "Statik: Grundlagen",
-    "description": "Dieser Minikurs zeigt die Möglichkeiten von Step-Wise zur Erstellung von Mechanik-Aufgaben. Es handelt sich noch nicht um einen vollständigen Kurs.",
+    "name": "Statica: Freikörperdiagrammen",
+    "description": "Dieser Minikurs hilft dir, dich mit dem Konzept der Freikörperdiagramme vertraut zu machen und sie zur Berechnung von Reaktionskräften innerhalb von Strukturen anzuwenden.",
     "blocks": {
       "0": "Freikörperdiagrammen zeichnen",
       "1": "Reaktionenskräfte berechnen"
     }
   },
   "thermodynamicsfundamentals": {
-    "name": "Thermodynamik: Grundlagen",
-    "description": "In diesem Einführungskurs in die Thermodynamik werden die Grundlagen thermodynamischer Prozesse bis hin zur Analyse von Kreislaufprozessen behandelt.",
+    "name": "Thermodynamik: Kreisläufe",
+    "description": "Dieser Einführungskurs in die Thermodynamik behandelt die Grundlagen thermodynamischer Prozesse bis hin zur Analyse geschlossener Kreisläufe. Am Ende wird auch Luftfeuchtigkeit betrachtet.",
     "blocks": {
       "0": "Gaseigenschaften und das Gasgesetz",
       "1": "Thermodynamische Prozesse und das Poisson'sche Gesetz",
       "2": "Arbeit und Wärme",
       "3": "Kreisläufe: Analyse",
       "4": "Kreisläufe: Energie und Effizienz",
-      "5": "Dampfturbinen und Kältemaschinen",
-      "6": "Luftfeuchtigkeit und Klimatisierung"
-    }
-  },
-  "thermodynamicsapplications": {
-    "name": "Thermodynamik: Anwendungen",
-    "description": "In diesem Kurs über fortgeschrittene Thermodynamik werden alle Arten von thermodynamischen Kreisläufen behandelt, darunter Gasturbinen, Rankine-Kreisläufe und Kühlkreisläufe.",
-    "blocks": {
-      "0": "Geschlossene Systeme und Kreisläufe",
-      "1": "Offene Systeme und Enthalpie",
-      "2": "Entropie und das zweite Gesetz",
-      "3": "Gasturbinen",
-      "4": "Dämpfe und Diagramme",
-      "5": "Dampfturbinen",
-      "6": "Kältemaschinen und Wärmepumpen"
-    }
-  },
-  "thermodynamicsapplications2": {
-    "name": "Thermodynamik: Anwendungen",
-    "description": "In diesem Kurs über fortgeschrittene Thermodynamik werden alle Arten von thermodynamischen Kreisläufen behandelt, darunter Gasturbinen, Rankine-Kreisläufe und Kühlkreisläufe.",
-    "blocks": {
-      "0": "Thermodynamische Prozesse",
-      "1": "Geschlossene Systeme und Kreisläufe",
-      "2": "Offene Systeme und Enthalpie",
-      "3": "Entropie und das zweite Gesetz",
-      "4": "Gasturbinen",
-      "5": "Dämpfe und Diagramme",
-      "6": "Dampfturbinen",
-      "7": "Kältemaschinen und Wärmepumpen"
+      "5": "Luftfeuchtigkeit und Klimatisierung"
     }
   }
 }
