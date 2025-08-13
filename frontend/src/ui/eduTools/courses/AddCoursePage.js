@@ -145,7 +145,7 @@ function CourseEntry({ course }) {
 			<div className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.code}.name`}>{course.name}</Translation></div>
 		</Tooltip>
 		<div className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{overview.blocks.length}</div>
-		<div className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.all.length}</div>
+		<div className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.contents.length}</div>
 		<div className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.role ? 1 : 0.05 }} /></div>
 	</>
 }
