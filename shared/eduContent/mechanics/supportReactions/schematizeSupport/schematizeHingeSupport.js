@@ -14,7 +14,6 @@ const metaData = {
 		default: {},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	return {

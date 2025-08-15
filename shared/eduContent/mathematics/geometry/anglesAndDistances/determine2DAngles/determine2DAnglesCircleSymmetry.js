@@ -10,7 +10,6 @@ const metaData = {
 	steps: [null, null, null, null],
 	comparison: { default: {} },
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const limit = 30

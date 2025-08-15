@@ -19,7 +19,7 @@ const metaData = {
 		method: {},
 	},
 }
-addSetupFromSteps(metaData)
+// addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate state.

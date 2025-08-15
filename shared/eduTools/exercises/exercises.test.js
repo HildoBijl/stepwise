@@ -77,7 +77,8 @@ describe('Check all exercises:', () => {
 					})
 				})
 				it('has a set-up', () => {
-					expect(exercise.metaData.setup).toBeDefined()
+					if (exercise.metaData.steps.every(step => !!step)) // If all steps are defined, some set-up would be needed.
+						expect(exercise.metaData.setup).toBeDefined()
 				})
 			}
 		})
