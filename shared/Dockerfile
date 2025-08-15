@@ -1,6 +1,5 @@
-FROM node:16.13.0-alpine AS test
+FROM node:16.13.0-alpine AS shared-build
 WORKDIR /app
-COPY shared/package.json shared/package-lock.json ./
-RUN npm ci
-COPY shared .
-CMD ["npm", "test"]
+COPY package.json package-lock.json ./
+RUN npm ci --quiet
+COPY . .

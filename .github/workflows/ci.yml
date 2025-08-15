@@ -30,9 +30,19 @@ jobs:
             -e POSTGRES_USER=$POSTGRES_USER \
             -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
             postgres:15.2
-      - name: Build project
-        run: |
-          docker compose -f ops/build.yml build
+      - name: Build shared package
+        run: docker build -t shared-build:latest -f shared/Dockerfile ./shared
+      - name: Build frontend
+        run: docker build \
+          --build-arg REACT_APP_API_ADDRESS="https://api.step-wise.com" \
+          --build-arg REACT_APP_API_WEBSOCKET_ENDPOINT="graphql-ws" \
+          --build-arg REACT_APP_GOOGLE_CLIENT_ID="212013243072-slab3pojp2u1pirqfr5g7p78280l2b8q.apps.googleusercontent.com" \
+          --build-arg REACT_APP_GOOGLE_REDIRECT_ADDRESS="https://step-wise.com" \
+          -t frontend-build:latest -f frontend/Dockerfile ./frontend
+      - name: Build API
+        run: docker build -t stepwisecom/api:latest -f api/Dockerfile ./api
+      - name: Build gateway
+        run: docker build -t stepwisecom/gateway:latest -f gateway/Dockerfile ./gateway
       - name: Run shared code tests
         run: docker run --rm -t shared-test
       - name: Run frontend tests
