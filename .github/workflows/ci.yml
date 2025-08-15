@@ -37,7 +37,7 @@ jobs:
       - name: Build API
         run: docker build -t stepwisecom/api:latest -f api/Dockerfile ./api
       - name: Build gateway
-        run: docker build -t stepwisecom/gateway:latest -f gateway/Dockerfile ./gateway
+        run: docker build -t stepwisecom/gateway:latest -f ops/gateway/Dockerfile ./ops/gateway
       - name: Run shared code tests
         run: docker run --rm shared-build:latest npm test
       - name: Run frontend tests
