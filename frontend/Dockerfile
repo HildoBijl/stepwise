@@ -1,10 +1,9 @@
-FROM shared-build:latest as shared-build
-FROM node:16.13.0-alpine as frontend-build
+FROM node:16.13.0-alpine AS frontend-build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --quiet
 COPY . .
-COPY --from=shared-build /app /shared
+COPY --from=shared-build:latest /app /shared
 
 # Declare build args
 ARG REACT_APP_API_ADDRESS
