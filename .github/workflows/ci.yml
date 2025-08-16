@@ -40,8 +40,6 @@ jobs:
         run: docker build -t stepwisecom/gateway:latest -f ops/gateway/Dockerfile ./ops/gateway
       - name: Run shared code tests
         run: docker run --rm shared-build:latest npm test
-      - name: Run frontend tests
-        run: docker run --rm -e CI=true frontend-build:latest npm test
       - name: Run api tests
         run: |
           touch lastSessionData && chmod 0777 lastSessionData
@@ -55,6 +53,8 @@ jobs:
             -e POSTGRES_PORT=$POSTGRES_PORT \
             -v $(pwd)/lastSessionData:/app/lastSessionData \
             stepwisecom/api npm test
+      - name: Run frontend tests
+        run: docker run --rm -e CI=true frontend-build:latest npm test
       - name: Publish images (only on master branch)
         if: github.ref == 'refs/heads/master'
         env:
