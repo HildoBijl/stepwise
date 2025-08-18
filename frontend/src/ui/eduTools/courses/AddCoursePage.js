@@ -105,7 +105,9 @@ function CoursesPerOrganization({ organization, courses }) {
 	// Render the list.
 	return <>
 		<Head style={{ margin: '1.5rem 0 0.5rem 0.4rem' }}>
-			<img src={organization.logo} alt={`Logo ${organization.name}`} style={{ display: 'inline-block', maxHeight: '0.9em', maxWidth: '2em', marginRight: '0.5em', transform: 'translateY(1pt)' }} />
+			<span style={{ display: 'inline-block', width: '2em' }}>
+				<img src={organization.logo} alt={`Logo ${organization.name}`} style={{ display: 'inline-block', maxHeight: '0.9em', maxWidth: '2em', marginRight: '0.5em', transform: 'translateY(1pt)' }} />
+			</span>
 			{organization.name}
 		</Head>
 		<div className={classes.courses}>

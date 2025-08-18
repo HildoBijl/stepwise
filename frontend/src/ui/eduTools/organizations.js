@@ -1,6 +1,6 @@
-
-import hogeschoolUtrechtLogo from 'ui/images/HU.png'
 import stepwiseLogo from 'ui/images/logo.svg'
+import hogeschoolUtrechtLogo from 'ui/images/HU.png'
+import sintAgnesinstituutLogo from 'ui/images/SintAgnesinstituut.svg'
 
 // Define all organizations that may have courses on Step-Wise.
 export const organizations = {
@@ -14,6 +14,11 @@ export const organizations = {
 		name: 'Hogeschool Utrecht',
 		logo: hogeschoolUtrechtLogo,
 		country: 'nl',
+	},
+	sintAgnesinstituut: {
+		name: 'Sint-Agnesinstituut',
+		logo: sintAgnesinstituutLogo,
+		country: 'be',
 	},
 }
 Object.keys(organizations).forEach(organizationId => {
