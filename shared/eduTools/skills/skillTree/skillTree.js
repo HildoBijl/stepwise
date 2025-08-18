@@ -229,12 +229,12 @@ const skillStructure = {
 						// Add number to both sides, move number to other side.
 					},
 					terms: {
-						addTermToBothEquationSides: {
-							name: 'Add term to both equation sides',
+						addToBothEquationSides: {
+							name: 'Add to both equation sides',
 						},
 						moveEquationTerm: {
 							name: 'Move equation term',
-							setup: and('addTermToBothEquationSides', 'cancelSumTerms'),
+							setup: and('addToBothEquationSides', 'cancelSumTerms'),
 							examples: ['moveSingleTerm'],
 							exercises: ['moveSingleTerm', 'moveAllTerms'],
 						},
@@ -242,7 +242,7 @@ const skillStructure = {
 					factors: {
 						multiplyBothEquationSides: {
 							name: 'Multiply both equation sides',
-							links: { skill: 'addTermToBothEquationSides', correlation: 0.4 },
+							links: { skill: 'addToBothEquationSides', correlation: 0.4 },
 						},
 						moveEquationFactor: {
 							name: 'Move equation factor',

@@ -12,7 +12,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'moveEquationTerm',
-	steps: ['addTermToBothEquationSides', 'cancelSumTerms'],
+	steps: ['addToBothEquationSides', 'cancelSumTerms'],
 	comparison: {
 		bothSidesChanged: { check: equivalent },
 		ans: { check: onlyOrderChanges },

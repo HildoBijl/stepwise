@@ -1,5 +1,5 @@
 {
   "meta": {
-    "learningGoals": "<par>In this skill you learn to <term>check an equation solution</term>. Given an equation like <inline-math/> and a potential solution like <inline-math/> or <inline-math/> you will be able to determine whether or not the number balances the equation. This includes applying number substitution to the expression on each side of the equation, as well as calculating the resulting sum/product, turning it into a single number. Knowledge of fractions, powers, etcetera is not required. </par>"
+    "learningGoals": "<par>In this skill you learn to <term>check an equation solution</term>. Given an equation like <inline-math/> and a potential solution like <inline-math/> or <inline-math/> you will be able to determine whether or not the number balances the equation. This includes applying number substitution to the expression on each side of the equation, as well as calculating the resulting sum/product, turning it into a single number. Knowledge of fractions, powers, etcetera is not required.</par>"
   }
 }
