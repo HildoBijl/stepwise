@@ -18,7 +18,7 @@ const translationPath = `eduTools/pages/coursePage`
 export function CoursePageForUnsubscribedUser() {
 	const { course } = useCourseData()
 	return <>
-		{course.description && <Par><Translation path="eduContent/courseInfo" entry={`${course.code}.description`}>{course.description}</Translation></Par>}
+		{course.description && <Par><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation></Par>}
 		<SubscribeToCourse course={course} />
 		<CourseTeachers course={course} />
 		<CourseLearningGoals course={course} />

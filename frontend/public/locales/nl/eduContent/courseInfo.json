@@ -1,71 +1,73 @@
 {
-  "stepwisetutorial": {
-    "name": "Step-Wise Tutorial",
-    "description": "In deze korte demo kun je wat spelen met hoe Step-Wise in elkaar zit.",
-    "blocks": {
-      "0": "Invoervelden voor getallen",
-      "1": "Wiskundige invoervelden",
-      "2": "Demo stapsgewijze oefeningen"
-    }
-  },
-  "algebrabasics": {
-    "name": "Wiskunde: basis algebra",
-    "description": "Deze begincursus leidt je door de basis van algebra, van het vereenvoudigen van breuken tot het oplossen van verschillende soorten lineaire vergelijkingen.",
-    "blocks": {
-      "0": "Haakjes uitwerken",
-      "1": "Breuken optellen",
-      "2": "Breuken vereenvoudigen",
-      "3": "Lineaire vergelijkingen oplossen",
-      "4": "Breuken met meerdere variabelen vereenvoudigen",
-      "5": "Lineaire vergelijkingen met meerdere variabelen oplossen"
-    }
-  },
-  "algebrasolvingequations": {
-    "name": "Wiskunde: vergelijkingen oplossen",
-    "description": "Deze cursus past de basis van algebra toe bij het oplossen van verschillende soorten vergelijkingen, variërend van stelsels van lineaire vergelijkingen tot en met herschreven kwadratische vergelijkingen.",
-    "blocks": {
-      "0": "Basisregels algebra",
-      "1": "Herschreven lineaire vergelijkingen",
-      "2": "Stelsels van vergelijkingen",
-      "3": "Kwadratische vergelijkingen"
-    }
-  },
-  "mathematicsgeometry": {
-    "name": "Wiskunde: basis meetkunde",
-    "description": "In deze kleine cursus oefen je enkele meetkunde basisvaardigheden, zoals het uitrekenen van hoeken en afstanden.",
-    "blocks": {
-      "0": "Rechthoekige driehoeken",
-      "1": "Basisvaardigheden: vergelijkingen oplossen",
-      "2": "Algemene driehoeken"
-    }
-  },
-  "derivativesbasics": {
-    "name": "Wiskunde: Differentiëren",
-    "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
-    "blocks": {
-      "0": "Basis afgeleiden",
-      "1": "Differentieerregels toepassen",
-      "2": "Afgeleiden bepalen"
-    }
-  },
-  "staticsfundamentals": {
-    "name": "Statica: vrijlichaamschema's",
-    "description": "Deze minicursus helpt je bekend te worden met het idee van vrijlichaamschema's en het toepassen ervan om reactiekrachten binnen structuren te berekenen.",
-    "blocks": {
-      "0": "Vrijlichaamsschema tekenen",
-      "1": "Reactiekrachten berekenen"
-    }
-  },
-  "thermodynamicsfundamentals": {
-    "name": "Thermodynamica: kringprocessen",
-    "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen. Op het einde wordt luchtvochtigheid ook behandeld.",
-    "blocks": {
-      "0": "Gaseigenschappen en de gaswet",
-      "1": "Processen en Poisson's wet",
-      "2": "Arbeid en warmte",
-      "3": "Kringprocessen: doorrekenen",
-      "4": "Kringprocessen: energie en rendement",
-      "5": "Luchtvochtigheid en airco's"
+  "stepwise": {
+    "stepwisetutorial": {
+      "name": "Step-Wise Tutorial",
+      "description": "In deze korte demo kun je wat spelen met hoe Step-Wise in elkaar zit.",
+      "blocks": {
+        "0": "Invoervelden voor getallen",
+        "1": "Wiskundige invoervelden",
+        "2": "Demo stapsgewijze oefeningen"
+      }
+    },
+    "algebrabasics": {
+      "name": "Wiskunde: basis algebra",
+      "description": "Deze begincursus leidt je door de basis van algebra, van het vereenvoudigen van breuken tot het oplossen van verschillende soorten lineaire vergelijkingen.",
+      "blocks": {
+        "0": "Haakjes uitwerken",
+        "1": "Breuken optellen",
+        "2": "Breuken vereenvoudigen",
+        "3": "Lineaire vergelijkingen oplossen",
+        "4": "Breuken met meerdere variabelen vereenvoudigen",
+        "5": "Lineaire vergelijkingen met meerdere variabelen oplossen"
+      }
+    },
+    "algebrasolvingequations": {
+      "name": "Wiskunde: vergelijkingen oplossen",
+      "description": "Deze cursus past de basis van algebra toe bij het oplossen van verschillende soorten vergelijkingen, variërend van stelsels van lineaire vergelijkingen tot en met herschreven kwadratische vergelijkingen.",
+      "blocks": {
+        "0": "Basisregels algebra",
+        "1": "Herschreven lineaire vergelijkingen",
+        "2": "Stelsels van vergelijkingen",
+        "3": "Kwadratische vergelijkingen"
+      }
+    },
+    "mathematicsgeometry": {
+      "name": "Wiskunde: basis meetkunde",
+      "description": "In deze kleine cursus oefen je enkele meetkunde basisvaardigheden, zoals het uitrekenen van hoeken en afstanden.",
+      "blocks": {
+        "0": "Rechthoekige driehoeken",
+        "1": "Basisvaardigheden: vergelijkingen oplossen",
+        "2": "Algemene driehoeken"
+      }
+    },
+    "derivativesbasics": {
+      "name": "Wiskunde: Differentiëren",
+      "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
+      "blocks": {
+        "0": "Basis afgeleiden",
+        "1": "Differentieerregels toepassen",
+        "2": "Afgeleiden bepalen"
+      }
+    },
+    "staticsfundamentals": {
+      "name": "Statica: vrijlichaamschema's",
+      "description": "Deze minicursus helpt je bekend te worden met het idee van vrijlichaamschema's en het toepassen ervan om reactiekrachten binnen structuren te berekenen.",
+      "blocks": {
+        "0": "Vrijlichaamsschema tekenen",
+        "1": "Reactiekrachten berekenen"
+      }
+    },
+    "thermodynamicsfundamentals": {
+      "name": "Thermodynamica: kringprocessen",
+      "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen. Op het einde wordt luchtvochtigheid ook behandeld.",
+      "blocks": {
+        "0": "Gaseigenschappen en de gaswet",
+        "1": "Processen en Poisson's wet",
+        "2": "Arbeid en warmte",
+        "3": "Kringprocessen: doorrekenen",
+        "4": "Kringprocessen: energie en rendement",
+        "5": "Luchtvochtigheid en airco's"
+      }
     }
   }
 }

@@ -135,7 +135,7 @@ export function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 			<img src={organization.logo} alt={`Logo ${organization.name}`} className={clsx(classes.logo, 'logo')} />
 			<div className="nameContainer">
 				<div className="name">
-					{translate(course.name, `${course.code}.name`, 'eduContent/courseInfo')}
+					{translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo')}
 				</div>
 			</div>
 			<div className="info">

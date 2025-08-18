@@ -1,71 +1,73 @@
 {
-  "stepwisetutorial": {
-    "name": "Step-Wise Tutorial",
-    "description": "In dieser kurzen Demo kannst du ein wenig damit spielen, wie Step-Wise funktioniert.",
-    "blocks": {
-      "0": "Eingabefelder für Zahlen",
-      "1": "Mathematische Eingabefelder",
-      "2": "Demo schrittweise Übungen"
-    }
-  },
-  "algebrabasics": {
-    "name": "Mathematik: Algebra Grundlagen",
-    "description": "Dieser Einführungskurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.",
-    "blocks": {
-      "0": "Klammern erweitern",
-      "1": "Brüche addieren",
-      "2": "Brüche vereinfachen",
-      "3": "Lineare Gleichungen lösen",
-      "4": "Brüche mit mehreren Variablen vereinfachen",
-      "5": "Lineare Gleichungen mit mehreren Variablen lösen"
-    }
-  },
-  "algebrasolvingequations": {
-    "name": "Mathematik: Gleichungen lösen",
-    "description": "Dieser Kurs wendet die Grundlagen der Algebra auf die Lösung verschiedener Arten von Gleichungen an, von linearen Gleichungssystemen bis hin zu umgeschriebenen quadratischen Gleichungen.",
-    "blocks": {
-      "0": "Grundregeln der Algebra",
-      "1": "Umgeformte lineare Gleichungen",
-      "2": "Systeme von Gleichungen",
-      "3": "Quadratische Gleichungen"
-    }
-  },
-  "geometrybasics": {
-    "name": "Mathematik: Geometrie Grundlagen",
-    "description": "In diesem kleinen Kurs übst du einige grundlegende geometrische Kompetenzen, wie das Berechnen von Winkeln und Distanzen.",
-    "blocks": {
-      "0": "Rechteckige Dreiecke",
-      "1": "Grundlagen: Gleichungen lösen",
-      "2": "Allgemeine Dreiecke"
-    }
-  },
-  "derivativesbasics": {
-    "name": "Mathematik: Ableitungen",
-    "description": "Dieser Kurs behandelt Ableitungen, von der Bestimmung der grundlegenden Ableitungen bis zur Anwendung von Kombinationen von Regeln.",
-    "blocks": {
-      "0": "Basisableitungen",
-      "1": "Ableitungsregeln anwenden",
-      "2": "Ableitungen bestimmen"
-    }
-  },
-  "staticsfundamentals": {
-    "name": "Statica: Freikörperdiagrammen",
-    "description": "Dieser Minikurs hilft dir, dich mit dem Konzept der Freikörperdiagramme vertraut zu machen und sie zur Berechnung von Reaktionskräften innerhalb von Strukturen anzuwenden.",
-    "blocks": {
-      "0": "Freikörperdiagrammen zeichnen",
-      "1": "Reaktionenskräfte berechnen"
-    }
-  },
-  "thermodynamicsfundamentals": {
-    "name": "Thermodynamik: Kreisläufe",
-    "description": "Dieser Einführungskurs in die Thermodynamik behandelt die Grundlagen thermodynamischer Prozesse bis hin zur Analyse geschlossener Kreisläufe. Am Ende wird auch Luftfeuchtigkeit betrachtet.",
-    "blocks": {
-      "0": "Gaseigenschaften und das Gasgesetz",
-      "1": "Thermodynamische Prozesse und das Poisson'sche Gesetz",
-      "2": "Arbeit und Wärme",
-      "3": "Kreisläufe: Analyse",
-      "4": "Kreisläufe: Energie und Effizienz",
-      "5": "Luftfeuchtigkeit und Klimatisierung"
+  "stepwise": {
+    "stepwisetutorial": {
+      "name": "Step-Wise Tutorial",
+      "description": "In dieser kurzen Demo kannst du ein wenig damit spielen, wie Step-Wise funktioniert.",
+      "blocks": {
+        "0": "Eingabefelder für Zahlen",
+        "1": "Mathematische Eingabefelder",
+        "2": "Demo schrittweise Übungen"
+      }
+    },
+    "algebrabasics": {
+      "name": "Mathematik: Algebra Grundlagen",
+      "description": "Dieser Einführungskurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.",
+      "blocks": {
+        "0": "Klammern erweitern",
+        "1": "Brüche addieren",
+        "2": "Brüche vereinfachen",
+        "3": "Lineare Gleichungen lösen",
+        "4": "Brüche mit mehreren Variablen vereinfachen",
+        "5": "Lineare Gleichungen mit mehreren Variablen lösen"
+      }
+    },
+    "algebrasolvingequations": {
+      "name": "Mathematik: Gleichungen lösen",
+      "description": "Dieser Kurs wendet die Grundlagen der Algebra auf die Lösung verschiedener Arten von Gleichungen an, von linearen Gleichungssystemen bis hin zu umgeschriebenen quadratischen Gleichungen.",
+      "blocks": {
+        "0": "Grundregeln der Algebra",
+        "1": "Umgeformte lineare Gleichungen",
+        "2": "Systeme von Gleichungen",
+        "3": "Quadratische Gleichungen"
+      }
+    },
+    "geometrybasics": {
+      "name": "Mathematik: Geometrie Grundlagen",
+      "description": "In diesem kleinen Kurs übst du einige grundlegende geometrische Kompetenzen, wie das Berechnen von Winkeln und Distanzen.",
+      "blocks": {
+        "0": "Rechteckige Dreiecke",
+        "1": "Grundlagen: Gleichungen lösen",
+        "2": "Allgemeine Dreiecke"
+      }
+    },
+    "derivativesbasics": {
+      "name": "Mathematik: Ableitungen",
+      "description": "Dieser Kurs behandelt Ableitungen, von der Bestimmung der grundlegenden Ableitungen bis zur Anwendung von Kombinationen von Regeln.",
+      "blocks": {
+        "0": "Basisableitungen",
+        "1": "Ableitungsregeln anwenden",
+        "2": "Ableitungen bestimmen"
+      }
+    },
+    "staticsfundamentals": {
+      "name": "Statica: Freikörperdiagrammen",
+      "description": "Dieser Minikurs hilft dir, dich mit dem Konzept der Freikörperdiagramme vertraut zu machen und sie zur Berechnung von Reaktionskräften innerhalb von Strukturen anzuwenden.",
+      "blocks": {
+        "0": "Freikörperdiagrammen zeichnen",
+        "1": "Reaktionenskräfte berechnen"
+      }
+    },
+    "thermodynamicsfundamentals": {
+      "name": "Thermodynamik: Kreisläufe",
+      "description": "Dieser Einführungskurs in die Thermodynamik behandelt die Grundlagen thermodynamischer Prozesse bis hin zur Analyse geschlossener Kreisläufe. Am Ende wird auch Luftfeuchtigkeit betrachtet.",
+      "blocks": {
+        "0": "Gaseigenschaften und das Gasgesetz",
+        "1": "Thermodynamische Prozesse und das Poisson'sche Gesetz",
+        "2": "Arbeit und Wärme",
+        "3": "Kreisläufe: Analyse",
+        "4": "Kreisläufe: Energie und Effizienz",
+        "5": "Luftfeuchtigkeit und Klimatisierung"
+      }
     }
   }
 }

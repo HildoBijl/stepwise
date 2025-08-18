@@ -143,8 +143,8 @@ function CourseEntry({ course }) {
 
 	// Render the row for the course.
 	return <>
-		<Tooltip open={hover} arrow title={<Translation path="eduContent/courseInfo" entry={`${course.code}.description`}>{course.description}</Translation>}>
-			<div className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.code}.name`}>{course.name}</Translation></div>
+		<Tooltip open={hover} arrow title={<Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation>}>
+			<div className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</Translation></div>
 		</Tooltip>
 		<div className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{overview.blocks.length}</div>
 		<div className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.contents.length}</div>

@@ -15,7 +15,7 @@ const translationPath = `eduTools/pages/coursePage`
 export function CourseSettingsPageForStudent() {
 	const { course } = useCourseData()
 	return <>
-		{course.description && <Par><Translation path="eduContent/courseInfo" entry={`${course.code}.description`}>{course.description}</Translation></Par>}
+		{course.description && <Par><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation></Par>}
 		<UnsubscribeFromCourse course={course} />
 		<CourseTeachers course={course} />
 		<CourseLearningGoals course={course} />

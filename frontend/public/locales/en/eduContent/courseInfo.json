@@ -1,71 +1,79 @@
 {
-  "stepwisetutorial": {
-    "name": "Step-Wise Tutorial",
-    "description": "In this brief demo you can play around with how Step-Wise works.",
-    "blocks": {
-      "0": "Number input fields",
-      "1": "Mathematical input fields",
-      "2": "Demo Step-Wise exercises"
+  "stepwise": {
+    "stepwisetutorial": {
+      "name": "Step-Wise Tutorial",
+      "description": "In this brief demo you can play around with how Step-Wise works.",
+      "blocks": {
+        "0": "Number input fields",
+        "1": "Mathematical input fields",
+        "2": "Demo Step-Wise exercises"
+      }
+    },
+    "algebrabasics": {
+      "name": "Mathematics: algebra basics",
+      "description": "This introductory course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.",
+      "blocks": {
+        "0": "Expanding brackets",
+        "1": "Adding fractions",
+        "2": "Simplifying fractions",
+        "3": "Solving linear equations",
+        "4": "Simplifying fractions with multiple variables",
+        "5": "Solve linear equations with multiple variables"
+      }
+    },
+    "algebrasolvingequations": {
+      "name": "Mathematics: solving equations",
+      "description": "This course applies the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.",
+      "blocks": {
+        "0": "Basic rules of algebra",
+        "1": "Rewritten linear equations",
+        "2": "Systems of equations",
+        "3": "Quadratic equations"
+      }
+    },
+    "geometrybasics": {
+      "name": "Mathematics: geometry basics",
+      "description": "In this small course you practice some basic geometry skills like calculating angles and distances.",
+      "blocks": {
+        "0": "Right-angled triangles",
+        "1": "Fundamentals: solving equations",
+        "2": "General triangles"
+      }
+    },
+    "derivativesbasics": {
+      "name": "Mathematics: derivatives",
+      "description": "This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.",
+      "blocks": {
+        "0": "Derivative basics",
+        "1": "Derivative rules",
+        "2": "Determine derivatives"
+      }
+    },
+    "staticsfundamentals": {
+      "name": "Statics: free body diagrams",
+      "description": "This tiny course helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.",
+      "blocks": {
+        "0": "Drawing free body diagrams",
+        "1": "Calculate support reactions"
+      }
+    },
+    "thermodynamicsfundamentals": {
+      "name": "Thermodynamics: cycles",
+      "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles. Air humidity is also briefly considered at the end.",
+      "blocks": {
+        "0": "Gas properties and the gas law",
+        "1": "Thermodynamic processes and Poisson's law",
+        "2": "Work and heat",
+        "3": "Cycles: analysis",
+        "4": "Cycles: energy and efficiency",
+        "5": "Humidity and air conditioning"
+      }
     }
   },
-  "algebrabasics": {
-    "name": "Mathematics: algebra basics",
-    "description": "This introductory course walks you through the basics of algebra, from simplifying fractions to solving various types of linear equations.",
-    "blocks": {
-      "0": "Expanding brackets",
-      "1": "Adding fractions",
-      "2": "Simplifying fractions",
-      "3": "Solving linear equations",
-      "4": "Simplifying fractions with multiple variables",
-      "5": "Solve linear equations with multiple variables"
-    }
-  },
-  "algebrasolvingequations": {
-    "name": "Mathematics: solving equations",
-    "description": "This course applies the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.",
-    "blocks": {
-      "0": "Basic rules of algebra",
-      "1": "Rewritten linear equations",
-      "2": "Systems of equations",
-      "3": "Quadratic equations"
-    }
-  },
-  "geometrybasics": {
-    "name": "Mathematics: geometry basics",
-    "description": "In this small course you practice some basic geometry skills like calculating angles and distances.",
-    "blocks": {
-      "0": "Right-angled triangles",
-      "1": "Fundamentals: solving equations",
-      "2": "General triangles"
-    }
-  },
-  "derivativesbasics": {
-    "name": "Mathematics: derivatives",
-    "description": "This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.",
-    "blocks": {
-      "0": "Derivative basics",
-      "1": "Derivative rules",
-      "2": "Determine derivatives"
-    }
-  },
-  "staticsfundamentals": {
-    "name": "Statics: free body diagrams",
-    "description": "This tiny course helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.",
-    "blocks": {
-      "0": "Drawing free body diagrams",
-      "1": "Calculate support reactions"
-    }
-  },
-  "thermodynamicsfundamentals": {
-    "name": "Thermodynamics: cycles",
-    "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles. Air humidity is also briefly considered at the end.",
-    "blocks": {
-      "0": "Gas properties and the gas law",
-      "1": "Thermodynamic processes and Poisson's law",
-      "2": "Work and heat",
-      "3": "Cycles: analysis",
-      "4": "Cycles: energy and efficiency",
-      "5": "Humidity and air conditioning"
+  "sintAgnesinstituut": {
+    "saiwiskunde": {
+      "name": "Wiskunde bijspijkercursus",
+      "description": "Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen."
     }
   }
 }
