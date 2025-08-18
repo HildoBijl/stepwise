@@ -73,7 +73,17 @@
   "sintAgnesinstituut": {
     "saiwiskunde": {
       "name": "Wiskunde bijspijkercursus",
-      "description": "Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen."
+      "description": "Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen.",
+      "blocks": {
+        "0": "Haakjes uitwerken",
+        "1": "Breuken optellen",
+        "2": "Breuken vereenvoudigen",
+        "3": "Lineaire vergelijkingen oplossen",
+        "4": "Kwadratische vergelijkingen oplossen",
+        "5": "Breuken met meerdere variabelen vereenvoudigen",
+        "6": "Lineaire vergelijkingen met meerdere variabelen oplossen",
+        "7": "Stelsels van vergelijkingen oplossen"
+      }
     }
   }
 }
