@@ -41,7 +41,7 @@
       }
     },
     "derivativesbasics": {
-      "name": "Wiskunde: Differentiëren",
+      "name": "Wiskunde: differentiëren",
       "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
       "blocks": {
         "0": "Basis afgeleiden",
