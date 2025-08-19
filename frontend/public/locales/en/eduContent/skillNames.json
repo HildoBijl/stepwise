@@ -43,7 +43,8 @@
         }
       },
       "powers": {
-        "rewritePower": "Rewrite power"
+        "rewritePower": "Rewrite power",
+        "rewriteNegativePower": "Rewrite negative power"
       },
       "roots": {
         "simplifyRoot": "Simplify root"
@@ -63,7 +64,9 @@
         "brackets": {
           "expandBrackets": "Expand brackets",
           "expandDoubleBrackets": "Expand double brackets",
-          "pullFactorOutOfBrackets": "Pull factor out of brackets"
+          "pullFactorOutOfBrackets": "Pull factor out of brackets",
+          "expandPowerOfProduct": "Expand power of product",
+          "expandPowerOfSum": "Expand power of sum"
         },
         "fractions": {
           "multiplyingDividing": {

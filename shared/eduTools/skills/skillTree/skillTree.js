@@ -111,6 +111,9 @@ const skillStructure = {
 				rewritePower: {
 					name: 'Rewrite power',
 				},
+				rewriteNegativePower: {
+					name: 'Rewrite negative power',
+				},
 			},
 			roots: {
 				simplifyRoot: {
@@ -159,6 +162,14 @@ const skillStructure = {
 						setup: and('addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'),
 						examples: ['twoTerms'],
 						exercises: ['twoTerms', 'threeTerms'],
+					},
+					expandPowerOfProduct: {
+						name: 'Expand power of product',
+						setup: and(part('rewriteNegativePower', 0.5), 'rewritePower', 'simplifyNumberProduct', 'rewritePower'),
+					},
+					expandPowerOfSum: {
+						name: 'Expand power of sum',
+						setup: and('expandPowerOfProduct', 'simplifyNumberProduct'),
 					},
 				},
 				fractions: {

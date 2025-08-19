@@ -1,0 +1,5 @@
+{
+  "meta": {
+    "learningGoals": "<par>In this skill you learn to <term>expand brackets for a power of a sum</term>. If you see an expression like <inline-math/> you can turn this into <inline-math/>. This includes setting up the right format by taking <skill-link>powers of each of the terms</skill-link>, looking up the right coefficients, and eventually <skill-link>simplifying all individual terms</skill-link>. This skill also concerns negative powers like <inline-math/>. It only considers sums with two terms, not dealing with expansions like <inline-math/> or similar.</par>"
+  }
+}

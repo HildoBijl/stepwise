@@ -43,7 +43,8 @@
         }
       },
       "powers": {
-        "rewritePower": "Macht herschrijven"
+        "rewritePower": "Macht herschrijven",
+        "rewriteNegativePower": "Negatieve macht herschrijven"
       },
       "roots": {
         "simplifyRoot": "Wortel vereenvoudigen"
@@ -63,7 +64,9 @@
         "brackets": {
           "expandBrackets": "Haakjes uitwerken",
           "expandDoubleBrackets": "Dubbele haakjes uitwerken",
-          "pullFactorOutOfBrackets": "Factor buiten haakjes halen"
+          "pullFactorOutOfBrackets": "Factor buiten haakjes halen",
+          "expandPowerOfProduct": "Macht van product uitwerken",
+          "expandPowerOfSum": "Macht van som uitwerken"
         },
         "fractions": {
           "multiplyingDividing": {

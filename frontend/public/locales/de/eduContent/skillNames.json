@@ -43,7 +43,8 @@
         }
       },
       "powers": {
-        "rewritePower": "Potenz umschreiben"
+        "rewritePower": "Potenz umschreiben",
+        "rewriteNegativePower": "Negative Potenz umschreiben"
       },
       "roots": {
         "simplifyRoot": "Wurzel vereinfachen"
@@ -63,7 +64,9 @@
         "brackets": {
           "expandBrackets": "Klammern erweitern",
           "expandDoubleBrackets": "Doppelte Klammern erweitern",
-          "pullFactorOutOfBrackets": "Faktor aus Klammern ziehen"
+          "pullFactorOutOfBrackets": "Faktor aus Klammern ziehen",
+          "expandPowerOfProduct": "Potenz eines Produkts ausmultiplizieren",
+          "expandPowerOfSum": "Potenz einer Summe ausmultiplizieren"
         },
         "fractions": {
           "multiplyingDividing": {
