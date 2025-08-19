@@ -96,6 +96,7 @@ function CoursesPerOrganization({ organization, courses }) {
 	const classes = useCoursesStyles()
 
 	// Sort the courses alphabetically by name.
+	console.log(courses)
 	const coursesSorted = useMemo(() => courses.sort((a, b) => a.name.localeCompare(b.name)), [courses])
 
 	// On no courses, don't show the organization.
