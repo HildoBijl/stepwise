@@ -11,6 +11,8 @@ const Course = `
 		setup: JSON
 		organization: String!
 		blocks: [CourseBlock]!
+		createdAt: DateTime!
+		updatedAt: DateTime!
 `
 
 const CourseForStudent = `

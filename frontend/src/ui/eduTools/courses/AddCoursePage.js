@@ -95,9 +95,8 @@ const useCoursesStyles = makeStyles((theme) => ({
 function CoursesPerOrganization({ organization, courses }) {
 	const classes = useCoursesStyles()
 
-	// Sort the courses alphabetically by name.
-	console.log(courses)
-	const coursesSorted = useMemo(() => courses.sort((a, b) => a.name.localeCompare(b.name)), [courses])
+	// Sort the courses by creation date.
+	const coursesSorted = useMemo(() => courses.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)), [courses])
 
 	// On no courses, don't show the organization.
 	if (courses.length === 0)

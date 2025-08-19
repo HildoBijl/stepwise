@@ -15,6 +15,8 @@ export const courseFields = `
 		name
 		goals
 	}
+	createdAt
+	updatedAt
 `
 
 export const teacherFields = `
