@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 
-import { getDeepParameter } from 'step-wise/util'
+import { getDeepParameter, isObject } from 'step-wise/util'
 
 import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
@@ -50,7 +50,13 @@ export function useTextTranslator(translatorPath) {
 		// If the language file has loaded but there is no text and no fallbackText, then something is wrong. Although maybe the text is rendered later on in the page, so let's not end stuff, and only show a warning.
 		if (languageFile && text === undefined && fallbackText === undefined) {
 			console.error(`Invalid translation request: requested translation text for path "${path}" and entry "${entry}" but could not find this entry. Also no fallback text has been provided.`)
-			text = '[Translation missing]' // Show a placeholder indicating the problem.
+			return '[Translation missing]' // Show a placeholder indicating the problem.
+		}
+
+		// If the text is still an object, then we haven't zoomed in enough. No translation can be given. Show a warning.
+		if (isObject(text)) {
+			console.error(`Invalid translation request: requested translation text for path "${path}" and entry "${entry}" but this entry was still an object with multiple sub-entries. Check if your entry should be more specific with extra parameters specified.`)
+			return fallbackText || '[Translation missing]' // Show a placeholder indicating the problem.
 		}
 
 		// If the language file has not loaded yet, and there is no fallback text, then we cannot show anything yet.

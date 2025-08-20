@@ -1,4 +1,4 @@
-const { isBasicObject, applyMapping, union } = require('../../../util')
+const { isBasicObject, filterDuplicates, applyMapping, union } = require('../../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../../skillTracking')
 
 const { getExerciseId, splitExerciseId } = require('./util')
@@ -170,6 +170,7 @@ const skillStructure = {
 					expandPowerOfSum: {
 						name: 'Expand power of sum',
 						setup: and('expandPowerOfProduct', 'simplifyNumberProduct'),
+						prerequisites: ['expandDoubleBrackets', 'expandPowerOfProduct', 'simplifyNumberProduct'],
 					},
 				},
 				fractions: {
@@ -758,9 +759,11 @@ Object.values(skillTree).forEach(skill => {
 		skill.exercises = [skill.exercises]
 })
 
-// For skills that have a set-up, also define the prerequisites list.
+// For skills that have a set-up, also define the prerequisites list. If a list exists, make sure the prerequisites from the set-up are added.
 Object.values(skillTree).forEach(skill => {
-	skill.prerequisites = skill.setup ? skill.setup.getSkillList() : []
+	skill.prerequisites = skill.prerequisites || []
+	if (skill.setup)
+		skill.prerequisites = filterDuplicates([...skill.prerequisites, ...skill.setup.getSkillList()])
 })
 
 // Set up continuations.
