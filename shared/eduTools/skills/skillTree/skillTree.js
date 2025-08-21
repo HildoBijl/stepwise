@@ -163,15 +163,6 @@ const skillStructure = {
 						examples: ['twoTerms'],
 						exercises: ['twoTerms', 'threeTerms'],
 					},
-					simplifyProductOfPowers: {
-						name: 'Simplify product of powers',
-						setup: and('rewritePower', 'simplifyNumberProduct', 'rewritePower'),
-					},
-					expandPowerOfSum: {
-						name: 'Expand power of sum',
-						setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
-						prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
-					},
 				},
 				fractions: {
 					multiplyingDividing: {
@@ -222,6 +213,19 @@ const skillStructure = {
 							examples: ['sumInDenominator', 'sumInNumerator'],
 							exercises: ['sumInDenominator', 'sumInNumerator', 'sumsWithIntegers', 'sumsWithFractions'],
 						},
+					},
+				},
+				powers: {
+					simplifyProductOfPowers: {
+						name: 'Simplify product of powers',
+						setup: and('rewritePower', 'simplifyNumberProduct', 'rewritePower'),
+						examples: ['powerOfProductOfPower'],
+						exercises: ['powerOfProductOfPower', 'productOfPowerOfPower', 'productOfPowerOfProduct'],
+					},
+					expandPowerOfSum: {
+						name: 'Expand power of sum',
+						setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
+						prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
 					},
 				},
 			},

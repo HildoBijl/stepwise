@@ -64,9 +64,7 @@
         "brackets": {
           "expandBrackets": "Expand brackets",
           "expandDoubleBrackets": "Expand double brackets",
-          "pullFactorOutOfBrackets": "Pull factor out of brackets",
-          "simplifyProductOfPowers": "Simplify product of powers",
-          "expandPowerOfSum": "Expand power of sum"
+          "pullFactorOutOfBrackets": "Pull factor out of brackets"
         },
         "fractions": {
           "multiplyingDividing": {
@@ -81,6 +79,10 @@
             "addFractionsWithMultipleVariables": "Add fractions with multiple variables",
             "simplifyFractionOfFractionSumsWithMultipleVariables": "Simplify fraction of fraction sums with multiple variables"
           }
+        },
+        "powers": {
+          "simplifyProductOfPowers": "Simplify product of powers",
+          "expandPowerOfSum": "Expand power of sum"
         }
       },
       "equations": {

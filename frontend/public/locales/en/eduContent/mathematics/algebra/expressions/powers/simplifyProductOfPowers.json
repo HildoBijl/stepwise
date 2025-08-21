@@ -9,5 +9,67 @@
     "powersOfPowers": "<head>Powers of powers</head><par>Consider a <term>power of a power</term> like <inline-math/>. To simplify this, we can once more expand the power as <block-math/> Using the first rule from before (simplifying products of powers) we can write this as <block-math/> This is as simple as it can get.</par><par>The general rule here says that, for any <inline-math/>, <inline-math/> and <inline-math/>, we have <block-math/> So a power outside of brackets may be pulled inside the brackets, where it becomes a multiplication of the exponent.</par><warning>Note that the brackets in the above rule are very important. After all, <inline-math/> is very different from <inline-math/>. (The latter is often written without brackets as simply <inline-math/>, which per definition equals <inline-math/>.) To see why, compare for instance <inline-math/> with <inline-math/>.</warning>",
     "inPractice": "<head>Applying the rules in practice</head><par>In practice, you generally don't write out powers fully, but will directly apply the respective rule. Sometimes combinations of these rules are necessary. When this is the case, keep in mind that powers are calculated before products, so always start simplifying any potential powers.</par><par>For instance, consider <inline-math/>. There are products and powers. We start by simplifying the power turning <inline-math/> into <inline-math/>. So we have <block-math/> Merging number factors together simplifies this to <block-math/> Finally the two powers can be merged together into <block-math/> Work step by step, write down intermediate results, and always keep it clear for yourself which exact rule you're applying.</par>",
     "steps": "<head>The steps</head><par>To simplify a combination of products of powers, like for instance <inline-math/>, take the following steps.</par><list><item><a>Apply any of the rules to simplify a part of your expression. Rules involving powers (rules 2 and 3) usually go before rules using products (rule 1). In the example, we apply the second rule to get <inline-math/>.</a></item><item><b><skill-link>Simplify any number products</skill-link>. In the example, we can reduce <inline-math/> to <inline-math/>.</b></item><item><c>If necessary, apply more rules to simplify things further. In the example, we rewrite the product of powers (rule 1) to get <inline-math/>.</c></item></list><par>If you cannot remember the exact rules, keep in mind that a power is just a <skill-link>repeated multiplication</skill-link> and things will sort itself out.</par>"
+  },
+  "practice": {
+    "powerOfProductOfPower": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "solution": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "solution": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "step3": {
+        "problem": "Where possible, inside each term, merge products of equal factors into a power.",
+        "solution": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    },
+    "testDummy": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "solution": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "solution": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "step3": {
+        "problem": "Where possible, inside each term, merge products of equal factors into a power.",
+        "solution": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    },
+    "testStuff": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "solution": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "solution": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "step3": {
+        "problem": "Where possible, inside each term, merge products of equal factors into a power.",
+        "solution": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    },
+    "testABC": {
+      "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+      "step1": {
+        "problem": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "solution": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "step2": {
+        "problem": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "solution": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "step3": {
+        "problem": "Where possible, inside each term, merge products of equal factors into a power.",
+        "solution": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    }
   }
 }

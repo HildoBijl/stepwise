@@ -64,9 +64,7 @@
         "brackets": {
           "expandBrackets": "Haakjes uitwerken",
           "expandDoubleBrackets": "Dubbele haakjes uitwerken",
-          "pullFactorOutOfBrackets": "Factor buiten haakjes halen",
-          "simplifyProductOfPowers": "Vermenigvuldiging van machten vereenvoudigen",
-          "expandPowerOfSum": "Macht van som uitwerken"
+          "pullFactorOutOfBrackets": "Factor buiten haakjes halen"
         },
         "fractions": {
           "multiplyingDividing": {
@@ -81,6 +79,10 @@
             "addFractionsWithMultipleVariables": "Breuken met meerdere variabelen optellen",
             "simplifyFractionOfFractionSumsWithMultipleVariables": "Breuk van breuksommen met meerdere variabelen vereenvoudigen"
           }
+        },
+        "powers": {
+          "simplifyProductOfPowers": "Vermenigvuldiging van machten vereenvoudigen",
+          "expandPowerOfSum": "Macht van som uitwerken"
         }
       },
       "equations": {

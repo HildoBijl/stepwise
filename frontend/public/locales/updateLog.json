@@ -1,1 +1,168 @@
-{}
+{
+  "en": {
+    "eduContent/mathematics/algebra/expressions/brackets/expandPowerOfSum": {
+      "theory.idea": {
+        "formerText": "<head>The round-about method</head><par>First we will examine the long method of expanding the brackets. We usually would not use this method in practice because we'll get very big expressions. In this method, we write the power out fully as<block-math/>Next, we can start expanding brackets. First we expand the brackets on the left. This results in<block-math/>We then expand the second set of brackets for each term. This results in<block-math/>If we then also expand the last brackets everywhere, we get<block-math/>Note that every possible combination of the factors <inline-math/> and <inline-math/> is in there. This means that the resulting expression is huge. Luckily, we can simplify it a lot.</par><par>First we can simplify all individual terms to get<block-math/>Now we see that some terms appear multiple times. Specifically, we have three times the term <inline-math/> and three times the term <inline-math/>. We can simplify this as well! This gives us the final result<block-math/>It was a lot of work, but we got to the final result.</par>",
+        "firstUpdate": "2025-08-21T13:16:02.276Z",
+        "latestUpdate": "2025-08-21T13:16:02.276Z",
+        "latestText": "<head>The round-about method</head><par>First we will examine the long method of expanding the brackets. We usually would not use this method in practice because we'll get very big expressions. In this method, we write the power out fully as<block-math/>Next, we can start expanding brackets. First we expand the brackets on the left. This results in<block-math/>We then expand the second set of brackets for each term. This results in<block-math/>If we then also expand the last brackets everywhere, we get<block-math/>Note that every possible combination of the factors <inline-math/> and <inline-math/> is in there. This means that the resulting expression is huge. Luckily, we can simplify it a lot.</par><par>First we can simplify all individual terms to get<block-math/>Now we see that some terms appear multiple times. Specifically, we have three times the term <inline-math/> and three times the term <inline-math/>. We can simplify this as well! This gives us the final result<block-math/>It was a lot of work, but we got to the final result.</par>"
+      }
+    },
+    "eduContent/mathematics/algebra/expressions/brackets/simplifyProductOfPowers": {
+      "practice.powerOfProductOfPower.mainProblem": {
+        "formerText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.powerOfProductOfPower.step1.problem": {
+        "formerText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>).",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>)."
+      },
+      "practice.powerOfProductOfPower.step1.solution": {
+        "formerText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "practice.powerOfProductOfPower.step2.problem": {
+        "formerText": "Where possible, inside each term, merge products of numbers together into a single factor.",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "Where possible, inside each term, merge products of numbers together into a single factor."
+      },
+      "practice.powerOfProductOfPower.step2.solution": {
+        "formerText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "practice.powerOfProductOfPower.step3.problem": {
+        "formerText": "Where possible, inside each term, merge products of equal factors into a power.",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "Where possible, inside each term, merge products of equal factors into a power."
+      },
+      "practice.powerOfProductOfPower.step3.solution": {
+        "formerText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>.",
+        "firstUpdate": "2025-08-21T13:48:01.498Z",
+        "latestUpdate": "2025-08-21T13:48:01.690Z",
+        "latestText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "practice.testDummy.mainProblem": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.testDummy.step1.problem": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>)."
+      },
+      "practice.testDummy.step1.solution": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "practice.testDummy.step2.problem": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "Where possible, inside each term, merge products of numbers together into a single factor."
+      },
+      "practice.testDummy.step2.solution": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "practice.testDummy.step3.problem": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "Where possible, inside each term, merge products of equal factors into a power."
+      },
+      "practice.testDummy.step3.solution": {
+        "firstUpdate": "2025-08-21T14:02:06.138Z",
+        "latestUpdate": "2025-08-21T14:02:06.138Z",
+        "latestText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "practice.testStuff.mainProblem": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.testStuff.step1.problem": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>)."
+      },
+      "practice.testStuff.step1.solution": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "practice.testStuff.step2.problem": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "Where possible, inside each term, merge products of numbers together into a single factor."
+      },
+      "practice.testStuff.step2.solution": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "practice.testStuff.step3.problem": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "Where possible, inside each term, merge products of equal factors into a power."
+      },
+      "practice.testStuff.step3.solution": {
+        "firstUpdate": "2025-08-21T14:09:18.127Z",
+        "latestUpdate": "2025-08-21T14:09:18.127Z",
+        "latestText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      },
+      "practice.testABC.mainProblem": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible."
+      },
+      "practice.testABC.step1.problem": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "Take the factor outside of the bracket (here <inline-math/>) and multiply it separately with each of the terms within the brackets (<inline-math/> and <inline-math/>)."
+      },
+      "practice.testABC.step1.solution": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "If we set up the two multiplications, keeping a plus in-between, we wind up with <block-math/>"
+      },
+      "practice.testABC.step2.problem": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "Where possible, inside each term, merge products of numbers together into a single factor."
+      },
+      "practice.testABC.step2.solution": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <block-math/>"
+      },
+      "practice.testABC.step3.problem": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "Where possible, inside each term, merge products of equal factors into a power."
+      },
+      "practice.testABC.step3.solution": {
+        "firstUpdate": "2025-08-21T14:10:50.949Z",
+        "latestUpdate": "2025-08-21T14:10:50.949Z",
+        "latestText": "We can turn the multiplication of <inline-math/> with itself into <inline-math/>. This turns the full expression into <block-math/> This is our final answer. In short, <inline-math/>."
+      }
+    },
+    "eduContent/skillNames": {
+      "mathematics.algebra.expressions.powers.simplifyProductOfPowers": {
+        "firstUpdate": "2025-08-21T14:13:17.009Z",
+        "latestUpdate": "2025-08-21T14:13:17.009Z",
+        "latestText": "Simplify product of powers"
+      }
+    }
+  }
+}
