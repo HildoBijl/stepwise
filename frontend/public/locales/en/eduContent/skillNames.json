@@ -65,7 +65,7 @@
           "expandBrackets": "Expand brackets",
           "expandDoubleBrackets": "Expand double brackets",
           "pullFactorOutOfBrackets": "Pull factor out of brackets",
-          "expandPowerOfProduct": "Expand power of product",
+          "simplifyProductOfPowers": "Simplify product of powers",
           "expandPowerOfSum": "Expand power of sum"
         },
         "fractions": {

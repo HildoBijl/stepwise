@@ -163,14 +163,14 @@ const skillStructure = {
 						examples: ['twoTerms'],
 						exercises: ['twoTerms', 'threeTerms'],
 					},
-					expandPowerOfProduct: {
-						name: 'Expand power of product',
-						setup: and(part('rewriteNegativePower', 0.5), 'rewritePower', 'simplifyNumberProduct', 'rewritePower'),
+					simplifyProductOfPowers: {
+						name: 'Simplify product of powers',
+						setup: and('rewritePower', 'simplifyNumberProduct', 'rewritePower'),
 					},
 					expandPowerOfSum: {
 						name: 'Expand power of sum',
-						setup: and('expandPowerOfProduct', 'simplifyNumberProduct'),
-						prerequisites: ['expandDoubleBrackets', 'expandPowerOfProduct', 'simplifyNumberProduct'],
+						setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
+						prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
 					},
 				},
 				fractions: {

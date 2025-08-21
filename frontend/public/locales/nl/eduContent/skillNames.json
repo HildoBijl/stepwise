@@ -65,7 +65,7 @@
           "expandBrackets": "Haakjes uitwerken",
           "expandDoubleBrackets": "Dubbele haakjes uitwerken",
           "pullFactorOutOfBrackets": "Factor buiten haakjes halen",
-          "expandPowerOfProduct": "Macht van product uitwerken",
+          "simplifyProductOfPowers": "Vermenigvuldiging van machten vereenvoudigen",
           "expandPowerOfSum": "Macht van som uitwerken"
         },
         "fractions": {

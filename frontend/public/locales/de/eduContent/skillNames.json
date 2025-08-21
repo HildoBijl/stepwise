@@ -65,7 +65,7 @@
           "expandBrackets": "Klammern erweitern",
           "expandDoubleBrackets": "Doppelte Klammern erweitern",
           "pullFactorOutOfBrackets": "Faktor aus Klammern ziehen",
-          "expandPowerOfProduct": "Potenz eines Produkts ausmultiplizieren",
+          "simplifyProductOfPowers": "Multiplikation von Potenzen vereinfachen",
           "expandPowerOfSum": "Potenz einer Summe ausmultiplizieren"
         },
         "fractions": {
