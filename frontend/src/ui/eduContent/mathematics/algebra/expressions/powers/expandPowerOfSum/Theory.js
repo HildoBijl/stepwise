@@ -18,7 +18,8 @@ export function Theory() {
 
 		<Translation entry="idea">
 			<Head>The round-about method</Head>
-			<Par>First we will examine the long method of expanding the brackets. We usually would not use this method in practice because we'll get very big expressions. In this method, we write the power out fully as
+			<Par>First we will examine the long method of expanding the brackets. We usually would not use this method in practice because we'll get very big expressions. We will still do so here anyway, just to show you what it entails. So bear with us. We will make it easier later.</Par>
+			<Par>In this long method, we write the power out fully as
 				<BM>\left(2x + 3\right)^3 = \left(2x + 3\right) \cdot \left(2x + 3\right) \cdot \left(2x + 3\right).</BM>
 				Next, we can start expanding brackets. First we expand the brackets on the left. This results in
 				<BM>\left(2x + 3\right)^3 = 2x \cdot \left(2x + 3\right) \cdot \left(2x + 3\right) + 3 \cdot \left(2x + 3\right) \cdot \left(2x + 3\right).</BM>
@@ -27,7 +28,7 @@ export function Theory() {
 				If we then also expand the last brackets everywhere, we get
 				<BM>\left(2x + 3\right)^3 = 2x \cdot 2x \cdot 2x + 2x \cdot 2x \cdot 3 + 2x \cdot 3 \cdot 2x + 2x \cdot 3 \cdot 3 + 3 \cdot 2x \cdot 2x + 3 \cdot 2x \cdot 3 + 3 \cdot 3 \cdot 2x + 3 \cdot 3 \cdot 3.</BM>
 				Note that every possible combination of the factors <M>2x</M> and <M>3</M> is in there. This means that the resulting expression is huge. Luckily, we can simplify it a lot.</Par>
-				<Par>First we can simplify all individual terms to get
+			<Par>First we can simplify all individual terms to get
 				<BM>\left(2x + 3\right)^3 = 8x^3 + 12x^2 + 12x^2 + 18x + 12x^2 + 18x + 18x + 27.</BM>
 				Now we see that some terms appear multiple times. Specifically, we have three times the term <M>12x^2</M> and three times the term <M>18x</M>. We can simplify this as well! This gives us the final result
 				<BM>\left(2x + 3\right)^3 = 8x^3 + 3 \cdot 12x^2 + 3 \cdot 18x + 27 = 8x^3 + 36x^2 + 54x + 81.</BM>

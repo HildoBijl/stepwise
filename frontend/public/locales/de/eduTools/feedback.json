@@ -114,6 +114,7 @@
     "wrongNumberOfProductFactors": "Was hier erwartet wird, ist ein Produkt mit {expectedNumTerms} Faktoren. Deine Eingabe hat {inputNumTerms} Faktoren.",
     "errorInProductFactors": "Mit dem <counting-word/>n Faktor deiner Antwort scheint etwas nicht zu stimmen.",
 		"hasX": "Deine Antwort enthält immer noch ein <inline-math/>. Das war nicht die Absicht!",
+    "hasNumberSimplifications": "Du kannst die Zahlen in deiner Lösung noch weiter vereinfachen.",
 		"hasSumWithinProduct": "Deine Antwort enthält noch nicht aufgelöste Klammern.",
 		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
 		"hasSimilarTerms": "Dies kann noch weiter vereinfacht werden: Es gibt eine Summe mit ähnlichen Termen, die kombiniert werden können.",

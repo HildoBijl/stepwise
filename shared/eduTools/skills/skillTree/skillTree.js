@@ -175,6 +175,8 @@ const skillStructure = {
 						name: 'Expand power of sum',
 						setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
 						prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
+						examples: ['basicForm'],
+						exercises: ['basicForm'],
 					},
 				},
 				fractions: {

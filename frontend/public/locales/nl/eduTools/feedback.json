@@ -114,6 +114,7 @@
     "wrongNumberOfProductFactors": "Er wordt hier een product verwacht met {expectedNumTerms} factoren. Jouw invoer heeft {inputNumTerms} factoren.",
     "errorInProductFactors": "Er lijkt iets mis te zijn met de <counting-word/> factor van je antwoord.",
     "hasX": "Je antwoord bevat nog een <inline-math/>. Dat was niet de bedoeling!",
+    "hasNumberSimplifications": "Je kan de getallen in je oplossing nog verder vereenvoudigen.",
     "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
     "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
     "hasSimilarTerms": "Dit kan nog verder vereenvoudigd worden: er is nog een som met soortgelijke termen die samengevoegd kunnen worden.",

@@ -21,7 +21,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState(example) {
-	const a = getRandomInteger(example ? -8 : 2, 8, [-1, 0, 1])
+	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
 	return {
 		x: selectRandomly(variableSet),
 		a,

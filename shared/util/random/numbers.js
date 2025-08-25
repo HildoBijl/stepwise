@@ -1,4 +1,5 @@
 const { ensureInt } = require('../numbers')
+const { numberArray } = require('../arrays')
 
 // getRandomBoolean returns true or false, randomly. Optionally, the probability for true can be given.
 function getRandomBoolean(probability = 0.5) {
@@ -20,7 +21,7 @@ function getRandomInteger(min, max, prevent = []) {
 	prevent = Array.isArray(prevent) ? prevent : [prevent]
 
 	// Check the number of options.
-	if (max - min + 1 <= prevent.length)
+	if (max - min + 1 <= prevent.length && numberArray(min, max).every(option => prevent.includes(option)))
 		throw new Error(`Invalid getRandomInteger options: we tried to generate a random number between ${max} and ${min}, but (after taking into account a prevent-array) there were no options left.`)
 
 	// Set up a random integer number.

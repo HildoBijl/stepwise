@@ -114,6 +114,7 @@
     "wrongNumberOfProductFactors": "There was supposed to be a product with {expectedNumTerms} factors. Your response has {inputNumTerms} factors.",
     "errorInProductFactors": "There seems to be an error in the <counting-word/> factor of your solution.",
     "hasX": "Your solution still contains <inline-math/>. It's not supposed to be there anymore.",
+    "hasNumberSimplifications": "You can still simplify the numbers in your solution.",
     "hasSumWithinProduct": "Your solution has unexpanded brackets.",
     "hasSumWithinFraction": "Your solution has an unseparated fraction.",
     "hasSimilarTerms": "This can be simplified further: there is a sum with similar terms that can be merged together.",

@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, hasProductWithinPowerBase, productWithWrongFactors, equivalentExpression, nonEquivalentExpression } = expressionChecks
+const { originalExpression, hasNumberSimplifications, hasProductWithinPowerBase, productWithWrongFactors, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -57,28 +57,29 @@ const steps = [
 			return <Par><Translation>The numbers in the expression are <M>{bracketsExpanded.terms[0]}</M> and <M>{bracketsExpanded.terms[2]}</M>. Their product equals <M>{numbersSimplified.terms[0]}</M> which turns the expression into <BM>{bracketsExpanded} = {numbersSimplified}.</BM></Translation></Par>
 		},
 	},
-		{
-			Problem: () => {
-				const { variables, expression } = useSolution()
-				return <>
-					<Par><Translation>Merge the product of the powers into a single power and simplify the resulting exponent.</Translation></Par>
-					<InputSpace>
-						<Par>
-							<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
-						</Par>
-					</InputSpace>
-				</>
-			},
-			Solution: ({ expression, powersMerged, ans }) => {
-				return <Par><Translation>The two powers have the same base, so we may merge them together. When we do, we have to add up the exponents (rule 1). This turns the expression into <M>{powersMerged}</M>, which can be simplified further to the final result, <BM>{expression} = {ans}.</BM></Translation></Par>
-			},
+	{
+		Problem: () => {
+			const { variables, expression } = useSolution()
+			return <>
+				<Par><Translation>Merge the product of the powers into a single power and simplify the resulting exponent.</Translation></Par>
+				<InputSpace>
+					<Par>
+						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+					</Par>
+				</InputSpace>
+			</>
 		},
+		Solution: ({ expression, powersMerged, ans }) => {
+			return <Par><Translation>The two powers have the same base, so we may merge them together. When we do, we have to add up the exponents (rule 1). This turns the expression into <M>{powersMerged}</M>, which can be simplified further to the final result, <BM>{expression} = {ans}.</BM></Translation></Par>
+		},
+	},
 ]
 
 function getFeedback(exerciseData) {
 	const feedbackChecks = [
 		originalExpression,
 		hasProductWithinPowerBase,
+		hasNumberSimplifications,
 		productWithWrongFactors,
 		nonEquivalentExpression,
 		equivalentExpression,

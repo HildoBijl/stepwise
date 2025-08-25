@@ -39,7 +39,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 
 	// When the correct version is not a sum, something is wrong.
 	if (!correct.isSubtype(Sum))
-		throw new Error(`Invalid feedback function call: tried to check for a sum with wrong terms, but the correct answer wasn't a sum.`)
+		return // Cannot check for a non-sum.
 
 	// Ensure it's a sum.
 	const noSumResult = noSum(input)
@@ -83,7 +83,7 @@ export const productWithWrongFactors = (input, correct, solution, isCorrect) => 
 
 	// When the correct version is not a product, something is wrong.
 	if (!correct.isSubtype(Product))
-		throw new Error(`Invalid feedback function call: tried to check for a product with wrong factors, but the correct answer wasn't a product.`)
+		return // Cannot check for a non-product.
 
 	// Ensure it's a product.
 	const noProductResult = noProduct(input)
@@ -107,6 +107,8 @@ export const productWithWrongFactors = (input, correct, solution, isCorrect) => 
 export const hasVariable = (variableName) => ((input, correct, { variables }, isCorrect) => !isCorrect && input.dependsOn(variables[variableName]) && <Translation path={translationPath} entry="expression.hasX">Your solution still contains <M>{variables[variableName]}</M>. It's not supposed to be there anymore.</Translation>)
 
 export const hasX = hasVariable('x')
+
+export const hasNumberSimplifications = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input, input.simplify({ mergeSumNumbers: true, mergeProductNumbers: true, mergeProductMinuses: true, mergeInitialMinusOne: true, mergePowerNumbers: true })) && <Translation path={translationPath} entry="expression.hasNumberSimplifications">You can still simplify the numbers in your solution.</Translation>
 
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="expression.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
 
