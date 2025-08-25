@@ -18,7 +18,7 @@
         "solution": "Als we de exponent binnen de haakjes trekken (regel 2) dan moeten we hem op elke factor afzonderlijk toepassen. Dit geeft <block-math/> Merk op dat de nieuwe haakjes hier zeker wel nodig zijn."
       },
       "step2": {
-        "problem": "Vereevoudig alle producten en machten van getallen.",
+        "problem": "Vereenvoudig alle producten en machten van getallen.",
         "solution": "Door <inline-math/> terug te brengen tot <inline-math/> geldt <block-math/>"
       },
       "step3": {
@@ -44,7 +44,7 @@
         "solution": "Als we de exponent binnen de haakjes trekken (regel 2) dan moeten we hem op elke factor afzonderlijk toepassen. Dit geeft <block-math/>"
       },
       "step2": {
-        "problem": "Vereevoudig alle producten en machten van getallen.",
+        "problem": "Vereenvoudig alle producten en machten van getallen.",
         "solution": "De getallen in de uitdrukking zijn <inline-math/> en <inline-math/>. Het product hiervan is <inline-math/> wat de uitdrukking omzet naar <block-math/>"
       },
       "step3": {
