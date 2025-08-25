@@ -66,6 +66,10 @@
           "expandDoubleBrackets": "Doppelte Klammern erweitern",
           "pullFactorOutOfBrackets": "Faktor aus Klammern ziehen"
         },
+        "powers": {
+          "simplifyProductOfPowers": "Multiplikation von Potenzen vereinfachen",
+          "expandPowerOfSum": "Potenz einer Summe ausmultiplizieren"
+        },
         "fractions": {
           "multiplyingDividing": {
             "cancelFractionFactors": "Bruchfaktoren entfernen",
@@ -79,10 +83,6 @@
             "addFractionsWithMultipleVariables": "Brüche mit mehreren Variablen addieren",
             "simplifyFractionOfFractionSumsWithMultipleVariables": "Bruch mit Bruchsummen mit mehreren Variablen vereinfachen"
           }
-        },
-        "powers": {
-          "simplifyProductOfPowers": "Multiplikation von Potenzen vereinfachen",
-          "expandPowerOfSum": "Potenz einer Summe ausmultiplizieren"
         }
       },
       "equations": {

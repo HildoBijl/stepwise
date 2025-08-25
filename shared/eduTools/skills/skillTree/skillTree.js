@@ -164,6 +164,19 @@ const skillStructure = {
 						exercises: ['twoTerms', 'threeTerms'],
 					},
 				},
+				powers: {
+					simplifyProductOfPowers: {
+						name: 'Simplify product of powers',
+						setup: and('rewritePower', 'simplifyNumberProduct', 'rewritePower'),
+						examples: ['powerOfProductOfPower'],
+						exercises: ['powerOfProductOfPower', 'productOfPowerOfPower', 'productOfPowerOfProduct'],
+					},
+					expandPowerOfSum: {
+						name: 'Expand power of sum',
+						setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
+						prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
+					},
+				},
 				fractions: {
 					multiplyingDividing: {
 						cancelFractionFactors: {
@@ -172,6 +185,7 @@ const skillStructure = {
 						simplifyFractionWithVariables: {
 							name: 'Simplify fraction with variables',
 							setup: and('simplifyFraction', 'cancelFractionFactors', 'rewritePower'),
+							links: { skill: 'simplifyProductOfPowers', correlation: 0.4 },
 							examples: ['basicForm'],
 							exercises: ['higherPowers', 'multipleFactors'],
 						},
@@ -213,19 +227,6 @@ const skillStructure = {
 							examples: ['sumInDenominator', 'sumInNumerator'],
 							exercises: ['sumInDenominator', 'sumInNumerator', 'sumsWithIntegers', 'sumsWithFractions'],
 						},
-					},
-				},
-				powers: {
-					simplifyProductOfPowers: {
-						name: 'Simplify product of powers',
-						setup: and('rewritePower', 'simplifyNumberProduct', 'rewritePower'),
-						examples: ['powerOfProductOfPower'],
-						exercises: ['powerOfProductOfPower', 'productOfPowerOfPower', 'productOfPowerOfProduct'],
-					},
-					expandPowerOfSum: {
-						name: 'Expand power of sum',
-						setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
-						prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
 					},
 				},
 			},

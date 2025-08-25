@@ -66,6 +66,10 @@
           "expandDoubleBrackets": "Expand double brackets",
           "pullFactorOutOfBrackets": "Pull factor out of brackets"
         },
+        "powers": {
+          "simplifyProductOfPowers": "Simplify product of powers",
+          "expandPowerOfSum": "Expand power of sum"
+        },
         "fractions": {
           "multiplyingDividing": {
             "cancelFractionFactors": "Cancel fraction factors",
@@ -79,10 +83,6 @@
             "addFractionsWithMultipleVariables": "Add fractions with multiple variables",
             "simplifyFractionOfFractionSumsWithMultipleVariables": "Simplify fraction of fraction sums with multiple variables"
           }
-        },
-        "powers": {
-          "simplifyProductOfPowers": "Simplify product of powers",
-          "expandPowerOfSum": "Expand power of sum"
         }
       },
       "equations": {
