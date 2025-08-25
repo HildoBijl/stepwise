@@ -21,6 +21,16 @@ function hasSumWithinPowerBase(input) {
 	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Sum)))
 }
 
+// hasProductWithinPowerBase checks if there is a power whose base is a product.
+function hasProductWithinPowerBase(input) {
+	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Product)))
+}
+
+// hasPowerWithinPowerBase checks if there is a power whose base is or contains a power.
+function hasPowerWithinPowerBase(input) {
+	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Power)))
+}
+
 // hasSimilarTerms checks if a sum has similar terms that can be merged, like 4x+3+2x, which can merge 4x and 2x.
 function hasSimilarTerms(input) {
 	return !onlyOrderChanges(input.removeUseless({ groupSumTerms: true, mergeSumNumbers: true, mergeProductFactors: true }), input.elementaryClean())
@@ -83,6 +93,8 @@ module.exports = {
 	hasSumWithinProduct,
 	hasSumWithinFraction,
 	hasSumWithinPowerBase,
+	hasProductWithinPowerBase,
+	hasPowerWithinPowerBase,
 	hasSimilarTerms,
 	hasFraction,
 	hasFractionSatisfying,

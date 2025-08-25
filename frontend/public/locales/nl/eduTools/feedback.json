@@ -110,6 +110,9 @@
     "wrongNumberOfSumTerms": "Er wordt hier een optelsom verwacht met {expectedNumTerms} termen, met een plus of minteken ertussen. Jouw invoer heeft {inputNumTerms} termen.",
     "errorInSumTerm": "Er lijkt iets mis te zijn met de <counting-word/> term van je antwoord.",
     "unsimplifiedSumTerm": "Je kunt de <counting-word/> term van je antwoord nog verder vereenvoudigen.",
+    "noProduct": "Je moet je antwoord schijven als een vermenigvuldiging van factoren. Je oplossing is geen product.",
+    "wrongNumberOfProductFactors": "Er wordt hier een product verwacht met {expectedNumTerms} factoren. Jouw invoer heeft {inputNumTerms} factoren.",
+    "errorInProductFactors": "Er lijkt iets mis te zijn met de <counting-word/> factor van je antwoord.",
     "hasX": "Je antwoord bevat nog een <inline-math/>. Dat was niet de bedoeling!",
     "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
     "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
@@ -130,7 +133,8 @@
       "constantMultiple": "Je lijkt er een constante vermenigvuldiging naast te zitten."
     },
 		"hasPower": "Je antwoord heeft nog een macht. Je kunt dit simpeler schrijven.",
-    "unsimplifiedPowerMerging": "Er zijn nog steeds factoren in een product die samengevoegd kunnen worden als macht."
+    "unsimplifiedPowerMerging": "Er zijn nog steeds factoren in een product die samengevoegd kunnen worden als macht.",
+    "hasProductWithinPowerBase": "Je oplossing heeft nog onuitgewerkte haakjes bij een macht."
   },
   "equation": {
     "original": "Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.",

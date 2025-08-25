@@ -5,7 +5,7 @@ const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performCom
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
 
-// ax(bx+c) = abx + ac.
+// ax(bx+c) = abx^2 + acx.
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c']

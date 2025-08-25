@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-const { originalExpression, sumWithWrongTerms, hasSumWithinProduct, equivalentExpression, nonEquivalentExpression } = expressionChecks
+const { originalExpression, hasProductWithinPowerBase, productWithWrongFactors, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -15,7 +15,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { variables, expression } = useSolution()
 	return <>
-		<Par><Translation>Consider the expression <BM>{expression}.</BM> Expand the brackets and simplify the result as much as possible.</Translation></Par>
+		<Par><Translation>Consider the expression <BM>{expression}.</BM> Expand brackets and merge powers to simplify the result as much as possible.</Translation></Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -27,41 +27,41 @@ const Problem = () => {
 const steps = [
 	{
 		Problem: () => {
-			const { variables, sum, factor, expression } = useSolution()
+			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Take the factor outside of the bracket (here <M>{factor}</M>) and multiply it separately with each of the terms within the brackets (<M>{sum.terms[0]}</M> and <M>{sum.terms[1]}</M>).</Translation></Par>
+				<Par><Translation>Expand the outer brackets by pulling the power into the brackets. Use new brackets where needed.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="expanded" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="bracketsExpanded" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, expanded }) => {
-			return <Par><Translation>If we set up the two multiplications, keeping a plus in-between, we wind up with <BM>{expression} = {expanded}.</BM></Translation></Par>
+		Solution: ({ expression, bracketsExpanded }) => {
+			return <Par><Translation>When we pull the exponent into the brackets (rule 2) we must apply them to every factor separately. This results in <BM>{expression} = {bracketsExpanded}.</BM> Note that the new brackets here are very much needed.</Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Where possible, inside each term, merge products of numbers together into a single factor.</Translation></Par>
+				<Par><Translation>Simplify all products and powers of numbers.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="numbersMerged" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="numbersSimplified" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expanded, numbersMerged }) => {
-			return <Par><Translation>Both terms have a multiplication of two numbers. We can simplify both of them. This gives us <BM>{expanded} = {numbersMerged}.</BM></Translation></Par>
+		Solution: ({ bracketsExpanded, numbersSimplified }) => {
+			return <Par><Translation>By reducing <M>{bracketsExpanded.terms[0]}</M> to <M>{numbersSimplified.terms[0]}</M> we can write <BM>{bracketsExpanded} = {numbersSimplified}.</BM></Translation></Par>
 		},
 	},
 	{
 		Problem: () => {
 			const { variables, expression } = useSolution()
 			return <>
-				<Par><Translation>Where possible, inside each term, merge products of equal factors into a power.</Translation></Par>
+				<Par><Translation>Turn the power of a power into a single power and simplify the resulting exponent.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.polynomes} validate={ExpressionInput.validation.validWithVariables(variables)} />
@@ -69,8 +69,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, variables, numbersMerged, ans }) => {
-			return <Par><Translation>We can turn the multiplication of <M>{variables.x}</M> with itself into <M>{variables.x}^2</M>. This turns the full expression into <BM>{numbersMerged} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Translation></Par>
+		Solution: ({ expression, numbersSimplified, powersMerged, ans }) => {
+			return <Par><Translation>We can pull the outer power in <M>{numbersSimplified.terms[1]}</M> into the exponent, where it becomes a multiplication <M>{powersMerged.terms[1]}</M> (rule 3), which in turn becomes <M>{ans.terms[1]}</M>. This leads us to the final result, <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]
@@ -78,10 +78,10 @@ const steps = [
 function getFeedback(exerciseData) {
 	const feedbackChecks = [
 		originalExpression,
-		hasSumWithinProduct,
-		sumWithWrongTerms,
+		hasProductWithinPowerBase,
+		productWithWrongFactors,
 		nonEquivalentExpression,
 		equivalentExpression,
 	]
-	return getFieldInputFeedback(exerciseData, { expanded: feedbackChecks, numbersMerged: feedbackChecks, ans: feedbackChecks })
+	return getFieldInputFeedback(exerciseData, { bracketsExpanded: feedbackChecks, numbersSimplified: feedbackChecks, ans: feedbackChecks })
 }

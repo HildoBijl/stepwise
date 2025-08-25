@@ -168,7 +168,7 @@ const skillStructure = {
 					simplifyProductOfPowers: {
 						name: 'Simplify product of powers',
 						setup: and('rewritePower', 'simplifyNumberProduct', 'rewritePower'),
-						examples: ['powerOfProductOfPower'],
+						examples: ['powerOfProductOfPower', 'productOfPowerOfPower', 'productOfPowerOfProduct'],
 						exercises: ['powerOfProductOfPower', 'productOfPowerOfPower', 'productOfPowerOfProduct'],
 					},
 					expandPowerOfSum: {

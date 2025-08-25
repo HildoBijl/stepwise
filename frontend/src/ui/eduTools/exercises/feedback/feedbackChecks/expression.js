@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { Sum, Fraction, Integer, expressionChecks, expressionComparisons } from 'step-wise/CAS'
+import { Sum, Product, Fraction, Integer, expressionChecks, expressionComparisons } from 'step-wise/CAS'
 
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
@@ -72,6 +72,35 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 }
 
 /*
+ * Product and factor checks.
+ */
+
+export const noProduct = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(Product) && <Translation path={translationPath} entry="expression.noProduct">You have to write your solution as a multiplication of factors. Your solution sadly is not a product.</Translation>
+
+export const productWithWrongFactors = (input, correct, solution, isCorrect) => {
+	if (isCorrect)
+		return
+
+	// When the correct version is not a product, something is wrong.
+	if (!correct.isSubtype(Product))
+		throw new Error(`Invalid feedback function call: tried to check for a product with wrong factors, but the correct answer wasn't a product.`)
+
+	// Ensure it's a product.
+	const noProductResult = noProduct(input)
+	if (noProductResult)
+		return noProductResult
+
+	// Check if the number of terms matches.
+	if (correct.terms.length !== input.terms.length)
+		return <Translation path={translationPath} entry="expression.wrongNumberOfProductFactors">There was supposed to be a product with {{ expectedNumTerms: correct.terms.length }} factors. Your response has {{ inputNumTerms: input.terms.length }} factors.</Translation>
+
+	// Find an input term that is not in the solution.
+	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => equivalent(inputTerm, correctTerm)))
+	if (index !== -1)
+		return <Translation path={translationPath} entry="expression.errorInProductFactors">There seems to be an error in the <CountingWord ordinal={true}>{index + 1}</CountingWord> factor of your solution.</Translation>
+}
+
+/*
  * Expression form checks.
  */
 
@@ -80,6 +109,8 @@ export const hasVariable = (variableName) => ((input, correct, { variables }, is
 export const hasX = hasVariable('x')
 
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="expression.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
+
+export const hasProductWithinPowerBase = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasProductWithinPowerBase(input) || expressionChecks.hasPowerWithinPowerBase(input)) && <Translation path={translationPath} entry="expression.hasProductWithinPowerBase">Your solution has unexpanded brackets at a power.</Translation>
 
 export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <Translation path={translationPath} entry="expression.hasSumWithinFraction">Your solution has an unseparated fraction.</Translation>
 

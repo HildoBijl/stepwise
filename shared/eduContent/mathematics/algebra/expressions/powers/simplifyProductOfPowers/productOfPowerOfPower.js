@@ -1,53 +1,50 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean, count } = require('../../../../../../util')
-const { asExpression, expressionComparisons, expressionChecks, Product } = require('../../../../../../CAS')
+const { selectRandomly, getRandomInteger } = require('../../../../../../util')
+const { asExpression, expressionComparisons, expressionChecks } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
-const { hasSumWithinProduct } = expressionChecks
+const { hasPowerWithinPowerBase } = expressionChecks
 
-// ax(bx+c) = abx + ac.
+// ax^b(x^c)^d = ax^(b+cd).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c']
+const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
-	skill: 'expandBrackets',
-	steps: [null, 'simplifyNumberProduct', 'rewritePower'],
+	skill: 'simplifyProductOfPowers',
+	steps: ['rewritePower', 'rewritePower'],
 	comparison: {
-		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
-		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isSubtype(Product) && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
+		powersReduced: (input, correct) => !hasPowerWithinPowerBase(input) && equivalent(input, correct),
 		ans: onlyOrderChanges,
 	}
 }
 addSetupFromSteps(metaData)
 
-function generateState() {
+function generateState(example) {
+	const a = getRandomInteger(example ? -8 : 2, 8, [-1, 0, 1])
 	return {
 		x: selectRandomly(variableSet),
-		a: getRandomInteger(2, 6),
+		a,
 		b: getRandomInteger(2, 6),
-		c: getRandomInteger(2, 6),
-		xFirst: getRandomBoolean(), // Do we use bx+c or c+bx?
+		c: getRandomInteger(2, 5),
+		d: getRandomInteger(2, 5),
 	}
 }
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('a*x').substituteVariables(variables)
-	const sum = asExpression(state.xFirst ? 'b*x+c' : 'c+b*x').substituteVariables(variables)
-	const expression = factor.multiply(sum)
-	const expanded = expression.simplify({ expandProductsOfSums: true })
-	const numbersMerged = expanded.simplify({ mergeProductNumbers: true })
-	const ans = numbersMerged.simplify({ mergeProductFactors: true, mergeSumNumbers: true })
-	return { ...state, variables, factor, sum, expression, expanded, numbersMerged, ans }
+	const expression = asExpression('a*x^b(x^c)^d').substituteVariables(variables)
+	const powersReducedStep = expression.simplify({ removePowersWithinPowers: true })
+	const powersReduced = powersReducedStep.simplify({ mergeProductNumbers: true, mergePowerNumbers: true })
+	const powersMergedStep = powersReduced.simplify({ mergeProductFactors: true })
+	const ans = powersMergedStep.regularClean()
+	return { ...state, variables, expression, powersReducedStep, powersReduced, powersMergedStep, ans }
 }
 
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'expanded')
-		case 2:
-			return performComparison(exerciseData, 'numbersMerged')
+			return performComparison(exerciseData, 'powersReduced')
 		default:
 			return performComparison(exerciseData, 'ans')
 	}

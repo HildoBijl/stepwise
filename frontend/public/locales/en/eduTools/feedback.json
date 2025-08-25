@@ -110,6 +110,9 @@
     "wrongNumberOfSumTerms": "There was supposed to be an addition/subtraction with {expectedNumTerms} terms, each with a plus or minus sign in-between. Your response has {inputNumTerms} terms.",
     "errorInSumTerm": "There seems to be an error in the <counting-word/> term of your solution.",
     "unsimplifiedSumTerm": "You can still further simplify the <counting-word/> term of your solution.",
+    "noProduct": "You have to write your solution as a multiplication of factors. Your solution sadly is not a product.",
+    "wrongNumberOfProductFactors": "There was supposed to be a product with {expectedNumTerms} factors. Your response has {inputNumTerms} factors.",
+    "errorInProductFactors": "There seems to be an error in the <counting-word/> factor of your solution.",
     "hasX": "Your solution still contains <inline-math/>. It's not supposed to be there anymore.",
     "hasSumWithinProduct": "Your solution has unexpanded brackets.",
     "hasSumWithinFraction": "Your solution has an unseparated fraction.",
@@ -130,7 +133,8 @@
       "constantMultiple": "You seem to be off by a constant multiple."
     },
     "hasPower": "Your solution still has an exponent. You can simplify this further.",
-    "unsimplifiedPowerMerging": "There are still factors in a product that can be pulled together into a power."
+    "unsimplifiedPowerMerging": "There are still factors in a product that can be pulled together into a power.",
+    "hasProductWithinPowerBase": "Your solution has unexpanded brackets at a power."
   },
   "equation": {
     "original": "This is the original equation. You have not rewritten it yet.",

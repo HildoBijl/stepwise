@@ -108,10 +108,13 @@
 		"correct": "Der Ausdruck ist korrekt, aber du hast nicht getan, was verlangt wurde.",
 		"noSum": "Du solltest deine Antwort als eine Addition/Subtraktion von Termen schreiben. Die von dir gegebene Antwort ist keine Addition/Subtraktion.",
 		"wrongNumberOfSumTerms": "Was hier erwartet wird, ist eine Addition mit {expectedNumTerms} Termen, mit einem Plus- oder Minuszeichen dazwischen. Deine Eingabe hat {inputNumTerms} Terme.",
-		"errorInSumTerm": "Mit dem <counting-word/>n Term deiner Antwort scheint etwas nicht in Ordnung zu sein.",
+		"errorInSumTerm": "Mit dem <counting-word/>n Term deiner Antwort scheint etwas nicht zu stimmen.",
 		"unsimplifiedSumTerm": "Du kannst den <counting-word/>n Term deiner Antwort noch weiter vereinfachen.",
+    "noProduct": "Du solltest deine Antwort als Multiplikation von Faktoren schreiben. Deine Antwort ist kein Produkt.",
+    "wrongNumberOfProductFactors": "Was hier erwartet wird, ist ein Produkt mit {expectedNumTerms} Faktoren. Deine Eingabe hat {inputNumTerms} Faktoren.",
+    "errorInProductFactors": "Mit dem <counting-word/>n Faktor deiner Antwort scheint etwas nicht zu stimmen.",
 		"hasX": "Deine Antwort enthält immer noch ein <inline-math/>. Das war nicht die Absicht!",
-		"hasSumWithinProduct": "Deine Antwort hat immer noch nicht erweiterte Klammern.",
+		"hasSumWithinProduct": "Deine Antwort enthält noch nicht aufgelöste Klammern.",
 		"hasSumWithinFraction": "Deine Antwort hat immer noch nicht getrennte Brüche.",
 		"hasSimilarTerms": "Dies kann noch weiter vereinfacht werden: Es gibt eine Summe mit ähnlichen Termen, die kombiniert werden können.",
 		"hasFraction": "Deine Antwort hat immer noch Brüche. Die Idee war, alle Brüche zu entfernen.",
@@ -120,7 +123,7 @@
 		"hasXInDenominator": "Du kannst nicht mehr <inline-math/> im Nenner eines Bruchs haben.",
 		"unsimplifiedFractionNumbers": "Der Bruch kann noch weiter vereinfacht werden. Versuche, den Zähler und den Nenner durch die richtige Zahl zu dividieren.",
 		"unsimplifiedFractionFactors": "Es gibt noch Faktoren im Zähler und Nenner, die gestrichen werden können.",
-		"fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht erweiterte Klammern vorhanden.",
+		"fractionNumeratorHasSumWithinProduct": "Im Zähler sind noch nicht aufgelöste Klammern vorhanden.",
 		"wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfe Plus- und Minuszeichen.",
 		"incorrectFraction": {
 			"noFraction": "Hmm ... eigentlich wurde ein Bruch als Antwort erwartet.",
@@ -130,7 +133,8 @@
 			"constantMultiple": "Du scheinst dich um eine konstante Multiplikation zu irren."
 		},
 		"hasPower": "Deine Antwort hat eine weitere Potenz. Du kannst es einfacher schreiben.",
-    "unsimplifiedPowerMerging": "Es gibt immer noch Faktoren in einem Produkt, die als Potenz kombiniert werden können."
+    "unsimplifiedPowerMerging": "Es gibt immer noch Faktoren in einem Produkt, die als Potenz kombiniert werden können.",
+    "hasProductWithinPowerBase": "Deine Lösung enthält noch nicht aufgelöste Klammern bei einer Potenz."
 	},
 	"equation": {
 		"original": "Dies ist die ursprüngliche Gleichung. Du hast noch nichts damit gemacht.",

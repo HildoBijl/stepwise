@@ -9,5 +9,48 @@
     "powersOfPowers": "<head>Machten van machten</head><par>Bekijk een <term>macht van een macht</term> zoals <inline-math/>. Om dit te vereenvoudigen, kunnen we wederom de macht uitschrijven als <block-math/> Via de eerste regel hierboven (vereenvoudigen van producten van machten) kunnen we dit schrijven als <block-math/> Dit is zo eenvoudig als het maar kan.</par><par>De algemene regel hier zegt, voor elke <inline-math/>, <inline-math/> en <inline-math/>, dat <block-math/> Dus een macht buiten de haakjes kan binnen de haakjes getrokken worden, waar het een vermenigvuldiging van de exponent wordt.</par><warning>Merk op dat de haakjes in de bovenstaande regel cruciaal zijn. Immers is <inline-math/> iets heel anders dan <inline-math/>. (Het laatste wordt vaak zonder haakjes geschreven als <inline-math/>, wat per definitie dus <inline-math/> is.) Om in te zien waarom, kun je bijvoorbeeld <inline-math/> vergelijken me <inline-math/>.</warning>",
     "inPractice": "<head>De regels in de praktijk toepassen</head><par>In de praktijk schrijf je de machten niet vol uit, maar pas je direct de betreffende regel toe. Soms zijn combinaties van regels nodig. Houdt in dit geval in gedachten dat machten voorrang hebben op vermenigvuldigingen, dus begin altijd met het vereenvoudigen van eventuele machten.</par><par>Bekijk bijvoorbeeld <inline-math/>. Er zijn zowel producten als machten. We beginnen met het vereenvoudigen van de macht, wat <inline-math/> omzet naar <inline-math/>. Zo vinden we <block-math/> Het samenvoegen van getalfactoren vereenvoudigt dit tot <block-math/> Uiteindelijk kunnen de twee machten samengevoegd worden tot <block-math/> Werk stap voor step, schrijf je tussenresultaten op, en houdt het altijd duidelijk voor jezelf welke regel je precies toepast.</par>",
     "steps": "<head>De stappen</head><par>Om een combinatie van producten en machten te vereenvoudigen, zoals bijvoorbeeld <inline-math/>, neem je de volgende stappen.</par><list><item><a>Pas elke mogelijke regel toe om een deel van de uitdrukking te vereenvoudigen. Regels met machten (regel 2 and 3) gebruik je vaak voor regels met producten (regel 1). In het voorbeeld passen we de tweede regel toe om het terug te brengen tot <inline-math/>.</a></item><item><b><skill-link>Vereenvoudig getalproducten</skill-link>. In het voorbeeld brengen we <inline-math/> terug tot <inline-math/>.</b></item><item><c>Pas indien nodig meer regels toe om alles verder te vereenvoudigen. In het voorbeeld voegen we het product van machten samen (regel 1) om uit te komen <inline-math/>.</c></item></list><par>Als je de exacte regel niet meer weet, houdt dan in gedachten dat een macht niets meer is dan een <skill-link>herhaalde vermenigvuldiging</skill-link>, en de rest volgt dan vanzelf.</par>"
+  },
+  "practice": {
+    "powerOfProductOfPower": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit, voeg machten samen en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Werk de buitenste haakjes uit door de macht binnen de haakjes te trekken. Gebruik waar nodig nieuwe haakjes.",
+        "solution": "Als we de exponent binnen de haakjes trekken (regel 2) dan moeten we hem op elke factor afzonderlijk toepassen. Dit geeft <block-math/> Merk op dat de nieuwe haakjes hier zeker wel nodig zijn."
+      },
+      "step2": {
+        "problem": "Vereevoudig alle producten en machten van getallen.",
+        "solution": "Door <inline-math/> terug te brengen tot <inline-math/> geldt <block-math/>"
+      },
+      "step3": {
+        "problem": "Zet de macht van een macht om in een enkele macht en vereenvoudig de hieruitvolgende exponent.",
+        "solution": "We kunnen de buitenste macht bij <inline-math/> de exponent intrekken, waar het dan een vermenigvuldiging <inline-math/> wordt (regel 3). Dit is dan ook gelijk aan <inline-math/>. Dit geeft ons het eindresultaat, <block-math/>"
+      }
+    },
+    "productOfPowerOfPower": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit, voeg machten samen en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Zet de macht van een macht om in een enkele macht.",
+        "solution": "We kunnen de buitenste macht bij <inline-math/> de exponent intrekken, waar het dan een vermenigvuldiging <inline-math/> wordt (regel 3). Dit is dan ook gelijk aan <inline-math/>. Dus mogen we schrijven dat <block-math/>"
+      },
+      "step2": {
+        "problem": "Voeg het product van de machten samen tot een enkele macht en vereenvoudig de hieruitvolgende exponent.",
+        "solution": "De twee machten hebben hetzelfde grondgetal, en dus mogen we ze samenvoegen. Als we dit doen, dan moeten we de exponenten bij elkaar optellen (regel 1). Dit zet de uitdrukking om in <inline-math/>, wat verder vereenvoudigd kan worden tot het eindresultaat, <block-math/>"
+      }
+    },
+    "productOfPowerOfProduct": {
+      "mainProblem": "Bekijk de uitdrukking <block-math/> Werk de haakjes uit, voeg machten samen en vereenvoudig het resultaat zo veel als mogelijk.",
+      "step1": {
+        "problem": "Werk de buitenste haakjes uit door de macht binnen de haakjes te trekken. Gebruik waar nodig nieuwe haakjes.",
+        "solution": "Als we de exponent binnen de haakjes trekken (regel 2) dan moeten we hem op elke factor afzonderlijk toepassen. Dit geeft <block-math/>"
+      },
+      "step2": {
+        "problem": "Vereevoudig alle producten en machten van getallen.",
+        "solution": "De getallen in de uitdrukking zijn <inline-math/> en <inline-math/>. Het product hiervan is <inline-math/> wat de uitdrukking omzet naar <block-math/>"
+      },
+      "step3": {
+        "problem": "Voeg het product van de machten samen tot een enkele macht en vereenvoudig de hieruitvolgende exponent.",
+        "solution": "De twee machten hebben hetzelfde grondgetal, en dus mogen we ze samenvoegen. Als we dit doen, dan moeten we de exponenten bij elkaar optellen (regel 1). Dit zet de uitdrukking om in <inline-math/>, wat verder vereenvoudigd kan worden tot het eindresultaat, <block-math/>"
+      }
+    }
   }
 }
