@@ -1,6 +1,6 @@
 {
   "meta": {
-    "learningGoals": "<par>In deze vaardigheid leer je om <term>haakjes uit te werken bij de macht van een som</term>. Als je een uitdrukking ziet als <inline-math/>, dan kun je dit omzetten naar <inline-math/>. Dit omvat het opzetten van de juiste structuur, het <skill-link>uitrekenen van de machten van elk van de termen</skill-link>, het opzoeken van de juiste vermenigvuldigingscoëfficiënten, en het uiteindelijke <skill-link>vereenvoudigen van de losse termen</skill-link>. Deze vaardigheid betreft ook negatieve machten als <inline-math/>. Hij omvat slechts sommen met twee termen, en gaat niet in op het uitwerken van <inline-math/> of soortgelijk.</par>"
+    "learningGoals": "<par>In deze vaardigheid leer je om <term>haakjes uit te werken bij de macht van een som</term>. Als je een uitdrukking ziet als <inline-math/>, dan kun je dit omzetten naar <inline-math/>. Dit omvat het opzetten van de juiste structuur, het <skill-link>uitrekenen van de machten van elk van de termen</skill-link>, het opzoeken van de juiste vermenigvuldigingscoëfficiënten, en het uiteindelijke <skill-link>vereenvoudigen van de losse termen</skill-link>. Deze vaardigheid betreft slechts sommen met twee termen, en gaat niet in op het uitwerken van <inline-math/> of soortgelijk. Hij omvat ook geen <skill-link>negatieve machten</skill-link>.</par>"
   },
   "theory": {
     "intro": "<par>Stel dat we een uitdrukking als <inline-math/> tegenkomen. We kunnen hiervoor wederom de <term>haakjes uitwerken</term>. Laten we kijken hoe dat in z'n werk gaat.</par>",

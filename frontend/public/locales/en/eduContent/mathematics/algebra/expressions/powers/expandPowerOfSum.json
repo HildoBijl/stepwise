@@ -1,6 +1,6 @@
 {
   "meta": {
-    "learningGoals": "<par>In this skill you learn to <term>expand brackets for a power of a sum</term>. If you see an expression like <inline-math/> you can turn this into <inline-math/>. This includes setting up the right format, taking <skill-link>powers of each of the terms</skill-link>, looking up the right multiplication coefficients, and eventually <skill-link>simplifying all individual terms</skill-link>. This skill also concerns negative powers like <inline-math/>. It only considers sums with two terms, not dealing with expansions like <inline-math/> or similar.</par>"
+    "learningGoals": "<par>In this skill you learn to <term>expand brackets for a power of a sum</term>. If you see an expression like <inline-math/> you can turn this into <inline-math/>. This includes setting up the right format, taking <skill-link>powers of each of the terms</skill-link>, looking up the right multiplication coefficients, and eventually <skill-link>simplifying all individual terms</skill-link>. This skill only considers sums with two terms, not dealing with expansions like <inline-math/> or similar. It also does not consider <skill-link>negative powers</skill-link>.</par>"
   },
   "theory": {
     "intro": "<par>Suppose that we encounter an expression like <inline-math/>. We could once more <term>expand the brackets</term> for this. Let's take a look at how it works.</par>",
@@ -14,7 +14,7 @@
     "basicForm": {
       "mainProblem": "Consider the expression <block-math/> Expand the brackets and simplify the result as much as possible.",
       "step1": {
-        "problem": "Set up the terms that will appear in the final expansion. For this, take the two terms <inline-math/> and <inline-math/> from the original set of brackets, raise them to the right power, and multiply the outcomes. Do this for all possible combinations of positive exponents that add up to <inline-math/> (the original power).",
+        "problem": "Set up the terms that will appear in the final expansion. For this, take the two terms <inline-math/> and <inline-math/> from the original set of brackets, raise them to the right power, and multiply the outcomes with each other. Do this for all possible combinations of positive exponents that add up to <inline-math/> (the original exponent).",
         "solution": "We set up all the terms and simplify them as much as possible. This gives <math-list/> These are the terms that will appear in our final expansion."
       },
       "step2": {
