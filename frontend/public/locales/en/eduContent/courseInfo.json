@@ -76,13 +76,14 @@
       "description": "Via deze cursus kun je de wiskundevaardigheden bijspijkeren. Begin met haakjes en breuken en bouw op tot het oplossen van verschillende soorten vergelijkingen.",
       "blocks": {
         "0": "Haakjes uitwerken",
-        "1": "Breuken optellen",
-        "2": "Breuken vereenvoudigen",
-        "3": "Lineaire vergelijkingen oplossen",
-        "4": "Kwadratische vergelijkingen oplossen",
-        "5": "Breuken met meerdere variabelen vereenvoudigen",
-        "6": "Lineaire vergelijkingen met meerdere variabelen oplossen",
-        "7": "Stelsels van vergelijkingen oplossen"
+        "1": "Machten vereenvoudigen",
+        "2": "Breuken optellen",
+        "3": "Breuken vereenvoudigen",
+        "4": "Lineaire vergelijkingen oplossen",
+        "5": "Kwadratische vergelijkingen oplossen",
+        "6": "Breuken met meerdere variabelen vereenvoudigen",
+        "7": "Lineaire vergelijkingen met meerdere variabelen oplossen",
+        "8": "Stelsels van vergelijkingen oplossen"
       }
     }
   }
