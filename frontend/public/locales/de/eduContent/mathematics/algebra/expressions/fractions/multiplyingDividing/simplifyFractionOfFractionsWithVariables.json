@@ -9,7 +9,7 @@
   },
   "practice": {
     "basicForm": {
-      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
       "step1": {
         "problem": "Schreibe den Bruch mit Brüchen als einen einzigen Bruch.",
         "solution": "<check><on-true>Wenn ein Bruch durch einen Faktor geteilt wird, darf dieser Faktor auch zum Nenner hinzugefügt werden.</on-true><on-false>Wenn man durch einen Bruch dividiert, kann man auch mit seinem Kehrwert multiplizieren. Der Faktor außerhalb des Bruchs (der ursprüngliche Zähler) kann dann auch zum Nenner hinzugefügt werden.</on-false></check> Wir erhalten also <block-math/>"
@@ -20,7 +20,7 @@
       }
     },
     "higherPowers": {
-      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
       "step1": {
         "problem": "Schreibe den Bruch mit Brüchen als einen einzigen Bruch.",
         "solution": "Wenn man durch einen Bruch dividiert, kann man auch mit seinem Kehrwert multiplizieren. Wir erhalten also <block-math/> Diese beiden Brüche können dann zusammengefügt werden, indem man den Zähler mit dem Zähler und den Nenner mit dem Nenner multipliziert. Dies ergibt <block-math/>"
@@ -31,7 +31,7 @@
       }
     },
     "multipleFactors": {
-      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
       "step1": {
         "problem": "Schreibe den Bruch mit Brüchen als einen einzigen Bruch.",
         "solution": "Wenn man durch einen Bruch dividiert, kann man auch mit seinem Kehrwert multiplizieren. Wir erhalten also <block-math/> Diese beiden Brüche können dann zusammengefügt werden, indem man den Zähler mit dem Zähler und den Nenner mit dem Nenner multipliziert. Dies ergibt <block-math/>"

@@ -62,9 +62,9 @@
           "mergeSimilarTerms": "Gleichartige Terme zusammenfügen"
         },
         "brackets": {
-          "expandBrackets": "Klammern erweitern",
-          "expandDoubleBrackets": "Doppelte Klammern erweitern",
-          "pullFactorOutOfBrackets": "Faktor aus Klammern ziehen"
+          "expandBrackets": "Klammern ausmultiplizieren",
+          "expandDoubleBrackets": "Doppelte Klammern ausmultiplizieren",
+          "pullFactorOutOfBrackets": "Faktor ausklammern"
         },
         "powers": {
           "simplifyProductOfPowers": "Multiplikation von Potenzen vereinfachen",

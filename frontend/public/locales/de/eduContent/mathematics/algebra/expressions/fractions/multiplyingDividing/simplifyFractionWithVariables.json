@@ -11,7 +11,7 @@
   },
   "practice": {
     "basicForm": {
-      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
       "step1": {
         "problem": "Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.",
         "solution": "Die Zahlen im Bruch sind <inline-math/>. Wir können sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, wonach wir <inline-math/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <block-math/>"
@@ -22,7 +22,7 @@
       }
     },
     "multipleFactors": {
-      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
       "step1": {
         "problem": "Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.",
         "solution": "Die Zahlen im Bruch sind <inline-math/>. Wir können sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, wonach wir <inline-math/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <block-math/>"
@@ -33,7 +33,7 @@
       }
     },
     "higherPowers": {
-      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Klammern brauchen nicht erweitert werden.)",
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
       "step1": {
         "problem": "Fange zuerst mit den Zahlenfaktoren an. Vereinfache diese so weit wie möglich und lass den Rest unverändert.",
         "solution": "Die Zahlen im Bruch sind <inline-math/>. Wir können sowohl den Zähler als auch den Nenner durch <inline-math/> dividieren, wonach wir <inline-math/> erhalten. Wenn wir dies zusammen mit den (unveränderten) Variablenfaktoren aufschreiben, erhalten wir <block-math/>"

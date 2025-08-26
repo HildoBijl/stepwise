@@ -13,7 +13,7 @@
       "name": "Mathematik: Algebra Grundlagen",
       "description": "Dieser Einführungskurs führt dich durch die Grundlagen der Algebra, vom Vereinfachen von Brüchen bis zum Lösen verschiedener Arten von linearen Gleichungen.",
       "blocks": {
-        "0": "Klammern erweitern",
+        "0": "Klammern auflösen",
         "1": "Brüche addieren",
         "2": "Brüche vereinfachen",
         "3": "Lineare Gleichungen lösen",
