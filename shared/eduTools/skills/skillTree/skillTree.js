@@ -197,8 +197,9 @@ const skillStructure = {
 						simplifyFractionOfFractionsWithVariables: {
 							name: 'Simplify fraction of fractions with variables',
 							setup: and(part('rewriteNegativePower', 0.5), 'multiplyDivideFractions', 'simplifyFractionWithVariables'),
-							examples: ['basicForm'],
-							exercises: ['higherPowers', 'multipleFactors'],
+							// examples: ['basicForm'],
+							examples: ['multipleFactorsNegativePowers'],
+							exercises: ['higherPowers', 'multipleFactors', 'multipleFactorsNegativePowers'],
 						},
 					},
 					addingSubtracting: {

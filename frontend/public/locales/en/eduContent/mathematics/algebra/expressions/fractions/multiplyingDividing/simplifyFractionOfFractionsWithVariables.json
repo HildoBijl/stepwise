@@ -6,7 +6,7 @@
     "intro": "<par>We sometimes may find expressions where there are fractions inside of fractions. For instance we could encounter <inline-math/>. How can we simplify something like this?</par>",
     "singleFraction": "<head>Turn the fraction of fractions into a single fraction</head><par>The hard part of our current situation is that we have a <term>fraction inside of a fraction</term>. We know how to <skill-link>multiply and divide fractions with numbers</skill-link>, and how the factors are reordered to end up with a single fraction. When using variables, it works the same way! After all, <inline-math/> is just as much a number as (for instance) the number <inline-math/>.</par><par>Using the default rules of rewriting fractions, we may adjust our example expression to <block-math/> Note that the denominator of the denominator (here <inline-math/>) has found its way into the numerator.</par>",
     "simplifying": "<head>Simplify the fraction</head><par>Once we have done the above, we are left with a <term>single fraction</term>. We are already familiar with <skill-link>simplifying a fraction</skill-link> like this. We cross out factors, both for the numbers (a factor <inline-math/>) and for the variables (two factors <inline-math/>) to wind up with <block-math/> This is as simple as it can possibly be written.</par>",
-    "negativePowers": "<head>Deal with negative powers</head><par>It may happen that you encounter negative powers like <inline-math/> in your original fraction. For instance we may start with <inline-math/>. The key to dealing with that is to, before doing anything else, write any negative powers as a fraction. Afterwards everything happens in exactly the same way. So in this case we would have <block-math/></par>",
+    "negativePowers": "<head>Deal with negative powers</head><par>It may happen that we encounter negative powers like <inline-math/> in our original fraction. For instance we may start with <inline-math/>. The key to dealing with that is to, before doing anything else, write any negative powers as a fraction. Afterwards everything happens in exactly the same way. So in this case we would have <block-math/></par>",
     "steps": "<head>The steps</head><par>To simplify a fraction where the numerator and/or the denominator contain fractions and/or negative powers, like for instance with <inline-math/>, take the following steps.</par><list><item><a><skill-link>Rewrite any negative powers as fractions</skill-link>. This turns the example into <inline-math/>.</a></item><item><b>Use the default rules of <skill-link>multiplying and dividing fractions</skill-link> to turn everything into a single fraction. For the example we move the denominator of the denominator (here <inline-math/>) into the numerator to get <inline-math/>.</b></item><item><c><skill-link>Simplify the resulting fraction</skill-link>, canceling as many factors as possible, both numeric and with variables. For the example, we end up with <inline-math/>.</c></item></list>"
   },
   "practice": {
@@ -41,6 +41,21 @@
       "step2": {
         "problem": "Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.",
         "solution": "We can merge number products<check><on-true> and subsequently divide the numerator and the denominator by <inline-math/></on-true></check>. This gives us <block-math/> Next to that, we can cancel the factors <inline-math/> and <inline-math/> from both sides, as well as merge repeated multiplications into squares. This results in <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
+      }
+    },
+    "multipleFactorsNegativePowers": {
+      "mainProblem": "Consider the fraction <block-math/> Simplify this fraction as much as possible. (Potential brackets do not have to be expanded.)",
+      "step1": {
+        "problem": "Write the expression without any negative exponents.",
+        "solution": "Whenever we find a negative power like <inline-math/> we replace it by the corresponding fraction <inline-math/>. Doing so results in <block-math/>"
+      },
+      "step2": {
+        "problem": "Write the fraction of fractions as a single fraction.",
+        "solution": "<check><on-true>When dividing by a fraction, we can also multiply by the inverse. This results in <block-math/> <check><on-true>These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator.</on-true><on-false>We can merge this together, by pulling the multiplication on the left into the numerator.</on-false></check> This gives <block-math/></on-true><on-false>When dividing by a multiplication, this whole multiplication may also be put into the denominator. Doing so results in <block-math/></on-false></check>"
+      },
+      "step3": {
+        "problem": "Simplify the resulting fraction as much as possible, canceling both numeric and variable factors.",
+        "solution": "<check><on-true>We can first divide the numerator and the denominator by <inline-math/>. This gives us <block-math/></on-true><on-false>First we can see that there is no simplification possible for the number values.</on-false></check> Continuing with the variables, we can sort out the factors <inline-math/> and <inline-math/> to get <block-math/> This is as simplified as possible. Altogether, the final result is <block-math/>"
       }
     }
   }

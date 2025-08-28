@@ -42,6 +42,21 @@
         "problem": "Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.",
         "solution": "We kunnen getalproducten samenvoegen<check><on-true> en vervolgens de teller en de noemer door <inline-math/> delen</on-true></check>. Dit komt uit op <block-math/> Hiernaast kunnen we ook de factoren <inline-math/> en <inline-math/> van beide kanten wegstrepen, en herhaalde vermenigvuldigingen tot kwadraten samenvoegen. Dit geeft <block-math/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <block-math/>"
       }
+    },
+    "multipleFactorsNegativePowers": {
+      "mainProblem": "Bekijk de breuk <block-math/> Vereenvoudig deze breuk zo veel als mogelijk. (Haakjes hoeven niet uitgewerkt te worden.)",
+      "step1": {
+        "problem": "Schrijf de uitdrukking zonder negatieve exponenten.",
+        "solution": "Als we een negatieve macht als <inline-math/> vinden, dan vervangen we hem met de bijbehorende breuk <inline-math/>. Zo vinden we <block-math/>"
+      },
+      "step2": {
+        "problem": "Schrijf de breuk van breuken als een enkele breuk.",
+        "solution": "<check><on-true>Als we delen door een breuk, dan kunnen we ook vermenigvuldigen met het omgekeerde. Dit geeft <block-math/> <check><on-true>Deze breuken kunnen vervolgens samengetrokken worden, waarbij de teller met de teller en de noemer met de noemer vermenigvuldigd wordt.</on-true><on-false>We kunnen dit samenvoegen, door de vermenigvuldiging links binnen de teller te trekken.</on-false></check> Zo krijgen we <block-math/></on-true><on-false>Als we delen door een vermenigvuldiging, dan mag deze gehele vermenigvuldiging er ook in de noemer bijkomen. Zo krijgen we <block-math/></on-false></check>"
+      },
+      "step3": {
+        "problem": "Vereenvoudig de resulterende breuk zo veel mogelijk, waarbij je zowel factoren met getallen als met variabelen wegstreept.",
+        "solution": "<check><on-true>We kunnen eerst de teller en de noemer door <inline-math/> delen. Dit geeft <block-math/></on-true><on-false>Eerst kunnen we zien dat er geen vereenvoudigingen mogelijk zijn bij de getallen.</on-false></check> Als we vervolgens naar de variabelen kijken, zien we dat we de factoren <inline-math/> en <inline-math/> op kunnen ruimen tot <block-math/> Dit is zo eenvoudig als maar kan. Alles bij elkaar is het eindresultaat <block-math/>"
+      }
     }
   }
 }

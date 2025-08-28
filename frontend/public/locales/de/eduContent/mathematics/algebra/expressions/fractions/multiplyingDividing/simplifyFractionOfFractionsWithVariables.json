@@ -42,6 +42,21 @@
         "problem": "Vereinfache den sich ergebenden Bruch so weit wie möglich, wobei du sowohl Faktoren mit Zahlen als auch Variablen eliminierst.",
         "solution": "Wir können Nummernprodukte zusammenfassen<check><on-true> und dann den Zähler und den Nenner durch <inline-math/> dividieren</on-true></check>. Dies ergibt <block-math/> Darüber hinaus können wir auch die Faktoren <inline-math/> und <inline-math/> von beiden Seiten entfernen und wiederholte Multiplikationen zu Quadraten zusammenfassen. Das Ergebnis ist <block-math/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <block-math/>"
       }
+    },
+    "multipleFactorsNegativePowers": {
+      "mainProblem": "Betrachte den Bruch <block-math/> Vereinfache diesen Bruch so weit wie möglich. (Es ist nicht nötig, die Klammern auszumultiplizieren.)",
+      "step1": {
+        "problem": "Schreibe den Ausdruck ohne negative Exponenten auf.",
+        "solution": "Wenn wir eine negative Potenz wie <inline-math/> finden, ersetzen wir sie durch den entsprechenden Bruch <inline-math/>. So finden wir <block-math/>"
+      },
+      "step2": {
+        "problem": "Schreibe den Bruch mit Brüchen als einen einzigen Bruch.",
+        "solution": "<check><on-true>Wenn wir durch einen Bruch dividieren, können wir auch mit dem Kehrwert multiplizieren. Dies ergibt <block-math/> <check><on-true>Diese Brüche können dann zusammengezogen werden, wobei der Zähler mit dem Zähler und der Nenner mit dem Nenner multipliziert wird.</on-true><on-false>Wir können dies zusammenfassen, indem wir die Multiplikation links in den Zähler ziehen.</on-false></check> So erhalten wir <block-math/></on-true><on-false>Wenn wir durch eine Multiplikation dividieren, darf diese gesamte Multiplikation auch in den Nenner aufgenommen werden. So erhalten wir <block-math/></on-false></check>"
+      },
+      "step3": {
+        "problem": "Vereinfache den sich ergebenden Bruch so weit wie möglich, wobei du sowohl Faktoren mit Zahlen als auch Variablen eliminierst.",
+        "solution": "<check><on-true>Wir können zunächst den Zähler und den Nenner durch <inline-math/> teilen. Dies ergibt <block-math/></on-true><on-false>Zunächst einmal sehen wir, dass bei den Zahlen keine Vereinfachungen möglich sind.</on-false></check> Wenn wir uns nun die Variablen ansehen, stellen wir fest, dass wir die Faktoren <inline-math/> und <inline-math/> zusammenfassen können zu <block-math/> Einfacher geht es nicht. Alles in allem ist das Endergebnis <block-math/>"
+      }
     }
   }
 }

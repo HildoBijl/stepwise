@@ -25,9 +25,9 @@ function generateState() {
 	const factor = getRandomInteger(2, 8)
 	const a = factor * getRandomInteger(-8, 8, [-1, 0, 1])
 	const b = factor * getRandomInteger(-8, 8, [-1, 0, 1, a / factor, -a / factor])
-	const c = getRandomInteger(-5, 5)
-	const d = getRandomInteger(-5, 5, [c])
-	const e = getRandomInteger(-5, 5, [c, d])
+	const c = getRandomInteger(-4, 4)
+	const d = getRandomInteger(-4, 4, [c])
+	const e = getRandomInteger(-4, 4, [c, d])
 	const p = getRandomInteger(2, 4)
 	const q = getRandomInteger(2, 4)
 	return {
