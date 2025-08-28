@@ -114,8 +114,7 @@ const skillStructure = {
 				rewriteNegativePower: {
 					name: 'Rewrite negative power',
 					prerequisites: ['rewritePower', 'multiplyDivideFractions'],
-					examples: ['fractionToNegativeExponent'],
-					// exercises: ['negativeExponentToFraction', 'fractionToNegativeExponent'],
+					examples: ['negativeExponentToFraction', 'fractionToNegativeExponent'],
 					exercises: ['negativeExponentToFraction', 'fractionToNegativeExponent'],
 				},
 			},

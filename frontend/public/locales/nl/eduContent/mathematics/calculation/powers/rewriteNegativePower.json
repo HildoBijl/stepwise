@@ -1,5 +1,20 @@
 {
   "meta": {
     "learningGoals": "<par>In deze vaardigheid leer je wat een <term>negatieve macht</term> betekent en hoe je hem kan herschrijven naar een vorm zonder negatieve macht. Het zou intuïtief moeten worden om <inline-math/> als <inline-math/> te herschrijven, en omgekeerd.</par>"
+  },
+  "theory": {
+    "intro": "<par>We weten dat een macht een herhaalde vermenigvuldiging is: <inline-math/> kan ook <skill-link>geschreven worden</skill-link> als <inline-math/>. Maar wat zou <inline-math/> kunnen zijn?</par>",
+    "idea": "<head>De betekenis van een negatieve exponent</head><par>We gaan een gedachte-experiment doen. We beginnen met het getal <inline-math/>, wat we ook kunnen schrijven als <inline-math/>. Als we dit getal met <inline-math/> vermenigvuldigen, dan krijgen we <inline-math/> wat ook <inline-math/> is. En als we dit nog eens doen, dan krijgen we <inline-math/> wat ook <inline-math/> is. Elke keer dat we we ons getal met het grondgetal <inline-math/> vermenigvuldigen, wordt de exponent één groter!</par><par>Vervolgens gaan we het omgekeerde doen. We beginnen met <inline-math/> en delen dit door <inline-math/>. Als we dit doen valt een factor <inline-math/> weg en blijven we over met <inline-math/>. Als we dit nog eens doen, dan krijgen we <inline-math/>. Nog een keer geeft <inline-math/>. Merk op dat een getal tot de macht één gelijk is aan zichzelf. En als we nog eens door twee delen, dan krijgen we <inline-math/>. Een getal tot de macht nul is altijd gelijk aan één.</par><par>Wat als we dit patroon verder doorzetten? Als we nog eens door twee delen, dan neemt de exponent verder af, en krijgen we dus <inline-math/>. Nogmaals delen door twee zet dit om naar <inline-math/>. Merk op dat we de <skill-link>breuk van breuken herschreven hebben</skill-link>. Nog eens delen door twee geeft <inline-math/>. Gebaseerd hierop zien we een patroon dat toont wat een negatieve exponent eigenlijk betekent.</par>",
+    "rule": "<head>De regel</head><par>We zien dat een negatieve macht zoals <inline-math/> eigenlijk hetzelfde is als een breuk <inline-math/>. Algemeen gezien geldt, voor elke getallen <inline-math/> en <inline-math/>, dat <block-math/> Aangezien breuken meestal makkelijker mee te werken zijn dan negatieve machten, is het meestal handig bij negatieve exponenten om alles gelijk om te zetten naar een breuk. Er zijn echter ook gevallen waar het juist handig is om het omgekeerde te doen.</par><warning>De terminologie hier is soms wat verwarrend. In het getal <inline-math/> it het de <term>exponent</term> die negatief is. In algemeen spraakgebruik noemen mensen dit echter ook wel een negatieve <term>macht</term>. Dit komt door het ambigue gebruik van het woord \"macht\" wat soms naar alleen het exponent verwijst en soms naar het geheel. Dus als we het over een negatieve macht hebben, bedoelen we meestal niet een macht die negatief is zoals <inline-math/>, maar een macht met een negatieve exponent zoals <inline-math/>.</warning>"
+  },
+  "practice": {
+    "negativeExponentToFraction": {
+      "problem": "Herschrijf het getal <inline-math/> naar een vorm zonder negatieve exponent.",
+      "solution": "Volgens de regel <inline-math/> mogen we het getal direct herschrijven naar <block-math/> Eventueel kunnen we dit nog verder vereenvoudigen naar <inline-math/>."
+    },
+    "fractionToNegativeExponent": {
+      "problem": "Herschrijf het getal <inline-math/> to a form without a fraction.",
+      "solution": "Volgens de regel <inline-math/> mogen we de breuk direct herschrijven als negatieve macht via <block-math/>"
+    }
   }
 }

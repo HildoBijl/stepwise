@@ -1,5 +1,20 @@
 {
   "meta": {
     "learningGoals": "<par>In dieser Kompetenz lernst du, was eine <term>negative Potenz</term> bedeutet und wie man sie in eine Form ohne negative Potenz umschreiben kann. Es sollte intuitiv werden, <inline-math/> als <inline-math/> umzuschreiben und umgekehrt.</par>"
+  },
+  "theory": {
+    "intro": "<par>Wir wissen, dass eine Potenz eine wiederholte Multiplikation ist: <inline-math/> kann auch <skill-link>geschrieben werden</skill-link> wie <inline-math/>. Aber was könnte <inline-math/> sein?</par>",
+    "idea": "<head>Die Bedeutung eines negativen Exponenten</head><par>Wir machen ein Gedankenexperiment. Wir beginnen mit der Zahl <inline-math/>, die wir auch als <inline-math/> schreiben können. Wenn wir diese Zahl mit <inline-math/> multiplizieren, erhalten wir <inline-math/>, was ebenfalls <inline-math/> ist. Und wenn wir dies noch einmal tun, erhalten wir <inline-math/>, was ebenfalls <inline-math/> ist. Jedes Mal, wenn wir unsere Zahl mit der Grundzahl <inline-math/> multiplizieren, wird der Exponent um eins größer!</par><par>Als Nächstes machen wir das Gegenteil. Wir beginnen mit <inline-math/> und dividieren dies durch <inline-math/>. Dabei fällt ein Faktor <inline-math/> weg und wir erhalten <inline-math/>. Wenn wir dies noch einmal tun, erhalten wir <inline-math/>. Noch einmal ergibt <inline-math/>. Beachte, dass eine Zahl hoch eins gleich sich selbst ist. Und wenn wir noch einmal durch zwei teilen, erhalten wir <inline-math/>. Eine Zahl hoch null ist immer gleich eins.</par><par>Was passiert, wenn wir dieses Muster fortsetzen? Wenn wir erneut durch zwei teilen, nimmt der Exponent weiter ab, und wir erhalten <inline-math/>. Durch erneutes Teilen durch zwei wird dies zu <inline-math/>. Beachte, dass wir den <skill-link>Bruch von Brüchen umgeschrieben haben</skill-link>. Durch erneutes Teilen durch zwei erhalten wir <inline-math/>. Daraus ergibt sich ein Muster, das zeigt, was ein negativer Exponent eigentlich bedeutet.</par>",
+    "rule": "<head>Die Regel</head><par>Wir sehen, dass eine negative Potenz wie <inline-math/> eigentlich dasselbe ist wie ein Bruch <inline-math/>. Allgemein gilt für alle Zahlen <inline-math/> und <inline-math/>, dass <block-math/> Da Brüche in der Regel einfacher zu handhaben sind als negative Potenzen, ist es bei negativen Exponenten meist sinnvoll, alles sofort in einen Bruch umzuwandeln. Es gibt jedoch auch Fälle, in denen es sinnvoll ist, genau das Gegenteil zu tun.</par><warning>Die Terminologie ist hier manchmal etwas verwirrend. In der Zahl <inline-math/> ist es der <term>Exponent</term>, der negativ ist. Im allgemeinen Sprachgebrauch wird dies jedoch auch als negative <term>Potenz</term> bezeichnet. Dies liegt an der mehrdeutigen Verwendung des Wortes \"Potenz\", das sich manchmal nur auf den Exponenten und manchmal auf das Ganze bezieht. Wenn wir also von einer negativen Potenz sprechen, meinen wir in der Regel nicht eine Potenz, die negativ ist wie <inline-math/>, sondern eine Potenz mit einem negativen Exponenten wie <inline-math/>.</warning>"
+  },
+  "practice": {
+    "negativeExponentToFraction": {
+      "problem": "Schreibe die Zahl <inline-math/> in eine Form ohne negativen Exponenten um.",
+      "solution": "Gemäß der Regel <inline-math/> dürfen wir die Zahl direkt umschreiben zu <block-math/> Optional können wir dies weiter vereinfachen zu <inline-math/>."
+    },
+    "fractionToNegativeExponent": {
+      "problem": "Schreibe die Zahl <inline-math/> in eine Form ohne Bruch um.",
+      "solution": "Gemäß der Regel <inline-math/> können wir den Bruch direkt als negative Potenz umschreiben mittels <block-math/>"
+    }
   }
 }
