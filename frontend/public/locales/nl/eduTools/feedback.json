@@ -116,6 +116,8 @@
     "hasX": "Je antwoord bevat nog een <inline-math/>. Dat was niet de bedoeling!",
     "hasNumberSimplifications": "Je kan de getallen in je oplossing nog verder vereenvoudigen.",
     "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
+    "hasProductWithinPowerBase": "Je oplossing heeft nog onuitgewerkte haakjes bij een macht.",
+    "hasNegativeExponent": "De macht <inline-math/> in je invoer heeft een negatieve exponent.",
     "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
     "hasSimilarTerms": "Dit kan nog verder vereenvoudigd worden: er is nog een som met soortgelijke termen die samengevoegd kunnen worden.",
     "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
@@ -134,8 +136,7 @@
       "constantMultiple": "Je lijkt er een constante vermenigvuldiging naast te zitten."
     },
 		"hasPower": "Je antwoord heeft nog een macht. Je kunt dit simpeler schrijven.",
-    "unsimplifiedPowerMerging": "Er zijn nog steeds factoren in een product die samengevoegd kunnen worden als macht.",
-    "hasProductWithinPowerBase": "Je oplossing heeft nog onuitgewerkte haakjes bij een macht."
+    "unsimplifiedPowerMerging": "Er zijn nog steeds factoren in een product die samengevoegd kunnen worden als macht."
   },
   "equation": {
     "original": "Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.",

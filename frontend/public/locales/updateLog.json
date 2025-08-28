@@ -17,6 +17,30 @@
         "firstUpdate": "2025-08-28T08:18:32.071Z",
         "latestUpdate": "2025-08-28T08:18:32.071Z",
         "latestText": "<head>The rule</head><par>In general, we see that a negative exponent like <inline-math/> is exactly the same as a fraction <inline-math/>. More generally, for any numbers <inline-math/> and <inline-math/> we have <block-math/> Since fractions are usually easier to work with than negative exponents, it is usually wise, when you encounter a negative exponent, to directly rewrite is as a fraction. However, there are cases where the opposite is beneficial too.</par><warning>The terminology here is sometimes a bit confusing. In the expression <inline-math/> it is the <term>exponent</term> that is negative. However, in basic speech people sometimes also call this a negative <term>power</term>. This is due to the ambiguous use of the word \"power\" which sometimes refers to the exponent and sometimes to the whole thing. So when we say a negative power, we usually don't mean a power that's negative like <inline-math/>, but we mean a power with a negative exponent like <inline-math/>.</warning>"
+      },
+      "practice.negativeExponentToFraction.problem": {
+        "formerText": "<par>Enter the expression <inline-math/> exactly as shown.</par><input-space><par><expression-input><label>Enter the expression here</label><prelabel><inline-math/></prelabel></expression-input></par></input-space>",
+        "firstUpdate": "2025-08-28T08:36:04.538Z",
+        "latestUpdate": "2025-08-28T09:47:21.754Z",
+        "latestText": "<par>Rewrite the number <inline-math/> to a form without a negative exponent.</par><input-space><par><expression-input><prelabel><inline-math/></prelabel></expression-input></par></input-space>"
+      },
+      "practice.negativeExponentToFraction.solution": {
+        "formerText": "<par>There isn't much to show for a solution. You simply have to type <inline-math/> into the input field, without any changes. (A multiplication sign does not matter; that one is generally implicit anyway.) You can use either a computer keyboard or the Step-Wise-internal keyboard for smartphones, or a combination of both.</par>",
+        "firstUpdate": "2025-08-28T08:36:04.538Z",
+        "latestUpdate": "2025-08-28T09:59:26.297Z",
+        "latestText": "<par>According to the rule <inline-math/> we may directly rewrite the number to <block-math/> Optionally, we may simplify this further to <inline-math/>.</par>"
+      },
+      "practice.fractionToNegativeExponent.problem": {
+        "formerText": "<par>Rewrite the number <inline-math/> to a form without a fraction.</par><input-space><par><expression-input><prelabel><inline-math/></prelabel></expression-input></par></input-space>",
+        "firstUpdate": "2025-08-28T10:15:08.775Z",
+        "latestUpdate": "2025-08-28T10:15:08.879Z",
+        "latestText": "<par>Rewrite the number <inline-math/> to a form without a fraction.</par><input-space><par><expression-input><prelabel><inline-math/></prelabel></expression-input></par></input-space>"
+      },
+      "practice.fractionToNegativeExponent.solution": {
+        "formerText": "<par>According to the rule <inline-math/> we may directly rewrite the fraction using a negative exponent as <block-math/></par>",
+        "firstUpdate": "2025-08-28T10:15:08.775Z",
+        "latestUpdate": "2025-08-28T10:15:08.879Z",
+        "latestText": "<par>According to the rule <inline-math/> we may directly rewrite the fraction using a negative exponent as <block-math/></par>"
       }
     }
   }

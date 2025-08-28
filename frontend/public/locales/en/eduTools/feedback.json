@@ -116,6 +116,8 @@
     "hasX": "Your solution still contains <inline-math/>. It's not supposed to be there anymore.",
     "hasNumberSimplifications": "You can still simplify the numbers in your solution.",
     "hasSumWithinProduct": "Your solution has unexpanded brackets.",
+    "hasProductWithinPowerBase": "Your solution has unexpanded brackets at a power.",
+    "hasNegativeExponent": "The power <inline-math/> in your input has a negative exponent.",
     "hasSumWithinFraction": "Your solution has an unseparated fraction.",
     "hasSimilarTerms": "This can be simplified further: there is a sum with similar terms that can be merged together.",
     "hasFraction": "Your solution still has a fraction. The idea was to remove all fractions.",
@@ -134,8 +136,7 @@
       "constantMultiple": "You seem to be off by a constant multiple."
     },
     "hasPower": "Your solution still has an exponent. You can simplify this further.",
-    "unsimplifiedPowerMerging": "There are still factors in a product that can be pulled together into a power.",
-    "hasProductWithinPowerBase": "Your solution has unexpanded brackets at a power."
+    "unsimplifiedPowerMerging": "There are still factors in a product that can be pulled together into a power."
   },
   "equation": {
     "original": "This is the original equation. You have not rewritten it yet.",

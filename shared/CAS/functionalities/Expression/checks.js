@@ -31,6 +31,11 @@ function hasPowerWithinPowerBase(input) {
 	return input.recursiveSome(term => term.isSubtype(Power) && term.base.recursiveSome(term => term.isSubtype(Power)))
 }
 
+// hasNegativeExponent checks if there is a power whose exponent is negative. (It does not recognize a^(-b).)
+function hasNegativeExponent(input) {
+	return input.recursiveSome(term => term.isSubtype(Power) && term.exponent.isNegative())
+}
+
 // hasSimilarTerms checks if a sum has similar terms that can be merged, like 4x+3+2x, which can merge 4x and 2x.
 function hasSimilarTerms(input) {
 	return !onlyOrderChanges(input.removeUseless({ groupSumTerms: true, mergeSumNumbers: true, mergeProductFactors: true }), input.elementaryClean())
@@ -95,6 +100,7 @@ module.exports = {
 	hasSumWithinPowerBase,
 	hasProductWithinPowerBase,
 	hasPowerWithinPowerBase,
+	hasNegativeExponent,
 	hasSimilarTerms,
 	hasFraction,
 	hasFractionSatisfying,

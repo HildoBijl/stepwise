@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { Sum, Product, Fraction, Integer, expressionChecks, expressionComparisons } from 'step-wise/CAS'
+import { Sum, Product, Fraction, Power, Integer, expressionChecks, expressionComparisons } from 'step-wise/CAS'
 
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
@@ -113,6 +113,8 @@ export const hasNumberSimplifications = (input, correct, solution, isCorrect) =>
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="expression.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
 
 export const hasProductWithinPowerBase = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasProductWithinPowerBase(input) || expressionChecks.hasPowerWithinPowerBase(input)) && <Translation path={translationPath} entry="expression.hasProductWithinPowerBase">Your solution has unexpanded brackets at a power.</Translation>
+
+export const hasNegativeExponent = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasNegativeExponent(input) && <Translation path={translationPath} entry="expression.hasNegativeExponent">The power <M>{input.find(term => term.isSubtype(Power) && term.exponent.isNegative())}</M> in your input has a negative exponent.</Translation>)
 
 export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <Translation path={translationPath} entry="expression.hasSumWithinFraction">Your solution has an unseparated fraction.</Translation>
 
