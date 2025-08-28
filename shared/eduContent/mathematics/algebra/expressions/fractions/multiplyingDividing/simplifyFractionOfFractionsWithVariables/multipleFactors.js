@@ -25,10 +25,10 @@ function generateState() {
 	const b = getRandomInteger(-12, 12, [-1, 0, 1, a])
 	const c = getRandomInteger(-12, 12, [-1, 0, 1, a, b])
 	const d = getRandomInteger(-12, 12, [-1, 0, 1, a, b, c])
-	const e = getRandomInteger(-3, 3)
-	const f = getRandomInteger(-3, 3, [e])
-	const g = getRandomInteger(-3, 3, [e, f])
-	const h = getRandomInteger(-3, 3, [e, f, g])
+	const e = getRandomInteger(-5, 5)
+	const f = getRandomInteger(-5, 5, [e])
+	const g = getRandomInteger(-5, 5, [e, f])
+	const h = getRandomInteger(-5, 5, [e, f, g])
 
 	return {
 		x: selectRandomly(variableSet),
