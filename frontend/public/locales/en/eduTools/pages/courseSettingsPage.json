@@ -30,7 +30,7 @@
       "label": "Add a teacher",
       "noneSelected": "None selected",
       "note": "Adding a teacher will grant them access to the work and progress of all students within this course.",
-      "button": "Add {name} as teacher to this course"
+      "button": "Add {name} as teacher"
     },
     "unsubscribe": {
       "title": "Unsubscribe",
