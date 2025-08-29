@@ -1,6 +1,7 @@
+import { useCallback } from 'react'
 import { useMutation, gql } from '@apollo/client'
 
-import { courseFields, courseForStudentFields, MY_COURSES } from './queries'
+import { courseFields, courseForStudentFields, courseForTeacherFields, MY_COURSES } from './queries'
 
 export function useCreateCourseMutation() {
 	const [createCourse, data] = useMutation(CREATE_COURSE)
@@ -71,6 +72,19 @@ const UNSUBSCRIBE_FROM_COURSE = gql`
 	mutation unsubscribeFromCourse($courseId: ID!) {
 		unsubscribeFromCourse(courseId: $courseId) {
 			${courseForStudentFields}
+		}
+	}
+`
+
+export function usePromoteToTeacherMutation(courseId) {
+	const [promote, data] = useMutation(PROMOTE_TO_TEACHER)
+	const promoteToTeacher = useCallback(userId => promote({ variables: { courseId, userId } }), [promote, courseId])
+	return [promoteToTeacher, data]
+}
+const PROMOTE_TO_TEACHER = gql`
+	mutation promoteToTeacher($courseId: ID!, $userId: ID!) {
+		promoteToTeacher(courseId: $courseId, userId: $userId) {
+			${courseForTeacherFields}
 		}
 	}
 `

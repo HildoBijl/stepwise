@@ -40,6 +40,7 @@ const schema = gql`
 	extend type Mutation {
 		subscribeToCourse(courseId: ID!): CourseForStudent!
 		unsubscribeFromCourse(courseId: ID!): CourseForStudent!
+		promoteToTeacher(courseId: ID!, userId: ID!): CourseForTeacher!
 		createCourse(input: CreateCourseInput!): CourseForStudent!
 		updateCourse(courseId: ID!, input: UpdateCourseInput!): CourseForStudent!
 		deleteCourse(courseId: ID!): Boolean!

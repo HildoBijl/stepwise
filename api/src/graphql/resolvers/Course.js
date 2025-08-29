@@ -133,10 +133,9 @@ const resolvers = {
 			return course
 		},
 
-		unsubscribeFromCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
+		unsubscribeFromCourse: async (_source, { courseId, userId }, { db, getCurrentUserId }) => {
 			// Get the course, ensuring it exists.
-			const userId = getCurrentUserId()
-			const course = await getCourseByIdForUser(db, courseId, userId)
+			const course = await getCourseByIdForUser(db, code, getCurrentUserId(), true)
 			if (!course)
 				throw new Error(`Missing course: could not unsubscribe the user from the course with code "${courseCode}" since this course does not seem to exist.`)
 
@@ -144,6 +143,24 @@ const resolvers = {
 			await course.removeParticipant(userId)
 			course.courseSubscription = undefined
 			return course
+		},
+
+		promoteToTeacher: async (_source, { courseId, userId }, { db, getCurrentUserId }) => {
+			// Get the course, ensuring it exists and that the current user is a teacher. (Don't include student data.)
+			const course = await getCourseByIdForUser(db, courseId, getCurrentUserId(), true, false)
+			if (!course)
+				throw new Error(`Promotion failed: could not promote a user for the course with ID "${courseId}". Either the course does not exist or the user does not have the rights to perform this action.`)
+
+			// Update the course subscription.
+			const [updatedCount] = await db.CourseSubscription.update(
+				{ role: 'teacher' },
+				{ where: { courseId, userId } },
+			)
+			if (updatedCount === 0)
+				throw new Error(`Promotion failed: it seems that the user with userId "${userId}" is not subscribed to the course with courseId "${courseId}" and so cannot be promoted to teacher.`)
+
+			// Reload the course, but this time including student data.
+			return await getCourseByIdForUser(db, courseId, getCurrentUserId(), true)
 		},
 	},
 }

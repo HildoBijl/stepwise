@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select'
 import Button from '@material-ui/core/Button'
 import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
+import { usePromoteToTeacherMutation } from 'api'
 import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, Info, Term } from 'ui/components'
 
@@ -74,6 +75,16 @@ function AddTeacherForm({ course }) {
 	const handleChange = (event) => setNewTeacher(event.target.value)
 	const selectedStudent = newTeacher && students.find(student => student.id === newTeacher)
 
+	// Set up the handler to confirm the addition of the teacher.
+	const [promoteToTeacher] = usePromoteToTeacherMutation(course.id)
+	const addTeacher = useCallback(() => {
+		setNewTeacher(newTeacher => {
+			if (newTeacher)
+				promoteToTeacher(newTeacher)
+			return '' // Clear the dropdown list.
+		})
+	}, [setNewTeacher, promoteToTeacher])
+
 	// Render the form.
 	return <>
 		<Par>You can add a new teacher to this course. Note that this will grant the teacher access to the work and progress of all students within this course.</Par>
@@ -85,7 +96,7 @@ function AddTeacherForm({ course }) {
 			</Select>
 		</FormControl>
 		{selectedStudent ? <Button variant="contained" color="primary"
-			startIcon={<SubscribeIcon />} className={classes.button}>Add {selectedStudent.name} as teacher to this course</Button> : null}
+			startIcon={<SubscribeIcon />} className={classes.button} onClick={addTeacher}>Add {selectedStudent.name} as teacher to this course</Button> : null}
 	</>
 }
 
