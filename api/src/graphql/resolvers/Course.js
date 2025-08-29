@@ -133,9 +133,10 @@ const resolvers = {
 			return course
 		},
 
-		unsubscribeFromCourse: async (_source, { courseId, userId }, { db, getCurrentUserId }) => {
+		unsubscribeFromCourse: async (_source, { courseId }, { db, getCurrentUserId }) => {
 			// Get the course, ensuring it exists.
-			const course = await getCourseByIdForUser(db, code, getCurrentUserId(), true)
+			const userId = getCurrentUserId()
+			const course = await getCourseByIdForUser(db, courseId, userId)
 			if (!course)
 				throw new Error(`Missing course: could not unsubscribe the user from the course with code "${courseCode}" since this course does not seem to exist.`)
 

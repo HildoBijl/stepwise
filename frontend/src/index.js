@@ -55,8 +55,20 @@ const apolloClient = new ApolloClient({
 				fields: {
 					myGroups: { merge: false },
 					skills: { merge: false },
-				}
-			}
+				},
+			},
+			CourseForStudent: { // Define custom merge functions to prevent warnings from Apollo on updates.
+				fields: {
+					students: { merge(existing, incoming) { return incoming } },
+					teachers: { merge(existing, incoming) { return incoming } },
+				},
+			},
+			CourseForTeacher: {
+				fields: {
+					students: { merge(existing, incoming) { return incoming } },
+					teachers: { merge(existing, incoming) { return incoming } },
+				},
+			},
 		},
 	}),
 })

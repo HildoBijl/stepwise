@@ -13,7 +13,7 @@ import { Head, Par, Info, Term } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
-import { useCourseForTeacher, CourseTeachers } from './components'
+import { useCourseForTeacher, CourseTeachers, UnsubscribeButton } from './components'
 
 const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = 'teachers'
@@ -23,7 +23,7 @@ export function CourseSettingsPageForTeacher() {
 	return <>
 		<StudentView course={course} />
 		<AddTeacher course={course} />
-		<Unregister course={course} />
+		<Unsubscribe course={course} />
 	</>
 }
 
@@ -100,12 +100,14 @@ function AddTeacherForm({ course }) {
 	</>
 }
 
-function Unregister({ course }) {
-	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
-			<Head>Unregister from this course</Head>
-			<Par>You can fully remove yourself from this course. This will revoke your teacher access. The only way to get this back is for another teacher to add you again.</Par>
-			<Par>ToDo: add resign option.</Par>
-		</TranslationSection>
-	</TranslationFile>
+function Unsubscribe({ course }) {
+	return <>
+		<TranslationFile path={translationPath}>
+			<TranslationSection entry={translationSection}>
+				<Head>Unsubscribe from this course</Head>
+				<Par>You can fully remove yourself from this course. This will revoke your teacher access. The only way to get this back is to reenroll for the course and have another teacher promote you to teacher again.</Par>
+			</TranslationSection>
+		</TranslationFile>
+		<UnsubscribeButton course={course} />
+	</>
 }

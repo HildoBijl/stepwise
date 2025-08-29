@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
 import { skillTree } from 'step-wise/eduTools'
 
-import { useCourseForTeacherQuery } from 'api'
+import { useCourseForTeacherQuery, useUnsubscribeFromCourseMutation } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
 import { Head, Par, List } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -46,6 +48,17 @@ export function CourseLearningGoals({ course }) {
 				const skill = skillTree[goalId]
 				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.path.join('.')}.${skill.id}`}>{skill.name}</Translation></Link>
 			})} />
+		</TranslationSection>
+	</TranslationFile>
+}
+
+export function UnsubscribeButton({ course }) {
+	const [unsubscribeFromCourse] = useUnsubscribeFromCourseMutation()
+	return <TranslationFile path={translationPath}>
+		<TranslationSection entry={translationSection}>
+			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => unsubscribeFromCourse(course.id)} color="secondary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
+				<Translation entry="unsubscribe.button">Unsubscribe from this course</Translation>
+			</Button>
 		</TranslationSection>
 	</TranslationFile>
 }
