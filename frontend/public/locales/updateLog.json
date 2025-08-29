@@ -1,1 +1,78 @@
-{}
+{
+  "en": {
+    "eduTools/pages/courseSettingsPage": {
+      "teachers.teachers.title": {
+        "formerText": "Teachers",
+        "firstUpdate": "2025-08-29T08:47:54.946Z",
+        "latestUpdate": "2025-08-29T08:47:54.949Z",
+        "latestText": "Teachers"
+      },
+      "teachers.teachers.description": {
+        "formerText": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>",
+        "firstUpdate": "2025-08-29T08:47:54.946Z",
+        "latestUpdate": "2025-08-29T08:47:54.949Z",
+        "latestText": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>"
+      },
+      "students.subscribe.title": {
+        "formerText": "Subscribe",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "Subscribe"
+      },
+      "students.subscribe.description": {
+        "formerText": "<check><on-true>Subscribing to this course adds it to your course list.</on-true><on-false>Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</on-false></check>",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "<check><on-true>Subscribing to this course adds it to your course list.</on-true><on-false>Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</on-false></check>"
+      },
+      "students.subscribe.button": {
+        "formerText": "Subscribe to this course",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "Subscribe to this course"
+      },
+      "students.teachers.title": {
+        "formerText": "Teachers",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "Teachers"
+      },
+      "students.teachers.description": {
+        "formerText": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>"
+      },
+      "students.learningGoals.title": {
+        "formerText": "Learning goals",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "Learning goals"
+      },
+      "students.learningGoals.description": {
+        "formerText": "The course has the following final <count-check><one>goal</one><not-one>goals</not-one></count-check>.",
+        "firstUpdate": "2025-08-29T08:52:13.648Z",
+        "latestUpdate": "2025-08-29T08:52:13.659Z",
+        "latestText": "The course has the following final <count-check><one>goal</one><not-one>goals</not-one></count-check>."
+      },
+      "students.unsubscribe.title": {
+        "formerText": "Unsubscribe",
+        "firstUpdate": "2025-08-29T08:54:25.718Z",
+        "latestUpdate": "2025-08-29T08:54:25.733Z",
+        "latestText": "Unsubscribe"
+      },
+      "students.unsubscribe.description": {
+        "formerText": "<check><on-true>Unsubscribing from this course removes it from your course list. You can always resubscribe.</on-true><on-false>Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</on-false></check>",
+        "firstUpdate": "2025-08-29T08:54:25.718Z",
+        "latestUpdate": "2025-08-29T08:54:25.733Z",
+        "latestText": "<check><on-true>Unsubscribing from this course removes it from your course list. You can always resubscribe.</on-true><on-false>Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</on-false></check>"
+      },
+      "students.unsubscribe.button": {
+        "formerText": "Unsubscribe from this course",
+        "firstUpdate": "2025-08-29T08:54:25.718Z",
+        "latestUpdate": "2025-08-29T08:54:25.733Z",
+        "latestText": "Unsubscribe from this course"
+      }
+    }
+  }
+}

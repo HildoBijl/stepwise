@@ -5,9 +5,9 @@ import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { useCourseData } from '../components'
-import { CoursePageForUnsubscribedUser } from './CoursePageForUnsubscribedUser'
 import { CoursePageForStudent } from './CoursePageForStudent'
 import { CoursePageForTeacher } from './CoursePageForTeacher'
+import { CourseSettingsPageForUnsubscribedUser } from '../CourseSettingsPage'
 
 export function CoursePage() {
 	const { loading, error, course } = useCourseData()
@@ -32,5 +32,5 @@ export function CoursePage() {
 		return <CoursePageForStudent />
 	if (course.role === 'teacher')
 		return <CoursePageForTeacher />
-	return <CoursePageForUnsubscribedUser />
+	return <CourseSettingsPageForUnsubscribedUser />
 }

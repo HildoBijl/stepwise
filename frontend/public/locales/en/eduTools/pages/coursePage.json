@@ -3,24 +3,6 @@
     "loadingCourseTitle": "Loading course...",
     "unknownCourseTitle": "Unknown course"
   },
-  "subscribe": {
-    "title": "Subscribe",
-    "description": "<check><on-true>Subscribing to this course adds it to your course list.</on-true><on-false>Subscribing to this course adds it to your course list. By subscribing, you grant permission to the (current and future) teachers of this course to view your progress within the course. You can always undo this by unsubscribing from the course.</on-false></check>",
-    "button": "Subscribe to this course"
-  },
-  "teachers": {
-    "title": "Teachers",
-    "description": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>"
-  },
-  "learningGoals": {
-    "title": "Learning goals",
-    "description": "The course has the following final <count-check><one>goal</one><not-one>goals</not-one></count-check>."
-  },
-  "unsubscribe": {
-    "title": "Unsubscribe",
-    "description": "<check><on-true>Unsubscribing from this course removes it from your course list. You can always resubscribe.</on-true><on-false>Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</on-false></check>",
-    "button": "Unsubscribe from this course"
-  },
   "student": {
     "priorKnowledge": "Prior knowledge",
     "gradeEstimate": "Based on your practice so far, we expect a score of roughly <strong>{percentage}</strong> (about <strong>{lowerPercentage} - {upperPercentage}</strong>) on the final test.",
