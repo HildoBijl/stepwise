@@ -35,6 +35,15 @@ export const courseForStudentFields = `
 	}
 `
 
+export const studentFields = teacherFields
+
+export const courseForTeacherFields = `
+	${courseForStudentFields}
+	students {
+		${studentFields}
+	}
+`
+
 export function useAllCoursesQuery() {
 	return useQuery(ALL_COURSES)
 }
@@ -86,6 +95,17 @@ export const COURSEFORSTUDENT = gql`
 	query courseForStudent($code: String!) {
 		courseForStudent(code: $code) {
 			${courseForStudentFields}
+		}
+	}
+`
+
+export function useCourseForTeacherQuery(code) {
+	return useQuery(COURSEFORTEACHER, { variables: { code } })
+}
+export const COURSEFORTEACHER = gql`
+	query courseForTeacher($code: String!) {
+		courseForTeacher(code: $code) {
+			${courseForTeacherFields}
 		}
 	}
 `

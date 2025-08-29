@@ -3,7 +3,7 @@ import { createTheme, useTheme } from '@material-ui/core/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
-import { toHex, toCSS, useFontFaceObserver} from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { toHex, toCSS, useFontFaceObserver } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
@@ -63,8 +63,16 @@ let theme = {
 	overrides: {
 		MuiOutlinedInput: {
 			input: {
-				padding: '14px',
+				// padding: '14px', // This messed up the layout of Select fields (dropdown lists). Don't recall why it's present.
 			}
+		},
+		MuiSelect: {
+			select: { // Make dropdown lists have a white background.
+				backgroundColor: '#fbfbfb', 
+				"&:focus": {
+					backgroundColor: '#fbfbfb',
+				},
+			},
 		},
 		MuiCssBaseline: {
 			'@global': {

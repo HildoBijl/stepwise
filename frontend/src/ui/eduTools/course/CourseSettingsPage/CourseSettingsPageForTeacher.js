@@ -1,22 +1,26 @@
+import { useState, useMemo } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import Button from '@material-ui/core/Button'
+import { HowToReg as SubscribeIcon } from '@material-ui/icons'
+
 import { TranslationFile, TranslationSection } from 'i18n'
 import { Head, Par, Info, Term } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
-import { useCourseData } from '../components'
-
-import { CourseTeachers } from './components'
+import { useCourseForTeacher, CourseTeachers } from './components'
 
 const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = 'teachers'
 
 export function CourseSettingsPageForTeacher() {
-	const { course } = useCourseData()
-	console.log(course)
-
+	const course = useCourseForTeacher()
 	return <>
 		<StudentView course={course} />
-		<CourseTeachers course={course} />
 		<AddTeacher course={course} />
 		<Unregister course={course} />
 	</>
@@ -40,8 +44,49 @@ function AddTeacher({ course }) {
 	if (organization.noTeachers)
 		return
 
-	// ToDo
-	return <Par>ToDo: add an add course teacher option.</Par>
+	// Render the current teachers and a form to add one.
+	return <>
+		<CourseTeachers course={course} />
+		<AddTeacherForm course={course} />
+	</>
+}
+
+const useStyles = makeStyles((theme) => ({
+	select: {
+		marginBottom: theme.spacing(1),
+		marginTop: theme.spacing(1),
+	},
+	button: {
+		marginBottom: theme.spacing(1),
+		marginTop: theme.spacing(1),
+	},
+}))
+
+function AddTeacherForm({ course }) {
+	const classes = useStyles()
+
+	// Sort the students by their name.
+	const { students: studentsRaw } = course
+	const students = useMemo(() => studentsRaw && [...studentsRaw].sort((a, b) => a.name.localeCompare(b.name)), [studentsRaw])
+
+	// Set up handlers for the dropdown list.
+	const [newTeacher, setNewTeacher] = useState('')
+	const handleChange = (event) => setNewTeacher(event.target.value)
+	const selectedStudent = newTeacher && students.find(student => student.id === newTeacher)
+
+	// Render the form.
+	return <>
+		<Par>You can add a new teacher to this course. Note that this will grant the teacher access to the work and progress of all students within this course.</Par>
+		<FormControl variant="outlined" fullWidth className={classes.select}>
+			<InputLabel id="newTeacherLabel">New teacher</InputLabel>
+			<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange}>
+				<MenuItem value=""><span style={{ opacity: 0.5 }}>None selected</span></MenuItem>
+				{students && students.map(student => <MenuItem key={student.id} value={student.id}>{student.name}</MenuItem>)}
+			</Select>
+		</FormControl>
+		{selectedStudent ? <Button variant="contained" color="primary"
+			startIcon={<SubscribeIcon />} className={classes.button}>Add {selectedStudent.name} as teacher to this course</Button> : null}
+	</>
 }
 
 function Unregister({ course }) {

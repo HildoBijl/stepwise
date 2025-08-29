@@ -16,9 +16,10 @@ export function CourseProvider({ children }) {
 	const courseResult = (user ? useCourseForStudentQuery : useCourseQuery)(courseCode)
 
 	// Depending on if the data is there, set up an empty provider or a provider loading further data.
-	if (courseResult.loading || courseResult.error)
-		return <CourseContext.Provider value={{ loading: courseResult.loading, error: courseResult.error, course: null, overview: null, skillsData: null, skillsDataLoaded: false, analysis: null }}>{children}</CourseContext.Provider>
-	return <CourseProviderInner course={courseResult.data.course || courseResult.data.courseForStudent}>{children}</CourseProviderInner>
+	const { loading, error, data } = courseResult
+	if (loading || error)
+		return <CourseContext.Provider value={{ loading, error, course: null, overview: null, skillsData: null, skillsDataLoaded: false, analysis: null }}>{children}</CourseContext.Provider>
+	return <CourseProviderInner course={data.course || data.courseForStudent}>{children}</CourseProviderInner>
 }
 
 function CourseProviderInner({ course, children }) {
