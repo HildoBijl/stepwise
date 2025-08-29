@@ -20,9 +20,18 @@
     }
   },
   "teachers": {
-    "teachers": {
-      "title": "Teachers",
-      "description": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>"
+    "studentView": {
+      "title": "Student view"
+    },
+    "addTeacher": {
+      "label": "Add a teacher",
+      "noneSelected": "None selected",
+      "note": "Adding a teacher will grant them access to the work and progress of all students within this course.",
+      "button": "Add {name} as teacher to this course"
+    },
+    "unsubscribe": {
+      "title": "Unsubscribe",
+      "description": "By removing yourself from this course, you revoke your teacher access."
     }
   }
 }

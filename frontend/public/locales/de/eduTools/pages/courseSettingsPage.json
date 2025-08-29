@@ -6,8 +6,8 @@
       "button": "Zum Kurs anmelden"
     },
     "teachers": {
-      "title": "Lehrenden",
-      "description": "<count-check><zero>Der Kurs hat derzeit keine Lehrenden.</zero><not-zero>Dieser Kurs wird von <word-list/> unterrichtet.</not-zero></count-check>"
+      "title": "Lehrkräfte",
+      "description": "<count-check><zero>Der Kurs hat derzeit keine Lehrkräfte.</zero><not-zero>Dieser Kurs wird von <word-list/> unterrichtet.</not-zero></count-check>"
     },
     "learningGoals": {
       "title": "Lernziele",
@@ -17,6 +17,21 @@
       "title": "Abmelden",
       "description": "<check><on-true>Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Du kannst dich jederzeit erneut anmelden.</on-true><on-false>Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Es verweigert auch den Lehrenden des Kurses die Erlaubnis, deine Fortschritte innerhalb des Kurses zu verfolgen. Du kannst dich jederzeit erneut anmelden.</on-false></check>",
       "button": "Vom Kurs abmelden"
+    }
+  },
+  "teachers": {
+    "studentView": {
+      "title": "Studentenansicht"
+    },
+    "addTeacher": {
+      "label": "Neue Lehrkraft hinzufügen",
+      "noneSelected": "Keine ausgewähltd",
+      "note": "Durch das Hinzufügen einer Lehrkraft erhält diese Zugriff auf die Arbeit und den Fortschritt aller Lernenden in diesem Kurs.",
+      "button": "{name} zur Lehrkraft machen"
+    },
+    "unsubscribe": {
+      "title": "Abmelden",
+      "description": "Durch die Abmeldung von diesem Kurs verlierst du deinen Lehrkraft-Zugriff."
     }
   }
 }

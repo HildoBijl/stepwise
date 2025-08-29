@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import { HowToReg as SubscribeIcon } from '@material-ui/icons'
@@ -23,13 +24,16 @@ export function useCourseForTeacher() {
 }
 
 export function CourseTeachers({ course }) {
+	// Sort the teachers of this course by name.
+	const { teachers: teachersRaw } = course
+	const teachers = useMemo(() => teachersRaw && [...teachersRaw].sort((a, b) => a.name.localeCompare(b.name)), [teachersRaw])
+
 	// A course without teachers should not display them.
 	const organization = getOrganization(course.organization)
 	if (organization.noTeachers)
 		return
 
 	// Show the teachers.
-	const { teachers } = course
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			<Head><Translation entry="teachers.title">Teachers</Translation></Head>

@@ -18,5 +18,20 @@
       "description": "<check><on-true>Door je uit te schrijven uit de cursus verwijder je hem van je cursussenoverzicht. Je kunt je altijd opnieuw inschrijven.</on-true><on-false>Door je uit te schrijven uit de cursus verwijder je hem van je cursussenoverzicht. Het ontzegt ook de toestemming aan de docenten van de cursus om je voortgang binnen de cursus te volgen. Je kunt je altijd opnieuw inschrijven.</on-false></check>",
       "button": "Uitschrijven uit de cursus"
     }
+  },
+  "teachers": {
+    "studentView": {
+      "title": "Studentenweergave"
+    },
+    "addTeacher": {
+      "label": "Nieuwe docent toevoegen",
+      "noneSelected": "Geen geselecteerd",
+      "note": "Het toevoegen van een docent geeft deze toegang tot het werk en de voortgang van alle studenten binnen de cursus.",
+      "button": "Voeg {name} als docent toe"
+    },
+    "unsubscribe": {
+      "title": "Uitschrijven",
+      "description": "Door jezelf uit de cursus te verwijderen, zeg je je docentenrechten op."
+    }
   }
 }

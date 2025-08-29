@@ -8,8 +8,8 @@ import Button from '@material-ui/core/Button'
 import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
 import { usePromoteToTeacherMutation } from 'api'
-import { TranslationFile, TranslationSection } from 'i18n'
-import { Head, Par, Info, Term } from 'ui/components'
+import { TranslationFile, TranslationSection, Translation } from 'i18n'
+import { Head, Par, Info, Warning, Term } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
@@ -30,8 +30,8 @@ export function CourseSettingsPageForTeacher() {
 function StudentView({ course }) {
 	// ToDo: add student view.
 	return <TranslationFile path={translationPath}>
-		<TranslationSection entry={translationSection}>
-			<Head>Student view</Head>
+		<TranslationSection entry={`${translationSection}.studentView`}>
+			<Head><Translation entry="title">Student view</Translation></Head>
 			<Par>Turn on the <Term>student view</Term> to see this course as if you are a student.</Par>
 			<Par>(This functionality is still being developed. Expected release is late September 2025.)</Par>
 			<Info>As a teacher, you get the bonus of having a "Solve exercise" button. Students of course don't have this one!</Info>
@@ -86,26 +86,30 @@ function AddTeacherForm({ course }) {
 	}, [setNewTeacher, promoteToTeacher])
 
 	// Render the form.
-	return <>
-		<Par>You can add a new teacher to this course. Note that this will grant the teacher access to the work and progress of all students within this course.</Par>
-		<FormControl variant="outlined" fullWidth className={classes.select}>
-			<InputLabel id="newTeacherLabel">New teacher</InputLabel>
-			<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange}>
-				<MenuItem value=""><span style={{ opacity: 0.5 }}>None selected</span></MenuItem>
-				{students && students.map(student => <MenuItem key={student.id} value={student.id}>{student.name}</MenuItem>)}
-			</Select>
-		</FormControl>
-		{selectedStudent ? <Button variant="contained" color="primary"
-			startIcon={<SubscribeIcon />} className={classes.button} onClick={addTeacher}>Add {selectedStudent.name} as teacher to this course</Button> : null}
-	</>
+	return <TranslationFile path={translationPath}>
+		<TranslationSection entry={`${translationSection}.addTeacher`}>
+			<FormControl variant="outlined" fullWidth className={classes.select}>
+				<InputLabel id="newTeacherLabel"><Translation entry="label">Add a teacher</Translation></InputLabel>
+				<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange}>
+					<MenuItem value=""><span style={{ opacity: 0.5 }}><Translation entry="noneSelected">None selected</Translation></span></MenuItem>
+					{students && students.map(student => <MenuItem key={student.id} value={student.id}>{student.name}</MenuItem>)}
+				</Select>
+			</FormControl>
+			{selectedStudent && <>
+				<Warning style={{ margin: '0.25rem 0' }}><Translation entry="note">Adding a teacher will grant them access to the work and progress of all students within this course.</Translation></Warning>
+				<Button variant="contained" color="primary"
+					startIcon={<SubscribeIcon />} className={classes.button} onClick={addTeacher}><Translation entry="button">Add {{ name: selectedStudent.name }} as teacher</Translation></Button>
+			</>}
+		</TranslationSection>
+	</TranslationFile>
 }
 
 function Unsubscribe({ course }) {
 	return <>
 		<TranslationFile path={translationPath}>
-			<TranslationSection entry={translationSection}>
-				<Head>Unsubscribe from this course</Head>
-				<Par>You can fully remove yourself from this course. This will revoke your teacher access. The only way to get this back is to reenroll for the course and have another teacher promote you to teacher again.</Par>
+			<TranslationSection entry={`${translationSection}.unsubscribe`}>
+				<Head><Translation entry="title">Unsubscribe</Translation></Head>
+				<Par><Translation entry="description">By removing yourself from this course, you revoke your teacher access.</Translation></Par>
 			</TranslationSection>
 		</TranslationFile>
 		<UnsubscribeButton course={course} />
