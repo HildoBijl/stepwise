@@ -12,7 +12,7 @@ import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 import { useLocalStorageState } from 'util'
 import { usePromoteToTeacherMutation } from 'api'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
-import { Head, Par, Info, Warning, Term } from 'ui/components'
+import { Head, Par, Info, Warning } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 

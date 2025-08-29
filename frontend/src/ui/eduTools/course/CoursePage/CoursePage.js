@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { useLocalStorageState } from 'util'
 import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -26,11 +27,18 @@ export function CoursePage() {
 		return <LoadingIndicator />
 	if (error || !course)
 		return <ErrorNote />
+	return <CoursePageForCourse course={course} />
+}
+
+function CoursePageForCourse({ course }) {
+	const [studentView] = useLocalStorageState(`${course.code}StudentView`)
 
 	// When we do have data, determine what page to show.
-	if (course.role === 'student')
+	if (course.role === 'student' || studentView)
 		return <CoursePageForStudent />
 	if (course.role === 'teacher')
 		return <CoursePageForTeacher />
 	return <CourseSettingsPageForUnsubscribedUser />
 }
+
+

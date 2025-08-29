@@ -18,6 +18,8 @@ import { Button, useModal, PictureConfirmation, QuickPractice, MemberList } from
 import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
 import { useTestContext } from 'ui/admin'
 
+import { useCourseData } from '../../course'
+
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from '../util'
 import { useExerciseData } from '../containers'
 import { useSolution } from '../wrappers'
@@ -164,13 +166,15 @@ export function ExerciseButtons(props) {
 
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
-	const isAdmin = useIsAdmin()
 	const theme = useTheme()
 	const classes = useStyles()
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
 	const { progress, history, submitting, example } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
+	const isAdmin = useIsAdmin()
+	const courseData = useCourseData()
+	const isTeacher = isAdmin || courseData?.course?.role === 'teacher'
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
@@ -178,7 +182,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Include the buttons in the tabbing.
 	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef()
-	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !progress.done && isAdmin, focusRefOnActive: true })
+	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !progress.done && isTeacher, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !example && !progress.done, focusRefOnActive: true })
 
@@ -237,7 +241,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	return (
 		<div className={classes.buttonContainer}>
-			{isAdmin && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
+			{isTeacher && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
 			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
 			{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
 			{example && stepwise ? <StepSelect /> : null}
