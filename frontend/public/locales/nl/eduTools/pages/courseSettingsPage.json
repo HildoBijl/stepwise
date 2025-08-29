@@ -21,7 +21,10 @@
   },
   "teachers": {
     "studentView": {
-      "title": "Studentenweergave"
+      "title": "Studentenweergave",
+      "description": "In de studentenweergave zie je de cursus exact zoals studenten hem zien.",
+      "label": "Studentenweergave actief",
+      "note": "Als docent krijg je ook de \"Vul oplossing in\" knop bij opgaven. Studenten hebben deze niet!"
     },
     "addTeacher": {
       "label": "Nieuwe docent toevoegen",

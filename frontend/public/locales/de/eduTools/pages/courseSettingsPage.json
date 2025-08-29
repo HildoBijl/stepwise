@@ -21,11 +21,14 @@
   },
   "teachers": {
     "studentView": {
-      "title": "Studentenansicht"
+      "title": "Lernendenansicht",
+      "description": "In der Lernendenansicht siehst du den Kurs genau so, wie die Lernenden ihn sehen.",
+      "label": "Lernendenansicht",
+      "note": "Als Lehrkraft erhältst du bei den Aufgaben zusätzlich den Button \"Lösung einfügen\". Die Lernenden haben ihn nicht!"
     },
     "addTeacher": {
       "label": "Neue Lehrkraft hinzufügen",
-      "noneSelected": "Keine ausgewähltd",
+      "noneSelected": "Keine ausgewählt",
       "note": "Durch das Hinzufügen einer Lehrkraft erhält diese Zugriff auf die Arbeit und den Fortschritt aller Lernenden in diesem Kurs.",
       "button": "{name} zur Lehrkraft machen"
     },

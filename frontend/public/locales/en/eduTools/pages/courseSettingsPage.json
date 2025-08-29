@@ -21,7 +21,10 @@
   },
   "teachers": {
     "studentView": {
-      "title": "Student view"
+      "title": "Student view",
+      "description": "In the student view you can see the course as if you are a student.",
+      "label": "Student view active",
+      "note": "As a teacher, you also get the \"Insert solution\" button at exercises. Students don't have it!"
     },
     "addTeacher": {
       "label": "Add a teacher",

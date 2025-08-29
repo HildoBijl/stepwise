@@ -8,7 +8,8 @@ import FontFaceObserver from 'fontfaceobserver'
 import { getCounterNumber, ensureConsistency } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
-import { getEventPosition, getUtilKeys } from 'util/dom' // Keep exports separate and specific due to faulty unit test package caching.
+import { getEventPosition, getUtilKeys } from './dom'
+import { getLocalStorageValue, setLocalStorageValue } from './localStorage'
 
 // Re-export various useful hooks from other packages.
 export { usePrevious, useSize, useResizeObserver }
@@ -372,4 +373,26 @@ export function useAnimation(animationFunc) {
 		requestRef.current = requestAnimationFrame(animate)
 		return () => cancelAnimationFrame(requestRef.current)
 	}, [requestRef, animate])
+}
+
+// useLocalStorageState is like useState, but it reads and writes its data from localStorage. It gets a localStorage key and an initialValue.
+export function useLocalStorageState(key, initialState) {
+	// Initialize the value with the localStorage value or the initialValue as fallback.
+	const [state, setState] = useState(() => getLocalStorageValue(key) ?? initialState)
+
+	// Set up a setter function. 
+	const setLocalStorageState = useCallback((newState) => {
+		setState(previousState => {
+			if (typeof newState === 'function')
+				newState = newState(previousState)
+			setLocalStorageValue(key, newState)
+			return ensureConsistency(newState, previousState)
+		})
+	}, [key, setState])
+
+	// Listen to updates from elsewhere and apply them.
+	useEventListener('storage', () => setLocalStorageState(getLocalStorageValue(key)))
+
+	// Return the pair as usual.
+	return [state, setLocalStorageState]
 }

@@ -34,7 +34,7 @@ function applyMapping(obj, func) {
 }
 module.exports.applyMapping = applyMapping
 
-// ensureConsistency takes a new value and compares it with the old value. It tries to maintain consistency. If the new value deepEquals the old value, but has a different reference (is cloned/reconstructed) the old value is return, to maintain reference equality. If the value is an object, the process is repeated for its children in an iterative way.
+// ensureConsistency takes a new value and compares it with the old value. It tries to maintain consistency. If the new value deepEquals the old value, but has a different reference (is cloned/reconstructed) the old value is returned, to maintain reference equality. If the value is an object, the process is repeated for its children in an iterative way.
 function ensureConsistency(newValue, oldValue) {
 	// On a deepEquals, return the old value to keep the reference intact.
 	if (deepEquals(newValue, oldValue))

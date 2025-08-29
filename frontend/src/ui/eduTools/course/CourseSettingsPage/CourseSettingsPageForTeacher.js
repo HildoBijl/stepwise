@@ -5,8 +5,11 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
+import { useLocalStorageState } from 'util'
 import { usePromoteToTeacherMutation } from 'api'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { Head, Par, Info, Warning, Term } from 'ui/components'
@@ -28,13 +31,15 @@ export function CourseSettingsPageForTeacher() {
 }
 
 function StudentView({ course }) {
-	// ToDo: add student view.
+	const [studentView, setStudentView] = useLocalStorageState(`${course.code}StudentView`, false)
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={`${translationSection}.studentView`}>
 			<Head><Translation entry="title">Student view</Translation></Head>
-			<Par>Turn on the <Term>student view</Term> to see this course as if you are a student.</Par>
-			<Par>(This functionality is still being developed. Expected release is late September 2025.)</Par>
-			<Info>As a teacher, you get the bonus of having a "Solve exercise" button. Students of course don't have this one!</Info>
+			<Par><Translation entry="description">In the student view you can see the course as if you are a student.</Translation></Par>
+			<Par>
+				<FormControlLabel control={<Switch checked={studentView} onChange={() => setStudentView(v => !v)} name="StudentView" color="primary" />} label={<Translation entry="label">Student view active</Translation>} />
+			</Par>
+			<Info><Translation entry="note">As a teacher, you also get the "Insert solution" button at exercises. Students don't have it!</Translation></Info>
 		</TranslationSection>
 	</TranslationFile>
 }
