@@ -113,7 +113,7 @@
       }
     },
     "hu-a-wiskunde": {
-      "name": "Period A: Mathematics",
+      "name": "Period 1A: Mathematics",
       "description": "In the first period we apply the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.",
       "blocks": {
         "0": "Basic rules of algebra",
@@ -123,11 +123,11 @@
       }
     },
     "hu-a-statica": {
-      "name": "Period A: Statics intro",
+      "name": "Period 1A: Statics intro",
       "description": "This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures."
     },
     "hu-b-wiskunde": {
-      "name": "Period B: Mathematics derivatives",
+      "name": "Period 1B: Mathematics derivatives",
       "description": "This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.",
       "blocks": {
         "0": "Derivative basics",
@@ -136,7 +136,7 @@
       }
     },
     "hu-d-thermodynamica": {
-      "name": "Period D: Thermodynamics",
+      "name": "Period 1D: Thermodynamics",
       "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.",
       "blocks": {
         "0": "Gas properties and the gas law",
@@ -149,7 +149,7 @@
       }
     },
     "hu-thermodynamica": {
-      "name": "Processes and modeling",
+      "name": "Period 2B: Heat and energy",
       "description": "In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.",
       "blocks": {
         "0": "Closed systems and cycles",

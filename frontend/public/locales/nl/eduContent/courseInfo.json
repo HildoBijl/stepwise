@@ -84,7 +84,7 @@
       }
     },
     "hu-a-wiskunde": {
-      "name": "Periode A: Wiskunde",
+      "name": "Periode 1A: Wiskunde",
       "description": "In deze eerste periode passen we de basisregels van algebra toe bij het oplossen van verschillende soorten vergelijkingen, variërend van stelsels van lineaire vergelijkingen tot herschreven kwadratische vergelijkingen.",
       "blocks": {
         "0": "Basisregels algebra",
@@ -94,11 +94,11 @@
       }
     },
     "hu-a-statica": {
-      "name": "Periode A: Statica intro",
+      "name": "Periode 1A: Statica intro",
       "description": "This mini-introductiecursus voor Statica helpt je bekend raken met het idee van Free Body Diagrams om deze toe te passen bij het berekenen van reactiekrachten binnen structuren."
     },
     "hu-b-wiskunde": {
-      "name": "Periode B: Differentiëren",
+      "name": "Periode 1B: Differentiëren",
       "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
       "blocks": {
         "0": "Basis afgeleiden",
@@ -107,7 +107,7 @@
       }
     },
     "hu-d-thermodynamica": {
-      "name": "Periode D: Thermodynamica",
+      "name": "Periode 1D: Thermodynamica",
       "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen.",
       "blocks": {
         "0": "Gaseigenschappen en de gaswet",
@@ -120,7 +120,7 @@
       }
     },
     "hu-thermodynamica": {
-      "name": "Processen en modelleren",
+      "name": "Periode 2B: Warmte en energie",
       "description": "Deze toegepaste thermodynamicacursus bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
       "blocks": {
         "0": "Gesloten systemen en kringprocessen",
