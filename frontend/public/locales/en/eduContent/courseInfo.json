@@ -68,6 +68,18 @@
         "4": "Cycles: energy and efficiency",
         "5": "Humidity and air conditioning"
       }
+    },
+    "huwiskundevoorkennis": {
+      "name": "Mathematics: prior knowledge",
+      "description": "This introductory course contains all skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.",
+      "blocks": {
+        "0": "Expanding brackets",
+        "1": "Adding fractions",
+        "2": "Simplifying fractions",
+        "3": "Solving linear equations",
+        "4": "Simplifying fractions with multiple variables",
+        "5": "Solve linear equations with multiple variables"
+      }
     }
   },
   "sintAgnesinstituut": {
@@ -84,6 +96,83 @@
         "6": "Breuken met meerdere variabelen vereenvoudigen",
         "7": "Lineaire vergelijkingen met meerdere variabelen oplossen",
         "8": "Stelsels van vergelijkingen oplossen"
+      }
+    }
+  },
+  "hogeschoolUtrecht": {
+    "hu-voorkennis-wiskunde": {
+      "name": "Prior knowledge: Algebra",
+      "description": "This introductory course contains all algebra skills you should already have when starting your studies. It walks you through the basics of algebra, from simplifying fractions to solving various types of basic linear equations.",
+      "blocks": {
+        "0": "Expanding brackets",
+        "1": "Adding fractions",
+        "2": "Simplifying fractions",
+        "3": "Solving linear equations",
+        "4": "Simplifying fractions with multiple variables",
+        "5": "Solve linear equations with multiple variables"
+      }
+    },
+    "hu-a-wiskunde": {
+      "name": "Period A: Mathematics",
+      "description": "In the first period we apply the fundamentals of algebra towards solving various types of equations, ranging from systems of linear equations up to rewritten quadratic equations.",
+      "blocks": {
+        "0": "Basic rules of algebra",
+        "1": "Rewritten linear equations",
+        "2": "Systems of equations",
+        "3": "Quadratic equations"
+      }
+    },
+    "hu-a-statica": {
+      "name": "Period A: Statics intro",
+      "description": "This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures."
+    },
+    "hu-b-wiskunde": {
+      "name": "Period B: Mathematics derivatives",
+      "description": "This course teaches derivatives, starting with looking up basic derivatives, and building up to applying combinations of rules.",
+      "blocks": {
+        "0": "Derivative basics",
+        "1": "Derivative rules",
+        "2": "Determine derivatives"
+      }
+    },
+    "hu-d-thermodynamica": {
+      "name": "Period D: Thermodynamics",
+      "description": "This introduction course on thermodynamics teaches the basics of thermodynamic processes, analyzing closed thermodynamic cycles.",
+      "blocks": {
+        "0": "Gas properties and the gas law",
+        "1": "Thermodynamic processes and Poisson's law",
+        "2": "Work and heat",
+        "3": "Cycles: analysis",
+        "4": "Cycles: energy and efficiency",
+        "5": "Steam turbines and cooling machines",
+        "6": "Humidity and air conditioning"
+      }
+    },
+    "hu-thermodynamica": {
+      "name": "Processes and modeling",
+      "description": "In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.",
+      "blocks": {
+        "0": "Closed systems and cycles",
+        "1": "Open systems and enthalpy",
+        "2": "Entropy and the second law",
+        "3": "Gas turbines",
+        "4": "Vapors and diagrams",
+        "5": "Steam turbines",
+        "6": "Cooling machines and heat pumps"
+      }
+    },
+    "hu-deeltijd-thermodynamica": {
+      "name": "Part-time: Modeling and processes",
+      "description": "In this applied thermodynamics course you learn about how various types of thermodynamic cycles work in practice, including gas turbines, Rankine cycles and cooling cycles.",
+      "blocks": {
+        "0": "Thermodynamic processes",
+        "1": "Closed systems and cycles",
+        "2": "Open systems and enthalpy",
+        "3": "Entropy and the second law",
+        "4": "Gasturbines",
+        "5": "Vapors and diagrams",
+        "6": "Steam turbines",
+        "7": "Cooling machines and heat pumps"
       }
     }
   }

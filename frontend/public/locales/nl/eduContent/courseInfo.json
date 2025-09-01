@@ -69,5 +69,82 @@
         "5": "Luchtvochtigheid en airco's"
       }
     }
+  },
+  "hogeschoolUtrecht": {
+    "hu-voorkennis-wiskunde": {
+      "name": "Voorkennis: Algebra",
+      "description": "Deze introductiecursus bevat alle algebra basisvaardigheden die je bij aanvang van je studie zou moeten kunnen. Hij leidt je door de basis van algebra, van het vereenvoudigen van breuken tot het oplossen van verschillende soorten eenvoudige lineaire vergelijkingen.",
+      "blocks": {
+        "0": "Haakjes uitwerken",
+        "1": "Breuken optellen",
+        "2": "Breuken vereenvoudigen",
+        "3": "Lineaire vergelijkingen oplossen",
+        "4": "Breuken met meerdere variabelen vereenvoudigen",
+        "5": "Lineaire vergelijkingen met meerdere variabelen oplossen"
+      }
+    },
+    "hu-a-wiskunde": {
+      "name": "Periode A: Wiskunde",
+      "description": "In deze eerste periode passen we de basisregels van algebra toe bij het oplossen van verschillende soorten vergelijkingen, variërend van stelsels van lineaire vergelijkingen tot herschreven kwadratische vergelijkingen.",
+      "blocks": {
+        "0": "Basisregels algebra",
+        "1": "Herschreven lineaire vergelijkingen",
+        "2": "Stelsels van vergelijkingen",
+        "3": "Kwadratische vergelijkingen"
+      }
+    },
+    "hu-a-statica": {
+      "name": "Periode A: Statica intro",
+      "description": "This mini-introductiecursus voor Statica helpt je bekend raken met het idee van Free Body Diagrams om deze toe te passen bij het berekenen van reactiekrachten binnen structuren."
+    },
+    "hu-b-wiskunde": {
+      "name": "Periode B: Differentiëren",
+      "description": "Deze cursus gaat over afgeleiden, vanaf het opzoeken van basisafgeleiden tot en met het toepassen van combinaties van regels.",
+      "blocks": {
+        "0": "Basis afgeleiden",
+        "1": "Differentieerregels toepassen",
+        "2": "Afgeleiden bepalen"
+      }
+    },
+    "hu-d-thermodynamica": {
+      "name": "Periode D: Thermodynamica",
+      "description": "Deze intro-cursus over thermodynamica bespreekt de basis van thermodynamische processen, tot en met het analyseren van gesloten kringprocessen.",
+      "blocks": {
+        "0": "Gaseigenschappen en de gaswet",
+        "1": "Processen en Poisson's wet",
+        "2": "Arbeid en warmte",
+        "3": "Kringprocessen: doorrekenen",
+        "4": "Kringprocessen: energie en rendement",
+        "5": "Stoomturbines en koelmachines",
+        "6": "Luchtvochtigheid en airco's"
+      }
+    },
+    "hu-thermodynamica": {
+      "name": "Processen en modelleren",
+      "description": "Deze toegepaste thermodynamicacursus bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
+      "blocks": {
+        "0": "Gesloten systemen en kringprocessen",
+        "1": "Open systemen en enthalpie",
+        "2": "Entropie en de tweede hoofdwet",
+        "3": "Gasturbines",
+        "4": "Dampen en diagrammen",
+        "5": "Stoomturbines",
+        "6": "Koelmachines en warmtepompen"
+      }
+    },
+    "hu-deeltijd-thermodynamica": {
+      "name": "Deeltijd: Modelleren en processen",
+      "description": "Deze toegepaste thermodynamicacursus gericht op deeltijdstudenten bespreekt allerlei soorten thermodynamische cycli, inclusief gasturbines, Rankinecycli en koelcycli.",
+      "blocks": {
+        "0": "Thermodynamische processen",
+        "1": "Gesloten systemen en kringprocessen",
+        "2": "Open systemen en enthalpie",
+        "3": "Entropie en de tweede hoofdwet",
+        "4": "Gasturbines",
+        "5": "Dampen en diagrammen",
+        "6": "Stoomturbines",
+        "7": "Koelmachines en warmtepompen"
+      }
+    }
   }
 }

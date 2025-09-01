@@ -78,6 +78,7 @@ const schema = gql`
 		goalWeights: [Int]
 		startingPoints: [String]
 		setup: JSON
+		organization: String
   	blocks: [CourseBlockInput]
 	}
 
