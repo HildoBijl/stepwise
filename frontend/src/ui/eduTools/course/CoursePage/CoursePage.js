@@ -36,10 +36,8 @@ function CoursePageForCourse({ course }) {
 	const isAdmin = useIsAdmin()
 
 	// When we do have data, determine what page to show.
-	if (studentView)
-		return <CoursePageForStudent />
 	if (isAdmin || course.role === 'teacher')
-		return <CoursePageForTeacher />
+		return studentView ? <CoursePageForStudent /> : <CoursePageForTeacher />
 	if (course.role === 'student')
 		return <CoursePageForStudent />
 	return <CourseSettingsPageForUnsubscribedUser />
