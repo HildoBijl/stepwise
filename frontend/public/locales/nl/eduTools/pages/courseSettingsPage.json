@@ -34,7 +34,11 @@
     },
     "unsubscribe": {
       "title": "Uitschrijven",
-      "description": "Door jezelf uit de cursus te verwijderen, zeg je je docentenrechten op."
+      "description": "<check><on-true>Door jezelf uit de cursus te verwijderen, zeg je je docentenrechten op.</on-true><on-false>Je staat als student in deze cursus ingeschreven, maar je ziet deze docentenpagina vanwege je adminrechten. Je kunt jezelf als student uit deze cursus uitschrijven.</on-false></check>"
+    },
+    "adminSubscribe": {
+      "title": "Inschrijven",
+      "description": "Je maakt op het moment geen deel uit van deze cursus. Je gebruikt alleen je adminrechten om even binnen te komen spieken. Wil je formeel deelnemen aan de cursus? Dan kan dat hier."
     }
   }
 }

@@ -34,7 +34,11 @@
     },
     "unsubscribe": {
       "title": "Unsubscribe",
-      "description": "By removing yourself from this course, you revoke your teacher access."
+      "description": "<check><on-true>By removing yourself from this course, you revoke your teacher access.</on-true><on-false>You are a student in this course, but you see this teacher page due to your admin rights. You can unsubscribe as a student from this course.</on-false></check>"
+    },
+    "adminSubscribe": {
+      "title": "Subscribe",
+      "description": "You're currently not a part of this course, but you are using your admin rights to peek in. Want to formally subscribe? Do so here."
     }
   }
 }

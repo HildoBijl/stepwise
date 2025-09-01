@@ -10,13 +10,13 @@ import Switch from '@material-ui/core/Switch'
 import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
 import { useLocalStorageState } from 'util'
-import { usePromoteToTeacherMutation } from 'api'
-import { TranslationFile, TranslationSection, Translation } from 'i18n'
+import { usePromoteToTeacherMutation, useIsAdmin } from 'api'
+import { TranslationFile, TranslationSection, Translation, Check } from 'i18n'
 import { Head, Par, Info, Warning } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
-import { useCourseForTeacher, CourseTeachers, UnsubscribeButton } from './components'
+import { useCourseForTeacher, CourseTeachers, SubscribeButton, UnsubscribeButton } from './components'
 
 const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = 'teachers'
@@ -27,6 +27,7 @@ export function CourseSettingsPageForTeacher() {
 		<StudentView course={course} />
 		<AddTeacher course={course} />
 		<Unsubscribe course={course} />
+		<AdminSubscribe course={course} />
 	</>
 }
 
@@ -110,13 +111,32 @@ function AddTeacherForm({ course }) {
 }
 
 function Unsubscribe({ course }) {
+	// If the user does not have a role, then it's an external (probably an admin) peeking in. Don't show an unsubscribe then.
+	if (!course.role)
+		return null
 	return <>
 		<TranslationFile path={translationPath}>
 			<TranslationSection entry={`${translationSection}.unsubscribe`}>
 				<Head><Translation entry="title">Unsubscribe</Translation></Head>
-				<Par><Translation entry="description">By removing yourself from this course, you revoke your teacher access.</Translation></Par>
+				<Par><Translation entry="description"><Check value={course.role === 'teacher'}><Check.True>By removing yourself from this course, you revoke your teacher access.</Check.True><Check.False>You are a student in this course, but you see this teacher page due to your admin rights. You can unsubscribe as a student from this course.</Check.False></Check></Translation></Par>
 			</TranslationSection>
 		</TranslationFile>
 		<UnsubscribeButton course={course} />
+	</>
+}
+
+function AdminSubscribe({ course }) {
+	// If the user has a role, then it's already subscribed. Don't show the subscribe. Similarly for non-admins (should not occur).
+	const isAdmin = useIsAdmin()
+	if (course.role || !isAdmin)
+		return null
+	return <>
+		<TranslationFile path={translationPath}>
+			<TranslationSection entry={`${translationSection}.adminSubscribe`}>
+				<Head><Translation entry="title">Subscribe</Translation></Head>
+				<Par><Translation entry="description">You're currently not a part of this course, but you are using your admin rights to peek in. Want to formally subscribe? Do so here.</Translation></Par>
+			</TranslationSection>
+		</TranslationFile>
+		<SubscribeButton course={course} />
 	</>
 }

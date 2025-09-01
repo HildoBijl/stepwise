@@ -34,7 +34,11 @@
     },
     "unsubscribe": {
       "title": "Abmelden",
-      "description": "Durch die Abmeldung von diesem Kurs verlierst du deinen Lehrkraft-Zugriff."
+      "description": "<check><on-true>Durch die Abmeldung von diesem Kurs verlierst du deinen Lehrkraft-Zugriff.</on-true><on-false>Du bist als Lernender in diesem Kurs angemeldet, siehst diese Lehrerseite aber aufgrund deiner Administratorrechte. Du kannst dich als Lernender aus diesem Kurs abmelden.</on-false></check>"
+    },
+    "adminSubscribe": {
+      "title": "Anmelden",
+      "description": "Du bist derzeit nicht Teil dieses Kurses. Du nutzt lediglich deine Administratorrechte, um kurz hereinzuschauen. Möchtest du offiziell am Kurs teilnehmen? Dann kannst du das hier erledigen."
     }
   }
 }

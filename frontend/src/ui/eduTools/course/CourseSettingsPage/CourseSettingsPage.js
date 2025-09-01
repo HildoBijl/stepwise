@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { IconButton, useMediaQuery } from '@material-ui/core'
 import { Settings as SettingsIcon } from '@material-ui/icons'
 
+import { useIsAdmin } from 'api'
 import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -13,14 +14,15 @@ import { CourseSettingsPageForTeacher } from './CourseSettingsPageForTeacher'
 
 export function CourseSettingsPage() {
 	const { loading, error, course } = useCourseData()
+	const isAdmin = useIsAdmin()
 
 	// If we are on this page but the user is not subscribed, go back to the course overview. This is usually used after unsubscribing from a course.
 	const paths = usePaths()
 	const navigate = useNavigate()
 	useEffect(() => {
-		if (course && !course.role)
+		if (course && !course.role && !isAdmin)
 			navigate(paths.courses(), { replace: true })
-	}, [course, paths, navigate])
+	}, [course, paths, navigate, isAdmin])
 
 	// When we don't have the data, show a relevant indication of what's going on.
 	if (loading)
@@ -29,10 +31,10 @@ export function CourseSettingsPage() {
 		return <ErrorNote />
 
 	// When we do have data, determine what page to show.
+	if (isAdmin || course.role === 'teacher')
+		return <CourseSettingsPageForTeacher />
 	if (course.role === 'student')
 		return <CourseSettingsPageForStudent />
-	if (course.role === 'teacher')
-		return <CourseSettingsPageForTeacher />
 	return null
 }
 

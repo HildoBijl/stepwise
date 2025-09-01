@@ -1,3 +1,5 @@
+const { getUser } = require('./User')
+
 // getAllCourses return the list of all available courses.
 async function getAllCourses(db, userId) {
 	// Load in the courses.
@@ -72,22 +74,38 @@ module.exports.getCourseByIdForUser = getCourseByIdForUser
 
 // getCourseByConditionsForUser takes a set of conditions for a course (like an ID, code or so) and looks up the corresponding course.
 async function getCourseByConditionsForUser(db, conditions, userId, requireTeacherRole = false, addStudents = requireTeacherRole) {
+	// When asking student data, it it always required to be a teacher.
+	if (addStudents)
+		requireTeacherRole = true
+
+	// If we require a teacher, also check if the user is an admin.
+	let isAdmin = false
+	if (requireTeacherRole) {
+		const user = await getUser(db, userId)
+		isAdmin = (user.role === 'admin')
+	}
+
+	// Set up the participation requirement based on whether t
+	let participationRequirements = []
+	if (requireTeacherRole && !isAdmin)
+		participationRequirements.push({
+			association: 'participants',
+			where: { id: userId }, // The teacher must be among the participants ...
+			through: { where: { role: 'teacher' } }, // ... with role of teacher.
+			required: true, // This is a hard requirement: throw out the course if not the case.
+			attributes: [], // We don’t need the current data in the result.
+		})
+
 	// Load the user with the associated courses.
 	const userWithCourses = await db.User.findByPk(userId, {
 		include: {
 			association: 'courses',
 			where: conditions,
 			include: [
-				...(!requireTeacherRole ? [] : [{ // If this is a teacher, only show this course if the user is a teacher of it.
-					association: 'participants',
-					where: { id: userId }, // The teacher must be among the participants ...
-					through: { where: { role: 'teacher' } }, // ... with role of teacher.
-					required: true, // This is a hard requirement: throw out the course if not the case.
-					attributes: [], // We don’t need the current data in the result.
-				}]),
+				...participationRequirements,
 				{ association: 'blocks' },
 				{ association: 'teachers' },
-				...(!addStudents ? [] : [{ association: 'students' }]), // For teachers, also load student data.
+				...(addStudents ? [{ association: 'students' }] : []),
 			],
 		},
 		order: [[{ model: db.Course, as: 'courses' }, { model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
@@ -104,12 +122,14 @@ async function getCourseByConditionsForUser(db, conditions, userId, requireTeach
 		return courses[0]
 	}
 
-	// If the course cannot be found through the user, then this is because the user is not subscribed to the course. Load in the course separately.
+	// If the course cannot be found through the user, then this is because the user is not subscribed to the course. Load in the course separately. This could occur for non-signed-in users accessing a course, or for admins accessing a course they are not subscribed to.
 	const course = await db.Course.findOne({
 		where: conditions,
 		include: [
+			...participationRequirements,
 			{ association: 'blocks' },
 			{ association: 'teachers' },
+			...(addStudents ? [{ association: 'students' }] : []),
 		],
 		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
 	})

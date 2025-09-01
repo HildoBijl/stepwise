@@ -5,7 +5,7 @@ import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
 import { skillTree } from 'step-wise/eduTools'
 
-import { useCourseForTeacherQuery, useUnsubscribeFromCourseMutation } from 'api'
+import { useCourseForTeacherQuery, useSubscribeToCourseMutation, useUnsubscribeFromCourseMutation } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
 import { Head, Par, List } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -55,6 +55,18 @@ export function CourseLearningGoals({ course }) {
 		</TranslationSection>
 	</TranslationFile>
 }
+
+export function SubscribeButton({ course }) {
+	const [subscribeToCourse] = useSubscribeToCourseMutation()
+	return <TranslationFile path={translationPath}>
+		<TranslationSection entry={translationSection}>
+			<Button variant="contained" startIcon={<SubscribeIcon />} onClick={() => subscribeToCourse(course.id)} color="primary" style={{ marginTop: '0.2rem', marginBottom: '0.6rem' }}>
+				<Translation entry="subscribe.button">Subscribe to this course</Translation>
+			</Button>
+		</TranslationSection>
+	</TranslationFile>
+}
+
 
 export function UnsubscribeButton({ course }) {
 	const [unsubscribeFromCourse] = useUnsubscribeFromCourseMutation()
