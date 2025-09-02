@@ -2,12 +2,12 @@
   "students": {
     "subscribe": {
       "title": "Anmelden",
-      "description": "<check><on-true>Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu.</on-true><on-false>Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu. Außerdem erlaubst du den (aktuellen und zukünftigen) Lehrenden dieses Kurses, deine Fortschritte in diesem Kurs einzusehen. Du kannst dies jederzeit rückgängig machen, indem du dich von dem Kurs abmeldest.</on-false></check>",
+      "description": "<check><on-true>Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu.</on-true><on-false>Durch die Anmeldung zum Kurs fügst du ihn zu deiner Kursübersicht hinzu. Außerdem erlaubst du den (aktuellen und zukünftigen) Lehrkräfte dieses Kurses, deine Fortschritte in diesem Kurs einzusehen. Du kannst dies jederzeit rückgängig machen, indem du dich von dem Kurs abmeldest.</on-false></check>",
       "button": "Zum Kurs anmelden"
     },
     "teachers": {
       "title": "Lehrkräfte",
-      "description": "<count-check><zero>Der Kurs hat derzeit keine Lehrkräfte.</zero><not-zero>Dieser Kurs wird von <word-list/> unterrichtet.</not-zero></count-check>"
+      "description": "<count-check><zero>Dieser <strong>{name}</strong> Kurs hat derzeit noch keine Lehrkräfte.</zero><not-zero>Dieser <strong>{name}</strong> Kurs wird von <word-list/> unterrichtet.</not-zero></count-check>"
     },
     "learningGoals": {
       "title": "Lernziele",
@@ -15,7 +15,7 @@
     },
     "unsubscribe": {
       "title": "Abmelden",
-      "description": "<check><on-true>Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Du kannst dich jederzeit erneut anmelden.</on-true><on-false>Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Es verweigert auch den Lehrenden des Kurses die Erlaubnis, deine Fortschritte innerhalb des Kurses zu verfolgen. Du kannst dich jederzeit erneut anmelden.</on-false></check>",
+      "description": "<check><on-true>Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Du kannst dich jederzeit erneut anmelden.</on-true><on-false>Durch die Abmeldung vom Kurs wird dieser aus deiner Kursübersicht entfernt. Es verweigert auch den Lehrkräfte des Kurses die Erlaubnis, deine Fortschritte innerhalb des Kurses zu verfolgen. Du kannst dich jederzeit erneut anmelden.</on-false></check>",
       "button": "Vom Kurs abmelden"
     }
   },

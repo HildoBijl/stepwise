@@ -4,8 +4,14 @@
     "unknownCourseTitle": "Onbekende cursus"
   },
   "externals": {
-    "title": "Inloggen vereist",
-    "description": "Om deel te nemen aan deze cursus, is het nodig om eerst in te loggen en vervolgens je in te schrijven voor de cursus. Geen zorgen, het is allemaal gratis. Dit is puur zodat we je voortgang binnen de cursus kunnen volgen om deze voor jou te kunnen weergeven."
+    "signin": {
+      "title": "Inloggen vereist",
+      "description": "Om deel te nemen aan deze cursus moet je ingelogd zijn. Geen zorgen, het is allemaal gratis. Dit is zodat we je voortgang binnen de cursus aan jou kunnen tonen."
+    },
+    "school": {
+      "title": "School/Instituut",
+      "description": "Dit is een <strong>{name}</strong> cursus."
+    }
   },
   "students": {
     "priorKnowledge": "Voorkennis",

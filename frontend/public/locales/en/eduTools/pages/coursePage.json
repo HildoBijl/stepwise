@@ -4,8 +4,14 @@
     "unknownCourseTitle": "Unknown course"
   },
   "externals": {
-    "title": "Sign in required",
-    "description": "To participate in this course, you have to first sign in and then subscribe to the course. No worries, it's all free. This is only so we can track and show you your progress within the course."
+    "signin": {
+      "title": "Sign in required",
+      "description": "To participate in this course, you have to be signed in. No worries, it's all free. This is so we can show you your progress within the course."
+    },
+    "school": {
+      "title": "School/Institution",
+      "description": "This course is taught by <strong>{name}</strong>."
+    }
   },
   "students": {
     "priorKnowledge": "Prior knowledge",

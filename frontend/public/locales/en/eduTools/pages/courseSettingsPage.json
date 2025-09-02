@@ -7,7 +7,7 @@
     },
     "teachers": {
       "title": "Teachers",
-      "description": "<count-check><zero>This course has no teachers at the moment.</zero><not-zero>This course is taught by <word-list/>.</not-zero></count-check>"
+      "description": "<count-check><zero>This <strong>{name}</strong> course has no teachers at the moment.</zero><not-zero>This <strong>{name}</strong> course is taught by <word-list/>.</not-zero></count-check>"
     },
     "learningGoals": {
       "title": "Learning goals",

@@ -37,7 +37,16 @@ export function CourseTeachers({ course }) {
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			<Head><Translation entry="teachers.title">Teachers</Translation></Head>
-			<Par><Translation entry="teachers.description"><Plurals value={teachers.length}><Plurals.Zero>This course has no teachers at the moment.</Plurals.Zero><Plurals.NotZero>This course is taught by <WordList words={teachers.map(teacher => <strong key={teacher.id}>{teacher.name}</strong>)} />.</Plurals.NotZero></Plurals></Translation></Par>
+			<Par style={{ marginBottom: '1.2rem' }}>
+				<div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'flex-start' }}>
+					<div style={{ flex: '0 0 auto', height: '1.3rem', marginLeft: '0.2rem', maxWidth: '3rem' }}>
+						<img src={organization.logo} alt={`Logo ${organization.name}`} style={{ display: 'inline-block', height: '100%', width: 'auto', maxWidth: '100%', transform: 'translateY(2pt)' }} />
+					</div>
+					<div style={{ flex: 1, marginLeft: '0.8rem' }}>
+						<Translation entry="teachers.description"><Plurals value={teachers.length}><Plurals.Zero>This <strong>{{ name: organization.name }}</strong> course has no teachers at the moment.</Plurals.Zero><Plurals.NotZero>This <strong>{{ name: organization.name }}</strong> course is taught by <WordList words={teachers.map(teacher => <strong key={teacher.id}>{teacher.name}</strong>)} />.</Plurals.NotZero></Plurals></Translation>
+					</div>
+				</div>
+			</Par>
 		</TranslationSection>
 	</TranslationFile>
 }

@@ -4,8 +4,14 @@
     "unknownCourseTitle": "Unbekannter Kurs"
   },
   "externals": {
-    "title": "Anmeldung erforderlich",
-    "description": "Um an diesem Kurs teilzunehmen, musst du dich zuerst anmelden und dann für den Kurs registrieren. Keine Sorge, das ist alles kostenlos. Das ist nur nötig, damit wir deinen Fortschritt im Kurs verfolgen und dir anzeigen können."
+    "signin": {
+      "title": "Anmeldung erforderlich",
+      "description": "Um an diesem Kurs teilzunehmen, musst du angemeldet sein. Keine Sorge, es ist alles kostenlos. So können wir dir deinen Fortschritt im Kurs anzeigen."
+    },
+    "school": {
+      "title": "Schule/Institut",
+      "description": "Dies ist ein <strong>{name}</strong> Kurs."
+    }
   },
   "students": {
     "priorKnowledge": "Vorkenntnisse",

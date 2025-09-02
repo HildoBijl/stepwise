@@ -7,7 +7,7 @@
     },
     "teachers": {
       "title": "Docenten",
-      "description": "<count-check><zero>De cursus heeft op dit moment nog geen docenten.</zero><not-zero>Deze cursus wordt gegeven door <word-list/>.</not-zero></count-check>"
+      "description": "<count-check><zero>Deze <strong>{name}</strong> cursus heeft op dit moment nog geen docenten.</zero><not-zero>Deze <strong>{name}</strong> cursus wordt gegeven door <word-list/>.</not-zero></count-check>"
     },
     "learningGoals": {
       "title": "Leerdoelen",
