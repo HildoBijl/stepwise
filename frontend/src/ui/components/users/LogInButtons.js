@@ -11,7 +11,7 @@ import HUlogo from 'ui/images/HU.png'
 
 const useStyles = makeStyles((theme) => ({
 	logInContainer: {
-		alignItems: 'center',
+		alignItems: ({ centered }) => centered ? 'center' : 'start',
 		display: 'flex',
 		flex: '1 1 50%',
 		flexFlow: 'column nowrap',
@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	huLogIn: {
 		height: '44px',
-		margin: '4px',
-		padding: '2px 10px',
-		width: '340px',
+		margin: '4px 0',
+		padding: '2px 0px',
+		width: '320px',
 
 		'& .inner': {
 			alignItems: 'center',
@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function LogInButtons() {
-	const classes = useStyles()
+export function LogInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {
+	const classes = useStyles({ centered })
 
 	// When it's unknown yet whether the user is logged in, don't show buttons.
 	const isUserDataLoaded = useIsUserDataLoaded()
@@ -78,13 +78,22 @@ export function LogInButtons() {
 	// Render the page.
 	return <div className={classes.logInContainer}>
 		<LogInError />
-		<GoogleLogInButton />
-		<HULogInButton />
+		<GoogleLogInButton redirect={redirect} />
+		<HULogInButton redirect={redirect} />
 	</div>
 }
 
-function GoogleLogInButton() {
+function GoogleLogInButton({ redirect }) {
 	const language = useLanguage()
+
+	// Store the redirect address in the server before loading the widget. (Google doesn't allow this on-click due to a strict user flow.)
+	useEffect(() => {
+		const url = `${apiAddress}/auth/google/initiate?redirect=${encodeURIComponent(redirect)}`
+		fetch(url, { credentials: "include" })
+			.catch(error => console.error("Google initiate failed:", error))
+	}, [redirect])
+
+	// After the path has been set, render the sign-in button.
 	return <>
 		<div
 			id='g_id_onload'
@@ -140,11 +149,13 @@ function LogInError() {
 	)
 }
 
-function HULogInButton() {
+function HULogInButton({ redirect }) {
 	const classes = useStyles()
 
 	// How do we send the user to SURFConext?
-	const goToSurfConext = () => window.location.href = `${apiAddress}/auth/surfconext/initiate`
+	const goToSurfConext = () => {
+		window.location.href = `${apiAddress}/auth/surfconext/initiate?redirect=${encodeURIComponent(redirect)}`
+	}
 
 	// Only show this button on Dutch or English language settings.
 	const language = useLanguage()
@@ -158,7 +169,7 @@ function HULogInButton() {
 				<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
 			</div>
 			<div className="text">
-				<Translation entry="logInHU">Sign in through Hogeschool Utrecht</Translation>
+				<Translation path="pages/home" entry="getStarted.logInHU">Sign in through Hogeschool Utrecht</Translation>
 			</div>
 		</div>
 	</div>

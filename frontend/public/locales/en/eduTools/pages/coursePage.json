@@ -3,7 +3,11 @@
     "loadingCourseTitle": "Loading course...",
     "unknownCourseTitle": "Unknown course"
   },
-  "student": {
+  "externals": {
+    "title": "Sign in required",
+    "description": "To participate in this course, you have to first sign in and then subscribe to the course. No worries, it's all free. This is only so we can track and show you your progress within the course."
+  },
+  "students": {
     "priorKnowledge": "Prior knowledge",
     "gradeEstimate": "Based on your practice so far, we expect a score of roughly <strong>{percentage}</strong> (about <strong>{lowerPercentage} - {upperPercentage}</strong>) on the final test.",
     "disclaimer": "No rights can be derived from this estimate.",

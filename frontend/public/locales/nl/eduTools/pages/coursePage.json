@@ -3,7 +3,11 @@
     "loadingCourseTitle": "Cursus wordt geladen...",
     "unknownCourseTitle": "Onbekende cursus"
   },
-  "student": {
+  "externals": {
+    "title": "Inloggen vereist",
+    "description": "Om deel te nemen aan deze cursus, is het nodig om eerst in te loggen en vervolgens je in te schrijven voor de cursus. Geen zorgen, het is allemaal gratis. Dit is puur zodat we je voortgang binnen de cursus kunnen volgen om deze voor jou te kunnen weergeven."
+  },
+  "students": {
     "priorKnowledge": "Voorkennis",
     "gradeEstimate": "Gebaseerd op je oefening tot nu toe, verwachten we een score van grofweg <a>{percentage}</a> (zo'n <b>{lowerPercentage} - {upperPercentage}</b>) op de eindtoets.",
     "disclaimer": "Aan deze schatting kunnen geen rechten worden ontleend.",

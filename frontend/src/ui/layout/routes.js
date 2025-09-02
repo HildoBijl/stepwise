@@ -63,6 +63,12 @@ export function getRoutes(user = undefined) {
 				name: 'Home',
 				fullPage: true,
 			},
+			'course/:courseCode': {
+				id: 'course',
+				page: CoursePage,
+				name: CourseName,
+				provider: CourseProvider,
+			},
 			'*': { // Note that the '*' path must be last.
 				id: 'notFoundForStranger',
 				page: Home,

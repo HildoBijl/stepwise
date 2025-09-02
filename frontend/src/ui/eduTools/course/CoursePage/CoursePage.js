@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useIsAdmin } from 'api'
+import { useIsAdmin, useUser } from 'api'
 import { useLocalStorageState } from 'util'
 import { usePaths } from 'ui/routingTools'
 import { LoadingIndicator, ErrorNote } from 'ui/components'
 
 import { useCourseData } from '../components'
+import { CoursePageForExternal } from './CoursePageForExternal'
 import { CoursePageForStudent } from './CoursePageForStudent'
 import { CoursePageForTeacher } from './CoursePageForTeacher'
 import { CourseSettingsPageForUnsubscribedUser } from '../CourseSettingsPage'
@@ -33,9 +34,12 @@ export function CoursePage() {
 
 function CoursePageForCourse({ course }) {
 	const [studentView] = useLocalStorageState(`${course.code}StudentView`)
+	const user = useUser()
 	const isAdmin = useIsAdmin()
 
 	// When we do have data, determine what page to show.
+	if (!user)
+		return <CoursePageForExternal />
 	if (isAdmin || course.role === 'teacher')
 		return studentView ? <CoursePageForStudent /> : <CoursePageForTeacher />
 	if (course.role === 'student')

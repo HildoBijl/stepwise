@@ -17,7 +17,8 @@
       "title": "Unsubscribe",
       "description": "<check><on-true>Unsubscribing from this course removes it from your course list. You can always resubscribe.</on-true><on-false>Unsubscribing from this course removes it from your course list. It also revokes permissions for the teachers of this course to view your progress within the course. You can always resubscribe to the course.</on-false></check>",
       "button": "Unsubscribe from this course"
-    }
+    },
+    "logInHU": "Sign in through Hogeschool Utrecht"
   },
   "teachers": {
     "studentView": {

@@ -74,7 +74,7 @@ export function CoursePageForStudent() {
 	// Render the component.
 	const data = { course, overview, analysis, activeBlock, toggleActiveBlock }
 	return <TranslationFile path={translationPath}>
-		<TranslationSection entry="student">
+		<TranslationSection entry="students">
 			{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
 			{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 		</TranslationSection>

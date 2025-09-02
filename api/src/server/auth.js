@@ -22,7 +22,7 @@ function createAuthRouter(config, database, { surfConextClient, googleClient }) 
 	 * @param getUser A function with the following signature: async (req) => User | null
 	 */
 	function createLoginHandler(getUser) {
-		return async function(req, res) {
+		return async function (req, res) {
 			try {
 				const user = await getUser(req)
 				if (!user) {
@@ -68,7 +68,7 @@ function createAuthRouter(config, database, { surfConextClient, googleClient }) 
 			req.session.redirect = getValidRedirect(req.query.redirect)
 			const authProviderUrl = await surfConextAuthStrategy.initiate(req.session.id)
 			res.redirect(authProviderUrl)
-		} catch(error) {
+		} catch (error) {
 			console.error(error)
 			res.redirect(`${config.homepageUrl}?error=${INTERNAL_ERROR}`)
 		}
@@ -81,12 +81,26 @@ function createAuthRouter(config, database, { surfConextClient, googleClient }) 
 	 * The initialization is entirely handled client-side by the Google JS library.
 	 */
 	const googleAuthStrategy = new GoogleAuthStrategy(database, googleClient)
-	authRouter.post('/google/login', createLoginHandler(
-		req => googleAuthStrategy.authenticateAndSync(req))
-	)
+	authRouter.post('/google/login', createLoginHandler(req => googleAuthStrategy.authenticateAndSync(req)))
+	authRouter.get('/google/initiate', async (req, res) => {
+		try {
+			await promisify(cb => req.session.regenerate(cb))()
+			req.session.initiated = new Date()
+			req.session.redirect = getValidRedirect(req.query.redirect)
+			req.session.save((err) => {
+				if (err) {
+					console.error("Failed to save session:", err)
+					return res.status(500).send("Internal error")
+				}
+				res.sendStatus(200)
+			})
+		} catch (error) {
+			console.error(error)
+			res.redirect(`${config.homepageUrl}?error=${INTERNAL_ERROR}`)
+		}
+	})
 
 	return authRouter
-
 }
 
 function getValidRedirect(rawRedirectParam) {

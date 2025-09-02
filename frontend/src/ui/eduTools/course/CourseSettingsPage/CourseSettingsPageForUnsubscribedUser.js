@@ -1,5 +1,6 @@
+import { useUser } from 'api'
 import { TranslationFile, TranslationSection, Translation, Check } from 'i18n'
-import { Head, Par } from 'ui/components'
+import { Head, Par, LogInButtons } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
@@ -12,15 +13,30 @@ const translationSection = `students`
 
 export function CourseSettingsPageForUnsubscribedUser() {
 	const { course } = useCourseData()
+	const user = useUser()
+
 	return <>
 		{course.description && <Par><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation></Par>}
 		<SubscribeToCourse course={course} />
-		<CourseTeachers course={course} />
+		{user ? <CourseTeachers course={course} /> : null}
 		<CourseLearningGoals course={course} />
 	</>
 }
 
 function SubscribeToCourse({ course }) {
+	// If there is no user, show a sign-in form.
+	const user = useUser()
+	if (!user)
+		return <>
+			<TranslationFile path={translationPath}>
+				<TranslationSection entry={translationSection}>
+					<Head><Translation entry="subscribe.title">Subscribe</Translation></Head>
+					<Par>You are currently not signed in.</Par>
+					<LogInButtons centered={false} />
+				</TranslationSection>
+			</TranslationFile>
+		</>
+
 	// For a teacherless organization, do not note the permissions.
 	const organization = getOrganization(course.organization)
 	return <>

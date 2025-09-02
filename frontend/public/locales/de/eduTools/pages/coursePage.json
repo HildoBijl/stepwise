@@ -3,7 +3,11 @@
     "loadingCourseTitle": "Kurs wird geladen...",
     "unknownCourseTitle": "Unbekannter Kurs"
   },
-  "student": {
+  "externals": {
+    "title": "Anmeldung erforderlich",
+    "description": "Um an diesem Kurs teilzunehmen, musst du dich zuerst anmelden und dann für den Kurs registrieren. Keine Sorge, das ist alles kostenlos. Das ist nur nötig, damit wir deinen Fortschritt im Kurs verfolgen und dir anzeigen können."
+  },
+  "students": {
     "priorKnowledge": "Vorkenntnisse",
     "gradeEstimate": "Auf der Grundlage deiner bisherigen Übung erwarten wir eine Punktzahl von etwa <a>{percentage}</a> (etwa <b>{lowerPercentage} - {upperPercentage}</b>) im Abschlusstest.",
     "disclaimer": "Aus dieser Schätzung können keine Rechte abgeleitet werden.",

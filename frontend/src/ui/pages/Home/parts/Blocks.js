@@ -7,11 +7,9 @@ import Button from '@material-ui/core/Button'
 import { Info as InfoIcon } from '@material-ui/icons'
 
 import { TranslationSection, Translation } from 'i18n'
-import { Student, Teacher, M } from 'ui/components'
+import { Student, Teacher, M, LogInButtons } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
-
-import { LogInButtons } from './LogInButtons'
 
 const useStyles = makeStyles((theme) => ({
 	container: {},
