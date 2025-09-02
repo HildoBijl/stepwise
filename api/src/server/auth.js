@@ -87,13 +87,7 @@ function createAuthRouter(config, database, { surfConextClient, googleClient }) 
 			await promisify(cb => req.session.regenerate(cb))()
 			req.session.initiated = new Date()
 			req.session.redirect = getValidRedirect(req.query.redirect)
-			req.session.save((err) => {
-				if (err) {
-					console.error("Failed to save session:", err)
-					return res.status(500).send("Internal error")
-				}
-				res.sendStatus(200)
-			})
+			req.session.save(() => res.sendStatus(200))
 		} catch (error) {
 			console.error(error)
 			res.redirect(`${config.homepageUrl}?error=${INTERNAL_ERROR}`)

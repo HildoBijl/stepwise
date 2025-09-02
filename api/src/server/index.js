@@ -58,7 +58,7 @@ const createServer = async ({
 		rolling: true,
 		cookie: {
 			secure: config.sslEnabled,
-			sameSite: 'None',
+			sameSite: config.sslEnabled ? 'None' : 'Lax',
 			httpOnly: true,
 			domain: config.apiDomain,
 			maxAge: config.sessionMaxAgeMillis,
