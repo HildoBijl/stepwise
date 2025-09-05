@@ -27,6 +27,25 @@ const userFullResolvers = {
 }
 
 const resolvers = {
+	User: {
+		async __resolveType(user, { loaders, isLoggedIn, user: currentUser, isAdmin }) {
+			// Not logged in? Never access any user data.
+			if (!isLoggedIn)
+				return null
+
+			// Is this you? You get all data. Admins do as well.
+			if (currentUser.id === user.id || isAdmin)
+				return 'UserFull'
+
+			// If the current user teaches a course where the given user is a student, allow private data.
+			const hasStudentInCourse = await loaders.hasStudentInCourse.load(`${currentUser.id}:${user.id}`)
+			if (hasStudentInCourse)
+				return 'UserPrivate'
+
+			// Just a regular user: only give public info.
+			return 'UserPublic'
+		}
+	},
 	UserPublic: userPublicResolvers,
 	UserPrivate: userPrivateResolvers,
 	UserFull: userFullResolvers,

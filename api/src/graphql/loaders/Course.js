@@ -35,6 +35,47 @@ module.exports = (db) => {
 				courseStudents[sub.courseId].push(sub.user)
 			})
 			return courseIds.map(courseId => courseStudents[courseId] || [])
-		})
+		}),
+
+		hasStudentInCourse: new DataLoader(async (keys) => { // Key: currentUserId + ":" + targetUserId
+			// Split the keys up into ID pairs.
+			const pairs = keys.map(key => {
+				const [currentUserId, targetUserId] = key.split(':')
+				return { currentUserId, targetUserId }
+			})
+
+			// Collect all target userIds and currentUserIds.
+			const currentUserIds = [...new Set(pairs.map(p => p.currentUserId))]
+			const targetUserIds = [...new Set(pairs.map(p => p.targetUserId))]
+
+			// Query CourseSubscriptions where currentUser is teacher and target user is student.
+			const subscriptions = await db.CourseSubscription.findAll({
+				where: {
+					userId: { [Op.in]: currentUserIds },
+					role: 'teacher'
+				},
+				include: [{
+					model: db.Course,
+					as: 'course',
+					include: [{
+						model: db.CourseSubscription,
+						as: 'participants',
+						where: { userId: { [Op.in]: targetUserIds }, role: 'student' },
+						required: true,
+					}]
+				}]
+			})
+
+			// Create a map for fast look-up.
+			const map = {}
+			subscriptions.forEach(sub => {
+				sub.course.participants.forEach(studentSub => {
+					map[`${sub.userId}:${studentSub.userId}`] = true
+				})
+			})
+
+			// Return boolean value for each key.
+			return keys.map(k => !!map[k])
+		}),
 	}
 }

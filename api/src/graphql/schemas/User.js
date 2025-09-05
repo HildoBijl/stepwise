@@ -27,13 +27,13 @@ const UserFull = `
 
 const schema = gql`
   extend type Query {
-		me: UserFull
-		user(userId: ID!): UserPrivate
-		allUsers: [UserPrivate]
+		me: User
+		user(userId: ID!): User
+		allUsers: [User]
   }
 
 	extend type Mutation {
-		setLanguage(language: String!): UserFull!
+		setLanguage(language: String!): User!
 		acceptLatestPrivacyPolicy: PrivacyPolicyConsent!
 		shutdownAccount(confirmEmail: String!): ID!
 	}
@@ -44,15 +44,19 @@ const schema = gql`
 		isLatestVersion: Boolean!
 	}
 
-	type UserPublic {
+	interface User {
 		${UserPublic}
 	}
 
-	type UserPrivate {
+	type UserPublic implements User {
+		${UserPublic}
+	}
+
+	type UserPrivate implements User {
 		${UserPrivate}
 	}
 
-	type UserFull {
+	type UserFull implements User {
 		${UserFull}
 	}
 `

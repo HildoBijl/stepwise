@@ -11,13 +11,17 @@ export const privacyPolicyConsentFields = `
 export const userFields = `
 	id
 	name
-	email
 	givenName
 	familyName
-	role
-	language
-	privacyPolicyConsent {
-		${privacyPolicyConsentFields}
+	... on UserPrivate {
+		email
+	}
+	... on UserFull {
+		role
+		language
+		privacyPolicyConsent {
+			${privacyPolicyConsentFields}
+		}
 	}
 `
 

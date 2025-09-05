@@ -19,12 +19,12 @@ const CourseForStudent = `
 		${CourseForExternal}
 		role: String
 		subscribedOn: DateTime
-		teachers: [UserPublic]!
+		teachers: [User]!
 `
 
 const CourseForTeacher = `
 		${CourseForStudent}
-		students: [UserPrivate]!
+		students: [User]!
 `
 
 const schema = gql`
