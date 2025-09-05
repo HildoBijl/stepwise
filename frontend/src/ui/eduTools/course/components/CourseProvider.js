@@ -3,17 +3,15 @@ import { useParams } from 'react-router-dom'
 
 import { getCourseOverview } from 'step-wise/eduTools'
 
-import { useUser, useSkillsData, useCourseQuery, useCourseForStudentQuery } from 'api'
+import { useSkillsData, useCourseQuery } from 'api'
 
 import { getAnalysis } from '../../courses'
 
 const CourseContext = createContext(null)
 export function CourseProvider({ children }) {
-	const user = useUser()
-
 	// Load the course from the database.
 	const { courseCode } = useParams()
-	const courseResult = (user ? useCourseForStudentQuery : useCourseQuery)(courseCode)
+	const courseResult = useCourseQuery(courseCode)
 
 	// Depending on if the data is there, set up an empty provider or a provider loading further data.
 	const { loading, error, data } = courseResult

@@ -59,7 +59,6 @@ const apolloClient = new ApolloClient({
 			},
 			CourseForStudent: { // Define custom merge functions to prevent warnings from Apollo on updates.
 				fields: {
-					students: { merge(existing, incoming) { return incoming } },
 					teachers: { merge(existing, incoming) { return incoming } },
 				},
 			},

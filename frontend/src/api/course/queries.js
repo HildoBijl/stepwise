@@ -1,7 +1,8 @@
 import { gql, useQuery } from '@apollo/client'
 
 // Define the default fields we read for a course.
-export const courseFields = `
+export const getCourseFields = (addTeachers = false, addStudents = false) => `
+  __typename
 	id
 	code
 	name
@@ -17,109 +18,64 @@ export const courseFields = `
 	}
 	createdAt
 	updatedAt
-`
-
-export const teacherFields = `
-	id
-	name
-	givenName
-	familyName
-`
-
-export const courseForStudentFields = `
-	${courseFields}
-	role
-	subscribedOn
-	teachers {
-		${teacherFields}
+	... on CourseForStudent {
+		${getCourseForStudentFields(addTeachers, addStudents)}
+	}
+	... on CourseForTeacher {
+		${getCourseForTeacherFields(addTeachers, addStudents)}
 	}
 `
 
-export const studentFields = `
-	${teacherFields}
-	email
-	skills {
-		id
-		skillId
-		numPracticed
-		coefficients
-		coefficientsOn
-		highest
-		highestOn
-		createdAt
-		updatedAt
-	}
+const getCourseForStudentFields = (addTeachers, addStudents) => `
+		role
+		subscribedOn
+		${addTeachers ? `teachers {
+			id
+			name
+			givenName
+			familyName
+		}` : ''}
 `
 
-export const courseForTeacherFields = `
-	${courseForStudentFields}
-	students {
-		${studentFields}
-	}
+const getCourseForTeacherFields = (addTeachers, addStudents) => `
+		${getCourseForStudentFields(addTeachers, addStudents)}
+		${addStudents ? `students {
+			id
+			name
+			givenName
+			familyName
+		}` : ''}
 `
 
-export function useAllCoursesQuery() {
-	return useQuery(ALL_COURSES)
+export function useAllCoursesQuery(addTeachers = true, addStudents = false) {
+	return useQuery(ALL_COURSES(addTeachers, addStudents))
 }
-export const ALL_COURSES = gql`
+export const ALL_COURSES = (addTeachers, addStudents) => gql`
 	{
 		allCourses {
-			${courseFields}
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `
 
-export function useCourseQuery(code) {
-	return useQuery(COURSE, { variables: { code } })
+export function useMyCoursesQuery(addTeachers = true, addStudents = false) {
+	return useQuery(MY_COURSES(addTeachers, addStudents))
 }
-export const COURSE = gql`
-	query course($code: String!) {
-		course(code: $code) {
-			${courseFields}
-		}
-	}
-`
-
-export function useMyCoursesQuery() {
-	return useQuery(MY_COURSES)
-}
-export const MY_COURSES = gql`
+export const MY_COURSES = (addTeachers, addStudents) => gql`
 	{
 		myCourses {
-			${courseForStudentFields}
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `
 
-export function useAllCoursesForStudentQuery() {
-	return useQuery(ALL_COURSES_FOR_STUDENT)
+export function useCourseQuery(code, addTeachers = true, addStudents = true) {
+	return useQuery(COURSE(addTeachers, addStudents), { variables: { code } })
 }
-export const ALL_COURSES_FOR_STUDENT = gql`
-	{
-		allCoursesForStudent {
-			${courseForStudentFields}
-		}
-	}
-`
-
-export function useCourseForStudentQuery(code) {
-	return useQuery(COURSEFORSTUDENT, { variables: { code } })
-}
-export const COURSEFORSTUDENT = gql`
-	query courseForStudent($code: String!) {
-		courseForStudent(code: $code) {
-			${courseForStudentFields}
-		}
-	}
-`
-
-export function useCourseForTeacherQuery(code) {
-	return useQuery(COURSEFORTEACHER, { variables: { code } })
-}
-export const COURSEFORTEACHER = gql`
-	query courseForTeacher($code: String!) {
-		courseForTeacher(code: $code) {
-			${courseForTeacherFields}
+export const COURSE = (addTeachers, addStudents) => gql`
+	query course($code: String!) {
+		course(code: $code) {
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `

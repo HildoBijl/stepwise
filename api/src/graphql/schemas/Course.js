@@ -51,11 +51,15 @@ const schema = gql`
 		${CourseForExternal}
 	}
 
-	type CourseForStudent implements Course {
+	interface CourseForUser implements Course {
 		${CourseForStudent}
 	}
 
-	type CourseForTeacher implements Course {
+	type CourseForStudent implements CourseForUser & Course {
+		${CourseForStudent}
+	}
+
+	type CourseForTeacher implements CourseForUser & Course {
 		${CourseForTeacher}
 	}
 

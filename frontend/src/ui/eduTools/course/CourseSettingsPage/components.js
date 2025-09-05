@@ -5,23 +5,15 @@ import { HowToReg as SubscribeIcon } from '@material-ui/icons'
 
 import { skillTree } from 'step-wise/eduTools'
 
-import { useCourseForTeacherQuery, useSubscribeToCourseMutation, useUnsubscribeFromCourseMutation } from 'api'
+import { useSubscribeToCourseMutation, useUnsubscribeFromCourseMutation } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'
 import { Head, Par, List } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
-
-import { useCourseData } from '../components'
 
 import { getOrganization } from '../../organizations'
 
 const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = `students`
-
-export function useCourseForTeacher() {
-	const { course: courseForStudent } = useCourseData() // The course without students has already been loaded (cached).
-	const { data } = useCourseForTeacherQuery(courseForStudent.code) // Load the course with the students.
-	return data?.courseForTeacher || courseForStudent // If the course for teachers is available, return it. Otherwise for now return the course without students.
-}
 
 export function CourseTeachers({ course }) {
 	// Sort the teachers of this course by name.

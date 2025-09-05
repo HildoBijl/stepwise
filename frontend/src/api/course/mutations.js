@@ -1,26 +1,26 @@
 import { useCallback } from 'react'
 import { useMutation, gql } from '@apollo/client'
 
-import { useUserId, useUser } from '../user'
+import { useUserId } from '../user'
 
-import { courseFields, courseForStudentFields, courseForTeacherFields, MY_COURSES } from './queries'
+import { getCourseFields } from './queries'
 
-export function useCreateCourseMutation() {
-	const [createCourse, data] = useMutation(CREATE_COURSE)
+export function useCreateCourseMutation(addTeachers = true, addStudents = true) {
+	const [createCourse, data] = useMutation(CREATE_COURSE(addTeachers, addStudents))
 	const newCreateCourse = input => createCourse({ variables: { input } })
 	return [newCreateCourse, data]
 }
-const CREATE_COURSE = gql`
+const CREATE_COURSE = (addTeachers, addStudents) => gql`
 	mutation createCourse($input: CreateCourseInput!) {
 		createCourse(input: $input) {
-			${courseFields}
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `
 
-export function useSubscribeToCourseMutation() {
+export function useSubscribeToCourseMutation(addTeachers = true, addStudents = true) {
 	const userId = useUserId() // Needed for cache updates.
-	const [subscribe, data] = useMutation(SUBSCRIBE_TO_COURSE, {
+	const [subscribe, data] = useMutation(SUBSCRIBE_TO_COURSE(addTeachers, addStudents), {
 		update(cache, { data }) {
 			// Load the newly subscribed course.
 			const newCourse = data?.subscribeToCourse
@@ -82,17 +82,17 @@ export function useSubscribeToCourseMutation() {
 	const subscribeToCourse = courseId => subscribe({ variables: { courseId } })
 	return [subscribeToCourse, data]
 }
-const SUBSCRIBE_TO_COURSE = gql`
+const SUBSCRIBE_TO_COURSE = (addTeachers, addStudents) => gql`
 	mutation subscribeToCourse($courseId: ID!) {
 		subscribeToCourse(courseId: $courseId) {
-			${courseForStudentFields}
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `
 
-export function useUnsubscribeFromCourseMutation() {
+export function useUnsubscribeFromCourseMutation(addTeachers = true, addStudents = true) {
 	const userId = useUserId() // Needed for cache updates.
-	const [unsubscribe, data] = useMutation(UNSUBSCRIBE_FROM_COURSE, {
+	const [unsubscribe, data] = useMutation(UNSUBSCRIBE_FROM_COURSE(addTeachers, addStudents), {
 		update(cache, { data }) { // Add an update function to automatically update the myCourses query.
 			// Load the newly subscribed course.
 			const removedCourse = data?.unsubscribeFromCourse
@@ -127,23 +127,23 @@ export function useUnsubscribeFromCourseMutation() {
 	const unsubscribeFromCourse = courseId => unsubscribe({ variables: { courseId } })
 	return [unsubscribeFromCourse, data]
 }
-const UNSUBSCRIBE_FROM_COURSE = gql`
+const UNSUBSCRIBE_FROM_COURSE = (addTeachers, addStudents) => gql`
 	mutation unsubscribeFromCourse($courseId: ID!) {
 		unsubscribeFromCourse(courseId: $courseId) {
-			${courseForStudentFields}
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `
 
-export function usePromoteToTeacherMutation(courseId) {
-	const [promote, data] = useMutation(PROMOTE_TO_TEACHER)
+export function usePromoteToTeacherMutation(courseId, addTeachers = true, addStudents = true) {
+	const [promote, data] = useMutation(PROMOTE_TO_TEACHER(addTeachers, addStudents))
 	const promoteToTeacher = useCallback(userId => promote({ variables: { courseId, userId } }), [promote, courseId])
 	return [promoteToTeacher, data]
 }
-const PROMOTE_TO_TEACHER = gql`
+const PROMOTE_TO_TEACHER = (addTeachers, addStudents) => gql`
 	mutation promoteToTeacher($courseId: ID!, $userId: ID!) {
 		promoteToTeacher(courseId: $courseId, userId: $userId) {
-			${courseForTeacherFields}
+			${getCourseFields(addTeachers, addStudents)}
 		}
 	}
 `

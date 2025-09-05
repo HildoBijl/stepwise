@@ -16,13 +16,15 @@ import { Head, Par, Info, Warning } from 'ui/components'
 
 import { getOrganization } from '../../organizations'
 
-import { useCourseForTeacher, CourseTeachers, SubscribeButton, UnsubscribeButton } from './components'
+import { useCourseData } from '../components'
+
+import { CourseTeachers, SubscribeButton, UnsubscribeButton } from './components'
 
 const translationPath = `eduTools/pages/courseSettingsPage`
 const translationSection = 'teachers'
 
 export function CourseSettingsPageForTeacher() {
-	const course = useCourseForTeacher()
+	const { course } = useCourseData()
 	return <>
 		<StudentView course={course} />
 		<AddTeacher course={course} />

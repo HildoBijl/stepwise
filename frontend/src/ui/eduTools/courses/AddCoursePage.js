@@ -9,7 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import { getCourseOverview } from 'step-wise/eduTools'
 
-import { useAllCoursesForStudentQuery } from 'api'
+import { useAllCoursesQuery } from 'api'
 import { TranslationFile, Translation } from 'i18n'
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -19,7 +19,7 @@ import { organizations } from '../organizations'
 const translationPath = 'eduTools/pages/addCoursePage'
 
 export function AddCoursePage() {
-	const allCoursesResult = useAllCoursesForStudentQuery()
+	const allCoursesResult = useAllCoursesQuery()
 
 	// When we don't have the data, show a relevant indication of what's going on.
 	if (allCoursesResult.loading)
