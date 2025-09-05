@@ -1,4 +1,10 @@
+
+import { useCourseData } from '../components'
+
 export function CoursePageForTeacher() {
+	const { course } = useCourseData()
+	console.log(course)
+
 	return <>
 		<p>The teacher interface for a course is still under development...</p>
 		<p>In the future, this will be the place to inspect the students in your course. How far along are they? You can get the full overview, or zoom in on a specific student.</p>

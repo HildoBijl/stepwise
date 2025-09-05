@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server-express')
 
-const Course = `
+const CourseForExternal = `
 		id: ID!
 		code: String!
 		name: String!
@@ -16,7 +16,7 @@ const Course = `
 `
 
 const CourseForStudent = `
-		${Course}
+		${CourseForExternal}
 		role: String
 		subscribedOn: DateTime
 		teachers: [UserPublic]!
@@ -30,31 +30,32 @@ const CourseForTeacher = `
 const schema = gql`
 	extend type Query {
 		allCourses: [Course]!
+		myCourses: [Course]!
 		course(code: String!): Course!
-		myCourses: [CourseForStudent]!
-		allCoursesForStudent: [CourseForStudent]!
-		courseForStudent(code: String!): CourseForStudent!
-		courseForTeacher(code: String!): CourseForTeacher!
 	}
 
 	extend type Mutation {
-		subscribeToCourse(courseId: ID!): CourseForStudent!
-		unsubscribeFromCourse(courseId: ID!): CourseForStudent!
-		promoteToTeacher(courseId: ID!, userId: ID!): CourseForTeacher!
-		createCourse(input: CreateCourseInput!): CourseForStudent!
-		updateCourse(courseId: ID!, input: UpdateCourseInput!): CourseForStudent!
+		createCourse(input: CreateCourseInput!): Course!
+		updateCourse(courseId: ID!, input: UpdateCourseInput!): Course!
 		deleteCourse(courseId: ID!): Boolean!
+		subscribeToCourse(courseId: ID!): Course!
+		unsubscribeFromCourse(courseId: ID!): Course!
+		promoteToTeacher(courseId: ID!, userId: ID!): Course!
 	}
 
-	type Course {
-		${Course}
+	interface Course {
+		${CourseForExternal}
 	}
 
-	type CourseForStudent {
+	type CourseForExternal implements Course {
+		${CourseForExternal}
+	}
+
+	type CourseForStudent implements Course {
 		${CourseForStudent}
 	}
 
-	type CourseForTeacher {
+	type CourseForTeacher implements Course {
 		${CourseForTeacher}
 	}
 

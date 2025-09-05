@@ -32,19 +32,20 @@ const resolvers = {
 	UserFull: userFullResolvers,
 
 	Mutation: {
-		setLanguage: async (_source, { language }, { getCurrentUser }) => {
+		setLanguage: async (_source, { language }, { ensureLoggedIn, user }) => {
+			ensureLoggedIn()
+
 			// Check the received language.
 			if (!languages.includes(language))
 				throw new Error(`Invalid language setting: the language "${language}" is not in the list of supported languages.`)
 
 			// Save the received language.
-			const user = await getCurrentUser()
 			await user.update({ language })
 			return user
 		},
 
-		acceptLatestPrivacyPolicy: async (_source, _args, { getCurrentUser }) => {
-			const user = await getCurrentUser()
+		acceptLatestPrivacyPolicy: async (_source, _args, { ensureLoggedIn, user }) => {
+			ensureLoggedIn()
 
 			// Only run update if we are behind.
 			if (!user.privacyPolicyAcceptedVersion || user.privacyPolicyAcceptedVersion < currentPrivacyPolicyVersion) {
@@ -60,9 +61,10 @@ const resolvers = {
 			}
 		},
 
-		shutdownAccount: async (_source, { confirmEmail }, { getCurrentUser }) => {
+		shutdownAccount: async (_source, { confirmEmail }, { ensureLoggedIn, user }) => {
+			ensureLoggedIn()
+
 			// Get the user and verify the given email address.
-			const user = await getCurrentUser()
 			if (user.email !== confirmEmail)
 				throw new UserInputError('User shutdown denied: the confirmation email does not match.')
 
@@ -73,21 +75,15 @@ const resolvers = {
 	},
 
 	Query: {
-		me: async (_source, _args, { getCurrentUser }) => {
-			try {
-				return await getCurrentUser()
-			} catch (error) {
-				return null
-			}
-		},
+		me: async (_source, _args, { user }) => user,
 
 		user: async (_source, { userId }, { db, ensureAdmin }) => {
-			await ensureAdmin()
+			ensureAdmin()
 			return await getUser(db, userId)
 		},
 
 		allUsers: async (_source, _args, { db, ensureAdmin }) => {
-			await ensureAdmin()
+			ensureAdmin()
 			return await getAllUsers(db)
 		},
 	},

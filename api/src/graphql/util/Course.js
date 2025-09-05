@@ -1,64 +1,75 @@
 const { getUser } = require('./User')
 
-// getAllCourses return the list of all available courses.
-async function getAllCourses(db, userId) {
+// getCourses extracts a list of courses. If a userId is given, it also adds subscription info. If the onlyOwnCourses flag is set to true, only the user's own courses are given.
+async function getCourses(db, userId, onlyOwnCourses = false) {
 	// Load in the courses.
 	const courses = await db.Course.findAll({
 		include: [
-			{ association: 'blocks' },
-			{ association: 'teachers' },
-			{
-				association: 'participants',
-				where: { id: userId },
-				required: false,
-			},
-		],
-	})
-
-	// Add in the course subscriptions manually.
-	courses.forEach(course => {
-		course.courseSubscription = course.courseSubscription || course.participants[0]?.courseSubscription
-	})
-	return courses
-}
-module.exports.getAllCourses = getAllCourses
-
-// getCourseByCode takes a course code and returns the corresponding course. It does this for anonymous users, so only limited data is loaded.
-async function getCourseByCode(db, code) {
-	const course = await db.Course.findOne({
-		where: { code },
-		include: [
+			...addParticipantAssociation(userId, onlyOwnCourses),
 			{ association: 'blocks' },
 		],
 		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
 	})
+
+	// Add in the course subscriptions manually.
+	courses.forEach(course => {
+		course.courseSubscription = (course.participants || [])[0]?.courseSubscription
+	})
+	return courses
+}
+module.exports.getCourses = getCourses
+
+// getCourse takes a "where" object for a sequelize query and returns the corresponding code. If a userId is given, participation info is added.
+async function getCourse(db, where, userId) {
+	// Load in the course.
+	const course = await db.Course.findOne({
+		where,
+		include: [
+			...addParticipantAssociation(userId, false),
+			{ association: 'blocks' },
+		],
+		order: [[{ model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
+	})
+
+	// If the course exists, add in subscription info and return it.
 	if (!course)
-		throw new Error(`Failed to load course with code "${code}".`)
+		throw new Error(`Failed to load course with specifications "${JSON.stringify(where)}".`)
+	course.courseSubscription = (course.participants || [])[0]?.courseSubscription
 	return course
+}
+
+// getCourseByCode takes a course code and returns the corresponding course.
+async function getCourseByCode(db, code, userId) {
+	return await getCourse(db, { code }, userId)
 }
 module.exports.getCourseByCode = getCourseByCode
 
-// getUserCourses returns the list of courses that the given user is subscribed to (in any role).
-async function getUserCourses(db, userId) {
-	// Load the user with the associated courses.
-	const userWithCourses = await db.User.findByPk(userId, {
-		include: {
-			association: 'courses',
-			include: [
-				{ association: 'blocks' },
-				{ association: 'teachers' },
-			],
-		},
-		order: [[{ model: db.Course, as: 'courses' }, { model: db.CourseBlock, as: 'blocks' }, 'index', 'ASC']], // Ensure blocks are sorted by their index.
-	})
-
-	// Extract the courses, check them and return them.
-	const courses = userWithCourses?.courses
-	if (!courses)
-		throw new Error(`Failed to load courses of user with ID "${userId}".`)
-	return courses
+// getCourseById takes a courseId and returns the corresponding course.
+async function getCourseById(db, courseId, userId) {
+	return await getCourse(db, { id: courseId }, userId)
 }
-module.exports.getUserCourses = getUserCourses
+module.exports.getCourseById = getCourseById
+
+// addParticipantAssociation is a supporter function that adds a Sequelize include to include the given user's participation within the course.
+function addParticipantAssociation(userId, required = false) {
+	return userId ? [{ // When a userId is given, add participation info.
+		association: 'participants',
+		where: { id: userId },
+		required, // Do we require the user to be a participant?
+	}] : []
+}
+
+
+
+
+
+
+
+
+// ToDo: check if the functions below are still needed?
+
+
+
 
 // getCourseByCodeForUser takes a course code and returns the corresponding course. It does this from the perspective of a given user. If the user is marked as a teacher (indicated through an extra function argument) then student data is included too.
 async function getCourseByCodeForUser(db, code, ...args) {

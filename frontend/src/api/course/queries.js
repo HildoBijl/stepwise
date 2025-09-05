@@ -35,7 +35,21 @@ export const courseForStudentFields = `
 	}
 `
 
-export const studentFields = teacherFields
+export const studentFields = `
+	${teacherFields}
+	email
+	skills {
+		id
+		skillId
+		numPracticed
+		coefficients
+		coefficientsOn
+		highest
+		highestOn
+		createdAt
+		updatedAt
+	}
+`
 
 export const courseForTeacherFields = `
 	${courseForStudentFields}

@@ -25,18 +25,20 @@ const resolvers = {
 	},
 
 	Query: {
-		activeGroupExercises: async (_source, { code }, { db, getCurrentUserId }) => {
+		activeGroupExercises: async (_source, { code }, { db, ensureLoggedIn, userId }) => {
+			ensureLoggedIn()
 			const group = await getGroupWithActiveExercises(code, db)
-			verifyGroupAccess(group, getCurrentUserId())
+			verifyGroupAccess(group, userId)
 			return group.exercises
 		},
 	},
 
 	Mutation: {
-		startGroupExercise: async (_source, { code, skillId }, { db, pubsub, getCurrentUserId }) => {
+		startGroupExercise: async (_source, { code, skillId }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Verify that the user is a member of the given group.
+			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
-			verifyGroupAccess(group, getCurrentUserId())
+			verifyGroupAccess(group, userId)
 
 			// If an active group exercise already exists, return this. (If two users start one at the same time, then at least no error is thrown.)
 			if (group.exercises.length > 0)
@@ -54,9 +56,9 @@ const resolvers = {
 			return exercise
 		},
 
-		submitGroupAction: async (_source, { code, skillId, action }, { db, pubsub, getCurrentUserId }) => {
+		submitGroupAction: async (_source, { code, skillId, action }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Load and verify data.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 			const exercise = group.exercises[0]
@@ -86,9 +88,9 @@ const resolvers = {
 			return exercise
 		},
 
-		cancelGroupAction: async (_source, { code, skillId }, { db, pubsub, getCurrentUserId }) => {
+		cancelGroupAction: async (_source, { code, skillId }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Load and verify data.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 			const exercise = group.exercises[0]
@@ -110,9 +112,9 @@ const resolvers = {
 			return exercise
 		},
 
-		resolveGroupEvent: async (_source, { code, skillId }, { db, pubsub, getCurrentUserId }) => {
+		resolveGroupEvent: async (_source, { code, skillId }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Load and verify data.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 			const exercise = group.exercises[0]

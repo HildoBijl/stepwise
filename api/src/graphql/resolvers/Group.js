@@ -18,8 +18,9 @@ const resolvers = {
 	},
 
 	Query: {
-		myGroups: async (_source, _args, { db, getCurrentUserId }) => {
-			return await getUserGroups(db, getCurrentUserId())
+		myGroups: async (_source, _args, { db, ensureLoggedIn, userId }) => {
+			ensureLoggedIn()
+			return await getUserGroups(db, userId)
 		},
 
 		groupExists: async (_source, { code }, { db }) => {
@@ -31,15 +32,16 @@ const resolvers = {
 			}
 		},
 
-		myActiveGroup: async (_source, _args, { db, getCurrentUserId }) => {
+		myActiveGroup: async (_source, _args, { db, ensureLoggedIn, userId }) => {
 			// Load all groups and find the active one. (Yes, a bit inefficient, but the number of groups is always small.)
-			const groups = await getUserGroups(db, getCurrentUserId())
+			ensureLoggedIn()
+			const groups = await getUserGroups(db, userId)
 			return groups.find(group => group.groupMembership.active)
 		},
 
-		group: async (_source, { code }, { getCurrentUserId, db }) => {
+		group: async (_source, { code }, { db, ensureLoggedIn, userId }) => {
 			// Load the group with the given code.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const group = await getGroup(db, code)
 
 			// Check that the user is allowed to see the group.
@@ -53,7 +55,9 @@ const resolvers = {
 	},
 
 	Mutation: {
-		createGroup: async (_source, _args, { db, pubsub, getCurrentUserId }) => {
+		createGroup: async (_source, _args, { db, pubsub, ensureLoggedIn, userId }) => {
+			ensureLoggedIn()
+
 			// Create a new group with a random code. The code may already exist in the database, so we have re-try until it eventually succeeds. Even though a collision is not very likely, we still bail out at some point, otherwise the server would be blocked completely.
 			const group = await (async () => {
 				for (let i = 10; i > 0; --i) {
@@ -71,7 +75,6 @@ const resolvers = {
 			})()
 
 			// Deactivate the user from other groups.
-			const userId = getCurrentUserId()
 			await getUserWithDeactivatedGroups(db, pubsub, userId)
 
 			// The creator automatically joins the group.
@@ -82,9 +85,9 @@ const resolvers = {
 			return group
 		},
 
-		joinGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
+		joinGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Deactivate the user from other groups.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const user = await getUserWithDeactivatedGroups(db, pubsub, userId, code)
 			const groups = user.groups
 
@@ -109,9 +112,9 @@ const resolvers = {
 			return group
 		},
 
-		leaveGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
+		leaveGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Load the group and check how many users are left.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const group = await getGroup(db, code)
 			group.members = group.members.filter(member => member.id !== userId)
 
@@ -162,9 +165,9 @@ const resolvers = {
 			return true
 		},
 
-		activateGroup: async (_source, { code }, { db, pubsub, getCurrentUserId }) => {
+		activateGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Deactivate the user from other groups.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const user = await getUserWithDeactivatedGroups(db, pubsub, userId, code)
 			const groups = user.groups
 
@@ -183,9 +186,9 @@ const resolvers = {
 			return group
 		},
 
-		deactivateGroup: async (_source, _args, { db, pubsub, getCurrentUserId }) => {
+		deactivateGroup: async (_source, _args, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Load all groups and ensure that they are all inactive.
-			const userId = getCurrentUserId()
+			ensureLoggedIn()
 			const user = await getUserWithGroups(db, userId)
 			const groups = user.groups
 
@@ -206,9 +209,8 @@ const resolvers = {
 			if (updatedGroup.code === code)
 				return updatedGroup
 		}),
-		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }, _args, { getCurrentUserId }) => {
+		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }, _args, { ensureLoggedIn, userId }) => {
 			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
-			const userId = getCurrentUserId()
 			if (userId === eventUserId && action === 'deactivate')
 				return updatedGroup
 
@@ -217,9 +219,8 @@ const resolvers = {
 			if (member && member.groupMembership.active)
 				return updatedGroup // If the user is active in the group, send an update on this group.
 		}),
-		...getSubscription('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }, _args, { getCurrentUserId }) => {
+		...getSubscription('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }, _args, { userId }) => {
 			// Only pass on the updated group when the user caused this event (like deactivated) or when the user is a member.
-			const userId = getCurrentUserId()
 			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some(member => member.id === userId)))
 				return updatedGroup
 		}),

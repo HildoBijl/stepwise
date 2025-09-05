@@ -27,8 +27,8 @@ const resolvers = {
 	},
 
 	Mutation: {
-		startExercise: async (_source, { skillId }, { db, getCurrentUserId }) => {
-			const userId = getCurrentUserId()
+		startExercise: async (_source, { skillId }, { db, ensureLoggedIn, userId }) => {
+			ensureLoggedIn()
 			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
@@ -38,8 +38,8 @@ const resolvers = {
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 		},
 
-		submitExerciseAction: async (_source, { skillId, action }, { db, pubsub, getCurrentUserId }) => {
-			const userId = getCurrentUserId()
+		submitExerciseAction: async (_source, { skillId, action }, { db, pubsub, ensureLoggedIn, userId }) => {
+			ensureLoggedIn()
 			const { exercise } = await getActiveExerciseData(userId, skillId, db, true)
 
 			// Set up an updateSkills handler that only collects calls.
@@ -62,7 +62,7 @@ const resolvers = {
 			await db.transaction(async (transaction) => {
 				// Apply all the skill updates that were collected so far.
 				adjustedSkills = await applySkillUpdatesForUser(skillUpdates, userId, db, transaction)
-				
+
 				// Store the submission and on a correct one update the active field of the exercise to solved.
 				const newEvent = await exercise.createEvent({ action, progress }, { transaction })
 				exercise.events.push(newEvent) // In Sequelize we have to manually add the new action to the current object.

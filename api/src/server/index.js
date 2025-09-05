@@ -11,7 +11,7 @@ const { SubscriptionServer } = require('subscriptions-transport-ws')
 
 const { typeDefs, resolvers } = require('../graphql')
 
-const { createApolloContext, getPrincipalOrThrow } = require('./apollo')
+const { createApolloContext, getIdFromRequest } = require('./apollo')
 const { createAuthRouter } = require('./auth')
 const { createI18nRouter } = require('./i18n')
 
@@ -90,7 +90,7 @@ const createServer = async ({
 	}
 
 	// Apollo / GraphQL
-	const contextProvider = createApolloContext(database, pubsub)
+	const contextProvider = await createApolloContext(database, pubsub)
 	const schema = makeExecutableSchema({ typeDefs, resolvers })
 	const subscriptionServer = SubscriptionServer.create({
 		schema,
@@ -104,7 +104,8 @@ const createServer = async ({
 				})
 			})
 			// Ensure that only logged-in users can connect to the socket
-			getPrincipalOrThrow(upgradeReqWithSession)
+			if (!getIdFromRequest(upgradeReqWithSession))
+				throw new AuthenticationError(`No user is logged in. Web socket not allowed.`)
 			// Return the context at connection time to the socket
 			return contextProvider({ req: upgradeReqWithSession })
 		},
