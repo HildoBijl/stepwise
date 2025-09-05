@@ -10,7 +10,7 @@ const events = {
 module.exports.events = events
 
 // getUserSkill takes a userId and a skillId and gets the corresponding skill object, including all exercises and actions.
-async function getUserSkill(userId, skillId, db) {
+async function getUserSkill(db, userId, skillId) {
 	skillId = ensureSkillId(skillId)
 
 	// Load all data.
@@ -39,7 +39,7 @@ async function getUserSkill(userId, skillId, db) {
 module.exports.getUserSkill = getUserSkill
 
 // getUserSkills takes a userId and skillIds and gets the UserSkills for the given user from the database. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted. This is usually not recommended though. No exercises are loaded.
-async function getUserSkills(userId, skillIds, db) {
+async function getUserSkills(db, userId, skillIds) {
 	if (skillIds)
 		skillIds = ensureSkillIds(skillIds)
 
@@ -61,10 +61,10 @@ async function getUserSkills(userId, skillIds, db) {
 module.exports.getUserSkills = getUserSkills
 
 // getUserSkillDataSet takes a userId and skillIds and returns a skill data set object with SkillData parameters in it (so very processed objects) for the given user. To do so, it pulls the respective skills and their prerequisites from the database and processes the results. No caching is done.
-async function getUserSkillDataSet(userId, skillIds, db) {
+async function getUserSkillDataSet(db, userId, skillIds) {
 	// Load all required skills from the database. Process them into something functional.
 	const allSkillIds = includePrerequisitesAndLinks(skillIds) // Add links.
-	const rawSkills = await getUserSkills(userId, allSkillIds, db) // Pull all data from the database.
+	const rawSkills = await getUserSkills(db, userId, allSkillIds) // Pull all data from the database.
 	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
 	const skillsAsObject = arraysToObject(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
 	const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
@@ -74,7 +74,7 @@ async function getUserSkillDataSet(userId, skillIds, db) {
 module.exports.getUserSkillDataSet = getUserSkillDataSet
 
 // getUserSkillExercises takes a userId and a skillId and returns a list of the exercises (IDs with states and progresses) that the user has done for that skill.
-async function getUserSkillExercises(userId, skillId, db) {
+async function getUserSkillExercises(db, userId, skillId) {
 	skillId = ensureSkillId(skillId)
 
 	// Pull everything from the database.

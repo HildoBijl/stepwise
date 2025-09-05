@@ -32,8 +32,8 @@ const resolvers = {
 			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
-			const getSkillDataSet = (skillIds) => getUserSkillDataSet(userId, skillIds, db)
-			const getSkillExercises = (skillId) => getUserSkillExercises(userId, skillId, db)
+			const getSkillDataSet = (skillIds) => getUserSkillDataSet(db, userId, skillIds)
+			const getSkillExercises = (skillId) => getUserSkillExercises(db, userId, skillId)
 			const newExercise = await getNewExercise(skillId, getSkillDataSet, getSkillExercises)
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 		},

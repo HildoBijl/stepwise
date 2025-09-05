@@ -18,18 +18,18 @@ const resolvers = {
 			// If no ID is given, the request is for the current user.
 			if (!userId) {
 				ensureLoggedIn()
-				return await getUserSkill(currentUserId, skillId, db)
+				return await getUserSkill(db, currentUserId, skillId)
 			}
 
 			// If an ID is given, it's a request for someone else. Only admins are allowed to do so for now.
 			if (userId) {
 				ensureAdmin()
-				return await getUserSkill(userId, skillId, db)
+				return await getUserSkill(db, userId, skillId)
 			}
 		},
 		skills: async (_source, { skillIds }, { db, ensureLoggedIn, userId }) => {
 			ensureLoggedIn()
-			return await getUserSkills(userId, skillIds, db)
+			return await getUserSkills(db, userId, skillIds)
 		},
 	},
 
