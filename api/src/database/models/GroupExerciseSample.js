@@ -28,8 +28,8 @@ module.exports = (sequelize) => {
 	})
 
 	GroupExerciseSample.associate = models => {
-		GroupExerciseSample.belongsTo(models.Group, { onDelete: 'CASCADE', hooks: true })
-		GroupExerciseSample.hasMany(models.GroupExerciseEvent, { as: 'events', onDelete: 'CASCADE', hooks: true })
+		GroupExerciseSample.belongsTo(models.Group, { onDelete: 'CASCADE' })
+		GroupExerciseSample.hasMany(models.GroupExerciseEvent, { as: 'events', onDelete: 'CASCADE' })
 	}
 
 	return GroupExerciseSample

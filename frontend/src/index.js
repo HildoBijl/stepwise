@@ -39,6 +39,12 @@ const apolloClient = new ApolloClient({
 	),
 	cache: new InMemoryCache({
 		typePolicies: {
+			SkillWithExercises: {
+				keyFields: ['userId', 'skillId'],
+			},
+			SkillWithoutExercises: {
+				keyFields: ['userId', 'skillId'],
+			},
 			Group: {
 				keyFields: ['code'],
 				fields: {

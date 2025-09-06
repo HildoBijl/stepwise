@@ -53,10 +53,10 @@ module.exports = (sequelize) => {
 	})
 
 	Course.associate = models => {
-		Course.belongsToMany(models.User, { as: 'participants', through: CourseSubscription(sequelize), onDelete: 'CASCADE', hooks: true })
-		Course.belongsToMany(models.User, { as: 'students', through: { model: CourseSubscription(sequelize), scope: { role: 'student' } }, onDelete: 'CASCADE', hooks: true })
-		Course.belongsToMany(models.User, { as: 'teachers', through: { model: CourseSubscription(sequelize), scope: { role: 'teacher' } }, onDelete: 'CASCADE', hooks: true })
-		Course.hasMany(models.CourseBlock, { as: 'blocks', onDelete: 'CASCADE', hooks: true })
+		Course.belongsToMany(models.User, { as: 'participants', through: CourseSubscription(sequelize), onDelete: 'CASCADE' })
+		Course.belongsToMany(models.User, { as: 'students', through: { model: CourseSubscription(sequelize), scope: { role: 'student' } }, onDelete: 'CASCADE' })
+		Course.belongsToMany(models.User, { as: 'teachers', through: { model: CourseSubscription(sequelize), scope: { role: 'teacher' } }, onDelete: 'CASCADE' })
+		Course.hasMany(models.CourseBlock, { as: 'blocks', onDelete: 'CASCADE' })
 	}
 
 	return Course

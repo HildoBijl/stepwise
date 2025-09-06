@@ -17,8 +17,8 @@ module.exports = (sequelize) => {
 	})
 
 	GroupMembership.associate = (models) => {
-		GroupMembership.belongsTo(models.User, { onDelete: 'CASCADE', hooks: true })
-		GroupMembership.belongsTo(models.Group, { onDelete: 'CASCADE', hooks: true })
+		GroupMembership.belongsTo(models.User, { onDelete: 'CASCADE' })
+		GroupMembership.belongsTo(models.Group, { onDelete: 'CASCADE' })
 	}
 
 	return GroupMembership

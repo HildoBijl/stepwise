@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
 	})
 
 	CourseBlock.associate = models => {
-		CourseBlock.belongsTo(models.Course, { onDelete: 'CASCADE', hooks: true })
+		CourseBlock.belongsTo(models.Course, { onDelete: 'CASCADE' })
 	}
 
 	return CourseBlock

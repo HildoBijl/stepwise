@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
 	})
 
 	SurfConextProfile.associate = models => {
-		SurfConextProfile.belongsTo(models.User, { onDelete: 'CASCADE', hooks: true })
+		SurfConextProfile.belongsTo(models.User, { onDelete: 'CASCADE' })
 	}
 
 	return SurfConextProfile

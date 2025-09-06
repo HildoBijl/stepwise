@@ -38,7 +38,7 @@ export function AddCoursePage() {
 		</Translation>
 
 	// When we have the data, render it accordingly.
-	return <AddCoursePageForCourses courses={allCoursesResult.data.allCoursesForStudent} />
+	return <AddCoursePageForCourses courses={allCoursesResult.data.allCourses} />
 }
 
 function AddCoursePageForCourses({ courses }) {

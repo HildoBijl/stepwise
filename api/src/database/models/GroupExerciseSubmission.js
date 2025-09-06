@@ -22,8 +22,8 @@ module.exports = (sequelize) => {
 	})
 
 	GroupExerciseSubmission.associate = models => {
-		GroupExerciseSubmission.belongsTo(models.User, { onDelete: 'CASCADE', hooks: true })
-		GroupExerciseSubmission.belongsTo(models.GroupExerciseEvent, { onDelete: 'CASCADE', hooks: true })
+		GroupExerciseSubmission.belongsTo(models.User, { onDelete: 'CASCADE' })
+		GroupExerciseSubmission.belongsTo(models.GroupExerciseEvent, { onDelete: 'CASCADE' })
 	}
 
 	return GroupExerciseSubmission

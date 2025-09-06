@@ -21,8 +21,8 @@ module.exports = (sequelize) => {
 	})
 
 	CourseSubscription.associate = (models) => {
-		CourseSubscription.belongsTo(models.User, { onDelete: 'CASCADE', hooks: true })
-		CourseSubscription.belongsTo(models.Course, { onDelete: 'CASCADE', hooks: true })
+		CourseSubscription.belongsTo(models.User, { onDelete: 'CASCADE' })
+		CourseSubscription.belongsTo(models.Course, { onDelete: 'CASCADE' })
 	}
 
 	return CourseSubscription

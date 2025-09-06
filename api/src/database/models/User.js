@@ -48,8 +48,8 @@ module.exports = (sequelize) => {
 	})
 
 	User.associate = models => {
-		User.hasMany(models.SurfConextProfile, { onDelete: 'CASCADE', hooks: true })
-		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE', hooks: true })
+		User.hasMany(models.SurfConextProfile, { onDelete: 'CASCADE' })
+		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE' })
 		User.belongsToMany(models.Course, { as: 'courses', through: CourseSubscription(sequelize), onDelete: 'CASCADE',  hooks: true })
 		User.belongsToMany(models.Group, { as: 'groups', through: GroupMembership(sequelize), onDelete: 'CASCADE',  hooks: true })
 	}

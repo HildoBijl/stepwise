@@ -6,7 +6,7 @@ const { exercises, getNewRandomExercise, fixExerciseId, getExerciseName } = requ
 
 const { getSubscription } = require('../util/subscriptions')
 const { events: skillEvents } = require('../util/Skill')
-const { applySkillUpdates } = require('../util/Exercise')
+const { applySkillUpdates } = require('../util/SkillCoefficients')
 const { events: groupExerciseEvents, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
 
 const resolvers = {

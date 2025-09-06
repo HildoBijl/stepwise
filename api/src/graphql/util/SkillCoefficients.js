@@ -17,8 +17,6 @@ async function getUserSkillDataSet(db, userId, skillIds) {
 }
 module.exports.getUserSkillDataSet = getUserSkillDataSet
 
-// ToDo: check out the functions below.
-
 // applySkillUpdates takes an array [{ setup: {...}, correct: true/false, userId: 'someId' }, ...] and applies all the skill updates into the database. It return 
 async function applySkillUpdates(db, skillUpdates, transaction) {
 	// Group the skill updates per user.

@@ -24,8 +24,8 @@ module.exports = (sequelize) => {
 	})
 
 	Group.associate = models => {
-		Group.belongsToMany(models.User, { as: 'members', through: GroupMembership(sequelize), onDelete: 'CASCADE', hooks: true })
-		Group.hasMany(models.GroupExerciseSample, { as: 'exercises', onDelete: 'CASCADE', hooks: true })
+		Group.belongsToMany(models.User, { as: 'members', through: GroupMembership(sequelize), onDelete: 'CASCADE' })
+		Group.hasMany(models.GroupExerciseSample, { as: 'exercises', onDelete: 'CASCADE' })
 	}
 
 	return Group

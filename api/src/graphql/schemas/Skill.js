@@ -3,6 +3,7 @@ const { gql } = require('apollo-server-express')
 // The SkillWithoutExercises only has data about how strong the student is at this skill.
 const SkillWithoutExercises = `
 		id: ID!
+		userId: ID!
 		skillId: String!
 		numPracticed: Int!
 		coefficients: [Float]!

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
-import { skillTree } from 'step-wise/eduTools'
+import { useUserId } from '../user'
 
 import { skillFields, exerciseFields } from './util'
 import { SKILL } from './queries'
@@ -10,25 +10,29 @@ import { useSkillCacherContext } from './SkillCacher'
 
 // Start an exercise.
 export function useStartExerciseMutation(skillId) {
+	const userId = useUserId()
 	return useMutation(START_EXERCISE, {
 		variables: { skillId },
 		update: (cache, { data: { startExercise: exercise } }) => {
 			const { skill } = cache.readQuery({ query: SKILL, variables: { skillId: skillId } })
+			const now = new Date()
 			cache.writeQuery({
 				query: SKILL,
 				variables: { skillId },
 				data: {
-					skill: skill ? {
-						...skill,
-						activeExercise: exercise,
-						exercises: skill.exercises.concat([exercise]),
-					} : { // When no skill is present yet, simply add it. The ID won't correspond to the one on the server, but that'll be overwritten after the next server request.
-						id: uuidv4(),
-						skillId,
-						name: skillTree[skillId].name,
-						activeExercise: exercise,
-						exercises: [exercise],
-						__typename: 'Exercise',
+					skill: {
+						...(skill || {
+							id: uuidv4(),
+							userId,
+							skillId,
+							numPracticed: 0,
+							coefficients: [1],
+							coefficientsOn: now,
+							highest: [1],
+							highestOn: now,
+						}),
+						currentExercise: exercise,
+						exercises: skill ? skill.exercises.concat([exercise]) : [exercise],
 					},
 				},
 			})

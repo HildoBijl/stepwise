@@ -1,5 +1,6 @@
 export const skillFields = `
 	id
+	userId
 	skillId
 	numPracticed
 	coefficients
