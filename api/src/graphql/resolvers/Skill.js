@@ -6,7 +6,11 @@ const { events, getUserSkill, getUserSkills } = require('../util/Skill')
 const skillWithoutExercisesResolvers = {}
 const skillWithExercisesResolvers = {
 	...skillWithoutExercisesResolvers,
-	currentExercise: skill => skill.exercises.find(exercise => exercise.active && exercises[exercise.exerciseId]), // Find the exercise that is active and whose exercise script still exists.
+	exercises: (skill, _args, { loaders }) => loaders.exercisesForSkill.load(skill.id),
+	currentExercise: async (skill, _args, { loaders }) => {
+		const skillExercises = await loaders.exercisesForSkill.load(skill.id)
+		return skillExercises.find(exercise => exercise.active && exercises[exercise.exerciseId]) || null // Find the exercise that is active and whose exercise script still exists.
+	},
 }
 
 const resolvers = {

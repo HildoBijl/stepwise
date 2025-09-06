@@ -1,6 +1,6 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
-const { findOptimum, ensureBoolean, arraysToObject, keysToObject, union } = require('step-wise/util')
+const { ensureBoolean, arraysToObject, keysToObject, union } = require('step-wise/util')
 const { smoothen, getEV, ensureSetup } = require('step-wise/skillTracking')
 const { exercises, ensureSkillId, ensureSkillIds } = require('step-wise/eduTools')
 
@@ -60,16 +60,14 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 module.exports.getActiveExerciseData = getActiveExerciseData
 
 function getLastEvent(exercise) {
-	const events = exercise.events && exercise.events.filter(event => event.progress !== null) // Filter out the null progress event for group exercises.
-	if (!events || events.length === 0)
-		return null
-	return findOptimum(events, (a, b) => a.createdAt > b.createdAt)
+	const events = (exercise.events || []).filter(event => event.progress !== null) // Filter out the null progress event for group exercises.
+	return lastOf(events) ?? null // Events are already sorted by the database query.
 }
 module.exports.getLastEvent = getLastEvent
 
 function getExerciseProgress(exercise) {
 	const lastEvent = getLastEvent(exercise)
-	return (lastEvent === null ? {} : lastEvent.progress) // Note that {} is the default initial progress.
+	return lastEvent?.progress ?? {} // Note that {} is the default initial progress.
 }
 module.exports.getExerciseProgress = getExerciseProgress
 
