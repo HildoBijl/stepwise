@@ -17,7 +17,7 @@ const SkillWithoutExercises = `
 const SkillWithExercises = `
 		${SkillWithoutExercises}
 		exercises: [Exercise]!
-		currentExercise: Exercise
+		activeExercise: Exercise
 `
 
 const schema = gql`

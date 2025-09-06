@@ -1,4 +1,4 @@
-const { ensureSkillId, ensureSkillIds, exercises } = require('step-wise/eduTools')
+const { ensureSkillId, ensureSkillIds, exercises: allExercises } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
 const { events, getUserSkill, getUserSkills } = require('../util/Skill')
@@ -7,9 +7,9 @@ const skillWithoutExercisesResolvers = {}
 const skillWithExercisesResolvers = {
 	...skillWithoutExercisesResolvers,
 	exercises: (skill, _args, { loaders }) => loaders.exercisesForSkill.load(skill.id),
-	currentExercise: async (skill, _args, { loaders }) => {
+	activeExercise: async (skill, _args, { loaders }) => {
 		const skillExercises = await loaders.exercisesForSkill.load(skill.id)
-		return skillExercises.find(exercise => exercise.active && exercises[exercise.exerciseId]) || null // Find the exercise that is active and whose exercise script still exists.
+		return skillExercises.find(exercise => exercise.active && allExercises[exercise.exerciseId]) || null // Find the exercise that is active and whose exercise script still exists.
 	},
 }
 

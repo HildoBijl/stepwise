@@ -149,7 +149,7 @@ const resolvers = {
 			let adjustedSkillsPerUser
 			await db.transaction(async (transaction) => {
 				// Apply all the skill updates that were collected so far.
-				adjustedSkillsPerUser = await applySkillUpdates(skillUpdates, db, transaction)
+				adjustedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)
 
 				// Store the progress in the active event. If the exercise is done, note this. If not, prepare for future submissions.
 				await activeEvent.update({ progress }, { transaction })

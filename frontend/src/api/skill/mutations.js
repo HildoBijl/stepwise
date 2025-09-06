@@ -20,13 +20,13 @@ export function useStartExerciseMutation(skillId) {
 				data: {
 					skill: skill ? {
 						...skill,
-						currentExercise: exercise,
+						activeExercise: exercise,
 						exercises: skill.exercises.concat([exercise]),
 					} : { // When no skill is present yet, simply add it. The ID won't correspond to the one on the server, but that'll be overwritten after the next server request.
 						id: uuidv4(),
 						skillId,
 						name: skillTree[skillId].name,
-						currentExercise: exercise,
+						activeExercise: exercise,
 						exercises: [exercise],
 						__typename: 'Exercise',
 					},

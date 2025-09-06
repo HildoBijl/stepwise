@@ -13,13 +13,12 @@ export function useSkillQuery(skillId) {
 export const SKILL = gql`
 	query skill($skillId: String!) {
 		skill(skillId: $skillId) {
-			id
-			skillId
+			${skillFields}
     	... on SkillWithExercises {
-				currentExercise {
+				exercises {
 					${exerciseFields}
 				}
-				exercises {
+				activeExercise {
 					${exerciseFields}
 				}
 			}

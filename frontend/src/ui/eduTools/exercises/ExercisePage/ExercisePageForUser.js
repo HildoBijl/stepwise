@@ -6,7 +6,6 @@ import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutatio
 import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
-
 import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForUser({ skillId, onNewExercise }) {
@@ -37,7 +36,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
-	const exercise = fixExerciseIdForExercise(data && data.skill && data.skill.currentExercise, skillId)
+	const exercise = fixExerciseIdForExercise(data && data.skill && data.skill.activeExercise, skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

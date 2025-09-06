@@ -1,21 +1,62 @@
-const { arraysToObject, keysToObject } = require('step-wise/util')
-const { processSkillDataSet } = require('step-wise/skillTracking')
-const { skillTree, ensureSkillId, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
+const { UserInputError } = require('apollo-server-express')
+
+const { exercises: allExercises } = require('step-wise/eduTools')
 
 const events = {
 	skillsUpdated: 'SKILLS_UPDATED',
 }
 module.exports.events = events
 
-// getUserSkill takes a userId and a skillId and gets the corresponding skill object.
-async function getUserSkill(db, userId, skillId) {
-	return await db.UserSkill.findOne({
+// getUserSkill takes a userId and a skillId and gets the corresponding skill object. It returns this as an object. There are other getter-options that may be given, like includeActiveExercise or includeExercises. If given, an object like { skill, activeExercise, exercises } will be returned. Checking options like requireActiveExercise or requireNoActiveExercise may also be given.
+async function getUserSkill(db, userId, skillId, { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false } = {}) {
+	// Pull the skill with its active exercise from the database.
+	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
+	const skill = await db.UserSkill.findOne({
 		where: { userId, skillId },
+		include: loadExercises ? {
+			association: 'exercises',
+			where: includeExercises ? undefined : { active: true },
+			required: false,
+			order: [['createdAt', 'ASC']],
+			separate: true,
+			include: {
+				association: 'events',
+				required: false,
+				order: [['createdAt', 'ASC']],
+				separate: true,
+			},
+		} : undefined,
 	})
+
+	// Create the skill if none exists.
+	if (!skill) {
+		if (requireActiveExercise)
+			throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
+		skill = await db.UserSkill.create({ userId, skillId })
+	}
+
+	// Obtain the active exercise. If there is an active exercise, but the corresponding exercise script is missing (deleted), then deactivate the exercise and don't return it.
+	const exercises = skill.exercises || []
+	let activeExercise = exercises.find(exercise => exercise.active)
+	if (activeExercise && !allExercises[activeExercise.exerciseId]) {
+		await activeExercise.update({ active: false })
+		activeExercise = undefined
+	}
+
+	// Check the necessary requirements.
+	if (requireActiveExercise && !activeExercise)
+		throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
+	if (requireNoActiveExercise && activeExercise)
+		throw new UserInputError(`There is still an active exercise for skill "${skillId}".`)
+
+	// Return the result. The format depends on the options.
+	if (includeActiveExercise || includeExercises)
+		return { skill, exercises, activeExercise }
+	return skill
 }
 module.exports.getUserSkill = getUserSkill
 
-// getUserSkills takes a userId and skillIds and gets the UserSkills for the given user from the database. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted.
+// getUserSkills takes a userId and skillIds and gets the UserSkills for the given user from the database. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted. No exercise data is included.
 async function getUserSkills(db, userId, skillIds) {
 	const where = { userId }
 	if (skillIds)
@@ -23,46 +64,3 @@ async function getUserSkills(db, userId, skillIds) {
 	return await db.UserSkill.findAll({ where })
 }
 module.exports.getUserSkills = getUserSkills
-
-// ToDo: sort out the functions below.
-
-// getUserSkillDataSet takes a userId and skillIds and returns a skill data set object with SkillData parameters in it (so very processed objects) for the given user. To do so, it pulls the respective skills and their prerequisites from the database and processes the results. No caching is done.
-async function getUserSkillDataSet(db, userId, skillIds) {
-	// Load all required skills from the database. Process them into something functional.
-	const allSkillIds = includePrerequisitesAndLinks(skillIds) // Add links.
-	const rawSkills = await getUserSkills(db, userId, allSkillIds) // Pull all data from the database.
-	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
-	const skillsAsObject = arraysToObject(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
-	const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
-	const skillDataSet = processSkillDataSet(skills, skillTree) // Turn the raw data into SkillData objects.
-	return skillDataSet
-}
-module.exports.getUserSkillDataSet = getUserSkillDataSet
-
-// getUserSkillExercises takes a userId and a skillId and returns a list of the exercises (IDs with states and progresses) that the user has done for that skill.
-async function getUserSkillExercises(db, userId, skillId) {
-	skillId = ensureSkillId(skillId)
-
-	// Pull everything from the database.
-	const user = userId && await db.User.findByPk(userId, {
-		rejectOnEmpty: true,
-		include: {
-			association: 'skills',
-			where: { skillId },
-			required: false,
-			include: {
-				association: 'exercises',
-				order: ['createdAt', 'ASC'],
-				required: false,
-			},
-		},
-	})
-	if (!user)
-		throw new AuthenticationError('No user is logged in.')
-
-	// On a missing skill, there are no exercises.
-	if (!user.skills || user.skills.length === 0)
-		return []
-	return user.skills[0].exercises || []
-}
-module.exports.getUserSkillExercises = getUserSkillExercises
