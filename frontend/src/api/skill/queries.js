@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 
-import { ensureArray } from 'step-wise/util'
-import { skillTree } from 'step-wise/eduTools'
+import { ensureSkillIds } from 'step-wise/eduTools'
 
 import { useUser } from '../user'
 
@@ -28,14 +27,10 @@ export const SKILL = gql`
 	}
 `
 
-// Get the data for multiple skills. In this case only coefficients can be loaded, and not exercises.
+// Get the data for multiple skills. In this case only coefficients are loaded, and not exercises.
 export function useSkillsQuery(skillIds) {
+	skillIds = ensureSkillIds(skillIds)
 	const user = useUser()
-	skillIds = ensureArray(skillIds)
-	skillIds.forEach(skillId => {
-		if (!skillTree[skillId])
-			throw new Error(`Invalid skillId: the skillId "${skillId}" is not known.`)
-	})
 	const skip = !user || skillIds.length === 0
 	return useQuery(SKILLS, { variables: { skillIds }, skip })
 }

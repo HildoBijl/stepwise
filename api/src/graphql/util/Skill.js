@@ -1,64 +1,30 @@
-const { UserInputError } = require('apollo-server-express')
-
 const { arraysToObject, keysToObject } = require('step-wise/util')
 const { processSkillDataSet } = require('step-wise/skillTracking')
-const { skillTree, ensureSkillId, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
+const { skillTree, ensureSkillId, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const events = {
 	skillsUpdated: 'SKILLS_UPDATED',
 }
 module.exports.events = events
 
-// getUserSkill takes a userId and a skillId and gets the corresponding skill object, including all exercises and actions.
+// getUserSkill takes a userId and a skillId and gets the corresponding skill object.
 async function getUserSkill(db, userId, skillId) {
-	skillId = ensureSkillId(skillId)
-
-	// Load all data.
-	const user = userId && await db.User.findByPk(userId, {
-		rejectOnEmpty: true,
-		include: {
-			association: 'skills',
-			where: { skillId },
-			required: false,
-			include: {
-				association: 'exercises',
-				required: false,
-				include: {
-					association: 'events',
-					required: false,
-				},
-			},
-		},
+	return await db.UserSkill.findOne({
+		where: { userId, skillId },
 	})
-
-	if (!user)
-		throw new UserInputError(`Invalid request: unknown user ID "${userId}".`)
-
-	return user.skills[0]
 }
 module.exports.getUserSkill = getUserSkill
 
-// getUserSkills takes a userId and skillIds and gets the UserSkills for the given user from the database. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted. This is usually not recommended though. No exercises are loaded.
+// getUserSkills takes a userId and skillIds and gets the UserSkills for the given user from the database. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted.
 async function getUserSkills(db, userId, skillIds) {
+	const where = { userId }
 	if (skillIds)
-		skillIds = ensureSkillIds(skillIds)
-
-	// Load all data.
-	const user = userId && await db.User.findByPk(userId, {
-		rejectOnEmpty: true,
-		include: {
-			association: 'skills',
-			where: skillIds ? { skillId: skillIds } : true,
-			required: false,
-		},
-	})
-
-	if (!user)
-		throw new UserInputError(`Invalid request: unknown user ID "${userId}".`)
-
-	return user.skills
+		where.skillId = skillIds
+	return await db.UserSkill.findAll({ where })
 }
 module.exports.getUserSkills = getUserSkills
+
+// ToDo: sort out the functions below.
 
 // getUserSkillDataSet takes a userId and skillIds and returns a skill data set object with SkillData parameters in it (so very processed objects) for the given user. To do so, it pulls the respective skills and their prerequisites from the database and processes the results. No caching is done.
 async function getUserSkillDataSet(db, userId, skillIds) {

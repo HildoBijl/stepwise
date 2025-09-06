@@ -1,4 +1,4 @@
-const { exercises } = require('step-wise/eduTools')
+const { ensureSkillId, ensureSkillIds, exercises } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
 const { events, getUserSkill, getUserSkills } = require('../util/Skill')
@@ -20,29 +20,38 @@ const resolvers = {
 	},
 
 	Query: {
-		skill: async (_source, { skillId, userId }, { db, ensureLoggedIn, ensureAdmin, userId: currentUserId }) => {
-			// If no ID is given, the request is for the current user.
-			if (!userId) {
-				ensureLoggedIn()
-				return await getUserSkill(db, currentUserId, skillId)
+		skill: async (_source, { skillId, userId }, { db, loaders, ensureLoggedIn, userId: currentUserId, isAdmin }) => {
+			ensureLoggedIn()
+			ensureSkillId(skillId)
+
+			// If this is a request for the user itself (no ID given, or ID equal to current userId) then allow it. Also instantly allow for admins.
+			if (!userId || userId === currentUserId || isAdmin) {
+				const skill = await getUserSkill(db, currentUserId, skillId)
+				skill.allowExercises = true
+				return skill
 			}
 
-			// If an ID is given, it's a request for someone else. Only admins are allowed to do so for now.
-			if (userId) {
-				ensureAdmin()
-				return await getUserSkill(db, userId, skillId)
-			}
+			// It's a request for someone else. Check if this is allowed.
+			const { withExercises, withoutExercises } = await loaders.permittedSkillsForStudent.load(userId)
+			if (!withoutExercises.includes(skillId))
+				throw new AuthenticationError(`Invalid skill request: the current user is not allowed to access skill "${skillId}" of the user with ID "${userId}".`)
+
+			// It's allowed. Load the skill.
+			const skill = await getUserSkill(db, userId, skillId)
+			skill.allowExercises = withExercises.includes(skillId)
+			return skill
 		},
 		skills: async (_source, { skillIds }, { db, ensureLoggedIn, userId }) => {
 			ensureLoggedIn()
+			ensureSkillIds(skillIds)
 			return await getUserSkills(db, userId, skillIds)
 		},
 	},
 
 	Subscription: {
-		...getSubscription('skillsUpdate', [events.skillsUpdated], ({ updatedSkills, userId: skillsUserId }, _args, { userId }) => {
+		...getSubscription('skillsUpdate', [events.skillsUpdated], ({ updatedSkills, userId }, _args, { userId: currentUserId }) => {
 			// Only pass on for the current user.
-			if (userId === skillsUserId)
+			if (userId === currentUserId)
 				return updatedSkills
 		}),
 	},

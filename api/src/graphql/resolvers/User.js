@@ -11,7 +11,7 @@ const userPrivateResolvers = {
 	skills: async (user, { ids: skillIds }, { loaders, userId, isAdmin }) => {
 		// Ensure the input (if given) is a valid array.
 		if (skillIds)
-			ensureSkillIds(skillIds)
+			skillIds = ensureSkillIds(skillIds)
 
 		// If all skills should be loaded, then do so.
 		const mayLoadAll = user.id === userId || isAdmin
