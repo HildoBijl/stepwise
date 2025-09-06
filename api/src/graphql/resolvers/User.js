@@ -8,11 +8,36 @@ const { getUser, getAllUsers } = require('../util/User')
 const userPublicResolvers = {}
 const userPrivateResolvers = {
 	...userPublicResolvers,
-	skills: async (user, { ids }) => {
-		if (!ids)
-			return await user.getSkills()
-		ids = ensureSkillIds(ids)
-		return await user.getSkills({ where: { skillId: ids } })
+	skills: async (user, { ids: skillIds }, { loaders, userId, isAdmin }) => {
+		// Ensure the input (if given) is a valid array.
+		if (skillIds)
+			ensureSkillIds(skillIds)
+
+		// If all skills should be loaded, then do so.
+		const mayLoadAll = user.id === userId || isAdmin
+		if (!skillIds && mayLoadAll) {
+			const skills = await loaders.allSkillsForUser.load(user.id)
+			skills.forEach(skill => { skill.allowExercises = true })
+			return skills
+		}
+
+		// If the user requested skills yet may load all skills, load the requested skills.
+		if (mayLoadAll) {
+			let skills = await loaders.skillForUser.loadMany(skillIds.map(skillId => ({ userId: user.id, skillId })))
+			skills = skills.filter(Boolean)
+			skills.forEach(skill => { skill.allowExercises = true })
+			return skills
+		}
+
+		// The user has limited access. Apply this and only load those skills that may be loaded.
+		const { withExercises, withoutExercises } = await loaders.permittedSkillsForStudent.load(user.id)
+		skillIds = skillIds ? skillIds.filter(skillId => withoutExercises.includes(skillId)) : withoutExercises
+		let skills = await loaders.skillForUser.loadMany(skillIds.map(skillId => ({ userId: user.id, skillId })))
+		skills = skills.filter(Boolean)
+
+		// Add a flag to each skill, whether exercises are allowed to be loaded. (We already have this data now anyway.) Then return the result (without null values).
+		skills.forEach(skill => { skill.allowExercises = withExercises.includes(skill.skillId) })
+		return skills
 	},
 }
 const userFullResolvers = {
@@ -27,28 +52,24 @@ const userFullResolvers = {
 }
 
 const resolvers = {
+	UserPublic: userPublicResolvers,
+	UserPrivate: userPrivateResolvers,
+	UserFull: userFullResolvers,
 	User: {
 		async __resolveType(user, { loaders, isLoggedIn, user: currentUser, isAdmin }) {
-			// Not logged in? Never access any user data.
-			if (!isLoggedIn)
-				return null
-
 			// Is this you? You get all data. Admins do as well.
 			if (currentUser.id === user.id || isAdmin)
 				return 'UserFull'
 
 			// If the current user teaches a course where the given user is a student, allow private data.
-			const hasStudentInCourse = await loaders.hasStudentInCourse.load(`${currentUser.id}:${user.id}`)
-			if (hasStudentInCourse)
+			const coursesWithStudent = await loaders.coursesWithStudent.load(user.id)
+			if (coursesWithStudent.length > 0)
 				return 'UserPrivate'
 
 			// Just a regular user: only give public info.
 			return 'UserPublic'
 		}
 	},
-	UserPublic: userPublicResolvers,
-	UserPrivate: userPrivateResolvers,
-	UserFull: userFullResolvers,
 
 	Mutation: {
 		setLanguage: async (_source, { language }, { ensureLoggedIn, user }) => {

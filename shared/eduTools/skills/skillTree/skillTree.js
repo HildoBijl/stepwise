@@ -790,7 +790,7 @@ Object.values(skillTree).forEach(skill => {
 
 // Process links properties.
 Object.values(skillTree).forEach(skill => {
-	// Ensure that the links is an array.
+	// Ensure that the links parameter is an array.
 	if (!skill.links)
 		skill.links = []
 	else if (!Array.isArray(skill.links) || skill.links.every(link => (typeof link === 'string')))

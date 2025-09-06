@@ -12,7 +12,7 @@ const UserPublic = `
 const UserPrivate = `
 		${UserPublic}
 		email: EmailAddress
-		skills(ids: [String]): [SkillLevel]!
+		skills(ids: [String]): [Skill]!
 `
 
 // What data can you get for yourself?
@@ -52,11 +52,15 @@ const schema = gql`
 		${UserPublic}
 	}
 
-	type UserPrivate implements User {
+	interface UserSemiPrivate implements User {
 		${UserPrivate}
 	}
 
-	type UserFull implements User {
+	type UserPrivate implements UserSemiPrivate & User {
+		${UserPrivate}
+	}
+
+	type UserFull implements UserSemiPrivate & User {
 		${UserFull}
 	}
 `

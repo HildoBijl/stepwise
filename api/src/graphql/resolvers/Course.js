@@ -15,6 +15,9 @@ const courseForTeacherResolvers = {
 }
 
 const resolvers = {
+	CourseForExternal: courseForExternalResolvers,
+	CourseForStudent: courseForStudentResolvers,
+	CourseForTeacher: courseForTeacherResolvers,
 	Course: {
 		__resolveType(course, { isLoggedIn, user }) {
 			if (!isLoggedIn)
@@ -24,10 +27,6 @@ const resolvers = {
 			return 'CourseForStudent'
 		}
 	},
-	CourseForExternal: courseForExternalResolvers,
-	CourseForStudent: courseForStudentResolvers,
-	CourseForTeacher: courseForTeacherResolvers,
-	CourseBlock: {},
 
 	Query: {
 		allCourses: async (_source, { }, { db, userId }) => {

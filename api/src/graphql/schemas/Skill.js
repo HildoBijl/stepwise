@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express')
 
-// The SkillLevel only has data about how well the student is at this skill.
-const SkillLevel = `
+// The SkillWithoutExercises only has data about how strong the student is at this skill.
+const SkillWithoutExercises = `
 		id: ID!
 		skillId: String!
 		numPracticed: Int!
@@ -13,9 +13,9 @@ const SkillLevel = `
 		updatedAt: DateTime!
 `
 
-// The Skill also contains exercises for this skill. What did the student do?
-const Skill = `
-		${SkillLevel}
+// The SkillWithExercises also contains exercises for this skill. What did the student do?
+const SkillWithExercises = `
+		${SkillWithoutExercises}
 		exercises: [Exercise]!
 		currentExercise: Exercise
 `
@@ -23,19 +23,23 @@ const Skill = `
 const schema = gql`
   extend type Query {
 		skill(skillId: String!, userId: ID): Skill
-		skills(skillIds: [String]): [SkillLevel]!
+		skills(skillIds: [String]): [Skill]!
   }
 
 	extend type Subscription {
-		skillsUpdate: [SkillLevel]!
+		skillsUpdate: [Skill]!
 	}
 
-	type SkillLevel {
-		${SkillLevel}
+	interface Skill {
+		${SkillWithoutExercises}
 	}
 
-	type Skill {
-		${Skill}
+	type SkillWithoutExercises implements Skill {
+		${SkillWithoutExercises}
+	}
+
+	type SkillWithExercises implements Skill {
+		${SkillWithExercises}
 	}
 `
 

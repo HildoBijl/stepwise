@@ -3,15 +3,21 @@ const { exercises } = require('step-wise/eduTools')
 const { getSubscription } = require('../util/subscriptions')
 const { events, getUserSkill, getUserSkills } = require('../util/Skill')
 
-const skillLevelResolvers = {}
-const skillResolvers = {
-	...skillLevelResolvers,
+const skillWithoutExercisesResolvers = {}
+const skillWithExercisesResolvers = {
+	...skillWithoutExercisesResolvers,
 	currentExercise: skill => skill.exercises.find(exercise => exercise.active && exercises[exercise.exerciseId]), // Find the exercise that is active and whose exercise script still exists.
 }
 
 const resolvers = {
-	SkillLevel: skillLevelResolvers,
-	Skill: skillResolvers,
+	SkillWithoutExercises: skillWithoutExercisesResolvers,
+	SkillWithExercises: skillWithExercisesResolvers,
+	Skill: {
+		async __resolveType(skill) {
+			// Use the flag set up earlier.
+			return skill.allowExercises ? 'SkillWithExercises' : 'SkillWithoutExercises'
+		}
+	},
 
 	Query: {
 		skill: async (_source, { skillId, userId }, { db, ensureLoggedIn, ensureAdmin, userId: currentUserId }) => {

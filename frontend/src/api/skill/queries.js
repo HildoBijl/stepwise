@@ -16,11 +16,13 @@ export const SKILL = gql`
 		skill(skillId: $skillId) {
 			id
 			skillId
-			currentExercise {
-				${exerciseFields}
-			}
-			exercises {
-				${exerciseFields}
+    	... on SkillWithExercises {
+				currentExercise {
+					${exerciseFields}
+				}
+				exercises {
+					${exerciseFields}
+				}
 			}
 		}
 	}

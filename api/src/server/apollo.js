@@ -4,17 +4,14 @@ const { createLoaders } = require('../graphql')
 
 function createApolloContext(database, pubsub) {
 	return async ({ req }) => {
+		// Determine whether there is a user.
 		const userId = getIdFromRequest(req)
 		const user = userId ? await database.User.findByPk(userId) : null
-		return {
+
+		// Set up a context object.
+		const context = {
 			// All database models.
 			db: database,
-
-			// Loaders for the database.
-			loaders: createLoaders(database),
-
-			// The event bus for subscriptions.
-			pubsub: pubsub,
 
 			// Info about the user.
 			isLoggedIn: !!user,
@@ -31,6 +28,17 @@ function createApolloContext(database, pubsub) {
 				if (user?.role !== 'admin')
 					throw new AuthenticationError('No admin rights.')
 			},
+		}
+
+		// Add some final details, like data loaders and a pubsub object.
+		return {
+			...context,
+
+			// Loaders for the database.
+			loaders: createLoaders(context),
+
+			// The event bus for subscriptions.
+			pubsub: pubsub,
 		}
 	}
 }
