@@ -5,7 +5,9 @@ import { infoEmail } from 'settings'
 import { Translation } from 'i18n'
 import { Par, List, Link } from 'ui/components'
 
-export function ErrorNote({ text }) {
+export function ErrorNote({ text, error }) {
+	if (error)
+		console.error(error)
 	return <Translation entry="errorNote" path="main">
 		<Alert severity="error">
 			<AlertTitle>Oops ... something went wrong.</AlertTitle>

@@ -11,7 +11,7 @@ module.exports.events = events
 async function getUserSkill(db, userId, skillId, { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false } = {}) {
 	// Pull the skill with its active exercise from the database.
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
-	const skill = await db.UserSkill.findOne({
+	let skill = await db.UserSkill.findOne({
 		where: { userId, skillId },
 		include: loadExercises ? {
 			association: 'exercises',

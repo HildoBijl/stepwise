@@ -26,7 +26,7 @@ const resolvers = {
 	Query: {
 		skill: async (_source, { skillId, userId }, { db, loaders, ensureLoggedIn, userId: currentUserId, isAdmin }) => {
 			ensureLoggedIn()
-			ensureSkillId(skillId)
+			skillId = ensureSkillId(skillId)
 
 			// If this is a request for the user itself (no ID given, or ID equal to current userId) then allow it. Also instantly allow for admins.
 			if (!userId || userId === currentUserId || isAdmin) {
@@ -47,7 +47,7 @@ const resolvers = {
 		},
 		skills: async (_source, { skillIds }, { db, ensureLoggedIn, userId }) => {
 			ensureLoggedIn()
-			ensureSkillIds(skillIds)
+			skillIds = ensureSkillIds(skillIds)
 			return await getUserSkills(db, userId, skillIds)
 		},
 	},

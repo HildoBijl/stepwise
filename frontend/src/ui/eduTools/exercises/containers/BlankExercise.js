@@ -81,7 +81,7 @@ function BlankExerciseInner({ exerciseId }) {
 
 	// Show error/loading notes when appropriate.
 	if (error)
-		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'eduTools/exercises')} />
+		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'eduTools/exercises')} error={error} />
 	if (loading || !exercise)
 		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'eduTools/exercises')} />
 

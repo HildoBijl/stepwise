@@ -6,7 +6,6 @@ import { useUserId } from '../user'
 
 import { skillFields, exerciseFields } from './util'
 import { SKILL } from './queries'
-import { useSkillCacherContext } from './SkillCacher'
 
 // Start an exercise.
 export function useStartExerciseMutation(skillId) {
@@ -14,27 +13,43 @@ export function useStartExerciseMutation(skillId) {
 	return useMutation(START_EXERCISE, {
 		variables: { skillId },
 		update: (cache, { data: { startExercise: exercise } }) => {
-			const { skill } = cache.readQuery({ query: SKILL, variables: { skillId: skillId } })
 			const now = new Date()
+			const skillRef = cache.identify({
+				__typename: "SkillWithExercises",
+				userId,
+				skillId,
+			})
+
+			// When the skill exists in the cache, extend it with the new exercise.
+			if (cache.extract()[skillRef] !== undefined) {
+				return cache.modify({
+					id: skillRef,
+					fields: {
+						exercises: (existing = []) => [...existing, exercise],
+						activeExercise: () => exercise,
+					},
+				})
+			}
+
+			// When the skill doesn't exist in the cache, then it's also not in the database yet (or we would've obtained it already), so we add a new one as if we ran the skill query.
 			cache.writeQuery({
 				query: SKILL,
-				variables: { skillId },
 				data: {
 					skill: {
-						...(skill || {
-							id: uuidv4(),
-							userId,
-							skillId,
-							numPracticed: 0,
-							coefficients: [1],
-							coefficientsOn: now,
-							highest: [1],
-							highestOn: now,
-						}),
-						currentExercise: exercise,
-						exercises: skill ? skill.exercises.concat([exercise]) : [exercise],
+						__typename: "SkillWithExercises",
+						id: uuidv4(), // Add a random ID. Since the key is [userId, skillId], this will be overwritten whenever new data appears.
+						userId,
+						skillId,
+						numPracticed: 0,
+						coefficients: [1],
+						coefficientsOn: now,
+						highest: [1],
+						highestOn: now,
+						exercises: [exercise],
+						activeExercise: exercise,
 					},
 				},
+				variables: { userId, skillId },
 			})
 		},
 	})
@@ -49,8 +64,8 @@ export const START_EXERCISE = gql`
 
 // Submit an exercise action.
 export function useSubmitExerciseActionMutation(skillId) {
+	const userId = useUserId()
 	const [submit, data] = useMutation(SUBMIT_EXERCISE_ACTION)
-	const { updateCache } = useSkillCacherContext()
 	const newSubmit = parameters => submit({ // Insert the given skillId by default.
 		...parameters,
 		variables: {
@@ -58,9 +73,23 @@ export function useSubmitExerciseActionMutation(skillId) {
 			...parameters.variables,
 		},
 		update: (cache, { data: { submitExerciseAction: { adjustedSkills, updatedExercise } } }) => {
-			// Implement the adjusted skills in the cache. (We use manual caching because GraphQL isn't capable of clever caching when requesting arrays of IDs with varying orders.)
-			if (updateCache)
-				updateCache(adjustedSkills)
+			// The adjusted skills are not implemented into the cache, since this is done through a subscription already.
+
+			// Implement the updated exercise within the skill for the cache.
+			const skillRef = cache.identify({
+				__typename: "SkillWithExercises",
+				userId,
+				skillId,
+			})
+			if (cache.extract()[skillRef] !== undefined) { // Still check that it actually exists.
+				return cache.modify({
+					id: skillRef,
+					fields: {
+						exercises: (existing = []) => [...existing.filter(exercise => !exercise.active), updatedExercise],
+						activeExercise: () => updatedExercise,
+					},
+				})
+			}
 		}
 	})
 	return [newSubmit, data]

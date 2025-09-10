@@ -113,7 +113,6 @@ const resolvers = {
 		},
 
 		leaveGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {
-			console.log('Leaving group', code, userId)
 			// Load the group and check how many users are left.
 			ensureLoggedIn()
 			const group = await getGroup(db, code)

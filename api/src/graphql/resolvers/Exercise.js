@@ -30,7 +30,7 @@ const resolvers = {
 		startExercise: async (_source, { skillId }, { db, ensureLoggedIn, userId }) => {
 			// Check input: the user must be logged in, the skillId must exist, and there must not be an active exercise.
 			ensureLoggedIn()
-			skillId = ensureSkillId(skillId)
+			ensureSkillId(skillId)
 			const { skill, exercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true })
 
 			// Select a new exercise, store it and return the result.
