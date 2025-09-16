@@ -14,6 +14,7 @@ import { CourseSettingsPageForUnsubscribedUser } from '../CourseSettingsPage'
 
 export function CoursePage() {
 	const { loading, error, course } = useCourseData()
+	console.log(course)
 
 	// If we are on the addCourse URL, and the user is already subscribed to the course, then adjust the URL to the regular course URL. (This is usually called right upon subscribing to a course.)
 	const location = useLocation()

@@ -22,5 +22,8 @@
     "followUpMastery": "Du hast eine Folgekompetenz gemeistert, also stufen wir auch diese als ausreichend ein.",
     "noExercises": "Für diese Kompetenz gibt es noch keine Übungen. Sie werden wahrscheinlich bald folgen.",
     "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!"
+  },
+  "teachers": {
+    "noStudents": "<par>Der Kurs ist bereit, aber es gibt noch keine Lernenden. Teilen Sie den <a>Kurslink</a> (die URL dieser Seite) mit den Lernenden oder bitte sie, den Kurs selbst <b>aus der Liste hinzuzufügen</b>.</par><par>Weitere Optionen findest du unter <c>Kurseinstellungen</c> (oben rechts).</par>"
   }
 }

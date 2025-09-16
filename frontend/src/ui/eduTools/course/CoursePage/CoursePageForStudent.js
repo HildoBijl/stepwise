@@ -3,13 +3,14 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { TranslationFile,TranslationSection, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 
 import { strFreePractice } from '../../courses'
 
 import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from '../components'
 
 const translationPath = 'eduTools/pages/coursePage'
+const translationSection = 'students'
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -74,7 +75,7 @@ export function CoursePageForStudent() {
 	// Render the component.
 	const data = { course, overview, analysis, activeBlock, toggleActiveBlock }
 	return <TranslationFile path={translationPath}>
-		<TranslationSection entry="students">
+		<TranslationSection entry={translationSection}>
 			{hasRecommendation ? <SkillRecommender courseCode={course.code} recommendation={recommendation} /> : null}
 			{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 		</TranslationSection>

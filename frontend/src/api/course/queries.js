@@ -1,7 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
 
+import { skillFields, exerciseFields } from '../skill'
+
 // Define the default fields we read for a course.
-export const getCourseFields = (addTeachers = false, addStudents = false) => `
+export const getCourseFields = (addTeachers, addStudents, addSkills, addExercises) => `
   __typename
 	id
 	code
@@ -19,14 +21,14 @@ export const getCourseFields = (addTeachers = false, addStudents = false) => `
 	createdAt
 	updatedAt
 	... on CourseForStudent {
-		${getCourseForStudentFields(addTeachers, addStudents)}
+		${getCourseForStudentFields(addTeachers)}
 	}
 	... on CourseForTeacher {
-		${getCourseForTeacherFields(addTeachers, addStudents)}
+		${getCourseForTeacherFields(addTeachers, addStudents, addSkills, addExercises)}
 	}
 `
 
-const getCourseForStudentFields = (addTeachers, addStudents) => `
+const getCourseForStudentFields = (addTeachers) => `
 		role
 		subscribedOn
 		${addTeachers ? `teachers {
@@ -37,45 +39,64 @@ const getCourseForStudentFields = (addTeachers, addStudents) => `
 		}` : ''}
 `
 
-const getCourseForTeacherFields = (addTeachers, addStudents) => `
-		${getCourseForStudentFields(addTeachers, addStudents)}
+const getCourseForTeacherFields = (addTeachers, addStudents, addSkills, addExercises) => `
+		${getCourseForStudentFields(addTeachers)}
 		${addStudents ? `students {
 			id
 			name
 			givenName
 			familyName
+			${addSkills ? `
+			skills {
+				${skillFields}
+				... on SkillWithExercises {
+					exercises {
+						${exerciseFields}
+					}
+					activeExercise {
+						${exerciseFields}
+					}
+				}
+			}` : ``}
 		}` : ''}
 `
 
-export function useAllCoursesQuery(addTeachers = true, addStudents = false) {
-	return useQuery(ALL_COURSES(addTeachers, addStudents))
+export function useAllCoursesQuery(addTeachers = true, addStudents = false, addSkills = false, addExercises = false) {
+	return useQuery(ALL_COURSES(addTeachers, addStudents, addSkills, addExercises))
 }
-export const ALL_COURSES = (addTeachers, addStudents) => gql`
+export const ALL_COURSES = (addTeachers, addStudents, addSkills, addExercises) => gql`
 	{
 		allCourses {
-			${getCourseFields(addTeachers, addStudents)}
+			${getCourseFields(addTeachers, addStudents, addSkills, addExercises)}
 		}
 	}
 `
 
-export function useMyCoursesQuery(addTeachers = true, addStudents = false) {
-	return useQuery(MY_COURSES(addTeachers, addStudents))
+export function useMyCoursesQuery(addTeachers = true, addStudents = false, addSkills = false, addExercises = false) {
+	return useQuery(MY_COURSES(addTeachers, addStudents, addSkills, addExercises))
 }
-export const MY_COURSES = (addTeachers, addStudents) => gql`
+export const MY_COURSES = (addTeachers, addStudents, addSkills, addExercises) => gql`
 	{
 		myCourses {
-			${getCourseFields(addTeachers, addStudents)}
+			${getCourseFields(addTeachers, addStudents, addSkills, addExercises)}
 		}
 	}
 `
 
-export function useCourseQuery(code, addTeachers = true, addStudents = true) {
-	return useQuery(COURSE(addTeachers, addStudents), { variables: { code } })
-}
-export const COURSE = (addTeachers, addStudents) => gql`
+export function useCourseQuery(code, addTeachers = true, addStudents = true, addSkills = true, addExercises = false) {
+	console.log(`
 	query course($code: String!) {
 		course(code: $code) {
-			${getCourseFields(addTeachers, addStudents)}
+			${getCourseFields(addTeachers, addStudents, addSkills, addExercises)}
+		}
+	}
+`)
+	return useQuery(COURSE(addTeachers, addStudents, addSkills, addExercises), { variables: { code } })
+}
+export const COURSE = (addTeachers, addStudents, addSkills, addExercises) => gql`
+	query course($code: String!) {
+		course(code: $code) {
+			${getCourseFields(addTeachers, addStudents, addSkills, addExercises)}
 		}
 	}
 `
