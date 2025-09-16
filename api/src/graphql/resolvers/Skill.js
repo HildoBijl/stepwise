@@ -1,6 +1,9 @@
+const { AuthenticationError } = require('apollo-server-express')
+
 const { ensureSkillId, ensureSkillIds, exercises: allExercises } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
+const { getUser } = require('../util/User')
 const { events, getUserSkill, getUserSkills } = require('../util/Skill')
 
 const skillWithoutExercisesResolvers = {}
@@ -27,11 +30,17 @@ const resolvers = {
 		skill: async (_source, { skillId, userId }, { db, loaders, ensureLoggedIn, userId: currentUserId, isAdmin }) => {
 			ensureLoggedIn()
 			skillId = ensureSkillId(skillId)
+			userId = userId ?? currentUserId // On undefined userId, take the current user.
 
-			// If this is a request for the user itself (no ID given, or ID equal to current userId) then allow it. Also instantly allow for admins.
-			if (!userId || userId === currentUserId || isAdmin) {
-				const skill = await getUserSkill(db, currentUserId, skillId)
-				skill.allowExercises = true
+			// If the given userId is not the current user, verify that the user exists.
+			if (userId !== currentUserId)
+				await getUser(db, userId) // Will throw if not exists.
+
+			// Instantly allow the request if it's for the current user, or if the current user is an admin.
+			if (userId === currentUserId || isAdmin) {
+				const skill = await getUserSkill(db, userId, skillId)
+				if (skill)
+					skill.allowExercises = true
 				return skill
 			}
 
@@ -47,7 +56,8 @@ const resolvers = {
 		},
 		skills: async (_source, { skillIds }, { db, ensureLoggedIn, userId }) => {
 			ensureLoggedIn()
-			skillIds = ensureSkillIds(skillIds)
+			if (skillIds)
+				skillIds = ensureSkillIds(skillIds)
 			return await getUserSkills(db, userId, skillIds)
 		},
 	},

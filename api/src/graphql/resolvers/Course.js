@@ -1,6 +1,8 @@
-const { getCourses, getCourseByCode, getCourseById } = require('../util/Course')
+const { AuthenticationError } = require('apollo-server-express')
 
 const { ensureValidCourseEndpoints, ensureValidCourseSetup, ensureValidCourseBlocks } = require('step-wise/eduTools')
+
+const { getCourses, getCourseByCode, getCourseById } = require('../util/Course')
 
 const courseForExternalResolvers = {}
 const courseForStudentResolvers = {

@@ -41,7 +41,7 @@ describe('user', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		expect(() => client.graphql({ query: `{user {id}}` })).rejects.toThrow('Bad Request')
+		expect(() => client.graphql({ query: `{user {id}}` }, 400)).rejects.toThrow('Bad Request')
 	})
 
 	it('gives an error when a non-existing user is given (bad request)', async () => {
@@ -68,7 +68,7 @@ describe('privacy policy consent', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		const { data: { me: { privacyPolicyConsent } }, errors } = await client.graphql({ query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}` })
+		const { data: { me: { privacyPolicyConsent } }, errors } = await client.graphql({ query: `{me {... on UserFull {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		expect(errors).toBeUndefined()
 		expect(privacyPolicyConsent).toMatchObject({ acceptedAt: null, isLatestVersion: false, version: null })
 	})
@@ -89,7 +89,7 @@ describe('privacy policy consent', () => {
 		expect(acceptLatestPrivacyPolicy.isLatestVersion).toEqual(true)
 
 		// Double-check that the `me` query yields the same data.
-		const { data: { me: { privacyPolicyConsent } } } = await client.graphql({ query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}` })
+		const { data: { me: { privacyPolicyConsent } } } = await client.graphql({ query: `{me {... on UserFull {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}}` })
 		expect(privacyPolicyConsent.version).toEqual(acceptLatestPrivacyPolicy.version)
 		expect(privacyPolicyConsent.acceptedAt).toEqual(acceptLatestPrivacyPolicy.acceptedAt)
 		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptLatestPrivacyPolicy.isLatestVersion)

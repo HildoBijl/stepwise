@@ -8,6 +8,8 @@ const BOB_ID = 'b0000000-0000-0000-0000-000000000000'
 const BOB_SURFSUB = 'b000000000000000000000000000000000000000'
 const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)
 const NONEXISTING_SURFSUB = '1234567890abcdef1234567890abcdef12345678'
+const NONEXISTING_ID = '12345678-1234-1234-1234-1234567890ab'
+
 
 const SAMPLE_SKILL = 'enterInteger'
 const NONEXISTING_SKILL = 'abcdefghijklmnopqrstuvwxyz'
@@ -35,7 +37,7 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		expect(() => client.graphql({ query: `{skill {id skillId}}` })).rejects.toThrow('Bad Request')
+		expect(() => client.graphql({ query: `{skill {id skillId}}` }, 400)).rejects.toThrow('Bad Request')
 	})
 
 	it('gives an error when a non-existing skill is given (bad request)', async () => {
@@ -69,7 +71,7 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${NONEXISTING_SURFSUB}") {id skillId}}` })
+		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${NONEXISTING_ID}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
 		expect(errors).not.toBeUndefined()
 	})

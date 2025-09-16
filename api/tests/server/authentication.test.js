@@ -21,9 +21,7 @@ describe('Authentication: Session Handling', () => {
 	it('there is no active session without logging in', async () => {
 		const client = await createClient(seed)
 
-		await expect(
-			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
-		).resolves.toEqual(null)
+		await expect(client.graphql({ query: `{me {... on UserSemiPrivate { email }}}` }).then(({ data }) => data.me)).resolves.toEqual(null)
 	})
 
 	it('establishes session after login and destroys it after logout', async () => {
@@ -34,7 +32,7 @@ describe('Authentication: Session Handling', () => {
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
-			client.graphql({query: `{me {id name email}}`}).then(({data}) => data.me)
+			client.graphql({ query: `{me {id name ... on UserSemiPrivate { email }}}` }).then(({ data }) => data.me)
 		).resolves.toEqual({
 			id: SPECIAL_USER_ID,
 			name: 'Step Wise',
@@ -46,7 +44,7 @@ describe('Authentication: Session Handling', () => {
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
-			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
+			client.graphql({ query: `{me {... on UserSemiPrivate { email }}}` }).then(({ data }) => data.me)
 		).resolves.toEqual(null)
 	})
 })
@@ -72,8 +70,8 @@ describe('Authentication: SurfConext', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {id name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {id name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			id: SPECIAL_USER_ID,
 			name: 'Step Wise',
@@ -93,8 +91,8 @@ describe('Authentication: SurfConext', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			name: 'Prof. Richard Feynman',
 			givenName: 'Richard',
@@ -113,8 +111,8 @@ describe('Authentication: SurfConext', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			name: null,
 			givenName: null,
@@ -137,7 +135,7 @@ describe('Authentication: SurfConext', () => {
 		)
 
 		await expect(
-			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
+			client.graphql({ query: `{me {... on UserSemiPrivate { email }}}` }).then(({ data }) => data.me)
 		).resolves.toEqual(null)
 	})
 
@@ -159,8 +157,8 @@ describe('Authentication: SurfConext', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			name: 'Step Wise',
 			givenName: 'Step',
@@ -181,8 +179,8 @@ describe('Authentication: Google', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			name: 'Larry Page',
 			givenName: 'Larry',
@@ -201,8 +199,8 @@ describe('Authentication: Google', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			name: 'Step Wise',
 			givenName: 'Step',
@@ -221,8 +219,8 @@ describe('Authentication: Google', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {email}}`
-			}).then(({data}) => data.me)
+				query: `{me {... on UserSemiPrivate { email }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			email: 'step@wise.com',
 		})
@@ -235,8 +233,8 @@ describe('Authentication: Google', () => {
 
 		await expect(
 			client.graphql({
-				query: `{me {name givenName familyName email role}}`
-			}).then(({data}) => data.me)
+				query: `{me {name givenName familyName ... on UserSemiPrivate { email } ... on UserFull { role }}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			name: 'Step Wise',
 			givenName: 'Step',
@@ -259,7 +257,7 @@ describe('Authentication: Google', () => {
 		)
 
 		await expect(
-			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
+			client.graphql({ query: `{me {... on UserSemiPrivate { email }}}` }).then(({ data }) => data.me)
 		).resolves.toEqual(null)
 	})
 })

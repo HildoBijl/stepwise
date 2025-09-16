@@ -47,10 +47,6 @@ describe('allUsers', () => {
 
 		const { data: { allUsers }, errors } = await client.graphql({ query: `{allUsers {id}}` })
 		expect(errors).toBeUndefined()
-		expect(allUsers).toMatchObject([
-			{ id: ALEX_ID },
-			{ id: CAROL_ID }, // No idea why the orders are flipped.
-			{ id: BOB_ID },
-		])
+		expect(allUsers.map(a => a.id).sort()).toEqual([ALEX_ID, BOB_ID,CAROL_ID].sort())
 	})
 })

@@ -227,8 +227,8 @@ describe('groups security', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		// Query personal information and fail.
-		expect(() => client.graphql({ query: `{group(code: "${GROUP_CODE}"){members{email}}}` })).rejects.toThrow('Bad Request')
+		// Query personal information and fail due to wrong schema.
+		expect(() => client.graphql({ query: `{group(code: "${GROUP_CODE}"){members{email}}}` }, 400)).rejects.toThrow('Bad Request')
 	})
 
 	it('only allows interactions with groups when logged in', async () => {

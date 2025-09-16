@@ -8,7 +8,7 @@ const events = {
 module.exports.events = events
 
 // getUserSkill takes a userId and a skillId and gets the corresponding skill object. It returns this as an object. There are other getter-options that may be given, like includeActiveExercise or includeExercises. If given, an object like { skill, activeExercise, exercises } will be returned. Checking options like requireActiveExercise or requireNoActiveExercise may also be given.
-async function getUserSkill(db, userId, skillId, { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false } = {}) {
+async function getUserSkill(db, userId, skillId, { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false } = {}) {
 	// Pull the skill with its active exercise from the database.
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
 	let skill = await db.UserSkill.findOne({
@@ -28,10 +28,12 @@ async function getUserSkill(db, userId, skillId, { includeActiveExercise = false
 		} : undefined,
 	})
 
-	// Create the skill if none exists.
+	// If there is no skill, either create it (if specified) or just return null.
 	if (!skill) {
 		if (requireActiveExercise)
 			throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
+		if (!createIfNoneExists)
+			return null
 		skill = await db.UserSkill.create({ userId, skillId })
 	}
 

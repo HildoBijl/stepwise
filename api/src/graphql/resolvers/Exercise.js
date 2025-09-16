@@ -31,7 +31,7 @@ const resolvers = {
 			// Check input: the user must be logged in, the skillId must exist, and there must not be an active exercise.
 			ensureLoggedIn()
 			ensureSkillId(skillId)
-			const { skill, exercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true })
+			const { skill, exercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
 
 			// Select a new exercise, store it and return the result.
 			const getSkillDataSet = (skillIds) => getUserSkillDataSet(db, userId, skillIds)

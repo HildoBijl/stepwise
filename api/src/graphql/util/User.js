@@ -1,3 +1,5 @@
+const { UserInputError } = require('apollo-server-express')
+
 // getUser returns a user with given id from the database. It does not check rights.
 async function getUser(db, userId) {
 	const user = await db.User.findByPk(userId)

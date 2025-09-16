@@ -40,7 +40,7 @@ describe('startExercise', () => {
 		})
 
 		// After this the skill should exist.
-		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId activeExercise {id exerciseId state active startedOn progress lastAction lastActionAt history {action progress performedAt}} exercises {id}}}` })
+		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId state active startedOn progress lastAction lastActionAt history {action progress performedAt}} exercises {id}}}}` })
 		expect(skillAfterErrors).toBeUndefined()
 		expect(skillAfter.skillId).toBe(SAMPLE_SKILL)
 		expect(skillAfter.activeExercise).toMatchObject(exercise)

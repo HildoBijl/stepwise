@@ -92,12 +92,12 @@ class Client {
 		return response.headers['location']
 	}
 
-	async graphql(query) {
+	async graphql(query, expectedStatus = 200) {
 		const response = await request(this._server)
 			.post('/graphql')
 			.set('Cookie', this._cookieHeader())
 			.send(query)
-			.expect(200)
+			.expect(expectedStatus)
 		this._storeCookies(response)
 		return response.body
 	}
