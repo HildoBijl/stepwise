@@ -47,15 +47,18 @@ const getCourseForTeacherFields = (addTeachers, addStudents, addSkills, addExerc
 			givenName
 			familyName
 			${addSkills ? `
-			skills {
-				${skillFields}
-				... on SkillWithExercises {
-					exercises {
-						${exerciseFields}
-					}
-					activeExercise {
-						${exerciseFields}
-					}
+			... on UserSemiPrivate {
+				skills {
+					${skillFields}
+					${addExercises ? `
+					... on SkillWithExercises {
+						exercises {
+							${exerciseFields}
+						}
+						activeExercise {
+							${exerciseFields}
+						}
+					}` : ``}
 				}
 			}` : ``}
 		}` : ''}
@@ -84,13 +87,6 @@ export const MY_COURSES = (addTeachers, addStudents, addSkills, addExercises) =>
 `
 
 export function useCourseQuery(code, addTeachers = true, addStudents = true, addSkills = true, addExercises = false) {
-	console.log(`
-	query course($code: String!) {
-		course(code: $code) {
-			${getCourseFields(addTeachers, addStudents, addSkills, addExercises)}
-		}
-	}
-`)
 	return useQuery(COURSE(addTeachers, addStudents, addSkills, addExercises), { variables: { code } })
 }
 export const COURSE = (addTeachers, addStudents, addSkills, addExercises) => gql`
