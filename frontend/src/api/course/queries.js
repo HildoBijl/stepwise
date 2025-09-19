@@ -39,7 +39,20 @@ const getCourseForStudentFields = (addTeachers) => `
 		}` : ''}
 `
 
-const getCourseForTeacherFields = (addTeachers, addStudents, addSkills, addExercises) => `
+const getCourseForTeacherFields = (addTeachers, addStudents, addSkills, addExercises) => {
+	const skillsQuery = `skills {
+		${skillFields}
+		${addExercises ? `
+		... on SkillWithExercises {
+			exercises {
+				${exerciseFields}
+			}
+			activeExercise {
+				${exerciseFields}
+			}
+		}` : ``}
+	}`
+	return `
 		${getCourseForStudentFields(addTeachers)}
 		${addStudents ? `students {
 			id
@@ -47,22 +60,15 @@ const getCourseForTeacherFields = (addTeachers, addStudents, addSkills, addExerc
 			givenName
 			familyName
 			${addSkills ? `
-			... on UserSemiPrivate {
-				skills {
-					${skillFields}
-					${addExercises ? `
-					... on SkillWithExercises {
-						exercises {
-							${exerciseFields}
-						}
-						activeExercise {
-							${exerciseFields}
-						}
-					}` : ``}
-				}
+			... on UserPrivate {
+				${skillsQuery}
+			}
+			... on UserFull {
+				${skillsQuery}
 			}` : ``}
 		}` : ''}
 `
+}
 
 export function useAllCoursesQuery(addTeachers = true, addStudents = false, addSkills = false, addExercises = false) {
 	return useQuery(ALL_COURSES(addTeachers, addStudents, addSkills, addExercises))
