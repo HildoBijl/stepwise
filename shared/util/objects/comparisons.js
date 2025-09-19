@@ -23,10 +23,6 @@ function deepEquals(a, b, referenceList = []) {
 	if (!isObject(a) || !isObject(b))
 		return a === b
 
-	// Check constructor.
-	if (a.constructor !== b.constructor)
-		return false
-
 	// Check number of keys.
 	const keys1 = Object.keys(a)
 	const keys2 = Object.keys(b)
