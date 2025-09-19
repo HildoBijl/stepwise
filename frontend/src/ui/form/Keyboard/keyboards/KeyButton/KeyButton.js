@@ -1,14 +1,14 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import { Paper } from '@mui/material'
 import clsx from 'clsx'
 
 import { notSelectable } from 'ui/theme'
 
 import KeyIcon from './KeyIcon'
 
-const useStyles = makeStyles((theme) => ({
-	keyButton: {
+export function KeyButton({ keyID, className, setting, onClick, properties, style = {} }) {
+	const disabled = (setting === false)
+	return <Paper className={clsx('keyButton', className, setting, { disabled })} elevation={4} onClick={disabled ? null : onClick} sx={theme => ({
 		...notSelectable,
 		background: theme.palette.primary.light,
 		color: theme.palette.primary.contrastText,
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 		justifyContent: 'center',
 		width: '100%',
+		...style,
 
 		'&:active': {
 			background: theme.palette.primary.dark,
@@ -55,15 +56,7 @@ const useStyles = makeStyles((theme) => ({
 				cursor: 'auto',
 			},
 		},
-	},
-}))
-
-export function KeyButton({ keyID, className, setting, onClick, properties }) {
-	const disabled = (setting === false)
-	const classes = useStyles()
-	return (
-		<Paper className={clsx(classes.keyButton, 'keyButton', className, setting, { disabled })} elevation={4} onClick={disabled ? null : onClick}>
-			<KeyIcon keyID={keyID} properties={properties} />
-		</Paper>
-	)
+	})}>
+		<KeyIcon keyID={keyID} properties={properties} />
+	</Paper>
 }

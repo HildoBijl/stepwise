@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import { HowToReg as SubscribeIcon } from '@material-ui/icons'
+import { Button } from '@mui/material'
+import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
 import { skillTree } from 'step-wise/eduTools'
 
@@ -67,7 +67,6 @@ export function SubscribeButton({ course }) {
 		</TranslationSection>
 	</TranslationFile>
 }
-
 
 export function UnsubscribeButton({ course }) {
 	const [unsubscribeFromCourse] = useUnsubscribeFromCourseMutation()

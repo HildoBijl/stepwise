@@ -1,6 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
@@ -37,22 +35,15 @@ export const defaultFloatInputOptions = {
 	errorToMessage,
 }
 
-export const style = (theme) => ({}) // The float has no specific style associated to it yet. It's already in the TextInput.
-const useStyles = makeStyles((theme) => ({
-	floatInput: style(theme)
-}))
-
 export function FloatInput(options) {
 	options = processOptions(options, defaultFloatInputOptions)
 
 	// Set up options for the TextInput field.
-	const classes = useStyles()
 	const { positive, allowPower } = options
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower),
 		keyboardSettings: (FI) => keyboardSettings(FI, positive, allowPower),
-		className: clsx(options.className, classes.floatInput, 'floatInput'),
 	}
 
 	// Render the TextInput.

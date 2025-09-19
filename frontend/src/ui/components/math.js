@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import KaTeX from 'katex'
-import { makeStyles } from '@material-ui/core/styles'
+import { Box } from '@mui/material'
 import clsx from 'clsx'
 
 import { HorizontalSlider } from './layout'
@@ -56,20 +56,13 @@ export const ra = '}'
 export const zeroWidthSpace = String.fromCharCode(8203)
 export const zeroWidthSpaceRegExp = new RegExp(zeroWidthSpace, 'g')
 
-const useStyles = makeStyles((theme) => ({
-	equation: {
-		fontSize: ({ displayMode }) => displayMode ? '1.1em' : '0.95em',
-	},
-}))
-
 // Math takes an equation content (often LaTeX or an object that can be Texified) and turns it into an equation. It uses memoization to prevent rerendering equations all the time.
 function Math({ children, displayMode, className, style }) {
-	const classes = useStyles({ displayMode })
 	const latex = preprocess(children, true)
 	const result = useMemo(() => {
 		const html = KaTeX.renderToString(latex, { displayMode, throwOnError: true })
-		return <span className={clsx(classes.equation, 'equation', className)} style={style} dangerouslySetInnerHTML={{ __html: html }} />
-	}, [classes, latex, displayMode, className, style])
+		return <Box component="span" className={clsx('equation', className)} style={style} sx={{ fontSize: displayMode ? '1.1em' : '0.95em' }} dangerouslySetInnerHTML={{ __html: html }} />
+	}, [latex, displayMode, className, style])
 	return result
 }
 

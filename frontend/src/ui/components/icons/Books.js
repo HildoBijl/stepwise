@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
+import { SvgIcon } from '@mui/material'
 
 export function Books(props) {
 	// First the five horizontal'ish lines (top to bottom), then the left curves, then the right curves, and then the filled-in shapes (book title and page marker).

@@ -1,45 +1,37 @@
 import React, { useRef, useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { Breadcrumbs } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import { ArrowRight as Arrow } from '@material-ui/icons'
-import clsx from 'clsx'
+import { Breadcrumbs } from '@mui/material'
+import { ArrowRight as Arrow } from '@mui/icons-material'
 
-import { lastOf } from 'step-wise/util'
+import { lastOf, resolveFunctions } from 'step-wise/util'
 
 import { useStaggeredFunction, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'
 
-const useStyles = makeStyles((theme) => ({
-	title: {
+// Define styles.
+const breadcrumbsStyle = theme => ({
+	color: 'inherit',
+	display: 'none', // Initiall hide.
+	'& a': {
+		color: '#ccc',
+		textDecoration: 'none',
 
-	},
-	breadcrumbs: {
-		color: 'inherit',
-
-		'& a': {
-			color: '#ccc',
-			textDecoration: 'none',
-
-			'&:hover': {
-				color: theme.palette.primary.contrastText,
-			},
-		},
-
-		'& .arrow': {
-			color: '#ccc',
-			transform: 'scale(1.2) translateY(1px)',
+		'&:hover': {
+			color: theme.palette.primary.contrastText,
 		},
 	},
-}))
+})
+const arrowStyle = {
+	color: '#ccc',
+	transform: 'scale(1.2) translateY(1px)',
+}
 
 // Set up the heading in the default breadcrumbs format.
 const TitleContext = createContext()
-export function Title({ className, setTitleCollapsed }) {
-	const classes = useStyles()
+export function Title({ setTitleCollapsed, sx }) {
 	const fullTitleRef = useRef()
 	const partialTitleRef = useRef()
 
@@ -115,10 +107,10 @@ export function Title({ className, setTitleCollapsed }) {
 			<TitleItems routes={routes} />
 		</TitleContext.Provider>
 		<Helmet><title>{tabTitle}</title></Helmet>
-		<Breadcrumbs ref={fullTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow className='arrow' />} className={clsx(className, classes.breadcrumbs)} style={{ display: 'none' }}>
+		<Breadcrumbs ref={fullTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctions(sx, theme) })}>
 			{getBreadcrumbs(routes, pageNames)}
 		</Breadcrumbs>
-		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow className='arrow' />} className={clsx(className, classes.breadcrumbs)} style={{ display: 'none' }}>
+		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctions(sx, theme) })}>
 			<Breadcrumb route={route} name={lastOf(pageNames)} last={true} />
 		</Breadcrumbs>
 	</TranslationSection>

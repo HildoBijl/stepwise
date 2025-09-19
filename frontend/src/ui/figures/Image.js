@@ -1,8 +1,7 @@
 import React, { forwardRef } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { Box } from '@mui/material'
 
-import { processOptions } from 'step-wise/util'
+import { processOptions, resolveFunctions } from 'step-wise/util'
 
 export const defaultImageOptions = {
 	src: undefined, // The path to the image.
@@ -11,24 +10,22 @@ export const defaultImageOptions = {
 	maxHeight: undefined,
 	className: '',
 	style: {},
+	sx: {},
 }
 
-const useStyles = makeStyles((theme) => ({
-	image: {
+export const Image = forwardRef((options, ref) => {
+	const { src, alt, maxWidth, maxHeight, className, style, sx } = processOptions(options, defaultImageOptions)
+
+	// Apply default styling within the sx parameter.
+	const expandedSx = theme => ({
+		maxWidth: maxWidth === undefined ? maxWidth : `${maxWidth}px`,
+		maxHeight: maxHeight === undefined ? maxHeight : `${maxHeight}px`,
 		boxSizing: 'content-box',
 		display: 'block',
 		margin: '1.2rem auto',
-	},
-}))
+		...resolveFunctions(sx, theme)
+	})
 
-export const Image = forwardRef((options, ref) => {
-	let { src, alt, maxWidth, maxHeight, className, style } = processOptions(options, defaultImageOptions)
-
-	style = {
-		maxWidth: maxWidth === undefined ? maxWidth : `${maxWidth}px`,
-		maxHeight: maxHeight === undefined ? maxHeight : `${maxHeight}px`,
-		...options.style,
-	}
-	const classes = useStyles()
-	return <img ref={ref} src={src} alt={alt} className={clsx('image', classes.image, className)} style={style} />
+	// Render the component.
+	return <Box component="img" ref={ref} src={src} alt={alt} className={className} style={style} sx={expandedSx} />
 })

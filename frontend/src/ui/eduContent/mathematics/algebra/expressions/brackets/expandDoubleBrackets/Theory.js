@@ -1,5 +1,5 @@
 import React from 'react'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@mui/material'
 
 import { repeatMultidimensional } from 'step-wise/util'
 

@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
-import { createTheme, useTheme } from '@material-ui/core/styles'
-import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { createTheme, useTheme, alpha } from '@mui/material/styles'
+import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@mui/icons-material'
 
 import { toHex, toCSS, useFontFaceObserver } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
@@ -28,67 +27,46 @@ export { themeColor, secondaryColor, feedbackColors, backgroundColor, inputBackg
 
 let theme = {
 	palette: {
-		primary: {
-			main: toCSS(themeColor),
-		},
-		secondary: {
-			main: toCSS(secondaryColor),
-		},
-		success: {
-			main: toCSS(feedbackColors.success),
-		},
-		error: {
-			main: toCSS(feedbackColors.error),
-		},
-		warning: {
-			main: toCSS(feedbackColors.warning),
-		},
-		info: {
-			main: toCSS(feedbackColors.info),
-		},
+		primary: { main: toCSS(themeColor) },
+		secondary: { main: toCSS(secondaryColor) },
+		success: { main: toCSS(feedbackColors.success) },
+		error: { main: toCSS(feedbackColors.error) },
+		warning: { main: toCSS(feedbackColors.warning) },
+		info: { main: toCSS(feedbackColors.info) },
 		background: {
 			default: toCSS(backgroundColor),
 			main: toCSS(backgroundColor),
 		},
-		inputBackground: {
-			main: toCSS(inputBackgroundColor),
-		},
+		inputBackground: { main: toCSS(inputBackgroundColor) },
 	},
 	typography: {
-		body1: {
-			fontSize: '0.875rem',
-		},
+		body1: { fontSize: '0.875rem' },
 	},
 	appWidth: 'lg', // The width that is used for the app by default.
-	overrides: {
+	components: {
 		MuiOutlinedInput: {
-			input: {
-				// padding: '14px', // This messed up the layout of Select fields (dropdown lists). Don't recall why it's present.
-			}
+			styleOverrides: {
+				input: {
+					// padding: '14px', // This messed up the layout of Select fields (dropdown lists). Don't recall why it's present.
+				},
+			},
 		},
 		MuiSelect: {
-			select: { // Make dropdown lists have a white background.
-				backgroundColor: '#fbfbfb', 
-				"&:focus": {
+			styleOverrides: {
+				select: { // Make dropdown lists have a white background.
 					backgroundColor: '#fbfbfb',
+					"&:focus": {
+						backgroundColor: '#fbfbfb',
+					},
 				},
 			},
 		},
 		MuiCssBaseline: {
-			'@global': {
-				// Ensure that all the container components have a 100% height, so we can show stuff at the bottom of the page.
-				html: {
-					height: '100%',
-				},
-				body: {
-					height: '100%',
-				},
-				'#root': {
-					height: '100%',
-				},
-				'#app': {
-					height: '100%',
-				},
+			styleOverrides: {
+				html: { height: '100%' },
+				body: { height: '100%' },
+				'#root': { height: '100%' },
+				'#app': { height: '100%' },
 			},
 		},
 	},
@@ -107,7 +85,7 @@ export { pageContainerStyle }
 // A macro for making an object unselectable, preventing a blue border around it.
 const notSelectable = {
 	userSelect: 'none',
-	'-webkit-tap-highlight-color': 'rgba(255, 0, 0, 0)',
+	WebkitTapHighlightColor: 'rgba(255, 0, 0, 0)',
 }
 export { notSelectable }
 
@@ -139,10 +117,10 @@ export { centered }
 
 // A macro for making first and last elements of a block not have a margin.
 const startEndMarginFix = (addition = '', margin = 0) => ({
-	[`&:first-child ${addition}`]: {
+	[`&:first-of-type ${addition}`]: {
 		marginTop: margin,
 	},
-	[`&:last-child ${addition}`]: {
+	[`&:last-of-type ${addition}`]: {
 		marginBottom: margin,
 	},
 })

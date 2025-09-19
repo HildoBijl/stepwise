@@ -1,50 +1,12 @@
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
+import { Box } from '@mui/material'
 
 import { findOptimum, ensureDate, formatDate } from 'step-wise/util'
 
 import { useAllUsersQuery } from 'api/admin'
 import { usePaths } from 'ui/routingTools'
 import { Par, HorizontalSlider } from 'ui/components'
-
-const useStyles = makeStyles((theme) => ({
-	userOverview: {
-		display: 'grid',
-		gridGap: '0.5rem 0.8rem',
-		gridTemplateColumns: '2fr 2fr 1fr 1fr 1fr 1fr',
-		placeItems: 'center stretch',
-		width: '100%',
-
-		'& .head': {
-			fontWeight: 'bold',
-		},
-
-		'& .name': {
-			width: '120px',
-		},
-		'& .email': {
-			width: '220px',
-		},
-		'& .role': {
-			width: '80px',
-			textAlign: 'center',
-		},
-		'& .stats': {
-			width: '100px',
-			textAlign: 'center',
-		},
-		'& .updatedAt': {
-			width: '80px',
-			textAlign: 'center',
-		},
-		'& .createdAt': {
-			width: '80px',
-			textAlign: 'center',
-		},
-	},
-}))
 
 export function UserOverview() {
 	const res = useAllUsersQuery()
@@ -62,8 +24,6 @@ export function UserOverview() {
 }
 
 function UserOverviewWithData({ allUsers }) {
-	const classes = useStyles()
-
 	// Sort all users by their last activity.
 	const usersWithLastActivity = useMemo(() => {
 		// Find the last activity of each user.
@@ -82,7 +42,20 @@ function UserOverviewWithData({ allUsers }) {
 	return <>
 		<Par>Below you find all users that have ever logged in to Step-Wise, sorted by the date of their last activity.</Par>
 		<HorizontalSlider>
-			<div className={clsx(classes.userOverview, 'userOverview')}>
+			<Box sx={{
+				display: 'grid',
+				gridGap: '0.5rem 0.8rem',
+				gridTemplateColumns: '2fr 2fr 1fr 1fr 1fr 1fr',
+				placeItems: 'center stretch',
+				width: '100%',
+				'& .head': { fontWeight: 'bold' },
+				'& .name': { width: '120px' },
+				'& .email': { width: '220px' },
+				'& .role': { width: '80px', textAlign: 'center' },
+				'& .stats': { width: '100px', textAlign: 'center' },
+				'& .updatedAt': { width: '80px', textAlign: 'center' },
+				'& .createdAt': { width: '80px', textAlign: 'center' },
+			}} className="userOverview">
 				<div className="name head">Name</div>
 				<div className="stats head">Skills</div>
 				<div className="updatedAt head">Last activity</div>
@@ -91,7 +64,7 @@ function UserOverviewWithData({ allUsers }) {
 				<div className="email head">Email address</div>
 
 				{usersWithLastActivity.map(userWithLastActivity => <UserOverviewItem key={userWithLastActivity.user.id} user={userWithLastActivity.user} lastActivity={userWithLastActivity.lastActivity} />)}
-			</div>
+			</Box>
 		</HorizontalSlider>
 	</>
 }

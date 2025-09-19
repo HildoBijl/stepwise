@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { Box } from '@mui/material'
 
 import { arraysToObject, keysToObject, formatDate } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
@@ -29,48 +28,30 @@ export function UserInspection() {
 	return <UserInspectionForUser user={user} />
 }
 
-const useStyles = makeStyles((theme) => ({
-	skillList: {
-		display: 'grid',
-		gridGap: '0.8rem 0.8rem',
-		gridTemplateColumns: '50px 4fr 1fr 1fr',
-		placeItems: 'center stretch',
-		width: '100%',
-
-		'& .head': {
-			fontWeight: 'bold',
-		},
-
-		'& .flask': {
-			textAlign: 'center',
-		},
-		'& .name': {
-			width: '160px',
-		},
-		'& .numPracticed': {
-			width: '80px',
-			textAlign: 'center',
-		},
-		'& .lastPracticed': {
-			width: '80px',
-			textAlign: 'center',
-		},
-	},
-}))
-
 function UserInspectionForUser({ user }) {
 	const skillsList = useSkillsList(user)
-	const classes = useStyles()
 	return <>
 		<Par>Below you see all the skills that {user.name} has practiced, with the most recent one on top.</Par>
 		<HorizontalSlider>
-			<div className={clsx(classes.skillList, 'skillList')}>
+			<Box sx={{
+				display: 'grid',
+				gridGap: '0.8rem 0.8rem',
+				gridTemplateColumns: '50px 4fr 1fr 1fr',
+				placeItems: 'center stretch',
+				width: '100%',
+
+				'& .head': { fontWeight: 'bold' },
+				'& .flask': { textAlign: 'center' },
+				'& .name': { width: '160px' },
+				'& .numPracticed': { width: '80px', textAlign: 'center' },
+				'& .lastPracticed': { width: '80px', textAlign: 'center' },
+			}} className="skillList">
 				<div className="flask head"></div>
 				<div className="name head">Skill</div>
 				<div className="numPracticed head">Number of executions</div>
 				<div className="lastPracticed head">Last activity</div>
 				{skillsList.map(skillData => <UserInspectionItem key={skillData.skill.id} skillId={skillData.skill.id} skillData={skillData} />)}
-			</div>
+			</Box>
 		</HorizontalSlider>
 	</>
 }

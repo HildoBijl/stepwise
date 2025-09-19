@@ -1,7 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { Box, useMediaQuery } from '@mui/material'
 
 import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 
@@ -12,36 +10,13 @@ import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from
 const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'students'
 
-const useStyles = makeStyles((theme) => ({
-	courseOverview: {
-		alignItems: 'flex-start',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		width: '100%',
-	},
-	landscapeOverview: {
-		'& .blockList': {
-			marginRight: '1rem',
-			width: '50%',
-		},
-		'& .skillList': {
-			width: '50%',
-		},
-	},
-	portraitOverview: {
-		'& .blockList': {
-			width: '100%',
-		},
-	},
-	gradeEstimate: {
-		padding: '0.5rem',
-		width: '100%',
-
-		'& .disclaimer': {
-			fontSize: '0.6rem',
-		},
-	},
-}))
+// Define central style.
+const courseOverviewStyle = {
+	alignItems: 'flex-start',
+	display: 'flex',
+	flexFlow: 'row nowrap',
+	width: '100%',
+}
 
 export function CoursePageForStudent() {
 	// Load in relevant data about the course.
@@ -85,7 +60,6 @@ export function CoursePageForStudent() {
 function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
 	const landscape = true
-	const classes = useStyles({ landscape })
 
 	// Determine which skillIds to show on the right.
 	let skillIds = null
@@ -100,8 +74,8 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 	const hasPriorKnowledge = overview.priorKnowledge.length > 0
 
 	return (
-		<div className={clsx(classes.courseOverview, classes.landscapeOverview)}>
-			<div className="blockList">
+		<Box sx={courseOverviewStyle}>
+			<Box sx={{ marginRight: '1rem', width: '50%' }}>
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
 					courseCode={course.code}
@@ -125,21 +99,20 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					analysis={analysis}
 				/>)}
 				<GradeEstimate />
-			</div>
-			<SkillList courseCode={course.code} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
-		</div>
+			</Box>
+			<SkillList courseCode={course.code} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} sx={{ width: '50%' }} />
+		</Box>
 	)
 }
 
 function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
 	const landscape = false
-	const classes = useStyles({ landscape })
 	const hasPriorKnowledge = overview.priorKnowledge.length > 0
 
 	return (
-		<div className={clsx(classes.courseOverview, classes.portraitOverview)}>
-			<div className={clsx(classes.blockList, 'blockList')}>
+		<Box sx={courseOverviewStyle}>
+			<Box sx={{ width: '100%' }}>
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
 					courseCode={course.code}
@@ -165,7 +138,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					/>
 				))}
 				<GradeEstimate />
-			</div>
-		</div>
+			</Box>
+		</Box>
 	)
 }

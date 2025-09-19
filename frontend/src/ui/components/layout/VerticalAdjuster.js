@@ -5,39 +5,25 @@
 */
 
 import React, { useState, forwardRef, useRef, useLayoutEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import ReactResizeDetector from 'react-resize-detector'
-
-const useStyles = makeStyles((theme) => ({
-	verticalAdjuster: {
-		height: ({ height, time }) => (height === undefined || time === 0) ? 'auto' : `${height}px`,
-		overflow: 'hidden',
-		transition: ({ time }) => `height ${getTime(time, theme)}ms`,
-
-		'& .verticalAdjusterInner': {
-			padding: '0.05px 0', // A fix to compensate for the ridiculous habit of 'overflow hidden' to ignore margin collapse.
-		},
-	},
-}))
+import { useTheme, Box } from '@mui/material'
 
 export default function VerticalAdjuster({ children, on = true, initiallyOn = true, time }) {
 	const [height, setHeight] = useState(initiallyOn ? undefined : 0)
 	const ref = useRef()
+  const theme = useTheme()
 
-	const classes = useStyles({
-		time,
-		height: on ? height : 0,
-	})
-
-	return (
-		<div className={classes.verticalAdjuster}>
-			<ReactResizeDetector handleHeight>
-				<VerticalAdjusterInner ref={ref} setHeight={setHeight}>
-					{children}
-				</VerticalAdjusterInner>
-			</ReactResizeDetector>
-		</div>
-	)
+	return <Box sx={{
+		height: height === undefined || time === 0 ? 'auto' : `${on ? height : 0}px`,
+		overflow: 'hidden',
+		transition: `height ${time ?? theme.transitions.duration.standard}ms`,
+	}}>
+		<ReactResizeDetector handleHeight>
+			<VerticalAdjusterInner ref={ref} setHeight={setHeight}>
+				{children}
+			</VerticalAdjusterInner>
+		</ReactResizeDetector>
+	</Box>
 }
 
 const VerticalAdjusterInner = forwardRef(({ children, height, setHeight }, ref) => {
@@ -45,9 +31,5 @@ const VerticalAdjusterInner = forwardRef(({ children, height, setHeight }, ref) 
 		if (height !== undefined)
 			setHeight(height)
 	}, [height, setHeight])
-	return <div className="verticalAdjusterInner" ref={ref}>{children}</div>
+	return <Box className="verticalAdjusterInner" ref={ref} sx={{ padding: '0.05px 0' }}>{children}</Box> // Adding tiny padding prevents margin-collapse issues inside overflow:hidden.
 })
-
-function getTime(time, theme) {
-	return time !== undefined ? time : theme.transitions.duration.standard
-}

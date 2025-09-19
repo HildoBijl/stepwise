@@ -1,15 +1,14 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 
 import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
 
-export const defaultTextInputOptions = defaultFieldInputOptions
+export const defaultTextInputOptions = {
+	...defaultFieldInputOptions,
+	contentsStyle: theme => ({
+		...resolveFunctions(defaultFieldInputOptions.contentsStyle, theme),
 
-const useStyles = makeStyles((theme) => ({
-	textInputContents: {
 		display: 'inline-block',
 		fontFamily: 'KaTeX_Main, Times New Roman,serif',
 		fontSize: '1.1em',
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& span': {
 			display: 'inline-block',
-			height: '100%',
+			// height: '100%',
 			lineHeight: 0,
 			margin: 0,
 			padding: 0,
@@ -29,42 +28,22 @@ const useStyles = makeStyles((theme) => ({
 			display: 'inline-block',
 			height: '100%',
 			lineHeight: 2.85,
-
-			'&.times': {
-				padding: '0 0.15em',
-			},
+			'&.times': { padding: '0 0.15em' },
 		},
 
 		'& .power': {
 			fontSize: '0.7em',
-
-			'& .char': {
-				lineHeight: 3.05,
-			},
-			'& span.cursor': {
-				height: '35%',
-				top: '20%',
-			},
+			'& .char': { lineHeight: 3.05 },
+			'& span.cursor': { height: '35%', top: '20%' },
 		},
 
-		'& .filler': {
-			color: theme.palette.text.hint,
-		},
-	},
-}))
+		'& .filler': { color: theme.palette.text.disabled, opacity: 0.3 },
+	}),
+}
 
 export function TextInput(options) {
 	options = processOptions(options, defaultTextInputOptions)
-	const classes = useStyles()
-
-	// Determine the options to pass to the field input.
-	const fieldInputOptions = {
-		...filterOptions(options, defaultFieldInputOptions),
-		contentsClassName: clsx(classes.textInputContents, options.concentsClassName),
-	}
-
-	// Render the field.
-	return <FieldInput {...fieldInputOptions}>
+	return <FieldInput {...filterOptions(options, defaultFieldInputOptions)}>
 		{options.children}
 	</FieldInput>
 }

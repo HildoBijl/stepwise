@@ -22,7 +22,7 @@ export const Circle = forwardRef((props, ref) => {
 	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
 	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius), true)
 	className = ensureString(className)
-	style = ensureObject(style)
+	style = { ...defaultCircle.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the circle.

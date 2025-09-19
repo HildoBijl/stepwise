@@ -1,6 +1,5 @@
 import React from 'react'
-import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client'
 
 import { UserWrapper } from 'api/user'

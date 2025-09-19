@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useMediaQuery } from '@mui/material'
 
 // useKeyboardOpening manages the opening and closing of the keyboard. It provides a tuple [open, setOpen] that can be used for this.
 export function useKeyboardOpening() {

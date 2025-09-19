@@ -1,25 +1,19 @@
 import React from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import Chip from '@material-ui/core/Chip'
-import FaceIcon from '@material-ui/icons/Face'
+import { Box, Chip } from '@mui/material'
+import { Face as FaceIcon } from '@mui/icons-material'
 
-const useStyles = makeStyles((theme) => ({
-	memberList: {
+import { resolveFunctions } from 'step-wise/util'
+
+export function MemberList({ members, sx, ...props }) {
+	return <Box sx={theme => ({
 		display: 'inline flex',
 		justifyContent: 'flex-start',
 		flexWrap: 'wrap',
-		'& > *': {
-			margin: theme.spacing(0.5),
-		},
-	},
-}))
-
-export function MemberList({ members, className }) {
-	const classes = useStyles()
-	return <div className={clsx(classes.memberList, 'memberList', className)}>
+		'& > *': { margin: theme.spacing(0.5) },
+		...resolveFunctions(sx, theme),
+	})} {...props}>
 		{members.map(member => <Member key={member.id || member.userId} member={member} />)}
-	</div>
+	</Box>
 }
 
 function Member({ member }) {

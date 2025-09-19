@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import { Box, Button, Paper, TextField } from '@mui/material'
 
 import { TranslationSection, Translation } from 'i18n'
 import { useGroupExistsQuery } from 'api/group'
 import { usePaths } from 'ui/routingTools'
 
-const useStyles = makeStyles((theme) => ({
-	groupCreation: {
+export function GroupCreation() {
+	return <Box sx={theme => ({
 		display: 'flex',
 		flexFlow: 'column nowrap',
 		justifyContent: 'space-between',
 		alignItems: 'stretch',
 		margin: '1.8rem 0',
-
 		[theme.breakpoints.up('md')]: {
 			flexFlow: 'row nowrap',
 		},
@@ -26,10 +21,8 @@ const useStyles = makeStyles((theme) => ({
 			borderRadius: '0.6rem',
 			padding: '1rem 0.6rem',
 			textAlign: 'center',
-
-			'&:first-child': { marginLeft: '0' },
-			'&:last-child': { marginRight: '0' },
-
+			'&:first-of-type': { marginLeft: '0' },
+			'&:last-of-type': { marginRight: '0' },
 			margin: '0.6rem 0',
 			width: '100%',
 			[theme.breakpoints.up('md')]: {
@@ -49,25 +42,11 @@ const useStyles = makeStyles((theme) => ({
 			'& button': {
 				margin: '0.75rem auto',
 			},
-			'& .inputContainer': {
-				margin: '0.5rem auto',
-
-				'& input': {
-					fontSize: '1.5rem',
-					letterSpacing: '0.3rem',
-					width: '12rem',
-				},
-			},
 		},
-	},
-}))
-
-export function GroupCreation() {
-	const classes = useStyles()
-	return <div className={clsx(classes.groupCreation, 'groupCreation')}>
+	})}>
 		<CreateGroup />
 		<JoinGroup />
-	</div>
+	</Box>
 }
 
 function CreateGroup() {
@@ -136,7 +115,7 @@ function JoinGroup() {
 		<Paper className="block" elevation={3}>
 			<h1><Translation entry="title">Join existing group</Translation></h1>
 			<p><Translation entry="instruction">Enter an existing group code.</Translation></p>
-			<form className="inputContainer" onSubmit={submit}>
+			<Box component="form" onSubmit={submit} sx={{ margin: '0.5rem auto' }}>
 				<TextField
 					id="code"
 					error={code === submittedCode && problem !== problems.allOK}
@@ -147,8 +126,9 @@ function JoinGroup() {
 					value={code}
 					onChange={(evt) => setCode(evt.target.value.substring(0, 4).toUpperCase())}
 					helperText={code === submittedCode ? helperText[problem] : ''}
+					sx={{ fontSize: '1.5rem', letterSpacing: '0.3rem', width: '12rem' }}
 				/>
-			</form>
+			</Box>
 			<Button
 				className="createButton"
 				variant="contained"

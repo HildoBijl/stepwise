@@ -3,8 +3,6 @@
  */
 
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
@@ -26,28 +24,6 @@ const defaultDrawingOptions = {
 delete defaultDrawingOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultDrawingOptions }
 
-const useStyles = makeStyles((theme) => ({
-	drawing: {},
-
-	drawingSVG: {
-		display: 'block',
-		...notSelectable,
-		outline: 'none',
-		overflow: 'visible',
-		width: '100%',
-		zIndex: 2,
-	},
-
-	drawingCanvas: {
-		height: '100%',
-		...notSelectable,
-		width: '100%',
-		zIndex: 1,
-	},
-
-	drawingHtmlContainer: {},
-}))
-
 export const Drawing = forwardRef((options, ref) => {
 	// Process and check the options.
 	options = processOptions(options, defaultDrawingOptions)
@@ -59,7 +35,6 @@ export const Drawing = forwardRef((options, ref) => {
 
 	// Set up styles and references.
 	const id = useId()
-	const classes = useStyles()
 	const figureRef = useRef()
 	const htmlContentsRef = useRef()
 	const svgRef = useRef()
@@ -115,17 +90,16 @@ export const Drawing = forwardRef((options, ref) => {
 	}))
 
 	// Render figure with SVG and Canvas properly placed.
-	options.className = clsx('drawing', classes.drawing, options.className)
 	return (
 		<DrawingContext.Provider value={{ id, transformationSettings, figure: figureRef.current, svg: svgRef.current, svgDefs: svgDefsRef.current, htmlContents: htmlContentsRef.current, canvas: canvasRef.current }}>
 			<Figure ref={figureRef} {...filterOptions(options, defaultFigureOptions)}>
 				{options.useSvg ? (
-					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
+					<svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', ...notSelectable, outline: 'none', overflow: 'visible', width: '100%', zIndex: 2 }}>
 						<defs ref={svgDefsRef} />
 					</svg>
 				) : null}
-				{options.useCanvas ? <canvas ref={canvasRef} className={classes.drawingCanvas} width={width} height={height} /> : null}
-				<div ref={htmlContentsRef} className={classes.drawingHtmlContainer} />
+				{options.useCanvas ? <canvas ref={canvasRef} width={width} height={height} style={{ height: '100%', ...notSelectable, width: '100%', zIndex: 1 }} /> : null}
+				<div ref={htmlContentsRef} />
 				{options.children}
 
 				{/* Clip path to prevent overflow. */}

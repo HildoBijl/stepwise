@@ -1,44 +1,53 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
-import Box from '@material-ui/core/Box'
-import clsx from 'clsx'
+import { Box, alpha } from '@mui/material'
 
-const useStyles = makeStyles((theme) => ({
-	option: {
-		background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.1) : alpha(feedbackColor, 0.1),
-		color: ({ feedbackColor }) => feedbackColor || 'inherit',
-		cursor: ({ readOnly }) => readOnly ? 'auto' : 'pointer',
+import { resolveFunctions } from 'step-wise/util'
 
-		'&:hover': {
-			background: ({ feedbackType, feedbackColor, readOnly }) => (readOnly ? null : (!feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2))),
-		},
+import { notSelectable } from 'ui/theme'
 
-		'&.checked, &.withFeedback': {
-			background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2),
-		},
-
-		'& .checkbox': {
-			color: ({ feedbackColor }) => feedbackColor || theme.palette.info.main,
-		},
-	},
-	feedback: {
-		color: ({ feedbackColor }) => feedbackColor || 'inherit',
-	},
-}))
-
-export function Option({ checked, activate, deactivate, toggle, Element, feedback, readOnly, children }) {
+export function Option({ checked, activate, deactivate, toggle, Element, feedback, readOnly, children, sx }) {
 	const { type: feedbackType, text: feedbackText, Icon, color: feedbackColor } = feedback || {}
 	const hasFeedback = (feedbackType && feedbackType !== 'normal')
-	const classes = useStyles({ feedbackType, feedbackColor, readOnly })
 	const handleChange = (evt, check) => check ? activate() : deactivate()
 
 	return <>
-		<Box boxShadow={1} onClick={toggle} className={clsx('option', checked ? 'checked' : 'unchecked', classes.option, hasFeedback ? 'withFeedback' : 'withoutFeedback')}>
-			<Element className="checkbox" color="default" checked={checked} onChange={handleChange} disabled={readOnly} />
-			<div className="contents">{children}</div>
-			{Icon ? <Icon className="icon" /> : null}
+		<Box boxShadow={1} onClick={toggle} sx={theme => ({
+			alignItems: 'center',
+			background: !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.1) : alpha(feedbackColor, 0.1),
+			borderRadius: '0.5rem',
+			color: feedbackColor || 'inherit',
+			cursor: readOnly ? 'auto' : 'pointer',
+			display: 'flex',
+			flexFlow: 'row nowrap',
+			justifyContent: 'flex-start',
+			marginTop: '0.6rem',
+			padding: '0.4rem',
+			transition: `background ${theme.transitions.duration.standard}ms`,
+			'&:first-of-type': { marginTop: 0 },
+			...notSelectable,
+			...(checked && hasFeedback ? {
+				background: !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2),
+			} : {}),
+			'&:hover': {
+				...(readOnly ? {} : {
+					background: !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2),
+				}),
+			},
+			...resolveFunctions(sx, theme),
+		})}>
+			<Element color="default" checked={checked} onChange={handleChange} disabled={readOnly} sx={theme => ({ flex: '0 0 auto', transition: `color ${theme.transitions.duration.standard}ms`, color: feedbackColor || theme.palette.info.main })} />
+			<Box sx={theme => ({
+				flex: '1 1 auto',
+				margin: '0.5rem',
+				transition: `color ${theme.transitions.duration.standard}ms`,
+				...notSelectable,
+			})}>{children}</Box>
+			{Icon ? <Icon sx={theme => ({
+				flex: '0 0 auto',
+				margin: '0.4rem 0.6rem',
+				transition: `color ${theme.transitions.duration.standard}ms`,
+			})} /> : null}
 		</Box>
-		{feedbackText ? <Box className={clsx('feedback', classes.feedback)}>{feedbackText}</Box> : null}
+		{feedbackText ? <Box sx={{ color: feedbackColor || 'inherit' }}>{feedbackText}</Box> : null}
 	</>
 }

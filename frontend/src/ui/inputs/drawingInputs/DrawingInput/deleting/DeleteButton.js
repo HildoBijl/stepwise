@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { Delete } from '@material-ui/icons'
+import { Box } from '@mui/material'
+import { Delete } from '@mui/icons-material'
 
 import { resolveFunctions } from 'step-wise/util'
 
@@ -12,26 +11,9 @@ import { useInput } from '../../../Input'
 
 import { useDrawingInputData } from '../context'
 
-const useStyles = makeStyles((theme) => ({
-	deleteButton: {
-		background: '#eee',
-		borderRadius: '10rem',
-		cursor: 'pointer',
-		opacity: 0.8,
-		padding: '0.3rem',
-		'&:hover': {
-			opacity: 1,
-		},
-		'& svg': {
-			width: 'auto',
-		},
-	},
-}))
-
 export function DeleteButton() {
 	const { active, applyDeletion, showDeleteButton, setIsMouseOverButton, isDragging, isSelecting } = useDrawingInputData()
 	const [FI, setFI] = useInput()
-	const classes = useStyles()
 	const buttonRef = useRef()
 	const graphicalBounds = useGraphicalBounds()
 
@@ -54,11 +36,17 @@ export function DeleteButton() {
 		return null
 
 	// Render the marker.
-	return <>
-		<Element anchor={[1, 1]} graphicalPosition={[graphicalBounds.width - 10, graphicalBounds.height - 10]} scale={1.3} ignoreMouse={false}>
-			<div ref={buttonRef} className={clsx(classes.deleteButton, 'deleteButton')} onMouseEnter={() => setIsMouseOverButton(true)} onMouseLeave={() => setIsMouseOverButton(false)}>
-				<Delete />
-			</div>
-		</Element>
-	</>
+	return <Element anchor={[1, 1]} graphicalPosition={[graphicalBounds.width - 10, graphicalBounds.height - 10]} scale={1.3} ignoreMouse={false}>
+		<Box ref={buttonRef} onMouseEnter={() => setIsMouseOverButton(true)} onMouseLeave={() => setIsMouseOverButton(false)} sx={{
+			background: '#eee',
+			borderRadius: '10rem',
+			cursor: 'pointer',
+			opacity: 0.8,
+			padding: '0.3rem',
+			'&:hover': { opacity: 1 },
+			'& svg': { width: 'auto' },
+		}}>
+			<Delete />
+		</Box>
+	</Element>
 }

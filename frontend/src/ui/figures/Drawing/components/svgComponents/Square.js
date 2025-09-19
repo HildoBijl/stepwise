@@ -21,11 +21,13 @@ export const Square = forwardRef((props, ref) => {
 	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
 	side = useGraphicalDistance(side, graphicalSide)
 	className = ensureString(className)
-	style = ensureObject(style)
+	style = { ...defaultSquare.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the square.
-	return <SvgPortal><rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
+	return <SvgPortal>
+		<rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} />
+	</SvgPortal>
 })
 Square.defaultProps = defaultSquare
 export default Square

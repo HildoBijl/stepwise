@@ -21,7 +21,7 @@ export const Rectangle = forwardRef((props, ref) => {
 	dimensions = ensureGeometryRectangle(useGraphicalObject(dimensions, graphicalDimensions), 2)
 	cornerRadius = ensureNumber(useGraphicalDistance(cornerRadius, graphicalCornerRadius))
 	className = ensureString(className)
-	style = ensureObject(style)
+	style = { ...defaultRectangle.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the circle.

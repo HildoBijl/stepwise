@@ -1,6 +1,4 @@
 import React, { forwardRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { ensureNumber, ensureString, processOptions } from 'step-wise/util'
 import { Vector, ensureSpan } from 'step-wise/geometry'
@@ -10,14 +8,6 @@ import { Group, Line } from 'ui/figures/Drawing/components/svgComponents'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
 
 import ArrowHead, { defaultArrowHead } from './ArrowHead'
-
-const useStyles = makeStyles((theme) => ({
-	force: {
-		'& .forceLine': {
-			fill: 'none',
-		},
-	},
-}))
 
 export const defaultForce = {
 	...defaultObject,
@@ -38,9 +28,8 @@ export const Force = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw a horizontal force ending in (0, 0) and transform it to position it.
-	const classes = useStyles()
-	return <Group ref={ref} graphicalPosition={end} rotate={vector.argument} className={clsx(classes.force, className)} {...{ style }}>
-		<Line graphicalPoints={[new Vector(-vector.magnitude, 0), new Vector(-size, 0)]} className="forceLine" style={{ stroke: color, strokeWidth: size }} />
+	return <Group ref={ref} graphicalPosition={end} rotate={vector.argument} className={className} {...{ style }}>
+		<Line graphicalPoints={[new Vector(-vector.magnitude, 0), new Vector(-size, 0)]} className="forceLine" style={{ fill: 'none', stroke: color, strokeWidth: size }} />
 		<ArrowHead size={size} style={{ fill: color }} />
 	</Group>
 })

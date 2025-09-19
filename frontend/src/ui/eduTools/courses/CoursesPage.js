@@ -1,7 +1,5 @@
 import { useMemo } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { Alert, AlertTitle } from '@material-ui/lab'
+import { Alert, AlertTitle, Box } from '@mui/material'
 
 import { count } from 'step-wise/util'
 import { processCourse } from 'step-wise/eduTools'
@@ -14,15 +12,6 @@ import { getAnalysis } from './util'
 import { Tile, AddCourseTile } from './Tile'
 
 const translationPath = 'eduTools/pages/coursesPage'
-
-const useStyles = makeStyles((theme) => ({
-	courses: {
-		display: 'grid',
-		gap: '1rem',
-		gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))',
-		gridAutoRows: '8.5rem',
-	},
-}))
 
 export function CoursesPage() {
 	const myCoursesResult = useMyCoursesQuery()
@@ -82,11 +71,16 @@ function CourseList({ courses, showAddButton }) {
 	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillsData)), [processedCourses, skillsData])
 
 	// Render all the tiles with corresponding data.
-	const classes = useStyles()
+	const coursesStyle = {
+		display: 'grid',
+		gap: '1rem',
+		gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))',
+		gridAutoRows: '8.5rem',
+	}
 	return <>
 		<TranslationFile path={translationPath}>
 			{sortedCourses.length > 0 ?
-				<div className={clsx(classes.courses, 'courses')}>
+				<Box sx={coursesStyle}>
 					{sortedCourses.map((course, index) => <Tile
 						key={course.id}
 						course={course}
@@ -95,18 +89,18 @@ function CourseList({ courses, showAddButton }) {
 						recommendation={analyses[index]?.recommendation}
 					/>)}
 					{showAddButton && <AddCourseTile />}
-				</div>
+				</Box>
 				:
 				<>
 					<Translation path={translationPath} entry="noSubscribedCourses">
-						<Alert severity="info" style={{ marginBottom: '1rem' }}>
+						<Alert severity="info" sx={{ mb: 2 }}>
 							<AlertTitle>You haven't subscribed to a course yet!</AlertTitle>
 							Pick a course from the available list to start learning. No worries: it's all free and you can add/remove as many as you like.
 						</Alert>
 					</Translation>
-					<div className={clsx(classes.courses, 'courses')}>
+					<Box sx={coursesStyle}>
 						{showAddButton && <AddCourseTile />}
-					</div>
+					</Box>
 				</>}
 		</TranslationFile >
 	</>

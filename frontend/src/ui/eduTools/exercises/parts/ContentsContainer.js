@@ -1,74 +1,9 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Collapse from '@material-ui/core/Collapse'
-import { ArrowRight, Refresh } from '@material-ui/icons'
+import { Collapse, Box } from '@mui/material'
+import { ArrowRight, Refresh } from '@mui/icons-material'
 
 import { notSelectable } from 'ui/theme'
 import { Button } from 'ui/components'
-
-const useStyles = makeStyles((theme) => ({
-	contentsContainer: {
-		margin: '0 0 0.5em 0',
-
-		'& .trigger': {
-			alignItems: 'center',
-			color: ({ color }) => getColor(color, theme),
-			cursor: ({ clickable }) => clickable ? 'pointer' : 'auto',
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			width: '100%',
-			...notSelectable,
-
-			'& .iconContainer': {
-				flex: '0 0 auto',
-				lineHeight: 0,
-
-				'& .icon': {
-					transform: ({ rotateIcon, expand }) => (rotateIcon && expand) ? 'rotate(90deg)' : 'none',
-					transition: `transform ${theme.transitions.duration.standard}ms`,
-				},
-			},
-
-			'& .textContainer': {
-				fontWeight: 'bold',
-				flex: '0 0 auto',
-				margin: '0 0.8em 0 0.2em',
-			},
-			'& .line': {
-				borderTop: ({ color }) => `1px solid ${getColor(color, theme)}`,
-				flex: '1 1 auto',
-			},
-		},
-		'& .innerContainer': {
-			alignItems: 'stretch',
-			display: 'flex',
-			flexFlow: 'row nowrap',
-
-			'& .lineContainer': {
-				cursor: ({ clickable }) => clickable ? 'pointer' : 'auto',
-				flex: '0 0 auto',
-				margin: '0 0.5em 0 0',
-				...notSelectable,
-
-				'& .line': {
-					borderRight: ({ color }) => `1px solid ${getColor(color, theme)}`,
-					height: '100%',
-					margin: '0 0.75rem 0 calc(0.75rem - 1px)',
-				},
-			},
-			'& .contentsBlock': {
-				flex: '1 1',
-				minWidth: 0,
-				padding: 0,
-			},
-		},
-		'& .refreshButton': {
-			minWidth: 'auto',
-			marginLeft: '1rem',
-			padding: '2px 4px',
-		},
-	},
-}))
 
 export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon, refresh }) {
 	// Allow for toggles, if desired.
@@ -79,33 +14,37 @@ export function ContentsContainer({ children, display = true, text, onClick, ini
 	// Check what to do when clicked on.
 	onClick = onClick || (canToggle ? toggle : undefined)
 	rotateIcon = rotateIcon !== undefined ? rotateIcon : canToggle
+	const clickable = !!onClick
 
-	const classes = useStyles({
-		expand,
-		color,
-		clickable: !!onClick,
-		rotateIcon,
-	})
-
-	return (
-		<Collapse in={display}>
-			{!display ? null :
-				<div className={classes.contentsContainer}>
-					<div className="trigger" onClick={onClick}>
-						<div className="iconContainer"><Icon className="icon" /></div>
-						<div className="textContainer">{text}</div>
-						<div className="line" />
-						{refresh ? <RefreshButton className="refreshButton" onClick={refresh} /> : null}
-					</div>
-					<Collapse in={expand}>
-						<div className="innerContainer">
-							<div className="lineContainer" onClick={onClick}><div className="line" /></div>
-							{children ? <div className="contentsBlock">{children}</div> : null}
-						</div>
-					</Collapse>
-				</div>}
-		</Collapse>
-	)
+	return <Collapse in={display}>
+		{!display ? null :
+			<Box sx={{ margin: '0 0 0.5em 0' }}>
+				<Box onClick={onClick} sx={theme => ({
+					alignItems: 'center',
+					color: getColor(color, theme),
+					cursor: clickable ? 'pointer' : 'auto',
+					display: 'flex',
+					flexFlow: 'row nowrap',
+					width: '100%',
+					...notSelectable,
+				})}>
+					<Box sx={{ flex: '0 0 auto', lineHeight: 0 }}>
+						<Icon sx={theme => ({ transform: (rotateIcon && expand) ? 'rotate(90deg)' : 'none', transition: `transform ${theme.transitions.duration.standard}ms` })} />
+					</Box>
+					<Box sx={{ fontWeight: 'bold', flex: '0 0 auto', margin: '0 0.8em 0 0.2em' }}>{text}</Box>
+					<Box sx={theme => ({ borderTop: `1px solid ${getColor(color, theme)}`, flex: '1 1 auto' })} />
+					{refresh ? <RefreshButton onClick={refresh} sx={{ minWidth: 'auto', marginLeft: '1rem', padding: '2px 4px' }} /> : null}
+				</Box>
+				<Collapse in={expand}>
+					<Box sx={{ alignItems: 'stretch', display: 'flex', flexFlow: 'row nowrap' }}>
+						<Box onClick={onClick} sx={{ cursor: clickable ? 'pointer' : 'auto', flex: '0 0 auto', margin: '0 0.5em 0 0', ...notSelectable }}>
+							<Box sx={theme => ({ borderRight: `1px solid ${getColor(color, theme)}`, height: '100%', margin: '0 0.75rem 0 calc(0.75rem - 1px)' })} />
+						</Box>
+						{children ? <Box sx={{ flex: '1 1', minWidth: 0, padding: 0 }}>{children}</Box> : null}
+					</Box>
+				</Collapse>
+			</Box>}
+	</Collapse>
 }
 
 function getColor(color, theme) {

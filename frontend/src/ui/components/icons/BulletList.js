@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
+import { SvgIcon } from '@mui/material'
 
 export function BulletList(props) {
 	const yValues = [5, 12, 19]

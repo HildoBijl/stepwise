@@ -1,12 +1,11 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Check, Clear } from '@material-ui/icons'
+import { Box, Button } from '@mui/material'
+import { Check, Clear } from '@mui/icons-material'
 
 import { logOutAddress } from 'settings'
 import { TranslationSection, Translation } from 'i18n'
 import { useUser, useAcceptLatestPrivacyPolicyMutation } from 'api/user'
 import { linkStyle } from 'ui/theme'
-import { Button } from 'ui/components'
 
 import { PageTranslationFile } from '../pages'
 
@@ -29,101 +28,72 @@ export function PrivacyPolicyWrapper({ children }) {
 	return children
 }
 
-const useStyles = makeStyles((theme) => ({
-	privacyPolicyWrapperOuter: {
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		margin: 0,
-		minHeight: '100vh',
-		padding: '0 0.8rem',
-		placeItems: 'center',
-		width: '100vw',
-
-		'& a': {
-			...linkStyle,
-		},
-	},
-	privacyPolicyWrapperInner: {
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		margin: 0,
-		placeItems: 'center',
-		width: '100vw',
-	},
-	privacyPolicyWrapperContent: {
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		margin: 0,
-		maxWidth: `${theme.breakpoints.values.sm}px`,
-		placeItems: 'center',
-		textAlign: 'center',
-
-		'& .intro': {
-			fontSize: '1.3em',
-		},
-
-		'& ul': {
-			marginTop: '0.2rem',
-			marginBottom: '0.2rem',
-			textAlign: 'left',
-
-			'& li': {
-				margin: '0.2rem',
-			},
-		},
-
-	},
-
-	buttonContainer: {
-		display: 'flex',
-		flexFlow: 'row wrap',
-		justifyContent: 'center',
-		margin: '1rem 0',
-
-		'& button': {
-			flexGrow: 0,
-			flexShrink: 0,
-			margin: '0.4rem',
-
-			[theme.breakpoints.down('xs')]: {
-				width: '100%',
-			},
-		},
-	},
-}))
-
 export function ApprovePrivacyPolicy({ firstTime }) {
 	const logOut = () => { window.location.href = logOutAddress }
 	const [acceptLatestPrivacyPolicy] = useAcceptLatestPrivacyPolicyMutation()
 
-	const classes = useStyles()
 	return <PageTranslationFile page="privacyPolicy">
-		<div className={classes.privacyPolicyWrapperOuter}>
-			<div className={classes.privacyPolicyWrapperInner}>
-				<div className={classes.privacyPolicyWrapperContent}>
+		<Box sx={{
+			display: 'flex',
+			flexFlow: 'row nowrap',
+			margin: 0,
+			minHeight: '100vh',
+			padding: '0 0.8rem',
+			placeItems: 'center',
+			width: '100vw',
+			'& a': linkStyle,
+		}}>
+			<Box sx={{
+				display: 'flex',
+				flexFlow: 'column nowrap',
+				margin: 0,
+				placeItems: 'center',
+				width: '100vw',
+			}}>
+				<Box sx={theme => ({
+					display: 'flex',
+					flexFlow: 'column nowrap',
+					margin: 0,
+					maxWidth: `${theme.breakpoints.values.sm}px`,
+					placeItems: 'center',
+					textAlign: 'center',
+				})}>
 					{firstTime ? <FirstTimeContent /> : <UpdateContent />}
-					<div className={classes.buttonContainer}>
+					<Box sx={theme => ({
+						display: 'flex',
+						flexFlow: 'row wrap',
+						justifyContent: 'center',
+						margin: '1rem 0',
+						'& button': {
+							flexGrow: 0,
+							flexShrink: 0,
+							margin: '0.4rem',
+							[theme.breakpoints.down('xs')]: {
+								width: '100%',
+							},
+						},
+					})}>
 						<TranslationSection entry="buttons">
 							<Button variant="contained" startIcon={<Clear />} onClick={() => logOut()} color="secondary"><Translation entry="reject">Do not approve: sign out</Translation></Button>
 							<Button variant="contained" startIcon={<Check />} onClick={() => acceptLatestPrivacyPolicy()} color="primary"><Translation entry="approve">Approve: finish signing in</Translation></Button>
 						</TranslationSection>
-					</div>
-				</div>
-			</div>
-		</div>
-	</PageTranslationFile>
+					</Box>
+				</Box>
+			</Box>
+		</Box>
+	</PageTranslationFile >
 }
 
 function FirstTimeContent() {
 	return <TranslationSection entry="firstTime">
 		<h1><Translation entry="title">Privacy Policy</Translation></h1>
-		<p className="intro"><Translation entry="intro">To use Step-Wise, you must approve of the <a href={`${process.env.PUBLIC_URL}/PrivacyPolicy.pdf`} target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
+		<p style={{ fontSize: '1.3em' }}><Translation entry="intro">To use Step-Wise, you must approve of the <a href={`${process.env.PUBLIC_URL}/PrivacyPolicy.pdf`} target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
 		<Translation entry="list">
-			<ul>
+			<Box component="ul" sx={{ marginTop: '0.2rem', marginBottom: '0.2rem', textAlign: 'left', '& li': { margin: '0.2rem' } }}>
 				<li>We use cookies only for sign-in and site settings purposes. No tracking/ads.</li>
 				<li>We won't share personal identifiable data with others unless after specific approval.</li>
 				<li>You can always remove all your data by deleting your account.</li>
-			</ul>
+			</Box>
 		</Translation>
 	</TranslationSection>
 }

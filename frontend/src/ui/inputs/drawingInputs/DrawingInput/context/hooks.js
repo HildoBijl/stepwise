@@ -1,4 +1,5 @@
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material'
+
 import { useInputData } from '../../../Input'
 
 export function useDrawingRef() {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@material-ui/icons'
+import { ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@mui/icons-material'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import Character from './Character'

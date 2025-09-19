@@ -1,31 +1,14 @@
 import React, { createContext, useContext, useState, useRef } from 'react'
-import clsx from 'clsx'
-
-import { makeStyles } from '@material-ui/core/styles'
-import Modal from '@material-ui/core/Modal'
+import { Modal, Box, useTheme } from '@mui/material'
 
 import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { centered } from 'ui/theme'
 
-const useModalStyles = makeStyles((theme) => ({
-	modal: {
-		alignItems: 'stretch',
-		background: theme.palette.background.main,
-		borderRadius: '1rem',
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		outline: 0,
-		padding: '1.5rem',
-		width: 'min(80vw, 40rem)',
-		...centered,
-	},
-}))
-
 const ModalContext = createContext(null)
 export default function ModalManager({ children }) {
 	const [showModal, setShowModal] = useState(false)
-	const classes = useModalStyles()
 	const contentsRef = useRef(null)
+	const theme = useTheme()
 
 	// useModal can be called by consuming components to set up a Modal. Use [open, setOpen] = useModal(<Component />) where component is what needs to be shown in the modal.
 	const useModal = (component) => {
@@ -53,9 +36,19 @@ export default function ModalManager({ children }) {
 	return <ModalContext.Provider value={context}>
 		{children}
 		<Modal open={showModal} onClose={() => setShowModal(false)}>
-			<div className={clsx(classes.modal, 'modal')}>
+			<Box className="modal" sx={{
+				alignItems: 'stretch',
+				backgroundColor: theme.palette.background.main,
+				borderRadius: '1rem',
+				display: 'flex',
+				flexFlow: 'column nowrap',
+				outline: 0,
+				padding: '1.5rem',
+				width: 'min(80vw, 40rem)',
+				...centered,
+			}}>
 				{showModal ? contentsRef.current : null}
-			</div>
+			</Box>
 		</Modal>
 	</ModalContext.Provider>
 }

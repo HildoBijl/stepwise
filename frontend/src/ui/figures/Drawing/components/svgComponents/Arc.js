@@ -27,7 +27,7 @@ export const Arc = forwardRef((props, ref) => {
 	startAngle = ensureNumber(startAngle)
 	endAngle = ensureNumber(endAngle)
 	className = ensureString(className)
-	style = ensureObject(style)
+	style = { ...defaultArc.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw the arc.

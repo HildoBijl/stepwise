@@ -1,6 +1,4 @@
 import React, { forwardRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry/Vector'
@@ -9,12 +7,6 @@ import { useGraphicalVector } from 'ui/figures'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
 
 import { Beam } from '../structuralComponents'
-
-const useStyles = makeStyles((theme) => ({
-	supportBlock: {
-		'stroke-width': 0,
-	},
-}))
 
 export const defaultSupportBlock = {
 	...defaultObject,
@@ -38,8 +30,7 @@ export const SupportBlock = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw the support block.
-	const classes = useStyles()
-	return <rect ref={ref} x={position.x - width / 2} y={position.y - height / 2} width={width} height={height} className={clsx(classes.supportBlock, className)} style={{ fill: color, ...style }} />
+	return <rect ref={ref} x={position.x - width / 2} y={position.y - height / 2} width={width} height={height} className={className} style={{ strokeWidth: 0, fill: color, ...style }} />
 })
 SupportBlock.defaultProps = defaultSupportBlock
 export default SupportBlock

@@ -1,44 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import Button from '@material-ui/core/Button'
-import { Clear } from '@material-ui/icons'
+import { Box, Button, useMediaQuery } from '@mui/material'
+import { Clear } from '@mui/icons-material'
 
 import { Translation } from 'i18n'
 import { useLeaveGroupMutation, useSelfAndOtherMembers } from 'api/group'
 import { usePaths } from 'ui/routingTools'
 import { Head, MemberList } from 'ui/components'
 
-const useStyles = makeStyles((theme) => ({
-	otherGroups: {
-		display: 'grid',
-		gap: '0.5rem 0.5rem',
-		gridTemplateColumns: 'auto 1fr auto',
-		gridTemplateRows: 'auto',
-		placeItems: 'center start',
-
-		'& .groupCode': {
-			width: '100%',
-			'& .groupCodeButton': {
-				width: '100%',
-			},
-		},
-		'& .groupMembers': {
-		},
-		'& .groupLeaveButton': {
-			width: '100%',
-		},
-	},
-}))
-
 export function OtherGroups({ groups, hasActiveGroup }) {
-	const classes = useStyles()
 	return <>
 		<Head><Translation entry="olderGroups.title">Previous groups</Translation></Head>
-		<div className={classes.otherGroups}>
+		<Box sx={{
+			display: 'grid',
+			gap: '0.5rem 0.5rem',
+			gridTemplateColumns: 'auto 1fr auto',
+			gridTemplateRows: 'auto',
+			placeItems: 'center start',
+		}}>
 			{groups.map(group => <OtherGroup key={group.code} group={group} />)}
-		</div>
+		</Box>
 	</>
 }
 
@@ -49,22 +30,10 @@ function OtherGroup({ group }) {
 	const wideScreen = useMediaQuery('(min-width:600px)')
 
 	return <>
-		<Link className="groupCode" to={paths.group({ code: group.code })}>
-			<Button
-				className="groupCodeButton"
-				variant="contained"
-				size="small"
-				color="primary"
-			>{wideScreen ? <><Translation entry="olderGroups.code">Code</Translation> </> : ''}{group.code}</Button>
+		<Link to={paths.group({ code: group.code })} style={{ width: '100%' }}>
+			<Button variant="contained" size="small" color="primary" sx={{ width: '100%' }}>{wideScreen ? <><Translation entry="olderGroups.code">Code</Translation> </> : ''}{group.code}</Button>
 		</Link>
-		<MemberList className="groupMembers" members={membersSorted} />
-		<Button
-			className="leaveButton"
-			variant="contained"
-			size="small"
-			color="secondary"
-			endIcon={wideScreen ? <Clear /> : null}
-			onClick={leaveGroup}
-		>{wideScreen ? <Translation entry="olderGroups.forgetGroup">Forget this group</Translation> : <Clear />}</Button>
+		<MemberList members={membersSorted} />
+		<Button variant="contained" size="small" color="secondary" endIcon={wideScreen ? <Clear /> : null} onClick={leaveGroup} sx={{ width: '100%' }}>{wideScreen ? <Translation entry="olderGroups.forgetGroup">Forget this group</Translation> : <Clear />}</Button>
 	</>
 }

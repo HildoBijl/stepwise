@@ -26,16 +26,20 @@ export const Group = forwardRef((props, ref) => {
 	scale = ensureNumber(scale)
 	overflow = ensureBoolean(overflow)
 	className = ensureString(className)
-	style = ensureObject(style)
+	style = { ...defaultGroup.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the group with the right transform property.
 	const drawingId = useDrawingId()
-	return <SvgPortal><g ref={ref} className={className} style={{
-		...style,
-		clipPath: overflow ? '' : `url(#noOverflow${drawingId})`,
-		transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
-	}}>{children}</g></SvgPortal>
+	return <SvgPortal>
+		<g ref={ref} className={className} style={{
+			...style,
+			clipPath: overflow ? '' : `url(#noOverflow${drawingId})`,
+			transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
+		}}>
+			{children}
+		</g>
+	</SvgPortal>
 })
 Group.defaultProps = defaultGroup
 export default Group

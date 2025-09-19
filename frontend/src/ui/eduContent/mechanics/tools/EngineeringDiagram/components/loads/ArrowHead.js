@@ -1,19 +1,10 @@
 import React, { forwardRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/figures'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
-
-const useStyles = makeStyles((theme) => ({
-	arrowHead: {
-		fill: 'black',
-		'stroke-width': 0,
-	},
-}))
 
 export const defaultArrowHead = {
 	...defaultObject,
@@ -38,15 +29,14 @@ export const ArrowHead = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw the arrow head shape and position it.
-	const classes = useStyles()
 	return <polygon
 		ref={ref}
 		points="0 0, -20 -10, -14 0, -20 10"
-		className={clsx(classes.arrowHead, className)}
+		className={className}
 		style={{
+			strokeWidth: 0,
 			fill: color,
 			transform: `translate(${position.x}px, ${position.y}px) rotate(${angle * 180 / Math.PI}deg) scale(${size / defaultArrowHead.size})`,
-			stroke: 'red',
 			...style,
 		}}
 	/>

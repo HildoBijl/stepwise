@@ -1,86 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { Alert, AlertTitle } from '@material-ui/lab'
+import { Box, Alert, AlertTitle } from '@mui/material'
 
 import { apiAddress, googleClientId, googleRedirectAddress } from 'settings'
 import { useIsUserDataLoaded } from 'api/user'
 import { Translation, useLanguage } from 'i18n'
 import HUlogo from 'ui/images/HU.png'
 
-const useStyles = makeStyles((theme) => ({
-	logInContainer: {
-		alignItems: ({ centered }) => centered ? 'center' : 'start',
-		display: 'flex',
-		flex: '1 1 50%',
-		flexFlow: 'column nowrap',
-		justifyContent: 'center',
-
-		margin: `1rem 0 0 0`,
-		[theme.breakpoints.up('md')]: {
-			margin: `1rem 0 1rem 0`,
-		},
-	},
-	huLogIn: {
-		height: '44px',
-		margin: '4px 0',
-		padding: '2px 0px',
-		width: '320px',
-
-		'& .inner': {
-			alignItems: 'center',
-			backgroundColor: '#ffffff',
-			border: '1px solid #dadce0',
-			borderRadius: '4px',
-			color: '#3c4043',
-			cursor: 'pointer',
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			fontSize: '14px',
-			height: '100%',
-			letterSpacing: '0.25px',
-			padding: '0 12px',
-			textAlign: 'center',
-			textDecoration: 'none',
-			width: 'auto',
-
-			'&:hover': {
-				background: '#f7fafe',
-				borderColor: '#d2e3fc',
-			},
-
-			'& .img': {
-				'& img': {
-					display: 'block',
-					height: '18px',
-					margin: `0 8px 0 0`,
-					width: '18px',
-				},
-			},
-
-			'& .text': {
-				flexGrow: '1',
-				fontWeight: '500',
-			},
-		},
-	},
-}))
-
 export function LogInButtons({ redirect = window.location.pathname + window.location.search, centered = true }) {
-	const classes = useStyles({ centered })
-
 	// When it's unknown yet whether the user is logged in, don't show buttons.
 	const isUserDataLoaded = useIsUserDataLoaded()
 	if (!isUserDataLoaded)
 		return null
 
 	// Render the page.
-	return <div className={classes.logInContainer}>
+	return <Box sx={theme => ({
+		alignItems: centered ? 'center' : 'start',
+		display: 'flex',
+		flex: '1 1 50%',
+		flexFlow: 'column nowrap',
+		justifyContent: 'center',
+		margin: `1rem 0 0 0`,
+		[theme.breakpoints.up('md')]: {
+			margin: `1rem 0 1rem 0`,
+		},
+	})}>
 		<LogInError />
 		<GoogleLogInButton redirect={redirect} />
 		<HULogInButton redirect={redirect} />
-	</div>
+	</Box>
 }
 
 function GoogleLogInButton({ redirect }) {
@@ -141,17 +90,15 @@ function LogInError() {
 		}
 	}, [location, navigate])
 
-	return errorMessage && (
-		<Alert severity="error">
-			<AlertTitle><Translation entry="logInError.title">Sign-in unsuccessful</Translation></AlertTitle>
-			{errorMessage}
-		</Alert>
-	)
+	if (!errorMessage)
+		return null
+	return <Alert severity="error">
+		<AlertTitle><Translation entry="logInError.title">Sign-in unsuccessful</Translation></AlertTitle>
+		{errorMessage}
+	</Alert>
 }
 
 function HULogInButton({ redirect }) {
-	const classes = useStyles()
-
 	// How do we send the user to SURFConext?
 	const goToSurfConext = () => {
 		window.location.href = `${apiAddress}/auth/surfconext/initiate?redirect=${encodeURIComponent(redirect)}`
@@ -163,14 +110,47 @@ function HULogInButton({ redirect }) {
 		return null
 
 	// Render the button.
-	return <div className={classes.huLogIn} onClick={goToSurfConext}>
-		<div className="inner">
-			<div className="img">
-				<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
-			</div>
-			<div className="text">
+	return <Box onClick={goToSurfConext} sx={{
+		height: '44px',
+		margin: '4px 0',
+		padding: '2px 0px',
+		width: '320px',
+	}}>
+		<Box className="inner" sx={{
+			alignItems: 'center',
+			backgroundColor: '#ffffff',
+			border: '1px solid #dadce0',
+			borderRadius: '4px',
+			color: '#3c4043',
+			cursor: 'pointer',
+			display: 'flex',
+			flexFlow: 'row nowrap',
+			fontSize: '14px',
+			height: '100%',
+			letterSpacing: '0.25px',
+			padding: '0 12px',
+			textAlign: 'center',
+			textDecoration: 'none',
+			width: 'auto',
+			'&:hover': {
+				background: '#f7fafe',
+				borderColor: '#d2e3fc',
+			},
+		}}>
+			<Box>
+				<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" style={{
+					display: 'block',
+					height: '18px',
+					margin: `0 8px 0 0`,
+					width: '18px',
+					}} />
+			</Box>
+			<Box sx={{
+				flexGrow: '1',
+				fontWeight: '500',
+			}}>
 				<Translation path="pages/home" entry="getStarted.logInHU">Sign in through Hogeschool Utrecht</Translation>
-			</div>
-		</div>
-	</div>
+			</Box>
+		</Box>
+	</Box>
 }

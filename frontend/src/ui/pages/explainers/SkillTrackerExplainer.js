@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Check, Clear, Replay } from '@material-ui/icons'
-import Slider from '@material-ui/core/Slider'
+import { Box, Slider } from '@mui/material'
+import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { keysToObject, applyMapping } from 'step-wise/util'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
@@ -15,119 +14,34 @@ const lastLabel = 'X'
 const labels = [...labelsWithoutLast, lastLabel]
 const setup = and(...labelsWithoutLast)
 
-const useStyles = makeStyles((theme) => ({
-	applet: {
-		background: 'rgba(128, 128, 128, 0.15)',
-		borderRadius: '1.5rem',
-		padding: '1rem 1.5rem',
+// Define styles.
+const appletStyle = {
+	background: 'rgba(128, 128, 128, 0.15)',
+	borderRadius: '1.5rem',
+	padding: '1rem 1.5rem',
+}
+const buttonContainerStyle = {
+	alignItems: 'center',
+	display: 'flex',
+	flexFlow: 'row nowrap',
+	justifyContent: 'flex-start',
+	margin: '0.4rem 0',
+}
+const buttonActionStyle = {
+	flex: '0 0 auto',
+	fontWeight: 'bold',
+	width: '100px',
+}
+const innerButtonContainerStyle = {
+	alignItems: 'center',
+	display: 'flex',
+	flex: '1 1 auto',
+	flexFlow: 'row wrap',
+	justifyContent: 'flex-start',
+	'& button': {
+		margin: '0.2rem 0.5rem 0.2rem 0',
 	},
-
-	flaskContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		margin: '0.6rem 0 1rem',
-
-		'& svg': {
-			flex: '0 0 auto',
-		},
-		'& .text': {
-			flex: '1 1 auto',
-			marginLeft: '1rem',
-		},
-	},
-
-	buttonContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		justifyContent: 'flex-start',
-		margin: '0.4rem 0',
-
-		'& .action': {
-			flex: '0 0 auto',
-			fontWeight: 'bold',
-			width: '100px',
-		},
-	},
-
-	innerButtonContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flex: '1 1 auto',
-		flexFlow: 'row wrap',
-		justifyContent: 'flex-start',
-
-		'& button': {
-			margin: '0.2rem 0.5rem 0.2rem 0',
-		},
-	},
-
-	skillContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		justifyContent: 'flex-start',
-		margin: '0.4rem 0 1rem',
-
-		'& .skillLabel': {
-			fontSize: '1.2em',
-			fontWeight: 500,
-		},
-		'& .skillFlask': {
-			margin: '0 1.2em 0 1em',
-		},
-	},
-
-	slider: {
-		margin: '0 0.8rem 0 0.5rem',
-		width: '250px',
-	},
-
-	exerciseHeader: {
-		fontSize: '1.5em',
-		fontWeight: 500,
-		margin: '0.2em 0',
-	},
-
-	infoMessage: {
-		margin: '0.5em 0',
-	},
-
-	exerciseContainer: {
-		alignItems: 'stretch',
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		margin: '1.5em 0 1em',
-
-		'& .info': {
-			margin: '0.2em 0',
-		},
-
-		'& table': {
-			'& td': {
-				padding: '0.1em 0.2em',
-			},
-			'& thead': {
-				fontSize: '1em',
-				fontWeight: 500,
-				verticalAlign: 'bottom',
-			},
-
-			'& .number': {
-				fontSize: '1.2em',
-				fontWeight: 500,
-				padding: '0.1em 0.4em 0.1em 0',
-			},
-			'& .exerciseName': {
-
-			},
-			'& .successRate, & .selectionRate': {
-				textAlign: 'center',
-			},
-		},
-	},
-}))
+}
 
 export function SkillTrackerExplainer() {
 	return <>
@@ -176,8 +90,6 @@ export function SkillTrackerExplainer() {
 }
 
 function SkillFlaskWithLabel({ coef, text, months }) {
-	const classes = useStyles()
-
 	// If no text is given, determine which text to show.
 	if (text === undefined) {
 		const EV = getEV(coef)
@@ -199,17 +111,18 @@ function SkillFlaskWithLabel({ coef, text, months }) {
 	}
 
 	// Render the component.
-	return (
-		<div className={classes.flaskContainer}>
-			<SkillFlask coef={coef} />
-			<div className="text">{text}</div>
-		</div>
-	)
+	return <Box sx={{
+		alignItems: 'center',
+		display: 'flex',
+		flexFlow: 'row nowrap',
+		margin: '0.6rem 0 1rem',
+	}}>
+		<SkillFlask coef={coef} sx={{ flex: '0 0 auto' }} />
+		<Box sx={{ flex: '1 1 auto', marginLeft: '1rem' }}>{text}</Box>
+	</Box>
 }
 
 function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
-	const classes = useStyles()
-
 	// Keep track of the coefficients on changes.
 	const [coef, setCoef] = useState([1])
 	const [numPracticed, setNumPracticed] = useState(0)
@@ -244,28 +157,26 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	const smoothenedCoef = smoothen(coef, options)
 
 	// Render contents.
-	return <div className={classes.applet}>
+	return <Box sx={appletStyle}>
 		<SkillFlaskWithLabel coef={smoothenedCoef} months={addTimeDecay ? months : undefined} />
 		{addTimeDecay ? (
-			<div className={classes.buttonContainer}>
-				{showLabel ? <div className="action">Wachten:</div> : null}
-				<Slider className={classes.slider} value={months} onChange={(evt, newValue) => setMonths(newValue)} min={0} max={12} marks valueLabelDisplay="auto" />
-			</div>
+			<Box sx={buttonContainerStyle}>
+				{showLabel ? <Box sx={buttonActionStyle}>Wachten:</Box> : null}
+				<Slider value={months} onChange={(evt, newValue) => setMonths(newValue)} min={0} max={12} marks valueLabelDisplay="auto" sx={{ margin: '0 0.8rem 0 0.5rem', width: '250px' }} />
+			</Box>
 		) : null}
-		<div className={classes.buttonContainer}>
-			{showLabel ? <div className="action">Opgave doen:</div> : null}
-			<div className={classes.innerButtonContainer}>
+		<Box sx={buttonContainerStyle}>
+			{showLabel ? <Box sx={buttonActionStyle}>Opgave doen:</Box> : null}
+			<Box sx={innerButtonContainerStyle}>
 				<Button variant="contained" startIcon={<Check />} onClick={applyCorrect} color="primary">Correct</Button>
 				<Button variant="contained" startIcon={<Clear />} onClick={applyIncorrect} color="error">Incorrect</Button>
 				<Button variant="contained" startIcon={<Replay />} onClick={reset} color="secondary">Reset</Button>
-			</div>
-		</div>
-	</div>
+			</Box>
+		</Box>
+	</Box>
 }
 
 function MultiSkillTrial({ showButtonsForX = true, exercises }) {
-	const classes = useStyles()
-
 	// Set up the state.
 	const getEmptyCoefficientSetFromLabels = labels => keysToObject(labels, () => [1])
 	const getEmptyNumsPracticedFromLabels = labels => keysToObject(labels, () => 0)
@@ -315,30 +226,34 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	coefficientSetNow[lastLabel] = merge([inference, coefficientSetNow[lastLabel]])
 
 	// Render contents.
-	return <div className={classes.applet}>
+	return <Box sx={appletStyle}>
 		{labels.map((label, index) => (
-			<div className={classes.skillContainer} key={index}>
-				<span className="skillLabel"><M>{label}</M>:</span>
-				<SkillFlask coef={coefficientSetNow[label]} />
+			<Box key={index} sx={{
+				alignItems: 'center',
+				display: 'flex',
+				flexFlow: 'row nowrap',
+				justifyContent: 'flex-start',
+				margin: '0.4rem 0 1rem',
+			}}>
+				<Box component="span" sx={{ fontSize: '1.2em', fontWeight: 500 }}><M>{label}</M>:</Box>
+				<SkillFlask coef={coefficientSetNow[label]} sx={{ margin: '0 1.2em 0 1em' }} />
 				{showButtonsForX || index !== labels.length - 1 ? (
-					<div className={classes.innerButtonContainer}>
+					<Box sx={innerButtonContainerStyle}>
 						<Button variant="contained" startIcon={<Check />} onClick={() => applyUpdate(label, true)} color="primary">Correct</Button>
 						<Button variant="contained" startIcon={<Clear />} onClick={() => applyUpdate(label, false)} color="error">Incorrect</Button>
-					</div>
+					</Box>
 				) : null}
-			</div>
+			</Box>
 		))}
 		<ExerciseOverview coefficientSet={coefficientSetNow} pass={pass} exercises={exercises} />
 		<Button variant="contained" startIcon={<Replay />} onClick={reset} color="secondary">Reset</Button>
-	</div>
+	</Box>
 }
 
 function ExerciseOverview({ coefficientSet, pass, exercises }) {
-	const classes = useStyles()
-
 	const insufficientIndex = pass.indexOf(false)
 	const insufficientLabel = (insufficientIndex === -1 ? null : labelsWithoutLast[insufficientIndex])
-	const infoMessage = insufficientLabel ? <div className={classes.infoMessage}>Het wordt afgeraden om vervolgvaardigheid <M>X</M> al te oefenen. Basisvaardigheid {insufficientLabel} is nog niet op voldoende niveau.</div> : <div className={classes.infoMessage}>Het is een goed idee om vervolgvaardigheid <M>X</M> te oefenen. De basisvaardigheden worden voldoende beheerst.</div>
+	const infoMessage = insufficientLabel ? <Box sx={{ margin: '0.5em 0' }}>Het wordt afgeraden om vervolgvaardigheid <M>X</M> al te oefenen. Basisvaardigheid {insufficientLabel} is nog niet op voldoende niveau.</Box> : <Box sx={{ margin: '0.5em 0' }}>Het is een goed idee om vervolgvaardigheid <M>X</M> te oefenen. De basisvaardigheden worden voldoende beheerst.</Box>
 
 	// If there are no exercises, don't do anything.
 	if (!exercises)
@@ -350,8 +265,28 @@ function ExerciseOverview({ coefficientSet, pass, exercises }) {
 
 	// Render contents.
 	return (
-		<div className={classes.exerciseContainer}>
-			<Head className={classes.exerciseHeader}>Mogelijke oefenopgaven om <M>X</M> te oefenen</Head>
+		<Box sx={{
+			alignItems: 'stretch',
+			display: 'flex',
+			flexFlow: 'column nowrap',
+			margin: '1.5em 0 1em',
+			'& table': {
+				'& td': { padding: '0.1em 0.2em' },
+				'& thead': {
+					fontSize: '1em',
+					fontWeight: 500,
+					verticalAlign: 'bottom',
+				},
+				'& .number': {
+					fontSize: '1.2em',
+					fontWeight: 500,
+					padding: '0.1em 0.4em 0.1em 0',
+				},
+				'& .exerciseName': {},
+				'& .successRate, & .selectionRate': { textAlign: 'center' },
+			}
+		}}>
+			<Head sx={{ fontSize: '1.5em', fontWeight: 500, margin: '0.2em 0' }}>Mogelijke oefenopgaven om <M>X</M> te oefenen</Head>
 			{infoMessage}
 			<table>
 				<thead>
@@ -373,6 +308,6 @@ function ExerciseOverview({ coefficientSet, pass, exercises }) {
 					))}
 				</tbody>
 			</table>
-		</div>
+		</Box>
 	)
 }

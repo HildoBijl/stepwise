@@ -1,11 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
-import Box from '@material-ui/core/Box'
-import Tooltip from '@material-ui/core/Tooltip'
-import { Check, Info } from '@material-ui/icons'
+import { Box, Tooltip, useTheme, alpha } from '@mui/material'
+import { Check, Info } from '@mui/icons-material'
 
 import { skillTree } from 'step-wise/eduTools'
 
@@ -17,105 +13,68 @@ import { QuickPractice } from 'ui/components/icons'
 
 import { isPracticeNeeded, SkillFlask } from '../../skills'
 
-const useStyles = makeStyles((theme) => ({
-	skillList: {
-		overflow: 'hidden',
-		...notSelectable,
-
-		'& .skillItem': {
-			alignItems: 'center',
-			color: theme.palette.text.primary,
-			cursor: 'pointer',
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			padding: '0.8rem',
-			textDecoration: 'none',
-			width: '100%',
-			...linkStyleReset,
-
-			'&.dummy': {
-				cursor: 'auto',
-				minHeight: '3.5rem',
-			},
-
-			'&:hover:not(.dummy)': {
-				background: alpha(theme.palette.primary.main, 0.03),
-			},
-
-			'&.recommend': {
-				fontWeight: 'bold',
-			},
-
-			'& .skillFlask': {
-				flex: '0 0 auto',
-				marginRight: '0.8rem',
-			},
-			'& .skillName': {
-				flex: '1 1 auto',
-			},
-			'& .iconContainer': {
-				lineHeight: 0,
-
-				'& .noExercises': {
-					color: theme.palette.info.main,
-				},
-				'& .check': {
-					color: theme.palette.success.main,
-				},
-			},
-		},
-
-		'&.landscape': {
-			borderRadius: '0.5rem',
-
-			'& .skillItem': {
-				background: alpha(theme.palette.primary.main, 0.03),
-				'&:hover:not(.dummy)': {
-					background: alpha(theme.palette.primary.main, 0.1),
-				},
-			},
-		},
-	},
-}))
-
-export function SkillList({ courseCode, skillIds, display = true, landscape, isPriorKnowledge, analysis }) {
-	const classes = useStyles()
+export function SkillList({ courseCode, skillIds, display = true, landscape, isPriorKnowledge, analysis, sx = {} }) {
 
 	// If we should not display this skill list, show nothing instead.
 	if (!display)
-		return <div className={clsx(classes.skillList, 'skillList', { landscape })} />
+		return <Box />
+
+	// Define the style for the skill list.
+	const skillListStyle = {
+		overflow: 'hidden',
+		borderRadius: landscape ? '0.5rem' : undefined,
+		...notSelectable,
+	}
 
 	// If there are no skills, add a note that skills will be added in the future.
 	if (skillIds.length === 0) {
-		return (
-			<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
-				<SkillItem />
-			</Box>
-		)
+		return <Box boxShadow={landscape ? 1 : 0} sx={{ ...skillListStyle, ...sx }}>
+			<SkillItem />
+		</Box>
 	}
 
-	return (
-		<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
-			{skillIds.map((skillId) => <SkillItem
-				key={skillId}
-				courseCode={courseCode}
-				skillId={skillId}
-				isPriorKnowledge={isPriorKnowledge}
-				recommend={skillId === analysis?.recommendation}
-				practiceNeeded={analysis && analysis.practiceNeeded[skillId]}
-			/>)}
-		</Box>
-	)
+	return <Box boxShadow={landscape ? 1 : 0} sx={{ ...skillListStyle, ...sx }}>
+		{skillIds.map((skillId) => <SkillItem
+			key={skillId}
+			courseCode={courseCode}
+			skillId={skillId}
+			isPriorKnowledge={isPriorKnowledge}
+			recommend={skillId === analysis?.recommendation}
+			practiceNeeded={analysis && analysis.practiceNeeded[skillId]}
+		/>)}
+	</Box>
 }
 
-function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2 }) {
+function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2, sx = {} }) {
+	const theme = useTheme()
 	const translate = useTranslator()
 	const paths = usePaths()
 	const skillData = useSkillData(skillId)
 
+	// Define styling.
+	const isDummy = !skillId
+	const skillItemStyle = {
+		alignItems: 'center',
+		color: theme.palette.text.primary,
+		cursor: 'pointer',
+		display: 'flex',
+		flexFlow: 'row nowrap',
+		padding: '0.8rem',
+		textDecoration: 'none',
+		width: '100%',
+		...linkStyleReset,
+		...(recommend && { fontWeight: 'bold' }),
+		...(isDummy && { cursor: 'auto', minHeight: '3.5rem' }),
+		...(!isDummy && { '&:hover': { background: alpha(theme.palette.primary.main, 0.03) } }),
+		...sx,
+	}
+	const iconContainerStyle = {
+		lineHeight: 0,
+	}
+
 	// If there is no data, show that skills will be added in the future.
 	if (!skillId)
-		return <div className="skillItem dummy"><Translation entry="noSkills">This block is still under development: no skills/exercises have been added yet. They will be here shortly!</Translation></div>
+		return <Box><Translation entry="noSkills">This block is still under development: no skills/exercises have been added yet. They will be here shortly!</Translation></Box>
 
 	// Determine the tooltip to show under a "mastered" checkmark.
 	let noExercisesText = '', masteryText = ''
@@ -129,30 +88,22 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
 	}
 
-	return (
-		<Link to={paths.courseSkill({ courseCode, skillId })} className={clsx('skillItem', { recommend })}>
-			{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} /> : null}
-			<div className="skillName">{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</div>
-			{skill.exercises.length === 0 ? (
-				<Tooltip title={noExercisesText} arrow>
-					<div className="iconContainer">
-						<Info className="noExercises" />
-					</div>
-				</Tooltip>
-			) : (practiceNeeded === 0 ? (
-				<Tooltip title={masteryText} arrow>
-					<div className="iconContainer">
-						<Check className="check" />
-					</div>
-				</Tooltip>
-			) : null)}
-			{recommend ? (
-				<Tooltip title={translate('This is currently the recommended skill to practice.', 'practiceRecommendation')} arrow>
-					<div className="iconContainer">
-						<QuickPractice />
-					</div>
-				</Tooltip>
-			) : null}
-		</Link>
-	)
+	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
+		{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
+		<Box sx={{ flex: '1 1 auto' }}>{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</Box>
+		{skill.exercises.length === 0 ? <Tooltip title={noExercisesText} arrow>
+			<Box sx={iconContainerStyle}>
+				<Info sx={theme => ({ color: theme.palette.info.main })} />
+			</Box>
+		</Tooltip> : (practiceNeeded === 0 ? <Tooltip title={masteryText} arrow>
+			<Box sx={iconContainerStyle}>
+				<Check sx={theme => ({ color: theme.palette.success.main })} />
+			</Box>
+		</Tooltip> : null)}
+		{recommend ? <Tooltip title={translate('This is currently the recommended skill to practice.', 'practiceRecommendation')} arrow>
+			<Box sx={iconContainerStyle}>
+				<QuickPractice />
+			</Box>
+		</Tooltip> : null}
+	</Box>
 }

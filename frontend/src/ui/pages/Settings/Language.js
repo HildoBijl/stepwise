@@ -1,15 +1,17 @@
 import React from 'react'
-
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { Box, alpha } from '@mui/material'
 
 import { useSetLanguageMutation } from 'api/user'
 import { Translation, useLanguage } from 'i18n'
 
-const useStyles = makeStyles((theme) => ({
-	language: {
+export function Language({ Flag, language, text }) {
+	const currentLanguage = useLanguage()
+	const [setUserLanguage] = useSetLanguageMutation()
+	const active = language === currentLanguage
+
+	return <Box onClick={() => setUserLanguage(language)} sx={theme => ({
 		alignItems: 'center',
-		background: ({ active }) => alpha(theme.palette[active ? 'success' : 'info'].main, 0.2),
+		background: alpha(theme.palette[active ? 'success' : 'info'].main, 0.2),
 		borderRadius: '0.5em',
 		cursor: 'pointer',
 		display: 'flex',
@@ -17,25 +19,8 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '1.2em',
 		margin: `0.25em 0`,
 		padding: `0.5em 0.75em`,
-
-		'& .flag': {
-			marginRight: '0.75em',
-			height: '1.2em',
-			width: '1.8em',
-		},
-
-		'& .language': {},
-	},
-}))
-
-export function Language({ Flag, language, text }) {
-	const currentLanguage = useLanguage()
-	const [setUserLanguage] = useSetLanguageMutation()
-	const active = language === currentLanguage
-
-	const classes = useStyles({ active })
-	return <div className={classes.language} onClick={() => setUserLanguage(language)}>
-		<div className="flag"><Flag /></div>
-		<div className="language"><Translation entry={language}>{text}</Translation></div>
-	</div>
+	})}>
+		<Box sx={{ marginRight: '0.75em', height: '1.2em', width: '1.8em' }}><Flag /></Box>
+		<Box><Translation entry={language}>{text}</Translation></Box>
+	</Box>
 }

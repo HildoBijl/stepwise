@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, AlertTitle } from '@material-ui/lab'
+import { Alert, AlertTitle } from '@mui/material'
 
 import { infoEmail } from 'settings'
 import { Translation } from 'i18n'

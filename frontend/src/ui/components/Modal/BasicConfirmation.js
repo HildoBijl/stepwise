@@ -1,35 +1,11 @@
 import React from 'react'
+import { Box, Button } from '@mui/material'
+import { Check, Clear } from '@mui/icons-material'
 import clsx from 'clsx'
-
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import { Check, Clear } from '@material-ui/icons'
 
 import { useModalContext } from './ModalManager'
 
-const useStyles = makeStyles((theme) => ({
-	basicConfirmation: {
-		'& .contents': {
-			// Nothing going on here.
-		},
-
-		'& .buttons': {
-			display: 'flex',
-			flexFlow: 'row wrap',
-			justifyContent: 'stretch',
-			margin: '0.4rem -0.6rem -0.4rem',
-
-			'& .button': {
-				flex: '1 1 auto',
-				margin: '0.4rem 0.6rem',
-			},
-		},
-	},
-}))
-
-export default function BasicConfirmation({ children, className, onConfirm, confirmText = 'OK', rejectText = 'Nee' }) {
-	const classes = useStyles()
-
+export default function BasicConfirmation({ children, className, onConfirm, confirmText = 'OK', rejectText = 'No' }) {
 	// Set up the confirm function.
 	const { closeModal } = useModalContext()
 	const confirm = (evt) => {
@@ -37,16 +13,13 @@ export default function BasicConfirmation({ children, className, onConfirm, conf
 		onConfirm(evt)
 	}
 
-
-	return (
-		<div className={clsx(classes.basicConfirmation, 'basicConfirmation', className)}>
-			<div className="contents">
-				{children}
-			</div>
-			<div className="buttons">
-				<Button variant="contained" className="button" startIcon={<Clear />} onClick={closeModal} color="secondary">{rejectText}</Button>
-				<Button variant="contained" className="button" startIcon={<Check />} onClick={confirm} color="primary">{confirmText}</Button>
-			</div>
-		</div>
-	)
+	// Render the component.
+	const buttonStyle = { flex: '1 1 auto', margin: '0.4rem 0.6rem' }
+	return <Box className={clsx('basicConfirmation', className)}>
+		<Box className="contents">{children}</Box>
+		<Box className="buttons" sx={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'stretch', margin: '0.4rem -0.6rem -0.4rem' }}>
+			<Button variant="contained" className="button" startIcon={<Clear />} onClick={closeModal} color="secondary" sx={buttonStyle}>{rejectText}</Button>
+			<Button variant="contained" className="button" startIcon={<Check />} onClick={confirm} color="primary" sx={buttonStyle}>{confirmText}</Button>
+		</Box>
+	</Box>
 }

@@ -1,6 +1,4 @@
 import React, { forwardRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { ensureNumber, ensureString, ensureBoolean, processOptions } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
@@ -12,14 +10,6 @@ import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/compo
 
 import ArrowHead from './ArrowHead'
 import { defaultForce } from './Force'
-
-const useStyles = makeStyles((theme) => ({
-	moment: {
-		'& .momentLine': {
-			fill: 'none',
-		},
-	},
-}))
 
 export const defaultMoment = {
 	...defaultObject,
@@ -56,9 +46,8 @@ export const Moment = forwardRef((props, ref) => {
 	const endAngleShortened = endAngle - 2 * factor * size / radius // Shorten the line to prevent passing by the arrow head.
 
 	// Draw a horizontal moment around (0, 0) and transform it to position it.
-	const classes = useStyles()
-	return <Group ref={ref} rotate={opening} className={clsx(classes.moment, className)} {...{ position, graphicalPosition, style }}>
-		<Arc graphicalRadius={radius} startAngle={startAngle} endAngle={endAngleShortened} className="momentLine" style={{ stroke: color, strokeWidth: size }} />
+	return <Group ref={ref} rotate={opening} className={className} {...{ position, graphicalPosition, style }}>
+		<Arc graphicalRadius={radius} startAngle={startAngle} endAngle={endAngleShortened} className="momentLine" style={{ fill: 'none', stroke: color, strokeWidth: size }} />
 		<ArrowHead
 			graphicalPosition={Vector.fromPolar(radius, endAngle)}
 			angle={endAngle + factor * (Math.PI / 2 - arrowHeadDelta * size / radius)}

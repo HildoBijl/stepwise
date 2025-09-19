@@ -1,13 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import Button from '@material-ui/core/Button'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
-import { HowToReg as SubscribeIcon } from '@material-ui/icons'
+import { FormControl, InputLabel, MenuItem, Select, Button, FormControlLabel, Switch } from '@mui/material'
+import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
 import { useLocalStorageState } from 'util'
 import { usePromoteToTeacherMutation, useIsAdmin } from 'api'
@@ -60,20 +53,7 @@ function AddTeacher({ course }) {
 	</>
 }
 
-const useStyles = makeStyles((theme) => ({
-	select: {
-		marginBottom: theme.spacing(1),
-		marginTop: theme.spacing(1),
-	},
-	button: {
-		marginBottom: theme.spacing(1),
-		marginTop: theme.spacing(1),
-	},
-}))
-
 function AddTeacherForm({ course }) {
-	const classes = useStyles()
-
 	// Sort the students by their name.
 	const { students: studentsRaw } = course
 	const students = useMemo(() => studentsRaw && [...studentsRaw].sort((a, b) => a.name.localeCompare(b.name)), [studentsRaw])
@@ -96,7 +76,7 @@ function AddTeacherForm({ course }) {
 	// Render the form.
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={`${translationSection}.addTeacher`}>
-			<FormControl variant="outlined" fullWidth className={classes.select}>
+			<FormControl variant="outlined" fullWidth sx={{ my: 1 }}>
 				<InputLabel id="newTeacherLabel"><Translation entry="label">Add a teacher</Translation></InputLabel>
 				<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange}>
 					<MenuItem value=""><span style={{ opacity: 0.5 }}><Translation entry="noneSelected">None selected</Translation></span></MenuItem>
@@ -105,8 +85,7 @@ function AddTeacherForm({ course }) {
 			</FormControl>
 			{selectedStudent && <>
 				<Warning style={{ margin: '0.25rem 0' }}><Translation entry="note">Adding a teacher will grant them access to the work and progress of all students within this course.</Translation></Warning>
-				<Button variant="contained" color="primary"
-					startIcon={<SubscribeIcon />} className={classes.button} onClick={addTeacher}><Translation entry="button">Add {{ name: selectedStudent.name }} as teacher</Translation></Button>
+				<Button variant="contained" color="primary" startIcon={<SubscribeIcon />} onClick={addTeacher} sx={{ my: 1 }}><Translation entry="button">Add {{ name: selectedStudent.name }} as teacher</Translation></Button>
 			</>}
 		</TranslationSection>
 	</TranslationFile>

@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@mui/material'
 
 import { repeat, binomial } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'

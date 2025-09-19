@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@material-ui/icons'
+import { Box, Button } from '@mui/material'
+import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@mui/icons-material'
 
 import { skillTree } from 'step-wise/eduTools'
 
@@ -77,77 +75,47 @@ function SkillNotification() {
 	}
 }
 
-const useStyles = makeStyles((theme) => ({
-	skillModal: {
-		'& a': {
-			...linkStyle,
-		},
+// Define styles.
+const modalStyle = { '& a': linkStyle }
+const titleStyle = {
+	fontSize: '1.5rem',
+	fontWeight: 'bold',
+	textAlign: 'center',
+}
+const iconStyle = {
+	display: 'flex',
+	flexFlow: 'row nowrap',
+	justifyContent: 'center',
+	margin: '0.8rem 0',
+	'& svg': {
+		height: '8rem',
+		width: '8rem',
+	},
+}
+const messageStyle = {
+	margin: '0.4rem 0',
+	textAlign: 'justify',
+}
+const buttonsStyle = {
+	display: 'flex',
+	flexFlow: 'row wrap',
+	justifyContent: 'stretch',
+	margin: '0.4rem -0.6rem -0.4rem',
 
-		'& .title': {
-			color: theme.palette.success.main,
-			fontSize: '1.5rem',
-			fontWeight: 'bold',
-			textAlign: 'center',
-		},
+	'& .button': {
+		flex: '1 1 auto',
+		margin: '0.4rem 0.6rem',
 
-		'& .icon': {
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			justifyContent: 'center',
-			margin: '0.8rem 0',
-
-			'& svg': {
-				height: '8rem',
-				width: '8rem',
-			},
-		},
-
-		'& .message': {
-			margin: '0.4rem 0',
-			textAlign: 'justify',
-		},
-
-		'& .buttons': {
-			display: 'flex',
-			flexFlow: 'row wrap',
-			justifyContent: 'stretch',
-			margin: '0.4rem -0.6rem -0.4rem',
-
-			'& .button': {
-				flex: '1 1 auto',
-				margin: '0.4rem 0.6rem',
-
-				'& .rotate': {
-					lineHeight: 0,
-					transform: 'rotate(180deg)',
-				},
-			},
-		},
-
-		'&.masteryModal': {
-			'& .title': {
-				color: theme.palette.success.main,
-			},
-			'& .icon': {
-				color: theme.palette.success.main,
-			},
-
-		},
-		'&.repeatModal': {
-			'& .title': {
-				color: theme.palette.info.main,
-			},
-			'& .icon': {
-				color: theme.palette.info.main,
-			},
+		'& .rotate': {
+			lineHeight: 0,
+			transform: 'rotate(180deg)',
 		},
 	},
-}))
+}
 
 // useSkillModal shows a pop-up modal whenever the skill advice changes. So when the user mastered the skill he's practicing ("mastery") or when he sinks a prerequisite too low ("repeat").
 function useSkillModal() {
 	const translate = useTranslator()
-	const classes = useStyles()
 	const paths = usePaths()
 	const navigate = useNavigate()
 	const { course, skillsDataLoaded } = useCourseData()
@@ -170,30 +138,30 @@ function useSkillModal() {
 				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].path.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>, and with that all skills of <Link to={paths.course({ courseCode })} onClick={closeModal}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseCode })} onClick={closeModal}>free practice mode</Link>.</Translation> :
 				<Translation entry="modals.mastery.nextSkill">You just mastered <Link to={paths.courseSkill({ courseCode, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillTree[skillId].path.join('.')}.${skillId}`, 'eduContent/skillNames') }}</Link>! You can carry on with the next skill: <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ nextSkill: translate(skillTree[recommendation].name, `${skillTree[recommendation].path.join('.')}.${recommendation}`, 'eduContent/skillNames') }}</Link>.</Translation>
 			contents = (
-				<div className={clsx(classes.skillModal, 'masteryModal')}>
-					<div className="title"><Translation entry="modals.mastery.title">Amazing!</Translation></div>
-					<div className="icon"><SuccessIcon /></div>
-					<div className="message">{message}</div>
-					<div className="buttons">
+				<Box sx={modalStyle}>
+					<Box sx={theme => ({ ...titleStyle, color: theme.palette.success.main })}><Translation entry="modals.mastery.title">Amazing!</Translation></Box>
+					<Box sx={theme => ({ ...iconStyle, color: theme.palette.success.main })}><SuccessIcon /></Box>
+					<Box sx={messageStyle}>{message}</Box>
+					<Box sx={buttonsStyle}>
 						<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary"><Translation entry="buttons.stay">Stay for a bit</Translation></Button>
 						<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary"><Translation entry="buttons.continue">Continue onwards</Translation></Button>
-					</div>
-				</div>
+					</Box>
+				</Box>
 			)
 		}
 		if (adviceType === 2) {
 			const skill = skillTree[recommendation]
 			contents = (
-				<div className={clsx(classes.skillModal, 'repeatModal')}>
-					<div className="title"><Translation entry="modals.deficiency.title">Oh, wait ...</Translation></div>
-					<div className="icon"><InfoIcon /></div>
-					<div className="message"><Translation entry="modals.deficiency.toDeficientSkill">If seems that you haven't yet sufficiently mastered the subskill <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ deficientSkill: translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>. We recommend to practice this separately first.</Translation></div>
-					<div className="message"><Translation entry="modals.deficiency.reassurance">Don't worry: your exercise remains saved and you can always come back.</Translation></div>
-					<div className="buttons">
+				<Box>
+					<Box sx={theme => ({ ...titleStyle, color: theme.palette.success.main })}><Translation entry="modals.deficiency.title">Oh, wait ...</Translation></Box>
+					<Box sx={theme => ({ ...iconStyle, color: theme.palette.success.main })}><InfoIcon /></Box>
+					<Box sx={messageStyle}><Translation entry="modals.deficiency.toDeficientSkill">If seems that you haven't yet sufficiently mastered the subskill <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ deficientSkill: translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>. We recommend to practice this separately first.</Translation></Box>
+					<Box sx={messageStyle}><Translation entry="modals.deficiency.reassurance">Don't worry: your exercise remains saved and you can always come back.</Translation></Box>
+					<Box sx={buttonsStyle}>
 						<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary"><Translation entry="buttons.goBack">Go back a step</Translation></Button>
 						<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary"><Translation entry="buttons.stay">Stay for a bit</Translation></Button>
-					</div>
-				</div>
+					</Box>
+				</Box>
 			)
 		}
 	}

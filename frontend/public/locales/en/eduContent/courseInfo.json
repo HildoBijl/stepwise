@@ -124,7 +124,11 @@
     },
     "hu-a-statica": {
       "name": "Period 1A: Statics intro",
-      "description": "This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures."
+      "description": "This tiny introduction course to Statics helps you get used to the concept of Free Body Diagrams and apply them to calculate support forces within structures.",
+      "blocks": {
+        "0": "Drawing free body diagrams",
+        "1": "Calculating support reactions"
+      }
     },
     "hu-b-wiskunde": {
       "name": "Period 1B: Mathematics derivatives",

@@ -1,26 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import clsx from 'clsx'
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 
 import { useTranslator } from 'i18n'
 import { useRoute, useRouteById } from 'ui/routingTools'
-
-const useStyles = makeStyles((theme) => ({
-	link: {
-		color: 'inherit',
-		textDecoration: 'none',
-
-		'&.selected': {
-			color: theme.palette.primary.main,
-
-			'& .listItemIcon': {
-				color: 'inherit',
-			},
-		},
-	},
-}))
 
 export default function MenuLink({ id, path, text, icon: Icon }) {
 	// Get routes data.
@@ -36,11 +19,13 @@ export default function MenuLink({ id, path, text, icon: Icon }) {
 
 	// Render the link.
 	const translate = useTranslator()
-	const classes = useStyles()
 	return (
-		<ListItem button component={NavLink} to={path} className={clsx(classes.link, { selected })}>
-			<ListItemIcon className='listItemIcon'><Icon /></ListItemIcon>
+		<ListItemButton component={NavLink} to={path} sx={theme => ({
+			color: selected ? theme.palette.primary.main : 'inherit',
+			textDecoration: 'none',
+		})}>
+			<ListItemIcon sx={{ color: 'inherit' }}><Icon /></ListItemIcon>
 			<ListItemText primary={translate(text, id)} />
-		</ListItem>
+		</ListItemButton>
 	)
 }

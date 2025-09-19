@@ -1,9 +1,6 @@
 import React, { useRef, useMemo, useCallback } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { Check, Clear, Send, Search, Warning } from '@material-ui/icons'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import { Box, FormControl, Select, MenuItem } from '@mui/material'
+import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
 import { lastOf, keysToObject, isBasicObject, repeat } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
@@ -26,137 +23,6 @@ import { useSolution } from '../wrappers'
 
 const translationPath = 'eduTools/exercises'
 
-const useStyles = makeStyles((theme) => ({
-	buttonContainer: {
-		display: 'flex',
-		flexFlow: 'row wrap',
-		justifyContent: 'flex-end',
-		margin: '0.2rem 0',
-
-		'& button, & > div': {
-			flexGrow: 0,
-			flexShrink: 0,
-			margin: '0.4rem 0 0.4rem 0.8rem',
-
-			[theme.breakpoints.down('xs')]: {
-				marginLeft: '0.4rem',
-				width: '100%',
-			},
-		},
-
-		'& .stepSelectOuter': {
-			'& .stepSelectInner': {
-				background: theme.palette.info.main,
-				color: theme.palette.info.contrastText,
-				fontWeight: '500',
-				textTransform: 'uppercase',
-
-				'& svg': {
-					color: theme.palette.info.contrastText,
-				},
-				'& fieldset': {
-					border: 0,
-				},
-			},
-		},
-	},
-	buttonGrid: {
-		display: 'grid',
-		gridGap: '0.6rem 0.6rem',
-		placeItems: 'center stretch',
-		width: '100%',
-
-		[theme.breakpoints.down('xs')]: {
-			gridTemplateColumns: 'auto 1fr',
-
-			'& .inBetween': {
-				height: '0.25rem',
-				gridColumnStart: 1,
-				gridColumnEnd: 3,
-			},
-			'& .description1, & .description2, & .description3, & .description4': {
-				gridColumnStart: 1,
-			},
-			'& .description1': {
-				gridColumnEnd: 2,
-			},
-			'& .description2, & .description3, & .description4': {
-				gridColumnEnd: 3,
-			},
-			'& .memberList': {
-				gridColumnStart: 2,
-				gridColumnEnd: 3,
-			},
-			'& .button1': {
-				gridColumnStart: 1,
-				gridColumnEnd: 3,
-			},
-			'& .button2': {
-				gridColumnStart: 1,
-				gridColumnEnd: 3,
-			},
-		},
-		[theme.breakpoints.up('sm')]: {
-			gridTemplateColumns: `auto 1fr auto auto`,
-
-			'& .inBetween': {
-				display: 'none', // Only for smartphones.
-			},
-			'& .description1': {
-				gridColumnStart: 1,
-				gridColumnEnd: 2,
-			},
-			'& .description2': {
-				gridColumnStart: 1,
-				gridColumnEnd: 3,
-			},
-			'& .description3': {
-				gridColumnStart: 1,
-				gridColumnEnd: 4,
-			},
-			'& .description4': {
-				gridColumnStart: 1,
-				gridColumnEnd: 5,
-			},
-			'& .memberList': {
-				gridColumnStart: 2,
-				gridColumnEnd: 3,
-			},
-			'& .button1': {
-				gridColumnStart: 3,
-				gridColumnEnd: 4,
-			},
-			'& .button2': {
-				gridColumnStart: 4,
-				gridColumnEnd: 5,
-			},
-		},
-
-		'& .description1, & .description2, & .description3, & .description4': {
-			alignItems: 'center',
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			padding: '0.25rem 0',
-
-			'& > svg': {
-				marginRight: '0.3rem',
-			},
-		},
-		'& .info': {
-			color: theme.palette.info.main,
-			fontWeight: 'bold',
-		},
-		'& .warning': {
-			color: theme.palette.warning.main,
-			fontWeight: 'bold',
-		},
-
-		'& .buttonText': {
-			width: '100%', // Ensure button icons are still on the side of the button.
-		},
-	},
-}))
-
 export function ExerciseButtons(props) {
 	const { groupExercise } = useExerciseData()
 	if (groupExercise)
@@ -166,8 +32,6 @@ export function ExerciseButtons(props) {
 
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
-	const theme = useTheme()
-	const classes = useStyles()
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
 	const { progress, history, submitting, example } = useExerciseData()
 	const solution = useSolution(false)
@@ -188,8 +52,8 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
-		title={<span style={{ color: theme.palette.warning.main }}>{translate('Are you sure?', 'stepsModal.title')}</span>}
-		picture={<Warning style={{ color: theme.palette.warning.main, height: '8rem', width: '8rem' }} />}
+		title={<Box component="span" sx={theme => ({ color: theme.palette.warning.main })}>{translate('Are you sure?', 'stepsModal.title')}</Box>}
+		picture={<Warning sx={theme => ({ color: theme.palette.warning.main, height: '8rem', width: '8rem' })} />}
 		message={translate('The goal of Step-Wise is that you can eventually solve exercises without using steps. If you give up without trying, then this counts as an incorrect submission. Your skill rating will decrease.', 'stepsModal.message')}
 		rejectText={translate('Not yet ...', 'stepsModal.buttons.no')}
 		confirmText={translate('Show me the steps', 'stepsModal.buttons.yes')}
@@ -239,14 +103,26 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		setAllInputSI(newInput)
 	}
 
-	return (
-		<div className={classes.buttonContainer}>
-			{isTeacher && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
-			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
-			{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
-			{example && stepwise ? <StepSelect /> : null}
-		</div>
-	)
+	return <Box sx={theme => ({
+		display: 'flex',
+		flexFlow: 'row wrap',
+		justifyContent: 'flex-end',
+		margin: '0.2rem 0',
+		'& button, & > div': {
+			flexGrow: 0,
+			flexShrink: 0,
+			margin: '0.4rem 0 0.4rem 0.8rem',
+			[theme.breakpoints.down('xs')]: {
+				marginLeft: '0.4rem',
+				width: '100%',
+			},
+		}
+	})}>
+		{isTeacher && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
+		<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
+		{example ? null : <Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
+		{example && stepwise ? <StepSelect /> : null}
+	</Box>
 }
 
 function StepSelect() {
@@ -274,8 +150,17 @@ function StepSelect() {
 	}
 
 	// Render the button.
-	return <FormControl variant="outlined" size="small" className="stepSelectOuter">
-		<Select id="stepSelect" value={getStep(progress)} onChange={handleChange} className="stepSelectInner">
+	return <FormControl variant="outlined" size="small" color="info">
+		<Select id="stepSelect" color="info" value={getStep(progress)} onChange={handleChange} sx={theme => ({
+			'& svg': { color: theme.palette.info.contrastText },
+			'& .MuiSelect-select': {
+				backgroundColor: theme.palette.info.main,
+				color: theme.palette.info.contrastText,
+				fontWeight: '500',
+				textTransform: 'uppercase',
+			},
+			'& fieldset': { border: 0 },
+		})}>
 			<MenuItem value={0} key={0}><Translation path={translationPath} entry="buttons.stepSelect.tryMain">Try the main exercise</Translation></MenuItem>
 			{repeat(numSteps, index => <MenuItem value={index + 1} key={index + 1}><Translation path={translationPath} entry="buttons.stepSelect.tryStep">Try out step {{ step: index + 1 }}</Translation></MenuItem>)}
 		</Select>
@@ -283,7 +168,6 @@ function StepSelect() {
 }
 
 function GroupExerciseButtons({ stepwise = false }) {
-	const classes = useStyles()
 	const { progress } = useExerciseData()
 
 	// Determine the status of the exercise.
@@ -294,12 +178,56 @@ function GroupExerciseButtons({ stepwise = false }) {
 		return null
 
 	// Render the variety of buttons required.
-	return <div className={classes.buttonGrid}>
+	return <Box sx={theme => ({
+		display: 'grid',
+		gridGap: '0.6rem 0.6rem',
+		placeItems: 'center stretch',
+		width: '100%',
+		[theme.breakpoints.down('xs')]: {
+			gridTemplateColumns: 'auto 1fr',
+			'& .inBetween': { gridColumnStart: 1, gridColumnEnd: 3, height: '0.25rem' },
+			'& .description1, & .description2, & .description3, & .description4': { gridColumnStart: 1 },
+			'& .description1': { gridColumnEnd: 2 },
+			'& .description2, & .description3, & .description4': { gridColumnEnd: 3 },
+			'& .memberList': { gridColumnStart: 2, gridColumnEnd: 3 },
+			'& .button1': { gridColumnStart: 1, gridColumnEnd: 3 },
+			'& .button2': { gridColumnStart: 1, gridColumnEnd: 3 },
+		},
+		[theme.breakpoints.up('sm')]: {
+			gridTemplateColumns: `auto 1fr auto auto`,
+			'& .inBetween': { display: 'none' }, // Only for smartphones.
+			'& .description1': { gridColumnStart: 1, gridColumnEnd: 2 },
+			'& .description2': { gridColumnStart: 1, gridColumnEnd: 3 },
+			'& .description3': { gridColumnStart: 1, gridColumnEnd: 4 },
+			'& .description4': { gridColumnStart: 1, gridColumnEnd: 5 },
+			'& .memberList': { gridColumnStart: 2, gridColumnEnd: 3 },
+			'& .button1': { gridColumnStart: 3, gridColumnEnd: 4 },
+			'& .button2': { gridColumnStart: 4, gridColumnEnd: 5 },
+		},
+		'& .description1, & .description2, & .description3, & .description4': {
+			alignItems: 'center',
+			display: 'flex',
+			flexFlow: 'row nowrap',
+			padding: '0.25rem 0',
+			'& > svg': { marginRight: '0.3rem' },
+		},
+		'& .info': {
+			color: theme.palette.info.main,
+			fontWeight: 'bold',
+		},
+		'& .warning': {
+			color: theme.palette.warning.main,
+			fontWeight: 'bold',
+		},
+		'& .buttonText': {
+			width: '100%', // Ensure button icons are still on the far side of the button.
+		},
+	})}>
 		<GiveUpAndSubmitButtons stepwise={stepwise} {...derivedParameters} />
 		<CurrentSubmissions {...derivedParameters} />
 		<GivenUpNote stepwise={stepwise} {...derivedParameters} />
 		<ResolveNote stepwise={stepwise} {...derivedParameters} />
-	</div>
+	</Box>
 }
 
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {

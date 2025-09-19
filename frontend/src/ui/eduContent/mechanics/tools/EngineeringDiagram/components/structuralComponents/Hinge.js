@@ -1,6 +1,4 @@
 import React, { forwardRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
@@ -9,12 +7,6 @@ import { Circle } from 'ui/figures/Drawing/components/svgComponents'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
 
 import { defaultBeam } from './Beam'
-
-const useStyles = makeStyles((theme) => ({
-	hinge: {
-		fill: 'white',
-	},
-}))
 
 export const defaultHinge = {
 	...defaultObject,
@@ -36,12 +28,11 @@ export const Hinge = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the circle.
-	const classes = useStyles()
 	return <Circle
 		center={position}
 		graphicalCenter={graphicalPosition}
-		className={clsx(classes.hinge, className)}
-		style={{ stroke: color, strokeWidth: thickness, ...style }}
+		className={className}
+		style={{ fill: 'white', stroke: color, strokeWidth: thickness, ...style }}
 		{...{ ref, radius, graphicalRadius }}
 	/>
 })

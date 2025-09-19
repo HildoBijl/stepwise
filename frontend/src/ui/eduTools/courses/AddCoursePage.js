@@ -1,11 +1,8 @@
 import { useState, useMemo } from 'react'
-import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
-import { Alert, AlertTitle } from '@material-ui/lab'
-import { HowToReg as SubscribeIcon } from '@material-ui/icons'
-import Tooltip from '@material-ui/core/Tooltip'
+import { Tooltip, Alert, AlertTitle, Box, alpha } from '@mui/material'
+import { HowToReg as SubscribeIcon } from '@mui/icons-material'
+import clsx from 'clsx'
 
 import { getCourseOverview } from 'step-wise/eduTools'
 
@@ -58,43 +55,7 @@ function AddCoursePageForCourses({ courses }) {
 	</TranslationFile>
 }
 
-const useCoursesStyles = makeStyles((theme) => ({
-	courses: {
-		display: 'grid',
-		gap: '0.3em',
-		gridTemplateColumns: 'minmax(10rem, 6fr) minmax(5rem, 1fr) minmax(5rem, 1fr) 40px',
-		width: '100%',
-
-		'& .header, & .cell': {
-			borderRadius: '0.4rem',
-			padding: '0.4rem',
-		},
-		'& .header': {
-			fontWeight: 600,
-		},
-		'& .cell': {
-			background: alpha(theme.palette.primary.main, 0.05),
-			cursor: 'pointer',
-			fontWeight: 420,
-			opacity: 0.8,
-		},
-		'& .cell.hover': {
-			background: alpha(theme.palette.primary.main, 0.1),
-		},
-		'& .numSkills, & .numBlocks, & .subscribed': {
-			display: 'flex',
-			justifyContent: 'center', // Center text. (This also works in case of overflow, unlike textAlign: 'center'.)
-		},
-		'& .subscribed': {
-			paddingBottom: '0rem',
-			paddingTop: '0.25rem',
-		},
-	},
-}))
-
 function CoursesPerOrganization({ organization, courses }) {
-	const classes = useCoursesStyles()
-
 	// Sort the courses by creation date.
 	const coursesSorted = useMemo(() => courses.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)), [courses])
 
@@ -110,10 +71,26 @@ function CoursesPerOrganization({ organization, courses }) {
 			</span>
 			{organization.name}
 		</Head>
-		<div className={classes.courses}>
+		<Box sx={theme => ({
+			display: 'grid',
+			gap: '0.3em',
+			gridTemplateColumns: 'minmax(10rem, 6fr) minmax(5rem, 1fr) minmax(5rem, 1fr) 40px',
+			width: '100%',
+			'& .header, & .cell': { borderRadius: '0.4rem', p: '0.4rem' },
+			'& .header': { fontWeight: 600 },
+			'& .cell': {
+				background: alpha(theme.palette.primary.main, 0.05),
+				cursor: 'pointer',
+				fontWeight: 420,
+				opacity: 0.8,
+			},
+			'& .cell.hover': { background: alpha(theme.palette.primary.main, 0.1) },
+			'& .numSkills, & .numBlocks, & .subscribed': { display: 'flex', justifyContent: 'center' },
+			'& .subscribed': { pt: '0.25rem', pb: 0 },
+		})}>
 			<CourseHeader />
 			{coursesSorted.map(course => <CourseEntry key={course.id} course={course} />)}
-		</div>
+		</Box>
 	</>
 }
 
@@ -144,10 +121,10 @@ function CourseEntry({ course }) {
 	// Render the row for the course.
 	return <>
 		<Tooltip open={hover} arrow title={<Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.description`}>{course.description}</Translation>}>
-			<div className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</Translation></div>
+			<Box className={clsx('cell', 'name', { hover })} {...handlers}><Translation path="eduContent/courseInfo" entry={`${course.organization}.${course.code}.name`}>{course.name}</Translation></Box>
 		</Tooltip>
-		<div className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{overview.blocks.length}</div>
-		<div className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.contents.length}</div>
-		<div className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.role ? 1 : 0.05 }} /></div>
+		<Box className={clsx('cell', 'numBlocks', { hover })} {...handlers}>{overview.blocks.length}</Box>
+		<Box className={clsx('cell', 'numSkills', { hover })} {...handlers}>{overview.contents.length}</Box>
+		<Box className={clsx('cell', 'subscribed', { hover })} {...handlers}><SubscribeIcon style={{ opacity: course.role ? 1 : 0.05 }} /></Box>
 	</>
 }

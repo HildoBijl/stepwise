@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import { Done, Clear } from '@material-ui/icons'
+import { Button } from '@mui/material'
+import { Done, Clear } from '@mui/icons-material'
 
 import { useCreateGroupMutation, useActiveGroup } from 'api/group'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'

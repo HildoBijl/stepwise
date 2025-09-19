@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import { Done, Clear } from '@material-ui/icons'
+import { Button } from '@mui/material'
+import { Done, Clear } from '@mui/icons-material'
 
 import { useJoinGroupMutation } from 'api/group'
 import { TranslationSection, Translation } from 'i18n'
@@ -27,14 +27,14 @@ export function JoinGroupConditions({ code }) {
 				color="primary"
 				startIcon={<Done />}
 				onClick={() => joinGroup(code)}
-				style={{ margin: '0.5rem' }}
+				sx={{ margin: '0.5rem' }}
 			><Translation entry="agreeButton">Yes, I agree</Translation></Button>
 			<Button
 				variant="contained"
 				color="secondary"
 				startIcon={<Clear />}
 				onClick={() => navigate(paths.groups())}
-				style={{ margin: '0.5rem' }}
+				sx={{ margin: '0.5rem' }}
 			><Translation entry="disagreeButton">No, I don't want that</Translation></Button>
 		</Par>
 	</TranslationSection>

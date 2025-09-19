@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
-import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@material-ui/icons'
+import { useTheme, Box, SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@mui/material'
+import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@mui/icons-material'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
@@ -15,14 +14,7 @@ import MenuLink from './MenuLink'
 
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes("Mac") && "ontouchend" in document) // To fix the SwipeableDrawer on iOS.
 
-const useStyles = makeStyles((theme) => ({
-	menu: {
-		width: 250,
-	},
-}))
-
-export default function Menu({ className, titleCollapsed }) {
-	const classes = useStyles()
+export default function Menu({ titleCollapsed, sx }) {
 	const [open, setOpen] = useState(false)
 	const navigate = useNavigate()
 	const paths = usePaths()
@@ -72,11 +64,11 @@ export default function Menu({ className, titleCollapsed }) {
 		</> : null
 
 		return <TranslationSection entry="menu">
-			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef}>
+			<IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef} sx={sx}>
 				<MenuIcon />
 			</IconButton>
 			<SwipeableDrawer anchor='left' open={open} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)} ModalProps={{ keepMounted: true }} disableBackdropTransition={!iOS} disableDiscovery={iOS}>
-				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+				<Box component="nav" role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)} sx={{ width: 250 }}>
 					{user ? <>
 						<List>
 							<MenuLink id="courses" icon={MenuBook} />
@@ -93,13 +85,13 @@ export default function Menu({ className, titleCollapsed }) {
 							{commonButtons}
 						</List>
 					</>}
-				</nav>
+				</Box>
 			</SwipeableDrawer>
 		</TranslationSection>
 	} else {
 		const goToParent = () => navigate(parentPath)
 		return (
-			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={goToParent} ref={menuButtonRef}>
+			<IconButton edge="start" color="inherit" aria-label="menu" onClick={goToParent} ref={menuButtonRef} sx={sx}>
 				<ArrowBack />
 			</IconButton>
 		)

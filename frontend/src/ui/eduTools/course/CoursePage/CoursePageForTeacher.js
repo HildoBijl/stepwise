@@ -13,6 +13,7 @@ const translationSection = 'teachers'
 export function CoursePageForTeacher() {
 	const { course } = useCourseData()
 	const paths = usePaths()
+	console.log(course)
 
 	// When there are no students, show a note.
 	const { students } = course

@@ -1,10 +1,6 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
-import clsx from 'clsx'
-
-import { useTheme, makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Container from '@material-ui/core/Container'
-import { Keyboard as KeyboardIcon } from '@material-ui/icons'
+import { Box, useTheme, Paper, Container } from '@mui/material'
+import { Keyboard as KeyboardIcon } from '@mui/icons-material'
 
 import { usePrevious, useCurrentOrPrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
@@ -13,51 +9,6 @@ import { Arrow } from 'ui/components'
 import { keyboards } from './keyboards'
 import { useKeyboardOpening, useKeyboardTabbing, useKeyboardPositioning } from './handlers'
 import { Tab } from './Tab'
-
-const useStyles = makeStyles((theme) => ({
-	keyboardBar: {
-		background: theme.palette.primary.main,
-		bottom: '-1000rem', // To make sure the tabs are hidden on page load.
-		color: theme.palette.primary.contrastText,
-		height: 0,
-		left: 'auto',
-		position: 'fixed',
-		right: 0,
-		top: 'auto', // To override Material UI style settings.
-		transition: `height ${theme.transitions.duration.standard}ms, bottom ${theme.transitions.duration.standard}ms`,
-		width: '100%',
-		zIndex: 1000,
-
-		'& .tabContainer': {
-			height: 0,
-			position: 'relative',
-			width: '100%',
-			zIndex: -1, // Put the tabs behind the keyboard.
-
-			'& .tabs': {
-				bottom: -1, // This should be 0, but the tabs are moved down one pixel to prevent layout bugs on smartphones.
-				display: 'flex',
-				flexFlow: 'row nowrap',
-				height: '2.2rem',
-				right: 0,
-				padding: '0 0.4rem', // For separation from the side of the page.
-				position: 'absolute',
-				transition: `bottom ${theme.transitions.duration.standard}ms`,
-			},
-		},
-		'& .keyboardArrow': {
-			transform: ({ open }) => `translateX(2px) rotate(${open ? 90 : -90}deg)`,
-			transition: `transform ${theme.transitions.duration.standard}ms`,
-		},
-		'& .keyboard': {
-			background: theme.palette.primary.main, // Give the keyboard a background too, to allow the tabs to be behind it.
-			padding: '0.5rem 0',
-		},
-	},
-	filler: {
-		transition: `height ${theme.transitions.duration.standard}ms`,
-	},
-}))
 
 export const Keyboard = forwardRef(({ settings, keyFunction }, ref) => {
 	// Check the current activity and settings.
@@ -105,12 +56,37 @@ export const Keyboard = forwardRef(({ settings, keyFunction }, ref) => {
 
 	// Render the Keyboard.
 	const theme = useTheme()
-	const classes = useStyles({ active, open })
 	return <>
-		<Paper ref={barRef} elevation={12} square={true} className={clsx(classes.keyboardBar, 'keyboardBar')}>
+		<Paper ref={barRef} elevation={12} square={true} sx={{
+			background: theme.palette.primary.main,
+			bottom: '-1000rem', // To make sure the tabs are hidden on page load.
+			color: theme.palette.primary.contrastText,
+			height: 0,
+			left: 'auto',
+			position: 'fixed',
+			right: 0,
+			top: 'auto', // To override Material UI style settings.
+			transition: `height ${theme.transitions.duration.standard}ms, bottom ${theme.transitions.duration.standard}ms`,
+			width: '100%',
+			zIndex: 1000,
+		}}>
 			<Container maxWidth={theme.appWidth}>
-				<div className='tabContainer'>
-					<div ref={tabsRef} className='tabs'>
+				<Box sx={{
+					height: 0,
+					position: 'relative',
+					width: '100%',
+					zIndex: -1, // Put the tabs behind the keyboard.
+				}}>
+					<Box ref={tabsRef} sx={{
+						bottom: -1, // This should be 0, but the tabs are moved down one pixel to prevent layout bugs on smartphones.
+						display: 'flex',
+						flexFlow: 'row nowrap',
+						height: '2.2rem',
+						right: 0,
+						padding: '0 0.4rem', // For separation from the side of the page.
+						position: 'absolute',
+						transition: `bottom ${theme.transitions.duration.standard}ms`,
+					}}>
 						{activeTabs.length === 1 ? null : activeTabs.map(currTab => {
 							const TabIcon = keyboards[currTab].Tab
 							return <Tab
@@ -123,17 +99,17 @@ export const Keyboard = forwardRef(({ settings, keyFunction }, ref) => {
 						})}
 						<Tab onClick={() => setOpen(!open)}>
 							<KeyboardIcon />
-							<Arrow className='keyboardArrow' />
+							<Arrow sx={{ transform: `translateX(2px) rotate(${open ? 90 : -90}deg)`, transition: `transform ${theme.transitions.duration.standard}ms` }} />
 						</Tab>
-					</div>
-				</div>
-				<div ref={keyboardRef} className='keyboard'>
+					</Box>
+				</Box>
+				<Box ref={keyboardRef} sx={{ background: theme.palette.primary.main, padding: '0.5rem 0' }}>
 					{Layout ?
 						<Layout settings={layoutSettings} keyFunction={keyFunction} keySettings={settings && settings.keySettings} />
 						: null}
-				</div>
+				</Box>
 			</Container>
 		</Paper>
-		<div ref={fillerRef} className={clsx(classes.filler, 'filler')} />
+		<Box ref={fillerRef} sx={{ transition: `height ${theme.transitions.duration.standard}ms` }} />
 	</>
 })

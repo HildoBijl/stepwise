@@ -1,4 +1,4 @@
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { CircularProgress } from '@mui/material'
 
 export function LoadingIndicator() {
 	return <div style={{ margin: '3rem 0', display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center' }}>

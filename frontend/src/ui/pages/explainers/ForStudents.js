@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@material-ui/icons'
+import { Box } from '@mui/material'
+import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
 import { Skill, getEV, getMaxLikelihood, smoothen } from 'step-wise/skillTracking'
 
@@ -182,122 +182,7 @@ function StepsImage() {
 	</TranslationSection>
 }
 
-const useStyles = makeStyles((theme) => ({
-	applet: {
-		background: 'rgba(128, 128, 128, 0.15)',
-		borderRadius: '1.5rem',
-		padding: '1rem 1.5rem',
-	},
-
-	flaskContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		margin: '0.6rem 0 1rem',
-
-		'& svg': {
-			flex: '0 0 auto',
-		},
-		'& .text': {
-			flex: '1 1 auto',
-			marginLeft: '1rem',
-		},
-	},
-
-	buttonContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		justifyContent: 'flex-start',
-		margin: '0.4rem 0',
-
-		'& .action': {
-			flex: '0 0 auto',
-			fontWeight: 'bold',
-			width: '100px',
-		},
-	},
-
-	innerButtonContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flex: '1 1 auto',
-		flexFlow: 'row wrap',
-		justifyContent: 'flex-start',
-
-		'& button': {
-			margin: '0.2rem 0.5rem 0.2rem 0',
-		},
-	},
-
-	skillContainer: {
-		alignItems: 'center',
-		display: 'flex',
-		flexFlow: 'row nowrap',
-		justifyContent: 'flex-start',
-		margin: '0.4rem 0 1rem',
-
-		'& .skillLabel': {
-			fontSize: '1.2em',
-			fontWeight: 500,
-		},
-		'& .skillFlask': {
-			margin: '0 1.2em 0 1em',
-		},
-	},
-
-	slider: {
-		margin: '0 0.8rem 0 0.5rem',
-		width: '250px',
-	},
-
-	exerciseHeader: {
-		fontSize: '1.5em',
-		fontWeight: 500,
-		margin: '0.2em 0',
-	},
-
-	infoMessage: {
-		margin: '0.5em 0',
-	},
-
-	exerciseContainer: {
-		alignItems: 'stretch',
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		margin: '1.5em 0 1em',
-
-		'& .info': {
-			margin: '0.2em 0',
-		},
-
-		'& table': {
-			'& td': {
-				padding: '0.1em 0.2em',
-			},
-			'& thead': {
-				fontSize: '1em',
-				fontWeight: 500,
-				verticalAlign: 'bottom',
-			},
-
-			'& .number': {
-				fontSize: '1.2em',
-				fontWeight: 500,
-				padding: '0.1em 0.4em 0.1em 0',
-			},
-			'& .exerciseName': {
-
-			},
-			'& .successRate, & .selectionRate': {
-				textAlign: 'center',
-			},
-		},
-	},
-}))
-
 function SingleSkillTrial() {
-	const classes = useStyles()
 	const label = 'X'
 
 	// Keep track of the coefficients on changes.
@@ -332,24 +217,39 @@ function SingleSkillTrial() {
 
 	// Render contents.
 	return <TranslationSection entry="applet">
-		<div className={classes.applet}>
+		<Box sx={{
+			background: 'rgba(128, 128, 128, 0.15)',
+			borderRadius: '1.5rem',
+			padding: '1rem 1.5rem',
+		}}>
 			<SkillFlaskWithLabel coef={smoothenedCoef} />
-			<div className={classes.buttonContainer}>
-				<div className={classes.innerButtonContainer}>
+			<Box sx={{
+				alignItems: 'center',
+				display: 'flex',
+				flexFlow: 'row nowrap',
+				justifyContent: 'flex-start',
+				margin: '0.4rem 0',
+			}}>
+				<Box sx={{
+					alignItems: 'center',
+					display: 'flex',
+					flex: '1 1 auto',
+					flexFlow: 'row wrap',
+					justifyContent: 'flex-start',
+					'& button': { margin: '0.2rem 0.5rem 0.2rem 0' },
+				}}>
 					<TranslationSection entry="buttons">
 						<Button variant="contained" startIcon={<CheckIcon />} onClick={applyCorrect} color="primary"><Translation entry="correct">Correct</Translation></Button>
 						<Button variant="contained" startIcon={<ClearIcon />} onClick={applyIncorrect} color="error"><Translation entry="incorrect">Incorrect</Translation></Button>
 						<Button variant="contained" startIcon={<ReplayIcon />} onClick={reset} color="secondary"><Translation entry="reset">Reset</Translation></Button>
 					</TranslationSection>
-				</div>
-			</div>
-		</div>
+				</Box>
+			</Box>
+		</Box>
 	</TranslationSection>
 }
 
 function SkillFlaskWithLabel({ coef }) {
-	const classes = useStyles()
-
 	const EV = getEV(coef)
 	const mainText = <Translation entry="estimate">The chance of a correct result is estimated to be {Math.round(EV * 100)}%.</Translation>
 
@@ -370,10 +270,15 @@ function SkillFlaskWithLabel({ coef }) {
 
 	// Render the component.
 	return (
-		<div className={classes.flaskContainer}>
-			<SkillFlask coef={coef} />
-			<div className="text">{mainText} {addendum}</div>
-		</div>
+		<Box sx={{
+			alignItems: 'center',
+			display: 'flex',
+			flexFlow: 'row nowrap',
+			margin: '0.6rem 0 1rem',
+		}}>
+			<SkillFlask coef={coef} sx={{ flex: '0 0 auto' }} />
+			<Box sx={{ flex: '1 1 auto', marginLeft: '1rem' }}>{mainText} {addendum}</Box>
+		</Box>
 	)
 }
 

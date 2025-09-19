@@ -1,8 +1,5 @@
 import React, { useRef } from 'react'
-
-import { useTheme, makeStyles } from '@material-ui/core/styles'
-import MuiTabs from '@material-ui/core/Tabs'
-import MuiTab from '@material-ui/core/Tab'
+import { Tabs as MuiTabs, Tab as MuiTab, useTheme } from '@mui/material'
 
 import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
@@ -13,15 +10,8 @@ import { TabLabel } from './TabLabel'
 const lowerTabWidthLimit = 110 // Below this there is only an icon. Above this there is text.
 const upperTabWidthLimit = 145 // Below this there is only text, above this there is both an icon and text.
 
-const useStyles = makeStyles((theme) => ({
-	tab: {
-		minWidth: '0',
-	},
-}))
-
 export function Tabs() {
 	const theme = useTheme()
-	const classes = useStyles()
 	const { tabs, tabIndex, setTabIndex } = useTabContext()
 
 	// Determine based on the width of the tabs bar whether labels should be shown.
@@ -42,10 +32,9 @@ export function Tabs() {
 		value={tabIndex}
 		onChange={(event, newValue) => setTabIndex(newValue)}
 		variant="fullWidth"
+		textColor="inherit"
 		TabIndicatorProps={{ style: { backgroundColor: theme.palette.background.main } }} // Color of the active tab indicator line.
 	>
-		{tabs.map((tab, index) => <MuiTab key={index} className={classes.tab} label={
-			<TabLabel {...{ tab, showLabel, showIcon }} />
-		} />)}
+		{tabs.map((tab, index) => <MuiTab key={index} label={<TabLabel {...{ tab, showLabel, showIcon }} />} sx={{ minWidth: '0' }} />)}
 	</MuiTabs>
 }

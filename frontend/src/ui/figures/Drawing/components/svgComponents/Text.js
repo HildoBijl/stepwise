@@ -1,6 +1,4 @@
 import React, { forwardRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import { ensureString, ensureObject, processOptions } from 'step-wise/util'
 import { ensureVector } from 'step-wise/geometry'
@@ -8,10 +6,6 @@ import { ensureVector } from 'step-wise/geometry'
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
-
-const useStyles = makeStyles((theme) => ({
-	text: {},
-}))
 
 export const defaultText = {
 	...defaultObject,
@@ -29,7 +23,7 @@ export const Text = forwardRef((props, ref) => {
 	point = ensureVector(useGraphicalVector(point, graphicalPoint), 2)
 	anchor = ensureString(anchor)
 	className = ensureString(className)
-	style = ensureObject(style)
+	style = { ...defaultText.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Only accept a string as a child.
@@ -37,8 +31,11 @@ export const Text = forwardRef((props, ref) => {
 		throw new Error(`Invalid Text parameter: expected a string as input for the Text component, but received something of type "${typeof children}".`)
 
 	// Set up the line.
-	const classes = useStyles()
-	return <SvgPortal><text ref={ref} textAnchor={anchor} className={clsx(classes.line, className)} style={style} x={point.x} y={point.y} {...filterEventHandlers(props)}>{children}</text></SvgPortal>
+	return <SvgPortal>
+		<text ref={ref} textAnchor={anchor} className={className} style={style} x={point.x} y={point.y} {...filterEventHandlers(props)}>
+			{children}
+		</text>
+	</SvgPortal>
 })
 Text.defaultProps = defaultText
 export default Text

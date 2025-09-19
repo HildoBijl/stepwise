@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { ThemeProvider } from '@material-ui/core/styles'
 import ResizeObserver from 'resize-observer-polyfill'
+import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from 'step-wise/util'
 import { exercises, assembleSolution, getExerciseName } from 'step-wise/eduTools'

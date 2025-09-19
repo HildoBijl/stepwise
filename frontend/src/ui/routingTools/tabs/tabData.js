@@ -1,4 +1,4 @@
-import { MenuBook as Book, OndemandVideo as Video, Create as Pencil, AttachFile as Paperclip, Info } from '@material-ui/icons'
+import { MenuBook as Book, OndemandVideo as Video, Create as Pencil, AttachFile as Paperclip, Info } from '@mui/icons-material'
 
 import { applyMapping } from 'step-wise/util'
 

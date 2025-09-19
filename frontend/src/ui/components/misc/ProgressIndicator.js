@@ -1,59 +1,25 @@
 import React from 'react'
+import { Box, useTheme, alpha } from '@mui/material'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { notSelectable, centered } from 'ui/theme'
 
 const designSize = 40
-
-const useStyles = makeStyles((theme) => ({
-	progressIndicator: {
-		height: ({ size }) => `${size}px`,
-		position: 'relative',
-		width: ({ size }) => `${size}px`,
-		...notSelectable,
-
-		'& svg': {
-			height: '100%',
-			width: '100%',
-			...centered,
-
-			'& circle': {
-				fill: 'transparent',
-				strokeWidth: 10,
-				transform: 'rotate(-90deg)', // Let the circle start at the top.
-
-				'&.filler': {
-					stroke: alpha(theme.palette.text.primary, 0.1),
-				},
-				'&.front': {
-					stroke: theme.palette.primary.main,
-					strokeDasharray: ({ dash1, dash2 }) => `${dash1} ${dash2}`,
-				},
-			},
-		},
-
-		'& .text': {
-			fontSize: ({ size }) => `${0.60 * size / designSize}rem`,
-			...centered,
-		},
-	},
-}))
-
-export default function ProgressIndicator({ done, total, className, size = designSize }) {
+export default function ProgressIndicator({ done, total, className, size = designSize, sx }) {
+	// Calculate important properties.
 	const r = 45
 	const part = total === 0 ? 0 : done / total
 	const dash1 = part * 2 * Math.PI * r
 	const dash2 = (1 - part) * 2 * Math.PI * r
-	const classes = useStyles({ dash1, dash2, size })
-	return (
-		<div className={clsx(className, classes.progressIndicator, 'progressIndicator')}>
-			<svg viewBox="-50 -50 100 100">
-				<circle cx="0" cy="0" r={r} className="filler" />
-				<circle cx="0" cy="0" r={r} className="front" />
-			</svg>
-			<div className="text">{done}/{total}</div>
-		</div>
-	)
+
+	// Set up the component.
+	const theme = useTheme()
+	const circleStyle = { fill: 'transparent', strokeWidth: 10, transform: 'rotate(-90deg)' }
+	return <Box className={clsx(className, 'progressIndicator')} sx={{ height: `${size}px`, width: `${size}px`, position: 'relative', ...notSelectable, ...sx }}>
+		<svg viewBox="-50 -50 100 100" style={{ height: '100%', width: '100%', ...centered }}>
+			<circle cx="0" cy="0" r={r} style={{ ...circleStyle, stroke: alpha(theme.palette.text.primary, 0.1) }} />
+			<circle cx="0" cy="0" r={r} style={{ ...circleStyle, stroke: theme.palette.primary.main, strokeDasharray: `${dash1} ${dash2}` }} />
+		</svg>
+		<Box sx={{ fontSize: `${0.6 * size / designSize}rem`, ...centered }}>{done}/{total}</Box>
+	</Box>
 }

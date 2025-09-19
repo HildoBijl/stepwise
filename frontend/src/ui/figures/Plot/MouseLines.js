@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material'
 
 import { roundToDigits, ensureBoolean, ensureBasicObject, processOptions, ensureFunction } from 'step-wise/util'
 

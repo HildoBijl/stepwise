@@ -1,65 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { Box, alpha } from '@mui/material'
 
 import { boundTo } from 'step-wise/util'
 
 import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { notSelectable } from 'ui/theme'
-
-const bottomDisplacement = '0.5rem'
-const useStyles = makeStyles((theme) => ({
-	slider: {
-		borderRadius: '0.25rem',
-		marginBottom: ({ sliderInside }) => sliderInside ? 0 : `-${bottomDisplacement}`,
-		paddingBottom: ({ sliderInside }) => sliderInside ? 0 : bottomDisplacement,
-		overflow: 'hidden',
-		position: 'relative',
-		transition: `background ${theme.transitions.duration.standard}ms`,
-		'&.sliding': {
-			...notSelectable,
-		},
-
-		'& > .inner': {
-			padding: '1px',
-			transform: ({ active, padding, slidePart, contentsWidth, containerWidth }) => active ? `translateX(${padding - slidePart * (contentsWidth - containerWidth)}px)` : 'none',
-		},
-
-		'&.active': {
-			'&:hover, &.sliding, &.dragging': {
-				background: alpha(theme.palette.primary.main, 0.05),
-				'& > .scroller': {
-					opacity: 1, // Show on hover or when sliding.
-				},
-			},
-			'& > .scroller': {
-				display: 'block', // Don't show on inactive sliders.
-			},
-		},
-		'& > .scroller': {
-			background: alpha(theme.palette.primary.main, 0.2),
-			borderRadius: '0.25rem',
-			bottom: 0,
-			cursor: 'pointer',
-			display: 'none',
-			height: '0.5rem',
-			opacity: 0,
-			position: 'absolute',
-			transition: `opacity ${theme.transitions.duration.standard}ms`,
-			width: '100%',
-
-			'& > .toggle': {
-				background: alpha(theme.palette.primary.main, 0.8),
-				borderRadius: '0.25rem',
-				height: '0.5rem',
-				left: ({ active, slidePart, contentsPart }) => active ? `${slidePart * (1 - contentsPart) * 100}%` : '0',
-				position: 'absolute',
-				width: ({ active, contentsPart }) => active ? `${contentsPart * 100}%` : '100%',
-			},
-		},
-	},
-}))
 
 export default function HorizontalSlider({ children, sliderInside = false, padding = 0 }) {
 	// Set up required states.
@@ -111,19 +56,19 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 		setTogglePart(togglePart)
 		applySliding(clickPart, togglePart)
 	}
-	const updateSliding = (evt) => {
+	const updateSliding = (event) => {
 		if (!active || togglePart === undefined)
 			return
-		applySliding(getClickPart(evt), togglePart)
+		applySliding(getClickPart(event), togglePart)
 	}
 	const endSliding = () => setTogglePart(undefined)
 
 	// Set up dragging handlers.
-	const startDragging = (evt) => active && setLastTouch(getClickPosition(evt))
-	const updateDragging = (evt) => {
+	const startDragging = (event) => active && setLastTouch(getClickPosition(event))
+	const updateDragging = (event) => {
 		if (!active || lastTouch === undefined)
 			return
-		const touch = getClickPosition(evt)
+		const touch = getClickPosition(event)
 		setSlidePart(boundTo(slidePart + (touch - lastTouch) / (containerWidth - contentsWidth), 0, 1))
 		setLastTouch(touch)
 	}
@@ -145,13 +90,48 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	useEffect(() => forceUpdate(), [forceUpdate])
 
 	// Implement style and render slider.
-	const classes = useStyles({ active, sliding, dragging, sliderInside, padding, slidePart, contentsWidth, containerWidth, contentsPart })
-	return <div className={clsx(classes.slider, 'slider', { active, inactive: !active, dragging, sliding, waiting: !sliding && !dragging })} ref={outerRef}>
-		<div className="inner" ref={innerRef}>
+	const bottomDisplacement = '0.5rem'
+	return <Box ref={outerRef} sx={theme => ({
+		borderRadius: '0.25rem',
+		marginBottom: sliderInside ? 0 : `-${bottomDisplacement}`,
+		paddingBottom: sliderInside ? 0 : bottomDisplacement,
+		overflow: 'hidden',
+		position: 'relative',
+		transition: `background ${theme.transitions.duration.standard}ms`,
+		...(sliding ? notSelectable : {}),
+		...(active ? {
+			[sliding || dragging ? '&' : '&:hover']: {
+				background: alpha(theme.palette.primary.main, 0.05),
+				'& > .scroller': { opacity: 1 },
+			},
+		} : {})
+	})}>
+		<Box ref={innerRef} sx={{
+			padding: '1px',
+			transform: active ? `translateX(${padding - slidePart * (contentsWidth - containerWidth)}px)` : 'none',
+		}}>
 			{children}
-		</div>
-		<div className="scroller" ref={scrollerRef}>
-			<div className="toggle" />
-		</div>
-	</div>
+		</Box>
+		<Box ref={scrollerRef} className="scroller" sx={theme => ({
+			background: alpha(theme.palette.primary.main, 0.2),
+			borderRadius: '0.25rem',
+			bottom: 0,
+			cursor: 'pointer',
+			display: active ? 'block' : 'none',
+			height: '0.5rem',
+			opacity: 0,
+			position: 'absolute',
+			transition: `opacity ${theme.transitions.duration.standard}ms`,
+			width: '100%',
+		})}>
+			<Box sx={theme => ({
+				background: alpha(theme.palette.primary.main, 0.8),
+				borderRadius: '0.25rem',
+				height: '0.5rem',
+				left: active ? `${slidePart * (1 - contentsPart) * 100}%` : '0',
+				position: 'absolute',
+				width: active ? `${contentsPart * 100}%` : '100%',
+			})} />
+		</Box>
+	</Box>
 }

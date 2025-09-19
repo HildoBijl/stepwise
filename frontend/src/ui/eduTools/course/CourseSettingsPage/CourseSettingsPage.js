@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IconButton, useMediaQuery } from '@material-ui/core'
-import { Settings as SettingsIcon } from '@material-ui/icons'
+import { IconButton, useMediaQuery } from '@mui/material'
+import { Settings as SettingsIcon } from '@mui/icons-material'
 
 import { useIsAdmin } from 'api'
 import { usePaths } from 'ui/routingTools'
