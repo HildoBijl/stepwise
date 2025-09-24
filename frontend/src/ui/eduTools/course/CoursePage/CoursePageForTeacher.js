@@ -1,13 +1,14 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { Box, Tooltip } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 import { count, arraysToObject, keysToObject } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData, getCourseOverview } from 'step-wise/eduTools'
 
-import { TranslationFile, TranslationSection, Translation } from 'i18n'
-import { Par } from 'ui/components'
+import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
+import { Par, ProgressIndicator } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { getAnalysis } from '../../courses'
@@ -39,15 +40,43 @@ export function CoursePageForTeacher() {
 }
 
 function StudentOverview({ course, students }) {
+	const translate = useTranslator()
+
 	// Check out the course and define columns based on it.
 	const overview = useMemo(() => getCourseOverview(course), [course])
 	console.log(overview)
 	const { blocks } = overview
 	const dgColumns = useMemo(() => [
-		{ field: 'name', headerName: 'Name', width: 150, align: 'left', headerAlign: 'left' },
-		{ field: 'total', headerName: 'Total', width: 80, align: 'center', headerAlign: 'center' },
-		...blocks.map((block, index) => ({ field: `block${index}`, headerName: `${index + 1}`, width: 80, align: 'center', headerAlign: 'center' })),
-	], [blocks])
+		{
+			field: 'name',
+			headerName: 'Name',
+			minWidth: 120,
+			flex: 2,
+			align: 'left',
+			headerAlign: 'left'
+		},
+		{
+			field: 'all',
+			headerName: 'Course',
+			minWidth: 80,
+			flex: 1,
+			align: 'center',
+			headerAlign: 'center',
+			renderCell: cell => <CenteredProgressIndicator total={overview.contents.length} done={cell.value} sx={{ fontWeight: 600 }} />
+		},
+		...overview.blocks.map((block, index) => ({
+			field: `block${index}`,
+			headerName: `${index + 1}`,
+			minWidth: 60,
+			flex: 1,
+			align: 'center',
+			headerAlign: 'center',
+			renderHeader: cell => <Tooltip title={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
+				<Box component="span" sx={{ fontWeight: 500 }}>{cell.colDef.headerName}</Box>
+			</Tooltip>,
+			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contents.length} done={cell.value} />
+		})),
+	], [course, overview, translate])
 
 	// Process the student data and set up rows based on it.
 	const processedStudents = useProcessedStudents(students, overview)
@@ -55,7 +84,7 @@ function StudentOverview({ course, students }) {
 		return {
 			id: student.id,
 			name: student.name,
-			total: student.numCompleted,
+			all: student.numCompleted,
 			...arraysToObject(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
 		}
 	}), [processedStudents, blocks])
@@ -66,7 +95,18 @@ function StudentOverview({ course, students }) {
 		initialState={{
 			sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
 		}}
+		pagination={false}
+		hideFooter
 		disableColumnMenu
+		disableColumnResize
+		disableSelectionOnClick disableRowSelectionOnClick
+		onRowClick={row => console.log('Click on row', row)} // ToDo: add link to inspection page.
+		sx={{
+			cursor: 'pointer',
+			'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
+				outline: 'red', // Prevent a cell outline when clicking on a cell.
+			},
+		}}
 	/>
 }
 
@@ -88,4 +128,10 @@ function useProcessedStudents(students, overview) {
 		const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
 		return { ...student, skillsData, analysis, numCompleted, numCompletedPerBlock }
 	}), [students, overview])
+}
+
+function CenteredProgressIndicator(props) {
+	return <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+		<ProgressIndicator {...props} />
+	</Box>
 }
