@@ -11,7 +11,7 @@ export function useSetLanguageMutation() {
 const SET_LANGUAGE = gql`
 	mutation setLanguage($language: String!) {
 		setLanguage(language: $language) {
-			${userFields}
+			${userFields(false, false)}
 		}
 	}
 `

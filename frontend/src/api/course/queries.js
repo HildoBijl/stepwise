@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 
-import { skillFields, exerciseFields } from '../skill'
+import { skillFields } from '../skill'
 
 // Define the default fields we read for a course.
 export const getCourseFields = (addTeachers, addStudents, addSkills, addExercises) => `
@@ -21,14 +21,14 @@ export const getCourseFields = (addTeachers, addStudents, addSkills, addExercise
 	createdAt
 	updatedAt
 	... on CourseForStudent {
-		${getCourseForStudentFields(addTeachers)}
+		${courseForStudentFields(addTeachers)}
 	}
 	... on CourseForTeacher {
-		${getCourseForTeacherFields(addTeachers, addStudents, addSkills, addExercises)}
+		${courseForTeacherFields(addTeachers, addStudents, addSkills, addExercises)}
 	}
 `
 
-const getCourseForStudentFields = (addTeachers) => `
+const courseForStudentFields = (addTeachers) => `
 		role
 		subscribedOn
 		${addTeachers ? `teachers {
@@ -39,35 +39,30 @@ const getCourseForStudentFields = (addTeachers) => `
 		}` : ''}
 `
 
-const getCourseForTeacherFields = (addTeachers, addStudents, addSkills, addExercises) => {
-	const skillsQuery = `skills {
-		${skillFields}
-		${addExercises ? `
-		... on SkillWithExercises {
-			exercises {
-				${exerciseFields}
-			}
-			activeExercise {
-				${exerciseFields}
-			}
-		}` : ``}
-	}`
+const courseForTeacherFields = (addTeachers, addStudents, addSkills, addExercises) => {
+	const privateFields = `
+		email
+		skills {
+			${skillFields(addExercises)}
+		}
+	`
 	return `
-		${getCourseForStudentFields(addTeachers)}
-		${addStudents ? `students {
+		${courseForStudentFields(addTeachers)}
+		${addStudents ? `
+		students {
 			id
 			name
 			givenName
 			familyName
 			${addSkills ? `
 			... on UserPrivate {
-				${skillsQuery}
+				${privateFields}
 			}
 			... on UserFull {
-				${skillsQuery}
+				${privateFields}
 			}` : ``}
 		}` : ''}
-`
+	`
 }
 
 export function useAllCoursesQuery(addTeachers = true, addStudents = false, addSkills = false, addExercises = false) {

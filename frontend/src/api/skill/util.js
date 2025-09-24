@@ -1,4 +1,4 @@
-export const skillFields = `
+export const skillFields = (addExerciseFields) => `
 	id
 	userId
 	skillId
@@ -9,6 +9,15 @@ export const skillFields = `
 	highestOn
 	createdAt
 	updatedAt
+	${addExerciseFields ? `
+	... on SkillWithExercises {
+		exercises {
+			${exerciseFields}
+		}
+		activeExercise {
+			${exerciseFields}
+		}
+	}` : ``}
 `
 
 export const exerciseFields = `

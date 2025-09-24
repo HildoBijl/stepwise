@@ -37,7 +37,7 @@ export function useSkillsSubscription(subscribeToMore, apply = true) {
 export const SKILLS_UPDATED = gql`
 	subscription skillsUpdate {
 		skillsUpdate {
-			${skillFields}
+			${skillFields(false)}
 		}
 	}
 `

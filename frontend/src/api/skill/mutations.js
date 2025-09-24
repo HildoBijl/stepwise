@@ -101,7 +101,7 @@ export const SUBMIT_EXERCISE_ACTION = gql`
 				${exerciseFields}
 			}
 			adjustedSkills {
-				${skillFields}
+				${skillFields(false)}
 			}
 		}
 	}

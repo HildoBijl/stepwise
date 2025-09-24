@@ -1,5 +1,7 @@
 import { useQuery, gql } from '@apollo/client'
 
+import { userFields } from './user'
+
 export function isAdmin(user) {
 	return !!user && user.role === 'admin'
 }
@@ -8,56 +10,20 @@ export function useUserQuery(userId, skillIds) {
 	return useQuery(USER, { variables: { userId, skillIds } })
 }
 const USER = gql`
-	query user($userId: ID!, $skillIds: [String]) {
+	query user($userId: ID!) {
 		user(userId: $userId) {
-			id
-			name
-			givenName
-			familyName
-			email
-			role
-			createdAt
-			updatedAt
-			skills(ids: $skillIds) {
-				id
-				skillId
-				numPracticed
-				coefficients
-				coefficientsOn
-				highest
-				highestOn
-				createdAt
-				updatedAt
-			}
+			${userFields(true, true)}
 		}
 	}
 `
 
-export function useAllUsersQuery(skillIds) {
-	return useQuery(ALLUSERS, { variables: { skillIds } })
+export function useAllUsersQuery() {
+	return useQuery(ALLUSERS)
 }
 const ALLUSERS = gql`
-	query allUsers($skillIds: [String]) {
+	query allUsers {
 		allUsers {
-			id
-			name
-			givenName
-			familyName
-			email
-			role
-			createdAt
-			updatedAt
-			skills(ids: $skillIds) {
-				id
-				skillId
-				numPracticed
-				coefficients
-				coefficientsOn
-				highest
-				highestOn
-				createdAt
-				updatedAt
-			}
+			${userFields(true, false)}
 		}
 	}
 `

@@ -4,7 +4,7 @@ import { ensureSkillIds } from 'step-wise/eduTools'
 
 import { useUser } from '../user'
 
-import { skillFields, exerciseFields } from './util'
+import { skillFields } from './util'
 
 // Get the data for a skill.
 export function useSkillQuery(skillId) {
@@ -13,15 +13,7 @@ export function useSkillQuery(skillId) {
 export const SKILL = gql`
 	query skill($skillId: String!) {
 		skill(skillId: $skillId) {
-			${skillFields}
-    	... on SkillWithExercises {
-				exercises {
-					${exerciseFields}
-				}
-				activeExercise {
-					${exerciseFields}
-				}
-			}
+			${skillFields(true)}
 		}
 	}
 `
@@ -36,7 +28,7 @@ export function useSkillsQuery(skillIds) {
 export const SKILLS = gql`
 	query skills($skillIds: [String]!) {
 		skills(skillIds: $skillIds) {
-			${skillFields}
+			${skillFields(false)}
 		}
 	}
 `
