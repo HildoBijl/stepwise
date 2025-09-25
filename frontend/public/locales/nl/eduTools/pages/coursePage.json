@@ -24,6 +24,12 @@
     "noSkills": "Dit blok is nog in ontwikkeling: er zijn nog geen vaardigheden/oefeningen toegevoegd. Ze komen er zo snel mogelijk aan!"
   },
   "teachers": {
-    "noStudents": "<par>Je cursus staat klaar, maar er zijn nog geen studenten. Deel de <a>cursuslink</a> (de URL van deze pagina) met studenten, of vraag ze om zelf de <b>cursus toe te voegen</b> uit de lijst.</par><par>Voor meer opties, zie de <c>Cursusinstellingen</c> (rechtsboven).</par>"
+    "noStudents": "<par>Je cursus staat klaar, maar er zijn nog geen studenten. Deel de <a>cursuslink</a> (de URL van deze pagina) met studenten, of vraag ze om zelf de <b>cursus toe te voegen</b> uit de lijst.</par><par>Voor meer opties, zie de <c>Cursusinstellingen</c> (rechtsboven).</par>",
+    "headers": {
+      "name": "Naam",
+      "lastActive": "Laatst actief",
+      "course": "Cursus"
+    },
+    "hideInactive": "Verberg inactieve studenten."
   }
 }

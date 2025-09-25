@@ -71,5 +71,15 @@
 		"100000": "honderdduizendste",
 		"1000000": "miljoenste",
 		"1000000000": "miljardste"
+	},
+	"timeAgo": {
+		"years": "{a} <count-check><one>jaar</one><not-one>jaar</not-one></count-check>",
+		"months": "{a} <count-check><one>maand</one><not-one>maanden</not-one></count-check>",
+		"weeks": "{a} <count-check><one>week</one><not-one>weken</not-one></count-check>",
+		"days": "{a} <count-check><one>dag</one><not-one>dagen</not-one></count-check>",
+		"hours": "{a} <count-check><one>uur</one><not-one>uren</not-one></count-check>",
+		"minutes": "{a} <count-check><one>minuut</one><not-one>minuten</not-one></count-check>",
+		"seconds": "{a} <count-check><one>seconde</one><not-one>seconden</not-one></count-check>",
+		"now": "Nu"
 	}
 }

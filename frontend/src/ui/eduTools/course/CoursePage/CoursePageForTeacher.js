@@ -1,14 +1,15 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Tooltip } from '@mui/material'
+import { Box, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-import { count, arraysToObject, keysToObject } from 'step-wise/util'
+import { count, arraysToObject, keysToObject, findOptimum } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData, getCourseOverview } from 'step-wise/eduTools'
 
+import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
-import { Par, ProgressIndicator } from 'ui/components'
+import { Par, ProgressIndicator, TimeAgo } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { getAnalysis } from '../../courses'
@@ -21,7 +22,6 @@ const translationSection = 'teachers'
 export function CoursePageForTeacher() {
 	const { course } = useCourseData()
 	const paths = usePaths()
-	console.log(course)
 
 	// When there are no students, show a note.
 	const { students } = course
@@ -41,28 +41,41 @@ export function CoursePageForTeacher() {
 
 function StudentOverview({ course, students }) {
 	const translate = useTranslator()
+	const [filterInactive, setFilterInactive] = useLocalStorageState(false)
 
 	// Check out the course and define columns based on it.
 	const overview = useMemo(() => getCourseOverview(course), [course])
-	console.log(overview)
 	const { blocks } = overview
+	const renderHeader = cell => <Box component="span" sx={{ fontWeight: 500 }}>{cell.colDef.headerName}</Box>
 	const dgColumns = useMemo(() => [
 		{
 			field: 'name',
-			headerName: 'Name',
+			headerName: <Translation entry="headers.name">Name</Translation>,
 			minWidth: 120,
 			flex: 2,
 			align: 'left',
-			headerAlign: 'left'
+			headerAlign: 'left',
+			renderHeader,
+		},
+		{
+			field: 'lastActive',
+			headerName: <Translation entry="headers.lastActive">Last active</Translation>,
+			minWidth: 100,
+			flex: 1,
+			align: 'center',
+			headerAlign: 'center',
+			renderHeader,
+			renderCell: cell => <TimeAgo>{new Date() - cell.value}</TimeAgo>,
 		},
 		{
 			field: 'all',
-			headerName: 'Course',
+			headerName: <Translation entry="headers.course">Course</Translation>,
 			minWidth: 80,
 			flex: 1,
 			align: 'center',
 			headerAlign: 'center',
-			renderCell: cell => <CenteredProgressIndicator total={overview.contents.length} done={cell.value} sx={{ fontWeight: 600 }} />
+			renderHeader,
+			renderCell: cell => <CenteredProgressIndicator total={overview.contents.length} done={cell.value} sx={{ fontWeight: 600 }} />,
 		},
 		...overview.blocks.map((block, index) => ({
 			field: `block${index}`,
@@ -72,42 +85,60 @@ function StudentOverview({ course, students }) {
 			align: 'center',
 			headerAlign: 'center',
 			renderHeader: cell => <Tooltip title={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
-				<Box component="span" sx={{ fontWeight: 500 }}>{cell.colDef.headerName}</Box>
+				{renderHeader(cell)}
 			</Tooltip>,
-			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contents.length} done={cell.value} />
+			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contents.length} done={cell.value} />,
 		})),
 	], [course, overview, translate])
 
-	// Process the student data and set up rows based on it.
-	const processedStudents = useProcessedStudents(students, overview)
+	// Process the student data and potentially filter out inactive students.
+	let processedStudents = useProcessedStudents(students, overview)
+	const inactiveStudentThreshold = 14 * 24 * 60 * 60 * 1000 // 2 weeks
+	// const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
+	const now = new Date()
+	const areInactiveStudents = processedStudents.some(student => now - student.lastActive > inactiveStudentThreshold)
+	if (areInactiveStudents && filterInactive)
+		processedStudents = processedStudents.filter(student => now - student.lastActive <= inactiveStudentThreshold)
+
+	// Set up rows for the students.
 	const dgRows = useMemo(() => processedStudents.map(student => {
 		return {
 			id: student.id,
 			name: student.name,
+			lastActive: student.lastActive,
 			all: student.numCompleted,
 			...arraysToObject(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
 		}
 	}), [processedStudents, blocks])
 
-	return <DataGrid
-		rows={dgRows}
-		columns={dgColumns}
-		initialState={{
-			sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
-		}}
-		pagination={false}
-		hideFooter
-		disableColumnMenu
-		disableColumnResize
-		disableSelectionOnClick disableRowSelectionOnClick
-		onRowClick={row => console.log('Click on row', row)} // ToDo: add link to inspection page.
-		sx={{
-			cursor: 'pointer',
-			'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
-				outline: 'red', // Prevent a cell outline when clicking on a cell.
-			},
-		}}
-	/>
+	return <TranslationFile path={translationPath}>
+		<TranslationSection entry={translationSection}>
+			<DataGrid
+				rows={dgRows}
+				columns={dgColumns}
+				sortingOrder={['asc', 'desc']} // Always have some sort present.
+				initialState={{ sorting: { sortModel: [{ field: 'name', sort: 'asc' }] } }} // Initially sort by name.
+				pagination={false}
+				hideFooter
+				disableColumnMenu
+				disableColumnResize
+				disableSelectionOnClick disableRowSelectionOnClick
+				onRowClick={row => console.log('Click on row', row)} // ToDo: add link to inspection page.
+				sx={{
+					cursor: 'pointer',
+					'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
+						outline: 'red', // Prevent a cell outline when clicking on a cell.
+					},
+				}}
+			/>
+
+			{areInactiveStudents ? <Par>
+				<FormGroup>
+					<FormControlLabel control={<Switch checked={filterInactive} onChange={event => setFilterInactive(event.target.checked)} sx={{ ml: 1 }} />} label={<Translation entry="hideInactive">Hide inactive students.</Translation>} />
+				</FormGroup>
+			</Par> : null}
+		</TranslationSection>
+	</TranslationFile>
 }
 
 function useProcessedStudents(students, overview) {
@@ -121,12 +152,18 @@ function useProcessedStudents(students, overview) {
 		const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 		const skillsData = processSkillDataSet(skills, skillTree)
 
-		// Return the resulting skills data set as property of the student and add an analysis for the course.
+		// Run an analysis of what the student completed.
 		const analysis = getAnalysis(overview, skillsData)
 		const getNumCompleted = skillIds => count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
 		const numCompleted = getNumCompleted(overview.contents)
 		const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
-		return { ...student, skillsData, analysis, numCompleted, numCompletedPerBlock }
+
+		// Determine the last activity for the student. (Use the original skills and not the newly added skills, that have more recent dates.)
+		const activityPerSkill = skillsProcessed.filter(skill => overview.all.includes(skill.skillId)).map(skill => skill.updatedAt)
+		const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
+
+		// Return all data.
+		return { ...student, skillsData, analysis, numCompleted, numCompletedPerBlock, lastActive }
 	}), [students, overview])
 }
 

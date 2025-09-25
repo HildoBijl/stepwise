@@ -24,6 +24,12 @@
     "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!"
   },
   "teachers": {
-    "noStudents": "<par>Der Kurs ist bereit, aber es gibt noch keine Lernenden. Teilen Sie den <a>Kurslink</a> (die URL dieser Seite) mit den Lernenden oder bitte sie, den Kurs selbst <b>aus der Liste hinzuzufügen</b>.</par><par>Weitere Optionen findest du unter <c>Kurseinstellungen</c> (oben rechts).</par>"
+    "noStudents": "<par>Der Kurs ist bereit, aber es gibt noch keine Lernenden. Teilen Sie den <a>Kurslink</a> (die URL dieser Seite) mit den Lernenden oder bitte sie, den Kurs selbst <b>aus der Liste hinzuzufügen</b>.</par><par>Weitere Optionen findest du unter <c>Kurseinstellungen</c> (oben rechts).</par>",
+    "headers": {
+      "name": "Name",
+      "lastActive": "Zuletzt aktiv",
+      "course": "Kurs"
+    },
+    "hideInactive": "Inaktive Lernende ausblenden."
   }
 }

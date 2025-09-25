@@ -24,6 +24,12 @@
     "noSkills": "This block is still under development: no skills/exercises have been added yet. They will be here shortly!"
   },
   "teachers": {
-    "noStudents": "<par>Your course is ready, but there are no students yet. Share the <a>course link</a> (this page's URL) with students, or ask them to <b>add the course</b> from the full list.</par><par>For further options, check out the <c>Course Settings</c> (top right).</par>"
+    "noStudents": "<par>Your course is ready, but there are no students yet. Share the <a>course link</a> (this page's URL) with students, or ask them to <b>add the course</b> from the full list.</par><par>For further options, check out the <c>Course Settings</c> (top right).</par>",
+    "headers": {
+      "name": "Name",
+      "lastActive": "Last active",
+      "course": "Course"
+    },
+    "hideInactive": "Hide inactive students."
   }
 }
