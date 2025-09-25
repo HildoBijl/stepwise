@@ -2,3 +2,4 @@ export { CourseName, CourseProvider, SkillAdvice, useCourseData } from './compon
 export * from './CoursePage'
 export * from './FreePracticePage'
 export * from './CourseSettingsPage'
+export * from './CourseStudentPage'

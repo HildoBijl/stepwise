@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Box, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
@@ -9,6 +9,7 @@ import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillD
 
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
+import { notSelectable } from 'ui/theme'
 import { Par, ProgressIndicator, TimeAgo } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
@@ -42,11 +43,13 @@ export function CoursePageForTeacher() {
 function StudentOverview({ course, students }) {
 	const translate = useTranslator()
 	const [filterInactive, setFilterInactive] = useLocalStorageState(false)
+	const navigate = useNavigate()
+	const paths = usePaths()
 
 	// Check out the course and define columns based on it.
 	const overview = useMemo(() => getCourseOverview(course), [course])
 	const { blocks } = overview
-	const renderHeader = cell => <Box component="span" sx={{ fontWeight: 500 }}>{cell.colDef.headerName}</Box>
+	const renderHeader = cell => <Box component="span" sx={{ fontWeight: 500, ...notSelectable }}>{cell.colDef.headerName}</Box>
 	const dgColumns = useMemo(() => [
 		{
 			field: 'name',
@@ -123,7 +126,7 @@ function StudentOverview({ course, students }) {
 				disableColumnMenu
 				disableColumnResize
 				disableSelectionOnClick disableRowSelectionOnClick
-				onRowClick={row => console.log('Click on row', row)} // ToDo: add link to inspection page.
+				onRowClick={row => navigate(paths.courseStudent({ courseCode: course.code, studentId: row.id }))}
 				sx={{
 					cursor: 'pointer',
 					'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {

@@ -3,7 +3,7 @@ import { isAdmin } from 'api/admin'
 import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
-import { CoursesPage, CoursePage, CourseProvider, CourseName, AddCoursePage, SkillAdvice, FreePracticePage, CourseSettingsPage, CourseSettingsIcon, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName } from 'ui/eduTools'
+import { CoursesPage, CoursePage, CourseProvider, CourseName, AddCoursePage, SkillAdvice, FreePracticePage, CourseSettingsPage, CourseSettingsIcon, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName, CourseStudentPage, CourseStudentName } from 'ui/eduTools'
 
 // getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
 export function getRoutes(user = undefined) {
@@ -206,6 +206,11 @@ export function getRoutes(user = undefined) {
 								page: FreePracticePage,
 								name: 'Free practice mode',
 								Notification: SkillAdvice,
+							},
+							'student/:studentId': {
+								id: 'courseStudent',
+								page: CourseStudentPage,
+								name: CourseStudentName,
 							},
 						},
 					},
