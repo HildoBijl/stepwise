@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { ListItemButton, ListItemIcon, ListItemText, alpha } from '@mui/material'
 
 import { useTranslator } from 'i18n'
 import { useRoute, useRouteById } from 'ui/routingTools'
@@ -20,12 +20,9 @@ export default function MenuLink({ id, path, text, icon: Icon }) {
 	// Render the link.
 	const translate = useTranslator()
 	return (
-		<ListItemButton component={NavLink} to={path} sx={theme => ({
-			color: selected ? theme.palette.primary.main : 'inherit',
-			textDecoration: 'none',
-		})}>
-			<ListItemIcon sx={{ color: 'inherit' }}><Icon /></ListItemIcon>
-			<ListItemText primary={translate(text, id)} />
+		<ListItemButton component={NavLink} to={path}>
+			<ListItemIcon sx={theme => ({ color: selected ? alpha(theme.palette.primary.main, 0.8) : undefined })}><Icon /></ListItemIcon>
+			<ListItemText primary={translate(text, id)} sx={{ color: selected ? 'primary.main' : undefined }} />
 		</ListItemButton>
 	)
 }

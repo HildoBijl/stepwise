@@ -51,7 +51,7 @@ function StudentOverview({ course, students }) {
 		{
 			field: 'name',
 			headerName: <Translation entry="headers.name">Name</Translation>,
-			minWidth: 120,
+			minWidth: 140,
 			flex: 2,
 			align: 'left',
 			headerAlign: 'left',
@@ -60,7 +60,7 @@ function StudentOverview({ course, students }) {
 		{
 			field: 'lastActive',
 			headerName: <Translation entry="headers.lastActive">Last active</Translation>,
-			minWidth: 100,
+			minWidth: 105,
 			flex: 1,
 			align: 'center',
 			headerAlign: 'center',
@@ -134,7 +134,7 @@ function StudentOverview({ course, students }) {
 
 			{areInactiveStudents ? <Par>
 				<FormGroup>
-					<FormControlLabel control={<Switch checked={filterInactive} onChange={event => setFilterInactive(event.target.checked)} sx={{ ml: 1 }} />} label={<Translation entry="hideInactive">Hide inactive students.</Translation>} />
+					<FormControlLabel control={<Switch checked={filterInactive} onChange={event => setFilterInactive(event.target.checked)} sx={{ ml: 1 }} />} label={<Translation entry="hideInactive">Hide inactive students</Translation>} />
 				</FormGroup>
 			</Par> : null}
 		</TranslationSection>
