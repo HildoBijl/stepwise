@@ -96,8 +96,7 @@ function StudentOverview({ course, students }) {
 
 	// Process the student data and potentially filter out inactive students.
 	let processedStudents = useProcessedStudents(students, overview)
-	const inactiveStudentThreshold = 14 * 24 * 60 * 60 * 1000 // 2 weeks
-	// const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
+	const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
 	const now = new Date()
 	const areInactiveStudents = processedStudents.some(student => now - student.lastActive > inactiveStudentThreshold)
 	if (areInactiveStudents && filterInactive)
