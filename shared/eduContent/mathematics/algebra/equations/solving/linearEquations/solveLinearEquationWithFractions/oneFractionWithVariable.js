@@ -26,9 +26,9 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
-	const b = getRandomInteger(-8, 8, [0, a * c, -a * c])
-	const d = getRandomInteger(-8, 8, [0, b, -b])
+	const c = getRandomInteger(-8, 8, [-1, 0, 1])
+	const b = getRandomInteger(-8, 8, [0])
+	const d = getRandomInteger(-8, 8, [0, a])
 	return {
 		x: selectRandomly(variableSet),
 		a, b, c, d,
