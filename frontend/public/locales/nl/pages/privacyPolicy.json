@@ -2,7 +2,7 @@
   "firstTime": {
     "title": "Privacybeleid",
     "intro": "Om Step-Wise te gebruiken moet je akkoord gaan met ons <a>Privacybeleid</a>. Samengevat:",
-    "list": "<ul><li>We gebruiken cookies alleen voor inloggen en website-instellingen. Geen tracking/advertenties.</li><li>We delen geen persoonlijk identificeerbare gegevens met anderen tenzij met uitdrukkelijke toestemming.</li><li>Je kunt altijd al je data wissen door je account te verwijderen.</li></ul>"
+    "list": "<a><li>We gebruiken cookies alleen voor inloggen en website-instellingen. Geen tracking/advertenties.</li><li>We delen geen persoonlijk identificeerbare gegevens met anderen tenzij met uitdrukkelijke toestemming.</li><li>Je kunt altijd al je data wissen door je account te verwijderen.</li></a>"
   },
   "update": {
     "title": "Update Privacybeleid",

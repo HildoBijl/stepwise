@@ -2,7 +2,7 @@
   "firstTime": {
     "title": "Datenschutzerklärung",
     "intro": "Um Step-Wise nutzen zu können, musst du der <a>Datenschutzerklärung</a> zustimmen. In Kürze:",
-    "list": "<ul><li>Wir verwenden Cookies nur für die Anmeldung und für Website-Einstellungen. Kein Tracking/Werbung.</li><li>Wir geben keine persönlich identifizierbaren Daten an Dritte weiter, es sei denn, du stimmst ausdrücklich zu.</li><li>Du kannst jederzeit alle deine Daten löschen, indem du dein Konto löschst.</li></ul>"
+    "list": "<a><li>Wir verwenden Cookies nur für die Anmeldung und für Website-Einstellungen. Kein Tracking/Werbung.</li><li>Wir geben keine persönlich identifizierbaren Daten an Dritte weiter, es sei denn, du stimmst ausdrücklich zu.</li><li>Du kannst jederzeit alle deine Daten löschen, indem du dein Konto löschst.</li></a>"
   },
   "update": {
     "title": "Update der Datenschutzerklärung",

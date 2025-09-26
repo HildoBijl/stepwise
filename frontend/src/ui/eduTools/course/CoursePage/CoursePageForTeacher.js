@@ -97,10 +97,10 @@ function StudentOverview({ course, students }) {
 	// Process the student data and potentially filter out inactive students.
 	let processedStudents = useProcessedStudents(students, overview)
 	const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
-	const now = new Date()
-	const areInactiveStudents = processedStudents.some(student => now - student.lastActive > inactiveStudentThreshold)
+	const isStudentInactive = student => student.lastActive === undefined || new Date() - student.lastActive > inactiveStudentThreshold
+	const areInactiveStudents = processedStudents.some(isStudentInactive)
 	if (areInactiveStudents && filterInactive)
-		processedStudents = processedStudents.filter(student => now - student.lastActive <= inactiveStudentThreshold)
+		processedStudents = processedStudents.filter(student => !isStudentInactive(student))
 
 	// Set up rows for the students.
 	const dgRows = useMemo(() => processedStudents.map(student => {

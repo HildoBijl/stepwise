@@ -1,9 +1,19 @@
+import { isNumber } from 'step-wise/util'
+
 import { Translation, Plurals } from 'i18n'
 
 // TimeAgo takes a time difference - a number in milliseconds - as children (often from subtracting two dates) and renders it as a message "3 minutes", "5 hours", "2 days", "1 week" or similar.
 const daysPerYear = 365.25
 const daysPerMonth = daysPerYear / 12
 export function TimeAgo({ children: ms, displaySeconds = false }) {
+	// Define translation settings.
+	const translationPath = 'language'
+	const translationEntry = 'timeAgo'
+
+	// On an invalid number (undefined, NaN) assume there was never any activity.
+	if (!isNumber(ms))
+		return <Translation path={translationPath} entry={`${translationEntry}.never`}>Never</Translation>
+
 	// Calculate quantities.
 	const sec = ms / 1000
 	const min = sec / 60
@@ -12,10 +22,6 @@ export function TimeAgo({ children: ms, displaySeconds = false }) {
 	const w = d / 7
 	const m = d / daysPerMonth
 	const y = d / daysPerYear
-
-	// Define translation settings.
-	const translationPath = 'language'
-	const translationEntry = 'timeAgo'
 
 	// Display years?
 	if (m >= 11.5) {

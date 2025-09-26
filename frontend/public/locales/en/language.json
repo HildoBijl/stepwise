@@ -80,6 +80,7 @@
     "hours": "{a} <count-check><one>hour</one><not-one>hours</not-one></count-check>",
     "minutes": "{a} <count-check><one>minute</one><not-one>minutes</not-one></count-check>",
     "seconds": "{a} <count-check><one>second</one><not-one>seconds</not-one></count-check>",
-    "now": "Now"
+    "now": "Now",
+    "never": "Never"
   }
 }
