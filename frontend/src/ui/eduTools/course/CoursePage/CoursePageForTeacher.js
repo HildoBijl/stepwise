@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Box, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
+import { Box, Paper, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 import { arraysToObject } from 'step-wise/util'
@@ -9,12 +9,12 @@ import { getCourseOverview } from 'step-wise/eduTools'
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
 import { notSelectable } from 'ui/theme'
-import { Par, ProgressIndicator, TimeAgo } from 'ui/components'
+import { Par, TimeAgo } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { processStudent } from '../../courses'
 
-import { useCourseData } from '../components'
+import { useCourseData, CenteredProgressIndicator } from '../components'
 
 const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'teachers'
@@ -114,24 +114,28 @@ function StudentOverview({ course, students }) {
 
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
-			<DataGrid
-				rows={dgRows}
-				columns={dgColumns}
-				sortingOrder={['asc', 'desc']} // Always have some sort present.
-				initialState={{ sorting: { sortModel: [{ field: 'name', sort: 'asc' }] } }} // Initially sort by name.
-				pagination={false}
-				hideFooter
-				disableColumnMenu
-				disableColumnResize
-				disableSelectionOnClick disableRowSelectionOnClick
-				onRowClick={row => navigate(paths.courseStudent({ courseCode: course.code, studentId: row.id }))}
-				sx={{
-					cursor: 'pointer',
-					'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
-						outline: 'red', // Prevent a cell outline when clicking on a cell.
-					},
-				}}
-			/>
+			<Paper elevation={3}>
+				<DataGrid
+					rows={dgRows}
+					columns={dgColumns}
+					sortingOrder={['asc', 'desc']} // Always have some sort present.
+					initialState={{ sorting: { sortModel: [{ field: 'name', sort: 'asc' }] } }} // Initially sort by name.
+					pagination={false}
+					hideFooter
+					disableColumnMenu
+					disableColumnResize
+					disableSelectionOnClick disableRowSelectionOnClick
+					onRowClick={row => navigate(paths.courseStudent({ courseCode: course.code, studentId: row.id }))}
+					sx={{
+						backgroundColor: 'background.paper',
+						'& .MuiDataGrid-columnHeader': { backgroundColor: 'background.paper' },
+						cursor: 'pointer',
+						'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
+							outline: 'red', // Prevent a cell outline when clicking on a cell.
+						},
+					}}
+				/>
+			</Paper>
 
 			{areInactiveStudents ? <Par>
 				<FormGroup>
@@ -140,10 +144,4 @@ function StudentOverview({ course, students }) {
 			</Par> : null}
 		</TranslationSection>
 	</TranslationFile>
-}
-
-function CenteredProgressIndicator(props) {
-	return <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-		<ProgressIndicator {...props} />
-	</Box>
 }
