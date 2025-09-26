@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { useUserResult, useUser } from 'api/user'
-import { useActiveGroupResult, useActiveGroup } from 'api/group'
+import { useUserResult, useUser, useActiveGroupResult, useActiveGroup } from 'api'
 import { useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 

@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Box, Alert, AlertTitle } from '@mui/material'
 
 import { apiAddress, googleClientId, googleRedirectAddress } from 'settings'
-import { useIsUserDataLoaded } from 'api/user'
+import { useIsUserDataLoaded } from 'api'
 import { Translation, useLanguage } from 'i18n'
 import HUlogo from 'ui/images/HU.png'
 

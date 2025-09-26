@@ -3,8 +3,8 @@ import { Box, Button } from '@mui/material'
 import { Check, Clear } from '@mui/icons-material'
 
 import { logOutAddress } from 'settings'
+import { useUser, useAcceptLatestPrivacyPolicyMutation } from 'api'
 import { TranslationSection, Translation } from 'i18n'
-import { useUser, useAcceptLatestPrivacyPolicyMutation } from 'api/user'
 import { linkStyle } from 'ui/theme'
 
 import { PageTranslationFile } from '../pages'

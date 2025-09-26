@@ -2,8 +2,8 @@ import React from 'react'
 
 import { getStep } from 'step-wise/eduTools'
 
+import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
-import { useUserId } from 'api/user'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 

@@ -1,9 +1,8 @@
 import React from 'react'
 
-import { useUser } from 'api/user'
-
-import { Par } from 'ui/components'
+import { useUser } from 'api'
 import { Translation } from 'i18n'
+import { Par } from 'ui/components'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 

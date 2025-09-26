@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Done, Clear } from '@mui/icons-material'
 
-import { useJoinGroupMutation } from 'api/group'
+import { useJoinGroupMutation } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'

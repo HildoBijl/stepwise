@@ -6,7 +6,7 @@ import { arraysToObject, keysToObject, formatDate } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
-import { useUserQuery } from 'api/admin'
+import { useUserQuery } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
 import { TitleItem } from 'ui/routingTools'
 import { SkillFlask } from 'ui/eduTools'

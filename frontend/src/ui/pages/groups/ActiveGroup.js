@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import { ExitToApp } from '@mui/icons-material'
 
+import { useDeactivateGroupMutation, useSelfAndOtherMembers } from 'api'
 import { TranslationSection, Translation } from 'i18n'
-import { useDeactivateGroupMutation, useSelfAndOtherMembers } from 'api/group'
 import { usePaths } from 'ui/routingTools'
 import { Head, MemberList } from 'ui/components'
 

@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-import { count, arraysToObject, keysToObject, findOptimum } from 'step-wise/util'
-import { processSkillDataSet } from 'step-wise/skillTracking'
-import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData, getCourseOverview } from 'step-wise/eduTools'
+import { arraysToObject } from 'step-wise/util'
+import { getCourseOverview } from 'step-wise/eduTools'
 
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
@@ -13,7 +12,7 @@ import { notSelectable } from 'ui/theme'
 import { Par, ProgressIndicator, TimeAgo } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
-import { getAnalysis } from '../../courses'
+import { processStudent } from '../../courses'
 
 import { useCourseData } from '../components'
 
@@ -95,7 +94,7 @@ function StudentOverview({ course, students }) {
 	], [course, overview, translate])
 
 	// Process the student data and potentially filter out inactive students.
-	let processedStudents = useProcessedStudents(students, overview)
+	let processedStudents = useMemo(() => students.map(student => processStudent(student, overview)), [students, overview])
 	const inactiveStudentThreshold = 2 * 30 * 24 * 60 * 60 * 1000 // 2 months
 	const isStudentInactive = student => student.lastActive === undefined || new Date() - student.lastActive > inactiveStudentThreshold
 	const areInactiveStudents = processedStudents.some(isStudentInactive)
@@ -141,32 +140,6 @@ function StudentOverview({ course, students }) {
 			</Par> : null}
 		</TranslationSection>
 	</TranslationFile>
-}
-
-function useProcessedStudents(students, overview) {
-	return useMemo(() => students.map(student => {
-		// Filter out outdated none-existing skills, process the remaining skills, and turn them into an ID-keyed object (a raw dataset).
-		const skillsProcessed = student.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
-		const skillsAsObject = arraysToObject(skillsProcessed.map(skill => skill.skillId), skillsProcessed)
-
-		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-		const allSkillIds = includePrerequisitesAndLinks(overview.all)
-		const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-		const skillsData = processSkillDataSet(skills, skillTree)
-
-		// Run an analysis of what the student completed.
-		const analysis = getAnalysis(overview, skillsData)
-		const getNumCompleted = skillIds => count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
-		const numCompleted = getNumCompleted(overview.contents)
-		const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
-
-		// Determine the last activity for the student. (Use the original skills and not the newly added skills, that have more recent dates.)
-		const activityPerSkill = skillsProcessed.filter(skill => overview.all.includes(skill.skillId)).map(skill => skill.updatedAt)
-		const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
-
-		// Return all data.
-		return { ...student, skillsData, analysis, numCompleted, numCompletedPerBlock, lastActive }
-	}), [students, overview])
 }
 
 function CenteredProgressIndicator(props) {

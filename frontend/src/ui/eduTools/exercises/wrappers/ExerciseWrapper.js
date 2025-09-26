@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react'
 
 import { getLastInput, getExerciseName } from 'step-wise/eduTools'
 
-import { useUserId } from 'api/user'
+import { useUserId } from 'api'
 import { TranslationSection } from 'i18n'
 import { Form, useFormData, FeedbackProvider } from 'ui/form'
 

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import { useUser } from 'api/user'
+import { useUser } from 'api'
 import { RoutesContext, RouteContext, getPaths } from 'ui/routingTools'
 
 import { Page } from './Page'

@@ -3,9 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import { sortByIndices } from 'step-wise/util'
 
+import { useUserId, useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api'
 import { TranslationFile, Translation } from 'i18n'
-import { useUserId } from 'api/user'
-import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
 import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 

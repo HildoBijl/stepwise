@@ -1,5 +1,4 @@
-import { isAdmin } from 'api/admin'
-
+import { isAdmin } from 'api'
 import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 

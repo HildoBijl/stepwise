@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Button, TextField } from '@mui/material'
 
-import { useShutdownAccountMutation } from 'api/user'
 import { logOutAddress } from 'settings'
-
+import { useShutdownAccountMutation } from 'api'
 import { TranslationSection, Translation } from 'i18n'
 import { Par, Head } from 'ui/components'
 

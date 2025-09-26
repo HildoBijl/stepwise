@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useUserResult } from 'api/user'
+import { useUserResult } from 'api'
 import { Translation } from 'i18n'
 
 import NotificationBar from './NotificationBar'

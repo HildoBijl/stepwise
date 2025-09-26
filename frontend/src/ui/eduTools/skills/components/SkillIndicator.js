@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useSkillData } from 'api/skill'
+import { useSkillData } from 'api'
 
 import { SkillFlask } from './SkillFlask'
 

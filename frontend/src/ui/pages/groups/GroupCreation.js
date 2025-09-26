@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Paper, TextField } from '@mui/material'
 
+import { useGroupExistsQuery } from 'api'
 import { TranslationSection, Translation } from 'i18n'
-import { useGroupExistsQuery } from 'api/group'
 import { usePaths } from 'ui/routingTools'
 
 export function GroupCreation() {

@@ -5,7 +5,7 @@ import { Check, Info } from '@mui/icons-material'
 
 import { skillTree } from 'step-wise/eduTools'
 
-import { useSkillData } from 'api/skill'
+import { useSkillData } from 'api'
 import { Translation, useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'

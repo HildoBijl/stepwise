@@ -4,8 +4,7 @@ import { count } from 'step-wise/util'
 import { getLastAction } from 'step-wise/eduTools'
 
 import { useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
-import { useUserId } from 'api/user'
-import { useActiveGroup } from 'api/group'
+import { useUserId, useActiveGroup } from 'api'
 import { useSubmitCall } from 'ui/form'
 
 import { useExerciseData } from '../containers'

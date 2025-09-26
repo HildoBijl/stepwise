@@ -2,9 +2,7 @@ import React from 'react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { ApolloProvider } from '@apollo/client'
 
-import { UserWrapper } from 'api/user'
-import { ActiveGroupProvider } from 'api/group'
-import { SkillCacher } from 'api/skill'
+import { UserWrapper, ActiveGroupProvider, SkillCacher } from 'api'
 import { I18nProvider } from 'i18n'
 import theme from 'ui/theme'
 

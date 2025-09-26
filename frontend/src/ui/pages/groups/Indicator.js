@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Tooltip } from '@mui/material'
 
-import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
-import { useActiveGroup, useOtherMembers } from 'api/group'
+import { useActiveGroup, useOtherMembers } from 'api'
+import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 
 import { translationPath } from './support'

@@ -1,4 +1,6 @@
-import { skillTree } from 'step-wise/eduTools'
+import { count, arraysToObject, keysToObject, findOptimum } from 'step-wise/util'
+import { processSkillDataSet } from 'step-wise/skillTracking'
+import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'
 
@@ -57,4 +59,29 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 	// Store, and recursively add prerequisites.
 	if (!isPriorKnowledge && skill.prerequisites)
 		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillsData, priorKnowledge, result, practiceNeeded))
+}
+
+// processStudent takes a student (as given by the database API) and a course overview, and processes the student's skill data. It gives a complete set of skillsData objects for all the course's skills, it has an analysis on what to practice, and checks how many skills the student has completed.
+export function processStudent(student, overview) {
+	// Filter out outdated none-existing skills, process the remaining skills, and turn them into an ID-keyed object (a raw dataset).
+	const skillsProcessed = student.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
+	const skillsAsObject = arraysToObject(skillsProcessed.map(skill => skill.skillId), skillsProcessed)
+
+	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
+	const allSkillIds = includePrerequisitesAndLinks(overview.all)
+	const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
+	const skillsData = processSkillDataSet(skills, skillTree)
+
+	// Run an analysis of what the student completed.
+	const analysis = getAnalysis(overview, skillsData)
+	const getNumCompleted = skillIds => count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
+	const numCompleted = getNumCompleted(overview.contents)
+	const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
+
+	// Determine the last activity for the student. (Use the original skills and not the newly added skills, that have more recent dates.)
+	const activityPerSkill = skillsProcessed.filter(skill => overview.all.includes(skill.skillId)).map(skill => skill.updatedAt)
+	const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
+
+	// Return all data.
+	return { ...student, skillsData, analysis, numCompleted, numCompletedPerBlock, lastActive }
 }

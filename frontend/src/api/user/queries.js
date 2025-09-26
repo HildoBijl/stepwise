@@ -50,3 +50,14 @@ export const ME = gql`
 		}
 	}
 `
+
+export function useUserQuery(userId) {
+	return useQuery(USER, { variables: { userId } })
+}
+export const USER = gql`
+	query user($userId: ID!) {
+		user(userId: $userId) {
+			${userFields(true, true)}
+		}
+	}
+`

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useUser } from 'api/user'
+import { useUser } from 'api'
 
 import { Translation, Check } from 'i18n'
 import { Head, Par, List, Term, Warning } from 'ui/components'

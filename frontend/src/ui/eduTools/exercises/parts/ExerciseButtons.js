@@ -7,9 +7,8 @@ import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
 import { Translation, useTranslator, useGetTranslation } from 'i18n'
-import { useUserId, useIsAdmin } from 'api/user'
-import { useActiveGroup, useSelfAndOtherMembers } from 'api/group'
 import { getIcon } from 'ui/theme'
 import { Button, useModal, PictureConfirmation, QuickPractice, MemberList } from 'ui/components'
 import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'

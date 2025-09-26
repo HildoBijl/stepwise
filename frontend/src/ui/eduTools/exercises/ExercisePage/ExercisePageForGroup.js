@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 
 import { skillTree, fixExerciseIdForExercise } from 'step-wise/eduTools'
 
-import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
+import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api'
 import { useGetTranslation } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 

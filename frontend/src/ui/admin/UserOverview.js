@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 
 import { findOptimum, ensureDate, formatDate } from 'step-wise/util'
 
-import { useAllUsersQuery } from 'api/admin'
+import { useAllUsersQuery } from 'api'
 import { usePaths } from 'ui/routingTools'
 import { Par, HorizontalSlider } from 'ui/components'
 

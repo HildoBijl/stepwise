@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { useSetLanguageMutation } from 'api/user'
+import { useSetLanguageMutation } from 'api'
 import { Translation, useLanguage } from 'i18n'
 
 export function Language({ Flag, language, text }) {

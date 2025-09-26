@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { hasPreviousInput } from 'step-wise/eduTools'
 
-import { useUserId } from 'api/user'
+import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'

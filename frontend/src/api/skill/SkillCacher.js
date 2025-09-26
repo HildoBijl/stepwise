@@ -6,7 +6,7 @@ import { skillTree } from 'step-wise/eduTools'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
-import { useUser } from 'api/user'
+import { useUser } from 'api'
 
 import { useSkillsQuery } from './queries'
 import { useSkillsSubscription } from './subscriptions'

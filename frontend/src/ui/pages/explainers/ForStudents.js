@@ -5,8 +5,8 @@ import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@m
 
 import { Skill, getEV, getMaxLikelihood, smoothen } from 'step-wise/skillTracking'
 
+import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
-import { useIsSignedIn } from 'api/user'
 import { usePaths } from 'ui/routingTools'
 import { Par, Head, SubHead, Button, M } from 'ui/components'
 import { Drawing, useIdentityTransformationSettings, SvgPortal, Element } from 'ui/figures'
