@@ -80,7 +80,7 @@ function AddTeacherForm({ course }) {
 				<InputLabel id="newTeacherLabel"><Translation entry="label">Add a teacher</Translation></InputLabel>
 				<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange}>
 					<MenuItem value=""><span style={{ opacity: 0.5 }}><Translation entry="noneSelected">None selected</Translation></span></MenuItem>
-					{students && students.map(student => <MenuItem key={student.id} value={student.id}>{student.name}</MenuItem>)}
+					{students && students.map(student => <MenuItem key={student.id} value={student.id}>{student.name} &lt;{student.email}&gt;</MenuItem>)}
 				</Select>
 			</FormControl>
 			{selectedStudent && <>
