@@ -73,20 +73,55 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 	// Determine other important data.
 	const hasPriorKnowledge = overview.priorKnowledge.length > 0
 
-	return (
-		<Box sx={courseOverviewStyle}>
-			<Box sx={{ marginRight: '1rem', width: '50%' }}>
-				{hasPriorKnowledge ? <Block
-					landscape={landscape}
-					courseCode={course.code}
-					skillIds={overview.priorKnowledge}
-					active={activeBlock === -1}
-					toggleActive={() => toggleActiveBlock(-1)}
-					name={translate('Prior knowledge', 'priorKnowledge')}
-					isPriorKnowledge={true}
-					analysis={analysis}
-				/> : null}
-				{overview.blocks.map((block, index) => <Block
+	return <Box sx={courseOverviewStyle}>
+		<Box sx={{ marginRight: '1rem', width: '50%' }}>
+			{hasPriorKnowledge ? <Block
+				landscape={landscape}
+				courseCode={course.code}
+				skillIds={overview.priorKnowledge}
+				active={activeBlock === -1}
+				toggleActive={() => toggleActiveBlock(-1)}
+				name={translate('Prior knowledge', 'priorKnowledge')}
+				isPriorKnowledge={true}
+				analysis={analysis}
+			/> : null}
+			{overview.blocks.map((block, index) => <Block
+				key={index}
+				landscape={landscape}
+				courseCode={course.code}
+				skillIds={block.contents}
+				active={activeBlock === index}
+				toggleActive={() => toggleActiveBlock(index)}
+				name={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+				number={index + 1}
+				isPriorKnowledge={false}
+				analysis={analysis}
+			/>)}
+			<GradeEstimate />
+		</Box>
+		<SkillList courseCode={course.code} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} sx={{ width: '50%' }} />
+	</Box>
+}
+
+function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
+	const translate = useTranslator()
+	const landscape = false
+	const hasPriorKnowledge = overview.priorKnowledge.length > 0
+
+	return <Box sx={courseOverviewStyle}>
+		<Box sx={{ width: '100%' }}>
+			{hasPriorKnowledge ? <Block
+				landscape={landscape}
+				courseCode={course.code}
+				skillIds={overview.priorKnowledge}
+				active={activeBlock === -1}
+				toggleActive={() => toggleActiveBlock(-1)}
+				name={translate('Prior knowledge', 'priorKnowledge')}
+				isPriorKnowledge={true}
+				analysis={analysis}
+			/> : null}
+			{overview.blocks.map((block, index) => (
+				<Block
 					key={index}
 					landscape={landscape}
 					courseCode={course.code}
@@ -97,48 +132,9 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
-				/>)}
-				<GradeEstimate />
-			</Box>
-			<SkillList courseCode={course.code} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} sx={{ width: '50%' }} />
+				/>
+			))}
+			<GradeEstimate />
 		</Box>
-	)
-}
-
-function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
-	const translate = useTranslator()
-	const landscape = false
-	const hasPriorKnowledge = overview.priorKnowledge.length > 0
-
-	return (
-		<Box sx={courseOverviewStyle}>
-			<Box sx={{ width: '100%' }}>
-				{hasPriorKnowledge ? <Block
-					landscape={landscape}
-					courseCode={course.code}
-					skillIds={overview.priorKnowledge}
-					active={activeBlock === -1}
-					toggleActive={() => toggleActiveBlock(-1)}
-					name={translate('Prior knowledge', 'priorKnowledge')}
-					isPriorKnowledge={true}
-					analysis={analysis}
-				/> : null}
-				{overview.blocks.map((block, index) => (
-					<Block
-						key={index}
-						landscape={landscape}
-						courseCode={course.code}
-						skillIds={block.contents}
-						active={activeBlock === index}
-						toggleActive={() => toggleActiveBlock(index)}
-						name={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
-						number={index + 1}
-						isPriorKnowledge={false}
-						analysis={analysis}
-					/>
-				))}
-				<GradeEstimate />
-			</Box>
-		</Box>
-	)
+	</Box>
 }

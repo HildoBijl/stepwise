@@ -90,7 +90,9 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 
 	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
 		{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
-		<Box sx={{ flex: '1 1 auto' }}>{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</Box>
+		<Box sx={{ flex: '1 1 auto' }}>
+			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+		</Box>
 		{skill.exercises.length === 0 ? <Tooltip title={noExercisesText} arrow>
 			<Box sx={iconContainerStyle}>
 				<Info sx={theme => ({ color: theme.palette.info.main })} />
