@@ -10,6 +10,7 @@ function processSkill(skill) {
 		highestOn: new Date(skill.highestOn), // Give extra functionalities.
 		createdAt: new Date(skill.createdAt), // Give extra functionalities.
 		updatedAt: new Date(skill.updatedAt), // Give extra functionalities.
+		exercises: skill.exercises,
 	}
 }
 module.exports.processSkill = processSkill

@@ -1,3 +1,7 @@
 {
-  "unknownStudentTitle": "Unbekannter Lernender"
+  "unknownStudentTitle": "Unbekannter Lernender",
+  "progressOverview": {
+    "block": "Block",
+    "progress": "Fortschritt"
+  }
 }

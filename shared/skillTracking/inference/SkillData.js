@@ -76,6 +76,10 @@ class SkillData {
 		return extractOrThrow(this, 'highest')
 	}
 
+	get exercises() {
+		return this._rawData.exercises || []
+	}
+
 	get smoothenedCoefficients() {
 		// If the cache is invalid, recalculate coefficients.
 		if (!this.isSmoothenedCoefficientsCacheValid()) {
