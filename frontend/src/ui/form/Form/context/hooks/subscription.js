@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { processOptions, deepEquals, noop } from 'step-wise/util'
 import { toSO, toFO } from 'step-wise/inputTypes'
 
-import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { useFormData } from '../provider'
 

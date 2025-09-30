@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { resolveFunctions } from 'step-wise/util'
 
-import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { useButtonClickFunction } from './util'
 import { KeyButton } from './KeyButton'

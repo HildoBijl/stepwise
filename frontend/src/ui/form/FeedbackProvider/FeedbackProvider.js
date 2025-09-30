@@ -5,7 +5,7 @@ import { isBasicObject, applyMapping, filterProperties, deepEquals } from 'step-
 import { toFO } from 'step-wise/inputTypes'
 import { getExerciseName } from 'step-wise/eduTools'
 
-import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTranslator, addSection } from 'i18n'
 
 import { useFormData } from '../Form'

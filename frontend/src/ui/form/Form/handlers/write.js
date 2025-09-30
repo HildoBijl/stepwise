@@ -1,6 +1,6 @@
 import { ensureConsistency, resolveFunctions } from 'step-wise/util'
 
-import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 // The write handlers allow the adjusting of Form parameters.
 export function useWriteHandlers(setInput, { getFieldData }) {

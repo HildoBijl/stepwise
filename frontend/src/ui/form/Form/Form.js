@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 
 import { isBasicObject, ensureConsistency } from 'step-wise/util'
 
-import { useUpdater, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useUpdater, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'

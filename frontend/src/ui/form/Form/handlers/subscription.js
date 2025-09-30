@@ -1,4 +1,4 @@
-import { useLatest, useMountedRef, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useLatest, useMountedRef, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 // The subscription handlers track which input fields exist, allows new input fields to subscribe (while providing the right information) and allows dismounting input fields to unsubscribe.
 export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useRef } from 'react'
 import { Modal, Box, useTheme } from '@mui/material'
 
-import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { centered } from 'ui/theme'
 
 const ModalContext = createContext(null)

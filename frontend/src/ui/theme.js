@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { createTheme, useTheme, alpha } from '@mui/material/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@mui/icons-material'
 
-import { toHex, toCSS, useFontFaceObserver } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { toHex, toCSS, useFontFaceObserver } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814

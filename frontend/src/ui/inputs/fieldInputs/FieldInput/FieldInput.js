@@ -2,7 +2,7 @@ import React, { useRef, forwardRef } from 'react'
 
 import { isEmptyObject, processOptions, filterOptions, resolveFunctions, passOn } from 'step-wise/util'
 
-import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { Input, defaultInputOptions } from '../../Input'
 

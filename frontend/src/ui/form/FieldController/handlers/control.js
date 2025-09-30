@@ -1,6 +1,6 @@
 import { mod } from 'step-wise/util'
 
-import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 // The control handlers allow the controlling/setting of which field is active.
 export function useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex) {

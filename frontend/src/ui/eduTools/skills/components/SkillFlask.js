@@ -5,7 +5,7 @@ import { processOptions, resolveFunctions, numberArray, boundTo, repeat, gridInt
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 
-import { mix, shift, toCSS, useUniqueNumber } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { mix, shift, toCSS, useUniqueNumber } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { Translation, Check } from 'i18n'
 
 import { defaultSkillThresholds } from '../recommendation'

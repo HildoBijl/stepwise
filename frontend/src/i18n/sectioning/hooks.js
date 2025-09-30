@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 
 import { getDeepParameter, isObject } from 'step-wise/util'
 
-import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { defaultLanguage } from '../settings'
 import { entryAsArray } from '../util'

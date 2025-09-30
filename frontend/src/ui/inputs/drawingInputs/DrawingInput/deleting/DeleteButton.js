@@ -4,7 +4,7 @@ import { Delete } from '@mui/icons-material'
 
 import { resolveFunctions } from 'step-wise/util'
 
-import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { Element, useGraphicalBounds } from 'ui/figures'
 
 import { useInput } from '../../../Input'

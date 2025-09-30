@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { Tabs as MuiTabs, Tab as MuiTab, useTheme } from '@mui/material'
 
-import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { useTabContext } from './TabProvider'
 import { TabLabel } from './TabLabel'

@@ -6,7 +6,7 @@ import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { lastOf, resolveFunctions } from 'step-wise/util'
 
-import { useStaggeredFunction, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useStaggeredFunction, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'

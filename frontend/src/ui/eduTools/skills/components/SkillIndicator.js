@@ -17,10 +17,6 @@ export function SkillIndicator() {
 		height: '34px',
 		ml: 2,
 		width: '34px',
-		[`${theme.breakpoints.up('xs')} and (orientation: landscape)`]: {
-			height: '28px',
-			width: '28px',
-		},
 		[theme.breakpoints.up('sm')]: {
 			height: '40px',
 			width: '40px',

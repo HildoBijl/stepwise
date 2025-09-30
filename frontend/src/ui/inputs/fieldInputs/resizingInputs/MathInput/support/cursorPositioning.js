@@ -1,4 +1,4 @@
-import { getCoordinatesOf } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { getCoordinatesOf } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { maxCursorHeight, emptyElementCursorHeight } from '../settings'
 

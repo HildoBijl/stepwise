@@ -1,7 +1,7 @@
 import { filterProperties, ensureConsistency, keysToObject } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 // The read handlers allow the extraction of parameters from the Form.
 export function useReadHandlers(input, { getFieldData, getFieldIds }) {

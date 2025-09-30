@@ -2,7 +2,7 @@ import React, { useState, useCallback, createContext, useContext } from 'react'
 
 import { boundTo } from 'step-wise/util'
 
-import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { getOrderedTabs } from './util'
 

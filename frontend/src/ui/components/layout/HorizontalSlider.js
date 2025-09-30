@@ -3,7 +3,7 @@ import { Box, alpha } from '@mui/material'
 
 import { boundTo } from 'step-wise/util'
 
-import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'
 
 export default function HorizontalSlider({ children, sliderInside = false, padding = 0 }) {

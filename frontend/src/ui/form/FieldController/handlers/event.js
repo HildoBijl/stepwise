@@ -1,4 +1,4 @@
-import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
+import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 // The event handlers will deal with events like key presses, mouse presses and such.
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {
