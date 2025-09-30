@@ -78,7 +78,12 @@ function AddTeacherForm({ course }) {
 		<TranslationSection entry={`${translationSection}.addTeacher`}>
 			<FormControl variant="outlined" fullWidth sx={{ my: 1 }}>
 				<InputLabel id="newTeacherLabel"><Translation entry="label">Add a teacher</Translation></InputLabel>
-				<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange}>
+				<Select labelId="newTeacherLabel" id="newTeacherSelect" value={newTeacher} label="New teacher" onChange={handleChange} sx={{
+					backgroundColor: '#fbfbfb',
+					"&:focus": {
+						backgroundColor: '#fbfbfb',
+					},
+				}}>
 					<MenuItem value=""><span style={{ opacity: 0.5 }}><Translation entry="noneSelected">None selected</Translation></span></MenuItem>
 					{students && students.map(student => <MenuItem key={student.id} value={student.id}>{student.name} &lt;{student.email}&gt;</MenuItem>)}
 				</Select>

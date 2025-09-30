@@ -44,23 +44,6 @@ let theme = {
 	},
 	appWidth: 'lg', // The width that is used for the app by default.
 	components: {
-		MuiOutlinedInput: {
-			styleOverrides: {
-				input: {
-					// padding: '14px', // This messed up the layout of Select fields (dropdown lists). Don't recall why it's present.
-				},
-			},
-		},
-		MuiSelect: {
-			styleOverrides: {
-				select: { // Make dropdown lists have a white background.
-					backgroundColor: '#fbfbfb',
-					"&:focus": {
-						backgroundColor: '#fbfbfb',
-					},
-				},
-			},
-		},
 		MuiCssBaseline: {
 			styleOverrides: {
 				html: { height: '100%' },
