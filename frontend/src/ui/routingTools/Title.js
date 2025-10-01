@@ -1,12 +1,12 @@
-import React, { useRef, useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
+import React, { useRef, useState, useCallback, useMemo, useEffect, useLayoutEffect, createContext, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { Breadcrumbs } from '@mui/material'
+import { Breadcrumbs, Typography } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { lastOf, resolveFunctions } from 'step-wise/util'
 
-import { useStaggeredFunction, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useStaggeredFunction, useResizeListener, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'
@@ -41,6 +41,7 @@ export function Title({ setTitleCollapsed, sx }) {
 
 	// Use storage to keep track of page names. The TitleItems will register said name.
 	const [pageNames, setPageNames] = useState([])
+	const pageNamesRef = useLatest(pageNames)
 	const registerPageName = useCallback((index, name) => setPageNames(pageNames => {
 		pageNames = [...pageNames]
 		pageNames[index] = name
@@ -61,7 +62,7 @@ export function Title({ setTitleCollapsed, sx }) {
 			return
 
 		// First try the full set-up.
-		const title = lastOf(pageNames)
+		const title = lastOf(pageNamesRef.current)
 		const contents = partialTitleRef.current.getElementsByTagName('span')[0]
 		contents.innerText = title
 		fullTitleRef.current.style.display = 'block'
@@ -92,10 +93,10 @@ export function Title({ setTitleCollapsed, sx }) {
 			}
 		}
 		setTitleCollapsed(collapsed) // Inform the Header that the title is collapsed. This influences whether a menu button is shown.
-	}, [fullTitleRef, partialTitleRef, pageNames, setTitleCollapsed])
+	}, [fullTitleRef, partialTitleRef, pageNamesRef, setTitleCollapsed])
 	const checkUpdateTitle = useStaggeredFunction(updateTitle)
 	useResizeListener(checkUpdateTitle)
-	useEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
+	useLayoutEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.
 	const pageName = lastOf(pageNames)
@@ -111,7 +112,7 @@ export function Title({ setTitleCollapsed, sx }) {
 			{getBreadcrumbs(routes, pageNames)}
 		</Breadcrumbs>
 		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctions(sx, theme) })}>
-			<Breadcrumb route={route} name={lastOf(pageNames)} last={true} />
+			<Breadcrumb key={route.id} route={route} name={lastOf(pageNames)} last />
 		</Breadcrumbs>
 	</TranslationSection>
 }
