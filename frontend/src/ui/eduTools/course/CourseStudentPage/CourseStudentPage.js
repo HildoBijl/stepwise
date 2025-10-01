@@ -64,7 +64,7 @@ function LastActivity({ processedStudent, course, overview }) {
 		{skills.length === 0 ?
 			<Par><Translation entry="noActivity">There has been no activity yet within this course.</Translation></Par> :
 			<TableContainer component={Paper}>
-				<Table sx={{ width: '100%' }}>
+				<Table sx={{ width: '100%', '& td': { py: 1 } }}>
 					<TableBody>
 						{repeat(Math.min(numEntries, skills.length), index => {
 							const studentSkill = skills[index]
