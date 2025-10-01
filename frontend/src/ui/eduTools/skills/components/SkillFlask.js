@@ -27,7 +27,7 @@ const colorFadingStart = 0.9 // From which PDF function maximum function value d
 const colorFadingEnd = 3 // And when do we end?
 
 export function SkillFlask(props) {
-	const { coef, size = 60, strongShadow = false, className, skillId, isPriorKnowledge = false, sx = {} } = props
+	const { coef, size = 60, strongShadow = false, className, skillId, isPriorKnowledge = false, tooltip = true, sx = {} } = props
 	const id = useUniqueNumber()
 
 	// If a skillId is given, calculate and display the target.
@@ -39,50 +39,53 @@ export function SkillFlask(props) {
 	const fading = coefToFading(coef)
 	const color = mix(partToColor(part), fadeColor, fading) // Dull the color in case of uncertainty.
 
-	// Render the component.
-	return <Tooltip title={<Translation entry="skills.prediction" path="eduTools/main"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Check value={!!thresholds}><Check.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Check.True></Check></span></Translation>} arrow>
-		<Box component="svg" className={className} viewBox={`0 0 ${vb} ${vb}`} sx={theme => ({
-			height: size,
-			width: size,
-			transform: 'translateY(-1px)',
-			filter: strongShadow
-				? 'drop-shadow(-2px 6px 6px rgba(0, 0, 0, 1))'
-				: 'drop-shadow(-1px 4px 3px rgba(0, 0, 0, 0.7))',
-			'& .targetLine': {
-				opacity: 0,
-				stroke: toCSS(shift(color, -0.4)),
-				strokeWidth: 2,
-				transition: theme => `opacity ${theme.transitions.duration.standard}ms`,
-			},
-			'&:hover .targetLine': {
-				opacity: 0.6,
-			},
-			...resolveFunctions(sx, theme),
-		})}>
-			<defs>
-				<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
-				</radialGradient>
-				<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
-				</radialGradient>
-				<clipPath id={`flaskFill${id}`}>
-					<Box component="rect" sx={theme => ({
-						x: '0px',
-						y: `${(1 - part) * (vb)}px`,
-						width: `${vb}px`,
-						height: `${part * (vb)}px`,
-						transition: `y ${theme.transitions.duration.complex}ms, height ${theme.transitions.duration.complex}ms`,
-					})} />
-				</clipPath>
-			</defs>
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - vb / 100} strokeWidth="0" fill={`url(#flaskBackground${id})`} />{/* Subtract a small amount to prevent the background from creeping around the edges. */}
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
-			{thresholds ? <line x1={(1 / 2 - Math.sqrt(target - target ** 2)) * vb} y1={(1 - target) * vb} x2={(1 / 2 + Math.sqrt(target - target ** 2)) * vb} y2={(1 - target) * vb} className="targetLine" /> : null}
-		</Box>
-	</Tooltip>
+	// Render the flask.
+	const flask = <Box component="svg" className={className} viewBox={`0 0 ${vb} ${vb}`} sx={theme => ({
+		height: size,
+		width: size,
+		transform: 'translateY(-1px)',
+		filter: strongShadow
+			? 'drop-shadow(-2px 6px 6px rgba(0, 0, 0, 1))'
+			: 'drop-shadow(-1px 4px 3px rgba(0, 0, 0, 0.7))',
+		'& .targetLine': {
+			opacity: 0,
+			stroke: toCSS(shift(color, -0.4)),
+			strokeWidth: 2,
+			transition: theme => `opacity ${theme.transitions.duration.standard}ms`,
+		},
+		'&:hover .targetLine': {
+			opacity: 0.6,
+		},
+		...resolveFunctions(sx, theme),
+	})}>
+		<defs>
+			<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
+				<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
+				<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
+			</radialGradient>
+			<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
+				<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
+				<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
+			</radialGradient>
+			<clipPath id={`flaskFill${id}`}>
+				<Box component="rect" sx={theme => ({
+					x: '0px',
+					y: `${(1 - part) * (vb)}px`,
+					width: `${vb}px`,
+					height: `${part * (vb)}px`,
+					transition: `y ${theme.transitions.duration.complex}ms, height ${theme.transitions.duration.complex}ms`,
+				})} />
+			</clipPath>
+		</defs>
+		<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - vb / 100} strokeWidth="0" fill={`url(#flaskBackground${id})`} />{/* Subtract a small amount to prevent the background from creeping around the edges. */}
+		<circle cx={vb / 2} cy={vb / 2} r={vb / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
+		{thresholds ? <line x1={(1 / 2 - Math.sqrt(target - target ** 2)) * vb} y1={(1 - target) * vb} x2={(1 / 2 + Math.sqrt(target - target ** 2)) * vb} y2={(1 - target) * vb} className="targetLine" /> : null}
+	</Box>
+
+	// Render the flask within a tooltip.
+	if (!tooltip)
+		return flask
+	return <Tooltip title={<Translation entry="skills.prediction" path="eduTools/main"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Check value={!!thresholds}><Check.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Check.True></Check></span></Translation>} arrow>{flask}</Tooltip>
 }
 
 function partToColor(part) {
