@@ -7,12 +7,12 @@ import { useUser } from '../user'
 import { skillFields } from './util'
 
 // Get the data for a skill.
-export function useSkillQuery(skillId) {
-	return useQuery(SKILL, { variables: { skillId } })
+export function useSkillQuery(skillId, userId) {
+	return useQuery(SKILL, { variables: { skillId, userId } })
 }
 export const SKILL = gql`
-	query skill($skillId: String!) {
-		skill(skillId: $skillId) {
+	query skill($skillId: String!, $userId: ID!) {
+		skill(skillId: $skillId, userId: $userId) {
 			${skillFields(true)}
 		}
 	}
