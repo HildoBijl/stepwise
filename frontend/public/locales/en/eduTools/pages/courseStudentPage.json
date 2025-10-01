@@ -1,6 +1,11 @@
 {
   "unknownStudentTitle": "Unknown student",
+  "lastActivity": {
+    "head": "Last activity",
+    "noActivity": "There has been no activity yet within this course."
+  },
   "progressOverview": {
+    "head": "Course progress",
     "block": "Block",
     "progress": "Progress"
   }

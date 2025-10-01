@@ -99,15 +99,20 @@ const centered = {
 export { centered }
 
 // A macro for making first and last elements of a block not have a margin.
-const startEndMarginFix = (addition = '', margin = 0) => ({
+export const startMarginFix = (addition = '', margin = 0) => ({
 	[`&:first-of-type ${addition}`]: {
 		marginTop: margin,
 	},
+})
+export const endMarginFix = (addition = '', margin = 0) => ({
 	[`&:last-of-type ${addition}`]: {
 		marginBottom: margin,
 	},
 })
-export { startEndMarginFix }
+export const startEndMarginFix = (addition, margin) => ({
+	...startMarginFix(addition, margin),
+	...endMarginFix(addition, margin),
+})
 
 // Easy ways of accessing colors.
 export function usePrimaryColor() {

@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
-import { repeat, count } from 'step-wise/util'
+import { lastOf, repeat, count } from 'step-wise/util'
 import { skillTree, getCourseOverview } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
-import { LoadingIndicator, ErrorNote } from 'ui/components'
+import { Head, Par, TimeAgo, LoadingIndicator, ErrorNote } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { SkillFlask } from '../../skills'
@@ -38,13 +38,54 @@ export function CourseStudentPageForStudent({ course, student }) {
 
 	// Render the various page parts.
 	return <TranslationFile path={translationPath}>
-		<LastActivity />
+		<LastActivity {...{ processedStudent, course, overview }} />
 		<ProgressOverview {...{ processedStudent, course, overview }} />
 	</TranslationFile>
 }
 
-function LastActivity() {
-	return null // ToDo
+function LastActivity({ processedStudent, course, overview }) {
+	const translate = useTranslator()
+	const paths = usePaths()
+	const navigate = useNavigate()
+
+	// Use only skills within the course that have any type of activity. Sort them by the activity date.
+	const getLastSkillActivity = skill => {
+		const lastExercise = lastOf(skill.exercises)
+		const lastEvent = lastOf(lastExercise.history)
+		return new Date(lastEvent?.performedAt || lastExercise.startedOn)
+	}
+	let skills = processedStudent.skills.filter(skill => skill.exercises.length > 0 && overview.all.includes(skill.skillId))
+	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
+
+	// Render the skills.
+	const numEntries = 2
+	return <TranslationSection entry="lastActivity">
+		<Head sx={{ mb: 1 }}><Translation entry="head">Last activity</Translation></Head>
+		{skills.length === 0 ?
+			<Par><Translation entry="noActivity">There has been no activity yet within this course.</Translation></Par> :
+			<TableContainer component={Paper}>
+				<Table sx={{ width: '100%' }}>
+					<TableBody>
+						{repeat(Math.min(numEntries, skills.length), index => {
+							const studentSkill = skills[index]
+							const skill = skillTree[studentSkill.skillId]
+							const lastActivity = getLastSkillActivity(studentSkill)
+							return <TableRow key={index} onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: skill.id }))} sx={{ cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
+								<TableCell align="center" sx={{ minWidth: 80, width: 100, fontSize: 12, fontWeight: 450, color: 'primary.main' }}>
+									<TimeAgo addAgo={true}>{lastActivity}</TimeAgo>
+								</TableCell>
+								<TableCell align="center" sx={{ minWidth: 60, width: 80 }}>
+									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} overview={overview} />
+								</TableCell>
+								<TableCell sx={{ minWidth: 140, width: 800 }}>
+									{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+								</TableCell>
+							</TableRow>
+						})}
+					</TableBody>
+				</Table>
+			</TableContainer>}
+	</TranslationSection >
 }
 
 function ProgressOverview({ processedStudent, course, overview }) {
@@ -55,6 +96,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 
 	// Render the overview.
 	return <TranslationSection entry="progressOverview">
+		<Head sx={{ mb: 1 }}><Translation entry="head">Course progress</Translation></Head>
 		<TableContainer component={Paper}>
 			<Table sx={{ width: '100%', tableLayout: 'fixed', '& td, & th': { px: 0.5 }, '& td': { py: 0.75 }, '& th': { py: 1.25 } }}>
 				<TableHead>
@@ -92,32 +134,37 @@ function SkillIndicator({ skillId, student, overview }) {
 	// When there's no skillId, we are through the skills of this block and don't need to show more.
 	if (!skillId)
 		return null
-
-	// Extract data for the skill.
 	const skill = skillTree[skillId]
+
+	// Render the contents.
+	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>
+		<SkillFlaskWithNumbers {...{ skillId, student, overview }} />
+		<Box sx={{ fontSize: 8, fontWeight: 500 }}>
+			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+		</Box>
+	</Box>
+}
+
+function SkillFlaskWithNumbers({ skillId, student, overview }) {
+	// Extract data for the skill.
 	const skillData = student.skillsData[skillId]
 	const isPriorKnowledge = overview.priorKnowledge.includes(skillId)
 
-	// Determine number of correct, incorrect and in-progress.
+	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".)
 	const exercises = skillData.exercises
 	const numCorrect = count(exercises, exercise => exercise.progress.solved && exercise.history.length === 1)
 	const numPartiallyCorrect = count(exercises, exercise => exercise.progress.solved && exercise.history.length > 1)
 	const numIncorrect = count(exercises, exercise => !exercise.progress.solved && exercise.progress.done)
 	const numInProgress = count(exercises, exercise => !exercise.progress.done)
 
-	// Render the contents.
-	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>
-		<Box sx={{ position: 'relative' }}>
-			<SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} tooltip={false} />
-			<Box sx={{ position: 'absolute', right: -12, top: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', fontSize: 10, fontWeight: 700, lineHeight: 1 }}>
-				{numCorrect === 0 ? null : <Box component="span" sx={{ color: 'success.main' }}>{numCorrect}</Box>}
-				{numPartiallyCorrect === 0 ? null : <Box component="span" sx={{ color: 'warning.main' }}>{numPartiallyCorrect}</Box>}
-				{numIncorrect === 0 ? null : <Box component="span" sx={{ color: 'error.main' }}>{numIncorrect}</Box>}
-				{numInProgress === 0 ? null : <Box component="span" sx={{ color: 'info.main' }}>{numInProgress}</Box>}
-			</Box>
-		</Box>
-		<Box sx={{ fontSize: 8, fontWeight: 500 }}>
-			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+	// Render the flask with the numbers.
+	return <Box sx={{ position: 'relative', display: 'inline-block' }}>
+		<SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} tooltip={false} />
+		<Box sx={{ position: 'absolute', right: -12, top: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', fontSize: 10, fontWeight: 700, lineHeight: 1 }}>
+			{numCorrect === 0 ? null : <Box component="span" sx={{ color: 'success.main' }}>{numCorrect}</Box>}
+			{numPartiallyCorrect === 0 ? null : <Box component="span" sx={{ color: 'warning.main' }}>{numPartiallyCorrect}</Box>}
+			{numIncorrect === 0 ? null : <Box component="span" sx={{ color: 'error.main' }}>{numIncorrect}</Box>}
+			{numInProgress === 0 ? null : <Box component="span" sx={{ color: 'info.main' }}>{numInProgress}</Box>}
 		</Box>
 	</Box>
 }

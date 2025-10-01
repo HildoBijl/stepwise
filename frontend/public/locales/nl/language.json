@@ -80,7 +80,8 @@
 		"hours": "{a} <count-check><one>uur</one><not-one>uur</not-one></count-check>",
 		"minutes": "{a} <count-check><one>minuut</one><not-one>minuten</not-one></count-check>",
 		"seconds": "{a} <count-check><one>seconde</one><not-one>seconden</not-one></count-check>",
-		"now": "Nu",
-    "never": "Nooit"
+		"now": "Zojuist",
+		"never": "Nooit",
+    "ago": "{time} terug"
 	}
 }

@@ -1,6 +1,11 @@
 {
   "unknownStudentTitle": "Onbekende student",
+  "lastActivity": {
+    "head": "Laatste activiteit",
+    "noActivity": "Er is nog geen activiteit in deze cursus geweest."
+  },
   "progressOverview": {
+    "head": "Cursusvoortgang",
     "block": "Block",
     "progress": "Voortgang"
   }

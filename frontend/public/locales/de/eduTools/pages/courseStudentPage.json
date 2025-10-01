@@ -1,6 +1,11 @@
 {
   "unknownStudentTitle": "Unbekannter Lernender",
+  "lastActivity": {
+    "head": "Letzte Aktivität",
+    "noActivity": "In diesem Kurs gab es bisher keine Aktivität."
+  },
   "progressOverview": {
+    "head": "Kursfortschritt",
     "block": "Block",
     "progress": "Fortschritt"
   }
