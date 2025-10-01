@@ -11,7 +11,7 @@ export function useSkillQuery(skillId, userId) {
 	return useQuery(SKILL, { variables: { skillId, userId } })
 }
 export const SKILL = gql`
-	query skill($skillId: String!, $userId: ID!) {
+	query skill($skillId: String!, $userId: ID) {
 		skill(skillId: $skillId, userId: $userId) {
 			${skillFields(true)}
 		}
