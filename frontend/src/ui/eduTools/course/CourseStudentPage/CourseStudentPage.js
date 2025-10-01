@@ -97,8 +97,8 @@ function ProgressOverview({ processedStudent, course, overview }) {
 	// Render the overview.
 	return <TranslationSection entry="progressOverview">
 		<Head sx={{ mb: 1 }}><Translation entry="head">Course progress</Translation></Head>
-		<TableContainer component={Paper}>
-			<Table sx={{ width: '100%', tableLayout: 'fixed', '& td, & th': { px: 0.5 }, '& td': { py: 0.75 }, '& th': { py: 1.25 } }}>
+		<TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
+			<Table sx={{ width: '100%', tableLayout: 'auto', '& td, & th': { px: 0.5 }, '& td': { py: 0.75 }, '& th': { py: 1.25 } }}>
 				<TableHead>
 					<TableRow>
 						<TableCell align="center" sx={{ minWidth: 40, width: 40 }} />
