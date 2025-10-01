@@ -7,7 +7,7 @@ import { TitleItem } from 'ui/routingTools'
 import { useSkillId } from '../util'
 
 export function SkillName() {
-	const skillId = useSkillId() // ToDo later: add error handling if skill ID is not known.
+	const skillId = useSkillId()
 	const skill = skillTree[skillId]
 	const skillNames = 'eduContent/skillNames'
 	if (!skill || !skill.name)
