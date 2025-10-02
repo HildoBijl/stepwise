@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { createTheme, useTheme, alpha } from '@mui/material/styles'
+import { createTheme, useTheme, alpha } from '@mui/material'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@mui/icons-material'
 
 import { toHex, toCSS, useFontFaceObserver } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

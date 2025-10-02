@@ -13,6 +13,7 @@ import { usePaths } from 'ui/routingTools'
 import { SkillFlask } from '../../skills'
 import { processStudent } from '../../courses'
 
+import { getExerciseOutcome } from '../util'
 import { useCourseData, CenteredProgressIndicator } from '../components'
 
 const translationPath = `eduTools/pages/courseStudentPage`
@@ -152,10 +153,10 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 
 	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".)
 	const exercises = skillData.exercises
-	const numCorrect = count(exercises, exercise => exercise.progress.solved && exercise.history.length === 1)
-	const numPartiallyCorrect = count(exercises, exercise => exercise.progress.solved && exercise.history.length > 1)
-	const numIncorrect = count(exercises, exercise => !exercise.progress.solved && exercise.progress.done)
-	const numInProgress = count(exercises, exercise => !exercise.progress.done)
+	const numCorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'correct')
+	const numPartiallyCorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'partiallyCorrect')
+	const numIncorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'incorrect')
+	const numInProgress = count(exercises, exercise => getExerciseOutcome(exercise) === 'inProgress')
 
 	// Render the flask with the numbers.
 	return <Box sx={{ position: 'relative', display: 'inline-block' }}>
@@ -168,3 +169,4 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 		</Box>
 	</Box>
 }
+

@@ -1,17 +1,19 @@
-import { useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Box, Typography, Button, alpha, useTheme, useMediaQuery } from '@mui/material'
 
 import { repeat, count } from 'step-wise/util'
 import { skillTree, getCourseOverview } from 'step-wise/eduTools'
 
+import { useDimension } from 'util'
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
-import { Par, LoadingIndicator, ErrorNote } from 'ui/components'
+import { Par, Info, LoadingIndicator, ErrorNote } from 'ui/components'
 
-import { SkillFlask } from '../../skills'
+import { useSkillId } from '../../skills'
 import { processStudent } from '../../courses'
 
+import { getExerciseOutcome, getOutcomeColor } from '../util'
 import { useCourseData } from '../components'
 
 const translationPath = `eduTools/pages/courseStudentSkillPage`
@@ -27,9 +29,162 @@ export function CourseStudentSkillPage() {
 		return <LoadingIndicator />
 	if (userError || courseError)
 		return <ErrorNote error={userError} />
-	return <CourseStudentSkillPageForStudent course={course} student={data.user} />
+	return <CourseStudentSkillPageForUser course={course} user={data.user} />
 }
 
-export function CourseStudentSkillPageForStudent({ course, student }) {
-	return <Par>This page is still under development. In it, you can examine the exercises a student made.</Par>
+export function CourseStudentSkillPageForUser({ course, user }) {
+	// Load in relevant data.
+	const skillId = useSkillId()
+	const overview = useMemo(() => getCourseOverview(course), [course])
+	const student = useMemo(() => processStudent(user, overview), [user, overview])
+	const skillData = student.skillsData[skillId]
+
+	// Set up controllers for the buttons.
+	let [exerciseIndex, setExerciseIndexRaw] = useState()
+	let [submissionIndex, setSubmissionIndex] = useState()
+	const setExerciseIndex = useCallback(exerciseIndex => {
+		setSubmissionIndex()
+		setExerciseIndexRaw(exerciseIndex)
+	}, [setExerciseIndexRaw, setSubmissionIndex])
+	const [showLabels, setShowLabels] = useState(false)
+
+	// If there are no exercises, show this.
+	if (skillData.exercises.length === 0)
+		return <Info><Translation path={translationPath} entry="noExercises">The student has not opened this skill yet. There are no exercises to show.</Translation></Info>
+
+	// Process the data based on the indices.
+	const exercises = skillData.exercises
+	exerciseIndex = exerciseIndex ?? exercises.length - 1
+	const exercise = exercises[exerciseIndex]
+	const events = exercise.history
+	const lastInputEventIndex = events.length - 1 - [...events].reverse().findIndex(event => event.action.type === 'input')
+	submissionIndex = submissionIndex ?? lastInputEventIndex
+	const event = submissionIndex !== undefined ? events[submissionIndex] : undefined
+	console.log(exercises, event)
+
+	// Render the parts of the page.
+	return <TranslationFile path={translationPath}>
+		<TranslationSection entry="buttons">
+			<ExerciseButtons {...{ exerciseIndex, setExerciseIndex, course, student, skillData, showLabels, setShowLabels }} />
+			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, course, student, skillData, showLabels }} />
+		</TranslationSection>
+		<SubmissionDate {...{ event }} />
+		<CurrentExercise {...{ exerciseIndex, submissionIndex, course, student, skillData }} />
+	</TranslationFile>
+}
+
+const labelWidth = 100
+function ExerciseButtons({ exerciseIndex, setExerciseIndex, skillData, showLabels, setShowLabels }) {
+	// Extract the exercises.
+	const exercises = skillData.exercises
+	exerciseIndex = exerciseIndex ?? exercises.length - 1
+
+	// Update whether or not labels have to be shown.
+	const containerRef = useRef()
+	const containerWidth = useDimension(containerRef, 'offsetWidth')
+	useEffect(() => {
+		setShowLabels(exercises.length * 40 + 120 <= containerWidth)
+	}, [setShowLabels, exercises, containerWidth])
+
+	// Render the buttons.
+	return <Box ref={containerRef} sx={{ display: 'flex', alignItems: 'center', gap: 2, my: showLabels ? 1 : 2, minHeight: '32px' }}>
+		{showLabels && <Typography variant="subtitle1" sx={{ fontWeight: 500, width: labelWidth }}>
+			<Translation entry="exercises">Exercises</Translation>
+		</Typography>}
+		<Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
+			{exercises.map((exercise, index) => <ListButton
+				key={index}
+				active={index === exerciseIndex}
+				onClick={() => setExerciseIndex(index)}
+				color={getOutcomeColor(getExerciseOutcome(exercise))}
+				value={index + 1} />)}
+		</Box>
+	</Box>
+}
+
+function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissionIndex, course, student, skillData, showLabels }) {
+	const exercises = skillData.exercises
+	const exercise = exercises[exerciseIndex]
+	const events = exercise.history
+
+	const lastInputEventIndex = events.length - 1 - [...events].reverse().findIndex(event => event.action.type === 'input')
+	submissionIndex = submissionIndex ?? lastInputEventIndex
+
+	// Show the submission buttons.
+	return <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: showLabels ? 1 : 2, minHeight: '32px' }}>
+		{showLabels && <Typography variant="subtitle1" sx={{ fontWeight: 500, width: labelWidth }}>
+			<Translation entry="submissions">Submissions</Translation>
+		</Typography>}
+		{events.length === 0 ? <Box>
+			<Translation entry="noSubmissions">None so far</Translation>
+		</Box> : <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
+			{events.map((event, index) => {
+				let disabled, color, value
+				switch (event.action.type) {
+					case 'giveUp':
+						// ToDo: determine if it's a split or giving up a step (or the full exercise). Need to know the type of exercise.
+						disabled = true
+						color = 'error'
+						value = 'G'
+						break
+					case 'split': // ToDo: doesn't exist. So can be removed.
+						disabled = true
+						color = 'info'
+						value = 'S'
+						break
+					case 'input':
+						disabled = false
+						color = 'success' // ToDo: grade submission
+						value = index + 1 // ToDo: index per input.
+						break
+					default:
+						throw new Error(`Invalid action type "${event.action.type}" encountered.`)
+				}
+
+				return <ListButton
+					key={index}
+					active={index === submissionIndex}
+					onClick={() => setSubmissionIndex(index)}
+					disabled={disabled}
+					color={color}
+					value={value} />
+			})}
+		</Box>}
+	</Box>
+}
+
+function SubmissionDate({ event }) {
+	if (!event)
+		return null
+	const date = event.performedAt
+	// ToDo: set up proper date formatting.
+	return <Par sx={{ fontSize: 12, fontWeight: 500 }}>Submission made at {date.toString()}.</Par>
+}
+
+function CurrentExercise() {
+	// ToDo: Display current exercise. (And put this in a different file.)
+	return <Par>The current exercise will be shown here... (Work in progress.)</Par>
+}
+
+function ListButton({ value, active, onClick, color = 'info', disabled = false }) {
+	return <Button disabled={disabled} onClick={disabled ? undefined : onClick} sx={theme => ({
+		backgroundColor: alpha(theme.palette[color].main, active ? 0.4 : 0.2),
+		width: 32,
+		height: 32,
+		minWidth: 32,
+		fontSize: 14,
+		fontWeight: 500,
+		color: theme.palette.text.primary,
+		border: active
+			? `2px solid ${theme.palette[color].main}`
+			: `1px solid ${theme.palette.divider}`,
+		boxShadow: active
+			? `0 0 6px ${theme.palette[color].main}`
+			: "none",
+		"&:hover": disabled ? {} : {
+			border: `2px solid ${theme.palette[color].main}`,
+			boxShadow: `0 0 4px ${theme.palette[color].main}`,
+			backgroundColor: alpha(theme.palette[color].main, 0.3),
+		},
+	})}>{value}</Button>
 }
