@@ -9,7 +9,7 @@ import { getCourseOverview } from 'step-wise/eduTools'
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
 import { notSelectable } from 'ui/theme'
-import { Par, TimeAgo } from 'ui/components'
+import { Par, Info, TimeAgo } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
 
 import { processStudent } from '../../courses'
@@ -114,7 +114,7 @@ function StudentOverview({ course, students }) {
 
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
-			<Paper elevation={3}>
+			{processedStudents.length > 0 ? <Paper elevation={3}>
 				<DataGrid
 					rows={dgRows}
 					columns={dgColumns}
@@ -135,7 +135,9 @@ function StudentOverview({ course, students }) {
 						},
 					}}
 				/>
-			</Paper>
+			</Paper> : <Info>
+				<Translation entry="noActiveStudents">The course does not have any active students at the moment. All students have their last activity a while ago.</Translation>
+			</Info>}
 
 			{areInactiveStudents ? <Par>
 				<FormGroup>

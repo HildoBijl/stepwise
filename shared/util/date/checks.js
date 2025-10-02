@@ -1,5 +1,5 @@
 function isValidDate(date) {
-	if (date.constructor !== Date)
+	if (!date || date.constructor !== Date)
 		return false
 	return !isNaN(date.getTime())
 }

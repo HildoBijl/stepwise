@@ -30,6 +30,7 @@
       "lastActive": "Last active",
       "course": "Course"
     },
-    "hideInactive": "Hide inactive students"
+    "hideInactive": "Hide inactive students",
+    "noActiveStudents": "The course does not have any active students at the moment. All students have their last activity a while ago."
   }
 }

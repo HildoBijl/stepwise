@@ -30,6 +30,7 @@
       "lastActive": "Laatst actief",
       "course": "Cursus"
     },
-    "hideInactive": "Verberg inactieve studenten"
+    "hideInactive": "Verberg inactieve studenten",
+    "noActiveStudents": "De cursus heeft op dit moment geen actieve studenten. Alle studenten waren lang terug voor het laatst actief."
   }
 }

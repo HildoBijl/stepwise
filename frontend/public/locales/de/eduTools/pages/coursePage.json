@@ -30,6 +30,7 @@
       "lastActive": "Zuletzt aktiv",
       "course": "Kurs"
     },
-    "hideInactive": "Inaktive Lernende ausblenden"
+    "hideInactive": "Inaktive Lernende ausblenden",
+    "noActiveStudents": "Der Kurs hat im Moment keine aktiven Lernenden. Alle Lernenden waren zuletzt vor einiger Zeit aktiv."
   }
 }
