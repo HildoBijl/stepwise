@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Typography, Button, alpha, useTheme, useMediaQuery } from '@mui/material'
+import { Box, Typography, Button, alpha } from '@mui/material'
 
-import { lastOf, repeat, count } from 'step-wise/util'
-import { skillTree, getCourseOverview } from 'step-wise/eduTools'
+import { lastOf } from 'step-wise/util'
+import { getCourseOverview } from 'step-wise/eduTools'
 
 import { useDimension } from 'util'
 import { useUserQuery } from 'api'
-import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
+import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { Par, Info, LoadingIndicator, ErrorNote, TimeAgo } from 'ui/components'
 
 import { useSkillId } from '../../skills'
@@ -60,7 +60,6 @@ export function CourseStudentSkillPageForUser({ course, user }) {
 	const lastInputEventIndex = events.length - 1 - [...events].reverse().findIndex(event => event.action.type === 'input')
 	submissionIndex = submissionIndex ?? lastInputEventIndex
 	const event = submissionIndex !== undefined ? events[submissionIndex] : undefined
-	console.log(exercises, event)
 
 	// Render the parts of the page.
 	return <TranslationFile path={translationPath}>
@@ -120,22 +119,33 @@ function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissionIndex,
 		</Box> : <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
 			{events.map((event, index) => {
 				let disabled, color, value
+				const progress = event.progress
+				const prevProgress = events[index - 1]?.progress || {}
 				switch (event.action.type) {
 					case 'giveUp':
-						// ToDo: determine if it's a split or giving up a step (or the full exercise). Need to know the type of exercise.
 						disabled = true
-						color = 'error'
-						value = 'G'
-						break
-					case 'split': // ToDo: doesn't exist. So can be removed.
-						disabled = true
-						color = 'info'
-						value = 'S'
+						if (progress.split && !prevProgress.split) { // Split action?
+							color = 'info'
+							value = 'S'
+						} else { // Regular give-up action.
+							color = 'error'
+							value = progress.split ? `${prevProgress.step}.G` : 'G'
+						}
 						break
 					case 'input':
+						// Determine if the input was correct.
+						let correct = false
+						if (progress.solved) // Main problem?
+							correct = true
+						if (prevProgress.split && progress[prevProgress.step].solved) // At a step?
+							correct = true
+
+						// Set up parameters.
 						disabled = false
-						color = 'success' // ToDo: grade submission
-						value = index + 1 // ToDo: index per input.
+						color = correct ? 'success' : 'error'
+						value = progress.split ? // Count the number of previous actions (at that step).
+							`${prevProgress.step}.${events.filter((currEvent, currIndex) => currEvent.progress.step === prevProgress.step && currIndex < index).length}` :
+							events.filter((_, currIndex) => currIndex <= index).length
 						break
 					default:
 						throw new Error(`Invalid action type "${event.action.type}" encountered.`)
@@ -191,16 +201,17 @@ function ListButton({ value, active, onClick, color = 'info', disabled = false }
 		minWidth: 32,
 		fontSize: 14,
 		fontWeight: 500,
+		whiteSpace: 'nowrap',
 		color: theme.palette.text.primary,
 		border: active
-			? `2px solid ${theme.palette[color].main}`
-			: `1px solid ${theme.palette.divider}`,
+			? `2px solid ${theme.palette[color].main} `
+			: `1px solid ${theme.palette.divider} `,
 		boxShadow: active
-			? `0 0 6px ${theme.palette[color].main}`
+			? `0 0 6px ${theme.palette[color].main} `
 			: "none",
-		"&:hover": disabled ? {} : {
-			border: `2px solid ${theme.palette[color].main}`,
-			boxShadow: `0 0 4px ${theme.palette[color].main}`,
+		'&:hover': disabled ? {} : {
+			border: `2px solid ${theme.palette[color].main} `,
+			boxShadow: `0 0 4px ${theme.palette[color].main} `,
 			backgroundColor: alpha(theme.palette[color].main, 0.3),
 		},
 	})}>{value}</Button>
