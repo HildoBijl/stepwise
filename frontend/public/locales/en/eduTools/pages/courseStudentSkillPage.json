@@ -4,5 +4,10 @@
     "exercises": "Exercises",
     "submissions": "Submissions",
     "noSubmissions": "None so far"
+  },
+  "submissionDate": {
+    "exerciseStart": "Exercise started <strong><time-ago/></strong>.",
+    "timeAfterExerciseStart": "Exercise started <strong><time-ago/></strong>. Submission made <strong><time-ago/></strong> after starting the exercise.",
+    "timeAfterPreviousInput": "Exercise started <strong><time-ago/></strong>. Submission made <strong><time-ago/></strong> after the previous submission."
   }
 }

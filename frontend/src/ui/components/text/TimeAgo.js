@@ -9,24 +9,27 @@ const translationEntry = 'timeAgo'
 // TimeAgo takes a time difference - a number in milliseconds - as children (often from subtracting two dates) and renders it as a message "3 minutes", "5 hours", "2 days", "1 week" or similar.
 const daysPerYear = 365.25
 const daysPerMonth = daysPerYear / 12
-export function TimeAgo({ children: date, displaySeconds = false, addAgo = false }) {
-	// On an invalid date input, assume there was never any activity.
+export function TimeAgo({ date, ms, displaySeconds = false, addAgo = false }) {
+	// On an invalid date, show never.
 	if (typeof date === 'string')
 		date = new Date(date)
-	if (!isValidDate(date))
+	if (!isValidDate(date) && ms === undefined)
 		return <Translation path={translationPath} entry={`${translationEntry}.never`}>Never</Translation>
 
+	// Process the input, whichever was given.
+	if (isValidDate(date))
+		ms = new Date() - date
+
 	// Display the text.
-	const timeDisplaySettings = getTimeDisplaySettings(date, displaySeconds)
+	const timeDisplaySettings = getTimeDisplaySettings(ms, displaySeconds)
 	const time = <Time displaySettings={timeDisplaySettings} />
 	if (!addAgo || timeDisplaySettings.type === 'now')
 		return time
 	return <Ago>{time}</Ago>
 }
 
-function getTimeDisplaySettings(date, displaySeconds) {
+function getTimeDisplaySettings(ms, displaySeconds) {
 	// Calculate quantities.
-	const ms = new Date() - date
 	const sec = ms / 1000
 	const min = sec / 60
 	const h = min / 60

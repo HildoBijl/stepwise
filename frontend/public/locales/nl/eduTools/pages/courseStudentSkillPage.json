@@ -4,5 +4,10 @@
     "exercises": "Oefeningen",
     "submissions": "Inzendingen",
     "noSubmissions": "Nog geen"
+  },
+  "submissionDate": {
+    "exerciseStart": "Opgave <strong><time-ago/></strong> begonnen.",
+    "timeAfterExerciseStart": "Opgave <strong><time-ago/></strong> begonnen. Inzending <strong><time-ago/></strong> na aanvang van de opgave.",
+    "timeAfterPreviousInput": "Opgave <strong><time-ago/></strong> begonnen. Inzending <strong><time-ago/></strong> na de vorige inzending."
   }
 }

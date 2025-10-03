@@ -67,7 +67,7 @@ function StudentOverview({ course, students }) {
 			align: 'center',
 			headerAlign: 'center',
 			renderHeader,
-			renderCell: cell => <TimeAgo>{cell.value}</TimeAgo>,
+			renderCell: cell => <TimeAgo date={cell.value} />,
 		},
 		{
 			field: 'all',

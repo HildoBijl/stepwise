@@ -4,5 +4,10 @@
     "exercises": "Übungen",
     "submissions": "Abgaben",
     "noSubmissions": "Noch keine"
+  },
+  "submissionDate": {
+    "exerciseStart": "Übung <strong><time-ago/></strong> gestartet.",
+    "timeAfterExerciseStart": "Übung <strong><time-ago/></strong> gestartet. Abgabe <strong><time-ago/></strong> nach Beginn der Übung.",
+    "timeAfterPreviousInput": "Übung <strong><time-ago/></strong> gestartet. Abgabe <strong><time-ago/></strong> nach der vorherigen Abgabe."
   }
 }

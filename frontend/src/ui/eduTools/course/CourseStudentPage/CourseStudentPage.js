@@ -73,7 +73,7 @@ function LastActivity({ processedStudent, course, overview }) {
 							const lastActivity = getLastSkillActivity(studentSkill)
 							return <TableRow key={index} onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: skill.id }))} sx={{ cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
 								<TableCell align="center" sx={{ minWidth: 80, width: 100, fontSize: 12, fontWeight: 450, color: 'primary.main' }}>
-									<TimeAgo addAgo={true}>{lastActivity}</TimeAgo>
+									<TimeAgo date={lastActivity} addAgo={true} />
 								</TableCell>
 								<TableCell align="center" sx={{ minWidth: 60, width: 80 }}>
 									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} overview={overview} />

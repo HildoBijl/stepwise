@@ -2,13 +2,13 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box, Typography, Button, alpha, useTheme, useMediaQuery } from '@mui/material'
 
-import { repeat, count } from 'step-wise/util'
+import { lastOf, repeat, count } from 'step-wise/util'
 import { skillTree, getCourseOverview } from 'step-wise/eduTools'
 
 import { useDimension } from 'util'
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
-import { Par, Info, LoadingIndicator, ErrorNote } from 'ui/components'
+import { Par, Info, LoadingIndicator, ErrorNote, TimeAgo } from 'ui/components'
 
 import { useSkillId } from '../../skills'
 import { processStudent } from '../../courses'
@@ -68,7 +68,7 @@ export function CourseStudentSkillPageForUser({ course, user }) {
 			<ExerciseButtons {...{ exerciseIndex, setExerciseIndex, course, student, skillData, showLabels, setShowLabels }} />
 			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, course, student, skillData, showLabels }} />
 		</TranslationSection>
-		<SubmissionDate {...{ event }} />
+		<SubmissionDate {...{ exercise, submissionIndex, events, event }} />
 		<CurrentExercise {...{ exerciseIndex, submissionIndex, course, student, skillData }} />
 	</TranslationFile>
 }
@@ -153,12 +153,29 @@ function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissionIndex,
 	</Box>
 }
 
-function SubmissionDate({ event }) {
+function SubmissionDate({ exercise, submissionIndex, events, event }) {
+	// Determine the previous input event.
+	const earlierInputEvents = events.filter((event, index) => index < submissionIndex && event.action.type === 'input')
+	const previousInputEvent = lastOf(earlierInputEvents)
+
+	// Determine some important dates.
+	const exerciseStartDate = new Date(exercise.startedOn)
+	const inputDate = event && new Date(event.performedAt)
+	const previousInputDate = previousInputEvent && new Date(previousInputEvent.performedAt)
+
+	// Depending on the situation, determine the right message to show.
+	let message
 	if (!event)
-		return null
-	const date = event.performedAt
-	// ToDo: set up proper date formatting.
-	return <Par sx={{ fontSize: 12, fontWeight: 500 }}>Submission made at {date.toString()}.</Par>
+		message = <Translation entry="exerciseStart">Exercise started <strong><TimeAgo date={exerciseStartDate} displaySeconds={true} addAgo={true} /></strong>.</Translation>
+	else if (previousInputEvent)
+		message = <Translation entry="timeAfterPreviousInput">Exercise started <strong><TimeAgo date={exerciseStartDate} displaySeconds={true} addAgo={true} /></strong>. Submission made <strong><TimeAgo ms={inputDate - previousInputDate} displaySeconds={true} /></strong> after the previous submission.</Translation>
+	else
+		message = <Translation entry="timeAfterExerciseStart">Exercise started <strong><TimeAgo date={exerciseStartDate} displaySeconds={true} addAgo={true} /></strong>. Submission made <strong><TimeAgo ms={inputDate - exerciseStartDate} displaySeconds={true} /></strong> after starting the exercise.</Translation>
+
+	// Render the message.
+	return <TranslationSection entry="submissionDate">
+		<Par sx={{ fontSize: 12, fontWeight: 400 }}>{message}</Par>
+	</TranslationSection>
 }
 
 function CurrentExercise() {
