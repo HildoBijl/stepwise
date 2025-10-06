@@ -119,14 +119,21 @@ function JoinGroup() {
 				<TextField
 					id="code"
 					error={code === submittedCode && problem !== problems.allOK}
-					className="input"
 					label={<Translation entry="fieldLabel">Group code</Translation>}
 					variant="outlined"
 					placeholder="ABCD"
 					value={code}
 					onChange={(evt) => setCode(evt.target.value.substring(0, 4).toUpperCase())}
 					helperText={code === submittedCode ? helperText[problem] : ''}
-					sx={{ fontSize: '1.5rem', letterSpacing: '0.3rem', width: '12rem' }}
+					sx={{
+						width: '12rem',
+						'& .MuiInputBase-input': {
+							fontSize: '1.3rem',
+							fontWeight: 500,
+							padding: '12px 14px',
+							letterSpacing: '0.2rem',
+						},
+					}}
 				/>
 			</Box>
 			<Button
