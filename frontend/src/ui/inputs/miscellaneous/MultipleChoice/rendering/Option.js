@@ -35,7 +35,14 @@ export function Option({ checked, activate, deactivate, toggle, Element, feedbac
 			},
 			...resolveFunctions(sx, theme),
 		})}>
-			<Element color="default" checked={checked} onChange={handleChange} disabled={readOnly} sx={theme => ({ flex: '0 0 auto', transition: `color ${theme.transitions.duration.standard}ms`, color: feedbackColor || theme.palette.info.main })} />
+			<Element color="default" checked={checked} onChange={handleChange} disabled={readOnly} sx={theme => ({
+				flex: '0 0 auto',
+				transition: `color ${theme.transitions.duration.standard}ms`,
+				color: feedbackColor || theme.palette.info.main,
+				'&.Mui-disabled': {
+					color: feedbackColor || theme.palette.info.main, // Hard override to prevent the disabled look on read-only.
+				},
+			})} />
 			<Box sx={theme => ({
 				flex: '1 1 auto',
 				margin: '0.5rem',
@@ -48,6 +55,13 @@ export function Option({ checked, activate, deactivate, toggle, Element, feedbac
 				transition: `color ${theme.transitions.duration.standard}ms`,
 			})} /> : null}
 		</Box>
-		{feedbackText ? <Box sx={{ color: feedbackColor || 'inherit' }}>{feedbackText}</Box> : null}
+		{feedbackText ? <Box sx={theme => ({
+			color: feedbackColor || 'inherit',
+			fontSize: '0.75em',
+			letterSpacing: '0.03em',
+			lineHeight: 1.2,
+			padding: '0.3em 1.2em 0',
+			transition: `color ${theme.transitions.duration.standard}ms`,
+		})}>{feedbackText}</Box> : null}
 	</>
 }

@@ -54,12 +54,6 @@ export function MultipleChoiceInner(options) {
 				{choices[index]}
 			</Option>)}
 		</Box>
-		{feedbackResult?.text ? <FeedbackBlock {...feedbackResult} sx={theme => ({
-			fontSize: '0.75em',
-			letterSpacing: '0.03em',
-			lineHeight: 1.2,
-			padding: '0.3em 1.2em 0',
-			transition: `color ${theme.transitions.duration.standard}ms`,
-		})} /> : null}
+		{feedbackResult?.text ? <FeedbackBlock {...feedbackResult} /> : null}
 	</>
 }

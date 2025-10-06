@@ -23,7 +23,7 @@ export default function FeedbackBlock({ className, type, text, Icon, color, sx }
 		flexFlow: 'row nowrap',
 		margin: '1em 0',
 		padding: '0.8em',
-		...resolveFunctions(sx, theme)
+		...resolveFunctions(sx, theme),
 	})}>
 		<Box sx={{ flex: '0 0 auto', display: 'inline-flex', minWidth: theme.spacing(5) }}>{Icon ? <Icon /> : null}</Box>
 		<Box sx={{ flex: '1 1 auto' }}>{text}</Box>
