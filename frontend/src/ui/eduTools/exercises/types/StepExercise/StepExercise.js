@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react'
 
 import { lastOf, repeat } from 'step-wise/util'
-import { getStep, getPreviousProgress } from 'step-wise/eduTools'
+import { getStep, getPreviousProgress, hasPreviousInput } from 'step-wise/eduTools'
 
+import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
@@ -17,16 +18,15 @@ import { getAllFieldInputsFeedback } from '../../feedback'
 import { Steps } from './Steps'
 
 export function StepExercise(props) {
-	return (
-		<ExerciseWrapper getFeedback={props.getFeedback || stepExerciseGetFeedback}>
-			<StepExerciseInner {...props} />
-		</ExerciseWrapper>
-	)
+	return <ExerciseWrapper getFeedback={props.getFeedback || stepExerciseGetFeedback}>
+		<StepExerciseInner {...props} />
+	</ExerciseWrapper>
 }
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
-	const { state, progress, history, startNewExercise, example } = useExerciseData()
+	const { state, progress, history, startNewExercise, example, inspection } = useExerciseData()
+	const userId = useUserId()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
@@ -40,13 +40,15 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, progress, lastEventId, activateFirst])
 
 	// Determine what to show.
+	const hasMainProblemSubmissions = hasPreviousInput(history, userId, 0)
 	const doneWithMainProblem = progress.done || progress.split
-	const showInputSpace = !progress.split
+	const readOnly = inspection ? true : (example ? progress.split : doneWithMainProblem)
+	const showInputSpace = !progress.split && (!inspection || hasMainProblemSubmissions)
 	const showMainFeedback = showInputSpace && (progress.solved || progress.split || isAllInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer example={example} refresh={example && startNewExercise}>
-			<FormPart readOnly={example ? progress.split : doneWithMainProblem} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
+			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
 					<TranslationSection entry="mainProblem">
 						<MainProblem {...state} translate={addSection(translate, 'mainProblem')} />
@@ -56,7 +58,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 			<MainFeedback display={showMainFeedback} />
 			{progress.split ? null : <ExerciseButtons stepwise={true} />}
 		</ProblemContainer>
-		{!expandSolution && !example ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
+		{!expandSolution && !example && !inspection ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
 		<Steps steps={steps} forceDisplay={expandSolution} />
 		<ContinuationButtons />
 	</>

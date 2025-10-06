@@ -33,17 +33,24 @@ function FeedbackWrapper({ getFeedback, children }) {
 	const solution = useSolution(false)
 	const mergedExerciseData = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
-	// Determine the input that the user made, and hence which needs to be evaluated by the FeedbackProvider. When it changes, the feedback is adjusted.
+	// Determine both the input to show (usually the last submitted (possibly unresolved) input) and the last input which feedback was given on.
+	const { inspection, history, historyIndex } = exerciseData
 	const userId = useUserId()
-	const feedbackInput = getLastInput(exerciseData.history, userId, undefined, true)
+	let feedbackInput, shownInput
+	if (inspection) {
+		shownInput = history[historyIndex]?.action?.input
+		feedbackInput = shownInput
+	} else {
+		shownInput = getLastInput(history, userId)
+		feedbackInput = getLastInput(history, userId, undefined, true)
+	}
 
-	// Upon page load, make sure that the last submitted (possibly unresolved) input is visible. This is also useful when a submission is resolved and the update comes in through a websocket connection.
+	// Upon page load, make sure that the input to show is visible. This is also useful when a submission is resolved and the update comes in through a websocket connection.
 	const { setAllInputSI } = useFormData()
-	const lastInput = getLastInput(exerciseData.history, userId)
 	useEffect(() => {
-		if (lastInput)
-			setAllInputSI(lastInput)
-	}, [feedbackInput, lastInput, setAllInputSI])
+		if (shownInput)
+			setAllInputSI(shownInput)
+	}, [feedbackInput, shownInput, setAllInputSI])
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>{children}</FeedbackProvider>

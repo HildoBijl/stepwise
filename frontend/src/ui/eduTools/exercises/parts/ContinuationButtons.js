@@ -13,11 +13,11 @@ const translationPath = 'eduTools/exercises'
 
 export function ContinuationButtons() {
 	const translate = useTranslator(translationPath)
-	const { progress, startNewExercise } = useExerciseData()
+	const { progress, inspection, startNewExercise } = useExerciseData()
 	const inTestContext = useTestContext()
 
 	// Check when the buttons have to be shown.
-	const showButtons = inTestContext || !!progress.done
+	const showButtons = inTestContext || (!inspection && !!progress.done)
 
 	// Include the buttons in the tabbing.
 	const startNewExerciseButtonRef = useRef()

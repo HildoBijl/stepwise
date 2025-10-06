@@ -32,7 +32,7 @@ export function ExerciseButtons(props) {
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
-	const { progress, history, submitting, example } = useExerciseData()
+	const { progress, history, submitting, example, inspection } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
 	const isAdmin = useIsAdmin()
@@ -45,9 +45,9 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Include the buttons in the tabbing.
 	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef()
-	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !progress.done && isTeacher, focusRefOnActive: true })
-	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
-	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !example && !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !inspection && !progress.done && isTeacher, focusRefOnActive: true })
+	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !inspection && !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !inspection && !example && !progress.done, focusRefOnActive: true })
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
@@ -58,6 +58,10 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		confirmText={translate('Show me the steps', 'stepsModal.buttons.yes')}
 		onConfirm={giveUp}
 	/>)
+
+	// Are we in inspection mode? Then no buttons are needed.
+	if (inspection)
+		return null
 
 	// Is the exercise done? Then no buttons are needed.
 	if (!example && progress.done)

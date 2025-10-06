@@ -17,7 +17,8 @@ export function ExerciseButtons({ exerciseIndex, setExerciseIndex, skillData, sh
 	const containerRef = useRef()
 	const containerWidth = useDimension(containerRef, 'offsetWidth')
 	useEffect(() => {
-		setShowLabels(exercises.length * 40 + 120 <= containerWidth)
+		if (containerWidth !== undefined)
+			setShowLabels(exercises.length * 40 + 120 <= containerWidth)
 	}, [setShowLabels, exercises, containerWidth])
 
 	// Render the buttons.

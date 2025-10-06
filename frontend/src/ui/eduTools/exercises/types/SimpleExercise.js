@@ -15,16 +15,14 @@ import { ProblemContainer, SolutionContainer, ExerciseButtons, ContinuationButto
 import { getAllFieldInputsFeedback } from '../feedback'
 
 export function SimpleExercise(props) {
-	return (
-		<ExerciseWrapper getFeedback={props.getFeedback || simpleExerciseGetFeedback}>
-			<SimpleExerciseInner {...props} />
-		</ExerciseWrapper>
-	)
+	return <ExerciseWrapper getFeedback={props.getFeedback || simpleExerciseGetFeedback}>
+		<SimpleExerciseInner {...props} />
+	</ExerciseWrapper>
 }
 
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
-	const { state, progress, history, example, startNewExercise } = useExerciseData()
+	const { state, progress, history, example, inspection, startNewExercise } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -41,13 +39,16 @@ function SimpleExerciseInner({ Problem, Solution }) {
 
 	// Determine what to show.
 	const hasSubmissions = hasPreviousInput(history, userId) // Has there been an input action?
-	const showInputSpace = !progress.done || hasSubmissions
+	const readOnly = inspection || (!example && progress.done)
+	const showInputSpace = hasSubmissions || (!progress.done && !inspection)
 	const showMainFeedback = showInputSpace && (progress.done || isAllInputEqual(feedbackInput))
-	const showSolution = example || progress.done
+	const showSolution = inspection || example || progress.done
+	const initialExpandSolution = inspection || (!example && !progress.solved)
 
+	// Render the exercise.
 	return <>
 		<ProblemContainer example={example} refresh={example && startNewExercise}>
-			<FormPart readOnly={!example && progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
+			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
 						<Problem {...state} translate={addSection(translate, 'problem')} />
@@ -57,7 +58,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 			<MainFeedback display={showMainFeedback} />
 			<ExerciseButtons />
 		</ProblemContainer>
-		<SolutionContainer display={!!showSolution} initialExpand={!example && !progress.solved}>
+		<SolutionContainer display={!!showSolution} initialExpand={initialExpandSolution}>
 			<TranslationSection entry="solution">
 				<Solution {...state} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>

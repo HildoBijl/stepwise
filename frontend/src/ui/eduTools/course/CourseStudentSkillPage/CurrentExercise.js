@@ -1,6 +1,13 @@
-import { Par } from 'ui/components'
+import { exercises } from 'step-wise/eduTools'
 
-export function CurrentExercise() {
-	// ToDo: Display current exercise. (And put this in a different file.)
-	return <Par>The current exercise will be shown here... (Work in progress.)</Par>
+import { TranslationFile, TranslationSection } from 'i18n'
+
+import { ExerciseContainer } from '../../exercises'
+
+export function CurrentExercise({ exercise, event, submissionIndex }) {
+	return <TranslationFile path={`eduContent/${exercises[exercise.exerciseId].path.join('/')}`} extend={false}>
+		<TranslationSection entry="practice">
+			<ExerciseContainer key={exercise.startedOn} exercise={exercise} inspection={true} historyIndex={submissionIndex} />
+		</TranslationSection>
+	</TranslationFile>
 }

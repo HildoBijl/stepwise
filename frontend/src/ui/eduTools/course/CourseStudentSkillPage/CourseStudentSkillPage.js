@@ -46,7 +46,7 @@ export function CourseStudentSkillPageForUser({ course, user }) {
 		setSubmissionIndex()
 		setExerciseIndexRaw(exerciseIndex)
 	}, [setExerciseIndexRaw, setSubmissionIndex])
-	const [showLabels, setShowLabels] = useState(false)
+	const [showLabels, setShowLabels] = useState(true)
 
 	// If there are no exercises, show this.
 	if (skillData.exercises.length === 0)
@@ -68,6 +68,6 @@ export function CourseStudentSkillPageForUser({ course, user }) {
 			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, skillData, showLabels }} />
 		</TranslationSection>
 		<SubmissionDate {...{ exercise, submissionIndex, events, event }} />
-		<CurrentExercise {...{ exerciseIndex, submissionIndex, course, student, skillData }} />
+		<CurrentExercise {...{ exercise, submissionIndex, event }} />
 	</TranslationFile>
 }

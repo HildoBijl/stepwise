@@ -32,11 +32,9 @@ export function Input(options) {
 	const fieldControlRegistration = useFieldControlRegistration(options, FI, setFI)
 
 	// Set up the Input context for child components to use.
-	return (
-		<InputContext.Provider value={{ id, readOnly, FI, setFI, ...fieldControlRegistration, ...contextData }}>
-			{children}
-		</InputContext.Provider>
-	)
+	return <InputContext.Provider value={{ id, readOnly, FI, setFI, ...fieldControlRegistration, ...contextData }}>
+		{children}
+	</InputContext.Provider>
 }
 
 // ensureValidInputId verifies that the given input field ID is allowed. If not, it throws an error.

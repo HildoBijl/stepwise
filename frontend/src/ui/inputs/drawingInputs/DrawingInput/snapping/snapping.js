@@ -2,7 +2,7 @@ import { numberArray, sortByIndices, processOptions, resolveFunctions } from 'st
 
 import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings } from 'ui/figures'
-import { useInputFI } from 'ui/inputs'
+import { useInputData } from 'ui/inputs'
 
 import { useDrawingRef } from '../context/hooks'
 
@@ -19,8 +19,8 @@ export function useMouseSnapping(options, { position, keys }) {
 	let { snappers, applySnapping, snappingDistance } = processOptions(options, defaultSnappingOptions)
 
 	// Resolve parameters that may depend on the input.
-	const FI = useInputFI()
-	applySnapping = resolveFunctions(applySnapping, FI)
+	const { readOnly, FI } = useInputData()
+	applySnapping = !readOnly && resolveFunctions(applySnapping, FI)
 
 	// Get the snapping lines in both coordinate systems and use them to set up a snapper function.
 	const { lines, graphicalLines } = useSnappingLines(snappers)

@@ -10,7 +10,7 @@ import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
-export function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example }) {
+export function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
 	const translate = useTranslator()
 	const { exerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
@@ -41,7 +41,7 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 	const stateFO = useMemo(() => toFO(state), [state])
 
 	// Ensure that the progress has a consistent reference.
-	const progress = useConsistentValue(getLastProgress(exercise.history))
+	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(exercise.history))
 
 	if (loading)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
@@ -51,6 +51,8 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 		exerciseId,
 		state: stateFO,
 		example,
+		inspection,
+		historyIndex,
 		groupExercise,
 		history: exercise.history,
 		progress,

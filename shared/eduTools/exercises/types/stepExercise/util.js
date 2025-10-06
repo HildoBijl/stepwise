@@ -23,7 +23,7 @@ function getLastProgress(history) {
 		if (history[index].progress !== null)
 			return history[index].progress
 	}
-	return {} // None foune. 
+	return {} // None found. 
 }
 module.exports.getLastProgress = getLastProgress
 
