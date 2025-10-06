@@ -23,23 +23,21 @@ export function Form({ children, initialInput, submit }) {
 	const validationHandlers = useValidationHandlers(validation, setValidation, { ...subscriptionHandlers, ...readHandlers })
 
 	// Upon a change of the initialInput, try to implement it.
-	useInitialInputUpdating()
+	useInitialInputUpdating(initialInput, setInput, subscriptionHandlers.getFieldData)
 
 	// Set up the Form context for everyone to use.
-	return (
-		<FormContext.Provider value={{
-			input, validation, // State
-			submitRef,
-			...subscriptionHandlers,
-			...readHandlers,
-			...writeHandlers,
-			...validationHandlers,
-		}}>
-			<form onSubmit={(evt) => evt.preventDefault()}>
-				{children}
-			</form>
-		</FormContext.Provider>
-	)
+	return <FormContext.Provider value={{
+		input, validation, // State
+		submitRef,
+		...subscriptionHandlers,
+		...readHandlers,
+		...writeHandlers,
+		...validationHandlers,
+	}}>
+		<form onSubmit={(evt) => evt.preventDefault()}>
+			{children}
+		</form>
+	</FormContext.Provider>
 }
 
 // useInitialInputUpdating is an effect that is triggered on a change in the initialValue parameter. When this parameter changes, we attempt to implement the new value.
@@ -69,6 +67,7 @@ function useInitialInputUpdating(initialInput, setInput, getFieldData) {
 				// Apply the new initial input.
 				newInput[id] = fieldData.functionalize(initialInput[id])
 				fieldData.SI = initialInput[id]
+				fieldData.initialSI = initialInput[id]
 				fieldData.recentSI = true
 				fieldData.recentFO = false
 			})

@@ -27,7 +27,7 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 	// subscribe tells the Form that an input field is using an input with the given ID. Multiple input fields can be connected to the same ID. While subscribe is not instantaneous (it is called through an effect) it does update the state.
 	const subscribe = useStableCallback(id => {
 		setInput(input => {
-			// The field must be registered already.
+			// When calling subscribe, the field is required to be registered already.
 			if (!fieldsRef.current[id])
 				throw new Error(`Invalid field subscription call: tried to subscribe to an input field with ID "${id}" but this field has not been registered yet. Registration must come before subscription.`)
 
@@ -38,10 +38,14 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 			if (input[id] !== undefined)
 				return input
 
-			// There is no input value. Determine the initial value. In this process, a given initial form value (for instance from a previous submission) overrides the default initial field value. Then apply this initial value.
-			let { initialSI, functionalize } = fieldsRef.current[id]
-			initialSI = (initialInputRef.current && initialInputRef.current[id]) || initialSI
-			return { ...input, [id]: functionalize(initialSI) }
+			// There is no input value. We must set up the initial value. If there is a form initial value, override the field's initial value.
+			const fieldData = fieldsRef.current[id]
+			const formInitialSI = initialInputRef.current && initialInputRef.current[id]
+			if (formInitialSI) {
+				fieldData.initialSI = formInitialSI
+				fieldData.SI = formInitialSI
+			}
+			return { ...input, [id]: fieldData.functionalize(fieldData.initialSI) }
 		})
 	})
 

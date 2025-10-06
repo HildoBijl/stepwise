@@ -6,7 +6,7 @@ import { useStableCallback } from 'util/index' // Unit test import issue: should
 export function useWriteHandlers(setInput, { getFieldData }) {
 	// setInputFI saves the given FI for the given field ID. Note that only FIs can be saved, and not SIs or FOs.
 	const setInputFI = useStableCallback((id, FI) => {
-		setInput((input) => {
+		setInput(input => {
 			// Get the FI. If the FI is not in the state yet (like on an initial render) then determine it from the fieldData.
 			const fieldData = getFieldData(id)
 			let oldFI = input[id]
@@ -33,8 +33,8 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 			const newInput = { ...input }
 			Object.keys(inputSI).forEach(id => {
 				const fieldData = getFieldData(id)
-				if (fieldData === undefined)
-					return // When the field does not exist, do not apply the new input value.
+				if (!fieldData)
+					return
 				newInput[id] = fieldData.functionalize(inputSI[id])
 				fieldData.SI = inputSI[id]
 				fieldData.recentSI = true

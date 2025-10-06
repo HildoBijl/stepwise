@@ -152,10 +152,10 @@ function useSkillModal() {
 		if (adviceType === 2) {
 			const skill = skillTree[recommendation]
 			contents = (
-				<Box>
+				<Box sx={modalStyle}>
 					<Box sx={theme => ({ ...titleStyle, color: theme.palette.success.main })}><Translation entry="modals.deficiency.title">Oh, wait ...</Translation></Box>
 					<Box sx={theme => ({ ...iconStyle, color: theme.palette.success.main })}><InfoIcon /></Box>
-					<Box sx={messageStyle}><Translation entry="modals.deficiency.toDeficientSkill">If seems that you haven't yet sufficiently mastered the subskill <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ deficientSkill: translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>. We recommend to practice this separately first.</Translation></Box>
+					<Box sx={messageStyle}><Translation entry="modals.deficiency.toDeficientSkill">It seems that you haven't yet sufficiently mastered the subskill <Link to={paths.courseSkill({ courseCode, skillId: recommendation })} onClick={closeModal}>{{ deficientSkill: translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames') }}</Link>. We recommend to practice this separately first.</Translation></Box>
 					<Box sx={messageStyle}><Translation entry="modals.deficiency.reassurance">Don't worry: your exercise remains saved and you can always come back.</Translation></Box>
 					<Box sx={buttonsStyle}>
 						<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary"><Translation entry="buttons.goBack">Go back a step</Translation></Button>

@@ -31,7 +31,7 @@
     },
     "deficiency": {
       "title": "Oh, wait ...",
-      "toDeficientSkill": "If seems that you haven't yet sufficiently mastered the subskill <a>{deficientSkill}</a>. We recommend to practice this separately first.",
+      "toDeficientSkill": "It seems that you haven't yet sufficiently mastered the subskill <a>{deficientSkill}</a>. We recommend to practice this separately first.",
       "reassurance": "Don't worry: your exercise remains saved and you can always come back."
     }
   },

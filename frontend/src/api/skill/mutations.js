@@ -45,6 +45,8 @@ export function useStartExerciseMutation(skillId) {
 						coefficientsOn: now,
 						highest: [1],
 						highestOn: now,
+						createdAt: now,
+						updatedAt: now,
 						exercises: [exercise],
 						activeExercise: exercise,
 					},
