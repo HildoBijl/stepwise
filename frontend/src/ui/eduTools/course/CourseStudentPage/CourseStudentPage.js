@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
 import { lastOf, repeat, count } from 'step-wise/util'
-import { skillTree, getCourseOverview } from 'step-wise/eduTools'
+import { skillTree, exercises as allExercises, getCourseOverview } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
@@ -151,8 +151,8 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 	const skillData = student.skillsData[skillId]
 	const isPriorKnowledge = overview.priorKnowledge.includes(skillId)
 
-	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".)
-	const exercises = skillData.exercises
+	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".) Only do this for exercises that can actually be shown, to prevent confusion when the teacher inspects the exercises.
+	const exercises = skillData.exercises.filter(exercise => !!allExercises[exercise.exerciseId])
 	const numCorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'correct')
 	const numPartiallyCorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'partiallyCorrect')
 	const numIncorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'incorrect')
