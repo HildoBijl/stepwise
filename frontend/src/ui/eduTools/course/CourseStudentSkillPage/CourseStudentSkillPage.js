@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { getCourseOverview } from 'step-wise/eduTools'
+import { exercises as allExercises, getCourseOverview } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
@@ -48,12 +48,12 @@ export function CourseStudentSkillPageForUser({ course, user }) {
 	}, [setExerciseIndexRaw, setSubmissionIndex])
 	const [showLabels, setShowLabels] = useState(true)
 
-	// If there are no exercises, show this.
-	if (skillData.exercises.length === 0)
+	// Filter out removed (outdated) exercises. If there are no exercises, show this.
+	const exercises = skillData.exercises.filter(exercise => !!allExercises[exercise.exerciseId])
+	if (exercises.length === 0)
 		return <Info><Translation path={translationPath} entry="noExercises">The student has not opened this skill yet. There are no exercises to show.</Translation></Info>
 
 	// Process the data based on the indices.
-	const exercises = skillData.exercises
 	exerciseIndex = exerciseIndex ?? exercises.length - 1
 	const exercise = exercises[exerciseIndex]
 	const events = exercise.history
