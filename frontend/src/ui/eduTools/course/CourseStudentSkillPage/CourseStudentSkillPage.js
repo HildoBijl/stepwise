@@ -68,6 +68,6 @@ export function CourseStudentSkillPageForUser({ course, user }) {
 			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, skillData, showLabels }} />
 		</TranslationSection>
 		<SubmissionDate {...{ exercise, submissionIndex, events, event }} />
-		<CurrentExercise {...{ exercise, submissionIndex, event }} />
+		<CurrentExercise {...{ exercise, submissionIndex }} />
 	</TranslationFile>
 }

@@ -24,7 +24,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		if (hasExercises) {
+		if (hasExercises) { // Only when the skill has exercises programmed.
 			startNewExerciseOnServer()
 			if (onNewExercise)
 				onNewExercise()

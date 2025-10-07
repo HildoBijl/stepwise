@@ -2,13 +2,14 @@ import { gql, useQuery } from '@apollo/client'
 
 import { ensureSkillIds } from 'step-wise/eduTools'
 
-import { useUser } from '../user'
+import { useUser, useUserId } from '../user'
 
 import { skillFields } from './util'
 
 // Get the data for a skill.
 export function useSkillQuery(skillId, userId) {
-	return useQuery(SKILL, { variables: { skillId, userId } })
+	const currentUserID = useUserId() // Always include the userId to ensure the cache is updated properly.
+	return useQuery(SKILL, { variables: { skillId, userId: userId || currentUserID } })
 }
 export const SKILL = gql`
 	query skill($skillId: String!, $userId: ID) {

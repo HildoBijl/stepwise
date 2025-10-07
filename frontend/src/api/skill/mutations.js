@@ -34,6 +34,7 @@ export function useStartExerciseMutation(skillId) {
 			// When the skill doesn't exist in the cache, then it's also not in the database yet (or we would've obtained it already), so we add a new one as if we ran the skill query.
 			cache.writeQuery({
 				query: SKILL,
+				variables: { userId, skillId },
 				data: {
 					skill: {
 						__typename: "SkillWithExercises",
@@ -51,7 +52,6 @@ export function useStartExerciseMutation(skillId) {
 						activeExercise: exercise,
 					},
 				},
-				variables: { userId, skillId },
 			})
 		},
 	})

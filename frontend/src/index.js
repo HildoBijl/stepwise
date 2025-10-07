@@ -60,7 +60,6 @@ const apolloClient = new ApolloClient({
 			Query: {
 				fields: {
 					myGroups: { merge: false },
-					skills: { merge: false },
 				},
 			},
 			CourseForStudent: { // Define custom merge functions to prevent warnings from Apollo on updates.
