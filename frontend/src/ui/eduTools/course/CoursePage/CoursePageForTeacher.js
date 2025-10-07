@@ -52,6 +52,7 @@ function StudentOverview({ course, students }) {
 	const dgColumns = useMemo(() => [
 		{
 			field: 'name',
+			sortingOrder: ['asc', 'desc'], // Go for ascending order first for names.
 			headerName: <Translation entry="headers.name">Name</Translation>,
 			minWidth: 140,
 			flex: 2,
@@ -61,13 +62,14 @@ function StudentOverview({ course, students }) {
 		},
 		{
 			field: 'lastActive',
+			sortingOrder: ['asc', 'desc'], // Go for ascending order first for times.
 			headerName: <Translation entry="headers.lastActive">Last active</Translation>,
 			minWidth: 105,
 			flex: 1,
 			align: 'center',
 			headerAlign: 'center',
 			renderHeader,
-			renderCell: cell => <TimeAgo date={cell.value} />,
+			renderCell: cell => <TimeAgo ms={cell.value} />,
 		},
 		{
 			field: 'all',
@@ -106,7 +108,7 @@ function StudentOverview({ course, students }) {
 		return {
 			id: student.id,
 			name: student.name,
-			lastActive: student.lastActive,
+			lastActive: new Date() - student.lastActive,
 			all: student.numCompleted,
 			...arraysToObject(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
 		}
@@ -118,7 +120,7 @@ function StudentOverview({ course, students }) {
 				<DataGrid
 					rows={dgRows}
 					columns={dgColumns}
-					sortingOrder={['asc', 'desc']} // Always have some sort present.
+					sortingOrder={['desc', 'asc']} // Always have some sort present. Use descending first.
 					initialState={{ sorting: { sortModel: [{ field: 'name', sort: 'asc' }] } }} // Initially sort by name.
 					pagination={false}
 					hideFooter
