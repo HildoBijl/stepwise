@@ -5,5 +5,9 @@
   "skillRecommendation": "Onze oefensuggestie:",
   "studentCourses": "Cursussen waar je leerling bent",
   "teacherCourses": "Cursussen waar je docent bent",
-  "addCourse": "Cursus toevoegen"
+  "addCourse": "Cursus toevoegen",
+  "tiles": {
+    "skills": "<count-check><one>Vaardigheid</one><not-one>Vaardigheden</not-one></count-check>",
+    "students": "<count-check><one>Leerling</one><not-one>Leerlingen</not-one></count-check>"
+  }
 }

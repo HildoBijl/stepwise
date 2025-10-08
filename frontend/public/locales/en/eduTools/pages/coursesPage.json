@@ -5,5 +5,9 @@
   "skillRecommendation": "Our practice recommendation:",
   "studentCourses": "Courses where you are a student",
   "teacherCourses": "Courses where you are a teacher",
-  "addCourse": "Add course"
+  "addCourse": "Add course",
+  "tiles": {
+    "skills": "<count-check><one>Skill</one><not-one>Skills</not-one></count-check>",
+    "students": "<count-check><one>Student</one><not-one>Students</not-one></count-check>"
+  }
 }

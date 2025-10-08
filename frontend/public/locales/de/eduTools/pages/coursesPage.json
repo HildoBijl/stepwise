@@ -5,5 +5,9 @@
   "skillRecommendation": "Unser Übungsvorschlag:",
   "studentCourses": "Kurse, in denen du ein Studierender bist",
   "teacherCourses": "Kurse, bei denen du ein Lehrender bist",
-  "addCourse": "Kurs hinzufügen"
+  "addCourse": "Kurs hinzufügen",
+  "tiles": {
+    "skills": "<count-check><one>Kompetenz</one><not-one>Kompetenzen</not-one></count-check>",
+    "students": "<count-check><one>Lernende</one><not-one>Lernende</not-one></count-check>"
+  }
 }
