@@ -20,11 +20,11 @@ const questions = [
 const names = ['Isobaar', 'Isochoor', 'Isotherm', 'Adiabatisch', 'Isentroop']
 const choices = names.map(name => <span>Dit is een {name.toLowerCase()} proces.</span>)
 
-function Problem({ type }) {
+function Problem({ type, mapping }) {
 	return <>
 		{questions[type]}
 		<InputSpace>
-			<MultipleChoice id="ans" choices={choices} pick={4} include={type} randomOrder={true} />
+			<MultipleChoice id="ans" choices={choices} mapping={mapping} />
 		</InputSpace>
 	</>
 }

@@ -34,11 +34,11 @@ const choices = [
 	<span>De waarde van <M>n</M> moet negatief zijn.</span>,
 ]
 
-function Problem({ type }) {
+function Problem({ type, mapping }) {
 	return <>
 		{questions[type]}
 		<InputSpace>
-			<MultipleChoice id="ans" choices={choices} pick={4} include={type} randomOrder={true} />
+			<MultipleChoice id="ans" choices={choices} mapping={mapping} />
 		</InputSpace>
 	</>
 }

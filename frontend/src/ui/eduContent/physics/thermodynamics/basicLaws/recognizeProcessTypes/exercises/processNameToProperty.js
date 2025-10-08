@@ -20,11 +20,11 @@ const choices = [
 	<span>Je kan nog weinig zeggen: dit is slechts een verzamelnaam van meerdere soorten processen.</span>,
 ]
 
-function Problem({ type }) {
+function Problem({ type, mapping }) {
 	return <>
 		<Par>Wat geldt bij een {types[type].toLowerCase()} proces?</Par>
 		<InputSpace>
-			<MultipleChoice id="ans" choices={choices} pick={4} include={type} randomOrder={true} />
+			<MultipleChoice id="ans" choices={choices} mapping={mapping} />
 		</InputSpace>
 	</>
 }

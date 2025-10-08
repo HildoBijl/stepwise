@@ -1,13 +1,16 @@
 const { getRandomInteger } = require('../../../../../inputTypes')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { getSimpleExerciseProcessor, getMultipleChoiceMapping, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'recognizeProcessTypes',
 }
 
 function generateState() {
+	const numChoices = 6
+	const type = getRandomInteger(0, numChoices - 1)
 	return {
-		type: getRandomInteger(0, 5),
+		type,
+		mapping: getMultipleChoiceMapping({ numChoices, pick: 4, include: type, randomOrder: true }),
 	}
 }
 

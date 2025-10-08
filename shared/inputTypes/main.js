@@ -1,4 +1,4 @@
-const { isInteger, isObject, isBasicObject, applyMapping } = require('../util')
+const { isObject, isBasicObject, applyMapping } = require('../util')
 
 const types = [
 	'Integer', 'Float', 'Unit', 'FloatUnit', // Number- and physics-based types.

@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react'
 
-import { numberArray, shuffle, getRandomSubset } from 'step-wise/util'
+import { getMultipleChoiceMapping } from 'step-wise/eduTools'
 
 import { useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -9,23 +9,9 @@ export function useStableMapping(numChoices, pick, include, randomOrder) {
 	// Set up a ref for stability.
 	const mappingRef = useRef()
 
-	// Set up a function that can give us a mapping.
-	const getMapping = useCallback(() => {
-		let newMapping
-		if (pick === undefined) {
-			newMapping = numberArray(0, numChoices - 1) // Show all choices.
-		} else {
-			const includeArray = (include === undefined ? [] : (Array.isArray(include) ? include : [include])) // Use [] as a default value and ensure it's an array.
-			const nonIncluded = numberArray(0, numChoices - 1).filter(index => !includeArray.includes(index)) // List all elements we may still select (those that are not automatically included).
-			const numExtra = Math.max(pick - includeArray.length, 0) // How many should we still pick?
-			newMapping = [...includeArray, ...getRandomSubset(nonIncluded, numExtra)]
-		}
-		return randomOrder ? shuffle(newMapping) : newMapping.sort((a, b) => a - b)
-	}, [numChoices, pick, include, randomOrder])
-
-	// If the mapping is not appropriate, generate new one.
+	// If the mapping is not present, generate one.
 	if (!mappingRef.current)
-		mappingRef.current = getMapping()
+		mappingRef.current = getMultipleChoiceMapping({ numChoices, pick, include, randomOrder })
 
 	// Return the mapping that was divised.
 	return mappingRef.current

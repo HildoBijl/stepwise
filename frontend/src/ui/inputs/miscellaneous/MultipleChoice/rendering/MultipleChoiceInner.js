@@ -13,14 +13,15 @@ import { Option } from './Option'
 export const defaultMultipleChoiceInnerOptions = {
 	choices: [],
 	multiple: false,
-	pick: undefined,
+	mapping: undefined, // Ideally, we provide the MultipleChoice with a mapping setting, given by the getMultipleChoiceMapping suppor function.
+	pick: undefined, // If no mapping is present, we can also generate one on the fly using pick, include and randomOrder.
 	include: [],
 	randomOrder: false,
 	sx: {},
 }
 
 export function MultipleChoiceInner(options) {
-	const { choices, multiple, pick, include, randomOrder, sx } = processOptions(options, defaultMultipleChoiceInnerOptions)
+	let { choices, multiple, mapping, pick, include, randomOrder, sx } = processOptions(options, defaultMultipleChoiceInnerOptions)
 
 	// Extract data from the various parents.
 	const [selection, setSelection] = useInput()
@@ -28,7 +29,8 @@ export function MultipleChoiceInner(options) {
 	const feedbackResult = useFeedbackResult()
 
 	// Apply the various handlers.
-	const mapping = useStableMapping(choices.length, pick, include, randomOrder)
+	const backupMapping = useStableMapping(choices.length, pick, include, randomOrder)
+	mapping = mapping || backupMapping
 	const { isChecked, activateItem, toggleItem } = useSelectionHandlers(selection, setSelection, multiple, readOnly)
 
 	// Set up output.
