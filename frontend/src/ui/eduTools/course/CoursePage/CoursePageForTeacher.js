@@ -70,6 +70,11 @@ function StudentOverview({ course, students }) {
 			headerAlign: 'center',
 			renderHeader,
 			renderCell: cell => <TimeAgo ms={cell.value} />,
+			sortComparator: (v1, v2) => {
+				const a = v1 === undefined || v1 === null ? Infinity : v1
+				const b = v2 === undefined || v2 === null ? Infinity : v2
+				return a - b
+			},
 		},
 		{
 			field: 'all',
@@ -108,12 +113,13 @@ function StudentOverview({ course, students }) {
 		return {
 			id: student.id,
 			name: student.name,
-			lastActive: new Date() - student.lastActive,
+			lastActive: student.lastActive && (new Date() - student.lastActive),
 			all: student.numCompleted,
 			...arraysToObject(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
 		}
 	}), [processedStudents, blocks])
 
+	// Render the data grid.
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry={translationSection}>
 			{processedStudents.length > 0 ? <Paper elevation={3}>
