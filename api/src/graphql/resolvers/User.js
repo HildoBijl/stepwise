@@ -57,6 +57,10 @@ const resolvers = {
 	UserFull: userFullResolvers,
 	User: {
 		async __resolveType(user, { loaders, user: currentUser, isAdmin }) {
+			// Does the user not exist? (Should never happen.) Then it's public.
+			if (!currentUser)
+				return 'UserPublic'
+
 			// Is this you? You get all data. Admins do as well.
 			if (currentUser.id === user.id || isAdmin)
 				return 'UserFull'
@@ -117,7 +121,8 @@ const resolvers = {
 	Query: {
 		me: async (_source, _args, { user }) => user,
 
-		user: async (_source, { userId }, { db }) => {
+		user: async (_source, { userId }, { db, ensureLoggedIn }) => {
+			ensureLoggedIn()
 			return await getUser(db, userId)
 		},
 

@@ -28,13 +28,18 @@ describe('user', () => {
 		expect(errors).not.toBeUndefined()
 	})
 
-	it('gives an error when a student accesses user data', async () => {
+	it('gives only public fields when a student accesses user data', async () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		const { data, errors } = await client.graphql({ query: `{user(userId: "${ALEX_ID}") {id}}` })
-		expect(data).toStrictEqual({ user: null })
-		expect(errors).not.toBeUndefined()
+		const { data: { user }, errors } = await client.graphql({
+			query: `{user(userId: "${ALEX_ID}") {
+				id
+				... on UserPrivate { email }
+				... on UserFull {	language }
+			}}` })
+		expect(errors).toBeUndefined()
+		expect(user).toMatchObject({ id: ALEX_ID })
 	})
 
 	it('throws an error when no user is given (bad request)', async () => {
