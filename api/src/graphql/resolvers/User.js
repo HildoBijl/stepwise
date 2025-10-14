@@ -56,7 +56,7 @@ const resolvers = {
 	UserPrivate: userPrivateResolvers,
 	UserFull: userFullResolvers,
 	User: {
-		async __resolveType(user, { loaders, isLoggedIn, user: currentUser, isAdmin }) {
+		async __resolveType(user, { loaders, user: currentUser, isAdmin }) {
 			// Is this you? You get all data. Admins do as well.
 			if (currentUser.id === user.id || isAdmin)
 				return 'UserFull'
@@ -117,8 +117,7 @@ const resolvers = {
 	Query: {
 		me: async (_source, _args, { user }) => user,
 
-		user: async (_source, { userId }, { db, ensureAdmin }) => {
-			ensureAdmin()
+		user: async (_source, { userId }, { db }) => {
 			return await getUser(db, userId)
 		},
 

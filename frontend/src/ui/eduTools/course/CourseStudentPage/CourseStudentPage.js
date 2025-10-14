@@ -169,4 +169,3 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 		</Box>
 	</Box>
 }
-
