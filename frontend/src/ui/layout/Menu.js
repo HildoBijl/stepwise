@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme, Box, SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@mui/material'
 import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@mui/icons-material'
 
-import { useUser, isAdmin } from 'api'
+import { useUser, isTeacher, isAdmin } from 'api'
 import { TranslationSection } from 'i18n'
 import { usePaths, useParentPath } from 'ui/routingTools'
 import { Student, Teacher } from 'ui/components'
@@ -54,13 +54,15 @@ export default function Menu({ titleCollapsed, sx }) {
 		</>
 
 		// Define buttons for admins.
-		const adminButtons = isAdmin(user) ? <>
-			<Divider />
-			<List>
-				<MenuLink id="inspect" icon={Policy} />
-				<MenuLink id="admin" icon={SupervisorAccount} />
-			</List>
-		</> : null
+		let adminButtons = null
+		if (isTeacher(user) || isAdmin(user))
+			adminButtons = <>
+				<Divider />
+				<List>
+					<MenuLink id="inspect" icon={Policy} />
+					{isAdmin(user) ? <MenuLink id="admin" icon={SupervisorAccount} /> : null}
+				</List>
+			</>
 
 		return <TranslationSection entry="menu">
 			<IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef} sx={sx}>

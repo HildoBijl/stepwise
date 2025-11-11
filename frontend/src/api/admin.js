@@ -2,10 +2,6 @@ import { useQuery, gql } from '@apollo/client'
 
 import { userFields } from './user'
 
-export function isAdmin(user) {
-	return !!user && user.role === 'admin'
-}
-
 export function useAllUsersQuery() {
 	return useQuery(ALLUSERS)
 }
@@ -16,3 +12,11 @@ const ALLUSERS = gql`
 		}
 	}
 `
+
+export function isTeacher(user) {
+	return !!user && user.role === 'teacher'
+}
+
+export function isAdmin(user) {
+	return !!user && user.role === 'admin'
+}

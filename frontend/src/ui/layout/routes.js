@@ -1,4 +1,4 @@
-import { isAdmin } from 'api'
+import { isTeacher, isAdmin } from 'api'
 import { ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
@@ -76,8 +76,8 @@ export function getRoutes(user = undefined) {
 			},
 		}
 	} else {
-		// For admins add pages.
-		if (isAdmin(user)) {
+		// For teachers and admins add pages.
+		if (isTeacher(user) || isAdmin(user)) {
 			routes = {
 				...routes,
 				'inspect': {
@@ -105,6 +105,11 @@ export function getRoutes(user = undefined) {
 						},
 					},
 				},
+			}
+		}
+		if (isAdmin(user)) {
+			routes = {
+				...routes,
 				'admin': {
 					id: 'admin',
 					page: UserOverview,
