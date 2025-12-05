@@ -1,5 +1,5 @@
 const { numberArray, selectRandomly, getRandomInteger, tableInterpolate } = require('../../../../../../util')
-const { getRandomFloatUnit } = require('../../../../../../inputTypes')
+const { FloatUnit, getRandomFloatUnit } = require('../../../../../../inputTypes')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 
 function getCycle() {
@@ -66,6 +66,10 @@ function getCycle() {
 	const P = mdot.multiply(h2.subtract(h3)).setUnit('MW')
 	const Ph = mdot.multiply(h2.subtract(h1)).setUnit('MW')
 	const eta = h2.subtract(h3).divide(h2.subtract(h1)).setUnit('')
+
+	// Run an extra check, added to allow this question to be done with diagrams too. The h2 value may not be above 3700 kJ/kg, since this is the edge of the diagram.
+	if (h2.compare(new FloatUnit('3700 kJ/kg')) > 0)
+		return getCycle()
 
 	// Gather all data and return it.
 	return { pc, Tc, pe, Te, hx0, hx1, sx0, sx1, h1, s1, p1, T1, h2, s2, p2, T2, x3p, h3p, s3p, x3, h3, s3, p3, T3, h4, s4, p4, T4, etai, mdot, P, Ph, eta }

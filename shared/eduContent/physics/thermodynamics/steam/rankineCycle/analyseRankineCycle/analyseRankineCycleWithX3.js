@@ -2,7 +2,7 @@ const { tableInterpolate, getRandomInteger } = require('../../../../../../util')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
-const { getCycle } = require('..')
+const { getCycle } = require('../tools')
 
 const metaData = {
 	skill: 'analyseRankineCycle',
