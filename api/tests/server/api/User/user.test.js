@@ -1,8 +1,6 @@
-const { userSettings } = require('../../../../../shared/settings')
+const { currentPrivacyPolicyVersion } = require('@step-wise/settings')
 const surfConextMockData = require('../../../../surfConextMockData.json')
 const { createClient } = require('../../../client')
-
-const { currentPrivacyPolicyVersion } = userSettings
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
