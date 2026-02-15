@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
 const { getDeepParameter, setDeepParameter } = require('step-wise/util')
-const { i18nLoadPath, i18nUpdateLogPath } = require('@step-wise/settings/i18n')
+const { i18nLoadPath, i18nUpdateLogPath } = require('@step-wise/settings')
 
 const pathToPublicFolder = `../frontend/public`
 const filePath = (language, path) => `${pathToPublicFolder}${i18nLoadPath(language, path)}`
