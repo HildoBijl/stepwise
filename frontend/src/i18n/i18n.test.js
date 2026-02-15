@@ -1,11 +1,11 @@
 import { deepEquals } from 'step-wise/util'
-import { updateLogPath } from 'step-wise/settings/i18n'
+import { i18nUpdateLogPath } from '@step-wise/settings'
 
 describe('Translations', () => {
 	it('have all been implemented (translation update log is empty)', async () => {
 		try {
 			const pathToPublicFolder = `../../public/`
-			const logFile = await import(`${pathToPublicFolder}${updateLogPath}`)
+			const logFile = await import(`${pathToPublicFolder}${i18nUpdateLogPath}`)
 
 			// For some reason a default parameter is added on the import. Allow it too.
 			expect(deepEquals(logFile, {}) || deepEquals(logFile, { default: {} })).toBe(true)

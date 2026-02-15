@@ -3,9 +3,15 @@
 	"version": "1.0.0",
 	"scripts": {
 		"test": "jest .*\\.test\\.js",
-		"test:watch": "jest --watch .*\\.test\\.js"
+		"test:watch": "jest --watch .*\\.test\\.js",
+		"watch:settings": "cd packages/settings && tsc --watch",
+		"watch": "npm run watch:settings"
+	},
+	"dependencies": {
+		"@step-wise/settings": "file:packages/settings"
 	},
 	"devDependencies": {
-		"jest": "^29.7.0"
+		"jest": "^29.7.0",
+		"typescript": "^5.9.3"
 	}
 }

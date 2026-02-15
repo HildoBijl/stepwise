@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
 import { keysToObject } from 'step-wise/util'
+import { languages, defaultLanguage } from '@step-wise/settings'
 
-import { languages, defaultLanguage } from '../settings'
 import { pathAsString, setStoredLanguage } from '../util'
 
 import { useI18nData } from './provider'
@@ -27,15 +27,15 @@ export function useLanguageFiles(paths, language) {
 		if (languageFiles[language][path])
 			return languageFiles[language][path]
 		requestLanguageFile(language, path)
-	
+
 		// Try the default language instead.
 		if (languageFiles[defaultLanguage][path])
 			return languageFiles[defaultLanguage][path]
-	
+
 		// If the given language has tried loading but ended up empty, also try loading the default language.
 		if (loaderRef.current[language][path] === false)
 			requestLanguageFile(defaultLanguage, path)
-	
+
 		// Nothing can be returned yet.
 		return undefined
 	})

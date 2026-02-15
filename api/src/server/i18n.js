@@ -4,11 +4,11 @@ const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
 const { getDeepParameter, setDeepParameter } = require('step-wise/util')
-const { loadPath, updateLogPath } = require('step-wise/settings/i18n')
+const { i18nLoadPath, i18nUpdateLogPath } = require('@step-wise/settings/i18n')
 
 const pathToPublicFolder = `../frontend/public`
-const filePath = (language, path) => `${pathToPublicFolder}${loadPath(language, path)}`
-const logPath = `${pathToPublicFolder}${updateLogPath}`
+const filePath = (language, path) => `${pathToPublicFolder}${i18nLoadPath(language, path)}`
+const logPath = `${pathToPublicFolder}${i18nUpdateLogPath}`
 
 function createI18nRouter() {
 	const i18nRouter = express.Router()

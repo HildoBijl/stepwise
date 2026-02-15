@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback, useMemo, useEffect, useLayoutEffect, createContext, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { Breadcrumbs, Typography } from '@mui/material'
+import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
 import { lastOf, resolveFunctions } from 'step-wise/util'

@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useRef } from 'react'
 
 import { keysToObject } from 'step-wise/util'
-
-import { languages } from '../settings'
+import { languages } from '@step-wise/settings'
 
 import { useI18nHandlers, useInitialLanguage } from './handlers'
 

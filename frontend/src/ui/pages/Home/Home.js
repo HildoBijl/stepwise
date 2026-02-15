@@ -2,12 +2,16 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Box } from '@mui/material'
 
+import * as stuff from '@step-wise/settings'
+
 import { websiteName, websiteNameAddendum } from 'settings'
 import { useTextTranslator } from 'i18n'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
 import { LanguageBar, TitleBar, Description, Blocks } from './parts'
+
+console.log(stuff)
 
 export function Home() {
 	// Load language-dependent texts.

@@ -1,5 +1,5 @@
-import { decimalSeparator, decimalSeparatorTex } from 'step-wise/settings/numbers'
 import { isNumber, isLetter, removeAtIndex, insertAtIndex, firstOf } from 'step-wise/util'
+import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
 import { functions } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 

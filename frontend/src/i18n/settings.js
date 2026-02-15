@@ -1,6 +1,4 @@
-import { defaultLanguage } from 'step-wise/settings/i18n'
-
-export * from 'step-wise/settings/i18n'
+import { defaultLanguage } from '@step-wise/settings'
 
 // These are settings only use by the front-end.
 export const localStorageKey = 'language' // What key is used to store the language in localStorage?

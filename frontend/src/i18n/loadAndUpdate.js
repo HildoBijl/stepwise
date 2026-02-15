@@ -1,11 +1,12 @@
-import { loadPath, updatePath } from './settings'
+import { i18nLoadPath, i18nUpdatePath } from '@step-wise/settings'
+
 import { request } from './request'
 import { ensureLanguage } from './util'
 
 export function loadLanguageFile(language, path, options = {}) {
 	language = ensureLanguage(language)
 	return new Promise((resolve, reject) => {
-		const url = loadPath(language, path)
+		const url = i18nLoadPath(language, path)
 		const payload = undefined
 
 		// Set up the callback that deals with the request response.
@@ -13,7 +14,7 @@ export function loadLanguageFile(language, path, options = {}) {
 			// If there is an error, we can reject right away.
 			if (error)
 				reject(`Failed loading ${url}: an error was returned: ${error.message}.`)
-			
+
 			// Check the result and its status.
 			if (!result)
 				reject(`Failed loading ${url}: no result received.`)
@@ -21,7 +22,7 @@ export function loadLanguageFile(language, path, options = {}) {
 				reject(`Failed loading ${url}: missing status code.`)
 			if ((result.status >= 400 && result.status < 600) || !result.status)
 				reject(`Failed loading ${url}: status code ${result.status} was given.`)
-			
+
 			// All seems to be in order. Try to read the result.
 			try {
 				resolve(typeof result.data === 'string' ? JSON.parse(result.data) : result.data)
@@ -38,7 +39,7 @@ export function loadLanguageFile(language, path, options = {}) {
 // sendLanguageFileUpdates takes a list of updates [{ language: 'en', path: 'pages/home', entry: 'text.title', text: 'Welcome to Step-Wise' }, ...] and sends this to the server for updating. It's processed server-side.
 export function sendLanguageFileUpdates(updates, options = {}) {
 	return new Promise((resolve, reject) => {
-		const url = updatePath
+		const url = i18nUpdatePath
 		const payload = updates
 
 		// Set up the callback that deals with the request response.
@@ -46,7 +47,7 @@ export function sendLanguageFileUpdates(updates, options = {}) {
 			// If there is an error, we can reject right away.
 			if (error)
 				reject(`Failed saving ${url}: an error was returned: ${error.message}.`)
-			
+
 			// Check the result and its status.
 			if (!result)
 				reject(`Failed saving ${url}: no result received.`)
@@ -54,7 +55,7 @@ export function sendLanguageFileUpdates(updates, options = {}) {
 				reject(`Failed saving ${url}: missing status code.`)
 			if ((result.status >= 400 && result.status < 600) || !result.status)
 				reject(`Failed saving ${url}: status code ${result.status} was given.`)
-			
+
 			// All seems to be in order. Try to read the result.
 			try {
 				resolve(typeof result.data === 'string' ? JSON.parse(result.data) : result.data)

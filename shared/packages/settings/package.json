@@ -1,0 +1,16 @@
+{
+  "name": "@step-wise/settings",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./i18n": "./dist/i18n.js",
+    "./numbers": "./dist/numbers.js",
+    "./users": "./dist/users.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  }
+}
