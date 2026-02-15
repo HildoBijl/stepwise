@@ -8,7 +8,11 @@ RUN echo "Installing shared packages"
 RUN sh -c 'for p in packages/*; do \
     if [ -f "$p/package.json" ]; then \
       echo "Installing for $p"; \
-      (cd "$p" && npm ci --quiet); \
+      if [ -f "$p/package-lock.json" ]; then \
+        (cd "$p" && npm ci --quiet --no-audit --no-fund); \
+      else \
+        (cd "$p" && npm install --quiet --no-audit --no-fund); \
+      fi; \
       echo "Building $p"; \
       (cd "$p" && npm run build); \
     fi; \
