@@ -9,8 +9,8 @@
 		"watch": "concurrently \"npm run watch:settings\" \"npm run watch:utils\""
 	},
 	"dependencies": {
-		"@step-wise/settings": "file:packages/settings/dist",
-		"@step-wise/utils": "file:packages/utils/dist"
+		"@step-wise/settings": "file:packages/settings",
+		"@step-wise/utils": "file:packages/utils"
 	},
 	"devDependencies": {
 		"concurrently": "^9.2.1",

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@step-wise/*": ["packages/*/dist"]
+    },
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es2019",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}

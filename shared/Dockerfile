@@ -9,10 +9,9 @@ RUN sh -c 'for p in packages/*; do \
     if [ -f "$p/package.json" ]; then \
       echo "Installing for $p"; \
       (cd "$p" && npm ci --quiet); \
-      echo "Building $p"; \
-      (cd "$p" && npm run build); \
     fi; \
   done'
+RUN npx tsc -b packages/* --verbose
 RUN echo "Shared packages installed"
 RUN npm ci --quiet
 RUN echo "Shared all set up"

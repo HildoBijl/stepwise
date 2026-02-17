@@ -8,7 +8,7 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/settings": "file:../settings/dist"
+		"@step-wise/settings": "file:../settings"
 	},
 	"devDependencies": {
 		"typescript": "^5.x"
