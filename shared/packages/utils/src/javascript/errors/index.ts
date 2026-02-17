@@ -1,0 +1,1 @@
+export const tempErrors = 1

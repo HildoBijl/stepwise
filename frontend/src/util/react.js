@@ -5,7 +5,7 @@ import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
 import FontFaceObserver from 'fontfaceobserver'
 
-import { getCounterNumber, ensureConsistency } from 'step-wise/util'
+import { ensureConsistency } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from './dom'
@@ -103,11 +103,11 @@ export function useEnsureRef(ref) {
 	return ref || backupRef
 }
 
-// useUniqueNumber gives a number that's unique for this page. It keeps it constant. Usually the first object gets 1, the second 2, and so forth.
-export function useUniqueNumber() {
+// useUUID gives a random UUID that is persisted.
+export function useUUID() {
 	const ref = useRef()
 	if (ref.current === null || ref.current === undefined)
-		ref.current = getCounterNumber()
+		ref.current = crypto.randomUUID()
 	return ref.current
 }
 

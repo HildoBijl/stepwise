@@ -1,11 +1,11 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { processOptions, resolveFunctions, numberArray, boundTo, repeat, gridInterpolate } from 'step-wise/util'
+import { processOptions, resolveFunctions, numberArray, clamp, repeat, gridInterpolate } from 'step-wise/util'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 
-import { mix, shift, toCSS, useUniqueNumber } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { Translation, Check } from 'i18n'
 
 import { defaultSkillThresholds } from '../recommendation'
@@ -28,7 +28,7 @@ const colorFadingEnd = 3 // And when do we end?
 
 export function SkillFlask(props) {
 	const { coef, size = 60, strongShadow = false, className, skillId, isPriorKnowledge = false, tooltip = true, sx = {} } = props
-	const id = useUniqueNumber()
+	const id = useUUID()
 
 	// If a skillId is given, calculate and display the target.
 	const thresholds = skillId ? processOptions(skillTree[skillId].thresholds || {}, defaultSkillThresholds) : undefined
@@ -94,5 +94,5 @@ function partToColor(part) {
 }
 
 function coefToFading(coef) {
-	return boundTo((getMaxLikelihood(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
+	return clamp((getMaxLikelihood(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
 }

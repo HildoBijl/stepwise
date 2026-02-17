@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { boundTo } from 'step-wise/util'
+import { clamp } from 'step-wise/util'
 
 import { getCoordinatesOf, useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useSubmitCall } from 'ui/form'
@@ -119,7 +119,7 @@ function useContentSliding(hullRef, center) {
 		const cutOff = 0.1 // The part of the container at which the contents don't slide yet.
 		const cutOffDistance = cutOff * containerWidth
 		const cursorPos = getCoordinatesOf(cursorElement, contents).x
-		const slidePart = boundTo((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1) - (center ? 0.5 : 0)
+		const slidePart = clamp((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1) - (center ? 0.5 : 0)
 		const translation = -slidePart * (contentsWidth - containerWidth)
 		contents.style.transform = `translateX(${translation}px)`
 	}, [hullRef, cursorRef, center])

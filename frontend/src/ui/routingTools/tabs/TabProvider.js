@@ -1,6 +1,6 @@
 import React, { useState, useCallback, createContext, useContext } from 'react'
 
-import { boundTo } from 'step-wise/util'
+import { clamp } from 'step-wise/util'
 
 import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -18,7 +18,7 @@ export function TabProvider({ children }) {
 	// Set up handlers.
 	const setTabIndex = useCallback(tabIndex => {
 		const tabs = tabsRef.current
-		tabIndex = boundTo(tabIndex, 0, tabs.length - 1)
+		tabIndex = clamp(tabIndex, 0, tabs.length - 1)
 		setTab(tabs[tabIndex])
 	}, [tabsRef, setTab])
 	const reset = useCallback(() => {

@@ -5,12 +5,15 @@
 		"test": "jest .*\\.test\\.js",
 		"test:watch": "jest --watch .*\\.test\\.js",
 		"watch:settings": "cd packages/settings && tsc --watch",
-		"watch": "npm run watch:settings"
+		"watch:utils": "cd packages/utils && tsc --watch",
+		"watch": "concurrently \"npm run watch:settings\" \"npm run watch:utils\""
 	},
 	"dependencies": {
-		"@step-wise/settings": "file:packages/settings"
+		"@step-wise/settings": "file:packages/settings",
+		"@step-wise/utils": "file:packages/utils"
 	},
 	"devDependencies": {
+		"concurrently": "^9.2.1",
 		"jest": "^29.7.0",
 		"typescript": "^5.9.3"
 	}

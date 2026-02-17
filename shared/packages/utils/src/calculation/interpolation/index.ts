@@ -1,0 +1,1 @@
+export const tempInterpolation = 1

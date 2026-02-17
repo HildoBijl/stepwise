@@ -1,6 +1,6 @@
 // The Rectangle represents a rectangle shape in space. It is based on the Span which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
-const { ensureNumber, compareNumbers, boundTo, numberArray, findOptimumIndex, repeat } = require('../util')
+const { ensureNumber, compareNumbers, clamp, numberArray, findOptimumIndex, repeat } = require('../util')
 
 const { Vector, ensureVector } = require('./Vector')
 const { Span, ensureSpan } = require('./Span')
@@ -127,7 +127,7 @@ class Rectangle {
 	applyBounds(vector, alwaysPutOnEdge = false) {
 		vector = ensureVector(vector, this.dimension)
 		if (!alwaysPutOnEdge || !this.contains(vector))
-			return new Vector(vector.coordinates.map((coordinate, axis) => boundTo(coordinate, ...this.getBounds(axis))))
+			return new Vector(vector.coordinates.map((coordinate, axis) => clamp(coordinate, ...this.getBounds(axis))))
 
 		// The point is inside the Rectangle and must be moved to the edge. Find the axis along which the shortest distance can be moved to reach the rectangle, and then along this axis find the bound that is closest to the given point.
 		const distancesAlongAxes = vector.coordinates.map((coordinate, axis) => Math.min(...this.getBounds(axis).map(bound => Math.abs(bound - coordinate)))) // How far is the point away from the side if we move it along this axis?

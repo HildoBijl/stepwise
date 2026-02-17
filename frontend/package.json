@@ -32,6 +32,7 @@
     "react-scripts": "^5.0.1",
     "step-wise": "file:../shared",
     "@step-wise/settings": "file:../shared/packages/settings",
+    "@step-wise/utils": "file:../shared/packages/utils",
     "subscriptions-transport-ws": "^0.9.19",
     "swiper": "^9.3.2"
   },

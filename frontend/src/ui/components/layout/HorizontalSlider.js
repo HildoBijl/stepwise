@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { boundTo } from 'step-wise/util'
+import { clamp } from 'step-wise/util'
 
 import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'
@@ -36,7 +36,7 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 
 	// Set up sliding handlers.
 	const applySliding = (clickPart, togglePart) => {
-		setSlidePart(boundTo((clickPart - togglePart * contentsPart) / (1 - contentsPart), 0, 1)) // Determine the slide part based on the position of the mouse and the togglePart.
+		setSlidePart(clamp((clickPart - togglePart * contentsPart) / (1 - contentsPart), 0, 1)) // Determine the slide part based on the position of the mouse and the togglePart.
 	}
 	const startSliding = (evt) => {
 		if (!active)
@@ -50,7 +50,7 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 		if (clickPart >= minToggle && clickPart <= maxToggle) // The click was on the toggle. Calculate on which part of the toggle was clicked.
 			togglePart = (clickPart - minToggle) / (maxToggle - minToggle)
 		else // The click was next to the toggle. Put the toggle such that the cursor it at the middle, unless this doesn't fit.			
-			togglePart = boundTo(0.5, 1 - (1 - clickPart) / contentsPart, clickPart / contentsPart)
+			togglePart = clamp(0.5, 1 - (1 - clickPart) / contentsPart, clickPart / contentsPart)
 
 		// Start the sliding.
 		setTogglePart(togglePart)
@@ -69,7 +69,7 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 		if (!active || lastTouch === undefined)
 			return
 		const touch = getClickPosition(event)
-		setSlidePart(boundTo(slidePart + (touch - lastTouch) / (containerWidth - contentsWidth), 0, 1))
+		setSlidePart(clamp(slidePart + (touch - lastTouch) / (containerWidth - contentsWidth), 0, 1))
 		setLastTouch(touch)
 	}
 	const endDragging = () => setLastTouch(undefined)

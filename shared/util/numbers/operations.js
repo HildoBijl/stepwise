@@ -5,8 +5,8 @@ function mod(a, n) {
 }
 module.exports.mod = mod
 
-// boundTo bounds the given number between the minimum (default 0) and maximum (default 1).
-function boundTo(val, min = 0, max = 1) {
+// clamp bounds the given number between the minimum (default 0) and maximum (default 1).
+function clamp(val, min = 0, max = 1) {
   return Math.max(Math.min(val, max), min)
 }
-module.exports.boundTo = boundTo
+module.exports.clamp = clamp

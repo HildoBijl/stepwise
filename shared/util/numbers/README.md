@@ -9,7 +9,7 @@ All utility functions related to numbers are in this folder. These are grouped a
 
 ## Applied number functionalities
 
-- [operations](./operations.js) contains general operations related to numbers. Think of the `mod` operator, or the `boundTo` function.
+- [operations](./operations.js) contains general operations related to numbers. Think of the `mod` operator, or the `clamp` function.
 - [rounding](./rounding.js) has operators relating to bounding numbers in a certain way, with a given number of decimals or digits.
 
 ## Specialized number functionalities
