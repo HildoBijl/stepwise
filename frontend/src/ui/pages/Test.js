@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { temporaryVar } from '@step-wise/settings'
 import { getHexColor } from 'ui/theme'
 import { Par, Head, M, BM } from 'ui/components'
 
@@ -23,6 +24,7 @@ export function Test() {
 			<Head>Tests</Head>
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
+			<Par>The temporary variable from the settings file is: <strong>{temporaryVar}</strong></Par>
 		</>
 	)
 }
