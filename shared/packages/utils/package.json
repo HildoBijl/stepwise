@@ -4,8 +4,8 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc",
-		"watch": "tsc --watch"
+		"build": "tsc -b",
+		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
 		"@step-wise/settings": "file:../settings"
