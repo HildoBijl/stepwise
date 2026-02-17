@@ -24,5 +24,5 @@ RUN sh -c 'for p in packages/*; do \
 RUN echo "Shared packages installed"
 
 # 5) now tsc is available; build all packages with project references
-RUN npx tsc -b packages/* --verbose
+RUN npx tsc -b packages/*/tsconfig.json --verbose
 RUN echo "Shared all set up"
