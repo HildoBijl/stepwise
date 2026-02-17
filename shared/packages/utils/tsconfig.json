@@ -4,10 +4,8 @@
     "composite": true,
     "outDir": "dist",
     "declaration": true,
-    "module": "commonjs",
-    "target": "es2019",
-    "strict": true,
-    "esModuleInterop": true
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "references": [
     { "path": "../settings" }

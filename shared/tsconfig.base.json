@@ -2,11 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@step-wise/*": ["packages/*/dist"]
+      "@step-wise/*": ["packages/*/src"]
     },
     "moduleResolution": "node",
     "module": "commonjs",
     "target": "es2019",
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true
   }
