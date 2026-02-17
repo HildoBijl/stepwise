@@ -7,6 +7,9 @@
 		"build": "tsc",
 		"watch": "tsc --watch"
 	},
+	"dependencies": {
+		"@step-wise/settings": "file:../settings"
+	},
 	"devDependencies": {
 		"typescript": "^5.x"
 	}

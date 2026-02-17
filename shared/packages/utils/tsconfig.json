@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "composite": true,
     "outDir": "dist",
     "declaration": true,
     "module": "commonjs",
@@ -7,5 +8,8 @@
     "strict": true,
     "esModuleInterop": true
   },
+  "references": [
+    { "path": "../settings" }
+  ],
   "include": ["src"]
 }
