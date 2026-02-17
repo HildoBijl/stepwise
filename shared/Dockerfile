@@ -1,28 +1,21 @@
 FROM node:16.13.0-alpine AS shared-build
 WORKDIR /app
 
-# 1) copy shared root manifests (for caching)
+# Copy only manifests first so package install layer is cacheable.
 COPY package.json package-lock.json ./
 COPY packages/*/package.json ./packages/
-RUN echo "Package jsons copied"
 
-# 2) install root deps (includes typescript in devDependencies)
-RUN npm ci --quiet --include=dev
+# Install root dev deps (typescript etc.).
+RUN npm ci --quiet --include=dev --no-audit --no-fund
 
-# 3) copy source afterwards
+# Copy full source.
 COPY . .
 
-# 4) optionally install per-package deps if you still need them (file: dependencies)
-#    but often running root npm ci in step 2 will suffice for dev deps and linking.
-RUN echo "Installing shared packages"
-RUN sh -c 'for p in packages/*; do \
-    if [ -f "$p/package.json" ]; then \
-      echo "Installing for $p"; \
-      (cd "$p" && npm ci --quiet || true); \
-    fi; \
-  done'
-RUN echo "Shared packages installed"
+# Install per-package deps if package has its own lockfile (tolerant).
+RUN for p in packages/*; do \
+      [ -f "$p/package.json" ] || continue; \
+      (cd "$p" && npm ci --quiet --no-audit --no-fund) || true; \
+    done
 
-# 5) now tsc is available; build all packages with project references
+# Build all TypeScript projects (project references).
 RUN npx tsc -b packages/*/tsconfig.json --verbose
-RUN echo "Shared all set up"

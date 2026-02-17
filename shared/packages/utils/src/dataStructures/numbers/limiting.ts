@@ -12,4 +12,4 @@ export function clamp(x: number, min = 0, max = 1): number {
 	return Math.max(Math.min(x, max), min)
 }
 
-export const tempVar = currentPrivacyPolicyVersion + ' test'
+export const tempVar = currentPrivacyPolicyVersion*2 + ' test'
