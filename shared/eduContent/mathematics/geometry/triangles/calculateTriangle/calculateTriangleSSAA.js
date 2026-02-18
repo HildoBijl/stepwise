@@ -1,4 +1,4 @@
-const { epsilon, deg2rad, selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { epsilon, deg2rad, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { and } = require('../../../../../skillTracking')
 const { asExpression, asEquation, equationComparisons, Integer, Variable, Arcsin } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison, performListComparison } = require('../../../../../eduTools')

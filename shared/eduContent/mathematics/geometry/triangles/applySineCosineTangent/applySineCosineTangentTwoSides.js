@@ -1,4 +1,4 @@
-const { applyMapping, selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { applyMapping, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 

@@ -1,4 +1,4 @@
-const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { and } = require('../../../../../skillTracking')
 const { asEquation, equationComparisons, Integer, Variable, Arccos } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')

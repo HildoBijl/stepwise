@@ -1,4 +1,4 @@
-const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
