@@ -22,7 +22,7 @@ function generateState() {
 		a: new Variable(selectRandomly(sideVariableSet)),
 		b: new Integer(b),
 		c: new Integer(getRandomInteger(3, 12, [b])), // Don't have a triangle with two equal sides; that's too easy.
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

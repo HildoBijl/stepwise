@@ -1,2 +1,2 @@
-export * from './numberTheory'
+export * from './integers'
 export * from './interpolation'

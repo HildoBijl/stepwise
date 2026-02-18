@@ -7,11 +7,11 @@ function getRandomBoolean(probability = 0.5) {
 }
 module.exports.getRandomBoolean = getRandomBoolean
 
-// getRandom returns a random floating number between the given minimum and maximum.
-function getRandom(min, max) {
+// getRandomNumber returns a random floating number between the given minimum and maximum.
+function getRandomNumber(min, max) {
 	return min + (max - min) * Math.random()
 }
-module.exports.getRandom = getRandom
+module.exports.getRandomNumber = getRandomNumber
 
 // getRandomInteger returns a random integer between the given min and max (both inclusive) according to a uniform distribution. Optionally, an array of values that should not be selected can be passed along. So getRandomInteger(-3, 5, [-1,0,1]) returns either -3, -2, 2, 3, 4 or 5, each with a 1/6 chance.
 function getRandomInteger(min, max, prevent = []) {

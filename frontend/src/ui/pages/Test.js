@@ -3,8 +3,6 @@ import React from 'react'
 import { getHexColor } from 'ui/theme'
 import { Par, Head, M, BM } from 'ui/components'
 
-import { tempVar } from '@step-wise/utils'
-
 import CAS from 'step-wise/CAS'
 import * as Stuff from 'step-wise/CAS/functionalities/Expression'
 
@@ -25,7 +23,6 @@ export function Test() {
 			<Head>Tests</Head>
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
-			<Par>The current test output is: <strong>{tempVar}</strong></Par>
 		</>
 	)
 }

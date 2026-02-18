@@ -32,7 +32,7 @@ function generateState() {
 	return {
 		...applyMapping(sides, side => new Integer(side)),
 		beta: new Variable(selectRandomly(variableSet)),
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

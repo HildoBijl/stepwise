@@ -29,7 +29,7 @@ function generateState() {
 		a: new Integer(a),
 		b: new Integer(b),
 		c: new Integer(c),
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

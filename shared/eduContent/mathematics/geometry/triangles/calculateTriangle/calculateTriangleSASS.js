@@ -20,7 +20,7 @@ function generateState() {
 		a: new Variable(selectRandomly(variableSet)),
 		b: new Integer(getRandomInteger(2, 12)),
 		c: new Integer(getRandomInteger(2, 12)),
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

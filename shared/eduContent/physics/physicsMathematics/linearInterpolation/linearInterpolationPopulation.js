@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../util')
+const { getRandomNumber } = require('../../../../util')
 const { getRandomInteger, Float } = require('../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
@@ -24,7 +24,7 @@ function generateState() {
 	const year2 = getRandomInteger(1980, 2000)
 	const pop1 = getRandomInteger(1500, 2500)
 	const pop2 = getRandomInteger(3500, 5500)
-	const x = getRandom(0.1, 0.9)
+	const x = getRandomNumber(0.1, 0.9)
 
 	if (type === 1) {
 		const year = Math.floor(year1 + x * (year2 - year1))

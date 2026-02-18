@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, k, cp } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -16,8 +16,8 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const n = getRandom(1.2, 1.38)
-	const pressureRatio = getRandom(6, 9)
+	const n = getRandomNumber(1.2, 1.38)
+	const pressureRatio = getRandomNumber(6, 9)
 	const T1 = getRandomFloatUnit({
 		min: 5,
 		max: 25,

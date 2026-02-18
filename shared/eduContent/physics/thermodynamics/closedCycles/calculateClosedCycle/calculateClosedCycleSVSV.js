@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { air } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -34,9 +34,9 @@ function generateState() {
 		decimals: 0,
 		unit: 'dC',
 	})
-	const volumeFactor = getRandom(15, 25) // = V1/V2
+	const volumeFactor = getRandomNumber(15, 25) // = V1/V2
 	const p2o = p1o.multiply(Math.pow(volumeFactor, air.k.number)).setDecimals(0).roundToPrecision() // Poisson's law
-	const pressureFactor = getRandom(1.3, 1.6) // Increase in pressure due to heating.
+	const pressureFactor = getRandomNumber(1.3, 1.6) // Increase in pressure due to heating.
 	const p3o = p2o.multiply(pressureFactor).setDecimals(0).roundToPrecision()
 
 	return { p1o, V1o, T1o, p2o, p3o }

@@ -20,7 +20,7 @@ function generateState() {
 		a,
 		b: 180 - alpha - a,
 		c: getRandomInteger(limit / 5, (180 - limit - alpha) / 5) * 5,
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

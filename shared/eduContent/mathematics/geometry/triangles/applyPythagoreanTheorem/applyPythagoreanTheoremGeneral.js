@@ -33,7 +33,7 @@ function generateState() {
 		a: toFind === 0 ? x : new Integer(triplet[0]),
 		b: toFind === 1 ? x : new Integer(triplet[1]),
 		c: toFind === 2 ? x : new Integer(triplet[2]),
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

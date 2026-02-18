@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { helium: { k } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -16,7 +16,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const factor = getRandom(1.1, 1.25)
+	const factor = getRandomNumber(1.1, 1.25)
 	const p = getRandomFloatUnit({
 		min: 1.01,
 		max: 1.10,

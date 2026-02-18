@@ -1,4 +1,4 @@
-const { ensureNumber, roundTo, getRandom } = require('../../util')
+const { ensureNumber, roundTo, getRandomNumber } = require('../../util')
 
 const { Float } = require('./Float')
 
@@ -16,7 +16,7 @@ function getRandomFloat(options) {
 	max = ensureNumber(max)
 
 	// Set up a random float.
-	const number = getRandom(min, max)
+	const number = getRandomNumber(min, max)
 	const result = processFloat(number, options)
 
 	// Check if it's in the prevent list.
@@ -39,7 +39,7 @@ function getRandomExponentialFloat(options) {
 	max = ensureNumber(max, true, true)
 
 	// Set up a random float.
-	const randomExp = getRandom(Math.log10(min), Math.log10(max))
+	const randomExp = getRandomNumber(Math.log10(min), Math.log10(max))
 	const sign = (negative || (randomSign && Math.random() < 0.5)) ? -1 : 1
 	const number = sign * Math.pow(10, randomExp)
 	const result = processFloat(number, options)

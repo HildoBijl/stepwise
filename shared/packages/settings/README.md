@@ -1,6 +1,6 @@
 # Step-Wise settings
 
-In this package, we define a few site-wide settings. These settings may change, but they rarely do. (Like once or twice a year.)
+This package defines a few site-wide settings. Settings are parameters that _can_ change but rarely do: like once a year or so, and always accompanied by a new deploy.
 
 The settings fall in the following categories.
 

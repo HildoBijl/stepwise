@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { air: { k, Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -42,7 +42,7 @@ function generateState() {
 	const T2p = TAtm.multiply(p2p.divide(pAtm)).setUnit('K').setDecimals(-1).roundToPrecision().setDecimals(0) // Gas law
 
 	// State before expansion.
-	const volumeFactor = getRandom(12, 20) // = V2/V1
+	const volumeFactor = getRandomNumber(12, 20) // = V2/V1
 	const V1 = V2.divide(volumeFactor)
 	const T1 = T2p.multiply(Math.pow(volumeFactor, k.number - 1)).setDecimals(-1).roundToPrecision().setDecimals(0) // Poisson's law
 

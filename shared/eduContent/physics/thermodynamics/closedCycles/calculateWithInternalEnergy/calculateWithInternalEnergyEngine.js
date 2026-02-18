@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -34,7 +34,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'cm^3',
 	}).setDecimals(0)
-	const volumeFactor = getRandom(15, 25) // = V2/V1
+	const volumeFactor = getRandomNumber(15, 25) // = V2/V1
 	const V1 = V2.divide(volumeFactor).setDecimals(0).roundToPrecision()
 	const p1 = p2.multiply(Math.pow(volumeFactor, n.number)).setDecimals(0).roundToPrecision() // Poisson's law
 

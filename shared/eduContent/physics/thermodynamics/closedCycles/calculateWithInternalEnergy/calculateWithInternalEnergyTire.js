@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -37,7 +37,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'l',
 	})
-	const n = getRandom(1.1, 1.3)
+	const n = getRandomNumber(1.1, 1.3)
 	const pressureRatio = p2.number
 	const T2 = T1.setUnit('K').multiply(Math.pow(pressureRatio, (n - 1) / n)).setUnit('dC').roundToPrecision()
 	return { T1, p2, V2, T2 }

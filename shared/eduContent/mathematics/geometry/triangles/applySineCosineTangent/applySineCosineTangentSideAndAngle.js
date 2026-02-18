@@ -25,7 +25,7 @@ function generateState() {
 		beta: new Integer(getRandomInteger(5, 13) * 5),
 		requested,
 		y: new Variable(selectRandomly(variableSet)),
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

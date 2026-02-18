@@ -30,7 +30,7 @@ function generateState() {
 		c: given === 2 ? new Integer(getRandomInteger(2, 30)) : new Variable(variables.c),
 		La: triangle[0],
 		Lb: triangle[1],
-		rotation: getRandom(0, 2 * Math.PI),
+		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),
 	}
 }

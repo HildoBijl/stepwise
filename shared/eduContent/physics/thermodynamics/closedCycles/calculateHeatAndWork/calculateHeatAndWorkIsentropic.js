@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../../../util')
+const { getRandomNumber } = require('../../../../../util')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { air: { k } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -44,7 +44,7 @@ function generateState() {
 		decimals: -1,
 		unit: 'm^3',
 	})
-	const pressureRatio = getRandom(7, 11)
+	const pressureRatio = getRandomNumber(7, 11)
 	const V2 = V1.multiply(Math.pow(pressureRatio, 1 / k)).roundToPrecision()
 	V1 = V1.setDecimals(0)
 

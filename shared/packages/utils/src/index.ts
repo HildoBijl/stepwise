@@ -1,3 +1,3 @@
-export * from './dataStructures'
-export * from './javascript'
-export * from './calculation'
+export * from './primitives'
+export * from './builtins'
+export * from './math'
