@@ -1,6 +1,6 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
-const { getNextSymbol, removeWhitespace, isLetter, processOptions, firstOf, lastOf } = require('../../../util')
+const { findNextOf, removeWhitespace, isLetter, processOptions, firstOf, lastOf } = require('../../../util')
 
 const { defaultFieldSettings } = require('../../options')
 
@@ -167,7 +167,7 @@ function processExpressionPartSubSups(part, settings) {
 	// Set up handlers. These contiuously update the position variable, which is the position of the next underscore/superscript symbol.
 	let position = 0, previousPosition = 0
 	const findNextSymbol = () => {
-		position = getNextSymbol(str, ['_', '^'], position)
+		position = findNextOf(str, ['_', '^'], position)
 	}
 	const getSubscript = () => {
 		let subscriptText
@@ -244,13 +244,13 @@ function processExpressionPartSubSups(part, settings) {
 // processFractions takes an array of ExpressionParts with possibly other elements in there, and sets up the "frac" functions, just like in the input objects.
 function processFractions(value, settings) {
 	// Set up a handler that finds the next slash symbol.
-	const getNextSymbol = () => {
+	const findNextOf = () => {
 		const part = value.findIndex(part => part.type === 'ExpressionPart' && part.value.indexOf('/') !== -1)
 		return (part === -1 ? null : { part, cursor: value[part].value.indexOf('/') })
 	}
 
 	// While there is a next symbol, apply it.
-	for (let nextSymbol = getNextSymbol(); nextSymbol; nextSymbol = getNextSymbol()) {
+	for (let nextSymbol = findNextOf(); nextSymbol; nextSymbol = findNextOf()) {
 		value = applyFraction(value, nextSymbol, settings)
 	}
 	return value
@@ -295,7 +295,7 @@ function getBracketEnd(str, from) {
 
 	// Walk through all brackets and find when the right closing bracket is found.
 	let counter = 0
-	let nextBracket = getNextSymbol(str, ['(', ')'], from)
+	let nextBracket = findNextOf(str, ['(', ')'], from)
 	while (nextBracket !== -1) {
 		// On a bracket, update the bracket counter.
 		counter += (str[nextBracket] === '(' ? 1 : -1)
@@ -305,7 +305,7 @@ function getBracketEnd(str, from) {
 			return nextBracket
 
 		// Move to the next bracket.
-		nextBracket = getNextSymbol(str, ['(', ')'], nextBracket + 1)
+		nextBracket = findNextOf(str, ['(', ')'], nextBracket + 1)
 	}
 
 	throw new Error(`Invalid bracket set-up: could not find a closing bracket to match with the given opening bracket.`)

@@ -1,4 +1,4 @@
-import { isNumber, removeAtIndex, insertAtIndex, isLetter, keysToObject } from 'step-wise/util'
+import { isNumber, removeAt, insertAt, isLetter, keysToObject } from 'step-wise/util'
 import { units, prefixes, interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes'
 
 import { getClickPosition } from '../../TextInput'
@@ -54,20 +54,20 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 			return FI // Do nothing.
 		if (cursor.part === 'power') { // Cursor is in the power.
 			if (cursor.cursor === 0) // Cursor is at the start of the power.
-				return { ...FI, ...processUnitElement({ text: removeAtIndex(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
-			return { ...FI, value: { ...value, power: removeAtIndex(power, cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Remove the previous character from the power.
+				return { ...FI, ...processUnitElement({ text: removeAt(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
+			return { ...FI, value: { ...value, power: removeAt(power, cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Remove the previous character from the power.
 		}
-		return { ...FI, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
+		return { ...FI, ...processUnitElement({ text: removeAt(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
 	}
 	if (key === 'Delete') {
 		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
 			return FI // Do nothing.
 		if (cursor.part === 'text') { // Cursor is in the text.
 			if (cursor.cursor === prefix.length + unit.length) // Cursor is at the end of the text.
-				return { ...FI, value: { ...value, power: removeAtIndex(power, 0) }, cursor: { part: 'power', cursor: 0 } } // Remove the first character from the power.
-			return { ...FI, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
+				return { ...FI, value: { ...value, power: removeAt(power, 0) }, cursor: { part: 'power', cursor: 0 } } // Remove the first character from the power.
+			return { ...FI, ...processUnitElement({ text: removeAt(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
 		}
-		return { ...FI, value: { ...value, [cursor.part]: removeAtIndex(power, cursor.cursor) } } // Remove the upcoming character from the power.
+		return { ...FI, value: { ...value, [cursor.part]: removeAt(power, cursor.cursor) } } // Remove the upcoming character from the power.
 	}
 
 	// For a power symbol move the cursor to the start of the power.
@@ -78,13 +78,13 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	// For letters and base units add them to the unit.
 	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...FI, ...processUnitElement({ text: insertAtIndex(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
+		return { ...FI, ...processUnitElement({ text: insertAt(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.
 	if (isNumber(key)) {
 		const addAt = cursor.part === 'power' ? cursor.cursor : 0
-		return { ...FI, value: { ...value, power: insertAtIndex(power, addAt, key) }, cursor: { part: 'power', cursor: addAt + 1 } }
+		return { ...FI, value: { ...value, power: insertAt(power, addAt, key) }, cursor: { part: 'power', cursor: addAt + 1 } }
 	}
 
 	// Nothing sensible found. Don't make any changes.

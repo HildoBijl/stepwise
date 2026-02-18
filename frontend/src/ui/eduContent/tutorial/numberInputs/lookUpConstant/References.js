@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { firstToUpperCase } from 'step-wise/util'
+import { upperFirst } from 'step-wise/util'
 import * as constants from 'step-wise/data/constants'
 
 import { Translation, useTextTranslator } from 'i18n'
@@ -29,7 +29,7 @@ export function References() {
 				<Translation entry="header.value">Value</Translation>,
 			]}
 			fields={Object.keys(tableValues).map(key => [
-				firstToUpperCase(translate(tableValues[key].name, `constants.${key}`)),
+				upperFirst(translate(tableValues[key].name, `constants.${key}`)),
 				<M>{tableValues[key].symbol}</M>,
 				<M>{constants[key]}</M>,
 			])}

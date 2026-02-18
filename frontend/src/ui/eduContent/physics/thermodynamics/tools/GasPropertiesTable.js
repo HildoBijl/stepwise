@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { firstToUpperCase } from 'step-wise/util'
+import { upperFirst } from 'step-wise/util'
 import gasProperties from 'step-wise/data/gasProperties'
 
 import { Dutch } from 'ui/lang/gases'
@@ -14,7 +14,7 @@ export function GasPropertiesTable() {
 		<Table
 			colHeads={['Gas', <M>R_s {gasProperties.air.Rs.unit.texWithBrackets}</M>, <M>k {gasProperties.air.k.unit.texWithBrackets}</M>, <M>c_v {gasProperties.air.cv.unit.texWithBrackets}</M>, <M>c_p {gasProperties.air.cp.unit.texWithBrackets}</M>]}
 			fields={gasKeys.map(gas => [
-				firstToUpperCase(Dutch[gas]),
+				upperFirst(Dutch[gas]),
 				<M>{gasProperties[gas].Rs.setUnit(gasProperties.air.Rs.unit).float}</M>,
 				<M>{gasProperties[gas].k.setUnit(gasProperties.air.k.unit).float}</M>,
 				<M>{gasProperties[gas].cv.setUnit(gasProperties.air.cv.unit).float}</M>,

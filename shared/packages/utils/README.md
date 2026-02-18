@@ -6,12 +6,12 @@ Step-Wise has a large amount of utility functions: simple functions that do a sm
 
 These are utilities related to the fundamental ways Javascript stores data.
 
-- [numbers](./src/dataStructures/numbers/) deals with everything around numbers, both integer and float. Think of checking if a number satisfies certain requirements, or bounding a number to a range.
-- [strings](./src/dataStructures/strings/) concerns everything related to strings. Think of efficiently browsing through the characters of a string, or adding/removing characters.
-- [objects](./src/dataStructures/objects/) adds utilities to objects. Think of comparing objects (with `deepEquals`), generating objects from a list of keys, filtering its properties, or applying a function to each object parameter.
-- [arrays](./src/dataStructures/arrays/) adds functionalities to browsing through arrays. Think of finding the sum or product of arrays, rearranging/shuffling arrays, efficiently searching through arrays, and so forth.
-- [functions](./src/dataStructures/functions/) adds utilities around functions. Think of repeating a function multiple times, or calling all functions within an array/object subject to certain parameters.
-- [sets](./src/dataStructures/sets/) is about the Javascript sets. Think of taking their unions, intersections, difference and symmetric difference (xor).
+- [numbers](./src/primitives/numbers/) deals with everything around numbers, both integer and float. Think of checking if a number satisfies certain requirements, or bounding a number to a range.
+- [strings](./src/primitives/strings/) concerns everything related to strings. Think of efficiently browsing through the characters of a string, or adding/removing characters.
+- [objects](./src/primitives/objects/) adds utilities to objects. Think of comparing objects (with `deepEquals`), generating objects from a list of keys, filtering its properties, or applying a function to each object parameter.
+- [arrays](./src/primitives/arrays/) adds functionalities to browsing through arrays. Think of finding the sum or product of arrays, rearranging/shuffling arrays, efficiently searching through arrays, and so forth.
+- [functions](./src/primitives/functions/) adds utilities around functions. Think of repeating a function multiple times, or calling all functions within an array/object subject to certain parameters.
+- [sets](./src/primitives/sets/) is about the Javascript sets. Think of taking their unions, intersections, difference and symmetric difference (xor).
 
 ## Built-in data types
 

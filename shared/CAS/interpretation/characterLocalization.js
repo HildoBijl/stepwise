@@ -1,4 +1,4 @@
-const { getNextSymbol, isObject, lastOf, InterpretationError } = require('../../util')
+const { findNextOf, isObject, lastOf, InterpretationError } = require('../../util')
 
 const { advancedFunctionComponents } = require('./functions')
 
@@ -39,7 +39,7 @@ function findCharacterAtZeroBracketCount(value, cursor, isWantedCharacter, toRig
 			return partIterator < value.length - 1 || cursorIterator < value[partIterator].value.length // Before the end of the last part?
 		return partIterator > 0 || cursorIterator > 0 // After the start of the first part?
 	}
-	const getNextSymbol = () => {
+	const findNextOf = () => {
 		const currentString = value[partIterator].value
 		if (toRight) { // To the right?
 			if (cursorIterator === currentString.length) // At the end of a string?
@@ -72,7 +72,7 @@ function findCharacterAtZeroBracketCount(value, cursor, isWantedCharacter, toRig
 	// Iterate over the expression.
 	let first = true
 	while (hasNextSymbol()) {
-		const nextSymbol = getNextSymbol()
+		const nextSymbol = findNextOf()
 
 		// On a breaking character, return the current cursor position. 
 		if (bracketCount <= 0 && isWantedCharacter(nextSymbol) && (!skipFirst || !first))
@@ -131,7 +131,7 @@ function getMatchingBrackets(value) {
 
 		// Walk through the brackets in this expression part.
 		const str = element.value
-		const getNextBracket = (fromPosition = -1) => getNextSymbol(str, ['(', ')', '[', ']'], fromPosition + 1)
+		const getNextBracket = (fromPosition = -1) => findNextOf(str, ['(', ')', '[', ']'], fromPosition + 1)
 		for (let nextBracket = getNextBracket(); nextBracket !== -1; nextBracket = getNextBracket(nextBracket)) {
 			const bracketPosition = { part, cursor: nextBracket }
 			if (str[nextBracket] === '(' || str[nextBracket] === '[')

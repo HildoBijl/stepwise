@@ -1,5 +1,5 @@
 
-import { isNumber, isLetter, removeAtIndex } from 'step-wise/util'
+import { isNumber, isLetter, removeAt } from 'step-wise/util'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { latexMinus } from 'ui/components'
@@ -90,14 +90,14 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	if (key === 'Backspace' && !isCursorAtStart(value, cursor)) {
 		return {
 			...FI,
-			value: removeAtIndex(value, cursor - 1),
+			value: removeAt(value, cursor - 1),
 			cursor: cursor - 1,
 		}
 	}
 	if (key === 'Delete' && !isCursorAtEnd(value, cursor)) {
 		return {
 			...FI,
-			value: removeAtIndex(value, cursor),
+			value: removeAt(value, cursor),
 		}
 	}
 

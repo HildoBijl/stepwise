@@ -1,6 +1,6 @@
 // This is the most general template for settings up accents.
 
-import { removeAtIndex } from 'step-wise/util'
+import { removeAt } from 'step-wise/util'
 import { support as CASSupport } from 'step-wise/CAS'
 
 import { getFIStartCursor, getFIEndCursor } from '../..'
@@ -102,14 +102,14 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	if (key === 'Backspace' && !isCursorAtStart(value, cursor)) {
 		return {
 			...FI,
-			value: removeAtIndex(value, cursor - 1),
+			value: removeAt(value, cursor - 1),
 			cursor: cursor - 1,
 		}
 	}
 	if (key === 'Delete' && !isCursorAtEnd(value, cursor)) {
 		return {
 			...FI,
-			value: removeAtIndex(value, cursor),
+			value: removeAt(value, cursor),
 		}
 	}
 

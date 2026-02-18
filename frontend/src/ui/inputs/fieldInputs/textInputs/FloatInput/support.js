@@ -1,4 +1,4 @@
-import { isNumber, removeAtIndex, insertAtIndex, applyMapping, keysToObject } from 'step-wise/util'
+import { isNumber, removeAt, insertAt, applyMapping, keysToObject } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -87,14 +87,14 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive = false, all
 			return FI // Do nothing.
 		if (cursor.part === 'power' && cursor.cursor === 0) // Cursor is at the start of the power.
 			return { ...FI, value: { ...value, power: '' }, cursor: { part: 'number', cursor: number.length } } // Remove the power.
-		return { ...FI, value: { ...value, [cursor.part]: removeAtIndex(value[cursor.part], cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Just remove the previous character.
+		return { ...FI, value: { ...value, [cursor.part]: removeAt(value[cursor.part], cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Just remove the previous character.
 	}
 	if (key === 'Delete') {
 		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
 			return FI // Do nothing.
 		if (cursor.part === 'number' && cursor.cursor === number.length) // Cursor is at the end of the number.
 			return { ...FI, value: { ...value, power: '' } } // Remove the power.
-		return { ...FI, value: { ...value, [cursor.part]: removeAtIndex(value[cursor.part], cursor.cursor) } } // Just remove the upcoming character.
+		return { ...FI, value: { ...value, [cursor.part]: removeAt(value[cursor.part], cursor.cursor) } } // Just remove the upcoming character.
 	}
 
 	// For the minus sign, flip the sign of the current part.
@@ -116,7 +116,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive = false, all
 		// If there already is a period, remove it first.
 		const periodPosition = number.indexOf('.')
 		if (periodPosition !== -1)
-			FI = { ...FI, value: { ...value, number: removeAtIndex(number, periodPosition) }, cursor: { ...cursor, cursor: cursor.cursor + (periodPosition < cursor.cursor ? -1 : 0) } }
+			FI = { ...FI, value: { ...value, number: removeAt(number, periodPosition) }, cursor: { ...cursor, cursor: cursor.cursor + (periodPosition < cursor.cursor ? -1 : 0) } }
 
 		// Add the period.
 		return addStrToFI('.', FI)
@@ -124,7 +124,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive = false, all
 
 	// Check for additions. Only numbers allowed here.
 	if (isNumber(key)) // Numbers.
-		return { ...FI, value: insertAtIndex(value, cursor, key), cursor: cursor + 1 }
+		return { ...FI, value: insertAt(value, cursor, key), cursor: cursor + 1 }
 
 	// Unknown key. Ignore, do nothing.
 	return FI
@@ -135,7 +135,7 @@ function addStrToFI(str, FI) {
 	// Add the string at the position of the cursor or, if we are to the left of a minus sign, to the right of this minus sign instead.
 	const { value, cursor } = FI
 	const addAt = (cursor.cursor === 0 && value[cursor.part].slice(0, 1) === '-' ? 1 : cursor.cursor)
-	return { ...FI, value: { ...value, [cursor.part]: insertAtIndex(value[cursor.part], addAt, str) }, cursor: { ...cursor, cursor: addAt + str.toString().length } }
+	return { ...FI, value: { ...value, [cursor.part]: insertAt(value[cursor.part], addAt, str) }, cursor: { ...cursor, cursor: addAt + str.toString().length } }
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.

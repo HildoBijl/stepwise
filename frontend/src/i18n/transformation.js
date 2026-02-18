@@ -1,11 +1,11 @@
 import { isValidElement } from 'react'
 
-import { isEmptyArray, isBasicObject, numberToAlphabetString, tagTreeToString, camelCaseToDashCase } from 'step-wise/util'
+import { isEmptyArray, isBasicObject, toExcelColumn, renderTagTree, camelToKebab } from 'step-wise/util'
 
 // elementToString takes a React element like <Par>x: {{x}}<br/>y: {{y}}</Par> and turns it into a string for a translation file, like "<par>x: {x}<br/>y: {y}</par>".
 export function elementToString(element, counter = { count: 0 }) {
 	// Define a handler to get a name for a tag/variable when needed.
-	const getName = () => numberToAlphabetString(++counter.count)
+	const getName = () => toExcelColumn(++counter.count)
 
 	// On a non-existing element, return an empty string.
 	if (element === undefined || element === null)
@@ -36,7 +36,7 @@ export function elementToString(element, counter = { count: 0 }) {
 		else if (typeof element.type === 'function' && element.type.tag)
 			name = element.type.tag // A React component with a tag parameter.
 		else if (element.type?.name)
-			name = camelCaseToDashCase(element.type.name)
+			name = camelToKebab(element.type.name)
 		else
 			name = getName() // Unknown React component. Get a sequentially generated name.
 
@@ -53,7 +53,7 @@ export function elementToString(element, counter = { count: 0 }) {
 				if (!prop) { // Undefined prop.
 					return ''
 				} else if (Array.isArray(prop) && key !== 'children') { // Array of items. Use separating tags.
-					const keyDashCase = camelCaseToDashCase(key)
+					const keyDashCase = camelToKebab(key)
 					const itemTag = (keyDashCase.slice(-1) === 's' ? keyDashCase.slice(0, -1) : `${keyDashCase}-item`) // Turn "someElements" into "some-element", or turn "internalStuff" to "internal-stuff-item".
 					return prop
 						.map(item => elementToString(item, counter))
@@ -71,7 +71,7 @@ export function elementToString(element, counter = { count: 0 }) {
 			} else if (Array.isArray(translatableProps)) { // Array of props. Walk through them and add each existing one with separating tags.
 				contents = translatableProps.map(key => {
 					const propContents = processProp(key)
-					const tag = camelCaseToDashCase(key)
+					const tag = camelToKebab(key)
 					return propContents ? `<${tag}>${propContents}</${tag}>` : ''
 				}).join('')
 			} else {
@@ -193,7 +193,7 @@ export function applyTranslation(element, tagTree, key) {
 
 		// By now the two lists should have the same length.
 		if (elementListProcessed.length !== tagTreeProcessed.length)
-			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${tagTreeToString(tagTree)}`)
+			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${renderTagTree(tagTree)}`)
 		return elementListProcessed.map((currElement, index) => applyTranslation(currElement, tagTreeProcessed[index], index))
 	}
 
@@ -201,14 +201,14 @@ export function applyTranslation(element, tagTree, key) {
 	if (typeof element === 'string') {
 		if (tagTree.type === 'text')
 			return tagTree.value
-		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to receive some regular text, but received:\n${tagTree && tagTreeToString(tagTree)}`)
+		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to receive some regular text, but received:\n${tagTree && renderTagTree(tagTree)}`)
 	}
 
 	// If the element we received is a single-variable object, include it. If it's a React element, make sure it has a key.
 	if (isBasicObject(element) && Object.keys(element).length === 1) {
 		const name = Object.keys(element)[0]
 		if (tagTree.type !== 'variable')
-			throw new Error(`Invalid translation: there was a mismatch in the translation. Expected to include a variable with name "${name}" and hence encounter "{${name}}" in the translation. Instead, encountered:\n${tagTreeToString(tagTree)}`)
+			throw new Error(`Invalid translation: there was a mismatch in the translation. Expected to include a variable with name "${name}" and hence encounter "{${name}}" in the translation. Instead, encountered:\n${renderTagTree(tagTree)}`)
 		if (tagTree.name !== name)
 			throw new Error(`Invalid translation: there was a mismatch in variable names. Expected to include a variable "${name}" but encountered a variable "${tagTree.name}" in the translation.`)
 
@@ -222,7 +222,7 @@ export function applyTranslation(element, tagTree, key) {
 	// If the element is a React element, process it accordingly.
 	if (isValidElement(element)) {
 		if (tagTree.type !== 'tag')
-			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a tag like <${tagTree.name}>...</${tagTree.name}> but instead encountered:\n${tagTreeToString(tagTree)}`)
+			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a tag like <${tagTree.name}>...</${tagTree.name}> but instead encountered:\n${renderTagTree(tagTree)}`)
 
 		// If no translation is done, keep the element.
 		if (element.type.translation === false)
@@ -248,7 +248,7 @@ export function applyTranslation(element, tagTree, key) {
 			if (Array.isArray(translatableProps)) {
 				const propsClone = { ...props }
 				translatableProps.forEach(key => {
-					const name = camelCaseToDashCase(key)
+					const name = camelToKebab(key)
 					const tagTreeArray = Array.isArray(tagTree) ? tagTree : [tagTree] // Ensure the tagTree is also an array.
 					let tagTreeChild = tagTreeArray.find(item => item.name === name)?.value // Zoom in on the contents of the property tag.
 					if (props[key] && !tagTreeChild)
@@ -279,6 +279,6 @@ export function applyTranslation(element, tagTree, key) {
 
 	// We must have a variable. Leave it as is.
 	if (tagTree.type !== 'variable')
-		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a variable of the form {x}. Instead, encountered:\n${tagTreeToString(tagTree)}`)
+		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a variable of the form {x}. Instead, encountered:\n${renderTagTree(tagTree)}`)
 	return element
 }

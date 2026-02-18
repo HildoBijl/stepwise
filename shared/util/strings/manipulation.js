@@ -1,18 +1,18 @@
 const { ensureString } = require('./checks')
 
-// firstToLowerCase makes sure the first character of the given string is in lower case.
-function firstToLowerCase(str) {
+// lowerFirst makes sure the first character of the given string is in lower case.
+function lowerFirst(str) {
 	str = ensureString(str)
 	return str && `${str[0].toLowerCase()}${str.slice(1)}`
 }
-module.exports.firstToLowerCase = firstToLowerCase
+module.exports.lowerFirst = lowerFirst
 
-// firstToUpperCase makes sure the first character of the given string is in upper case.
-function firstToUpperCase(str) {
+// upperFirst makes sure the first character of the given string is in upper case.
+function upperFirst(str) {
 	str = ensureString(str)
 	return str && `${str[0].toUpperCase()}${str.slice(1)}`
 }
-module.exports.firstToUpperCase = firstToUpperCase
+module.exports.upperFirst = upperFirst
 
 // removeWhitespace removes all whitespace from a string.
 function removeWhitespace(str) {
@@ -20,20 +20,20 @@ function removeWhitespace(str) {
 }
 module.exports.removeWhitespace = removeWhitespace
 
-// removeAtIndex takes a string and removes the character at the given index. The new string is returned.
-function removeAtIndex(str, ind, len = 1) {
+// removeAt takes a string and removes the character at the given index. The new string is returned.
+function removeAt(str, ind, len = 1) {
 	return str.slice(0, ind) + str.slice(ind + len)
 }
-module.exports.removeAtIndex = removeAtIndex
+module.exports.removeAt = removeAt
 
-// insertAtIndex takes a string and inserts another string at the given index.
-function insertAtIndex(str, ind = 0, insertion = '') {
+// insertAt takes a string and inserts another string at the given index.
+function insertAt(str, ind = 0, insertion = '') {
 	return str.slice(0, ind) + insertion + str.slice(ind)
 }
-module.exports.insertAtIndex = insertAtIndex
+module.exports.insertAt = insertAt
 
-// camelCaseToDashCase takes a string like 'someFancyName' and turns it into 'some-fancy-name': all lower case and with dashes as seperators.
-function camelCaseToDashCase(str) {
-	return firstToLowerCase(str).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+// camelToKebab takes a string like 'someFancyName' and turns it into 'some-fancy-name': all lower case and with dashes as seperators.
+function camelToKebab(str) {
+	return lowerFirst(str).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 }
-module.exports.camelCaseToDashCase = camelCaseToDashCase
+module.exports.camelToKebab = camelToKebab

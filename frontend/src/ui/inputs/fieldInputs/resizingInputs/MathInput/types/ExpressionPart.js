@@ -1,4 +1,4 @@
-import { isNumber, isLetter, removeAtIndex, insertAtIndex, firstOf } from 'step-wise/util'
+import { isNumber, isLetter, removeAt, insertAt, firstOf } from 'step-wise/util'
 import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
 import { functions } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
@@ -179,7 +179,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		if (value[cursor - 1] === '(' && value[cursor] === ')') {
 			return {
 				...FI,
-				value: removeAtIndex(value, cursor - 1, 2),
+				value: removeAt(value, cursor - 1, 2),
 				cursor: cursor - 1,
 			}
 		}
@@ -187,14 +187,14 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		// Normal case.
 		return {
 			...FI,
-			value: removeAtIndex(value, cursor - 1),
+			value: removeAt(value, cursor - 1),
 			cursor: cursor - 1,
 		}
 	}
 	if (key === 'Delete' && !isCursorAtEnd(value, cursor)) {
 		return {
 			...FI, // Keep cursor as is.
-			value: removeAtIndex(value, cursor),
+			value: removeAt(value, cursor),
 		}
 	}
 
@@ -207,7 +207,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 			return addStrToFI(key, FI) // There already is a closing bracket too much after the cursor. Just add an opening bracket.
 		return { // There are not sufficient opening brackets after the cursor. Add a closing bracket and put the cursor in-between.
 			...FI,
-			value: insertAtIndex(value, cursor, '()'),
+			value: insertAt(value, cursor, '()'),
 			cursor: cursor + 1,
 		}
 	}
@@ -266,7 +266,7 @@ export function addStrToFI(str, FI) {
 	const { value, cursor } = FI
 	return {
 		...FI,
-		value: insertAtIndex(value, cursor, str),
+		value: insertAt(value, cursor, str),
 		cursor: cursor + str.length,
 	}
 }

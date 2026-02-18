@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-import { firstToLowerCase, applyMapping } from 'step-wise/util'
+import { lowerFirst, applyMapping } from 'step-wise/util'
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, useTranslator } from 'i18n'
@@ -61,9 +61,9 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 
 		// Add in other pages that may have loaded.
 		if (loadedPages) {
-			Object.keys(loadedPages).filter(key => !!tabData[firstToLowerCase(key)]).forEach(key => {
+			Object.keys(loadedPages).filter(key => !!tabData[lowerFirst(key)]).forEach(key => {
 				const Component = loadedPages[key]
-				pages[firstToLowerCase(key)] = <Component />
+				pages[lowerFirst(key)] = <Component />
 				numPages++
 			})
 		}

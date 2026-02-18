@@ -1,4 +1,4 @@
-import { insertAtIndex, firstOf, lastOf, sum } from 'step-wise/util'
+import { insertAt, firstOf, lastOf, sum } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { addCursor, removeCursor } from '../../../FieldInput'
@@ -65,10 +65,10 @@ export function toLatex(FI) {
 	// If there are certain signs at the start or end, add spacing. This is to prevent inconsistent Latex spacing when you for instance type "a+" and then type "b" after. Without this, the plus sign jumps.
 	const start = ['+', '\\cdot '].find(char => latex.startsWith(char))
 	if (start)
-		latex = insertAtIndex(latex, start.length, '\\: ')
+		latex = insertAt(latex, start.length, '\\: ')
 	const end = ['+', '\\cdot ', '-'].find(char => latex.endsWith(char))
 	if (end)
-		latex = insertAtIndex(latex, latex.length - end.length, '\\: ')
+		latex = insertAt(latex, latex.length - end.length, '\\: ')
 
 	// If the string starts or ends with \! (negative space) then remove it. This is to prevent the Expression from having no margin and cursors potentially disappearing. An expeption occurs when we're empty: then we want to have no space at all.
 	if (!isEmpty(value)) {
@@ -352,14 +352,14 @@ function processExpressionPartBrackets(arr) {
 				if (matchingBracket !== undefined) { // Matching opening bracket? Couple them.
 					const addRight = '\\right'
 					const addLeft = '\\left'
-					arr[index] = insertAtIndex(arr[index], char, addRight)
-					arr[matchingBracket.index] = insertAtIndex(arr[matchingBracket.index], matchingBracket.char, addLeft)
+					arr[index] = insertAt(arr[index], char, addRight)
+					arr[matchingBracket.index] = insertAt(arr[matchingBracket.index], matchingBracket.char, addLeft)
 					char += (index === matchingBracket.index ? addLeft.length : 0) + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
 				} else { // No matching opening bracket. Add a \. at the start of the ExpressionPart.
 					const addRight = '\\right'
 					const addLeft = '\\left.\\hspace{-0.12em}' // Add negative space to prevent the \. from distorting the layout.
-					arr[index] = insertAtIndex(arr[index], char, addRight) // Close off the bracket.
-					arr[index] = insertAtIndex(arr[index], 0, addLeft)
+					arr[index] = insertAt(arr[index], char, addRight) // Close off the bracket.
+					arr[index] = insertAt(arr[index], 0, addLeft)
 					char += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
 				}
 			}
@@ -369,8 +369,8 @@ function processExpressionPartBrackets(arr) {
 	// Close off remaining opening brackets by adding \right. on the end of the respective strings.
 	while (openingBrackets.length > 0) {
 		const openingBracket = openingBrackets.pop()
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0.12em}')
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], openingBracket.char, '\\left')
+		arr[openingBracket.index] = insertAt(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0.12em}')
+		arr[openingBracket.index] = insertAt(arr[openingBracket.index], openingBracket.char, '\\left')
 	}
 	return arr
 }

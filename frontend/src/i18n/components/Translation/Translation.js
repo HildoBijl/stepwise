@@ -1,4 +1,4 @@
-import { getTagTree } from 'step-wise/util'
+import { parseTagTree } from 'step-wise/util'
 
 import { isLocalhost } from 'util'
 
@@ -17,7 +17,7 @@ export function Translation({ path, entry, children, extendEntry }) {
 
 	// Try to implement the translation.
 	try {
-		return applyTranslation(children, getTagTree(text))
+		return applyTranslation(children, parseTagTree(text))
 	} catch (error) {
 		// On a failure to implement the translation, keep the original text.
 		if (isLocalhost()) {

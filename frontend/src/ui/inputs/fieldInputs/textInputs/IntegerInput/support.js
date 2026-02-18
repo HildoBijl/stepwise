@@ -1,4 +1,4 @@
-import { passOn, isNumber, removeAtIndex, insertAtIndex } from 'step-wise/util'
+import { passOn, isNumber, removeAt, insertAt } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -66,12 +66,12 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive) {
 	if (key === 'Backspace') {
 		if (isCursorAtStart(value, cursor))
 			return FI
-		return { ...FI, value: removeAtIndex(value, cursor - 1), cursor: cursor - 1 }
+		return { ...FI, value: removeAt(value, cursor - 1), cursor: cursor - 1 }
 	}
 	if (key === 'Delete') {
 		if (isCursorAtEnd(value, cursor))
 			return FI
-		return { ...FI, value: removeAtIndex(value, cursor) }
+		return { ...FI, value: removeAt(value, cursor) }
 	}
 
 	// For the minus sign, flip the sign of the current part.
@@ -83,7 +83,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive) {
 
 	// Check for additions. Only numbers allowed here.
 	if (isNumber(key)) // Numbers.
-		return { ...FI, value: insertAtIndex(value, cursor, key), cursor: cursor + 1 }
+		return { ...FI, value: insertAt(value, cursor, key), cursor: cursor + 1 }
 
 	// Unknown key. Ignore, do nothing.
 	return FI

@@ -1,4 +1,4 @@
-const { isLetter, getNextSymbol, lastOf, processOptions, filterOptions, InterpretationError } = require('../../../util')
+const { isLetter, findNextOf, lastOf, processOptions, filterOptions, InterpretationError } = require('../../../util')
 
 const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
@@ -144,7 +144,7 @@ function interpretSums(value, settings) {
 
 		// Walk through the plus/minuses and process the resulting parts.
 		const str = element.value
-		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-', '±'], startFrom + 1)
+		const getNextPlusMinus = (startFrom = -1) => findNextOf(str, ['+', '-', '±'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
 			let symbolAfter = str[nextPlusMinus]
 			let end = { part, cursor: nextPlusMinus }
