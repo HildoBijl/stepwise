@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { arrayFind, isBasicObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
+import { arrayFind, isPlainObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
 import { Equation } from 'step-wise/CAS'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison } from 'step-wise/eduTools'
@@ -52,8 +52,8 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 		comparison = {}
 	if (typeof comparison === 'function')
 		comparison = { default: comparison }
-	if (!isBasicObject(comparison))
-		throw new Error(`Invalid comparison parameter: expected a basic object with comparison options/functions for each parameter. Received something of type ${typeof comparison}.`)
+	if (!isPlainObject(comparison))
+		throw new Error(`Invalid comparison parameter: expected a plain object with comparison options/functions for each parameter. Received something of type ${typeof comparison}.`)
 
 	// Walk through the parameters and incorporate feedback.
 	return applyMapping(parameterOptions, (currOptions, currParameter) => {
@@ -96,12 +96,12 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct)
 	if (checkResult)
-		return isBasicObject(checkResult) && !isValidElement(checkResult) ? { correct, ...checkResult } : { correct, text: checkResult }
+		return isPlainObject(checkResult) && !isValidElement(checkResult) ? { correct, ...checkResult } : { correct, text: checkResult }
 
 	// If a feedback function has been provided, then apply it.
 	if (feedbackFunction) {
 		const feedback = feedbackFunction(currInput, currSolution, currOptions, exerciseData)
-		return isBasicObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
+		return isPlainObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
 	}
 
 	// Go for default feedback. If the comparison is a function, all we can say is whether it's correct or incorrect.

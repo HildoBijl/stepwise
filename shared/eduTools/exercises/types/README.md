@@ -29,8 +29,8 @@ Tip: see an existing exercise to see how this is set up.
 
 The functions to be provided are as follows.
 
-- `generateState` gives a basic object with parameters -- a `state` -- that defines the exercises. For instance it can be `generateState = () => ({ a: getRandomInteger(1, 10), b: getRandomInteger(1, 10) })`.
-- `getSolution` is in theory optional, but it is used pretty much always. It takes the exercise state and comes up with a basic object with a lot of useful calculated parameters, including the final solution. It could for instance be `getSolution = ({ a, b }) => ({ sum: a + b, product: a*b })`.
+- `generateState` gives a plain object with parameters -- a `state` -- that defines the exercises. For instance it can be `generateState = () => ({ a: getRandomInteger(1, 10), b: getRandomInteger(1, 10) })`.
+- `getSolution` is in theory optional, but it is used pretty much always. It takes the exercise state and comes up with a plain object with a lot of useful calculated parameters, including the final solution. It could for instance be `getSolution = ({ a, b }) => ({ sum: a + b, product: a*b })`.
 - `checkInput` is the grading function. It receives all exerciseData (like `{ state, input, solution, metaData }`) in one object, and then returns either `true` or `false`: is the input correct? So it could be
 
 ```
@@ -92,7 +92,7 @@ const checkInput = ({ input, solution }, step, substep) => {
 
 It is possible to make a `SimpleExercise` and a `StepExercise` without a `getSolution`. However, it is way more convenient to define a `getSolution` function that calculates and defines all parameters you may need at any point in time. The exercise types are programmed in such a way that the `getSolution` function is called as little as possible (efficiency in case of difficult computations) but its results are available in as many places as possible.
 
-In general, the `getSolution` parameter is a function that receives the `state` and returns a basic objects with parameters: anything that might be useful can be in there. However, in some special cases the solution of an exercise might be input-dependent. For instance, maybe in a physics exercise the user first has to define a "positive direction" (left or right) and depending on this choice (which can be made freely) the answer is either `30 m` or `-30 m`. How do we deal with this?
+In general, the `getSolution` parameter is a function that receives the `state` and returns a plain objects with parameters: anything that might be useful can be in there. However, in some special cases the solution of an exercise might be input-dependent. For instance, maybe in a physics exercise the user first has to define a "positive direction" (left or right) and depending on this choice (which can be made freely) the answer is either `30 m` or `-30 m`. How do we deal with this?
 
 The solution is an input-dependent solution. To accomplish this, the `getSolution` parameter is now an object with four functions.
 

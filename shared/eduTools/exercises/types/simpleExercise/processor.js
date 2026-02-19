@@ -1,4 +1,4 @@
-const { isBasicObject } = require('../../../../util')
+const { isPlainObject } = require('../../../../util')
 const { toFO } = require('../../../../inputTypes')
 
 const { hasPreviousInput } = require('../stepExercise')
@@ -6,12 +6,12 @@ const { hasPreviousInput } = require('../stepExercise')
 // getSimpleExerciseProcessor takes exerciseData with a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
 function getSimpleExerciseProcessor(exerciseData) {
 	// Check the input.
-	if (!isBasicObject(exerciseData))
+	if (!isPlainObject(exerciseData))
 		throw new Error(`Invalid SimpleExercise exerciseData: expected an object as parameter, but received something of type ${typeof exerciseData}.`)
 	const { checkInput, metaData } = exerciseData
 	if (!checkInput || typeof checkInput !== 'function')
 		throw new Error(`Invalid SimpleExercise checkInput: expected a checkInput function as parameter, but received something of type ${typeof checkInput}.`) 
-	if (!metaData || !isBasicObject(metaData))
+	if (!metaData || !isPlainObject(metaData))
 		throw new Error(`Invalid SimpleExercise metaData: expected a metaData object as parameter, but received something of type ${typeof metaData}.`) 
 
 	// Set up the processor.

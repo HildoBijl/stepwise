@@ -1,4 +1,4 @@
-const { ensureArray, ensureNumberArray, sum, isBasicObject, keysToObject } = require('../../util')
+const { ensureArray, ensureNumberArray, sum, isPlainObject, keysToObject } = require('../../util')
 
 // ensureCoef takes a coef array and ensures it actually is one: it is an array of non-negative numbers whose sum equals one. It returns a copy of the array.
 function ensureCoef(coef, requireNormalized = true) {
@@ -32,8 +32,8 @@ module.exports.invert = invert
 
 // ensureCoefSet checks whether the given object is a coefficient set object. If a list of required skill IDs is given, it filters the skills to the given IDs and checks only these.
 function ensureCoefSet(coefSet, requiredSkillIds) {
-	if (!isBasicObject(coefSet))
-		throw new Error(`Invalid coefficient set: expected the coefficient set parameter to be a basic object but received something of type "${typeof coefSet}".`)
+	if (!isPlainObject(coefSet))
+		throw new Error(`Invalid coefficient set: expected the coefficient set parameter to be a plain object but received something of type "${typeof coefSet}".`)
 	if (!requiredSkillIds)
 		requiredSkillIds = Object.keys(coefSet)
 	if (requiredSkillIds)

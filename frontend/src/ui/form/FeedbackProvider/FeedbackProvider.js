@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isBasicObject, applyMapping, filterProperties, deepEquals } from 'step-wise/util'
+import { isPlainObject, applyMapping, filterProperties, deepEquals } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 import { getExerciseName } from 'step-wise/eduTools'
 
@@ -60,7 +60,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 				previousInput: previousInputFO,
 				translate, translateCrossExercise,
 			})
-			if (!result || !isBasicObject(result))
+			if (!result || !isPlainObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)
 			result = applyMapping(result, fieldFeedback => processFeedback(fieldFeedback, theme))
 			setFeedback({ result: result, input })

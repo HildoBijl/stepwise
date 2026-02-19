@@ -7,13 +7,13 @@ The [coefficients directory](../coefficients/) has all the basic functionalities
 
 Previously we have worked with coefficient sets: objects of the form `{ someSkill1: someCoefArray, someSkill2: someCoefArray }`. When applying inference, we work with functional skill data sets `{ someSkill1: someSkillDataObject, someSkill2: someSkillDataObject }`. Here all parameters are `SkillData` objects with added functionalities.
 
-To start, we need a raw data set of skills, often loaded from the database. This is a basic object of the form `{ someSkill1: { coefficients: [...], coefficientsOn: Date, highest: [...], highestOn: Date, numPracticed: number }, ... }`. We call this a "raw skill data set". To turn this into a "functional skill data set", use
+To start, we need a raw data set of skills, often loaded from the database. This is a plain object of the form `{ someSkill1: { coefficients: [...], coefficientsOn: Date, highest: [...], highestOn: Date, numPracticed: number }, ... }`. We call this a "raw skill data set". To turn this into a "functional skill data set", use
 
 ```
 skillDataSet = processSkillDataSet(rawSkillDataSet, skillTree)
 ```
 
-The skill tree is needed to know which links each skill has to other skills. The result is a functional skill data set: a basic object with `SkillData` properties.
+The skill tree is needed to know which links each skill has to other skills. The result is a functional skill data set: a plain object with `SkillData` properties.
 
 When new raw data becomes available, for instance after an updated from the database, this can be incorporated. It is not necessary to make a new data set: simply add it using
 

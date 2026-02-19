@@ -1,4 +1,4 @@
-const { isBasicObject } = require('../../util')
+const { isPlainObject } = require('../../util')
 
 const { maxSkillDataCacheTime } = require('../settings')
 const { smoothen } = require('../coefficients')
@@ -8,14 +8,14 @@ const { applyInferenceForSkill } = require('./inference')
 class SkillData {
 	constructor(skill, rawSkillData, skillDataSet, cache = {}) {
 		// Check that all the data is present.
-		if (!skill || !isBasicObject(skill))
+		if (!skill || !isPlainObject(skill))
 			throw new Error(`Invalid skill: expected a skill object from the skill tree, but received something of type "${typeof skill}".`)
-		if (!rawSkillData || !isBasicObject(rawSkillData))
+		if (!rawSkillData || !isPlainObject(rawSkillData))
 			throw new Error(`Invalid raw skill data: expected a raw skill data object for skill "${skill.id}" but received something of type "${typeof rawSkillData}".`)
-		if (!skillDataSet || !isBasicObject(skillDataSet))
+		if (!skillDataSet || !isPlainObject(skillDataSet))
 			throw new Error(`Invalid skill data set: expected a skill data set when setting up the Skill Data for skill "${skill.id}" but received something of type "${typeof skillDataSet}".`)
-		if (!isBasicObject(cache))
-			throw new Error(`Invalid skill data cache: expected a basic object but received something of type "${typeof cache}".`)
+		if (!isPlainObject(cache))
+			throw new Error(`Invalid skill data cache: expected a plain object but received something of type "${typeof cache}".`)
 
 		// Store all data.
 		this._skill = skill

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 
-import { isBasicObject, ensureConsistency } from 'step-wise/util'
+import { isPlainObject, ensureConsistency } from 'step-wise/util'
 
 import { useUpdater, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -46,8 +46,8 @@ function useInitialInputUpdating(initialInput, setInput, getFieldData) {
 		// Check the initial input.
 		if (initialInput === undefined)
 			return
-		if (!isBasicObject(initialInput))
-			throw new Error(`Invalid initial Form input: received an initialInput parameter for a Form but it was of type "${typeof initialInput}". A basic object with various parameters was expected.`)
+		if (!isPlainObject(initialInput))
+			throw new Error(`Invalid initial Form input: received an initialInput parameter for a Form but it was of type "${typeof initialInput}". A plain object with various parameters was expected.`)
 
 		// Attempt to apply each parameter given in the initial input.
 		setInput(input => {

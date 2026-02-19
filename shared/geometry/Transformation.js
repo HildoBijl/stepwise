@@ -1,6 +1,6 @@
 // A Transformation represents a linear manipulation of a vector. It consists of a transformation matrix M and a shift vector v. When applied, a vector x will be replaced by M*x+v. Note that the shift is applied AFTER the transformation matrix.
 
-const { ensureInt, ensureNumber, ensureNumberArray, isBasicObject } = require('../util')
+const { ensureInt, ensureNumber, ensureNumberArray, isPlainObject } = require('../util')
 
 const { Vector, ensureVector } = require('./Vector')
 const { Matrix, ensureMatrix } = require('./Matrix')
@@ -16,7 +16,7 @@ class Transformation {
 		if (args.length === 1) {
 			if (args[0] instanceof Transformation)
 				return args[0]
-			if (isBasicObject(args[0])) {
+			if (isPlainObject(args[0])) {
 				matrix = args[0].matrix
 				vector = args[0].vector
 			} else {

@@ -4,15 +4,15 @@ function isObject(obj) {
 }
 module.exports.isObject = isObject
 
-// isBasicObject checks if a variable is a simple object made through {...}. So not one through a constructor with various methods.
-function isBasicObject(obj) {
+// isPlainObject checks if a variable is a simple object made through {...}. So not one through a constructor with various methods.
+function isPlainObject(obj) {
 	return isObject(obj) && obj.constructor === Object && obj.$$typeof !== Symbol.for('react.element')
 }
-module.exports.isBasicObject = isBasicObject
+module.exports.isPlainObject = isPlainObject
 
 // isEmptyObject checks if the object equals {}.
 function isEmptyObject(obj) {
-	return isBasicObject(obj) && Object.keys(obj).length === 0
+	return isPlainObject(obj) && Object.keys(obj).length === 0
 }
 module.exports.isEmptyObject = isEmptyObject
 
@@ -24,13 +24,13 @@ function ensureObject(obj) {
 }
 module.exports.ensureObject = ensureObject
 
-// ensureBasicObject makes sure an object is a basic object and otherwise throws an error.
-function ensureBasicObject(obj) {
-	if (!isBasicObject(obj))
-		throw new Error(`Invalid input: expected a basic object but received a parameter of type "${typeof obj}".`)
+// ensurePlainObject makes sure an object is a plain object and otherwise throws an error.
+function ensurePlainObject(obj) {
+	if (!isPlainObject(obj))
+		throw new Error(`Invalid input: expected a plain object but received a parameter of type "${typeof obj}".`)
 	return obj
 }
-module.exports.ensureBasicObject = ensureBasicObject
+module.exports.ensurePlainObject = ensurePlainObject
 
 // ensureBoolean makes sure a parameter is boolean.
 function ensureBoolean(param) {
@@ -40,9 +40,9 @@ function ensureBoolean(param) {
 }
 module.exports.ensureBoolean = ensureBoolean
 
-// hasIterableParameters is a function that checks if something is an array or basic object: something with parameters that we can browse through.
+// hasIterableParameters is a function that checks if something is an array or plain object: something with parameters that we can browse through.
 function hasIterableParameters(obj) {
-	return Array.isArray(obj) || isBasicObject(obj)
+	return Array.isArray(obj) || isPlainObject(obj)
 }
 module.exports.hasIterableParameters = hasIterableParameters
 

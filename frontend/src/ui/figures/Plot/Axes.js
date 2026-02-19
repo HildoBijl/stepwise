@@ -1,6 +1,6 @@
 import React, { Fragment, forwardRef } from 'react'
 
-import { ensureNumber, ensureBoolean, ensureBasicObject, processOptions, firstOf, lastOf, ensureFunction } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, ensurePlainObject, processOptions, firstOf, lastOf, ensureFunction } from 'step-wise/util'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -30,14 +30,14 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 
 	// Process options.
 	let { axisLineStyle, tickLineStyle, tickSize, tickSizeOpposite, showZeroTick, tickToElement, gridLines, gridLineStyle, xLabel, yLabel, xLabelShift, yLabelShift, textScale } = processOptions(options, defaultAxesOptions)
-	axisLineStyle = ensureBasicObject(axisLineStyle)
-	tickLineStyle = ensureBasicObject(tickLineStyle)
+	axisLineStyle = ensurePlainObject(axisLineStyle)
+	tickLineStyle = ensurePlainObject(tickLineStyle)
 	tickSize = ensureNumber(tickSize, true)
 	tickSizeOpposite = ensureNumber(tickSizeOpposite, true)
 	showZeroTick = ensureBoolean(showZeroTick)
 	tickToElement = ensureFunction(tickToElement)
 	gridLines = ensureBoolean(gridLines)
-	gridLineStyle = ensureBasicObject(gridLineStyle)
+	gridLineStyle = ensurePlainObject(gridLineStyle)
 	xLabel = xLabel && ensureReactElement(xLabel)
 	yLabel = yLabel && ensureReactElement(yLabel)
 	xLabelShift = ensureNumber(xLabelShift)

@@ -1,1 +1,5 @@
-export const tempObjects = 1
+export * from './checks'
+export * from './comparisons'
+export * from './reading'
+// export * from './creation'
+// export * from './manipulation'

@@ -15,7 +15,7 @@ Suppose you have a `Form` with various input fields inside. How can you use exis
 
 When accessing further form data you must know about the various data format used in Step-Wise.
 - When values are entered into the form, the field parameters are in `Functional Input (FI)` form. The FI parameters have data like cursors, selections and such in it. An example is `{ type: 'Float', value: { number: '3', power: 2' }, cursor: { ... } }`.
-- When the values are submitted to the server and stored in the database, then the FI-parameters are cleaned. What results is a `Stored Input (SI)` parameter. This is a basic object containing all relevant data on the input, but nothing about cursors, selections, etcetera. It is also not functional in any way: it is a basic Javascript object. An example is `{ type: 'Float', value: { number: '3', power: 2' }, cursor: { ... } }`.
+- When the values are submitted to the server and stored in the database, then the FI-parameters are cleaned. What results is a `Stored Input (SI)` parameter. This is a plain object containing all relevant data on the input, but nothing about cursors, selections, etcetera. It is also not functional in any way: it is a basic Javascript object. An example is `{ type: 'Float', value: { number: '3', power: 2' }, cursor: { ... } }`.
 - When the values are interpreted, we get `Functional Object (FO)` parameters. These are objects that have lots of methods that are useful to interact with them. For instance, a `Float` field may return something like `new Float(3, 2)`. 
 
 

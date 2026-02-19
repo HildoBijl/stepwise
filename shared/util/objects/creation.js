@@ -10,7 +10,7 @@ function keysToObject(keys, func, filterUndefined = true) {
 }
 module.exports.keysToObject = keysToObject
 
-// arraysToObject takes two arrays of equal length, one with keys and the other with values, and turns it into a basic object.
+// arraysToObject takes two arrays of equal length, one with keys and the other with values, and turns it into a plain object.
 function arraysToObject(keys, values, filterUndefined) {
 	return keysToObject(keys, (_, index) => values[index], filterUndefined)
 }

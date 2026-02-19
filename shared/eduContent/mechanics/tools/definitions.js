@@ -1,4 +1,4 @@
-const { ensureNumber, ensureBoolean, isBasicObject } = require('../../../util')
+const { ensureNumber, ensureBoolean, isPlainObject } = require('../../../util')
 const { Vector, ensureVector, Span, ensureSpan } = require('../../../geometry')
 
 /*
@@ -74,7 +74,7 @@ module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentO
  */
 
 function isLoad(load) {
-	if (!isBasicObject(load))
+	if (!isPlainObject(load))
 		return false
 	return Object.values(loadTypes).includes(load.type)
 }
@@ -82,10 +82,10 @@ module.exports.isLoad = isLoad
 
 function ensureLoad(load) {
 	// Ensure it's an object with a valid type.
-	if (!isBasicObject(load))
-		throw new Error(`Invalid load: expected a basic object, but recieved something of type "${typeof load}".`)
+	if (!isPlainObject(load))
+		throw new Error(`Invalid load: expected a plain object, but recieved something of type "${typeof load}".`)
 	if (!load.type || typeof load.type !== 'string')
-		throw new Error(`Invalid load: expected a basic object with a string type property, but the type property was of type "${typeof load.type}".`)
+		throw new Error(`Invalid load: expected a plain object with a string type property, but the type property was of type "${typeof load.type}".`)
 	if (!Object.values(loadTypes).includes(load.type))
 		throw new Error(`Invalid load: received a load with type "${load.type}" but this is an unfamiliar load type.`)
 
@@ -102,8 +102,8 @@ function ensureLoad(load) {
 module.exports.ensureLoad = ensureLoad
 
 function ensureForce(load) {
-	if (!isBasicObject(load))
-		throw new Error(`Invalid force: expected a basic object, but recieved something of type "${typeof load}".`)
+	if (!isPlainObject(load))
+		throw new Error(`Invalid force: expected a plain object, but recieved something of type "${typeof load}".`)
 	if (load.type !== loadTypes.force)
 		throw new Error(`Invalid force: a force must have a type "${loadTypes.force}".`)
 	load.span = ensureSpan(load.span, 2)
@@ -112,8 +112,8 @@ function ensureForce(load) {
 module.exports.ensureForce = ensureForce
 
 function ensureMoment(load) {
-	if (!isBasicObject(load))
-		throw new Error(`Invalid moment: expected a basic object, but recieved something of type "${typeof load}".`)
+	if (!isPlainObject(load))
+		throw new Error(`Invalid moment: expected a plain object, but recieved something of type "${typeof load}".`)
 	if (load.type !== loadTypes.moment)
 		throw new Error(`Invalid moment: a moment must have a type "${loadTypes.moment}".`)
 	load.position = ensureVector(load.position, 2)

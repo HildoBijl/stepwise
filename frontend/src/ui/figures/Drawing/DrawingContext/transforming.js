@@ -5,7 +5,7 @@ import { applyTransformation } from '../transformation'
 
 import { useTransformationSettings } from './context'
 
-// useTransformation receives a vector, an array of vectors or a basic object with only vectors, and applies the transformation from the drawing to all these vectors.
+// useTransformation receives a vector, an array of vectors or a plain object with only vectors, and applies the transformation from the drawing to all these vectors.
 export function useTransformation(points, preventShift) {
 	// Extract the transformation.
 	const transformation = useTransformationSettings()?.transformation || Transformation.getIdentity(2)
@@ -14,7 +14,7 @@ export function useTransformation(points, preventShift) {
 	return applyTransformation(points, transformation, preventShift)
 }
 
-// useScaling receives a number, an array of numbers or a basic object with only number properties, and multiplies these numbers by the scale.
+// useScaling receives a number, an array of numbers or a plain object with only number properties, and multiplies these numbers by the scale.
 export function useScaling(numbers) {
 	// Extract the scaling factor.
 	const scale = useTransformationSettings()?.scale || [1, 1]

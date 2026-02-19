@@ -1,4 +1,4 @@
-const { isObject, isBasicObject } = require('./checks')
+const { isObject, isPlainObject } = require('./checks')
 const { deepEquals } = require('./comparisons')
 const { keysToObject } = require('./creation')
 
@@ -10,7 +10,7 @@ function setDeepParameter(obj, path, value) {
 	// Create a shallow clone, so as not to adjust the original.
 	if (Array.isArray(obj))
 		obj = [...obj]
-	else if (isBasicObject(obj))
+	else if (isPlainObject(obj))
 		obj = { ...obj }
 	else
 		obj = {}
@@ -40,8 +40,8 @@ function ensureConsistency(newValue, oldValue) {
 	if (deepEquals(newValue, oldValue))
 		return oldValue
 
-	// deepEquals gives false. Something is different. For arrays/basic objects try to at least keep child parameters the same.
-	if ((Array.isArray(newValue) && Array.isArray(oldValue)) || (isBasicObject(newValue) && isBasicObject(oldValue)))
+	// deepEquals gives false. Something is different. For arrays/plain objects try to at least keep child parameters the same.
+	if ((Array.isArray(newValue) && Array.isArray(oldValue)) || (isPlainObject(newValue) && isPlainObject(oldValue)))
 		return applyMapping(newValue, (parameter, index) => ensureConsistency(parameter, oldValue[index]))
 
 	// For simple parameter types or complex objects there's not much we can do.

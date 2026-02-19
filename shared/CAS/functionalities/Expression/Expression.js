@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, getAllCombinations, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, getAllCombinations, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -2879,7 +2879,7 @@ function ensureExpression(expression) {
 	}
 
 	// Check if this is an SO. If so, turn it into an FO.
-	if (isBasicObject(expression) && expressionSubtypes[expression.subtype])
+	if (isPlainObject(expression) && expressionSubtypes[expression.subtype])
 		return new expressionSubtypes[expression.subtype](expression)
 
 	// Cannot be interpreted.

@@ -1,4 +1,4 @@
-const { isBasicObject, filterDuplicates, applyMapping, union } = require('../../../util')
+const { isPlainObject, filterDuplicates, applyMapping, union } = require('../../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../../skillTracking')
 
 const { getExerciseId, splitExerciseId } = require('./util')
@@ -802,8 +802,8 @@ Object.values(skillTree).forEach(skill => {
 			return { skills: [link], order: defaultLinkOrder }
 		if (Array.isArray(link))
 			return { skills: link, order: defaultLinkOrder }
-		if (!isBasicObject(link))
-			throw new Error(`Invalid skill link: expected a basic object, string or array, but got something of type "${typeof link}".`)
+		if (!isPlainObject(link))
+			throw new Error(`Invalid skill link: expected a plain object, string or array, but got something of type "${typeof link}".`)
 		if (link.skill) {
 			if (!link.skills) // Allow a "skill" property to be set instead of a "skills" property.
 				link.skills = Array.isArray(link.skill) ? link.skill : [link.skill]

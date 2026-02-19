@@ -1,6 +1,6 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers, isNumberArray, isBasicObject } = require('../util')
+const { ensureInt, ensureNumber, isNumber, compareNumbers, isNumberArray, isPlainObject } = require('../util')
 
 class Vector {
 	/*
@@ -324,7 +324,7 @@ class Vector {
 			return true
 		if (isNumberArray(obj) && obj.length >= 2) // Is it an array of numbers?
 			return true
-		if (isBasicObject(obj)) { // Is it a basic object of the form { x: 2, y: 3, z: 4 } (with at least one parameter)?
+		if (isPlainObject(obj)) { // Is it a plain object of the form { x: 2, y: 3, z: 4 } (with at least one parameter)?
 			const parameters = ['x', 'y', 'z']
 			const parameterCount = parameters.findIndex(parameter => obj[parameter] === undefined)
 			if (parameterCount === -1)

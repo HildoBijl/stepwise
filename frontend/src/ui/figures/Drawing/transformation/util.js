@@ -56,7 +56,7 @@ export function ensureMargin(margin, dimension = 2) {
 	})
 }
 
-// applyTransformation takes a set of Vectors (an array, a basic object or just a Vector itself) and applies the given transformation to all of them. It can also be done recursively, with arrays of arrays or similar.
+// applyTransformation takes a set of Vectors (an array, a plain object or just a Vector itself) and applies the given transformation to all of them. It can also be done recursively, with arrays of arrays or similar.
 export function applyTransformation(points, transformation, preventShift) {
 	transformation = ensureTransformation(transformation)
 

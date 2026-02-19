@@ -1,4 +1,4 @@
-const { compareNumbers, mod, isBasicObject, processOptions, keysToObject, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
+const { compareNumbers, mod, isPlainObject, processOptions, keysToObject, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
 const { getCurrentInputSolutionAndComparison } = require('../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
@@ -204,8 +204,8 @@ function performLoadsComparison(exerciseData, parameterComparison) {
 		parameterComparison = [parameterComparison]
 	if (Array.isArray(parameterComparison))
 		parameterComparison = keysToObject(parameterComparison, () => undefined, false)
-	if (!isBasicObject(parameterComparison))
-		throw new Error(`Invalid parameterComparison provided: expected a basic object, but received something of type ${typeof parameterComparison}.`)
+	if (!isPlainObject(parameterComparison))
+		throw new Error(`Invalid parameterComparison provided: expected a plain object, but received something of type ${typeof parameterComparison}.`)
 
 	// Walk through the parameters and perform a comparison.
 	return Object.keys(parameterComparison).every(currParameter => {

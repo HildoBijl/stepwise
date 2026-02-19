@@ -1,4 +1,4 @@
-const { filterProperties, isBasicObject } = require('../../../../util')
+const { filterProperties, isPlainObject } = require('../../../../util')
 
 // assembleSolution takes a getSolution function or object and assembles a solution object from it.
 function assembleSolution(getSolution, state, input = {}) {
@@ -7,7 +7,7 @@ function assembleSolution(getSolution, state, input = {}) {
 		return getSolution(state)
 
 	// So getSolution should be an object.
-	if (!isBasicObject(getSolution))
+	if (!isPlainObject(getSolution))
 		throw new Error(`Invalid getSolution parameter: expected either a getSolution function or a getSolution object. Got a parameter of type ${typeof getSolution}.`)
 	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
 

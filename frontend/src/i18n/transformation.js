@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isEmptyArray, isBasicObject, toExcelColumn, renderTagTree, camelToKebab } from 'step-wise/util'
+import { isEmptyArray, isPlainObject, toExcelColumn, renderTagTree, camelToKebab } from 'step-wise/util'
 
 // elementToString takes a React element like <Par>x: {{x}}<br/>y: {{y}}</Par> and turns it into a string for a translation file, like "<par>x: {x}<br/>y: {y}</par>".
 export function elementToString(element, counter = { count: 0 }) {
@@ -24,7 +24,7 @@ export function elementToString(element, counter = { count: 0 }) {
 		return element
 
 	// On a single-parameter object, include it as variable.
-	if (isBasicObject(element) && Object.keys(element).length === 1)
+	if (isPlainObject(element) && Object.keys(element).length === 1)
 		return `{${Object.keys(element)[0]}}`
 
 	// On a React element, add a tag. Include any potential children.
@@ -138,7 +138,7 @@ export function applyNoTranslation(element, key) {
 	}
 
 	// Turn a single-parameter object into said parameter. If it's a React element, make sure it has a key.
-	if (isBasicObject(element) && Object.keys(element).length === 1) {
+	if (isPlainObject(element) && Object.keys(element).length === 1) {
 		let variable = Object.values(element)[0]
 		if (isValidElement(variable))
 			variable = { ...variable, key: variable.key || `i18n-key-${key}` }
@@ -205,7 +205,7 @@ export function applyTranslation(element, tagTree, key) {
 	}
 
 	// If the element we received is a single-variable object, include it. If it's a React element, make sure it has a key.
-	if (isBasicObject(element) && Object.keys(element).length === 1) {
+	if (isPlainObject(element) && Object.keys(element).length === 1) {
 		const name = Object.keys(element)[0]
 		if (tagTree.type !== 'variable')
 			throw new Error(`Invalid translation: there was a mismatch in the translation. Expected to include a variable with name "${name}" and hence encounter "{${name}}" in the translation. Instead, encountered:\n${renderTagTree(tagTree)}`)

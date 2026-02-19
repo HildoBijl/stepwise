@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { isBasicObject } from 'step-wise/util'
+import { isPlainObject } from 'step-wise/util'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useInputObject } from 'ui/form'
@@ -17,7 +17,7 @@ export function SolutionProvider({ children }) {
 	// How to set up the context depends on the type of getSolution.
 	if (typeof getSolution === 'function')
 		return <SolutionProviderForFunction>{children}</SolutionProviderForFunction>
-	if (isBasicObject(getSolution))
+	if (isPlainObject(getSolution))
 		return <SolutionProviderForObject>{children}</SolutionProviderForObject>
 	if (getSolution === undefined)
 		return <SolutionContext.Provider value={undefined}>{children}</SolutionContext.Provider>

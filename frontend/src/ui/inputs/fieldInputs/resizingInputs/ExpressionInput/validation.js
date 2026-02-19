@@ -1,4 +1,4 @@
-import { isBasicObject } from 'step-wise/util'
+import { isPlainObject } from 'step-wise/util'
 import { Variable } from 'step-wise/CAS'
 
 import { Translation } from 'i18n'
@@ -22,7 +22,7 @@ export function validWithVariables(...variables) {
 			throw new Error(`Invalid validation variables: when using the validWithVariables function, "undefined" was given as array of variables. This cannot be processed. Please provide actual variables.`)
 		if (Array.isArray(variables[0]))
 			variables = variables[0]
-		if (isBasicObject(variables[0]))
+		if (isPlainObject(variables[0]))
 			variables = Object.values(variables[0])
 	}
 

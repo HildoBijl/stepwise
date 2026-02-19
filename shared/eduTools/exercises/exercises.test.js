@@ -1,4 +1,4 @@
-const { isBasicObject } = require('../../util')
+const { isPlainObject } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
 
 const { exercises, skillTree, getExerciseName } = require('../skills')
@@ -36,10 +36,10 @@ describe('Check all exercises:', () => {
 				expect(typeof exercise.metaData).toBe('object')
 			})
 
-			it('has a generateState function that runs and gives a basic object', () => {
+			it('has a generateState function that runs and gives a plain object', () => {
 				expect(typeof exercise.generateState).toBe('function')
 				expect(exercise.generateState).not.toThrow()
-				expect(isBasicObject(exercise.generateState())).toBe(true)
+				expect(isPlainObject(exercise.generateState())).toBe(true)
 			})
 
 			it('has a processAction function', () => {

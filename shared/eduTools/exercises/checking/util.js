@@ -1,4 +1,4 @@
-const { isBasicObject, keysToObject } = require('../../../util')
+const { isPlainObject, keysToObject } = require('../../../util')
 
 // processParameterComparison takes a parameterComparison parameter and processes it to ensure it's in a standard format.
 function processParameterComparison(parameterComparison) {
@@ -14,8 +14,8 @@ function processParameterComparison(parameterComparison) {
 	if (Array.isArray(parameterComparison))
 		parameterComparison = keysToObject(parameterComparison, () => undefined, false)
 
-	// We must have a basic object now.
-	if (!isBasicObject(parameterComparison))
+	// We must have a plain object now.
+	if (!isPlainObject(parameterComparison))
 		throw new Error(`Invalid parameterComparison given: expected either a string, an array of strings or an object with options, but received something of type ${typeof parameterComparison}.`)
 
 	// All done.

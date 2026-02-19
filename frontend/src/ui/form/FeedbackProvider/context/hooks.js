@@ -1,7 +1,7 @@
 import { isValidElement } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isBasicObject } from 'step-wise/util'
+import { isPlainObject } from 'step-wise/util'
 
 import { useFormData, useFieldValidation } from '../../Form'
 
@@ -48,7 +48,7 @@ export function useFeedback(id) {
 	// On a validation problem, show the validation feedback.
 	if (validationResult !== undefined && isInputEqual(id, validationInput)) {
 		// If the validation result is not a full object, but a string (text) or React element (which is usually the case) then use this as text for the feedback. Also process it to still add an icon and a color.
-		if (!isBasicObject(validationResult) || isValidElement(validationResult))
+		if (!isPlainObject(validationResult) || isValidElement(validationResult))
 			validationResult = { text: validationResult }
 		return addInput(processFeedback({ type: 'warning', ...validationResult }, theme), validationInput)
 	}

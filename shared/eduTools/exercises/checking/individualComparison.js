@@ -1,4 +1,4 @@
-const { isBasicObject } = require('../../../util')
+const { isPlainObject } = require('../../../util')
 const { Expression } = require('../../../CAS')
 
 const { areNumbersEqual } = require('../../../inputTypes')
@@ -38,8 +38,8 @@ function performIndividualComparison(currInput, currSolution, currComparison, so
 		return currComparison(currInput, currSolution, solution)
 
 	// Apparently the comparison parameter is not a function. It must be an object with comparison options then.
-	if (currComparison !== undefined && !isBasicObject(currComparison))
-		throw new Error(`Invalid comparison parameter: when performing a comparison, some comparison function or comparison options parameter must be given. The received parameter was not a function or basic object. Instead, its value was "${currComparison}".`)
+	if (currComparison !== undefined && !isPlainObject(currComparison))
+		throw new Error(`Invalid comparison parameter: when performing a comparison, some comparison function or comparison options parameter must be given. The received parameter was not a function or plain object. Instead, its value was "${currComparison}".`)
 
 	// If the parameters are pure numbers, compare them using number comparison.
 	if (currSolution instanceof Expression && currSolution.isNumeric())

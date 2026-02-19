@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { Box, FormControl, Select, MenuItem } from '@mui/material'
 import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
-import { lastOf, keysToObject, isBasicObject, repeat } from 'step-wise/util'
+import { lastOf, keysToObject, isPlainObject, repeat } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
@@ -99,7 +99,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 			if (solution[key] === undefined)
 				return oldInput[key]
 			let currNewInput = toSO(solution[key], true, oldInput[key]?.type)
-			if (isBasicObject(currNewInput))
+			if (isPlainObject(currNewInput))
 				currNewInput = { ...oldInput[key], ...currNewInput } // Keep other parameters like input field settings for expressions.
 			return currNewInput
 		})

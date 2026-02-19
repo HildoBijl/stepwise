@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 
-import { getDeepParameter, isObject } from 'step-wise/util'
+import { getByPath, isObject } from 'step-wise/util'
 import { defaultLanguage } from '@step-wise/settings'
 
 import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -45,7 +45,7 @@ export function useTextTranslator(translatorPath) {
 		// Get the translation file and extract the respective entry. If the user language fails, try to use the default language as fallback.
 		const fallbackLanguageFile = fallbackLanguageFiles[path]
 		const languageFile = languageFiles[path] || fallbackLanguageFile
-		let text = (languageFile && getDeepParameter(languageFile, entryAsArray(entry))) || (fallbackLanguageFile && getDeepParameter(fallbackLanguageFile, entryAsArray(entry)))
+		let text = (languageFile && getByPath(languageFile, entryAsArray(entry))) || (fallbackLanguageFile && getByPath(fallbackLanguageFile, entryAsArray(entry)))
 
 		// If the language file has loaded but there is no text and no fallbackText, then something is wrong. Although maybe the text is rendered later on in the page, so let's not end stuff, and only show a warning.
 		if (languageFile && text === undefined && fallbackText === undefined) {

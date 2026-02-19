@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyMapping } = require('../util')
+const { isObject, isPlainObject, applyMapping } = require('../util')
 
 const types = [
 	'Integer', 'Float', 'Unit', 'FloatUnit', // Number- and physics-based types.
@@ -45,8 +45,8 @@ function toSO(obj, useSI = false, type) {
 			return { type, value: func(obj) }
 	}
 
-	// No type is known. It might be a basic object or array, in which case we process it parameter by parameter.
-	if (isBasicObject(obj) || Array.isArray(obj))
+	// No type is known. It might be a plain object or array, in which case we process it parameter by parameter.
+	if (isPlainObject(obj) || Array.isArray(obj))
 		return applyMapping(obj, obj => toSO(obj, useSI))
 
 	// Check other special cases.

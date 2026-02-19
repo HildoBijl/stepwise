@@ -1,5 +1,5 @@
 export * from './checks'
 export * from './search'
 export * from './manipulation'
-export * from './generation'
+export * from './creation'
 export * from './tagTrees'

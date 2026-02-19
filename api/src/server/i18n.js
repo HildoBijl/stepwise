@@ -3,7 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
-const { getDeepParameter, setDeepParameter } = require('step-wise/util')
+const { getByPath, setDeepParameter } = require('step-wise/util')
 const { i18nLoadPath, i18nUpdateLogPath } = require('@step-wise/settings')
 
 const pathToPublicFolder = `../frontend/public`
@@ -49,14 +49,14 @@ function createI18nRouter() {
 					Object.keys(updates[language][path]).forEach(entry => {
 						const text = updates[language][path][entry]
 						const entrySplit = entry.split('.')
-						formerText = getDeepParameter(languageFile, entrySplit)
+						formerText = getByPath(languageFile, entrySplit)
 						languageFile = setDeepParameter(languageFile, entrySplit, text)
 
 						// Also update the log.
 						const logEntry = {
 							formerText,
 							firstUpdate: now,
-							...(getDeepParameter(logFile, [language, path, entry]) || {}),
+							...(getByPath(logFile, [language, path, entry]) || {}),
 							latestUpdate: now,
 							latestText: text,
 						}

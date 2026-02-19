@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyMapping } = require('./../../../util')
+const { isObject, isPlainObject, applyMapping } = require('./../../../util')
 
 const mainCAS = require('./Expression')
 const functions = require('./functions')
@@ -38,7 +38,7 @@ module.exports.ensureExpression = ensureExpression
 
 function SOtoFO(SO, loose = false) {
 	// Check special cases.
-	if (!isBasicObject(SO)) {
+	if (!isPlainObject(SO)) {
 		// For the first object, this is not allowed.
 		if (!loose)
 			throw new Error(`Invalid Expression SO: expected an Expression SO, but received a parameter of type "${typeof SO}".`)

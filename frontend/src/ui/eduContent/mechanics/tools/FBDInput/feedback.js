@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isBasicObject, applyMapping } from 'step-wise/util'
+import { isPlainObject, applyMapping } from 'step-wise/util'
 import { loadTypes, areLoadsMatching, getLoadMatching } from 'step-wise/eduContent/mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
@@ -49,12 +49,12 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct)
 	if (checkResult)
-		return isBasicObject(checkResult) && !isValidElement(checkResult) ? { correct, ...checkResult } : { correct, text: checkResult }
+		return isPlainObject(checkResult) && !isValidElement(checkResult) ? { correct, ...checkResult } : { correct, text: checkResult }
 
 	// If a feedback function has been provided, then apply it.
 	if (feedbackFunction) {
 		const feedback = feedbackFunction(currInput, currSolution, currOptions, exerciseData)
-		return isBasicObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
+		return isPlainObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
 	}
 
 	// Go for default feedback. If the comparison is a function, all we can say is whether it's correct or incorrect.

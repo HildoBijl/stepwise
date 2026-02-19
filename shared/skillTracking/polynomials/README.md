@@ -49,7 +49,7 @@ Polynomials can be added and/or multiplied by other polynomials. To add/multiply
 - `add(matrices, lists, destinationList)`
 - `multiply(matrices, lists, destinationList)`
 
-Both functions take an array of polynomial matrices, their corresponding variable lists, and a destination variable list. The result returned will be a basic object of the form `{ matrix, list }` with the resulting polynomial matrix and corresponding variable list. The list will equal the `destinationList`, unless the (optional) `destinationList` is not provided, in which case one is determined automatically.
+Both functions take an array of polynomial matrices, their corresponding variable lists, and a destination variable list. The result returned will be a plain object of the form `{ matrix, list }` with the resulting polynomial matrix and corresponding variable list. The list will equal the `destinationList`, unless the (optional) `destinationList` is not provided, in which case one is determined automatically.
 
 An example application is to add or multiply the polynomials `2+3a` and `4+5b`. Note that the sum is `6+3a+5b` and the product is `8+10b+12a+15ab`. Defining `P1 = [2,3]` and `P2 = [4,5]`, we then have
 

@@ -1,4 +1,4 @@
-import { isBasicObject, keysToObject } from 'step-wise/util'
+import { isPlainObject, keysToObject } from 'step-wise/util'
 
 // processParameterOptions checks all the possible simplification cases for the parameterOptions and turns it into standard form.
 export function processParameterOptions(parameterOptions) {
@@ -10,8 +10,8 @@ export function processParameterOptions(parameterOptions) {
 	if (Array.isArray(parameterOptions))
 		parameterOptions = keysToObject(parameterOptions, () => ({}))
 
-	// We must have a basic object now.
-	if (!isBasicObject(parameterOptions))
+	// We must have a plain object now.
+	if (!isPlainObject(parameterOptions))
 		throw new Error(`Invalid parameterOptions given: expected either a string, an array of strings or an object with options, but received something of type ${typeof parameterOptions}.`)
 
 	// All done.
