@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 
 import { insertParametersIntoPath } from '../util'
 import { useRoute } from './provider'
@@ -18,6 +18,6 @@ export function useParentPath() {
 export function useAdjustedPath(adjustedParams) {
 	const route = useRoute()
 	const currParams = useParams()
-	const newParams = processOptions(adjustedParams, currParams)
+	const newParams = normalizeOptions(adjustedParams, currParams)
 	return insertParametersIntoPath(newParams, route.path)
 }

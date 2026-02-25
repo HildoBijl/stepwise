@@ -1,4 +1,4 @@
-const { ensureBoolean, arraysToObject, keysToObject, union } = require('step-wise/util')
+const { ensureBoolean, fromEntries, fromKeys, union } = require('step-wise/util')
 const { ensureSetup, processSkillDataSet, smoothen, getEV } = require('step-wise/skillTracking')
 const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
@@ -10,8 +10,8 @@ async function getUserSkillDataSet(db, userId, skillIds) {
 	const allSkillIds = includePrerequisitesAndLinks(skillIds) // Add links.
 	const rawSkills = await getUserSkills(db, userId, allSkillIds) // Pull all data from the database.
 	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
-	const skillsAsObject = arraysToObject(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
-	const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
+	const skillsAsObject = fromEntries(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
+	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
 	const skillDataSet = processSkillDataSet(skills, skillTree) // Turn the raw data into SkillData objects.
 	return skillDataSet
 }
@@ -31,7 +31,7 @@ async function applySkillUpdates(db, skillUpdates, transaction) {
 	// Process the skill updates for each user separately.
 	const userIds = Object.keys(skillUpdatesPerUser)
 	const result = await Promise.all(userIds.map(userId => applySkillUpdatesForUser(db, userId, skillUpdatesPerUser[userId], transaction)))
-	return arraysToObject(userIds, result)
+	return fromEntries(userIds, result)
 }
 module.exports.applySkillUpdates = applySkillUpdates
 
@@ -54,11 +54,11 @@ async function applySkillUpdatesForUser(db, userId, skillUpdates, transaction) {
 
 	// Pull everything from the database.
 	const skills = await getUserSkills(db, userId, skillIds)
-	const skillsAsObject = arraysToObject(skills.map(skill => skill.skillId), skills)
+	const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
 
 	// Set up a coefficient set. Put in all loaded skills, smoothened to the current time, and use fillers for all other skills.
 	const now = new Date()
-	let coefficientSet = keysToObject(skillIds, skillId => {
+	let coefficientSet = fromKeys(skillIds, skillId => {
 		const skill = skillsAsObject[skillId]
 		if (!skill)
 			return [1]

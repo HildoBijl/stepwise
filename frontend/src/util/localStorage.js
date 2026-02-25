@@ -1,8 +1,8 @@
-import { applyMapping } from 'step-wise/util'
+import { mapValues } from 'step-wise/util'
 
 // getLocalStorage returns the full localStorage object.
 export function getLocalStorage() {
-	return applyMapping({ ...localStorage }, value => processLocalStorageValue(value))
+	return mapValues({ ...localStorage }, value => processLocalStorageValue(value))
 }
 
 // getLocalStorageValue reads an item from localStorage and attempts to parse it. A back-up value can be given to be used upon no entry.

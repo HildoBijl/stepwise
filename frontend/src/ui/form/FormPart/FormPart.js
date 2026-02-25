@@ -7,7 +7,7 @@
 
 import React, { createContext, useContext } from 'react'
 
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 
 const defaultFormPartParameters = {
 	children: null,
@@ -19,7 +19,7 @@ const defaultFormPartParameters = {
 const FormPartContext = createContext(defaultFormPartParameters)
 
 export function FormPart(props) {
-	const settings = processOptions(props, defaultFormPartParameters)
+	const settings = normalizeOptions(props, defaultFormPartParameters)
 	return <FormPartContext.Provider value={{ ...settings, children: undefined }}>
 		{props.children}
 	</FormPartContext.Provider>

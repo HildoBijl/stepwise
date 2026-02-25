@@ -1,4 +1,4 @@
-const { compareNumbers, mod, isPlainObject, processOptions, keysToObject, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
+const { compareNumbers, mod, isPlainObject, normalizeOptions, fromKeys, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
 const { getCurrentInputSolutionAndComparison } = require('../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
@@ -52,7 +52,7 @@ function areLoadsEqual(input, solution, comparison = {}) {
 	// Extract options for this particular load, if given.
 	if (comparison[type])
 		comparison = comparison[type]
-	comparison = processOptions(comparison, defaultComparison[type])
+	comparison = normalizeOptions(comparison, defaultComparison[type])
 
 	// Check all relevant load types.
 	switch (type) {
@@ -203,7 +203,7 @@ function performLoadsComparison(exerciseData, parameterComparison) {
 	if (typeof parameterComparison === 'string')
 		parameterComparison = [parameterComparison]
 	if (Array.isArray(parameterComparison))
-		parameterComparison = keysToObject(parameterComparison, () => undefined, false)
+		parameterComparison = fromKeys(parameterComparison, () => undefined, false)
 	if (!isPlainObject(parameterComparison))
 		throw new Error(`Invalid parameterComparison provided: expected a plain object, but received something of type ${typeof parameterComparison}.`)
 

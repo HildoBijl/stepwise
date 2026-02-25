@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { processOptions, filterOptions, removeProperties } from 'step-wise/util'
+import { normalizeOptions, filterOptions, omitProperties } from 'step-wise/util'
 import { ensureCorner } from 'step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
@@ -20,7 +20,7 @@ export const defaultRightAngle = {
 // RightAngle renders a right-angle marker of two lines. It expects three points that form said angle, in which the middle one is the one at which the angle should be drawn. Also a size parameter can be given.
 export const RightAngle = forwardRef((props, ref) => {
 	// Process the input.
-	let { points, graphicalPoints, size, graphicalSize } = processOptions(props, defaultRightAngle)
+	let { points, graphicalPoints, size, graphicalSize } = normalizeOptions(props, defaultRightAngle)
 	points = ensureCorner(useGraphicalVector(points, graphicalPoints), 2)
 	if (points.length !== 3)
 		throw new Error(`Invalid RightAngle points: expected exactly three points, of which the middle one is the given corner, but received ${points.length} points.`)
@@ -38,7 +38,7 @@ export const RightAngle = forwardRef((props, ref) => {
 	]
 
 	// Render the line with the appropriate style.
-	return <Line ref={ref} {...filterOptions(removeProperties(props, 'points'), defaultLine)} graphicalPoints={anglePoints} />
+	return <Line ref={ref} {...filterOptions(omitProperties(props, 'points'), defaultLine)} graphicalPoints={anglePoints} />
 })
 RightAngle.defaultProps = defaultRightAngle
 export default RightAngle

@@ -1,4 +1,4 @@
-import { isObject, removeProperties } from 'step-wise/util'
+import { isObject, omitProperties } from 'step-wise/util'
 
 import { useInputData } from '../../Input'
 
@@ -21,7 +21,7 @@ export function removeCursor(input) {
 		return input
 
 	// There is a cursor. Remove it.
-	return removeProperties(input, 'cursor')
+	return omitProperties(input, 'cursor')
 }
 
 // submitOnEnter checks if an event is an enter key press. If so, it submits the exercise using the given submit function.

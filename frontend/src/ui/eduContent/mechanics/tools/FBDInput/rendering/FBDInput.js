@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 
@@ -33,7 +33,7 @@ export const defaultFBDInputOptions = {
 }
 
 export const FBDInput = forwardRef((options, drawingRef) => {
-	let { endDrag, className } = options = processOptions(options, defaultFBDInputOptions)
+	let { endDrag, className } = options = normalizeOptions(options, defaultFBDInputOptions)
 
 	// Set up remaining DrawingInput functions based on the options.
 	endDrag = endDrag || getEndDragFunction(options)

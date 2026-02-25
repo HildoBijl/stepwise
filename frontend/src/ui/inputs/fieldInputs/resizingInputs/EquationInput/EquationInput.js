@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -21,7 +21,7 @@ const defaultEquationInputOptions = {
 }
 
 export function EquationInput(options) {
-	options = processOptions(options, defaultEquationInputOptions)
+	options = normalizeOptions(options, defaultEquationInputOptions)
 
 	// Force equals to be true in the settings to allow an equals sign.
 	options.settings = {

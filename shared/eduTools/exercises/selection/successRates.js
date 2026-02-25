@@ -1,4 +1,4 @@
-const { keysToObject } = require('../../../util')
+const { fromKeys } = require('../../../util')
 const { getEV, merge, ensureSetup } = require('../../../skillTracking')
 
 const { getDifficulty } = require('./util')
@@ -17,7 +17,7 @@ async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 	})
 	exerciseSkillIds = [...exerciseSkillIds] // Turn set into array.
 	const skillDataSet = await getSkillDataSet(exerciseSkillIds) // Load all data for these skills.
-	const coefficientSet = keysToObject(exerciseSkillIds, skillId => skillDataSet[skillId].coefficients) // Get the posterior coefficients.
+	const coefficientSet = fromKeys(exerciseSkillIds, skillId => skillDataSet[skillId].coefficients) // Get the posterior coefficients.
 
 	// Walk through the exercises to calculate success rates (expected values).
 	return exerciseMetaDatas.map(exerciseMetaData => {

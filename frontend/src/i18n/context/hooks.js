@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { keysToObject } from 'step-wise/util'
+import { fromKeys } from 'step-wise/util'
 import { languages, defaultLanguage } from '@step-wise/settings'
 
 import { pathAsString, setStoredLanguage } from '../util'
@@ -21,7 +21,7 @@ export function useLanguageFiles(paths, language) {
 	language = language || userLanguage
 
 	// Walk through the array of paths and load each of them. Merge the results into one object.
-	return keysToObject(paths, path => {
+	return fromKeys(paths, path => {
 		// If the translation file has been loaded, return it. Otherwise request it.
 		path = pathAsString(path)
 		if (languageFiles[language][path])

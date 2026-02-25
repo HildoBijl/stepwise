@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 
 import { ensureHTMLElement } from 'util'
 import { useVisible } from 'ui/components'
@@ -23,7 +23,7 @@ export const defaultFieldRegistrationOptions = {
 }
 export function useFieldRegistration(options) {
 	// Process input.
-	const { id, element, apply, useTabbing, manualIndex, autofocus, focusOnClick, focusRefOnActive, keyboard } = processOptions(options, defaultFieldRegistrationOptions)
+	const { id, element, apply, useTabbing, manualIndex, autofocus, focusOnClick, focusRefOnActive, keyboard } = normalizeOptions(options, defaultFieldRegistrationOptions)
 	if (apply && !element)
 		throw new Error(`Field registration error: no ref was given pointing to a DOM object representing the field.`)
 

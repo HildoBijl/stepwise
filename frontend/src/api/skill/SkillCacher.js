@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
 
-import { arraysToObject, keysToObject, applyMapping } from 'step-wise/util'
+import { fromEntries, fromKeys, mapValues } from 'step-wise/util'
 import { updateSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
@@ -46,9 +46,9 @@ export default function SkillCacher({ children }) {
 			return // Oops ... something went wrong. ToDo later: properly handle this error.
 
 		// Fill up the loaded skills with default skills when missing (that is, not in the database yet), process them, and incorporate them into the data set.
-		const skillsAsObject = arraysToObject(skills.map(skill => skill.skillId), skills)
-		const rawSkillDataSetUnprocessed = keysToObject(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-		const rawSkillDataSet = applyMapping(rawSkillDataSetUnprocessed, skill => processSkill(skill))
+		const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
+		const rawSkillDataSetUnprocessed = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
+		const rawSkillDataSet = mapValues(rawSkillDataSetUnprocessed, skill => processSkill(skill))
 		setCache(skillDataSet => updateSkillDataSet(skillDataSet, rawSkillDataSet, skillTree))
 	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, setCache])
 
@@ -92,7 +92,7 @@ export function useSkillsData(skillIds) {
 
 	// Process the skill data, inserting null when data is not fully available yet.
 	const { cache } = useSkillCacherContext()
-	const skillsData = useMemo(() => keysToObject(skillIds, skillId => {
+	const skillsData = useMemo(() => fromKeys(skillIds, skillId => {
 		// On missing prerequisites/links, return null.
 		const prerequisitesAndLinks = includePrerequisitesAndLinks([skillId])
 		if (prerequisitesAndLinks.some(skillId => !cache[skillId]))

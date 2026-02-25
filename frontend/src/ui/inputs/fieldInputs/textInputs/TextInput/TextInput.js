@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 
 import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
 
@@ -42,7 +42,7 @@ export const defaultTextInputOptions = {
 }
 
 export function TextInput(options) {
-	options = processOptions(options, defaultTextInputOptions)
+	options = normalizeOptions(options, defaultTextInputOptions)
 	return <FieldInput {...filterOptions(options, defaultFieldInputOptions)}>
 		{options.children}
 	</FieldInput>

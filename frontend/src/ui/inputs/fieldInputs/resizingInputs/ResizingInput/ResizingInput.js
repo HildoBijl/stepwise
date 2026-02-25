@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
 
@@ -13,7 +13,7 @@ export const defaultResizingInputOptions = {
 }
 
 export function ResizingInput(options) {
-	options = processOptions(options, defaultResizingInputOptions)
+	options = normalizeOptions(options, defaultResizingInputOptions)
 
 	// Determine the options to pass to the respective parts.
 	const fieldInputOptions = filterOptions(options, defaultFieldInputOptions)

@@ -1,4 +1,4 @@
-import { applyMapping } from 'step-wise/util'
+import { mapValues } from 'step-wise/util'
 import { performIndividualListComparison } from 'step-wise/eduTools'
 
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomDuplicate } from 'ui/inputs'
@@ -11,7 +11,7 @@ export function getFieldInputListFeedback(exerciseData, parameterOptions, genera
 	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Define the way in which the answers are compared.
-	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, applyMapping(parameterOptions, options => options?.comparison), generalOptions?.comparison)
+	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, mapValues(parameterOptions, options => options?.comparison), generalOptions?.comparison)
 
 	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
 	const feedback = {}

@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber, processOptions, sum, repeat, binomial } = require('../../util')
+const { ensureInt, ensureNumber, normalizeOptions, sum, repeat, binomial } = require('../../util')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
 
@@ -26,7 +26,7 @@ module.exports.smoothen = smoothen
  * - numProblemsPracticed (default 0): how many times has the user practiced this skill before? How many problems have been done?
  */
 function getSmoothingFactor(options) {
-	const { time, applyPracticeDecay, numProblemsPracticed, initialPracticeDecayTime, practiceDecayHalfLife } = processOptions(options, defaultSmoothingOptions)
+	const { time, applyPracticeDecay, numProblemsPracticed, initialPracticeDecayTime, practiceDecayHalfLife } = normalizeOptions(options, defaultSmoothingOptions)
 
 	// Calculate the equivalent time for smoothing.
 	const practiceDecayTime = applyPracticeDecay ? initialPracticeDecayTime * Math.pow(1 / 2, numProblemsPracticed / practiceDecayHalfLife) : 0

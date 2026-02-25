@@ -1,6 +1,6 @@
 // SkillSetup is the abstract parent class for all skill-set-up classes. It has all the functionalities that need to be implemented by set-ups.
 
-const { ensureBoolean, keysToObject, filterProperties, sum, repeat, binomial } = require('../../../util')
+const { ensureBoolean, fromKeys, filterProperties, sum, repeat, binomial } = require('../../../util')
 
 const { defaultInferenceOrder } = require('../../settings')
 const { ensureCoef, ensureCoefSet, normalize, getEV, mergeTwo } = require('../../coefficients')
@@ -113,12 +113,12 @@ class SkillSetup {
 		coefSet = ensureCoefSet(coefSet, skills)
 
 		// Gather general data.
-		const EVs = keysToObject(skills, skill => getEV(coefSet[skill]))
+		const EVs = fromKeys(skills, skill => getEV(coefSet[skill]))
 		let polynomialMatrix = this.getPolynomialMatrix()
 		polynomialMatrix = correct ? polynomialMatrix : oneMinus(polynomialMatrix)
 
 		// Walk through the skill list and perform the update.
-		return keysToObject(skills, skill => {
+		return fromKeys(skills, skill => {
 			// Find the expected value of the skill polynomial with as only remaining parameter remaining the current skill.
 			const skillsWithoutCurrent = skills.filter(currSkill => currSkill !== skill)
 			const filteredEVs = filterProperties(EVs, skillsWithoutCurrent)

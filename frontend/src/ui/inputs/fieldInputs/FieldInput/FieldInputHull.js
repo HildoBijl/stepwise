@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
-import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 
 import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'
@@ -56,7 +56,7 @@ const labelOffset = 0.5 // em
 export const labelSettings = { scaleFactor, labelMargin, labelOffset }
 
 export const FieldInputHull = forwardRef((options, hullRef) => {
-	const { prelabel, label, placeholder, className, contentsClassName, style, contentsStyle, size, center, isEmpty, isCursorAtStart, children } = processOptions(options, defaultFieldInputHullOptions)
+	const { prelabel, label, placeholder, className, contentsClassName, style, contentsStyle, size, center, isEmpty, isCursorAtStart, children } = normalizeOptions(options, defaultFieldInputHullOptions)
 
 	// Set up refs.
 	const prelabelRef = useRef()

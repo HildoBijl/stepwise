@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { arrayFind, resolveFunctions, resolveFunctionsShallow, processOptions } from 'step-wise/util'
+import { arrayFind, resolveFunctions, resolveFunctionsShallow, normalizeOptions } from 'step-wise/util'
 import { Sum, Equation, expressionComparisons, equationComparisons } from 'step-wise/CAS'
 
 import { Translation, Check, CountingWord } from 'i18n'
@@ -20,7 +20,7 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 		return selectRandomCorrect()
 
 	// Find the right processing and checking functions.
-	comparison = processOptions(resolveFunctionsShallow(comparison, solution), Equation.defaultEqualsOptions)
+	comparison = normalizeOptions(resolveFunctionsShallow(comparison, solution), Equation.defaultEqualsOptions)
 	const leftPreprocess = comparison.leftPreprocess || comparison.preprocess
 	const rightPreprocess = comparison.leftPreprocess || comparison.preprocess
 	const leftCheck = comparison.leftCheck || comparison.check

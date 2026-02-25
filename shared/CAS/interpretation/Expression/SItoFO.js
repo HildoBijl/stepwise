@@ -1,4 +1,4 @@
-const { isLetter, findNextOf, lastOf, processOptions, filterOptions, InterpretationError } = require('../../../util')
+const { isLetter, findNextOf, lastOf, normalizeOptions, filterOptions, InterpretationError } = require('../../../util')
 
 const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
@@ -8,7 +8,7 @@ const { getMatchingBrackets } = require('../characterLocalization')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function SItoFO(value, settings = {}) {
-	settings = processOptions(settings, defaultFieldSettings)
+	settings = normalizeOptions(settings, defaultFieldSettings)
 	return interpretSI(value, settings)
 }
 module.exports = SItoFO

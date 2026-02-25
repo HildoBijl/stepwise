@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -36,7 +36,7 @@ export const defaultFloatInputOptions = {
 }
 
 export function FloatInput(options) {
-	options = processOptions(options, defaultFloatInputOptions)
+	options = normalizeOptions(options, defaultFloatInputOptions)
 
 	// Set up options for the TextInput field.
 	const { positive, allowPower } = options

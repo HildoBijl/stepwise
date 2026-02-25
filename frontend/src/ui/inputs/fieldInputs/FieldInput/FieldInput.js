@@ -1,6 +1,6 @@
 import React, { useRef, forwardRef } from 'react'
 
-import { isEmptyObject, processOptions, filterOptions, resolveFunctions, passOn } from 'step-wise/util'
+import { isEmptyObject, normalizeOptions, filterOptions, resolveFunctions, passOn } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -31,7 +31,7 @@ export const defaultFieldInputOptions = {
 }
 
 export const FieldInput = forwardRef((options, ref) => {
-	options = processOptions(options, defaultFieldInputOptions)
+	options = normalizeOptions(options, defaultFieldInputOptions)
 	const { type, initialValue, initialSettings, clean, functionalize, keyPressToFI, keyboardSettings } = options
 	ref = useEnsureRef(ref)
 	const cursorRef = useRef()

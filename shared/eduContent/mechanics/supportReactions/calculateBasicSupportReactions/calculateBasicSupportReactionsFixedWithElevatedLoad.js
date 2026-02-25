@@ -1,4 +1,4 @@
-const { arraysToObject } = require('../../../../util')
+const { fromEntries } = require('../../../../util')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
@@ -80,7 +80,7 @@ function getDynamicSolution(directionIndices, solution, state) {
 	const hasAdjustedSolution = directionIndices.find(value => !value) === false // There is a false value.
 	const loads = solution.loads.map((load, index) => directionIndices[index] ? load : reverseLoad(load))
 	const loadValues = solution.loadValues.map((value, index) => directionIndices[index] ? value : value.applyMinus())
-	const loadValuesObj = arraysToObject(solution.loadNames, loadValues)
+	const loadValuesObj = fromEntries(solution.loadNames, loadValues)
 	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj }
 }
 

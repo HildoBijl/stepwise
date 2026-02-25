@@ -1,4 +1,4 @@
-const { isNumber, sum, normalPDF, selectRandomly, keysToObject } = require('../../../util')
+const { isNumber, sum, normalPDF, selectRandomly, fromKeys } = require('../../../util')
 
 const { skillTree, exercises, getExerciseName, fixExerciseId, ensureSkillId } = require('../../skills')
 
@@ -17,7 +17,7 @@ async function selectExercise(skillId, getSkillDataSet, previousExercises = []) 
 	let exerciseIds = skill.exercises
 	if (exerciseIds.length === 0)
 		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
-	const exerciseMetaDatas = keysToObject(exerciseIds, exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).metaData)
+	const exerciseMetaDatas = fromKeys(exerciseIds, exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).metaData)
 
 	// Filter exercises out that have been done recently, but only if this doesn't leave us with no possible exercises.
 	previousExercises = previousExercises.sort((a, b) => b.createdAt - a.updatedAt) // Sort descending by date.

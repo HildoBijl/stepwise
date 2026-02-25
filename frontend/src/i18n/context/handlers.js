@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { setDeepParameter } from 'step-wise/util'
+import { setByPath } from 'step-wise/util'
 import { languages, defaultLanguage } from '@step-wise/settings'
 
 import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -63,7 +63,7 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 					Object.keys(fileUpdates[language]).forEach(path => {
 						Object.keys(fileUpdates[language][path]).forEach(entry => {
 							const text = fileUpdates[language][path][entry]
-							languageFiles = setDeepParameter(languageFiles, [language, path, ...entryAsArray(entry)], text)
+							languageFiles = setByPath(languageFiles, [language, path, ...entryAsArray(entry)], text)
 						})
 					})
 				})
@@ -78,7 +78,7 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 	// updateLanguageEntry queues up an updated entry, to be sent to the server when there is some time.
 	const updateLanguageEntry = useStableCallback((language, path, entry, text) => {
 		// Save the update into the fileUpdatesRef to queue it for updating on the server. Put the state update in a timeout, since otherwise it's called from a render function which leads to React errors. (Yes, not the cleanest solution, but it works.)
-		setTimeout(() => setFileUpdates(fileUpdates => setDeepParameter(fileUpdates, [language, path, entry], text)))
+		setTimeout(() => setFileUpdates(fileUpdates => setByPath(fileUpdates, [language, path, entry], text)))
 	})
 
 	// Return all the defined handlers.

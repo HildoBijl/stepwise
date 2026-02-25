@@ -1,4 +1,4 @@
-const { applyMapping, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { mapValues, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -30,7 +30,7 @@ function generateState() {
 
 	// Gather all data into a state.
 	return {
-		...applyMapping(sides, side => new Integer(side)),
+		...mapValues(sides, side => new Integer(side)),
 		beta: new Variable(selectRandomly(variableSet)),
 		rotation: getRandomNumber(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),

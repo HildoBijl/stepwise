@@ -1,6 +1,6 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, processOptions, filterOptions } = require('../../util')
+const { isObject, normalizeOptions, filterOptions } = require('../../util')
 
 const { Float } = require('../Float')
 const { Unit, unitEqualityTypeToSimplifyOptions } = require('../Unit')
@@ -26,7 +26,7 @@ class FloatUnit {
 			input = { float: input }
 
 		// Include default values.
-		input = processOptions(input, { float: {}, unit: {} })
+		input = normalizeOptions(input, { float: {}, unit: {} })
 
 		// Save the input.
 		this._float = new Float(input.float)
@@ -204,7 +204,7 @@ class FloatUnit {
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = processOptions(options, FloatUnit.defaultComparison)
+		options = normalizeOptions(options, FloatUnit.defaultComparison)
 
 		// Set up easier names.
 		let a = this

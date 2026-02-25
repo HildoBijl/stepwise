@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
 import { ensureVectorArray } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/figures'
@@ -20,7 +20,7 @@ export const defaultBeam = {
 
 export const Beam = forwardRef((props, ref) => {
 	// Check input.
-	let { points, graphicalPoints, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = processOptions(props, defaultBeam)
+	let { points, graphicalPoints, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = normalizeOptions(props, defaultBeam)
 	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
 	thickness = ensureNumber(thickness)
 	strutSize = ensureNumber(strutSize)

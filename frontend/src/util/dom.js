@@ -1,4 +1,4 @@
-import { keysToObject } from 'step-wise/util'
+import { fromKeys } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry/Vector'
 
 // resetFocus takes a field, removes the focus and restores it. This is useful to work around the Android auto-suggest option, preventing it from taking place.
@@ -68,5 +68,5 @@ export function preventDefaultOnKeys(event, keys) {
 
 // getUtilKeys gets the utility keys (shift, ctrl, alt) status from an event.
 export function getUtilKeys(event) {
-	return keysToObject(['shift', 'ctrl', 'alt'], key => event[`${key}Key`])
+	return fromKeys(['shift', 'ctrl', 'alt'], key => event[`${key}Key`])
 }

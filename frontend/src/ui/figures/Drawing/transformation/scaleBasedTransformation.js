@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { applyMapping, processOptions } from 'step-wise/util'
+import { mapValues, normalizeOptions } from 'step-wise/util'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -21,19 +21,19 @@ export function useScaleBasedTransformationSettings(points, options = {}) {
 	// Wrap the settings calculation in a useMemo for reference equality and efficiency.
 	return useMemo(() => {
 		// Check the input.
-		let { scale, margin, pretransformation } = processOptions(options, defaultScaleBasedTransformationOptions)
+		let { scale, margin, pretransformation } = normalizeOptions(options, defaultScaleBasedTransformationOptions)
 		scale = ensureScale(scale)
 		margin = ensureMargin(margin)
 		pretransformation = ensureTransformation(pretransformation)
 
 		// Pretransform the points, scale them, find their bounds, use this to determine their shift and then shift the points.
-		let transformedPoints = applyMapping(points, point => pretransformation.apply(point))
+		let transformedPoints = mapValues(points, point => pretransformation.apply(point))
 		const scaleTransformation = Transformation.getScale(scale)
-		transformedPoints = applyMapping(transformedPoints, point => scaleTransformation.apply(ensureVector(point, 2)))
+		transformedPoints = mapValues(transformedPoints, point => scaleTransformation.apply(ensureVector(point, 2)))
 		const currBounds = getBoundingRectangle(transformedPoints)
 		const shift = new Vector(...[0, 1].map(axis => -currBounds.getBounds(axis)[0] + margin[axis][0]))
 		const shiftTransformation = Transformation.getShift(shift)
-		transformedPoints = applyMapping(transformedPoints, point => shiftTransformation.apply(point))
+		transformedPoints = mapValues(transformedPoints, point => shiftTransformation.apply(point))
 
 		// Set up the full transformation and determine the final bounds including both margins.
 		const transformation = pretransformation.chain(scaleTransformation).chain(shiftTransformation)

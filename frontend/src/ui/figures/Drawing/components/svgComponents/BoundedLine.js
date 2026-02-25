@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 import { ensureLine as ensureGeometryLine } from 'step-wise/geometry'
 
 import { useGraphicalBounds, useGraphicalObject } from '../../DrawingContext'
@@ -18,7 +18,7 @@ export const defaultBoundedLine = {
 // BoundedLine takes a line object and bounds it to the bounds of the drawing. It then draws it similarly to a regular line.
 export const BoundedLine = forwardRef((props, ref) => {
 	// Process the input.
-	let { line, graphicalLine } = processOptions(props, defaultBoundedLine)
+	let { line, graphicalLine } = normalizeOptions(props, defaultBoundedLine)
 	line = ensureGeometryLine(useGraphicalObject(line, graphicalLine), 2)
 	ref = useRefWithEventHandlers(props, ref)
 

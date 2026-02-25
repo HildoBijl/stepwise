@@ -1,6 +1,6 @@
 import { MenuBook as Book, OndemandVideo as Video, Create as Pencil, AttachFile as Paperclip, Info } from '@mui/icons-material'
 
-import { applyMapping } from 'step-wise/util'
+import { mapValues } from 'step-wise/util'
 
 import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 
@@ -53,7 +53,7 @@ const tabData = {
 }
 
 // Apply post-processing.
-applyMapping(tabData, (tab, id) => {
+mapValues(tabData, (tab, id) => {
 	tab.id = id
 })
 

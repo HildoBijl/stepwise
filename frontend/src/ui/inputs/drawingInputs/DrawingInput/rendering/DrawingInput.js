@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -17,7 +17,7 @@ export const defaultDrawingInputOptions = {
 
 // The DrawingInput wrapper wraps a Drawing into an Input object for Input functionalities. It forwards the Ref to the Drawing element.
 export const DrawingInput = forwardRef((options, drawingRef) => {
-	options = processOptions(options, defaultDrawingInputOptions)
+	options = normalizeOptions(options, defaultDrawingInputOptions)
 	drawingRef = useEnsureRef(drawingRef)
 
 	// Set up a state to control the cursor style.

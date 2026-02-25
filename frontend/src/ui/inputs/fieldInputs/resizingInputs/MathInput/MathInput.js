@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
-import { processOptions, filterOptions, removeEqualProperties, resolveFunctionsShallow, deepEquals } from 'step-wise/util'
+import { normalizeOptions, filterOptions, omitEqualProperties, resolveFunctionsShallow, deepEquals } from 'step-wise/util'
 import { options as CASOptions, support as CASSupport } from 'step-wise/CAS'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -36,7 +36,7 @@ export const defaultMathInputOptions = {
 }
 
 export function MathInput(options) {
-	options = processOptions(options, defaultMathInputOptions)
+	options = normalizeOptions(options, defaultMathInputOptions)
 	const { keyboardSettings, keyPressToFI } = options
 
 	// To position the cursor in the Maths display, we need to track char elements. Set up the ref and update handler.
@@ -44,11 +44,11 @@ export function MathInput(options) {
 	const storeCharElements = useCallback(value => { charElementsRef.current = value }, [charElementsRef])
 
 	// Make sure that, when deriving the keyboard settings, the given field settings are known.
-	const settings = processOptions(options.settings || {}, defaultFieldSettings)
+	const settings = normalizeOptions(options.settings || {}, defaultFieldSettings)
 	options.keyboardSettings = useStableCallback(FI => resolveFunctionsShallow(keyboardSettings, FI, settings))
 
 	// Store the interpretation and expression settings in the SI to have them available upon interpretation.
-	const interpretationExpressionSettings = useMemo(() => removeEqualProperties(filterOptions(settings, defaultInterpretationExpressionSettings), defaultInterpretationExpressionSettings), [settings])
+	const interpretationExpressionSettings = useMemo(() => omitEqualProperties(filterOptions(settings, defaultInterpretationExpressionSettings), defaultInterpretationExpressionSettings), [settings])
 	options.initialSettings = interpretationExpressionSettings
 
 	// Also expand the keyPressToFI and the mouseClickToFI with data about the charElements.

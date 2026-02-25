@@ -1,6 +1,6 @@
 // UnitElement represents a single term in a Unit. Something like km^3, mV^2 or even m°C^2, but not a composed unit like m/s. Only positive powers are allowed, because negative powers are fixed within the Unit class. Zero powers are also not allowed (pointless anyway).
 
-const { isInt, ensureInt, keysToObject, processOptions } = require('../../util')
+const { isInt, ensureInt, fromKeys, normalizeOptions } = require('../../util')
 
 const { Prefix } = require('./Prefix')
 const { BaseUnit } = require('./BaseUnit')
@@ -26,7 +26,7 @@ class UnitElement {
 			input = interpretStr(input)
 
 		// Include default values.
-		const { prefix, unit, power } = processOptions(input, defaultUnitElement)
+		const { prefix, unit, power } = normalizeOptions(input, defaultUnitElement)
 
 		// Process the prefix.
 		if (prefix instanceof Prefix || prefix === null) {
@@ -61,7 +61,7 @@ class UnitElement {
 
 	// SO gives a storage object representation, containing only the relevant data. It has no attached methods, like this class.
 	get SO() {
-		return keysToObject(parts, part => {
+		return fromKeys(parts, part => {
 			if (part === 'power')
 				return this.power === 1 ? undefined : this.power
 			return this[`${part}String`] || undefined
@@ -69,7 +69,7 @@ class UnitElement {
 	}
 
 	get SI() {
-		return keysToObject(parts, part => {
+		return fromKeys(parts, part => {
 			if (part === 'power')
 				return this.power === 1 ? undefined : this.power.toString()
 			return this[`${part}String`] || undefined

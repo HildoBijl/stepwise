@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -20,7 +20,7 @@ const defaultExpressionInputOptions = {
 }
 
 export function ExpressionInput(options) {
-	options = processOptions(options, defaultExpressionInputOptions)
+	options = normalizeOptions(options, defaultExpressionInputOptions)
 
 	// Set up the options for the Math Input field.
 	const mathInputOptions = filterOptions(options, defaultMathInputOptions)

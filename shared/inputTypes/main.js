@@ -1,4 +1,4 @@
-const { isObject, isPlainObject, applyMapping } = require('../util')
+const { isObject, isPlainObject, mapValues } = require('../util')
 
 const types = [
 	'Integer', 'Float', 'Unit', 'FloatUnit', // Number- and physics-based types.
@@ -26,7 +26,7 @@ function toFO(data, useSI = false) {
 	}
 
 	// If there is no known type, or the type does not have the appropriate function, walk through the parameters one by one and interpret them.
-	return applyMapping(data, data => toFO(data, useSI))
+	return mapValues(data, data => toFO(data, useSI))
 }
 module.exports.toFO = toFO
 
@@ -47,7 +47,7 @@ function toSO(obj, useSI = false, type) {
 
 	// No type is known. It might be a plain object or array, in which case we process it parameter by parameter.
 	if (isPlainObject(obj) || Array.isArray(obj))
-		return applyMapping(obj, obj => toSO(obj, useSI))
+		return mapValues(obj, obj => toSO(obj, useSI))
 
 	// Check other special cases.
 	if (typeof obj !== 'object')

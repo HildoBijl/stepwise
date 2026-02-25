@@ -1,4 +1,4 @@
-import { filterProperties, ensureConsistency, keysToObject } from 'step-wise/util'
+import { filterProperties, ensureConsistency, fromKeys } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -44,7 +44,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 	// getAllInputSI gives the SI values of all input fields. When 'true' is passed on, this also includes unsubscribed but persistent fields.
 	const getAllInputSI = useStableCallback((includeUnsubscribed = false) => {
 		const fieldIds = getFieldIds(includeUnsubscribed)
-		return keysToObject(fieldIds, id => getInputSI(id))
+		return fromKeys(fieldIds, id => getInputSI(id))
 	})
 
 	// getInputFO takes a field ID or an array of field IDs and gives the FO value of the given fields.
@@ -71,7 +71,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 	// getAllInputFO gives the FO values of all input fields. When 'true' is passed on, this also includes unsubscribed but persistent fields.
 	const getAllInputFO = useStableCallback((includeUnsubscribed = false) => {
 		const fieldIds = getFieldIds(includeUnsubscribed)
-		return keysToObject(fieldIds, id => getInputFO(id))
+		return fromKeys(fieldIds, id => getInputFO(id))
 	})
 
 	// All handlers are defined! Return them.

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/figures'
@@ -19,7 +19,7 @@ export const defaultArrowHead = {
 // ArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
 export const ArrowHead = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, angle, size, color, className, style } = processOptions(props, defaultArrowHead)
+	let { position, graphicalPosition, angle, size, color, className, style } = normalizeOptions(props, defaultArrowHead)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	angle = ensureNumber(angle)
 	size = ensureNumber(size)

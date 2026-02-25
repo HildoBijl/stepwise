@@ -1,6 +1,6 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { isObject, isEmptyObject, processOptions, keysToObject, union } = require('../../../util')
+const { isObject, isEmptyObject, normalizeOptions, fromKeys, union } = require('../../../util')
 
 const { simplifyOptions, defaultExpressionSettings } = require('../../options')
 
@@ -57,7 +57,7 @@ class Equation {
 	}
 
 	get sides() {
-		return keysToObject(parts, part => this[part])
+		return fromKeys(parts, part => this[part])
 	}
 
 	get clone() {
@@ -65,13 +65,13 @@ class Equation {
 	}
 
 	get deepClone() {
-		const sides = keysToObject(parts, part => this[part].deepClone)
+		const sides = fromKeys(parts, part => this[part].deepClone)
 		return new Equation(sides)
 	}
 
 	// applySettings will take a set of expression settings and apply them to all parts of this Equation.
 	applySettings(settings) {
-		settings = processOptions(settings, defaultExpressionSettings)
+		settings = normalizeOptions(settings, defaultExpressionSettings)
 		if (isEmptyObject(settings))
 			return this
 		return this.applySettingsBasic(settings)
@@ -231,7 +231,7 @@ class Equation {
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object (or array of objects) must be given.`)
 		let optionsList = Array.isArray(options) ? options : [options]
-		optionsList = optionsList.map(optionsObject => processOptions(optionsObject, simplifyOptions.structureOnly)) // Always at least clean the structure.
+		optionsList = optionsList.map(optionsObject => normalizeOptions(optionsObject, simplifyOptions.structureOnly)) // Always at least clean the structure.
 
 		// Execute the list of options.
 		let result = this
@@ -255,7 +255,7 @@ class Equation {
 	equals(equation, options = {}) {
 		// Check the input.
 		equation = ensureEquation(equation)
-		options = processOptions(options, Equation.defaultEqualsOptions)
+		options = normalizeOptions(options, Equation.defaultEqualsOptions)
 
 		// Find the right processing and checking functions.
 		const leftPreprocess = options.leftPreprocess || options.preprocess

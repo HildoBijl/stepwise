@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isPlainObject, applyMapping } from 'step-wise/util'
+import { isPlainObject, mapValues } from 'step-wise/util'
 import { loadTypes, areLoadsMatching, getLoadMatching } from 'step-wise/eduContent/mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
@@ -22,7 +22,7 @@ export function getFBDFeedback(exerciseData, parameterOptions) {
 	// Walk through the parameters and incorporate feedback.
 	const { input, solution, metaData } = exerciseData
 	const { comparison } = metaData
-	return applyMapping(parameterOptions, (currOptions, currParameter) => {
+	return mapValues(parameterOptions, (currOptions, currParameter) => {
 		const currInput = input[currParameter]
 		const currSolution = solution[currParameter]
 

@@ -1,4 +1,4 @@
-const { ensureArray, ensureNumberArray, sum, isPlainObject, keysToObject } = require('../../util')
+const { ensureArray, ensureNumberArray, sum, isPlainObject, fromKeys } = require('../../util')
 
 // ensureCoef takes a coef array and ensures it actually is one: it is an array of non-negative numbers whose sum equals one. It returns a copy of the array.
 function ensureCoef(coef, requireNormalized = true) {
@@ -37,7 +37,7 @@ function ensureCoefSet(coefSet, requiredSkillIds) {
 	if (!requiredSkillIds)
 		requiredSkillIds = Object.keys(coefSet)
 	if (requiredSkillIds)
-		coefSet = keysToObject(requiredSkillIds, skillId => getCoef(coefSet, skillId))
+		coefSet = fromKeys(requiredSkillIds, skillId => getCoef(coefSet, skillId))
 	return coefSet
 }
 module.exports.ensureCoefSet = ensureCoefSet

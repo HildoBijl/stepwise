@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, processOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, normalizeOptions } from 'step-wise/util'
 import { Vector, ensureSpan } from 'step-wise/geometry'
 
 import { useGraphicalObject } from 'ui/figures'
@@ -21,7 +21,7 @@ export const defaultForce = {
 // Force draws a force vector. It must have a span parameter (a Span object), can have a size and a color.
 export const Force = forwardRef((props, ref) => {
 	// Check input.
-	let { span, graphicalSpan, size, color, className, style } = processOptions(props, defaultForce)
+	let { span, graphicalSpan, size, color, className, style } = normalizeOptions(props, defaultForce)
 	const { vector, end } = ensureSpan(useGraphicalObject(span, graphicalSpan), 2)
 	size = ensureNumber(size)
 	color = ensureString(color)

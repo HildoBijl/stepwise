@@ -1,6 +1,6 @@
 // A Span is a combination of three vectors: start, vector, end. Always it holds that start + vector = end, so effectively two of the three define the full Span object. This is useful when you have a Vector somewhere in space. The properties of this object are (unsurprisingly) "start", "vector" and "end".
 
-const { processOptions } = require('../util')
+const { normalizeOptions } = require('../util')
 
 const { ensureVector } = require('./Vector')
 const { Line, ensureLine } = require('./Line')
@@ -29,7 +29,7 @@ class Span {
 			return span
 
 		// Process the Span.
-		span = processOptions(span, defaultSpan)
+		span = normalizeOptions(span, defaultSpan)
 		if (!span.end) {
 			this.start = ensureVector(span.start)
 			this.vector = ensureVector(span.vector, this.start.dimension)

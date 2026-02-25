@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-import { lowerFirst, applyMapping } from 'step-wise/util'
+import { lowerFirst, mapValues } from 'step-wise/util'
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, useTranslator } from 'i18n'
@@ -84,7 +84,7 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 
 	// When we need to filter tabs, like in the free practice mode, then do so.
 	const freePracticeModeTabs = ['practice', 'formulas', 'references']
-	const pagesFiltered = freePracticeMode ? applyMapping(pages, (page, tab) => freePracticeModeTabs.includes(tab) ? page : undefined) : pages
+	const pagesFiltered = freePracticeMode ? mapValues(pages, (page, tab) => freePracticeModeTabs.includes(tab) ? page : undefined) : pages
 
 	// Render the pages. Use a key to force a reload on a new skillId.
 	return <TranslationFile path={`eduContent/${skillTree[skillId].path.join('/')}/${skillId}`}>

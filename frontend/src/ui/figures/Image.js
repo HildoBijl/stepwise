@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { processOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, resolveFunctions } from 'step-wise/util'
 
 export const defaultImageOptions = {
 	src: undefined, // The path to the image.
@@ -14,7 +14,7 @@ export const defaultImageOptions = {
 }
 
 export const Image = forwardRef((options, ref) => {
-	const { src, alt, maxWidth, maxHeight, className, style, sx } = processOptions(options, defaultImageOptions)
+	const { src, alt, maxWidth, maxHeight, className, style, sx } = normalizeOptions(options, defaultImageOptions)
 
 	// Apply default styling within the sx parameter.
 	const expandedSx = theme => ({

@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { Box, FormControl, Select, MenuItem } from '@mui/material'
 import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
-import { lastOf, keysToObject, isPlainObject, repeat } from 'step-wise/util'
+import { lastOf, fromKeys, isPlainObject, repeat } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
@@ -95,7 +95,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	// Set up a function to insert the solution into the input fields.
 	const insertSolution = () => {
 		const oldInput = getAllInputSI()
-		const newInput = keysToObject(getFieldIds(), (key) => {
+		const newInput = fromKeys(getFieldIds(), (key) => {
 			if (solution[key] === undefined)
 				return oldInput[key]
 			let currNewInput = toSO(solution[key], true, oldInput[key]?.type)

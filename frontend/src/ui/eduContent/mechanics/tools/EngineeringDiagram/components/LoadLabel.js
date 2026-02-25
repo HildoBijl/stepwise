@@ -1,4 +1,4 @@
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/eduContent/mechanics'
@@ -30,7 +30,7 @@ export default function LoadLabel({ load, variable, point }) {
 		// For a moment, put the label near the moment arrow.
 		case loadTypes.moment:
 			// Determine the angle at which the arrow ends.
-			const { position, opening, clockwise, spread, radius, graphicalRadius } = processOptions(load, Moment.defaultProps, true)
+			const { position, opening, clockwise, spread, radius, graphicalRadius } = normalizeOptions(load, Moment.defaultProps, true)
 			const angle = opening + (clockwise ? -1 : 1) * ((2 * Math.PI - spread) / 2 + momentAngleDeviation)
 
 			// An important question is whether the radius is known. If so, we can determine the exact endpoint and displace the label from there.

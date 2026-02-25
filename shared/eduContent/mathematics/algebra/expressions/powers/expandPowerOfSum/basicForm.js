@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, count, repeat, binomial, arraysToObject } = require('../../../../../../util')
+const { selectRandomly, getRandomInteger, count, repeat, binomial, fromEntries } = require('../../../../../../util')
 const { repeat: skillRepeat } = require('../../../../../../skillTracking')
 const { asExpression, expressionComparisons, expressionChecks, Sum, Product } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
@@ -45,7 +45,7 @@ function getSolution(state) {
 	const ans = sum.regularClean()
 	const termsNames = repeat(e + 1, i => `term${i}`)
 	const coefficientsNames = repeat(e + 1, i => `c${i}`)
-	return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...arraysToObject(termsNames, termsSimplified), termsNames, ...arraysToObject(coefficientsNames, coefficients), coefficientsNames }
+	return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromEntries(termsNames, termsSimplified), termsNames, ...fromEntries(coefficientsNames, coefficients), coefficientsNames }
 }
 
 function checkInput(exerciseData, step) {

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureBoolean, ensureObject, processOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureBoolean, ensureObject, normalizeOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useDrawingId, useGraphicalVector, SvgPortal } from '../../DrawingContext'
@@ -20,7 +20,7 @@ export const defaultGroup = {
 // Group sets up a groups with a given position, rotation and scale. (In that order: it's first translated, then rotated and then scaled.)
 export const Group = forwardRef((props, ref) => {
 	// Process the input.
-	let { position, graphicalPosition, rotate, scale, overflow, className, style, children } = processOptions(props, defaultGroup)
+	let { position, graphicalPosition, rotate, scale, overflow, className, style, children } = normalizeOptions(props, defaultGroup)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)

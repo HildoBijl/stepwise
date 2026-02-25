@@ -1,4 +1,4 @@
-import { isNumber, isLetter, applyMapping, passOn } from 'step-wise/util'
+import { isNumber, isLetter, mapValues, passOn } from 'step-wise/util'
 
 import { units, prefixes } from 'step-wise/inputTypes'
 
@@ -29,7 +29,7 @@ export const clean = ({ float, unit }) => {
 		float: isFloatEmpty(float) ? undefined : cleanFloat(float),
 		unit: isUnitEmpty(unit) ? undefined : cleanUnit(unit),
 	}
-	return applyMapping(result, passOn) // Filter out undefined.
+	return mapValues(result, passOn) // Filter out undefined.
 }
 export const functionalize = ({ float, unit }) => ({ float: functionalizeFloat(float), unit: functionalizeUnit(unit) })
 

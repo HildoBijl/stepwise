@@ -1,4 +1,4 @@
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 
 import { fetchApi, requestWithFetch } from './fetch'
 import { hasXmlHttpRequest, requestWithXmlHttpRequest } from './xmlHttpRequest'
@@ -18,7 +18,7 @@ const defaultOptions = {
 
 export function request(url, payload, callback, options = {}) {
 	// Process input parameters: if no payload is present, the callback may be given at the location of the payload.
-	options = processOptions(options, defaultOptions)
+	options = normalizeOptions(options, defaultOptions)
   if (typeof payload === 'function') {
 		options = callback || {}
     callback = payload

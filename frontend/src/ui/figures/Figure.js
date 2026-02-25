@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
-import { processOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, resolveFunctions } from 'step-wise/util'
 
 export const defaultFigureOptions = {
 	aspectRatio: 0.75, // Height divided by width. Enter a ratio.
@@ -14,7 +14,7 @@ export const defaultFigureOptions = {
 }
 
 export const Figure = forwardRef((options, ref) => {
-	const { aspectRatio, maxWidth, className, style, sx, figureInnerSx, children } = processOptions(options, defaultFigureOptions)
+	const { aspectRatio, maxWidth, className, style, sx, figureInnerSx, children } = normalizeOptions(options, defaultFigureOptions)
 	// Define refs and make them accessible to calling elements.
 	const figureInner = useRef()
 	const figureOuter = useRef()

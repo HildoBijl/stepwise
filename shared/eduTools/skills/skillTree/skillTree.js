@@ -1,4 +1,4 @@
-const { isPlainObject, filterDuplicates, applyMapping, union } = require('../../../util')
+const { isPlainObject, filterDuplicates, mapValues, union } = require('../../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../../skillTracking')
 
 const { getExerciseId, splitExerciseId } = require('./util')
@@ -739,7 +739,7 @@ const skillStructure = {
 const skillTree = {}
 const skillsPerGroup = {}
 function processSkillGroup(skillGroup, path = []) {
-	applyMapping(skillGroup, (obj, key) => {
+	mapValues(skillGroup, (obj, key) => {
 		if (obj.name) { // Is it a skill? Only skills have a "name" parameter.
 			obj.id = key
 			obj.path = path
@@ -825,8 +825,8 @@ Object.values(skillTree).forEach(skill => {
 })
 
 // Copy links to the skills that have been linked.
-const skillLinks = applyMapping(skillTree, skill => [...skill.links]) // Copy links lists to prevent reference loops.
-applyMapping(skillLinks, (links, skillId) => {
+const skillLinks = mapValues(skillTree, skill => [...skill.links]) // Copy links lists to prevent reference loops.
+mapValues(skillLinks, (links, skillId) => {
 	const skill = skillTree[skillId]
 	links.forEach(link => {
 		link.skills.forEach(linkedSkill => {

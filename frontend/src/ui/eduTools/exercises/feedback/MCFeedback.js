@@ -1,4 +1,4 @@
-import { applyMapping } from 'step-wise/util'
+import { mapValues } from 'step-wise/util'
 import { performIndividualComparison } from 'step-wise/eduTools'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
@@ -18,7 +18,7 @@ import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
  * The object returned is of the form { [name]: { subfields: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } } }
  */
 export function getMCFeedback(exerciseData, parameterOptions = {}) {
-	return applyMapping(parameterOptions, (currOptions, currParameter) => getIndividualMCFeedback(exerciseData, currParameter, currOptions))
+	return mapValues(parameterOptions, (currOptions, currParameter) => getIndividualMCFeedback(exerciseData, currParameter, currOptions))
 }
 
 // getIndividualMCFeedback returns the feedback for a single multiple choice field.

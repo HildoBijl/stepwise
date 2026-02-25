@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { arrayFind, isPlainObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
+import { arrayFind, isPlainObject, normalizeOptions, deepEquals, mapValues } from 'step-wise/util'
 import { Equation } from 'step-wise/CAS'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison } from 'step-wise/eduTools'
@@ -56,7 +56,7 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 		throw new Error(`Invalid comparison parameter: expected a plain object with comparison options/functions for each parameter. Received something of type ${typeof comparison}.`)
 
 	// Walk through the parameters and incorporate feedback.
-	return applyMapping(parameterOptions, (currOptions, currParameter) => {
+	return mapValues(parameterOptions, (currOptions, currParameter) => {
 		// Extract input and solution. Ignore parameters with no input.
 		const currInput = input[currParameter]
 		const currSolution = solution[currParameter]
@@ -87,7 +87,7 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 
 // getIndividualFieldInputFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
 function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput, currSolution, currOptions) {
-	const { comparison, feedbackChecks, feedbackFunction } = processOptions(currOptions, defaultOptions)
+	const { comparison, feedbackChecks, feedbackFunction } = normalizeOptions(currOptions, defaultOptions)
 	const { solution } = exerciseData
 
 	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
@@ -155,7 +155,7 @@ export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, 
 
 // getNumberComparisonFeedback takes two numbers: an input answer and a solution answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }.
 export function getNumberComparisonFeedback(currInput, currSolution, currOptions, objectBased, getNumber = (x => x)) {
-	let { comparison, previousFeedback } = processOptions(currOptions, defaultOptions)
+	let { comparison, previousFeedback } = normalizeOptions(currOptions, defaultOptions)
 
 	// How to get equality data and equality depends on whether this is object-based (like with a Float) or number-based (like with regular numbers).
 	const equalityData = objectBased ?

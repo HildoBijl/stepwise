@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import { arraysToObject, keysToObject, formatDate } from 'step-wise/util'
+import { fromEntries, fromKeys, formatDate } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
@@ -91,11 +91,11 @@ function useSkillsList(user) {
 		// Process the skills into a raw data set. (Also filter them to remove outdated skills not in the skill tree anymore.)
 		const skillsProcessed = user.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
 		const skillIds = skillsProcessed.map(skill => skill.skillId)
-		const skillsAsObject = arraysToObject(skillIds, skillsProcessed)
+		const skillsAsObject = fromEntries(skillIds, skillsProcessed)
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 		const allSkillIds = includePrerequisitesAndLinks(skillIds)
-		const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
+		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 		const skillDataSet = processSkillDataSet(skills, skillTree)
 
 		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.

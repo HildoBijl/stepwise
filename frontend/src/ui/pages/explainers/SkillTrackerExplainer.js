@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
-import { keysToObject, applyMapping } from 'step-wise/util'
+import { fromKeys, mapValues } from 'step-wise/util'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 
@@ -178,8 +178,8 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 
 function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	// Set up the state.
-	const getEmptyCoefficientSetFromLabels = labels => keysToObject(labels, () => [1])
-	const getEmptyNumsPracticedFromLabels = labels => keysToObject(labels, () => 0)
+	const getEmptyCoefficientSetFromLabels = labels => fromKeys(labels, () => [1])
+	const getEmptyNumsPracticedFromLabels = labels => fromKeys(labels, () => 0)
 	const [coefficientSet, setCoefficientSet] = useState(getEmptyCoefficientSetFromLabels(labels))
 	const [numsPracticed, setNumsPracticed] = useState(getEmptyNumsPracticedFromLabels(labels))
 	const [pass, setPass] = useState(labels.map(() => false))
@@ -189,7 +189,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		// First smoothen all related coefficients.
 		let newCoefficientSet
 		if (label === lastLabel)
-			newCoefficientSet = applyMapping(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+			newCoefficientSet = mapValues(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 		else
 			newCoefficientSet = {
 				...coefficientSet,
@@ -208,7 +208,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setNumsPracticed(newNumsPracticed)
 
 		// Update the passed parameter.
-		const smoothenedCoefficientSet = applyMapping(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
+		const smoothenedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
 			const EV = getEV(smoothenedCoefficientSet[label])
 			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
@@ -221,7 +221,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	}
 
 	// Make the inference towards X. For this first smoothen all distributions and then run the inference and merging.
-	const coefficientSetNow = applyMapping(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
 	coefficientSetNow[lastLabel] = merge([inference, coefficientSetNow[lastLabel]])
 

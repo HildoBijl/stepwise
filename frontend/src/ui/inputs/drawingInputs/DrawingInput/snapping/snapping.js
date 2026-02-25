@@ -1,4 +1,4 @@
-import { numberArray, sortByIndices, processOptions, resolveFunctions } from 'step-wise/util'
+import { numberArray, sortByIndices, normalizeOptions, resolveFunctions } from 'step-wise/util'
 
 import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings } from 'ui/figures'
@@ -16,7 +16,7 @@ export const defaultSnappingOptions = {
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 export function useMouseSnapping(options, { position, keys }) {
-	let { snappers, applySnapping, snappingDistance } = processOptions(options, defaultSnappingOptions)
+	let { snappers, applySnapping, snappingDistance } = normalizeOptions(options, defaultSnappingOptions)
 
 	// Resolve parameters that may depend on the input.
 	const { readOnly, FI } = useInputData()

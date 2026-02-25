@@ -1,6 +1,6 @@
 // Unit represents any unit a physical quantity may have. For example mg^3 * kl / ns^2 * °C^2.
 
-const { ensureInt, isObject, deepEquals, keysToObject, processOptions, InterpretationError } = require('../../util')
+const { ensureInt, isObject, deepEquals, fromKeys, normalizeOptions, InterpretationError } = require('../../util')
 
 const { UnitElement } = require('./UnitElement')
 const { getUnitArrayFO } = require('./UnitArray')
@@ -23,7 +23,7 @@ class Unit {
 			input = splitUnitString(input)
 
 		// Include default values.
-		input = processOptions(input, defaultUnit)
+		input = normalizeOptions(input, defaultUnit)
 
 		// Deal with each part separately.
 		this._num = getUnitArrayFO(input.num)
@@ -32,11 +32,11 @@ class Unit {
 
 	// SO returns a storage object representation of this unit that can be interpreted again.
 	get SO() {
-		return keysToObject(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SO))
+		return fromKeys(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SO))
 	}
 
 	get SI() {
-		return keysToObject(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SI))
+		return fromKeys(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SI))
 	}
 
 	get type() {
@@ -124,7 +124,7 @@ class Unit {
 	 */
 	simplifyWithData(options = {}) {
 		// Fill out any missing options with defaults.
-		options = processOptions(options, Unit.defaultSimplifyOptions)
+		options = normalizeOptions(options, Unit.defaultSimplifyOptions)
 
 		// Check if the unit is a valid one. We cannot simplify it otherwise.
 		if (!this.isValid())
@@ -254,7 +254,7 @@ class Unit {
 			throw new Error(`Invalid comparison: cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = processOptions(options, Unit.defaultComparison)
+		options = normalizeOptions(options, Unit.defaultComparison)
 
 		// Set up easier names.
 		let a = this

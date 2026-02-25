@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useRef } from 'react'
 
-import { keysToObject } from 'step-wise/util'
+import { fromKeys } from 'step-wise/util'
 import { languages } from '@step-wise/settings'
 
 import { useI18nHandlers, useInitialLanguage } from './handlers'
@@ -10,8 +10,8 @@ const I18nContext = createContext({})
 export function I18nProvider({ children }) {
 	// Define states.
 	const [language, setLanguage] = useState()
-	const [languageFiles, setLanguageFiles] = useState(keysToObject(languages, () => ({})))
-	const loaderRef = useRef(keysToObject(languages, () => ({})))
+	const [languageFiles, setLanguageFiles] = useState(fromKeys(languages, () => ({})))
+	const loaderRef = useRef(fromKeys(languages, () => ({})))
 
 	// Set up the initial language value based on various sources of information.
 	useInitialLanguage(setLanguage)

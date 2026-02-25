@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, applyMapping, keysToObject } from 'step-wise/util'
+import { isNumber, removeAt, insertAt, mapValues, fromKeys } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -15,8 +15,8 @@ export const getEndCursor = ({ number, power }, cursor) => (power !== '' || (cur
 export const isCursorAtStart = (_, cursor) => cursor?.part === 'number' && cursor.cursor === 0
 export const isCursorAtEnd = ({ number, power }, cursor) => (cursor?.part === 'power') ? (cursor.cursor === power.length) : (power === '' && cursor.cursor === number.length)
 export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
-export const clean = value => applyMapping(value, param => param || undefined) // Remove empty strings.
-export const functionalize = value => keysToObject(parts, part => (value || initialValue)[part] || '') // Add empty strings.
+export const clean = value => mapValues(value, param => param || undefined) // Remove empty strings.
+export const functionalize = value => fromKeys(parts, part => (value || initialValue)[part] || '') // Add empty strings.
 
 // keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function keyboardSettings(FI, positive = false, allowPower = true) {

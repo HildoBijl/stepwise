@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, getAllCombinations, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, normalizeOptions, filterOptions, omitProperties, fromKeys, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, getAllCombinations, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -66,7 +66,7 @@ class Expression {
 		SO = this.checkAndRemoveSubtype(SO)
 
 		// Check what is given in the SO, and extract settings.
-		SO = processOptions(SO, this.constructor.getDefaultSO())
+		SO = normalizeOptions(SO, this.constructor.getDefaultSO())
 		const settings = SO.settings
 		delete SO.settings
 
@@ -78,7 +78,7 @@ class Expression {
 
 		// Reapply the settings, if present.
 		if (settings)
-			this.applySettingsToSelf(processOptions(settings, defaultExpressionSettings))
+			this.applySettingsToSelf(normalizeOptions(settings, defaultExpressionSettings))
 	}
 
 	// checkAndRemoveSubtype checks if the given SO has a subtype like "Variable" or "Fraction" or so. If so, it is checked and subsequently removed. (If not, this function does nothing.) The resulting SO is returned.
@@ -92,7 +92,7 @@ class Expression {
 			throw new Error(`Invalid Expression creation: tried to create an Expression of subtype "${this.subtype}" but the given Storage Object has subtype "${SO.subtype}".`)
 
 		// Clone the SO (shallowly) to not change the original and remove the type.
-		return removeProperties(SO, 'subtype')
+		return omitProperties(SO, 'subtype')
 	}
 
 	// type returns always "Expression" for expression types.
@@ -116,7 +116,7 @@ class Expression {
 
 	// settings returns the settings applied to this Expression.
 	get settings() {
-		return keysToObject(this.constructor.availableSettings || [], key => this[key])
+		return fromKeys(this.constructor.availableSettings || [], key => this[key])
 	}
 
 	// SO returns a storage object version of this object. It does this recursively, turning children into SOs too.
@@ -170,7 +170,7 @@ class Expression {
 
 	// applySettings will take a set of expression settings and apply them to all parts of this Expression. It returns shallow clones, not changing the original object.
 	applySettings(settings) {
-		settings = processOptions(settings, defaultExpressionSettings)
+		settings = normalizeOptions(settings, defaultExpressionSettings)
 		if (isEmptyObject(settings))
 			return this
 		return this.applyToEvery(expression => expression.applySettingsBasic(settings))
@@ -532,7 +532,7 @@ class Expression {
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object (or array of objects) must be given.`)
 		let optionsList = Array.isArray(options) ? options : [options]
-		optionsList = optionsList.map(optionsObject => processOptions(optionsObject, simplifyOptions.structureOnly)) // Always at least clean the structure.
+		optionsList = optionsList.map(optionsObject => normalizeOptions(optionsObject, simplifyOptions.structureOnly)) // Always at least clean the structure.
 
 		// Execute the list of options.
 		let result = this
@@ -659,7 +659,7 @@ class Variable extends Expression {
 		// Check own input.
 		const defaultSO = this.constructor.getDefaultSO()
 		SO = this.checkAndRemoveSubtype(SO)
-		SO = processOptions(SO, defaultSO)
+		SO = normalizeOptions(SO, defaultSO)
 		variableParts.forEach(part => {
 			if (typeof SO[part] !== 'string' && typeof SO[part] !== typeof this.constructor.defaultSO[part])
 				throw new Error(`Invalid variable ${part}: the ${part} must be a string but received "${SO[part]}".`)
@@ -1063,7 +1063,7 @@ class ExpressionList extends Expression {
 	become(SO) {
 		// Check own input.
 		SO = this.checkAndRemoveSubtype(SO)
-		SO = processOptions(SO, this.constructor.getDefaultSO())
+		SO = normalizeOptions(SO, this.constructor.getDefaultSO())
 		if (!Array.isArray(SO.terms))
 			throw new Error(`Invalid terms list: tried to create a ${this.constructor.type}, but the terms parameter was not an array. Its value was "${terms}".`)
 		const terms = SO.terms.map(ensureExpression)
@@ -1970,7 +1970,7 @@ class Function extends Expression {
 	become(SO) {
 		// Check own input.
 		SO = this.checkAndRemoveSubtype(SO)
-		SO = processOptions(SO, this.constructor.getDefaultSO())
+		SO = normalizeOptions(SO, this.constructor.getDefaultSO())
 
 		// Handle parent input.
 		super.become(filterOptions(SO, getParentClass(this.constructor).getDefaultSO()))
@@ -2055,7 +2055,7 @@ class Function extends Expression {
 
 	applyToEvery(func, includeSelf = true, recursive = true) {
 		// When the new arguments all equal the old arguments, keep the same object. Otherwise create a new one.
-		const SO = keysToObject(this.constructor.args, key => recursive ? this[key].applyToEvery(func, true, true) : func(this[key]))
+		const SO = fromKeys(this.constructor.args, key => recursive ? this[key].applyToEvery(func, true, true) : func(this[key]))
 		const obj = (Object.keys(SO).every(key => SO[key] === this[key])) ? this : new this.constructor({ ...SO, settings: this.settings })
 		return includeSelf ? func(obj) : obj
 	}

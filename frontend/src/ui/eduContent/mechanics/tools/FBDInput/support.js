@@ -1,10 +1,10 @@
-import { mod, removeProperties } from 'step-wise/util'
+import { mod, omitProperties } from 'step-wise/util'
 import { Span } from 'step-wise/geometry'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/eduContent/mechanics'
 
 export function clean(FI) {
-	return toSO(FI.map(load => removeProperties(load, ['selected', 'hovering'])))
+	return toSO(FI.map(load => omitProperties(load, ['selected', 'hovering'])))
 }
 
 export function functionalize(SI) {
@@ -101,7 +101,7 @@ export function getDragObjectData(downData, upData, options) {
 export function removeHovering(FI) {
 	if (!FI.some(load => load.hovering))
 		return FI
-	return FI.map(load => load.hovering ? removeProperties(load, 'hovering') : load)
+	return FI.map(load => load.hovering ? omitProperties(load, 'hovering') : load)
 }
 
 // applyHovering takes an FI and applies hovering to the load with the given index.

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureBoolean, removeProperties, filterOptions, processOptions, firstOf, lastOf } from 'step-wise/util'
+import { ensureBoolean, omitProperties, filterOptions, normalizeOptions, firstOf, lastOf } from 'step-wise/util'
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -11,7 +11,7 @@ import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationO
 import { getTicks } from './ticks'
 
 export const defaultPlotTransformationOptions = {
-	...removeProperties(defaultBoundsBasedTransformationOptions, ['pretransformation']), // Plots do not allow pretransformations.
+	...omitProperties(defaultBoundsBasedTransformationOptions, ['pretransformation']), // Plots do not allow pretransformations.
 	uniform: false, // Override default setting.
 	includeOrigin: true,
 	extendBoundsToTicks: true,
@@ -21,7 +21,7 @@ export const defaultPlotTransformationOptions = {
 export function usePlotTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentValue(points)
-	options = useConsistentValue(processOptions(options, defaultPlotTransformationOptions))
+	options = useConsistentValue(normalizeOptions(options, defaultPlotTransformationOptions))
 
 	// Check the options.
 	let { includeOrigin, extendBoundsToTicks, desiredNumTicks } = options

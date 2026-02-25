@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry/Vector'
 
 import { useGraphicalVector } from 'ui/figures'
@@ -20,7 +20,7 @@ export const defaultSupportBlock = {
 
 export const SupportBlock = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, color, width, height, className, style } = processOptions(props, defaultSupportBlock)
+	let { position, graphicalPosition, color, width, height, className, style } = normalizeOptions(props, defaultSupportBlock)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	color = ensureString(color)
 	width = ensureNumber(width)

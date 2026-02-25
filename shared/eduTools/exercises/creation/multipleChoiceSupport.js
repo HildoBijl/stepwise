@@ -1,4 +1,4 @@
-const { processOptions, ensureInt, numberArray, getRandomSubset, shuffle } = require('../../../util')
+const { normalizeOptions, ensureInt, numberArray, getRandomSubset, shuffle } = require('../../../util')
 
 // getMultipleChoiceMapping takes options for a multiple choice mapping that is then passed on to the multiple choice component.
 const defaultMultipleChoiceMappingOptions = {
@@ -9,7 +9,7 @@ const defaultMultipleChoiceMappingOptions = {
 }
 function getMultipleChoiceMapping(options) {
 	// Check the input.
-	let { numChoices, pick, include, randomOrder } = processOptions(options, defaultMultipleChoiceMappingOptions)
+	let { numChoices, pick, include, randomOrder } = normalizeOptions(options, defaultMultipleChoiceMappingOptions)
 	numChoices = ensureInt(numChoices, true, true)
 
 	// Set up the right elements to pick.

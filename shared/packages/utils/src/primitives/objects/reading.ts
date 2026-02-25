@@ -15,7 +15,7 @@ export function getByPath(obj: Record<string, any> | unknown, path: string[]): u
 	return result
 }
 
-// JSON stringify without quotes around property names. It only handles primitives, arrays and plain objects: it throws on functions and functional objects.
+// JSON-like stringify without quotes around property names. It only handles primitives, arrays and plain objects: it throws on functions and functional objects.
 export function stringifyJS(value: unknown): string {
 	// Don't allow functions.
 	if (typeof value === 'function') throw new TypeError('stringifyJS: value may not be/contain a function.')

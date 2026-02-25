@@ -1,6 +1,6 @@
 // A Line is a line inside a (possibly multi-dimensional) space. It is like a Span, but then it has no magnitude. It's all about the position and the direction.
 
-const { ensureInt, ensureNumber, compareNumbers, processOptions } = require('../util')
+const { ensureInt, ensureNumber, compareNumbers, normalizeOptions } = require('../util')
 const { Vector, ensureVector } = require('./Vector')
 
 const defaultLine = {
@@ -27,7 +27,7 @@ class Line {
 				throw new Error(`Invalid Line: expected an object that could be turned into a Line, but received something of type "${typeof line}".`)
 
 			// Extract the given parameters.
-			line = processOptions(line, defaultLine)
+			line = normalizeOptions(line, defaultLine)
 			start = line.start
 			direction = line.direction
 		}

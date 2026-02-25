@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Radio, Checkbox } from '@mui/material'
 
-import { processOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, resolveFunctions } from 'step-wise/util'
 
 import { FeedbackBlock } from 'ui/components'
 
@@ -21,7 +21,7 @@ export const defaultMultipleChoiceInnerOptions = {
 }
 
 export function MultipleChoiceInner(options) {
-	let { choices, multiple, mapping, pick, include, randomOrder, sx } = processOptions(options, defaultMultipleChoiceInnerOptions)
+	let { choices, multiple, mapping, pick, include, randomOrder, sx } = normalizeOptions(options, defaultMultipleChoiceInnerOptions)
 
 	// Extract data from the various parents.
 	const [selection, setSelection] = useInput()

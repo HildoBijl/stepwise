@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { keysToObject } from 'step-wise/util'
+import { fromKeys } from 'step-wise/util'
 import { getInverseCDF } from 'step-wise/skillTracking'
 
 import { Translation } from 'i18n'
@@ -17,7 +17,7 @@ export function GradeEstimate() {
 		return null
 
 	// Gather all the required data.
-	const coefficientSet = keysToObject(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
+	const coefficientSet = fromKeys(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
 	const EV = setup.getEV(coefficientSet)
 	const distribution = setup.getDistribution(coefficientSet)
 	const inverseCDF = getInverseCDF(distribution)

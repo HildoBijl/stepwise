@@ -1,4 +1,4 @@
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 import { getEV } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {
@@ -21,7 +21,7 @@ export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresho
 		return undefined
 
 	// Determine the thresholds to apply.
-	skillThresholds = processOptions(skillThresholds, defaultSkillThresholds)
+	skillThresholds = normalizeOptions(skillThresholds, defaultSkillThresholds)
 	const pass = skillThresholds.pass * (priorKnowledge ? skillThresholds.pkFactor : 1)
 	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 

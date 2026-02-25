@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { useImmutableValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -21,7 +21,7 @@ export const defaultMultipleChoiceOptions = {
 }
 
 export function MultipleChoice(options) {
-	options = processOptions(options, defaultMultipleChoiceOptions)
+	options = normalizeOptions(options, defaultMultipleChoiceOptions)
 
 	// Set up the Input field settings.
 	const multiple = useImmutableValue(options.multiple) // Ensure that "multiple" does not change.

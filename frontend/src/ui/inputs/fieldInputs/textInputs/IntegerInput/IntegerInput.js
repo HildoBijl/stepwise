@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -36,7 +36,7 @@ export const defaultIntegerInputOptions = {
 }
 
 export function IntegerInput(options) {
-	options = processOptions(options, defaultIntegerInputOptions)
+	options = normalizeOptions(options, defaultIntegerInputOptions)
 
 	// Set up options for the TextInput field.
 	const { positive } = options

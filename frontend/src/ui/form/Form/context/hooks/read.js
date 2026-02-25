@@ -1,4 +1,4 @@
-import { keysToObject } from 'step-wise/util'
+import { fromKeys } from 'step-wise/util'
 
 import { useFormData } from '../provider'
 
@@ -13,7 +13,7 @@ export function useInputObject(ids, useFI = false) {
 
 	// Turn each ID into the right object.
 	const getParameter = useFI ? getInputFI : getInputFO
-	return keysToObject(Array.isArray(ids) ? ids : [ids], id => getParameter(id))
+	return fromKeys(Array.isArray(ids) ? ids : [ids], id => getParameter(id))
 }
 
 // useInput is identical to useInputObject, but then returns the result as array instead of object. 

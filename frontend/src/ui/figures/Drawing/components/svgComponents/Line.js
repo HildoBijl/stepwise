@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureString, ensureBoolean, ensureObject, processOptions } from 'step-wise/util'
+import { ensureString, ensureBoolean, ensureObject, normalizeOptions } from 'step-wise/util'
 import { ensureVectorArray } from 'step-wise/geometry'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
@@ -24,7 +24,7 @@ export const defaultLine = {
 // Line draws a line from the given points array and an optional style object.
 export const Line = forwardRef((props, ref) => {
 	// Process the input.
-	let { points, graphicalPoints, close, className, style } = processOptions(props, defaultLine)
+	let { points, graphicalPoints, close, className, style } = normalizeOptions(props, defaultLine)
 	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
 	close = ensureBoolean(close)
 	className = ensureString(className)

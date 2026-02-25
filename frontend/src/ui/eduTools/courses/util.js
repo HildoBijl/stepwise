@@ -1,4 +1,4 @@
-import { count, arraysToObject, keysToObject, findOptimum } from 'step-wise/util'
+import { count, fromEntries, fromKeys, findOptimum } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
@@ -65,11 +65,11 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 export function processStudent(student, overview) {
 	// Filter out outdated none-existing skills, process the remaining skills, and turn them into an ID-keyed object (a raw dataset).
 	const skillsProcessed = student.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
-	const skillsAsObject = arraysToObject(skillsProcessed.map(skill => skill.skillId), skillsProcessed)
+	const skillsAsObject = fromEntries(skillsProcessed.map(skill => skill.skillId), skillsProcessed)
 
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 	const allSkillIds = includePrerequisitesAndLinks(overview.all)
-	const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
+	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 	const skillsData = processSkillDataSet(skills, skillTree)
 
 	// Run an analysis of what the student completed.

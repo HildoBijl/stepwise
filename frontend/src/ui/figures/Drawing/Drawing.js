@@ -4,7 +4,7 @@
 
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 
-import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -26,7 +26,7 @@ export { defaultDrawingOptions }
 
 export const Drawing = forwardRef((options, ref) => {
 	// Process and check the options.
-	options = processOptions(options, defaultDrawingOptions)
+	options = normalizeOptions(options, defaultDrawingOptions)
 	const { transformationSettings } = options
 	if (!transformationSettings)
 		throw new Error(`Drawing render error: no transformation settings are given. Use any of the "use[...]TransformationSettings" functions from the transformation utility file to get transformation settings.`)

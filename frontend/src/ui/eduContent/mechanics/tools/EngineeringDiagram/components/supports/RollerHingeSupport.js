@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureInt, ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
+import { ensureInt, ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry/Vector'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'
@@ -21,7 +21,7 @@ export const defaultRollerHingeSupport = {
 
 export const RollerHingeSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, className, style } = processOptions(props, defaultRollerHingeSupport)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, className, style } = normalizeOptions(props, defaultRollerHingeSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)

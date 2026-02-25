@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureString, ensureObject, processOptions, filterOptions } from 'step-wise/util'
+import { ensureString, ensureObject, normalizeOptions, filterOptions } from 'step-wise/util'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalVector } from '../../DrawingContext'
@@ -28,7 +28,7 @@ export const defaultDistance = {
 // Distance renders a distance spread. The given distance object must have a "span" parameter, which is a Span object: an object with a start, vector and/or end (two out of the three). It assumes the arrow heads will be added through the distance class and the SVG style definitions.
 export const Distance = forwardRef((props, ref) => {
 	// Process the input.
-	let { span, graphicalSpan, shift, graphicalShift, style, className } = processOptions(props, defaultDistance)
+	let { span, graphicalSpan, shift, graphicalShift, style, className } = normalizeOptions(props, defaultDistance)
 	span = ensureSpan(useGraphicalObject(span, graphicalSpan), 2)
 	shift = ensureVector(useGraphicalVector(shift, graphicalShift, true), 2)
 	style = { ...defaultDistance.style, ...ensureObject(style) }

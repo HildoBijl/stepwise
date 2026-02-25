@@ -3,7 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
-const { getByPath, setDeepParameter } = require('step-wise/util')
+const { getByPath, setByPath } = require('step-wise/util')
 const { i18nLoadPath, i18nUpdateLogPath } = require('@step-wise/settings')
 
 const pathToPublicFolder = `../frontend/public`
@@ -50,7 +50,7 @@ function createI18nRouter() {
 						const text = updates[language][path][entry]
 						const entrySplit = entry.split('.')
 						formerText = getByPath(languageFile, entrySplit)
-						languageFile = setDeepParameter(languageFile, entrySplit, text)
+						languageFile = setByPath(languageFile, entrySplit, text)
 
 						// Also update the log.
 						const logEntry = {
@@ -60,7 +60,7 @@ function createI18nRouter() {
 							latestUpdate: now,
 							latestText: text,
 						}
-						logFile = setDeepParameter(logFile, [language, path, entry], logEntry)
+						logFile = setByPath(logFile, [language, path, entry], logEntry)
 					})
 
 					// Save the updated file. Return the resulting promise.

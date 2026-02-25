@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 
 import { notSelectable } from 'ui/theme'
 import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'
@@ -28,7 +28,7 @@ const glowRadius = 0.25 // em
 
 // The DrawingInputHull component renders the Drawing with an input-field-like box around it. It also has space to display feedback.
 export const DrawingInputHull = forwardRef((options, drawingRef) => {
-	options = processOptions(options, defaultDrawingInputHullOptions)
+	options = normalizeOptions(options, defaultDrawingInputHullOptions)
 	let { maxWidth, DrawingElement, className, feedbackIconScale, children, transformationSettings } = options
 
 	// Get data from the parent contexts.

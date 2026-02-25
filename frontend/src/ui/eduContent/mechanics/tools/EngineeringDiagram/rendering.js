@@ -1,7 +1,7 @@
 
 import React, { forwardRef, Fragment } from 'react'
 
-import { isObject, applyMapping } from 'step-wise/util'
+import { isObject, mapValues } from 'step-wise/util'
 
 import { toCSS } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -20,7 +20,7 @@ export const loadColors = {
 	external: '#8e0b0b',
 	reaction: '#043870',
 	section: '#902dba',
-	feedback: applyMapping(feedbackColors, toCSS),
+	feedback: mapValues(feedbackColors, toCSS),
 	glow: toCSS(themeColor), // On selection.
 }
 

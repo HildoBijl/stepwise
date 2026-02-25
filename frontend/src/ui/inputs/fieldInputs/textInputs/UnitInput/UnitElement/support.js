@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, isLetter, keysToObject } from 'step-wise/util'
+import { isNumber, removeAt, insertAt, isLetter, fromKeys } from 'step-wise/util'
 import { units, prefixes, interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes'
 
 import { getClickPosition } from '../../TextInput'
@@ -14,7 +14,7 @@ export const getEndCursor = (FI, cursor) => hasPowerVisible(FI, cursor) ? { part
 export const isCursorAtStart = (_, cursor) => cursor?.part === 'text' && cursor.cursor === 0
 export const isCursorAtEnd = ({ prefix, unit, power }, cursor) => (cursor?.part === 'power' && cursor.cursor === power.length) || (power === '' && cursor?.cursor === prefix.length + unit.length)
 export const isValid = value => value.unitObj && (value.prefix === '' || !!value.prefixObj)
-export const clean = value => isEmpty(value) ? undefined : keysToObject(parts, part => value[part] || undefined)
+export const clean = value => isEmpty(value) ? undefined : fromKeys(parts, part => value[part] || undefined)
 export const functionalize = ({ prefix = '', unit = '', power = '' }) => processUnitElement({ text: prefix + unit, power }).value
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.

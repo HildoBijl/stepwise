@@ -1,4 +1,4 @@
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 
 import { useInputData } from '../../../Input'
 
@@ -11,7 +11,7 @@ export const defaultResizingInputInnerOptions = {
 }
 
 export function ResizingInputInner(options) {
-	const { autoResize, heightDelta } = processOptions(options, defaultResizingInputInnerOptions)
+	const { autoResize, heightDelta } = normalizeOptions(options, defaultResizingInputInnerOptions)
 	const { FI, inputFieldRef } = useInputData()
 
 	// Ensure that the field resizes along with the contents.

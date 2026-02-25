@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { normalizeOptions, filterOptions } from 'step-wise/util'
 
 import { useDrawingData, useMouseData } from 'ui/figures'
 
@@ -19,7 +19,7 @@ export const defaultDrawingInputCoreOptions = {
 }
 
 export function DrawingInputCore(options) {
-	const { children } = options = processOptions(options, defaultDrawingInputCoreOptions)
+	const { children } = options = normalizeOptions(options, defaultDrawingInputCoreOptions)
 
 	// Get data from the parents.
 	const inputData = useInputData()

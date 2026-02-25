@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { processOptions } from 'step-wise/util'
+import { normalizeOptions } from 'step-wise/util'
 import { defaultForceLength, reverseLoad } from 'step-wise/eduContent/mechanics'
 
 import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -20,7 +20,7 @@ export const defaultFBDInputInnerOptions = {
 }
 
 export default function FBDInputInner(options) {
-	const { children } = options = processOptions(options, defaultFBDInputInnerOptions)
+	const { children } = options = normalizeOptions(options, defaultFBDInputInnerOptions)
 	const { active, setFI } = useInputData()
 
 	// On becoming inactive, deselect all loads.

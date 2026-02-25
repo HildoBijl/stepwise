@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, processOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, normalizeOptions } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry/Vector'
 
 import { Group, Line } from 'ui/figures/Drawing/components/svgComponents'
@@ -22,7 +22,7 @@ export const defaultGround = {
 
 export const Ground = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, thickness, color, rectangleOpacity, width, height, className, style } = processOptions(props, defaultGround)
+	let { position, graphicalPosition, thickness, color, rectangleOpacity, width, height, className, style } = normalizeOptions(props, defaultGround)
 	thickness = ensureNumber(thickness)
 	color = ensureString(color)
 	rectangleOpacity = ensureNumber(rectangleOpacity)
