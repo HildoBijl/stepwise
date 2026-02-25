@@ -1,4 +1,4 @@
-import { ensureConsistency, resolveFunctions } from 'step-wise/util'
+import { preserveRefs, resolveFunctions } from 'step-wise/util'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -14,7 +14,7 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 				oldFI = fieldData.functionalize(fieldData.initialSI)
 
 			// Allow for functions in the new FI that take into account the old FI.
-			FI = ensureConsistency(FI, oldFI)
+			FI = preserveRefs(FI, oldFI)
 
 			// On a non-change, keep the old input.
 			FI = resolveFunctions(FI, oldFI)
@@ -40,7 +40,7 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 				fieldData.recentSI = true
 				fieldData.recentFO = false
 			})
-			return ensureConsistency(newInput, input)
+			return preserveRefs(newInput, input)
 		})
 	})
 

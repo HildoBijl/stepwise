@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { mapValues, normalizeOptions } from 'step-wise/util'
+import { mapValues, mergeDefaults } from 'step-wise/util'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -21,7 +21,7 @@ export function useScaleBasedTransformationSettings(points, options = {}) {
 	// Wrap the settings calculation in a useMemo for reference equality and efficiency.
 	return useMemo(() => {
 		// Check the input.
-		let { scale, margin, pretransformation } = normalizeOptions(options, defaultScaleBasedTransformationOptions)
+		let { scale, margin, pretransformation } = mergeDefaults(options, defaultScaleBasedTransformationOptions)
 		scale = ensureScale(scale)
 		margin = ensureMargin(margin)
 		pretransformation = ensureTransformation(pretransformation)

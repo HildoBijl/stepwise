@@ -1,7 +1,7 @@
 
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, normalizeOptions, filterOptions, omitProperties } from 'step-wise/util'
+import { ensureNumber, mergeDefaults, pickFromDefaults, omitKeys } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -21,7 +21,7 @@ export const defaultLabel = {
 
 export const Label = forwardRef((props, ref) => {
 	// Check input.
-	let { children, position, graphicalPosition, distance, graphicalDistance, angle, anchor, rotate } = normalizeOptions(props, defaultLabel)
+	let { children, position, graphicalPosition, distance, graphicalDistance, angle, anchor, rotate } = mergeDefaults(props, defaultLabel)
 	children = ensureReactElement(children)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	distance = ensureNumber(useGraphicalDistance(distance, graphicalDistance))
@@ -31,7 +31,7 @@ export const Label = forwardRef((props, ref) => {
 
 	// Find the position shift and apply it.
 	const delta = Vector.fromPolar(distance, angle)
-	return <Element {...filterOptions(omitProperties(props, 'position'), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
+	return <Element {...pickFromDefaults(omitKeys(props, 'position'), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
 })
 Label.defaultProps = defaultLabel
 Label.plotType = 'html'

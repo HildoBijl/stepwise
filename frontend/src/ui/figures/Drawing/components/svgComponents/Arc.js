@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
@@ -21,7 +21,7 @@ export const defaultArc = {
 // Arc draws an arc (part of a circle) from a given position (center) with a given radius, startAngle and endAngle. Angles are measured in radians with the rightmost point being zero, clockwise positive.
 export const Arc = forwardRef((props, ref) => {
 	// Check input.
-	let { center, graphicalCenter, radius, graphicalRadius, startAngle, endAngle, className, style } = normalizeOptions(props, defaultArc)
+	let { center, graphicalCenter, radius, graphicalRadius, startAngle, endAngle, className, style } = mergeDefaults(props, defaultArc)
 	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
 	radius = useGraphicalDistance(radius, graphicalRadius)
 	startAngle = ensureNumber(startAngle)

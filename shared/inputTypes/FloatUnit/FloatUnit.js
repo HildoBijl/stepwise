@@ -1,6 +1,6 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, normalizeOptions, filterOptions } = require('../../util')
+const { isObject, mergeDefaults, pickFromDefaults } = require('../../util')
 
 const { Float } = require('../Float')
 const { Unit, unitEqualityTypeToSimplifyOptions } = require('../Unit')
@@ -26,7 +26,7 @@ class FloatUnit {
 			input = { float: input }
 
 		// Include default values.
-		input = normalizeOptions(input, { float: {}, unit: {} })
+		input = mergeDefaults(input, { float: {}, unit: {} })
 
 		// Save the input.
 		this._float = new Float(input.float)
@@ -204,14 +204,14 @@ class FloatUnit {
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = normalizeOptions(options, FloatUnit.defaultComparison)
+		options = mergeDefaults(options, FloatUnit.defaultComparison)
 
 		// Set up easier names.
 		let a = this
 		let b = x
 
 		// Ensure validity of both FloatUnits and deal with it if they are not valid.
-		const floatComparison = filterOptions(options, Float.defaultComparison)
+		const floatComparison = pickFromDefaults(options, Float.defaultComparison)
 		const handleInvalidResult = (unitOK) => {
 			const floatEqualityData = a.float.checkEquality(b.float, floatComparison)
 			const numberOK = floatEqualityData.result

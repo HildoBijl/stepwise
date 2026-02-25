@@ -5,7 +5,7 @@ import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
 import FontFaceObserver from 'fontfaceobserver'
 
-import { ensureConsistency } from 'step-wise/util'
+import { preserveRefs } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from './dom'
@@ -37,7 +37,7 @@ export function useCurrentOrPrevious(value) {
 // useConsistentValue will check if the given value is the same as previously. If the reference changes, but a deepEquals check still results in the same object, the same reference will be maintained.
 export function useConsistentValue(value) {
 	const ref = useRef()
-	ref.current = ensureConsistency(value, ref.current)
+	ref.current = preserveRefs(value, ref.current)
 	return ref.current
 }
 
@@ -386,7 +386,7 @@ export function useLocalStorageState(key, initialState) {
 			if (typeof newState === 'function')
 				newState = newState(previousState)
 			setLocalStorageValue(key, newState)
-			return ensureConsistency(newState, previousState)
+			return preserveRefs(newState, previousState)
 		})
 	}, [key, setState])
 

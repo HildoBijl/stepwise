@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 
-import { normalizeOptions } from 'step-wise/util'
+import { mergeDefaults } from 'step-wise/util'
 
 import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -25,7 +25,7 @@ export const defaultDraggingAndSelectingOptions = {
 }
 
 export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
-	const { startDrag, endDrag, snapOnDrag, startSelect, endSelect, applySelecting, selectAll, deselectAll } = normalizeOptions(options, defaultDraggingAndSelectingOptions)
+	const { startDrag, endDrag, snapOnDrag, startSelect, endSelect, applySelecting, selectAll, deselectAll } = mergeDefaults(options, defaultDraggingAndSelectingOptions)
 
 	// Collect data from parent components.
 	const bounds = useBounds()

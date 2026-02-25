@@ -1,6 +1,6 @@
 import React, { Fragment, forwardRef } from 'react'
 
-import { ensureNumber, ensureBoolean, ensurePlainObject, normalizeOptions, firstOf, lastOf, ensureFunction } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, ensurePlainObject, mergeDefaults, firstOf, lastOf, ensureFunction } from 'step-wise/util'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -29,7 +29,7 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 		throw new Error(`Missing Plot ticks data: expected a Plot with ticks provided, but these were not present in the transformation settings. Has some form of PlotTransformation been used to set up the transformation settings of the Drawing?`)
 
 	// Process options.
-	let { axisLineStyle, tickLineStyle, tickSize, tickSizeOpposite, showZeroTick, tickToElement, gridLines, gridLineStyle, xLabel, yLabel, xLabelShift, yLabelShift, textScale } = normalizeOptions(options, defaultAxesOptions)
+	let { axisLineStyle, tickLineStyle, tickSize, tickSizeOpposite, showZeroTick, tickToElement, gridLines, gridLineStyle, xLabel, yLabel, xLabelShift, yLabelShift, textScale } = mergeDefaults(options, defaultAxesOptions)
 	axisLineStyle = ensurePlainObject(axisLineStyle)
 	tickLineStyle = ensurePlainObject(tickLineStyle)
 	tickSize = ensureNumber(tickSize, true)

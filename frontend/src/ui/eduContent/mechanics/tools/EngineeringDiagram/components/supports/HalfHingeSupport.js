@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry/Vector'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'
@@ -18,7 +18,7 @@ export const defaultHalfHingeSupport = {
 
 export const HalfHingeSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, shift, className, style } = normalizeOptions(props, defaultHalfHingeSupport)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, shift, className, style } = mergeDefaults(props, defaultHalfHingeSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)

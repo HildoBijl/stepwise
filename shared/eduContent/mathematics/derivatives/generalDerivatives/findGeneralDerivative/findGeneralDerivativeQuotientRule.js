@@ -1,4 +1,4 @@
-const { filterProperties, selectRandomly, getRandomInteger } = require('../../../../../util')
+const { pickKeys, selectRandomly, getRandomInteger } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -43,7 +43,7 @@ function checkFAndG(input, solution) {
 // The input dependency is the functions f and g when correctly given, and otherwise an empty object.
 function getInputDependency(input, solution) {
 	const functionsCorrect = checkFAndG(input, solution)
-	return functionsCorrect ? { ...filterProperties(input, ['f', 'g']), adjusted: true } : {}
+	return functionsCorrect ? { ...pickKeys(input, ['f', 'g']), adjusted: true } : {}
 }
 
 function getDynamicSolution(inputDependency, solution) {

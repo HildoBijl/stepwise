@@ -34,23 +34,23 @@ function mapValues(obj, func) {
 }
 module.exports.mapValues = mapValues
 
-// ensureConsistency takes a new value and compares it with the old value. It tries to maintain consistency. If the new value deepEquals the old value, but has a different reference (is cloned/reconstructed) the old value is returned, to maintain reference equality. If the value is an object, the process is repeated for its children in an iterative way.
-function ensureConsistency(newValue, oldValue) {
+// preserveRefs takes a new value and compares it with the old value. It tries to maintain consistency. If the new value deepEquals the old value, but has a different reference (is cloned/reconstructed) the old value is returned, to maintain reference equality. If the value is an object, the process is repeated for its children in an iterative way.
+function preserveRefs(newValue, oldValue) {
 	// On a deepEquals, return the old value to keep the reference intact.
 	if (deepEquals(newValue, oldValue))
 		return oldValue
 
 	// deepEquals gives false. Something is different. For arrays/plain objects try to at least keep child parameters the same.
 	if ((Array.isArray(newValue) && Array.isArray(oldValue)) || (isPlainObject(newValue) && isPlainObject(oldValue)))
-		return mapValues(newValue, (parameter, index) => ensureConsistency(parameter, oldValue[index]))
+		return mapValues(newValue, (parameter, index) => preserveRefs(parameter, oldValue[index]))
 
 	// For simple parameter types or complex objects there's not much we can do.
 	return newValue
 }
-module.exports.ensureConsistency = ensureConsistency
+module.exports.preserveRefs = preserveRefs
 
-// normalizeOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. On a non-existing option it throws an error, unless filterStrangers is set to true, in which case these options are merely removed. The result is a copied object: original objects are not altered.
-function normalizeOptions(givenOptions, defaultOptions, filterStrangers = false) {
+// mergeDefaults is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. On a non-existing option it throws an error, unless filterStrangers is set to true, in which case these options are merely removed. The result is a copied object: original objects are not altered.
+function mergeDefaults(givenOptions, defaultOptions, filterStrangers = false) {
 	// Check if the default options were given.
 	if (!defaultOptions || typeof defaultOptions !== 'object')
 		throw new Error(`Invalid defaultOptions: no or an invalid defaultOptions object was given.`)
@@ -61,7 +61,7 @@ function normalizeOptions(givenOptions, defaultOptions, filterStrangers = false)
 
 	// Check if there are no non-existent options.
 	if (filterStrangers) {
-		givenOptions = filterOptions(givenOptions, defaultOptions)
+		givenOptions = pickFromDefaults(givenOptions, defaultOptions)
 	} else {
 		Object.keys(givenOptions).forEach(key => {
 			if (!defaultOptions.hasOwnProperty(key))
@@ -77,16 +77,16 @@ function normalizeOptions(givenOptions, defaultOptions, filterStrangers = false)
 	})
 	return result
 }
-module.exports.normalizeOptions = normalizeOptions
+module.exports.mergeDefaults = mergeDefaults
 
-// filterOptions takes two options objects and filters the properties of the first based on what's in the second. This is useful if only some of the properties need to be passed on to a child object.
-function filterOptions(allOptions, allowedOptions, removeUndefined) {
-	return filterProperties(allOptions, Object.keys(allowedOptions), removeUndefined)
+// pickFromDefaults takes two options objects and filters the properties of the first based on what's in the second. This is useful if only some of the properties need to be passed on to a child object.
+function pickFromDefaults(allOptions, allowedOptions, removeUndefined) {
+	return pickKeys(allOptions, Object.keys(allowedOptions), removeUndefined)
 }
-module.exports.filterOptions = filterOptions
+module.exports.pickFromDefaults = pickFromDefaults
 
-// filterProperties filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be removed. The original object is not adjusted: a new object is returned.
-function filterProperties(obj, allowedKeys, removeUndefined = true) {
+// pickKeys filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be removed. The original object is not adjusted: a new object is returned.
+function pickKeys(obj, allowedKeys, removeUndefined = true) {
 	const res = {}
 	allowedKeys.forEach(key => {
 		if (!removeUndefined || obj[key] !== undefined)
@@ -94,10 +94,10 @@ function filterProperties(obj, allowedKeys, removeUndefined = true) {
 	})
 	return res
 }
-module.exports.filterProperties = filterProperties
+module.exports.pickKeys = pickKeys
 
-// omitProperties removes the properties of an object given by an array of keys. All other properties are kept. The original object is not adjusted: a new object is returned.
-function omitProperties(obj, keysToRemove) {
+// omitKeys removes the properties of an object given by an array of keys. All other properties are kept. The original object is not adjusted: a new object is returned.
+function omitKeys(obj, keysToRemove) {
 	keysToRemove = Array.isArray(keysToRemove) ? keysToRemove : [keysToRemove]
 	const res = { ...obj }
 	keysToRemove.forEach(key => {
@@ -105,10 +105,10 @@ function omitProperties(obj, keysToRemove) {
 	})
 	return res
 }
-module.exports.omitProperties = omitProperties
+module.exports.omitKeys = omitKeys
 
-// omitEqualProperties takes two objects and returns a shallow copy of the first one, from which all properties that are equal to the property of the second object have been removed. This is useful if you have an object with settings, and an object with default settings, and you only want to keep the settings not equal to the defaults.
-function omitEqualProperties(obj, comparison) {
+// omitDefaults takes two objects and returns a shallow copy of the first one, from which all properties that are equal to the property of the second object have been removed. This is useful if you have an object with settings, and an object with default settings, and you only want to keep the settings not equal to the defaults.
+function omitDefaults(obj, comparison) {
 	return mapValues(obj, (value, key) => value === comparison[key] ? undefined : value)
 }
-module.exports.omitEqualProperties = omitEqualProperties
+module.exports.omitDefaults = omitDefaults

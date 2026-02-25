@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo } from 'react'
 
-import { mapValues, omitProperties } from 'step-wise/util'
+import { mapValues, omitKeys } from 'step-wise/util'
 import { isLoad, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/eduContent/mechanics'
 
 import { useDrawingInputData, useFeedbackResult } from 'ui/inputs'
@@ -57,7 +57,7 @@ export function useStyledInputLoad(load, index) {
 		load.color = feedbackResult.color
 
 	// All done. Remove selection data and return the outcome.
-	return omitProperties(load, ['selected', 'hovering'])
+	return omitKeys(load, ['selected', 'hovering'])
 }
 
 // useMouseHandlers will return mouse event handler functions for a given load.

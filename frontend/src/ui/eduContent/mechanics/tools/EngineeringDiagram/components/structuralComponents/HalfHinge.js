@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 
 import { Arc } from 'ui/figures/Drawing/components/svgComponents'
 import { useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
@@ -14,7 +14,7 @@ export const defaultHalfHinge = {
 
 export const HalfHinge = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, radius, graphicalRadius, thickness, color, angle, className, style } = normalizeOptions(props, defaultHalfHinge)
+	let { position, graphicalPosition, radius, graphicalRadius, thickness, color, angle, className, style } = mergeDefaults(props, defaultHalfHinge)
 	thickness = ensureNumber(thickness)
 	color = ensureString(color)
 	angle = ensureNumber(angle)

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureBoolean, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureBoolean, mergeDefaults } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/eduContent/mechanics'
 
@@ -29,7 +29,7 @@ export const defaultMoment = {
 // Moment draws a moment vector. The moment must have a position property (a Vector) and a clockwise property (boolean). The options (all optional) include the color, the size (thickness of the line), the radius, the opening (the angle where the opening is in the moment arrow, by default being 0 which means to the right) and the spread (how large the circle arc is). The properties can also contain an extra style parameter to be applied.
 export const Moment = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, clockwise, size, color, radius, graphicalRadius, opening, spread, arrowHeadDelta, className, style } = normalizeOptions(props, defaultMoment)
+	let { position, graphicalPosition, clockwise, size, color, radius, graphicalRadius, opening, spread, arrowHeadDelta, className, style } = mergeDefaults(props, defaultMoment)
 	clockwise = ensureBoolean(clockwise)
 	size = ensureNumber(size)
 	color = ensureString(color)

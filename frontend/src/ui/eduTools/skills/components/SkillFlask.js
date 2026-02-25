@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { normalizeOptions, resolveFunctions, numberArray, clamp, repeat, gridInterpolate } from 'step-wise/util'
+import { mergeDefaults, resolveFunctions, numberArray, clamp, repeat, gridInterpolate } from 'step-wise/util'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 
@@ -31,7 +31,7 @@ export function SkillFlask(props) {
 	const id = useUUID()
 
 	// If a skillId is given, calculate and display the target.
-	const thresholds = skillId ? normalizeOptions(skillTree[skillId].thresholds || {}, defaultSkillThresholds) : undefined
+	const thresholds = skillId ? mergeDefaults(skillTree[skillId].thresholds || {}, defaultSkillThresholds) : undefined
 	const target = thresholds && thresholds.pass * (isPriorKnowledge ? thresholds.pkFactor : 1)
 
 	// Calculate style elements and pass them to the useStyles function.

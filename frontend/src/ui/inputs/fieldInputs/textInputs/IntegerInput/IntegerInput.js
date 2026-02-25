@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { normalizeOptions, filterOptions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -36,12 +36,12 @@ export const defaultIntegerInputOptions = {
 }
 
 export function IntegerInput(options) {
-	options = normalizeOptions(options, defaultIntegerInputOptions)
+	options = mergeDefaults(options, defaultIntegerInputOptions)
 
 	// Set up options for the TextInput field.
 	const { positive } = options
 	const textInputOptions = {
-		...filterOptions(options, defaultTextInputOptions),
+		...pickFromDefaults(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive),
 		keyboardSettings: (FI) => keyboardSettings(FI, positive),
 		className: clsx(options.className, 'integerInput'),

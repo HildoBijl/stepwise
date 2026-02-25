@@ -1,4 +1,4 @@
-const { isLetter, findNextOf, lastOf, normalizeOptions, filterOptions, InterpretationError } = require('../../../util')
+const { isLetter, findNextOf, lastOf, mergeDefaults, pickFromDefaults, InterpretationError } = require('../../../util')
 
 const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
@@ -8,7 +8,7 @@ const { getMatchingBrackets } = require('../characterLocalization')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function SItoFO(value, settings = {}) {
-	settings = normalizeOptions(settings, defaultFieldSettings)
+	settings = mergeDefaults(settings, defaultFieldSettings)
 	return interpretSI(value, settings)
 }
 module.exports = SItoFO
@@ -28,7 +28,7 @@ function interpretSI(value, settings) {
 	const obj = interpretBrackets(value, settings)
 
 	// Apply any extra settings related to the Expression to it.
-	return obj.applySettings(filterOptions(settings, defaultExpressionSettings))
+	return obj.applySettings(pickFromDefaults(settings, defaultExpressionSettings))
 }
 
 // interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like log[10](2*x).

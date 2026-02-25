@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { normalizeOptions } from 'step-wise/util'
+import { mergeDefaults } from 'step-wise/util'
 
 import { getUtilKeys, useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -13,7 +13,7 @@ export const defaultDeletingOptions = {
 
 // useDeleting wraps all the deletion functionalities into one hook, including. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 export function useDeleting(options) {
-	let { applyDeletion, showDeleteButton } = normalizeOptions(options, defaultDeletingOptions)
+	let { applyDeletion, showDeleteButton } = mergeDefaults(options, defaultDeletingOptions)
 
 	// Use a state to track if the mouse is over the delete button.
 	const [isMouseOverButton, setIsMouseOverButton] = useState(false)

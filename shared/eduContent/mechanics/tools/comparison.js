@@ -1,4 +1,4 @@
-const { compareNumbers, mod, isPlainObject, normalizeOptions, fromKeys, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
+const { compareNumbers, mod, isPlainObject, mergeDefaults, fromKeys, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
 const { getCurrentInputSolutionAndComparison } = require('../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
@@ -52,7 +52,7 @@ function areLoadsEqual(input, solution, comparison = {}) {
 	// Extract options for this particular load, if given.
 	if (comparison[type])
 		comparison = comparison[type]
-	comparison = normalizeOptions(comparison, defaultComparison[type])
+	comparison = mergeDefaults(comparison, defaultComparison[type])
 
 	// Check all relevant load types.
 	switch (type) {

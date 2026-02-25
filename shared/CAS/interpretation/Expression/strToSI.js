@@ -1,6 +1,6 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
-const { findNextOf, removeWhitespace, isLetter, normalizeOptions, firstOf, lastOf } = require('../../../util')
+const { findNextOf, removeWhitespace, isLetter, mergeDefaults, firstOf, lastOf } = require('../../../util')
 
 const { defaultFieldSettings } = require('../../options')
 
@@ -9,7 +9,7 @@ const { squareBrackets, findEndOfTerm, getMatchingBrackets, findCharacterAtZeroB
 const { advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function strToSI(str, settings = {}) {
-	settings = normalizeOptions(settings, defaultFieldSettings)
+	settings = mergeDefaults(settings, defaultFieldSettings)
 
 	// Check for non-string entries.
 	if (typeof str !== 'string')

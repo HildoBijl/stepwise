@@ -1,4 +1,4 @@
-const { filterProperties, isPlainObject } = require('../../../../util')
+const { pickKeys, isPlainObject } = require('../../../../util')
 
 // assembleSolution takes a getSolution function or object and assembles a solution object from it.
 function assembleSolution(getSolution, state, input = {}) {
@@ -21,7 +21,7 @@ function assembleSolution(getSolution, state, input = {}) {
 		return staticSolution
 
 	// Get the input dependency and use it to find the dynamic solution. Merge it with the static solution.
-	const filteredInput = dependentFields ? filterProperties(input, dependentFields) : input
+	const filteredInput = dependentFields ? pickKeys(input, dependentFields) : input
 	const inputDependency = getInputDependency ? getInputDependency(filteredInput, staticSolution) : filteredInput
 	const dynamicSolution = getDynamicSolution(inputDependency, staticSolution, state)
 	return { ...(staticSolution || {}), ...(dynamicSolution || {}) }

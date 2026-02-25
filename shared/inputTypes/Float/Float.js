@@ -1,6 +1,6 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, isObject, normalizeOptions, fromKeys } = require('../../util')
+const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, isObject, mergeDefaults, fromKeys } = require('../../util')
 const { decimalSeparator } = require('../../packages/settings/dist')
 
 const { getSignificantDigits, stringToSO, numberToSO } = require('./util')
@@ -32,7 +32,7 @@ class Float {
 			input = numberToSO(input)
 
 		// Include default values.
-		const { number, significantDigits, power } = normalizeOptions(input, defaultParameters)
+		const { number, significantDigits, power } = mergeDefaults(input, defaultParameters)
 
 		// Process the number.
 		if (!isNumber(number))
@@ -299,7 +299,7 @@ class Float {
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
 		// Check the options.
-		options = normalizeOptions(options, Float.defaultComparison)
+		options = mergeDefaults(options, Float.defaultComparison)
 		if (options.absoluteMargin !== 'auto' && (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0))
 			throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number (or 'auto') but "${options.absoluteMargin}" was given.`)
 		if (!isNumber(options.relativeMargin) || options.relativeMargin < 0)

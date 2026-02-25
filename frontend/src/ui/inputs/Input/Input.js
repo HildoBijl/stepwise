@@ -1,4 +1,4 @@
-import { ensureString, normalizeOptions, resolveFunctionsShallow } from 'step-wise/util'
+import { ensureString, mergeDefaults, resolveFunctionsShallow } from 'step-wise/util'
 
 import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from 'ui/form'
 
@@ -20,7 +20,7 @@ export const defaultInputOptions = {
 
 export function Input(options) {
 	// Process and extract the given options.
-	options = normalizeOptions(options, defaultInputOptions)
+	options = mergeDefaults(options, defaultInputOptions)
 	let { id, element, children, readOnly, contextData } = options
 	id = ensureValidInputId(id)
 	readOnly = useReadOnlyValue(readOnly)

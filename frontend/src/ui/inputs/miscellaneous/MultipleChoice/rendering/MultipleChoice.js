@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { normalizeOptions, filterOptions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
 
 import { useImmutableValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -21,19 +21,19 @@ export const defaultMultipleChoiceOptions = {
 }
 
 export function MultipleChoice(options) {
-	options = normalizeOptions(options, defaultMultipleChoiceOptions)
+	options = mergeDefaults(options, defaultMultipleChoiceOptions)
 
 	// Set up the Input field settings.
 	const multiple = useImmutableValue(options.multiple) // Ensure that "multiple" does not change.
 	const inputOptions = {
-		...filterOptions(options, defaultInputOptions),
+		...pickFromDefaults(options, defaultInputOptions),
 		allowFocus: false, // Tabbing does not focus MultipleChoice input fields.
 		initialSI: getEmptySI(multiple), // Get the SI corresponding to the type of MultipleChoice field.
 	}
 
 	// Render the field.
 	return <Input {...inputOptions}>
-		<MultipleChoiceInner {...filterOptions(options, defaultMultipleChoiceInnerOptions)} />
+		<MultipleChoiceInner {...pickFromDefaults(options, defaultMultipleChoiceInnerOptions)} />
 	</Input>
 }
 MultipleChoice.validation = validation

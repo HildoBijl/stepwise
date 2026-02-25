@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
@@ -19,7 +19,7 @@ export const defaultText = {
 // Line draws a line from the given points array and an optional style object.
 export const Text = forwardRef((props, ref) => {
 	// Process the input.
-	let { point, graphicalPoint, anchor, className, style, children } = normalizeOptions(props, defaultText)
+	let { point, graphicalPoint, anchor, className, style, children } = mergeDefaults(props, defaultText)
 	point = ensureVector(useGraphicalVector(point, graphicalPoint), 2)
 	anchor = ensureString(anchor)
 	className = ensureString(className)

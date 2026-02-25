@@ -3,7 +3,7 @@ import { alpha } from '@mui/material'
 
 import { Translation } from 'i18n'
 
-import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
@@ -109,8 +109,8 @@ export const defaultUnitInputOptions = {
 }
 
 export function UnitInput(options) {
-	options = normalizeOptions(options, defaultUnitInputOptions)
-	return <TextInput {...filterOptions(options, defaultTextInputOptions)}>
+	options = mergeDefaults(options, defaultUnitInputOptions)
+	return <TextInput {...pickFromDefaults(options, defaultTextInputOptions)}>
 		<UnitInputInner />
 	</TextInput>
 }

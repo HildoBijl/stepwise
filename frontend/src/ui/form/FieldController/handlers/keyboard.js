@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 
-import { ensureConsistency } from 'step-wise/util'
+import { preserveRefs } from 'step-wise/util'
 
 // useKeyboardHandlers provides handlers to the parent component (the FieldController) that lets this parent control the keyboard.
 export function useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef) {
@@ -19,7 +19,7 @@ export function useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef) {
 	// refreshKeyboard compares the keyboard of the currently active input field with the keyboard in the state. On a difference, the state is updated.
 	const refreshKeyboard = useCallback(() => {
 		const desiredKeyboard = getKeyboard()
-		setKeyboardSettings(keyboardSettings => desiredKeyboard && ensureConsistency(desiredKeyboard.settings, keyboardSettings))
+		setKeyboardSettings(keyboardSettings => desiredKeyboard && preserveRefs(desiredKeyboard.settings, keyboardSettings))
 	}, [getKeyboard])
 
 	// storeKeyboard will store the given keyboard for the input field with the given ID.

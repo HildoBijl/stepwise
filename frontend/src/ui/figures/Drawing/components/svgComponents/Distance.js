@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureString, ensureObject, normalizeOptions, filterOptions } from 'step-wise/util'
+import { ensureString, ensureObject, mergeDefaults, pickFromDefaults } from 'step-wise/util'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalVector } from '../../DrawingContext'
@@ -28,7 +28,7 @@ export const defaultDistance = {
 // Distance renders a distance spread. The given distance object must have a "span" parameter, which is a Span object: an object with a start, vector and/or end (two out of the three). It assumes the arrow heads will be added through the distance class and the SVG style definitions.
 export const Distance = forwardRef((props, ref) => {
 	// Process the input.
-	let { span, graphicalSpan, shift, graphicalShift, style, className } = normalizeOptions(props, defaultDistance)
+	let { span, graphicalSpan, shift, graphicalShift, style, className } = mergeDefaults(props, defaultDistance)
 	span = ensureSpan(useGraphicalObject(span, graphicalSpan), 2)
 	shift = ensureVector(useGraphicalVector(shift, graphicalShift, true), 2)
 	style = { ...defaultDistance.style, ...ensureObject(style) }
@@ -37,7 +37,7 @@ export const Distance = forwardRef((props, ref) => {
 
 	// Render the line with the appropriate style. Enforce that the default className is used, because this adds the arrow spread.
 	span = span.add(shift)
-	return <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[span.start, span.end]} style={style} className={className} />
+	return <Line ref={ref} {...pickFromDefaults(props, defaultLine)} graphicalPoints={[span.start, span.end]} style={style} className={className} />
 })
 Distance.defaultProps = defaultDistance
 export default Distance

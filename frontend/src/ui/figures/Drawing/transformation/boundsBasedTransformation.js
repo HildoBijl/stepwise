@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureBoolean, mapValues, normalizeOptions, passOn, ensureFunction } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, passOn, ensureFunction } from 'step-wise/util'
 import { Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -30,7 +30,7 @@ export function useBoundsBasedTransformationSettings(points, options = {}) {
 			throw new Error(`Invalid ScaleToBounds options: one maximum must be set. Cannot apply bounds if there are no limits defined.`)
 
 		// Process the input.
-		let { maxWidth, maxHeight, maxScale, margin, uniform, pretransformation, processBounds } = normalizeOptions(options, defaultBoundsBasedTransformationOptions)
+		let { maxWidth, maxHeight, maxScale, margin, uniform, pretransformation, processBounds } = mergeDefaults(options, defaultBoundsBasedTransformationOptions)
 		maxWidth = ensureNumber(maxWidth)
 		maxHeight = ensureNumber(maxHeight)
 		maxScale = ensureScale(maxScale)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isPlainObject, mapValues, filterProperties, deepEquals } from 'step-wise/util'
+import { isPlainObject, mapValues, pickKeys, deepEquals } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 import { getExerciseName } from 'step-wise/eduTools'
 
@@ -54,7 +54,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const inputFO = toFO(input, true)
 			const previousInputFO = toFO(previousInput, true)
 			let result = getFeedback({
-				...filterProperties(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state', 'example']),
+				...pickKeys(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state', 'example']),
 				input: inputFO,
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,

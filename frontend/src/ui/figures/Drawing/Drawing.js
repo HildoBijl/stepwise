@@ -4,7 +4,7 @@
 
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 
-import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -26,7 +26,7 @@ export { defaultDrawingOptions }
 
 export const Drawing = forwardRef((options, ref) => {
 	// Process and check the options.
-	options = normalizeOptions(options, defaultDrawingOptions)
+	options = mergeDefaults(options, defaultDrawingOptions)
 	const { transformationSettings } = options
 	if (!transformationSettings)
 		throw new Error(`Drawing render error: no transformation settings are given. Use any of the "use[...]TransformationSettings" functions from the transformation utility file to get transformation settings.`)
@@ -92,7 +92,7 @@ export const Drawing = forwardRef((options, ref) => {
 	// Render figure with SVG and Canvas properly placed.
 	return (
 		<DrawingContext.Provider value={{ id, transformationSettings, figure: figureRef.current, svg: svgRef.current, svgDefs: svgDefsRef.current, htmlContents: htmlContentsRef.current, canvas: canvasRef.current }}>
-			<Figure ref={figureRef} {...filterOptions(options, defaultFigureOptions)}>
+			<Figure ref={figureRef} {...pickFromDefaults(options, defaultFigureOptions)}>
 				{options.useSvg ? (
 					<svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', ...notSelectable, outline: 'none', overflow: 'visible', width: '100%', zIndex: 2 }}>
 						<defs ref={svgDefsRef} />

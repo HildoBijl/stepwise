@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { ensureRectangle as ensureGeometryRectangle } from 'step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
@@ -17,7 +17,7 @@ export const defaultRectangle = {
 
 export const Rectangle = forwardRef((props, ref) => {
 	// Process the input.
-	let { dimensions, graphicalDimensions, cornerRadius, graphicalCornerRadius, className, style } = normalizeOptions(props, defaultRectangle)
+	let { dimensions, graphicalDimensions, cornerRadius, graphicalCornerRadius, className, style } = mergeDefaults(props, defaultRectangle)
 	dimensions = ensureGeometryRectangle(useGraphicalObject(dimensions, graphicalDimensions), 2)
 	cornerRadius = ensureNumber(useGraphicalDistance(cornerRadius, graphicalCornerRadius))
 	className = ensureString(className)

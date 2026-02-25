@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
-import { ensureNumber, ensureBoolean, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useEnsureRef, ensureReactElement, useEqualRefOnEquality, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -31,7 +31,7 @@ export const Element = forwardRef((props, ref) => {
 	ref = useEnsureRef(ref)
 
 	// Check input.
-	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style, className } = normalizeOptions(props, defaultElement)
+	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style, className } = mergeDefaults(props, defaultElement)
 	children = ensureReactElement(children)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	rotate = ensureNumber(rotate)

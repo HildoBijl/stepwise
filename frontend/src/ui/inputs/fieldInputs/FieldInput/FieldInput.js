@@ -1,6 +1,6 @@
 import React, { useRef, forwardRef } from 'react'
 
-import { isEmptyObject, normalizeOptions, filterOptions, resolveFunctions, passOn } from 'step-wise/util'
+import { isEmptyObject, mergeDefaults, pickFromDefaults, resolveFunctions, passOn } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -31,7 +31,7 @@ export const defaultFieldInputOptions = {
 }
 
 export const FieldInput = forwardRef((options, ref) => {
-	options = normalizeOptions(options, defaultFieldInputOptions)
+	options = mergeDefaults(options, defaultFieldInputOptions)
 	const { type, initialValue, initialSettings, clean, functionalize, keyPressToFI, keyboardSettings } = options
 	ref = useEnsureRef(ref)
 	const cursorRef = useRef()
@@ -64,14 +64,14 @@ export const FieldInput = forwardRef((options, ref) => {
 
 	// Set up the Input field settings.
 	const inputOptions = {
-		...filterOptions(options, defaultInputOptions),
+		...pickFromDefaults(options, defaultInputOptions),
 		element: () => ref.current?.field, // Inform the input field which element it should monitor. Turn this into a function, because these objects may not be updated as much as child components may be rerendered.
 		contextData: { ...options.contextData, inputFieldRef: ref, cursorRef }, // Add the input field ref to the input field context so inner elements can access it.
 	}
 
 	// Render the input field and its contents.
 	return <Input {...inputOptions}>
-		<FieldInputHull ref={ref} {...filterOptions(options, defaultFieldInputHullOptions)}>
+		<FieldInputHull ref={ref} {...pickFromDefaults(options, defaultFieldInputHullOptions)}>
 			{options.children}
 		</FieldInputHull>
 	</Input>

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry/Vector'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'
@@ -20,7 +20,7 @@ export const defaultFixedSupport = {
 
 export const FixedSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = normalizeOptions(props, defaultFixedSupport)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = mergeDefaults(props, defaultFixedSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)

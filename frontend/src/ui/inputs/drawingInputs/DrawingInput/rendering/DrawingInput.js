@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react'
 
-import { normalizeOptions, filterOptions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -17,7 +17,7 @@ export const defaultDrawingInputOptions = {
 
 // The DrawingInput wrapper wraps a Drawing into an Input object for Input functionalities. It forwards the Ref to the Drawing element.
 export const DrawingInput = forwardRef((options, drawingRef) => {
-	options = normalizeOptions(options, defaultDrawingInputOptions)
+	options = mergeDefaults(options, defaultDrawingInputOptions)
 	drawingRef = useEnsureRef(drawingRef)
 
 	// Set up a state to control the cursor style.
@@ -25,7 +25,7 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 
 	// Set up the Input field settings.
 	const inputOptions = {
-		...filterOptions(options, defaultInputOptions),
+		...pickFromDefaults(options, defaultInputOptions),
 		element: drawingRef.current?.figure?.inner, // Inform the input field which element should monitor clicks/focusing.
 		contextData: { // Add extra data to the context.
 			...options.contextData,
@@ -37,7 +37,7 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 
 	// Render the field.
 	return <Input {...inputOptions}>
-		<DrawingInputHull ref={drawingRef} {...filterOptions(options, defaultDrawingInputHullOptions)} />
+		<DrawingInputHull ref={drawingRef} {...pickFromDefaults(options, defaultDrawingInputHullOptions)} />
 	</Input>
 })
 DrawingInput.applySelectingOptions = applySelectingOptions

@@ -1,6 +1,6 @@
 // UnitElement represents a single term in a Unit. Something like km^3, mV^2 or even m°C^2, but not a composed unit like m/s. Only positive powers are allowed, because negative powers are fixed within the Unit class. Zero powers are also not allowed (pointless anyway).
 
-const { isInt, ensureInt, fromKeys, normalizeOptions } = require('../../util')
+const { isInt, ensureInt, fromKeys, mergeDefaults } = require('../../util')
 
 const { Prefix } = require('./Prefix')
 const { BaseUnit } = require('./BaseUnit')
@@ -26,7 +26,7 @@ class UnitElement {
 			input = interpretStr(input)
 
 		// Include default values.
-		const { prefix, unit, power } = normalizeOptions(input, defaultUnitElement)
+		const { prefix, unit, power } = mergeDefaults(input, defaultUnitElement)
 
 		// Process the prefix.
 		if (prefix instanceof Prefix || prefix === null) {

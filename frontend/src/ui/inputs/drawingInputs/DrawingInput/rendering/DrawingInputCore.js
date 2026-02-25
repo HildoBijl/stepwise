@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { normalizeOptions, filterOptions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
 
 import { useDrawingData, useMouseData } from 'ui/figures'
 
@@ -19,7 +19,7 @@ export const defaultDrawingInputCoreOptions = {
 }
 
 export function DrawingInputCore(options) {
-	const { children } = options = normalizeOptions(options, defaultDrawingInputCoreOptions)
+	const { children } = options = mergeDefaults(options, defaultDrawingInputCoreOptions)
 
 	// Get data from the parents.
 	const inputData = useInputData()
@@ -27,9 +27,9 @@ export function DrawingInputCore(options) {
 
 	// Use handlers to set up the required functionality.
 	const rawMouseData = useMouseData()
-	const mouseSnapping = useMouseSnapping(filterOptions(options, defaultSnappingOptions), rawMouseData)
-	const mouseDragging = useDraggingAndSelecting(filterOptions(options, defaultDraggingAndSelectingOptions), { ...rawMouseData, ...mouseSnapping })
-	const deleting = useDeleting(filterOptions(options, defaultDeletingOptions))
+	const mouseSnapping = useMouseSnapping(pickFromDefaults(options, defaultSnappingOptions), rawMouseData)
+	const mouseDragging = useDraggingAndSelecting(pickFromDefaults(options, defaultDraggingAndSelectingOptions), { ...rawMouseData, ...mouseSnapping })
+	const deleting = useDeleting(pickFromDefaults(options, defaultDeletingOptions))
 
 	// Assemble all data in the context. Then render all elements.
 	return (

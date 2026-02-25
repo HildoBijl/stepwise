@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
@@ -18,7 +18,7 @@ export const defaultCircle = {
 // Circle draws a circle. It can be given a radius (in drawing coordinate distance, which will be scaled) or a graphicalRadius (in graphical coordinates).
 export const Circle = forwardRef((props, ref) => {
 	// Process the input.
-	let { center, graphicalCenter, radius, graphicalRadius, className, style } = normalizeOptions(props, defaultCircle)
+	let { center, graphicalCenter, radius, graphicalRadius, className, style } = mergeDefaults(props, defaultCircle)
 	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
 	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius), true)
 	className = ensureString(className)

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry/Vector'
 
 import { useGraphicalVector } from 'ui/figures'
@@ -21,7 +21,7 @@ export const defaultSupportTriangle = {
 
 export const SupportTriangle = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, color, thickness, width, height, className, style } = normalizeOptions(props, defaultSupportTriangle)
+	let { position, graphicalPosition, color, thickness, width, height, className, style } = mergeDefaults(props, defaultSupportTriangle)
 	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)

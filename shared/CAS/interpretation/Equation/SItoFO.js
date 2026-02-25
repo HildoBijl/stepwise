@@ -1,4 +1,4 @@
-const { normalizeOptions, filterOptions, InterpretationError } = require('../../../util')
+const { mergeDefaults, pickFromDefaults, InterpretationError } = require('../../../util')
 
 const { Equation } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
@@ -7,7 +7,7 @@ const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = r
 const { SItoFO: expressionSItoFO } = require('../Expression')
 
 function SItoFO(value, settings = {}) {
-	settings = normalizeOptions(settings, defaultFieldSettings)
+	settings = mergeDefaults(settings, defaultFieldSettings)
 	return interpretSI(value, settings)
 }
 module.exports = SItoFO
@@ -54,5 +54,5 @@ function interpretSI(value, settings) {
 	})
 
 	// Apply any extra settings related to the Expression to it.
-	return equation.applySettings(filterOptions(settings, defaultExpressionSettings))
+	return equation.applySettings(pickFromDefaults(settings, defaultExpressionSettings))
 }

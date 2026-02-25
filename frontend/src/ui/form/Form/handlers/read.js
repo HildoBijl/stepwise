@@ -1,4 +1,4 @@
-import { filterProperties, ensureConsistency, fromKeys } from 'step-wise/util'
+import { pickKeys, preserveRefs, fromKeys } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -20,7 +20,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 
 	// getAllInputFI gives the FI values of all input fields. When 'true' is passed on, this also includes unsubscribed but persistent fields.
 	const getAllInputFI = useStableCallback((includeUnsubscribed = false) => {
-		return filterProperties(inputRef.current, getFieldIds(includeUnsubscribed))
+		return pickKeys(inputRef.current, getFieldIds(includeUnsubscribed))
 	})
 
 	// getInputSI takes a field ID or an array of field IDs and gives the SI value of the given fields.
@@ -32,7 +32,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 			return undefined
 		const fieldData = getFieldData(id)
 		if (!fieldData.recentSI) {
-			const newSI = ensureConsistency(fieldData.clean(FI), fieldData.SI)
+			const newSI = preserveRefs(fieldData.clean(FI), fieldData.SI)
 			if (!fieldData.equals(newSI, fieldData.SI))
 				fieldData.recentFO = false // The SI changes, so the FO is not recent anymore. Note this, in case it's requested.
 			fieldData.SI = newSI

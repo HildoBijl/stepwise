@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { roundToDigits, ensureBoolean, ensurePlainObject, normalizeOptions, ensureFunction } from 'step-wise/util'
+import { roundToDigits, ensureBoolean, ensurePlainObject, mergeDefaults, ensureFunction } from 'step-wise/util'
 
 import { useTransformationSettings, useMousePosition, Group, Line, Circle, Label } from '../Drawing'
 
@@ -34,7 +34,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	const mouseInPlot = !!mousePosition && plotBounds.contains(mousePosition)
 
 	// Process options.
-	let { lineStyle, circleStyle, showAxisLabels, labelStyle, valueToLabel, xValueToLabel, yValueToLabel, pointToLabel } = normalizeOptions(options, defaultMouseLinesOptions)
+	let { lineStyle, circleStyle, showAxisLabels, labelStyle, valueToLabel, xValueToLabel, yValueToLabel, pointToLabel } = mergeDefaults(options, defaultMouseLinesOptions)
 	lineStyle = ensurePlainObject(lineStyle)
 	circleStyle = ensurePlainObject(circleStyle)
 	showAxisLabels = ensureBoolean(showAxisLabels)

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
 
 import { notSelectable } from 'ui/theme'
 import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'
@@ -28,7 +28,7 @@ const glowRadius = 0.25 // em
 
 // The DrawingInputHull component renders the Drawing with an input-field-like box around it. It also has space to display feedback.
 export const DrawingInputHull = forwardRef((options, drawingRef) => {
-	options = normalizeOptions(options, defaultDrawingInputHullOptions)
+	options = mergeDefaults(options, defaultDrawingInputHullOptions)
 	let { maxWidth, DrawingElement, className, feedbackIconScale, children, transformationSettings } = options
 
 	// Get data from the parent contexts.
@@ -41,7 +41,7 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 	const hasFeedbackText = !!(feedbackResult && feedbackResult.text)
 
 	// Render the drawing and the feedback box.
-	const drawingOptions = filterOptions(options, defaultDrawingOptions)
+	const drawingOptions = pickFromDefaults(options, defaultDrawingOptions)
 	drawingOptions.style = { margin: '0', ...(drawingOptions.style || {}) } // Remove figure margin, since it's contained in an outer box that also has the feedback text.
 	const previousFigureInnerSx = drawingOptions.figureInnerSx
 	drawingOptions.figureInnerSx = theme => ({
@@ -71,7 +71,7 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 		'& svg': { display: 'block' },
 	}}>
 		<DrawingElement ref={drawingRef} {...drawingOptions}>
-			<DrawingInputCore {...filterOptions(options, defaultDrawingInputCoreOptions)}>
+			<DrawingInputCore {...pickFromDefaults(options, defaultDrawingInputCoreOptions)}>
 				{children}
 			</DrawingInputCore>
 			<FeedbackIcon scale={feedbackIconScale} />

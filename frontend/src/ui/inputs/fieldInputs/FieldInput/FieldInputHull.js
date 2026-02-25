@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
-import { normalizeOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
 
 import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'
@@ -56,7 +56,7 @@ const labelOffset = 0.5 // em
 export const labelSettings = { scaleFactor, labelMargin, labelOffset }
 
 export const FieldInputHull = forwardRef((options, hullRef) => {
-	const { prelabel, label, placeholder, className, contentsClassName, style, contentsStyle, size, center, isEmpty, isCursorAtStart, children } = normalizeOptions(options, defaultFieldInputHullOptions)
+	const { prelabel, label, placeholder, className, contentsClassName, style, contentsStyle, size, center, isEmpty, isCursorAtStart, children } = mergeDefaults(options, defaultFieldInputHullOptions)
 
 	// Set up refs.
 	const prelabelRef = useRef()
@@ -111,7 +111,7 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 	}
 
 	// Use the main hook to set up all the functionalities.
-	useFieldInputHandlers(filterOptions(options, defaultFieldInputHandlerOptions), hullRef)
+	useFieldInputHandlers(pickFromDefaults(options, defaultFieldInputHandlerOptions), hullRef)
 
 	// Render the input field and its contents.
 	return (

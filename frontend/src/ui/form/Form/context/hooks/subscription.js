@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { normalizeOptions, deepEquals, noop } from 'step-wise/util'
+import { mergeDefaults, deepEquals, noop } from 'step-wise/util'
 import { toSO, toFO } from 'step-wise/inputTypes'
 
 import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -29,7 +29,7 @@ export const defaultUseFormParameterOptions = {
 	errorToMessage: () => <>Oops ... ik begrijp niet wat je hier getypt hebt.</>,
 }
 export function useFormParameter(options = {}) {
-	options = normalizeOptions(options, defaultUseFormParameterOptions)
+	options = mergeDefaults(options, defaultUseFormParameterOptions)
 	const { id, initialSI, functionalize } = options
 
 	const { input, setInputFI, register, subscribe, unsubscribe } = useFormData()

@@ -1,7 +1,7 @@
 
 import React, { forwardRef } from 'react'
 
-import { normalizeOptions, filterOptions, omitProperties } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, omitKeys } from 'step-wise/util'
 import { ensureVector, ensureVectorArray } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -11,7 +11,7 @@ import { useGraphicalVector } from '../../DrawingContext'
 import Label, { defaultLabel } from './Label'
 
 export const defaultLineLabel = {
-	...omitProperties(defaultLabel, ['position', 'graphicalPosition']),
+	...omitKeys(defaultLabel, ['position', 'graphicalPosition']),
 	points: undefined,
 	graphicalPoints: undefined,
 	oppositeTo: undefined,
@@ -20,7 +20,7 @@ export const defaultLineLabel = {
 
 export const LineLabel = forwardRef((props, ref) => {
 	// Check input.
-	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = normalizeOptions(props, defaultLineLabel)
+	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = mergeDefaults(props, defaultLineLabel)
 	children = ensureReactElement(children)
 	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2, 2)
 	oppositeTo = ensureVector(useGraphicalVector(oppositeTo, graphicalOppositeTo))
@@ -33,7 +33,7 @@ export const LineLabel = forwardRef((props, ref) => {
 
 	// Set up the Label.
 	const position = points[0].interpolate(points[1])
-	return <Label {...filterOptions(props, defaultLabel)} graphicalPosition={position} angle={angle}>{children}</Label>
+	return <Label {...pickFromDefaults(props, defaultLabel)} graphicalPosition={position} angle={angle}>{children}</Label>
 })
 LineLabel.defaultProps = defaultLineLabel
 LineLabel.plotType = 'html'

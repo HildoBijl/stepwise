@@ -1,6 +1,6 @@
 // A Matrix is an array of number arrays, like [[1,2],[3,4],[5,6]]. It can be manipulated, multiplied, etcetera in a multitude of ways.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers, numberArray, ensureNumberArray, normalizeOptions, ensureFunction } = require('../util')
+const { ensureInt, ensureNumber, isNumber, compareNumbers, numberArray, ensureNumberArray, mergeDefaults, ensureFunction } = require('../util')
 
 const { Vector } = require('./Vector')
 
@@ -345,7 +345,7 @@ module.exports.Matrix = Matrix
 
 // ensureMatrix takes an object and ensures it's a matrix. If the dimensions are given, it also ensures it's a matrix of the given dimensions.
 function ensureMatrix(matrix, requirements = {}) {
-	requirements = normalizeOptions(requirements, defaultMatrixRequirements)
+	requirements = mergeDefaults(requirements, defaultMatrixRequirements)
 	let { height, width } = requirements
 
 	// If the matrix is undefined and this is allowed, return the identity matrix.

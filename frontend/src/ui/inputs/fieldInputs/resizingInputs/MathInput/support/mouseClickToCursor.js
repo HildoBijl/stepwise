@@ -1,4 +1,4 @@
-import { findOptimum, findOptimumIndex, getIndexTrace, filterProperties } from 'step-wise/util'
+import { findOptimum, findOptimumIndex, getIndexTrace, pickKeys } from 'step-wise/util'
 
 import { getCoordinatesOf } from 'util'
 
@@ -36,7 +36,7 @@ export function charElementsToBounds(charElements) {
 		if (Array.isArray(element))
 			return charElementsToBounds(element)
 		return {
-			bounds: filterProperties(element.getBoundingClientRect(), ['left', 'top', 'right', 'bottom'])
+			bounds: pickKeys(element.getBoundingClientRect(), ['left', 'top', 'right', 'bottom'])
 		}
 	})
 

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureString, ensureObject, normalizeOptions } from 'step-wise/util'
+import { ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
@@ -17,7 +17,7 @@ export const defaultSquare = {
 
 export const Square = forwardRef((props, ref) => {
 	// Process the input.
-	let { center, graphicalCenter, side, graphicalSide, className, style } = normalizeOptions(props, defaultSquare)
+	let { center, graphicalCenter, side, graphicalSide, className, style } = mergeDefaults(props, defaultSquare)
 	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
 	side = useGraphicalDistance(side, graphicalSide)
 	className = ensureString(className)

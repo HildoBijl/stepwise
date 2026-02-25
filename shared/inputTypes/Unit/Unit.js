@@ -1,6 +1,6 @@
 // Unit represents any unit a physical quantity may have. For example mg^3 * kl / ns^2 * °C^2.
 
-const { ensureInt, isObject, deepEquals, fromKeys, normalizeOptions, InterpretationError } = require('../../util')
+const { ensureInt, isObject, deepEquals, fromKeys, mergeDefaults, InterpretationError } = require('../../util')
 
 const { UnitElement } = require('./UnitElement')
 const { getUnitArrayFO } = require('./UnitArray')
@@ -23,7 +23,7 @@ class Unit {
 			input = splitUnitString(input)
 
 		// Include default values.
-		input = normalizeOptions(input, defaultUnit)
+		input = mergeDefaults(input, defaultUnit)
 
 		// Deal with each part separately.
 		this._num = getUnitArrayFO(input.num)
@@ -124,7 +124,7 @@ class Unit {
 	 */
 	simplifyWithData(options = {}) {
 		// Fill out any missing options with defaults.
-		options = normalizeOptions(options, Unit.defaultSimplifyOptions)
+		options = mergeDefaults(options, Unit.defaultSimplifyOptions)
 
 		// Check if the unit is a valid one. We cannot simplify it otherwise.
 		if (!this.isValid())
@@ -254,7 +254,7 @@ class Unit {
 			throw new Error(`Invalid comparison: cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = normalizeOptions(options, Unit.defaultComparison)
+		options = mergeDefaults(options, Unit.defaultComparison)
 
 		// Set up easier names.
 		let a = this

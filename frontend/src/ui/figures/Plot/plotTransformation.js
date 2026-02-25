@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureBoolean, omitProperties, filterOptions, normalizeOptions, firstOf, lastOf } from 'step-wise/util'
+import { ensureBoolean, omitKeys, pickFromDefaults, mergeDefaults, firstOf, lastOf } from 'step-wise/util'
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -11,7 +11,7 @@ import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationO
 import { getTicks } from './ticks'
 
 export const defaultPlotTransformationOptions = {
-	...omitProperties(defaultBoundsBasedTransformationOptions, ['pretransformation']), // Plots do not allow pretransformations.
+	...omitKeys(defaultBoundsBasedTransformationOptions, ['pretransformation']), // Plots do not allow pretransformations.
 	uniform: false, // Override default setting.
 	includeOrigin: true,
 	extendBoundsToTicks: true,
@@ -21,7 +21,7 @@ export const defaultPlotTransformationOptions = {
 export function usePlotTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentValue(points)
-	options = useConsistentValue(normalizeOptions(options, defaultPlotTransformationOptions))
+	options = useConsistentValue(mergeDefaults(options, defaultPlotTransformationOptions))
 
 	// Check the options.
 	let { includeOrigin, extendBoundsToTicks, desiredNumTicks } = options
@@ -46,7 +46,7 @@ export function usePlotTransformationSettings(points, options = {}) {
 	// For the ticks, set up a start and end point and use these 
 	const boundsPoints = useMemo(() => [bounds.start, bounds.end], [bounds])
 	const optionsFiltered = useMemo(() => ({
-		...filterOptions(options, defaultBoundsBasedTransformationOptions), // Select options suitable here.
+		...pickFromDefaults(options, defaultBoundsBasedTransformationOptions), // Select options suitable here.
 		pretransformation: Transformation.verticalFlip, // Make sure plots have upwards positive.
 	}), [options])
 	const boundsBasedTransformationSettings = useBoundsBasedTransformationSettings(boundsPoints, optionsFiltered)

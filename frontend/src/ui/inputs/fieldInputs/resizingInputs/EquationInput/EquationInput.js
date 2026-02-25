@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { normalizeOptions, filterOptions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -21,7 +21,7 @@ const defaultEquationInputOptions = {
 }
 
 export function EquationInput(options) {
-	options = normalizeOptions(options, defaultEquationInputOptions)
+	options = mergeDefaults(options, defaultEquationInputOptions)
 
 	// Force equals to be true in the settings to allow an equals sign.
 	options.settings = {
@@ -30,7 +30,7 @@ export function EquationInput(options) {
 	}
 
 	// Set up the options for the Math Input field.
-	const mathInputOptions = filterOptions(options, defaultMathInputOptions)
+	const mathInputOptions = pickFromDefaults(options, defaultMathInputOptions)
 
 	// Render everything.
 	return <MathInput {...mathInputOptions} />

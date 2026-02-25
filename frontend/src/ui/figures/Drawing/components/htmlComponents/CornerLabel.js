@@ -1,7 +1,7 @@
 
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, normalizeOptions, filterOptions, omitProperties } from 'step-wise/util'
+import { ensureNumber, mergeDefaults, pickFromDefaults, omitKeys } from 'step-wise/util'
 import { ensureCorner } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -11,7 +11,7 @@ import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 import Element, { defaultElement } from './Element'
 
 export const defaultCornerLabel = {
-	...omitProperties(defaultElement, ['position', 'graphicalPosition']),
+	...omitKeys(defaultElement, ['position', 'graphicalPosition']),
 	points: undefined,
 	graphicalPoints: undefined,
 	size: undefined,
@@ -20,7 +20,7 @@ export const defaultCornerLabel = {
 
 export const CornerLabel = forwardRef((props, ref) => {
 	// Check input.
-	let { children, points, graphicalPoints, size, graphicalSize } = normalizeOptions(props, defaultCornerLabel)
+	let { children, points, graphicalPoints, size, graphicalSize } = mergeDefaults(props, defaultCornerLabel)
 	children = ensureReactElement(children)
 	points = ensureCorner(useGraphicalVector(points, graphicalPoints), 2)
 	size = ensureNumber(useGraphicalDistance(size, graphicalSize))
@@ -31,7 +31,7 @@ export const CornerLabel = forwardRef((props, ref) => {
 	const vector2 = points[2].subtract(point).normalize()
 	const adjustedDistance = size / 2 * Math.sqrt(2 / Math.max(0.1, 1 - vector1.dotProduct(vector2)))
 	const delta = vector1.interpolate(vector2).normalize().multiply(adjustedDistance)
-	return <Element ref={ref} {...filterOptions(props, defaultElement)} graphicalPosition={point.add(delta)}>{children}</Element>
+	return <Element ref={ref} {...pickFromDefaults(props, defaultElement)} graphicalPosition={point.add(delta)}>{children}</Element>
 })
 CornerLabel.defaultProps = defaultCornerLabel
 CornerLabel.plotType = 'html'

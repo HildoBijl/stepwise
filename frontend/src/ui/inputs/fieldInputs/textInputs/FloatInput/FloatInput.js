@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { normalizeOptions, filterOptions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -36,12 +36,12 @@ export const defaultFloatInputOptions = {
 }
 
 export function FloatInput(options) {
-	options = normalizeOptions(options, defaultFloatInputOptions)
+	options = mergeDefaults(options, defaultFloatInputOptions)
 
 	// Set up options for the TextInput field.
 	const { positive, allowPower } = options
 	const textInputOptions = {
-		...filterOptions(options, defaultTextInputOptions),
+		...pickFromDefaults(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower),
 		keyboardSettings: (FI) => keyboardSettings(FI, positive, allowPower),
 	}
