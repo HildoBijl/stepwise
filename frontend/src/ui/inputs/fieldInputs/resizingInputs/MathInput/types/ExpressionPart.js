@@ -1,4 +1,4 @@
-import { isNumber, isLetter, removeAt, insertAt, firstOf } from 'step-wise/util'
+import { isNumber, isLetter, removeAt, insertAt, first } from 'step-wise/util'
 import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
 import { functions } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
@@ -272,7 +272,7 @@ export function addStrToFI(str, FI) {
 }
 
 export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
-	return firstOf(trace) + getClickSide(evt)
+	return first(trace) + getClickSide(evt)
 }
 
 export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {

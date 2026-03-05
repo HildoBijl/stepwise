@@ -1,6 +1,6 @@
 // This is the template for functions like sqrt(...) which have a parameter after their term and have no other parameters.
 
-import { lastOf } from 'step-wise/util'
+import { last } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'
@@ -97,7 +97,7 @@ function split(FI) {
 
 function removeElement(FI, withBackspace) {
 	const { alias, value } = FI
-	const parameter = lastOf(value) // Use lastOf to allow inheritance for multi-parameter functions.
+	const parameter = last(value) // Use last to allow inheritance for multi-parameter functions.
 
 	// Figure out what remains of the alias and wrap it around the parameter.
 	const leftInsertion = {

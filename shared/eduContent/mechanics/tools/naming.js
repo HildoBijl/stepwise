@@ -1,4 +1,4 @@
-const { mod, sortByIndices } = require('../../../util')
+const { mod, sortBy } = require('../../../util')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
 
@@ -95,7 +95,7 @@ function getForceNamesForPoint(forces, point, pointName) {
 	}
 
 	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth. Make sure a vector pointing upwards gets the first number, and clockwise afterwards.
-	forces = sortByIndices(forces, forces.map(force => mod(force.span.vector.argument + Math.PI / 2, 2 * Math.PI)))
+	forces = sortBy(forces, forces.map(force => mod(force.span.vector.argument + Math.PI / 2, 2 * Math.PI)))
 	return forces.map((force, index) => ({ load: force, variable: new Variable(pointName ? `F_${pointName}${index + 1}` : `F_${index + 1}`), point: point || force.span.start }))
 }
 module.exports.getForceNamesForPoint = getForceNamesForPoint
@@ -109,7 +109,7 @@ function getMomentNamesForPoint(moments, point, pointName) {
 	// Otherwise sort them, first by whether they're clockwise or counter-clockwise, and then by opening angle.
 	const momentsByDirection = [moments.filter(moment => moment.clockwise),
 	moments.filter(moment => !moment.clockwise)]
-	moments = momentsByDirection.map(momentsList => sortByIndices(momentsList, momentsList.map(moment => mod(moment.opening, 2 * Math.PI)))).flat()
+	moments = momentsByDirection.map(momentsList => sortBy(momentsList, momentsList.map(moment => mod(moment.opening, 2 * Math.PI)))).flat()
 	return moments.map((moment, index) => ({ load: moment, variable: new Variable(pointName ? `M_${pointName}${index + 1}` : `M_${index + 1}`), point: point || moment.position }))
 }
 module.exports.getMomentNamesForPoint = getMomentNamesForPoint

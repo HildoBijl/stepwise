@@ -1,4 +1,4 @@
-const { numberArray } = require('../arrays')
+const { integerRange } = require('../arrays')
 const { ensureInt } = require('../numbers')
 
 // factorial calculates n!. If an extra parameter nEnd is given, it calculates n!/nEnd! = (n * (n-1) * ... * (nEnd + 1)). It memoizes values that have already been calculated.
@@ -17,7 +17,7 @@ function factorial(n, nEnd = 0) {
 		if (n === 0 || n === nEnd) {
 			factorialMemoization[n][nEnd] = 1
 		} else {
-			factorialMemoization[n][nEnd] = numberArray(n, nEnd + 1).reduce((f, x) => f * x, 1)
+			factorialMemoization[n][nEnd] = integerRange(n, nEnd + 1).reduce((f, x) => f * x, 1)
 		}
 	}
 

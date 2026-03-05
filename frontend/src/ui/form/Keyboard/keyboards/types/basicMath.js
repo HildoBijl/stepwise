@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberArray } from 'step-wise/util'
+import { integerRange } from 'step-wise/util'
 
 import { M } from 'ui/components'
 
@@ -14,7 +14,7 @@ const keyGrid = [
 	...['7', '8', '9', 'Power', 'Underscore', 'tan', 'atan', 'log', 'ArrowUp', 'Backspace'],
 	...['Equals', '0', 'DecimalSeparator', 'BracketOpen', 'BracketClose', 'Spacebar', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
 ]
-const numbers = numberArray(0, 9)
+const numbers = integerRange(0, 9)
 
 export function Layout({ settings, keyFunction, keySettings }) {
 	const numColumns = 10

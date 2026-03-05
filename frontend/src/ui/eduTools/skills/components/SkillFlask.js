@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions, numberArray, clamp, repeat, gridInterpolate } from 'step-wise/util'
+import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat, gridInterpolate } from 'step-wise/util'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 
@@ -89,7 +89,7 @@ export function SkillFlask(props) {
 }
 
 function partToColor(part) {
-	const partTransitionList = numberArray(0, colorSpread.length - 1).map(v => v / (colorSpread.length - 1)) // An array of where (at what part) we transition from one color to the next; for instance [0, 0.2, 0.4, 0.6, 0.8, 1] or so.
+	const partTransitionList = integerRange(0, colorSpread.length - 1).map(v => v / (colorSpread.length - 1)) // An array of where (at what part) we transition from one color to the next; for instance [0, 0.2, 0.4, 0.6, 0.8, 1] or so.
 	return repeat(4, index => gridInterpolate(part, colorSpread.map(color => color[index]), partTransitionList)) // Interpolate for each element in the color array.
 }
 

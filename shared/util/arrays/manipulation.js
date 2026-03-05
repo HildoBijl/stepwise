@@ -12,12 +12,12 @@ function filterDuplicates(array, equals = (a, b) => a === b) {
 }
 module.exports.filterDuplicates = filterDuplicates
 
-// fillUndefinedWith takes an array and fills all undefined values with the given value. It changes the array and returns itself.
-function fillUndefinedWith(array, filler) {
+// fillUndefined takes an array and fills all undefined values with the given value. It changes the array and returns itself.
+function fillUndefined(array, filler) {
 	for (let i = 0; i < array.length; i++) {
 		if (array[i] === undefined)
 			array[i] = filler
 	}
 	return array
 }
-module.exports.fillUndefinedWith = fillUndefinedWith
+module.exports.fillUndefined = fillUndefined

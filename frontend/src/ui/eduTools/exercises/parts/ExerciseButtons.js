@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { Box, FormControl, Select, MenuItem } from '@mui/material'
 import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
-import { lastOf, fromKeys, isPlainObject, repeat } from 'step-wise/util'
+import { last, fromKeys, isPlainObject, repeat } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
@@ -303,8 +303,8 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const historyRef = useLatest(history), submissionListRef = useLatest(submissionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastInput(historyRef.current, lastOf(submissionListRef.current).userId, undefined, true) || {}) // Show feedback on the last resolved input.
-		setAllInputSI(lastOf(submissionListRef.current).action.input) // Show the input of the last action.
+		updateFeedback(getLastInput(historyRef.current, last(submissionListRef.current).userId, undefined, true) || {}) // Show feedback on the last resolved input.
+		setAllInputSI(last(submissionListRef.current).action.input) // Show the input of the last action.
 	}, [historyRef, submissionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {
 		setFormInput()
@@ -312,7 +312,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	}, [setFormInput, submit])
 
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
-	const submittedInput = lastOf(submissionList).action.input
+	const submittedInput = last(submissionList).action.input
 	const isEqual = isAllInputEqual(submittedInput)
 	return <>
 		<div className="inBetween" />

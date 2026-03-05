@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
-import { lastOf, repeat, count } from 'step-wise/util'
+import { last, repeat, count } from 'step-wise/util'
 import { skillTree, getCourseOverview } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
@@ -51,8 +51,8 @@ function LastActivity({ processedStudent, course, overview }) {
 
 	// Use only skills within the course that have any type of activity. Sort them by the activity date.
 	const getLastSkillActivity = skill => {
-		const lastExercise = lastOf(skill.exercises)
-		const lastEvent = lastOf(lastExercise.history)
+		const lastExercise = last(skill.exercises)
+		const lastEvent = last(lastExercise.history)
 		return new Date(lastEvent?.performedAt || lastExercise.startedOn)
 	}
 	let skills = processedStudent.skills.filter(skill => skill.exercises.length > 0 && overview.all.includes(skill.skillId))

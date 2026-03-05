@@ -1,4 +1,4 @@
-import { lastOf } from 'step-wise/util'
+import { last } from 'step-wise/util'
 
 import { TranslationSection, Translation } from 'i18n'
 import { Par, TimeAgo } from 'ui/components'
@@ -6,7 +6,7 @@ import { Par, TimeAgo } from 'ui/components'
 export function SubmissionDate({ exercise, submissionIndex, events, event }) {
 	// Determine the previous input event.
 	const earlierInputEvents = events.filter((event, index) => index < submissionIndex && event.action.type === 'input')
-	const previousInputEvent = lastOf(earlierInputEvents)
+	const previousInputEvent = last(earlierInputEvents)
 
 	// Determine some important dates.
 	const exerciseStartDate = new Date(exercise.startedOn)

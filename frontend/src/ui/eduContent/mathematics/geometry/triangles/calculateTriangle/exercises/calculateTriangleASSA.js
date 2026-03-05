@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad, roundToDigits, numberArray } from 'step-wise/util'
+import { deg2rad, roundToDigits, integerRange } from 'step-wise/util'
 import { Integer } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 import { Float } from 'step-wise/inputTypes'
@@ -27,7 +27,7 @@ const Problem = ({ α, β, a, c }) => {
 				<>Er zijn twee oplossingen voor <M>{β}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`β${numSolutions > 1 ? index : ''}`} prelabel={<M>{β}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
+				{integerRange(1, numSolutions).map(index => <ExpressionInput key={index} id={`β${numSolutions > 1 ? index : ''}`} prelabel={<M>{β}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
 			</Par> : null}
 		</InputSpace>
 	</>
@@ -47,7 +47,7 @@ const steps = [
 						<>Er zijn twee oplossingen voor <M>{γ}</M>.</>,
 					]} />
 					{numSolutions ? <Par>
-						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`γ${numSolutions > 1 ? index : ''}`} prelabel={<M>{γ}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
+						{integerRange(1, numSolutions).map(index => <ExpressionInput key={index} id={`γ${numSolutions > 1 ? index : ''}`} prelabel={<M>{γ}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
 					</Par> : null}
 				</InputSpace>
 			</>

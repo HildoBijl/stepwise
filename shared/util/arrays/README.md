@@ -9,7 +9,7 @@ All utility functions related to arrays are in this folder. These are grouped as
 
 ## Array analysis
 
-- [reading](./reading.js) is about getting particular elements out of an array. Think of `lastOf`.
+- [reading](./reading.js) is about getting particular elements out of an array. Think of `last`.
 - [iteration](./iteration.js) is about walking through an array to calculate something. Like the `sum`, `product`, `count` or `cumulative` value.
 - [finding](./finding.js) is about finding something in an array or optimizing a certain value.
 

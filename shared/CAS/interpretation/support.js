@@ -1,4 +1,4 @@
-const { firstOf, lastOf } = require('../../util')
+const { first, last } = require('../../util')
 
 function getEmpty() {
 	return [{ type: 'ExpressionPart', value: '' }]
@@ -6,7 +6,7 @@ function getEmpty() {
 module.exports.getEmpty = getEmpty
 
 function isEmpty(expression) {
-	const firstElement = firstOf(expression)
+	const firstElement = first(expression)
 	return expression.length === 1 && firstElement && firstElement.value === ''
 }
 module.exports.isEmpty = isEmpty
@@ -17,7 +17,7 @@ function getStartCursor(value = getEmpty()) {
 module.exports.getStartCursor = getStartCursor
 
 function getEndCursor(value = getEmpty()) {
-	return { part: value.length - 1, cursor: lastOf(value).value.length }
+	return { part: value.length - 1, cursor: last(value).value.length }
 }
 module.exports.getEndCursor = getEndCursor
 
@@ -69,7 +69,7 @@ module.exports.moveRight = moveRight
 function mergeAdjacentExpressionParts(value) {
 	const result = []
 	value.forEach(part => {
-		const lastPart = lastOf(result)
+		const lastPart = last(result)
 		if (part.type === 'ExpressionPart' && lastPart && lastPart.type === 'ExpressionPart')
 			result[result.length - 1] = { ...lastPart, value: `${lastPart.value}${part.value}` }
 		else

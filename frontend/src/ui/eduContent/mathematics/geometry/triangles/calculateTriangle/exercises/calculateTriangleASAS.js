@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad, roundToDigits, numberArray } from 'step-wise/util'
+import { deg2rad, roundToDigits, integerRange } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 import { Float } from 'step-wise/inputTypes'
 
@@ -30,7 +30,7 @@ const Problem = ({ α, β, a, c }) => {
 				<>Er zijn twee oplossingen voor <M>{a}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`a${numSolutions > 1 ? index : ''}`} prelabel={<M>{a}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
+				{integerRange(1, numSolutions).map(index => <ExpressionInput key={index} id={`a${numSolutions > 1 ? index : ''}`} prelabel={<M>{a}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
 			</Par> : null}
 		</InputSpace>
 	</>

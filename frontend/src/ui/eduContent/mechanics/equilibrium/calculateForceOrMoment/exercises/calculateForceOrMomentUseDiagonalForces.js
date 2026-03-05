@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberArray } from 'step-wise/util'
+import { integerRange } from 'step-wise/util'
 import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes'
 
@@ -91,7 +91,7 @@ function Diagram({ decompose = false }) {
 	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
 
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames } = useSolution()
-	const grid = numberArray(0, 4).map(x => numberArray(0, 4).map(y => new Vector(x, y))).flat()
+	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 
 	return <Drawing transformationSettings={transformationSettings}>

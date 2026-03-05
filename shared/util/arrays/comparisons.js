@@ -1,11 +1,11 @@
 const { compareNumbers } = require('../numbers')
 const { deepEquals } = require('../objects')
 
-// areArraysEqualShallow checks if two arrays are equal in the sense that all its elements satisfy a === comparison.
-function areArraysEqualShallow(arr1, arr2) {
+// shallowEqual checks if two arrays are equal in the sense that all its elements satisfy a === comparison.
+function shallowEqual(arr1, arr2) {
 	return arr1.length === arr2.length && arr1.every((element, index) => element === arr2[index])
 }
-module.exports.areArraysEqualShallow = areArraysEqualShallow
+module.exports.shallowEqual = shallowEqual
 
 // compareNumberArrays checks whether two number arrays have the same values, barring numerical differences.
 function compareNumberArrays(arr1, arr2) {
@@ -13,8 +13,8 @@ function compareNumberArrays(arr1, arr2) {
 }
 module.exports.compareNumberArrays = compareNumberArrays
 
-// hasSimpleMatching checks if every element of one array can be matched with an element from the other array, where the given matching function decides if a matching is allowed. Only a simple matching is performed: we assume transitivity on the matching function. In other words, if A matches B and B matches C, then also A matches C.
-function hasSimpleMatching(arr1, arr2, matching = deepEquals) {
+// hasOneToOneMatching checks if every element of one array can be matched with an element from the other array, where the given matching function decides if a matching is allowed. Only a simple matching is performed: we assume transitivity on the matching function. In other words, if A matches B and B matches C, then also A matches C.
+function hasOneToOneMatching(arr1, arr2, matching = deepEquals) {
 	if (!Array.isArray(arr1) || !Array.isArray(arr2))
 		return false
 	if (arr1.length !== arr2.length)
@@ -30,4 +30,4 @@ function hasSimpleMatching(arr1, arr2, matching = deepEquals) {
 		return true // Match found. Continue.
 	})
 }
-module.exports.hasSimpleMatching = hasSimpleMatching
+module.exports.hasOneToOneMatching = hasOneToOneMatching

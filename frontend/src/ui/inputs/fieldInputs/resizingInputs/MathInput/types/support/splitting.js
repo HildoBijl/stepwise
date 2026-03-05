@@ -1,4 +1,4 @@
-import { firstOf } from 'step-wise/util'
+import { first } from 'step-wise/util'
 
 import { removeCursor } from '../../../../FieldInput'
 
@@ -69,7 +69,7 @@ export function splitToRight(FI) {
 		],
 		cursor: {
 			part: 1,
-			cursor: getFIStartCursor(firstOf(split.right)),
+			cursor: getFIStartCursor(first(split.right)),
 		},
 	}
 }

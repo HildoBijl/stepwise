@@ -1,5 +1,5 @@
 const { isNumber } = require('../numbers')
-const { lastOf } = require('../arrays')
+const { last } = require('../arrays')
 
 const { ensureNumberLike, getDefaultInputRange, getInterpolationPart, isValidPart } = require('./support')
 
@@ -41,7 +41,7 @@ function interpolate(input, outputRange, ...inputRange) {
 	input = [...input] // Clone input array to prevent adjusting original.
 	if (inputRange.length > input.length)
 		throw new Error(`Interpolate error: too many parameters. We received a total of ${inputRange.length + 2} parameters for the interpolate function, for a ${input.length}-dimensional problem. A maximum of ${input.length + 2} parameters is expected.`)
-	const paramInputRange = (inputRange.length < input.length ? getDefaultInputRange(lastOf(input)) : inputRange.pop()) // Remove last input range and store it. (Or use default if it doesn't exist.)
+	const paramInputRange = (inputRange.length < input.length ? getDefaultInputRange(last(input)) : inputRange.pop()) // Remove last input range and store it. (Or use default if it doesn't exist.)
 	const param = ensureNumberLike(input.pop()) // Remove last parameter and store it.
 
 	// Check the output range while we're at it.

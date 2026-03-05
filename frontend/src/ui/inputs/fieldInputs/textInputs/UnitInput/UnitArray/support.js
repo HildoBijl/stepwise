@@ -1,4 +1,4 @@
-import { isNumber, isLetter, firstOf, lastOf, arraySplice } from 'step-wise/util'
+import { isNumber, isLetter, first, last, arraySplice } from 'step-wise/util'
 
 import { getClickSide } from 'util'
 
@@ -7,11 +7,11 @@ import { type as unitElementType, initialValue as initialUnitElementValue, isEmp
 // Define various trivial objects and functions.
 export const type = 'UnitArray'
 export const initialValue = [initialUnitElementValue]
-export const isEmpty = value => value.length === 0 || (value.length === 1 && isUnitElementEmpty(firstOf(value)))
-export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitElementStartCursor(firstOf(value), cursor?.part === 0 ? cursor.cursor : undefined) })
-export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitElementEndCursor(lastOf(value), cursor?.part === value.length - 1 ? cursor.cursor : undefined) })
-export const isCursorAtStart = (value, cursor) => cursor?.part === 0 && isCursorAtUnitElementStart(firstOf(value), cursor.cursor)
-export const isCursorAtEnd = (value, cursor) => cursor?.part === value.length - 1 && isCursorAtUnitElementEnd(lastOf(value), cursor.cursor)
+export const isEmpty = value => value.length === 0 || (value.length === 1 && isUnitElementEmpty(first(value)))
+export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitElementStartCursor(first(value), cursor?.part === 0 ? cursor.cursor : undefined) })
+export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitElementEndCursor(last(value), cursor?.part === value.length - 1 ? cursor.cursor : undefined) })
+export const isCursorAtStart = (value, cursor) => cursor?.part === 0 && isCursorAtUnitElementStart(first(value), cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => cursor?.part === value.length - 1 && isCursorAtUnitElementEnd(last(value), cursor.cursor)
 export const isValid = value => isEmpty(value) || value.every(unitElement => isUnitElementValid(unitElement))
 export const clean = value => isEmpty(value) ? undefined : value.map(cleanUnitElement)
 export const functionalize = value => (value || initialValue).map(functionalizeUnitElement)

@@ -1,4 +1,4 @@
-import { lastOf, arraySplice, mapValues, fromKeys, repeat } from 'step-wise/util'
+import { last, arraySplice, mapValues, fromKeys, repeat } from 'step-wise/util'
 
 import { selectRandomInvalidUnit } from '../../../../util'
 
@@ -226,10 +226,10 @@ function mergeNumeratorAndDenominator(value, putCursorOnTheRight = true) {
 	let newNumerator = [...num, ...den]
 	let newNumeratorCursor = putCursorOnTheRight ?
 		{ part: num.length, cursor: getUnitElementStartCursor(den[0]) } :
-		{ part: num.length - 1, cursor: getUnitElementEndCursor(lastOf(num)) }
+		{ part: num.length - 1, cursor: getUnitElementEndCursor(last(num)) }
 
 	// Check if a merger is needed and if so execute it.
-	if (lastOf(num).power === '' || den[0].text === '') {
+	if (last(num).power === '' || den[0].text === '') {
 		const merger = mergeElements(newNumerator, num.length - 1)
 		newNumerator = merger.value
 		newNumeratorCursor = merger.cursor

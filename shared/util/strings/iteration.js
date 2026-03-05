@@ -61,7 +61,7 @@ function parseTagTree(originalStr) {
 
 	// No more variables or tags. Verify that the stack is empty.
 	if (stack.length > 0)
-		throw new Error(`Invalid tag string: an opened tag <${lastOf(stack).name}> was never closed. The full string is:\n${originalStr}`)
+		throw new Error(`Invalid tag string: an opened tag <${last(stack).name}> was never closed. The full string is:\n${originalStr}`)
 
 	// All in order. Add the last string.
 	if (str.length > 0)

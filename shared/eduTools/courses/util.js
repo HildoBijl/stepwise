@@ -1,4 +1,4 @@
-const { sortByIndices } = require('../../util')
+const { sortBy } = require('../../util')
 const { objToSetup } = require('../../skillTracking')
 
 const { skillTree, isSkillRequiredFor } = require('../skills')
@@ -110,7 +110,7 @@ function getCourseOverview(rawCourse) {
 	// Sort the prior knowledge by the order of the skills tree object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskill of a skill of an earlier-encountered prior knowledge skill.
 	const allSkillIds = Object.keys(skillTree)
 	const indices = processedCourse.priorKnowledge.map(skillId => allSkillIds.indexOf(skillId))
-	const priorKnowledgeSorted = sortByIndices(processedCourse.priorKnowledge, indices)
+	const priorKnowledgeSorted = sortBy(processedCourse.priorKnowledge, indices)
 
 	// Walk through the blocks to determine what must be in each.
 	const contentsSoFar = [] // Contains the contents in all blocks up to the current block.

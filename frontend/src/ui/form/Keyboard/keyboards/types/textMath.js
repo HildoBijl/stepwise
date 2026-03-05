@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberArray } from 'step-wise/util'
+import { integerRange } from 'step-wise/util'
 
 import { M } from 'ui/components'
 
@@ -75,7 +75,7 @@ export function Layout({ settings, keyFunction, keySettings }) {
 
 	// Add classnames to keys.
 	const keyClassNames = {}
-	const secondaryButtons = [...numberArray(0, 9), 'DecimalSeparator', 'Equals', 'BracketOpen', 'BracketClose', 'Power', 'Underscore', 'Plus', 'Minus', 'Times', 'Divide']
+	const secondaryButtons = [...integerRange(0, 9), 'DecimalSeparator', 'Equals', 'BracketOpen', 'BracketClose', 'Power', 'Underscore', 'Plus', 'Minus', 'Times', 'Divide']
 	secondaryButtons.forEach(key => keyClassNames[key] = 'secondary')
 
 	return <KeyboardLayout {...{

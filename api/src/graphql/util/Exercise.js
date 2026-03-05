@@ -1,8 +1,8 @@
-const { lastOf } = require('step-wise/util')
+const { last } = require('step-wise/util')
 
 function getLastEvent(exercise) {
 	const events = (exercise.events || []).filter(event => event.progress !== null) // Filter out the null progress event for group exercises.
-	return lastOf(events) ?? null // Events are already sorted by the database query.
+	return last(events) ?? null // Events are already sorted by the database query.
 }
 module.exports.getLastEvent = getLastEvent
 

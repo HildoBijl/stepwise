@@ -1,6 +1,6 @@
 // A Matrix is an array of number arrays, like [[1,2],[3,4],[5,6]]. It can be manipulated, multiplied, etcetera in a multitude of ways.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers, numberArray, ensureNumberArray, mergeDefaults, ensureFunction } = require('../util')
+const { ensureInt, ensureNumber, isNumber, compareNumbers, integerRange, ensureNumberArray, mergeDefaults, ensureFunction } = require('../util')
 
 const { Vector } = require('./Vector')
 
@@ -145,9 +145,9 @@ class Matrix {
 		colIndex = this.ensureValidColIndex(colIndex)
 
 		// Assemble the subMatrix.
-		return new Matrix(numberArray(0, this.height - 2).map(currRowIndex => {
+		return new Matrix(integerRange(0, this.height - 2).map(currRowIndex => {
 			currRowIndex += (currRowIndex < rowIndex ? 0 : 1)
-			return numberArray(0, this.width - 2).map(currColIndex => {
+			return integerRange(0, this.width - 2).map(currColIndex => {
 				currColIndex += (currColIndex < colIndex ? 0 : 1)
 				return this.get(currRowIndex, currColIndex)
 			})
@@ -200,7 +200,7 @@ class Matrix {
 
 	// mapColumns is like the array map but then applied to columns.
 	mapColumns(func) {
-		return numberArray(0, this.width - 1).map(colIndex => func(this.getColumn(colIndex), colIndex))
+		return integerRange(0, this.width - 1).map(colIndex => func(this.getColumn(colIndex), colIndex))
 	}
 
 	// forEach is like the array forEach: it applies the given function (value, rowIndex, colIndex) to each element.
@@ -251,7 +251,7 @@ class Matrix {
 	 */
 
 	get transpose() {
-		return new Matrix(numberArray(0, this.width - 1).map(colIndex => numberArray(0, this.height - 1).map(rowIndex => this.matrix[rowIndex][colIndex])))
+		return new Matrix(integerRange(0, this.width - 1).map(colIndex => integerRange(0, this.height - 1).map(rowIndex => this.matrix[rowIndex][colIndex])))
 	}
 
 	add(matrix) {

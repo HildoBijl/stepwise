@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { firstOf, lastOf } from 'step-wise/util'
+import { first, last } from 'step-wise/util'
 import { Transformation } from 'step-wise/geometry'
 
 import { M } from 'ui/components'
@@ -67,8 +67,8 @@ export default function ProcessTypeDrawing() {
 		{/* Curves */}
 		{processes.map((process, index) => <Fragment key={index}>
 			<SvgCurve points={process.points} style={{ strokeWidth: 2, stroke: process.color }} />
-			<Element position={firstOf(process.points)} graphicalPosition={process.nShift} anchor={process.nAnchor || [1, 0]} style={{ color: process.color }}><M>n = {process.n}</M></Element>
-			<Element position={lastOf(process.points)} graphicalPosition={process.nameShift} anchor={process.nameAnchor || [1, 0]} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
+			<Element position={first(process.points)} graphicalPosition={process.nShift} anchor={process.nAnchor || [1, 0]} style={{ color: process.color }}><M>n = {process.n}</M></Element>
+			<Element position={last(process.points)} graphicalPosition={process.nameShift} anchor={process.nameAnchor || [1, 0]} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
 		</Fragment>)}
 	</Drawing>
 }

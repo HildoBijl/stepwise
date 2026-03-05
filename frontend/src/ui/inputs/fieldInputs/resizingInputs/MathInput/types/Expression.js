@@ -1,4 +1,4 @@
-import { insertAt, firstOf, lastOf, sum } from 'step-wise/util'
+import { insertAt, first, last, sum } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { addCursor, removeCursor } from '../../../FieldInput'
@@ -275,7 +275,7 @@ export function canMoveCursorVertically(FI, up) {
 export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
 	const { value } = FI
-	const part = firstOf(trace)
+	const part = first(trace)
 	const newCursor = getFIFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
 	return newCursor === undefined ? undefined : {
 		part,
@@ -293,11 +293,11 @@ export function coordinatesToCursor(coordinates, boundsData, FI, charElements, c
 }
 
 export function isCursorAtStart(value, cursor) {
-	return cursor.part === 0 && isCursorAtFIStart(addCursor(firstOf(value), cursor.cursor))
+	return cursor.part === 0 && isCursorAtFIStart(addCursor(first(value), cursor.cursor))
 }
 
 export function isCursorAtEnd(value, cursor) {
-	return cursor.part === value.length - 1 && isCursorAtFIEnd(addCursor(lastOf(value), cursor.cursor))
+	return cursor.part === value.length - 1 && isCursorAtFIEnd(addCursor(last(value), cursor.cursor))
 }
 
 export { getEmpty, isEmpty, cleanUp }

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { spread, lastOf, tableInterpolate, inverseTableInterpolate } from 'step-wise/util'
+import { spread, last, tableInterpolate, inverseTableInterpolate } from 'step-wise/util'
 import { FloatUnit } from 'step-wise/inputTypes'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
@@ -27,7 +27,7 @@ export const MollierDiagram = forwardRef(({ children, ...options }, ref) => {
 		<Axes xLabel="Absolute luchtvochtigheid [g/kg]" yLabel="Temperatuur [°C]" />
 		<MouseLines pointToLabel={pointToRelativeHumidity} />
 		{pointsList.map((points, index) => <Curve key={index} points={points} style={index === pointsList.length - 1 ? { strokeWidth: 2 } : {}} />)}
-		{factors.map((factor, index) => <Label key={index} position={index === pointsList.length - 1 ? finalPoint : lastOf(pointsList[index])} angle={index === pointsList.length - 1 ? -Math.PI / 12 : -Math.PI / 3} scale={defaultAxesOptions.textScale} graphicalDistance={index === pointsList.length - 1 ? 3 : 1}>{`${Math.round(factor * 100)}%`}</Label>)}
+		{factors.map((factor, index) => <Label key={index} position={index === pointsList.length - 1 ? finalPoint : last(pointsList[index])} angle={index === pointsList.length - 1 ? -Math.PI / 12 : -Math.PI / 3} scale={defaultAxesOptions.textScale} graphicalDistance={index === pointsList.length - 1 ? 3 : 1}>{`${Math.round(factor * 100)}%`}</Label>)}
 		{children}
 	</Drawing>
 })

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureInt, ensureNumber, ensureString, ensureObject, mergeDefaults, numberArray } from 'step-wise/util'
+import { ensureInt, ensureNumber, ensureString, ensureObject, mergeDefaults, integerRange } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'
@@ -30,7 +30,7 @@ export const Wheels = forwardRef((props, ref) => {
 
 	// Draw a group with the right number of wheels (circles).
 	return <Group className={className} {...{ ref, position, graphicalPosition, style }}>
-		{numberArray(0, numWheels - 1).map(index => <circle
+		{integerRange(0, numWheels - 1).map(index => <circle
 			key={index}
 			cx={(2 * index + 1 - numWheels) * wheelRadius}
 			cy="0"

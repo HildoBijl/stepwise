@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
-import { lastOf, resolveFunctions } from 'step-wise/util'
+import { last, resolveFunctions } from 'step-wise/util'
 
 import { useStaggeredFunction, useResizeListener, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { websiteName } from 'settings'
@@ -62,7 +62,7 @@ export function Title({ setTitleCollapsed, sx }) {
 			return
 
 		// First try the full set-up.
-		const title = lastOf(pageNamesRef.current)
+		const title = last(pageNamesRef.current)
 		const contents = partialTitleRef.current.getElementsByTagName('span')[0]
 		contents.innerText = title
 		fullTitleRef.current.style.display = 'block'
@@ -99,7 +99,7 @@ export function Title({ setTitleCollapsed, sx }) {
 	useLayoutEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.
-	const pageName = lastOf(pageNames)
+	const pageName = last(pageNames)
 	const tabTitle = pageName ? `${pageName} | ${websiteName}` : websiteName
 
 	// Render everything.
@@ -112,7 +112,7 @@ export function Title({ setTitleCollapsed, sx }) {
 			{getBreadcrumbs(routes, pageNames)}
 		</Breadcrumbs>
 		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctions(sx, theme) })}>
-			<Breadcrumb key={route.id} route={route} name={lastOf(pageNames)} last />
+			<Breadcrumb key={route.id} route={route} name={last(pageNames)} last />
 		</Breadcrumbs>
 	</TranslationSection>
 }

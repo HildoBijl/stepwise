@@ -1,5 +1,5 @@
 const { UserInputError } = require('apollo-server-express')
-const { numberArray, selectRandomly } = require('step-wise/util')
+const { integerRange, selectRandomly } = require('step-wise/util')
 
 const events = {
 	groupUpdated: 'GROUP_UPDATED',
@@ -81,6 +81,6 @@ module.exports.getGroup = getGroup
 const ALPHABET = 'ABCDEFGHJKLMNPQRTUVWXYZ2346789'.split('')
 const LENGTH = 4
 function createRandomCode() {
-	return numberArray(1, LENGTH).map(_ => selectRandomly(ALPHABET)).join('')
+	return integerRange(1, LENGTH).map(_ => selectRandomly(ALPHABET)).join('')
 }
 module.exports.createRandomCode = createRandomCode

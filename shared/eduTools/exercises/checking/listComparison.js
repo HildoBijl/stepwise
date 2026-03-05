@@ -1,4 +1,4 @@
-const { hasSimpleMatching } = require('../../../util')
+const { hasOneToOneMatching } = require('../../../util')
 
 const { processParameterComparison, getInputValue, getSolutionValue, getComparison } = require('./util')
 const { performIndividualComparison } = require('./individualComparison')
@@ -10,7 +10,7 @@ function performListComparison(exerciseData, parameterComparison, generalCompari
 	const parameters = Object.keys(parameterComparison)
 
 	// Walk through the parameters to try and match them.
-	return hasSimpleMatching(parameters, parameters, (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, parameterComparison, generalComparison))
+	return hasOneToOneMatching(parameters, parameters, (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, parameterComparison, generalComparison))
 }
 module.exports.performListComparison = performListComparison
 

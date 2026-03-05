@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberArray } from 'step-wise/util'
+import { integerRange } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -20,7 +20,7 @@ const Problem = () => {
 		<InputSpace>
 			<NumSolutionsInput />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={numSolutions === 1 ? <M>x=</M> : <M>{x}_{index}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
+				{integerRange(1, numSolutions).map(index => <ExpressionInput key={index} id={`ans${index}`} prelabel={numSolutions === 1 ? <M>x=</M> : <M>{x}_{index}=</M>} size="l" settings={ExpressionInput.settings.numericWithRoots} validate={ExpressionInput.validation.numeric} persistent={true} />
 				)}
 			</Par> : null}
 		</InputSpace>

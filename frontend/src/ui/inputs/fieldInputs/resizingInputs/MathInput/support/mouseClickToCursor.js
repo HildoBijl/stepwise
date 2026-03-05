@@ -1,4 +1,4 @@
-import { findOptimum, findOptimumIndex, getIndexTrace, pickKeys } from 'step-wise/util'
+import { findOptimum, findOptimumIndex, findIndexPath, pickKeys } from 'step-wise/util'
 
 import { getCoordinatesOf } from 'util'
 
@@ -9,7 +9,7 @@ import { isCharElement, isCharElementEmpty } from './charElements'
 export function mouseClickToCursor(evt, FI, charElements, contentsElement) {
 	// First check if the click was on a charElement. This is the easy variant.
 	if (isCharElement(evt.target) && !isCharElementEmpty(evt.target)) {
-		const trace = getIndexTrace(charElements, evt.target)
+		const trace = findIndexPath(charElements, evt.target)
 		if (trace) {
 			const cursor = getFIFuncs(FI).charElementClickToCursor(evt, FI, trace, charElements, contentsElement)
 			// The function may return something falsy, indicating it failed to figure things out. (This may happen when you click on the function name like "log" of a function.) In that case proceed to plan B.

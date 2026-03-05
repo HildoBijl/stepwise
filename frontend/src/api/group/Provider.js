@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { sortByIndices } from 'step-wise/util'
+import { sortBy } from 'step-wise/util'
 
 import { useUserId } from '../user'
 
@@ -67,7 +67,7 @@ export function useOtherMembers(members) {
 		const otherMembers = members.filter(member => member.userId !== userId)
 		const otherMembersByActive = [otherMembers.filter(member => member.active), otherMembers.filter(member => !member.active)]
 		const lastMemberActivity = otherMembersByActive.map(list => list.map(member => new Date(member.lastActivity).getTime()))
-		return otherMembersByActive.map((list, index) => sortByIndices(list, lastMemberActivity[index], false)).flat()
+		return otherMembersByActive.map((list, index) => sortBy(list, lastMemberActivity[index], false)).flat()
 	}, [members, userId])
 }
 

@@ -1,5 +1,5 @@
 export * from './checks'
 export * from './comparisons'
 export * from './reading'
-// export * from './creation'
-// export * from './manipulation'
+export * from './creation'
+export * from './manipulation'

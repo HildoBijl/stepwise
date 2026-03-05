@@ -1,4 +1,4 @@
-const { firstOf, lastOf, isObject, ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util')
+const { first, last, isObject, ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util')
 const { Unit, unitsSimilar, FloatUnit } = require('../../inputTypes')
 
 const pressureUnit = new Unit('bar')
@@ -139,7 +139,7 @@ function getProperties(pressure, parameter, data) {
 		throw new Error(`Invalid parameter: the second parameter given to the getProperties function was not a FloatUnit. Its value was "${JSON.stringify(parameter)}".`)
 	if (!isObject(data) || !data.boilingData || !data.dataByPressure)
 		throw new Error(`Invalid refrigerant data: the given data was not data exported from a refrigerant properties file.`)
-	if (pressure.compare(firstOf(data.dataByPressure).pressure) < 0 || pressure.compare(lastOf(data.dataByPressure).pressure) > 0)
+	if (pressure.compare(first(data.dataByPressure).pressure) < 0 || pressure.compare(last(data.dataByPressure).pressure) > 0)
 		throw new Error(`Pressure out of range: the given pressure "${pressure.str}" was not inside the pressure range of the given data set.`)
 
 	// Determine what type of other parameter was given.

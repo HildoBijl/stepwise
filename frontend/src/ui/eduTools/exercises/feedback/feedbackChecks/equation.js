@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { arrayFind, resolveFunctions, resolveFunctionsShallow, mergeDefaults } from 'step-wise/util'
+import { findWithValue, resolveFunctions, resolveFunctionsShallow, mergeDefaults } from 'step-wise/util'
 import { Sum, Equation, expressionComparisons, equationComparisons } from 'step-wise/CAS'
 
 import { Translation, Check, CountingWord } from 'i18n'
@@ -101,7 +101,7 @@ export const noSum = (input, correct, solution, isCorrect) => {
 	}
 
 	// Check sides for any problem and return the first problem we find.
-	return (arrayFind(['left', 'right'], inspectSide) || {}).value
+	return (findWithValue(['left', 'right'], inspectSide) || {}).value
 }
 
 // sumWithWrongTerms checks that both sides have a sum of the same form. It also checks the terms and when they're not equivalent indicates which term has a problem.
@@ -138,7 +138,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 	}
 
 	// Check sides for any problem and return the first problem we find.
-	return (arrayFind(['left', 'right'], inspectSide) || {}).value
+	return (findWithValue(['left', 'right'], inspectSide) || {}).value
 }
 
 // sumWithUnsimplifiedTerms checks if the left and right side have the same form. When terms are equivalent but do not match the onlyOrderChanges check, it notes that further simplifications are possible.
@@ -171,7 +171,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 	}
 
 	// Check sides for any problem and return the first problem we find.
-	return (arrayFind(['left', 'right'], inspectSide) || {}).value
+	return (findWithValue(['left', 'right'], inspectSide) || {}).value
 }
 
 /*

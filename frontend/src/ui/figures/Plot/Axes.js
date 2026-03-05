@@ -1,6 +1,6 @@
 import React, { Fragment, forwardRef } from 'react'
 
-import { ensureNumber, ensureBoolean, ensurePlainObject, mergeDefaults, firstOf, lastOf, ensureFunction } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, ensurePlainObject, mergeDefaults, first, last, ensureFunction } from 'step-wise/util'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -50,16 +50,16 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 			{ticks.map((ticksForAxis, axisIndex) => <Group key={axisIndex}>
 				{ticksForAxis.map((tick, tickIndex) => <Fragment key={tickIndex}>
 					<Line key={tickIndex} points={axisIndex === 0 ?
-						[[tick, firstOf(ticks[1])], [tick, lastOf(ticks[1])]] :
-						[[firstOf(ticks[0]), tick], [lastOf(ticks[0]), tick]]
+						[[tick, first(ticks[1])], [tick, last(ticks[1])]] :
+						[[first(ticks[0]), tick], [last(ticks[0]), tick]]
 					} style={gridLineStyle} />
 				</Fragment>)}
 			</Group>)}
 		</Group> : null}
 
 		{/* Axis lines. */}
-		<Line points={[[firstOf(ticks[0]), 0], [lastOf(ticks[0]), 0]]} style={axisLineStyle} />
-		<Line points={[[0, firstOf(ticks[1])], [0, lastOf(ticks[1])]]} style={axisLineStyle} />
+		<Line points={[[first(ticks[0]), 0], [last(ticks[0]), 0]]} style={axisLineStyle} />
+		<Line points={[[0, first(ticks[1])], [0, last(ticks[1])]]} style={axisLineStyle} />
 
 		{/* Ticks for each axis. */}
 		{ticks.map((ticksForAxis, axisIndex) => <Group key={axisIndex}>

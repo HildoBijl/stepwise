@@ -1,4 +1,4 @@
-import { numberArray, sortByIndices, mergeDefaults, resolveFunctions } from 'step-wise/util'
+import { integerRange, sortBy, mergeDefaults, resolveFunctions } from 'step-wise/util'
 
 import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings } from 'ui/figures'
@@ -59,8 +59,8 @@ function snapMousePosition(position, lines, graphicalLines, transformationSettin
 	// Get all the lines that fall (in graphical coordinates) within snapping distance of the given point.
 	const squaredSnappingDistance = snappingDistance ** 2
 	const snappingLineSquaredDistances = graphicalLines.map(line => line.getSquaredDistanceFrom(graphicalPosition)) // Calculate the squared distances.
-	let selectedLines = numberArray(0, lines.length - 1).filter(index => snappingLineSquaredDistances[index] <= squaredSnappingDistance) // Filter out all lines that are too far, and store the indices of the selected lines.
-	selectedLines = sortByIndices(selectedLines, selectedLines.map(index => snappingLineSquaredDistances[index])) // Sort by distance.
+	let selectedLines = integerRange(0, lines.length - 1).filter(index => snappingLineSquaredDistances[index] <= squaredSnappingDistance) // Filter out all lines that are too far, and store the indices of the selected lines.
+	selectedLines = sortBy(selectedLines, selectedLines.map(index => snappingLineSquaredDistances[index])) // Sort by distance.
 
 	// Depending on how many snap lines there are, snap the mouse position accordingly. On multiple lines. Find all intersections between snap lines, and use the closest one. Do check if it's close enough to the mouse point.
 	let graphicalSnappedPosition = graphicalPosition

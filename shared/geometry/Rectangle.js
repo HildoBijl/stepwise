@@ -1,6 +1,6 @@
 // The Rectangle represents a rectangle shape in space. It is based on the Span which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
-const { ensureNumber, compareNumbers, clamp, numberArray, findOptimumIndex, repeat } = require('../util')
+const { ensureNumber, compareNumbers, clamp, integerRange, findOptimumIndex, repeat } = require('../util')
 
 const { Vector, ensureVector } = require('./Vector')
 const { Span, ensureSpan } = require('./Span')
@@ -85,7 +85,7 @@ class Rectangle {
 
 	// bounds gives an array of bounds along each axis, with the minimum and the maximum value in a form [[xmin, xmax], [ymin, ymax], ...].
 	get bounds() {
-		return numberArray(0, this.dimension - 1).map(axis => this.getBounds(axis))
+		return integerRange(0, this.dimension - 1).map(axis => this.getBounds(axis))
 	}
 
 	// getSize gives the size of this rectangle along a certain axis.
@@ -96,7 +96,7 @@ class Rectangle {
 
 	// size gives an array of sizes along each axis.
 	get size() {
-		return numberArray(0, this.dimension - 1).map(axis => this.getSize(axis))
+		return integerRange(0, this.dimension - 1).map(axis => this.getSize(axis))
 	}
 
 	// middle gives the vector that's exactly in the middle of the Rectangle.
@@ -116,7 +116,7 @@ class Rectangle {
 	// contains checks if a vector (a point) falls within the rectangle.
 	contains(vector) {
 		vector = ensureVector(vector, this.dimension)
-		return numberArray(0, this.dimension - 1).every(axis => {
+		return integerRange(0, this.dimension - 1).every(axis => {
 			const vectorCoordinate = vector.getCoordinate(axis)
 			const [min, max] = this.getBounds(axis)
 			return vectorCoordinate >= min && vectorCoordinate <= max

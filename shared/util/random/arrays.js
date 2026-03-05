@@ -1,5 +1,5 @@
 const { ensureInt } = require('../numbers')
-const { ensureArray, cumulative, lastOf, numberArray, shuffle, sum } = require('../arrays')
+const { ensureArray, cumulative, last, integerRange, shuffle, sum } = require('../arrays')
 
 const { getRandomInteger } = require('./numbers')
 
@@ -12,7 +12,7 @@ function selectRandomly(arr, weights) {
 
 	// If there are weights, apply them.
 	const cumulativeWeights = cumulative(weights)
-	const random = Math.random() * lastOf(cumulativeWeights)
+	const random = Math.random() * last(cumulativeWeights)
 	const index = cumulativeWeights.findIndex(cumWeight => random <= cumWeight)
 	return arr[index]
 }
@@ -33,10 +33,10 @@ function getRandomIndices(arrayLength, num = arrayLength, randomOrder = true, we
 			throw new Error(`Invalid weights given: did not have sufficient options with nonzero weight. Received a weights array ${JSON.stringify(weights)}.`)
 
 		// Pick one item and exclude it afterwards.
-		const index = selectRandomly(numberArray(0, arrayLength - 1), weights)
+		const index = selectRandomly(integerRange(0, arrayLength - 1), weights)
 		indices = [index, ...getRandomIndices(arrayLength, num - 1, randomOrder, weights.map((weight, weightIndex) => weightIndex === index ? 0 : weight))]
 	} else {
-		indices = shuffle(numberArray(0, arrayLength - 1)).slice(0, num)
+		indices = shuffle(integerRange(0, arrayLength - 1)).slice(0, num)
 	}
 
 	// If required, sort the indices.

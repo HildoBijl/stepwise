@@ -1,4 +1,4 @@
-const { findNextOf, isObject, lastOf, InterpretationError } = require('../../util')
+const { findNextOf, isObject, last, InterpretationError } = require('../../util')
 
 const { advancedFunctionComponents } = require('./functions')
 
@@ -112,7 +112,7 @@ function getMatchingBrackets(value) {
 		if (level === 0)
 			throw new InterpretationError('UnmatchedClosingBracket', position, `Could not interpret the expression due to a missing opening bracket.`)
 		if (level === 1)
-			lastOf(brackets).closing = position
+			last(brackets).closing = position
 		level--
 	}
 
@@ -143,7 +143,7 @@ function getMatchingBrackets(value) {
 
 	// Check that all brackets have been closed.
 	if (level > 0) {
-		const bracketPosition = lastOf(brackets).opening
+		const bracketPosition = last(brackets).opening
 		throw new InterpretationError('UnmatchedOpeningBracket', bracketPosition, `Could not interpret the expression part due to a missing closing bracket.`)
 	}
 

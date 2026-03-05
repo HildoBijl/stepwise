@@ -1,4 +1,4 @@
-import { mod, firstOf, lastOf, repeat, pickKeys } from 'step-wise/util'
+import { mod, first, last, repeat, pickKeys } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -39,8 +39,8 @@ export function getCurvePathAlong(points, close, part, spread) {
 	points = points.filter((point, index) => index === 0 || !point.equals(points[index - 1]))
 
 	// On a closed path, add the start to the end of the points list.
-	if (close && !firstOf(points).equals(lastOf(points)))
-		points = [...points, firstOf(points)]
+	if (close && !first(points).equals(last(points)))
+		points = [...points, first(points)]
 
 	// Walk through the line segments and get the connecting points.
 	const lines = repeat(points.length - 1, index => {
@@ -56,12 +56,12 @@ export function getCurvePathAlong(points, close, part, spread) {
 
 	// For a non-closed curve, ensure that the first and last points are the starting and ending points.
 	if (!close) {
-		lines[0][0] = firstOf(points)
-		lines[lines.length - 1][1] = lastOf(points)
+		lines[0][0] = first(points)
+		lines[lines.length - 1][1] = last(points)
 	}
 
 	// Walk through the line segments and set up SVG.
-	let svg = `M${getPointSvg(firstOf(lines)[0])}`
+	let svg = `M${getPointSvg(first(lines)[0])}`
 	repeat(lines.length, index => {
 		// Set up the SVG for the line. If this is the last line segment, return it.
 		const line = lines[index]
@@ -114,7 +114,7 @@ export function getCurvePathThrough(points, close, part, spread) {
 	})
 
 	// Apply the control points: walk through the line segments and use them one by one.
-	let svg = `M${getPointSvg(firstOf(points))}`
+	let svg = `M${getPointSvg(first(points))}`
 	repeat(points.length - (close ? 0 : 1), index => {
 		const nextIndex = mod(index + 1, points.length)
 		const controlPoint1 = controlPoints[index][1]

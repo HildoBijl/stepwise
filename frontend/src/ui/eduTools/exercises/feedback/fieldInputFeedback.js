@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { arrayFind, isPlainObject, mergeDefaults, deepEquals, mapValues } from 'step-wise/util'
+import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues } from 'step-wise/util'
 import { Equation } from 'step-wise/CAS'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison } from 'step-wise/eduTools'
@@ -149,7 +149,7 @@ export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, 
 
 	// Find the first feedback check to return something truthy and return the resulting value.
 	const { solution } = exerciseData
-	const result = arrayFind(feedbackChecks, (check) => check(currInput, currSolution, solution, correct, exerciseData))
+	const result = findWithValue(feedbackChecks, (check) => check(currInput, currSolution, solution, correct, exerciseData))
 	return result && result.value
 }
 

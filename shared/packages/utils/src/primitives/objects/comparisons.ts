@@ -1,4 +1,5 @@
 // Deep equality check between two values.
+export function deepEquals<T>(a: T, b: T): boolean
 export function deepEquals(a: unknown, b: unknown): boolean {
 	// Quick check for simple non-object cases. Returns boolean when conclusive, otherwise undefined.
 	const quickCheck = (x: any, y: any): boolean | undefined => {

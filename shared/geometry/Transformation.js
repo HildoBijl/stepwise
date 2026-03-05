@@ -128,7 +128,7 @@ class Transformation {
 
 	static getUniformScale(scale, dimension, relativeTo) {
 		dimension = ensureInt(dimension, true)
-		const scales = numberArray(0, dimension - 1).map(_ => scale)
+		const scales = integerRange(0, dimension - 1).map(_ => scale)
 		return Transformation.getScale(scales, relativeTo)
 	}
 

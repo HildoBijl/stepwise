@@ -1,4 +1,4 @@
-const { isLetter, findNextOf, lastOf, mergeDefaults, pickFromDefaults, InterpretationError } = require('../../../util')
+const { isLetter, findNextOf, last, mergeDefaults, pickFromDefaults, InterpretationError } = require('../../../util')
 
 const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
@@ -327,7 +327,7 @@ function interpretElements(value, settings) {
 // incorporateSubSup takes a SubSup SI element and a results array and tries to incorporate the SubSup into the given result array. It does this by adjusting the result array. It does not return anything.
 function incorporateSubSup(element, result, settings) {
 	const [sub, sup] = element.value
-	const previousTerm = lastOf(result)
+	const previousTerm = last(result)
 
 	// First incorporate the subscript.
 	if (sub) {
@@ -365,7 +365,7 @@ function interpretFunction(element, settings) {
 
 	// If the component has its main argument last, like root[3](8), then bring this last argument to the front, as expected by the CAS.
 	const Component = advancedFunctionComponents[name].component
-	const valueShifted = Component.hasMainArgumentLast ? [lastOf(value), ...value.slice(0, -1)] : value
+	const valueShifted = Component.hasMainArgumentLast ? [last(value), ...value.slice(0, -1)] : value
 
 	// Process the arguments. If an argument is missing, and if it's specifically mentioned that it's not obligatory, use a default value.
 	const valueInterpreted = valueShifted.map((arg, index) => {

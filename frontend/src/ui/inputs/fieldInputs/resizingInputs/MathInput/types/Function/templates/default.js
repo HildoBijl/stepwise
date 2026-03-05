@@ -1,6 +1,6 @@
 // This is the most general template for settings up equation function objects, like sqrt, log, etcetera. It has default functionalities for most basic cases.
 
-import { firstOf } from 'step-wise/util'
+import { first } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../../../FieldInput'
@@ -63,7 +63,7 @@ export function create(expressionFI, part, position, name, alias) {
 		value,
 		cursor: {
 			part: value.indexOf(functionElement) + 1,
-			cursor: getFIStartCursor(firstOf(expressionAfter)),
+			cursor: getFIStartCursor(first(expressionAfter)),
 		},
 	}
 }
@@ -136,7 +136,7 @@ export function canMoveCursorVertically(FI, up) {
 }
 
 export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
-	const charPart = firstOf(trace)
+	const charPart = first(trace)
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
 	const element = FI.value[part]
 

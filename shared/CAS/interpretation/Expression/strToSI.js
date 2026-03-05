@@ -1,6 +1,6 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
-const { findNextOf, removeWhitespace, isLetter, mergeDefaults, firstOf, lastOf } = require('../../../util')
+const { findNextOf, removeWhitespace, isLetter, mergeDefaults, first, last } = require('../../../util')
 
 const { defaultFieldSettings } = require('../../options')
 
@@ -314,10 +314,10 @@ function getBracketEnd(str, from) {
 // removeSurroundingBrackets receives an expression value (so an array) and, if it starts and ends with brackets, removes says brackets.
 function removeSurroundingBrackets(value) {
 	// Check if there are indeed brackets at the start and at the end.
-	const first = firstOf(value)
+	const first = first(value)
 	if (first.type !== 'ExpressionPart' || first.value.slice(0, 1) !== '(')
 		return value
-	const last = lastOf(value)
+	const last = last(value)
 	if (last.type !== 'ExpressionPart' || last.value.slice(-1) !== ')')
 		return value
 

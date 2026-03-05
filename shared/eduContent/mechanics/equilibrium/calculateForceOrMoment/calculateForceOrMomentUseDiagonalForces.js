@@ -1,4 +1,4 @@
-const { numberArray, getRandomBoolean, getRandomInteger } = require('../../../../util')
+const { integerRange, getRandomBoolean, getRandomInteger } = require('../../../../util')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
@@ -23,7 +23,7 @@ const metaData = {
 
 function generateState() {
 	// Generate state.
-	const points = numberArray(0, 3).map(() => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4)))
+	const points = integerRange(0, 3).map(() => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4)))
 	const up = getRandomBoolean()
 	const right = getRandomBoolean()
 	const horizontal = getRandomBoolean()

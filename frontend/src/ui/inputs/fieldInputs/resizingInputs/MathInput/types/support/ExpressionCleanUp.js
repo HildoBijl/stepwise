@@ -1,4 +1,4 @@
-import { lastOf } from 'step-wise/util'
+import { last } from 'step-wise/util'
 import { support, functions as CASfunctions } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../../FieldInput'
@@ -130,7 +130,7 @@ function alternateExpressionParts(FI, settings) {
 
 	// Walk through all elements and add them one by one in the appropriate way.
 	value.forEach((element, index) => {
-		const lastAddedElement = lastOf(newValue)
+		const lastAddedElement = last(newValue)
 		if (element.type === 'ExpressionPart' && lastAddedElement.type === 'ExpressionPart') {
 			// Two ExpressionParts in a row. Merge them. And if the cursor is in this merged ExpressionPart, position it appropriately. Also run a clean-up, in case this merging creates auto-replace options.
 			let jointCursor = undefined
@@ -159,7 +159,7 @@ function alternateExpressionParts(FI, settings) {
 	})
 
 	// Ensure an expression part at the end.
-	if (lastOf(newValue).type !== 'ExpressionPart')
+	if (last(newValue).type !== 'ExpressionPart')
 		newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
 
 	return {

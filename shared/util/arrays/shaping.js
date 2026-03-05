@@ -1,10 +1,10 @@
-// flattenFully flattens an array until it has no arrays left.
-function flattenFully(array) {
+// flattenDeep flattens an array until it has no arrays left.
+function flattenDeep(array) {
 	while (array.some(element => Array.isArray(element)))
 		array = array.flat()
 	return array
 }
-module.exports.flattenFully = flattenFully
+module.exports.flattenDeep = flattenDeep
 
 // forceIntoShape takes a list and turns it into the shape given by the shape argument. If you provide a list [3, 5, 7, 9, 11] and a shape [[*, *], *, [*, [*]]], then the result will be [[3, 5], 7, [9, [11]]]. (The values of the shape do not matter.) You could see this as a form of array unflatten. Optionally, an array in the shape can be given a property "include: false" in which case the matching elements will at the end be removed from the final shape.
 function forceIntoShape(list, shape) {
@@ -29,11 +29,11 @@ function forceIntoShape(list, shape) {
 }
 module.exports.forceIntoShape = forceIntoShape
 
-// getAllCombinations takes an array of arrays, like [[a,b],[c],[d,e,f]] and returns a list of all possible combinations from one element of each array. So it returns [[a,c,d],[a,c,e],[a,c,f],[b,c,d],[b,c,e],[b,c,f]].
-function getAllCombinations(list) {
+// cartesianProduct takes an array of arrays, like [[a,b],[c],[d,e,f]] and returns a list of all possible combinations from one element of each array. So it returns [[a,c,d],[a,c,e],[a,c,f],[b,c,d],[b,c,e],[b,c,f]].
+function cartesianProduct(list) {
 	// Check the input.
 	if (!Array.isArray(list) || list.some(entry => !Array.isArray(entry)))
-		throw new Error(`Invalid input argument: getAllCombinations expects its input to be an array of arrays, but this was not the case. It received: ${JSON.stringify(list)}`)
+		throw new Error(`Invalid input argument: cartesianProduct expects its input to be an array of arrays, but this was not the case. It received: ${JSON.stringify(list)}`)
 
 	// On a single list-element, return it directly as a list of single-length arrays.
 	if (list.length === 1)
@@ -42,7 +42,7 @@ function getAllCombinations(list) {
 	// Recursively go through the list.
 	const result = []
 	const leftEntry = list[0]
-	const laterCombinations = getAllCombinations(list.slice(1))
+	const laterCombinations = cartesianProduct(list.slice(1))
 	leftEntry.forEach(entry => {
 		laterCombinations.forEach(combination => {
 			result.push([entry, ...combination])
@@ -50,4 +50,4 @@ function getAllCombinations(list) {
 	})
 	return result
 }
-module.exports.getAllCombinations = getAllCombinations
+module.exports.cartesianProduct = cartesianProduct

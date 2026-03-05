@@ -1,4 +1,4 @@
-const { tableInterpolate, firstOf, lastOf } = require('../../../../../util')
+const { tableInterpolate, first, last } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
@@ -16,8 +16,8 @@ function generateState() {
 	const temperatureRange = maximumHumidity.headers[0]
 	const T = getRandomFloatUnit({
 		min: 5, // Limit to higher temperatures to have some resolution in the plot.
-		max: lastOf(temperatureRange).number,
-		unit: firstOf(temperatureRange).unit,
+		max: last(temperatureRange).number,
+		unit: first(temperatureRange).unit,
 		decimals: 0,
 	})
 	const RH = getRandomFloatUnit({

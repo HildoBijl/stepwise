@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, firstOf, lastOf, repeat, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, getAllCombinations, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefined, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -570,7 +570,7 @@ class Expression {
 		const expressionCleanedList = expressionCleaned.getSingular()
 		if (thisCleanedList.length !== expressionCleanedList.length)
 			return false
-		return hasSimpleMatching(thisCleanedList, expressionCleanedList, (a, b) => a.equals(b, allowOrderChanges))
+		return hasOneToOneMatching(thisCleanedList, expressionCleanedList, (a, b) => a.equals(b, allowOrderChanges))
 	}
 
 	/*
@@ -1127,7 +1127,7 @@ class ExpressionList extends Expression {
 	}
 
 	find(check, includeSelf = true) {
-		return super.find(check, includeSelf) || arrayFind(this.terms, term => term.find(check))?.value
+		return super.find(check, includeSelf) || findWithValue(this.terms, term => term.find(check))?.value
 	}
 
 	applyToEvery(func, includeSelf = true, recursive = true) {
@@ -1139,7 +1139,7 @@ class ExpressionList extends Expression {
 
 	getSingular() {
 		const singularTerms = this.terms.map(term => term.getSingular())
-		const combinations = getAllCombinations(singularTerms)
+		const combinations = cartesianProduct(singularTerms)
 		return combinations.map(terms => new this.constructor({ ...this.shallowSO, terms }))
 	}
 
@@ -1157,7 +1157,7 @@ class ExpressionList extends Expression {
 			return this.terms.every((term, index) => term.equalsBasic(expression.terms[index], allowOrderChanges))
 
 		// When allowing order changes, check that every term has a matching term somewhere that is equal.
-		return hasSimpleMatching(this.terms, expression.terms, (a, b) => a.equalsBasic(b, allowOrderChanges))
+		return hasOneToOneMatching(this.terms, expression.terms, (a, b) => a.equalsBasic(b, allowOrderChanges))
 	}
 }
 ExpressionList.defaultSO = { ...Expression.defaultSO, terms: [] }
@@ -1491,7 +1491,7 @@ class Sum extends ExpressionList {
 				else
 					result[order].add(constantPart)
 			})
-			return fillUndefinedWith(result, Integer.zero).map(coefficient => coefficient.cleanForAnalysis())
+			return fillUndefined(result, Integer.zero).map(coefficient => coefficient.cleanForAnalysis())
 		}
 		const c1 = polynomeToCoefficients(p1)
 		const c2 = polynomeToCoefficients(p2)
@@ -1524,33 +1524,33 @@ class Sum extends ExpressionList {
 		// Iterate by subtracting the smallest from the largest, with the right factor.
 		while (c2.length > 0) {
 			// Subtract the smallest from the largest, with the right factor. So apply c1 <= c1 - c2*factor*x^exponent.
-			const factor = lastOf(c1).divide(lastOf(c2)).cleanForAnalysis()
+			const factor = last(c1).divide(last(c2)).cleanForAnalysis()
 			const exponent = c1.length - c2.length
 			c1 = c1.map((value, index) => index < exponent ? value : value.subtract(c2[index - exponent].multiply(factor)).cleanForAnalysis())
 
 			// Remove excess elements and then switch smallest and largest if needed.
-			while (c1.length > 0 && Integer.zero.equalsBasic(lastOf(c1))) { c1.pop() }
+			while (c1.length > 0 && Integer.zero.equalsBasic(last(c1))) { c1.pop() }
 			;[c1, c2] = c1.length < c2.length ? [c2, c1] : [c1, c2]
 		}
 
 		// Return the result. Do divide by the last coefficient to ensure a unity as final coefficient.
-		return c1.map(c => c.divide(lastOf(c1)).cleanForAnalysis())
+		return c1.map(c => c.divide(last(c1)).cleanForAnalysis())
 	}
 
 	static dividePolynomesByCoefficients(c, cDiv) {
 		// Keep subtracting the divider cDiv from the coefficients c, with the right factor, until the latter has become smaller than the former.
 		const divisor = []
 		while (c.length >= cDiv.length) {
-			const factor = lastOf(c).divide(lastOf(cDiv)).cleanForAnalysis()
+			const factor = last(c).divide(last(cDiv)).cleanForAnalysis()
 			const exponent = c.length - cDiv.length
 			divisor[exponent] = factor
 			c = c.map((value, index) => index < exponent ? value : value.subtract(cDiv[index - exponent].multiply(factor)).cleanForAnalysis())
-			while (c.length > 0 && Integer.zero.equalsBasic(lastOf(c))) { c.pop() }
+			while (c.length > 0 && Integer.zero.equalsBasic(last(c))) { c.pop() }
 		}
 
 		// Process the final outcome.
 		return {
-			divisor: fillUndefinedWith(divisor, Integer.zero),
+			divisor: fillUndefined(divisor, Integer.zero),
 			remainder: c,
 		}
 	}
@@ -1619,15 +1619,15 @@ class Product extends ExpressionList {
 	}
 
 	requiresPlusInSum() {
-		return firstOf(this.terms).requiresPlusInSum()
+		return first(this.terms).requiresPlusInSum()
 	}
 
 	requiresTimesBeforeInProduct(previousTerm) {
-		return firstOf(this.terms).requiresTimesBeforeInProduct(previousTerm)
+		return first(this.terms).requiresTimesBeforeInProduct(previousTerm)
 	}
 
 	requiresTimesAfterInProduct(nextTerm) {
-		return lastOf(this.terms).requiresTimesAfterInProduct(nextTerm)
+		return last(this.terms).requiresTimesAfterInProduct(nextTerm)
 	}
 
 	toNumberBasic() {
@@ -1639,7 +1639,7 @@ class Product extends ExpressionList {
 	}
 
 	isNegative() {
-		return firstOf(this.terms).isNegative()
+		return first(this.terms).isNegative()
 	}
 
 	getDerivativeBasic(variable) {
@@ -2003,7 +2003,7 @@ class Function extends Expression {
 			if (index > 0)
 				result += `[${this[key].str}]`
 		})
-		result += `(${this[firstOf(this.constructor.args)].str})`
+		result += `(${this[first(this.constructor.args)].str})`
 		return result
 	}
 
@@ -2013,7 +2013,7 @@ class Function extends Expression {
 			if (index > 0)
 				result += `\\left[${this[key].tex}\\right]`
 		})
-		result += `\\left(${this[firstOf(this.constructor.args)].tex}\\right)`
+		result += `\\left(${this[first(this.constructor.args)].tex}\\right)`
 		return result
 	}
 
@@ -2050,7 +2050,7 @@ class Function extends Expression {
 	}
 
 	find(check, includeSelf = true) {
-		return super.find(check, includeSelf) || arrayFind(this.constructor.args, key => this[key].find(check))?.value
+		return super.find(check, includeSelf) || findWithValue(this.constructor.args, key => this[key].find(check))?.value
 	}
 
 	applyToEvery(func, includeSelf = true, recursive = true) {
@@ -2071,7 +2071,7 @@ class Function extends Expression {
 
 	getSingular() {
 		const singularArgs = this.args.map(term => term.getSingular())
-		const combinations = getAllCombinations(singularArgs)
+		const combinations = cartesianProduct(singularArgs)
 		return combinations.map(args => new this.constructor(...args).applySettingsToSelf(this.settings))
 	}
 

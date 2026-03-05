@@ -1,4 +1,4 @@
-const { lastOf, secondLastOf } = require('../../../../util')
+const { last, secondLast } = require('../../../../util')
 
 // getLastAction takes a history and returns the last action for the given user.
 function getLastAction(history, userId) {
@@ -7,11 +7,11 @@ function getLastAction(history, userId) {
 		return undefined
 
 	// Check if the history has an action at each event, and is hence a single-user exercise.
-	if (lastOf(history).action)
-		return lastOf(history).action
+	if (last(history).action)
+		return last(history).action
 
 	// The exercise is a group exercise.
-	const lastResolvedEvent = secondLastOf(history)
+	const lastResolvedEvent = secondLast(history)
 	const submissions = lastResolvedEvent?.submissions || []
 	return submissions.find(submission => submission.userId === userId)?.action
 }

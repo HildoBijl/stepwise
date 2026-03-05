@@ -1,4 +1,4 @@
-const { numberArray, selectRandomly, getRandomInteger, tableInterpolate } = require('../../../../../../util')
+const { integerRange, selectRandomly, getRandomInteger, tableInterpolate } = require('../../../../../../util')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../../inputTypes')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 
@@ -21,7 +21,7 @@ function getCycle() {
 	})
 
 	// Check which row (that is, temperature) from the enthalpy table is suitable. Pick one randomly from it.
-	const temperatureIndexOptions = numberArray(3, 25).filter(temperatureIndex => {
+	const temperatureIndexOptions = integerRange(3, 25).filter(temperatureIndex => {
 		// Check that the temperature is above the evaporator temperature.
 		const T = enthalpy.headers[1][temperatureIndex]
 		if (T < Te)

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { lastOf, repeat } from 'step-wise/util'
+import { last, repeat } from 'step-wise/util'
 import { getStep, getPreviousProgress, hasPreviousInput } from 'step-wise/eduTools'
 
 import { useUserId } from 'api'
@@ -33,7 +33,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const { activateFirst } = useFieldControllerContext()
 
 	// Upon loading, or on a change of the last event (something was submitted), focus on the first field. (Delay to ensure all fields are registered.))
-	const lastEventId = lastOf(history)?.id
+	const lastEventId = last(history)?.id
 	useEffect(() => {
 		if (!progress.done)
 			setTimeout(activateFirst, 1)

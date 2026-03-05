@@ -1,4 +1,4 @@
-const { compareNumbers, mod, isPlainObject, mergeDefaults, fromKeys, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
+const { compareNumbers, mod, isPlainObject, mergeDefaults, fromKeys, resolveFunctions, shallowEqual, count } = require('../../../util')
 const { getCurrentInputSolutionAndComparison } = require('../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
@@ -179,7 +179,7 @@ module.exports.areLoadsMatching = areLoadsMatching
 
 // isMatchingComplete takes a matching and checks if all the loads in each set are matched. So every load in the one set is matched to a load in the other set. (Or if there are duplicates: there's a group of n loads in one set that is matched to n loads in the other set.)
 function isMatchingComplete(matching) {
-	return matching.solution.every(matches => matches.length === count(matching.solution, comparisonMatches => areArraysEqualShallow(matches, comparisonMatches))) && matching.input.every(matches => matches.length === count(matching.input, comparisonMatches => areArraysEqualShallow(matches, comparisonMatches)))
+	return matching.solution.every(matches => matches.length === count(matching.solution, comparisonMatches => shallowEqual(matches, comparisonMatches))) && matching.input.every(matches => matches.length === count(matching.input, comparisonMatches => shallowEqual(matches, comparisonMatches)))
 }
 module.exports.isMatchingComplete = isMatchingComplete
 

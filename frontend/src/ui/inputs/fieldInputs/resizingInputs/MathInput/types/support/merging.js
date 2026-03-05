@@ -1,4 +1,4 @@
-import { firstOf, lastOf } from 'step-wise/util'
+import { first, last } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'
@@ -8,7 +8,7 @@ const { getSubExpression, findEndOfTerm } = support
 export function mergeWithLeft(FI, partIndex, fromOutside) {
 	const { value } = FI
 	const element = value[partIndex]
-	const parameter = firstOf(element.value)
+	const parameter = first(element.value)
 	
 	// Get the part that needs to be pulled in.
 	const { toPullIn, toLeaveBehind, cursorAtBreak } = getMergeParts(value, partIndex, false, true)
@@ -61,7 +61,7 @@ export function mergeWithLeft(FI, partIndex, fromOutside) {
 export function mergeWithRight(FI, partIndex) {
 	const { value } = FI
 	const element = value[partIndex]
-	const parameter = lastOf(element.value)
+	const parameter = last(element.value)
 
 	// Get the part that needs to be pulled in.
 	const { toPullIn, toLeaveBehind } = getMergeParts(value, partIndex, true, true)

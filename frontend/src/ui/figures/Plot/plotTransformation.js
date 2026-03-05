@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureBoolean, omitKeys, pickFromDefaults, mergeDefaults, firstOf, lastOf } from 'step-wise/util'
+import { ensureBoolean, omitKeys, pickFromDefaults, mergeDefaults, first, last } from 'step-wise/util'
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -38,7 +38,7 @@ export function usePlotTransformationSettings(points, options = {}) {
 
 		// Depending on whether we extend bounds, update the bounds.
 		if (extendBoundsToTicks)
-			bounds = new Rectangle({ start: ticks.map(ticksForAxis => firstOf(ticksForAxis)), end: ticks.map(ticksForAxis => lastOf(ticksForAxis)) })
+			bounds = new Rectangle({ start: ticks.map(ticksForAxis => first(ticksForAxis)), end: ticks.map(ticksForAxis => last(ticksForAxis)) })
 
 		return { ticks, bounds }
 	}, [points, includeOrigin, desiredNumTicks, extendBoundsToTicks])
@@ -55,6 +55,6 @@ export function usePlotTransformationSettings(points, options = {}) {
 	return useMemo(() => ({
 		...boundsBasedTransformationSettings,
 		ticks,
-		plotBounds: new Rectangle({ start: ticks.map(ticksForAxis => firstOf(ticksForAxis)), end: ticks.map(ticksForAxis => lastOf(ticksForAxis)) }),
+		plotBounds: new Rectangle({ start: ticks.map(ticksForAxis => first(ticksForAxis)), end: ticks.map(ticksForAxis => last(ticksForAxis)) }),
 	}), [boundsBasedTransformationSettings, ticks])
 }
