@@ -314,21 +314,21 @@ function getBracketEnd(str, from) {
 // removeSurroundingBrackets receives an expression value (so an array) and, if it starts and ends with brackets, removes says brackets.
 function removeSurroundingBrackets(value) {
 	// Check if there are indeed brackets at the start and at the end.
-	const first = first(value)
-	if (first.type !== 'ExpressionPart' || first.value.slice(0, 1) !== '(')
+	const start = first(value)
+	if (start.type !== 'ExpressionPart' || start.value.slice(0, 1) !== '(')
 		return value
-	const last = last(value)
-	if (last.type !== 'ExpressionPart' || last.value.slice(-1) !== ')')
+	const end = last(value)
+	if (end.type !== 'ExpressionPart' || end.value.slice(-1) !== ')')
 		return value
 
 	// On a single-element array, adjust said element.
-	if (first === last)
-		return [{ ...first, value: first.value.slice(1, -1) }]
+	if (start === end)
+		return [{ ...start, value: start.value.slice(1, -1) }]
 
 	// On multiple elements, adjust first and last element.
 	return [
-		{ ...first, value: first.value.slice(1) },
+		{ ...start, value: start.value.slice(1) },
 		...value.slice(1, -1),
-		{ ...last, value: last.value.slice(0, -1) },
+		{ ...end, value: end.value.slice(0, -1) },
 	]
 }
