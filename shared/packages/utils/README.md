@@ -24,5 +24,5 @@ These are utilities related to some more advanced built-in Javascript objects.
 
 These are various other mathematical utility tools.
 
-- [integers](./src/math/integers/) deals with basic mathematics, like finding the prime factors of a number, the greatest common divisor/smallest common multiple of two numbers, and so forth.
+- [integers](./src/math/integers/) deals with basic mathematics, like finding the prime factors of a number, the greatest common divisor/least common multiple of two numbers, and so forth.
 - [interpolation](./src/math/interpolation/) deals with the interpolation between numbers, up to multi-dimensional interpolation.

@@ -32,8 +32,8 @@ function isPrime(num) {
 }
 module.exports.isPrime = isPrime
 
-// getPrimeFactors takes a number, like 140, and returns an array with how often each prime factor occurs in it. So for 140 = 2^2*3^0*5^1*7^1 it returns [2,0,1,1].
-function getPrimeFactors(num) {
+// getPrimeFactorization takes a number, like 140, and returns an array with how often each prime factor occurs in it. So for 140 = 2^2*3^0*5^1*7^1 it returns [2,0,1,1].
+function getPrimeFactorization(num) {
 	num = ensureInt(num, true, true)
 	const result = []
 	for (let i = 0; num > 1; i++) {
@@ -46,4 +46,4 @@ function getPrimeFactors(num) {
 	}
 	return result
 }
-module.exports.getPrimeFactors = getPrimeFactors
+module.exports.getPrimeFactorization = getPrimeFactorization

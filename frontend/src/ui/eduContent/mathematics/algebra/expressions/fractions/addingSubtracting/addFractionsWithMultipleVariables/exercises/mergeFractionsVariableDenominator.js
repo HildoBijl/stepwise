@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, Substep, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-import { SCM, ansEquivalent, denominatorCorrect, denominatorEquivalent, denominatorNotSmallestMultiple, denominatorWrongFactor, denominatorMissingDependency, wrongDenominator, wrongNumerator, nonSimplifiedNumerator } from './util'
+import { LCM, ansEquivalent, denominatorCorrect, denominatorEquivalent, denominatorNotSmallestMultiple, denominatorWrongFactor, denominatorMissingDependency, wrongDenominator, wrongNumerator, nonSimplifiedNumerator } from './util'
 
 const { originalExpression, noFraction, hasFractionWithinFraction, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
@@ -31,16 +31,16 @@ const steps = [
 		Problem: () => {
 			const { variables, leftExpression, rightExpression } = useSolution()
 			return <>
-				<Par><Translation>Find the smallest common multiple of the two denominators <M>{leftExpression.denominator}</M> and <M>{rightExpression.denominator}</M>.</Translation></Par>
+				<Par><Translation>Find the least common multiple of the two denominators <M>{leftExpression.denominator}</M> and <M>{rightExpression.denominator}</M>.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="denominator" prelabel={<SCM />} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="denominator" prelabel={<LCM />} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
 		Solution: ({ variables, leftExpression, rightExpression, denominator }) => {
-			return <Par><Translation>Because of <M>{leftExpression.denominator}</M> we need the factors <M>{variables.x}</M> and <M>{variables.z}</M>. Due to <M>{rightExpression.denominator}</M> we also require the factors <M>{variables.y}</M> and <M>{variables.z}</M>. All together, we hence need the factors <M>{variables.x}</M>, <M>{variables.y}</M> and <M>{variables.z}</M>. This gives the multiple <BM>{denominator}</BM>. This is the smallest common multiple of both <M>{leftExpression.denominator}</M> and <M>{rightExpression.denominator}</M>. The factor <M>{variables.z}</M> should <strong>not</strong> be present twice.</Translation></Par>
+			return <Par><Translation>Because of <M>{leftExpression.denominator}</M> we need the factors <M>{variables.x}</M> and <M>{variables.z}</M>. Due to <M>{rightExpression.denominator}</M> we also require the factors <M>{variables.y}</M> and <M>{variables.z}</M>. All together, we hence need the factors <M>{variables.x}</M>, <M>{variables.y}</M> and <M>{variables.z}</M>. This gives the multiple <BM>{denominator}</BM>. This is the least common multiple of both <M>{leftExpression.denominator}</M> and <M>{rightExpression.denominator}</M>. The factor <M>{variables.z}</M> should <strong>not</strong> be present twice.</Translation></Par>
 		},
 	},
 	{
@@ -73,7 +73,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ plus, expression, leftAns, rightAns, ans }) => {
-			return <Par><Translation>If we put it all together, we find <BM>{expression} = {leftAns} {plus ? '+' : '-'} {rightAns} = {ans}.</BM> This has merged the two fractions into a single fraction. Because we used the smallest common multiple in the denominator, no further simplifications are possible.</Translation></Par>
+			return <Par><Translation>If we put it all together, we find <BM>{expression} = {leftAns} {plus ? '+' : '-'} {rightAns} = {ans}.</BM> This has merged the two fractions into a single fraction. Because we used the least common multiple in the denominator, no further simplifications are possible.</Translation></Par>
 		},
 	},
 ]

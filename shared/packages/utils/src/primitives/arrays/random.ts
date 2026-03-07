@@ -10,7 +10,7 @@ export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
 
 	// Process weights.
 	if (weights.length !== array.length) throw new RangeError(`Invalid weights given: expected an array of length ${array.length} but received length ${weights.length}.`)
-	weights = weights.map(w => ensureNumber(w, true, false, true))
+	weights = weights.map(w => ensureNumber(w, true))
 	const cumulativeWeights = cumulative(weights)
 	const totalWeight = last(cumulativeWeights)
 	if (totalWeight <= 0) throw new RangeError(`Invalid weights given: expected a positive total weight but received ${totalWeight}.`)
@@ -35,8 +35,8 @@ export function shuffle<T>(array: readonly T[]): T[] {
 
 // Return a number of randomly chosen indices from 0 up to arrayLength - 1.
 export function randomIndices(arrayLength: number, num: number = arrayLength, randomOrder: boolean = true, weights?: readonly number[]): number[] {
-	arrayLength = ensureInt(arrayLength, true, false, true)
-	num = ensureInt(num, true, false, true)
+	arrayLength = ensureInt(arrayLength, true)
+	num = ensureInt(num, true)
 
 	// Handle edge/error cases.
 	if (num === 0) return []
@@ -47,7 +47,7 @@ export function randomIndices(arrayLength: number, num: number = arrayLength, ra
 	if (weights !== undefined) {
 		// Check the weights.
 		if (weights.length !== arrayLength) throw new RangeError(`Invalid weights given: expected an array of length ${arrayLength} but received length ${weights.length}.`)
-		weights = weights.map(w => ensureNumber(w, true, false, true))
+		weights = weights.map(w => ensureNumber(w, true))
 		if (sum(weights) === 0) throw new RangeError(`Invalid weights given: did not have sufficient options with nonzero weight.`)
 
 		// Pick one item and exclude it afterwards.

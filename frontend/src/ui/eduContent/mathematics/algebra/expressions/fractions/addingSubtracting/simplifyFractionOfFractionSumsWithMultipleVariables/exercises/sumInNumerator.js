@@ -6,7 +6,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
-import { wrongDenominatorWithSCM, wrongNumerator } from './util'
+import { wrongDenominatorWithLCM, wrongNumerator } from './util'
 
 const { originalExpression, noFraction, hasFractionWithinFraction, unsimplifiedFractionNumbers, unsimplifiedFractionFactors, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
@@ -41,7 +41,7 @@ const steps = [
 		},
 		Solution: ({ variables, gcdValue, fraction1, fraction2, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate }) => {
 			return <Translation>
-				<Par>To write the numerator <M>{expression.numerator}</M> as a single fraction, we first have to find the smallest common multiple of the two denominators <M>{fraction1.denominator}</M> and <M>{fraction2.denominator}</M>. This is <M>{intermediate.denominator}</M>. Both fractions should therefore get a denominator <M>{intermediate.denominator}</M>.</Par>
+				<Par>To write the numerator <M>{expression.numerator}</M> as a single fraction, we first have to find the least common multiple of the two denominators <M>{fraction1.denominator}</M> and <M>{fraction2.denominator}</M>. This is <M>{intermediate.denominator}</M>. Both fractions should therefore get a denominator <M>{intermediate.denominator}</M>.</Par>
 				<Par>For the first fraction, we multiply both sides by <M>{variables.b / gcdValue}</M>. This gives <BM>{fraction1} = {fraction1Intermediate}.</BM> For the second fraction, we multiply both sides by <M>{variables.a / gcdValue}</M>. This results in <BM>{fraction2} = {fraction2Intermediate}.</BM> If we merge these two fractions together, we wind up with <BM>{expression.numerator} = {intermediateSplit} = {intermediate}.</BM></Par>
 			</Translation>
 		},
@@ -86,7 +86,7 @@ function getFeedback(exerciseData) {
 		originalExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		wrongDenominatorWithSCM,
+		wrongDenominatorWithLCM,
 		wrongNumerator,
 		nonEquivalentExpression,
 		equivalentExpression,

@@ -62,7 +62,7 @@
       }
     },
     "crossExercise": {
-      "wrongDenominatorWithSCM": "<a>Je breuk heeft niet de juiste noemer. Is je noemer wel de kleinste gemeenschappelijke veelvoud van <inline-math/> en <inline-math/>?</a>",
+      "wrongDenominatorWithLCM": "<a>Je breuk heeft niet de juiste noemer. Is je noemer wel de kleinste gemeenschappelijke veelvoud van <inline-math/> en <inline-math/>?</a>",
       "wrongDenominatorWithExpectation": "<a>Je breuk heeft niet de juiste noemer. Probeer een breuk op te zetten met <inline-math/> in de noemer.</a>",
       "wrongNumerator": "<a>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</a>"
     }

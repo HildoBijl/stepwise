@@ -62,7 +62,7 @@
       }
     },
     "crossExercise": {
-      "wrongDenominatorWithSCM": "<a>Dein Bruch hat nicht den richtigen Nenner. Ist dein Nenner tatsächlich das kleinste gemeinsame Vielfache von <inline-math/> und <inline-math/>?</a>",
+      "wrongDenominatorWithLCM": "<a>Dein Bruch hat nicht den richtigen Nenner. Ist dein Nenner tatsächlich das kleinste gemeinsame Vielfache von <inline-math/> und <inline-math/>?</a>",
       "wrongDenominatorWithExpectation": "<a>Dein Bruch hat nicht den richtigen Nenner. Versuche, einen Bruch mit <inline-math/> im Nenner aufzustellen.</a>",
       "wrongNumerator": "<a>Der Nenner ist richtig, aber im Zähler deines Bruchs stimmt etwas nicht.</a>"
     }

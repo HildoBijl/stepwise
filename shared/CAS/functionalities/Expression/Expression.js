@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefined, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefined, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo, gcd, getPrime, getPrimeFactorization, isSquare, isPerfectPower, largestPowerDivisor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -925,7 +925,7 @@ class Integer extends Constant {
 		if (options.factorizeIntegers && !options.mergeProductNumbers && !options.mergePowerNumbers) {
 			if (Math.abs(this.number) > 3) {
 				const negative = this.number < 0
-				const primeFactors = getPrimeFactors(Math.abs(this.number))
+				const primeFactors = getPrimeFactorization(Math.abs(this.number))
 				if (sum(primeFactors) > 1) { // Only continue when a split is actually done.
 					const factors = primeFactors.map((exponent, index) => {
 						if (exponent === 0)
@@ -2769,7 +2769,7 @@ class Root extends Function {
 				return Integer.one // If the argument is 1, become 1.
 		}
 		if (options.removeIntegerRoot) {
-			if (argument.isSubtype(Integer) && base.isSubtype(Integer) && isPower(argument.number, base.number))
+			if (argument.isSubtype(Integer) && base.isSubtype(Integer) && isPerfectPower(argument.number, base.number))
 				return new Integer(Math.round(Math.pow(argument.number, 1 / base.number))) // Round to prevent numerical inaccuracies from causing problems.
 		}
 		if (options.removeCanceledRoot) {
@@ -2820,7 +2820,7 @@ class Root extends Function {
 		argument.getProductFactors().forEach(factor => {
 			// For an integer, pull out the largest power factor.
 			if (factor.isSubtype(Integer) && factor.number !== 0) {
-				const largestPowerFactor = getLargestPowerFactor(Math.abs(factor.number), rootBase)
+				const largestPowerFactor = largestPowerDivisor(Math.abs(factor.number), rootBase)
 				if (largestPowerFactor > 1) {
 					pulledFactor.push(new Integer(Math.round(largestPowerFactor ** (1 / rootBase)))) // Use rounding to prevent numerical inaccuracies.
 					const remainingFactor = factor.number / largestPowerFactor

@@ -41,7 +41,7 @@ const steps = [
 		},
 		Solution: ({ variables, numerator, fraction1, fraction2, fraction1Intermediate, fraction2Intermediate, numeratorSplit, numeratorIntermediate }) => {
 			return <Translation>
-				<Par>To write the numerator <M>{numerator}</M> as a single fraction, we first have to find the smallest common multiple of the two denominators <M>{fraction1.denominator}</M> and <M>{fraction2.denominator}</M>. This is <M>{numeratorIntermediate.denominator}</M>. Both fractions should therefore get a denominator <M>{numeratorIntermediate.denominator}</M>.</Par>
+				<Par>To write the numerator <M>{numerator}</M> as a single fraction, we first have to find the least common multiple of the two denominators <M>{fraction1.denominator}</M> and <M>{fraction2.denominator}</M>. This is <M>{numeratorIntermediate.denominator}</M>. Both fractions should therefore get a denominator <M>{numeratorIntermediate.denominator}</M>.</Par>
 				<Par>For the first fraction, we multiply both sides by <M>{variables.x}</M>. This gives <BM>{fraction1} = {fraction1Intermediate}.</BM> For the second fraction, we multiply both sides by <M>{variables.w}</M>. This results in <BM>{fraction2} = {fraction2Intermediate}.</BM> If we merge these two fractions together, we wind up with <BM>{numerator} = {numeratorSplit} = {numeratorIntermediate}.</BM></Par>
 			</Translation>
 		},
@@ -60,7 +60,7 @@ const steps = [
 		},
 		Solution: ({ variables, denominator, fraction3, fraction4, fraction3Intermediate, fraction4Intermediate, denominatorSplit, denominatorIntermediate }) => {
 			return <Translation>
-				<Par>To write the denominator <M>{denominator}</M> as a single fraction, we first have to find the smallest common multiple of the two denominators <M>{fraction3.denominator}</M> and <M>{fraction4.denominator}</M>. This is <M>{denominatorIntermediate.denominator}</M>. Both fractions should therefore get a denominator <M>{denominatorIntermediate.denominator}</M>.</Par>
+				<Par>To write the denominator <M>{denominator}</M> as a single fraction, we first have to find the least common multiple of the two denominators <M>{fraction3.denominator}</M> and <M>{fraction4.denominator}</M>. This is <M>{denominatorIntermediate.denominator}</M>. Both fractions should therefore get a denominator <M>{denominatorIntermediate.denominator}</M>.</Par>
 				<Par>For the first fraction, we multiply both sides by <M>{variables.z}</M>. This gives <BM>{fraction3} = {fraction3Intermediate}.</BM> For the second fraction, we multiply both sides by <M>{variables.y}</M>. This results in <BM>{fraction4} = {fraction4Intermediate}.</BM> If we merge these two fractions together, we wind up with <BM>{denominator} = {denominatorSplit} = {denominatorIntermediate}.</BM></Par>
 			</Translation>
 		},

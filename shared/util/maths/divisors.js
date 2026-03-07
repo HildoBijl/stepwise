@@ -25,18 +25,18 @@ function gcd(...params) {
 }
 module.exports.gcd = gcd
 
-// gcm returns the smallest common multiple of various integer numbers.
-function scm(...params) {
+// lcm returns the least common multiple of various integer numbers.
+function lcm(...params) {
 	// Check input.
 	params = params.map(number => Math.abs(ensureInt(number)))
 	if (params.length === 1)
 		return params[0]
 	if (params.length > 2)
-		return scm(scm(params[0], params[1]), ...params.slice(2))
+		return lcm(lcm(params[0], params[1]), ...params.slice(2))
 
-	// Calculate SCM through GCD.
+	// Calculate LCM through GCD.
 	const a = params[0]
 	const b = params[1]
 	return a * (b / gcd(a, b))
 }
-module.exports.scm = scm
+module.exports.lcm = lcm

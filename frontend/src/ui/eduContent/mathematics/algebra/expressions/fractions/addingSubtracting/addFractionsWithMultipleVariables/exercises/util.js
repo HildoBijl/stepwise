@@ -5,9 +5,9 @@ import { CrossExerciseTranslation } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent, integerMultiple, constantMultiple } = expressionComparisons
 
-export function SCM() {
+export function LCM() {
 	return <>
-		<CrossExerciseTranslation entry="smallestCommonMultiple">Smallest common multiple</CrossExerciseTranslation>:
+		<CrossExerciseTranslation entry="leastCommonMultiple">Least common multiple</CrossExerciseTranslation>:
 	</>
 }
 

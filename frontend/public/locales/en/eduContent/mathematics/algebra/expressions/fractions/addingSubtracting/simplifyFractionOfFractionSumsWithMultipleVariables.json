@@ -13,7 +13,7 @@
       "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
       "step1": {
         "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
-        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we first have to find the least common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
       },
       "step2": {
         "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
@@ -24,7 +24,7 @@
       "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
       "step1": {
         "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
-        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we first have to find the least common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
       },
       "step2": {
         "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
@@ -50,11 +50,11 @@
       "mainProblem": "Consider the expression <block-math/> Simplify this as much as possible.",
       "step1": {
         "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
-        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+        "solution": "<par>To write the numerator <inline-math/> as a single fraction, we first have to find the least common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
       },
       "step2": {
         "problem": "Rewrite the sum of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
-        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we first have to find the smallest common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
+        "solution": "<par>To write the denominator <inline-math/> as a single fraction, we first have to find the least common multiple of the two denominators <inline-math/> and <inline-math/>. This is <inline-math/>. Both fractions should therefore get a denominator <inline-math/>.</par><par>For the first fraction, we multiply both sides by <inline-math/>. This gives <block-math/> For the second fraction, we multiply both sides by <inline-math/>. This results in <block-math/> If we merge these two fractions together, we wind up with <block-math/></par>"
       },
       "step3": {
         "problem": "Rewrite the fraction of fractions <block-math/> as a single fraction. Simplify it as much as possible.",
@@ -62,7 +62,7 @@
       }
     },
     "crossExercise": {
-      "wrongDenominatorWithSCM": "<a>Your fraction does not have the right denominator. Is your denominator the smallest common multiple of <inline-math/> and <inline-math/>?</a>",
+      "wrongDenominatorWithLCM": "<a>Your fraction does not have the right denominator. Is your denominator the least common multiple of <inline-math/> and <inline-math/>?</a>",
       "wrongDenominatorWithExpectation": "<a>Your fraction does not have the right denominator. Try setting up a fraction with <inline-math/> in the denominator.</a>",
       "wrongNumerator": "<a>The denominator is correct, but there's something wrong in the numerator of your fraction.</a>"
     }

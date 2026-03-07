@@ -25,5 +25,5 @@ These are utilities related to already existing Javascript functionalities.
 
 These are various other, often mainly mathematical, utility tools.
 
-- [maths](./maths.js) deals with basic mathematics, like finding the prime factors of a number, the greatest common divisor/smallest common multiple of two numbers, and so forth.
+- [maths](./maths.js) deals with basic mathematics, like finding the prime factors of a number, the greatest common divisor/least common multiple of two numbers, and so forth.
 - [interpolation](./interpolation.js) deals with the interpolation between numbers, up to multi-dimensional interpolation.

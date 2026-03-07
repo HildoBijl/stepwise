@@ -23,7 +23,7 @@ export function isNumber(number: unknown): number is number | string {
 }
 
 // Ensure the given value is a number; convert numeric strings to numbers.
-export function ensureNumber(number: unknown, requirePositive = false, requireNonZero = false, requireFinite = false): number {
+export function ensureNumber(number: unknown, requirePositive = false, requireNonZero = false, allowInfinite = false): number {
 	// Throw an error when not a number.
   if (!isNumber(number)) throw new TypeError(`Input error: the given value must be a number or numeric string, but received type "${typeof number}" and value "${String(number)}".`)
 
@@ -31,7 +31,7 @@ export function ensureNumber(number: unknown, requirePositive = false, requireNo
   const num = typeof number === 'number' ? number : parseFloat(number)
 
 	// Run various checks.
-  if (requireFinite && !Number.isFinite(num)) throw new TypeError(`Input error: value "${number}" could not be converted to a finite number.`)
+  if (!allowInfinite && !Number.isFinite(num)) throw new TypeError(`Input error: value "${number}" could not be converted to a finite number.`)
   if (requirePositive && num < 0) throw new RangeError(`Input error: the given value was negative, but it must be positive. "${num}" was received.`)
   if (requireNonZero && num === 0) throw new RangeError(`Input error: the given value was zero, but this is not allowed.`)
 
@@ -53,9 +53,9 @@ export function isInt(number: unknown): number is number | string {
 }
 
 // Ensures the given value is an integer; converts numeric strings to integers.
-export function ensureInt(number: unknown, requirePositive = false, requireNonZero = false, requireFinite = false): number {
+export function ensureInt(number: unknown, requirePositive = false, requireNonZero = false, allowInfinite = false): number {
 	// First convert/validate as a number and run positivity/non-zero checks.
-	const x = ensureNumber(number, requirePositive, requireNonZero, requireFinite)
+	const x = ensureNumber(number, requirePositive, requireNonZero, allowInfinite)
 
 	// If finite, ensure it's an integer.
 	if (Number.isFinite(x) && !Number.isInteger(x)) throw new TypeError(`Input error: the given value must be an integer, but received value "${number}".`)

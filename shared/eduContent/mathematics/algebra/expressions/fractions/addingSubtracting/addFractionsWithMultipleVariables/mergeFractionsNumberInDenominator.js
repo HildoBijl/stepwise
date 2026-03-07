@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean, scm } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean, lcm } = require('../../../../../../../util')
 const { asExpression, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -37,13 +37,13 @@ function getSolution(state) {
 	const expression = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
-	const scmValue = scm(a, b)
-	const denominator = asExpression(`${scmValue}xy`).substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDen(scmValue / a).multiplyNumDen(y).removeUseless({ mergeProductNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDen(scmValue / b).multiplyNumDen(x).removeUseless({ mergeProductNumbers: true, sortProducts: true })
+	const lcmValue = lcm(a, b)
+	const denominator = asExpression(`${lcmValue}xy`).substituteVariables(variables).simplify({ sortProducts: true })
+	const leftAns = leftExpression.multiplyNumDen(lcmValue / a).multiplyNumDen(y).removeUseless({ mergeProductNumbers: true, sortProducts: true })
+	const rightAns = rightExpression.multiplyNumDen(lcmValue / b).multiplyNumDen(x).removeUseless({ mergeProductNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)
 
-	return { ...state, variables, leftExpression, rightExpression, expression, scmValue, denominator, leftAns, rightAns, ans }
+	return { ...state, variables, leftExpression, rightExpression, expression, lcmValue, denominator, leftAns, rightAns, ans }
 }
 
 function checkInput(exerciseData, step) {

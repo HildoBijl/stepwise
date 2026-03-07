@@ -2,7 +2,7 @@ import { ensureInt } from '../numbers'
 
 // Repeat the given function the given number of times and return the outcomes.
 export function repeat<T>(times: number, fn: (index: number) => T): T[] {
-	times = ensureInt(times, true, false, true)
+	times = ensureInt(times, true)
 	return repeatFromTo(0, times - 1, fn)
 }
 
@@ -22,7 +22,7 @@ export function repeatFromTo<T>(min: number, max: number, fnOrValue: ((index: nu
 
 // Repeat the given function over a multidimensional index range starting at zero.
 export function repeatMultidimensional<T>(times: readonly number[], fn: (...indices: number[]) => T): unknown {
-	times = times.map(v => ensureInt(v, true, false, true))
+	times = times.map(v => ensureInt(v, true))
 	return repeatMultidimensionalFromTo(times.map(() => 0), times.map(num => num - 1), fn)
 }
 

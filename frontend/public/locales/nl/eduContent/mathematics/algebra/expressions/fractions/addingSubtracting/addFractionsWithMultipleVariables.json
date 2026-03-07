@@ -100,7 +100,7 @@
       }
     },
     "crossExercise": {
-      "smallestCommonMultiple": "Kleinste gedeelde veelvoud",
+      "leastCommonMultiple": "Kleinste gedeelde veelvoud",
       "denominatorEquivalent": "<a>Technisch correct, maar je kan dit nog makkelijker schrijven.</a>",
       "denominatorNotSmallestMultiple": "<a>Dit is wel een veelvoud van de twee noemers, maar niet de <strong>kleinste</strong> gedeelde veelvoud.</a>",
       "denominatorWrongFactor": "<a>De variabelen kloppen, maar er gaat iets mis met het getal dat je ingevoerd hebt.</a>",
