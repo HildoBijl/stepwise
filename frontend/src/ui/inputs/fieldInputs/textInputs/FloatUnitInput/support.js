@@ -1,4 +1,4 @@
-import { isNumber, isLetter, mapValues, passOn } from 'step-wise/util'
+import { isNumber, isLetter, mapValues, identity } from 'step-wise/util'
 
 import { units, prefixes } from 'step-wise/inputTypes'
 
@@ -29,7 +29,7 @@ export const clean = ({ float, unit }) => {
 		float: isFloatEmpty(float) ? undefined : cleanFloat(float),
 		unit: isUnitEmpty(unit) ? undefined : cleanUnit(unit),
 	}
-	return mapValues(result, passOn) // Filter out undefined.
+	return mapValues(result, identity) // Filter out undefined.
 }
 export const functionalize = ({ float, unit }) => ({ float: functionalizeFloat(float), unit: functionalizeUnit(unit) })
 
@@ -83,7 +83,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	const unitFI = getUnitFI(FI)
 
 	// Set up a pass-on function.
-	const passOn = (part = cursor.part, partCursor) => {
+	const identity = (part = cursor.part, partCursor) => {
 		// Check which part to pass it on to.
 		let newFI = {}
 		if (part === 'float') {
@@ -159,21 +159,21 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 
 	// In case of a letter in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
 	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'float')
-		return passOn('unit', getUnitStartCursor(unit))
+		return identity('unit', getUnitStartCursor(unit))
 
 	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the float.
 	if (isNumber(key) && cursor.part === 'unit') {
 		if (isCursorAtUnitStart(unit, unitCursor))
-			return passOn('float', getFloatEndCursor(float))
+			return identity('float', getFloatEndCursor(float))
 	}
 
 	// In case of a slash in the float, pretend we're at the start of the unit.
 	if (key === '/' && cursor.part === 'float') {
-		return passOn('unit', getUnitStartCursor(unit))
+		return identity('unit', getUnitStartCursor(unit))
 	}
 
 	// Pass the call on to the current element.
-	return passOn()
+	return identity()
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.

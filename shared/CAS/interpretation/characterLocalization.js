@@ -70,12 +70,12 @@ function findCharacterAtZeroBracketCount(value, cursor, isWantedCharacter, toRig
 	}
 
 	// Iterate over the expression.
-	let first = true
+	let isFirst = true
 	while (hasNextSymbol()) {
 		const nextSymbol = findNextOf()
 
 		// On a breaking character, return the current cursor position. 
-		if (bracketCount <= 0 && isWantedCharacter(nextSymbol) && (!skipFirst || !first))
+		if (bracketCount <= 0 && isWantedCharacter(nextSymbol) && (!skipFirst || !isFirst))
 			return { part: partIterator, cursor: cursorIterator }
 
 		// On a bracket, adjust the bracket count.
@@ -90,7 +90,7 @@ function findCharacterAtZeroBracketCount(value, cursor, isWantedCharacter, toRig
 
 		// All good so far! Shift the cursor and check out the next symbol.
 		shiftCursor()
-		first = false
+		isFirst = false
 	}
 
 	// We're at the end. Return the current cursor position.

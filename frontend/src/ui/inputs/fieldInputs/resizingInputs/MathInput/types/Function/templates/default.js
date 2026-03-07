@@ -111,7 +111,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	if (!acceptsKey(keyInfo, FI, settings))
 		return FI
 
-	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
+	const { identity, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
 	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtFIStart(activeElementFI))
@@ -126,7 +126,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		return moveRight()
 
 	// Pass on to the appropriate child element.
-	return passOn()
+	return identity()
 }
 
 export function canMoveCursorVertically(FI, up) {

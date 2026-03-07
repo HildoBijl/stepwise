@@ -1,4 +1,4 @@
-import { passOn, isNumber, removeAt, insertAt } from 'step-wise/util'
+import { identity, isNumber, removeAt, insertAt } from 'step-wise/util'
 
 import { Translation } from 'i18n'
 
@@ -15,7 +15,7 @@ export const getEndCursor = value => value ? value.length : 0
 export const isCursorAtStart = (_, cursor) => cursor === 0
 export const isCursorAtEnd = (value, cursor) => cursor === value.length
 export const mouseClickToCursor = (evt, _, contentsElement) => getClickPosition(evt, contentsElement)
-export const clean = passOn
+export const clean = identity
 export const functionalize = value => value.toString() // Just in case we get an integer.
 
 // keyboardSettings takes an FI object and determines what keyboard settings are appropriate.

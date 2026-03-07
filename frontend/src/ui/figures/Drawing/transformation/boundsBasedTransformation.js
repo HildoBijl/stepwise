@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, passOn, ensureFunction } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, identity, ensureFunction } from 'step-wise/util'
 import { Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -15,7 +15,7 @@ export const defaultBoundsBasedTransformationOptions = {
 	uniform: true, // Scale uniformly for x and y?
 	margin: 0,
 	pretransformation: Transformation.getIdentity(2),
-	processBounds: passOn,
+	processBounds: identity,
 }
 
 export function useBoundsBasedTransformationSettings(points, options = {}) {

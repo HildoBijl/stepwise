@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefined, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefined, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -2560,7 +2560,7 @@ class Power extends Function {
 				const term1 = base.terms[0]
 				const term2 = new Sum(base.terms.slice(1)).cleanStructure()
 				const sumTerms = []
-				repeatWithMinMax(0, num, (index) => {
+				repeatFromTo(0, num, (index) => {
 					sumTerms.push(new Product([
 						new Integer(binomial(num, index)),
 						new Power(term1, new Integer(num - index)).cleanStructure(),

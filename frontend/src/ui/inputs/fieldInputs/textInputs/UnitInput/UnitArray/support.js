@@ -27,7 +27,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	const unitElementCursor = cursor.cursor
 
 	// Set up a pass-on function.
-	const passOn = () => {
+	const identity = () => {
 		const oldUnitElementFI = {
 			type: unitElementType,
 			value: unitElement,
@@ -128,7 +128,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	}
 
 	// Unknown key. Try to pass it on.
-	return passOn()
+	return identity()
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.

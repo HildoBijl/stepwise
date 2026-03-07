@@ -1,4 +1,4 @@
-const { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax, union } = require('../../util')
+const { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } = require('../../util')
 
 const { restructure } = require('./restructureAndSubstitute')
 
@@ -86,7 +86,7 @@ function multiplyTwoWithEqualDimension(matrix1, matrix2) {
 		const max = crossTermMinMax.map(minMax => minMax.max)
 
 		// Set up the cross-term matrix.
-		const crossTerms = repeatMultidimensionalWithMinMax(min, max, (...crossTermIndices) => {
+		const crossTerms = repeatMultidimensionalFromTo(min, max, (...crossTermIndices) => {
 			const indices1 = crossTermIndices
 			const indices2 = repeat(numVariables, index => newIndices[index] - crossTermIndices[index])
 			return getMatrixElement(matrix1, indices1) * getMatrixElement(matrix2, indices2)

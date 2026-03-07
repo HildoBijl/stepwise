@@ -1,6 +1,6 @@
 import React, { useRef, forwardRef } from 'react'
 
-import { isEmptyObject, mergeDefaults, pickFromDefaults, resolveFunctions, passOn } from 'step-wise/util'
+import { isEmptyObject, mergeDefaults, pickFromDefaults, resolveFunctions, identity } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -17,8 +17,8 @@ export const defaultFieldInputOptions = {
 	...defaultFieldInputHullOptions,
 
 	// Make sure to not use the default toSO/toFO clean/functionalize, but simpler versions. 
-	clean: passOn,
-	functionalize: passOn,
+	clean: identity,
+	functionalize: identity,
 
 	// Allow various functions to depend on the FI.
 	keyPressToFI: undefined,

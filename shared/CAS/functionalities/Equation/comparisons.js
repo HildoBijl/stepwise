@@ -1,4 +1,4 @@
-const { passOn } = require('../../../util')
+const { identity } = require('../../../util')
 
 const { Sum, expressionComparisons } = require('../Expression')
 
@@ -8,7 +8,7 @@ const { Sum, expressionComparisons } = require('../Expression')
 
 // exactEqual checks if two expressions are exactly equal, in every way.
 function exactEqual(input, correct) {
-	return correct.equals(input, { preprocess: passOn, allowOrderChanges: false })
+	return correct.equals(input, { preprocess: identity, allowOrderChanges: false })
 }
 
 // onlyOrderChanges checks if two equations are equal, allowing order changes in sums and products. So "2*x=3+5" equals "x*2=5+3" but not "3+5=2*x".
