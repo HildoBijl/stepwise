@@ -1,4 +1,4 @@
-import { isValidDate } from 'step-wise/util'
+import { isDate } from 'step-wise/util'
 
 import { Translation, Plurals } from 'i18n'
 
@@ -13,11 +13,11 @@ export function TimeAgo({ date, ms, displaySeconds = false, addAgo = false }) {
 	// On an invalid date, show never.
 	if (typeof date === 'string')
 		date = new Date(date)
-	if (!isValidDate(date) && ms === undefined)
+	if (!isDate(date) && ms === undefined)
 		return <Translation path={translationPath} entry={`${translationEntry}.never`}>Never</Translation>
 
 	// Process the input, whichever was given.
-	if (isValidDate(date))
+	if (isDate(date))
 		ms = new Date() - date
 
 	// Display the text.

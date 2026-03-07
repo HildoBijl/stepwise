@@ -1,9 +1,9 @@
-function isValidDate(date) {
+function isDate(date) {
 	if (!date || date.constructor !== Date)
 		return false
 	return !isNaN(date.getTime())
 }
-module.exports.isValidDate = isValidDate
+module.exports.isDate = isDate
 
 function ensureDate(input) {
 	// Check if it's already a date object.
@@ -11,8 +11,8 @@ function ensureDate(input) {
 		return input
 
 	// Try to force it into one.
-	date = new Date(input)
-	if (isValidDate(date))
+	const date = new Date(input)
+	if (isDate(date))
 		return date
 
 	// Nothing worked.
