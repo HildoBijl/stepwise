@@ -1,6 +1,6 @@
 class InterpretationError extends Error {
-	constructor(code, cause, ...args) {
-		super(...args)
+	constructor(message, code, cause) {
+		super(message)
 
 		// Maintain proper stack trace for where the error was thrown.
 		if (Error.captureStackTrace)

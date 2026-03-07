@@ -110,7 +110,7 @@ function getMatchingBrackets(value) {
 	}
 	const noteClosingBracket = (position) => {
 		if (level === 0)
-			throw new InterpretationError('UnmatchedClosingBracket', position, `Could not interpret the expression due to a missing opening bracket.`)
+			throw new InterpretationError('Could not interpret the expression due to a missing opening bracket.', 'UnmatchedClosingBracket', position)
 		if (level === 1)
 			last(brackets).closing = position
 		level--
@@ -144,7 +144,7 @@ function getMatchingBrackets(value) {
 	// Check that all brackets have been closed.
 	if (level > 0) {
 		const bracketPosition = last(brackets).opening
-		throw new InterpretationError('UnmatchedOpeningBracket', bracketPosition, `Could not interpret the expression part due to a missing closing bracket.`)
+		throw new InterpretationError('Could not interpret the expression part due to a missing closing bracket.', 'UnmatchedOpeningBracket', bracketPosition)
 	}
 
 	// All good. Return the result.

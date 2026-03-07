@@ -1,1 +1,1 @@
-export const tempErrors = 1
+export * from './InterpretationError'

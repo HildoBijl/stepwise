@@ -408,7 +408,7 @@ module.exports.SOtoFO = (SO) => {
 	const unit = new Unit(SO)
 	const invalidUnitElement = unit.getInvalidUnitElement()
 	if (invalidUnitElement !== undefined)
-		throw new InterpretationError(`InvalidUnit`, invalidUnitElement, 'Received a unit with invalid/unrecognized unit elements.')
+		throw new InterpretationError('Received a unit with invalid/unrecognized unit elements.', `InvalidUnit`, invalidUnitElement)
 	return unit
 }
 module.exports.SItoFO = module.exports.SOtoFO // For units SI and SO are the same.

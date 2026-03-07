@@ -15,7 +15,7 @@ module.exports = SItoFO
 function interpretSI(value, settings) {
 	// On an empty equation, return undefined. Nothing is known.
 	if (isEmpty(value))
-		throw new InterpretationError('EmptyEquation', undefined, `Could not interpret an empty Equation.`)
+		throw new InterpretationError('Could not interpret an empty Equation.', 'EmptyEquation')
 
 	// Walk through the expression to find an equals symbol.
 	let part, cursor
@@ -31,7 +31,7 @@ function interpretSI(value, settings) {
 
 		// Check if an equals sign has already been found, either in an earlier ExpressionPart, or later on in this same ExpressionPart.
 		if (part !== undefined || element.value.indexOf('=', equalsPosition + 1) !== -1)
-			throw new InterpretationError('MultipleEqualsSigns', partIndex, `Could not interpret the equation due to multiple equals signs being present.`)
+			throw new InterpretationError('Could not interpret the equation due to multiple equals signs being present.', 'MultipleEqualsSigns', partIndex)
 
 		// Remember the position of the equals sign.
 		part = partIndex
@@ -40,7 +40,7 @@ function interpretSI(value, settings) {
 
 	// Check that an equals sign has been found.
 	if (part === undefined)
-		throw new InterpretationError('MissingEqualsSign', undefined, `Could not interpret the equation due to no equals sign being present.`)
+		throw new InterpretationError('Could not interpret the equation due to no equals sign being present.', 'MissingEqualsSign')
 
 	// Split up the Expression at the given equals sign and interpret both parts separately.
 	const start = getStartCursor(value)

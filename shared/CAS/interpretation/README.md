@@ -34,8 +34,8 @@ When inputting equations, there is on top of the SI also a *Functional Input (FI
 
 When interpreting (generally SI to FO) errors may occur. Invalid strings like `2//3` or `2+` or similar may be given. In this case, an `InterpretationError` is thrown. Every such error has the following properties.
 
+- `message`: like every error there is a standard error message.
 - `code`: a string like `UnmatchedClosingBracket` indicating the type of interpretation error.
 - `cause`: extra info related to the error. The exact value varies per error, but it is often related to the position of the error.
-- `message`: like every error there is a standard error message.
 
 Follow-up code can potentially catch such errors and, depending on the code and cause, specify a more appropriate error message in the required language.

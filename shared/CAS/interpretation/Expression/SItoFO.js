@@ -16,7 +16,7 @@ module.exports = SItoFO
 function interpretSI(value, settings) {
 	// On an empty expression, throw an error. Nothing is known.
 	if (isEmpty(value))
-		throw new InterpretationError('EmptyExpression', undefined, `Could not interpret an empty Expression.`)
+		throw new InterpretationError('Could not interpret an empty Expression.', 'EmptyExpression')
 
 	/* Apply the various interpretation steps. There are four steps.
 	* - Interpret brackets, including functions with parameters after them. Think of splitting "2x*5sin(3+4)" into parts "2x*5" and a sine function with "3+4" within.
@@ -52,7 +52,7 @@ function interpretBrackets(value, settings) {
 			// Verify the advanced function.
 			const { name, value: internalArguments } = value[opening.part]
 			if (!isFunctionAllowed(name, settings))
-				throw new InterpretationError(`UnknownAdvancedFunction`, name, `Could not interpret the function "${name}".`)
+				throw new InterpretationError(`Could not interpret the function "${name}".`, `UnknownAdvancedFunction`, name)
 			if (!advancedFunctionComponents[name])
 				throw new Error(`Invalid function name: the function "${name}" was allowed by the isFunctionAllowed function, but it does not have a known component.`)
 			if (!advancedFunctionComponents[name].hasParameterAfter)
@@ -151,12 +151,12 @@ function interpretSums(value, settings) {
 
 			// Check that there is no plus at the start.
 			if (end.part === 0 && end.cursor === 0 && symbolAfter === '+')
-				throw new InterpretationError('PlusAtStart', '+', `Could not interpret the Expression due to it starting with a plus.`)
+				throw new InterpretationError('Could not interpret the Expression due to it starting with a plus.', 'PlusAtStart', '+')
 
 			// Check that there are not two consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (start.part === end.part && start.cursor === end.cursor) {
 				if (symbolBefore === symbolAfter || symbolAfter === '+')
-					throw new InterpretationError('DoublePlusMinus', `${symbolBefore}${symbolAfter}`, `Could not interpret the Expression due to a double plus/minus.`)
+					throw new InterpretationError('Could not interpret the Expression due to a double plus/minus.', 'DoublePlusMinus', `${symbolBefore}${symbolAfter}`)
 			}
 
 			// If we have "2+-3" or "2±-3" or "2-±3" or similar, then jump over the second plus/minus character and incorporate it into the string to be interpreted.
@@ -184,7 +184,7 @@ function interpretSums(value, settings) {
 	// Check for a plus or minus at the end. If it's not there, add the remaining part.
 	const end = getEndCursor(value)
 	if (start.part === end.part && start.cursor === end.cursor && symbolBefore)
-		throw new InterpretationError('PlusMinusAtEnd', symbolBefore, `Could not interpret the Expression due to it ending with "${symbolBefore}".`)
+		throw new InterpretationError(`Could not interpret the Expression due to it ending with "${symbolBefore}".`, 'PlusMinusAtEnd', symbolBefore)
 	addTerm(start, end, symbolBefore)
 
 	// Assemble all terms in a sum.
@@ -226,11 +226,11 @@ function interpretProducts(value, settings) {
 
 			// Check that there is no times at the start.
 			if (end.part === 0 && end.cursor === 0)
-				throw new InterpretationError('TimesAtStart', '*', `Could not interpret the Expression due to it starting with a times operator.`)
+				throw new InterpretationError('Could not interpret the Expression due to it starting with a times operator.', 'TimesAtStart', '*')
 
 			// Check that there are not two consecutive times operators.
 			if (start.part === end.part && start.cursor === end.cursor)
-				throw new InterpretationError('DoubleTimes', '**', `Could not interpret the Expression due to a double times operator.`)
+				throw new InterpretationError('Could not interpret the Expression due to a double times operator.', 'DoubleTimes', '**')
 
 			// Extract the expression from the last times operator and interpret it.
 			addFactor(start, end)
@@ -241,7 +241,7 @@ function interpretProducts(value, settings) {
 	// Check for a times operator at the end. If it's not there, add the remaining part.
 	const end = getEndCursor(value)
 	if (start.part === end.part && start.cursor === end.cursor)
-		throw new InterpretationError('TimesAtEnd', '*', `Could not interpret the Expression due to it ending with a times operator.`)
+		throw new InterpretationError('Could not interpret the Expression due to it ending with a times operator.', 'TimesAtEnd', '*')
 	addFactor(start, end)
 
 	// Assemble all factors in a product.
@@ -270,15 +270,15 @@ function interpretString(str, settings) {
 	// Check the string format.
 	const invalidSymbolMatch = str.match(regInvalidSymbols)
 	if (invalidSymbolMatch)
-		throw new InterpretationError('InvalidSymbol', invalidSymbolMatch[0], `Could not interpret the string "${str}".`)
+		throw new InterpretationError(`Could not interpret the string "${str}".`, 'InvalidSymbol', invalidSymbolMatch[0])
 
 	const singleDecimalSeparatorMatch = str.match(regSingleDecimalSeparator)
 	if (singleDecimalSeparatorMatch)
-		throw new InterpretationError('SingleDecimalSeparator', singleDecimalSeparatorMatch[0], `Could not interpret the string "${str}".`)
+		throw new InterpretationError(`Could not interpret the string "${str}".`, 'SingleDecimalSeparator', singleDecimalSeparatorMatch[0])
 
 	const multipleDecimalSeparatorMatch = str.match(regMultipleDecimalSeparator)
 	if (multipleDecimalSeparatorMatch)
-		throw new InterpretationError('MultipleDecimalSeparator', multipleDecimalSeparatorMatch[0], `Could not interpret the string "${str}".`)
+		throw new InterpretationError(`Could not interpret the string "${str}".`, 'MultipleDecimalSeparator', multipleDecimalSeparatorMatch[0])
 
 	// All seems fine. Interpret the string. For this, walk through the string, add every individual letter as variable and every group of digits as constant (Integer or Float).
 	let lastLetter = -1
@@ -333,7 +333,7 @@ function incorporateSubSup(element, result, settings) {
 	if (sub) {
 		// On a subscript, the previous element must be a variable.
 		if (!(previousTerm instanceof Variable))
-			throw new InterpretationError(`MisplacedSubscript`, sub.value, `Could not interpret the subscript "${sub.value}".`)
+			throw new InterpretationError(`Could not interpret the subscript "${sub.value}".`, `MisplacedSubscript`, sub.value)
 
 		// Apply the subscript.
 		previousTerm.subscript = sub.value
@@ -343,7 +343,7 @@ function incorporateSubSup(element, result, settings) {
 	if (sup) {
 		// There must be a previous term.
 		if (!previousTerm)
-			throw new InterpretationError(`MisplacedSuperscript`, '', `Could not interpret the superscript due to a missing term prior to it.`)
+			throw new InterpretationError('Could not interpret the superscript due to a missing term prior to it.', `MisplacedSuperscript`, '')
 
 		// Interpret the exponent and apply it in a power.
 		const exponent = interpretSI(sup.value, settings)
@@ -357,7 +357,7 @@ function interpretFunction(element, settings) {
 
 	// Verify the advanced function.
 	if (!isFunctionAllowed(name, settings))
-		throw new InterpretationError(`UnknownAdvancedFunction`, name, `Could not interpret the function "${name}". It is not allowed for the given settings "${JSON.stringify(settings)}".`)
+		throw new InterpretationError(`Could not interpret the function "${name}". It is not allowed for the given settings "${JSON.stringify(settings)}".`, `UnknownAdvancedFunction`, name)
 	if (!advancedFunctionComponents[name])
 		throw new Error(`Invalid function name: the function "${name}" was allowed by the isFunctionAllowed function, but it does not have a known component.`)
 	if (advancedFunctionComponents[name].hasParameterAfter)
@@ -387,11 +387,11 @@ function interpretAccent(element, settings) {
 
 	// Verify the input.
 	if (!accents.includes(name))
-		throw new InterpretationError('UnknownAccent', name, `Could not interpret the accent "${alias}${value})". The accent name "${name}" is not known.`)
+		throw new InterpretationError(`Could not interpret the accent "${alias}${value})". The accent name "${name}" is not known.`, 'UnknownAccent', name)
 	if (value.length === 0)
-		throw new InterpretationError('EmptyAccent', name, `Could not interpret the accent "${alias}${value})". It had no characters in it.`)
+		throw new InterpretationError(`Could not interpret the accent "${alias}${value})". It had no characters in it.`, 'EmptyAccent', name)
 	if (value.length > 1)
-		throw new InterpretationError('TooLongAccent', value, `Could not interpret the accent "${alias}${value})". More than one characters is not supported.`)
+		throw new InterpretationError(`Could not interpret the accent "${alias}${value})". More than one characters is not supported.`, 'TooLongAccent', value)
 
 	// Process the input.
 	return new Variable({

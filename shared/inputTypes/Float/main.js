@@ -8,13 +8,13 @@ module.exports.SItoFO = (value) => {
 
 	// Check for boundary cases.
 	if (number === '' || number === undefined)
-		throw new InterpretationError(`Empty`, undefined, 'Could not interpret an empty string into a number.')
+		throw new InterpretationError('Could not interpret an empty string into a number.', `Empty`)
 	if (number === '-' || number === '-.')
-		throw new InterpretationError(`MinusSign`, undefined, 'Could not interpret a number consisting of only a minus sign.')
+		throw new InterpretationError('Could not interpret a number consisting of only a minus sign.', `MinusSign`)
 	if (number === '.')
-		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
+		throw new InterpretationError('Could not interpret a number consisting of only a decimal separator.', `DecimalSeparator`)
 	if (power === '-')
-		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
+		throw new InterpretationError('Could not interpret a number consisting of only a decimal separator.', `DecimalSeparator`)
 
 	// Set up a float with the given properties.
 	power = (power === undefined || power === '' ? 0 : parseInt(power))
