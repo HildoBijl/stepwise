@@ -1,5 +1,5 @@
 import { ensureInt, ensureNumber, randomInteger } from '../numbers'
-import { cumulative, last, integerRange, shuffle, sum } from '../arrays'
+import { cumulative, last, integerRange, sum } from '../arrays'
 
 // Return a random element from an array.
 export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
@@ -19,6 +19,18 @@ export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
 	const random = Math.random() * totalWeight
 	const index = cumulativeWeights.findIndex(cumWeight => random <= cumWeight)
 	return array[index]
+}
+
+// Shuffle the elements in an array using the Fisher–Yates algorithm.
+export function shuffle<T>(array: readonly T[]): T[] {
+	const result = [...array]
+	for (let currIndex = result.length - 1; currIndex > 0; currIndex--) {
+		const newPlace = Math.floor(Math.random() * (currIndex + 1))
+		const temp = result[newPlace]
+		result[newPlace] = result[currIndex]
+		result[currIndex] = temp
+	}
+	return result
 }
 
 // Return a number of randomly chosen indices from 0 up to arrayLength - 1.
