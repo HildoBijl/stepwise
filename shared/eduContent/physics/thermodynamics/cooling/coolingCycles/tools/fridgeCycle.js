@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../../../util')
+const { sample } = require('../../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 
@@ -37,7 +37,7 @@ module.exports.getTemperatures = getTemperatures
 
 function getBasicCycle() {
 	// Determine refrigerant type.
-	const refrigerant = selectRandomly(refrigerantProperties.types)
+	const refrigerant = sample(refrigerantProperties.types)
 	const refrigerantData = refrigerantProperties[refrigerant]
 
 	// Determine temperatures.

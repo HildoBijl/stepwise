@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../util')
 const { asExpression, expressionComparisons, expressionChecks, Sum, Product } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
@@ -22,20 +22,20 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const p = getRandomInteger(1, 4)
-	const q = getRandomInteger(0, 3, [p])
-	const s = getRandomInteger(0, 3, [q])
+	const p = randomInteger(1, 4)
+	const q = randomInteger(0, 3, [p])
+	const s = randomInteger(0, 3, [q])
 	const r = p + s - q // Ensure q + r = p + s.
 	if (r < 0 || r > 4)
 		return generateState() // Invalid state.
 	return {
-		x: selectRandomly(variableSet),
-		a: getRandomInteger(-8, 8, [0]),
-		b: getRandomInteger(-8, 8, [0]),
-		c: getRandomInteger(-8, 8, [0]),
-		d: getRandomInteger(-8, 8, [0]),
+		x: sample(variableSet),
+		a: randomInteger(-8, 8, [0]),
+		b: randomInteger(-8, 8, [0]),
+		c: randomInteger(-8, 8, [0]),
+		d: randomInteger(-8, 8, [0]),
 		p, q, r, s,
-		switch: getRandomBoolean(),
+		switch: randomBoolean(),
 	}
 }
 

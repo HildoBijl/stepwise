@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../../../util')
+const { sample } = require('../../../../../../util')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 const { getTemperatures } = require('../../coolingCycles')
 
@@ -12,7 +12,7 @@ const metaData = {
 }
 
 function generateState() {
-	const type = selectRandomly(['fridge', 'heatPump'])
+	const type = sample(['fridge', 'heatPump'])
 	let { TCond, TEvap, dTCold, dTWarm } = getTemperatures()
 	return { type, TCond, TEvap, dTCold, dTWarm }
 }

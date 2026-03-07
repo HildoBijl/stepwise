@@ -1,4 +1,4 @@
-const { getRandomNumber } = require('../../../../../util')
+const { randomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -14,7 +14,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'kW',
 	})
-	const COP = getRandomNumber(3, 5)
+	const COP = randomNumber(3, 5)
 	const Pin = Pe.multiply(COP - 1).roundToPrecision()
 
 	return { Pe, Pin }

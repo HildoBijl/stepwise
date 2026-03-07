@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -25,14 +25,14 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
+	const a = randomInteger(-8, 8, [-1, 0, 1])
+	const b = randomInteger(-8, 8, [-1, 0, 1, a, -a])
+	const c = randomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c,
-		switchSides: getRandomBoolean(), // Do we switch equation sides?
-		type: getRandomInteger(0, 2), // 0 is move c, 1 is move x, 2 is move c and x together.
+		switchSides: randomBoolean(), // Do we switch equation sides?
+		type: randomInteger(0, 2), // 0 is move c, 1 is move x, 2 is move c and x together.
 	}
 }
 

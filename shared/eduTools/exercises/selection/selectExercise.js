@@ -1,4 +1,4 @@
-const { isNumber, sum, normalPDF, selectRandomly, fromKeys } = require('../../../util')
+const { isNumber, sum, normalPDF, sample, fromKeys } = require('../../../util')
 
 const { skillTree, exercises, getExerciseName, fixExerciseId, ensureSkillId } = require('../../skills')
 
@@ -37,7 +37,7 @@ async function selectExercise(skillId, getSkillDataSet, previousExercises = []) 
 	const selectionRates = getSelectionRates(successRates, weights)
 
 	// Select a random exercise, according to the calculated rates, from the list.
-	return selectRandomly(exerciseIds, selectionRates)
+	return sample(exerciseIds, selectionRates)
 }
 module.exports.selectExercise = selectExercise
 
@@ -92,6 +92,6 @@ function selectExerciseFromList(exerciseIds) {
 	// Select an exercise based on the weights.
 	const exerciseMetaDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).metaData)
 	const weights = exerciseMetaDatas.map(exerciseMetaData => (isNumber(exerciseMetaData.weight) ? Math.abs(exerciseMetaData.weight) : 1))
-	return selectRandomly(exerciseIds, weights)
+	return sample(exerciseIds, weights)
 }
 module.exports.selectExerciseFromList = selectExerciseFromList

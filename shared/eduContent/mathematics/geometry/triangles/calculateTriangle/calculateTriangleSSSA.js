@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { and } = require('../../../../../skillTracking')
 const { asEquation, equationComparisons, Integer, Variable, Arccos } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -17,20 +17,20 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine sides and check the triangle inequality.
-	const a = getRandomInteger(2, 12)
-	const b = getRandomInteger(2, 12)
-	const c = getRandomInteger(2, 12)
+	const a = randomInteger(2, 12)
+	const b = randomInteger(2, 12)
+	const c = randomInteger(2, 12)
 	if (a + b <= c || a + c <= b || b + c <= a)
 		return generateState()
 
 	// Assemble the state.
 	return {
-		α: new Variable(selectRandomly(variableSet)),
+		α: new Variable(sample(variableSet)),
 		a: new Integer(a),
 		b: new Integer(b),
 		c: new Integer(c),
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

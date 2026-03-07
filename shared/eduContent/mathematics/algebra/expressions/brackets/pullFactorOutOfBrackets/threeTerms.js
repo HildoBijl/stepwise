@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../util')
 const { asExpression, expressionComparisons, Product, Sum } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
@@ -22,14 +22,14 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const b = getRandomInteger(-8, 8, [-1, 0, 1])
+	const b = randomInteger(-8, 8, [-1, 0, 1])
 	return {
-		x: selectRandomly(variableSet),
-		a: getRandomInteger(b < 0 ? 2 : -8, 8, [-1, 0, 1]), // Don't allow a and b to both be negative.
+		x: sample(variableSet),
+		a: randomInteger(b < 0 ? 2 : -8, 8, [-1, 0, 1]), // Don't allow a and b to both be negative.
 		b,
-		c: getRandomInteger(-8, 8, [-1, 0, 1, -b, b]),
-		d: getRandomInteger(-8, 8, [-1, 0, 1, -b, b]),
-		descending: getRandomBoolean(), // Do we use bx+c or c+bx?
+		c: randomInteger(-8, 8, [-1, 0, 1, -b, b]),
+		d: randomInteger(-8, 8, [-1, 0, 1, -b, b]),
+		descending: randomBoolean(), // Do we use bx+c or c+bx?
 	}
 }
 

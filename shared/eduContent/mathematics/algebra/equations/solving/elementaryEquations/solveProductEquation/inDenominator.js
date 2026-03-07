@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean, gcd } = require('../../../../../../../util')
 const { asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -24,14 +24,14 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState(example) {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
-	const d = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b, c, -c])
+	const a = randomInteger(-8, 8, [-1, 0, 1])
+	const b = example ? 1 : randomInteger(-8, 8, [-1, 0, 1, a, -a])
+	const c = randomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
+	const d = example ? 1 : randomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b, c, -c])
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c, d,
-		switchSides: getRandomBoolean(), // Do we switch equation sides?
+		switchSides: randomBoolean(), // Do we switch equation sides?
 	}
 }
 

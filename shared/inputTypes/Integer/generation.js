@@ -1,3 +1,3 @@
-const { getRandomInteger } = require('../../util')
+const { randomInteger } = require('../../util')
 
-module.exports.getRandomInteger = getRandomInteger // Export this function here too, for uniformity's sake.
+module.exports.randomInteger = randomInteger // Export this function here too, for uniformity's sake.

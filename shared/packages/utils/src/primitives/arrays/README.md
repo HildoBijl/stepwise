@@ -22,4 +22,5 @@ All utility functions related to arrays are in this folder. These are grouped as
 ## Specialized array functions
 
 - [sorting](./sorting.ts) is about sorting arrays in certain ways or doing the opposite: applying a shuffling.
+- [random](./random.ts) is about the random generation/manipulation of sets. Think of shuffling or randomly generating.
 - [multidimensional](./multidimensional.ts) focus on higher-dimensional arrays, checking their dimensions and extracting terms based on indices.

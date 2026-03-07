@@ -1,4 +1,4 @@
-const { deg2rad, getRandomBoolean, getRandomInteger } = require('../../../../util')
+const { deg2rad, randomBoolean, randomInteger } = require('../../../../util')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
@@ -23,22 +23,22 @@ const metaData = {
 
 function generateState() {
 	// Generate state.
-	const getRandomPoint = () => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4))
+	const getRandomPoint = () => new Vector(randomInteger(0, 4), randomInteger(0, 4))
 	const intersection = getRandomPoint()
 	const lowerBound = Math.max(-intersection.x, -intersection.y)
 	const upperBound = Math.min(4 - intersection.x, 4 - intersection.y)
 	if (lowerBound === 0 && upperBound === 0)
 		return generateState()
-	const shift = getRandomInteger(lowerBound, upperBound, [0])
+	const shift = randomInteger(lowerBound, upperBound, [0])
 	const points = [
-		new Vector(getRandomInteger(0, 4, [intersection.x]), intersection.y),
-		new Vector(intersection.x, getRandomInteger(0, 4, [intersection.y])),
+		new Vector(randomInteger(0, 4, [intersection.x]), intersection.y),
+		new Vector(intersection.x, randomInteger(0, 4, [intersection.y])),
 		new Vector(intersection.x + shift, intersection.y + shift),
 		getRandomPoint(),
 	]
-	const angle = getRandomInteger(5, 13) * 5
-	const up = getRandomBoolean()
-	const right = getRandomBoolean()
+	const angle = randomInteger(5, 13) * 5
+	const up = randomBoolean()
+	const right = randomBoolean()
 	const MD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN*m' })
 
 	// Run checks.

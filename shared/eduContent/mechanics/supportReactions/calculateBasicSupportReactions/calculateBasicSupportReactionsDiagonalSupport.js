@@ -1,4 +1,4 @@
-const { deg2rad, fromEntries, getRandomInteger } = require('../../../../util')
+const { deg2rad, fromEntries, randomInteger } = require('../../../../util')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
@@ -26,7 +26,7 @@ function generateState() {
 		l1: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
-		angle: getRandomInteger(4, 14) * 5,
+		angle: randomInteger(4, 14) * 5,
 	}
 }
 

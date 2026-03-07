@@ -1,4 +1,4 @@
-const { getRandomInteger, selectRandomly, getRandomIndices } = require('../../../../util')
+const { randomInteger, sample, randomIndices } = require('../../../../util')
 const { asExpression, Integer, Fraction } = require('../../../../CAS')
 
 function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true) {
@@ -12,23 +12,23 @@ function getRandomElementaryFunctions(num = 1, includeConstant = false, includeD
 		weights[3] = 0
 		weights[4] = 0
 	}
-	const indices = getRandomIndices(weights.length, num, true, weights)
+	const indices = randomIndices(weights.length, num, true, weights)
 
 	// Set up the respective elementary functions.
 	return indices.map(index => {
 		switch (index) {
 			case 0: // c
-				return asExpression(getRandomInteger(-12, 12, [0]))
+				return asExpression(randomInteger(-12, 12, [0]))
 			case 1: // x^n
-				const powerAbove = selectRandomly(includeX ? [1, 2, 3, 4] : [2, 3, 4])
+				const powerAbove = sample(includeX ? [1, 2, 3, 4] : [2, 3, 4])
 				return asExpression(powerAbove === 1 ? 'x' : `x^${powerAbove}`)
 			case 2: // 1/x^n
-				const powerBelow = selectRandomly([1, 2, 3, 4])
+				const powerBelow = sample([1, 2, 3, 4])
 				return asExpression(powerBelow === 1 ? '1/x' : `1/x^${powerBelow}`)
 			case 3: // sqrt(x)
 				return asExpression(`sqrt(x)`)
 			case 4: // root[n](x)
-				return asExpression(`root[${selectRandomly([2, 3, 4])}](x)`)
+				return asExpression(`root[${sample([2, 3, 4])}](x)`)
 			case 5: // sin(x)
 				return asExpression(`sin(x)`)
 			case 6: // cos(x)
@@ -36,11 +36,11 @@ function getRandomElementaryFunctions(num = 1, includeConstant = false, includeD
 			case 7: // e^x
 				return asExpression(`e^x`)
 			case 8: // g^x
-				return asExpression(`${selectRandomly([2, 3, 5, 10])}^x`)
+				return asExpression(`${sample([2, 3, 5, 10])}^x`)
 			case 9: // ln(x)
 				return asExpression(`ln(x)`)
 			case 10: // log[g](x)
-				return asExpression(`log[${selectRandomly([2, 3, 5, 10])}](x)`)
+				return asExpression(`log[${sample([2, 3, 5, 10])}](x)`)
 			default:
 				throw new Error(`Invalid elementary function case: cannot get an elementary function for index/case ${index}.`)
 		}

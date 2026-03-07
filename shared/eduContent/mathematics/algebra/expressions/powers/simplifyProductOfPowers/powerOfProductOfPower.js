@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, count } = require('../../../../../../util')
+const { sample, randomInteger, count } = require('../../../../../../util')
 const { asExpression, expressionComparisons, expressionChecks, Product } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
@@ -22,12 +22,12 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState(example) {
-	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+	const a = randomInteger(example ? 2 : -8, 8, [-1, 0, 1])
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a,
-		b: getRandomInteger(2, 6),
-		c: getRandomInteger(2, Math.abs(a) >= 6 ? 3 : 4), // Don't make the power too large when the number is also large.
+		b: randomInteger(2, 6),
+		c: randomInteger(2, Math.abs(a) >= 6 ? 3 : 4), // Don't make the power too large when the number is also large.
 	}
 }
 

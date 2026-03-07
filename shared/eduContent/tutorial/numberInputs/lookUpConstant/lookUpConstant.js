@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../util')
+const { sample } = require('../../../../util')
 const constants = require('../../../../data/constants')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
@@ -8,7 +8,7 @@ const metaData = {
 }
 
 function generateState(example) {
-	return { constant: selectRandomly(example ? ['c', 'g', 'R'] : ['c', 'g', 'R', 'e', 'k', 'G']) }
+	return { constant: sample(example ? ['c', 'g', 'R'] : ['c', 'g', 'R', 'e', 'k', 'G']) }
 }
 
 function getSolution({ constant }) {

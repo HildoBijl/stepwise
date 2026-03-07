@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomNumber } = require('../../../../../util')
+const { sample, randomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -18,7 +18,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
+	const medium = sample(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const V1o = getRandomFloatUnit({
 		min: 20,
 		max: 80,
@@ -37,7 +37,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'bar',
 	})
-	const scale = getRandomNumber(2, 4) // Increase in volume, temperature and pressure.
+	const scale = randomNumber(2, 4) // Increase in volume, temperature and pressure.
 	const V3o = V1o.multiply(scale).roundToPrecision()
 
 	const { Rs } = gasProperties[medium]

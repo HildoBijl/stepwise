@@ -1,4 +1,4 @@
-const { mapValues, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { mapValues, sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -15,25 +15,25 @@ const metaData = {
 
 function generateState() {
 	// Determine the sides.
-	const notGiven = getRandomInteger(0, 2) // Is a, b or c not given?
+	const notGiven = randomInteger(0, 2) // Is a, b or c not given?
 	const sides = {}
 	if (notGiven === 0) {
-		sides.b = getRandomInteger(2, 10)
-		sides.c = getRandomInteger(sides.b + 1, 12)
+		sides.b = randomInteger(2, 10)
+		sides.c = randomInteger(sides.b + 1, 12)
 	} else if (notGiven === 1) {
-		sides.a = getRandomInteger(2, 10)
-		sides.c = getRandomInteger(sides.a + 1, 12)
+		sides.a = randomInteger(2, 10)
+		sides.c = randomInteger(sides.a + 1, 12)
 	} else {
-		sides.a = getRandomInteger(2, 10)
-		sides.b = getRandomInteger(2, 10)
+		sides.a = randomInteger(2, 10)
+		sides.b = randomInteger(2, 10)
 	}
 
 	// Gather all data into a state.
 	return {
 		...mapValues(sides, side => new Integer(side)),
-		beta: new Variable(selectRandomly(variableSet)),
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		beta: new Variable(sample(variableSet)),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

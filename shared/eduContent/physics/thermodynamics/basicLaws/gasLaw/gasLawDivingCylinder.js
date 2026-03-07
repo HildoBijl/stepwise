@@ -1,4 +1,4 @@
-const { getRandomInteger, Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
+const { randomInteger, Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { oxygen: { Rs } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -44,7 +44,7 @@ function generateState() {
 	const V = getRandomFloatUnit({
 		min: 3,
 		max: 18,
-		significantDigits: getRandomInteger(2, 3),
+		significantDigits: randomInteger(2, 3),
 		unit: 'l',
 	})
 

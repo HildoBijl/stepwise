@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomBoolean } = require('../../../../../../util')
+const { sample, randomBoolean } = require('../../../../../../util')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
@@ -15,7 +15,7 @@ const metaData = {
 
 function generateState() {
 	// Determine the refrigerant.
-	const refrigerant = selectRandomly(refrigerantProperties.types)
+	const refrigerant = sample(refrigerantProperties.types)
 	const refrigerantData = refrigerantProperties[refrigerant]
 
 	// Determine two points.
@@ -28,7 +28,7 @@ function generateState() {
 		getRandomFloatUnit({ min: 150, max: 300, unit: 'kJ/kg' }),
 		getRandomFloatUnit({ min: 350, max: 500, unit: 'kJ/kg' }),
 	]
-	const switchPoints = getRandomBoolean()
+	const switchPoints = randomBoolean()
 	if (switchPoints)
 		enthalpies = enthalpies.reverse()
 	const points = enthalpies.map(enthalpy => refrigerantProperties.getProperties(pressure, enthalpy, refrigerantData))

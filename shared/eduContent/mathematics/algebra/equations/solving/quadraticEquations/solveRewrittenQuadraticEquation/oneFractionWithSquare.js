@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean, gcd } = require('../../../../../../../util')
 const { asExpression, asEquation, Product, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
@@ -34,9 +34,9 @@ addSetupFromSteps(metaData)
 
 function generateState(example) {
 	// Set up general state parameters.
-	const x = selectRandomly(variableSet)
-	const zeroSolutions = selectRandomly([true, false, false, false, false]) // Only have zero solutions in a small part of the cases.
-	const flip = example ? false : getRandomBoolean()
+	const x = sample(variableSet)
+	const zeroSolutions = sample([true, false, false, false, false]) // Only have zero solutions in a small part of the cases.
+	const flip = example ? false : randomBoolean()
 
 	// Set up parameters for the equation. Ensure that the number of solutions (zero or non-zero) matches the desired setting.
 	let parameters = getParameters(example)
@@ -53,10 +53,10 @@ function generateState(example) {
 }
 
 function getParameters(example) {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1, a])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1])
-	const d = getRandomInteger(-8, 8, [-1, 0, 1, a * c, b * c])
+	const a = randomInteger(-8, 8, [-1, 0, 1])
+	const b = randomInteger(-8, 8, [-1, 0, 1, a])
+	const c = randomInteger(-8, 8, [-1, 0, 1])
+	const d = randomInteger(-8, 8, [-1, 0, 1, a * c, b * c])
 	return [a, b, c, d]
 }
 

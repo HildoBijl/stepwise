@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../../util')
+const { sample } = require('../../../../../util')
 const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -29,7 +29,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
+	const gas = sample(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const m = getRandomFloatUnit({
 		min: 20,
 		max: 200,

@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asExpression, Fraction, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -23,17 +23,17 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const a = getRandomInteger(-8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [0])
-	const c = getRandomInteger(-3, 3, [0])
-	const d = getRandomInteger(-8, 8, [0])
-	const e = getRandomInteger(-8, 8, [-1, 0, 1])
-	const f = getRandomInteger(-8, 8, [-1, 0, 1])
+	const a = randomInteger(-8, 8, [-1, 0, 1])
+	const b = randomInteger(-8, 8, [0])
+	const c = randomInteger(-3, 3, [0])
+	const d = randomInteger(-8, 8, [0])
+	const e = randomInteger(-8, 8, [-1, 0, 1])
+	const f = randomInteger(-8, 8, [-1, 0, 1])
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c, d, e, f,
-		switch: getRandomBoolean(), // Switch the two numerators?
-		plus: getRandomBoolean(), // Flip the numerator and the denominator?
+		switch: randomBoolean(), // Switch the two numerators?
+		plus: randomBoolean(), // Flip the numerator and the denominator?
 	}
 }
 

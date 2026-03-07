@@ -1,4 +1,4 @@
-const { getRandomInteger, tableInterpolate } = require('../../../../../../util')
+const { randomInteger, tableInterpolate } = require('../../../../../../util')
 const { withTemperature } = require('../../../../../../data/steamProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 
@@ -13,8 +13,8 @@ const metaData = {
 
 function generateState() {
 	const temperatureRange = withTemperature.boilingPressure.headers[0]
-	const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
-	const type = getRandomInteger(1, 2) // Type 1: liquid line. Type 2: vapor line.
+	const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
+	const type = randomInteger(1, 2) // Type 1: liquid line. Type 2: vapor line.
 	return { T, type }
 }
 

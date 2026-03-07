@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean, gcd } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean, gcd } = require('../../../../../../../util')
 const { asEquation, Power, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
 const { and } = require('../../../../../../../skillTracking')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -26,9 +26,9 @@ addSetupFromSteps(metaData)
 
 function generateState(example) {
 	// Set up general state parameters.
-	const x = selectRandomly(variableSet)
-	const normalize = example ? false : getRandomBoolean()
-	const flip = example ? false : getRandomBoolean()
+	const x = sample(variableSet)
+	const normalize = example ? false : randomBoolean()
+	const flip = example ? false : randomBoolean()
 
 	// Set up parameters for the equation. Ensure that (on a non-normalize exercise) there is a factor to divide by.
 	let parameters = getParameters(example)
@@ -41,11 +41,11 @@ function generateState(example) {
 }
 
 function getParameters(example) {
-	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1])
-	const d = getRandomInteger(-8, 8, [-1, 0, 1])
-	const e = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
+	const a = randomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+	const b = randomInteger(-8, 8, [-1, 0, 1])
+	const c = randomInteger(-8, 8, [-1, 0, 1])
+	const d = randomInteger(-8, 8, [-1, 0, 1])
+	const e = randomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
 	return [a, b, c, d, e]
 }
 

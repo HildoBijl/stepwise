@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomBoolean } = require('../../../../../../util')
+const { sample, randomBoolean } = require('../../../../../../util')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
@@ -15,7 +15,7 @@ const metaData = {
 
 function generateState() {
 	// Determine the refrigerant.
-	const refrigerant = selectRandomly(refrigerantProperties.types)
+	const refrigerant = sample(refrigerantProperties.types)
 	const refrigerantData = refrigerantProperties[refrigerant]
 
 	// Determine two points.
@@ -31,7 +31,7 @@ function generateState() {
 	points[0] = refrigerantProperties.getProperties(pressures[0], points[1].entropy, refrigerantData)
 
 	// Possibly switch points.
-	const switchPoints = getRandomBoolean()
+	const switchPoints = randomBoolean()
 	if (switchPoints)
 		points = points.reverse()
 

@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asExpression, Fraction, expressionChecks, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -21,19 +21,19 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const factor = getRandomInteger(2, 6)
-	const a = factor * getRandomInteger(2, 6)
-	const b = factor * getRandomInteger(2, 6, [a / factor])
-	const c = getRandomInteger(-4, 4)
-	const d = getRandomInteger(-4, 4, [c])
-	const p = getRandomInteger(2, 4)
-	const q = p + getRandomInteger(1, 3)
-	const r = getRandomInteger(2, 4)
+	const factor = randomInteger(2, 6)
+	const a = factor * randomInteger(2, 6)
+	const b = factor * randomInteger(2, 6, [a / factor])
+	const c = randomInteger(-4, 4)
+	const d = randomInteger(-4, 4, [c])
+	const p = randomInteger(2, 4)
+	const q = p + randomInteger(1, 3)
+	const r = randomInteger(2, 4)
 
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c, d, p, q, r,
-		flip: getRandomBoolean(), // Flip the numerator and the denominator?
+		flip: randomBoolean(), // Flip the numerator and the denominator?
 	}
 }
 

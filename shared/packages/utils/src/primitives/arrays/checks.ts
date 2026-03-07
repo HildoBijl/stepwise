@@ -1,4 +1,5 @@
 import { isNumber, ensureNumber } from '../numbers'
+import { isPlainObject } from '../objects'
 
 // Check if the given variable is an array.
 export function isArray(x: unknown): x is unknown[] {
@@ -33,4 +34,9 @@ export function ensureNumberArray(x: unknown,	...flags: Parameters<typeof ensure
 // Check if an array has duplicates. Optionally, an equals function can be defined.
 export function hasDuplicates<T>(array: readonly T[], equals: (a: T, b: T) => boolean = (a, b) => a === b): boolean {
 	return array.some((x, index) => array.some((y, index2) => index < index2 && equals(x, y)))
+}
+
+// True when the value is an array or a plain object (i.e., it has iterable parameters we can enumerate).
+export function hasIterableParameters(x: unknown): x is Array<unknown> | Record<string, unknown> {
+	return isArray(x) || isPlainObject(x)
 }

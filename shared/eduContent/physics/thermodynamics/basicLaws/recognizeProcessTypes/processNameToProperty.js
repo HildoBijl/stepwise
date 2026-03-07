@@ -1,4 +1,4 @@
-const { getRandomInteger } = require('../../../../../inputTypes')
+const { randomInteger } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, getMultipleChoiceMapping, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -7,7 +7,7 @@ const metaData = {
 
 function generateState() {
 	const numChoices = 6
-	const type = getRandomInteger(0, numChoices - 1)
+	const type = randomInteger(0, numChoices - 1)
 	return {
 		type,
 		mapping: getMultipleChoiceMapping({ numChoices, pick: 4, include: type, randomOrder: true }),

@@ -1,4 +1,4 @@
-const { epsilon, deg2rad, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { epsilon, deg2rad, sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asExpression, asEquation, equationComparisons, Integer, Variable } = require('../../../../../CAS')
 const { getStepExerciseProcessor, performComparison, performListComparison } = require('../../../../../eduTools')
 
@@ -16,9 +16,9 @@ const metaData = {
 
 function generateState() {
 	// Generate numbers and ensure that there are two solutions.
-	const α = getRandomInteger(5, 17) * 5
-	const c = getRandomInteger(6, 12)
-	const a = getRandomInteger(2, c - 1)
+	const α = randomInteger(5, 17) * 5
+	const c = randomInteger(6, 12)
+	const a = randomInteger(2, c - 1)
 	if (a <= c * Math.sin(deg2rad(α)) + epsilon)
 		return generateState()
 
@@ -26,10 +26,10 @@ function generateState() {
 	return {
 		α: new Integer(α),
 		a: new Integer(a),
-		b: new Variable(selectRandomly(variableSet)),
+		b: new Variable(sample(variableSet)),
 		c: new Integer(c),
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

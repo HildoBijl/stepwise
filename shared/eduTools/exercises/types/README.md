@@ -29,7 +29,7 @@ Tip: see an existing exercise to see how this is set up.
 
 The functions to be provided are as follows.
 
-- `generateState` gives a plain object with parameters -- a `state` -- that defines the exercises. For instance it can be `generateState = () => ({ a: getRandomInteger(1, 10), b: getRandomInteger(1, 10) })`.
+- `generateState` gives a plain object with parameters -- a `state` -- that defines the exercises. For instance it can be `generateState = () => ({ a: randomInteger(1, 10), b: randomInteger(1, 10) })`.
 - `getSolution` is in theory optional, but it is used pretty much always. It takes the exercise state and comes up with a plain object with a lot of useful calculated parameters, including the final solution. It could for instance be `getSolution = ({ a, b }) => ({ sum: a + b, product: a*b })`.
 - `checkInput` is the grading function. It receives all exerciseData (like `{ state, input, solution, metaData }`) in one object, and then returns either `true` or `false`: is the input correct? So it could be
 

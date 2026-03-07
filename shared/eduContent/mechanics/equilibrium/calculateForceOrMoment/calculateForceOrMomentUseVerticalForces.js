@@ -1,4 +1,4 @@
-const { deg2rad, integerRange, getRandomBoolean, getRandomInteger } = require('../../../../util')
+const { deg2rad, integerRange, randomBoolean, randomInteger } = require('../../../../util')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
@@ -23,9 +23,9 @@ const metaData = {
 
 function generateState() {
 	// Generate state.
-	const points = integerRange(0, 3).map(() => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4)))
-	const angle = getRandomInteger(5, 13) * 5
-	const up = getRandomBoolean()
+	const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
+	const angle = randomInteger(5, 13) * 5
+	const up = randomBoolean()
 	const FD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
 
 	// Run checks.

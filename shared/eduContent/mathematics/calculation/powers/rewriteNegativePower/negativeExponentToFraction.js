@@ -1,4 +1,4 @@
-const { getRandomInteger } = require('../../../../../util')
+const { randomInteger } = require('../../../../../util')
 const { asExpression, expressionChecks, expressionComparisons } = require('../../../../../CAS')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -10,8 +10,8 @@ const metaData = {
 
 function generateState(example) {
 	return {
-		a: getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
-		b: getRandomInteger(2, example ? 5 : 8),
+		a: randomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
+		b: randomInteger(2, example ? 5 : 8),
 	}
 }
 

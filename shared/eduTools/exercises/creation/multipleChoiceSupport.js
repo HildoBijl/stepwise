@@ -1,4 +1,4 @@
-const { mergeDefaults, ensureInt, integerRange, getRandomSubset, shuffle } = require('../../../util')
+const { mergeDefaults, ensureInt, integerRange, randomSubset, shuffle } = require('../../../util')
 
 // getMultipleChoiceMapping takes options for a multiple choice mapping that is then passed on to the multiple choice component.
 const defaultMultipleChoiceMappingOptions = {
@@ -20,7 +20,7 @@ function getMultipleChoiceMapping(options) {
 		const includeArray = (include === undefined ? [] : (Array.isArray(include) ? include : [include])) // Use [] as a default value and ensure it's an array.
 		const nonIncluded = integerRange(0, numChoices - 1).filter(index => !includeArray.includes(index)) // List all elements we may still select (those that are not automatically included).
 		const numExtra = Math.max(pick - includeArray.length, 0) // How many should we still pick?
-		newMapping = [...includeArray, ...getRandomSubset(nonIncluded, numExtra)]
+		newMapping = [...includeArray, ...randomSubset(nonIncluded, numExtra)]
 	}
 
 	// Optionally shuffle the final order, or sort them.

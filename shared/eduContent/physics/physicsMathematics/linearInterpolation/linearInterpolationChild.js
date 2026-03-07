@@ -1,4 +1,4 @@
-const { getRandomInteger, getRandomFloat, getRandomFloatUnit } = require('../../../../inputTypes')
+const { randomInteger, getRandomFloat, getRandomFloatUnit } = require('../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const metaData = {
@@ -19,7 +19,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
+	const type = randomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
 	const h1 = getRandomFloatUnit({
 		min: 80,
 		max: 110,

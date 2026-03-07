@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger } = require('../../../../../../../util')
+const { sample, randomInteger } = require('../../../../../../../util')
 const { asExpression, asEquation, expressionComparisons, Integer, Sqrt } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -29,13 +29,13 @@ addSetupFromSteps(metaData)
 function generateState(example) {
 	let a, b, c
 	while (a === undefined || b ** 2 - 4 * a * c >= 0) {
-		a = getRandomInteger(-6, 6, [0])
-		b = getRandomInteger(-12, 12)
-		c = getRandomInteger(-40, 40)
+		a = randomInteger(-6, 6, [0])
+		b = randomInteger(-12, 12)
+		c = randomInteger(-40, 40)
 	}
 
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a: new Integer(a),
 		b: new Integer(b),
 		c: new Integer(c),

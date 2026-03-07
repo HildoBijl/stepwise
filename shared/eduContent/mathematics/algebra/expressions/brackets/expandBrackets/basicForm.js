@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean, count } = require('../../../../../../util')
+const { sample, randomInteger, randomBoolean, count } = require('../../../../../../util')
 const { asExpression, expressionComparisons, expressionChecks, Product } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
@@ -23,11 +23,11 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	return {
-		x: selectRandomly(variableSet),
-		a: getRandomInteger(2, 6),
-		b: getRandomInteger(2, 6),
-		c: getRandomInteger(2, 6),
-		xFirst: getRandomBoolean(), // Do we use bx+c or c+bx?
+		x: sample(variableSet),
+		a: randomInteger(2, 6),
+		b: randomInteger(2, 6),
+		c: randomInteger(2, 6),
+		xFirst: randomBoolean(), // Do we use bx+c or c+bx?
 	}
 }
 

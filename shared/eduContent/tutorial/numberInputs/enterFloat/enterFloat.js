@@ -1,4 +1,4 @@
-const { getRandomInteger, getRandomExponentialFloat } = require('../../../../inputTypes')
+const { randomInteger, getRandomExponentialFloat } = require('../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const metaData = {
@@ -11,7 +11,7 @@ function generateState(example) {
 		min: example ? 1e-4 : 1e-8,
 		max: example ? 1e5 : 1e9,
 		randomSign: true,
-		significantDigits: getRandomInteger(2, example ? 2 : 4),
+		significantDigits: randomInteger(2, example ? 2 : 4),
 	})
 	if (x.getDisplayPower() === 0)
 		return generateState(example)

@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../../util')
+const { sample } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -15,7 +15,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const x = selectRandomly(variableSet)
+	const x = sample(variableSet)
 	const [f1, f2, g] = getRandomElementaryFunctions(3, false, false, false).map(func => func.substitute('x', x))
 	return { f1, f2, g }
 }

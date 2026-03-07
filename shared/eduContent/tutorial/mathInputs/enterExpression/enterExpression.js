@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger } = require('../../../../util')
+const { sample, randomInteger } = require('../../../../util')
 const { asExpression, expressionComparisons } = require('../../../../CAS')
 const { getSimpleExerciseProcessor, selectRandomVariables, performComparison } = require('../../../../eduTools')
 
@@ -11,17 +11,17 @@ const metaData = {
 }
 
 function generateState() {
-	const variableSet = selectRandomly(availableVariableSets)
+	const variableSet = sample(availableVariableSets)
 	const variables = selectRandomVariables(variableSet, usedVariables)
 	return {
-		expression: selectRandomly([
-			asExpression(`(${getRandomInteger(-12, 12, [0])}-x)/(y+${getRandomInteger(-12, 12, [0])})`), // Fractions.
-			asExpression(`${getRandomInteger(-12, 12, [0])}${variables.x}_${getRandomInteger(1, 3)}^${getRandomInteger(2, 4)} + ${getRandomInteger(-12, 12, [0])}${variables.y}_${getRandomInteger(2, 4)}^${getRandomInteger(1, 3)}`), // Powers/subscripts.
-			asExpression(`${getRandomInteger(-12, 12, [0])}*hat(${variables.x})_${getRandomInteger(1, 3)} + ${getRandomInteger(-12, 12, [0])}*dot(${variables.y})^${getRandomInteger(2, 4)}`), // Accents with powers.
-			asExpression(`(${getRandomInteger(-12, 12, [0])}-x)^(y/${getRandomInteger(2, 6)})`), // Brackets and powers with fractions.
-			asExpression(`${selectRandomly(['sin', 'cos', 'tan'])}(${getRandomInteger(-4, 4, [0, 1])}*${selectRandomly(['asin', 'acos', 'atan'])}(x/y))`), // Trigonometric functions.
-			asExpression(`root[x](${getRandomInteger(-12, 12, [0])}+y)`), // Roots.
-			asExpression(`log[x](${getRandomInteger(-12, 12, [0])}y)`), // Logarithms.
+		expression: sample([
+			asExpression(`(${randomInteger(-12, 12, [0])}-x)/(y+${randomInteger(-12, 12, [0])})`), // Fractions.
+			asExpression(`${randomInteger(-12, 12, [0])}${variables.x}_${randomInteger(1, 3)}^${randomInteger(2, 4)} + ${randomInteger(-12, 12, [0])}${variables.y}_${randomInteger(2, 4)}^${randomInteger(1, 3)}`), // Powers/subscripts.
+			asExpression(`${randomInteger(-12, 12, [0])}*hat(${variables.x})_${randomInteger(1, 3)} + ${randomInteger(-12, 12, [0])}*dot(${variables.y})^${randomInteger(2, 4)}`), // Accents with powers.
+			asExpression(`(${randomInteger(-12, 12, [0])}-x)^(y/${randomInteger(2, 6)})`), // Brackets and powers with fractions.
+			asExpression(`${sample(['sin', 'cos', 'tan'])}(${randomInteger(-4, 4, [0, 1])}*${sample(['asin', 'acos', 'atan'])}(x/y))`), // Trigonometric functions.
+			asExpression(`root[x](${randomInteger(-12, 12, [0])}+y)`), // Roots.
+			asExpression(`log[x](${randomInteger(-12, 12, [0])}y)`), // Logarithms.
 		]).regularClean().substituteVariables(variables)
 	}
 }

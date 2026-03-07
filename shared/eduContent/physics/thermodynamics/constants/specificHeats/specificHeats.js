@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../../util')
+const { sample } = require('../../../../../util')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -12,7 +12,7 @@ const metaData = {
 }
 
 function generateState() {
-	return { medium: selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen']) }
+	return { medium: sample(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen']) }
 }
 
 function getSolution({ medium }) {

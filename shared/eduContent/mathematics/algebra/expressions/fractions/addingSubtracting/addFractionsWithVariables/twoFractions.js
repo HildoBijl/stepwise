@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean, repeat, getRandomIndices } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean, repeat, randomIndices } = require('../../../../../../../util')
 const { asExpression, Sum, Fraction, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -28,23 +28,23 @@ addSetupFromSteps(metaData)
 function generateState(example) {
 	example = false
 	// Define parameters for the exercise.
-	const parameters = repeat(8, index => getRandomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1])) // Ensure even-indexed numbers are positive.
+	const parameters = repeat(8, index => randomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1])) // Ensure even-indexed numbers are positive.
 	if (example) {
 		parameters[0] = 1
 		parameters[6] = 1
 	}
 
 	// Randomly set two of the parameters to 0. These are not the third parameter (c or g) and not the same one in both fractions.
-	const deactivate = example ? [3, 0] : getRandomIndices(3, 2).map(index => [0, 1, 3][index])
+	const deactivate = example ? [3, 0] : randomIndices(3, 2).map(index => [0, 1, 3][index])
 	parameters[deactivate[0]] = 0
 	parameters[deactivate[1] + 4] = 0
 
 	// Set up the state.
 	const [a, b, c, d, e, f, g, h] = parameters
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c, d, e, f, g, h,
-		plus: getRandomBoolean(),
+		plus: randomBoolean(),
 	}
 }
 

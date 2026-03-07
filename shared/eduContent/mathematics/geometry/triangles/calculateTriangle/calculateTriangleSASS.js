@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asEquation, equationComparisons, Integer, Variable, Sqrt } = require('../../../../../CAS')
 const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -16,12 +16,12 @@ const metaData = {
 
 function generateState() {
 	return {
-		α: new Integer(getRandomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
-		a: new Variable(selectRandomly(variableSet)),
-		b: new Integer(getRandomInteger(2, 12)),
-		c: new Integer(getRandomInteger(2, 12)),
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		α: new Integer(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+		a: new Variable(sample(variableSet)),
+		b: new Integer(randomInteger(2, 12)),
+		c: new Integer(randomInteger(2, 12)),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

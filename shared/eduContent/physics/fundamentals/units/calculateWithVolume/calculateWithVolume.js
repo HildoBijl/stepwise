@@ -1,5 +1,5 @@
-const { selectRandomly } = require('../../../../../util')
-const { getRandomInteger, Unit, getRandomExponentialFloatUnit } = require('../../../../../inputTypes')
+const { sample } = require('../../../../../util')
+const { randomInteger, Unit, getRandomExponentialFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // Type 0: from (c/d/.)m^3 to liter.
@@ -22,13 +22,13 @@ function generateState() {
 	let V = getRandomExponentialFloatUnit({
 		min: 1e-5,
 		max: 1e2,
-		significantDigits: getRandomInteger(2, 3),
+		significantDigits: randomInteger(2, 3),
 		unit: 'm^3',
 	})
 
-	const type = getRandomInteger(0, 3)
+	const type = randomInteger(0, 3)
 	if (type < 2) {
-		const prefix = selectRandomly(['', 'd', 'c'])
+		const prefix = sample(['', 'd', 'c'])
 		V = V.setUnit(`${prefix}m^3`)
 	} else {
 		V = V.setUnit('l')

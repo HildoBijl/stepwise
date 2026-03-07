@@ -1,4 +1,4 @@
-const { getRandomInteger, getRandomFloatUnit, Unit } = require('../../../../../inputTypes')
+const { randomInteger, getRandomFloatUnit, Unit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // Type 0: from K to °C.
@@ -18,11 +18,11 @@ const metaData = {
 }
 
 function generateState() {
-	const type = getRandomInteger(0, 3)
+	const type = randomInteger(0, 3)
 	let T = getRandomFloatUnit({
 		min: 0,
 		max: 1000,
-		decimals: getRandomInteger(0, 1),
+		decimals: randomInteger(0, 1),
 		unit: 'K',
 	})
 	if (type >= 2)

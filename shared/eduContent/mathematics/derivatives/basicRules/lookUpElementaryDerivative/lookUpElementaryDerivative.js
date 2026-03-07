@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../../util')
+const { sample } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -14,10 +14,10 @@ const metaData = {
 
 function generateState() {
 	const func = getRandomElementaryFunction(true)
-	const x = selectRandomly(variableSet)
+	const x = sample(variableSet)
 	return {
 		x,
-		f: selectRandomly(functionSet),
+		f: sample(functionSet),
 		func: func.substitute('x', x),
 	}
 }

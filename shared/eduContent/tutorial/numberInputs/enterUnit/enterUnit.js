@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../../util')
+const { sample } = require('../../../../util')
 const { Unit } = require('../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
@@ -9,7 +9,7 @@ const metaData = {
 
 function generateState() {
 	return {
-		unit: selectRandomly([
+		unit: sample([
 			new Unit('dC'),
 			new Unit('mum'),
 			new Unit('Ohm'),

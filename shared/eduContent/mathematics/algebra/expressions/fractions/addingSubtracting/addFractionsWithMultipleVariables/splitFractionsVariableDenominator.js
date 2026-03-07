@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asExpression, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -17,12 +17,12 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const variableSet = selectRandomly(availableVariableSets)
+	const variableSet = sample(availableVariableSets)
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
-		plus: getRandomBoolean(), // Is there a plus or a minus sign?
-		a: getRandomInteger(2, 12),
-		b: getRandomInteger(2, 12),
+		plus: randomBoolean(), // Is there a plus or a minus sign?
+		a: randomInteger(2, 12),
+		b: randomInteger(2, 12),
 	}
 }
 

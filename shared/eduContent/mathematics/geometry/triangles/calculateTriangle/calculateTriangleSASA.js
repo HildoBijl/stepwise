@@ -1,4 +1,4 @@
-const { compareNumbers, selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { compareNumbers, sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asExpression, asEquation, Integer, Variable, Sqrt, Arccos } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -15,15 +15,15 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const b = getRandomInteger(3, 12)
+	const b = randomInteger(3, 12)
 	return {
-		α: new Integer(getRandomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
-		β: new Variable(selectRandomly(angleVariableSet)),
-		a: new Variable(selectRandomly(sideVariableSet)),
+		α: new Integer(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+		β: new Variable(sample(angleVariableSet)),
+		a: new Variable(sample(sideVariableSet)),
 		b: new Integer(b),
-		c: new Integer(getRandomInteger(3, 12, [b])), // Don't have a triangle with two equal sides; that's too easy.
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		c: new Integer(randomInteger(3, 12, [b])), // Don't have a triangle with two equal sides; that's too easy.
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -15,18 +15,18 @@ const metaData = {
 
 function generateState() {
 	// Determine what is known and what is requested.
-	const known = getRandomInteger(0, 2) // Is a, b or c known?
-	const requested = getRandomInteger(0, 2, [known]) // Is a, b or c requested?
+	const known = randomInteger(0, 2) // Is a, b or c known?
+	const requested = randomInteger(0, 2, [known]) // Is a, b or c requested?
 
 	// Gather all data into a state.
 	return {
 		known,
-		x: new Integer(getRandomInteger(2, known === 2 ? 12 : 10)),
-		beta: new Integer(getRandomInteger(5, 13) * 5),
+		x: new Integer(randomInteger(2, known === 2 ? 12 : 10)),
+		beta: new Integer(randomInteger(5, 13) * 5),
 		requested,
-		y: new Variable(selectRandomly(variableSet)),
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		y: new Variable(sample(variableSet)),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

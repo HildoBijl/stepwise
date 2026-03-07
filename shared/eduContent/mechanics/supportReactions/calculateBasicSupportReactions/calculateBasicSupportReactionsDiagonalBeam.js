@@ -1,4 +1,4 @@
-const { fromEntries, getRandomBoolean } = require('../../../../util')
+const { fromEntries, randomBoolean } = require('../../../../util')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
@@ -28,7 +28,7 @@ function generateState() {
 		l2: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l3: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		M: getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'kN*m' }).setSignificantDigits(2),
-		clockwise: getRandomBoolean(),
+		clockwise: randomBoolean(),
 	}
 }
 

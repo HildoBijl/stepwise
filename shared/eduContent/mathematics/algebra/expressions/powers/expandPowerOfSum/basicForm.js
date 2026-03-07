@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, count, repeat, binomial, fromEntries } = require('../../../../../../util')
+const { sample, randomInteger, count, repeat, binomial, fromEntries } = require('../../../../../../util')
 const { repeat: skillRepeat } = require('../../../../../../skillTracking')
 const { asExpression, expressionComparisons, expressionChecks, Sum, Product } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
@@ -21,13 +21,13 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState(example) {
-	const a = getRandomInteger(example ? 2 : -4, 4, [-1, 0, 1])
-	const b = getRandomInteger(1, example ? 1 : 2)
-	const c = getRandomInteger(example ? 2 : -6, 6, [-1, 0, 1, -a, a])
-	const d = getRandomInteger(0, example ? 0 : 1, [b])
-	const e = getRandomInteger(example ? 2 : 3, example || Math.max(Math.abs(a), Math.abs(c)) >= 5 ? 4 : 5) // On examples, use powers 2-4. On real exercises, use powers 3-5, but only use 5 on small coefficients.
+	const a = randomInteger(example ? 2 : -4, 4, [-1, 0, 1])
+	const b = randomInteger(1, example ? 1 : 2)
+	const c = randomInteger(example ? 2 : -6, 6, [-1, 0, 1, -a, a])
+	const d = randomInteger(0, example ? 0 : 1, [b])
+	const e = randomInteger(example ? 2 : 3, example || Math.max(Math.abs(a), Math.abs(c)) >= 5 ? 4 : 5) // On examples, use powers 2-4. On real exercises, use powers 3-5, but only use 5 on small coefficients.
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c, d, e,
 	}
 }

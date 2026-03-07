@@ -48,11 +48,6 @@ export function ensureBoolean(x: unknown): boolean {
 	return x
 }
 
-// True when the value is an array or a plain object (i.e., it has iterable parameters we can enumerate).
-export function hasIterableParameters(x: unknown): x is Array<unknown> | Record<string, unknown> {
-	return Array.isArray(x) || isPlainObject(x)
-}
-
 // Get the parent (prototype) of a class or object. For classes, pass the class itself (constructor function). For objects, pass the object Returns the prototype (or parent constructor) or null if none.
 export function getParentClass(subject: Function | object): any {
 	return Object.getPrototypeOf(subject)

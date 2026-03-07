@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
-import { selectRandomly } from 'step-wise/util'
+import { sample } from 'step-wise/util'
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, Translation } from 'i18n'
@@ -39,9 +39,9 @@ export function FreePracticePage() {
 
 		// Is there a skill with non-zero weight that's unequal to the previous skill?
 		if (weightsClone.find(weight => weight !== 0))
-			setSkillId(selectRandomly(skillIds, weightsClone))
+			setSkillId(sample(skillIds, weightsClone))
 		else if (weights.find(weight => weight !== 0)) // Is there a skill with non-zero weight?
-			setSkillId(selectRandomly(skillIds, weights))
+			setSkillId(sample(skillIds, weights))
 		else
 			setSkillId(null) // Null means there's an error.
 	}, [overview, setSkillId])

@@ -1,4 +1,4 @@
-const { getRandomInteger } = require('../../../inputTypes')
+const { randomInteger } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const metaData = {
@@ -6,7 +6,7 @@ const metaData = {
 }
 
 function generateState() {
-	return { x: getRandomInteger(-100, 100) }
+	return { x: randomInteger(-100, 100) }
 }
 
 function getSolution({ x }) {

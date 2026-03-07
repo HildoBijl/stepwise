@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asExpression, Fraction, expressionChecks, expressionComparisons } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -23,24 +23,24 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate multiplication coefficients.
-	const a = getRandomInteger(-12, 12, [-1, 0, 1])
-	const b = getRandomInteger(-12, 12, [-1, 0, 1, a])
+	const a = randomInteger(-12, 12, [-1, 0, 1])
+	const b = randomInteger(-12, 12, [-1, 0, 1, a])
 
 	// Generate factor constants.
-	const c = getRandomInteger(-4, 4)
-	const d = getRandomInteger(-4, 4, [c])
-	const e = getRandomInteger(-4, 4, [c, d])
+	const c = randomInteger(-4, 4)
+	const d = randomInteger(-4, 4, [c])
+	const e = randomInteger(-4, 4, [c, d])
 	
 	// If there is no zero addition (no pure x term) then restart generation.
 	if (c !== 0 && d !== 0 && e !== 0)
 		return generateState()
 
 	// Generate exponents.
-	const p = getRandomInteger(-4, 4, [0])
-	const q = getRandomInteger(-4, 4, [0])
-	const r = getRandomInteger(-4, 4, [0, q])
-	const s = getRandomInteger(-4, 4, [0])
-	const t = getRandomInteger(-4, 4, [0, p])
+	const p = randomInteger(-4, 4, [0])
+	const q = randomInteger(-4, 4, [0])
+	const r = randomInteger(-4, 4, [0, q])
+	const s = randomInteger(-4, 4, [0])
+	const t = randomInteger(-4, 4, [0, p])
 
 	// On equal signs for all exponents, restart generation.
 	if (Math.sign(p) === Math.sign(q) && Math.sign(p) === Math.sign(r) && Math.sign(p) === Math.sign(s) && Math.sign(t))
@@ -51,11 +51,11 @@ function generateState() {
 
 	// Assemble the state.
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b,
 		c, d, e,
 		p, q, r, s, t,
-		flip: getRandomBoolean(), // Flip the numerator and the denominator?
+		flip: randomBoolean(), // Flip the numerator and the denominator?
 	}
 }
 

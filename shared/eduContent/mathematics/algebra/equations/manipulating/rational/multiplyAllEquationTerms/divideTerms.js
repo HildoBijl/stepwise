@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asExpression, Equation, Integer, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -24,17 +24,17 @@ addSetupFromSteps(metaData)
 
 function generateState(example) {
 	return {
-		x: selectRandomly(variableSet),
-		a: getRandomInteger(-8, 8, [0]),
-		b: getRandomInteger(-8, 8, [0]),
-		c: getRandomInteger(-8, 8, [0]),
-		d: example ? 0 : getRandomInteger(-8, 8, [0]),
-		e: getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
-		n: example ? 1 : getRandomInteger(1, 3),
-		aLeft: example ? true : getRandomBoolean(),
-		bLeft: getRandomBoolean(),
-		cLeft: getRandomBoolean(),
-		dLeft: getRandomBoolean(),
+		x: sample(variableSet),
+		a: randomInteger(-8, 8, [0]),
+		b: randomInteger(-8, 8, [0]),
+		c: randomInteger(-8, 8, [0]),
+		d: example ? 0 : randomInteger(-8, 8, [0]),
+		e: randomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
+		n: example ? 1 : randomInteger(1, 3),
+		aLeft: example ? true : randomBoolean(),
+		bLeft: randomBoolean(),
+		cLeft: randomBoolean(),
+		dLeft: randomBoolean(),
 	}
 }
 

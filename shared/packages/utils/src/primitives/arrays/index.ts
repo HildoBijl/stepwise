@@ -10,4 +10,5 @@ export * from './manipulation'
 export * from './shaping'
 
 export * from './sorting'
+export * from './random'
 export * from './multidimensional'

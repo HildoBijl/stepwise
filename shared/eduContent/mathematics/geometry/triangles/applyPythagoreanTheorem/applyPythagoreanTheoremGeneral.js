@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Variable, Integer, Sqrt } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -16,14 +16,14 @@ const metaData = {
 
 function generateState() {
 	// Generate random data.
-	const toFind = getRandomInteger(0, 2) // Find a, b or c?
-	const usePythagoreanTriplet = getRandomBoolean() // Use a predefined triplet?
-	const triplet = usePythagoreanTriplet ? selectRandomly(pythagoreanTriplets) : [
-		getRandomInteger(1, 10), // a
-		getRandomInteger(1, 10), // b
-		getRandomInteger(1, 12), // c
+	const toFind = randomInteger(0, 2) // Find a, b or c?
+	const usePythagoreanTriplet = randomBoolean() // Use a predefined triplet?
+	const triplet = usePythagoreanTriplet ? sample(pythagoreanTriplets) : [
+		randomInteger(1, 10), // a
+		randomInteger(1, 10), // b
+		randomInteger(1, 12), // c
 	]
-	const x = new Variable(selectRandomly(variableSet))
+	const x = new Variable(sample(variableSet))
 
 	// Check if it is valid.
 	if ((toFind === 0 && triplet[1] >= triplet[2]) || (toFind === 1 && triplet[0] >= triplet[2]))
@@ -33,8 +33,8 @@ function generateState() {
 		a: toFind === 0 ? x : new Integer(triplet[0]),
 		b: toFind === 1 ? x : new Integer(triplet[1]),
 		c: toFind === 2 ? x : new Integer(triplet[2]),
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

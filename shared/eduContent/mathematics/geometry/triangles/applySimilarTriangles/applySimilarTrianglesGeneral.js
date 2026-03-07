@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomNumber, getRandomBoolean, getRandomInteger } = require('../../../../../util')
+const { sample, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
 const { asExpression, asEquation, equationComparisons, Variable, Integer } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison } = require('../../../../../eduTools')
 
@@ -18,20 +18,20 @@ const metaData = {
 
 function generateState() {
 	// Generate random data.
-	const given = getRandomInteger(0, 2) // Is a, b or c already given?
-	const triangle = selectRandomly(sampleTriangles).map(exp => asExpression(exp))
-	const variableSet = selectRandomly(availableVariableSets)
+	const given = randomInteger(0, 2) // Is a, b or c already given?
+	const triangle = sample(sampleTriangles).map(exp => asExpression(exp))
+	const variableSet = sample(availableVariableSets)
 	const variables = selectRandomVariables(variableSet, usedVariables)
 
 	// Gather all data into a state.
 	return {
-		a: given === 0 ? new Integer(getRandomInteger(2, 20)) : new Variable(variables.a),
-		b: given === 1 ? new Integer(getRandomInteger(2, 20)) : new Variable(variables.b),
-		c: given === 2 ? new Integer(getRandomInteger(2, 30)) : new Variable(variables.c),
+		a: given === 0 ? new Integer(randomInteger(2, 20)) : new Variable(variables.a),
+		b: given === 1 ? new Integer(randomInteger(2, 20)) : new Variable(variables.b),
+		c: given === 2 ? new Integer(randomInteger(2, 30)) : new Variable(variables.c),
 		La: triangle[0],
 		Lb: triangle[1],
-		rotation: getRandomNumber(0, 2 * Math.PI),
-		reflection: getRandomBoolean(),
+		rotation: randomNumber(0, 2 * Math.PI),
+		reflection: randomBoolean(),
 	}
 }
 

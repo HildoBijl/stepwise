@@ -1,4 +1,4 @@
-const { tableInterpolate, getRandomInteger } = require('../../../../../../util')
+const { tableInterpolate, randomInteger } = require('../../../../../../util')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
@@ -23,7 +23,7 @@ function generateState() {
 	T2 = T2.setDecimals(0).roundToPrecision()
 	etai = etai.setUnit('%').setDecimals(0).roundToPrecision().setDecimals(1)
 
-	const type = getRandomInteger(1, 2) // Type 1 means mdot given, type 2 means P given.
+	const type = randomInteger(1, 2) // Type 1 means mdot given, type 2 means P given.
 	if (type === 1) {
 		mdot = mdot.setSignificantDigits(2).roundToPrecision()
 		return { type, pc, pe, T2, etai, mdot }

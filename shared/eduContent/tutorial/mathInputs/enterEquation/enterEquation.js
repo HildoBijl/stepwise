@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger } = require('../../../../util')
+const { sample, randomInteger } = require('../../../../util')
 const { asEquation, equationComparisons } = require('../../../../CAS')
 const { getSimpleExerciseProcessor, selectRandomVariables, performComparison } = require('../../../../eduTools')
 
@@ -11,14 +11,14 @@ const metaData = {
 }
 
 function generateState() {
-	const variableSet = selectRandomly(availableVariableSets)
+	const variableSet = sample(availableVariableSets)
 	const variables = selectRandomVariables(variableSet, usedVariables)
 	return {
-		equation: selectRandomly([
-			asEquation(`x^${getRandomInteger(2, 4)}+y^${getRandomInteger(2, 4)}=z^${getRandomInteger(2, 4)}`),
-			asEquation(`(${getRandomInteger(-12, 12, [0, 1])}x+${getRandomInteger(-12, 12, [0, 1])}y)/(${getRandomInteger(-12, 12, [0])}z)=1`),
-			asEquation(`x^y-${getRandomInteger(1, 8)}=z`),
-			asEquation(`(x+${getRandomInteger(-12, 12, [0])})(y+${getRandomInteger(-12, 12, [0])})(z+${getRandomInteger(-12, 12, [0])}) = 1`),
+		equation: sample([
+			asEquation(`x^${randomInteger(2, 4)}+y^${randomInteger(2, 4)}=z^${randomInteger(2, 4)}`),
+			asEquation(`(${randomInteger(-12, 12, [0, 1])}x+${randomInteger(-12, 12, [0, 1])}y)/(${randomInteger(-12, 12, [0])}z)=1`),
+			asEquation(`x^y-${randomInteger(1, 8)}=z`),
+			asEquation(`(x+${randomInteger(-12, 12, [0])})(y+${randomInteger(-12, 12, [0])})(z+${randomInteger(-12, 12, [0])}) = 1`),
 		]).regularClean().substituteVariables(variables)
 	}
 }

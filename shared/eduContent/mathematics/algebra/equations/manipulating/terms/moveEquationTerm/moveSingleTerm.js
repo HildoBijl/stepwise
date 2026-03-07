@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean } = require('../../../../../../../util')
 const { asExpression, asEquation, expressionComparisons } = require('../../../../../../../CAS')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -21,14 +21,14 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState(example) {
-	const a = getRandomInteger(-8, 8, [0])
-	const b = getRandomInteger(-8, 8, [0, a, -a])
-	const c = getRandomInteger(-8, 8, [0, a, -a, b, -b])
+	const a = randomInteger(-8, 8, [0])
+	const b = randomInteger(-8, 8, [0, a, -a])
+	const c = randomInteger(-8, 8, [0, a, -a, b, -b])
 	return {
-		x: selectRandomly(variableSet),
+		x: sample(variableSet),
 		a, b, c,
-		switchSides: [getRandomBoolean(), getRandomBoolean(), getRandomBoolean()], // Does a term start on the other side of the equation?
-		toMove: example ? 1 : getRandomInteger(0, 2),
+		switchSides: [randomBoolean(), randomBoolean(), randomBoolean()], // Does a term start on the other side of the equation?
+		toMove: example ? 1 : randomInteger(0, 2),
 	}
 }
 

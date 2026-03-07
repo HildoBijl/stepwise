@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger } = require('../../../../../util')
+const { sample, randomInteger } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -16,14 +16,14 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	const [f1, f2, f3] = getRandomElementaryFunctions(3, true)
-	const x = selectRandomly(variableSet)
-	const c1 = getRandomInteger(-12, 12, [0])
-	const c2 = getRandomInteger(-12, 12, [0])
-	const c3 = getRandomInteger(-12, 12, [0])
+	const x = sample(variableSet)
+	const c1 = randomInteger(-12, 12, [0])
+	const c2 = randomInteger(-12, 12, [0])
+	const c3 = randomInteger(-12, 12, [0])
 	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).add(f3.multiply(c3, true)).substitute('x', x).basicClean({ mergeProductFactors: false }) // Do not turn 10 * 10^x into 10^(x+1).
 	return {
 		x,
-		f: selectRandomly(functionSet),
+		f: sample(functionSet),
 		func,
 	}
 }

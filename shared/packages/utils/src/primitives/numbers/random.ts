@@ -1,19 +1,19 @@
 import { isInt } from './checks'
 
 // Return true or false randomly. Optionally provide probability for true.
-export function getRandomBoolean(probability = 0.5): boolean {
+export function randomBoolean(probability = 0.5): boolean {
 	if (probability < 0 || probability > 1) throw new RangeError(`Input error: probability must be in [0, 1], but received "${probability}".`)
 	return Math.random() < probability
 }
 
-// Return a random floating number between min (inclusive) and max (exclusive).
-export function getRandomNumber(min: number, max: number): number {
+// Return a random floating-point number between min (inclusive) and max (exclusive).
+export function randomNumber(min: number, max: number): number {
 	if (min > max) throw new RangeError(`Input error: min must not be greater than max. Received min="${min}", max="${max}".`)
 	return min + (max - min) * Math.random()
 }
 
 // Return a random integer between min and max (both inclusive). Optionally provide an array of numbers to prevent from being selected.
-export function getRandomInteger(min: number, max: number, prevent: number[] = []): number {
+export function randomInteger(min: number, max: number, prevent: readonly number[] = []): number {
 	// Validate inputs.
 	if (!isInt(min) || !isInt(max)) throw new TypeError(`Input error: min and max must be integers.`)
 	if (!Number.isSafeInteger(min) || !Number.isSafeInteger(max)) throw new RangeError(`Input error: min and max must be safe integers: within ±${Number.MAX_SAFE_INTEGER}.`)
@@ -28,7 +28,7 @@ export function getRandomInteger(min: number, max: number, prevent: number[] = [
 	// Check the number of possible options after prevention.
 	const numTotal = max - min + 1
 	const numAvailable = numTotal - prevented.size
-	if (numAvailable <= 0) throw new RangeError(`Invalid getRandomInteger options: no selectable values remain between ${min} and ${max} after applying the prevent list.`)
+	if (numAvailable <= 0) throw new RangeError(`Invalid randomInteger options: no selectable values remain between ${min} and ${max} after applying the prevent list.`)
 
 	// When there are many numbers available, pick one randomly and see if it's available. If not, repeat. (Add a limit, which is likely never reached.)
 	const REJECTION_SAMPLING_FACTOR = 0.25

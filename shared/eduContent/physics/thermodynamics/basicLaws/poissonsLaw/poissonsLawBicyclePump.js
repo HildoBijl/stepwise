@@ -1,4 +1,4 @@
-const { getRandomNumber } = require('../../../../../util')
+const { randomNumber } = require('../../../../../util')
 const { getRandomFloat, Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -47,7 +47,7 @@ function generateState() {
 	})
 
 	// Use Poisson's law to calculate the final volume for a realistic pressure ratio.
-	const pressureRatio = getRandomNumber(2, 5)
+	const pressureRatio = randomNumber(2, 5)
 	const V2 = V1.multiply(Math.pow(pressureRatio, -1 / n.number)).roundToPrecision()
 
 	return { n, T1, V1, V2 }

@@ -1,4 +1,4 @@
-const { getRandomNumber } = require('../../../../../util')
+const { randomNumber } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -14,7 +14,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'MJ',
 	})
-	const epsilon = getRandomNumber(2, 4)
+	const epsilon = randomNumber(2, 4)
 	const Eout = Ee.multiply(epsilon + 1).roundToPrecision()
 
 	return { Ee, Eout }
