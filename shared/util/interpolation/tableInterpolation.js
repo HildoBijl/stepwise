@@ -1,6 +1,6 @@
 const { isObject } = require('../objects')
 
-const { ensureNumberLike, getInterpolationPart, isValidPart } = require('./support')
+const { ensureNumberLike, getInterpolationPart, isValidInterpolationPart } = require('./support')
 const { interpolate } = require('./rangeInterpolation')
 const { gridInterpolate } = require('./gridInterpolation')
 
@@ -71,7 +71,7 @@ function shiftingTableInterpolate(shiftingParameter, shiftingLabel, input, input
 
 	// Determine on which part we are between these two tables. If we are outside of the range, return undefined.
 	const shiftingPart = getInterpolationPart(shiftingParameter, closestTables.map(closestTable => closestTable[shiftingLabel]))
-	if (!isValidPart(shiftingPart))
+	if (!isValidInterpolationPart(shiftingPart))
 		return Array.isArray(originalOutputLabels) ? originalOutputLabels.map(_ => undefined) : undefined
 
 	// For the input parameter, find the two closest numbers within each table.

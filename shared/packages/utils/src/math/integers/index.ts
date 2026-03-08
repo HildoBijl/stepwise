@@ -1,5 +1,5 @@
 export * from './primes'
 export * from './divisors'
 export * from './powers'
-export * from './factorials'
+export * from './combinatorics'
 export * from './distributions'

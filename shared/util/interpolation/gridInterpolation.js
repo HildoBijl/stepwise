@@ -27,7 +27,7 @@ function gridInterpolate(input, outputSeries, ...inputSeries) {
 
 		// Ensure the output series is an array with numbers.
 		if (!Array.isArray(outputSeries))
-			throw new Error(`Grid interpolate error: the output series was not an array. Instead, we received "${JSON.stringify(outputRange)}".`)
+			throw new Error(`Grid interpolate error: the output series was not an array. Instead, we received "${JSON.stringify(outputSeries)}".`)
 		if (inputSeries.length !== outputSeries.length)
 			throw new Error(`Grid interpolate error: the input series and output series do not have matching lengths. The input series has length ${inputSeries.length} while the output series has length ${outputSeries.length}. This must be equal.`)
 

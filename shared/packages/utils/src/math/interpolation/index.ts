@@ -1,1 +1,3 @@
-export const tempInterpolation = 1
+export * from './rangeInterpolation'
+export * from './gridInterpolation'
+export * from './tableInterpolation'
