@@ -1,7 +1,7 @@
 const { isNumber } = require('../numbers')
 const { last } = require('../arrays')
 
-const { ensureNumberLike, getDefaultInputRange, getInterpolationPart, isValidPart } = require('./support')
+const { ensureNumberLike, getDefaultInputRange, getInterpolationPart, isValidInterpolationPart } = require('./support')
 
 /* interpolate applies linear (or bilinear, trilinear, etcetera) interpolation between numbers. It has various use cases, depending on the number of input parameters.
  * - For a single parameter: interpolate(V1, [Vo_1min, Vo_1max], [V1_min, V1_max]). Here Vo_1min means the output at parameter 1's minimum value. Optionally you can use [V1] instead of V1.
