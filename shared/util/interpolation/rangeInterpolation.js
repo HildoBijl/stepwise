@@ -30,7 +30,7 @@ function interpolate(input, outputRange, ...inputRange) {
 
 		// Apply the interpolation. Take into account the accuracy of the part when possible.
 		const part = getInterpolationPart(input, inputRange)
-		if (!isValidPart(part))
+		if (!isValidInterpolationPart(part))
 			return undefined
 		return isNumber(outputRange[0]) ?
 			outputRange[0] + (isNumber(part) ? part : part.number) * (outputRange[1] - outputRange[0]) :
