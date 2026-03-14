@@ -1,15 +1,11 @@
 FROM node:16.13.0-alpine AS shared-build
 WORKDIR /app
 
-# Copy only manifests first so package install layer is cacheable.
-COPY package.json package-lock.json ./
-COPY packages/*/package.json ./packages/
+# Copy full source.
+COPY . .
 
 # Install root dev deps (typescript etc.).
 RUN npm ci --quiet --include=dev --no-audit --no-fund
-
-# Copy full source.
-COPY . .
 
 # Install per-package deps if package has its own lockfile (tolerant).
 RUN for p in packages/*; do \
