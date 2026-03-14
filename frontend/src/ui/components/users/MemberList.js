@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Chip } from '@mui/material'
 import { Face as FaceIcon } from '@mui/icons-material'
 
-import { resolveFunctions } from 'step-wise/util'
+import { resolveFunctions } from '@step-wise/utils'
 
 export function MemberList({ members, sx, ...props }) {
 	return <Box sx={theme => ({

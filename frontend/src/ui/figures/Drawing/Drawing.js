@@ -4,7 +4,7 @@
 
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/utils'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

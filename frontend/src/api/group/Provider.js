@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { sortBy } from 'step-wise/util'
+import { sortBy } from '@step-wise/utils'
 
 import { useUserId } from '../user'
 

@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
-import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEquals } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEquals } from '@step-wise/utils'
 import { options as CASOptions, support as CASSupport } from 'step-wise/CAS'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

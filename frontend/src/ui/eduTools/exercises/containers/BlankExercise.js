@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
-import { noop } from 'step-wise/util'
+import { noop } from '@step-wise/utils'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { exercises, getExerciseId, getExerciseName } from 'step-wise/eduTools'
 

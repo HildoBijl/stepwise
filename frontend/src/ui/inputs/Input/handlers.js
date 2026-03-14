@@ -1,4 +1,4 @@
-import { pickFromDefaults, resolveFunctionsShallow } from 'step-wise/util'
+import { pickFromDefaults, resolveFunctionsShallow } from '@step-wise/utils'
 
 import { getHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

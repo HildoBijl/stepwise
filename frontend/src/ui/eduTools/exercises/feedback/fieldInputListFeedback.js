@@ -1,4 +1,4 @@
-import { mapValues } from 'step-wise/util'
+import { mapValues } from '@step-wise/utils'
 import { performIndividualListComparison } from 'step-wise/eduTools'
 
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomDuplicate } from 'ui/inputs'

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { first, last } from 'step-wise/util'
+import { first, last } from '@step-wise/utils'
 import { Transformation } from 'step-wise/geometry'
 
 import { M } from 'ui/components'

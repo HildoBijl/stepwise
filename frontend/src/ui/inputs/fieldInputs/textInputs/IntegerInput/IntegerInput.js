@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 

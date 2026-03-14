@@ -1,4 +1,4 @@
-import { mapValues } from 'step-wise/util'
+import { mapValues } from '@step-wise/utils'
 
 // getLocalStorage returns the full localStorage object.
 export function getLocalStorage() {

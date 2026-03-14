@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureString, ensureObject, mergeDefaults, pickFromDefaults } from 'step-wise/util'
+import { ensureString, ensureObject, mergeDefaults, pickFromDefaults } from '@step-wise/utils'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalVector } from '../../DrawingContext'

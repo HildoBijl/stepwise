@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/utils'
 
 import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
 

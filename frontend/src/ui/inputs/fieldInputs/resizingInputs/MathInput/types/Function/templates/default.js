@@ -1,6 +1,6 @@
 // This is the most general template for settings up equation function objects, like sqrt, log, etcetera. It has default functionalities for most basic cases.
 
-import { first } from 'step-wise/util'
+import { first } from '@step-wise/utils'
 import { support } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../../../FieldInput'

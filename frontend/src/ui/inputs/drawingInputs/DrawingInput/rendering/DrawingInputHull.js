@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/utils'
 
 import { notSelectable } from 'ui/theme'
 import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'

@@ -1,6 +1,6 @@
 import { useMemo, } from 'react'
 
-import { filterDuplicates } from 'step-wise/util'
+import { filterDuplicates } from '@step-wise/utils'
 import { ensureVector, Line, Span } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

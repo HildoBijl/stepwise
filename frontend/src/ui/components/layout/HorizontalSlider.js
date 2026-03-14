@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { clamp } from 'step-wise/util'
+import { clamp } from '@step-wise/utils'
 
 import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'

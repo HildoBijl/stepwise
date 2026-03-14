@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { filterDuplicates } from 'step-wise/util'
+import { filterDuplicates } from '@step-wise/utils'
 import { skillTree, splitExerciseId } from 'step-wise/eduTools'
 
 import { useTranslator } from 'i18n'

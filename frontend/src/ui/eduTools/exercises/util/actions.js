@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { count } from 'step-wise/util'
+import { count } from '@step-wise/utils'
 import { getLastAction } from 'step-wise/eduTools'
 
 import { useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

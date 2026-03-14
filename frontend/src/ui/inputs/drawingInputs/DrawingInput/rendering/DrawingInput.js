@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react'
 
-import { mergeDefaults, pickFromDefaults } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults } from '@step-wise/utils'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

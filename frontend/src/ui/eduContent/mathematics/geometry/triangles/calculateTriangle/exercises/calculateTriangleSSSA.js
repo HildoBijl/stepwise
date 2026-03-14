@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad, roundToDigits, integerRange } from 'step-wise/util'
+import { deg2rad, roundToDigits, integerRange } from '@step-wise/utils'
 import { Integer } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 import { Float } from 'step-wise/inputTypes'

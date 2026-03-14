@@ -1,4 +1,4 @@
-import { randomInteger } from 'step-wise/util'
+import { randomInteger } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 

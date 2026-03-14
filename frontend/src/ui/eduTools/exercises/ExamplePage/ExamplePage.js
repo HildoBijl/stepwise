@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { noop } from 'step-wise/util'
+import { noop } from '@step-wise/utils'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { skillTree, getNewRandomExample } from 'step-wise/eduTools'
 

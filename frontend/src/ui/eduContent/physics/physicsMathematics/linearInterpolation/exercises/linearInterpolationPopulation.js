@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { roundTo } from 'step-wise/util'
+import { roundTo } from '@step-wise/utils'
 import { Float } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'

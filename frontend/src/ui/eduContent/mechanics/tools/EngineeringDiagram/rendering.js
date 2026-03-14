@@ -1,7 +1,7 @@
 
 import React, { forwardRef, Fragment } from 'react'
 
-import { isObject, mapValues } from 'step-wise/util'
+import { isObject, mapValues } from '@step-wise/utils'
 
 import { toCSS } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

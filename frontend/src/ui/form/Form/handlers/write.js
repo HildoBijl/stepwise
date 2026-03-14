@@ -1,4 +1,4 @@
-import { preserveRefs, resolveFunctions } from 'step-wise/util'
+import { preserveRefs, resolveFunctions } from '@step-wise/utils'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

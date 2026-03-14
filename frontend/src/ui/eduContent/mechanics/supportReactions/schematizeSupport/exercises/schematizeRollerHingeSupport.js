@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad } from 'step-wise/util'
+import { deg2rad } from '@step-wise/utils'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par } from 'ui/components'

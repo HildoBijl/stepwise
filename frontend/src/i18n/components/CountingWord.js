@@ -1,4 +1,4 @@
-import { isNumber } from 'step-wise/util'
+import { isNumber } from '@step-wise/utils'
 
 import { useGetTranslation } from '../sectioning'
 

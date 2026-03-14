@@ -1,4 +1,4 @@
-import { mergeDefaults } from 'step-wise/util'
+import { mergeDefaults } from '@step-wise/utils'
 import { Vector, ensureVector } from 'step-wise/geometry'
 import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/eduContent/mechanics'

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/utils'
 
 import { Arc } from 'ui/figures/Drawing/components/svgComponents'
 import { useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'

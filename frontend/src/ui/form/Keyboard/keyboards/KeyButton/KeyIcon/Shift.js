@@ -1,7 +1,7 @@
 import React from 'react'
 import { SvgIcon } from '@mui/material'
 
-import { omitKeys } from 'step-wise/util'
+import { omitKeys } from '@step-wise/utils'
 
 export default function Shift(props) {
 	const full = props.full

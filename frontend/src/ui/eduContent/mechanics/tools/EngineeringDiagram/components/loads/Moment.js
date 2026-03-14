@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureBoolean, mergeDefaults } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureBoolean, mergeDefaults } from '@step-wise/utils'
 import { Vector } from 'step-wise/geometry'
 import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/eduContent/mechanics'
 

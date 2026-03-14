@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, mapValues, fromKeys } from 'step-wise/util'
+import { isNumber, removeAt, insertAt, mapValues, fromKeys } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 

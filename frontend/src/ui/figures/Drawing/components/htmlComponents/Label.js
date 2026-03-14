@@ -1,7 +1,7 @@
 
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, mergeDefaults, pickFromDefaults, omitKeys } from 'step-wise/util'
+import { ensureNumber, mergeDefaults, pickFromDefaults, omitKeys } from '@step-wise/utils'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { ThemeProvider } from '@mui/material'
 
-import { noop } from 'step-wise/util'
+import { noop } from '@step-wise/utils'
 
 import theme from 'ui/theme'
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
-import { fromKeys, mapValues } from 'step-wise/util'
+import { fromKeys, mapValues } from '@step-wise/utils'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 

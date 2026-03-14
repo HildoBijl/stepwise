@@ -5,7 +5,7 @@ import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
 import FontFaceObserver from 'fontfaceobserver'
 
-import { preserveRefs } from 'step-wise/util'
+import { preserveRefs } from '@step-wise/utils'
 import { Vector } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from './dom'

@@ -1,4 +1,4 @@
-import { count } from 'step-wise/util'
+import { count } from '@step-wise/utils'
 import { Sum, Product, Power, expressionComparisons } from 'step-wise/CAS'
 
 import { M } from 'ui/components'

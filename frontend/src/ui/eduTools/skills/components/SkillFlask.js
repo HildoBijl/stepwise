@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat, gridInterpolate } from 'step-wise/util'
+import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat, gridInterpolate } from '@step-wise/utils'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 

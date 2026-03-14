@@ -1,6 +1,6 @@
 import React, { useState, useCallback, createContext, useContext } from 'react'
 
-import { clamp } from 'step-wise/util'
+import { clamp } from '@step-wise/utils'
 
 import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

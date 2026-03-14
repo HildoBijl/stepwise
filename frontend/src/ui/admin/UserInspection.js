@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import { fromEntries, fromKeys, formatDate } from 'step-wise/util'
+import { fromEntries, fromKeys, formatDate } from '@step-wise/utils'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 

@@ -3,7 +3,7 @@ import { alpha } from '@mui/material'
 
 import { Translation } from 'i18n'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/utils'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 

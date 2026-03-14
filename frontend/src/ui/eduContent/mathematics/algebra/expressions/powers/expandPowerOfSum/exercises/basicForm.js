@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { repeat, fromEntries } from 'step-wise/util'
+import { repeat, fromEntries } from '@step-wise/utils'
 
 import { Translation, WordList } from 'i18n'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'

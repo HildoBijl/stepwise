@@ -1,4 +1,4 @@
-import { isNumber, isLetter, mapValues, identity } from 'step-wise/util'
+import { isNumber, isLetter, mapValues, identity } from '@step-wise/utils'
 
 import { units, prefixes } from 'step-wise/inputTypes'
 

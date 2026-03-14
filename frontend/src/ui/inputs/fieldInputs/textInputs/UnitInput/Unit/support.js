@@ -1,4 +1,4 @@
-import { last, arraySplice, mapValues, fromKeys, repeat } from 'step-wise/util'
+import { last, arraySplice, mapValues, fromKeys, repeat } from '@step-wise/utils'
 
 import { selectRandomInvalidUnit } from '../../../../util'
 

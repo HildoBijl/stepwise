@@ -1,4 +1,4 @@
-import { mergeDefaults } from 'step-wise/util'
+import { mergeDefaults } from '@step-wise/utils'
 
 import { fetchApi, requestWithFetch } from './fetch'
 import { hasXmlHttpRequest, requestWithXmlHttpRequest } from './xmlHttpRequest'

@@ -1,4 +1,4 @@
-import { ensureString, mergeDefaults, resolveFunctionsShallow } from 'step-wise/util'
+import { ensureString, mergeDefaults, resolveFunctionsShallow } from '@step-wise/utils'
 
 import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from 'ui/form'
 

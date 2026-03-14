@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { resolveFunctions } from 'step-wise/util'
+import { resolveFunctions } from '@step-wise/utils'
 
 import { startEndMarginFix } from 'ui/theme'
 

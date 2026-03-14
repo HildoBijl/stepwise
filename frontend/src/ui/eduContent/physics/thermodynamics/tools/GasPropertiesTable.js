@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { upperFirst } from 'step-wise/util'
+import { upperFirst } from '@step-wise/utils'
 import gasProperties from 'step-wise/data/gasProperties'
 
 import { Dutch } from 'ui/lang/gases'

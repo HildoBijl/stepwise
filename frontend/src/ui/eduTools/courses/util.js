@@ -1,4 +1,4 @@
-import { count, fromEntries, fromKeys, findOptimum } from 'step-wise/util'
+import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/utils'
 import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 

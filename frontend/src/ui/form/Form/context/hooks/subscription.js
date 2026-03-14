@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { mergeDefaults, deepEquals, noop } from 'step-wise/util'
+import { mergeDefaults, deepEquals, noop } from '@step-wise/utils'
 import { toSO, toFO } from 'step-wise/inputTypes'
 
 import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

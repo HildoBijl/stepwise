@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { upperFirst } from 'step-wise/util'
+import { upperFirst } from '@step-wise/utils'
 import * as constants from 'step-wise/data/constants'
 
 import { Translation, useTextTranslator } from 'i18n'

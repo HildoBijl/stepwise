@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { clamp } from 'step-wise/util'
+import { clamp } from '@step-wise/utils'
 
 import { getCoordinatesOf, useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useSubmitCall } from 'ui/form'

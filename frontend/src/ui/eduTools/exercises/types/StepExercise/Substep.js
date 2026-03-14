@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { ensureInt } from 'step-wise/util'
+import { ensureInt } from '@step-wise/utils'
 import { getStep } from 'step-wise/eduTools'
 
 import { FormPart, useFormPartSettings } from 'ui/form'

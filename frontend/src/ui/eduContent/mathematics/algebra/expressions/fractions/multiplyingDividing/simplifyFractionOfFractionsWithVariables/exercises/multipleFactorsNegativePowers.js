@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { gcd } from 'step-wise/util'
+import { gcd } from '@step-wise/utils'
 import { Fraction } from 'step-wise/CAS'
 
 import { Translation, Check } from 'i18n'

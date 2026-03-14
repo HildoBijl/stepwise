@@ -1,4 +1,4 @@
-import { identity, isNumber, removeAt, insertAt } from 'step-wise/util'
+import { identity, isNumber, removeAt, insertAt } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 

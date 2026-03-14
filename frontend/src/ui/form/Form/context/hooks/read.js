@@ -1,4 +1,4 @@
-import { fromKeys } from 'step-wise/util'
+import { fromKeys } from '@step-wise/utils'
 
 import { useFormData } from '../provider'
 

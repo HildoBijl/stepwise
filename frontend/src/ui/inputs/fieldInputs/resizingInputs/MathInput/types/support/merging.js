@@ -1,4 +1,4 @@
-import { first, last } from 'step-wise/util'
+import { first, last } from '@step-wise/utils'
 import { support } from 'step-wise/CAS'
 
 import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'

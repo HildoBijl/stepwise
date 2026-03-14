@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { isPlainObject } from 'step-wise/util'
+import { isPlainObject } from '@step-wise/utils'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useInputObject } from 'ui/form'

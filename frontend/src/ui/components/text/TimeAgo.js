@@ -1,4 +1,4 @@
-import { isDate } from 'step-wise/util'
+import { isDate } from '@step-wise/utils'
 
 import { Translation, Plurals } from 'i18n'
 

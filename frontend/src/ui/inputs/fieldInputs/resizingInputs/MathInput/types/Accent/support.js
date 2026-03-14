@@ -1,4 +1,4 @@
-import { isLetter } from 'step-wise/util'
+import { isLetter } from '@step-wise/utils'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 export function isAcceptableChar(key) {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { isNumber } from 'step-wise/util'
+import { isNumber } from '@step-wise/utils'
 import { decimalSeparator } from '@step-wise/settings'
 
 import { latexMinus } from 'ui/components'

@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isPlainObject, mapValues } from 'step-wise/util'
+import { isPlainObject, mapValues } from '@step-wise/utils'
 import { loadTypes, areLoadsMatching, getLoadMatching } from 'step-wise/eduContent/mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'

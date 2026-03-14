@@ -1,4 +1,4 @@
-import { integerRange, sortBy, mergeDefaults, resolveFunctions } from 'step-wise/util'
+import { integerRange, sortBy, mergeDefaults, resolveFunctions } from '@step-wise/utils'
 
 import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings } from 'ui/figures'

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { setByPath } from 'step-wise/util'
+import { setByPath } from '@step-wise/utils'
 import { languages, defaultLanguage } from '@step-wise/settings'
 
 import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

@@ -1,4 +1,4 @@
-import { isNumber, isLetter, first, last, arraySplice } from 'step-wise/util'
+import { isNumber, isLetter, first, last, arraySplice } from '@step-wise/utils'
 
 import { getClickSide } from 'util'
 

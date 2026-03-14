@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { ensureNumber, ensureString } from 'step-wise/util'
+import { ensureNumber, ensureString } from '@step-wise/utils'
 import { Vector } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes'
 

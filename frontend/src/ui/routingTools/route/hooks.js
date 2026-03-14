@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-import { mergeDefaults } from 'step-wise/util'
+import { mergeDefaults } from '@step-wise/utils'
 
 import { insertParametersIntoPath } from '../util'
 import { useRoute } from './provider'

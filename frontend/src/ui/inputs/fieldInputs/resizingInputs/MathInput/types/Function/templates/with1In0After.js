@@ -1,6 +1,6 @@
 // This is the template for functions like sqrt(...) which have a parameter after their term and have no other parameters.
 
-import { last } from 'step-wise/util'
+import { last } from '@step-wise/utils'
 import { support } from 'step-wise/CAS'
 
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'

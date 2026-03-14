@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, mergeDefaults } from 'step-wise/util'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/utils'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/figures'

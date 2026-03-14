@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, useTheme, alpha } from '@mui/material'
 
-import { resolveFunctions } from 'step-wise/util'
+import { resolveFunctions } from '@step-wise/utils'
 
 import { getIcon, getFeedbackColor } from 'ui/theme'
 

@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isEmptyArray, isPlainObject, toExcelColumn, renderTagTree, camelToKebab } from 'step-wise/util'
+import { first, isEmptyArray, isPlainObject, toExcelColumn, renderTagTree, camelToKebab } from '@step-wise/utils'
 
 // elementToString takes a React element like <Par>x: {{x}}<br/>y: {{y}}</Par> and turns it into a string for a translation file, like "<par>x: {x}<br/>y: {y}</par>".
 export function elementToString(element, counter = { count: 0 }) {
@@ -157,6 +157,8 @@ export function applyTranslation(element, tagTree, key) {
 
 	// If we have arrays, walk through them to match up corresponding elements. After all, it may always happen that one has a string somewhere in-between and the other has not. If that's the case, squeeze in an empty string to have a proper pairing. Then translate these element pairs one by one.
 	if (Array.isArray(element)) {
+		if (!Array.isArray(tagTree))
+			throw new Error(`Invalid tag tree: the element was a list, but the tag tree was not. There is a mismatch between the element and its translation.\nOriginal text: ${elementToString(element)}\nTranslation: ${renderTagTree(tagTree)}`)
 		const elementListProcessed = [], tagTreeProcessed = []
 		for (let elementIndex = 0, tagTreeIndex = 0; elementIndex < element.length || tagTreeIndex < tagTree.length;) {
 			const currElementItem = element[elementIndex]
@@ -195,6 +197,14 @@ export function applyTranslation(element, tagTree, key) {
 		if (elementListProcessed.length !== tagTreeProcessed.length)
 			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${renderTagTree(tagTree)}`)
 		return elementListProcessed.map((currElement, index) => applyTranslation(currElement, tagTreeProcessed[index], index))
+	}
+
+	// The tagTree should not be a list by now.
+	if (Array.isArray(tagTree)) {
+		if (tagTree.length === 1)
+			tagTree = first(tagTree)
+		if (Array.isArray(tagTree))
+			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${renderTagTree(tagTree)}`)
 	}
 
 	// If the element we received is a string, replace it by the translation.

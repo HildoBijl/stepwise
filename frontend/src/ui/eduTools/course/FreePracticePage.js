@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
-import { sample } from 'step-wise/util'
+import { sample } from '@step-wise/utils'
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, Translation } from 'i18n'

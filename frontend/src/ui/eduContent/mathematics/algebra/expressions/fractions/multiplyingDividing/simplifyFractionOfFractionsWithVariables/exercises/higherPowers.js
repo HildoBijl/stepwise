@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { gcd } from 'step-wise/util'
+import { gcd } from '@step-wise/utils'
 
 import { Translation, CountingWord, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'

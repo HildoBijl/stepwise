@@ -1,4 +1,4 @@
-import { mergeDefaults } from 'step-wise/util'
+import { mergeDefaults } from '@step-wise/utils'
 
 import { useInputData } from '../../../Input'
 

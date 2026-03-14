@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { mergeDefaults } from 'step-wise/util'
+import { mergeDefaults } from '@step-wise/utils'
 
 import { ensureHTMLElement } from 'util'
 import { useVisible } from 'ui/components'

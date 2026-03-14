@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import { findOptimum, ensureDate, formatDate } from 'step-wise/util'
+import { findOptimum, ensureDate, formatDate } from '@step-wise/utils'
 
 import { useAllUsersQuery } from 'api'
 import { usePaths } from 'ui/routingTools'

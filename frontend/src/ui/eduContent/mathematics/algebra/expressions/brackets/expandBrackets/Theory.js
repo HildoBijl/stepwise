@@ -1,7 +1,7 @@
 import React from 'react'
 import { alpha } from '@mui/material'
 
-import { repeatMultidimensional } from 'step-wise/util'
+import { repeatMultidimensional } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'

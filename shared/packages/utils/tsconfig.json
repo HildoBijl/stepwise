@@ -4,6 +4,7 @@
     "composite": true,
     "outDir": "dist",
     "declaration": true,
+    "declarationMap": true,
     "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },

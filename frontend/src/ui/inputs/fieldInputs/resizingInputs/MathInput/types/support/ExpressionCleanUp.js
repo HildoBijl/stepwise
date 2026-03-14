@@ -1,4 +1,4 @@
-import { last } from 'step-wise/util'
+import { last } from '@step-wise/utils'
 import { support, functions as CASfunctions } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../../FieldInput'

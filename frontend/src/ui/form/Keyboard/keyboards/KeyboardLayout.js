@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Box } from '@mui/material'
 import clsx from 'clsx'
 
-import { resolveFunctions } from 'step-wise/util'
+import { resolveFunctions } from '@step-wise/utils'
 
 import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

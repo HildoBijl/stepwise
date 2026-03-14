@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { mergeDefaults, pickFromDefaults, omitKeys } from 'step-wise/util'
+import { mergeDefaults, pickFromDefaults, omitKeys } from '@step-wise/utils'
 import { ensureCorner } from 'step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'

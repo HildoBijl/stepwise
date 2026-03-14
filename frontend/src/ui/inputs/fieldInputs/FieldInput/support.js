@@ -1,4 +1,4 @@
-import { isObject, omitKeys } from 'step-wise/util'
+import { isObject, omitKeys } from '@step-wise/utils'
 
 import { useInputData } from '../../Input'
 

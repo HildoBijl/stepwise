@@ -1,4 +1,4 @@
-import { findOptimum, findOptimumIndex, findIndexPath, pickKeys } from 'step-wise/util'
+import { findOptimum, findOptimumIndex, findIndexPath, pickKeys } from '@step-wise/utils'
 
 import { getCoordinatesOf } from 'util'
 

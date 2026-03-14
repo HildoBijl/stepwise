@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions } from 'step-wise/util'
+import { mergeDefaults, resolveFunctions } from '@step-wise/utils'
 
 export const defaultFigureOptions = {
 	aspectRatio: 0.75, // Height divided by width. Enter a ratio.

@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, isLetter, fromKeys } from 'step-wise/util'
+import { isNumber, removeAt, insertAt, isLetter, fromKeys } from '@step-wise/utils'
 import { units, prefixes, interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes'
 
 import { getClickPosition } from '../../TextInput'

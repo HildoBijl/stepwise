@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Alert, AlertTitle, Box } from '@mui/material'
 
-import { count } from 'step-wise/util'
+import { count } from '@step-wise/utils'
 import { processCourse } from 'step-wise/eduTools'
 
 import { useSkillsData, useMyCoursesQuery } from 'api'

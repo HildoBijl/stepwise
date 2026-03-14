@@ -1,4 +1,4 @@
-import { isPlainObject, fromKeys } from 'step-wise/util'
+import { isPlainObject, fromKeys } from '@step-wise/utils'
 
 // processParameterOptions checks all the possible simplification cases for the parameterOptions and turns it into standard form.
 export function processParameterOptions(parameterOptions) {

@@ -1,4 +1,4 @@
-import { isPlainObject } from 'step-wise/util'
+import { isPlainObject } from '@step-wise/utils'
 import { Variable } from 'step-wise/CAS'
 
 import { Translation } from 'i18n'

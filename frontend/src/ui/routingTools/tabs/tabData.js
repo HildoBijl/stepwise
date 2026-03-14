@@ -1,6 +1,6 @@
 import { MenuBook as Book, OndemandVideo as Video, Create as Pencil, AttachFile as Paperclip, Info } from '@mui/icons-material'
 
-import { mapValues } from 'step-wise/util'
+import { mapValues } from '@step-wise/utils'
 
 import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 

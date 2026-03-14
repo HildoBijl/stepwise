@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { Box } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
-import { resolveFunctions } from 'step-wise/util'
+import { resolveFunctions } from '@step-wise/utils'
 
 import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { Element, useGraphicalBounds } from 'ui/figures'

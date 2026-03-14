@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-import { sortBy } from 'step-wise/util'
+import { sortBy } from '@step-wise/utils'
 
 import { tabData } from './tabData'
 

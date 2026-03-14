@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, identity, ensureFunction } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, identity, ensureFunction } from '@step-wise/utils'
 import { Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

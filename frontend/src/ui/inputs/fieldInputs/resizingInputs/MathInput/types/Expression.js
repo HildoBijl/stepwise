@@ -1,4 +1,4 @@
-import { insertAt, first, last, sum } from 'step-wise/util'
+import { insertAt, first, last, sum } from '@step-wise/utils'
 import { support } from 'step-wise/CAS'
 
 import { addCursor, removeCursor } from '../../../FieldInput'

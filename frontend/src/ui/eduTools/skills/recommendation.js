@@ -1,4 +1,4 @@
-import { mergeDefaults } from 'step-wise/util'
+import { mergeDefaults } from '@step-wise/utils'
 import { getEV } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {

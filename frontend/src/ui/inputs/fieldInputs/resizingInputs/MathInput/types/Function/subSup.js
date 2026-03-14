@@ -1,4 +1,4 @@
-import { arraySplice } from 'step-wise/util'
+import { arraySplice } from '@step-wise/utils'
 import { support } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../../FieldInput'

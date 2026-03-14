@@ -1,4 +1,4 @@
-import { mod, first, last, repeat, pickKeys } from 'step-wise/util'
+import { mod, first, last, repeat, pickKeys } from '@step-wise/utils'
 import { Vector } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

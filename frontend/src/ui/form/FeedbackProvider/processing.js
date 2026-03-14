@@ -1,4 +1,4 @@
-import { mapValues } from 'step-wise/util'
+import { mapValues } from '@step-wise/utils'
 
 import { getIcon, getFeedbackColor } from 'ui/theme'
 

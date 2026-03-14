@@ -1,4 +1,4 @@
-import { isNumber, isLetter, removeAt, insertAt, first } from 'step-wise/util'
+import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/utils'
 import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
 import { functions } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'

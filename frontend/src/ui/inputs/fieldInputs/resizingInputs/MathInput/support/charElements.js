@@ -1,4 +1,4 @@
-import { flattenDeep, forceIntoShape } from 'step-wise/util'
+import { flattenDeep, forceIntoShape } from '@step-wise/utils'
 
 import { zeroWidthSpaceRegExp } from 'ui/components'
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isPlainObject, mapValues, pickKeys, deepEquals } from 'step-wise/util'
+import { isPlainObject, mapValues, pickKeys, deepEquals } from '@step-wise/utils'
 import { toFO } from 'step-wise/inputTypes'
 import { getExerciseName } from 'step-wise/eduTools'
 

@@ -7,7 +7,7 @@ export type TagTreeItem = TextNode | VariableNode | TagNode
 export type TagTree = TagTreeItem[]
 
 // Regex for variable `{name}`, open-tag `<name>`, close-tag `</name>` or self-closing `<name/>`.
-const tagRegEx = /\{([a-zA-Z0-9-]+)\}|<([a-zA-Z0-9-]+)>|<\/([a-zA-Z0-9-]+)>|<([a-zA-Z0-9-]+)\/>/
+const tagRegEx = /\{([a-zA-Z0-9-]+)\}|<([a-zA-Z0-9-]+)>|<\/([a-zA-Z0-9-]+)>|<([a-zA-Z0-9-]+)\/>/g
 
 // Parse a string into a TagTree (array of nodes). Example input: "Hello <strong>{name}</strong> world" -> [{type:'text', value:'Hello '}, {type:'tag', name:'strong', value:[{type:'variable', name:'name'}]}, {type:'text', value:' world'}]
 export function parseTagTree(tagTreeString: string): TagTree {
@@ -56,7 +56,7 @@ export function parseTagTree(tagTreeString: string): TagTree {
 		throw new Error(`Invalid tag string: opened tag <${open.name}> was never closed. Full string:\n${tagTreeString}`)
 	}
 
-	// Return the full tag tree.
+	// Return the list, or on a single-element list just the element.
 	return mainList
 }
 

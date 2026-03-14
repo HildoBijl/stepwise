@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react'
 
-import { ensureString } from 'step-wise/util'
+import { ensureString } from '@step-wise/utils'
 
 import { ResetTranslationSection } from './TranslationSection'
 

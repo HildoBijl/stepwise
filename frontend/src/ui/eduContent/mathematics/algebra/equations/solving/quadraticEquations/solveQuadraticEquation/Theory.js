@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { range } from 'step-wise/util'
+import { range } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, Emp, M, BM, Info } from 'ui/components'

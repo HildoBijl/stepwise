@@ -1,4 +1,4 @@
-import { mod, omitKeys } from 'step-wise/util'
+import { mod, omitKeys } from '@step-wise/utils'
 import { Span } from 'step-wise/geometry'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/eduContent/mechanics'

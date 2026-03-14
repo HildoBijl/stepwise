@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
 
-import { fromEntries, fromKeys, mapValues } from 'step-wise/util'
+import { fromEntries, fromKeys, mapValues } from '@step-wise/utils'
 import { updateSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'

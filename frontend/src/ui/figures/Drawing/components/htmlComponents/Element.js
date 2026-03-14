@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 
-import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from 'step-wise/util'
+import { ensureNumber, ensureBoolean, ensureObject, mergeDefaults } from '@step-wise/utils'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useEnsureRef, ensureReactElement, useEqualRefOnEquality, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
