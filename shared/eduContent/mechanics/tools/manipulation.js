@@ -1,4 +1,4 @@
-const { compareNumbers } = require('../../../util')
+const { compareNumbers } = require('@step-wise/utils')
 const { Vector, Span } = require('../../../geometry')
 
 const { loadTypes } = require('./definitions')

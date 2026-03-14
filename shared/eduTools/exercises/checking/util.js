@@ -1,4 +1,4 @@
-const { isPlainObject, fromKeys } = require('../../../util')
+const { isPlainObject, fromKeys } = require('@step-wise/utils')
 
 // processParameterComparison takes a parameterComparison parameter and processes it to ensure it's in a standard format.
 function processParameterComparison(parameterComparison) {

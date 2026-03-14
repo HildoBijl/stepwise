@@ -1,4 +1,4 @@
-const { sample } = require('../../../../../util')
+const { sample } = require('@step-wise/utils')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 

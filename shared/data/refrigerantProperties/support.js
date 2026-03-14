@@ -1,4 +1,4 @@
-const { first, last, isObject, ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util')
+const { first, last, isObject, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('@step-wise/utils')
 const { Unit, unitsSimilar, FloatUnit } = require('../../inputTypes')
 
 const pressureUnit = new Unit('bar')
@@ -98,7 +98,6 @@ module.exports.getLineProperties = getLineProperties
 // getVaporProperties takes either a temperature or pressure (which one it is will be automatically determined) and a vapor fraction, and returns the corresponding temperature, pressure, enthalpy and entropy.
 function getVaporProperties(parameter, vaporFraction, data) {
 	// Check input.
-	ensureNumberLike(vaporFraction)
 	if (!isObject(data) || !data.boilingData)
 		throw new Error(`Invalid refrigerant data: the given data was not data exported from a refrigerant properties file.`)
 
@@ -193,7 +192,7 @@ function getProperties(pressure, parameter, data) {
 
 	// We have the four closest points. First interpolate between them for the given parameter, reducing it to a range of two points.
 	const valuesAtParameter = closestValuesProcessed.map(range => {
-		const part = getInterpolationPart(parameter, range.map(value => value[label])).setUnit('')
+		const part = getInterpolationPart(parameter, range.map(value => value[label]))
 		const result = {}
 		const labelsWithPressure = ['pressure', ...labels]
 		labelsWithPressure.forEach(currLabel => {
@@ -204,7 +203,7 @@ function getProperties(pressure, parameter, data) {
 
 	// Next interpolate between these two points, with respect to the pressure. Do this for all properties to be found.
 	const result = { pressure, phase }
-	const part = getInterpolationPart(pressure, valuesAtParameter.map(value => value.pressure)).setUnit('')
+	const part = getInterpolationPart(pressure, valuesAtParameter.map(value => value.pressure))
 	labels.forEach(currLabel => {
 		if (label === currLabel)
 			result[currLabel] = parameter

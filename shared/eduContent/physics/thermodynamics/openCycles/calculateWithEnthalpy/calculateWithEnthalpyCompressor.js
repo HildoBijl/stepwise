@@ -1,4 +1,4 @@
-const { randomNumber } = require('../../../../../util')
+const { randomNumber } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, k, cp } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')

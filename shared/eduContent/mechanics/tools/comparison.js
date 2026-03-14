@@ -1,4 +1,4 @@
-const { compareNumbers, mod, isPlainObject, mergeDefaults, fromKeys, resolveFunctions, shallowEqual, count } = require('../../../util')
+const { compareNumbers, mod, isPlainObject, mergeDefaults, fromKeys, resolveFunctions, shallowEqual, count } = require('@step-wise/utils')
 const { getCurrentInputSolutionAndComparison } = require('../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')

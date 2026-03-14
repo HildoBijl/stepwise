@@ -1,6 +1,6 @@
 // A Line is a line inside a (possibly multi-dimensional) space. It is like a Span, but then it has no magnitude. It's all about the position and the direction.
 
-const { ensureInt, ensureNumber, compareNumbers, mergeDefaults } = require('../util')
+const { ensureInt, ensureNumber, compareNumbers, mergeDefaults } = require('@step-wise/utils')
 const { Vector, ensureVector } = require('./Vector')
 
 const defaultLine = {

@@ -1,4 +1,4 @@
-const { compareNumbers, compareNumberArrays } = require('../../util')
+const { compareNumbers, compareNumberArrays } = require('@step-wise/utils')
 
 const { ensureCoef, getOrder, normalize } = require('./fundamentals')
 const { getPDF } = require('./distributions')

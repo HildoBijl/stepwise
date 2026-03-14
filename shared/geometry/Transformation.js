@@ -1,6 +1,6 @@
 // A Transformation represents a linear manipulation of a vector. It consists of a transformation matrix M and a shift vector v. When applied, a vector x will be replaced by M*x+v. Note that the shift is applied AFTER the transformation matrix.
 
-const { ensureInt, ensureNumber, ensureNumberArray, isPlainObject } = require('../util')
+const { ensureInt, ensureNumber, ensureNumberArray, isPlainObject } = require('@step-wise/utils')
 
 const { Vector, ensureVector } = require('./Vector')
 const { Matrix, ensureMatrix } = require('./Matrix')

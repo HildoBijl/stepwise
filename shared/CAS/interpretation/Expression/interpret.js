@@ -1,4 +1,4 @@
-const { isObject } = require('../../../util')
+const { isObject } = require('@step-wise/utils')
 
 const SItoFO = require('./SItoFO')
 

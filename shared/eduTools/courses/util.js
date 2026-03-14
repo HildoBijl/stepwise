@@ -1,4 +1,4 @@
-const { sortBy } = require('../../util')
+const { sortBy } = require('@step-wise/utils')
 const { objToSetup } = require('../../skillTracking')
 
 const { skillTree, isSkillRequiredFor } = require('../skills')

@@ -1,4 +1,4 @@
-const { tableInterpolate, randomInteger } = require('../../../../../../util')
+const { tableInterpolate, randomInteger } = require('@step-wise/utils')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 

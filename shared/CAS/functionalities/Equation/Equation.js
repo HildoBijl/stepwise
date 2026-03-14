@@ -1,6 +1,6 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { isObject, isEmptyObject, mergeDefaults, fromKeys, union } = require('../../../util')
+const { isObject, isEmptyObject, mergeDefaults, fromKeys, union } = require('@step-wise/utils')
 
 const { simplifyOptions, defaultExpressionSettings } = require('../../options')
 

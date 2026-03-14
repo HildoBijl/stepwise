@@ -1,4 +1,4 @@
-const { getParentClass } = require('../../../../util')
+const { getParentClass } = require('@step-wise/utils')
 
 const { Integer, Function, Fraction, Ln, simplifyOptions } = require('../Expression')
 

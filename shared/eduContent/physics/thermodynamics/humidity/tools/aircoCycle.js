@@ -1,4 +1,4 @@
-const { tableInterpolate, inverseTableInterpolate } = require('../../../../../util')
+const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 

@@ -1,4 +1,4 @@
-const { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } = require('../../util')
+const { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } = require('@step-wise/utils')
 
 const { restructure } = require('./restructureAndSubstitute')
 
@@ -41,7 +41,7 @@ function addWithEqualDimension(matrices) {
 
 	// Add the matrices element-wise, using the biggest size on each dimension.
 	const dimensions = repeat(matrixDimensions[0].length, index => Math.max(...matrixDimensions.map(dimensions => dimensions[index])))
-	return repeatMultidimensional(dimensions, (...indices) => sum(matrices.map(matrix => getMatrixElement(matrix, indices) || 0)))
+	return repeatMultidimensional(dimensions, (...indices) => sum(matrices.map(matrix => getMatrixElement(matrix, indices, true) || 0)))
 }
 module.exports.addWithEqualDimension = addWithEqualDimension
 

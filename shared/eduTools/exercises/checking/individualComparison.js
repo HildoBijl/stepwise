@@ -1,4 +1,4 @@
-const { isPlainObject } = require('../../../util')
+const { isPlainObject } = require('@step-wise/utils')
 const { Expression } = require('../../../CAS')
 
 const { areNumbersEqual } = require('../../../inputTypes')

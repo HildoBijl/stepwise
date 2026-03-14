@@ -1,4 +1,4 @@
-const { hasOneToOneMatching } = require('../../../util')
+const { hasOneToOneMatching } = require('@step-wise/utils')
 
 const { processParameterComparison, getInputValue, getSolutionValue, getComparison } = require('./util')
 const { performIndividualComparison } = require('./individualComparison')

@@ -31,7 +31,7 @@ export const Label = forwardRef((props, ref) => {
 
 	// Find the position shift and apply it.
 	const delta = Vector.fromPolar(distance, angle)
-	return <Element {...pickFromDefaults(omitKeys(props, 'position'), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
+	return <Element {...pickFromDefaults(omitKeys(props, ['position']), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
 })
 Label.defaultProps = defaultLabel
 Label.plotType = 'html'

@@ -1,4 +1,4 @@
-const { findNextOf, isObject, last, InterpretationError } = require('../../util')
+const { findNextOf, isObject, last, InterpretationError } = require('@step-wise/utils')
 
 const { advancedFunctionComponents } = require('./functions')
 

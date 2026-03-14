@@ -101,7 +101,7 @@ export function getDragObjectData(downData, upData, options) {
 export function removeHovering(FI) {
 	if (!FI.some(load => load.hovering))
 		return FI
-	return FI.map(load => load.hovering ? omitKeys(load, 'hovering') : load)
+	return FI.map(load => load.hovering ? omitKeys(load, ['hovering']) : load)
 }
 
 // applyHovering takes an FI and applies hovering to the load with the given index.

@@ -1,4 +1,4 @@
-import { isNumber, last } from '../../primitives'
+import { isNumber } from '../../primitives'
 
 import type { NumberLike, InterpolationValue, InterpolationPair, InterpolationOutputTree } from './types'
 import { ensureInterpolationValue } from './checks'
@@ -41,7 +41,7 @@ export function interpolate<InputType extends InterpolationValue, OutputType ext
 	// Reduce the problem to one with one parameter less, by evaluating the last parameter.
 	const params = [...input]
 	if (inputRange.length > params.length) throw new RangeError(`Interpolate error: too many parameters. We received a total of ${inputRange.length + 2} parameters for the interpolate function, for a ${params.length}-dimensional problem. A maximum of ${params.length + 2} parameters is expected.`)
-	const paramInputRange = inputRange.length < params.length ? getDefaultInterpolationRange(last(params)) : inputRange.pop()
+	const paramInputRange = inputRange.length < params.length ? undefined : inputRange.pop()
 	const param = ensureInterpolationValue(params.pop())
 
 	// Check the output range while we're at it.
@@ -52,14 +52,14 @@ export function interpolate<InputType extends InterpolationValue, OutputType ext
 	const vMax = interpolate<InputType, OutputType>(params, outputRange[1] as InterpolationOutputTree<OutputType>, ...inputRange as [InputType, InputType][])
 
 	// Interpolate between the minimum and maximum values to get our final answer.
-	return interpolateSingleValue<InputType, OutputType>(param as InputType, [vMin, vMax] as InterpolationPair<OutputType>, paramInputRange as InterpolationPair<InputType>)
+	return interpolateSingleValue<InputType, OutputType>(param as InputType, [vMin, vMax] as InterpolationPair<OutputType>, paramInputRange as InterpolationPair<InputType> | undefined)
 }
 
 // Interpolate for a single value.
 export function interpolateSingleValue<InputType extends InterpolationValue, OutputType extends InterpolationValue>(
 	input: InputType,
 	outputRange: InterpolationPair<OutputType>,
-	inputRange?: InterpolationPair<InputType>
+	inputRange: InterpolationPair<InputType> = getDefaultInterpolationRange(input)
 ): OutputType | undefined {
 	// Check the input data.
 	if (!Array.isArray(inputRange) || inputRange.length !== 2) throw new TypeError(`Interpolate error: the input range was not an array of size 2. Instead, we received "${JSON.stringify(inputRange)}".`)

@@ -1,6 +1,6 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, mergeDefaults, pickFromDefaults } = require('../../util')
+const { isObject, mergeDefaults, pickFromDefaults } = require('@step-wise/utils')
 
 const { Float } = require('../Float')
 const { Unit, unitEqualityTypeToSimplifyOptions } = require('../Unit')

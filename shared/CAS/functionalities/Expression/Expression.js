@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefined, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo, gcd, getPrime, getPrimeFactorization, isSquare, isPerfectPower, largestPowerDivisor, binomial } = require('../../../util')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefinedWith, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo, gcd, getPrime, getPrimeFactorization, isSquare, isPerfectPower, largestPowerDivisor, binomial } = require('@step-wise/utils')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
@@ -92,7 +92,7 @@ class Expression {
 			throw new Error(`Invalid Expression creation: tried to create an Expression of subtype "${this.subtype}" but the given Storage Object has subtype "${SO.subtype}".`)
 
 		// Clone the SO (shallowly) to not change the original and remove the type.
-		return omitKeys(SO, 'subtype')
+		return omitKeys(SO, ['subtype'])
 	}
 
 	// type returns always "Expression" for expression types.
@@ -1491,7 +1491,7 @@ class Sum extends ExpressionList {
 				else
 					result[order].add(constantPart)
 			})
-			return fillUndefined(result, Integer.zero).map(coefficient => coefficient.cleanForAnalysis())
+			return fillUndefinedWith(result, Integer.zero).map(coefficient => coefficient.cleanForAnalysis())
 		}
 		const c1 = polynomeToCoefficients(p1)
 		const c2 = polynomeToCoefficients(p2)
@@ -1550,7 +1550,7 @@ class Sum extends ExpressionList {
 
 		// Process the final outcome.
 		return {
-			divisor: fillUndefined(divisor, Integer.zero),
+			divisor: fillUndefinedWith(divisor, Integer.zero),
 			remainder: c,
 		}
 	}

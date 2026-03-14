@@ -1,4 +1,4 @@
-const { mergeDefaults, pickFromDefaults, InterpretationError } = require('../../../util')
+const { mergeDefaults, pickFromDefaults, InterpretationError } = require('@step-wise/utils')
 
 const { Equation } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')

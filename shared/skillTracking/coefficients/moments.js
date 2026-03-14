@@ -1,4 +1,4 @@
-const { ensureInt, sum, factorial } = require('../../util')
+const { ensureInt, sum, factorial } = require('@step-wise/utils')
 
 const { ensureCoef, getOrder } = require('./fundamentals')
 

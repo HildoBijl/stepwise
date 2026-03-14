@@ -1,4 +1,4 @@
-const { mapValues } = require('../../util')
+const { mapValues } = require('@step-wise/utils')
 
 const { SkillData } = require('./SkillData')
 

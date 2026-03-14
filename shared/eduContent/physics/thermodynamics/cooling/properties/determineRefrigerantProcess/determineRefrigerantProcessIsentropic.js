@@ -1,4 +1,4 @@
-const { sample, randomBoolean } = require('../../../../../../util')
+const { sample, randomBoolean } = require('@step-wise/utils')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')

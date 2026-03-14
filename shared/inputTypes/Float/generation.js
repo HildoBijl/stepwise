@@ -1,4 +1,4 @@
-const { ensureNumber, roundTo, randomNumber } = require('../../util')
+const { ensureNumber, roundTo, randomNumber } = require('@step-wise/utils')
 
 const { Float } = require('./Float')
 

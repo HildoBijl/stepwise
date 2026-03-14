@@ -1,4 +1,4 @@
-const { tableInterpolate, first, last } = require('../../../../../util')
+const { tableInterpolate, first, last } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')

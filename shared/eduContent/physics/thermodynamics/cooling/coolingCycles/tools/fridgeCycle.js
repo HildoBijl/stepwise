@@ -1,4 +1,4 @@
-const { sample } = require('../../../../../../util')
+const { sample } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 

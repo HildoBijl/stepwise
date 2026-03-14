@@ -1,4 +1,4 @@
-const { randomInteger, tableInterpolate } = require('../../../../../../util')
+const { randomInteger, tableInterpolate } = require('@step-wise/utils')
 const { withTemperature } = require('../../../../../../data/steamProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 

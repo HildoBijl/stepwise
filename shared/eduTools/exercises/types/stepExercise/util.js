@@ -1,4 +1,4 @@
-const { last, secondLast } = require('../../../../util')
+const { last, secondLast } = require('@step-wise/utils')
 
 // getLastAction takes a history and returns the last action for the given user.
 function getLastAction(history, userId) {

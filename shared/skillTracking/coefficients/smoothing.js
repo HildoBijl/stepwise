@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber, mergeDefaults, sum, repeat, binomial } = require('../../util')
+const { ensureInt, ensureNumber, mergeDefaults, sum, repeat, binomial } = require('@step-wise/utils')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
 

@@ -1,4 +1,4 @@
-const { isPlainObject } = require('../../util')
+const { isPlainObject } = require('@step-wise/utils')
 const { ensureSetup } = require('../../skillTracking')
 
 const { exercises, skillTree, getExerciseName } = require('../skills')

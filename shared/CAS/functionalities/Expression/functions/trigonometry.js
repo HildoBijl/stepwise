@@ -1,4 +1,4 @@
-const { deg2rad, rad2deg } = require('../../../../util')
+const { deg2rad, rad2deg } = require('@step-wise/utils')
 
 const { Variable, SingleArgumentFunction, Integer, Sum, Product, Fraction, Power, Sqrt } = require('../Expression')
 const { isInteger } = require('../checks')

@@ -1,4 +1,4 @@
-const { isObject, isPlainObject, mapValues } = require('./../../../util')
+const { isObject, isPlainObject, mapValues } = require('@step-wise/utils')
 
 const mainCAS = require('./Expression')
 const functions = require('./functions')

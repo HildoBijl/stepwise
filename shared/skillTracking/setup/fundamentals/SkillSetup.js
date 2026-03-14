@@ -1,6 +1,6 @@
 // SkillSetup is the abstract parent class for all skill-set-up classes. It has all the functionalities that need to be implemented by set-ups.
 
-const { ensureBoolean, fromKeys, pickKeys, sum, repeat, binomial } = require('../../../util')
+const { ensureBoolean, fromKeys, pickKeys, sum, repeat, binomial } = require('@step-wise/utils')
 
 const { defaultInferenceOrder } = require('../../settings')
 const { ensureCoef, ensureCoefSet, normalize, getEV, mergeTwo } = require('../../coefficients')

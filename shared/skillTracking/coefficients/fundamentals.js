@@ -1,4 +1,4 @@
-const { ensureArray, ensureNumberArray, sum, isPlainObject, fromKeys } = require('../../util')
+const { ensureArray, ensureNumberArray, sum, isPlainObject, fromKeys } = require('@step-wise/utils')
 
 // ensureCoef takes a coef array and ensures it actually is one: it is an array of non-negative numbers whose sum equals one. It returns a copy of the array.
 function ensureCoef(coef, requireNormalized = true) {

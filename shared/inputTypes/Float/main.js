@@ -1,4 +1,4 @@
-const { InterpretationError } = require('../../util')
+const { InterpretationError } = require('@step-wise/utils')
 
 const { getSignificantDigits } = require('./util')
 const { Float } = require('./Float')

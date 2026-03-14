@@ -1,4 +1,4 @@
-const { isPlainObject } = require('../../util')
+const { isPlainObject } = require('@step-wise/utils')
 
 const { maxSkillDataCacheTime } = require('../settings')
 const { smoothen } = require('../coefficients')

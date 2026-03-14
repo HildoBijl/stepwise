@@ -1,4 +1,4 @@
-const { sample } = require('../../../../../util')
+const { sample } = require('@step-wise/utils')
 const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')

@@ -1,4 +1,4 @@
-const { fromEntries } = require('../../../../util')
+const { fromEntries } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')

@@ -1,4 +1,4 @@
-const { deg2rad, randomInteger } = require('../../../../util')
+const { deg2rad, randomInteger } = require('@step-wise/utils')
 const { Vector } = require('../../../../geometry/Vector')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 

@@ -1,4 +1,4 @@
-const { pickKeys, isPlainObject } = require('../../../../util')
+const { pickKeys, isPlainObject } = require('@step-wise/utils')
 
 // assembleSolution takes a getSolution function or object and assembles a solution object from it.
 function assembleSolution(getSolution, state, input = {}) {

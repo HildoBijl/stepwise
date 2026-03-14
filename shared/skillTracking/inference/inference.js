@@ -1,4 +1,4 @@
-const { fromKeys } = require('../../util')
+const { fromKeys } = require('@step-wise/utils')
 
 const { smoothenWithOrder, merge, mergeElementwise } = require('../coefficients')
 

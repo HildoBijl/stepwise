@@ -1,4 +1,4 @@
-const { ensureInt, ensureArray, hasDuplicates } = require('../../util')
+const { ensureInt, ensureArray, hasDuplicates } = require('@step-wise/utils')
 const { objToSetup } = require('../../skillTracking')
 
 const { ensureSkillIds } = require('../skills')

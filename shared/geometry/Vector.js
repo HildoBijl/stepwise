@@ -1,6 +1,6 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers, isNumberArray, isPlainObject } = require('../util')
+const { ensureInt, ensureNumber, isNumber, compareNumbers, isNumberArray, isPlainObject } = require('@step-wise/utils')
 
 class Vector {
 	/*

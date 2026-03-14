@@ -1,4 +1,4 @@
-const { isLetter, findNextOf, last, mergeDefaults, pickFromDefaults, InterpretationError } = require('../../../util')
+const { isLetter, findNextOf, last, mergeDefaults, pickFromDefaults, InterpretationError } = require('@step-wise/utils')
 
 const { Expression, Constant, Variable, Sum, Product, Power, PlusMinus } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
@@ -78,7 +78,7 @@ function interpretBrackets(value, settings) {
 		// When there is no special function, find the letters prior to the bracket. These may be the function name for a basic or custom function.
 		const str = value[end.part].value
 		let movingCursor = end.cursor
-		while (isLetter(str[movingCursor - 1]))
+		while (str[movingCursor - 1] && isLetter(str[movingCursor - 1]))
 			movingCursor--
 		const functionName = str.substring(movingCursor, end.cursor)
 

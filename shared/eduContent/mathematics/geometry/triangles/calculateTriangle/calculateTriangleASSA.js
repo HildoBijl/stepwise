@@ -1,4 +1,4 @@
-const { epsilon, deg2rad, randomNumber, randomBoolean, randomInteger } = require('../../../../../util')
+const { epsilon, deg2rad, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons, Integer, Arcsin } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison, performListComparison } = require('../../../../../eduTools')
 

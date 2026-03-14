@@ -6,7 +6,7 @@
  * alternatives: an array of alternatives that can also be used, like 'mu' instead of 'μ'.
  */
 
-const { isInt } = require('../../util')
+const { isInt } = require('@step-wise/utils')
 
 class Prefix {
 	/* The constructor must contain all required prefix data, being:

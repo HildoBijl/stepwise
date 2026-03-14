@@ -1,4 +1,4 @@
-const { ensureNumber, ensureBoolean, isPlainObject } = require('../../../util')
+const { ensureNumber, ensureBoolean, isPlainObject } = require('@step-wise/utils')
 const { Vector, ensureVector, Span, ensureSpan } = require('../../../geometry')
 
 /*

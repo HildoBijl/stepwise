@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber, sum, cumulative, binomial } = require('../../util')
+const { ensureInt, ensureNumber, sum, cumulative, binomial } = require('@step-wise/utils')
 
 const { ensureCoef, getOrder } = require('./fundamentals')
 

@@ -1,4 +1,4 @@
-const { identity } = require('../../../util')
+const { identity } = require('@step-wise/utils')
 
 const { Sum, expressionComparisons } = require('../Expression')
 

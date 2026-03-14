@@ -1,4 +1,4 @@
-const { first, last } = require('../../util')
+const { first, last } = require('@step-wise/utils')
 
 function getEmpty() {
 	return [{ type: 'ExpressionPart', value: '' }]
@@ -69,7 +69,7 @@ module.exports.moveRight = moveRight
 function mergeAdjacentExpressionParts(value) {
 	const result = []
 	value.forEach(part => {
-		const lastPart = last(result)
+		const lastPart = last(result, true)
 		if (part.type === 'ExpressionPart' && lastPart && lastPart.type === 'ExpressionPart')
 			result[result.length - 1] = { ...lastPart, value: `${lastPart.value}${part.value}` }
 		else

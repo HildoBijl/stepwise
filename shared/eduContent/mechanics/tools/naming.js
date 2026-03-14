@@ -1,4 +1,4 @@
-const { mod, sortBy } = require('../../../util')
+const { mod, sortBy } = require('@step-wise/utils')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
 

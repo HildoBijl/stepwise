@@ -1,4 +1,4 @@
-const { isNumber, epsilon, mergeDefaults } = require('../../util')
+const { isNumber, epsilon, mergeDefaults } = require('@step-wise/utils')
 
 // The below default comparison options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
 const defaultComparison = {

@@ -1,4 +1,4 @@
-const { isObject, isPlainObject, mapValues } = require('../util')
+const { isObject, isPlainObject, mapValues } = require('@step-wise/utils')
 
 const types = [
 	'Integer', 'Float', 'Unit', 'FloatUnit', // Number- and physics-based types.

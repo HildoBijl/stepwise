@@ -38,7 +38,7 @@ export const RightAngle = forwardRef((props, ref) => {
 	]
 
 	// Render the line with the appropriate style.
-	return <Line ref={ref} {...pickFromDefaults(omitKeys(props, 'points'), defaultLine)} graphicalPoints={anglePoints} />
+	return <Line ref={ref} {...pickFromDefaults(omitKeys(props, ['points']), defaultLine)} graphicalPoints={anglePoints} />
 })
 RightAngle.defaultProps = defaultRightAngle
 export default RightAngle

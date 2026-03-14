@@ -1,4 +1,4 @@
-const { compareNumbers, compareNumberArrays } = require('../../util')
+const { compareNumbers, compareNumberArrays } = require('@step-wise/utils')
 
 const { and, or, repeat, pick, part } = require('./implementation')
 

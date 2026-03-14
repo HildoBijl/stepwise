@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean, gcd } = require('../../../../../../../util')
+const { sample, randomInteger, randomBoolean, gcd } = require('@step-wise/utils')
 const { asExpression, Fraction, expressionComparisons, expressionChecks, simplifyOptions } = require('../../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 

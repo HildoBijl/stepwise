@@ -1,4 +1,4 @@
-const { InterpretationError } = require('../../util')
+const { InterpretationError } = require('@step-wise/utils')
 
 // An Integer coming from an input field is stored as a string. In this way we can remember what exactly the user put in. It is transformed into an integer on the SItoFO transformation.
 module.exports.SItoFO = (value) => {

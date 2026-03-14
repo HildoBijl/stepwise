@@ -1,4 +1,4 @@
-const { mergeDefaults, ensureInt, integerRange, randomSubset, shuffle } = require('../../../util')
+const { mergeDefaults, ensureInt, integerRange, randomSubset, shuffle } = require('@step-wise/utils')
 
 // getMultipleChoiceMapping takes options for a multiple choice mapping that is then passed on to the multiple choice component.
 const defaultMultipleChoiceMappingOptions = {
