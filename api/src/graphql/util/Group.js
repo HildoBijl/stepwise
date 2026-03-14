@@ -1,5 +1,5 @@
 const { UserInputError } = require('apollo-server-express')
-const { integerRange, sample } = require('step-wise/util')
+const { integerRange, sample } = require('@step-wise/utils')
 
 const events = {
 	groupUpdated: 'GROUP_UPDATED',

@@ -1,6 +1,6 @@
 const { UserInputError } = require('apollo-server-express')
 
-const { findOptimum } = require('step-wise/util')
+const { findOptimum } = require('@step-wise/utils')
 const { toFO, toSO } = require('step-wise/inputTypes')
 const { exercises, getNewRandomExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
 

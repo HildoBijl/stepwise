@@ -1,4 +1,4 @@
-const { ensureBoolean, fromEntries, fromKeys, union } = require('step-wise/util')
+const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
 const { ensureSetup, processSkillDataSet, smoothen, getEV } = require('step-wise/skillTracking')
 const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 

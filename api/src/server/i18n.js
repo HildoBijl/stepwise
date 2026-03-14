@@ -3,7 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
-const { getByPath, setByPath } = require('step-wise/util')
+const { getByPath, setByPath } = require('@step-wise/utils')
 const { i18nLoadPath, i18nUpdateLogPath } = require('@step-wise/settings')
 
 const pathToPublicFolder = `../frontend/public`

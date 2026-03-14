@@ -1,4 +1,4 @@
-const { stringifyJS } = require('step-wise/util')
+const { stringifyJS } = require('@step-wise/utils')
 
 const surfConextMockData = require('../../../../surfConextMockData.json')
 const { createClient } = require('../../../client')

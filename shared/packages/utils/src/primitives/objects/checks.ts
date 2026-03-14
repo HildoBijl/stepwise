@@ -3,13 +3,13 @@ export function isObject(x: unknown): x is object {
 	return typeof x === 'object' && x !== null
 }
 
-// Check whether a value is a plain object created by {} or new Object(). Also exclude React elements (Symbol.for('react.element')) which look like plain objects.
+// Check whether a value is a plain object created by {}, new Object() or Object.create. Also exclude React elements (Symbol.for('react.element')) which look like plain objects.
 export function isPlainObject(x: unknown): x is Record<string, unknown> {
 	if (!isObject(x)) return false
 
-	// Ensure the constructor is the builtin Object constructor. (Using (x as any).constructor is safe here due to the isObject guard.)
-	const ctor = (x as any).constructor
-	if (ctor !== Object) return false
+	// Allow plain objects and null-prototype objects.
+	const prototype = Object.getPrototypeOf(x)
+  if (prototype !== Object.prototype && prototype !== null) return false
 
 	// Exclude React elements. If x has a $$typeof property equal to reactSymbol, it's a React element.
 	try {
