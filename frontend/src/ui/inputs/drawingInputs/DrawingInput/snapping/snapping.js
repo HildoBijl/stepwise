@@ -74,7 +74,7 @@ function snapMousePosition(position, lines, graphicalLines, transformationSettin
 				const intersection = line1.getIntersection(line2)
 				if (!intersection)
 					return
-				const squaredDistance = intersection.getSquaredDistanceTo(graphicalPosition)
+				const squaredDistance = intersection.squaredDistanceTo(graphicalPosition)
 				if (closestIntersection ? (squaredDistance < bestSquaredDistance) : (squaredDistance <= squaredSnappingDistance)) {
 					closestIntersection = intersection
 					bestSquaredDistance = squaredDistance

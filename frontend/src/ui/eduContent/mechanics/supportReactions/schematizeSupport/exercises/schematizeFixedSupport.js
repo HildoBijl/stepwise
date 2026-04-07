@@ -131,7 +131,7 @@ function getFeedback(exerciseData) {
 	}
 	const nonPerpendicular = input => {
 		const forces = input.filter(load => load.type === loadTypes.force)
-		return !forces[0].span.isPerpendicular(forces[1].span) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
+		return !forces[0].span.isOrthogonal(forces[1].span) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
 	}
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
 

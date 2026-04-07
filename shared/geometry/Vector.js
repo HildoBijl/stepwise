@@ -208,25 +208,25 @@ class Vector {
 		])
 	}
 
-	// getDistanceTo gives the distance to a given point.
-	getDistanceTo(vector) {
-		return Math.sqrt(this.getSquaredDistanceTo(vector))
+	// distanceTo gives the distance to a given point.
+	distanceTo(vector) {
+		return Math.sqrt(this.squaredDistanceTo(vector))
 	}
 
-	// getSquaredDistanceTo gives the squared distance to a given point.
-	getSquaredDistanceTo(vector) {
+	// squaredDistanceTo gives the squared distance to a given point.
+	squaredDistanceTo(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return this.subtract(vector).squaredMagnitude
 	}
 
-	// getProjectionOn gets the component of a given vector along another given vector: its projection onto this vector.
-	getProjectionOn(vector) {
+	// projectOnto gets the component of a given vector along another given vector: its projection onto this vector.
+	projectOnto(vector) {
 		return vector.multiply(this.dotProduct(vector) / vector.squaredMagnitude)
 	}
 
-	// getPerpendicularComponent gets the perpendicular component of the given vector with respect to another vector. 
-	getPerpendicularComponent(vector) {
-		return this.subtract(this.getProjectionOn(vector))
+	// orthogonalComponent gets the perpendicular component of the given vector with respect to another vector. 
+	orthogonalComponent(vector) {
+		return this.subtract(this.projectOnto(vector))
 	}
 
 	/*
@@ -308,8 +308,8 @@ class Vector {
 		return compareNumbers(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * vector.magnitude)
 	}
 
-	// isPerpendicular checks if two vectors are perpendicular with respect to each other.
-	isPerpendicular(vector) {
+	// isOrthogonal checks if two vectors are perpendicular with respect to each other.
+	isOrthogonal(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return compareNumbers(this.dotProduct(vector), 0)
 	}

@@ -110,7 +110,7 @@ export function getCurvePathThrough(points, close, part, spread) {
 		}
 
 		// On a part, project the relative vector onto the control direction vector.
-		return [point.add(prevRelative.getProjectionOn(controlDirection).multiply(part / 2)), point.add(nextRelative.getProjectionOn(controlDirection).multiply(part / 2))]
+		return [point.add(prevRelative.projectOnto(controlDirection).multiply(part / 2)), point.add(nextRelative.projectOnto(controlDirection).multiply(part / 2))]
 	})
 
 	// Apply the control points: walk through the line segments and use them one by one.

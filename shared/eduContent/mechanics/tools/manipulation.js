@@ -27,8 +27,8 @@ function decomposeForce(load, toEnd = true) {
 	// Set up an array of two loads with identical properties.
 	const spanObject = toEnd ? { end: load.span.end } : { start: load.span.start }
 	return [
-		{ ...load, span: new Span({ ...spanObject, vector: load.span.vector.getProjectionOn(Vector.i) }) },
-		{ ...load, span: new Span({ ...spanObject, vector: load.span.vector.getProjectionOn(Vector.j) }) },
+		{ ...load, span: new Span({ ...spanObject, vector: load.span.vector.projectOnto(Vector.i) }) },
+		{ ...load, span: new Span({ ...spanObject, vector: load.span.vector.projectOnto(Vector.j) }) },
 	]
 }
 module.exports.decomposeForce = decomposeForce

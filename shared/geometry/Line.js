@@ -55,7 +55,7 @@ class Line {
 	 */
 
 	get perpendicularVector() {
-		return this.start.getPerpendicularComponent(this.direction)
+		return this.start.orthogonalComponent(this.direction)
 	}
 
 	get normalizedDirection() {
@@ -124,7 +124,7 @@ class Line {
 
 		// Find the vector relative to the start, project it onto the direction, and then add the start again.
 		const relativeVector = vector.subtract(this.start)
-		const projection = relativeVector.getProjectionOn(this.direction)
+		const projection = relativeVector.projectOnto(this.direction)
 		return this.start.add(projection)
 	}
 
@@ -224,10 +224,10 @@ class Line {
 		return compareNumbers(requireSameDirection ? dotProduct : Math.abs(dotProduct), 1)
 	}
 
-	// isPerpendicular checks if the lines are perpendicular. (They do not have to intersect.)
-	isPerpendicular(line) {
+	// isOrthogonal checks if the lines are perpendicular. (They do not have to intersect.)
+	isOrthogonal(line) {
 		line = ensureLine(line, this.dimension)
-		return this.direction.isPerpendicular(line.direction)
+		return this.direction.isOrthogonal(line.direction)
 	}
 
 	/*

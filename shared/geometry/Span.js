@@ -151,10 +151,10 @@ class Span {
 		return this.isAlongLine(span.line, requireSameDirection)
 	}
 
-	// isPerpendicular checks if this Span is perpendicular to the given Span. Only the direction of the vector is considered.
-	isPerpendicular(span) {
+	// isOrthogonal checks if this Span is perpendicular to the given Span. Only the direction of the vector is considered.
+	isOrthogonal(span) {
 		span = ensureSpan(span, this.dimension)
-		return this.vector.isPerpendicular(span.vector)
+		return this.vector.isOrthogonal(span.vector)
 	}
 
 	// isAlongLine checks if this Span is along the given Line.

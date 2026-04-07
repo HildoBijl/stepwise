@@ -142,8 +142,8 @@ class Rectangle {
 		}))
 	}
 
-	// getDistanceTo returns the distance of a point to this rectangle. A point inside the rectangle always has distance zero, unless toBounds is set to true, in which case the distance to the nearest bound is taken.
-	getDistanceTo(vector, toBounds = false) {
+	// distanceTo returns the distance of a point to this rectangle. A point inside the rectangle always has distance zero, unless toBounds is set to true, in which case the distance to the nearest bound is taken.
+	distanceTo(vector, toBounds = false) {
 		return this.applyBounds(vector, toBounds).subtract(vector).magnitude
 	}
 
@@ -209,8 +209,8 @@ class Rectangle {
 		center = ensureVector(center, this.dimension)
 		radius = ensureNumber(radius, true)
 		return contains ?
-			this.contains(center) && this.getDistanceTo(center, true) >= radius :
-			this.getDistanceTo(center) <= radius
+			this.contains(center) && this.distanceTo(center, true) >= radius :
+			this.distanceTo(center) <= radius
 	}
 
 	/*

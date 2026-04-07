@@ -1,0 +1,16 @@
+{
+	"name": "@step-wise/geometry",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -b",
+		"watch": "tsc -b --watch"
+	},
+	"dependencies": {
+		"@step-wise/utils": "file:../utils"
+	},
+	"devDependencies": {
+		"typescript": "^5.x"
+	}
+}
