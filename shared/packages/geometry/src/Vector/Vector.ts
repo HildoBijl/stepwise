@@ -9,7 +9,7 @@ export class Vector {
 	private coordinates: CoordinateList
 	static readonly type = 'Vector'
 
-	// Define common vectors.
+	// Common vectors.
 	static readonly zero = new Vector(0, 0)
 	static readonly i = new Vector(1, 0)
 	static readonly j = new Vector(0, 1)

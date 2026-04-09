@@ -11,7 +11,7 @@ export class Matrix {
 	private rows: MatrixData
 	static readonly type = 'Matrix'
 
-	// Define common matrices.
+	// Common matrices.
 	static readonly identity2D = Matrix.getIdentity(2)
 	static readonly identity3D = Matrix.getIdentity(3)
 
@@ -209,10 +209,7 @@ export class Matrix {
 		if (this.rowCount === 2) return this.getEntry(0, 0) * this.getEntry(1, 1) - this.getEntry(0, 1) * this.getEntry(1, 0)
 
 		// Laplace expansion along the first row.
-		return this.rows[0]!.reduce((sum, value, columnIndex) => {
-			const sign = columnIndex % 2 === 0 ? 1 : -1
-			return sum + sign * value * this.getMinor(0, columnIndex).determinant
-		}, 0)
+		return this.rows[0]!.reduce((sum, value, columnIndex) => sum + (columnIndex % 2 === 0 ? 1 : -1) * value * this.getMinor(0, columnIndex).determinant, 0)
 	}
 
 	getMinor(rowToRemove: number, columnToRemove: number): Matrix {
@@ -230,9 +227,18 @@ export class Matrix {
 		return new Matrix(new Array(rowCount).fill(0).map(() => new Array(columnCount).fill(0)))
 	}
 
+	static fromDiagonal(diagonal: VectorLike): Matrix {
+		const vector = ensureVector(diagonal)
+		return new Matrix(new Array(vector.dimension).fill(0).map((_, rowIndex) => new Array(vector.dimension).fill(0).map((_, columnIndex) => (rowIndex === columnIndex ? vector.getCoordinate(rowIndex) : 0))))
+	}
+
 	static getIdentity(size: number): Matrix {
 		size = ensureInt(size, true)
-		return new Matrix(new Array(size).fill(0).map((_, rowIndex) => new Array(size).fill(0).map((_, columnIndex) => (rowIndex === columnIndex ? 1 : 0))))
+		return Matrix.fromDiagonal(new Array(size).fill(1))
+	}
+
+	static fromVector(vector: VectorLike): Matrix {
+		return new Matrix(ensureVector(vector).toArray().map(value => [value]))
 	}
 
 	static fromColumns(columns: VectorLike[]): Matrix {
@@ -240,14 +246,14 @@ export class Matrix {
 		const vectors = columns.map(column => ensureVector(column))
 		const dimension = vectors[0]!.dimension
 		if (vectors.some(vector => vector.dimension !== dimension)) throw new Error(`Invalid fromColumns call: all columns must have the same dimension.`)
-		return new Matrix(new Array(dimension).fill(0).map((_, rowIndex) =>	vectors.map(vector => vector.getCoordinate(rowIndex))))
+		return new Matrix(new Array(dimension).fill(0).map((_, rowIndex) => vectors.map(vector => vector.getCoordinate(rowIndex))))
 	}
 
 	static fromRows(rows: VectorLike[]): Matrix {
 		if (!Array.isArray(rows) || rows.length === 0) throw new Error(`Invalid fromRows call: expected a non-empty array of row vectors.`)
 		const vectors = rows.map(row => ensureVector(row))
 		const dimension = vectors[0]!.dimension
-		if (vectors.some(vector => vector.dimension !== dimension))	throw new Error(`Invalid fromRows call: all rows must have the same dimension.`)
+		if (vectors.some(vector => vector.dimension !== dimension)) throw new Error(`Invalid fromRows call: all rows must have the same dimension.`)
 		return new Matrix(vectors.map(vector => vector.toArray()))
 	}
 }
