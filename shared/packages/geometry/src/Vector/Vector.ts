@@ -6,7 +6,7 @@ import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './s
 export type VectorLike = Vector | VectorInput
 
 export class Vector {
-	private coordinates: number[]
+	private coordinates: CoordinateList
 	static readonly type = 'Vector'
 
 	// Define common vectors.
@@ -54,12 +54,24 @@ export class Vector {
 		this.coordinates = args.map(coordinate => ensureNumber(coordinate))
 	}
 
-	get SO(): number[] {
+	toArray(): CoordinateList {
 		return [...this.coordinates]
 	}
 
 	get type(): string {
 		return (this.constructor as typeof Vector).type
+	}
+
+	toStorageValue(): CoordinateList {
+		return this.toArray()
+	}
+
+	get SO(): CoordinateList { // SO legacy
+		return this.toStorageValue()
+	}
+
+	static fromStorageValue(coordinates: CoordinateList): Vector {
+		return new Vector(coordinates)
 	}
 
 	/*

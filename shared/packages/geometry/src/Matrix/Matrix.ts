@@ -1,0 +1,253 @@
+import { ensureInt, ensureNumber, compareNumbers } from '@step-wise/utils'
+
+import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
+
+import type { MatrixData, MatrixInput, MatrixRow } from './types'
+import { isMatrixData } from './support'
+
+export type MatrixLike = Matrix | MatrixInput
+
+export class Matrix {
+	private rows: MatrixData
+	static readonly type = 'Matrix'
+
+	// Define common matrices.
+	static readonly identity2D = Matrix.getIdentity(2)
+	static readonly identity3D = Matrix.getIdentity(3)
+
+	constructor(...args: [MatrixLike] | MatrixRow[]) {
+		// Check for empty input.
+		if (args.length === 0) throw new Error(`Invalid Matrix: the Matrix constructor was called without input.`)
+
+		// Handle constructor(MatrixLike).
+		if (args.length === 1) {
+			const value = args[0]
+
+			if (value instanceof Matrix) {
+				this.rows = value.toArray()
+				return
+			}
+
+			if (isMatrixData(value)) {
+				this.rows = value.map(row => row.map(entry => ensureNumber(entry)))
+				return
+			}
+
+			throw new Error(`Invalid Matrix: expected an array of rows or some other Matrix-like object but received something of type "${typeof value}".`)
+		}
+
+		// Handle constructor(...rows).
+		if (!isMatrixData(args)) throw new Error(`Invalid Matrix: expected matrix rows of equal length.`)
+		this.rows = args.map(row => row.map(entry => ensureNumber(entry)))
+	}
+
+	toArray(): MatrixData {
+		return this.rows.map(row => [...row])
+	}
+
+	get type(): string {
+		return (this.constructor as typeof Matrix).type
+	}
+
+	toStorageValue(): MatrixData {
+		return this.toArray()
+	}
+
+	get SO(): MatrixData { // SO legacy
+		return this.toStorageValue()
+	}
+
+	static fromStorageValue(rows: MatrixData): Matrix {
+		return new Matrix(rows)
+	}
+
+	/*
+	 * Basic properties.
+	 */
+
+	get rowCount(): number {
+		return this.rows.length
+	}
+
+	get columnCount(): number {
+		return this.rows[0]!.length
+	}
+
+	get size(): [number, number] {
+		return [this.rowCount, this.columnCount]
+	}
+
+	get str(): string {
+		return this.toString()
+	}
+
+	toString(): string {
+		return `[${this.rows.map(row => `[${row.join(', ')}]`).join(', ')}]`
+	}
+
+	isSquare(): boolean {
+		return this.rowCount === this.columnCount
+	}
+
+	isZero(): boolean {
+		return this.rows.every(row => row.every(value => compareNumbers(value, 0)))
+	}
+
+	isIdentity(): boolean {
+		return this.isSquare() && this.rows.every((row, rowIndex) => row.every((value, colIndex) => compareNumbers(value, rowIndex === colIndex ? 1 : 0)))
+	}
+
+	/*
+	 * Entry access.
+	 */
+
+	getEntry(row: number, column: number): number {
+		const [safeRow, safeColumn] = this.ensureValidIndices(row, column)
+		return this.rows[safeRow]![safeColumn]!
+	}
+
+	setEntry(row: number, column: number, value: number): void {
+		const [safeRow, safeColumn] = this.ensureValidIndices(row, column)
+		this.rows[safeRow]![safeColumn] = ensureNumber(value)
+	}
+
+	getRow(index: number): Vector {
+		const safeIndex = this.ensureValidRowIndex(index)
+		return new Vector(this.rows[safeIndex]!)
+	}
+
+	getColumn(index: number): Vector {
+		const safeIndex = this.ensureValidColumnIndex(index)
+		return new Vector(this.rows.map(row => row[safeIndex]!))
+	}
+
+	private ensureValidRowIndex(index: number): number {
+		index = ensureInt(index)
+		if (index < 0) throw new Error(`Invalid matrix row index: the index cannot be negative. However, ${index} was received.`)
+		if (index >= this.rowCount) throw new Error(`Invalid matrix row index: the index cannot be larger than the number of rows. However, ${index} was received for a matrix with ${this.rowCount} rows.`)
+		return index
+	}
+
+	private ensureValidColumnIndex(index: number): number {
+		index = ensureInt(index)
+		if (index < 0) throw new Error(`Invalid matrix column index: the index cannot be negative. However, ${index} was received.`)
+		if (index >= this.columnCount) throw new Error(`Invalid matrix column index: the index cannot be larger than the number of columns. However, ${index} was received for a matrix with ${this.columnCount} columns.`)
+		return index
+	}
+
+	private ensureValidIndices(row: number, column: number): [number, number] {
+		return [this.ensureValidRowIndex(row), this.ensureValidColumnIndex(column)]
+	}
+
+	/*
+	 * Comparison methods.
+	 */
+
+	private coerceMatrix(value: MatrixLike, rowCount?: number, columnCount?: number): Matrix {
+		const matrix = new Matrix(value)
+		if (rowCount !== undefined && matrix.rowCount !== rowCount) throw new Error(`Invalid Matrix size: expected a matrix with ${rowCount} rows but received a matrix with ${matrix.rowCount} rows.`)
+		if (columnCount !== undefined && matrix.columnCount !== columnCount) throw new Error(`Invalid Matrix size: expected a matrix with ${columnCount} columns but received a matrix with ${matrix.columnCount} columns.`)
+		return matrix
+	}
+
+	equals(matrix: MatrixLike): boolean {
+		const other = this.coerceMatrix(matrix)
+		if (this.rowCount !== other.rowCount) return false
+		if (this.columnCount !== other.columnCount) return false
+		return this.rows.every((row, rowIndex) => row.every((value, columnIndex) => compareNumbers(value, other.getEntry(rowIndex, columnIndex))))
+	}
+
+	/*
+	 * Matrix operations.
+	 */
+
+	add(matrix: MatrixLike): Matrix {
+		const other = this.coerceMatrix(matrix, this.rowCount, this.columnCount)
+		return new Matrix(this.rows.map((row, rowIndex) => row.map((value, columnIndex) => value + other.getEntry(rowIndex, columnIndex))))
+	}
+
+	subtract(matrix: MatrixLike): Matrix {
+		return this.add(this.coerceMatrix(matrix, this.rowCount, this.columnCount).multiply(-1))
+	}
+
+	multiply(scalar: number): Matrix
+	multiply(matrix: MatrixLike): Matrix
+	multiply(vector: VectorLike): Vector
+	multiply(value: number | MatrixLike | VectorLike): Matrix | Vector {
+		// On a number, multiply element-wise.
+		if (typeof value === 'number') return new Matrix(this.rows.map(row => row.map(entry => entry * value)))
+
+		// On a Vector, set up the output vector.
+		if (isVectorLike(value)) {
+			const vector = ensureVector(value, this.columnCount)
+			return new Vector(this.rows.map(row => new Vector(row).dotProduct(vector)))
+		}
+
+		// On a matrix, multiply the matrices.
+		const other = this.coerceMatrix(value, this.columnCount)
+		return new Matrix(this.rows.map((_, rowIndex) => new Array(other.columnCount).fill(0).map((_, columnIndex) => this.getRow(rowIndex).dotProduct(other.getColumn(columnIndex)))))
+	}
+
+	divide(scalar: number): Matrix {
+		return this.multiply(1 / scalar)
+	}
+
+	transpose(): Matrix {
+		return new Matrix(new Array(this.columnCount).fill(0).map((_, columnIndex) => this.rows.map(row => row[columnIndex]!)))
+	}
+
+	get trace(): number {
+		if (!this.isSquare()) throw new Error(`Invalid trace call: can only take the trace of a square matrix.`)
+		return this.rows.reduce((sum, row, index) => sum + row[index]!, 0)
+	}
+
+	get determinant(): number {
+		if (!this.isSquare()) throw new Error(`Invalid determinant call: can only take the determinant of a square matrix.`)
+
+		// Base cases.
+		if (this.rowCount === 1) return this.getEntry(0, 0)
+		if (this.rowCount === 2) return this.getEntry(0, 0) * this.getEntry(1, 1) - this.getEntry(0, 1) * this.getEntry(1, 0)
+
+		// Laplace expansion along the first row.
+		return this.rows[0]!.reduce((sum, value, columnIndex) => {
+			const sign = columnIndex % 2 === 0 ? 1 : -1
+			return sum + sign * value * this.getMinor(0, columnIndex).determinant
+		}, 0)
+	}
+
+	getMinor(rowToRemove: number, columnToRemove: number): Matrix {
+		this.ensureValidIndices(rowToRemove, columnToRemove)
+		return new Matrix(this.rows.filter((_, rowIndex) => rowIndex !== rowToRemove).map(row => row.filter((_, columnIndex) => columnIndex !== columnToRemove)))
+	}
+
+	/*
+	 * Static creation methods.
+	 */
+
+	static getZero(rowCount: number, columnCount = rowCount): Matrix {
+		rowCount = ensureInt(rowCount, true)
+		columnCount = ensureInt(columnCount, true)
+		return new Matrix(new Array(rowCount).fill(0).map(() => new Array(columnCount).fill(0)))
+	}
+
+	static getIdentity(size: number): Matrix {
+		size = ensureInt(size, true)
+		return new Matrix(new Array(size).fill(0).map((_, rowIndex) => new Array(size).fill(0).map((_, columnIndex) => (rowIndex === columnIndex ? 1 : 0))))
+	}
+
+	static fromColumns(columns: VectorLike[]): Matrix {
+		if (!Array.isArray(columns) || columns.length === 0) throw new Error(`Invalid fromColumns call: expected a non-empty array of column vectors.`)
+		const vectors = columns.map(column => ensureVector(column))
+		const dimension = vectors[0]!.dimension
+		if (vectors.some(vector => vector.dimension !== dimension)) throw new Error(`Invalid fromColumns call: all columns must have the same dimension.`)
+		return new Matrix(new Array(dimension).fill(0).map((_, rowIndex) =>	vectors.map(vector => vector.getCoordinate(rowIndex))))
+	}
+
+	static fromRows(rows: VectorLike[]): Matrix {
+		if (!Array.isArray(rows) || rows.length === 0) throw new Error(`Invalid fromRows call: expected a non-empty array of row vectors.`)
+		const vectors = rows.map(row => ensureVector(row))
+		const dimension = vectors[0]!.dimension
+		if (vectors.some(vector => vector.dimension !== dimension))	throw new Error(`Invalid fromRows call: all rows must have the same dimension.`)
+		return new Matrix(vectors.map(vector => vector.toArray()))
+	}
+}
