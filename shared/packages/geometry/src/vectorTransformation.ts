@@ -20,7 +20,7 @@ export function transformVector(vector: VectorLike, matrix: MatrixLike, relative
 export function scaleVector(vector: VectorLike, scales: number | number[], relativeTo?: VectorLike): Vector {
 	// Check the input.
 	const inputVector = ensureVector(vector)
-	const scaleArray = Array.isArray(scales) ? scales.map(scale => ensureNumber(scale)) : inputVector.toArray().map(() => ensureNumber(scales))
+	const scaleArray = Array.isArray(scales) ? scales.map(scale => ensureNumber(scale)) : inputVector.coordinates.map(() => ensureNumber(scales))
 	if (scaleArray.length !== inputVector.dimension) throw new Error(`Invalid scales: expected ${inputVector.dimension} scale values but received ${scaleArray.length}.`)
 
 	// Apply the transformation.

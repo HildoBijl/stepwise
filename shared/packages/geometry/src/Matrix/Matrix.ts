@@ -2,13 +2,14 @@ import { ensureInt, ensureNumber, compareNumbers } from '@step-wise/utils'
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
-import type { MatrixData, MatrixInput, MatrixRow } from './types'
+import type { MatrixRow, MatrixData, MatrixInput } from './types'
 import { isMatrixData } from './support'
 
+export type { MatrixData }
 export type MatrixLike = Matrix | MatrixInput
 
 export class Matrix {
-	private rows: MatrixData
+	private _rows: MatrixData
 	static readonly type = 'Matrix'
 
 	// Common matrices.
@@ -23,13 +24,15 @@ export class Matrix {
 		if (args.length === 1) {
 			const value = args[0]
 
+			// On a matrix, become it.
 			if (value instanceof Matrix) {
-				this.rows = value.toArray()
+				this._rows = value.rows
 				return
 			}
 
+			// On a 2D array, check values and apply.
 			if (isMatrixData(value)) {
-				this.rows = value.map(row => row.map(entry => ensureNumber(entry)))
+				this._rows = value.map(row => row.map(entry => ensureNumber(entry)))
 				return
 			}
 
@@ -38,19 +41,23 @@ export class Matrix {
 
 		// Handle constructor(...rows).
 		if (!isMatrixData(args)) throw new Error(`Invalid Matrix: expected matrix rows of equal length.`)
-		this.rows = args.map(row => row.map(entry => ensureNumber(entry)))
-	}
-
-	toArray(): MatrixData {
-		return this.rows.map(row => [...row])
+		this._rows = args.map(row => row.map(entry => ensureNumber(entry)))
 	}
 
 	get type(): string {
 		return (this.constructor as typeof Matrix).type
 	}
 
+	get rows(): MatrixData {
+		return this._rows.map(row => [...row])
+	}
+
+	clone(): Matrix {
+		return new Matrix(this.rows)
+	}
+
 	toStorageValue(): MatrixData {
-		return this.toArray()
+		return this.rows
 	}
 
 	get SO(): MatrixData { // SO legacy
@@ -62,39 +69,32 @@ export class Matrix {
 	}
 
 	/*
-	 * Basic properties.
+	 * Argument checks.
 	 */
 
-	get rowCount(): number {
-		return this.rows.length
+	private ensureValidRowIndex(index: number): number {
+		index = ensureInt(index)
+		if (index < 0) throw new Error(`Invalid matrix row index: the index cannot be negative. However, ${index} was received.`)
+		if (index >= this.height) throw new Error(`Invalid matrix row index: the index cannot be larger than the number of rows. However, ${index} was received for a matrix with ${this.height} rows.`)
+		return index
 	}
 
-	get columnCount(): number {
-		return this.rows[0]!.length
+	private ensureValidColumnIndex(index: number): number {
+		index = ensureInt(index)
+		if (index < 0) throw new Error(`Invalid matrix column index: the index cannot be negative. However, ${index} was received.`)
+		if (index >= this.width) throw new Error(`Invalid matrix column index: the index cannot be larger than the number of columns. However, ${index} was received for a matrix with ${this.width} columns.`)
+		return index
 	}
 
-	get size(): [number, number] {
-		return [this.rowCount, this.columnCount]
+	private ensureValidIndices(row: number, column: number): [number, number] {
+		return [this.ensureValidRowIndex(row), this.ensureValidColumnIndex(column)]
 	}
 
-	get str(): string {
-		return this.toString()
-	}
-
-	toString(): string {
-		return `[${this.rows.map(row => `[${row.join(', ')}]`).join(', ')}]`
-	}
-
-	isSquare(): boolean {
-		return this.rowCount === this.columnCount
-	}
-
-	isZero(): boolean {
-		return this.rows.every(row => row.every(value => compareNumbers(value, 0)))
-	}
-
-	isIdentity(): boolean {
-		return this.isSquare() && this.rows.every((row, rowIndex) => row.every((value, colIndex) => compareNumbers(value, rowIndex === colIndex ? 1 : 0)))
+	private coerceMatrix(value: MatrixLike, rowCount?: number, columnCount?: number): Matrix {
+		const matrix = new Matrix(value)
+		if (rowCount !== undefined && matrix.height !== rowCount) throw new Error(`Invalid Matrix size: expected a matrix with ${rowCount} rows but received a matrix with ${matrix.height} rows.`)
+		if (columnCount !== undefined && matrix.width !== columnCount) throw new Error(`Invalid Matrix size: expected a matrix with ${columnCount} columns but received a matrix with ${matrix.width} columns.`)
+		return matrix
 	}
 
 	/*
@@ -103,71 +103,86 @@ export class Matrix {
 
 	getEntry(row: number, column: number): number {
 		const [safeRow, safeColumn] = this.ensureValidIndices(row, column)
-		return this.rows[safeRow]![safeColumn]!
+		return this._rows[safeRow]![safeColumn]!
 	}
 
 	setEntry(row: number, column: number, value: number): void {
 		const [safeRow, safeColumn] = this.ensureValidIndices(row, column)
-		this.rows[safeRow]![safeColumn] = ensureNumber(value)
+		this._rows[safeRow]![safeColumn] = ensureNumber(value)
 	}
 
 	getRow(index: number): Vector {
 		const safeIndex = this.ensureValidRowIndex(index)
-		return new Vector(this.rows[safeIndex]!)
+		return new Vector(this._rows[safeIndex]!)
 	}
 
 	getColumn(index: number): Vector {
 		const safeIndex = this.ensureValidColumnIndex(index)
-		return new Vector(this.rows.map(row => row[safeIndex]!))
-	}
-
-	private ensureValidRowIndex(index: number): number {
-		index = ensureInt(index)
-		if (index < 0) throw new Error(`Invalid matrix row index: the index cannot be negative. However, ${index} was received.`)
-		if (index >= this.rowCount) throw new Error(`Invalid matrix row index: the index cannot be larger than the number of rows. However, ${index} was received for a matrix with ${this.rowCount} rows.`)
-		return index
-	}
-
-	private ensureValidColumnIndex(index: number): number {
-		index = ensureInt(index)
-		if (index < 0) throw new Error(`Invalid matrix column index: the index cannot be negative. However, ${index} was received.`)
-		if (index >= this.columnCount) throw new Error(`Invalid matrix column index: the index cannot be larger than the number of columns. However, ${index} was received for a matrix with ${this.columnCount} columns.`)
-		return index
-	}
-
-	private ensureValidIndices(row: number, column: number): [number, number] {
-		return [this.ensureValidRowIndex(row), this.ensureValidColumnIndex(column)]
+		return new Vector(this._rows.map(row => row[safeIndex]!))
 	}
 
 	/*
-	 * Comparison methods.
+	 * Derived properties.
 	 */
 
-	private coerceMatrix(value: MatrixLike, rowCount?: number, columnCount?: number): Matrix {
-		const matrix = new Matrix(value)
-		if (rowCount !== undefined && matrix.rowCount !== rowCount) throw new Error(`Invalid Matrix size: expected a matrix with ${rowCount} rows but received a matrix with ${matrix.rowCount} rows.`)
-		if (columnCount !== undefined && matrix.columnCount !== columnCount) throw new Error(`Invalid Matrix size: expected a matrix with ${columnCount} columns but received a matrix with ${matrix.columnCount} columns.`)
-		return matrix
+	get height(): number {
+		return this._rows.length
 	}
+
+	get width(): number {
+		return this._rows[0]!.length
+	}
+
+	get size(): [number, number] {
+		return [this.height, this.width]
+	}
+
+	get str(): string {
+		return this.toString()
+	}
+
+	toString(): string {
+		return `[${this._rows.map(row => `[${row.join(', ')}]`).join(', ')}]`
+	}
+
+	/*
+	 * Checks.
+	 */
+
+	isSquare(): boolean {
+		return this.height === this.width
+	}
+
+	isZero(): boolean {
+		return this._rows.every(row => row.every(value => compareNumbers(value, 0)))
+	}
+
+	isIdentity(): boolean {
+		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => compareNumbers(value, rowIndex === colIndex ? 1 : 0)))
+	}
+
+	/*
+	 * Comparisons.
+	 */
 
 	equals(matrix: MatrixLike): boolean {
 		const other = this.coerceMatrix(matrix)
-		if (this.rowCount !== other.rowCount) return false
-		if (this.columnCount !== other.columnCount) return false
-		return this.rows.every((row, rowIndex) => row.every((value, columnIndex) => compareNumbers(value, other.getEntry(rowIndex, columnIndex))))
+		if (this.height !== other.height) return false
+		if (this.width !== other.width) return false
+		return this._rows.every((row, rowIndex) => row.every((value, columnIndex) => compareNumbers(value, other.getEntry(rowIndex, columnIndex))))
 	}
 
 	/*
-	 * Matrix operations.
+	 * Operations.
 	 */
 
 	add(matrix: MatrixLike): Matrix {
-		const other = this.coerceMatrix(matrix, this.rowCount, this.columnCount)
-		return new Matrix(this.rows.map((row, rowIndex) => row.map((value, columnIndex) => value + other.getEntry(rowIndex, columnIndex))))
+		const other = this.coerceMatrix(matrix, this.height, this.width)
+		return new Matrix(this._rows.map((row, rowIndex) => row.map((value, columnIndex) => value + other.getEntry(rowIndex, columnIndex))))
 	}
 
 	subtract(matrix: MatrixLike): Matrix {
-		return this.add(this.coerceMatrix(matrix, this.rowCount, this.columnCount).multiply(-1))
+		return this.add(this.coerceMatrix(matrix, this.height, this.width).multiply(-1))
 	}
 
 	multiply(scalar: number): Matrix
@@ -175,17 +190,17 @@ export class Matrix {
 	multiply(vector: VectorLike): Vector
 	multiply(value: number | MatrixLike | VectorLike): Matrix | Vector {
 		// On a number, multiply element-wise.
-		if (typeof value === 'number') return new Matrix(this.rows.map(row => row.map(entry => entry * value)))
+		if (typeof value === 'number') return new Matrix(this._rows.map(row => row.map(entry => entry * value)))
 
 		// On a Vector, set up the output vector.
 		if (isVectorLike(value)) {
-			const vector = ensureVector(value, this.columnCount)
-			return new Vector(this.rows.map(row => new Vector(row).dotProduct(vector)))
+			const vector = ensureVector(value, this.width)
+			return new Vector(this._rows.map(row => new Vector(row).dotProduct(vector)))
 		}
 
 		// On a matrix, multiply the matrices.
-		const other = this.coerceMatrix(value, this.columnCount)
-		return new Matrix(this.rows.map((_, rowIndex) => new Array(other.columnCount).fill(0).map((_, columnIndex) => this.getRow(rowIndex).dotProduct(other.getColumn(columnIndex)))))
+		const other = this.coerceMatrix(value, this.width)
+		return new Matrix(this._rows.map((_, rowIndex) => new Array(other.width).fill(0).map((_, columnIndex) => this.getRow(rowIndex).dotProduct(other.getColumn(columnIndex)))))
 	}
 
 	divide(scalar: number): Matrix {
@@ -193,28 +208,44 @@ export class Matrix {
 	}
 
 	transpose(): Matrix {
-		return new Matrix(new Array(this.columnCount).fill(0).map((_, columnIndex) => this.rows.map(row => row[columnIndex]!)))
+		return new Matrix(new Array(this.width).fill(0).map((_, columnIndex) => this._rows.map(row => row[columnIndex]!)))
 	}
 
 	get trace(): number {
 		if (!this.isSquare()) throw new Error(`Invalid trace call: can only take the trace of a square matrix.`)
-		return this.rows.reduce((sum, row, index) => sum + row[index]!, 0)
+		return this._rows.reduce((sum, row, index) => sum + row[index]!, 0)
 	}
 
 	get determinant(): number {
 		if (!this.isSquare()) throw new Error(`Invalid determinant call: can only take the determinant of a square matrix.`)
 
 		// Base cases.
-		if (this.rowCount === 1) return this.getEntry(0, 0)
-		if (this.rowCount === 2) return this.getEntry(0, 0) * this.getEntry(1, 1) - this.getEntry(0, 1) * this.getEntry(1, 0)
+		if (this.height === 0) return 1
+		if (this.height === 1) return this.getEntry(0, 0)
+		if (this.height === 2) return this.getEntry(0, 0) * this.getEntry(1, 1) - this.getEntry(0, 1) * this.getEntry(1, 0)
 
 		// Laplace expansion along the first row.
-		return this.rows[0]!.reduce((sum, value, columnIndex) => sum + (columnIndex % 2 === 0 ? 1 : -1) * value * this.getMinor(0, columnIndex).determinant, 0)
+		return this._rows[0]!.reduce((sum, value, columnIndex) => sum + (columnIndex % 2 === 0 ? 1 : -1) * value * this.getMinor(0, columnIndex).determinant, 0)
 	}
 
 	getMinor(rowToRemove: number, columnToRemove: number): Matrix {
 		this.ensureValidIndices(rowToRemove, columnToRemove)
-		return new Matrix(this.rows.filter((_, rowIndex) => rowIndex !== rowToRemove).map(row => row.filter((_, columnIndex) => columnIndex !== columnToRemove)))
+		return new Matrix(this._rows.filter((_, rowIndex) => rowIndex !== rowToRemove).map(row => row.filter((_, columnIndex) => columnIndex !== columnToRemove)))
+	}
+
+	isInvertible(): boolean {
+		return !compareNumbers(this.determinant, 0)
+	}
+
+	get adjugate(): Matrix {
+		if (!this.isSquare()) throw new Error(`Invalid adjugate call: can only take the adjugate of a square matrix.`)
+		return new Matrix(this._rows.map((row, rowIndex) => row.map((_, columnIndex) => ((rowIndex + columnIndex) % 2 === 0 ? 1 : -1) * this.getMinor(rowIndex, columnIndex).determinant))).transpose()
+	}
+
+	get inverse(): Matrix {
+		if (!this.isSquare()) throw new Error(`Invalid inverse call: can only invert a square matrix.`)
+		if (!this.isInvertible()) throw new Error(`Invalid inverse call: cannot invert a matrix with determinant 0.`)
+		return this.adjugate.divide(this.determinant)
 	}
 
 	/*
@@ -238,7 +269,7 @@ export class Matrix {
 	}
 
 	static fromVector(vector: VectorLike): Matrix {
-		return new Matrix(ensureVector(vector).toArray().map(value => [value]))
+		return new Matrix(ensureVector(vector).coordinates.map(value => [value]))
 	}
 
 	static fromColumns(columns: VectorLike[]): Matrix {
@@ -254,6 +285,6 @@ export class Matrix {
 		const vectors = rows.map(row => ensureVector(row))
 		const dimension = vectors[0]!.dimension
 		if (vectors.some(vector => vector.dimension !== dimension)) throw new Error(`Invalid fromRows call: all rows must have the same dimension.`)
-		return new Matrix(vectors.map(vector => vector.toArray()))
+		return new Matrix(vectors.map(vector => vector.coordinates))
 	}
 }

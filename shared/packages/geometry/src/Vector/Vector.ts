@@ -1,12 +1,13 @@
 import { ensureInt, ensureNumber, compareNumbers } from '@step-wise/utils'
 
-import type { CoordinateList, VectorInput } from './types'
+import type { CoordinateList, VectorData, VectorInput } from './types'
 import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'
 
+export type { VectorData }
 export type VectorLike = Vector | VectorInput
 
 export class Vector {
-	private coordinates: CoordinateList
+	private _coordinates: CoordinateList
 	static readonly type = 'Vector'
 
 	// Common vectors.
@@ -30,19 +31,19 @@ export class Vector {
 
 			// On a Vector, become it.
 			if (value instanceof Vector) {
-				this.coordinates = [...value.coordinates]
+				this._coordinates = value.coordinates
 				return
 			}
 
 			// On a coordinate list, apply it.
 			if (isCoordinateList(value)) {
-				this.coordinates = value.map(coordinate => ensureNumber(coordinate))
+				this._coordinates = value.map(coordinate => ensureNumber(coordinate))
 				return
 			}
 
 			// On a coordinate object, get the coordinates.
 			if (isCoordinateObject(value)) {
-				this.coordinates = coordinatesFromObject(value)
+				this._coordinates = coordinatesFromObject(value)
 				return
 			}
 
@@ -51,47 +52,68 @@ export class Vector {
 		}
 
 		// Handle constructor(...coordinates).
-		this.coordinates = args.map(coordinate => ensureNumber(coordinate))
-	}
-
-	toArray(): CoordinateList {
-		return [...this.coordinates]
+		this._coordinates = args.map(coordinate => ensureNumber(coordinate))
 	}
 
 	get type(): string {
 		return (this.constructor as typeof Vector).type
 	}
 
-	toStorageValue(): CoordinateList {
-		return this.toArray()
+	get coordinates(): CoordinateList {
+		return [...this._coordinates]
 	}
 
-	get SO(): CoordinateList { // SO legacy
+	clone(): Vector {
+		return new Vector(this.coordinates)
+	}
+
+	toStorageValue(): VectorData {
+		return this.coordinates
+	}
+
+	get SO(): VectorData { // SO legacy
 		return this.toStorageValue()
 	}
 
-	static fromStorageValue(coordinates: CoordinateList): Vector {
+	static fromStorageValue(coordinates: VectorData): Vector {
 		return new Vector(coordinates)
 	}
 
 	/*
-	 * Getting and setting coordinates.
+	 * Argument checks.
+	 */
+
+	private ensureValidIndex(index: number): number {
+		index = ensureInt(index)
+		if (index < 0) throw new Error(`Invalid vector index: the index cannot be negative. However, ${index} was received.`)
+		if (index >= this.dimension) throw new Error(`Invalid vector index: the index cannot be larger than the vector dimension. However, ${index} was received for a vector of dimension ${this.dimension}.`)
+		return index
+	}
+
+	private coerceVector(value: VectorLike, dimension = this.dimension): Vector {
+		const vector = new Vector(value)
+		if (vector.dimension !== dimension) throw new Error(`Invalid Vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${vector.dimension}.`)
+		return vector
+	}
+
+	/*
+	 * Entry access.
 	 */
 
 	get x(): number | undefined {
-		return this.coordinates[0]
+		return this._coordinates[0]
 	}
 
 	get y(): number | undefined {
-		return this.coordinates[1]
+		return this._coordinates[1]
 	}
 
 	get z(): number | undefined {
-		return this.coordinates[2]
+		return this._coordinates[2]
 	}
 
 	getCoordinate(index: number): number {
-		return this.coordinates[this.ensureValidIndex(index)]
+		return this._coordinates[this.ensureValidIndex(index)]
 	}
 
 	set x(x: number | undefined) {
@@ -110,14 +132,7 @@ export class Vector {
 	}
 
 	setCoordinate(index: number, value: number): void {
-		this.coordinates[this.ensureValidIndex(index)] = ensureNumber(value)
-	}
-
-	private ensureValidIndex(index: number): number {
-		index = ensureInt(index)
-		if (index < 0) throw new Error(`Invalid vector index: the index cannot be negative. However, ${index} was received.`)
-		if (index >= this.dimension) throw new Error(`Invalid vector index: the index cannot be larger than the vector dimension. However, ${index} was received for a vector of dimension ${this.dimension}.`)
-		return index
+		this._coordinates[this.ensureValidIndex(index)] = ensureNumber(value)
 	}
 
 	/*
@@ -125,11 +140,11 @@ export class Vector {
 	 */
 
 	get dimension(): number {
-		return this.coordinates.length
+		return this._coordinates.length
 	}
 
 	get squaredMagnitude(): number {
-		return this.coordinates.reduce((sum, coordinate) => sum + coordinate ** 2, 0)
+		return this._coordinates.reduce((sum, coordinate) => sum + coordinate ** 2, 0)
 	}
 
 	get magnitude(): number {
@@ -151,22 +166,44 @@ export class Vector {
 	}
 
 	toString(): string {
-		return `[${this.coordinates.join(', ')}]`
+		return `[${this._coordinates.join(', ')}]`
 	}
+
+	/*
+	 * Checks.
+	 */
 
 	isZero(): boolean {
 		return compareNumbers(this.squaredMagnitude, 0)
 	}
 
 	/*
-	 * Manipulation methods.
+	 * Comparisons.
 	 */
 
-	private coerceVector(value: VectorLike, dimension = this.dimension): Vector {
-		const vector = new Vector(value)
-		if (vector.dimension !== dimension) throw new Error(`Invalid Vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${vector.dimension}.`)
-		return vector
+	equals(vector: VectorLike): boolean {
+		const other = this.coerceVector(vector)
+		return this.dimension === other.dimension && this._coordinates.every((value, index) => compareNumbers(value, other._coordinates[index]))
 	}
+
+	isEqualMagnitude(vector: VectorLike): boolean {
+		return compareNumbers(this.squaredMagnitude, this.coerceVector(vector).squaredMagnitude)
+	}
+
+	isEqualDirection(vector: VectorLike, allowReverse = false): boolean {
+		const other = this.coerceVector(vector)
+		if (other.isZero()) throw new Error(`Invalid isEqualDirection call: cannot compare direction with the zero vector.`)
+		const dotProduct = this.dotProduct(other)
+		return compareNumbers(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * other.magnitude)
+	}
+
+	isOrthogonal(vector: VectorLike): boolean {
+		return compareNumbers(this.dotProduct(this.coerceVector(vector)), 0)
+	}
+
+	/*
+	 * Operations.
+	 */
 
 	reverse(): Vector {
 		return this.multiply(-1)
@@ -174,7 +211,7 @@ export class Vector {
 
 	add(vector: VectorLike): Vector {
 		const other = this.coerceVector(vector)
-		return new Vector(this.coordinates.map((value, index) => value + other.getCoordinate(index)))
+		return new Vector(this._coordinates.map((value, index) => value + other.getCoordinate(index)))
 	}
 
 	subtract(vector: VectorLike): Vector {
@@ -183,7 +220,7 @@ export class Vector {
 
 	// Multiply the vector by a scalar.
 	multiply(value: number): Vector {
-		return new Vector(this.coordinates.map(coordinate => coordinate * value))
+		return new Vector(this._coordinates.map(coordinate => coordinate * value))
 	}
 
 	// Divide the vector by a scalar.
@@ -207,7 +244,7 @@ export class Vector {
 
 	// Round each coordinate of the vector.
 	round(): Vector {
-		return new Vector(this.coordinates.map(value => Math.round(value)))
+		return new Vector(this._coordinates.map(value => Math.round(value)))
 	}
 
 	// Shorten the vector by a given distance while keeping its direction. If the distance is larger than the magnitude, the zero vector is returned.
@@ -217,7 +254,7 @@ export class Vector {
 
 	dotProduct(vector: VectorLike): number {
 		const other = this.coerceVector(vector)
-		return this.coordinates.reduce((sum, value, index) => sum + value * other.getCoordinate(index), 0)
+		return this._coordinates.reduce((sum, value, index) => sum + value * other.getCoordinate(index), 0)
 	}
 
 	// For 2D vectors, get the z-component of the cross product as a number. For 3D vectors, get the full cross product vector.
@@ -225,8 +262,8 @@ export class Vector {
 		const other = this.coerceVector(vector)
 		if (this.dimension !== 2 && this.dimension !== 3) throw new Error(`Invalid crossProduct call: can only ask for a cross product on three-dimensional vectors. Two-dimensional vectors may also be possible, in which the z-component is used. However, the vector has dimension ${this.dimension}.`)
 
-		const a = this.coordinates
-		const b = other.coordinates
+		const a = this._coordinates
+		const b = other._coordinates
 		if (this.dimension === 2) return a[0]! * b[1]! - a[1]! * b[0]!
 		return new Vector([
 			a[1]! * b[2]! - a[2]! * b[1]!,
@@ -253,30 +290,6 @@ export class Vector {
 	// Component of this vector orthogonal to the given vector.
 	orthogonalComponent(vector: VectorLike): Vector {
 		return this.subtract(this.projectOnto(vector))
-	}
-
-	/*
-	 * Comparison methods.
-	 */
-
-	equals(vector: VectorLike): boolean {
-		const other = this.coerceVector(vector)
-		return this.dimension === other.dimension && this.coordinates.every((value, index) => compareNumbers(value, other.getCoordinate(index)))
-	}
-
-	isEqualMagnitude(vector: VectorLike): boolean {
-		return compareNumbers(this.squaredMagnitude, this.coerceVector(vector).squaredMagnitude)
-	}
-
-	isEqualDirection(vector: VectorLike, allowReverse = false): boolean {
-		const other = this.coerceVector(vector)
-		if (other.isZero()) throw new Error(`Invalid isEqualDirection call: cannot compare direction with the zero vector.`)
-		const dotProduct = this.dotProduct(other)
-		return compareNumbers(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * other.magnitude)
-	}
-
-	isOrthogonal(vector: VectorLike): boolean {
-		return compareNumbers(this.dotProduct(this.coerceVector(vector)), 0)
 	}
 
 	/*
