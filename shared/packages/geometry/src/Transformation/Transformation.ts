@@ -12,29 +12,35 @@ export type TransformationLike = Transformation | TransformationInput
 export class Transformation {
 	private _matrix: Matrix
 	private _translation: Vector
-	static readonly type = 'Transformation'
-
-	// Common transformations.
+	
+	/*
+	 * Common transformations.
+	 */
+	
 	static readonly horizontalFlip = Transformation.fromReflection([1, 0])
 	static readonly verticalFlip = Transformation.fromReflection([0, 1])
-
+	
+	/*
+	 * Constructor.
+	 */
+	
 	constructor(input: TransformationLike)
 	constructor(matrix: MatrixLike, translation?: VectorLike)
 	constructor(...args: [TransformationLike] | [MatrixLike, VectorLike?]) {
 		let matrix: MatrixLike
 		let translation: VectorLike | undefined
-
+		
 		// Determine the matrix and translation parameters.
 		if (args.length === 1) {
 			const value = args[0]
-
+			
 			// On a transformation, become it. No further checks needed.
 			if (value instanceof Transformation) {
 				this._matrix = value.matrix
 				this._translation = value.translation
 				return
 			}
-
+			
 			// On an object with data, process the data.
 			if (isTransformationDescription(value)) {
 				matrix = value.matrix
@@ -48,12 +54,17 @@ export class Transformation {
 		} else {
 			throw new Error(`Invalid Transformation input: received ${args.length} parameters, but only a Matrix and optionally a Vector are expected.`)
 		}
-
+		
 		// Check and store the matrix and translation.
 		this._matrix = ensureSquareMatrix(matrix)
 		this._translation = translation === undefined ? Vector.getZero(this._matrix.width) : ensureVector(translation, this._matrix.width)
 	}
+	
+	/*
+	 * Fundamentals.
+	 */
 
+	static readonly type = 'Transformation'
 	get type(): string {
 		return (this.constructor as typeof Transformation).type
 	}

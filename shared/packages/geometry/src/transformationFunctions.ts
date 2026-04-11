@@ -2,8 +2,11 @@ import { ensureNumber } from '@step-wise/utils'
 
 import { type VectorLike, Vector, ensureVector } from './Vector'
 import { type MatrixLike, Matrix, ensureMatrix } from './Matrix'
+import { type TransformationLike, ensureTransformation } from './Transformation'
+import { type LineLike, Line, ensureLine } from './Line'
 
 // Transform a vector by applying it to the given transformation matrix.
+// ToDo: implement Transformation argument here. But first check what we actually need here.
 export function transformVector(vector: VectorLike, matrix: MatrixLike, relativeTo?: VectorLike): Vector {
 	// Check the input.
 	const inputVector = ensureVector(vector)
@@ -35,7 +38,7 @@ export function rotateVector(vector: VectorLike, rotationAngle: number, relative
 	const angle = ensureNumber(rotationAngle)
 
 	// Apply the transformation.
-	const matrix = new Matrix([[Math.cos(angle), -Math.sin(angle)],	[Math.sin(angle), Math.cos(angle)]])
+	const matrix = new Matrix([[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]])
 	return transformVector(inputVector, matrix, relativeTo)
 }
 
@@ -48,4 +51,11 @@ export function reflectVector(vector: VectorLike, direction?: VectorLike, relati
 	const u = Matrix.fromVector(axis.normalize())
 	const matrix = u.multiply(u.transpose()).multiply(2).subtract(Matrix.getIdentity(axis.dimension))
 	return transformVector(inputVector, matrix, relativeTo)
+}
+
+// Apply a transformation to a line.
+export function transformLine(line: LineLike, transformation: TransformationLike, preventTranslation?: boolean) {
+	const inputLine = ensureLine(line)
+	const transform = ensureTransformation(transformation, inputLine.dimension)
+	return Line.fromPoints(transform.apply(inputLine.start, preventTranslation), transform.apply(inputLine.secondPoint, preventTranslation))
 }

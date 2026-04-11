@@ -1,3 +1,5 @@
 export * from './Vector'
 export * from './Matrix'
-export * from './vectorTransformation'
+export * from './Transformation'
+export * from './Line'
+export * from './transformationFunctions'

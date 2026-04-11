@@ -8,9 +8,11 @@ export type VectorLike = Vector | VectorInput
 
 export class Vector {
 	private _coordinates: CoordinateList
-	static readonly type = 'Vector'
+	
+	/*
+	 * Common vectors.
+	 */
 
-	// Common vectors.
 	static readonly zero = new Vector(0, 0)
 	static readonly i = new Vector(1, 0)
 	static readonly j = new Vector(0, 1)
@@ -21,40 +23,51 @@ export class Vector {
 		k: new Vector(0, 0, 1),
 	}
 
+	/*
+	 * Constructor.
+	 */
+	
+	constructor(input: VectorLike)
+	constructor(...coordinates: CoordinateList)
 	constructor(...args: [VectorLike] | CoordinateList) {
 		// Check for empty input.
 		if (args.length === 0) throw new Error(`Invalid Vector: the Vector constructor was called without input. For the zero vector, use Vector.zero or Vector['3D'].zero.`)
-
+			
 		// Handle constructor(VectorLike).
 		if (args.length === 1) {
 			const value = args[0]
-
+			
 			// On a Vector, become it.
 			if (value instanceof Vector) {
 				this._coordinates = value.coordinates
 				return
 			}
-
+			
 			// On a coordinate list, apply it.
 			if (isCoordinateList(value)) {
 				this._coordinates = value.map(coordinate => ensureNumber(coordinate))
 				return
 			}
-
+			
 			// On a coordinate object, get the coordinates.
 			if (isCoordinateObject(value)) {
 				this._coordinates = coordinatesFromObject(value)
 				return
 			}
-
+			
 			// Unexpected case.
 			throw new Error(`Invalid Vector: expected an array of coordinates or some other Vector-like object but received something of type "${typeof value}".`)
 		}
-
+		
 		// Handle constructor(...coordinates).
 		this._coordinates = args.map(coordinate => ensureNumber(coordinate))
 	}
 
+	/*
+	 * Fundamentals.
+	 */
+	
+	static readonly type = 'Vector'
 	get type(): string {
 		return (this.constructor as typeof Vector).type
 	}
@@ -64,7 +77,7 @@ export class Vector {
 	}
 
 	clone(): Vector {
-		return new Vector(this.coordinates)
+		return new Vector(this._coordinates)
 	}
 
 	toStorageValue(): VectorData {

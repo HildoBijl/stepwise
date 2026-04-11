@@ -10,13 +10,21 @@ export type MatrixLike = Matrix | MatrixInput
 
 export class Matrix {
 	private _rows: MatrixData
-	static readonly type = 'Matrix'
 
-	// Common matrices.
+	/*
+	 * Common matrices.
+	 */
+
 	static readonly identity2D = Matrix.getIdentity(2)
 	static readonly identity3D = Matrix.getIdentity(3)
 
-	constructor(...args: [MatrixLike] | MatrixRow[]) {
+	/*
+	 * Constructor.
+	 */
+
+	constructor(input: MatrixLike)
+	constructor(...rows: MatrixData)
+	constructor(...args: [MatrixLike] | MatrixData) {
 		// Check for empty input.
 		if (args.length === 0) throw new Error(`Invalid Matrix: the Matrix constructor was called without input.`)
 
@@ -44,6 +52,11 @@ export class Matrix {
 		this._rows = args.map(row => row.map(entry => ensureNumber(entry)))
 	}
 
+	/*
+	 * Fundamentals.
+	 */
+
+	static readonly type = 'Matrix'
 	get type(): string {
 		return (this.constructor as typeof Matrix).type
 	}
@@ -53,7 +66,7 @@ export class Matrix {
 	}
 
 	clone(): Matrix {
-		return new Matrix(this.rows)
+		return new Matrix(this._rows)
 	}
 
 	toStorageValue(): MatrixData {
