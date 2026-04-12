@@ -8,6 +8,7 @@
 		"watch": "tsc -b --watch"
 	},
 	"devDependencies": {
-		"typescript": "^5.x"
+		"@types/node": "^25.6.0",
+		"typescript": "^6.0.2"
 	}
 }

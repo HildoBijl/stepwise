@@ -32,7 +32,7 @@ export class Matrix {
 		if (args.length === 1) {
 			const value = args[0]
 
-			// On a matrix, become it.
+			// On a Matrix, become it.
 			if (value instanceof Matrix) {
 				this._rows = value.rows
 				return
@@ -57,7 +57,7 @@ export class Matrix {
 	 */
 
 	static readonly type = 'Matrix'
-	
+
 	get type(): string {
 		return (this.constructor as typeof Matrix).type
 	}

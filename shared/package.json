@@ -8,11 +8,12 @@
 		"watch": "node scripts/watch-packages.js"
 	},
 	"dependencies": {
+		"@step-wise/geometry": "file:packages/geometry",
 		"@step-wise/settings": "file:packages/settings",
 		"@step-wise/utils": "file:packages/utils"
 	},
 	"devDependencies": {
 		"jest": "^29.7.0",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.2"
 	}
 }

@@ -34,7 +34,7 @@ export class Transformation {
 		if (args.length === 1) {
 			const value = args[0]
 			
-			// On a transformation, become it. No further checks needed.
+			// On a Transformation, become it. No further checks needed.
 			if (value instanceof Transformation) {
 				this._matrix = value.matrix
 				this._translation = value.translation
@@ -65,7 +65,7 @@ export class Transformation {
 	 */
 
 	static readonly type = 'Transformation'
-	
+
 	get type(): string {
 		return (this.constructor as typeof Transformation).type
 	}

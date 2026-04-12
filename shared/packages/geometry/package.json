@@ -11,6 +11,6 @@
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {
-		"typescript": "^5.x"
+		"typescript": "^6.0.2"
 	}
 }
