@@ -25,5 +25,5 @@ module.exports = {
 
 	// Object-based types.
 	...requireAndProcess('Vector'),
-	...requireAndProcess('Span'),
+	...requireAndProcess('LineSegment'),
 }

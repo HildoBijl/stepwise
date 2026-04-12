@@ -3,7 +3,7 @@ const { isObject, isPlainObject, mapValues } = require('@step-wise/utils')
 const types = [
 	'Integer', 'Float', 'Unit', 'FloatUnit', // Number- and physics-based types.
 	'Expression', 'Equation', // Expression-based types.
-	'Vector', 'Span', // Object-based types.
+	'Vector', 'LineSegment', // Object-based types.
 ]
 
 // toFO takes a data object, which may be an SO, and tries to interpret it into functional components. It does so recursively for child parameters. It attempts to find which type it is and use the corresponding SOtoFO function (or SItoFO function if the useSI flag is set to true).

@@ -1,7 +1,7 @@
 const { deg2rad, fromEntries, randomInteger } = require('@step-wise/utils')
+const { Vector } = require('@step-wise/geometry')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
-const { Vector } = require('../../../../geometry')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')

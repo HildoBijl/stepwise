@@ -1,5 +1,5 @@
 const { randomBoolean, randomInteger } = require('@step-wise/utils')
-const { Vector } = require('../../../../geometry')
+const { Vector } = require('@step-wise/geometry')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../..')

@@ -1,5 +1,5 @@
 const { mod, sortBy } = require('@step-wise/utils')
-const { Vector } = require('../../../geometry')
+const { Vector } = require('@step-wise/geometry')
 const { Variable } = require('../../../CAS')
 
 const { loadTypes } = require('./definitions')
