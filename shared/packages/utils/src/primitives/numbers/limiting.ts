@@ -9,3 +9,8 @@ export function clamp(x: number, min = 0, max = 1): number {
 	if (min > max) throw new RangeError("Input error: minimum cannot exceed maximum.")
 	return Math.max(Math.min(x, max), min)
 }
+
+// Check if the given number falls within a bound.
+export function fallsBetween(x: number, min = 0, max = 1, includeBounds = true): boolean {
+	return includeBounds ? (x >= min && x <= max) : (x > min && x < max)
+}

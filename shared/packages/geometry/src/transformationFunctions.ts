@@ -54,14 +54,14 @@ export function reflectVector(vector: VectorLike, direction?: VectorLike, relati
 	return transformVector(inputVector, matrix, relativeTo)
 }
 
-// Apply a transformation to a line.
+// Apply a transformation to a Line.
 export function transformLine(line: LineLike, transformation: TransformationLike, preventTranslation?: boolean) {
 	const inputLine = ensureLine(line)
 	const transform = ensureTransformation(transformation, inputLine.dimension)
 	return Line.fromPoints(transform.apply(inputLine.start, preventTranslation), transform.apply(inputLine.secondPoint, preventTranslation))
 }
 
-// Apply a transformatino to a line segment.
+// Apply a transformation to a LineSegment.
 export function transformLineSegment(lineSegment: LineSegmentLike, transformation: TransformationLike, preventTranslation?: boolean) {
 	const inputLineSegment = ensureLineSegment(lineSegment)
 	const transform = ensureTransformation(transformation, inputLineSegment.dimension)

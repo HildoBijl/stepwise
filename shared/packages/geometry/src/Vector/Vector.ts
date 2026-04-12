@@ -68,7 +68,7 @@ export class Vector {
 	 */
 	
 	static readonly type = 'Vector'
-	
+
 	get type(): string {
 		return (this.constructor as typeof Vector).type
 	}
@@ -114,34 +114,31 @@ export class Vector {
 	 * Entry access.
 	 */
 
-	get x(): number | undefined {
-		return this._coordinates[0]
+	get x(): number {
+		return this.getCoordinate(0)
 	}
 
-	get y(): number | undefined {
-		return this._coordinates[1]
+	get y(): number {
+		return this.getCoordinate(1)
 	}
 
-	get z(): number | undefined {
-		return this._coordinates[2]
+	get z(): number {
+		return this.getCoordinate(2)
 	}
 
 	getCoordinate(index: number): number {
 		return this._coordinates[this.ensureValidIndex(index)]
 	}
 
-	set x(x: number | undefined) {
-		if (x === undefined) throw new Error(`Invalid x-coordinate: cannot set x to undefined.`)
+	set x(x: number) {
 		this.setCoordinate(0, x)
 	}
 
-	set y(y: number | undefined) {
-		if (y === undefined) throw new Error(`Invalid y-coordinate: cannot set y to undefined.`)
+	set y(y: number) {
 		this.setCoordinate(1, y)
 	}
 
-	set z(z: number | undefined) {
-		if (z === undefined) throw new Error(`Invalid z-coordinate: cannot set z to undefined.`)
+	set z(z: number) {
 		this.setCoordinate(2, z)
 	}
 

@@ -67,7 +67,7 @@ export class Line {
 	 */
 
 	static readonly type = 'Line'
-	
+
 	get type(): string {
 		return (this.constructor as typeof Line).type
 	}
@@ -174,6 +174,12 @@ export class Line {
 		return Math.sqrt(this.getSquaredDistanceFrom(vector))
 	}
 
+	// Get the point p on the line such that p[axis] = value.
+	getPointWithCoordinate(axis: number, value: number): Vector {
+		const factor = this.getFactorOfPointWithCoordinate(axis, value)
+		return this.getPointWithFactor(factor)
+	}
+
 	// Find factor a such that start + a * direction is the closest point on the line.
 	getDirectionFactor(vector: VectorLike): number {
 		const closestPoint = this.getClosestPoint(vector)
@@ -181,20 +187,15 @@ export class Line {
 		return this._direction.dotProduct(relativeVector) / this._direction.squaredMagnitude
 	}
 
+	// Find the point p = start + factor * direction.
 	getPointWithFactor(factor: number): Vector {
 		return this._start.add(this._direction.multiply(ensureNumber(factor)))
 	}
 
-	// Get the point p on the line such that p[axis] = value.
-	getPointWithCoordinate(axis: number, value: number): Vector {
-		const factor = this.getFactorOfPointWithCoordinate(axis, value)
-		return this.getPointWithFactor(factor)
-	}
-
+	// Find the factor of the point p on the line satisfying p[axis] = value.
 	getFactorOfPointWithCoordinate(axis: number, value = 0): number {
 		axis = ensureInt(axis, true)
 		value = ensureNumber(value)
-
 		if (axis >= this.dimension) throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
 		const directionCoordinate = this._direction.getCoordinate(axis)
 		if (compareNumbers(directionCoordinate, 0)) throw new Error(`Invalid getPointWithCoordinate call: the line is parallel to the given axis (${axis}), so no intersecting point can be computed.`)
