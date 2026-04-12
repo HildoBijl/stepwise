@@ -57,6 +57,7 @@ export class Matrix {
 	 */
 
 	static readonly type = 'Matrix'
+	
 	get type(): string {
 		return (this.constructor as typeof Matrix).type
 	}

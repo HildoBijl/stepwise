@@ -4,6 +4,7 @@ import { type VectorLike, Vector, ensureVector } from './Vector'
 import { type MatrixLike, Matrix, ensureMatrix } from './Matrix'
 import { type TransformationLike, ensureTransformation } from './Transformation'
 import { type LineLike, Line, ensureLine } from './Line'
+import { type LineSegmentLike, LineSegment, ensureLineSegment } from './LineSegment'
 
 // Transform a vector by applying it to the given transformation matrix.
 // ToDo: implement Transformation argument here. But first check what we actually need here.
@@ -58,4 +59,11 @@ export function transformLine(line: LineLike, transformation: TransformationLike
 	const inputLine = ensureLine(line)
 	const transform = ensureTransformation(transformation, inputLine.dimension)
 	return Line.fromPoints(transform.apply(inputLine.start, preventTranslation), transform.apply(inputLine.secondPoint, preventTranslation))
+}
+
+// Apply a transformatino to a line segment.
+export function transformLineSegment(lineSegment: LineSegmentLike, transformation: TransformationLike, preventTranslation?: boolean) {
+	const inputLineSegment = ensureLineSegment(lineSegment)
+	const transform = ensureTransformation(transformation, inputLineSegment.dimension)
+	return new LineSegment(transform.apply(inputLineSegment.start, preventTranslation), transform.apply(inputLineSegment.end, preventTranslation))
 }

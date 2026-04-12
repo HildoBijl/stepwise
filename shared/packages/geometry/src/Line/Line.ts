@@ -67,6 +67,7 @@ export class Line {
 	 */
 
 	static readonly type = 'Line'
+	
 	get type(): string {
 		return (this.constructor as typeof Line).type
 	}

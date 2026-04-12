@@ -68,6 +68,7 @@ export class Vector {
 	 */
 	
 	static readonly type = 'Vector'
+	
 	get type(): string {
 		return (this.constructor as typeof Vector).type
 	}

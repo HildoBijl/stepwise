@@ -65,6 +65,7 @@ export class Transformation {
 	 */
 
 	static readonly type = 'Transformation'
+	
 	get type(): string {
 		return (this.constructor as typeof Transformation).type
 	}
