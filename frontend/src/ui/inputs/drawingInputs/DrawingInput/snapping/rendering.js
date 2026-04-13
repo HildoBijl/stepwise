@@ -20,8 +20,8 @@ export function SnapLines() {
 	// Render the snap lines.
 	const { snapLines } = mouseData
 	return snapLines.map((line, index) => {
-		const linePart = bounds.getLinePart(line)
-		return <SvgLine key={index} points={[linePart.start, linePart.end]} style={{
+		const lineSegment = bounds.getLineSegment(line)
+		return <SvgLine key={index} points={[lineSegment.start, lineSegment.end]} style={{
 			stroke: theme.palette.primary.main,
 			strokeWidth: 1,
 			opacity: 0.4,

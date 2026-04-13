@@ -5,7 +5,7 @@
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 
 import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/utils'
-import { Vector, ensureVector } from 'step-wise/geometry'
+import { Vector, ensureVector } from '@step-wise/geometry'
 
 import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'
@@ -71,13 +71,13 @@ export const Drawing = forwardRef((options, ref) => {
 		getDrawingCoordinates(cPoint, figureRect) {
 			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current, figureRect)
 			const inverseTransformation = transformationSettings.inverseTransformation
-			return gPoint && inverseTransformation.apply(gPoint)
+			return gPoint && inverseTransformation.transform(gPoint)
 		},
 		getPointFromEvent(event) {
 			const cPoint = getEventPosition(event)
 			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current)
 			const inverseTransformation = transformationSettings.inverseTransformation
-			return gPoint && inverseTransformation.apply(gPoint)
+			return gPoint && inverseTransformation.transform(gPoint)
 		},
 		contains(dPoint) {
 			if (!dPoint)
@@ -165,7 +165,7 @@ export function useMouseData() {
 
 	// Transform to drawing coordinates.
 	const inverseTransformation = transformationSettings.inverseTransformation
-	const position = graphicalPosition && inverseTransformation.apply(graphicalPosition)
+	const position = graphicalPosition && inverseTransformation.transform(graphicalPosition)
 
 	// Calculate the position in graphical coordinates.
 	return { clientPosition, graphicalPosition, position, keys }

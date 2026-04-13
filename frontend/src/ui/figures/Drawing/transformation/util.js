@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { ensureNumber, ensureInt, mapValues } from '@step-wise/utils'
-import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
+import { isTransformable, Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -65,12 +65,8 @@ export function applyTransformation(points, transformation, preventShift) {
 		return undefined
 
 	// If the points parameter is a single vector, apply it.
-	if (Vector.isVector(points))
-		return transformation.apply(points, preventShift)
-
-	// If the parameter has a transform function, apply it.
-	if (typeof points.transform === 'function')
-		return points.transform(transformation, preventShift)
+	if (isTransformable(points))
+		return transformation.transform(points, preventShift)
 
 	// Apply the transformation to each element of the given array/object.
 	return mapValues(points, point => applyTransformation(point, transformation, preventShift))
@@ -80,9 +76,9 @@ export function applyTransformation(points, transformation, preventShift) {
 export function useRotationReflectionTransformation(rotation = 0, reflection = true, relativeTo) {
 	relativeTo = useConsistentValue(relativeTo)
 	return useMemo(() => {
-		let transformation = Transformation.getRotation(rotation)
+		let transformation = Transformation.fromRotation(rotation)
 		if (reflection)
-			transformation = Transformation.getReflection(Vector.getUnitVector(0, 2)).chain(transformation)
-		return transformation.getRelativeTo(relativeTo)
+			transformation = Transformation.fromReflection(Vector.getUnitVector(0, 2)).then(transformation)
+		return transformation.relativeTo(relativeTo)
 	}, [rotation, reflection, relativeTo])
 }

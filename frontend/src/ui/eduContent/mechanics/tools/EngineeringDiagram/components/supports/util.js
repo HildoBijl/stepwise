@@ -1,4 +1,4 @@
-import { Vector } from 'step-wise/geometry/Vector'
+import { Vector } from '@step-wise/geometry'
 
 import { defaultObject } from 'ui/figures/Drawing/components/svgComponents/util'
 

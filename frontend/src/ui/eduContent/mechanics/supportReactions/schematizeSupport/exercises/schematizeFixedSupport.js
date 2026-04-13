@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { deg2rad } from '@step-wise/utils'
-import { Vector, Line } from 'step-wise/geometry'
+import { Vector, Line } from '@step-wise/geometry'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
@@ -123,7 +123,7 @@ function getFeedback(exerciseData) {
 	}
 	const forcesAlongSameLine = input => {
 		const forces = input.filter(load => load.type === loadTypes.force)
-		return forces[0].span.alongEqualLine(forces[1].span) && { text: <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>, affectedLoads: forces }
+		return forces[0].force.alongEqualLine(forces[1].force) && { text: <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>, affectedLoads: forces }
 	}
 	const wrongNumberOfMoments = input => {
 		const moments = input.filter(load => load.type === loadTypes.moment)
@@ -131,7 +131,7 @@ function getFeedback(exerciseData) {
 	}
 	const nonPerpendicular = input => {
 		const forces = input.filter(load => load.type === loadTypes.force)
-		return !forces[0].span.isOrthogonal(forces[1].span) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
+		return !forces[0].force.isOrthogonal(forces[1].force) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
 	}
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
 

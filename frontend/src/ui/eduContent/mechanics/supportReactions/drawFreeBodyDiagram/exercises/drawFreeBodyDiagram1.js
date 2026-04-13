@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { ensureNumber, ensureString } from '@step-wise/utils'
-import { Vector } from 'step-wise/geometry'
+import { Vector } from '@step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes'
 
 import { Par, M } from 'ui/components'
@@ -185,7 +185,7 @@ function Schematics({ loads, showSupports = true, zoom }) {
 				return null
 			return <Fragment key={index}>
 				<Element position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
-				<Distance span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
+				<Distance lineSegment={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
 			</Fragment>
 		})}
 

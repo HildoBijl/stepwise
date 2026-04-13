@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { deg2rad } from '@step-wise/utils'
-import { Vector, Line } from 'step-wise/geometry'
+import { Vector, Line } from '@step-wise/geometry'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'

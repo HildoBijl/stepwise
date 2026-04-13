@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { alpha } from '@mui/material'
 
 import { repeat, binomial } from '@step-wise/utils'
-import { Vector } from 'step-wise/geometry'
+import { Vector } from '@step-wise/geometry'
 
 import { Translation, useTextTranslation } from 'i18n'
 import { usePrimaryColor } from 'ui/theme'

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { first, last } from '@step-wise/utils'
-import { Transformation } from 'step-wise/geometry'
+import { Transformation } from '@step-wise/geometry'
 
 import { M } from 'ui/components'
 import { Drawing, Line as SvgLine, Curve as SvgCurve, useBoundsBasedTransformationSettings, Element } from 'ui/figures'

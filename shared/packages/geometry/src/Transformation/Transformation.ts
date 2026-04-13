@@ -1,9 +1,12 @@
 import { ensureInt, ensureNumber } from '@step-wise/utils'
 
-import { Matrix, type MatrixLike, ensureSquareMatrix } from '../Matrix'
-import { Vector, type VectorLike, ensureVector } from '../Vector'
+import { type VectorLike, Vector, ensureVector, isVectorLike } from '../Vector'
+import { type LineLike, Line, ensureLine, isLineLike } from '../Line'
+import { type LineSegmentLike, LineSegment, ensureLineSegment, isLineSegmentLike } from '../LineSegment'
+import { type RectangleLike, Rectangle, ensureRectangle, isRectangleLike } from '../Rectangle'
+import { type MatrixLike, Matrix, ensureSquareMatrix } from '../Matrix'
 
-import type { TransformationInput, TransformationData } from './types'
+import type { TransformationInput, TransformationData, TransformableLike } from './types'
 import { isTransformationDescription } from './support'
 
 export type { TransformationData }
@@ -12,35 +15,35 @@ export type TransformationLike = Transformation | TransformationInput
 export class Transformation {
 	private _matrix: Matrix
 	private _translation: Vector
-	
+
 	/*
 	 * Common transformations.
 	 */
-	
+
 	static readonly horizontalFlip = Transformation.fromReflection([1, 0])
 	static readonly verticalFlip = Transformation.fromReflection([0, 1])
-	
+
 	/*
 	 * Constructor.
 	 */
-	
+
 	constructor(input: TransformationLike)
 	constructor(matrix: MatrixLike, translation?: VectorLike)
 	constructor(...args: [TransformationLike] | [MatrixLike, VectorLike?]) {
 		let matrix: MatrixLike
 		let translation: VectorLike | undefined
-		
+
 		// Determine the matrix and translation parameters.
 		if (args.length === 1) {
 			const value = args[0]
-			
+
 			// On a Transformation, become it. No further checks needed.
 			if (value instanceof Transformation) {
 				this._matrix = value.matrix
 				this._translation = value.translation
 				return
 			}
-			
+
 			// On an object with data, process the data.
 			if (isTransformationDescription(value)) {
 				matrix = value.matrix
@@ -54,12 +57,12 @@ export class Transformation {
 		} else {
 			throw new Error(`Invalid Transformation input: received ${args.length} parameters, but only a Matrix and optionally a Vector are expected.`)
 		}
-		
+
 		// Check and store the matrix and translation.
 		this._matrix = ensureSquareMatrix(matrix)
 		this._translation = translation === undefined ? Vector.getZero(this._matrix.width) : ensureVector(translation, this._matrix.width)
 	}
-	
+
 	/*
 	 * Fundamentals.
 	 */
@@ -167,18 +170,49 @@ export class Transformation {
 		return new Transformation(matrix, translation.add(next._translation))
 	}
 
-	apply(vector: VectorLike, preventTranslation = false): Vector {
-		const input = ensureVector(vector, this.dimension)
-		const transformedWithoutTranslation = this._matrix.multiply(input)
-		if (preventTranslation) return transformedWithoutTranslation
-		return transformedWithoutTranslation.add(this._translation)
-	}
-
 	// Returns a new transformation applied relative to the given point.
 	relativeTo(relativeTo: VectorLike = Vector.getZero(this.dimension)): Transformation {
 		const origin = ensureVector(relativeTo, this.dimension)
 		const translation = this._translation.add(origin).subtract(this._matrix.multiply(origin))
 		return new Transformation(this._matrix, translation)
+	}
+
+	/*
+	 * Transformations.
+	 */
+
+	transform(vector: VectorLike, preventTranslation?: boolean): Vector
+	transform(line: LineLike, preventTranslation?: boolean): Line
+	transform(lineSegment: LineSegmentLike, preventTranslation?: boolean): LineSegment
+	transform(rectangle: RectangleLike, preventTranslation?: boolean): Rectangle
+	transform(value: TransformableLike, preventTranslation = false): TransformableLike {
+		// Transform a vector.
+		if (isVectorLike(value)) {
+			const vector = ensureVector(value, this.dimension)
+			const transformedWithoutTranslation = this._matrix.multiply(vector)
+			return preventTranslation ? transformedWithoutTranslation : transformedWithoutTranslation.add(this._translation)
+		}
+
+		// Transform a Line by transforming two points on it.
+		if (isLineLike(value)) {
+			const line = ensureLine(value, this.dimension)
+			return Line.fromPoints(this.transform(line.start, preventTranslation), this.transform(line.secondPoint, preventTranslation))
+		}
+
+		// Transform a LineSegment by transforming its endpoints.
+		if (isLineSegmentLike(value)) {
+			const lineSegment = ensureLineSegment(value, this.dimension)
+			return new LineSegment(this.transform(lineSegment.start, preventTranslation), this.transform(lineSegment.end, preventTranslation))
+		}
+
+		// Transform a Rectangle by transforming its min/max.
+		if (isRectangleLike(value)) {
+			const rectangle = ensureRectangle(value, this.dimension)
+			if (!this.matrix.isMonomial()) throw new Error(`Invalid transform input: tried to transform a Rectangle using a matrix that is not monomial. The transformation will not be an axis-aligned Rectangle.`)
+			return new Rectangle(this.transform(rectangle.min, preventTranslation), this.transform(rectangle.max, preventTranslation))
+		}
+
+		throw new Error(`Invalid transform input: expected a Vector, Line, LineSegment or Rectangle, but received something else.`)
 	}
 
 	/*
@@ -190,7 +224,7 @@ export class Transformation {
 		return new Transformation(Matrix.getIdentity(dimension), Vector.getZero(dimension))
 	}
 
-	static fromShift(translation: VectorLike): Transformation {
+	static fromTranslation(translation: VectorLike): Transformation {
 		const vector = ensureVector(translation)
 		return new Transformation(Matrix.getIdentity(vector.dimension), vector)
 	}
@@ -218,9 +252,9 @@ export class Transformation {
 	static fromReflection(direction: VectorLike = [1, 0], relativeTo?: VectorLike): Transformation {
 		const axis = ensureVector(direction, undefined, false, true)
 
-		// Reflection along axis u: transform using 2uu^T - I.
+		// Reflection along axis u: transform using I - 2uu^T.
 		const u = Matrix.fromVector(axis.normalize())
-		const matrix = u.multiply(u.transpose()).multiply(2).subtract(Matrix.getIdentity(axis.dimension))
+		const matrix = Matrix.getIdentity(axis.dimension).subtract(u.multiply(u.transpose()).multiply(2))
 		return new Transformation(matrix, Vector.getZero(axis.dimension)).relativeTo(relativeTo)
 	}
 }

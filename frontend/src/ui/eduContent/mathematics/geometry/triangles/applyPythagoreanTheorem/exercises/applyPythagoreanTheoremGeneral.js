@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector } from 'step-wise/geometry'
+import { Vector } from '@step-wise/geometry'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'

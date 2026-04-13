@@ -1,4 +1,4 @@
-import { Rectangle } from 'step-wise/geometry'
+import { Rectangle } from '@step-wise/geometry'
 
 import { useInputData } from '../../../Input'
 

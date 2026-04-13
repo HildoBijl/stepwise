@@ -1,5 +1,8 @@
 export * from './Vector'
+
+export * from './Line'
+export * from './LineSegment'
+export * from './Rectangle'
+
 export * from './Matrix'
 export * from './Transformation'
-export * from './Line'
-export * from './transformationFunctions'

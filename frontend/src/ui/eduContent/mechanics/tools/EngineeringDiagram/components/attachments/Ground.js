@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, mergeDefaults } from '@step-wise/utils'
-import { Vector } from 'step-wise/geometry/Vector'
+import { Vector } from '@step-wise/geometry'
 
 import { Group, Line } from 'ui/figures/Drawing/components/svgComponents'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { integerRange } from '@step-wise/utils'
-import { Vector, Rectangle } from 'step-wise/geometry'
+import { Vector, Rectangle } from '@step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'
@@ -93,23 +93,23 @@ function Diagram({ decompose = false }) {
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames, angle } = useSolution()
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
-	const span = loads[0].span
-	const lineEndpoint = new Vector(span.end.x, span.start.y)
+	const force = loads[0].force
+	const lineEndpoint = new Vector(force.end.x, force.start.y)
 
 	return <Drawing transformationSettings={transformationSettings}>
 		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
 		{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}
 
 		{decompose ? null : <>
-			<CornerLabel points={[span.start, span.end, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
-			<Line points={[span.end, lineEndpoint]} style={{ stroke: '#777' }} />
+			<CornerLabel points={[force.start, force.end, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
+			<Line points={[force.end, lineEndpoint]} style={{ stroke: '#777' }} />
 		</>}
 
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 		{render(decompose ? decomposedLoads : loads)}
 
 		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
-		<Distance span={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
+		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 	</Drawing>
 }
 

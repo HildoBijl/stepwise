@@ -10,9 +10,12 @@ export function isVectorLike(value: unknown): value is VectorLike {
 export function ensureVector(vector: VectorLike | undefined, dimension?: number, useDefaultZero = false, preventZero = false): Vector {
 	// Check default fallbacks.
 	if (useDefaultZero && preventZero) throw new Error(`Invalid ensureVector settings: you have set "useDefaultZero" to true but "preventZero" also to true. That's a contradiction in itself.`)
-	if (useDefaultZero && vector === undefined) {
-		if (dimension === undefined) throw new Error(`Invalid ensureVector call: cannot use a default zero vector without specifying a dimension.`)
-		return Vector.getZero(dimension)
+	if (vector === undefined) {
+		if (useDefaultZero) {
+			if (dimension === undefined) throw new Error(`Invalid ensureVector call: cannot use a default zero vector without specifying a dimension.`)
+			return Vector.getZero(dimension)
+		}
+		throw new Error(`Invalid ensureVector call: received an undefined Vector, while no fallback has been turned on.`)
 	}
 
 	// Set up the vector and check it.

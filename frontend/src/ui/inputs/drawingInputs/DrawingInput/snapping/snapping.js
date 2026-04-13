@@ -52,7 +52,7 @@ function snapMousePosition(position, lines, graphicalLines, transformationSettin
 
 	// If no snapping should be applied, keep the given position.
 	const { transformation, inverseTransformation, bounds } = transformationSettings
-	const graphicalPosition = transformation.apply(position)
+	const graphicalPosition = transformation.transform(position)
 	if (!applySnapping)
 		return { ...emptySnapMousePositionResponse, position, snappedPosition: position, graphicalPosition, graphicalSnappedPosition: graphicalPosition }
 
@@ -96,7 +96,7 @@ function snapMousePosition(position, lines, graphicalLines, transformationSettin
 		graphicalSnappedPosition = graphicalLines[selectedLines[0]].getClosestPoint(graphicalPosition)
 
 	// Calculate other relevant parameters.
-	const snappedPosition = inverseTransformation.apply(graphicalSnappedPosition)
+	const snappedPosition = inverseTransformation.transform(graphicalSnappedPosition)
 	const snapLines = selectedLines.map(index => lines[index])
 	const graphicalSnapLines = selectedLines.map(index => graphicalLines[index])
 	const isSnapped = snapLines.length > 0

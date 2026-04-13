@@ -1,5 +1,5 @@
 import { mergeDefaults } from '@step-wise/utils'
-import { Vector, ensureVector } from 'step-wise/geometry'
+import { Vector, ensureVector } from '@step-wise/geometry'
 import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/eduContent/mechanics'
 
@@ -22,10 +22,10 @@ export default function LoadLabel({ load, variable, point }) {
 	switch (load.type) {
 		// For a force, either put the label at the start or at the end, depending on which point it is connected to.
 		case loadTypes.force:
-			if (load.span.end.equals(point))
-				return <Label position={load.span.start} angle={load.span.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
+			if (load.force.end.equals(point))
+				return <Label position={load.force.start} angle={load.force.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
 			else
-				return <Label position={load.span.end} angle={load.span.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
+				return <Label position={load.force.end} angle={load.force.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
 
 		// For a moment, put the label near the moment arrow.
 		case loadTypes.moment:

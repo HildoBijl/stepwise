@@ -1,5 +1,5 @@
 import { isNumber, hasIterableParameters, mapValues } from '@step-wise/utils'
-import { Vector, Transformation } from 'step-wise/geometry'
+import { isVectorLike, Transformation } from '@step-wise/geometry'
 
 import { applyTransformation } from '../transformation'
 
@@ -52,12 +52,12 @@ export function useGraphicalVector(drawingPoints, graphicalPoints, preventShift)
 		return transformedPoints
 
 	// If both are given, add them up. How to do this depends on whether a single vector or an array/object of vectors was given.
-	if (Vector.isVector(transformedPoints)) {
-		if (Vector.isVector(graphicalPoints))
+	if (isVectorLike(transformedPoints)) {
+		if (isVectorLike(graphicalPoints))
 			return transformedPoints.add(graphicalPoints)
 		return mapValues(graphicalPoints, point => transformedPoints.add(point))
 	}
-	if (Vector.isVector(graphicalPoints))
+	if (isVectorLike(graphicalPoints))
 		return mapValues(transformedPoints, point => point.add(graphicalPoints))
 	return mapValues(transformedPoints, (point, index) => point.add(graphicalPoints[index]))
 }

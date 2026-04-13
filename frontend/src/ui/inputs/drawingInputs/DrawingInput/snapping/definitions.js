@@ -1,7 +1,7 @@
 import { useMemo, } from 'react'
 
 import { filterDuplicates } from '@step-wise/utils'
-import { ensureVector, Line, Span } from 'step-wise/geometry'
+import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
@@ -46,7 +46,7 @@ function useSnappingLinesFromProcessedSnappers(snappers) {
 		snappers.forEach(snapper => {
 			if (snapper instanceof Line) {
 				snappingLines.push(snapper)
-			} else if (snapper instanceof Span) {
+			} else if (snapper instanceof LineSegment) {
 				snappingLines.push(snapper.line)
 			} else {
 				const vector = ensureVector(snapper) // Default case.

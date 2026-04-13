@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector, Line } from 'step-wise/geometry'
+import { Vector, Line } from '@step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Circle, BoundedLine, Line as SvgLine, RightAngle, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'

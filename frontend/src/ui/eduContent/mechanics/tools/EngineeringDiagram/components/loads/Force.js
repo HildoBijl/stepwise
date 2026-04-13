@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, mergeDefaults } from '@step-wise/utils'
-import { Vector, ensureSpan } from 'step-wise/geometry'
+import { Vector, ensureLineSegment } from '@step-wise/geometry'
 
 import { useGraphicalObject } from 'ui/figures'
 import { Group, Line } from 'ui/figures/Drawing/components/svgComponents'
@@ -11,18 +11,18 @@ import ArrowHead, { defaultArrowHead } from './ArrowHead'
 
 export const defaultForce = {
 	...defaultObject,
-	span: undefined,
-	graphicalSpan: undefined,
+	force: undefined,
+	graphicalForce: undefined,
 	size: defaultArrowHead.size,
 	color: defaultArrowHead.color,
 	className: 'force',
 }
 
-// Force draws a force vector. It must have a span parameter (a Span object), can have a size and a color.
+// Force draws a force vector. It must have a force parameter (a LineSegment object), can have a size and a color.
 export const Force = forwardRef((props, ref) => {
 	// Check input.
-	let { span, graphicalSpan, size, color, className, style } = mergeDefaults(props, defaultForce)
-	const { vector, end } = ensureSpan(useGraphicalObject(span, graphicalSpan), 2)
+	let { force, graphicalForce, size, color, className, style } = mergeDefaults(props, defaultForce)
+	const { vector, end } = ensureLineSegment(useGraphicalObject(force, graphicalForce), 2)
 	size = ensureNumber(size)
 	color = ensureString(color)
 	ref = useRefWithEventHandlers(props, ref)

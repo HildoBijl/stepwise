@@ -5,11 +5,9 @@ export type RectangleObject = {
 	end: VectorLike
 }
 
-export type RectangleTuple = [VectorLike, VectorLike]
-
 export type RectangleData = {
 	min: VectorData
 	max: VectorData
 }
 
-export type RectangleInput = RectangleObject | RectangleTuple
+export type RectangleInput = RectangleObject

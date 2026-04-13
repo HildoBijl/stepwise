@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector, Line } from 'step-wise/geometry'
+import { Vector, Line } from '@step-wise/geometry'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -177,12 +177,12 @@ function Schematics({ l1, l2, angle, points, loads, getLoadNames, showSupports =
 		<Group>{render(loads)}</Group>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
-		{externalLoad ? <CornerLabel points={[externalLoad.span.start, B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
+		{externalLoad ? <CornerLabel points={[externalLoad.force.start, B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
 
-		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance lineSegment={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
 		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
 
-		<Distance span={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance lineSegment={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
 		<Element position={B.interpolate(C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 	</>
 }

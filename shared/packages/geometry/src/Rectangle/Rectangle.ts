@@ -21,9 +21,6 @@ export class Rectangle {
 	constructor(rectangle: RectangleLike)
 	constructor(start: VectorLike, end: VectorLike)
 	constructor(...args: [RectangleLike] | [VectorLike, VectorLike]) {
-		let start: VectorLike
-		let end: VectorLike
-
 		// Handle constructor(RectangleLike).
 		if (args.length === 1) {
 			const value = args[0]
@@ -35,25 +32,18 @@ export class Rectangle {
 				return
 			}
 
-			// On an array or object, determine start and end.
-			if (Array.isArray(value)) {
-				if (value.length !== 2) throw new Error(`Invalid Rectangle value: expected an array with exactly two points.`)
-				start = value[0]
-				end = value[1]
-			} else {
-				if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with start and end points.`)
-				start = value.start
-				end = value.end
-			}
-		} else if (args.length === 2) {
-			start = args[0]
-			end = args[1]
-		} else {
-			throw new Error(`Invalid Rectangle input: expected either one rectangle-like object or two corner points.`)
+			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with start and end points.`);
+
+			[this._min, this._max] = getMinAndMax(value.start, value.end)
+			return
 		}
 
-		// Process and apply the found start and end parameters.
-		;[this._min, this._max] = getMinAndMax(start, end)
+		if (args.length === 2) {
+			[this._min, this._max] = getMinAndMax(args[0], args[1])
+			return
+		}
+
+		throw new Error(`Invalid Rectangle input: expected either one rectangle-like object or two corner points.`)
 	}
 
 	/*
@@ -314,9 +304,9 @@ export class Rectangle {
 	// Check if a LineSegment intersects the Rectangle's bounds.
 	touchesLineSegment(lineSegment: LineSegmentLike): boolean {
 		const ensuredLineSegment = ensureLineSegment(lineSegment, this.dimension)
-		
+
 		// Check if the LineSegment's Line intersects the Rectangle.
-		const linePartFactors = this.getLinePartFactors(ensuredLineSegment.line)
+		const linePartFactors = this.getLineSegmentFactors(ensuredLineSegment.line)
 		if (!linePartFactors) return false
 
 		// Check which part of the Line falls within the Rectangle.
@@ -325,9 +315,9 @@ export class Rectangle {
 	}
 
 	// Find the LineSegment lying on a line that falls within the Rectangle. Returns undefined if the Line does not intersect the Rectangle.
-	getLineSegmentInsideRectangle(line: LineLike): LineSegment | undefined {
+	getLineSegment(line: LineLike): LineSegment | undefined {
 		const ensuredLine = ensureLine(line, this.dimension)
-		const linePartFactors = this.getLinePartFactors(ensuredLine)
+		const linePartFactors = this.getLineSegmentFactors(ensuredLine)
 		if (!linePartFactors) return undefined
 		return new LineSegment({
 			start: ensuredLine.getPointWithFactor(linePartFactors[0]),
@@ -336,7 +326,7 @@ export class Rectangle {
 	}
 
 	// Find which parts of a Line fall within the Rectangle. Return the respective Line factors. If the Line does not intersect the Rectangle, undefined is returned.
-	getLinePartFactors(line: LineLike): [number, number] | undefined {
+	getLineSegmentFactors(line: LineLike): [number, number] | undefined {
 		const ensuredLine = ensureLine(line, this.dimension)
 
 		// Get the minimum and maximum factor of all the intersection points of the line with the box.

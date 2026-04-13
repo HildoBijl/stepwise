@@ -1,4 +1,4 @@
-import { ensureInt, ensureNumber, compareNumbers } from '@step-wise/utils'
+import { ensureInt, ensureNumber, compareNumbers, count } from '@step-wise/utils'
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
@@ -173,6 +173,16 @@ export class Matrix {
 
 	isIdentity(): boolean {
 		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => compareNumbers(value, rowIndex === colIndex ? 1 : 0)))
+	}
+
+	// Check if all (and only all) diagonal entries are non-zero.
+	isDiagonal(): boolean {
+		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => (rowIndex === colIndex) !== compareNumbers(value, 0)))
+	}
+
+	// Check if every row/column has exactly one non-zero entry.
+	isMonomial(): boolean {
+		return this.isSquare() && this._rows.every(row => count(row, value => !compareNumbers(value, 0)) === 1) && this.transpose()._rows.every(column => count(column, value => !compareNumbers(value, 0)) === 1)
 	}
 
 	/*

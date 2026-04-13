@@ -58,21 +58,21 @@ function areLoadsEqual(input, solution, comparison = {}) {
 	switch (type) {
 		case loadTypes.force:
 			// Check the magnitude.
-			if (comparison.requireSameMagnitude && !solution.span.vector.isEqualMagnitude(input.span.vector))
+			if (comparison.requireSameMagnitude && !solution.force.vector.isEqualMagnitude(input.force.vector))
 				return false
 
 			// Check zero vectors.
-			if (comparison.requireNonZero && (solution.span.vector.isZero() || input.span.vector.isZero()))
+			if (comparison.requireNonZero && (solution.force.vector.isZero() || input.force.vector.isZero()))
 				return false
 
 			// Check line and direction.
-			if (!solution.span.alongEqualLine(input.span, comparison.requireSameDirection))
+			if (!solution.force.alongEqualLine(input.force, comparison.requireSameDirection))
 				return false
 
 			// Check matching points.
-			if (comparison.requireMatchingPoints === 1 && !solution.span.hasMatchingPoint(input.span))
+			if (comparison.requireMatchingPoints === 1 && !solution.force.hasMatchingPoint(input.force))
 				return false
-			if (comparison.requireMatchingPoints === 2 && !solution.span.equals(input.span) && !solution.span.reverse().equals(input.span))
+			if (comparison.requireMatchingPoints === 2 && !solution.force.equals(input.force) && !solution.force.reverse().equals(input.force))
 				return false
 
 			// All in order.
@@ -112,7 +112,7 @@ function areLoadsEqualDirection(input, solution) {
 
 	switch (input.type) {
 		case loadTypes.force:
-			return solution.span.vector.isEqualDirection(input.span.vector)
+			return solution.force.vector.isEqualDirection(input.force.vector)
 
 		case loadTypes.moment:
 			return solution.clockwise === input.clockwise
@@ -126,7 +126,7 @@ module.exports.areLoadsEqualDirection = areLoadsEqualDirection
 function isLoadAtPoint(load, point) {
 	switch (load.type) {
 		case loadTypes.force:
-			return load.span.hasPoint(point)
+			return load.force.hasPoint(point)
 		case loadTypes.moment:
 			return load.position.equals(point)
 		default:
@@ -138,7 +138,7 @@ module.exports.isLoadAtPoint = isLoadAtPoint
 function doesLoadTouchRectangle(load, rectangle) {
 	switch (load.type) {
 		case loadTypes.force:
-			return rectangle.touchesSpan(load.span)
+			return rectangle.touchesLineSegment(load.force)
 		case loadTypes.moment:
 			return rectangle.touchesCircle(load.position, load.radius === undefined ? defaultMomentRadius : load.radius)
 		default:

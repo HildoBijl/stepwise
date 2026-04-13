@@ -23,14 +23,17 @@ export class LineSegment {
 		if (args.length === 1) {
 			const value = args[0]
 
+			// On a LineSegment, become it.
 			if (value instanceof LineSegment) {
 				this._start = value._start.clone()
 				this._end = value._end.clone()
 				return
 			}
 
+			// Make sure we have a LineSegment object.
 			if (!isLineSegmentObject(value)) throw new Error(`Invalid LineSegment value: expected to receive some kind of object, but instead received something of type "${typeof value}".`)
 
+			// Look at the various cases of what is provided.
 			const hasStart = value.start !== undefined
 			const hasVector = value.vector !== undefined
 			const hasEnd = value.end !== undefined
@@ -52,12 +55,12 @@ export class LineSegment {
 			this._start = ensureVector(value.start)
 			this._end = ensureVector(value.end, this._start.dimension)
 
+			// On all three parameters, run a check to see if they match.
 			if (hasVector) {
 				const actualVector = this._end.subtract(this._start)
 				const givenVector = ensureVector(value.vector, this._start.dimension)
 				if (!actualVector.equals(givenVector)) throw new Error(`Invalid LineSegment: the given vector "${givenVector}" is not the difference between the start "${this._start}" and the end "${this._end}".`)
 			}
-
 			return
 		}
 

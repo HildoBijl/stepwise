@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/utils'
-import { ensureLine as ensureGeometryLine } from 'step-wise/geometry'
+import { ensureLine as ensureGeometryLine } from '@step-wise/geometry'
 
 import { useGraphicalBounds, useGraphicalObject } from '../../DrawingContext'
 

@@ -1,5 +1,5 @@
 import { mod, omitKeys } from '@step-wise/utils'
-import { Span } from 'step-wise/geometry'
+import { LineSegment } from '@step-wise/geometry'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/eduContent/mechanics'
 
@@ -77,7 +77,7 @@ export function getDragObjectData(downData, upData, options) {
 	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
 		if (forceLength)
 			snappedVector = snappedVector.setMagnitude(forceLength)
-		return { type: loadTypes.force, span: new Span({ vector: snappedVector, end: upData.snappedPosition }) }
+		return { type: loadTypes.force, force: new LineSegment({ vector: snappedVector, end: upData.snappedPosition }) }
 	}
 
 	// On a very short vector show a Drag Marker.
@@ -94,7 +94,7 @@ export function getDragObjectData(downData, upData, options) {
 	// Otherwise return a Force. How to do this depends on if a fixed length has been set.
 	if (forceLength)
 		snappedVector = snappedVector.setMagnitude(forceLength)
-	return { type: loadTypes.force, span: new Span({ start: downData.snappedPosition, vector: snappedVector }) }
+	return { type: loadTypes.force, force: new LineSegment({ start: downData.snappedPosition, vector: snappedVector }) }
 }
 
 // removeHovering takes an FI and makes sure that no load in it has hovering set to true.

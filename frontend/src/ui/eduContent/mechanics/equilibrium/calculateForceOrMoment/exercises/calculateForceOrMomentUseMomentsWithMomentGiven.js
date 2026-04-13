@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { integerRange } from '@step-wise/utils'
-import { Vector, Rectangle } from 'step-wise/geometry'
+import { Vector, Rectangle } from '@step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'
@@ -95,11 +95,10 @@ function Diagram({ decompose = false, showIntersection = false }) {
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames, angle, intersection } = useSolution()
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
-	const span1 = loads[0].span
-	const lineEndpoint1 = new Vector(span1.end.x, span1.start.y)
-	const span2 = loads[2].span
-	const lineEndpoint2 = new Vector(span2.end.x, span2.start.y)
-
+	const force1 = loads[0].force
+	const lineEndpoint1 = new Vector(force1.end.x, force1.start.y)
+	const force2 = loads[2].force
+	const lineEndpoint2 = new Vector(force2.end.x, force2.start.y)
 
 	return <Drawing transformationSettings={transformationSettings}>
 		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
@@ -109,8 +108,8 @@ function Diagram({ decompose = false, showIntersection = false }) {
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
 		{decompose ? null : <>
-			<CornerLabel points={[span1.start, span1.end, lineEndpoint1]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
-			<Line points={[span1.end, lineEndpoint1]} style={{ stroke: '#777' }} />
+			<CornerLabel points={[force1.start, force1.end, lineEndpoint1]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
+			<Line points={[force1.end, lineEndpoint1]} style={{ stroke: '#777' }} />
 		</>}
 
 		{showIntersection ? <>
@@ -119,10 +118,10 @@ function Diagram({ decompose = false, showIntersection = false }) {
 		</> : null}
 
 		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
-		<Distance span={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
+		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 
-		<CornerLabel points={[span2.start, span2.end, lineEndpoint2]} graphicalSize={28}><M>45^\circ</M></CornerLabel>
-		<Line points={[span2.end, lineEndpoint2]} style={{ stroke: '#777' }} />
+		<CornerLabel points={[force2.start, force2.end, lineEndpoint2]} graphicalSize={28}><M>45^\circ</M></CornerLabel>
+		<Line points={[force2.end, lineEndpoint2]} style={{ stroke: '#777' }} />
 	</Drawing>
 }
 

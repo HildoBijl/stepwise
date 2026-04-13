@@ -6,7 +6,7 @@ const { loadTypes } = require('./definitions')
 function reverseLoad(load) {
 	switch (load.type) {
 		case loadTypes.force:
-			return { ...load, anchoredVector: load.anchoredVector.reverse() }
+			return { ...load, force: load.force.reverse() }
 
 		case loadTypes.moment:
 			return { ...load, clockwise: !load.clockwise }
@@ -21,14 +21,14 @@ function decomposeForce(load, toEnd = true) {
 	// Check that it's a diagonal force. If not, do nothing with it.
 	if (load.type !== loadTypes.force)
 		return load
-	if (compareNumbers(load.anchoredVector.vector.x, 0) || compareNumbers(load.anchoredVector.vector.y, 0))
+	if (compareNumbers(load.force.vector.x, 0) || compareNumbers(load.force.vector.y, 0))
 		return load
 
 	// Set up an array of two loads with identical properties.
-	const lineSegmentObject = toEnd ? { end: load.anchoredVector.end } : { start: load.anchoredVector.start }
+	const lineSegmentObject = toEnd ? { end: load.force.end } : { start: load.force.start }
 	return [
-		{ ...load, anchoredVector: new LineSegment({ ...lineSegmentObject, vector: load.anchoredVector.vector.projectOnto(Vector.i) }) },
-		{ ...load, anchoredVector: new LineSegment({ ...lineSegmentObject, vector: load.anchoredVector.vector.projectOnto(Vector.j) }) },
+		{ ...load, force: new LineSegment({ ...lineSegmentObject, vector: load.force.vector.projectOnto(Vector.i) }) },
+		{ ...load, force: new LineSegment({ ...lineSegmentObject, vector: load.force.vector.projectOnto(Vector.j) }) },
 	]
 }
 module.exports.decomposeForce = decomposeForce

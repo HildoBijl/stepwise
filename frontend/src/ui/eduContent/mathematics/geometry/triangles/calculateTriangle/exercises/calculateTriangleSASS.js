@@ -2,7 +2,7 @@ import React from 'react'
 
 import { deg2rad, roundToDigits, integerRange } from '@step-wise/utils'
 import { Integer } from 'step-wise/CAS'
-import { Vector } from 'step-wise/geometry'
+import { Vector } from '@step-wise/geometry'
 import { Float } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'

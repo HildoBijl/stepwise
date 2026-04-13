@@ -6,7 +6,7 @@ import useResizeObserver from '@react-hook/resize-observer'
 import FontFaceObserver from 'fontfaceobserver'
 
 import { preserveRefs } from '@step-wise/utils'
-import { Vector } from 'step-wise/geometry'
+import { Vector } from '@step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from './dom'
 import { getLocalStorageValue, setLocalStorageValue } from './localStorage'
@@ -42,7 +42,7 @@ export function useConsistentValue(value) {
 }
 
 // useEqualRefOnEquality will check if a value equals its previous value. If so, the reference is maintained. The difference between useConsistentValue and this function is that this has its own equality check.
-export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && a.equals(b)) {
+export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && b && a.equals(b)) {
 	const ref = useRef()
 	if (value !== ref.current && !equalityCheck(value, ref.current))
 		ref.current = value

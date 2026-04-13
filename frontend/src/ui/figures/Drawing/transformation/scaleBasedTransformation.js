@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { mapValues, mergeDefaults } from '@step-wise/utils'
-import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
+import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -27,22 +27,26 @@ export function useScaleBasedTransformationSettings(points, options = {}) {
 		pretransformation = ensureTransformation(pretransformation)
 
 		// Pretransform the points, scale them, find their bounds, use this to determine their shift and then shift the points.
-		let transformedPoints = mapValues(points, point => pretransformation.apply(point))
-		const scaleTransformation = Transformation.getScale(scale)
-		transformedPoints = mapValues(transformedPoints, point => scaleTransformation.apply(ensureVector(point, 2)))
+		let transformedPoints = mapValues(points, point => pretransformation.transform(point))
+		const scaleTransformation = Transformation.fromScale(scale)
+		transformedPoints = mapValues(transformedPoints, point => scaleTransformation.transform(ensureVector(point, 2)))
 		const currBounds = getBoundingRectangle(transformedPoints)
 		const shift = new Vector(...[0, 1].map(axis => -currBounds.getBounds(axis)[0] + margin[axis][0]))
-		const shiftTransformation = Transformation.getShift(shift)
-		transformedPoints = mapValues(transformedPoints, point => shiftTransformation.apply(point))
+		const shiftTransformation = Transformation.fromTranslation(shift)
+		transformedPoints = mapValues(transformedPoints, point => shiftTransformation.transform(point))
 
 		// Set up the full transformation and determine the final bounds including both margins.
-		const transformation = pretransformation.chain(scaleTransformation).chain(shiftTransformation)
+		const transformation = pretransformation.then(scaleTransformation).then(shiftTransformation)
+		const end = new Vector(...currBounds.size.map((length, axis) => length + margin[axis][0] + margin[axis][1]))
 		const graphicalBounds = new Rectangle({
-			start: new Vector(0, 0),
-			end: new Vector(...currBounds.size.map((length, axis) => length + margin[axis][0] + margin[axis][1])),
+			start: Vector.zero,
+			end,
 		})
 		const inverseTransformation = transformation.inverse
-		const bounds = graphicalBounds.transform(inverseTransformation)
+		const bounds = new Rectangle({
+			start: inverseTransformation.transform(Vector.zero),
+			end: inverseTransformation.transform(end),
+		})
 
 		// Return all data.
 		return {

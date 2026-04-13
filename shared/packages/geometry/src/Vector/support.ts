@@ -20,10 +20,10 @@ export function isCoordinateObject(value: unknown): value is CoordinateObject {
 
 	// Check that there is an x parameter.
 	const parameterCount = getCoordinateObjectDimension(obj)
-	if (parameterCount === 0) throw new Error(`Invalid coordinates: expected an object with coordinates "x", "y", ... but the x-parameter is already missing.`)
+	if (parameterCount === 0) return false
 
 	// Ensure there are no irrelevant parameters.
-	if (Object.keys(obj).length !== parameterCount) throw new Error(`Invalid coordinates: expected an object with only coordinates "x", "y", ... but received an object with more parameters. Please insert only clean coordinates objects.`)
+	if (Object.keys(obj).length !== parameterCount) return false
 
 	// Ensure all parameters are numbers.
 	const parameters = coordinateKeys.slice(0, parameterCount)

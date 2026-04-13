@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector, Line } from 'step-wise/geometry'
+import { Vector, Line } from '@step-wise/geometry'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -175,13 +175,13 @@ function Schematics({ l1, l2, l3, clockwise, angle, points, Bx, Cx, loads, getLo
 		<Group>{render(loads)}</Group>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
-		<Distance span={{ start: A, end: Bx }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance lineSegment={{ start: A, end: Bx }} graphicalShift={new Vector(0, distanceShift)} />
 		<Element position={A.interpolate(Bx)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
 
-		<Distance span={{ start: Bx, end: Cx }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance lineSegment={{ start: Bx, end: Cx }} graphicalShift={new Vector(0, distanceShift)} />
 		<Element position={Bx.interpolate(Cx)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 
-		<Distance span={{ start: Cx, end: C }} graphicalShift={new Vector(distanceShift, 0)} />
+		<Distance lineSegment={{ start: Cx, end: C }} graphicalShift={new Vector(distanceShift, 0)} />
 		<Element position={Cx.interpolate(C)} graphicalPosition={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_3 = {l3}</M></Element>
 	</>
 }

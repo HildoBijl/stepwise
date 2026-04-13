@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { ensureNumber, ensureBoolean, mapValues, mergeDefaults, identity, ensureFunction } from '@step-wise/utils'
-import { Transformation, ensureTransformation } from 'step-wise/geometry'
+import { Transformation, ensureTransformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -40,7 +40,7 @@ export function useBoundsBasedTransformationSettings(points, options = {}) {
 		processBounds = ensureFunction(processBounds)
 
 		// Pretransform the points, find their bounds and use it to calculate the scale to be applied.
-		const transformedPoints = mapValues(points, point => pretransformation.apply(point))
+		const transformedPoints = mapValues(points, point => pretransformation.transform(point))
 		const currBounds = processBounds(getBoundingRectangle(transformedPoints))
 		let scale = [0, 1].map(axis => {
 			const maxSize = (axis === 0 ? maxWidth : maxHeight)

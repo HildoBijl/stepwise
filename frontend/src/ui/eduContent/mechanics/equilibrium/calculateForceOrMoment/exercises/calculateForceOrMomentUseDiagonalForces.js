@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { integerRange } from '@step-wise/utils'
-import { Vector, Rectangle } from 'step-wise/geometry'
+import { Vector, Rectangle } from '@step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'
@@ -102,7 +102,7 @@ function Diagram({ decompose = false }) {
 		{render(decompose ? decomposedLoads : loads)}
 
 		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
-		<Distance span={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
+		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 	</Drawing>
 }
 

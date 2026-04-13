@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 
 import { ensureString, ensureObject, mergeDefaults } from '@step-wise/utils'
-import { ensureVector } from 'step-wise/geometry'
+import { ensureVector } from '@step-wise/geometry'
 
 import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 

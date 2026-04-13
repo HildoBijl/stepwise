@@ -58,7 +58,7 @@ module.exports.ensureLoadSource = ensureLoadSource
 const defaultSource = loadSources.external
 module.exports.getDefaultForce = (end, angle = 0, source = defaultSource, atStart = false, forceLength = defaultForceLength) => ({
 	type: 'Force',
-	anchoredVector: new LineSegment({ vector: Vector.fromPolar(ensureNumber(forceLength), ensureNumber(angle)), [atStart ? 'start' : 'end']: ensureVector(end, 2) }),
+	force: new LineSegment({ vector: Vector.fromPolar(ensureNumber(forceLength), ensureNumber(angle)), [atStart ? 'start' : 'end']: ensureVector(end, 2) }),
 	source: ensureLoadSource(source),
 })
 module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentOpening, source = defaultSource) => ({
@@ -106,7 +106,7 @@ function ensureForce(load) {
 		throw new Error(`Invalid force: expected a plain object, but recieved something of type "${typeof load}".`)
 	if (load.type !== loadTypes.force)
 		throw new Error(`Invalid force: a force must have a type "${loadTypes.force}".`)
-	load.anchoredVector = ensureLineSegment(load.anchoredVector, 2)
+	load.force = ensureLineSegment(load.force, 2)
 	return load
 }
 module.exports.ensureForce = ensureForce

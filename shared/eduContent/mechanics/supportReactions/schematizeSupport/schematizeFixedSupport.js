@@ -1,6 +1,6 @@
 const { deg2rad, randomInteger } = require('@step-wise/utils')
-const { Vector } = require('../../../../geometry/Vector')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { Vector } = require('@step-wise/geometry')
+const { getStepExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, getDefaultMoment, isLoadAtPoint } = require('../../tools')
 
@@ -66,7 +66,7 @@ function checkFixedSupport(input, _, solution) {
 	const forces = input.filter(load => load.type === loadTypes.force)
 	if (forces.length !== 2)
 		return false
-	if (forces[0].span.alongEqualLine(forces[1].span))
+	if (forces[0].force.alongEqualLine(forces[1].force))
 		return false
 
 	// Check that there is a moment.

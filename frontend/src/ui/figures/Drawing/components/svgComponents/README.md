@@ -69,7 +69,7 @@ The `Circle` is a basic circle component.
 
 The `Rectangle` draws a rectangle SVG component. Parameters are:
 
-- `dimensions` and `graphicalDimensions`: a `Rectangle` component from the [Geometry](shared/geometry/) toolbox.
+- `dimensions` and `graphicalDimensions`: a `Rectangle` component from the [Geometry](shared/packages/geometry/) toolbox.
 - `cornerRadius` and `graphicalCornerRadius`: a number indicating how much the the corners should be rounded when drawn.
 
 ## Square
@@ -91,14 +91,14 @@ The `Arc` is part of a circle. Parameters are:
 
 A `Distance` is a set of arrows indicating a distance in a drawing. Parameters are:
 
-- `span` and `graphicalSpan`: a `Span` object from the [Geometry](shared/geometry/) toolbox indicating the position of the distance.
+- `lineSegment` and `graphicalLineSegment`: a `LineSegment` object from the [Geometry](shared/packages/geometry/) toolbox indicating the position of the distance.
 - `shift` and `graphicalShift`: a `Vector` moving the distance arrow a certain amount to the side. This is useful since distance arrows are often next to an object, not on top of an object.
 
 ## BoundedLine
 
 A `BoundedLine` draws a straight line but then it is only drawn within the confines of the drawing. Parameters are:
 
-- `Line` and `graphicalLine`: a `Line` object from the [Geometry](shared/geometry/) toolbox. Note that such a `Line` is always infinitely long. It is cut off by the drawing bounds: only the part within the bounds is drawn.
+- `Line` and `graphicalLine`: a `Line` object from the [Geometry](shared/packages/geometry/) toolbox. Note that such a `Line` is always infinitely long. It is cut off by the drawing bounds: only the part within the bounds is drawn.
 
 ## RightAngle
 

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
+import { Vector, Rectangle, Transformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
