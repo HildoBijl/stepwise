@@ -12,5 +12,5 @@ export function filterDuplicates<T>(array: readonly T[], equals: (a: T, b: T) =>
 
 // Fill all undefined values in an array with the given value.
 export function fillUndefinedWith<T>(array: readonly (T | undefined)[], filler: T): T[] {
-	return array.map(value => value === undefined ? filler : value)
+	return Array.from(array, a => a === undefined ? filler : a)
 }

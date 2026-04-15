@@ -24,7 +24,7 @@ export const BoundedLine = forwardRef((props, ref) => {
 
 	// Set up the line part and display it.
 	const bounds = useGraphicalBounds()
-	const linePart = bounds?.getLinePart(line)
+	const linePart = bounds?.getLineSegment(line)
 	return linePart ? <Line ref={ref} {...pickFromDefaults(props, defaultLine)} graphicalPoints={[linePart.start, linePart.end]} /> : null
 })
 BoundedLine.defaultProps = defaultBoundedLine
