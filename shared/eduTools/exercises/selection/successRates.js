@@ -1,5 +1,5 @@
 const { fromKeys } = require('@step-wise/utils')
-const { getEV, merge, ensureSetup } = require('../../../skillTracking')
+const { getExpectedValue, merge, ensureSetup } = require('../../../skillTracking')
 
 const { getDifficulty } = require('./util')
 
@@ -23,14 +23,14 @@ async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 	return exerciseMetaDatas.map(exerciseMetaData => {
 		// If there is only a skill (basic exercise) or only a setup (joint exercise) then use that to estimate the success rate.
 		if (!exerciseMetaData.skill || !exerciseMetaData.setup)
-			return getDifficulty(exerciseMetaData).getEV(coefficientSet)
+			return getDifficulty(exerciseMetaData).getExpectedValue(coefficientSet)
 
 		// If there are both a skill and a setup parameter, combine this knowledge.
 		const skillCoefficients = coefficientSet[exerciseMetaData.skill]
 		const setup = ensureSetup(exerciseMetaData.setup)
 		const setupCoefficients = setup.getDistribution(coefficientSet, exerciseMetaData.setupOrder) // The exercise may overwrite the set-up order if desired.
 		const mergedCoefficients = merge([skillCoefficients, setupCoefficients])
-		return getEV(mergedCoefficients)
+		return getExpectedValue(mergedCoefficients)
 	})
 }
 module.exports.getExerciseSuccessRates = getExerciseSuccessRates

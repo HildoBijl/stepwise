@@ -18,7 +18,7 @@ export function GradeEstimate() {
 
 	// Gather all the required data.
 	const coefficientSet = fromKeys(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
-	const EV = setup.getEV(coefficientSet)
+	const EV = setup.getExpectedValue(coefficientSet)
 	const distribution = setup.getDistribution(coefficientSet)
 	const inverseCDF = getInverseCDF(distribution)
 

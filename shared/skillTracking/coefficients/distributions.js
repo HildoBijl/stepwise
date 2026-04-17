@@ -1,11 +1,11 @@
 const { ensureInt, ensureNumber, sum, cumulative, binomial } = require('@step-wise/utils')
 
-const { ensureCoef, getOrder } = require('./fundamentals')
+const { ensureCoefficients, getOrder } = require('./fundamentals')
 
 // getPDF gives the PDF for the chance of success, given the coefficients.
 function getPDF(coef) {
 	// Process input.
-	coef = ensureCoef(coef)
+	coef = ensureCoefficients(coef)
 	const n = getOrder(coef)
 
 	// Set up the probability density function.
@@ -24,7 +24,7 @@ module.exports.getPDF = getPDF
 // getPDFDerivative gives the derivative of the PDF.
 function getPDFDerivative(coef) {
 	// Process input.
-	coef = ensureCoef(coef)
+	coef = ensureCoefficients(coef)
 	const n = getOrder(coef)
 
 	// Set up the probability density function derivative.
@@ -98,10 +98,10 @@ function getInverseCDF(coef, numIterations = 20) {
 }
 module.exports.getInverseCDF = getInverseCDF
 
-// getMaxLikelihood returns the maximum value of the PDF function. It returns an object {x, f} with x the input and f the output. It's the result of a binary search, so results are not fully exact.
-function getMaxLikelihood(coef, numIterations = 20) {
+// getMaximumLikelihood returns the maximum value of the PDF function. It returns an object {x, f} with x the input and f the output. It's the result of a binary search, so results are not fully exact.
+function getMaximumLikelihood(coef, numIterations = 20) {
 	// Check input.
-	coef = ensureCoef(coef)
+	coef = ensureCoefficients(coef)
 	numIterations = ensureInt(numIterations, true, true)
 
 	// Perform a binary search on the gradient.
@@ -121,4 +121,4 @@ function getMaxLikelihood(coef, numIterations = 20) {
 	const middle = (left + right) / 2
 	return { x: middle, f: pdf(middle) }
 }
-module.exports.getMaxLikelihood = getMaxLikelihood
+module.exports.getMaximumLikelihood = getMaximumLikelihood

@@ -3,7 +3,7 @@ import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/utils'
-import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
+import { Skill, getExpectedValue, getMaximumLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
@@ -92,10 +92,10 @@ export function SkillTrackerExplainer() {
 function SkillFlaskWithLabel({ coef, text, months }) {
 	// If no text is given, determine which text to show.
 	if (text === undefined) {
-		const EV = getEV(coef)
+		const EV = getExpectedValue(coef)
 		text = `${months === undefined ? 'De kans op een correcte uitkomst wordt' : `Na ${months} maanden niet oefenen wordt de kans op een correcte uitkomst`} geschat op zo'n ${Math.round(EV * 100)}%.`
 
-		const max = getMaxLikelihood(coef).f
+		const max = getMaximumLikelihood(coef).f
 		if (max < 1.2)
 			text += ' Maar eigenlijk hebben we nog geen idee.'
 		else if (max < 1.8)
@@ -210,7 +210,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		// Update the passed parameter.
 		const smoothenedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
-			const EV = getEV(smoothenedCoefficientSet[label])
+			const EV = getExpectedValue(smoothenedCoefficientSet[label])
 			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
 		}))
 	}
@@ -260,7 +260,7 @@ function ExerciseOverview({ coefficientSet, pass, exercises }) {
 		return infoMessage
 
 	// Calculate success rates.
-	const successRates = exercises.map(exercise => exercise.setup.getEV(coefficientSet))
+	const successRates = exercises.map(exercise => exercise.setup.getExpectedValue(coefficientSet))
 	const selectionRates = getSelectionRates(successRates)
 
 	// Render contents.

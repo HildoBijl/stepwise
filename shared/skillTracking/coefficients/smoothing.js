@@ -2,7 +2,7 @@ const { ensureInt, ensureNumber, mergeDefaults, sum, repeat, binomial } = requir
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
 
-const { getOrder, ensureCoef, normalize } = require('./fundamentals')
+const { getOrder, ensureCoefficients, normalize } = require('./fundamentals')
 
 const defaultSmoothingOptions = {
 	time: 0,
@@ -44,7 +44,7 @@ module.exports.getSmoothingFactor = getSmoothingFactor
 // smoothenWithFactor smoothens the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor). If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
 function smoothenWithFactor(coef, factor) {
 	// Check input.
-	coef = ensureCoef(coef)
+	coef = ensureCoefficients(coef)
 	factor = ensureNumber(factor)
 	if (factor < 0 || factor > 1)
 		throw new Error(`Invalid input: the smoothen factor must be a number between 0 and 1 (inclusive) but received "${factor}".`)

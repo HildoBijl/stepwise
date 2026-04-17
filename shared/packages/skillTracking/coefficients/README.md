@@ -15,7 +15,7 @@ A coefficient array is an array `[c_0, c_1, c_2, ..., c_n]` of `n+1` coefficient
 Next to functions for coefficients, there are also two functions for coefficient sets. A coefficient set is an object `{ someSkill1: [...], someSkill2: [...] }` whose properties are coefficient arrays.
 
 - `ensureCoefficientSet(coefSet, requiredSkillIds)` makes sure that the provided object is a valid coefficient set with valid coefficient arrays. If `requiredSkillIds` is given, as an array of strings, then only these skillIds are filtered out of the coefficient set, and they must all be present or an error is thrown.
-- `getCoef(coefSet, skillId)` takes a coefficient set and gets the coefficients with the given `skillId`, checking that they are valid before returning them. If `ensureCoefficientSet` has been called, this is not needed anymore, since `ensureCoefficientSet` has already checked the coefficients. In this case `coefSet[skillId]` is sufficient to use.
+- `getCoefficients(coefSet, skillId)` takes a coefficient set and gets the coefficients with the given `skillId`, checking that they are valid before returning them. If `ensureCoefficientSet` has been called, this is not needed anymore, since `ensureCoefficientSet` has already checked the coefficients. In this case `coefSet[skillId]` is sufficient to use.
 
 
 ## Moments
@@ -62,6 +62,5 @@ The latter function in turn calls `smoothenWithOrder(coef, newOrder)` which smoo
 
 Often multiple distributions need to be merged. This effectively multiplies the PDFs and normalizes the results. That is, `f_merged(x)` is proportional to `f_1(x) * f_2(x)`. To do so, we have the following functions.
 
-- `mergeTwo(coef1, coef2)` merges two distributions. The result is a new set of coefficients.
-- `merge(coefs)` merges any number of distributions, receiving an array of coefficient arrays. The result is a new set of coefficients.
-- `mergeElementwise(coefs)` applies an element-wise multiplication among coefficients. This is needed in case of correlated skills. The given coefficient arrays must have the same order. The result is a new set of coefficients.
+- `merge(coefficients1, coefficients2, ...)` merges any number of distributions, receiving an array of coefficient arrays. The result is a new set of coefficients.
+- `mergeElementwise(coefficients1, coefficients2, ...)` applies an element-wise multiplication among coefficients. This is needed in case of correlated skills. The given coefficient arrays must have the same order. The result is a new set of coefficients.

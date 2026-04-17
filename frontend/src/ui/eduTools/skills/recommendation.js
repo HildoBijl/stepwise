@@ -1,5 +1,5 @@
 import { mergeDefaults } from '@step-wise/utils'
-import { getEV } from 'step-wise/skillTracking'
+import { getExpectedValue } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {
 	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.
@@ -26,14 +26,14 @@ export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresho
 	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 
 	// Check if the thresholds are satisfied.
-	const EV = getEV(skillData.coefficients)
+	const EV = getExpectedValue(skillData.coefficients)
 	if (EV > pass)
 		return 0 // Sufficient mastery!
 	if (EV < recap)
 		return 2 // Not there yet.
 	if (priorKnowledge)
 		return 1 // It's prior knowledge: we can work but don't really have to.
-	if (getEV(skillData.highest) > pass)
+	if (getExpectedValue(skillData.highest) > pass)
 		return 1 // There has been mastery in the past, so it's not completely necessary.
 	return 2 // There has never been mastery yet: keep on working!
 }

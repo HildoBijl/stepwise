@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
-import { Skill, getEV, getMaxLikelihood, smoothen } from 'step-wise/skillTracking'
+import { Skill, getExpectedValue, getMaximumLikelihood, smoothen } from 'step-wise/skillTracking'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
@@ -250,10 +250,10 @@ function SingleSkillTrial() {
 }
 
 function SkillFlaskWithLabel({ coef }) {
-	const EV = getEV(coef)
+	const EV = getExpectedValue(coef)
 	const mainText = <Translation entry="estimate">The chance of a correct result is estimated to be {Math.round(EV * 100)}%.</Translation>
 
-	const max = getMaxLikelihood(coef).f
+	const max = getMaximumLikelihood(coef).f
 	let addendum
 	if (max < 1.2)
 		addendum = <Translation entry="estimateAddendum1">But honestly we don't have a clue yet.</Translation>

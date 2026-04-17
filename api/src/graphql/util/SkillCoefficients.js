@@ -1,5 +1,5 @@
 const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
-const { ensureSetup, processSkillDataSet, smoothen, getEV } = require('step-wise/skillTracking')
+const { ensureSetup, processSkillDataSet, smoothen, getExpectedValue } = require('step-wise/skillTracking')
 const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const { getUserSkills } = require('./Skill')
@@ -126,8 +126,8 @@ module.exports.applySkillUpdatesForUser = applySkillUpdatesForUser
 // getHighest takes a set of (new) coefficients, the currently highest coefficients from the past, and numPracticed. It then compares them to see what the highest coefficients should be.
 function getHighest(coefficients, highest, numPracticed) {
 	// If the coefficients aren't higher than the highest, nothing is going on.
-	const highestEV = getEV(highest)
-	if (getEV(coefficients) <= highestEV)
+	const highestEV = getExpectedValue(highest)
+	if (getExpectedValue(coefficients) <= highestEV)
 		return highest
 
 	// The coefficients are higher now. But are they still higher after smoothing?
@@ -137,7 +137,7 @@ function getHighest(coefficients, highest, numPracticed) {
 		// ToDo later: implement option for different properties for each skill.
 	}
 	const smoothenedCoefficients = smoothen(coefficients, options)
-	if (getEV(smoothenedCoefficients) <= highestEV)
+	if (getExpectedValue(smoothenedCoefficients) <= highestEV)
 		return highest
 	return smoothenedCoefficients
 }

@@ -1,8 +1,8 @@
 const { compareNumbers, compareNumberArrays } = require('@step-wise/utils')
 
-const { ensureCoef, getOrder, normalize } = require('./fundamentals')
+const { ensureCoefficients, getOrder, normalize } = require('./fundamentals')
 const { getPDF } = require('./distributions')
-const { getEV, getVariance, getMoment } = require('./moments')
+const { getExpectedValue, getVariance, getMoment } = require('./moments')
 const { merge, mergeElementwise } = require('./merging')
 const { smoothenWithFactor } = require('./smoothing')
 
@@ -13,14 +13,14 @@ const { smoothenWithFactor } = require('./smoothing')
 describe('Check fundamental functions:', () => {
 	describe('ensureCoef', () => {
 		it('throws an error on non-array coefficients', () => {
-			expect(() => ensureCoef(1)).toThrow()
+			expect(() => ensureCoefficients(1)).toThrow()
 		})
 		it('throws an error on non-normalized coefficients', () => {
-			expect(() => ensureCoef([1, 1])).toThrow()
+			expect(() => ensureCoefficients([1, 1])).toThrow()
 		})
 		it('passes on valid coefficient arrays', () => {
 			const coef = [0.1, 0.3, 0.6]
-			expect(compareNumberArrays(ensureCoef(coef), coef)).toBe(true)
+			expect(compareNumberArrays(ensureCoefficients(coef), coef)).toBe(true)
 		})
 	})
 
@@ -59,10 +59,10 @@ describe('Check distribution functions:', () => {
  */
 
 describe('Check moment functions:', () => {
-	describe('getEV', () => {
+	describe('getExpectedValue', () => {
 		it('gives correct values', () => {
-			expect(getEV([0, 1])).toBe(2 / 3)
-			expect(getEV([0, 0, 1, 0])).toBe(3 / 5)
+			expect(getExpectedValue([0, 1])).toBe(2 / 3)
+			expect(getExpectedValue([0, 0, 1, 0])).toBe(3 / 5)
 		})
 	})
 	describe('getMoment', () => {

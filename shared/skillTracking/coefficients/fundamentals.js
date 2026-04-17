@@ -1,13 +1,13 @@
 const { ensureArray, ensureNumberArray, sum, isPlainObject, fromKeys } = require('@step-wise/utils')
 
-// ensureCoef takes a coef array and ensures it actually is one: it is an array of non-negative numbers whose sum equals one. It returns a copy of the array.
-function ensureCoef(coef, requireNormalized = true) {
+// ensureCoefficients takes a coef array and ensures it actually is one: it is an array of non-negative numbers whose sum equals one. It returns a copy of the array.
+function ensureCoefficients(coef, requireNormalized = true) {
 	coef = ensureNumberArray(coef, true)
 	if (requireNormalized && Math.abs(sum(coef) - 1) > 1e-12)
 		throw new Error(`Invalid input: expected a coefficient array whose sum equals one, but the sum instead is ${sum}. The array itself is [${coef.join(', ')}].`)
 	return coef
 }
-module.exports.ensureCoef = ensureCoef
+module.exports.ensureCoefficients = ensureCoefficients
 
 // getOrder returns the order of the coefficient array, which is its length minus one.
 function getOrder(coef) {
@@ -30,8 +30,8 @@ function invert(coef) {
 }
 module.exports.invert = invert
 
-// ensureCoefSet checks whether the given object is a coefficient set object. If a list of required skill IDs is given, it filters the skills to the given IDs and checks only these.
-function ensureCoefSet(coefSet, requiredSkillIds) {
+// ensureCoefficientSet checks whether the given object is a coefficient set object. If a list of required skill IDs is given, it filters the skills to the given IDs and checks only these.
+function ensureCoefficientSet(coefSet, requiredSkillIds) {
 	if (!isPlainObject(coefSet))
 		throw new Error(`Invalid coefficient set: expected the coefficient set parameter to be a plain object but received something of type "${typeof coefSet}".`)
 	if (!requiredSkillIds)
@@ -40,12 +40,12 @@ function ensureCoefSet(coefSet, requiredSkillIds) {
 		coefSet = fromKeys(requiredSkillIds, skillId => getCoef(coefSet, skillId))
 	return coefSet
 }
-module.exports.ensureCoefSet = ensureCoefSet
+module.exports.ensureCoefficientSet = ensureCoefficientSet
 
 // getCoef gets a coefficient array from a coefficient set based on the ID. It throws an error if the ID is not known.
 function getCoef(coefSet, skillId) {
 	if (!coefSet[skillId])
 		throw new Error(`Invalid skill ID: the skill ID "${skillId}" did not exist in the given coefficient set.`)
-	return ensureCoef(coefSet[skillId])
+	return ensureCoefficients(coefSet[skillId])
 }
 module.exports.getCoef = getCoef

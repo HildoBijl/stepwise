@@ -3,7 +3,7 @@
 const { ensureBoolean, fromKeys, pickKeys, sum, repeat, binomial } = require('@step-wise/utils')
 
 const { defaultInferenceOrder } = require('../../settings')
-const { ensureCoef, ensureCoefSet, normalize, getEV, mergeTwo } = require('../../coefficients')
+const { ensureCoefficients, ensureCoefficientSet, normalize, getExpectedValue, mergeTwo } = require('../../coefficients')
 const { substitute, substituteAll, oneMinus, polynomialMatrixToString } = require('../../polynomials')
 
 class SkillSetup {
@@ -66,29 +66,29 @@ class SkillSetup {
 
 	// Skill evaluation functions, given a data set.
 
-	// getEV gets the expected value of this skill, given the distributions of all the skills, indicated by the data set. It gets the skill polynomial, takes the expected value of it (assuming independence) and returns the result.
-	getEV(coefSet) {
-		coefSet = ensureCoefSet(coefSet)
+	// getExpectedValue gets the expected value of this skill, given the distributions of all the skills, indicated by the data set. It gets the skill polynomial, takes the expected value of it (assuming independence) and returns the result.
+	getExpectedValue(coefSet) {
+		coefSet = ensureCoefficientSet(coefSet)
 		const { matrix, list } = this.getMatrixAndList()
-		const skillCoefs = list.map(skillId => ensureCoef(coefSet[skillId]))
-		const skillEVs = skillCoefs.map(coef => getEV(coef))
+		const skillCoefs = list.map(skillId => ensureCoefficients(coefSet[skillId]))
+		const skillEVs = skillCoefs.map(coef => getExpectedValue(coef))
 		return substituteAll(matrix, skillEVs)
 	}
 
 	// getDistribution returns a set of coefficients describing the distribution of this skill. The given order is the smoothing order applied while calculating this result.
 	getDistribution(coefSet, n = defaultInferenceOrder) {
 		// Get the EV, insert it into the polynomial, and use the basis functions to get the coefficients.
-		const EV = this.getEV(coefSet)
+		const EV = this.getExpectedValue(coefSet)
 		const coef = repeat(n + 1, i => (n + 1) * binomial(n, i) * (EV ** i) * (1 - EV) ** (n - i))
 		return normalize(coef)
 
 		// Note: the above code is mathematically incorrect. It immediately inserts the expected values, instead of expanding the polynomial and using the respective moments. The reason this is done (through the code below) is because this is computationally intensive and the difference is in most practical cases negligible.
 
 		// // Process all the skill data.
-		// coefSet = ensureCoefSet(coefSet)
+		// coefSet = ensureCoefficientSet(coefSet)
 		// const { matrix, list } = this.getMatrixAndList()
-		// const skillCoefs = list.map(skillId => ensureCoef(coefSet[skillId]))
-		// const skillEVs = skillCoefs.map(coef => getEV(coef))
+		// const skillCoefs = list.map(skillId => ensureCoefficients(coefSet[skillId]))
+		// const skillEVs = skillCoefs.map(coef => getExpectedValue(coef))
 		//
 		// // Find the coefficients of the final distribution.
 		// const powersOfMatrix = getPowerList(matrix, n)
@@ -110,10 +110,10 @@ class SkillSetup {
 		if (!this.isDeterministic())
 			throw new Error(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
 		const skills = this.getSkillList()
-		coefSet = ensureCoefSet(coefSet, skills)
+		coefSet = ensureCoefficientSet(coefSet, skills)
 
 		// Gather general data.
-		const EVs = fromKeys(skills, skill => getEV(coefSet[skill]))
+		const EVs = fromKeys(skills, skill => getExpectedValue(coefSet[skill]))
 		let polynomialMatrix = this.getPolynomialMatrix()
 		polynomialMatrix = correct ? polynomialMatrix : oneMinus(polynomialMatrix)
 

@@ -21,9 +21,9 @@ describe('Check and set-up:', () => {
 			expect(compareNumberArrays(setup.getPolynomialMatrix(), [[0, 0], [0, 1]])).toBe(true)
 		})
 	})
-	describe('getEV', () => {
+	describe('getExpectedValue', () => {
 		it('works correctly', () => {
-			expect(compareNumbers(setup.getEV(dataSet), 1 / 3)).toBe(true)
+			expect(compareNumbers(setup.getExpectedValue(dataSet), 1 / 3)).toBe(true)
 		})
 	})
 	describe('processObservation', () => {
@@ -55,9 +55,9 @@ describe('Check or set-up:', () => {
 			expect(compareNumberArrays(setup.getPolynomialMatrix(), [[0, 1], [1, -1]])).toBe(true)
 		})
 	})
-	describe('getEV', () => {
+	describe('getExpectedValue', () => {
 		it('works correctly', () => {
-			expect(compareNumbers(setup.getEV(dataSet), 5 / 6)).toBe(true)
+			expect(compareNumbers(setup.getExpectedValue(dataSet), 5 / 6)).toBe(true)
 		})
 	})
 	describe('processObservation', () => {
@@ -89,9 +89,9 @@ describe('Check repeat set-up:', () => {
 			expect(compareNumberArrays(setup.getPolynomialMatrix(), [0, 0, 0, 1])).toBe(true)
 		})
 	})
-	describe('getEV', () => {
+	describe('getExpectedValue', () => {
 		it('works correctly', () => {
-			expect(compareNumbers(setup.getEV(dataSet), 8 / 27)).toBe(true)
+			expect(compareNumbers(setup.getExpectedValue(dataSet), 8 / 27)).toBe(true)
 		})
 	})
 	describe('processObservation', () => {
@@ -123,8 +123,8 @@ describe('Check pick set-up:', () => {
 			expect(compareNumberArrays(setup.getPolynomialMatrix(), [[0, 1 / 4], [3 / 4, 0]])).toBe(true)
 		})
 	})
-	describe('getEV:', () => {
-		expect(compareNumbers(setup.getEV(dataSet), 13 / 24)).toBe(true)
+	describe('getExpectedValue:', () => {
+		expect(compareNumbers(setup.getExpectedValue(dataSet), 13 / 24)).toBe(true)
 	})
 	describe('processObservation:', () => {
 		expect(() => setup.processObservation(dataSet, true)).toThrow()
@@ -153,10 +153,10 @@ describe('Check part set-up:', () => {
 			expect(compareNumberArrays(setupOr.getPolynomialMatrix(), [[0, 3 / 4], [1, -3 / 4]])).toBe(true)
 		})
 	})
-	describe('getEV', () => {
+	describe('getExpectedValue', () => {
 		it('works correctly', () => {
-			expect(compareNumbers(setupAnd.getEV(dataSet), 3 / 8)).toBe(true)
-			expect(compareNumbers(setupOr.getEV(dataSet), 3 / 4)).toBe(true)
+			expect(compareNumbers(setupAnd.getExpectedValue(dataSet), 3 / 8)).toBe(true)
+			expect(compareNumbers(setupOr.getExpectedValue(dataSet), 3 / 4)).toBe(true)
 		})
 	})
 	describe('processObservation', () => {
