@@ -1,5 +1,5 @@
 // Get the dimensions of a multi-dimensional array (matrix).
-export type NestedArray<T> = readonly (T | NestedArray<T>)[]
+export type NestedArray<T> = (T | NestedArray<T>)[]
 export function getDimensions<T>(matrix: NestedArray<T>): number[] {
 	const dimensions: number[] = []
 	let current: NestedArray<T> | T = matrix

@@ -22,17 +22,14 @@ export function repeatFromTo<T>(min: number, max: number, fnOrValue: ((index: nu
 }
 
 // Repeat the given function over a multidimensional index range starting at zero.
-export function repeatMultidimensional<T>(times: readonly number[], fn: (...indices: number[]) => T): NestedArray<T> {
+export function repeatMultidimensional<T>(times: readonly number[], fn: (...indices: number[]) => T): NestedArray<T> | T {
 	times = times.map(v => ensureInt(v, true))
 	return repeatMultidimensionalFromTo(times.map(() => 0), times.map(num => num - 1), fn)
 }
 
 // Repeat the given function over a multidimensional index range and return a nested array of outcomes.
-export function repeatMultidimensionalFromTo<T>(min: readonly number[], max: readonly number[], fn: (...indices: number[]) => T, previousValues: readonly number[] = []): NestedArray<T> {
-	if (min.length === 0) throw new RangeError(`Invalid min array: does not support arrays of length 0.`)
+export function repeatMultidimensionalFromTo<T>(min: readonly number[], max: readonly number[], fn: (...indices: number[]) => T, previousValues: readonly number[] = []): NestedArray<T> | T {
 	if (min.length !== max.length) throw new RangeError(`Invalid min and max arrays: expected equal lengths, but got ${min.length} and ${max.length}.`)
-
-	const minValue = ensureInt(min[0])
-	const maxValue = ensureInt(max[0])
-	return repeatFromTo(minValue, maxValue, value => repeatMultidimensionalFromTo(min.slice(1), max.slice(1), fn, [...previousValues, value]))
+	if (min.length === 0) return fn(...previousValues)
+	return repeatFromTo(min[0], max[0], value => repeatMultidimensionalFromTo(min.slice(1), max.slice(1), fn, [...previousValues, value]))
 }

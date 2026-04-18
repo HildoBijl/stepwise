@@ -104,6 +104,7 @@ export class SkillDataSet {
 			const skill = this.skillTree[skillId]
 			if (!skill) throw new Error(`Invalid skill given: a skill ID "${skillId}" was supplied inside of a raw data set, but this skill is not known in the full skill tree.`)
 			if (!shouldUpdateSkill(skillId)) return
+			
 			const existingSkillData = this.skillDataById[skillId]
 			if (existingSkillData) existingSkillData.update(newRawSkillDataSet[skillId])
 			else this.skillDataById[skillId] = new SkillData(skill, newRawSkillDataSet[skillId])

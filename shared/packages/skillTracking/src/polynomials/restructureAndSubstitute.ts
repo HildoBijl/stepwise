@@ -19,7 +19,7 @@ export function restructure(matrix: PolynomialMatrix, originList: VariableList, 
 	return repeatMultidimensional(newDimensions, (...newIndices) => {
 		const oldIndices = mappingOldToNew.map(mappingIndex => (mappingIndex === -1 ? 0 : newIndices[mappingIndex]))
 		return getMatrixElement(matrix, oldIndices)
-	})
+	}) as PolynomialMatrix
 }
 
 // Substitute known variable values into a polynomial matrix, returning the reduced polynomial and remaining variables.
@@ -53,7 +53,7 @@ export function substitute(matrix: PolynomialMatrix, variableList: VariableList,
 			total += coefficient * product(factors)
 		})
 		return total
-	})
+	}) as PolynomialMatrix
 	return { matrix: result, list: unknownVariables }
 }
 
