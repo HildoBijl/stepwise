@@ -4,11 +4,9 @@ import { defaultInferenceOrder } from '../../settings'
 import { type Coefficients, type CoefficientSet, ensureCoefficientSet, normalize, getExpectedValue as getCoefficientsExpectedValue, merge } from '../../coefficients'
 import { type PolynomialExpression, type PolynomialMatrix, substitute, substituteAll, oneMinus, polynomialMatrixToString } from '../../polynomials'
 
-import type { SkillStorageValue, SkillSetupStorageValue, SerializedSkillSetup } from './types'
+export type SerializedSkillSetup<TValue = unknown, TType extends string = string> = { type: TType, value: TValue }
 
-export type SkillSetupLike = SkillSetup | SkillStorageValue
-
-export abstract class SkillSetup {
+export abstract class SkillSetup<TStorageValue = unknown> {
 
 	// Fundamentals.
 
@@ -16,12 +14,12 @@ export abstract class SkillSetup {
 		return this.constructor.name
 	}
 
-	abstract toStorageValue(): SkillSetupStorageValue
-	get SO(): SkillSetupStorageValue { // SO legacy
+	abstract toStorageValue(): TStorageValue
+	get SO(): TStorageValue { // SO legacy
 		return this.toStorageValue()
 	}
 
-	serialize(): SerializedSkillSetup {
+	serialize(): SerializedSkillSetup<TStorageValue> {
 		return { type: this.type, value: this.toStorageValue() }
 	}
 

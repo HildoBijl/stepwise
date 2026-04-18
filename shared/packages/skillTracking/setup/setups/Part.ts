@@ -1,21 +1,25 @@
 import { type PolynomialMatrix, oneMinus, multiplyByConstant } from '../../polynomials'
 
-import { type SerializedSkillSetup, type SkillSetup, type SkillSetupLike, type PartStorageValue, SkillItemSetup } from '../fundamentals'
+import { type SerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
+
+import { type SkillSetupLike, ensureSetup } from './Skill'
 
 import { And } from './And'
 import { Or } from './Or'
 
-export class Part extends SkillItemSetup {
+export type PartStorageValue = SkillItemStorageValue & { part?: number }
+
+export class Part extends SkillItemSetup<PartStorageValue> {
 	readonly part: number
 
 	constructor(skill: SkillSetupLike, part = 0.5) {
-		super(skill)
+		super(ensureSetup(skill))
 		this.part = part
 		if (this.part < 0 || this.part > 1) throw new Error(`Invalid skill part: the "part" parameter of the skill set-up must be a number between 0 and 1. This is not the case: a value of "${this.part}" was given.`)
 	}
 
 	override toStorageValue(): PartStorageValue {
-		return { ...super.toStorageValue(), ...(this.part !== 0.5 ? { part: this.part } : {}) }
+		return { ...super.getSkillItemStorageValue(), ...(this.part !== 0.5 ? { part: this.part } : {}) }
 	}
 	static fromStorageValue(storageValue: PartStorageValue, deserialize: (setup: SerializedSkillSetup) => SkillSetup): Part {
 		return new Part(deserialize(storageValue.skill), storageValue.part)

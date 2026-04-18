@@ -1,19 +1,19 @@
 import { union } from '@step-wise/utils'
 
-import type { SkillListStorageValue } from './types'
-import { type SkillSetupLike, SkillSetup } from './SkillSetup'
-import { ensureSetup } from './ensureSetup'
+import { type SerializedSkillSetup, SkillSetup } from './SkillSetup'
 
-export abstract class SkillListSetup extends SkillSetup {
-	constructor(...skills: SkillSetupLike[]) {
+export type SkillListStorageValue<TChild = SerializedSkillSetup> = { skills: TChild[] }
+
+export abstract class SkillListSetup<TStorageValue extends SkillListStorageValue = SkillListStorageValue> extends SkillSetup<TStorageValue> {
+	constructor(...skills: SkillSetup[]) {
 		super()
 		if (skills.length === 0) throw new Error(`Invalid skills list: expected at least one skill.`)
-		this.skills = skills.map(skill => ensureSetup(skill))
+		this.skills = skills
 	}
 
 	readonly skills: SkillSetup[]
 
-	override toStorageValue(): SkillListStorageValue {
+	protected getSkillListStorageValue(): SkillListStorageValue {
 		return { skills: this.skills.map(skill => skill.serialize()) }
 	}
 

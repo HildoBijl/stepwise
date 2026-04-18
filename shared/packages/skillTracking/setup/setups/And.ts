@@ -1,8 +1,19 @@
 import { type PolynomialMatrix, multiplyWithEqualDimension } from '../../polynomials'
 
-import { type SkillListStorageValue, type SerializedSkillSetup, type SkillSetupLike, SkillListSetup, SkillSetup } from '../fundamentals'
+import { type SkillListStorageValue, type SerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
 
-export class And extends SkillListSetup {
+import { type SkillSetupLike, ensureSetup } from './Skill'
+
+export type AndStorageValue = SkillListStorageValue
+
+export class And extends SkillListSetup<AndStorageValue> {
+	constructor(...skills: SkillSetupLike[]) {
+		super(...skills.map(ensureSetup))
+	}
+
+	override toStorageValue(): AndStorageValue {
+		return super.getSkillListStorageValue()
+	}
 	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: SerializedSkillSetup) => SkillSetup): And {
 		return new And(...storageValue.skills.map(skill => deserialize(skill)))
 	}

@@ -1,6 +1,3 @@
-export * from './types'
 export * from './SkillSetup'
-export * from './Skill'
-export * from './ensureSetup'
 export * from './SkillListSetup'
 export * from './SkillItemSetup'

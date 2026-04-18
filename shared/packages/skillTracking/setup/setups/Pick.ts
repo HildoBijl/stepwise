@@ -2,14 +2,18 @@ import { ensureInt, ensureNumberArray, product, repeatMultidimensional } from '@
 
 import { type PolynomialMatrix, type PolynomialExpression, add, multiply, multiplyByConstant } from '../../polynomials'
 
-import { type SerializedSkillSetup, type SkillSetup, type SkillSetupLike, type PickStorageValue, SkillListSetup } from '../fundamentals'
+import { type SerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
 
-export class Pick extends SkillListSetup {
+import { type SkillSetupLike, ensureSetup } from './Skill'
+
+export type PickStorageValue = SkillListStorageValue & { number?: number, weights?: number[] }
+
+export class Pick extends SkillListSetup<PickStorageValue> {
 	readonly number: number
 	readonly weights: number[]
 
 	constructor(skills: SkillSetupLike[], number = 1, weights?: number[]) {
-		super(...skills)
+		super(...skills.map(ensureSetup))
 
 		this.number = ensureInt(number, true, true)
 		if (this.number >= this.skills.length) throw new Error(`Invalid Pick number: expected a number of picked skills smaller than the given number of skills (${this.skills.length}) but a number "${this.number}" was given.`)
@@ -20,7 +24,7 @@ export class Pick extends SkillListSetup {
 
 	override toStorageValue(): PickStorageValue {
 		return {
-			...super.toStorageValue(),
+			...super.getSkillListStorageValue(),
 			...(this.number !== 1 ? { number: this.number } : {}),
 			...(!this.weights.every(weight => weight === 1) ? { weights: this.weights } : {}),
 		}
