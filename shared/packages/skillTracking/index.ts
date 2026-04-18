@@ -1,5 +1,0 @@
-export * from './settings'
-export * from './coefficients'
-export * from './polynomials'
-// export * from './setup'
-// export * from './inference'
