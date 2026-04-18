@@ -63,9 +63,9 @@ export function preserveRefs<T = unknown>(newValue: T, oldValue: T): T {
 }
 
 // Pick properties (allowedKeys) from obj.
-export function pickKeys(obj: Record<string, unknown>, allowedKeys: string[]): Record<string, unknown> {
+export function pickKeys<T>(obj: Record<string, T>, allowedKeys: string[]): Record<string, T> {
 	if (!isPlainObject(obj)) throw new TypeError('pickKeys: obj must be a plain object')
-	const res: Record<string, unknown> = {}
+	const res: Record<string, T> = {}
 	for (const key of allowedKeys) if (obj[key] !== undefined) res[key] = obj[key]
 	return res
 }

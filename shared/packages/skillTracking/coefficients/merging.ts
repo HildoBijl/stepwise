@@ -12,7 +12,7 @@ export function merge(...coefficientsList: Coefficients[]): Coefficients {
 }
 
 // Merge two sets of coefficients, producing a joint distribution.
-export function mergeTwo(coefficients1: Coefficients, coefficients2: Coefficients): Coefficients {
+function mergeTwo(coefficients1: Coefficients, coefficients2: Coefficients): Coefficients {
 	const order1 = getOrder(coefficients1)
 	const order2 = getOrder(coefficients2)
 	const order = order1 + order2

@@ -32,10 +32,9 @@ function addWithEqualDimension(matrices: PolynomialMatrix[]): PolynomialMatrix {
 }
 
 // Add matrices with variable lists. Returns { matrix, list }.
-export function add(matrices: PolynomialMatrix[], lists: VariableList[], destinationList?: VariableList): PolynomialExpression {
-	if (matrices.length !== lists.length) throw new Error(`Invalid input: expected the same number of variable lists as matrices. This is not the case: ${matrices.length} matrices are given and ${lists.length} variable lists.`)
-	destinationList ??= [...union(...lists.map(list => new Set(list)))]
-	const restructuredMatrices = matrices.map((matrix, index) => restructure(matrix, lists[index], destinationList))
+export function add(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
+	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
+	const restructuredMatrices = expressions.map(expression => restructure(expression.matrix, expression.list, destinationList))
 	return { matrix: addWithEqualDimension(restructuredMatrices), list: destinationList }
 }
 
@@ -75,10 +74,9 @@ export function multiplyWithEqualDimension(matrices: PolynomialMatrix[]): Polyno
 }
 
 // Multiply matrices with variable lists. Returns { matrix, list }.
-export function multiply(matrices: PolynomialMatrix[], lists: VariableList[], destinationList?: VariableList): PolynomialExpression {
-	if (matrices.length !== lists.length) throw new Error(`Invalid input: expected the same number of variable lists as matrices. This is not the case: ${matrices.length} matrices are given and ${lists.length} variable lists.`)
-	destinationList ??= [...union(...lists.map(list => new Set(list)))]
-	const restructuredMatrices = matrices.map((matrix, index) => restructure(matrix, lists[index], destinationList))
+export function multiply(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
+	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
+	const restructuredMatrices = expressions.map(expression => restructure(expression.matrix, expression.list, destinationList))
 	return { matrix: multiplyWithEqualDimension(restructuredMatrices), list: destinationList }
 }
 
