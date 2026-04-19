@@ -1,4 +1,4 @@
-import { type PolynomialMatrix, multiplyWithEqualDimension } from '../../polynomials'
+import { type PolynomialMatrix, multiply } from '../../polynomials'
 
 import { type SkillListStorageValue, type SerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
 
@@ -19,7 +19,7 @@ export class And extends SkillListSetup<AndStorageValue> {
 	}
 
 	override getPolynomialMatrix(): PolynomialMatrix {
-		return multiplyWithEqualDimension(this.skills.map(skill => skill.getPolynomialMatrix(this)))
+		return multiply(this.skills.map(skill => skill.getMatrixAndList(this)), this.getSkillList()).matrix
 	}
 }
 

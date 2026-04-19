@@ -119,7 +119,7 @@ class SkillSetup {
 
 		// Walk through the skill list and perform the update.
 		return fromKeys(skills, skill => {
-			// Find the expected value of the skill polynomial with as only remaining parameter remaining the current skill.
+			// Find the expected value of the skill polynomial with as only remaining parameter the current skill.
 			const skillsWithoutCurrent = skills.filter(currSkill => currSkill !== skill)
 			const filteredEVs = pickKeys(EVs, skillsWithoutCurrent)
 			const skillPolynomial = substitute(polynomialMatrix, skills, filteredEVs).matrix
