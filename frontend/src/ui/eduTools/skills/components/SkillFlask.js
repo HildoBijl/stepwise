@@ -2,7 +2,7 @@ import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
 import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat } from '@step-wise/utils'
-import { gridInterpolate } from '@step-wise/math-tools'
+import { gridInterpolate } from '@step-wise/interpolation'
 import { getExpectedValue, getMaximumLikelihood } from '@step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 

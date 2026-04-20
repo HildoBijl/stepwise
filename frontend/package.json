@@ -32,6 +32,7 @@
     "react-scripts": "^5.0.1",
     "step-wise": "file:../shared",
     "@step-wise/geometry": "file:../shared/packages/geometry",
+    "@step-wise/interpolation": "file:../shared/packages/interpolation",
     "@step-wise/math-tools": "file:../shared/packages/mathTools",
     "@step-wise/settings": "file:../shared/packages/settings",
     "@step-wise/skillTracking": "file:../shared/packages/skillTracking",

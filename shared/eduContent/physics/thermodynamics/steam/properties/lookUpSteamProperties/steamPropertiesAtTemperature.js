@@ -1,5 +1,5 @@
 const { randomInteger } = require('@step-wise/utils')
-const { tableInterpolate } = require('@step-wise/math-tools')
+const { tableInterpolate } = require('@step-wise/interpolation')
 const { withTemperature } = require('../../../../../../data/steamProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 

@@ -1,5 +1,5 @@
 const { first, last } = require('@step-wise/utils')
-const { tableInterpolate } = require('@step-wise/math-tools')
+const { tableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')

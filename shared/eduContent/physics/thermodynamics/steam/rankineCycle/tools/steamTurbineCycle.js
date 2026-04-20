@@ -1,5 +1,5 @@
 const { integerRange, sample, randomInteger } = require('@step-wise/utils')
-const { tableInterpolate } = require('@step-wise/math-tools')
+const { tableInterpolate } = require('@step-wise/interpolation')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../../inputTypes')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 
