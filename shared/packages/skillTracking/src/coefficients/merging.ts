@@ -1,4 +1,5 @@
-import { product, repeat, binomial } from '@step-wise/utils'
+import { product, repeat } from '@step-wise/utils'
+import { binomial } from '@step-wise/math-tools'
 
 import { Coefficients } from './types'
 import { getOrder, normalize } from './fundamentals'

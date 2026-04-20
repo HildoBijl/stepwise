@@ -1,4 +1,5 @@
-const { ensureInt, sum, factorial } = require('@step-wise/utils')
+const { ensureInt, sum } = require('@step-wise/utils')
+const { factorial } = require('@step-wise/math-tools')
 
 const { ensureCoefficients, getOrder } = require('./fundamentals')
 

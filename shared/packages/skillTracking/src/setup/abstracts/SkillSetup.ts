@@ -1,4 +1,5 @@
-import { fromKeys, pickKeys, sum, repeat, binomial } from '@step-wise/utils'
+import { fromKeys, pickKeys, sum, repeat } from '@step-wise/utils'
+import { binomial } from '@step-wise/math-tools'
 
 import { defaultInferenceOrder } from '../../settings'
 import { type Coefficients, type CoefficientSet, ensureCoefficientSet, normalize, getExpectedValue as getCoefficientsExpectedValue, merge } from '../../coefficients'

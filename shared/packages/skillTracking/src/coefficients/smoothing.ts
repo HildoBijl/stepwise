@@ -1,4 +1,5 @@
-import { ensureInt, mergeDefaults, sum, repeat, binomial } from '@step-wise/utils'
+import { ensureInt, mergeDefaults, sum, repeat } from '@step-wise/utils'
+import { binomial } from '@step-wise/math-tools'
 
 import { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } from '../settings'
 

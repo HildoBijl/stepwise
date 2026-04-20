@@ -1,4 +1,5 @@
-import { ensureInt, sum, factorial } from '@step-wise/utils'
+import { ensureInt, sum } from '@step-wise/utils'
+import { factorial } from '@step-wise/math-tools'
 
 import { Coefficients } from './types'
 import { getOrder } from './fundamentals'

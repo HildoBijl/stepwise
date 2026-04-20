@@ -1,4 +1,5 @@
-const { ensureInt, ensureNumber, mergeDefaults, sum, repeat, binomial } = require('@step-wise/utils')
+const { ensureInt, ensureNumber, mergeDefaults, sum, repeat } = require('@step-wise/utils')
+const { binomial } = require('@step-wise/math-tools')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
 

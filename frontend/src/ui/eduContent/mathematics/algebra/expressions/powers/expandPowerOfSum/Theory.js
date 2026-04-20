@@ -1,7 +1,8 @@
 import { Fragment } from 'react'
 import { alpha } from '@mui/material'
 
-import { repeat, binomial } from '@step-wise/utils'
+import { repeat } from '@step-wise/utils'
+import { binomial } from '@step-wise/math-tools'
 import { Vector } from '@step-wise/geometry'
 
 import { Translation, useTextTranslation } from 'i18n'

@@ -1,4 +1,5 @@
-const { product, repeat, binomial } = require('@step-wise/utils')
+const { product, repeat } = require('@step-wise/utils')
+const { binomial } = require('@step-wise/math-tools')
 
 const { getOrder, normalize } = require('./fundamentals')
 

@@ -23,7 +23,8 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefinedWith, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo, gcd, getPrime, getPrimeFactorization, isSquare, isPerfectPower, largestPowerDivisor, binomial } = require('@step-wise/utils')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefinedWith, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo } = require('@step-wise/utils')
+const { gcd, getPrime, getPrimeFactorization, isSquare, isPerfectPower, largestPowerDivisor, binomial } = require('@step-wise/math-tools')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 

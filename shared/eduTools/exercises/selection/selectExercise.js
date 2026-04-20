@@ -1,4 +1,5 @@
-const { isNumber, sum, normalPDF, sample, fromKeys } = require('@step-wise/utils')
+const { isNumber, sum, sample, fromKeys } = require('@step-wise/utils')
+const { normalPDF } = require('@step-wise/math-tools')
 
 const { skillTree, exercises, getExerciseName, fixExerciseId, ensureSkillId } = require('../../skills')
 
