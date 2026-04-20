@@ -2,10 +2,6 @@ import { compareNumberArrays } from '@step-wise/utils'
 
 import { applyMinusToPolynomial, addConstantToPolynomial, multiplyPolynomialByConstant, oneMinusPolynomial, addPolynomials, multiplyPolynomials, polynomialToPower } from './manipulation'
 
-/*
- * Check manipulation functions.
- */
-
 describe('Check mathematical functions:', () => {
 	describe('applyMinusToPolynomial', () => {
 		it('works correctly', () => {

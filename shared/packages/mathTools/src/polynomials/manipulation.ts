@@ -9,11 +9,8 @@ function applyOperationToMatrix<TArgs extends unknown[]>(expression: PolynomialE
 }
 
 // Apply a minus sign to all elements of a polynomial matrix.
-function applyMinusToPolynomialMatrix(matrix: PolynomialMatrix): PolynomialMatrix {
-	return matrix.map(submatrix => Array.isArray(submatrix) ? applyMinusToPolynomialMatrix(submatrix) : -submatrix)
-}
 export function applyMinusToPolynomial(expression: PolynomialExpression): PolynomialExpression {
-	return applyOperationToMatrix(expression, applyMinusToPolynomialMatrix)
+	return multiplyPolynomialByConstant(expression, -1)
 }
 
 // Add a constant to a polynomial.
