@@ -1,9 +1,8 @@
 import { fromKeys, pickKeys, sum, repeat } from '@step-wise/utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomial, type PolynomialExpression, type PolynomialMatrix, substituteIntoPolynomial, oneMinusPolynomial, polynomialToString } from '@step-wise/math-tools'
 
 import { defaultInferenceOrder } from '../../settings'
 import { type Coefficients, type CoefficientSet, ensureCoefficientSet, normalize, getExpectedValue as getCoefficientsExpectedValue, merge } from '../../coefficients'
-import { type PolynomialExpression, type PolynomialMatrix, substitute, substituteAll, oneMinus, polynomialMatrixToString } from '../../polynomials'
 
 export type SerializedSkillSetup<TValue = unknown, TType extends string = string> = { type: TType, value: TValue }
 
@@ -51,12 +50,12 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 	abstract getPolynomialMatrix(parent?: SkillSetup): PolynomialMatrix
 
 	// Get the polynomial related to this set-up in string form.
-	getPolynomialString(useSkillStrings = true): string {
-		return polynomialMatrixToString(this.getPolynomialMatrix(), useSkillStrings ? this.getSkillList() : undefined)
+	getPolynomialString(): string {
+		return polynomialToString(this.getPolynomialExpression())
 	}
 
 	// Get both the matrix and the skill list.
-	getMatrixAndList(parent?: SkillSetup): PolynomialExpression {
+	getPolynomialExpression(parent?: SkillSetup): PolynomialExpression {
 		return {
 			matrix: this.getPolynomialMatrix(parent),
 			list: this.getSkillList(),
@@ -67,10 +66,10 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 
 	// Get the expected value of this skill, given the distributions of all subskills.
 	getExpectedValue(coefficientSet: CoefficientSet, parent?: SkillSetup): number {
-		const { matrix, list } = this.getMatrixAndList(parent)
-		const ensuredCoefficientSet = ensureCoefficientSet(coefficientSet, list)
-		const skillExpectedValues = list.map(skillId => ensuredCoefficientSet[skillId]).map(coefficients => getCoefficientsExpectedValue(coefficients))
-		return substituteAll(matrix, skillExpectedValues)
+		const expression = this.getPolynomialExpression(parent)
+		const ensuredCoefficientSet = ensureCoefficientSet(coefficientSet, expression.list)
+		const skillExpectedValues = fromKeys(expression.list, skillId => getCoefficientsExpectedValue(ensuredCoefficientSet[skillId]))
+		return substituteIntoPolynomial(expression, skillExpectedValues) as number
 	}
 
 	// Get coefficients describing the distribution of this skill. The given order is the smoothing order applied while calculating this result.
@@ -105,16 +104,17 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 
 		// Extract the polynomial matrix corresponding to this observation.
 		const expectedValues = fromKeys(skillIds, skillId => getCoefficientsExpectedValue(ensuredCoefficientSet[skillId]))
-		const polynomialMatrix = correct ? this.getPolynomialMatrix() : oneMinus(this.getPolynomialMatrix())
+		const polynomialExpression = correct ? this.getPolynomialExpression() : oneMinusPolynomial(this.getPolynomialExpression())
 
 		// Apply the observation to the coefficients of each respective skill.
 		return fromKeys(skillIds, skillId => {
 			const skillsWithoutCurrent = skillIds.filter(currentSkillId => currentSkillId !== skillId)
 			const filteredExpectedValues = pickKeys(expectedValues, skillsWithoutCurrent)
-			const skillPolynomial = substitute(polynomialMatrix, skillIds, filteredExpectedValues).matrix as number[]
+			const skillPolynomialExpression = substituteIntoPolynomial(polynomialExpression, filteredExpectedValues) as PolynomialExpression
 
-			const order = skillPolynomial.length - 1
-			const shiftedCoefficients = repeat(order + 1, i => sum(repeat(i + 1, j => binomial(order - j, i - j) * skillPolynomial[j])) / binomial(order, i))
+			const matrix = skillPolynomialExpression.matrix as number[]
+			const order = matrix.length - 1
+			const shiftedCoefficients = repeat(order + 1, i => sum(repeat(i + 1, j => binomial(order - j, i - j) * matrix[j])) / binomial(order, i))
 
 			return merge(shiftedCoefficients, ensuredCoefficientSet[skillId])
 		})

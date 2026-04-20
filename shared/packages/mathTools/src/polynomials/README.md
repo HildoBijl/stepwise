@@ -39,7 +39,6 @@ and the result will be `[[1,2], [0, -3], [4, 0]]`. Note that the destination lis
 
 Next to restructuring, it is also possible to substitute variables. This can be done in two ways.
 
-- `substituteAll(matrix, values)` substitutes all variables together. For instance, `substituteAll([[1, 0, 4], [2, -3, 0]], [5, 7])` will insert `a = 5` and `b = 7`, giving `102`.
 - `substitute(matrix, list, valueObject)` substitutes a part (or all) of the variables. For instance, `substitute([[1, 0, 4], [2, -3, 0]], ['a', 'b'], { a: 3, x: 4 })` will substitute `a = 3` into the polynomial (and ignore the non-existent variable `x`) resulting in `{ matrix: [7, -9, 4], list: ['b'] }` to represent `7 - 9b + 4b^2`.
 
 ### Adding and multiplying polynomials

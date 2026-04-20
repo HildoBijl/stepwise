@@ -1,4 +1,4 @@
-import { type PolynomialMatrix, oneMinus, multiplyByConstant } from '../../polynomials'
+import { type PolynomialMatrix, oneMinusPolynomial, multiplyPolynomialByConstant } from '@step-wise/math-tools'
 
 import { type SerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
 
@@ -34,9 +34,9 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 	}
 
 	override getPolynomialMatrix(parent?: SkillSetup): PolynomialMatrix {
-		const matrix = this.skill.getPolynomialMatrix(this)
-		if (parent instanceof And) return oneMinus(multiplyByConstant(oneMinus(matrix), this.part))
-		if (parent instanceof Or) return multiplyByConstant(matrix, this.part)
+		const expression = this.skill.getPolynomialExpression(this)
+		if (parent instanceof And) return oneMinusPolynomial(multiplyPolynomialByConstant(oneMinusPolynomial(expression), this.part)).matrix
+		if (parent instanceof Or) return multiplyPolynomialByConstant(expression, this.part).matrix
 		throw new Error(`Invalid polynomial matrix request: cannot determine the polynomial matrix of a Part set-up inside a set-up of type "${parent?.constructor?.name}". Either an "And" or "Or" set-up is expected around it.`)
 	}
 }

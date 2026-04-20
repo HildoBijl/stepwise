@@ -1,6 +1,5 @@
 import { ensureInt } from '@step-wise/utils'
-
-import { type PolynomialMatrix, multiplyWithEqualDimension } from '../../polynomials'
+import { type PolynomialMatrix, polynomialToPower } from '@step-wise/math-tools'
 
 import { type SerializedSkillSetup, type SkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
 
@@ -28,7 +27,7 @@ export class Repeat extends SkillItemSetup<RepeatStorageValue> {
 	}
 
 	override getPolynomialMatrix(): PolynomialMatrix {
-		return multiplyWithEqualDimension(new Array(this.repeat).fill(this.skill.getPolynomialMatrix(this)))
+		return polynomialToPower(this.skill.getPolynomialExpression(this), this.repeat).matrix
 	}
 }
 
