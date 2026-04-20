@@ -1,5 +1,5 @@
 import { ensureInt } from '@step-wise/utils'
-import { type PolynomialMatrix, polynomialToPower } from '@step-wise/math-tools'
+import { type PolynomialMatrix, polynomialToPower } from '@step-wise/polynomials'
 
 import { type SerializedSkillSetup, type SkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
 

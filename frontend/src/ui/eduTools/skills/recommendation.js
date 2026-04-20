@@ -1,5 +1,5 @@
 import { mergeDefaults } from '@step-wise/utils'
-import { getExpectedValue } from '@step-wise/skillTracking'
+import { getExpectedValue } from '@step-wise/skill-tracking'
 
 const defaultSkillThresholds = {
 	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.

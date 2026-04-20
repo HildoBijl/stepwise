@@ -1,5 +1,5 @@
 const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
-const { ensureSetup, smooth, getExpectedValue, SkillDataSet } = require('@step-wise/skillTracking')
+const { ensureSetup, smooth, getExpectedValue, SkillDataSet } = require('@step-wise/skill-tracking')
 const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const { getUserSkills } = require('./Skill')

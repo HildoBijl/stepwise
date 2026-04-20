@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/skill-tracking",
+	"name": "@step-wise/polynomials",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -8,8 +8,6 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/math-tools": "file:../mathTools",
-		"@step-wise/polynomials": "file:../polynomials",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

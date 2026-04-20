@@ -1,5 +1,5 @@
 const { fromKeys } = require('@step-wise/utils')
-const { getExpectedValue, merge, ensureSetup } = require('@step-wise/skillTracking')
+const { getExpectedValue, merge, ensureSetup } = require('@step-wise/skill-tracking')
 
 const { getDifficulty } = require('./util')
 

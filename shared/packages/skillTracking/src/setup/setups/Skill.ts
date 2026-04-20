@@ -1,4 +1,4 @@
-import { type PolynomialMatrix } from '../../polynomials'
+import { type PolynomialMatrix } from '@step-wise/polynomials'
 
 import { SkillSetup } from '../abstracts/SkillSetup'
 

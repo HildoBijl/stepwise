@@ -1,5 +1,5 @@
 import { ensureInt, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/utils'
-import { type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/math-tools'
+import { type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
 import { type SerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
 

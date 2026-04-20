@@ -10,8 +10,6 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../mathTools" },
-    { "path": "../polynomials" },
     { "path": "../utils" }
   ],
   "include": ["src"]

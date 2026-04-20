@@ -1,5 +1,6 @@
 import { fromKeys, pickKeys, sum, repeat } from '@step-wise/utils'
-import { binomial, type PolynomialExpression, type PolynomialMatrix, substituteIntoPolynomial, oneMinusPolynomial, polynomialToString } from '@step-wise/math-tools'
+import { binomial } from '@step-wise/math-tools'
+import { type PolynomialExpression, type PolynomialMatrix, substituteIntoPolynomial, oneMinusPolynomial, polynomialToString } from '@step-wise/polynomials'
 
 import { defaultInferenceOrder } from '../../settings'
 import { type Coefficients, type CoefficientSet, ensureCoefficientSet, normalize, getExpectedValue as getCoefficientsExpectedValue, merge } from '../../coefficients'

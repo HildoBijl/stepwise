@@ -1,5 +1,5 @@
 const { sortBy } = require('@step-wise/utils')
-const { deserializeSetup } = require('@step-wise/skillTracking')
+const { deserializeSetup } = require('@step-wise/skill-tracking')
 
 const { skillTree, isSkillRequiredFor } = require('../skills')
 

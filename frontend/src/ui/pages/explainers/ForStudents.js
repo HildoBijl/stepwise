@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
-import { Skill, getExpectedValue, getMaximumLikelihood, smooth } from '@step-wise/skillTracking'
+import { Skill, getExpectedValue, getMaximumLikelihood, smooth } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'

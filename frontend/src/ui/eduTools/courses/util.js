@@ -1,5 +1,5 @@
 import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/utils'
-import { SkillDataSet } from '@step-wise/skillTracking'
+import { SkillDataSet } from '@step-wise/skill-tracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'

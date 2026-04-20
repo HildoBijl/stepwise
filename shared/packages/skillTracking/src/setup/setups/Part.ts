@@ -1,4 +1,4 @@
-import { type PolynomialMatrix, oneMinusPolynomial, multiplyPolynomialByConstant } from '@step-wise/math-tools'
+import { type PolynomialMatrix, oneMinusPolynomial, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
 import { type SerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
 

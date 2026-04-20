@@ -1,6 +1,6 @@
 const { sample, randomInteger, count, repeat, fromEntries } = require('@step-wise/utils')
 const { binomial } = require('@step-wise/math-tools')
-const { repeat: skillRepeat } = require('@step-wise/skillTracking')
+const { repeat: skillRepeat } = require('@step-wise/skill-tracking')
 const { asExpression, expressionComparisons, expressionChecks, Sum, Product } = require('../../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 

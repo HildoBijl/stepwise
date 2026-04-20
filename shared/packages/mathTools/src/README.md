@@ -1,8 +1,9 @@
-# Step-Wise mathematics tools
+# Mathematics utility functions
 
-This package contains utility functions for a variety of mathematical functions.
+This package contains various utility functions related to (mostly integer) mathematics. These are grouped as follows.
 
-- [integers](./src/integers/) has tools for integer mathematics. This includes finding prime numbers, divisors, powers, factorial, binomials, etcetera.
-- [interpolation](./src/interpolation/) contains interpolation functions. This allows you to interpolate from tables of numbers in a relatively easy way.
-- [polynomials](./src/polynomials/) describes and manipulates multi-variable polynomes, like `2+3*a+4*b+5*a*b`. It allows their manipulation and transformation.
-- [bernsteinPolynomials](./src/bernsteinPolynomials/) describes and manipulates Bernstein polynomials of the form `[sum] c_i (n+1) * (n over i) * x^i * (1-x)^(n-i)`.
+- [primes](./primes.ts) handles matters around prime numbers. Is something a prime number, can we get certain prime numbers or we can get the prime decomposition of a number?
+- [divisors](./divisors.ts) checks division properties, like the greatest common divisor and the least common multiple.
+- [powers](./powers.ts) concerns itself with powers, like is a number the square or a higher power of another number?
+- [combinatorics](./combinatorics.ts) is about anything related to the factorial n!. This includes binomials (a over b) as well.
+- [distributions](./distributions.ts) has functions with distributions. Think of for instance the Gaussian (normal) PDF function (the bell curve).

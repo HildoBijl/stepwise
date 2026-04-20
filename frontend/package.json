@@ -34,8 +34,9 @@
     "@step-wise/geometry": "file:../shared/packages/geometry",
     "@step-wise/interpolation": "file:../shared/packages/interpolation",
     "@step-wise/math-tools": "file:../shared/packages/mathTools",
+    "@step-wise/polynomials": "file:../shared/packages/polynomials",
     "@step-wise/settings": "file:../shared/packages/settings",
-    "@step-wise/skillTracking": "file:../shared/packages/skillTracking",
+    "@step-wise/skill-tracking": "file:../shared/packages/skillTracking",
     "@step-wise/utils": "file:../shared/packages/utils",
     "subscriptions-transport-ws": "^0.9.19",
     "swiper": "^9.3.2"

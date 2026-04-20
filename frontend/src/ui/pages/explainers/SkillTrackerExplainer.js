@@ -3,7 +3,7 @@ import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/utils'
-import { Skill, getExpectedValue, getMaximumLikelihood, smooth, merge, and, repeat } from '@step-wise/skillTracking'
+import { Skill, getExpectedValue, getMaximumLikelihood, smooth, merge, and, repeat } from '@step-wise/skill-tracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
