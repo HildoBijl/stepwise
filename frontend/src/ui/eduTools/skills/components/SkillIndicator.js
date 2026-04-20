@@ -20,10 +20,11 @@ export function SkillIndicator() {
 // For the signed-in user, we access the Skill Cacher.
 function SkillIndicatorForSelf() {
 	const { skillId } = useParams()
-	const skill = useSkillData(skillId)
-	if (!skill)
+	const skillDataSet = useSkillData(skillId)
+	if (!skillDataSet.hasDataOn(skillId))
 		return null
-	return <SkillIndicatorGraphics skill={skill} />
+	const skillData = skillDataSet.getSkillData(skillId)
+	return <SkillIndicatorGraphics skill={skillData} />
 }
 
 // We only inspect a user as part of a course. So load the course data as well. This is probably cached already anyway.

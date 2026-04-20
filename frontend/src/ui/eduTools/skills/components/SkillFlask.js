@@ -2,7 +2,7 @@ import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
 import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat, gridInterpolate } from '@step-wise/utils'
-import { getExpectedValue, getMaximumLikelihood } from 'step-wise/skillTracking'
+import { getExpectedValue, getMaximumLikelihood } from '@step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 
 import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

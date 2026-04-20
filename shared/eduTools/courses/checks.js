@@ -1,5 +1,5 @@
 const { ensureInt, ensureArray, hasDuplicates } = require('@step-wise/utils')
-const { objToSetup } = require('../../skillTracking')
+const { deserializeSetup } = require('@step-wise/skillTracking')
 
 const { ensureSkillIds } = require('../skills')
 
@@ -47,7 +47,7 @@ function ensureValidCourseSetup(course, setup, allowMissing = false) {
 		return
 
 	// Interpret the set-up and check if its skills are all part of the course.
-	const functionalSetup = objToSetup(setup)
+	const functionalSetup = deserializeSetup(setup)
 	const setupSkills = [...functionalSetup.getSkillSet()]
 	if (setupSkills.some(skillId => !course.contents.includes(skillId)))
 		throw new Error(`Invalid course set-up: the skills in the set-up of the course ${JSON.stringify(setupSkills)} are not all part of the course. Make sure that the set-up only references skills that are actually taught.`)

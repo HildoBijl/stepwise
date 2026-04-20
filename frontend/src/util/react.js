@@ -21,6 +21,12 @@ export function ensureReactElement(element, allowString = true, allowNumber = tr
 	return element
 }
 
+// useConstant takes a function, and this function is only called on the first render. The value it returns is then given by this hook on subsequent calls.
+export function useConstant(factory) {
+  const ref = useRef(null)
+  return ref.current ?? (ref.current = factory())
+}
+
 // useLatest is used to directly store a value in a ref. This is useful when you have use-only functions in a useEffect function: plug them in a ref, apply the ref in the useEffect function and the function isn't triggered so much. (Note: this is different from the @react-hook/latest, which uses an event and is hence too slow.)
 export function useLatest(value, initialValue = value) {
 	const ref = useRef(initialValue)

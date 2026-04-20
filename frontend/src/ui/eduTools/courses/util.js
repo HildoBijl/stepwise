@@ -1,5 +1,5 @@
 import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/utils'
-import { processSkillDataSet } from 'step-wise/skillTracking'
+import { SkillDataSet } from '@step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'
@@ -7,8 +7,8 @@ import { isPracticeNeeded } from '../skills'
 // getAnalysis checks, for a given course overview and a given set of skills data, which skills have been mastered and which skill is recommended to practice next. It returns an object of the form { practiceNeeded: { skill1: 2, skill2: 0, skill3: 1, ... }, recommendation: 'skill2' }. The recommendation can also be undefined (not enough data loaded yet) or the freePractice string.
 const strFreePractice = 'StepWiseFreePracticeMode'
 export { strFreePractice }
-export function getAnalysis(overview, skillsData) {
-	const practiceNeeded = getPracticeNeeded(overview, skillsData)
+export function getAnalysis(overview, skillDataSet) {
+	const practiceNeeded = getPracticeNeeded(overview, skillDataSet)
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
 	if (overview.all.some(skillId => practiceNeeded[skillId] === undefined))
@@ -33,13 +33,13 @@ export function getAnalysis(overview, skillsData) {
 }
 
 // getPracticeNeeded takes a course set-up and walks through it to determine which skills require practice. It returns an object { skill1: 2, skill2: 0, skill3: 1, ... } which indicates the practice-needed-index for each skill in the course (including prior knowledge skills). It also takes into account the skill hierarchy: if a main skill X has an index (for instance "1") then all subskills have AT MOST that index, possibly lower.
-function getPracticeNeeded(overview, skillsData) {
+function getPracticeNeeded(overview, skillDataSet) {
 	const result = {}
-	overview.goals.forEach(goalId => checkPracticeNeeded(goalId, skillsData, overview.priorKnowledge, result))
+	overview.goals.forEach(goalId => checkPracticeNeeded(goalId, skillDataSet, overview.priorKnowledge, result))
 	return result
 }
 
-function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, bestParent) {
+function checkPracticeNeeded(skillId, skillDataSet, priorKnowledge, result, bestParent) {
 	// Extract the skill from the skill tree.
 	const skill = skillTree[skillId]
 	if (!skill)
@@ -47,7 +47,7 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 
 	// Derive data about this skill.
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
-	let practiceNeeded = isPracticeNeeded(skillsData[skillId], isPriorKnowledge, skill.thresholds)
+	let practiceNeeded = isPracticeNeeded(skillDataSet, skillId, isPriorKnowledge, skill.thresholds)
 	if (bestParent !== undefined && practiceNeeded !== undefined)
 		practiceNeeded = Math.min(bestParent, practiceNeeded)
 
@@ -58,7 +58,7 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 
 	// Store, and recursively add prerequisites.
 	if (!isPriorKnowledge && skill.prerequisites)
-		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillsData, priorKnowledge, result, practiceNeeded))
+		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillDataSet, priorKnowledge, result, practiceNeeded))
 }
 
 // processStudent takes a student (as given by the database API) and a course overview, and processes the student's skill data. It gives a complete set of skillsData objects for all the course's skills, it has an analysis on what to practice, and checks how many skills the student has completed.
@@ -70,10 +70,10 @@ export function processStudent(student, overview) {
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 	const allSkillIds = includePrerequisitesAndLinks(overview.all)
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-	const skillsData = processSkillDataSet(skills, skillTree)
+	const skillDataSet = new SkillDataSet(skillTree, skills)
 
 	// Run an analysis of what the student completed.
-	const analysis = getAnalysis(overview, skillsData)
+	const analysis = getAnalysis(overview, skillDataSet)
 	const getNumCompleted = skillIds => count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
 	const numCompleted = getNumCompleted(overview.contents)
 	const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
@@ -83,5 +83,5 @@ export function processStudent(student, overview) {
 	const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
 
 	// Return all data.
-	return { ...student, skillsData, analysis, numCompleted, numCompletedPerBlock, lastActive }
+	return { ...student, skillDataSet, analysis, numCompleted, numCompletedPerBlock, lastActive }
 }

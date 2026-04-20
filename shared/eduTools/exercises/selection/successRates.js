@@ -1,5 +1,5 @@
 const { fromKeys } = require('@step-wise/utils')
-const { getExpectedValue, merge, ensureSetup } = require('../../../skillTracking')
+const { getExpectedValue, merge, ensureSetup } = require('@step-wise/skillTracking')
 
 const { getDifficulty } = require('./util')
 
@@ -17,7 +17,7 @@ async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 	})
 	exerciseSkillIds = [...exerciseSkillIds] // Turn set into array.
 	const skillDataSet = await getSkillDataSet(exerciseSkillIds) // Load all data for these skills.
-	const coefficientSet = fromKeys(exerciseSkillIds, skillId => skillDataSet[skillId].coefficients) // Get the posterior coefficients.
+	const coefficientSet = fromKeys(exerciseSkillIds, skillId => skillDataSet.getCoefficients(skillId)) // Get the inferred coefficients.
 
 	// Walk through the exercises to calculate success rates (expected values).
 	return exerciseMetaDatas.map(exerciseMetaData => {
@@ -29,7 +29,7 @@ async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 		const skillCoefficients = coefficientSet[exerciseMetaData.skill]
 		const setup = ensureSetup(exerciseMetaData.setup)
 		const setupCoefficients = setup.getDistribution(coefficientSet, exerciseMetaData.setupOrder) // The exercise may overwrite the set-up order if desired.
-		const mergedCoefficients = merge([skillCoefficients, setupCoefficients])
+		const mergedCoefficients = merge(skillCoefficients, setupCoefficients)
 		return getExpectedValue(mergedCoefficients)
 	})
 }

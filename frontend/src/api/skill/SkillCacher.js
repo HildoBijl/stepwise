@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
+import React, { useState, useCallback, useMemo, useEffect, createContext, useContext, useSyncExternalStore } from 'react'
 
 import { fromEntries, fromKeys, mapValues } from '@step-wise/utils'
-import { updateSkillDataSet } from 'step-wise/skillTracking'
+import { SkillDataSet } from '@step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useConsistentValue, useConstant } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUser } from 'api'
 
 import { useSkillsQuery } from './queries'
@@ -14,8 +14,9 @@ import { useSkillsSubscription } from './subscriptions'
 const SkillCacherContext = createContext()
 
 export default function SkillCacher({ children }) {
-	const [cache, setCache] = useState({})
 	const [skillsToLoad, setSkillsToLoad] = useState([])
+	const skillDataSet = useConstant(() => new SkillDataSet(skillTree))
+	useSyncExternalStore(listener => skillDataSet.subscribe(listener), () => skillDataSet.getSnapshot())
 
 	// Set up handlers to track which skills to load.
 	const addSkillsToLoad = useCallback(additionSkillIds => {
@@ -49,15 +50,15 @@ export default function SkillCacher({ children }) {
 		const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
 		const rawSkillDataSetUnprocessed = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 		const rawSkillDataSet = mapValues(rawSkillDataSetUnprocessed, skill => processSkill(skill))
-		setCache(skillDataSet => updateSkillDataSet(skillDataSet, rawSkillDataSet, skillTree))
-	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, setCache])
+		skillDataSet.update(rawSkillDataSet)
+	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, skillDataSet])
 
 	// When the user changes, clear the cache.
-	useEffect(() => { setCache({}) }, [user?.id])
+	useEffect(() => { skillDataSet.clear() }, [skillDataSet, user?.id])
 
 	// Gather data for the context.
 	const contextData = {
-		cache,
+		skillDataSet,
 		addSkillsToLoad,
 		removeSkillsToLoad,
 	}
@@ -74,6 +75,10 @@ export function useSkillCacherContext() {
 	return useContext(SkillCacherContext)
 }
 
+export function useSkillDataSet() {
+	return useSkillCacherContext().skillDataSet
+}
+
 // useSkillLoading takes a list of skillIds and ensures that they are being loaded by the cacher.
 function useSkillLoading(skillIds) {
 	skillIds = useConsistentValue(skillIds)
@@ -84,26 +89,15 @@ function useSkillLoading(skillIds) {
 	}, [skillIds, addSkillsToLoad, removeSkillsToLoad])
 }
 
-// useSkillsData is the main function used by child components to load in data on skills. It ensures that the cacher loads in data on the requested skillIds, and when this data arrives it is processed and returned as SkillData objects.
+// useSkillsData is the main function used by child components to load in data on skills. It ensures that the cacher loads in data on the requested skillIds. The skillDataSet object is returned.
 export function useSkillsData(skillIds) {
 	// Ensure the requested skills are being loaded.
 	skillIds = useConsistentValue(skillIds)
 	useSkillLoading(skillIds)
-
-	// Process the skill data, inserting null when data is not fully available yet.
-	const { cache } = useSkillCacherContext()
-	const skillsData = useMemo(() => fromKeys(skillIds, skillId => {
-		// On missing prerequisites/links, return null.
-		const prerequisitesAndLinks = includePrerequisitesAndLinks([skillId])
-		if (prerequisitesAndLinks.some(skillId => !cache[skillId]))
-			return null
-		return cache[skillId]
-	}), [skillIds, cache])
-	return useConsistentValue(skillsData)
+	return useSkillDataSet()
 }
 
-// useSkillData takes a single skill ID and returns a SkillsData for it from the cache, loading it if necessary.
+// useSkillData takes a single skill ID and ensures it's loaded from the database. It returns the skillDataSet object.
 export function useSkillData(skillId) {
-	const data = useSkillsData(skillId === undefined ? [] : [skillId])
-	return data[skillId]
+	return useSkillsData(skillId === undefined ? [] : [skillId])
 }

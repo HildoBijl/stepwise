@@ -1,5 +1,5 @@
 const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
-const { ensureSetup, processSkillDataSet, smoothen, getExpectedValue } = require('step-wise/skillTracking')
+const { ensureSetup, smooth, getExpectedValue, SkillDataSet } = require('@step-wise/skillTracking')
 const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const { getUserSkills } = require('./Skill')
@@ -12,7 +12,7 @@ async function getUserSkillDataSet(db, userId, skillIds) {
 	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
 	const skillsAsObject = fromEntries(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
-	const skillDataSet = processSkillDataSet(skills, skillTree) // Turn the raw data into SkillData objects.
+	const skillDataSet = new SkillDataSet(skillTree, skills) // Turn the raw data into SkillData objects.
 	return skillDataSet
 }
 module.exports.getUserSkillDataSet = getUserSkillDataSet
@@ -56,7 +56,7 @@ async function applySkillUpdatesForUser(db, userId, skillUpdates, transaction) {
 	const skills = await getUserSkills(db, userId, skillIds)
 	const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
 
-	// Set up a coefficient set. Put in all loaded skills, smoothened to the current time, and use fillers for all other skills.
+	// Set up a coefficient set. Put in all loaded skills, smoothed to the current time, and use fillers for all other skills.
 	const now = new Date()
 	let coefficientSet = fromKeys(skillIds, skillId => {
 		const skill = skillsAsObject[skillId]
@@ -68,7 +68,7 @@ async function applySkillUpdatesForUser(db, userId, skillUpdates, transaction) {
 			numProblemsPracticed: skill.numPracticed,
 			// ToDo later: implement option for different properties for each skill.
 		}
-		return smoothen(skill.coefficients, options)
+		return smooth(skill.coefficients, options)
 	})
 
 	// Walk through the skill updates and apply them one by one, adjusting the data set.
@@ -136,9 +136,9 @@ function getHighest(coefficients, highest, numPracticed) {
 		numProblemsPracticed: numPracticed,
 		// ToDo later: implement option for different properties for each skill.
 	}
-	const smoothenedCoefficients = smoothen(coefficients, options)
-	if (getExpectedValue(smoothenedCoefficients) <= highestEV)
+	const smoothedCoefficients = smooth(coefficients, options)
+	if (getExpectedValue(smoothedCoefficients) <= highestEV)
 		return highest
-	return smoothenedCoefficients
+	return smoothedCoefficients
 }
 module.exports.getHighest = getHighest

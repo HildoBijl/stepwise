@@ -3,7 +3,7 @@ import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/utils'
-import { Skill, getExpectedValue, getMaximumLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
+import { Skill, getExpectedValue, getMaximumLikelihood, smooth, merge, and, repeat } from '@step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
@@ -133,7 +133,7 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 			applyPracticeDecay: true,
 			numProblemsPracticed: numPracticed,
 		}
-		const coefficientSet = { [lastLabel]: smoothen(coef, options) }
+		const coefficientSet = { [lastLabel]: smooth(coef, options) }
 		const setup = new Skill(lastLabel)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[lastLabel])
@@ -154,11 +154,11 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
 	}
-	const smoothenedCoef = smoothen(coef, options)
+	const smoothedCoef = smooth(coef, options)
 
 	// Render contents.
 	return <Box sx={appletStyle}>
-		<SkillFlaskWithLabel coef={smoothenedCoef} months={addTimeDecay ? months : undefined} />
+		<SkillFlaskWithLabel coef={smoothedCoef} months={addTimeDecay ? months : undefined} />
 		{addTimeDecay ? (
 			<Box sx={buttonContainerStyle}>
 				{showLabel ? <Box sx={buttonActionStyle}>Wachten:</Box> : null}
@@ -186,14 +186,14 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 
 	// Set up button handlers.
 	const applyUpdate = (label, correct) => {
-		// First smoothen all related coefficients.
+		// First smooth all related coefficients.
 		let newCoefficientSet
 		if (label === lastLabel)
-			newCoefficientSet = mapValues(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+			newCoefficientSet = mapValues(coefficientSet, (coef, label) => smooth(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 		else
 			newCoefficientSet = {
 				...coefficientSet,
-				[label]: smoothen(coefficientSet[label], { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }),
+				[label]: smooth(coefficientSet[label], { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }),
 			}
 
 		// Then apply the relevant updates.
@@ -208,9 +208,9 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setNumsPracticed(newNumsPracticed)
 
 		// Update the passed parameter.
-		const smoothenedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
+		const smoothedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smooth(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
-			const EV = getExpectedValue(smoothenedCoefficientSet[label])
+			const EV = getExpectedValue(smoothedCoefficientSet[label])
 			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
 		}))
 	}
@@ -220,10 +220,10 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setPass(labels.map(() => false))
 	}
 
-	// Make the inference towards X. For this first smoothen all distributions and then run the inference and merging.
-	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+	// Make the inference towards X. For this first smooth all distributions and then run the inference and merging.
+	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smooth(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
-	coefficientSetNow[lastLabel] = merge([inference, coefficientSetNow[lastLabel]])
+	coefficientSetNow[lastLabel] = merge(inference, coefficientSetNow[lastLabel])
 
 	// Render contents.
 	return <Box sx={appletStyle}>

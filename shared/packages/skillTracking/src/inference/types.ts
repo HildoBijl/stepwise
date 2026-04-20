@@ -26,3 +26,11 @@ export type RawSkillData = {
 	numPracticed: number
 }
 export type RawSkillDataSet = Record<string, RawSkillData>
+
+export type SkillDataOutput = {
+	skillId: string
+	coefficients: Coefficients
+	highest: Coefficients
+	lastPracticed: Date
+	numPracticed: number
+}

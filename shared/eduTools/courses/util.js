@@ -1,5 +1,5 @@
 const { sortBy } = require('@step-wise/utils')
-const { objToSetup } = require('../../skillTracking')
+const { deserializeSetup } = require('@step-wise/skillTracking')
 
 const { skillTree, isSkillRequiredFor } = require('../skills')
 
@@ -132,7 +132,7 @@ function getCourseOverview(rawCourse) {
 	const goalWeights = rawCourse.goalWeights && processedCourse.goals.map(goalId => rawCourse.goalWeights[rawCourse.goals.indexOf(goalId)])
 
 	// Make sure that the set-up, if it exists, is a set-up object.
-	const setup = rawCourse.setup && objToSetup(rawCourse.setup)
+	const setup = rawCourse.setup && deserializeSetup(rawCourse.setup)
 
 	// Return all sets as arrays.
 	return {

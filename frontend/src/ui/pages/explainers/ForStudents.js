@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
-import { Skill, getExpectedValue, getMaximumLikelihood, smoothen } from 'step-wise/skillTracking'
+import { Skill, getExpectedValue, getMaximumLikelihood, smooth } from '@step-wise/skillTracking'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
@@ -194,7 +194,7 @@ function SingleSkillTrial() {
 			applyPracticeDecay: true,
 			numProblemsPracticed: numPracticed,
 		}
-		const coefficientSet = { [label]: smoothen(coef, options) }
+		const coefficientSet = { [label]: smooth(coef, options) }
 		const setup = new Skill(label)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[label])
@@ -213,7 +213,7 @@ function SingleSkillTrial() {
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
 	}
-	const smoothenedCoef = smoothen(coef, options)
+	const smoothedCoef = smooth(coef, options)
 
 	// Render contents.
 	return <TranslationSection entry="applet">
@@ -222,7 +222,7 @@ function SingleSkillTrial() {
 			borderRadius: '1.5rem',
 			padding: '1rem 1.5rem',
 		}}>
-			<SkillFlaskWithLabel coef={smoothenedCoef} />
+			<SkillFlaskWithLabel coef={smoothedCoef} />
 			<Box sx={{
 				alignItems: 'center',
 				display: 'flex',

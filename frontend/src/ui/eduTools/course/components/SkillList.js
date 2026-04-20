@@ -49,7 +49,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	const theme = useTheme()
 	const translate = useTranslator()
 	const paths = usePaths()
-	const skillData = useSkillData(skillId)
+	const skillDataSet = useSkillData(skillId)
 
 	// Define styling.
 	const isDummy = !skillId
@@ -82,14 +82,14 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	if (skill.exercises.length === 0) {
 		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
 	} else if (practiceNeeded === 0) {
-		if (isPracticeNeeded(skillData, isPriorKnowledge, skill.thresholds) === 0)
+		if (isPracticeNeeded(skillDataSet, skillId, isPriorKnowledge, skill.thresholds) === 0)
 			masteryText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
 		else
 			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
 	}
 
 	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
-		{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
+		{skillDataSet.hasDataOn(skillId) ? <SkillFlask skillId={skillId} coef={skillDataSet.getCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
 		<Box sx={{ flex: '1 1 auto' }}>
 			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>

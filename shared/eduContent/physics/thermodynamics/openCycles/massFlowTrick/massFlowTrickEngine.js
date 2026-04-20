@@ -1,4 +1,4 @@
-const { and } = require('../../../../../skillTracking')
+const { and } = require('@step-wise/skillTracking')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 

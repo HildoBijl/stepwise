@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 import { fromEntries, fromKeys, formatDate } from '@step-wise/utils'
-import { processSkillDataSet } from 'step-wise/skillTracking'
+import { SkillDataSet } from '@step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
@@ -96,10 +96,10 @@ function useSkillsList(user) {
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 		const allSkillIds = includePrerequisitesAndLinks(skillIds)
 		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-		const skillDataSet = processSkillDataSet(skills, skillTree)
+		const skillDataSet = new SkillDataSet(skillTree, skills)
 
 		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.
-		const skillList = skillIds.map(skillId => skillDataSet[skillId])
+		const skillList = skillIds.map(skillId => skillDataSet.getSkillData(skillId))
 		return skillList.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
 	}, [user])
 }

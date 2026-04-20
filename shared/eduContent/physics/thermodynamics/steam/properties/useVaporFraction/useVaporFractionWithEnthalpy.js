@@ -1,5 +1,5 @@
 const { randomInteger, tableInterpolate } = require('@step-wise/utils')
-const { and } = require('../../../../../../skillTracking')
+const { and } = require('@step-wise/skillTracking')
 const { getRandomFloatUnit } = require('../../../../../../inputTypes')
 const { withTemperature, withPressure } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')

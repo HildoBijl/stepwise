@@ -77,8 +77,8 @@ function StudentCourseList({ courses, showAddButton }) {
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedOn) - new Date(c2.subscribedOn)), [courses]) // Sort by subscription date, so that later courses come at the end.
 	const processedCourses = useMemo(() => sortedCourses.map(rawCourse => processCourse(rawCourse)), [sortedCourses])
 	const allSkills = [...new Set(processedCourses.map(processedCourse => processedCourse.all).flat())] // A list of all relevant skills for all courses.
-	const skillsData = useSkillsData(allSkills) // The SkillData objects for all skills.
-	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillsData)), [processedCourses, skillsData])
+	const skillDataSet = useSkillsData(allSkills) // The SkillData objects for all skills.
+	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillDataSet)), [processedCourses, skillDataSet])
 
 	// Render all the tiles with corresponding data.
 	return <TranslationFile path={translationPath}>
