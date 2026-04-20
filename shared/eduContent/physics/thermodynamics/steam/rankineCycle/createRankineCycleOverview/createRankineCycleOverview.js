@@ -1,4 +1,4 @@
-const { tableInterpolate } = require('@step-wise/utils')
+const { tableInterpolate } = require('@step-wise/math-tools')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 

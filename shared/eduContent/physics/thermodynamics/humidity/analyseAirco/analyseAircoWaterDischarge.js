@@ -1,4 +1,4 @@
-const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/utils')
+const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/math-tools')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 

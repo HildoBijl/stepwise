@@ -1,4 +1,5 @@
-const { first, last, isObject, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('@step-wise/utils')
+const { first, last, isObject } = require('@step-wise/utils')
+const { interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('@step-wise/math-tools')
 const { Unit, unitsSimilar, FloatUnit } = require('../../inputTypes')
 
 const pressureUnit = new Unit('bar')

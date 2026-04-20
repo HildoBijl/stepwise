@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"@step-wise/geometry": "file:packages/geometry",
+		"@step-wise/math-tools": "file:packages/mathTools",
 		"@step-wise/settings": "file:packages/settings",
 		"@step-wise/skillTracking": "file:packages/skillTracking",
 		"@step-wise/utils": "file:packages/utils"
