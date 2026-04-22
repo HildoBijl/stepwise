@@ -3,7 +3,8 @@ import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/utils'
-import { Skill, getExpectedValue, getMaximumLikelihood, smooth, merge, and, repeat } from '@step-wise/skill-tracking'
+import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/skill-tracking'
+import { Skill, smoothBernsteinCoefficients, merge, and, repeat } from '@step-wise/skill-tracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
@@ -92,10 +93,10 @@ export function SkillTrackerExplainer() {
 function SkillFlaskWithLabel({ coef, text, months }) {
 	// If no text is given, determine which text to show.
 	if (text === undefined) {
-		const EV = getExpectedValue(coef)
+		const EV = getBernsteinExpectedValue(coef)
 		text = `${months === undefined ? 'De kans op een correcte uitkomst wordt' : `Na ${months} maanden niet oefenen wordt de kans op een correcte uitkomst`} geschat op zo'n ${Math.round(EV * 100)}%.`
 
-		const max = getMaximumLikelihood(coef).f
+		const max = getBernsteinPDFMaximum(coef).f
 		if (max < 1.2)
 			text += ' Maar eigenlijk hebben we nog geen idee.'
 		else if (max < 1.8)
@@ -133,7 +134,7 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 			applyPracticeDecay: true,
 			numProblemsPracticed: numPracticed,
 		}
-		const coefficientSet = { [lastLabel]: smooth(coef, options) }
+		const coefficientSet = { [lastLabel]: smoothBernsteinCoefficients(coef, options) }
 		const setup = new Skill(lastLabel)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[lastLabel])
@@ -154,7 +155,7 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
 	}
-	const smoothedCoef = smooth(coef, options)
+	const smoothedCoef = smoothBernsteinCoefficients(coef, options)
 
 	// Render contents.
 	return <Box sx={appletStyle}>
@@ -189,11 +190,11 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		// First smooth all related coefficients.
 		let newCoefficientSet
 		if (label === lastLabel)
-			newCoefficientSet = mapValues(coefficientSet, (coef, label) => smooth(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+			newCoefficientSet = mapValues(coefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 		else
 			newCoefficientSet = {
 				...coefficientSet,
-				[label]: smooth(coefficientSet[label], { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }),
+				[label]: smoothBernsteinCoefficients(coefficientSet[label], { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }),
 			}
 
 		// Then apply the relevant updates.
@@ -208,9 +209,9 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setNumsPracticed(newNumsPracticed)
 
 		// Update the passed parameter.
-		const smoothedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smooth(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
+		const smoothedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
-			const EV = getExpectedValue(smoothedCoefficientSet[label])
+			const EV = getBernsteinExpectedValue(smoothedCoefficientSet[label])
 			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
 		}))
 	}
@@ -221,7 +222,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	}
 
 	// Make the inference towards X. For this first smooth all distributions and then run the inference and merging.
-	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smooth(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
 	coefficientSetNow[lastLabel] = merge(inference, coefficientSetNow[lastLabel])
 

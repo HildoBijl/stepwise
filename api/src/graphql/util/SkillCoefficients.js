@@ -1,5 +1,6 @@
 const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
-const { ensureSetup, smooth, getExpectedValue, SkillDataSet } = require('@step-wise/skill-tracking')
+const { getBernsteinExpectedValue } = require('@step-wise/bernstein-polynomials')
+const { ensureSetup, smoothBernsteinCoefficients, SkillDataSet } = require('@step-wise/skill-tracking')
 const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const { getUserSkills } = require('./Skill')
@@ -68,7 +69,7 @@ async function applySkillUpdatesForUser(db, userId, skillUpdates, transaction) {
 			numProblemsPracticed: skill.numPracticed,
 			// ToDo later: implement option for different properties for each skill.
 		}
-		return smooth(skill.coefficients, options)
+		return smoothBernsteinCoefficients(skill.coefficients, options)
 	})
 
 	// Walk through the skill updates and apply them one by one, adjusting the data set.
@@ -126,8 +127,8 @@ module.exports.applySkillUpdatesForUser = applySkillUpdatesForUser
 // getHighest takes a set of (new) coefficients, the currently highest coefficients from the past, and numPracticed. It then compares them to see what the highest coefficients should be.
 function getHighest(coefficients, highest, numPracticed) {
 	// If the coefficients aren't higher than the highest, nothing is going on.
-	const highestEV = getExpectedValue(highest)
-	if (getExpectedValue(coefficients) <= highestEV)
+	const highestEV = getBernsteinExpectedValue(highest)
+	if (getBernsteinExpectedValue(coefficients) <= highestEV)
 		return highest
 
 	// The coefficients are higher now. But are they still higher after smoothing?
@@ -136,8 +137,8 @@ function getHighest(coefficients, highest, numPracticed) {
 		numProblemsPracticed: numPracticed,
 		// ToDo later: implement option for different properties for each skill.
 	}
-	const smoothedCoefficients = smooth(coefficients, options)
-	if (getExpectedValue(smoothedCoefficients) <= highestEV)
+	const smoothedCoefficients = smoothBernsteinCoefficients(coefficients, options)
+	if (getBernsteinExpectedValue(smoothedCoefficients) <= highestEV)
 		return highest
 	return smoothedCoefficients
 }

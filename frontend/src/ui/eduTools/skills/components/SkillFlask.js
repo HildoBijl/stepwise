@@ -3,7 +3,7 @@ import { Tooltip, Box } from '@mui/material'
 
 import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat } from '@step-wise/utils'
 import { gridInterpolate } from '@step-wise/interpolation'
-import { getExpectedValue, getMaximumLikelihood } from '@step-wise/skill-tracking'
+import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from 'step-wise/eduTools'
 
 import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -36,7 +36,7 @@ export function SkillFlask(props) {
 	const target = thresholds && thresholds.pass * (isPriorKnowledge ? thresholds.pkFactor : 1)
 
 	// Calculate style elements and pass them to the useStyles function.
-	const part = getExpectedValue(coef)
+	const part = getBernsteinExpectedValue(coef)
 	const fading = coefToFading(coef)
 	const color = mix(partToColor(part), fadeColor, fading) // Dull the color in case of uncertainty.
 
@@ -95,5 +95,5 @@ function partToColor(part) {
 }
 
 function coefToFading(coef) {
-	return clamp((getMaximumLikelihood(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
+	return clamp((getBernsteinPDFMaximum(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
 }

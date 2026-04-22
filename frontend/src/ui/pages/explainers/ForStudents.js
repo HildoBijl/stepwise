@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
-import { Skill, getExpectedValue, getMaximumLikelihood, smooth } from '@step-wise/skill-tracking'
+import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomial'
+import { Skill, smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
@@ -194,7 +195,7 @@ function SingleSkillTrial() {
 			applyPracticeDecay: true,
 			numProblemsPracticed: numPracticed,
 		}
-		const coefficientSet = { [label]: smooth(coef, options) }
+		const coefficientSet = { [label]: smoothBernsteinCoefficients(coef, options) }
 		const setup = new Skill(label)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[label])
@@ -213,7 +214,7 @@ function SingleSkillTrial() {
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
 	}
-	const smoothedCoef = smooth(coef, options)
+	const smoothedCoef = smoothBernsteinCoefficients(coef, options)
 
 	// Render contents.
 	return <TranslationSection entry="applet">
@@ -250,10 +251,10 @@ function SingleSkillTrial() {
 }
 
 function SkillFlaskWithLabel({ coef }) {
-	const EV = getExpectedValue(coef)
+	const EV = getBernsteinExpectedValue(coef)
 	const mainText = <Translation entry="estimate">The chance of a correct result is estimated to be {Math.round(EV * 100)}%.</Translation>
 
-	const max = getMaximumLikelihood(coef).f
+	const max = getBernsteinPDFMaximum(coef).f
 	let addendum
 	if (max < 1.2)
 		addendum = <Translation entry="estimateAddendum1">But honestly we don't have a clue yet.</Translation>

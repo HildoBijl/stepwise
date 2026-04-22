@@ -1,11 +1,10 @@
 import { fromKeys } from '@step-wise/utils'
-
-import { type Coefficients, smoothWithOrder, merge, mergeElementwise } from '../coefficients'
+import { type BernsteinCoefficients, smoothBernsteinCoefficientsWithOrder, mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from '@step-wise/bernstein-polynomials'
 
 import { type SkillLike } from './types'
 
 // Get the distribution of a skill based only on its setup. Returns undefined when there is no setup.
-function getSetupCoefficients(skill: SkillLike, getCoefficients: (skillId: string) => Coefficients): Coefficients | undefined {
+function getSetupCoefficients(skill: SkillLike, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients | undefined {
 	if (!skill.setup) return undefined
 	const skillIds = skill.setup.getSkillList()
 	const coefficientSet = fromKeys(skillIds, getCoefficients)
@@ -13,18 +12,18 @@ function getSetupCoefficients(skill: SkillLike, getCoefficients: (skillId: strin
 }
 
 // Get the distributions of a skill based only on linked skills, one coefficient array per link.
-function getLinkCoefficients(skill: SkillLike, getCoefficients: (skillId: string) => Coefficients): Coefficients[] {
+function getLinkCoefficients(skill: SkillLike, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients[] {
 	return (skill.links ?? []).map(link => {
 		const rawCoefficients = link.skills.map(getCoefficients)
-		const smoothedCoefficients = rawCoefficients.map(coefficients => smoothWithOrder(coefficients, link.order))
-		return mergeElementwise(...smoothedCoefficients)
+		const smoothedCoefficients = rawCoefficients.map(coefficients => smoothBernsteinCoefficientsWithOrder(coefficients, link.order))
+		return mergeBernsteinCoefficientsElementwise(...smoothedCoefficients)
 	})
 }
 
 // Apply inference to a skill, based on the skill itself, its setup and linked skills.
-export function applyInferenceForSkill(skill: SkillLike, getCoefficients: (skillId: string) => Coefficients): Coefficients {
+export function applyInferenceForSkill(skill: SkillLike, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients {
 	const ownCoefficients = getCoefficients(skill.id)
 	const setupCoefficients = getSetupCoefficients(skill, getCoefficients)
 	const linkCoefficients = getLinkCoefficients(skill, getCoefficients)
-	return merge(...[ownCoefficients, ...(setupCoefficients ? [setupCoefficients] : []), ...linkCoefficients])
+	return mergeBernsteinCoefficients(...[ownCoefficients, ...(setupCoefficients ? [setupCoefficients] : []), ...linkCoefficients])
 }

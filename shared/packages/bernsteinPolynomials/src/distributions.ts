@@ -1,26 +1,26 @@
 import { ensureInt, sum, cumulative } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
 
-import { Coefficients } from './types'
-import { getOrder } from './fundamentals'
+import { BernsteinCoefficients } from './types'
+import { getBernsteinOrder } from './fundamentals'
 
 // Evaluate the Bernstein Polynomial for a set of coefficients and a given x.
-function evaluateBernsteinPolynomial(coefficients: Coefficients, x: number): number {
-	const n = getOrder(coefficients)
+function evaluateBernsteinPolynomial(coefficients: BernsteinCoefficients, x: number): number {
+	const n = getBernsteinOrder(coefficients)
 	return sum(coefficients.map((c, i) => c * binomial(n, i) * x ** i * (1 - x) ** (n - i)))
 }
 
 // Get the PDF for the chance of success, given the coefficients.
-export function getPDF(coefficients: Coefficients): (x: number) => number {
+export function getBernsteinPDF(coefficients: BernsteinCoefficients): (x: number) => number {
 	return x => {
 		if (x < 0 || x > 1) return 0
-		return evaluateBernsteinPolynomial(coefficients, x) * (getOrder(coefficients) + 1)
+		return evaluateBernsteinPolynomial(coefficients, x) * (getBernsteinOrder(coefficients) + 1)
 	}
 }
 
 // Get the derivative of the PDF.
-function getPDFDerivative(coefficients: Coefficients): (x: number) => number {
-	const n = getOrder(coefficients)
+function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): (x: number) => number {
+	const n = getBernsteinOrder(coefficients)
 	return x => {
 		if (x < 0 || x > 1) return 0
 		return sum(coefficients.map((c, i) => {
@@ -32,25 +32,25 @@ function getPDFDerivative(coefficients: Coefficients): (x: number) => number {
 }
 
 // Get the CDF corresponding to the PDF with the given coefficients.
-export function getCDF(coefficients: Coefficients): (x: number) => number {
-	const cdfCoef = getCDFCoefficients(coefficients)
+export function getBernsteinCDF(coefficients: BernsteinCoefficients): (x: number) => number {
+	const cdfCoef = getBernsteinCDFCoefficients(coefficients)
 	return x => {
 		if (x < 0) return 0
 		if (x > 1) return 1
-		return evaluateBernsteinPolynomial(cdfCoef, x) * (getOrder(cdfCoef) + 1)
+		return evaluateBernsteinPolynomial(cdfCoef, x) * (getBernsteinOrder(cdfCoef) + 1)
 	}
 }
 
 // Get the coefficients for the CDF corresponding to a given PDF. These coefficients are not normalized.
-function getCDFCoefficients(coefficients: Coefficients): Coefficients {
-	const n = getOrder(coefficients)
+function getBernsteinCDFCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
+	const n = getBernsteinOrder(coefficients)
 	return cumulative([0, ...coefficients]).map(x => x / (n + 2))
 }
 
 // Get the inverse CDF by applying a binary search to the CDF for every call.
-export function getInverseCDF(coefficients: Coefficients, numIterations = 20): (F: number) => number {
+export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numIterations = 20): (F: number) => number {
 	const ensuredNumIterations = ensureInt(numIterations, true, true)
-	const cdf = getCDF(coefficients)
+	const cdf = getBernsteinCDF(coefficients)
 
 	return F => {
 		if (F < 0 || F > 1) throw new Error(`Invalid inverse CDF input: received a number that is not a possible CDF output. The number must be between 0 and 1 (inclusive) but ${F} was given.`)
@@ -70,12 +70,12 @@ export function getInverseCDF(coefficients: Coefficients, numIterations = 20): (
 }
 
 // Get the maximum value of the PDF. Returns { x, f } with x the input and f the output.
-export function getMaximumLikelihood(coefficients: Coefficients, numIterations = 20): { x: number, f: number } {
+export function getBernsteinPDFMaximum(coefficients: BernsteinCoefficients, numIterations = 20): { x: number, f: number } {
 	const ensuredNumIterations = ensureInt(numIterations, true, true)
 
 	let left = 0, right = 1
-	const pdf = getPDF(coefficients)
-	const pdfDerivative = getPDFDerivative(coefficients)
+	const pdf = getBernsteinPDF(coefficients)
+	const pdfDerivative = getBernsteinPDFDerivative(coefficients)
 
 	for (let i = 0; i < ensuredNumIterations; i++) {
 		const middle = (left + right) / 2

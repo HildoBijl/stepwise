@@ -1,4 +1,4 @@
-import { type Coefficients } from '../coefficients'
+import { type BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 
 import { type SkillSetup } from '../setup'
 
@@ -19,9 +19,9 @@ export type SkillTree = Record<string, SkillLike>
 
 // Define how raw SkillData is entered.
 export type RawSkillData = {
-	coefficients: Coefficients
+	coefficients: BernsteinCoefficients
 	coefficientsOn: Date
-	highest: Coefficients
+	highest: BernsteinCoefficients
 	highestOn: Date
 	numPracticed: number
 }
@@ -29,8 +29,8 @@ export type RawSkillDataSet = Record<string, RawSkillData>
 
 export type SkillDataOutput = {
 	skillId: string
-	coefficients: Coefficients
-	highest: Coefficients
+	coefficients: BernsteinCoefficients
+	highest: BernsteinCoefficients
 	lastPracticed: Date
 	numPracticed: number
 }

@@ -8,6 +8,7 @@
 		"watch": "node scripts/watch-packages.js"
 	},
 	"dependencies": {
+		"@step-wise/bernstein-polynomials": "file:packages/bernsteinPolynomials",
 		"@step-wise/geometry": "file:packages/geometry",
 		"@step-wise/interpolation": "file:packages/interpolation",
 		"@step-wise/math-tools": "file:packages/mathTools",

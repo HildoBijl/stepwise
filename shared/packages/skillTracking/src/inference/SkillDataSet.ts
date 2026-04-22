@@ -1,6 +1,6 @@
 import { isPlainObject, fromKeys } from '@step-wise/utils'
+import { type BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 
-import { type Coefficients } from '../coefficients'
 import { maxSkillDataCacheTime } from '../settings'
 
 import type { RawSkillDataSet, SkillTree, SkillDataOutput } from './types'
@@ -44,11 +44,11 @@ export class SkillDataSet {
 
 	// Getters for the coefficients (raw and inferred).
 
-	private getSmoothedCoefficients(skillId: string): Coefficients {
+	private getSmoothedCoefficients(skillId: string): BernsteinCoefficients {
 		return this.getSkillDataObject(skillId).smoothedCoefficients
 	}
 
-	getCoefficients(skillId: string): Coefficients {
+	getCoefficients(skillId: string): BernsteinCoefficients {
 		const skillData = this.getSkillDataObject(skillId)
 		if (!this.isCoefficientsCacheValid(skillId)) {
 			skillData.cache.coefficients = {
@@ -71,11 +71,11 @@ export class SkillDataSet {
 
 	// Getters for the highest coefficients (raw and inferred).
 
-	private getRawHighestCoefficients(skillId: string): Coefficients {
+	private getRawHighestCoefficients(skillId: string): BernsteinCoefficients {
 		return this.getSkillDataObject(skillId).highestCoefficients
 	}
 
-	getHighestCoefficients(skillId: string): Coefficients {
+	getHighestCoefficients(skillId: string): BernsteinCoefficients {
 		const skillData = this.getSkillDataObject(skillId)
 		if (!this.isHighestCacheValid(skillId)) {
 			skillData.cache.highest = {

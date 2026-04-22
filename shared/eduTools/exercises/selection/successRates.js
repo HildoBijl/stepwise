@@ -1,5 +1,6 @@
 const { fromKeys } = require('@step-wise/utils')
-const { getExpectedValue, merge, ensureSetup } = require('@step-wise/skill-tracking')
+const { getBernsteinExpectedValue, mergeBernsteinCoefficients } = require('@step-wise/bernstein-polynomials')
+const { ensureSetup } = require('@step-wise/skill-tracking')
 
 const { getDifficulty } = require('./util')
 
@@ -29,8 +30,8 @@ async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 		const skillCoefficients = coefficientSet[exerciseMetaData.skill]
 		const setup = ensureSetup(exerciseMetaData.setup)
 		const setupCoefficients = setup.getDistribution(coefficientSet, exerciseMetaData.setupOrder) // The exercise may overwrite the set-up order if desired.
-		const mergedCoefficients = merge(skillCoefficients, setupCoefficients)
-		return getExpectedValue(mergedCoefficients)
+		const mergedCoefficients = mergeBernsteinCoefficients(skillCoefficients, setupCoefficients)
+		return getBernsteinExpectedValue(mergedCoefficients)
 	})
 }
 module.exports.getExerciseSuccessRates = getExerciseSuccessRates

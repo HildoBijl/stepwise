@@ -31,6 +31,7 @@
     "react-router-dom": "^6.4.1",
     "react-scripts": "^5.0.1",
     "step-wise": "file:../shared",
+    "@step-wise/bernstein-polynomials": "file:../shared/packages/bernsteinPolynomials",
     "@step-wise/geometry": "file:../shared/packages/geometry",
     "@step-wise/interpolation": "file:../shared/packages/interpolation",
     "@step-wise/math-tools": "file:../shared/packages/mathTools",

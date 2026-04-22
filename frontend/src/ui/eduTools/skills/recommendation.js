@@ -1,5 +1,5 @@
 import { mergeDefaults } from '@step-wise/utils'
-import { getExpectedValue } from '@step-wise/skill-tracking'
+import { getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 
 const defaultSkillThresholds = {
 	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.
@@ -26,14 +26,14 @@ export function isPracticeNeeded(skillDataSet, skillId, priorKnowledge = false, 
 	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 
 	// Check if the thresholds are satisfied.
-	const EV = getExpectedValue(skillDataSet.getCoefficients(skillId))
+	const EV = getBernsteinExpectedValue(skillDataSet.getCoefficients(skillId))
 	if (EV > pass)
 		return 0 // Sufficient mastery!
 	if (EV < recap)
 		return 2 // Not there yet.
 	if (priorKnowledge)
 		return 1 // It's prior knowledge: we can work but don't really have to.
-	if (getExpectedValue(skillDataSet.getHighestCoefficients(skillId)) > pass)
+	if (getBernsteinExpectedValue(skillDataSet.getHighestCoefficients(skillId)) > pass)
 		return 1 // There has been mastery in the past, so it's not completely necessary.
 	return 2 // There has never been mastery yet: keep on working!
 }

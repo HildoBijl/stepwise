@@ -1,9 +1,9 @@
 import { fromKeys, pickKeys, sum, repeat } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
 import { type PolynomialExpression, type PolynomialMatrix, substituteIntoPolynomial, oneMinusPolynomial, polynomialToString } from '@step-wise/polynomials'
+import { type BernsteinCoefficients, type BernsteinCoefficientSet, ensureBernsteinCoefficientSet, normalizeBernsteinCoefficients, getBernsteinExpectedValue, mergeBernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 
 import { defaultInferenceOrder } from '../../settings'
-import { type Coefficients, type CoefficientSet, ensureCoefficientSet, normalize, getExpectedValue as getCoefficientsExpectedValue, merge } from '../../coefficients'
 
 export type SerializedSkillSetup<TValue = unknown, TType extends string = string> = { type: TType, value: TValue }
 
@@ -66,18 +66,18 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 	// Skill evaluation functions, given a coefficient set.
 
 	// Get the expected value of this skill, given the distributions of all subskills.
-	getExpectedValue(coefficientSet: CoefficientSet, parent?: SkillSetup): number {
+	getExpectedValue(coefficientSet: BernsteinCoefficientSet, parent?: SkillSetup): number {
 		const expression = this.getPolynomialExpression(parent)
-		const ensuredCoefficientSet = ensureCoefficientSet(coefficientSet, expression.list)
-		const skillExpectedValues = fromKeys(expression.list, skillId => getCoefficientsExpectedValue(ensuredCoefficientSet[skillId]))
+		const ensuredCoefficientSet = ensureBernsteinCoefficientSet(coefficientSet, expression.list)
+		const skillExpectedValues = fromKeys(expression.list, skillId => getBernsteinExpectedValue(ensuredCoefficientSet[skillId]))
 		return substituteIntoPolynomial(expression, skillExpectedValues) as number
 	}
 
 	// Get coefficients describing the distribution of this skill. The given order is the smoothing order applied while calculating this result.
-	getDistribution(coefficientSet: CoefficientSet, order = defaultInferenceOrder, parent?: SkillSetup): Coefficients {
+	getDistribution(coefficientSet: BernsteinCoefficientSet, order = defaultInferenceOrder, parent?: SkillSetup): BernsteinCoefficients {
 		const expectedValue = this.getExpectedValue(coefficientSet, parent)
 		const coefficients = repeat(order + 1, i => (order + 1) * binomial(order, i) * expectedValue ** i * (1 - expectedValue) ** (order - i))
-		return normalize(coefficients)
+		return normalizeBernsteinCoefficients(coefficients)
 
 		// Note: the above code is mathematically incorrect. It immediately inserts the expected values, instead of expanding the polynomial and using the respective moments. The reason this is done is because this is computationally intensive and the difference is in most practical cases negligible.
 
@@ -97,14 +97,14 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 	// Observation implementation functions.
 
 	// Update skill coefficients based on an observation. Returns only adjusted skills.
-	processObservation(coefficientSet: CoefficientSet, correct: boolean): CoefficientSet {
+	processObservation(coefficientSet: BernsteinCoefficientSet, correct: boolean): BernsteinCoefficientSet {
 		// Check the input.
 		if (!this.isDeterministic()) throw new Error(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
 		const skillIds = this.getSkillList()
-		const ensuredCoefficientSet = ensureCoefficientSet(coefficientSet, skillIds)
+		const ensuredCoefficientSet = ensureBernsteinCoefficientSet(coefficientSet, skillIds)
 
 		// Extract the polynomial matrix corresponding to this observation.
-		const expectedValues = fromKeys(skillIds, skillId => getCoefficientsExpectedValue(ensuredCoefficientSet[skillId]))
+		const expectedValues = fromKeys(skillIds, skillId => getBernsteinExpectedValue(ensuredCoefficientSet[skillId]))
 		const polynomialExpression = correct ? this.getPolynomialExpression() : oneMinusPolynomial(this.getPolynomialExpression())
 
 		// Apply the observation to the coefficients of each respective skill.
@@ -117,7 +117,7 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 			const order = matrix.length - 1
 			const shiftedCoefficients = repeat(order + 1, i => sum(repeat(i + 1, j => binomial(order - j, i - j) * matrix[j])) / binomial(order, i))
 
-			return merge(shiftedCoefficients, ensuredCoefficientSet[skillId])
+			return mergeBernsteinCoefficients(shiftedCoefficients, ensuredCoefficientSet[skillId])
 		})
 	}
 }

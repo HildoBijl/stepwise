@@ -32,6 +32,7 @@
 		"redis": "3.1.2",
 		"sequelize": "^6.28.0",
 		"step-wise": "file:../shared",
+		"@step-wise/bernstein-polynomials": "file:../shared/packages/bernsteinPolynomials",
 		"@step-wise/settings": "file:../shared/packages/settings",
 		"@step-wise/skill-tracking": "file:../shared/packages/skillTracking",
 		"@step-wise/utils": "file:../shared/packages/utils",

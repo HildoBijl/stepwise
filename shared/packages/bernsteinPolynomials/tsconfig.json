@@ -10,9 +10,7 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../bernsteinPolynomials" },
     { "path": "../mathTools" },
-    { "path": "../polynomials" },
     { "path": "../utils" }
   ],
   "include": ["src"]
