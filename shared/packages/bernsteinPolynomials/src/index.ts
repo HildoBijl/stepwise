@@ -1,5 +1,6 @@
 export * from './types'
 export * from './fundamentals'
+export * from './checks'
 export * from './moments'
 export * from './distributions'
 export * from './smoothing'
