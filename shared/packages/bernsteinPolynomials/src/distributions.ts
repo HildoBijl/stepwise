@@ -19,7 +19,7 @@ export function getBernsteinPDF(coefficients: BernsteinCoefficients): (x: number
 }
 
 // Get the derivative of the PDF.
-function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): (x: number) => number {
+export function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): (x: number) => number {
 	const n = getBernsteinOrder(coefficients)
 	return x => {
 		if (x < 0 || x > 1) return 0

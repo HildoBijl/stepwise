@@ -1,66 +1,57 @@
-# Tracking skill distributions through coefficients
+# Bernstein polynomials
 
-When tracking skill distributions, we use linear combinations of beta distribution PDFs.
+This package is about describing Bernstein polynomials: those of the form `f(x) = [sum]_{i=0}^n c_i (n+1) * (n over i) * x^i * (1-x)^(n-i) = [sum]_{i=0}^n c_i * f_{i,n}(x)`. Note that the basis functions `f_{i,n}(x)` are not the conventional ones, but have been multiplied by the constant `(n+1)`. This is to ensure that the integral over a basis function always equals one.
 
 
 ## Fundamentals
 
-A coefficient array is an array `[c_0, c_1, c_2, ..., c_n]` of `n+1` coefficients, with `n` the order of the coefficient array. For such a coefficient array, there are a number of fundamental functions that come in handy.
+Coefficients are described as an array of numbers: `[c_0, c_1, ..., c_n]`. These are the type `BernsteinCoefficients`. The following functions provide fundamental operations.
 
-- `ensureCoefficients(coef)` ensures that the received parameter is a valid normalized coefficient array. It is useful to check input. It may return a copy of the input.
-- `getOrder(coef)` returns the order `n` of the coefficient array. This is the length minus one.
-- `normalize(coef)` normalizes a non-normalized coefficient array, ensuring the sum of the coefficients adds to one.
-- `invert(coef)` inverts a coefficient array, reversing the order of the coefficients. If a set of coefficients describes a random variable `x`, then its inverse describes the random variable `y = 1-x`.
+- `getBernsteinOrder(coefficients)` returns the order `n` of a coefficient array. This is the length minus one.
+- `normalizeBernsteinCoefficients(coefficients)` normalizes a non-normalized coefficient array, ensuring the sum of the coefficients adds to one.
+- `invertBernsteinCoefficients(coefficients)` inverts a coefficient array, reversing the order of the coefficients. If a set of coefficients describes a random variable `x`, then its inverse describes the random variable `y = 1-x`.
 
-Next to functions for coefficients, there are also two functions for coefficient sets. A coefficient set is an object `{ someSkill1: [...], someSkill2: [...] }` whose properties are coefficient arrays.
 
-- `ensureCoefficientSet(coefSet, requiredSkillIds)` makes sure that the provided object is a valid coefficient set with valid coefficient arrays. If `requiredSkillIds` is given, as an array of strings, then only these skillIds are filtered out of the coefficient set, and they must all be present or an error is thrown.
-- `getCoefficients(coefSet, skillId)` takes a coefficient set and gets the coefficients with the given `skillId`, checking that they are valid before returning them. If `ensureCoefficientSet` has been called, this is not needed anymore, since `ensureCoefficientSet` has already checked the coefficients. In this case `coefSet[skillId]` is sufficient to use.
+## Checks
+
+To check if something is indeed a valid set of coefficients, we have the following functions.
+
+- `ensureBernsteinCoefficients(coefficients, requireNormalized)` ensures that the received parameter is a valid coefficient array. If requireNormalized is true (default) then the coefficients should already be normalized. If anything is off, an error is thrown.
+- `ensureBernsteinCoefficientSet(coefficientSet, requiredSkillIds)` makes sure that the provided object is a plain object whose parameters are coefficient arrays. If `requiredSkillIds` is given, as an array of strings, then only these skillIds are filtered out of the coefficient set, and they must all be present or an error is thrown.
 
 
 ## Moments
 
 There are various moments of distributions that can be calculated.
 
-- `getExpectedValue(coef)` gives the expected value `E[x]` of the distribution.
-- `getVariance(coef)` gives the variance `E[(x-E[x])^2]` of the distribution.
-- `getMoment(coef, i)` gives the `i`th moment `E[x^i]` of the distribution.
+- `getBernsteinExpectedValue(coefficients)` gives the expected value `E[x]` of the distribution.
+- `getBernsteinVariance(coefficients)` gives the variance `E[(x-E[x])^2]` of the distribution.
+- `getBernsteinMoment(coefficients, i)` gives the `i`th moment `E[x^i]` of the distribution.
 
 
 ## Distributions
 
 From the coefficients, the complete distribution (that is, the PDF) can also be determined. This is done through the following functions.
 
-- `getPDF(coef)` returns a function `x => PDF(x)` that is the PDF of the distribution.
-- `getPDFDerivative(coef)` returns a function `x => dPDF(x)/dx` that is the derivative of the PDF of the distribution.
-- `getMaximumLikelihood(coef, numIterations = 20)` gives an object `{ x: number, f: number }` that denotes the point on the PDF with the maximum likelihood (both the location `x` and the PDF value `f`). This is done by performing a binary search on the gradient, to see where it cross the zero value. It effectively assumes the PDF first ascend and then descends, which is usually (but not always) the case. As such, be careful when using this function.
+- `getBernsteinPDF(coefficients)` returns a function `x => PDF(x)` that is the PDF of the distribution.
+- `getBernsteinPDFDerivative(coefficients)` returns a function `x => dPDF(x)/dx` that is the derivative of the PDF of the distribution.
+- `getBernsteinCDFCoefficients(coefficients)` returns coefficients that describe the CDF of the function described by the given coefficients.
+- `getBernsteinCDF(coefficients)` returns a function `x => CDF(x)` that functions as integral of the PDF of the distribution.
+- `getInverseBernsteinCDF(coefficients, numIterations = 20)` gives an inverse function `F => CDF^{-1}(F)` of the CDF. Since this is not an analytical function, the value is found through a binary search. The maximum number of iterations can be defined.
+- `getBernsteinPDFMaximum(coefficients, numIterations = 20)` gives an object `{ x: number, f: number }` that denotes the point on the PDF with the maximum value (both the location `x` and the PDF value `f`). This is done by performing a binary search on the gradient, to see where it cross the zero value. It effectively assumes the PDF first ascend and then descends, which is usually (but not always) the case. As such, be careful when using this function.
 
 
 ## Smoothing
 
-Distributions often need to be smoothed when being processed. This is done through various smoothing functions. The most common one is the following.
+Bernstein coefficients can be "smoothed": their function becomes flatter. This is done through the following functions.
 
-- `smooth(coef, options)` takes a coefficient array and smoothens its distribution subject to a given situation. The situation is described in the options, with three (all optional) properties.
-	- `time` (default `0`) is the time passed since the skill was last practiced.
-	- `applyPracticeDecay` (default `false`) will (when set to `true`) lower the amount of smoothing applied because the user practiced the skill one more time. If not, this amount of smoothing remains the same.
-	- `numProblemsPracticed` (default `0`) indices the number of times the student has practiced the problem, used by the practice decay.
-
-	Next to these situation settings, it is also possible to override general site-wide settings, set in the [skill tracking settings](../settings.js).
-	- `decayHalfLife` [milliseconds] is the time after which half of the convergence towards the flat distribution is obtained.
-	- `initialPracticeDecayTime` [milliseconds] is the equivalent time of decay for practicing a problem.
-	- `practiceDecayHalfLife` [problems practiced] is the number of problems practiced until the practice decay halves.
-
-Behind the scenes, smoothing does two steps, as applied by the following two functions.
-
-- `getSmoothingFactor(options)` returns a smoothing factor that is appropriate to apply given the situation.
-- `smoothWithFactor(coef, factor)` applies smoothing with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor). 
-
-The latter function in turn calls `smoothWithOrder(coef, newOrder)` which smoothes using a given smoothing order.
+- `smoothBernsteinCoefficientsWithOrder(coefficients, order)` attempts to smooth the given coefficients to new coefficients of the given order.
+- `smoothBernsteinCoefficientsWithFactor(coefficients, factor)` attempts to smooth the given coefficients by a factor. Here `0` means "unchanged" and `1` means "completely flattened. Successive smoothing steps may be used to apply smoothing that's close to the given order.
 
 
 ## Merging
 
-Often multiple distributions need to be merged. This effectively multiplies the PDFs and normalizes the results. That is, `f_merged(x)` is proportional to `f_1(x) * f_2(x)`. To do so, we have the following functions.
+There are two ways of merging Bernstein polynomials.
 
-- `merge(coefficients1, coefficients2, ...)` merges any number of distributions, receiving an array of coefficient arrays. The result is a new set of coefficients.
-- `mergeElementwise(coefficients1, coefficients2, ...)` applies an element-wise multiplication among coefficients. This is needed in case of correlated skills. The given coefficient arrays must have the same order. The result is a new set of coefficients.
+- `mergeBernsteinCoefficients(coefficients1, coefficients2, ...)` merges any number of Bernstein polynomials. The result corresponds to `f(x) = f_1(x) * f_2(x) * ...`. The order of the result is the sum of the orders of the individual coefficients.
+- `mergeBernsteinCoefficientsElementwise(coefficients1, coefficients2, ...)` applies an element-wise multiplication on the coefficients. Coefficient lists must all be of the same order. This is needed in case of correlated skills.
