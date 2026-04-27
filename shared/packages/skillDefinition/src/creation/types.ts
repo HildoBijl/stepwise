@@ -1,11 +1,10 @@
 import type { SkillSetup } from '@step-wise/skill-setup'
 
-// Pathing of skills.
+// Definitions.
 export type SkillId = string
-export type SkillPath = string[]
 
 // Raw skills.
-export type Thresholds = { pass?: number }
+export type Thresholds = { pass?: number } // Threshold legacy
 export type RawSkillLink = string	| string[] | { skill?: SkillId | SkillId[]; skills?: SkillId[]; order?: number; correlation?: number }
 export type RawSkill = {
 	name: string
@@ -23,7 +22,7 @@ export type SkillLink = { skills: SkillId[]; order: number }
 export type Skill = {
 	id: SkillId
 	name: string
-	path: SkillPath
+	path: SkillId[]
 	skillsInGroup: SkillId[]
 	setup?: SkillSetup<unknown>
 	prerequisites: SkillId[]
@@ -37,4 +36,3 @@ export type Skill = {
 
 // Skill containers.
 export type SkillTree = Record<SkillId, Skill>
-export type SkillsPerGroup = Record<string, SkillId[]>

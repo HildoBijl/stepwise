@@ -1,6 +1,6 @@
 import { filterDuplicates } from '@step-wise/utils'
 import { normalizeLinks } from './links'
-import type { RawSkill, RawSkillGroup, SkillsPerGroup, SkillTree } from './types'
+import type { SkillId, RawSkill, RawSkillGroup, SkillTree } from './types'
 
 // Check if something is a container or a raw skill.
 function isRawSkill(value: RawSkill | RawSkillGroup): value is RawSkill {
@@ -8,9 +8,9 @@ function isRawSkill(value: RawSkill | RawSkillGroup): value is RawSkill {
 }
 
 // Take a definition of a skill tree and turn it into useful lists.
-export function flattenSkillTree(rawSkillTree: RawSkillGroup): { skillTree: SkillTree; skillsPerGroup: SkillsPerGroup } {
+export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 	const skillTree: SkillTree = {}
-	const skillsPerGroup: SkillsPerGroup = {}
+	const skillsPerGroup: Record<string, SkillId[]> = {}
 
 	const walk = (group: RawSkillGroup, path: string[] = []) => {
 		for (const [key, value] of Object.entries(group)) {
@@ -40,7 +40,7 @@ export function flattenSkillTree(rawSkillTree: RawSkillGroup): { skillTree: Skil
 	}
 
 	walk(rawSkillTree)
-	return { skillTree, skillsPerGroup }
+	return skillTree
 }
 
 // For a given semi-processed skillTree, set up the continuations attributes for each skill.
