@@ -1,7 +1,9 @@
 const { isNumber, sum, sample, fromKeys } = require('@step-wise/utils')
 const { normalPDF } = require('@step-wise/math-tools')
+const { ensureSkillId } = require('@step-wise/skill-definition')
+const { skillTree } = require('@step-wise/skill-tree')
 
-const { skillTree, exercises, getExerciseName, fixExerciseId, ensureSkillId } = require('../../skills')
+const { exercises, getExerciseName, fixExerciseId } = require('../../skills')
 
 const { mu, sigma, thresholdFactor } = require('./settings')
 const { getExerciseSuccessRates } = require('./successRates')
@@ -9,7 +11,7 @@ const { getExerciseSuccessRates } = require('./successRates')
 // selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillDataSet. The return value is an exerciseId of the form 'someSkillId.someExerciseName'.
 async function selectExercise(skillId, getSkillDataSet, previousExercises = []) {
 	// Extract the skill data.
-	skillId = ensureSkillId(skillId)
+	skillId = ensureSkillId(skillTree, skillId)
 	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)

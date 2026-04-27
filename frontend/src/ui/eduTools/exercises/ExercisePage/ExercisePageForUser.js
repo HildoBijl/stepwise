@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 
-import { skillTree, fixExerciseIdForExercise } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
+import { fixExerciseIdForExercise } from 'step-wise/eduTools'
 
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api'
 import { useTranslator } from 'i18n'

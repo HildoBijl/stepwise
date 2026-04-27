@@ -8,6 +8,12 @@ export function ensureString(x: unknown, nonEmpty = false): string {
 	return x
 }
 
+// Ensure a value is an array of strings.
+export function ensureStringArray(x: unknown): string[] {
+	if (!Array.isArray(x)) throw new TypeError(`Invalid parameter: expected an array but received "${JSON.stringify(x)}".`)
+	return x.map(elem => ensureString(elem))
+}
+
 // Precompiled regexes.
 const latinLetterRegExp = /^[a-z]$/i
 const latinGreekLetterRegExp = /^[a-zα-ω]$/i

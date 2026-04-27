@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
 import { last, repeat, count } from '@step-wise/utils'
-import { skillTree, getCourseOverview } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
+import { getCourseOverview } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'

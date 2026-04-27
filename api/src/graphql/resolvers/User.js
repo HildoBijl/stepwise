@@ -1,7 +1,7 @@
 const { UserInputError } = require('apollo-server-express')
 
 const { languages, currentPrivacyPolicyVersion } = require('@step-wise/settings')
-const { ensureSkillIds } = require('step-wise/eduTools')
+const { ensureSkillIds } = require('@step-wise/skill-tree')
 
 const { getUser, getAllUsers } = require('../util/User')
 

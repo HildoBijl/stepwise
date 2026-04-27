@@ -1,6 +1,6 @@
 import { compareNumberArrays } from '@step-wise/utils'
 
-import { Skill, and, or, repeat, pick, part } from './setups'
+import { Skill, and, or, repeat, pick, part } from './index'
 
 /*
  * Check Skill setup.

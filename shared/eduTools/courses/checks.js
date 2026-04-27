@@ -1,15 +1,15 @@
 const { ensureInt, ensureArray, hasDuplicates } = require('@step-wise/utils')
+const { ensureSkillIds } = require('@step-wise/skill-definition')
+const { skillTree } = require('@step-wise/skill-tree')
 const { deserializeSetup } = require('@step-wise/skill-tracking')
-
-const { ensureSkillIds } = require('../skills')
 
 const { processCourse, getSkillsBetween } = require('./util')
 
 // ensureValidCourseEndpoints takes a course goals and starting points and ensures that it's all in order. If not, an error is thrown. It returns a course object with all the respective lists from processCourse in it.
 function ensureValidCourseEndpoints(goals, startingPoints, goalWeights) {
 	// Ensure that the parameters are valid skill lists without duplicates.
-	goals = ensureSkillIds(goals)
-	startingPoints = ensureSkillIds(startingPoints)
+	goals = ensureSkillIds(skillTree, goals)
+	startingPoints = ensureSkillIds(skillTree, startingPoints)
 	if (hasDuplicates(goals))
 		throw new Error(`Invalid course goals: there are duplicates in the list.`)
 	if (hasDuplicates(startingPoints))
@@ -63,7 +63,7 @@ function ensureValidCourseBlocks(course, blocks) {
 	// Walk through the blocks to check them one by one.
 	let blockGoalsSoFar = [], contentsSoFar = []
 	blocks.forEach(({ name, goals }) => {
-		goals = ensureSkillIds(goals)
+		goals = ensureSkillIds(skillTree, goals)
 
 		// Ensure that all block goals are part of the course.
 		const goalNotInCourse = goals.find(goalId => !course.contents.includes(goalId))

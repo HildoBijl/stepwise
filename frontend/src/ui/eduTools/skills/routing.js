@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { useGetTranslation } from 'i18n'
 import { usePaths } from 'ui/routingTools'

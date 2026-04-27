@@ -2,8 +2,9 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
+import { skillTree } from '@step-wise/skill-tree'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import { skillTree, getNewRandomExample } from 'step-wise/eduTools'
+import { getNewRandomExample } from 'step-wise/eduTools'
 
 import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'

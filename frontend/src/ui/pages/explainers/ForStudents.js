@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
-import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomial'
+import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { Skill, smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'

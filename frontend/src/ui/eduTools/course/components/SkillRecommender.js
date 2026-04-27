@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Box, Button, darken } from '@mui/material'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'

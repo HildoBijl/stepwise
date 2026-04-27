@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
-import { skillTree, processCourse } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
+import { processCourse } from 'step-wise/eduTools'
 
 import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'

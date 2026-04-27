@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express')
 
-const { ensureSkillId, ensureSkillIds, exercises: allExercises } = require('step-wise/eduTools')
+const { ensureSkillId, ensureSkillIds } = require('@step-wise/skill-tree')
+const { exercises: allExercises } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
 const { getUser } = require('../util/User')

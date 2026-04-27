@@ -1,6 +1,7 @@
 
+const { ensureSkillId } = require('@step-wise/skill-tree')
 const { toFO, toSO } = require('step-wise/inputTypes')
-const { ensureSkillId, exercises: allExercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
+const { exercises: allExercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
 
 const { events: skillEvents, getUserSkill } = require('../util/Skill')
 const { getUserSkillDataSet, applySkillUpdatesForUser } = require('../util/SkillCoefficients')

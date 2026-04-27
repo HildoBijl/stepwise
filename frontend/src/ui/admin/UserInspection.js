@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 import { fromEntries, fromKeys, formatDate } from '@step-wise/utils'
+import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 import { SkillDataSet } from '@step-wise/skill-tracking'
-import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
+import { processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
@@ -94,7 +95,7 @@ function useSkillsList(user) {
 		const skillsAsObject = fromEntries(skillIds, skillsProcessed)
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-		const allSkillIds = includePrerequisitesAndLinks(skillIds)
+		const allSkillIds = includeDirectPrerequisitesAndLinks(skillIds)
 		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 		const skillDataSet = new SkillDataSet(skillTree, skills)
 

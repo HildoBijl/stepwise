@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@mui/icons-material'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
 import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

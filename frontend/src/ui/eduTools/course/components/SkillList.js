@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Tooltip, useTheme, alpha } from '@mui/material'
 import { Check, Info } from '@mui/icons-material'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { useSkillData } from 'api'
 import { Translation, useTranslator } from 'i18n'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { skillTree } from 'step-wise/eduTools/skills/skillTree'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { TranslationFile, Translation, Check, Plurals, CountingWord } from 'i18n'
 import { Head, Par, List, Warning } from 'ui/components'

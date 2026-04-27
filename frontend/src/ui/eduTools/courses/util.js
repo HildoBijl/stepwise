@@ -1,6 +1,7 @@
 import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/utils'
+import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 import { SkillDataSet } from '@step-wise/skill-tracking'
-import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
+import { processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'
 
@@ -68,7 +69,7 @@ export function processStudent(student, overview) {
 	const skillsAsObject = fromEntries(skillsProcessed.map(skill => skill.skillId), skillsProcessed)
 
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-	const allSkillIds = includePrerequisitesAndLinks(overview.all)
+	const allSkillIds = includeDirectPrerequisitesAndLinks(overview.all)
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 	const skillDataSet = new SkillDataSet(skillTree, skills)
 

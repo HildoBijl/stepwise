@@ -1,4 +1,4 @@
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 describe('Check all skills:', () => {
 	Object.keys(skillTree).forEach(key => {

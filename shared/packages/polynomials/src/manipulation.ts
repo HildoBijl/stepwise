@@ -114,6 +114,6 @@ function getPolynomialMatrixPowerList(matrix: PolynomialMatrix, maxExponent: num
 		return matrixPower
 	})
 }
-export function getPolynomialPowerList(expression: PolynomialExpression, maxExponent: number): PolynomialExpression {
-	return applyOperationToMatrix(expression, getPolynomialMatrixPowerList, maxExponent)
+export function getPolynomialPowerList(expression: PolynomialExpression, maxExponent: number): PolynomialExpression[] {
+	return getPolynomialMatrixPowerList(expression.matrix, maxExponent).map(matrix => ({ matrix, list: expression.list }))
 }

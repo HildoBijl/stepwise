@@ -1,14 +1,15 @@
 const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
 const { getBernsteinExpectedValue } = require('@step-wise/bernstein-polynomials')
+const { skillTree, ensureSkillIds, includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
 const { ensureSetup, smoothBernsteinCoefficients, SkillDataSet } = require('@step-wise/skill-tracking')
-const { skillTree, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/eduTools')
+const { processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const { getUserSkills } = require('./Skill')
 
 // getUserSkillDataSet takes a userId and skillIds and returns a skill data set object with SkillData parameters in it (so very processed objects) for the given user. To do so, it pulls the respective skills and their prerequisites from the database and processes the results. No caching is done.
 async function getUserSkillDataSet(db, userId, skillIds) {
 	// Load all required skills from the database. Process them into something functional.
-	const allSkillIds = includePrerequisitesAndLinks(skillIds) // Add links.
+	const allSkillIds = includeDirectPrerequisitesAndLinks(skillIds) // Add links.
 	const rawSkills = await getUserSkills(db, userId, allSkillIds) // Pull all data from the database.
 	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
 	const skillsAsObject = fromEntries(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.

@@ -1,7 +1,9 @@
 const DataLoader = require('dataloader')
 const { Op } = require('sequelize')
 
-const { processCourse, includePrerequisitesAndLinks } = require('step-wise/eduTools')
+const { includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
+
+const { processCourse } = require('step-wise/eduTools')
 
 module.exports = ({ db }, { coursesWithStudent }) => ({
 	// permittedSkillsForStudent takes a studentId and loads a list of skills that the given user is allowed to load for that student. It returns an object { withExercises: [...], withoutExercises: [...] }.
@@ -21,7 +23,7 @@ module.exports = ({ db }, { coursesWithStudent }) => ({
 				// Find the skills that are part of the course.
 				if (!courseSkills[course.id]) {
 					courseSkills[course.id] = processCourse(course).all // Contents and prerequisites.
-					courseSkillsWithLinks[course.id] = includePrerequisitesAndLinks(courseSkills[course.id]) // Everything linked to contents/prerequisites as well.
+					courseSkillsWithLinks[course.id] = includeDirectPrerequisitesAndLinks(courseSkills[course.id]) // Everything linked to contents/prerequisites as well.
 				}
 
 				// Add the skills related to the course to the various sets.

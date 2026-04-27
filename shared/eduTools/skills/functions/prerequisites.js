@@ -2,8 +2,8 @@ const { skillTree } = require('../skillTree')
 
 const { ensureSkillIds } = require('./checks')
 
-// includePrerequisites takes a list of skillIds and returns a new list of skillIds: all given skillIds plus the prerequisites of these skillIds.
-function includePrerequisites(skillIds) {
+// includeDirectPrerequisites takes a list of skillIds and returns a new list of skillIds: all given skillIds plus the prerequisites of these skillIds.
+function includeDirectPrerequisites(skillIds) {
 	const result = new Set()
 	skillIds = ensureSkillIds(skillIds)
 	skillIds.forEach(skillId => {
@@ -12,10 +12,10 @@ function includePrerequisites(skillIds) {
 	})
 	return [...result]
 }
-module.exports.includePrerequisites = includePrerequisites
+module.exports.includeDirectPrerequisites = includeDirectPrerequisites
 
-// includePrerequisites takes a list of skillIds and returns a new list of skillIds: all given skillIds plus the prerequisites of these skillIds as well as linked/correlated skills.
-function includePrerequisitesAndLinks(skillIds) {
+// includeDirectPrerequisites takes a list of skillIds and returns a new list of skillIds: all given skillIds plus the prerequisites of these skillIds as well as linked/correlated skills.
+function includeDirectPrerequisitesAndLinks(skillIds) {
 	const result = new Set()
 	skillIds = ensureSkillIds(skillIds)
 	skillIds.forEach(skillId => {
@@ -25,4 +25,4 @@ function includePrerequisitesAndLinks(skillIds) {
 	})
 	return [...result]
 }
-module.exports.includePrerequisitesAndLinks = includePrerequisitesAndLinks
+module.exports.includeDirectPrerequisitesAndLinks = includeDirectPrerequisitesAndLinks

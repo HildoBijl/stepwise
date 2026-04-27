@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 
-import { ensureSkillIds } from 'step-wise/eduTools'
+import { ensureSkillIds } from '@step-wise/skill-tree'
 
 import { useUser, useUserId } from '../user'
 

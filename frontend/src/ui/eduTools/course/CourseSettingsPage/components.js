@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { useSubscribeToCourseMutation, useUnsubscribeFromCourseMutation } from 'api'
 import { TranslationFile, TranslationSection, Translation, Plurals, WordList } from 'i18n'

@@ -37,7 +37,10 @@
     "@step-wise/math-tools": "file:../shared/packages/mathTools",
     "@step-wise/polynomials": "file:../shared/packages/polynomials",
     "@step-wise/settings": "file:../shared/packages/settings",
+    "@step-wise/skill-definition": "file:../shared/packages/skillDefinition",
+    "@step-wise/skill-setup": "file:../shared/packages/skillSetup",
     "@step-wise/skill-tracking": "file:../shared/packages/skillTracking",
+    "@step-wise/skill-tree": "file:../shared/packages/skillTree",
     "@step-wise/utils": "file:../shared/packages/utils",
     "subscriptions-transport-ws": "^0.9.19",
     "swiper": "^9.3.2"

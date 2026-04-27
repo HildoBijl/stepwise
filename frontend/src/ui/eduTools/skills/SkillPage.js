@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
 import { lowerFirst, mapValues } from '@step-wise/utils'
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'

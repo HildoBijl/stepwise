@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 
-import { skillTree, fixExerciseIdForExercise } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
+import { fixExerciseIdForExercise } from 'step-wise/eduTools'
 
 import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api'
 import { useGetTranslation } from 'i18n'

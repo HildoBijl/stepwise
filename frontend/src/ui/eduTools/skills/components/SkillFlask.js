@@ -4,7 +4,7 @@ import { Tooltip, Box } from '@mui/material'
 import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat } from '@step-wise/utils'
 import { gridInterpolate } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
-import { skillTree } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
 
 import { mix, shift, toCSS, useUUID } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { Translation, Check } from 'i18n'
