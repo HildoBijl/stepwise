@@ -1,0 +1,19 @@
+{
+	"name": "@step-wise/skill-tree",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -b",
+		"watch": "tsc -b --watch"
+	},
+	"dependencies": {
+		"@step-wise/skill-definition": "file:../skill-definition",
+		"@step-wise/skill-setup": "file:../skill-setup",
+		"@step-wise/utils": "file:../utils"
+	},
+	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"typescript": "^6.0.2"
+	}
+}

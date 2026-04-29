@@ -3,21 +3,21 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"test": "jest .*\\.test\\.js",
-		"test:watch": "jest --watch .*\\.test\\.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
 		"watch": "node scripts/watch-packages.js"
 	},
 	"dependencies": {
-		"@step-wise/bernstein-polynomials": "file:packages/bernsteinPolynomials",
+		"@step-wise/bernstein-polynomials": "file:packages/bernstein-polynomials",
 		"@step-wise/geometry": "file:packages/geometry",
 		"@step-wise/interpolation": "file:packages/interpolation",
-		"@step-wise/math-tools": "file:packages/mathTools",
+		"@step-wise/math-tools": "file:packages/math-tools",
 		"@step-wise/polynomials": "file:packages/polynomials",
 		"@step-wise/settings": "file:packages/settings",
-		"@step-wise/skill-definition": "file:packages/skillDefinition",
-		"@step-wise/skill-setup": "file:packages/skillSetup",
-		"@step-wise/skill-tracking": "file:packages/skillTracking",
-		"@step-wise/skill-tree": "file:packages/skillTree",
+		"@step-wise/skill-definition": "file:packages/skill-definition",
+		"@step-wise/skill-setup": "file:packages/skill-setup",
+		"@step-wise/skill-tracking": "file:packages/skill-tracking",
+		"@step-wise/skill-tree": "file:packages/skill-tree",
 		"@step-wise/utils": "file:packages/utils"
 	},
 	"devDependencies": {

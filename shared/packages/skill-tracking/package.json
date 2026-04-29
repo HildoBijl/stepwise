@@ -1,0 +1,23 @@
+{
+	"name": "@step-wise/skill-tracking",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -b",
+		"watch": "tsc -b --watch",
+		"test": "jest",
+		"test:watch": "jest --watch"
+	},
+	"dependencies": {
+		"@step-wise/bernstein-polynomials": "file:../bernstein-polynomials",
+		"@step-wise/math-tools": "file:../math-tools",
+		"@step-wise/polynomials": "file:../polynomials",
+		"@step-wise/skill-definition": "file:../skill-definition",
+		"@step-wise/utils": "file:../utils"
+	},
+	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"typescript": "^6.0.2"
+	}
+}

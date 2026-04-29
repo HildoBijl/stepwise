@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "types": ["jest"]
+  },
+  "references": [
+    { "path": "../bernstein-polynomials" },
+    { "path": "../math-tools" },
+    { "path": "../polynomials" },
+    { "path": "../skill-definition" },
+    { "path": "../utils" }
+  ],
+  "include": ["src"]
+}
