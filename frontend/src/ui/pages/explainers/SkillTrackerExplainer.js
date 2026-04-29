@@ -3,8 +3,10 @@ import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/utils'
-import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/skill-tracking'
-import { Skill, smoothBernsteinCoefficients, merge, and, repeat } from '@step-wise/skill-tracking'
+import { mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
+import { and, repeat } from '@step-wise/skill-setup'
+import { Skill } from '@step-wise/skill-definition'
+import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
 import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
@@ -224,7 +226,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	// Make the inference towards X. For this first smooth all distributions and then run the inference and merging.
 	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
-	coefficientSetNow[lastLabel] = merge(inference, coefficientSetNow[lastLabel])
+	coefficientSetNow[lastLabel] = mergeBernsteinCoefficients(inference, coefficientSetNow[lastLabel])
 
 	// Render contents.
 	return <Box sx={appletStyle}>

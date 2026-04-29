@@ -1,7 +1,8 @@
 const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
 const { getBernsteinExpectedValue } = require('@step-wise/bernstein-polynomials')
+const { ensureSetup } = require('@step-wise/skill-setup')
 const { skillTree, ensureSkillIds, includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
-const { ensureSetup, smoothBernsteinCoefficients, SkillDataSet } = require('@step-wise/skill-tracking')
+const { SkillDataSet, smoothBernsteinCoefficients } = require('@step-wise/skill-tracking')
 const { processSkill, getDefaultSkillData } = require('step-wise/eduTools')
 
 const { getUserSkills } = require('./Skill')

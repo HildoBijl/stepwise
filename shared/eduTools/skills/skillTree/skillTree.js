@@ -1,5 +1,6 @@
 const { isPlainObject, filterDuplicates, mapValues, union } = require('@step-wise/utils')
-const { and, or, repeat, pick, part, defaultLinkOrder } = require('@step-wise/skill-tracking')
+const { and, or, repeat, pick, part } = require('@step-wise/skill-setup')
+const { defaultLinkOrder } = require('@step-wise/skill-definition')
 
 const { getExerciseId, splitExerciseId } = require('./util')
 

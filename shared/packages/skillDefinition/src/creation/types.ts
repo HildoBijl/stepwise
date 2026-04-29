@@ -22,7 +22,7 @@ export type SkillLink = { skills: SkillId[]; order: number }
 export type Skill = {
 	id: SkillId
 	name: string
-	path: SkillId[]
+	path: string[]
 	skillsInGroup: SkillId[]
 	setup?: SkillSetup<unknown>
 	prerequisites: SkillId[]

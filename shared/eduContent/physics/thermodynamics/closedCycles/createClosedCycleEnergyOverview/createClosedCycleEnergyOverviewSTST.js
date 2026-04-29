@@ -1,4 +1,4 @@
-const { or } = require('@step-wise/skill-tracking')
+const { or } = require('@step-wise/skill-setup')
 const { FloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')

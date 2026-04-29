@@ -1,4 +1,4 @@
-const { ensureSetup } = require('@step-wise/skill-tracking')
+const { ensureSetup } = require('@step-wise/skill-setup')
 
 // getDifficulty takes the data object of an exercise and returns the difficulty, in the form of a setup object.
 function getDifficulty(data) {

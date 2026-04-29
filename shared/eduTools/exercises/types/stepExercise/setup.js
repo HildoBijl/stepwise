@@ -1,4 +1,4 @@
-const { and } = require('@step-wise/skill-tracking')
+const { and } = require('@step-wise/skill-setup')
 
 // addSetupFromSteps takes an exercise metaData object and adds a set-up parameter based on the provided steps, assuming none exists yet. (If one exists, this function does nothing, unless overwrite is specifically set to true.) It modifies the given metaData object and also returns it.
 function addSetupFromSteps(metaData, overwrite = false) {

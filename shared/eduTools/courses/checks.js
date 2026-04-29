@@ -1,7 +1,7 @@
 const { ensureInt, ensureArray, hasDuplicates } = require('@step-wise/utils')
+const { deserializeSetup } = require('@step-wise/skill-setup')
 const { ensureSkillIds } = require('@step-wise/skill-definition')
 const { skillTree } = require('@step-wise/skill-tree')
-const { deserializeSetup } = require('@step-wise/skill-tracking')
 
 const { processCourse, getSkillsBetween } = require('./util')
 

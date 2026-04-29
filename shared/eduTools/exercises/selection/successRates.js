@@ -1,6 +1,6 @@
 const { fromKeys } = require('@step-wise/utils')
 const { getBernsteinExpectedValue, mergeBernsteinCoefficients } = require('@step-wise/bernstein-polynomials')
-const { ensureSetup } = require('@step-wise/skill-tracking')
+const { ensureSetup } = require('@step-wise/skill-setup')
 
 const { getDifficulty } = require('./util')
 
