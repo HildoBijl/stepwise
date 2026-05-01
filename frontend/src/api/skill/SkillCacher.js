@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext, useSyncExternalStore } from 'react'
 
 import { fromEntries, fromKeys, mapValues } from '@step-wise/utils'
-import { SkillDataSet } from '@step-wise/skill-tracking'
+import { SkillLevelSet } from '@step-wise/skill-tracking'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
-import { processSkill, getDefaultSkillData } from 'step-wise/eduTools'
+import { processSkill, getDefaultSkillLevel } from 'step-wise/eduTools'
 
 import { useConsistentValue, useConstant } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUser } from 'api'
@@ -15,8 +15,8 @@ const SkillCacherContext = createContext()
 
 export default function SkillCacher({ children }) {
 	const [skillsToLoad, setSkillsToLoad] = useState([])
-	const skillDataSet = useConstant(() => new SkillDataSet(skillTree))
-	useSyncExternalStore(listener => skillDataSet.subscribe(listener), () => skillDataSet.getSnapshot())
+	const skillLevelSet = useConstant(() => new SkillLevelSet(skillTree))
+	useSyncExternalStore(listener => skillLevelSet.subscribe(listener), () => skillLevelSet.getSnapshot())
 
 	// Set up handlers to track which skills to load.
 	const addSkillsToLoad = useCallback(additionSkillIds => {
@@ -48,17 +48,17 @@ export default function SkillCacher({ children }) {
 
 		// Fill up the loaded skills with default skills when missing (that is, not in the database yet), process them, and incorporate them into the data set.
 		const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
-		const rawSkillDataSetUnprocessed = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-		const rawSkillDataSet = mapValues(rawSkillDataSetUnprocessed, skill => processSkill(skill))
-		skillDataSet.update(rawSkillDataSet)
-	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, skillDataSet])
+		const rawSkillLevelSetUnprocessed = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillLevel(skillId))
+		const rawSkillLevelSet = mapValues(rawSkillLevelSetUnprocessed, skill => processSkill(skill))
+		skillLevelSet.update(rawSkillLevelSet)
+	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, skillLevelSet])
 
 	// When the user changes, clear the cache.
-	useEffect(() => { skillDataSet.clear() }, [skillDataSet, user?.id])
+	useEffect(() => { skillLevelSet.clear() }, [skillLevelSet, user?.id])
 
 	// Gather data for the context.
 	const contextData = {
-		skillDataSet,
+		skillLevelSet,
 		addSkillsToLoad,
 		removeSkillsToLoad,
 	}
@@ -75,8 +75,8 @@ export function useSkillCacherContext() {
 	return useContext(SkillCacherContext)
 }
 
-export function useSkillDataSet() {
-	return useSkillCacherContext().skillDataSet
+export function useSkillLevelSet() {
+	return useSkillCacherContext().skillLevelSet
 }
 
 // useSkillLoading takes a list of skillIds and ensures that they are being loaded by the cacher.
@@ -89,15 +89,15 @@ function useSkillLoading(skillIds) {
 	}, [skillIds, addSkillsToLoad, removeSkillsToLoad])
 }
 
-// useSkillsData is the main function used by child components to load in data on skills. It ensures that the cacher loads in data on the requested skillIds. The skillDataSet object is returned.
-export function useSkillsData(skillIds) {
+// useSkillLevels is the main function used by child components to load in data on skills. It ensures that the cacher loads in data on the requested skillIds. The skillLevelSet object is returned.
+export function useSkillLevels(skillIds) {
 	// Ensure the requested skills are being loaded.
 	skillIds = useConsistentValue(skillIds)
 	useSkillLoading(skillIds)
-	return useSkillDataSet()
+	return useSkillLevelSet()
 }
 
-// useSkillData takes a single skill ID and ensures it's loaded from the database. It returns the skillDataSet object.
-export function useSkillData(skillId) {
-	return useSkillsData(skillId === undefined ? [] : [skillId])
+// useSkillLevel takes a single skill ID and ensures it's loaded from the database. It returns the skillLevelSet object.
+export function useSkillLevel(skillId) {
+	return useSkillLevels(skillId === undefined ? [] : [skillId])
 }

@@ -4,8 +4,8 @@ import { Box } from '@mui/material'
 
 import { fromEntries, fromKeys, formatDate } from '@step-wise/utils'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
-import { SkillDataSet } from '@step-wise/skill-tracking'
-import { processSkill, getDefaultSkillData } from 'step-wise/eduTools'
+import { SkillLevelSet } from '@step-wise/skill-tracking'
+import { processSkill, getDefaultSkillLevel } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
@@ -30,7 +30,7 @@ export function UserInspection() {
 }
 
 function UserInspectionForUser({ user }) {
-	const skillsList = useSkillsList(user)
+	const skillsList = useSkillsLevelsList(user)
 	return <>
 		<Par>Below you see all the skills that {user.name} has practiced, with the most recent one on top.</Par>
 		<HorizontalSlider>
@@ -51,18 +51,18 @@ function UserInspectionForUser({ user }) {
 				<div className="name head">Skill</div>
 				<div className="numPracticed head">Number of executions</div>
 				<div className="lastPracticed head">Last activity</div>
-				{skillsList.map(skillData => <UserInspectionItem key={skillData.skill.id} skillId={skillData.skill.id} skillData={skillData} />)}
+				{skillsList.map(skillLevel => <UserInspectionItem key={skillLevel.skill.id} skillId={skillLevel.skill.id} skillLevel={skillLevel} />)}
 			</Box>
 		</HorizontalSlider>
 	</>
 }
 
-function UserInspectionItem({ skillId, skillData }) {
+function UserInspectionItem({ skillId, skillLevel }) {
 	return <>
-		<div className="flask"><SkillFlask skillId={skillId} coef={skillData.coefficients} size={40} /></div>
-		<div className="name">{skillTree[skillData.skillId].name}</div>
-		<div className="numPracticed">{skillData.numPracticed}</div>
-		<div className="lastPracticed">{formatDate(skillData.lastPracticed, true)}</div>
+		<div className="flask"><SkillFlask skillId={skillId} coef={skillLevel.coefficients} size={40} /></div>
+		<div className="name">{skillTree[skillLevel.skillId].name}</div>
+		<div className="numPracticed">{skillLevel.numPracticed}</div>
+		<div className="lastPracticed">{formatDate(skillLevel.lastPracticed, true)}</div>
 	</>
 }
 
@@ -87,7 +87,7 @@ function getUserNameFromQueryResult(res) {
 	return user.name
 }
 
-function useSkillsList(user) {
+function useSkillsLevelsList(user) {
 	return useMemo(() => {
 		// Process the skills into a raw data set. (Also filter them to remove outdated skills not in the skill tree anymore.)
 		const skillsProcessed = user.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
@@ -96,11 +96,11 @@ function useSkillsList(user) {
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 		const allSkillIds = includeDirectPrerequisitesAndLinks(skillIds)
-		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-		const skillDataSet = new SkillDataSet(skillTree, skills)
+		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillLevel(skillId))
+		const skillLevelSet = new SkillLevelSet(skillTree, skills)
 
 		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.
-		const skillList = skillIds.map(skillId => skillDataSet.getSkillData(skillId))
-		return skillList.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
+		const skillLevels = skillIds.map(skillId => skillLevelSet.getSkillLevel(skillId))
+		return skillLevels.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
 	}, [user])
 }

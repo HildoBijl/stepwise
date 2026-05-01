@@ -5,7 +5,7 @@ const { ensureSetup } = require('@step-wise/skill-setup')
 const { getDifficulty } = require('./util')
 
 // getExerciseSuccessRates takes an object with exercise meta-data { exercise1: metaData1, exercise2: metaData2 } and calculates the chance, given access to skill data, that the user will succeed in them. It returns an object { exercise1: successRate1, exercise2: successRate2 }.
-async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
+async function getExerciseSuccessRates(exerciseMetaDatas, getSkillLevelSet) {
 	// Figure out all the skills that need to be loaded and load them.
 	let exerciseSkillIds = new Set()
 	exerciseMetaDatas.forEach(exerciseMetaData => {
@@ -17,19 +17,18 @@ async function getExerciseSuccessRates(exerciseMetaDatas, getSkillDataSet) {
 		})
 	})
 	exerciseSkillIds = [...exerciseSkillIds] // Turn set into array.
-	const skillDataSet = await getSkillDataSet(exerciseSkillIds) // Load all data for these skills.
-	const coefficientSet = fromKeys(exerciseSkillIds, skillId => skillDataSet.getCoefficients(skillId)) // Get the inferred coefficients.
+	const skillLevelSet = await getSkillLevelSet(exerciseSkillIds) // Load all data for these skills.
+	const coefficientSet = fromKeys(exerciseSkillIds, skillId => skillLevelSet.getCoefficients(skillId)) // Get the inferred coefficients.
 
 	// Walk through the exercises to calculate success rates (expected values).
 	return exerciseMetaDatas.map(exerciseMetaData => {
 		// If there is only a skill (basic exercise) or only a setup (joint exercise) then use that to estimate the success rate.
 		if (!exerciseMetaData.skill || !exerciseMetaData.setup)
-			return getDifficulty(exerciseMetaData).getExpectedValue(coefficientSet)
+			return skillLevelSet.getSetupExpectedValue(getDifficulty(exerciseMetaData))
 
 		// If there are both a skill and a setup parameter, combine this knowledge.
 		const skillCoefficients = coefficientSet[exerciseMetaData.skill]
-		const setup = ensureSetup(exerciseMetaData.setup)
-		const setupCoefficients = setup.getDistribution(coefficientSet, exerciseMetaData.setupOrder) // The exercise may overwrite the set-up order if desired.
+		const setupCoefficients = skillLevelSet.getSetupCoefficients(ensureSetup(exerciseMetaData.setup), exerciseMetaData.setupOrder) // The exercise may overwrite the set-up order if desired.
 		const mergedCoefficients = mergeBernsteinCoefficients(skillCoefficients, setupCoefficients)
 		return getBernsteinExpectedValue(mergedCoefficients)
 	})

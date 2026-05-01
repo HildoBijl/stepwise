@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { getCourseOverview } from 'step-wise/eduTools'
 
-import { useSkillsData, useCourseQuery } from 'api'
+import { useSkillLevels, useCourseQuery } from 'api'
 
 import { getAnalysis } from '../../courses'
 
@@ -23,7 +23,7 @@ export function CourseProvider({ children }) {
 function CourseProviderInner({ course, children }) {
 	// Analyse the course for the specific user.
 	const overview = useMemo(() => getCourseOverview(course), [course])
-	const skillsData = useSkillsData(overview.all)
+	const skillsData = useSkillLevels(overview.all)
 	const skillsDataLoaded = overview.all.every(skillId => !!skillsData[skillId])
 	const analysis = getAnalysis(overview, skillsData)
 	return <CourseContext.Provider value={{ course, overview, skillsData, skillsDataLoaded, analysis }}>{children}</CourseContext.Provider>

@@ -8,8 +8,8 @@ const { exercises, getExerciseName, fixExerciseId } = require('../../skills')
 const { mu, sigma, thresholdFactor } = require('./settings')
 const { getExerciseSuccessRates } = require('./successRates')
 
-// selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillDataSet. The return value is an exerciseId of the form 'someSkillId.someExerciseName'.
-async function selectExercise(skillId, getSkillDataSet, previousExercises = []) {
+// selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillLevelSet. The return value is an exerciseId of the form 'someSkillId.someExerciseName'.
+async function selectExercise(skillId, getSkillLevelSet, previousExercises = []) {
 	// Extract the skill data.
 	skillId = ensureSkillId(skillTree, skillId)
 	const skill = skillTree[skillId]
@@ -35,7 +35,7 @@ async function selectExercise(skillId, getSkillDataSet, previousExercises = []) 
 
 	// For the filtered exercises, calculate success rates and weights, and use these to calculate selection rates.
 	const exerciseMetaDatasArray = exerciseIds.map(exerciseId => exerciseMetaDatas[exerciseId])
-	const successRates = await getExerciseSuccessRates(exerciseMetaDatasArray, getSkillDataSet)
+	const successRates = await getExerciseSuccessRates(exerciseMetaDatasArray, getSkillLevelSet)
 	const weights = exerciseIds.map(exerciseId => (isNumber(exerciseMetaDatas[exerciseId].weight) ? Math.abs(exerciseMetaDatas[exerciseId].weight) : 1))
 	const selectionRates = getSelectionRates(successRates, weights)
 

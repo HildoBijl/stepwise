@@ -4,7 +4,7 @@ import { Alert, AlertTitle, Box } from '@mui/material'
 import { count } from '@step-wise/utils'
 import { processCourse } from 'step-wise/eduTools'
 
-import { useSkillsData, useMyCoursesQuery } from 'api'
+import { useSkillLevels, useMyCoursesQuery } from 'api'
 import { Translation, TranslationFile } from 'i18n'
 import { Head, LoadingIndicator, ErrorNote } from 'ui/components'
 
@@ -77,8 +77,8 @@ function StudentCourseList({ courses, showAddButton }) {
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedOn) - new Date(c2.subscribedOn)), [courses]) // Sort by subscription date, so that later courses come at the end.
 	const processedCourses = useMemo(() => sortedCourses.map(rawCourse => processCourse(rawCourse)), [sortedCourses])
 	const allSkills = [...new Set(processedCourses.map(processedCourse => processedCourse.all).flat())] // A list of all relevant skills for all courses.
-	const skillDataSet = useSkillsData(allSkills) // The SkillData objects for all skills.
-	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillDataSet)), [processedCourses, skillDataSet])
+	const skillLevelSet = useSkillLevels(allSkills) // The SkillLevelSet objects for all skills.
+	const analyses = useMemo(() => processedCourses.map(processedCourse => getAnalysis(processedCourse, skillLevelSet)), [processedCourses, skillLevelSet])
 
 	// Render all the tiles with corresponding data.
 	return <TranslationFile path={translationPath}>

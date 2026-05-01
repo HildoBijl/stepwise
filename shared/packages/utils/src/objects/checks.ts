@@ -26,9 +26,9 @@ export function isEmptyObject(x: unknown): x is Record<string, unknown> {
 }
 
 // Ensure the value is an object; otherwise throw.
-export function ensureObject(x: unknown): object {
+export function ensureObject(x: unknown): Record<string, unknown> {
 	if (!isObject(x)) throw new TypeError(`Invalid input: expected an object but received type "${typeof x}".`)
-	return x
+	return x as Record<string, unknown>
 }
 
 // Ensure the value is a plain object; otherwise throw.

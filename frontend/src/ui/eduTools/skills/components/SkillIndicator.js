@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { getCourseOverview } from 'step-wise/eduTools'
 
-import { useSkillData, useUserQuery } from 'api'
+import { useSkillLevel, useUserQuery } from 'api'
 
 import { useCourseData } from '../../course'
 import { processStudent } from '../../courses'
@@ -20,11 +20,11 @@ export function SkillIndicator() {
 // For the signed-in user, we access the Skill Cacher.
 function SkillIndicatorForSelf() {
 	const { skillId } = useParams()
-	const skillDataSet = useSkillData(skillId)
-	if (!skillDataSet.hasDataOn(skillId))
+	const skillLevelSet = useSkillLevel(skillId)
+	if (!skillLevelSet.hasDataOn(skillId))
 		return null
-	const skillData = skillDataSet.getSkillData(skillId)
-	return <SkillIndicatorGraphics skill={skillData} />
+	const skillLevel = skillLevelSet.getSkillLevel(skillId)
+	return <SkillIndicatorGraphics skill={skillLevel} />
 }
 
 // We only inspect a user as part of a course. So load the course data as well. This is probably cached already anyway.

@@ -15,9 +15,9 @@ export { defaultSkillThresholds }
  * 1: work is useful but not directly necessary. (No recommendation.)
  * 2: work is necessary. (Recommend.)
  */
-export function isPracticeNeeded(skillDataSet, skillId, priorKnowledge = false, skillThresholds = {}) {
+export function isPracticeNeeded(skillLevelSet, skillId, priorKnowledge = false, skillThresholds = {}) {
 	// If there is no skill data, return undefined.
-	if (!skillDataSet.hasDataOn(skillId))
+	if (!skillLevelSet.hasDataOn(skillId))
 		return undefined
 
 	// Determine the thresholds to apply.
@@ -26,14 +26,14 @@ export function isPracticeNeeded(skillDataSet, skillId, priorKnowledge = false, 
 	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 
 	// Check if the thresholds are satisfied.
-	const EV = getBernsteinExpectedValue(skillDataSet.getCoefficients(skillId))
+	const EV = getBernsteinExpectedValue(skillLevelSet.getCoefficients(skillId))
 	if (EV > pass)
 		return 0 // Sufficient mastery!
 	if (EV < recap)
 		return 2 // Not there yet.
 	if (priorKnowledge)
 		return 1 // It's prior knowledge: we can work but don't really have to.
-	if (getBernsteinExpectedValue(skillDataSet.getHighestCoefficients(skillId)) > pass)
+	if (getBernsteinExpectedValue(skillLevelSet.getHighestCoefficients(skillId)) > pass)
 		return 1 // There has been mastery in the past, so it's not completely necessary.
 	return 2 // There has never been mastery yet: keep on working!
 }

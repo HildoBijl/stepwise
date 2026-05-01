@@ -1,3 +1,5 @@
+const { getInitialSkillLevel } = require('@step-wise/skill-tracking')
+
 // processSkill turns a skill object from database form to a more usable form, for instance turning Date strings into Date objects and removing superfluous parameters.
 function processSkill(skill) {
 	return { // Extract required data. (And not all the other stuff that sequelize attaches.)
@@ -15,18 +17,14 @@ function processSkill(skill) {
 }
 module.exports.processSkill = processSkill
 
-// getDefaultSkillData gives the skill data that we use when the database does not contain a certain skill. It's already in processed form.
-function getDefaultSkillData(skillId) {
+// getDefaultSkillLevel gives the skill data that we use when the database does not contain a certain skill. It's already in processed form.
+function getDefaultSkillLevel(skillId) {
 	const now = new Date()
 	return {
 		skillId,
-		numPracticed: 0,
-		coefficients: [1],
-		coefficientsOn: now,
-		highest: [1],
-		highestOn: now,
+		...getInitialSkillLevel(now),
 		createdAt: now,
 		updatedAt: now,
 	}
 }
-module.exports.getDefaultSkillData = getDefaultSkillData
+module.exports.getDefaultSkillLevel = getDefaultSkillLevel

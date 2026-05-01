@@ -5,7 +5,7 @@ import { Check, Info } from '@mui/icons-material'
 
 import { skillTree } from '@step-wise/skill-tree'
 
-import { useSkillData } from 'api'
+import { useSkillLevel } from 'api'
 import { Translation, useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -49,7 +49,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	const theme = useTheme()
 	const translate = useTranslator()
 	const paths = usePaths()
-	const skillDataSet = useSkillData(skillId)
+	const skillLevelSet = useSkillLevel(skillId)
 
 	// Define styling.
 	const isDummy = !skillId
@@ -82,14 +82,14 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	if (skill.exercises.length === 0) {
 		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
 	} else if (practiceNeeded === 0) {
-		if (isPracticeNeeded(skillDataSet, skillId, isPriorKnowledge, skill.thresholds) === 0)
+		if (isPracticeNeeded(skillLevelSet, skillId, isPriorKnowledge, skill.thresholds) === 0)
 			masteryText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
 		else
 			masteryText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
 	}
 
 	return <Box component={Link} to={paths.courseSkill({ courseCode, skillId })} sx={skillItemStyle}>
-		{skillDataSet.hasDataOn(skillId) ? <SkillFlask skillId={skillId} coef={skillDataSet.getCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
+		{skillLevelSet.hasDataOn(skillId) ? <SkillFlask skillId={skillId} coef={skillLevelSet.getCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} sx={{ flex: '0 0 auto', marginRight: '0.8rem' }} /> : null}
 		<Box sx={{ flex: '1 1 auto' }}>
 			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>

@@ -4,7 +4,7 @@ const { toFO, toSO } = require('step-wise/inputTypes')
 const { exercises: allExercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
 
 const { events: skillEvents, getUserSkill } = require('../util/Skill')
-const { getUserSkillDataSet, applySkillUpdatesForUser } = require('../util/SkillCoefficients')
+const { getUserSkillLevelSet, applySkillUpdatesForUser } = require('../util/SkillCoefficients')
 const { getLastEvent, getExerciseProgress } = require('../util/Exercise')
 
 const resolvers = {
@@ -35,8 +35,8 @@ const resolvers = {
 			const { skill, exercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
 
 			// Select a new exercise, store it and return the result.
-			const getSkillDataSet = (skillIds) => getUserSkillDataSet(db, userId, skillIds)
-			const newExercise = await getNewExercise(skillId, getSkillDataSet, exercises)
+			const getSkillLevelSet = (skillIds) => getUserSkillLevelSet(db, userId, skillIds)
+			const newExercise = await getNewExercise(skillId, getSkillLevelSet, exercises)
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 		},
 
