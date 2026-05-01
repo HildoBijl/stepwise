@@ -1,5 +1,5 @@
 // Comparison tolerance used by compareNumbers.
-export const epsilon = 1e-12
+export const epsilon = 1e-9
 
 // Compare two numbers for approximate equality.
 export function compareNumbers(a: number, b: number): boolean {

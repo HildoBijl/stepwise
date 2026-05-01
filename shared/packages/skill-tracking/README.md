@@ -1,29 +1,101 @@
 # Step-Wise skill tracking
 
-Step-Wise uses a large skill tree. For each student, and for each skill in the tree, Step-Wise tracks the mastery level. This file discusses script-wise how this all works. For the mathematics behind skill tracking, see the [paper on Skill Tracking](https://arxiv.org/abs/2501.10050).
+Step-Wise uses a large skill tree. For each student, and for each skill in the tree, Step-Wise tracks the mastery level. This package contains the tooling for that. For the mathematics behind skill tracking, see the [paper on Skill Tracking](https://arxiv.org/abs/2501.10050).
 
 
-## Skill coefficients
+## Prerequisites
 
-The algorithm constantly keeps track of the distribution of the success rate of each skill. This distribution is described by a set of Bernstein polynomial coefficients. An example is `[0, 0.2, 0.8]`. Tracking and manipulating these coefficients is described further in the [coefficients directory](coefficients/).
-
-
-## Polynomials
-
-Every skill has a set-up. For instance, something like `and('a', or('b', 'c'))`. Corresponding to this set-up is a polynomial. This could be something like `a*c + a*b - a*b*c`. Each polynomial can also be captured in a polynomial matrix, describing the coefficients. For the example, this is `[[[0,0],[0,0]],[[0,1],[1,-1]]]`. Here, the coefficient in matrix element `matrix[i][j][k]` is the coefficient before the term `a^i*b^j*c^k` in the polynomial.
-
-There are various methods related to handling and manipulating polynomials. This is all further elaborated on in the [polynomial directory](polynomials/).
+Before using this package, make sure to [define a Skill Tree](../skill-definition/). Once that is done, then this package can track the skill level of every skill in it. Skill levels are described through [Bernstein coefficients](../bernstein-polynomials/). Every skill has a set of coefficients describing the student's level, which is constantly updated based on new observations.
 
 
-## Skill set-ups
+## Setting up
 
-To describe the dependency of a skill on another, we use skill set-ups. This is described in the [set-up directory](setup/). For instance, a skill can depend on subskills `a`, `b` and `c` through `and('a', or('b', 'c'))`. To create such a set-up, important the `and` and `or` functions and set it up through exactly this code.
+The main class in this package is the `SkillLevelSet`. It requires a (processed) skill tree and a set of `RawSkillLevelData`. We may for instance have
 
-A skill set-up has many functions. A couple of them require a coefficient set, which is an object of the form `{ someSkill1: [...coefficients...], someSkill2: [...coefficients...] }`. It is also possible to update these coefficient sets on a new observation. This is done through `setup.processObservation(coefSet, correct)`. Here, `correct` is a boolean: did the student do it correctly or not? The result is an updated coefficient subset. It only contains new coefficients for the skills that have been updated. The original coefficient set is not adjusted, but of course the calling script can merge the two data sets together if desired.
+```
+rawSkillLevelData = {
+	someSkillId: {
+		coefficients: BernsteinCoefficients
+		coefficientsOn: Date
+		highest: BernsteinCoefficients
+		highestOn: Date
+		numPracticed: number
+	}, 
+	anotherSkillId: { ... },
+	...
+}
+```
+
+Given this data, we can set up a `SkillLevelSet` through
+
+```
+import { SkillLevelSet } from '@step-wise/skill-tracking'
+const skillLevelSet = new SkillLevelSet(skillTree, rawSkillLevelData)
+```
+
+If new data is received, for instance from the API, then this can be added through
+
+```
+skillLevelSet.update(rawSkillLevelUpdateData)
+```
 
 
-## Inference: the Skill Data object
+## Extracting data
 
-The skill tracking algorithm can also use set-ups between skills to apply inference. We then don't just use data for a skill itself, but also data on its subskills, and combine all that data to make a more informed estimate about the proficiency of the user in that skill. The full process is described in the [inference directory](inference/), but we give a summary here.
+The coefficients in the raw data is only based on observations for each individual skill. However, skills are linked. Given these links, we can find *inferred coefficients* for each skill too. If we ask the `SkillLevelSet` for coefficients, it will give us these *inferred* coefficients. This is done through
 
-The process starts with a raw skill data set pulled from the database. This is something like `{ someSkill1: { coefficients: [...], coefficientsOn: Date, highest: [...], highestOn: Date, numPracticed: number }, ... }`. This is then fed into `const skillDataSet = new SkillDataSet(rawSkillData, skillTree)`. We can add new data (for existing skills or new skills) through `skillDataSet.update(newRawSkillData)`. Inferred coefficients for skills can be obtained through `skillDataSet.getCoefficients(skillId)` and/or `skillDataSet.getHighestCoefficients(skillId)`.
+```
+const expectedValue = skillLevelData.getExpectedValue('someSkillId')
+const coefficients = skillLevelData.getCoefficients('someSkillId')
+```
+
+We also track the highest (inferred) coefficients ever obtained. The API here is similar.
+
+```
+const highestExpectedValue = skillLevelData.getHighestExpectedValue('someSkillId')
+const highestCefficients = skillLevelData.getHighestCoefficients('someSkillId')
+```
+
+It may happen that you have some exercise with a given skill set-up, and you want to find the distribution of the success rate for this exercise.
+
+```
+const setupExpectedValue = skillLevelData.getSetupExpectedValue(setup)
+const setupCoefficients = skillLevelData.getSetupCoefficients(setup)
+```
+
+
+## Implementing observations
+
+When the student does an exercise, we gather data. Such an observation always takes the form `{ setup: SkillSetup, correct: boolean }`. We can implement this observation into the `SkillLevelSet`, to update the skill levels. This is done through
+
+```
+const result = skillLevelSet.processObservation({ setup, correct })
+```
+
+The result is a `rawSkillLevelUpdateData` object containing only the data that was updated. This also includes "highest" data: that is only added when relevant. So an example object that is returned may be:
+
+```
+rawSkillLevelData = {
+	someSkillId: {
+		coefficients: [0, 1],
+		coefficientsOn: now,
+		highest: [0, 1],
+		highestOn: now,
+		numPracticed: 3,
+	}, 
+	anotherSkillId: {
+		coefficients: [0.4, 0.6],
+		coefficientsOn: now,
+		numPracticed: 5
+	},
+	...
+}
+```
+
+It is also possible to process multiple observations at the same time. This is done through
+
+```
+const result = skillLevelSet.processObservations([observation1, observation2, ...])
+```
+
+The result object is a merged collection of all updates. It can be used to update the database.

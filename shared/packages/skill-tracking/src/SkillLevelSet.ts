@@ -2,12 +2,13 @@ import { isPlainObject, fromKeys, pickKeys, repeat, sum } from '@step-wise/utils
 import { binomial } from '@step-wise/math-tools'
 import { type PolynomialExpression, oneMinusPolynomial, substituteIndividualMomentsIntoPolynomial } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'
+import { type SkillSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 
 import type { RawSkillLevel, RawSkillLevelSet, SkillLevelOutput, SkillObservation, SkillLevelUpdate, SkillLevelUpdateSet } from './types'
 import { maxSkillLevelCacheTime } from './settings'
 import { smoothBernsteinCoefficients } from './smoothing'
-import { applyInferenceForSkill } from './inference'
+import { getSetupExpectedValue, getSetupCoefficients, applyInferenceForSkill } from './inference'
 import { SkillLevel } from './SkillLevel'
 
 export class SkillLevelSet {
@@ -47,7 +48,7 @@ export class SkillLevelSet {
 		return linkedSkillIds.every(linkedSkillId => this.hasSkill(linkedSkillId))
 	}
 
-	// Getters for the coefficients (raw and inferred).
+	// Getters for inferred skills.
 
 	private getSmoothedCoefficients(skillId: SkillId): BernsteinCoefficients {
 		return this.getSkillLevelObject(skillId).smoothedCoefficients
@@ -77,7 +78,21 @@ export class SkillLevelSet {
 		return true
 	}
 
-	// Getters for the highest coefficients (raw and inferred).
+	getExpectedValue(skillId: SkillId): number {
+		return getBernsteinExpectedValue(this.getCoefficients(skillId))
+	}
+
+	// Getters for inferred setups.
+
+	getSetupExpectedValue(setup: SkillSetup): number {
+		return getSetupExpectedValue(setup, skillId => this.getSmoothedCoefficients(skillId))
+	}
+
+	getSetupCoefficients(setup: SkillSetup, inferenceOrder?: number): BernsteinCoefficients {
+		return getSetupCoefficients(setup, skillId => this.getSmoothedCoefficients(skillId), inferenceOrder)
+	}
+
+	// Getters for the inferred highest coefficients of skills.
 
 	private getRawHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
 		return this.getSkillLevelObject(skillId).highestCoefficients
@@ -105,6 +120,20 @@ export class SkillLevelSet {
 		if (skill.prerequisites.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).highestOn >= cacheEntry.on)) return false
 		if (skill.linkedSkills.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).highestOn >= cacheEntry.on)) return false
 		return true
+	}
+
+	getHighestExpectedValue(skillId: SkillId): number {
+		return getBernsteinExpectedValue(this.getHighestCoefficients(skillId))
+	}
+
+	// Getters for the inferred highest coefficients of setups.
+
+	getSetupHighestExpectedValue(setup: SkillSetup): number {
+		return getSetupExpectedValue(setup, skillId => this.getRawHighestCoefficients(skillId))
+	}
+
+	getSetupHighestCoefficients(setup: SkillSetup, inferenceOrder: number): BernsteinCoefficients {
+		return getSetupCoefficients(setup, skillId => this.getRawHighestCoefficients(skillId), inferenceOrder)
 	}
 
 	// Aggregated getters for inferred coefficients.
