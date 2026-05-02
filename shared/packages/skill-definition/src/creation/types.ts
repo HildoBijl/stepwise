@@ -1,7 +1,6 @@
-import type { SkillSetup } from '@step-wise/skill-setup'
+import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 
-// Definitions.
-export type SkillId = string
+export type { SkillId } from '@step-wise/skill-setup'
 
 // Raw skills.
 export type Thresholds = { pass?: number } // Threshold legacy

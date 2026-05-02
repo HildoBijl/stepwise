@@ -2,7 +2,8 @@ import { type PolynomialMatrix } from '@step-wise/polynomials'
 
 import { SkillSetup } from '../abstracts/SkillSetup'
 
-export type SkillStorageValue = string
+export type SkillId = string
+export type SkillStorageValue = SkillId
 export type SkillSetupLike = SkillSetup | SkillStorageValue
 
 export class Skill extends SkillSetup<SkillStorageValue> {

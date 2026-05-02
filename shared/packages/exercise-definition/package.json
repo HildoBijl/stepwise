@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/skill-definition",
+	"name": "@step-wise/skill-setup",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
