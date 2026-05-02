@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/exercise-grading",
+	"name": "@step-wise/exercise-selection",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -8,6 +8,9 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
+		"@step-wise/exercise-definition": "file:../exercise-definition",
+		"@step-wise/skill-setup": "file:../skill-setup",
+		"@step-wise/skill-tracking": "file:../skill-tracking",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

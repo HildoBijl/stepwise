@@ -22,7 +22,13 @@ export type ExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction
 export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ExerciseHistoryEvent<TAction, TProgress>[]
 
 // Exercise parameters
-export type ExerciseMetaData = { skill?: SkillId, setup?: SkillSetup }
+export type ExerciseMetaData = {
+	skill?: SkillId,
+	setup?: SkillSetup,
+	setupInferenceOrder?: number,
+	weight?: number,
+	repeatAfter?: number,
+}
 export type ExerciseGenerator<TState extends ExerciseState = ExerciseState> = () => TState
 
 // Exercise reducer
