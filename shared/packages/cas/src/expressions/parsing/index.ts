@@ -1,0 +1,1 @@
+export const temp6 = 3.14159
