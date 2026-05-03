@@ -1,7 +1,8 @@
-import { Integer } from '../nodes'
+import { Integer, Variable } from '../nodes'
+
 import { Expression } from './Expression'
 
-// Define integer constants.
+// Integer constants.
 export const minusOne = new Expression(Integer.minusOne)
 export const zero = new Expression(Integer.zero)
 export const one = new Expression(Integer.one)
@@ -18,3 +19,8 @@ export const eleven = new Expression(Integer.eleven)
 export const twelve = new Expression(Integer.twelve)
 export const twenty = new Expression(Integer.twenty)
 export const hundred = new Expression(Integer.hundred)
+
+// Symbolic constants.
+export const e = new Expression(Variable.e)
+export const pi = new Expression(Variable.pi)
+export const infinity = new Expression(Variable.infinity)
