@@ -5,9 +5,8 @@ import { Constant } from './Constant'
 export class Integer extends Constant {
 	readonly subtype = 'Integer'
 
-	constructor(readonly value: number) {
-		super()
-		ensureInt(value)
+	constructor(value: number) {
+		super(ensureInt(value))
 	}
 
 	static readonly minusOne = new Integer(-1)

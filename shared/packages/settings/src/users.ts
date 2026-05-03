@@ -1,1 +1,1 @@
-export const currentPrivacyPolicyVersion = 3;
+export const currentPrivacyPolicyVersion = 3

@@ -11,4 +11,3 @@ export function nodeToStorageValue(node: ExpressionNode): ExpressionNodeStorageV
 export function constantToStorageValue(node: Constant): ConstantStorageValue {
 	return { subtype: node.subtype as ConstantStorageValue['subtype'],	value: node.value	}
 }
-console.log('Test', nodeToStorageValue)
