@@ -1,0 +1,37 @@
+import { ExpressionNode } from '../nodes'
+import { isConstant } from '../checks'
+import { toString, toTex } from '../printing'
+
+export class Expression {
+	constructor(readonly node: ExpressionNode) { }
+	get subtype() { return this.node.subtype }
+
+	isConstant(): boolean {
+		return isConstant(this.node)
+	}
+
+	/*
+	 * Printing
+	 */
+
+	// Get a string representation.
+	toString(): string {
+		return toString(this.node)
+	}
+	get str() {
+		return this.toString()
+	}
+	print() {
+		console.log(this.toString())
+	}
+
+	// Get a LaTeX representation.
+	toTex() {
+		return toTex(this.node)
+	}
+	get tex() {
+		return this.toTex()
+	}
+
+
+}

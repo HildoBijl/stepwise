@@ -3,8 +3,12 @@ import React from 'react'
 import { getHexColor } from 'ui/theme'
 import { Par, Head, M, BM } from 'ui/components'
 
+import * as c2 from '@step-wise/cas'
+
 import CAS from 'step-wise/CAS'
 import * as Stuff from 'step-wise/CAS/functionalities/Expression'
+
+window.c2 = c2
 
 window.CAS = CAS
 window.Stuff = Stuff
