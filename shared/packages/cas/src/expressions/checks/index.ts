@@ -1,1 +1,1 @@
-export * from './tempFileName'
+export const temp1 = 3.14159

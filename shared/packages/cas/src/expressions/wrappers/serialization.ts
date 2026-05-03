@@ -1,6 +1,6 @@
 import { Variable } from '../nodes'
 
-import { type ExpressionNodeStorageValue, nodeToStorageValue, storageValueToNode } from '../serializationTempFolderName'
+import { type ExpressionNodeStorageValue, nodeToStorageValue, storageValueToNode } from '../serializationTempName'
 
 import { Expression } from './Expression'
 

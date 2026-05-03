@@ -1,14 +1,9 @@
 import { ExpressionNode } from '../nodes'
-import { isConstant } from '../checks'
 import { toString, toTex } from '../printing'
 
 export class Expression {
 	constructor(readonly node: ExpressionNode) { }
 	get subtype() { return this.node.subtype }
-
-	isConstant(): boolean {
-		return isConstant(this.node)
-	}
 
 	/*
 	 * Printing
