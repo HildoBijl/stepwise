@@ -1,4 +1,4 @@
-import { ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power } from '../nodes'
+import { ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction } from '../nodes'
 
 import { ExpressionNodeStorageValue } from './types'
 
@@ -16,31 +16,9 @@ export function storageValueToNode(storageValue: ExpressionNodeStorageValue): Ex
 	if (storageValue.subtype === 'Product') return new Product(storageValue.terms.map(storageValueToNode))
 
 	// Functions
-	// if (storageValue.subtype in Object.keys(functionConstructors)) functionStorageValueToNode(storageValue)
+	if (storageValue.subtype === 'Power') return new Power(storageValueToNode(storageValue.base), storageValueToNode(storageValue.exponent))
+	if (storageValue.subtype === 'Fraction') return new Fraction(storageValueToNode(storageValue.numerator), storageValueToNode(storageValue.denominator))
 
 	// Fallback
 	throw new Error(`Cannot deserialize expression storage value: the subtype of "${JSON.stringify(storageValue)}" has no known deserialization method.`)
 }
-
-// Define the constructors of all the functions that we have.
-// type FunctionConstructor = {
-// 	new (...args: ExpressionNode[]): Function
-// 	argumentNames: readonly string[]
-// }
-// const functionConstructors = {
-// 	Power,
-// 	// Fraction,
-// 	// Root,
-// 	// Sqrt,
-// } satisfies Record<string, FunctionConstructor>
-
-// export function functionStorageValueToNode(value: FunctionStorageValue): Function {
-// 	const Constructor = functionConstructors[value.subtype]
-// 	if (!Constructor) throw new Error(`Cannot deserialize function of subtype "${value.subtype}".`)
-// 	const args = Constructor.argumentNames.map(name => {
-// 		const arg = value[name]
-// 		if (!arg || typeof arg === 'string') throw new Error(`Invalid function storage value: missing argument "${name}" for "${value.subtype}".`)
-// 		return storageValueToNode(arg)
-// 	})
-// 	return new Constructor(...args)
-// }

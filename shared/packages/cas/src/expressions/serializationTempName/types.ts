@@ -1,9 +1,9 @@
 // Constants.
-export type BaseConstantStorageValue = { value: number }
-export type IntegerStorageValue = BaseConstantStorageValue & { subtype: 'Integer' }
-export type FloatStorageValue = BaseConstantStorageValue & { subtype: 'Float' }
+export type BaseConstantNodeStorageValue = { value: number }
+export type IntegerStorageValue = BaseConstantNodeStorageValue & { subtype: 'Integer' }
+export type FloatStorageValue = BaseConstantNodeStorageValue & { subtype: 'Float' }
 export type PlusMinusStorageValue = { subtype: 'PlusMinus' }
-export type ConstantStorageValue = IntegerStorageValue | FloatStorageValue | PlusMinusStorageValue
+export type ConstantNodeStorageValue = IntegerStorageValue | FloatStorageValue | PlusMinusStorageValue
 
 // Variables.
 export type VariableStorageValue = {
@@ -14,15 +14,16 @@ export type VariableStorageValue = {
 }
 
 // Expression lists.
-export type BaseExpressionListStorageValue = { terms: ExpressionNodeStorageValue[] }
+export type BaseListNodeStorageValue = { terms: ExpressionNodeStorageValue[] }
 
-export type SumStorageValue = BaseExpressionListStorageValue & { subtype: 'Sum' }
-export type ProductStorageValue = BaseExpressionListStorageValue & { subtype: 'Product' }
-export type ExpressionListStorageValue = SumStorageValue | ProductStorageValue
+export type SumStorageValue = BaseListNodeStorageValue & { subtype: 'Sum' }
+export type ProductStorageValue = BaseListNodeStorageValue & { subtype: 'Product' }
+export type ListNodeStorageValue = SumStorageValue | ProductStorageValue
 
 // Functions.
 export type PowerStorageValue = { subtype: 'Power', base: ExpressionNodeStorageValue, exponent: ExpressionNodeStorageValue }
-export type FunctionStorageValue = PowerStorageValue
+export type FractionStorageValue = { subtype: 'Fraction', numerator: ExpressionNodeStorageValue, denominator: ExpressionNodeStorageValue }
+export type FunctionNodeStorageValue = PowerStorageValue | FractionStorageValue
 
 // Merge into a general Node type.
-export type ExpressionNodeStorageValue = ConstantStorageValue | VariableStorageValue | ExpressionListStorageValue | FunctionStorageValue
+export type ExpressionNodeStorageValue = ConstantNodeStorageValue | VariableStorageValue | ListNodeStorageValue | FunctionNodeStorageValue
