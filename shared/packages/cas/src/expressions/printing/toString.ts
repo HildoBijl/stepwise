@@ -1,6 +1,6 @@
 import { decimalSeparator } from '../../settings'
 
-import { ExpressionNode, Constant, PlusMinus, Variable, Sum, Product, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, Constant, PlusMinus, Variable, Sum, Product, Power, isMinusOne, isPlusMinus } from '../nodes'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
@@ -11,6 +11,7 @@ export function toString(node: ExpressionNode) {
 	if (node instanceof Variable) return variableToString(node)
 	if (node instanceof Sum) return sumToString(node)
 	if (node instanceof Product) return productToString(node)
+	if (node instanceof Power) return powerToString(node)
 
 	throw new Error(`Invalid toString call: the subtype "${node.subtype}" has no implemented toString method. Could not stringify the object "${node}".`)
 }
@@ -48,4 +49,10 @@ function factorToString(factor: ExpressionNode, index: number, factors: readonly
 	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof Constant)) return `${precursor}±`
 	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `(${toString(factor)})` : toString(factor)
 	return `${precursor}${value}`
+}
+
+function powerToString(node: Power): string {
+	const baseStr = requiresBracketsFor(node.base, bracketLevels.powers, 0) ? `(${toString(node.base)})` : toString(node.base)
+	const exponentStr = requiresBracketsFor(node.exponent, bracketLevels.powers, 1) ? `(${toString(node.exponent)})` : toString(node.exponent)
+	return `${baseStr}^${exponentStr}`
 }

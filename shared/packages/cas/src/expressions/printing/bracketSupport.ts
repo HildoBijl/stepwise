@@ -15,6 +15,7 @@ export function requiresBracketsFor(node: ExpressionNode, level: BracketLevel, i
 	if (node instanceof PlusMinus) return level !== bracketLevels.addition
 	if (node instanceof Sum) return level !== bracketLevels.addition
 	if (node instanceof Product) return level === bracketLevels.division || level === bracketLevels.powers
+	if (node instanceof Function) return level === bracketLevels.powers
 
 	return false
 }

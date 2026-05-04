@@ -1,6 +1,6 @@
 import { decimalSeparatorTex } from '../../settings'
 
-import { ExpressionNode, Constant, PlusMinus, Variable, Sum, Product, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, Constant, PlusMinus, Variable, Sum, Product, Power, isMinusOne, isPlusMinus } from '../nodes'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
@@ -11,6 +11,7 @@ export function toTex(node: ExpressionNode) {
 	if (node instanceof Variable) return variableToTex(node)
 	if (node instanceof Sum) return sumToTex(node)
 	if (node instanceof Product) return productToTex(node)
+	if (node instanceof Power) return powerToTex(node)
 
 	throw new Error(`Invalid toTex call: the subtype "${node.subtype}" has no implemented toTex method.`)
 }
@@ -54,4 +55,9 @@ function factorToTex(factor: ExpressionNode, index: number, factors: readonly Ex
 	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof Constant)) return `${precursor} \\pm `
 	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `\\left(${toTex(factor)}\\right)` : toTex(factor)
 	return `${precursor}${value}`
+}
+
+function powerToTex(node: Power): string {
+	const baseTex = requiresBracketsFor(node.base, bracketLevels.powers, 0)	? `\\left(${toTex(node.base)}\\right)` : toTex(node.base)
+	return `${baseTex}^{${toTex(node.exponent)}}`
 }

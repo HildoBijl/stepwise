@@ -1,5 +1,5 @@
 // Create an object from an array of keys by calling `mapper(key, index, result)` for each key.
-export function fromKeys<T>(keys: string[], mapper: (key: string, index: number, result: Record<string, T>) => T | undefined, filterUndefined = true): Record<string, T> {
+export function fromKeys<T>(keys: readonly string[], mapper: (key: string, index: number, result: Record<string, T>) => T | undefined, filterUndefined = true): Record<string, T> {
   const result: Record<string, T> = {}
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i]

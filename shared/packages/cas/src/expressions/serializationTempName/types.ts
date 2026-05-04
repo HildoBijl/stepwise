@@ -21,6 +21,8 @@ export type ProductStorageValue = BaseExpressionListStorageValue & { subtype: 'P
 export type ExpressionListStorageValue = SumStorageValue | ProductStorageValue
 
 // Functions.
+export type PowerStorageValue = { subtype: 'Power', base: ExpressionNodeStorageValue, exponent: ExpressionNodeStorageValue }
+export type FunctionStorageValue = PowerStorageValue
 
 // Merge into a general Node type.
-export type ExpressionNodeStorageValue = ConstantStorageValue | VariableStorageValue | ExpressionListStorageValue
+export type ExpressionNodeStorageValue = ConstantStorageValue | VariableStorageValue | ExpressionListStorageValue | FunctionStorageValue
