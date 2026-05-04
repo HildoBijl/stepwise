@@ -60,5 +60,5 @@ function powerToString(node: Power): string {
 function functionToString(node: FunctionNode): string {
 	const mainArgument = node.args[0]
 	const extraArgs = node.args.slice(1)
-	return `${node.subtype.toLowerCase()}${extraArgs.map(arg => `[${toString(arg)}]`).join('')}(${toString(mainArgument)})`
+	return `${node.name}${extraArgs.map(arg => `[${toString(arg)}]`).join('')}(${toString(mainArgument)})`
 }

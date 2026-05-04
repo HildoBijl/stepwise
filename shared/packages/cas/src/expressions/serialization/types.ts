@@ -29,5 +29,14 @@ export type LnStorageValue = { subtype: 'Ln', argument: ExpressionNodeStorageVal
 export type LogStorageValue = { subtype: 'Log', argument: ExpressionNodeStorageValue, base: ExpressionNodeStorageValue }
 export type FunctionNodeStorageValue = PowerStorageValue | FractionStorageValue | SqrtStorageValue | RootStorageValue | LnStorageValue | LogStorageValue
 
+// Trigonometry.
+export type SinStorageValue = { subtype: 'Sin', argument: ExpressionNodeStorageValue }
+export type CosStorageValue = { subtype: 'Cos', argument: ExpressionNodeStorageValue }
+export type TanStorageValue = { subtype: 'Tan', argument: ExpressionNodeStorageValue }
+export type ArcsinStorageValue = { subtype: 'Arcsin', argument: ExpressionNodeStorageValue }
+export type ArccosStorageValue = { subtype: 'Arccos', argument: ExpressionNodeStorageValue }
+export type ArctanStorageValue = { subtype: 'Arctan', argument: ExpressionNodeStorageValue }
+export type TrigonometryFunctionStorageValue = SinStorageValue | CosStorageValue | TanStorageValue | ArcsinStorageValue | ArccosStorageValue | ArctanStorageValue
+
 // Merge into a general Node type.
-export type ExpressionNodeStorageValue = ConstantNodeStorageValue | VariableStorageValue | ListNodeStorageValue | FunctionNodeStorageValue
+export type ExpressionNodeStorageValue = ConstantNodeStorageValue | VariableStorageValue | ListNodeStorageValue | FunctionNodeStorageValue | TrigonometryFunctionStorageValue

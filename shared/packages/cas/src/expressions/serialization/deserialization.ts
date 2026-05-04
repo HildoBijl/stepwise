@@ -1,4 +1,4 @@
-import { ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log } from '../nodes'
+import { ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
 
 import { ExpressionNodeStorageValue } from './types'
 
@@ -22,6 +22,14 @@ export function storageValueToNode(storageValue: ExpressionNodeStorageValue): Ex
 	if (storageValue.subtype === 'Root') return new Root(storageValueToNode(storageValue.argument), storageValueToNode(storageValue.base))
 	if (storageValue.subtype === 'Ln') return new Ln(storageValueToNode(storageValue.argument))
 	if (storageValue.subtype === 'Log') return new Log(storageValueToNode(storageValue.argument), storageValueToNode(storageValue.base))
+
+	// Trigonometry
+	if (storageValue.subtype === 'Sin') return new Sin(storageValueToNode(storageValue.argument))
+	if (storageValue.subtype === 'Cos') return new Cos(storageValueToNode(storageValue.argument))
+	if (storageValue.subtype === 'Tan') return new Tan(storageValueToNode(storageValue.argument))
+	if (storageValue.subtype === 'Arcsin') return new Arcsin(storageValueToNode(storageValue.argument))
+	if (storageValue.subtype === 'Arccos') return new Arccos(storageValueToNode(storageValue.argument))
+	if (storageValue.subtype === 'Arctan') return new Arctan(storageValueToNode(storageValue.argument))
 
 	// Fallback
 	throw new Error(`Cannot deserialize expression storage value: the subtype of "${JSON.stringify(storageValue)}" has no known deserialization method.`)

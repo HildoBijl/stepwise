@@ -11,6 +11,10 @@ export abstract class ExpressionNode {
 		if (subtype instanceof ExpressionNode) return this.subtype === subtype.subtype
 		return this.constructor === subtype
 	}
+
+	get name() {
+		return this.subtype.toLowerCase()
+	}
 }
 
 export type ExpressionNodeConstructor = abstract new (...args: never[]) => ExpressionNode

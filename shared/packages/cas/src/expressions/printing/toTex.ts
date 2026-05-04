@@ -78,5 +78,5 @@ function logToTex(node: Log): string {
 }
 
 function singleArgumentFunctionToTex(node: SingleArgumentFunctionNode): string {
-	return `\\${node.subtype.toLowerCase()}\\left(${toTex(node.argument)}\\right)`
+	return `\\${node.name}\\left(${toTex(node.argument)}\\right)`
 }
