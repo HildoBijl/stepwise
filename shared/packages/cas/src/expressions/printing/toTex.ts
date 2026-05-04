@@ -1,6 +1,6 @@
 import { decimalSeparatorTex } from '../../settings'
 
-import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, Root, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, Root, SingleArgumentFunctionNode, isMinusOne, isPlusMinus } from '../nodes'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
@@ -13,6 +13,7 @@ export function toTex(node: ExpressionNode) {
 	if (node instanceof Product) return productToTex(node)
 	if (node instanceof Power) return powerToTex(node)
 	if (node instanceof Root) return rootToTex(node)
+	if (node instanceof SingleArgumentFunctionNode) return singleArgumentFunctionToTex(node)
 	throw new Error(`Invalid toTex call: the subtype "${node.subtype}" has no implemented toTex method.`)
 }
 
@@ -64,4 +65,8 @@ function powerToTex(node: Power): string {
 
 function rootToTex(node: Root): string {
 	return `\\sqrt[${toTex(node.base)}]{${toTex(node.argument)}}`
+}
+
+function singleArgumentFunctionToTex(node: SingleArgumentFunctionNode): string {
+	return `\\${node.subtype.toLowerCase()}\\left(${toTex(node.argument)}\\right)`
 }

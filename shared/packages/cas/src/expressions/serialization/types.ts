@@ -24,7 +24,8 @@ export type ListNodeStorageValue = SumStorageValue | ProductStorageValue
 export type PowerStorageValue = { subtype: 'Power', base: ExpressionNodeStorageValue, exponent: ExpressionNodeStorageValue }
 export type FractionStorageValue = { subtype: 'Fraction', numerator: ExpressionNodeStorageValue, denominator: ExpressionNodeStorageValue }
 export type RootStorageValue = { subtype: 'Root', argument: ExpressionNodeStorageValue, base: ExpressionNodeStorageValue }
-export type FunctionNodeStorageValue = PowerStorageValue | FractionStorageValue | RootStorageValue
+export type LnStorageValue = { subtype: 'Ln', argument: ExpressionNodeStorageValue }
+export type FunctionNodeStorageValue = PowerStorageValue | FractionStorageValue | RootStorageValue | LnStorageValue
 
 // Merge into a general Node type.
 export type ExpressionNodeStorageValue = ConstantNodeStorageValue | VariableStorageValue | ListNodeStorageValue | FunctionNodeStorageValue
