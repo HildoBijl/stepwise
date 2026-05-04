@@ -1,6 +1,6 @@
 import { decimalSeparatorTex } from '../../settings'
 
-import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, Root, SingleArgumentFunctionNode, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, SingleArgumentFunctionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, Sqrt, Root, Log, isMinusOne, isPlusMinus } from '../nodes'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
@@ -12,7 +12,9 @@ export function toTex(node: ExpressionNode) {
 	if (node instanceof Sum) return sumToTex(node)
 	if (node instanceof Product) return productToTex(node)
 	if (node instanceof Power) return powerToTex(node)
+	if (node instanceof Sqrt) return sqrtToTex(node)
 	if (node instanceof Root) return rootToTex(node)
+	if (node instanceof Log) return logToTex(node)
 	if (node instanceof SingleArgumentFunctionNode) return singleArgumentFunctionToTex(node)
 	throw new Error(`Invalid toTex call: the subtype "${node.subtype}" has no implemented toTex method.`)
 }
@@ -63,8 +65,16 @@ function powerToTex(node: Power): string {
 	return `${baseTex}^{${toTex(node.exponent)}}`
 }
 
+function sqrtToTex(node: Sqrt): string {
+	return `\\sqrt{${toTex(node.argument)}}`
+}
+
 function rootToTex(node: Root): string {
 	return `\\sqrt[${toTex(node.base)}]{${toTex(node.argument)}}`
+}
+
+function logToTex(node: Log): string {
+	return `\\log_{${toTex(node.base)}}\\left(${toTex(node.argument)}\\right)`
 }
 
 function singleArgumentFunctionToTex(node: SingleArgumentFunctionNode): string {

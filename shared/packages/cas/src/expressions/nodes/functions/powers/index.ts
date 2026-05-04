@@ -1,3 +1,5 @@
 export * from './Power'
+export * from './Sqrt'
 export * from './Root'
 export * from './Ln'
+export * from './Log'

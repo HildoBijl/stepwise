@@ -1,4 +1,4 @@
-import { ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Root, Ln } from '../nodes'
+import { ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log } from '../nodes'
 
 import { ExpressionNodeStorageValue } from './types'
 
@@ -18,8 +18,10 @@ export function storageValueToNode(storageValue: ExpressionNodeStorageValue): Ex
 	// Functions
 	if (storageValue.subtype === 'Power') return new Power(storageValueToNode(storageValue.base), storageValueToNode(storageValue.exponent))
 	if (storageValue.subtype === 'Fraction') return new Fraction(storageValueToNode(storageValue.numerator), storageValueToNode(storageValue.denominator))
+	if (storageValue.subtype === 'Sqrt') return new Sqrt(storageValueToNode(storageValue.argument))
 	if (storageValue.subtype === 'Root') return new Root(storageValueToNode(storageValue.argument), storageValueToNode(storageValue.base))
 	if (storageValue.subtype === 'Ln') return new Ln(storageValueToNode(storageValue.argument))
+	if (storageValue.subtype === 'Log') return new Log(storageValueToNode(storageValue.argument), storageValueToNode(storageValue.base))
 
 	// Fallback
 	throw new Error(`Cannot deserialize expression storage value: the subtype of "${JSON.stringify(storageValue)}" has no known deserialization method.`)
