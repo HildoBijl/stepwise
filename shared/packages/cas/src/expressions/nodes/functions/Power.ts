@@ -1,9 +1,9 @@
 
 import { ExpressionNode } from '../ExpressionNode'
 
-import { Function } from './Function'
+import { FunctionNode } from './FunctionNode'
 
-export class Power extends Function {
+export class Power extends FunctionNode {
 	static readonly argumentNames = ['base', 'exponent'] as const
 	readonly subtype = 'Power'
 

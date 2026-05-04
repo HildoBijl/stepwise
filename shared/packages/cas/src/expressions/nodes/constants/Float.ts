@@ -1,5 +1,5 @@
-import { Constant } from './Constant'
+import { ConstantNode } from './ConstantNode'
 
-export class Float extends Constant {
+export class Float extends ConstantNode {
 	readonly subtype = 'Float'
 }

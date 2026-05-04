@@ -1,6 +1,6 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-export abstract class Constant extends ExpressionNode {
+export abstract class ConstantNode extends ExpressionNode {
 	constructor(readonly value: number) {
 		super()
 	}

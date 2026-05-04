@@ -1,4 +1,4 @@
-import { type ExpressionNodeStorageValue, nodeToStorageValue, storageValueToNode } from '../serializationTempName'
+import { type ExpressionNodeStorageValue, nodeToStorageValue, storageValueToNode } from '../serialization'
 
 import { Expression } from './Expression'
 

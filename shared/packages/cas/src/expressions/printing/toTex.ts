@@ -1,22 +1,22 @@
 import { decimalSeparatorTex } from '../../settings'
 
-import { ExpressionNode, Constant, PlusMinus, Variable, Sum, Product, Power, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, Root, isMinusOne, isPlusMinus } from '../nodes'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
 
 export function toTex(node: ExpressionNode) {
-	if (node instanceof Constant) return constantToTex(node)
+	if (node instanceof ConstantNode) return constantToTex(node)
 	if (node instanceof PlusMinus) return '\\pm 1'
 	if (node instanceof Variable) return variableToTex(node)
 	if (node instanceof Sum) return sumToTex(node)
 	if (node instanceof Product) return productToTex(node)
 	if (node instanceof Power) return powerToTex(node)
-
+	if (node instanceof Root) return rootToTex(node)
 	throw new Error(`Invalid toTex call: the subtype "${node.subtype}" has no implemented toTex method.`)
 }
 
-function constantToTex(node: Constant): string {
+function constantToTex(node: ConstantNode): string {
 	return `${node.value}`.replace('.', decimalSeparatorTex)
 }
 
@@ -50,14 +50,18 @@ function productToTex(node: Product): string {
 function factorToTex(factor: ExpressionNode, index: number, factors: readonly ExpressionNode[]): string {
 	const previousFactor = index > 0 ? factors[index - 1] : undefined
 	const nextFactor = index < factors.length - 1 ? factors[index + 1] : undefined
-	const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) && (!isMinusOne(previousFactor) || factor instanceof Constant) ? ' \\cdot ' : ''
-	if (nextFactor && isMinusOne(factor) && !(nextFactor instanceof Constant)) return `${precursor}-`
-	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof Constant)) return `${precursor} \\pm `
+	const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) && (!isMinusOne(previousFactor) || factor instanceof ConstantNode) ? ' \\cdot ' : ''
+	if (nextFactor && isMinusOne(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}-`
+	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor} \\pm `
 	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `\\left(${toTex(factor)}\\right)` : toTex(factor)
 	return `${precursor}${value}`
 }
 
 function powerToTex(node: Power): string {
-	const baseTex = requiresBracketsFor(node.base, bracketLevels.powers, 0)	? `\\left(${toTex(node.base)}\\right)` : toTex(node.base)
+	const baseTex = requiresBracketsFor(node.base, bracketLevels.powers, 0) ? `\\left(${toTex(node.base)}\\right)` : toTex(node.base)
 	return `${baseTex}^{${toTex(node.exponent)}}`
+}
+
+function rootToTex(node: Root): string {
+	return `\\sqrt[${toTex(node.base)}]{${toTex(node.argument)}}`
 }

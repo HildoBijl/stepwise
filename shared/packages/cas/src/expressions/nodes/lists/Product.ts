@@ -1,8 +1,8 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-import { ExpressionList } from './ExpressionList'
+import { ListNode } from './ListNode'
 
-export class Product extends ExpressionList {
+export class Product extends ListNode {
 	readonly subtype = 'Product'
 
 	get factors(): readonly ExpressionNode[] {

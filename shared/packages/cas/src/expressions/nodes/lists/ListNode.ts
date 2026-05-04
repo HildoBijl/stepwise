@@ -1,6 +1,6 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-export abstract class ExpressionList extends ExpressionNode {
+export abstract class ListNode extends ExpressionNode {
 	constructor(readonly terms: readonly ExpressionNode[]) {
 		super()
 	}

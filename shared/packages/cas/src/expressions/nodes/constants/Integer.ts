@@ -1,8 +1,8 @@
 import { ensureInt } from '@step-wise/utils'
 
-import { Constant } from './Constant'
+import { ConstantNode } from './ConstantNode'
 
-export class Integer extends Constant {
+export class Integer extends ConstantNode {
 	readonly subtype = 'Integer'
 
 	constructor(value: number) {

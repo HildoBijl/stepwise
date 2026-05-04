@@ -1,22 +1,22 @@
 import { decimalSeparator } from '../../settings'
 
-import { ExpressionNode, Constant, PlusMinus, Variable, Sum, Product, Power, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, FunctionNode, isMinusOne, isPlusMinus } from '../nodes'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
 
 export function toString(node: ExpressionNode) {
-	if (node instanceof Constant) return constantToString(node)
+	if (node instanceof ConstantNode) return constantToString(node)
 	if (node instanceof PlusMinus) return '±1'
 	if (node instanceof Variable) return variableToString(node)
 	if (node instanceof Sum) return sumToString(node)
 	if (node instanceof Product) return productToString(node)
 	if (node instanceof Power) return powerToString(node)
-
+	if (node instanceof FunctionNode) return functionToString(node)
 	throw new Error(`Invalid toString call: the subtype "${node.subtype}" has no implemented toString method. Could not stringify the object "${node}".`)
 }
 
-function constantToString(node: Constant): string {
+function constantToString(node: ConstantNode): string {
 	return `${node.value}`.replace('.', decimalSeparator)
 }
 
@@ -44,9 +44,9 @@ function productToString(node: Product): string {
 function factorToString(factor: ExpressionNode, index: number, factors: readonly ExpressionNode[]): string {
 	const previousFactor = index > 0 ? factors[index - 1] : undefined
 	const nextFactor = index < factors.length - 1 ? factors[index + 1] : undefined
-	const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) && (!isMinusOne(previousFactor) || factor instanceof Constant) ? '*' : ''
-	if (nextFactor && isMinusOne(factor) && !(nextFactor instanceof Constant)) return `${precursor}-`
-	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof Constant)) return `${precursor}±`
+	const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) && (!isMinusOne(previousFactor) || factor instanceof ConstantNode) ? '*' : ''
+	if (nextFactor && isMinusOne(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}-`
+	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}±`
 	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `(${toString(factor)})` : toString(factor)
 	return `${precursor}${value}`
 }
@@ -55,4 +55,10 @@ function powerToString(node: Power): string {
 	const baseStr = requiresBracketsFor(node.base, bracketLevels.powers, 0) ? `(${toString(node.base)})` : toString(node.base)
 	const exponentStr = requiresBracketsFor(node.exponent, bracketLevels.powers, 1) ? `(${toString(node.exponent)})` : toString(node.exponent)
 	return `${baseStr}^${exponentStr}`
+}
+
+function functionToString(node: FunctionNode): string {
+	const mainArgument = node.args[0]
+	const extraArgs = node.args.slice(1)
+	return `${node.subtype.toLowerCase()}${extraArgs.map(arg => `[${toString(arg)}]`).join('')}(${toString(mainArgument)})`
 }

@@ -1,6 +1,6 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-export abstract class Function extends ExpressionNode {
+export abstract class FunctionNode extends ExpressionNode {
 	static readonly argumentNames: readonly string[] = []
 
 	constructor(readonly args: readonly ExpressionNode[]) {
@@ -12,6 +12,6 @@ export abstract class Function extends ExpressionNode {
 	}
 
 	get argumentNames(): readonly string[] {
-		return (this.constructor as typeof Function).argumentNames
+		return (this.constructor as typeof FunctionNode).argumentNames
 	}
 }
