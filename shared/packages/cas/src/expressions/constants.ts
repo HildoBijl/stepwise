@@ -1,4 +1,4 @@
-import { Integer, PlusMinus, Variable } from '../nodes'
+import { Integer, PlusMinus, Variable } from '../core'
 
 import { Expression } from './Expression'
 

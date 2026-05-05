@@ -1,5 +1,4 @@
-import { ExpressionNode } from '../nodes'
-import { toString, toTex } from '../printing'
+import { type ExpressionNode, toString, toTex } from '../core'
 
 export class Expression {
 	constructor(readonly node: ExpressionNode) { }
