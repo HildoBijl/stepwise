@@ -10,7 +10,6 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../math-input-value" },
     { "path": "../math-tools" },
     { "path": "../utils" }
   ],

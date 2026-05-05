@@ -35,6 +35,7 @@
 		"@step-wise/cas": "file:../shared/packages/cas",
     "@step-wise/geometry": "file:../shared/packages/geometry",
     "@step-wise/interpolation": "file:../shared/packages/interpolation",
+    "@step-wise/math-input-value": "file:../shared/packages/math-input-value",
     "@step-wise/math-tools": "file:../shared/packages/math-tools",
     "@step-wise/polynomials": "file:../shared/packages/polynomials",
     "@step-wise/settings": "file:../shared/packages/settings",

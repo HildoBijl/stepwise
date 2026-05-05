@@ -1,4 +1,4 @@
-import { ExpressionNode } from '../../../expressions/nodes/ExpressionNode'
+import { ExpressionNode } from '../ExpressionNode'
 
 import { ListNode } from './ListNode'
 

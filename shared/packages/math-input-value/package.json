@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/cas",
+	"name": "@step-wise/math-input-value",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -8,7 +8,6 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/math-input-value": "file:../math-input-value",
 		"@step-wise/math-tools": "file:../math-tools",
 		"@step-wise/utils": "file:../utils"
 	},

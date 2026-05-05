@@ -15,6 +15,7 @@
 		"@step-wise/exercise-grading": "file:packages/exercise-grading",
 		"@step-wise/geometry": "file:packages/geometry",
 		"@step-wise/interpolation": "file:packages/interpolation",
+		"@step-wise/math-input-value": "file:packages/math-input-value",
 		"@step-wise/math-tools": "file:packages/math-tools",
 		"@step-wise/polynomials": "file:packages/polynomials",
 		"@step-wise/settings": "file:packages/settings",

@@ -1,7 +1,13 @@
+import { mergeDefaults } from '@step-wise/utils'
+import {type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+
 import { type ExpressionNode, toString, toTex } from '../core'
 
 export class Expression {
-	constructor(readonly node: ExpressionNode) { }
+	readonly settings: ExpressionSettings
+	constructor(readonly node: ExpressionNode, settings: Partial<ExpressionSettings> = {}) {
+		this.settings = mergeDefaults(settings, defaultExpressionSettings)
+	}
 	get subtype() { return this.node.subtype }
 
 	/*
@@ -27,5 +33,6 @@ export class Expression {
 		return this.toTex()
 	}
 
+	// ToDo: add a ton more function implementations.
 
 }
