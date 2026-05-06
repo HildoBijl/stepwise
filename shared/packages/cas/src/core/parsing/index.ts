@@ -1,1 +1,2 @@
-export const temp6 = 3.14159
+export * from './fromInputValue'
+export * from './fromString'

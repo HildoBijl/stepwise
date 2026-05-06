@@ -6,7 +6,7 @@ export type SpecialFunctionSettings = {
 	hasParameterAfter?: boolean
 	defaultArguments: ExpressionInputValue[]
 }
-export const advancedFunctionSettings = {
+export const specialFunctionSettings = {
 	frac: {
 		defaultArguments: [getEmptyExpression(), getEmptyExpression()],
 	},
@@ -26,8 +26,8 @@ export const advancedFunctionSettings = {
 } satisfies Record<string, SpecialFunctionSettings>
 
 // Add extra helper types and functions.
-export type AdvancedFunctionName = keyof typeof advancedFunctionSettings
-export const advancedFunctions = Object.keys(advancedFunctionSettings) as AdvancedFunctionName[]
-export function isAdvancedFunction(name: string): name is AdvancedFunctionName {
-	return name in advancedFunctionSettings
+export type SpecialFunctionName = keyof typeof specialFunctionSettings
+export const specialFunctions = Object.keys(specialFunctionSettings) as SpecialFunctionName[]
+export function isSpecialFunction(name: string): name is SpecialFunctionName {
+	return name in specialFunctionSettings
 }

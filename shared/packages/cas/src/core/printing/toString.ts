@@ -1,6 +1,8 @@
 import { decimalSeparator } from '../../settings'
 
-import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, FunctionNode, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, FunctionNode, isMinusOne, isPlusMinus } from '../nodes'
+import { isSum } from '../checks'
+import { applyMinus } from '../manipulation'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
@@ -11,6 +13,7 @@ export function toString(node: ExpressionNode) {
 	if (node instanceof Variable) return variableToString(node)
 	if (node instanceof Sum) return sumToString(node)
 	if (node instanceof Product) return productToString(node)
+	if (node instanceof Fraction) return fractionToString(node)
 	if (node instanceof Power) return powerToString(node)
 	if (node instanceof FunctionNode) return functionToString(node)
 	throw new Error(`Invalid toString call: the subtype "${node.subtype}" has no implemented toString method. Could not stringify the object "${node}".`)
@@ -49,6 +52,16 @@ function factorToString(factor: ExpressionNode, index: number, factors: readonly
 	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}±`
 	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `(${toString(factor)})` : toString(factor)
 	return `${precursor}${value}`
+}
+
+function fractionToString(node: Fraction): string {
+	const useMinus = !requiresPlusInSum(node)
+	const numerator = useMinus ? applyMinus(node.numerator, !isSum(node.numerator)) : node.numerator
+	let numeratorStr = toString(numerator)
+	if (requiresBracketsFor(numerator, bracketLevels.division, 0)) numeratorStr = `(${numeratorStr})`
+	let denominatorStr = toString(node.denominator)
+	if (requiresBracketsFor(node.denominator, bracketLevels.division, 1)) denominatorStr = `(${denominatorStr})`
+	return `${useMinus ? '-' : ''}${numeratorStr}/${denominatorStr}`
 }
 
 function powerToString(node: Power): string {

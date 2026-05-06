@@ -1,6 +1,8 @@
 import { decimalSeparatorTex } from '../../settings'
 
-import { ExpressionNode, SingleArgumentFunctionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Power, Sqrt, Root, Log, isMinusOne, isPlusMinus } from '../nodes'
+import { ExpressionNode, SingleArgumentFunctionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, isMinusOne, isPlusMinus } from '../nodes'
+import { isSum } from '../checks'
+import { applyMinus } from '../manipulation'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
@@ -11,6 +13,7 @@ export function toTex(node: ExpressionNode) {
 	if (node instanceof Variable) return variableToTex(node)
 	if (node instanceof Sum) return sumToTex(node)
 	if (node instanceof Product) return productToTex(node)
+	if (node instanceof Fraction) return fractionToTex(node)
 	if (node instanceof Power) return powerToTex(node)
 	if (node instanceof Sqrt) return sqrtToTex(node)
 	if (node instanceof Root) return rootToTex(node)
@@ -58,6 +61,12 @@ function factorToTex(factor: ExpressionNode, index: number, factors: readonly Ex
 	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor} \\pm `
 	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `\\left(${toTex(factor)}\\right)` : toTex(factor)
 	return `${precursor}${value}`
+}
+
+function fractionToTex(node: Fraction): string {
+	const useMinus = !requiresPlusInSum(node)
+	const numerator = useMinus ? applyMinus(node.numerator, !isSum(node.numerator)) : node.numerator
+	return `${useMinus ? '-' : ''}\\frac{${toTex(numerator)}}{${toTex(node.denominator)}}`
 }
 
 function powerToTex(node: Power): string {

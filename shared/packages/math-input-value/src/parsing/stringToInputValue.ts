@@ -5,15 +5,15 @@ import type { ExpressionInputValue, SubSupInputValue, FunctionInputValue, InputC
 import { getStartCursor, getEndCursor, getSubExpression, moveLeft, moveRight, mergeAdjacentExpressionParts, addExpressionType } from '../utils'
 
 import { squareBrackets, findEndOfTerm, getMatchingBrackets, findCharacterAtZeroBracketCount } from './characterLocalization'
-import { advancedFunctionSettings, isAdvancedFunction } from './functionDefinitions'
+import { specialFunctionSettings, isSpecialFunction } from './functionDefinitions'
 import { accents } from './accentDefinitions'
 
-export function strToInputValue(str: string, settings: Partial<InterpretationSettings> = {}): ExpressionInputValue {
-	return addExpressionType(strToInputValueParts(str, settings))
+export function stringToInputValue(str: string, settings: InterpretationSettings): ExpressionInputValue {
+	return addExpressionType(stringToInputValueParts(str, settings))
 }
 
-export function strToInputValueParts(str: string, settings: Partial<InterpretationSettings> = {}): InputValuePart[] {
-	return processExpression([{ type: 'ExpressionPart', value: removeWhitespace(str) }], mergeDefaults(settings, defaultInterpretationSettings))
+function stringToInputValueParts(str: string, settings: InterpretationSettings): InputValuePart[] {
+	return processExpression([{ type: 'ExpressionPart', value: removeWhitespace(str) }], settings)
 }
 
 function processExpression(value: InputValuePart[], settings: InterpretationSettings): InputValuePart[] {
@@ -57,13 +57,13 @@ function processFunctionsAndAccents(value: InputValuePart[], settings: Interpret
 		end = { ...end, cursor: movingCursor }
 
 		// If the function name corresponds to an acceptable advanced function, apply it.
-		if (isAdvancedFunction(functionName)) {
+		if (isSpecialFunction(functionName)) {
 			// Check the number of arguments and fill it up with defaults if there are too few.
-			const functionSettings = advancedFunctionSettings[functionName]
+			const functionSettings = specialFunctionSettings[functionName]
 			const defaultOptionalArguments = functionSettings.defaultArguments.slice(1)
 			const numOptionalArguments = defaultOptionalArguments.length
 			if (parsedOptionalArguments.length > numOptionalArguments) throw new Error(`Invalid optional parameters: "${functionName}" received ${parsedOptionalArguments.length}, but allows at most ${numOptionalArguments}.`)
-			let finalArguments = defaultOptionalArguments.map((value, index) => parsedOptionalArguments[index] || value)
+			let optionalArguments = defaultOptionalArguments.map((value, index) => parsedOptionalArguments[index] || value)
 
 			// Add the part prior to the function.
 			result.push(...getSubExpression(value, lastPosition, end))
@@ -71,8 +71,8 @@ function processFunctionsAndAccents(value: InputValuePart[], settings: Interpret
 			// Set up the function. If it needs to pull a parameter inside, like "root[3](dot(x))", then do so first.
 			const partBetweenBrackets = getSubExpression(value, moveRight({ part: opening.part, cursor: opening.cursor }), closing)
 			const hasParameterAfter = 'hasParameterAfter' in functionSettings && functionSettings.hasParameterAfter
-			if (!hasParameterAfter) finalArguments = [...finalArguments, addExpressionType(processExpression(partBetweenBrackets, settings))]
-			result.push({ type: 'Function', name: functionName, alias: `${functionName}(`, value: finalArguments })
+			if (!hasParameterAfter) optionalArguments = [...optionalArguments, addExpressionType(processExpression(partBetweenBrackets, settings))]
+			result.push({ type: 'Function', name: functionName, alias: `${functionName}(`, value: optionalArguments })
 
 			// If the part between brackets has not been pulled inside, like for "log[10](dot(x))", process it separately.
 			if (hasParameterAfter) result.push(...processFunctionsAndAccents(partBetweenBrackets, settings))
@@ -142,15 +142,15 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 		let power: ExpressionInputValue
 		if (str[position + 1] === '(') {
 			const end = getBracketEnd(str, position + 1)
-			power = strToInputValue(str.substring(position + 2, end), settings)
+			power = stringToInputValue(str.substring(position + 2, end), settings)
 			position = end + 1
 		} else {
 			const match = str.substring(position + 1).match(/^-?[0-9.]+/)
 			if (match) { // Number power: x^3.14. Use full number.
-				power = strToInputValue(match[0], settings)
+				power = stringToInputValue(match[0], settings)
 				position += 1 + match[0].length
 			} else { // No number power: x^abc. Use one symbol: x^a.
-				power = strToInputValue(str[position + 1], settings)
+				power = stringToInputValue(str[position + 1], settings)
 				position += 2
 			}
 		}
