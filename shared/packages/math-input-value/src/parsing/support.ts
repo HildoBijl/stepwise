@@ -1,8 +1,8 @@
 import { findNextOf, isObject, last, InterpretationError } from '@step-wise/utils'
 
 import type { FunctionInputValue, InputCursorEnd, InputValuePart } from '../types'
-
-import { specialFunctionSettings, isSpecialFunction } from './functionDefinitions'
+import { isExpressionPart } from '../utils'
+import { specialFunctionSettings, isSpecialFunction } from '../definitions'
 
 export const roundBrackets = ['(', ')'] as const
 export const squareBrackets = ['[', ']'] as const
@@ -61,11 +61,9 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 		// Return on a wanted character at bracket count zero.
 		if (bracketCount <= 0 && isWanted(nextSymbol) && (!skipFirst || !isFirst)) return { part: partIterator, cursor: cursorIterator }
 
-		// Adjust bracket count.
+		// Adjust bracket count. Functions with a parameter after them count as a round opening bracket too.
 		if (nextSymbol === brackets[0]) bracketCount += toRight ? 1 : -1
 		else if (nextSymbol === brackets[1]) bracketCount += toRight ? -1 : 1
-
-		// Functions with a parameter after them count as a round opening bracket too.
 		if (isFunctionWithParameterAfter(nextSymbol) && brackets[0] === '(') bracketCount += toRight ? 1 : -1
 
 		// Move to the next symbol.
@@ -105,7 +103,7 @@ export function getMatchingBrackets(value: InputValuePart[]): MatchingBrackets[]
 	value.forEach((element, part) => {
 		// Check for special function that counts as opening bracket.
 		if (isFunctionWithParameterAfter(element)) noteOpeningBracket({ part, cursor: 0 })
-		if (element.type !== 'ExpressionPart') return
+		if (!isExpressionPart(element)) return
 
 		// Walk through the ExpressionPart.
 		const str = element.value

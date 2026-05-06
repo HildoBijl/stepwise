@@ -1,5 +1,5 @@
 import type { ExpressionInputValue } from '../types'
-import { getEmptyExpression, getExpressionWithValue } from '../utils'
+import { getEmptyExpression, getExpressionWith } from '../utils'
 
 // Define for all special functions - those with specific behavior in the input type - what properties they have.
 export type SpecialFunctionSettings = {
@@ -14,14 +14,14 @@ export const specialFunctionSettings = {
 		defaultArguments: [getEmptyExpression(), getEmptyExpression()],
 	},
 	log: {
-		defaultArguments: [getEmptyExpression(), getExpressionWithValue('10')],
+		defaultArguments: [getEmptyExpression(), getExpressionWith('10')],
 		hasParameterAfter: true,
 	},
 	sqrt: {
 		defaultArguments: [getEmptyExpression()],
 	},
 	root: {
-		defaultArguments: [getEmptyExpression(), getExpressionWithValue('2')],
+		defaultArguments: [getEmptyExpression(), getExpressionWith('2')],
 	},
 } satisfies Record<string, SpecialFunctionSettings>
 

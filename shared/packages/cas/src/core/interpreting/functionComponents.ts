@@ -22,7 +22,7 @@ export const basicFunctionComponents = {
 } satisfies Record<string, BasicFunctionConstructor>
 export type BasicFunctionName = keyof typeof basicFunctionComponents
 
-// The functions that are their own type within the SI.
+// The functions that have an own custom type within the InputValue.
 export const specialFunctionComponents = {
 	frac: Fraction,
 	log: Log,

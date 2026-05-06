@@ -1,7 +1,7 @@
 export * from './nodes'
 
 export * from './creation'
-export * from './parsing'
+export * from './interpreting'
 
 export * from './simplification'
 export * from './manipulation'

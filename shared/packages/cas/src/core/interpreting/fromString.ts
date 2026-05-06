@@ -2,6 +2,7 @@ import { type InterpretationSettings, stringToInputValue } from '@step-wise/math
 
 import { inputValueToExpressionNode } from './fromInputValue'
 
+// Turn a string into an ExpressionNode.
 export function stringToExpressionNode(str: string, settings: InterpretationSettings) {
 	return inputValueToExpressionNode(stringToInputValue(str, settings), settings)
 }

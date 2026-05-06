@@ -1,4 +1,4 @@
-import { InterpretationSettings, ExpressionSettings } from '../settings'
+import type { InterpretationSettings, ExpressionSettings } from '../settings'
 
 // The parts of an expression InputValue.
 export type ExpressionPartInputValue = { type: 'ExpressionPart', value: string }

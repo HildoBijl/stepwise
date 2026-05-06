@@ -1,4 +1,2 @@
-export * from './accentDefinitions'
-export * from './functionDefinitions'
-export * from './characterLocalization'
+export * from './support'
 export * from './stringToInputValue'
