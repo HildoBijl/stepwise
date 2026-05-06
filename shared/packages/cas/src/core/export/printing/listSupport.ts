@@ -1,4 +1,4 @@
-import { ExpressionNode, ConstantNode, PlusMinus, Product, FunctionNode, Power, Log } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Product, FunctionNode, Power } from '../../construction'
 
 // Describe whether an expression node requires a plus before it if placed within a sum.
 export function requiresPlusInSum(node: ExpressionNode): boolean {

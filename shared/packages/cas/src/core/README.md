@@ -28,5 +28,3 @@
 - printing: turning an expression into a string.
 - serialization: turning an expression into a storage value.
 
-
-## Wrapper: an object with useful methods

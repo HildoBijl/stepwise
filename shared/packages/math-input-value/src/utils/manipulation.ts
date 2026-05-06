@@ -12,7 +12,7 @@ export function getSubExpression<T = never>(value: (InputValuePart | T)[], left 
 	if (!isExpressionPart(leftElement) || !isExpressionPart(rightElement)) throw new Error('getSubExpression cursors must point to ExpressionPart elements')
 
 	// When the cursors are in the same element, extract the respective part.
-	if (left.part === right.part)	return [{ ...leftElement, value: leftElement.value.substring(left.cursor, right.cursor) }]
+	if (left.part === right.part) return [{ ...leftElement, value: leftElement.value.substring(left.cursor, right.cursor) }]
 
 	// Extract the respective parts from the two elements, and add everything in-between.
 	return [
@@ -27,7 +27,7 @@ export function mergeAdjacentExpressionParts(value: InputValuePart[]): InputValu
 	const result: InputValuePart[] = []
 	value.forEach(part => {
 		const previousPart = last(result, true)
-		if (part.type === 'ExpressionPart' && previousPart?.type === 'ExpressionPart') result[result.length - 1] = { ...previousPart, value: `${previousPart.value}${part.value}` }
+		if (isExpressionPart(part) && isExpressionPart(previousPart)) result[result.length - 1] = { ...previousPart, value: `${previousPart.value}${part.value}` }
 		else result.push(part)
 	})
 	return result

@@ -1,5 +1,5 @@
 import type { ExpressionNode } from './ExpressionNode'
-import { Integer, PlusMinus } from '../../core/nodes/constants'
+import { Integer, PlusMinus } from '../nodes'
 
 export function isMinusOne(node: ExpressionNode): boolean {
 	return node instanceof Integer && node.value === -1

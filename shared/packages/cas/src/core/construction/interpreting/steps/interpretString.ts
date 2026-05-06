@@ -1,7 +1,7 @@
 import { InterpretationError, isLetter } from '@step-wise/utils'
 
-import { asExpressionNode } from '../../creation'
 import { ExpressionNode, Variable } from '../../nodes'
+import { asExpressionNode } from '../../creation'
 
 // Interpret a string like "a2.3bc" as [a, 2.3, b, c].
 const regInvalidSymbols = new RegExp(`[^a-zα-ω0-9.∞]`, 'i')

@@ -1,8 +1,7 @@
-import { decimalSeparatorTex } from '../../settings'
+import { decimalSeparatorTex } from '../../../settings'
 
-import { ExpressionNode, SingleArgumentFunctionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, isMinusOne, isPlusMinus } from '../nodes'
-import { isSum } from '../checks'
-import { applyMinus } from '../manipulation'
+import { ExpressionNode, SingleArgumentFunctionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, isMinusOne, isPlusMinus } from '../../construction'
+import { isSum, applyMinus } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'

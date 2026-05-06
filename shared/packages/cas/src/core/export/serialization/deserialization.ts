@@ -1,4 +1,4 @@
-import { type Accent, ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
+import { type Accent, ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../construction'
 
 import { ExpressionNodeStorageValue } from './types'
 

@@ -1,4 +1,4 @@
 export * from './Expression'
-export * from './parsing'
+export * from './interpreting'
 export * from './serialization'
 export * from './constants'

@@ -1,4 +1,4 @@
-import { ExpressionNode, ConstantNode, PlusMinus, Sum, Product, FunctionNode } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Sum, Product, FunctionNode } from '../../construction'
 
 // Define the various levels of operation urgency, to check if brackets are needed.
 export const bracketLevels = {

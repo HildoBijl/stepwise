@@ -1,4 +1,4 @@
-import { ExpressionNode, ConstantNode, Integer, Float, Sum, Product, Fraction } from '../nodes'
+import { ExpressionNode, ConstantNode, Integer, Float, Sum, Product, Fraction } from '../../../construction'
 
 export function applyMinus(node: ExpressionNode, applySpecific = true): ExpressionNode {
 	if (node instanceof Integer) return new Integer(-node.value)

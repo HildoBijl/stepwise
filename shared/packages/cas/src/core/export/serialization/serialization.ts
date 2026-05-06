@@ -1,6 +1,6 @@
 import { fromKeys } from '@step-wise/utils'
 
-import { ExpressionNode, ConstantNode, PlusMinus, Variable, ListNode, FunctionNode } from '../nodes'
+import { ExpressionNode, ConstantNode, PlusMinus, Variable, ListNode, FunctionNode } from '../../construction'
 
 import type { ConstantNodeStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types'
 
