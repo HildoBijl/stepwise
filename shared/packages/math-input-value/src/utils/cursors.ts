@@ -4,17 +4,17 @@ import type { InputCursorEnd, InputValuePart } from '../types'
 
 import { isExpressionPart, getEmptyExpressionValue } from './fundamentals'
 
-export function sameCursor(a: InputCursorEnd, b: InputCursorEnd): boolean {
+export function equalCursor(a: InputCursorEnd, b: InputCursorEnd): boolean {
 	return a.part === b.part && a.cursor === b.cursor
 }
 
-export function getStartCursor<T = never>(value: (InputValuePart | T)[] = getEmptyExpressionValue()): InputCursorEnd {
+export function getStartCursor<TExtension = never>(value: (InputValuePart | TExtension)[] = getEmptyExpressionValue()): InputCursorEnd {
 	const firstPart = first(value)
 	if (!isExpressionPart(firstPart)) throw new Error(`Could not extract starting cursor position of non-InputValuePart parameter "${JSON.stringify(firstPart)}".`)
 	return { part: 0, cursor: 0 }
 }
 
-export function getEndCursor<T = never>(value: (InputValuePart | T)[] = getEmptyExpressionValue()): InputCursorEnd {
+export function getEndCursor<TExtension = never>(value: (InputValuePart | TExtension)[] = getEmptyExpressionValue()): InputCursorEnd {
 	const lastPart = last(value)
 	if (!isExpressionPart(lastPart)) throw new Error(`Could not extract ending cursor position of non-InputValuePart parameter "${JSON.stringify(lastPart)}".`)
 	return { part: value.length - 1, cursor: lastPart.value.length }

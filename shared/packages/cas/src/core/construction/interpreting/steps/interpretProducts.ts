@@ -1,5 +1,5 @@
 import { InterpretationError } from '@step-wise/utils'
-import { type InputCursorEnd, type InterpretationSettings, getExpressionPartValue, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, sameCursor } from '@step-wise/math-input-value'
+import { type InputCursorEnd, type InterpretationSettings, getExpressionPartValue, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Integer, PlusMinus, Product } from '../../nodes'
 
@@ -29,7 +29,7 @@ export function interpretProducts(value: IntermediateInterpretationPart[], setti
 
 			// Run checks: no times at the start, and no double times.
 			if (end.part === 0 && end.cursor === 0) throw new InterpretationError('Could not interpret the Expression due to it starting with a times operator.', 'TimesAtStart', '*')
-			if (sameCursor(start, end)) throw new InterpretationError('Could not interpret the Expression due to a double times operator.', 'DoubleTimes', '**')
+			if (equalCursor(start, end)) throw new InterpretationError('Could not interpret the Expression due to a double times operator.', 'DoubleTimes', '**')
 
 			// Extract, interpret and add the expression.
 			addFactor(start, end)
@@ -39,7 +39,7 @@ export function interpretProducts(value: IntermediateInterpretationPart[], setti
 
 	// Add the remaining part (assuming there's no times symbol at the end).
 	const end = getEndCursor(value)
-	if (sameCursor(start, end)) throw new InterpretationError('Could not interpret the Expression due to it ending with a times operator.', 'TimesAtEnd', '*')
+	if (equalCursor(start, end)) throw new InterpretationError('Could not interpret the Expression due to it ending with a times operator.', 'TimesAtEnd', '*')
 	addFactor(start, end)
 
 	// Assemble the result in a product.

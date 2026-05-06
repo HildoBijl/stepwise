@@ -6,7 +6,7 @@ import { isExpressionPart } from './fundamentals'
 import { getStartCursor, getEndCursor } from './cursors'
 
 // Take an expression and extract a part from one cursor to another.
-export function getSubExpression<T = never>(value: (InputValuePart | T)[], left = getStartCursor(value), right = getEndCursor(value)): (InputValuePart | T)[] {
+export function getSubExpression<TExtension = never>(value: (InputValuePart | TExtension)[], left = getStartCursor(value), right = getEndCursor(value)): (InputValuePart | TExtension)[] {
 	const leftElement = value[left.part]
 	const rightElement = value[right.part]
 	if (!isExpressionPart(leftElement) || !isExpressionPart(rightElement)) throw new Error('getSubExpression cursors must point to ExpressionPart elements')

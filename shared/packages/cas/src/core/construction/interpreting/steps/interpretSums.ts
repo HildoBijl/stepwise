@@ -1,5 +1,5 @@
 import { InterpretationError, findNextOf } from '@step-wise/utils'
-import { type InputCursorEnd, type InterpretationSettings, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, sameCursor } from '@step-wise/math-input-value'
+import { type InputCursorEnd, type InterpretationSettings, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Integer, PlusMinus, Product, Sum } from '../../nodes'
 
@@ -11,7 +11,7 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 	const terms: ExpressionNode[] = []
 	let symbolBefore = ''
 	const addTerm = (start: InputCursorEnd, end: InputCursorEnd, symbolBefore: string) => {
-		if (sameCursor(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
+		if (equalCursor(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
 		let expression = context.interpretProducts(getSubExpression<ExpressionNode>(value, start, end), settings, context)
 		if (symbolBefore === '-') expression = new Product([Integer.minusOne, expression])
 		if (symbolBefore === '±') expression = new Product([new PlusMinus(), expression])
@@ -30,10 +30,10 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 
 			// Run checks: no plus at the start, and notwo consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (end.part === 0 && end.cursor === 0 && symbolAfter === '+') throw new InterpretationError('Could not interpret the Expression due to it starting with a plus.', 'PlusAtStart', '+')
-			if (sameCursor(start, end) && (symbolBefore === symbolAfter || symbolAfter === '+')) throw new InterpretationError('Could not interpret the Expression due to a double plus/minus.', 'DoublePlusMinus', `${symbolBefore}${symbolAfter}`)
+			if (equalCursor(start, end) && (symbolBefore === symbolAfter || symbolAfter === '+')) throw new InterpretationError('Could not interpret the Expression due to a double plus/minus.', 'DoublePlusMinus', `${symbolBefore}${symbolAfter}`)
 
 			// If we have "2+-3", "2±-3", "2-±3" or similar, jump over the second plus/minus character and incorporate it into the string to be interpreted.
-			if (sameCursor(start, end)) {
+			if (equalCursor(start, end)) {
 				nextPlusMinus = getNextPlusMinus(nextPlusMinus)
 				if (nextPlusMinus === -1) break
 				symbolAfter = str[nextPlusMinus]
@@ -52,7 +52,7 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 
 	// Add the remaining part (assuming there's no plus or minus at the end).
 	const end = getEndCursor(value)
-	if (sameCursor(start, end) && symbolBefore) throw new InterpretationError(`Could not interpret the Expression due to it ending with "${symbolBefore}".`, 'PlusMinusAtEnd', symbolBefore)
+	if (equalCursor(start, end) && symbolBefore) throw new InterpretationError(`Could not interpret the Expression due to it ending with "${symbolBefore}".`, 'PlusMinusAtEnd', symbolBefore)
 	addTerm(start, end, symbolBefore)
 
 	// Assemble the result in a sum.

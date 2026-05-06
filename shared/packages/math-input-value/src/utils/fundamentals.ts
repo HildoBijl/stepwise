@@ -12,7 +12,7 @@ export function isEmptyExpressionValue(value: InputValuePart[]): boolean {
 }
 
 // Getters of properties.
-export function getExpressionPartValue<T = never>(element: ExpressionPartInputValue | T): string {
+export function getExpressionPartValue<TExtension = never>(element: ExpressionPartInputValue | TExtension): string {
 	if (!isExpressionPart(element)) throw new Error(`Invalid case: tried to find a value of an object that was not an expression part.`)
 	return element.value
 }

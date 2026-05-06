@@ -1,7 +1,7 @@
 import { decimalSeparator } from '../../../settings'
 
-import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, FunctionNode, isMinusOne, isPlusMinus } from '../../construction'
-import { isSum, applyMinus } from '../../operations'
+import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, FunctionNode, variableToString } from '../../construction'
+import { isSum, isPlusMinus, isMinusOne, applyMinus } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
@@ -20,13 +20,6 @@ export function toString(node: ExpressionNode) {
 
 function constantToString(node: ConstantNode): string {
 	return `${node.value}`.replace('.', decimalSeparator)
-}
-
-function variableToString(node: Variable): string {
-	let result = node.symbol
-	if (node.accent) result = `${node.accent}(${result})`
-	if (node.subscript) result = node.subscript.length > 1 ? `${result}_(${node.subscript})` : `${result}_${node.subscript}`
-	return result
 }
 
 function sumToString(node: Sum): string {
