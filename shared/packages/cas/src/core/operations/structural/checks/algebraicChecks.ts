@@ -1,9 +1,16 @@
-import { ExpressionNode } from '../../../construction'
+import { ExpressionNode, Variable } from '../../../construction'
 
 import { someDescendant } from '../traversal'
+import { isFloat, isInteger, isPlusMinus, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../typing'
 
-import { isFloat, isInteger, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower } from './typeChecks'
-import { hasVariables } from './dependencyChecks'
+// Typing to distinguish numeric and non-numeric variables.
+export function isNumericVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && (equalVariables(node, Variable.pi) || equalVariables(node, Variable.e) || equalVariables(node, Variable.infinity)) }
+export function isVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && !isNumericVariable(node) }
+
+// Check if an expression contains variables.
+export function hasVariables(node: ExpressionNode): boolean {
+	return someDescendant(node, isVariable, true)
+}
 
 // Check if an expression is numeric: no variables except known numeric constants.
 export function isNumeric(node: ExpressionNode): boolean {
@@ -29,6 +36,7 @@ export function isPolynomial(node: ExpressionNode): boolean {
 	if (isVariable(node)) return true
 	if (isSum(node)) return node.terms.every(isPolynomial)
 	if (isProduct(node)) return node.factors.every(isPolynomial)
+	if (isFraction(node)) return isPolynomial(node.numerator) && isNumeric(node.denominator)
 	if (isPower(node)) return isPolynomial(node.base) && isInteger(node.exponent) && node.exponent.value >= 0
 	return false
 }
@@ -36,9 +44,9 @@ export function isPolynomial(node: ExpressionNode): boolean {
 // Structural rational check.
 export function isRational(node: ExpressionNode): boolean {
 	if (isPolynomial(node)) return true
-	if (isFraction(node)) return isRational(node.numerator) && isRational(node.denominator)
 	if (isSum(node)) return node.terms.every(isRational)
 	if (isProduct(node)) return node.factors.every(isRational)
+	if (isFraction(node)) return isRational(node.numerator) && isRational(node.denominator)
 	if (isPower(node)) return isRational(node.base) && isInteger(node.exponent)
 	return false
 }

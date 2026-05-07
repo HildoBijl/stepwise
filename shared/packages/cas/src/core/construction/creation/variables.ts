@@ -37,8 +37,3 @@ export function variableToString(node: Variable): string {
 export function ensureVariable(variable: string | Variable): Variable {
 	return typeof variable === 'string' ? stringToVariable(variable) : variable
 }
-
-// Check variable equality.
-export function equalVariables(a: Variable, b: Variable): boolean {
-	return a.symbol === b.symbol && a.subscript === b.subscript && a.accent === b.accent
-}

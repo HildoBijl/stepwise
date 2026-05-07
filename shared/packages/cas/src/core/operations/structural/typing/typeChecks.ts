@@ -1,4 +1,4 @@
-import { ExpressionNode, ConstantNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, Variable, PlusMinus, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan, equalVariables } from '../../../construction'
+import { ExpressionNode, ConstantNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, Variable, PlusMinus, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
 
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }
@@ -12,8 +12,6 @@ export function isInteger(node: ExpressionNode): node is Integer { return node i
 export function isFloat(node: ExpressionNode): node is Float { return node instanceof Float }
 export function isVariableNode(node: ExpressionNode): node is Variable { return node instanceof Variable }
 export function isPlusMinus(node: ExpressionNode): node is PlusMinus { return node instanceof PlusMinus }
-export function isNumericVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && (equalVariables(node, Variable.pi) || equalVariables(node, Variable.e) || equalVariables(node, Variable.infinity)) }
-export function isVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && !isNumericVariable(node) }
 
 // Lists.
 export function isSum(node: ExpressionNode): node is Sum { return node instanceof Sum }

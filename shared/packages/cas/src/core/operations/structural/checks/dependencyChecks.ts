@@ -1,8 +1,9 @@
-import { ExpressionNode, Variable, variableToString, ensureVariable, equalVariables } from '../../../construction'
+import { ExpressionNode, Variable, variableToString, ensureVariable } from '../../../construction'
 
 import { someDescendant, everyDescendant, forEachDescendant } from '../traversal'
+import { equalVariables } from '../typing'
 
-import { isVariable } from './typeChecks'
+import { isVariable } from './algebraicChecks'
 
 // Get all variable strings occurring in an expression.
 export function getVariableStrings(node: ExpressionNode): Set<string> {
@@ -16,11 +17,6 @@ export function getVariables(node: ExpressionNode): Variable[] {
 	const variables: Record<string, Variable> = {}
 	forEachDescendant(node, descendant => { if (isVariable(descendant)) variables[variableToString(descendant)] = descendant }, true)
 	return Object.keys(variables).sort().map(key => variables[key])
-}
-
-// Check if an expression contains variables.
-export function hasVariables(node: ExpressionNode): boolean {
-	return someDescendant(node, isVariable, true)
 }
 
 // Check if an expression depends on a given variable.

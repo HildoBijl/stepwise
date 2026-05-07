@@ -2,7 +2,7 @@ import { first, compareNumbers } from '@step-wise/utils'
 
 import { ExpressionNode, ConstantNode, Integer, Float } from '../../../construction'
 
-import { isInteger, isFloat, isConstantNode, isSum, isProduct, isFraction } from './typeChecks'
+import { isInteger, isFloat, isConstantNode, isSum, isProduct, isFraction } from '../typing'
 
 // Constants.
 export function isZero(node: ExpressionNode): node is Integer { return isInteger(node) && node.value === 0 }

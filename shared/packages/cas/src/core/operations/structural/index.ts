@@ -1,4 +1,6 @@
+export * from './comparisonSettings'
 export * from './traversal'
+export * from './typing'
 export * from './checks'
-export * from './comparisons'
+export * from './numeric'
 export * from './manipulation'

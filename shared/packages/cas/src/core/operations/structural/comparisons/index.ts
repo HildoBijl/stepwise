@@ -1,1 +1,0 @@
-export const temp2 = 3.14159
