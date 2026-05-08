@@ -34,6 +34,7 @@ export function variableToString(node: Variable): string {
 }
 
 // Ensure that a string or Variable is a Variable object.
-export function ensureVariable(variable: string | Variable): Variable {
+export type VariableInput = Variable | string
+export function asVariable(variable: VariableInput): Variable {
 	return typeof variable === 'string' ? stringToVariable(variable) : variable
 }

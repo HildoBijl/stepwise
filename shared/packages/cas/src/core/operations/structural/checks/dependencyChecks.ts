@@ -1,4 +1,4 @@
-import { ExpressionNode, Variable, variableToString, ensureVariable } from '../../../construction'
+import { type VariableInput, ExpressionNode, Variable, variableToString, asVariable } from '../../../construction'
 
 import { someDescendant, everyDescendant, forEachDescendant, equalVariables } from '../fundamentals'
 
@@ -19,8 +19,8 @@ export function getVariables(node: ExpressionNode): Variable[] {
 }
 
 // Check if an expression depends on a given variable.
-export function dependsOn(node: ExpressionNode, variable: Variable | string): boolean {
-	const variableNode = ensureVariable(variable)
+export function dependsOn(node: ExpressionNode, variable: VariableInput): boolean {
+	const variableNode = asVariable(variable)
 	return someDescendant(node, descendant => isVariable(descendant) && equalVariables(variableNode, descendant), true)
 }
 
@@ -31,6 +31,6 @@ export function dependsOnAny(node: ExpressionNode, variables: (Variable | string
 
 // Check if an expression depends only on the given variables.
 export function dependsOnlyOn(node: ExpressionNode, variables: (Variable | string)[]): boolean {
-	const allowedVariables = new Set(variables.map(variable => variableToString(ensureVariable(variable))))
+	const allowedVariables = new Set(variables.map(variable => variableToString(asVariable(variable))))
 	return everyDescendant(node, descendant => !isVariable(descendant) || allowedVariables.has(variableToString(descendant)), true)
 }

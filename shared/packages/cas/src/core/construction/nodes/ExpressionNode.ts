@@ -1,10 +1,5 @@
 export abstract class ExpressionNode {
-	readonly type = 'Expression'
 	abstract readonly subtype: string
-
-	get children(): readonly ExpressionNode[] {
-		return []
-	}
 
 	isSubtype(subtype: string | ExpressionNode | ExpressionNodeConstructor): boolean {
 		if (typeof subtype === 'string') return this.subtype === subtype
@@ -14,6 +9,15 @@ export abstract class ExpressionNode {
 
 	get name() {
 		return this.subtype.toLowerCase()
+	}
+
+	get children(): readonly ExpressionNode[] {
+		return []
+	}
+
+	recreateWithChildren(children: readonly ExpressionNode[]): ExpressionNode {
+		if (children.length !== 0) throw new Error(`Cannot recreate "${this.subtype}" with children.`)
+		return this
 	}
 }
 

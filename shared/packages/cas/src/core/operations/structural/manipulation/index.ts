@@ -1,1 +1,3 @@
-export const temp5 = 1
+export * from './arithmetic'
+export * from './replacing'
+export * from './substitution'

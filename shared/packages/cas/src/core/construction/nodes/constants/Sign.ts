@@ -11,4 +11,9 @@ export class Sign extends ExpressionNode {
 	override get children(): readonly ExpressionNode[] {
 		return [this.node]
 	}
+
+	override recreateWithChildren(children: readonly ExpressionNode[]): ExpressionNode {
+		if (children[0] === this.node) return this
+		return new Sign(children[0], this.negative, this.plusMinus)
+	}
 }

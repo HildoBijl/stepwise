@@ -1,11 +1,17 @@
-import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power } from '../construction'
+import { defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-export type ParserTestCase = {
+import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToExpressionNode } from '../../construction'
+import { equalNodes } from '../../operations'
+
+import { toString } from './toString'
+
+type ParserTestCase = {
 	str: string
 	node: ExpressionNode
 }
 
-export const parserTestCases: ParserTestCase[] = [
+// Define bidirectional test cases: the string should give the node and vice versa.
+const parserTestCases: ParserTestCase[] = [
 	// Numbers
 	{ str: '2', node: integer(2) },
 	{ str: '-2', node: integer(-2) },
@@ -68,3 +74,17 @@ export const parserTestCases: ParserTestCase[] = [
 	{ str: 'x/y^z', node: fraction('x', power('y', 'z')) },
 	{ str: 'x^(y/z)', node: power('x', fraction('y', 'z')) },
 ]
+
+// Test printing: does the node give the string?
+describe('toString', () => {
+	test.each(parserTestCases)('prints "$str"', ({ str, node }) => {
+		expect(toString(node)).toBe(str)
+	})
+})
+
+// Test parsing: does the string give the node?
+describe('stringToExpressionNode', () => {
+	test.each(parserTestCases)('interprets "$str"', ({ str, node }) => {
+		expect(equalNodes(stringToExpressionNode(str, defaultInterpretationSettings), node)).toBe(true)
+	})
+})
