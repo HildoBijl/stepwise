@@ -5,7 +5,9 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -b",
-		"watch": "tsc -b --watch"
+		"watch": "tsc -b --watch",
+		"test": "jest",
+		"test:watch": "jest --watch"
 	},
 	"dependencies": {
 		"@step-wise/math-input-value": "file:../math-input-value",

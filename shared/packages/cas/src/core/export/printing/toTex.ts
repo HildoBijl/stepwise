@@ -26,7 +26,7 @@ function constantToTex(node: ConstantNode): string {
 }
 
 function signToTex(node: Sign): string {
-	const nodeTex = addBrackets(toTex(node.node), requiresBracketsFor(node.node, bracketLevels.multiplication))
+	const nodeTex = addBrackets(toTex(node.node), requiresBracketsFor(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeTex}`
 }
 function getSignSymbol(node: Sign): string {
@@ -51,21 +51,18 @@ function variableToTex(node: Variable): string {
 function sumToTex(node: Sum): string {
 	return node.terms.map((term, index) => {
 		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
-		const termTex = addBrackets(toTex(term), requiresBracketsFor(term, bracketLevels.addition, index))
+		const termTex = addBrackets(toTex(term), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termTex}`
 	}).join('')
 }
 
 function productToTex(node: Product): string {
-	return node.factors.map((factor, index) => factorToTex(factor, index, node.factors)).join('')
-}
-
-function factorToTex(factor: ExpressionNode, index: number, factors: readonly ExpressionNode[]): string {
-	const previousFactor = index > 0 ? factors[index - 1] : undefined
-	const nextFactor = index < factors.length - 1 ? factors[index + 1] : undefined
-	const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) ? ' \\cdot ' : ''
-	const factorTex = addBrackets(toTex(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index))
-	return `${precursor}${factorTex}`
+	return node.factors.map((factor, index) => {
+		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
+		const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) ? ' \\cdot ' : ''
+		const factorTex = addBrackets(toTex(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
+		return `${precursor}${factorTex}`
+	}).join('')
 }
 
 function fractionToTex(node: Fraction): string {
@@ -73,7 +70,7 @@ function fractionToTex(node: Fraction): string {
 }
 
 function powerToTex(node: Power): string {
-	const baseTex = addBrackets(toTex(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0))
+	const baseTex = addBrackets(toTex(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0, 2))
 	return `${baseTex}^{${toTex(node.exponent)}}`
 }
 

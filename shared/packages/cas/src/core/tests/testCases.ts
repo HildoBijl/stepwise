@@ -1,0 +1,70 @@
+import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power } from '../construction'
+
+export type ParserTestCase = {
+	str: string
+	node: ExpressionNode
+}
+
+export const parserTestCases: ParserTestCase[] = [
+	// Numbers
+	{ str: '2', node: integer(2) },
+	{ str: '-2', node: integer(-2) },
+	{ str: '±2', node: plusMinus(2) },
+	{ str: '-(-(-2))', node: negative(negative(negative(2))) },
+
+	// Variables
+	{ str: 'x', node: variable('x') },
+	{ str: 'x_2', node: variable('x', '2') },
+	{ str: 'hat(x)', node: variable('x', undefined, 'hat') },
+	{ str: 'dot(x)_1', node: variable('x', '1', 'dot') },
+	{ str: 'x_(1,2)', node: variable('x', '1,2') },
+
+	// Sums
+	{ str: '2+3', node: sum(2, 3) },
+	{ str: '2-3', node: sum(2, -3) },
+	{ str: '-2+3', node: sum(-2, 3) },
+	{ str: '2+(3+4)', node: sum(2, sum(3, 4)) },
+	{ str: '(x+y)+z', node: sum(sum('x', 'y'), 'z') },
+
+	// Products (Some tests do not give the original node after a jump through a string. This is still a work-in-progress.)
+	{ str: '2x', node: product(2, 'x') },
+	{ str: 'x*2', node: product('x', 2) },
+	{ str: '-2x', node: negative(product(2, 'x')) },
+	{ str: '(-2)x', node: product(-2, 'x') },
+	{ str: 'x*-2', node: product('x', -2) },
+	{ str: '2(3*4)', node: product(2, product(3, 4)) },
+	{ str: '(2*3)*4', node: product(product(2, 3), 4) },
+	{ str: 'x(yz)', node: product('x', product('y', 'z')) },
+	{ str: '(xy)z', node: product(product('x', 'y'), 'z') },
+	// { str: 'xy*-z', node: product('x', 'y', negative('z')) },
+	{ str: '(xy)*-z', node: product(product('x', 'y'), negative('z')) },
+	{ str: 'x*-yz', node: product('x', negative(product('y', 'z'))) },
+	// { str: 'x*(-y)z', node: product('x', negative('y'), 'z') },
+	{ str: 'x((-y)z)', node: product('x', product(negative('y'), 'z')) },
+
+	// Fractions
+	{ str: '2/3', node: fraction(2, 3) },
+	{ str: '-2/3', node: negative(fraction(2, 3)) },
+	{ str: '(-2)/3', node: fraction(-2, 3) },
+	{ str: '2*3/4', node: product(2, fraction(3, 4)) },
+	{ str: '2/3/4', node: fraction(fraction(2, 3), 4) },
+	{ str: '2/3*4', node: product(fraction(2, 3), 4) },
+	{ str: '2*3/4*5', node: product(2, fraction(3, 4), 5) },
+	{ str: '2/3/4*5', node: product(fraction(fraction(2, 3), 4), 5) },
+	{ str: '2/3*4/5', node: product(fraction(2, 3), fraction(4, 5)) },
+	{ str: '2*3/4/5', node: product(2, fraction(fraction(3, 4), 5)) },
+	{ str: '2-3*4/5', node: sum(2, negative(product(3, fraction(4, 5)))) },
+
+	// Powers
+	{ str: 'x^y', node: power('x', 'y') },
+	{ str: '2^34', node: power(2, 34) },
+	{ str: 'x^y*z', node: product(power('x', 'y'), 'z') },
+	{ str: '23^4', node: power(23, 4) },
+	{ str: 'x*y^z', node: product('x', power('y', 'z')) },
+	{ str: 'x^y*z^w', node: product(power('x', 'y'), power('z', 'w')) },
+	{ str: '(x^y)^z', node: power(power('x', 'y'), 'z') },
+	{ str: 'x^(y^z)', node: power('x', power('y', 'z')) },
+	{ str: 'x^y/z', node: fraction(power('x', 'y'), 'z') },
+	{ str: 'x/y^z', node: fraction('x', power('y', 'z')) },
+	{ str: 'x^(y/z)', node: power('x', fraction('y', 'z')) },
+]

@@ -1,6 +1,10 @@
-import { Sum, Product, Fraction, Power, Root, Ln, Sqrt, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
+import { Sign, Sum, Product, Fraction, Power, Root, Ln, Sqrt, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
 
-import { type ExpressionNodeInput, asExpressionNode } from './basicTypes'
+import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode'
+
+// Constants.
+export const negative = (value: ExpressionNodeInput) => new Sign(asExpressionNode(value), true)
+export const plusMinus = (value: ExpressionNodeInput) => new Sign(asExpressionNode(value), false, true)
 
 // Expression lists.
 export const sum = (...terms: ExpressionNodeInput[]) => new Sum(terms.map(asExpressionNode))

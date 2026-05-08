@@ -23,7 +23,7 @@ function constantToString(node: ConstantNode): string {
 }
 
 function signToString(node: Sign): string {
-	const nodeStr = addBrackets(toString(node.node), requiresBracketsFor(node.node, bracketLevels.multiplication))
+	const nodeStr = addBrackets(toString(node.node), requiresBracketsFor(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeStr}`
 }
 function getSignSymbol(node: Sign): string {
@@ -35,31 +35,29 @@ function getSignSymbol(node: Sign): string {
 function sumToString(node: Sum): string {
 	return node.terms.map((term, index) => {
 		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
-		const termStr = addBrackets(toString(term), requiresBracketsFor(term, bracketLevels.addition, index))
+		const termStr = addBrackets(toString(term), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termStr}`
 	}).join('')
 }
 
 function productToString(node: Product): string {
-	return node.factors.map((factor, index) => factorToString(factor, index, node.factors)).join('')
-}
-
-function factorToString(factor: ExpressionNode, index: number, factors: readonly ExpressionNode[]): string {
-	const previousFactor = index > 0 ? factors[index - 1] : undefined
-	const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) ? '*' : ''
-	const factorStr = addBrackets(toString(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index))
-	return `${precursor}${factorStr}`
+	return node.factors.map((factor, index) => {
+		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
+		const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) ? '*' : ''
+		const factorStr = addBrackets(toString(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
+		return `${precursor}${factorStr}`
+	}).join('')
 }
 
 function fractionToString(node: Fraction): string {
-	const numeratorStr = addBrackets(toString(node.numerator), requiresBracketsFor(node.numerator, bracketLevels.division, 0))
-	const denominatorStr = addBrackets(toString(node.denominator), requiresBracketsFor(node.denominator, bracketLevels.division, 1))
+	const numeratorStr = addBrackets(toString(node.numerator), requiresBracketsFor(node.numerator, bracketLevels.division, 0, 2))
+	const denominatorStr = addBrackets(toString(node.denominator), requiresBracketsFor(node.denominator, bracketLevels.division, 1, 2))
 	return `${numeratorStr}/${denominatorStr}`
 }
 
 function powerToString(node: Power): string {
-	const baseStr = addBrackets(toString(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0))
-	const exponentStr = addBrackets(toString(node.exponent), requiresBracketsFor(node.exponent, bracketLevels.powers, 1))
+	const baseStr = addBrackets(toString(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0, 2))
+	const exponentStr = addBrackets(toString(node.exponent), requiresBracketsFor(node.exponent, bracketLevels.powers, 1, 2))
 	return `${baseStr}^${exponentStr}`
 }
 

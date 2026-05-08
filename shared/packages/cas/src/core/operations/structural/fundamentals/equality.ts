@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults, compareNumbers } from '@step-wise/utils'
 
 import type { ExpressionNode, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
@@ -16,7 +16,7 @@ export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSetti
 }
 
 export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {
-	return a.constructor === b.constructor && a.value === b.value
+	return a.constructor === b.constructor && compareNumbers(a.value, b.value)
 }
 
 export function equalVariables(a: Variable, b: Variable): boolean {

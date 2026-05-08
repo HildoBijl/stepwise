@@ -1,1 +1,1 @@
-export * from './applyMinus'
+export const temp5 = 1
