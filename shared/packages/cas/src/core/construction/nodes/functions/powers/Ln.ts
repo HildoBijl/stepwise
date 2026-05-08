@@ -1,7 +1,7 @@
 import { ExpressionNode } from '../../ExpressionNode'
 import { Variable } from '../../Variable'
 
-import { SingleArgumentFunctionNode } from '../SingleArgumentFunctionNode'
+import { SingleArgumentFunctionNode } from '../abstracts'
 
 export class Ln extends SingleArgumentFunctionNode {
 	readonly subtype = 'Ln'

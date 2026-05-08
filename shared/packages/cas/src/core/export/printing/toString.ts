@@ -1,20 +1,20 @@
 import { decimalSeparator } from '../../../settings'
 
-import { ExpressionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, FunctionNode, variableToString } from '../../construction'
-import { isSum, isPlusMinus, isMinusOne, applyMinus } from '../../operations'
+import { ExpressionNode, ConstantNode, Sign, Sum, Product, Fraction, Power, FunctionNode, variableToString } from '../../construction'
+import { isConstantNode, isSign, isVariableNode, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
 
 export function toString(node: ExpressionNode) {
-	if (node instanceof ConstantNode) return constantToString(node)
-	if (node instanceof PlusMinus) return '±1'
-	if (node instanceof Variable) return variableToString(node)
-	if (node instanceof Sum) return sumToString(node)
-	if (node instanceof Product) return productToString(node)
-	if (node instanceof Fraction) return fractionToString(node)
-	if (node instanceof Power) return powerToString(node)
-	if (node instanceof FunctionNode) return functionToString(node)
+	if (isConstantNode(node)) return constantToString(node)
+	if (isSign(node)) return signToString(node)
+	if (isVariableNode(node)) return variableToString(node)
+	if (isSum(node)) return sumToString(node)
+	if (isProduct(node)) return productToString(node)
+	if (isFraction(node)) return fractionToString(node)
+	if (isPower(node)) return powerToString(node)
+	if (isFunctionNode(node)) return functionToString(node)
 	throw new Error(`Invalid toString call: the subtype "${node.subtype}" has no implemented toString method. Could not stringify the object "${node}".`)
 }
 
@@ -22,48 +22,53 @@ function constantToString(node: ConstantNode): string {
 	return `${node.value}`.replace('.', decimalSeparator)
 }
 
+function signToString(node: Sign): string {
+	const nodeStr = addBrackets(toString(node.node), requiresBracketsFor(node.node, bracketLevels.multiplication))
+	return `${getSignSymbol(node)}${nodeStr}`
+}
+function getSignSymbol(node: Sign): string {
+	if (node.plusMinus) return '±'
+	if (node.negative) return '-'
+	throw new Error(`Invalid Sign: cannot have a sign that is neither negative nor plus-minus.`)
+}
+
 function sumToString(node: Sum): string {
 	return node.terms.map((term, index) => {
 		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
-		const value = requiresBracketsFor(term, bracketLevels.addition, index) ? `(${toString(term)})` : toString(term)
-		return `${prefix}${value}`
+		const termStr = addBrackets(toString(term), requiresBracketsFor(term, bracketLevels.addition, index))
+		return `${prefix}${termStr}`
 	}).join('')
 }
 
 function productToString(node: Product): string {
-	const hasPlusMinus = node.factors.some(isPlusMinus)
-	const factors = hasPlusMinus ? node.factors.filter(factor => !isPlusMinus(factor)) : node.factors
-	return `${hasPlusMinus ? '±' : ''}${factors.map((factor, index) => factorToString(factor, index, factors)).join('')}`
+	return node.factors.map((factor, index) => factorToString(factor, index, node.factors)).join('')
 }
 
 function factorToString(factor: ExpressionNode, index: number, factors: readonly ExpressionNode[]): string {
 	const previousFactor = index > 0 ? factors[index - 1] : undefined
-	const nextFactor = index < factors.length - 1 ? factors[index + 1] : undefined
-	const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) && (!isMinusOne(previousFactor) || factor instanceof ConstantNode) ? '*' : ''
-	if (nextFactor && isMinusOne(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}-`
-	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}±`
-	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `(${toString(factor)})` : toString(factor)
-	return `${precursor}${value}`
+	const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) ? '*' : ''
+	const factorStr = addBrackets(toString(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index))
+	return `${precursor}${factorStr}`
 }
 
 function fractionToString(node: Fraction): string {
-	const useMinus = !requiresPlusInSum(node)
-	const numerator = useMinus ? applyMinus(node.numerator, !isSum(node.numerator)) : node.numerator
-	let numeratorStr = toString(numerator)
-	if (requiresBracketsFor(numerator, bracketLevels.division, 0)) numeratorStr = `(${numeratorStr})`
-	let denominatorStr = toString(node.denominator)
-	if (requiresBracketsFor(node.denominator, bracketLevels.division, 1)) denominatorStr = `(${denominatorStr})`
-	return `${useMinus ? '-' : ''}${numeratorStr}/${denominatorStr}`
+	const numeratorStr = addBrackets(toString(node.numerator), requiresBracketsFor(node.numerator, bracketLevels.division, 0))
+	const denominatorStr = addBrackets(toString(node.denominator), requiresBracketsFor(node.denominator, bracketLevels.division, 1))
+	return `${numeratorStr}/${denominatorStr}`
 }
 
 function powerToString(node: Power): string {
-	const baseStr = requiresBracketsFor(node.base, bracketLevels.powers, 0) ? `(${toString(node.base)})` : toString(node.base)
-	const exponentStr = requiresBracketsFor(node.exponent, bracketLevels.powers, 1) ? `(${toString(node.exponent)})` : toString(node.exponent)
+	const baseStr = addBrackets(toString(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0))
+	const exponentStr = addBrackets(toString(node.exponent), requiresBracketsFor(node.exponent, bracketLevels.powers, 1))
 	return `${baseStr}^${exponentStr}`
 }
 
 function functionToString(node: FunctionNode): string {
-	const mainArgument = node.args[0]
-	const extraArgs = node.args.slice(1)
-	return `${node.name}${extraArgs.map(arg => `[${toString(arg)}]`).join('')}(${toString(mainArgument)})`
+	const mainArgument = toString(node.args[0])
+	const extraArgs = node.args.slice(1).map(arg => toString(arg))
+	return `${node.name}${extraArgs.map(arg => `[${arg}]`).join('')}(${mainArgument})`
+}
+
+function addBrackets(str: string, addBrackets = true) {
+	return addBrackets ? `(${str})` : str
 }

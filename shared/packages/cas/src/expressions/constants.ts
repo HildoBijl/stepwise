@@ -1,4 +1,4 @@
-import { Integer, PlusMinus, Variable } from '../core'
+import { Integer, Variable } from '../core'
 
 import { Expression } from './Expression'
 
@@ -19,9 +19,6 @@ export const eleven = new Expression(Integer.eleven)
 export const twelve = new Expression(Integer.twelve)
 export const twenty = new Expression(Integer.twenty)
 export const hundred = new Expression(Integer.hundred)
-
-// Other constants.
-export const plusMinus = new Expression(new PlusMinus())
 
 // Symbolic constants.
 export const e = new Expression(Variable.e)

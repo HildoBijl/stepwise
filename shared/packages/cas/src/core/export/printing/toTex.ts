@@ -1,28 +1,38 @@
 import { decimalSeparatorTex } from '../../../settings'
 
-import { ExpressionNode, SingleArgumentFunctionNode, ConstantNode, PlusMinus, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log } from '../../construction'
-import { isSum, isPlusMinus, isMinusOne, applyMinus } from '../../operations'
+import { ExpressionNode, ConstantNode, Sign, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
+import { isConstantNode, isSign, isVariableNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
 
 export function toTex(node: ExpressionNode) {
-	if (node instanceof ConstantNode) return constantToTex(node)
-	if (node instanceof PlusMinus) return '\\pm 1'
-	if (node instanceof Variable) return variableToTex(node)
-	if (node instanceof Sum) return sumToTex(node)
-	if (node instanceof Product) return productToTex(node)
-	if (node instanceof Fraction) return fractionToTex(node)
-	if (node instanceof Power) return powerToTex(node)
-	if (node instanceof Sqrt) return sqrtToTex(node)
-	if (node instanceof Root) return rootToTex(node)
-	if (node instanceof Log) return logToTex(node)
-	if (node instanceof SingleArgumentFunctionNode) return singleArgumentFunctionToTex(node)
+	if (isConstantNode(node)) return constantToTex(node)
+	if (isSign(node)) return signToTex(node)
+	if (isVariableNode(node)) return variableToTex(node)
+	if (isSum(node)) return sumToTex(node)
+	if (isProduct(node)) return productToTex(node)
+	if (isFraction(node)) return fractionToTex(node)
+	if (isPower(node)) return powerToTex(node)
+	if (isSqrt(node)) return sqrtToTex(node)
+	if (isRoot(node)) return rootToTex(node)
+	if (isLog(node)) return logToTex(node)
+	if (isSingleArgumentFunctionNode(node)) return singleArgumentFunctionToTex(node)
 	throw new Error(`Invalid toTex call: the subtype "${node.subtype}" has no implemented toTex method.`)
 }
 
 function constantToTex(node: ConstantNode): string {
 	return `${node.value}`.replace('.', decimalSeparatorTex)
+}
+
+function signToTex(node: Sign): string {
+	const nodeTex = addBrackets(toTex(node.node), requiresBracketsFor(node.node, bracketLevels.multiplication))
+	return `${getSignSymbol(node)}${nodeTex}`
+}
+function getSignSymbol(node: Sign): string {
+	if (node.plusMinus) return '\\pm '
+	if (node.negative) return '-'
+	throw new Error(`Invalid Sign: cannot have a sign that is neither negative nor plus-minus.`)
 }
 
 function variableToTex(node: Variable): string {
@@ -41,35 +51,29 @@ function variableToTex(node: Variable): string {
 function sumToTex(node: Sum): string {
 	return node.terms.map((term, index) => {
 		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
-		const value = requiresBracketsFor(term, bracketLevels.addition, index) ? `\\left(${toTex(term)}\\right)` : toTex(term)
-		return `${prefix}${value}`
+		const termTex = addBrackets(toTex(term), requiresBracketsFor(term, bracketLevels.addition, index))
+		return `${prefix}${termTex}`
 	}).join('')
 }
 
 function productToTex(node: Product): string {
-	const hasPlusMinus = node.factors.some(isPlusMinus)
-	const factors = hasPlusMinus ? node.factors.filter(factor => !isPlusMinus(factor)) : node.factors
-	return `${hasPlusMinus ? ' \\pm ' : ''}${factors.map((factor, index) => factorToTex(factor, index, factors)).join('')}`
+	return node.factors.map((factor, index) => factorToTex(factor, index, node.factors)).join('')
 }
 
 function factorToTex(factor: ExpressionNode, index: number, factors: readonly ExpressionNode[]): string {
 	const previousFactor = index > 0 ? factors[index - 1] : undefined
 	const nextFactor = index < factors.length - 1 ? factors[index + 1] : undefined
-	const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) && (!isMinusOne(previousFactor) || factor instanceof ConstantNode) ? ' \\cdot ' : ''
-	if (nextFactor && isMinusOne(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor}-`
-	if (nextFactor && isPlusMinus(factor) && !(nextFactor instanceof ConstantNode)) return `${precursor} \\pm `
-	const value = requiresBracketsFor(factor, bracketLevels.multiplication, index) ? `\\left(${toTex(factor)}\\right)` : toTex(factor)
-	return `${precursor}${value}`
+	const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) ? ' \\cdot ' : ''
+	const factorTex = addBrackets(toTex(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index))
+	return `${precursor}${factorTex}`
 }
 
 function fractionToTex(node: Fraction): string {
-	const useMinus = !requiresPlusInSum(node)
-	const numerator = useMinus ? applyMinus(node.numerator, !isSum(node.numerator)) : node.numerator
-	return `${useMinus ? '-' : ''}\\frac{${toTex(numerator)}}{${toTex(node.denominator)}}`
+	return `\\frac{${toTex(node.numerator)}}{${toTex(node.denominator)}}`
 }
 
 function powerToTex(node: Power): string {
-	const baseTex = requiresBracketsFor(node.base, bracketLevels.powers, 0) ? `\\left(${toTex(node.base)}\\right)` : toTex(node.base)
+	const baseTex = addBrackets(toTex(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0))
 	return `${baseTex}^{${toTex(node.exponent)}}`
 }
 
@@ -86,5 +90,9 @@ function logToTex(node: Log): string {
 }
 
 function singleArgumentFunctionToTex(node: SingleArgumentFunctionNode): string {
-	return `\\${node.name}\\left(${toTex(node.argument)}\\right)`
+	return `\\${node.name}${addBrackets(toTex(node.argument))}`
+}
+
+function addBrackets(str: string, addBrackets = true) {
+	return addBrackets ? `\\left(${str}\\right)` : str
 }

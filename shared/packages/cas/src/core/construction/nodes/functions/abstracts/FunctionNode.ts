@@ -1,4 +1,4 @@
-import { ExpressionNode } from '../ExpressionNode'
+import { ExpressionNode } from '../../ExpressionNode'
 
 export abstract class FunctionNode extends ExpressionNode {
 	static readonly argumentNames: readonly string[] = []

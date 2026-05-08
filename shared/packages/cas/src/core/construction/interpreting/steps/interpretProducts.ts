@@ -1,7 +1,7 @@
 import { InterpretationError } from '@step-wise/utils'
 import { type InputCursorEnd, type InterpretationSettings, getExpressionPartValue, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Integer, PlusMinus, Product } from '../../nodes'
+import { ExpressionNode, Sign, Product } from '../../nodes'
 
 import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
 
@@ -14,7 +14,7 @@ export function interpretProducts(value: IntermediateInterpretationPart[], setti
 		const minusAfterTimes = firstChar === '-' || firstChar === '±'
 		const shiftedStart = minusAfterTimes ? moveRight(start) : start
 		let expression = context.interpretStringsAndElements(getSubExpression<ExpressionNode>(value, shiftedStart, end), settings, context)
-		if (minusAfterTimes) expression = firstChar === '-' ? new Product([Integer.minusOne, expression]) : new Product([new PlusMinus(), expression])
+		if (minusAfterTimes) expression = firstChar === '-' ? new Sign(expression, true) : new Sign(expression, false, true)
 		factors.push(expression)
 	}
 

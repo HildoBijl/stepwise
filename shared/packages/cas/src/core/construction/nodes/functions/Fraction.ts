@@ -1,7 +1,7 @@
 import { ExpressionNode } from '../ExpressionNode'
 import { Integer } from '../constants'
 
-import { FunctionNode } from './FunctionNode'
+import { FunctionNode } from './abstracts'
 
 export class Fraction extends FunctionNode {
 	static readonly argumentNames = ['numerator', 'denominator'] as const

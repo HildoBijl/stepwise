@@ -1,6 +1,6 @@
 import { ExpressionNode } from '../../ExpressionNode'
 
-import { FunctionNode } from '../FunctionNode'
+import { FunctionNode } from '../abstracts'
 
 export class Root extends FunctionNode {
 	static readonly argumentNames = ['argument', 'base'] as const

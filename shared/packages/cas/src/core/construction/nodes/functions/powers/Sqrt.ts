@@ -1,7 +1,7 @@
 import { ExpressionNode } from '../../ExpressionNode'
 import { Integer } from '../../constants'
 
-import { SingleArgumentFunctionNode } from '../SingleArgumentFunctionNode'
+import { SingleArgumentFunctionNode } from '../abstracts'
 
 export class Sqrt extends SingleArgumentFunctionNode {
 	readonly subtype = 'Sqrt'

@@ -1,6 +1,6 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-import { SingleArgumentFunctionNode } from './SingleArgumentFunctionNode'
+import { SingleArgumentFunctionNode } from './abstracts'
 
 export class Sin extends SingleArgumentFunctionNode {
 	readonly subtype = 'Sin'

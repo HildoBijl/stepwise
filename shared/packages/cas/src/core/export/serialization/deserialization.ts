@@ -1,4 +1,6 @@
-import { type Accent, ExpressionNode, Integer, Float, PlusMinus, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../construction'
+import { type AccentName } from '@step-wise/math-input-value'
+
+import { ExpressionNode, Sign, Integer, Float, Variable, Sum, Product, Power, Fraction, Sqrt, Root, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../construction'
 
 import { ExpressionNodeStorageValue } from './types'
 
@@ -6,10 +8,10 @@ export function storageValueToNode(storageValue: ExpressionNodeStorageValue): Ex
 	// Constants
 	if (storageValue.subtype === 'Integer') return new Integer(storageValue.value)
 	if (storageValue.subtype === 'Float') return new Float(storageValue.value)
-	if (storageValue.subtype === 'PlusMinus') return new PlusMinus()
+	if (storageValue.subtype === 'Sign') return new Sign(storageValueToNode(storageValue.node), storageValue.negative, storageValue.plusMinus)
 
 	// Variables
-	if (storageValue.subtype === 'Variable') return new Variable(storageValue.symbol, storageValue.subscript, storageValue.accent as Accent)
+	if (storageValue.subtype === 'Variable') return new Variable(storageValue.symbol, storageValue.subscript, storageValue.accent as AccentName)
 
 	// Expression lists
 	if (storageValue.subtype === 'Sum') return new Sum(storageValue.terms.map(storageValueToNode))

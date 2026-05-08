@@ -1,6 +1,6 @@
 import { ExpressionNode, Variable, numericVariables } from '../../../construction'
 
-import { someDescendant, isFloat, isInteger, isPlusMinus, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../fundamentals'
+import { someDescendant, isSign, isFloat, isInteger, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../fundamentals'
 
 // Typing to distinguish numeric and non-numeric variables.
 export function isNumericVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && numericVariables.some(variable => equalVariables(node, variable)) }
@@ -23,7 +23,7 @@ export function hasFloat(node: ExpressionNode): boolean {
 
 // Check if an expression is plural-valued or single-valued.
 export function isPlural(node: ExpressionNode): boolean {
-	return someDescendant(node, descendant => isPlusMinus(descendant), true)
+	return someDescendant(node, descendant => isSign(descendant) && descendant.plusMinus, true)
 }
 export function isSingular(node: ExpressionNode): boolean {
 	return !isPlural(node)

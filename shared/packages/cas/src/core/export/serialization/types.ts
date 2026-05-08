@@ -2,20 +2,14 @@
 export type BaseConstantNodeStorageValue = { value: number }
 export type IntegerStorageValue = BaseConstantNodeStorageValue & { subtype: 'Integer' }
 export type FloatStorageValue = BaseConstantNodeStorageValue & { subtype: 'Float' }
-export type PlusMinusStorageValue = { subtype: 'PlusMinus' }
-export type ConstantNodeStorageValue = IntegerStorageValue | FloatStorageValue | PlusMinusStorageValue
+export type ConstantNodeStorageValue = IntegerStorageValue | FloatStorageValue
+export type SignStorageValue = { subtype: 'Sign', node: ExpressionNodeStorageValue, negative?: true, plusMinus?: true }
 
 // Variables.
-export type VariableStorageValue = {
-	subtype: 'Variable'
-	symbol: string
-	subscript?: string
-	accent?: string
-}
+export type VariableStorageValue = { subtype: 'Variable', symbol: string, subscript?: string, accent?: string }
 
 // Expression lists.
 export type BaseListNodeStorageValue = { terms: ExpressionNodeStorageValue[] }
-
 export type SumStorageValue = BaseListNodeStorageValue & { subtype: 'Sum' }
 export type ProductStorageValue = BaseListNodeStorageValue & { subtype: 'Product' }
 export type ListNodeStorageValue = SumStorageValue | ProductStorageValue
@@ -39,4 +33,4 @@ export type ArctanStorageValue = { subtype: 'Arctan', argument: ExpressionNodeSt
 export type TrigonometryFunctionStorageValue = SinStorageValue | CosStorageValue | TanStorageValue | ArcsinStorageValue | ArccosStorageValue | ArctanStorageValue
 
 // Merge into a general Node type.
-export type ExpressionNodeStorageValue = ConstantNodeStorageValue | VariableStorageValue | ListNodeStorageValue | FunctionNodeStorageValue | TrigonometryFunctionStorageValue
+export type ExpressionNodeStorageValue = ConstantNodeStorageValue | SignStorageValue | VariableStorageValue | ListNodeStorageValue | FunctionNodeStorageValue | TrigonometryFunctionStorageValue

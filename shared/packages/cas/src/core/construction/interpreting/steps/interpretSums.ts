@@ -1,7 +1,7 @@
 import { InterpretationError, findNextOf } from '@step-wise/utils'
 import { type InputCursorEnd, type InterpretationSettings, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Integer, PlusMinus, Product, Sum } from '../../nodes'
+import { ExpressionNode, Sign, Integer, Product, Sum } from '../../nodes'
 
 import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
 
@@ -13,8 +13,8 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 	const addTerm = (start: InputCursorEnd, end: InputCursorEnd, symbolBefore: string) => {
 		if (equalCursor(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
 		let expression = context.interpretProducts(getSubExpression<ExpressionNode>(value, start, end), settings, context)
-		if (symbolBefore === '-') expression = new Product([Integer.minusOne, expression])
-		if (symbolBefore === '±') expression = new Product([new PlusMinus(), expression])
+		if (symbolBefore === '-') expression = new Sign(expression, true)
+		if (symbolBefore === '±') expression = new Sign(expression, false, true)
 		terms.push(expression)
 	}
 
