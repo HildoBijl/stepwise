@@ -1,10 +1,9 @@
-import { ExpressionNode, Variable } from '../../../construction'
+import { ExpressionNode, Variable, numericVariables } from '../../../construction'
 
-import { someDescendant } from '../traversal'
-import { isFloat, isInteger, isPlusMinus, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../typing'
+import { someDescendant, isFloat, isInteger, isPlusMinus, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../fundamentals'
 
 // Typing to distinguish numeric and non-numeric variables.
-export function isNumericVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && (equalVariables(node, Variable.pi) || equalVariables(node, Variable.e) || equalVariables(node, Variable.infinity)) }
+export function isNumericVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && numericVariables.some(variable => equalVariables(node, variable)) }
 export function isVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && !isNumericVariable(node) }
 
 // Check if an expression contains variables.

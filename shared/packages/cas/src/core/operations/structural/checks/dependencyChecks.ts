@@ -1,7 +1,6 @@
 import { ExpressionNode, Variable, variableToString, ensureVariable } from '../../../construction'
 
-import { someDescendant, everyDescendant, forEachDescendant } from '../traversal'
-import { equalVariables } from '../typing'
+import { someDescendant, everyDescendant, forEachDescendant, equalVariables } from '../fundamentals'
 
 import { isVariable } from './algebraicChecks'
 

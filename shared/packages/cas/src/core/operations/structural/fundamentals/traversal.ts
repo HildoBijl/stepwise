@@ -1,4 +1,4 @@
-import { ExpressionNode } from '../../construction'
+import { ExpressionNode } from '../../../construction'
 
 // Non-recursive checks on children.
 export function someChild(node: ExpressionNode, check: (node: ExpressionNode) => boolean, includeSelf = false): boolean {

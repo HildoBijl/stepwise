@@ -1,6 +1,3 @@
-export * from './comparisonSettings'
-export * from './traversal'
-export * from './typing'
+export * from './fundamentals'
 export * from './checks'
-export * from './numeric'
 export * from './manipulation'

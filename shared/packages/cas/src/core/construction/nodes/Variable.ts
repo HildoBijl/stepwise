@@ -15,3 +15,4 @@ export class Variable extends ExpressionNode {
 	static readonly pi = new Variable('π')
 	static readonly infinity = new Variable('∞')
 }
+export const numericVariables = [Variable.e, Variable.pi, Variable.infinity]

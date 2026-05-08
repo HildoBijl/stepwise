@@ -2,8 +2,7 @@ import { mergeDefaults } from '@step-wise/utils'
 
 import type { ExpressionNode, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
-import { type ComparisonSettings, defaultComparisonSettings } from '../comparisonSettings'
-
+import { type ComparisonSettings, defaultComparisonSettings } from './comparisonSettings'
 import { isConstantNode, isFunctionNode, isListNode, isVariableNode } from './typeChecks'
 
 export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
