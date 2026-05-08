@@ -7,4 +7,8 @@ export class Sign extends ExpressionNode {
 		super()
 		if (!negative && !plusMinus) throw new Error(`Sign object that is neither negative nor a plus-minus is not allowed.`)
 	}
+
+	override get children(): readonly ExpressionNode[] {
+		return [this.node]
+	}
 }

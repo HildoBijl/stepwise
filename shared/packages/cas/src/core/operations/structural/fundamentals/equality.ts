@@ -7,11 +7,11 @@ import { isConstantNode, isFunctionNode, isListNode, isVariableNode } from './ty
 
 export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
 	const settings = mergeDefaults(comparisonSettings, defaultComparisonSettings)
-	if (a.constructor !== b.constructor) return false
 	if (isConstantNode(a) && isConstantNode(b)) return equalConstants(a, b)
 	if (isVariableNode(a) && isVariableNode(b)) return equalVariables(a, b)
 	if (isListNode(a) && isListNode(b)) return equalLists(a, b, settings)
 	if (isFunctionNode(a) && isFunctionNode(b)) return equalFunctions(a, b, settings)
+	if (a.constructor !== b.constructor) return false
 	return a.children.length === 0 && b.children.length === 0
 }
 

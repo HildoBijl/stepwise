@@ -1,9 +1,9 @@
 import { ExpressionNode } from '../../construction'
-import { isConstantNode, isSign, isProduct, isFunctionNode, isPower } from '../../operations'
+import { isConstantNode, isSignNode, isProduct, isFunctionNode, isPower } from '../../operations'
 
 // Describe whether an expression node requires a plus before it if placed within a sum.
 export function requiresPlusInSum(node: ExpressionNode): boolean {
-	if (isSign(node)) return false
+	if (isSignNode(node)) return false
 	if (isProduct(node)) return requiresPlusInSum(node.factors[0])
 	return true
 }
@@ -11,7 +11,7 @@ export function requiresPlusInSum(node: ExpressionNode): boolean {
 // Describe whether an expression node requires a times before it if placed within a product.
 export function requiresTimesBeforeInProduct(node: ExpressionNode, previousNode: ExpressionNode): boolean {
 	if (isConstantNode(node)) return true
-	if (isSign(node)) return true
+	if (isSignNode(node)) return true
 	if (isFunctionNode(node)) return true
 	return false
 }

@@ -3,7 +3,7 @@ import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/m
 
 import { type ExpressionNode, Variable, variableToString } from '../../../construction'
 
-import { isConstantNode, isSign, isVariableNode, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
+import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
 import { equalVariables } from './equality'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
@@ -14,7 +14,7 @@ export function toNumber(node: ExpressionNode, settings: Partial<ExpressionSetti
 
 function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): number {
 	// Constants
-	if (isSign(node)) {
+	if (isSignNode(node)) {
 		if (node.plusMinus) throw new Error('Invalid toNumber call: cannot turn a plus-minus into a single number.')
 		const value = toNumberInternal(node.node, settings)
 		return node.negative ? -value : value

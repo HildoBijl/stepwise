@@ -1,14 +1,14 @@
 import { decimalSeparator } from '../../../settings'
 
 import { ExpressionNode, ConstantNode, Sign, Sum, Product, Fraction, Power, FunctionNode, variableToString } from '../../construction'
-import { isConstantNode, isSign, isVariableNode, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
+import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
 
 export function toString(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToString(node)
-	if (isSign(node)) return signToString(node)
+	if (isSignNode(node)) return signToString(node)
 	if (isVariableNode(node)) return variableToString(node)
 	if (isSum(node)) return sumToString(node)
 	if (isProduct(node)) return productToString(node)

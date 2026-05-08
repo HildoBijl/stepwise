@@ -8,9 +8,9 @@ export function isFunctionNode(node: ExpressionNode): node is FunctionNode { ret
 export function isSingleArgumentFunctionNode(node: ExpressionNode): node is SingleArgumentFunctionNode { return node instanceof SingleArgumentFunctionNode }
 
 // Constants and variables.
-export function isSign(node: ExpressionNode): node is Sign { return node instanceof Sign }
-export function isInteger(node: ExpressionNode): node is Integer { return node instanceof Integer }
-export function isFloat(node: ExpressionNode): node is Float { return node instanceof Float }
+export function isSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign }
+export function isIntegerNode(node: ExpressionNode): node is Integer { return node instanceof Integer }
+export function isFloatNode(node: ExpressionNode): node is Float { return node instanceof Float }
 export function isVariableNode(node: ExpressionNode): node is Variable { return node instanceof Variable }
 
 // Lists.

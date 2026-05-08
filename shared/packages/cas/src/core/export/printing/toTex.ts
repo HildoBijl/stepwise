@@ -1,14 +1,14 @@
 import { decimalSeparatorTex } from '../../../settings'
 
 import { ExpressionNode, ConstantNode, Sign, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
-import { isConstantNode, isSign, isVariableNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
+import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
 
 export function toTex(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToTex(node)
-	if (isSign(node)) return signToTex(node)
+	if (isSignNode(node)) return signToTex(node)
 	if (isVariableNode(node)) return variableToTex(node)
 	if (isSum(node)) return sumToTex(node)
 	if (isProduct(node)) return productToTex(node)
