@@ -2,6 +2,6 @@ import { type ExpressionNode, type Product, Integer } from '../../../../construc
 
 import { isZero } from '../../../structural'
 
-export function removeTimesZeroFromProduct(node: Product): ExpressionNode {
+export function reduceProductsWithZero(node: Product): ExpressionNode {
 	return node.factors.some(isZero) ? Integer.zero : node
 }

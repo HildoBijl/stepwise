@@ -19,7 +19,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Product options.
 	flattenProducts: false, // Turn x*(y*z) into x*y*z.
 	removeTrivialProducts: false, // Turn a product with zero or one element into 1 or said element, respectively.
-	removeTimesZeroFromProduct: false, // Turn "[...]*0" into "0".
+	reduceProductsWithZero: false, // Turn "[...]*0" into "0".
 	removeTimesOneFromProducts: false, // Remove "*1" from products.
 	pullPlusMinusToFront: false, // Within products pull the plus/minus symbol to the front and merge multiple plus/minus symbols.
 	mergeProductNumbers: false, // Reduce the number of numbers that are used in products. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z.
@@ -31,13 +31,13 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	expandProductsOfSumsWithinSums: false, // Applies expandProductsOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandProductsOfSums is on, this is ignored.
 
 	// Fraction options.
-	removeZeroNumeratorFromFractions: false, // Turn 0/x into 0.
-	removeOneDenominatorFromFractions: false, // Turn x/1 into 1 and x/(-1) into -x.
+	reduceFractionsWithZeroNumerator: false, // Turn 0/x into 0.
+	reduceFractionsWithOneDenominator: false, // Turn x/1 into 1 and x/(-1) into -x.
 	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
 	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
-	cancelFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
+	mergeFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	cancelFractionFactors: false, // Cancel factors inside fractions. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
 	pullConstantPartOutOfFractions: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
@@ -116,10 +116,10 @@ module.exports.elementaryClean = { ...noSimplify, ...elementaryClean }
 const removeUseless = {
 	...elementaryClean,
 	removePlusZeroFromSums: true,
-	removeTimesZeroFromProduct: true,
+	reduceProductsWithZero: true,
 	removeTimesOneFromProducts: true,
-	removeZeroNumeratorFromFractions: true,
-	removeOneDenominatorFromFractions: true,
+	reduceFractionsWithZeroNumerator: true,
+	reduceFractionsWithOneDenominator: true,
 	removeZeroExponentFromPower: true,
 	removeZeroBaseFromPower: true,
 	removeOneExponentFromPower: true,
@@ -148,7 +148,7 @@ const regularClean = {
 	...basicClean,
 	sortProducts: true,
 	groupSumTerms: true,
-	cancelFractionNumbers: true,
+	mergeFractionNumbers: true,
 	cancelFractionFactors: true,
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,

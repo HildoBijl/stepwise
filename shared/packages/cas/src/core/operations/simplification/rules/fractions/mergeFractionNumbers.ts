@@ -6,7 +6,7 @@ import { isIntegerNode } from '../../../structural'
 
 import { getSumTerms, getLeadingNumber, divideLeadingNumberBy } from '../utils'
 
-export function cancelFractionNumbers(node: Fraction): ExpressionNode {
+export function mergeFractionNumbers(node: Fraction): ExpressionNode {
 	const terms = [...getSumTerms(node.numerator), ...getSumTerms(node.denominator)]
 	const leadingNumbers = terms.map(getLeadingNumber)
 	if (!leadingNumbers.every(isIntegerNode)) return node

@@ -8,13 +8,13 @@ const z = variable('z')
 
 describe('fraction simplification', () => {
 	test('removes zero numerator from fractions', () => {
-		expectSimplifyToGive(fraction(0, x), 0, { removeZeroNumeratorFromFractions: true })
-		expectSimplifyToGive(fraction(0, sum(x, y)), 0, { removeZeroNumeratorFromFractions: true })
+		expectSimplifyToGive(fraction(0, x), 0, { reduceFractionsWithZeroNumerator: true })
+		expectSimplifyToGive(fraction(0, sum(x, y)), 0, { reduceFractionsWithZeroNumerator: true })
 	})
 
 	test('removes one denominator from fractions', () => {
-		expectSimplifyToGive(fraction(x, 1), x, { removeOneDenominatorFromFractions: true })
-		expectSimplifyToGive(fraction(sum(x, y), 1), sum(x, y), { removeOneDenominatorFromFractions: true })
+		expectSimplifyToGive(fraction(x, 1), x, { reduceFractionsWithOneDenominator: true })
+		expectSimplifyToGive(fraction(sum(x, y), 1), sum(x, y), { reduceFractionsWithOneDenominator: true })
 	})
 
 	test('merges fraction products', () => {
@@ -43,9 +43,9 @@ describe('fraction simplification', () => {
 	})
 
 	test('cancels fraction minuses', () => {
-		expectSimplifyToGive(fraction(negative(x), negative(y)), fraction(x, y), { cancelFractionMinuses: true })
-		expectSimplifyToGive(fraction(negative(x), y), negative(fraction(x, y)), { cancelFractionMinuses: true })
-		expectSimplifyToGive(fraction(x, negative(y)), negative(fraction(x, y)), { cancelFractionMinuses: true })
+		expectSimplifyToGive(fraction(negative(x), negative(y)), fraction(x, y), { mergeFractionMinuses: true })
+		expectSimplifyToGive(fraction(negative(x), y), negative(fraction(x, y)), { mergeFractionMinuses: true })
+		expectSimplifyToGive(fraction(x, negative(y)), negative(fraction(x, y)), { mergeFractionMinuses: true })
 	})
 
 	test('normalizes fraction minuses', () => {
@@ -56,9 +56,9 @@ describe('fraction simplification', () => {
 	})
 
 	test('cancels fraction numbers', () => {
-		expectSimplifyToGive(fraction(6, 9), fraction(2, 3), { cancelFractionNumbers: true })
-		expectSimplifyToGive(fraction(product(6, x), product(9, y)), fraction(product(2, x), product(3, y)), { cancelFractionNumbers: true })
-		expectSimplifyToGive(fraction(sum(product(6, x), product(9, y)), 3), fraction(sum(product(2, x), product(3, y)), 1), { cancelFractionNumbers: true })
+		expectSimplifyToGive(fraction(6, 9), fraction(2, 3), { mergeFractionNumbers: true })
+		expectSimplifyToGive(fraction(product(6, x), product(9, y)), fraction(product(2, x), product(3, y)), { mergeFractionNumbers: true })
+		expectSimplifyToGive(fraction(sum(product(6, x), product(9, y)), 3), fraction(sum(product(2, x), product(3, y)), 1), { mergeFractionNumbers: true })
 	})
 
 	test('cancels fraction factors', () => {

@@ -15,7 +15,7 @@ const metaData = {
 	steps: ['simplifyFraction', and('rewritePower', 'cancelFractionFactors')],
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
-		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, cancelFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
+		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
 		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct),
 	}
 }
@@ -44,7 +44,7 @@ function getSolution(state) {
 	const numericPart = numericPartOriginal.regularClean()
 
 	// Apply cleaning.
-	const numericSimplified = expression.simplify({ mergeProductNumbers: true, cancelFractionNumbers: true })
+	const numericSimplified = expression.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true })
 	const ans = expression.regularClean()
 	return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
 }

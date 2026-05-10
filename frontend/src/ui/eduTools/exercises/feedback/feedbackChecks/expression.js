@@ -128,7 +128,7 @@ export const hasFractionWithinFraction = (input, correct, solution, isCorrect) =
 
 export const hasXInDenominator = (input, correct, { variables }, isCorrect) => !isCorrect && expressionChecks.hasVariableInDenominator(input, variables.x) && <Translation path={translationPath} entry="expression.hasXInDenominator">You cannot have <M>{variables.x}</M> appear in any denominator anymore.</Translation>
 
-export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductNumbers: true, cancelFractionNumbers: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</Translation>
+export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</Translation>
 
 export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true, cancelFractionFactors: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
 

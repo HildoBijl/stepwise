@@ -29,7 +29,7 @@ export type SimplificationOptions = {
 	flattenProducts: boolean // Turn x*(y*z) into x*y*z.
 	mergeProductMinuses: boolean // Reduce negative numbers in products. So -2*x*-3*-1*4 becomes -2*x*3*1*4.
 	mergeProductPlusMinuses: boolean // In products, pull plus/minus symbols to the front and merge them.
-	removeTimesZeroFromProduct: boolean // Turn "[...]*0" into 0.
+	reduceProductsWithZero: boolean // Turn "[...]*0" into 0.
 	removeTimesOneFromProducts: boolean // Remove "*1" from products.
 	mergeProductNumbers: boolean // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z.
 	mergeProductFactors: boolean // Merge product factors into powers. So x*x^2 becomes x^3.
@@ -38,14 +38,14 @@ export type SimplificationOptions = {
 	sortProducts: boolean // Sort factors in products, putting simpler terms first.
 
 	// Fraction options.
-	removeZeroNumeratorFromFractions: boolean // Turn 0/x into 0.
-	removeOneDenominatorFromFractions: boolean // Turn x/1 into x and x/(-1) into -x.
+	reduceFractionsWithZeroNumerator: boolean // Turn 0/x into 0.
+	reduceFractionsWithOneDenominator: boolean // Turn x/1 into x and x/(-1) into -x.
 	mergeFractionProducts: boolean // Turn products of fractions into one fraction. So a*(b/c) becomes ab/c.
 	flattenFractions: boolean // Flatten nested fractions. So (a/b)/(c/d) becomes ad/bc.
 	mergeFractionSums: boolean // Turn sums of fractions into one fraction. So a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: boolean // Split fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums.
-	cancelFractionMinuses: boolean // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y).
-	cancelFractionNumbers: boolean // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2.
+	mergeFractionMinuses: boolean // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y).
+	mergeFractionNumbers: boolean // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2.
 	cancelFractionFactors: boolean // Cancel factors in fractions. So (ab)/(bc) becomes a/c.
 	mergeFractionFactors: boolean // Merge factors in fractions. So a^x/a^y becomes a^(x-y). Only works when mergeProductFactors is true.
 	applyPolynomialCancellation: boolean // Cancel polynomial terms between numerator and denominator. Only univariate for now.

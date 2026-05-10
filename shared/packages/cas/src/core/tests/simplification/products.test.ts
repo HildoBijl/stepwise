@@ -27,8 +27,8 @@ describe('product simplification', () => {
 	})
 
 	test('removes times zero from products', () => {
-		expectSimplifyToGive(product(x, 0), 0, { removeTimesZeroFromProduct: true })
-		expectSimplifyToGive(product(0, x, y), 0, { removeTimesZeroFromProduct: true })
+		expectSimplifyToGive(product(x, 0), 0, { reduceProductsWithZero: true })
+		expectSimplifyToGive(product(0, x, y), 0, { reduceProductsWithZero: true })
 	})
 
 	test('removes times one from products', () => {

@@ -56,7 +56,7 @@ function getSolution(state) {
 	// Manipulate the equation.
 	const form = equation.divide(factor)
 	const expanded = form.removeUseless({ splitFractions: true })
-	const ansIntermediate = expanded.basicClean({ cancelFractionNumbers: true })
+	const ansIntermediate = expanded.basicClean({ mergeFractionNumbers: true })
 	const ans = ansIntermediate.basicClean({ cancelFractionFactors: true })
 	return { ...state, variables, equation, factor, form, expanded, ansIntermediate, ans }
 }

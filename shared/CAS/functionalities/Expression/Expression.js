@@ -1682,7 +1682,7 @@ class Product extends ExpressionList {
 		}
 
 		// Check for useless elements.
-		if (options.removeTimesZeroFromProduct) {
+		if (options.reduceProductsWithZero) {
 			// If there is a zero multiplication, return zero.
 			if (terms.some(term => Integer.zero.equalsBasic(term)))
 				return Integer.zero
@@ -2271,8 +2271,8 @@ class Fraction extends Function {
 		}
 
 		// Reduce the numbers in the fraction.
-		if (options.cancelFractionNumbers) {
-			({ numerator, denominator } = Fraction.cancelFractionNumbers(numerator, denominator, options))
+		if (options.mergeFractionNumbers) {
+			({ numerator, denominator } = Fraction.mergeFractionNumbers(numerator, denominator, options))
 		}
 
 		// Once more try crossing out fraction terms. Things may have changed after simplifying children.
@@ -2301,11 +2301,11 @@ class Fraction extends Function {
 		}
 
 		// Check for useless elements.
-		if (options.removeZeroNumeratorFromFractions) {
+		if (options.reduceFractionsWithZeroNumerator) {
 			if (Integer.zero.equalsBasic(numerator))
 				return Integer.zero // On a zero numerator, ignore the denominator.
 		}
-		if (options.removeOneDenominatorFromFractions) {
+		if (options.reduceFractionsWithOneDenominator) {
 			if (Integer.one.equalsBasic(denominator))
 				return numerator // On a one denominator, return the numerator.
 			if (Integer.minusOne.equalsBasic(denominator))
@@ -2352,7 +2352,7 @@ class Fraction extends Function {
 		return result
 	}
 
-	static cancelFractionNumbers(numerator, denominator, options) {
+	static mergeFractionNumbers(numerator, denominator, options) {
 		// Walk through all numerator/denominator terms, get their preceding numbers, and find the GCD we should divide through.
 		const terms = [...denominator.getSumTerms(), ...numerator.getSumTerms()]
 		const leadingNumbers = terms.map(term => Product.extractLeadingNumber(term))

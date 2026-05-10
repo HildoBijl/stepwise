@@ -2,7 +2,7 @@ import { type ExpressionNode, type Fraction, fraction, negative } from '../../..
 
 import { isNegativeSign } from '../../../structural'
 
-export function cancelFractionMinuses(node: Fraction): ExpressionNode {
+export function mergeFractionMinuses(node: Fraction): ExpressionNode {
 	const numeratorIsNegative = isNegativeSign(node.numerator)
 	const denominatorIsNegative = isNegativeSign(node.denominator)
 	if (!numeratorIsNegative && !denominatorIsNegative) return node

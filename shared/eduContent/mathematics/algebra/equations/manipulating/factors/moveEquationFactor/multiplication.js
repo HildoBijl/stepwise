@@ -41,8 +41,8 @@ function getSolution(state) {
 	const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][state.type]
 	const equation = asEquation('a=b/(c*x)')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
 	const bothSidesChanged = equation.multiply(factor).removeUseless({ mergeFractionProducts: true })
-	const ans = bothSidesChanged[state.switchSides ? 'applyToLeft' : 'applyToRight'](side => side.basicClean({ cancelFractionNumbers: state.type !== 1, cancelFractionFactors: true }))
-	const ansCleaned = ans.basicClean({ cancelFractionNumbers: true })
+	const ans = bothSidesChanged[state.switchSides ? 'applyToLeft' : 'applyToRight'](side => side.basicClean({ mergeFractionNumbers: state.type !== 1, cancelFractionFactors: true }))
+	const ansCleaned = ans.basicClean({ mergeFractionNumbers: true })
 	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
 }
