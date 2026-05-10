@@ -5,14 +5,15 @@ import { type ExpressionNode } from '../../../construction'
 
 import { replaceDescendants } from '../../structural'
 
-import { type SimplificationPreset, type SimplificationContext, validateSimplificationOptions } from '../definitions'
+import { type SimplificationPreset, type SimplificationContext, validateSimplificationOptions, getActiveSimplificationOptions } from '../definitions'
 
 import { applySimplificationRules } from './simplifyPipeline'
 
 export function simplify(node: ExpressionNode, options: Partial<SimplificationPreset> = {}, settings: Partial<ExpressionSettings> = {}): ExpressionNode {
+	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
 	const optionSequence = Array.isArray(options) ? options : [options]
 	let current = node
-	for (const options of optionSequence) current = simplifyUntilStable(current, { options: validateSimplificationOptions(options), settings: mergeDefaults(settings, defaultExpressionSettings) })
+	for (const options of optionSequence) current = simplifyUntilStable(current, { simplificationOptions: validateSimplificationOptions(options), expressionSettings })
 	return current
 }
 
@@ -23,7 +24,7 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 		if (next === current) return current
 		current = next
 	}
-	throw new Error('Simplification did not stabilize. Some of the simplification options lock each other in an infinite loop.')
+	throw new Error(`Simplification did not stabilize. Some of the simplification options lock each other in an infinite loop. Simplifications used: [${getActiveSimplificationOptions(context.simplificationOptions).map(str => `'${str}'`).join(', ')}]`)
 }
 
 function simplifyOnce(node: ExpressionNode, context: SimplificationContext): ExpressionNode {

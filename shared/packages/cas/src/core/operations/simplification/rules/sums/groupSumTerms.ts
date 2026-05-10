@@ -1,26 +1,28 @@
 import { splitArray } from '@step-wise/utils'
 
-import { type ExpressionNode, Integer, Sum, Product } from '../../../../construction'
+import { type ExpressionNode, type Sum, type Product, Integer, sum, product } from '../../../../construction'
 
-import { isSignNode, isProduct, isNumeric, equalNodes, defaultComparisonSettings } from '../../../structural'
+import { isSignNode, isProduct, isNumeric, equalNodes, isOne } from '../../../structural'
 
-export function groupSumTerms(node: Sum): Sum {
+export function groupSumTerms(node: Sum): Sum | Product {
 	const skipped = node.terms.map(() => false)
 	const splitTerms = node.terms.map(getConstantAndVariablePart)
 	const newTerms: ExpressionNode[] = []
 	splitTerms.forEach((splitTerm, index) => {
-		if (skipped[index]) return
+		if (skipped[index]) return // Ignore elements already incorporated.
+		if (isOne(splitTerm.variablePart)) return newTerms.push(node.terms[index]) // Don't group numeric terms.
 		const sumParts: ExpressionNode[] = [splitTerm.constantPart]
 		splitTerms.forEach((otherSplitTerm, otherIndex) => {
-			if (skipped[otherIndex] || index >= otherIndex || !equalNodes(splitTerm.variablePart, otherSplitTerm.variablePart, defaultComparisonSettings)) return
-			sumParts.push(otherSplitTerm.constantPart)
-			skipped[otherIndex] = true
+			if (index < otherIndex && !skipped[otherIndex] && equalNodes(splitTerm.variablePart, otherSplitTerm.variablePart, { allowOrderChanges: true })) {
+				sumParts.push(otherSplitTerm.constantPart)
+				skipped[otherIndex] = true
+			}
 		})
 		if (sumParts.length === 1) newTerms.push(node.terms[index])
-		else newTerms.push(new Product([new Sum(sumParts), splitTerm.variablePart]))
+		else newTerms.push(product(sum(...sumParts), splitTerm.variablePart))
 	})
 	if (newTerms.length === node.terms.length) return node
-	return new Sum(newTerms)
+	return sum(...newTerms) as Sum | Product
 }
 
 // Split an expression (often a product) into two parts: a numeric part and a part that does have variables.
@@ -35,8 +37,5 @@ function getConstantAndVariablePart(node: ExpressionNode): { constantPart: Expre
 
 	// There's a product. Split factors.
 	const [constantFactors, variableFactors] = splitArray(node.factors, isNumeric)
-	return {
-		constantPart: constantFactors.length === 0 ? Integer.one : new Product(constantFactors),
-		variablePart: variableFactors.length === 0 ? Integer.one : new Product(variableFactors),
-	}
+	return { constantPart: product(...constantFactors), variablePart: product(...variableFactors) }
 }

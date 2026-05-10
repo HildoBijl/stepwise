@@ -6,7 +6,7 @@ import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFractio
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
 
-export function toTex(node: ExpressionNode) {
+export function nodeToTex(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToTex(node)
 	if (isSignNode(node)) return signToTex(node)
 	if (isVariableNode(node)) return variableToTex(node)
@@ -26,7 +26,7 @@ function constantToTex(node: ConstantNode): string {
 }
 
 function signToTex(node: Sign): string {
-	const nodeTex = addBrackets(toTex(node.node), requiresBracketsFor(node.node, bracketLevels.negation))
+	const nodeTex = addBrackets(nodeToTex(node.node), requiresBracketsFor(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeTex}`
 }
 function getSignSymbol(node: Sign): string {
@@ -51,7 +51,7 @@ function variableToTex(node: Variable): string {
 function sumToTex(node: Sum): string {
 	return node.terms.map((term, index) => {
 		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
-		const termTex = addBrackets(toTex(term), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
+		const termTex = addBrackets(nodeToTex(term), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termTex}`
 	}).join('')
 }
@@ -60,34 +60,34 @@ function productToTex(node: Product): string {
 	return node.factors.map((factor, index) => {
 		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
 		const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) ? ' \\cdot ' : ''
-		const factorTex = addBrackets(toTex(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
+		const factorTex = addBrackets(nodeToTex(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
 		return `${precursor}${factorTex}`
 	}).join('')
 }
 
 function fractionToTex(node: Fraction): string {
-	return `\\frac{${toTex(node.numerator)}}{${toTex(node.denominator)}}`
+	return `\\frac{${nodeToTex(node.numerator)}}{${nodeToTex(node.denominator)}}`
 }
 
 function powerToTex(node: Power): string {
-	const baseTex = addBrackets(toTex(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0, 2))
-	return `${baseTex}^{${toTex(node.exponent)}}`
+	const baseTex = addBrackets(nodeToTex(node.base), requiresBracketsFor(node.base, bracketLevels.powers, 0, 2))
+	return `${baseTex}^{${nodeToTex(node.exponent)}}`
 }
 
 function sqrtToTex(node: Sqrt): string {
-	return `\\sqrt{${toTex(node.argument)}}`
+	return `\\sqrt{${nodeToTex(node.argument)}}`
 }
 
 function rootToTex(node: Root): string {
-	return `\\sqrt[${toTex(node.base)}]{${toTex(node.argument)}}`
+	return `\\sqrt[${nodeToTex(node.base)}]{${nodeToTex(node.argument)}}`
 }
 
 function logToTex(node: Log): string {
-	return `\\log_{${toTex(node.base)}}\\left(${toTex(node.argument)}\\right)`
+	return `\\log_{${nodeToTex(node.base)}}\\left(${nodeToTex(node.argument)}\\right)`
 }
 
 function singleArgumentFunctionToTex(node: SingleArgumentFunctionNode): string {
-	return `\\${node.name}${addBrackets(toTex(node.argument))}`
+	return `\\${node.name}${addBrackets(nodeToTex(node.argument))}`
 }
 
 function addBrackets(str: string, addBrackets = true) {

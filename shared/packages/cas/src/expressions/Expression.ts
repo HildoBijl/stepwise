@@ -1,7 +1,7 @@
 import { mergeDefaults } from '@step-wise/utils'
 import {type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, toString, toTex } from '../core'
+import { type ExpressionNode, nodeToString, nodeToTex } from '../core'
 
 export class Expression {
 	readonly settings: ExpressionSettings
@@ -16,7 +16,7 @@ export class Expression {
 
 	// Get a string representation.
 	toString(): string {
-		return toString(this.node)
+		return nodeToString(this.node)
 	}
 	get str() {
 		return this.toString()
@@ -27,7 +27,7 @@ export class Expression {
 
 	// Get a LaTeX representation.
 	toTex() {
-		return toTex(this.node)
+		return nodeToTex(this.node)
 	}
 	get tex() {
 		return this.toTex()

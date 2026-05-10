@@ -23,6 +23,7 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	conflict('factorizeIntegers', 'mergePowerNumbers')
 
 	// Sum/product expansion conflicts.
+	conflict('cancelSumTerms', 'groupSumTerms')
 	conflict('pullOutCommonSumNumbers', 'expandProductsOfSums')
 	conflict('pullOutCommonSumNumbers', 'expandPowersOfSums')
 	// conflict('pullOutCommonSumFactors', 'expandProductsOfSums')

@@ -9,8 +9,8 @@ import { removeMinusFromZero } from './removeMinusFromZero'
 import { removeDoublePlusMinusSigns } from './removeDoublePlusMinusSigns'
 
 export function simplifySigns(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	if (isSignNode(node) && context.options.removeDoubleNegatives) node = removeDoubleNegatives(node)
-	if (isSignNode(node) && context.options.removeMinusFromZero) node = removeMinusFromZero(node)
-	if (isSignNode(node) && context.options.removeDoubleNegatives && context.options.removeDoublePlusMinusSigns) node = removeDoublePlusMinusSigns(node)
+	if (isSignNode(node) && context.simplificationOptions.removeDoubleNegatives) node = removeDoubleNegatives(node)
+	if (isSignNode(node) && context.simplificationOptions.removeMinusFromZero) node = removeMinusFromZero(node)
+	if (isSignNode(node) && context.simplificationOptions.removeDoubleNegatives && context.simplificationOptions.removeDoublePlusMinusSigns) node = removeDoublePlusMinusSigns(node)
 	return node
 }

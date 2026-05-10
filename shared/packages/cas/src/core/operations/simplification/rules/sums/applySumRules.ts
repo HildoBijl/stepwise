@@ -16,18 +16,18 @@ import { sortSums } from './sortSums'
 
 export function simplifySums(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	// Apply basic sum simplifications.
-	if (isSum(node) && context.options.flattenSums) node = flattenSums(node)
-	if (isSum(node) && context.options.removePlusZeroFromSums) node = removePlusZeroFromSums(node)
-	if (isSum(node) && context.options.mergeSumNumbers) node = mergeSumNumbers(node)
-	if (isSum(node) && context.options.cancelSumTerms && !context.options.groupSumTerms) node = cancelSumTerms(node)
-	if (isSum(node) && context.options.groupSumTerms) node = groupSumTerms(node)
+	if (isSum(node) && context.simplificationOptions.flattenSums) node = flattenSums(node)
+	if (isSum(node) && context.simplificationOptions.removePlusZeroFromSums) node = removePlusZeroFromSums(node)
+	if (isSum(node) && context.simplificationOptions.mergeSumNumbers) node = mergeSumNumbers(node)
+	if (isSum(node) && context.simplificationOptions.cancelSumTerms) node = cancelSumTerms(node)
+	if (isSum(node) && context.simplificationOptions.groupSumTerms) node = groupSumTerms(node)
 
 	// Try pulling out factors.
-	if (isSum(node) && context.options.pullOutCommonSumNumbers && !context.options.expandProductsOfSums && !context.options.expandPowersOfSums) node = pullOutCommonSumNumbers(node)
-	if (isSum(node) && context.options.pullOutCommonSumFactors && !context.options.expandProductsOfSums && !context.options.expandPowersOfSums) node = pullOutCommonSumFactors(node)
+	if (isSum(node) && context.simplificationOptions.pullOutCommonSumNumbers) node = pullOutCommonSumNumbers(node)
+	if (isSum(node) && context.simplificationOptions.pullOutCommonSumFactors) node = pullOutCommonSumFactors(node)
 
 	// At the end, clean up and sort.
-	if (isSum(node) && context.options.removeTrivialSums) node = removeTrivialSums(node)
-	if (isSum(node) && context.options.sortSums) node = sortSums(node)
+	if (isSum(node) && context.simplificationOptions.removeTrivialSums) node = removeTrivialSums(node)
+	if (isSum(node) && context.simplificationOptions.sortSums) node = sortSums(node)
 	return node
 }

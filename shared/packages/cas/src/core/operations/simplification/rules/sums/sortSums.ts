@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
 
-import { isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, toNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
+import { isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
 
 export function sortSums(node: Sum): Sum {
 	const terms = [...node.terms].sort(orderSumTerms)
@@ -17,7 +17,7 @@ function orderSumTerms(a: ExpressionNode, b: ExpressionNode): number {
 	if (!test(b)) return -1
 
 	// On numbers, sort large to small. Otherwise check variable lists.
-	if (index === 1) return toNumber(b) - toNumber(a)
+	if (index === 1) return numericNodeToNumber(b) - numericNodeToNumber(a)
 	return compareVariableLists(a, b)
 }
 
@@ -57,7 +57,7 @@ function compareVariablePower(a: ExpressionNode, b: ExpressionNode, variable: Va
 // For an expression depending on a variable, try to find the exponent that's above this variable.
 function getExponentOfVariable(variable: Variable, expression: ExpressionNode): number | undefined {
 	if (isVariable(expression) && equalVariables(expression, variable)) return 1
-	if (isPower(expression) && isVariable(expression.base) && equalVariables(expression.base, variable) && isNumeric(expression.exponent)) return toNumber(expression.exponent)
+	if (isPower(expression) && isVariable(expression.base) && equalVariables(expression.base, variable) && isNumeric(expression.exponent)) return numericNodeToNumber(expression.exponent)
 	if (isProduct(expression)) {
 		const factor = expression.factors.find(factor => dependsOn(factor, variable))
 		return factor ? getExponentOfVariable(variable, factor) : undefined

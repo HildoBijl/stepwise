@@ -7,7 +7,7 @@ import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFractio
 import { equalVariables } from './equality'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
-export function toNumber(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}): number {
+export function numericNodeToNumber(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}): number {
 	const number = toNumberInternal(node, mergeDefaults(settings, defaultExpressionSettings))
 	return compareNumbers(number, 0) ? 0 : number
 }
@@ -69,5 +69,5 @@ function radiansToDegrees(value: number, settings: ExpressionSettings): number {
 
 // Check if two numeric expressions are equal. Throws when given non-numeric expressions.
 export function equalNumbers(a: ExpressionNode, b: ExpressionNode, aSettings: Partial<ExpressionSettings> = {}, bSettings: Partial<ExpressionSettings> = aSettings): boolean {
-	return compareNumbers(toNumber(a, aSettings), toNumber(b, bSettings))
+	return compareNumbers(numericNodeToNumber(a, aSettings), numericNodeToNumber(b, bSettings))
 }

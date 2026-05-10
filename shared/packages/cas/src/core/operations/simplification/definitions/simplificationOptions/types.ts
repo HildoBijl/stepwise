@@ -1,7 +1,7 @@
 import { type ExpressionSettings } from '@step-wise/math-input-value'
 
 export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[]
-export type SimplificationContext = { options: SimplificationOptions, settings: ExpressionSettings }
+export type SimplificationContext = { simplificationOptions: SimplificationOptions, expressionSettings: ExpressionSettings }
 export type SimplificationOptions = {
 	// Sign options.
 	removeDoubleNegatives: boolean // Remove two consecutive minus signs: -(-x) becomes x.
@@ -17,7 +17,7 @@ export type SimplificationOptions = {
 	flattenSums: boolean // Turn x+(y+z) into x+y+z.
 	removePlusZeroFromSums: boolean // Remove "+0" from sums.
 	mergeSumNumbers: boolean // Group numbers in sums. So 2+3*x+4 becomes 6+3*x.
-	cancelSumTerms: boolean // Cancel terms in sums. So 2x+3y-2x becomes 3y. Ignored if groupSumTerms is applied.
+	cancelSumTerms: boolean // Cancel terms in sums. So 2x+3y-2x becomes 3y. Cannot be used if groupSumTerms is turned on, as that contains this.
 	groupSumTerms: boolean // Group sum terms. So 2*x+3*x becomes (2+3)*x, then 5*x.
 	pullOutCommonSumNumbers: boolean // Pull common numbers outside sums. So 6x+9y becomes 3(2x+3y). Conflicts with expanding sums.
 	pullOutCommonSumFactors: boolean // Pull common factors outside sums. So x^3*(y+1)z + x^2*(y+1)^3*w becomes x^2*(y+1)(xz+(y+1)^2*w). Conflicts with expanding sums.

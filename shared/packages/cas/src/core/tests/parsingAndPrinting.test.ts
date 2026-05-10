@@ -1,9 +1,9 @@
 import { defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToExpressionNode } from '../../construction'
-import { equalNodes } from '../../operations'
+import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToExpressionNode } from '../construction'
+import { equalNodes } from '../operations'
 
-import { toString } from './toString'
+import { nodeToString } from '../export/printing/toString'
 
 type ParserTestCase = {
 	str: string
@@ -78,7 +78,7 @@ const parserTestCases: ParserTestCase[] = [
 // Test printing: does the node give the string?
 describe('toString', () => {
 	test.each(parserTestCases)('prints "$str"', ({ str, node }) => {
-		expect(toString(node)).toBe(str)
+		expect(nodeToString(node)).toBe(str)
 	})
 })
 

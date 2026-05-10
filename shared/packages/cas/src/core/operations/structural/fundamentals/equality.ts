@@ -1,11 +1,12 @@
-import { compareNumbers } from '@step-wise/utils'
+import { compareNumbers, mergeDefaults } from '@step-wise/utils'
 
 import type { ExpressionNode, Sign, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
-import { type ComparisonSettings } from './comparisonSettings'
+import { type ComparisonSettings, defaultComparisonSettings } from './comparisonSettings'
 import { isSignNode, isConstantNode, isFunctionNode, isListNode, isVariableNode } from './typeChecks'
 
-export function equalNodes(a: ExpressionNode, b: ExpressionNode, settings: ComparisonSettings): boolean {
+export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
+	const settings = mergeDefaults(comparisonSettings, defaultComparisonSettings)
 	if (isSignNode(a) && isSignNode(b)) return equalSignNodes(a, b, settings)
 	if (isConstantNode(a) && isConstantNode(b)) return equalConstants(a, b)
 	if (isVariableNode(a) && isVariableNode(b)) return equalVariables(a, b)
