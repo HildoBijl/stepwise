@@ -1,9 +1,10 @@
 import { type ExpressionNode } from '../../../construction'
 
 import { type SimplificationContext } from '../definitions'
-import { simplifyConstants } from '../rules'
+import { simplifySigns, simplifyConstants } from '../rules'
 
 export function applySimplificationRules(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
+	node = simplifySigns(node, context)
 	node = simplifyConstants(node, context)
 	// node = simplifySums(node, context)
 	// node = simplifyProducts(node, context)

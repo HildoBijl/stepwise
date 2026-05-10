@@ -1,7 +1,9 @@
 export type SimplificationOptions = {
-	// Constant options.
+	// Sign options.
 	removeDoubleNegatives: boolean // Remove two consecutive minus signs: -(-x) becomes x.
 	removeDoublePlusMinusSigns: boolean // Remove consecutive plus-minus signs: ±±x becomes ±x.
+
+	// Constant options.
 	turnFloatsIntoIntegers: boolean // Turn floats into integers whenever possible. So when 4.5/1.5 reduces to 3.0, it becomes 3.
 	factorizeIntegers: boolean // Turn integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
 
@@ -88,6 +90,7 @@ export type SimplificationPreset = SimplificationOptions | readonly Simplificati
 export const noSimplify: SimplificationOptions = {
 	removeDoubleNegatives: false,
 	removeDoublePlusMinusSigns: false,
+	
 	turnFloatsIntoIntegers: false,
 	factorizeIntegers: false,
 
