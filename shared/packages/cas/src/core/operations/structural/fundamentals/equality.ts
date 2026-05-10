@@ -1,13 +1,12 @@
-import { mergeDefaults, compareNumbers } from '@step-wise/utils'
+import { compareNumbers } from '@step-wise/utils'
 
 import type { ExpressionNode, Sign, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
-import { type ComparisonSettings, defaultComparisonSettings } from './comparisonSettings'
+import { type ComparisonSettings } from './comparisonSettings'
 import { isSignNode, isConstantNode, isFunctionNode, isListNode, isVariableNode } from './typeChecks'
 
-export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
-	const settings = mergeDefaults(comparisonSettings, defaultComparisonSettings)
-	if (isSignNode(a) && isSignNode(b)) return equalSignNodes(a, b)
+export function equalNodes(a: ExpressionNode, b: ExpressionNode, settings: ComparisonSettings): boolean {
+	if (isSignNode(a) && isSignNode(b)) return equalSignNodes(a, b, settings)
 	if (isConstantNode(a) && isConstantNode(b)) return equalConstants(a, b)
 	if (isVariableNode(a) && isVariableNode(b)) return equalVariables(a, b)
 	if (isListNode(a) && isListNode(b)) return equalLists(a, b, settings)
@@ -16,8 +15,8 @@ export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSetti
 	return a.children.length === 0 && b.children.length === 0
 }
 
-export function equalSignNodes(a: Sign, b: Sign): boolean {
-	return a.negative === b.negative && a.plusMinus === b.plusMinus && equalNodes(a.node, b.node)
+export function equalSignNodes(a: Sign, b: Sign, settings: ComparisonSettings): boolean {
+	return a.negative === b.negative && a.plusMinus === b.plusMinus && equalNodes(a.node, b.node, settings)
 }
 
 export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {

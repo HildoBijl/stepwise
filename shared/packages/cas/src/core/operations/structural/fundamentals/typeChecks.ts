@@ -9,6 +9,7 @@ export function isSingleArgumentFunctionNode(node: ExpressionNode): node is Sing
 
 // Constants and variables.
 export function isSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign }
+export function isNegativeSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign && node.negative && !node.plusMinus }
 export function isIntegerNode(node: ExpressionNode): node is Integer { return node instanceof Integer }
 export function isFloatNode(node: ExpressionNode): node is Float { return node instanceof Float }
 export function isVariableNode(node: ExpressionNode): node is Variable { return node instanceof Variable }

@@ -1,5 +1,3 @@
-import { ensureNumberArray } from './checks'
-
 // Return the sum of all array elements.
 export function sum(array: readonly number[]): number {
 	return array.reduce((sum, v) => sum + v, 0)

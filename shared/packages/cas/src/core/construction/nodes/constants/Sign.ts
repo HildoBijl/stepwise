@@ -16,4 +16,8 @@ export class Sign extends ExpressionNode {
 		if (children[0] === this.node) return this
 		return new Sign(children[0], this.negative, this.plusMinus)
 	}
+
+	recreateWith(node: ExpressionNode): ExpressionNode {
+		return this.recreateWithChildren([node])
+	}
 }

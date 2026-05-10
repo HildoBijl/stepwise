@@ -1,6 +1,11 @@
+import { type ExpressionSettings } from '@step-wise/math-input-value'
+
+export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[]
+export type SimplificationContext = { options: SimplificationOptions, settings: ExpressionSettings }
 export type SimplificationOptions = {
 	// Sign options.
 	removeDoubleNegatives: boolean // Remove two consecutive minus signs: -(-x) becomes x.
+	removeMinusFromZero: boolean // Turns -0 into 0.
 	removeDoublePlusMinusSigns: boolean // Remove consecutive plus-minus signs: ±±x becomes ±x.
 
 	// Constant options.
@@ -12,11 +17,11 @@ export type SimplificationOptions = {
 	flattenSums: boolean // Turn x+(y+z) into x+y+z.
 	removePlusZeroFromSums: boolean // Remove "+0" from sums.
 	mergeSumNumbers: boolean // Group numbers in sums. So 2+3*x+4 becomes 6+3*x.
-	sortSums: boolean // Sort terms in sums, putting simpler terms first.
 	cancelSumTerms: boolean // Cancel terms in sums. So 2x+3y-2x becomes 3y. Ignored if groupSumTerms is applied.
 	groupSumTerms: boolean // Group sum terms. So 2*x+3*x becomes (2+3)*x, then 5*x.
 	pullOutCommonSumNumbers: boolean // Pull common numbers outside sums. So 6x+9y becomes 3(2x+3y). Conflicts with expanding sums.
 	pullOutCommonSumFactors: boolean // Pull common factors outside sums. So x^3*(y+1)z + x^2*(y+1)^3*w becomes x^2*(y+1)(xz+(y+1)^2*w). Conflicts with expanding sums.
+	sortSums: boolean // Sort terms in sums, putting simpler terms first.
 
 	// Product options.
 	removeTrivialProducts: boolean // Turn a product with zero or one element into 1 or said element.
@@ -27,10 +32,10 @@ export type SimplificationOptions = {
 	mergeProductNumbers: boolean // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z.
 	mergeProductMinuses: boolean // Reduce negative numbers in products. So -2*x*-3*-1*4 becomes -2*x*3*1*4. Ignored if mergeProductNumbers is on.
 	mergeInitialMinusOne: boolean // Merge initial -1 where appropriate. So -1*2 becomes -2, but 2*-1 and -2*1 stay unchanged.
-	sortProducts: boolean // Sort factors in products, putting simpler terms first.
 	mergeProductFactors: boolean // Merge product factors into powers. So x*x^2 becomes x^3.
 	expandProductsOfSums: boolean // Turn a*(b+c) into a*b+a*c.
 	expandProductsOfSumsWithinSums: boolean // Expand products of sums only inside sums. Ignored if expandProductsOfSums is on.
+	sortProducts: boolean // Sort factors in products, putting simpler terms first.
 
 	// Fraction options.
 	removeZeroNumeratorFromFraction: boolean // Turn 0/x into 0.
@@ -83,83 +88,4 @@ export type SimplificationOptions = {
 
 	// ToDo.
 	cleanFractionPolynomials: boolean // Cancel polynomial factors in fractions, including multivariate cases eventually.
-}
-
-export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[]
-
-export const noSimplify: SimplificationOptions = {
-	removeDoubleNegatives: false,
-	removeDoublePlusMinusSigns: false,
-	
-	turnFloatsIntoIntegers: false,
-	factorizeIntegers: false,
-
-	flattenSums: false,
-	removeTrivialSums: false,
-	removePlusZeroFromSums: false,
-	mergeSumNumbers: false,
-	sortSums: false,
-	cancelSumTerms: false,
-	groupSumTerms: false,
-	pullOutCommonSumNumbers: false,
-	pullOutCommonSumFactors: false,
-
-	flattenProducts: false,
-	removeTrivialProducts: false,
-	removeTimesZeroFromProduct: false,
-	removeTimesOneFromProducts: false,
-	pullPlusMinusToFront: false,
-	mergeProductNumbers: false,
-	mergeProductMinuses: false,
-	mergeInitialMinusOne: false,
-	sortProducts: false,
-	mergeProductFactors: false,
-	expandProductsOfSums: false,
-	expandProductsOfSumsWithinSums: false,
-
-	removeZeroNumeratorFromFraction: false,
-	removeOneDenominatorFromFraction: false,
-	mergeFractionProducts: false,
-	flattenFractions: false,
-	mergeFractionSums: false,
-	splitFractions: false,
-	crossOutFractionNumbers: false,
-	crossOutFractionFactors: false,
-	pullConstantPartOutOfFraction: false,
-	applyPolynomialCancellation: false,
-
-	removeZeroExponentFromPower: false,
-	removeZeroBaseFromPower: false,
-	removeOneExponentFromPower: false,
-	removeOneBaseFromPower: false,
-	mergePowerNumbers: false,
-	removePowersWithinPowers: false,
-	removeNegativePowers: false,
-	expandPowers: false,
-	expandPowersOfProducts: false,
-	expandPowersOfSums: false,
-	expandPowersOfSumsWithinSums: false,
-
-	removeZeroRoot: false,
-	removeOneRoot: false,
-	removeIntegerRoot: false,
-	removeCanceledRoot: false,
-	turnRootIntoFractionExponent: false,
-	turnFractionExponentIntoRoot: false,
-	turnBaseTwoRootIntoSqrt: false,
-	expandRootsOfProducts: false,
-	mergeProductsOfRoots: false,
-	pullExponentsIntoRoots: false,
-	pullFactorsOutOfRoots: false,
-	preventRootDenominators: false,
-
-	removeOneLogarithm: false,
-	removeEqualBaseArgumentLogarithm: false,
-	turnLogIntoLn: false,
-
-	remove01TrigFunctions: false,
-	removeRootTrigFunctions: false,
-	turnTanIntoSinCos: false,
-
-	cleanFractionPolynomials: false,
 }
