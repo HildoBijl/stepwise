@@ -17,6 +17,7 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 
 	// Sign dependencies.
 	requireOption('removeDoublePlusMinusSigns', 'removeDoubleNegatives')
+	requireOption('mergeProductPlusMinuses', 'mergeProductMinuses')
 
 	// Constant conflicts.
 	conflict('factorizeIntegers', 'mergeProductNumbers')

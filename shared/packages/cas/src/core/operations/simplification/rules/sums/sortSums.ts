@@ -2,6 +2,8 @@ import { type ExpressionNode, type Variable, Sum } from '../../../../constructio
 
 import { isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
 
+import { compareVariableNodes } from '../utils'
+
 export function sortSums(node: Sum): Sum {
 	const terms = [...node.terms].sort(orderSumTerms)
 	return terms.every((term, index) => term === node.terms[index]) ? node : new Sum(terms)
@@ -35,15 +37,6 @@ function compareVariableLists(a: ExpressionNode, b: ExpressionNode): number {
 		if (powerOrder !== 0) return powerOrder
 	}
 	return bVariables.length > aVariables.length ? 1 : 0
-}
-
-// Given two variables, check which should appear earlier in a sum.
-function compareVariableNodes(a: Variable, b: Variable): number {
-	const symbolOrder = a.symbol.localeCompare(b.symbol)
-	if (symbolOrder !== 0) return symbolOrder
-	const subscriptOrder = (a.subscript ?? '').localeCompare(b.subscript ?? '')
-	if (subscriptOrder !== 0) return subscriptOrder
-	return (a.accent ?? '').localeCompare(b.accent ?? '')
 }
 
 // Given two powers of equal variables, determine which power should appear earlier in a sum.

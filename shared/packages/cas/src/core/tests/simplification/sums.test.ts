@@ -7,12 +7,6 @@ const y = variable('y')
 const z = variable('z')
 
 describe('sum simplification', () => {
-	test('removes trivial sums', () => {
-		expectSimplifyToGive(sum(), 0, { removeTrivialSums: true })
-		expectSimplifyToGive(sum(x), x, { removeTrivialSums: true })
-		expectSimplifyToGive(sum(0, x), sum(0, x), { removeTrivialSums: true })
-	})
-
 	test('flattens sums', () => {
 		expectSimplifyToGive(sum(x, sum(y, z)), sum(x, y, z), { flattenSums: true })
 		expectSimplifyToGive(sum(sum(x, y), sum(z)), sum(x, y, z), { flattenSums: true })

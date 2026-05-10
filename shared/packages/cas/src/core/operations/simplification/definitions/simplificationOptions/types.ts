@@ -13,7 +13,6 @@ export type SimplificationOptions = {
 	factorizeIntegers: boolean // Turn integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
 
 	// Sum options.
-	removeTrivialSums: boolean // Turn a sum with zero or one element into 0 or said element.
 	flattenSums: boolean // Turn x+(y+z) into x+y+z.
 	removePlusZeroFromSums: boolean // Remove "+0" from sums.
 	mergeSumNumbers: boolean // Group numbers in sums. So 2+3*x+4 becomes 6+3*x.
@@ -24,14 +23,12 @@ export type SimplificationOptions = {
 	sortSums: boolean // Sort terms in sums, putting simpler terms first.
 
 	// Product options.
-	removeTrivialProducts: boolean // Turn a product with zero or one element into 1 or said element.
 	flattenProducts: boolean // Turn x*(y*z) into x*y*z.
+	mergeProductMinuses: boolean // Reduce negative numbers in products. So -2*x*-3*-1*4 becomes -2*x*3*1*4.
+	mergeProductPlusMinuses: boolean // In products, pull plus/minus symbols to the front and merge them.
 	removeTimesZeroFromProduct: boolean // Turn "[...]*0" into 0.
 	removeTimesOneFromProducts: boolean // Remove "*1" from products.
-	pullPlusMinusToFront: boolean // In products, pull plus/minus symbols to the front and merge them.
 	mergeProductNumbers: boolean // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z.
-	mergeProductMinuses: boolean // Reduce negative numbers in products. So -2*x*-3*-1*4 becomes -2*x*3*1*4. Ignored if mergeProductNumbers is on.
-	mergeInitialMinusOne: boolean // Merge initial -1 where appropriate. So -1*2 becomes -2, but 2*-1 and -2*1 stay unchanged.
 	mergeProductFactors: boolean // Merge product factors into powers. So x*x^2 becomes x^3.
 	expandProductsOfSums: boolean // Turn a*(b+c) into a*b+a*c.
 	expandProductsOfSumsWithinSums: boolean // Expand products of sums only inside sums. Ignored if expandProductsOfSums is on.

@@ -1,28 +1,19 @@
 import { splitArray } from '@step-wise/utils'
 
-import { type ExpressionNode, type Sum, type Product, Integer, sum, product } from '../../../../construction'
+import { type ExpressionNode, type Sum, Integer, sum, product } from '../../../../construction'
 
 import { isSignNode, isProduct, isNumeric, equalNodes, isOne } from '../../../structural'
 
-export function groupSumTerms(node: Sum): Sum | Product {
-	const skipped = node.terms.map(() => false)
-	const splitTerms = node.terms.map(getConstantAndVariablePart)
-	const newTerms: ExpressionNode[] = []
-	splitTerms.forEach((splitTerm, index) => {
-		if (skipped[index]) return // Ignore elements already incorporated.
-		if (isOne(splitTerm.variablePart)) return newTerms.push(node.terms[index]) // Don't group numeric terms.
-		const sumParts: ExpressionNode[] = [splitTerm.constantPart]
-		splitTerms.forEach((otherSplitTerm, otherIndex) => {
-			if (index < otherIndex && !skipped[otherIndex] && equalNodes(splitTerm.variablePart, otherSplitTerm.variablePart, { allowOrderChanges: true })) {
-				sumParts.push(otherSplitTerm.constantPart)
-				skipped[otherIndex] = true
-			}
-		})
-		if (sumParts.length === 1) newTerms.push(node.terms[index])
-		else newTerms.push(product(sum(...sumParts), splitTerm.variablePart))
-	})
-	if (newTerms.length === node.terms.length) return node
-	return sum(...newTerms) as Sum | Product
+export function groupSumTerms(node: Sum): ExpressionNode {
+	const groups: { variablePart: ExpressionNode, constantParts: ExpressionNode[], original: ExpressionNode }[] = []
+	for (const term of node.terms) {
+		const { constantPart, variablePart } = getConstantAndVariablePart(term)
+		const group = isOne(variablePart) ? undefined : groups.find(group => equalNodes(group.variablePart, variablePart, { allowOrderChanges: true })) // Don't group numeric terms.
+		if (group) group.constantParts.push(constantPart)
+		else groups.push({ variablePart, constantParts: [constantPart], original: term })
+	}
+	if (groups.length === node.terms.length) return node
+	return sum(...groups.map(group => group.constantParts.length === 1 ? group.original : product(sum(...group.constantParts), group.variablePart)))
 }
 
 // Split an expression (often a product) into two parts: a numeric part and a part that does have variables.

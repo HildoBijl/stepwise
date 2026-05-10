@@ -4,16 +4,14 @@ export const structureOnly: SimplificationOptions = {
 	...noSimplify,
 	turnFloatsIntoIntegers: true,
 	flattenSums: true,
-	removeTrivialSums: true,
 	flattenProducts: true,
-	removeTrivialProducts: true,
 }
 
 export const elementaryClean: SimplificationOptions = {
 	...structureOnly,
 	mergeFractionProducts: true,
-	mergeInitialMinusOne: true,
-	pullPlusMinusToFront: true,
+	mergeProductMinuses: true,
+	mergeProductPlusMinuses: true,
 }
 
 export const removeUseless: SimplificationOptions = {
@@ -104,13 +102,11 @@ export const forAnalysis: readonly SimplificationOptions[] = [
 		factorizeIntegers: true,
 		mergeProductNumbers: false,
 		mergePowerNumbers: false,
-		mergeInitialMinusOne: false,
 	},
 	{
 		...forAnalysisMain,
 		expandProductsOfSums: true,
 		expandPowersOfSums: true,
-		mergeInitialMinusOne: true,
 	},
 ]
 
