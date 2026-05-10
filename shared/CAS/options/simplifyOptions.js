@@ -31,15 +31,15 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	expandProductsOfSumsWithinSums: false, // Applies expandProductsOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandProductsOfSums is on, this is ignored.
 
 	// Fraction options.
-	removeZeroNumeratorFromFraction: false, // Turn 0/x into 0.
-	removeOneDenominatorFromFraction: false, // Turn x/1 into 1 and x/(-1) into -x.
+	removeZeroNumeratorFromFractions: false, // Turn 0/x into 0.
+	removeOneDenominatorFromFractions: false, // Turn x/1 into 1 and x/(-1) into -x.
 	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
 	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
-	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
-	crossOutFractionFactors: false, // Cancel factors inside fractions. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
-	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
+	cancelFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
+	cancelFractionFactors: false, // Cancel factors inside fractions. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
+	pullConstantPartOutOfFractions: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
 	// Power options.
@@ -67,7 +67,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
 	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
 	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
-	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if crossOutFractionFactors is turned on.
+	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if cancelFractionFactors is turned on.
 
 	// Logarithm options.
 	removeOneLogarithm: false, // Turn log(1) into 0.
@@ -118,8 +118,8 @@ const removeUseless = {
 	removePlusZeroFromSums: true,
 	removeTimesZeroFromProduct: true,
 	removeTimesOneFromProducts: true,
-	removeZeroNumeratorFromFraction: true,
-	removeOneDenominatorFromFraction: true,
+	removeZeroNumeratorFromFractions: true,
+	removeOneDenominatorFromFractions: true,
 	removeZeroExponentFromPower: true,
 	removeZeroBaseFromPower: true,
 	removeOneExponentFromPower: true,
@@ -148,8 +148,8 @@ const regularClean = {
 	...basicClean,
 	sortProducts: true,
 	groupSumTerms: true,
-	crossOutFractionNumbers: true,
-	crossOutFractionFactors: true,
+	cancelFractionNumbers: true,
+	cancelFractionFactors: true,
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
@@ -230,14 +230,14 @@ module.exports.forDerivatives = { ...noSimplify, ...forDerivatives }
 // forDisplay makes simplifications that make an expression (or equation) more easy to display but not to evaluate. Think of turning x^(1/2) into sqrt(x), and x^(-2) into (1/x^2).
 const forDisplay = {
 	...regularClean,
-	pullConstantPartOutOfFraction: true,
-	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFraction.
-	removeNegativePowers: false, // Blocks pullConstantPartOutOfFraction.
+	pullConstantPartOutOfFractions: true,
+	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFractions.
+	removeNegativePowers: false, // Blocks pullConstantPartOutOfFractions.
 	turnFractionExponentIntoRoot: true,
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,
-	crossOutFractionFactors: false, // Blocks preventRootDenominator.
+	cancelFractionFactors: false, // Blocks preventRootDenominator.
 }
 module.exports.forDisplay = { ...noSimplify, ...forDisplay }
 

@@ -2,6 +2,7 @@ import { type ExpressionSettings } from '@step-wise/math-input-value'
 
 export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[]
 export type SimplificationContext = { simplificationOptions: SimplificationOptions, expressionSettings: ExpressionSettings }
+export type SimplificationOption = keyof SimplificationOptions
 export type SimplificationOptions = {
 	// Sign options.
 	removeDoubleNegatives: boolean // Remove two consecutive minus signs: -(-x) becomes x.
@@ -16,8 +17,10 @@ export type SimplificationOptions = {
 	flattenSums: boolean // Turn x+(y+z) into x+y+z.
 	removePlusZeroFromSums: boolean // Remove "+0" from sums.
 	mergeSumNumbers: boolean // Group numbers in sums. So 2+3*x+4 becomes 6+3*x.
-	cancelSumTerms: boolean // Cancel terms in sums. So 2x+3y-2x becomes 3y. Cannot be used if groupSumTerms is turned on, as that contains this.
+	cancelSumTerms: boolean // Cancel terms in sums. So 2x+3y-2x becomes 3y.
 	groupSumTerms: boolean // Group sum terms. So 2*x+3*x becomes (2+3)*x, then 5*x.
+	expandMinusSums: boolean // Turn -(x-y) into -x-(-y).
+	expandPlusMinusSums: boolean // Turn ±(x-y) into ±x±(-y).
 	pullOutCommonSumNumbers: boolean // Pull common numbers outside sums. So 6x+9y becomes 3(2x+3y). Conflicts with expanding sums.
 	pullOutCommonSumFactors: boolean // Pull common factors outside sums. So x^3*(y+1)z + x^2*(y+1)^3*w becomes x^2*(y+1)(xz+(y+1)^2*w). Conflicts with expanding sums.
 	sortSums: boolean // Sort terms in sums, putting simpler terms first.
@@ -35,16 +38,18 @@ export type SimplificationOptions = {
 	sortProducts: boolean // Sort factors in products, putting simpler terms first.
 
 	// Fraction options.
-	removeZeroNumeratorFromFraction: boolean // Turn 0/x into 0.
-	removeOneDenominatorFromFraction: boolean // Turn x/1 into x and x/(-1) into -x.
+	removeZeroNumeratorFromFractions: boolean // Turn 0/x into 0.
+	removeOneDenominatorFromFractions: boolean // Turn x/1 into x and x/(-1) into -x.
 	mergeFractionProducts: boolean // Turn products of fractions into one fraction. So a*(b/c) becomes ab/c.
 	flattenFractions: boolean // Flatten nested fractions. So (a/b)/(c/d) becomes ad/bc.
 	mergeFractionSums: boolean // Turn sums of fractions into one fraction. So a/b+c/d becomes (ad+bc)/(bd).
 	splitFractions: boolean // Split fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums.
-	crossOutFractionNumbers: boolean // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2.
-	crossOutFractionFactors: boolean // Cancel factors in fractions. So (ab)/(bc) becomes a/c. Only works when mergeProductFactors is true.
-	pullConstantPartOutOfFraction: boolean // For display: turn 2(x+1)/(x+2) into 2*(x+1)/(x+2). Run only at the end.
+	cancelFractionMinuses: boolean // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y).
+	cancelFractionNumbers: boolean // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2.
+	cancelFractionFactors: boolean // Cancel factors in fractions. So (ab)/(bc) becomes a/c.
+	mergeFractionFactors: boolean // Merge factors in fractions. So a^x/a^y becomes a^(x-y). Only works when mergeProductFactors is true.
 	applyPolynomialCancellation: boolean // Cancel polynomial terms between numerator and denominator. Only univariate for now.
+	normalizeFractionMinuses: boolean // Makes sure the first term in the numerator/denominator does not have a minus sign. Requires mergeProductMinuses and sortSums to be on.
 
 	// Power options.
 	removeZeroExponentFromPower: boolean // Turn x^0 into 1.
@@ -71,7 +76,7 @@ export type SimplificationOptions = {
 	mergeProductsOfRoots: boolean // Turn sqrt(x)*sqrt(y) into sqrt(x*y). Ignored if expandRootsOfProducts is on.
 	pullExponentsIntoRoots: boolean // Turn sqrt(4)^3 into sqrt(4^3).
 	pullFactorsOutOfRoots: boolean // Turn sqrt(20) into 2*sqrt(5), and sqrt(a^3b^4c^5) into ab^2c^2*sqrt(ac).
-	preventRootDenominators: boolean // Turn 1/sqrt(2) into sqrt(2)/2. Ignored if crossOutFractionFactors is on.
+	preventRootDenominators: boolean // Turn 1/sqrt(2) into sqrt(2)/2. Ignored if cancelFractionFactors is on.
 
 	// Logarithm options.
 	removeOneLogarithm: boolean // Turn log(1) into 0.

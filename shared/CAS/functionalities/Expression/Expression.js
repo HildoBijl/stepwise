@@ -2271,13 +2271,13 @@ class Fraction extends Function {
 		}
 
 		// Reduce the numbers in the fraction.
-		if (options.crossOutFractionNumbers) {
-			({ numerator, denominator } = Fraction.crossOutFractionNumbers(numerator, denominator, options))
+		if (options.cancelFractionNumbers) {
+			({ numerator, denominator } = Fraction.cancelFractionNumbers(numerator, denominator, options))
 		}
 
 		// Once more try crossing out fraction terms. Things may have changed after simplifying children.
-		if (options.crossOutFractionFactors) {
-			({ numerator, denominator } = Fraction.crossOutFractionFactors(numerator, denominator, options))
+		if (options.cancelFractionFactors) {
+			({ numerator, denominator } = Fraction.cancelFractionFactors(numerator, denominator, options))
 		}
 
 		// See if there is a possibility for polynomial cancellation.
@@ -2301,11 +2301,11 @@ class Fraction extends Function {
 		}
 
 		// Check for useless elements.
-		if (options.removeZeroNumeratorFromFraction) {
+		if (options.removeZeroNumeratorFromFractions) {
 			if (Integer.zero.equalsBasic(numerator))
 				return Integer.zero // On a zero numerator, ignore the denominator.
 		}
-		if (options.removeOneDenominatorFromFraction) {
+		if (options.removeOneDenominatorFromFractions) {
 			if (Integer.one.equalsBasic(denominator))
 				return numerator // On a one denominator, return the numerator.
 			if (Integer.minusOne.equalsBasic(denominator))
@@ -2313,7 +2313,7 @@ class Fraction extends Function {
 		}
 
 		// Prevent roots in the denominator.
-		if (options.preventRootDenominators && !options.crossOutFractionFactors) {
+		if (options.preventRootDenominators && !options.cancelFractionFactors) {
 			const denominatorFactors = denominator.getProductFactors().filter(factor => factor.isSubtype(Sqrt) || factor.isSubtype(Root))
 			if (denominatorFactors.length > 0) {
 				const multiplicationFactors = []
@@ -2343,7 +2343,7 @@ class Fraction extends Function {
 
 		// Apply the display option to split constant and variable parts, writing (2x)/y as 2*(x/y). But only when there does not wind up a one in a numerator somewhere.
 		const result = new Fraction(numerator, denominator)
-		if (options.pullConstantPartOutOfFraction && !options.mergeFractionProducts && !options.removeNegativePowers) {
+		if (options.pullConstantPartOutOfFractions && !options.mergeFractionProducts && !options.removeNegativePowers) {
 			const { constantPart, variablePart } = result.getConstantAndVariablePart()
 			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart) && !(constantPart.isSubtype(Fraction) && Integer.one.equalsBasic(constantPart.numerator)) && !(variablePart.isSubtype(Fraction) && Integer.one.equalsBasic(variablePart.numerator)))
 				return new Product([constantPart, variablePart]).simplifyBasic(options)
@@ -2352,7 +2352,7 @@ class Fraction extends Function {
 		return result
 	}
 
-	static crossOutFractionNumbers(numerator, denominator, options) {
+	static cancelFractionNumbers(numerator, denominator, options) {
 		// Walk through all numerator/denominator terms, get their preceding numbers, and find the GCD we should divide through.
 		const terms = [...denominator.getSumTerms(), ...numerator.getSumTerms()]
 		const leadingNumbers = terms.map(term => Product.extractLeadingNumber(term))
@@ -2380,7 +2380,7 @@ class Fraction extends Function {
 		return { numerator: dividePartByDivisor(numerator), denominator: dividePartByDivisor(denominator) }
 	}
 
-	static crossOutFractionFactors(numerator, denominator, options) {
+	static cancelFractionFactors(numerator, denominator, options) {
 		// Run a very basic check: equality of numerator and denominator.
 		if (numerator.equalsBasic(denominator, true))
 			return { numerator: Integer.one, denominator: Integer.one }

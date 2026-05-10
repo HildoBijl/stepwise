@@ -88,7 +88,7 @@ function getSolution(state) {
 	let divisor = gcd(...coefficients)
 	if (Math.sign(divisor) !== Math.sign(coefficients[0]))
 		divisor *= -1
-	const standardForm = moved.divide(divisor).regularClean({ splitFractions: true, mergeFractionSums: false }).removeUseless({ pullConstantPartOutOfFraction: true, mergeFractionProducts: false })
+	const standardForm = moved.divide(divisor).regularClean({ splitFractions: true, mergeFractionSums: false }).removeUseless({ pullConstantPartOutOfFractions: true, mergeFractionProducts: false })
 
 	// Solve the equation in standard form.
 	const [p, q, r] = coefficients.map(coeff => coeff / divisor)

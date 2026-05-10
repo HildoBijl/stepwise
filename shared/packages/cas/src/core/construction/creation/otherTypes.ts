@@ -1,3 +1,5 @@
+import { removeUndefined } from '@step-wise/utils'
+
 import { Sign, Integer, Sum, Product, Fraction, Power, Root, Ln, Sqrt, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../nodes'
 
 import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode'
@@ -7,9 +9,15 @@ export const negative = (value: ExpressionNodeInput) => new Sign(asExpressionNod
 export const plusMinus = (value: ExpressionNodeInput) => new Sign(asExpressionNode(value), false, true)
 export const minusPlus = (value: ExpressionNodeInput) => new Sign(asExpressionNode(value), true, true)
 
-// Expression lists.
-export const sum = (...terms: ExpressionNodeInput[]) => terms.length === 0 ? Integer.zero : terms.length === 1 ? asExpressionNode(terms[0]) : new Sum(terms.map(asExpressionNode))
-export const product = (...factors: ExpressionNodeInput[]) => factors.length === 0 ? Integer.one : factors.length === 1 ? asExpressionNode(factors[0]) : new Product(factors.map(asExpressionNode))
+// Expression lists. Undefineds are removed from the list.
+export const sum = (...terms: (ExpressionNodeInput | undefined)[]) => {
+	const processedTerms = removeUndefined(terms)
+	return processedTerms.length === 0 ? Integer.zero : processedTerms.length === 1 ? asExpressionNode(processedTerms[0]) : new Sum(processedTerms.map(asExpressionNode))
+}
+export const product = (...factors: (ExpressionNodeInput | undefined)[]) => {
+	const processedFactors = removeUndefined(factors)
+	return processedFactors.length === 0 ? Integer.one : processedFactors.length === 1 ? asExpressionNode(processedFactors[0]) : new Product(processedFactors.map(asExpressionNode))
+}
 
 // Functions.
 export const fraction = (numerator: ExpressionNodeInput, denominator: ExpressionNodeInput) => new Fraction(asExpressionNode(numerator), asExpressionNode(denominator))

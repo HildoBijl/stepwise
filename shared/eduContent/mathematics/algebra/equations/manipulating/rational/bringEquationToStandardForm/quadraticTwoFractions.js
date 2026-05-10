@@ -77,7 +77,7 @@ function getSolution(state) {
 	let divisor = normalize ? coefficients[0] : gcd(...coefficients)
 	if (Math.sign(divisor) !== Math.sign(coefficients[0]))
 		divisor *= -1
-	const ans = moved.divide(divisor).regularClean({ splitFractions: true, mergeFractionSums: false }).removeUseless({ pullConstantPartOutOfFraction: true, mergeFractionProducts: false })
+	const ans = moved.divide(divisor).regularClean({ splitFractions: true, mergeFractionSums: false }).removeUseless({ pullConstantPartOutOfFractions: true, mergeFractionProducts: false })
 
 	// Return all calculated parameters.
 	return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }

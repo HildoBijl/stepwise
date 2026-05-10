@@ -3,9 +3,7 @@ import { isConstantNode, isSignNode, isProduct, isFunctionNode, isPower } from '
 
 // Describe whether an expression node requires a plus before it if placed within a sum.
 export function requiresPlusInSum(node: ExpressionNode): boolean {
-	if (isSignNode(node)) return false
-	if (isProduct(node)) return requiresPlusInSum(node.factors[0])
-	return true
+	return !isSignNode(node)
 }
 
 // Describe whether an expression node requires a times before it if placed within a product.

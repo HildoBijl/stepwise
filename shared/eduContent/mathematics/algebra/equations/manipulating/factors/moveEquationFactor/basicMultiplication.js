@@ -33,7 +33,7 @@ function getSolution(state) {
 	const factor = variables.x
 	const equation = asEquation('a=b/x')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
 	const bothSidesChanged = equation.multiply(factor).removeUseless({ mergeFractionProducts: true })
-	const ans = bothSidesChanged.basicClean({ mergeProductFactors: true, crossOutFractionFactors: true })
+	const ans = bothSidesChanged.basicClean({ mergeProductFactors: true, cancelFractionFactors: true })
 	return { ...state, variables, factor, equation, bothSidesChanged, ans }
 }
 

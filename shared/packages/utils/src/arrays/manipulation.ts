@@ -19,6 +19,11 @@ export function splitArray<T>(array: readonly T[], filter: (value: T, index: num
 	return [kept, removed]
 }
 
+// Remove all undefineds from an array.
+export function removeUndefined<T>(array: readonly (T | undefined)[]): T[] {
+	return array.filter(value => value !== undefined)
+}
+
 // Fill all undefined values in an array with the given value.
 export function fillUndefinedWith<T>(array: readonly (T | undefined)[], filler: T): T[] {
 	return Array.from(array, a => a === undefined ? filler : a)

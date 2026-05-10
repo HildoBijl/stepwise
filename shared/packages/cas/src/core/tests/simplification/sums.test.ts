@@ -1,6 +1,6 @@
-import { variable, negative, sum, product, power } from '../../construction'
+import { negative, plusMinus, minusPlus, variable, sum, product, power } from '../../construction'
 
-import { expectSimplifyToGive } from './utils'
+import { expectSimplifyToGive } from './testUtils'
 
 const x = variable('x')
 const y = variable('y')
@@ -13,13 +13,11 @@ describe('sum simplification', () => {
 	})
 
 	test('removes plus zero from sums', () => {
-		const x = variable('x')
 		expectSimplifyToGive(sum(x, 0), sum(x), { removePlusZeroFromSums: true })
 		expectSimplifyToGive(sum(0, x, 0), sum(x), { removePlusZeroFromSums: true })
 	})
 
 	test('merges sum numbers', () => {
-		const x = variable('x')
 		expectSimplifyToGive(sum(2, x, 3), sum(x, 5), { mergeSumNumbers: true })
 		expectSimplifyToGive(sum(2, x, -5), sum(x, -3), { mergeSumNumbers: true })
 		expectSimplifyToGive(sum(3, x, -3), sum(x, 0), { mergeSumNumbers: true })
@@ -38,6 +36,19 @@ describe('sum simplification', () => {
 		expectSimplifyToGive(sum(product(2, x, y), product(3, y, x)), product(sum(2, 3), product(x, y)), { groupSumTerms: true })
 	})
 
+	test('expands minus sums', () => {
+		expectSimplifyToGive(negative(sum(x, y)), sum(negative(x), negative(y)), { expandMinusSums: true })
+		expectSimplifyToGive(negative(sum(x, y, z)), sum(negative(x), negative(y), negative(z)), { expandMinusSums: true })
+		expectSimplifyToGive(negative(sum(x, negative(y))), sum(negative(x), negative(negative(y))), { expandMinusSums: true })
+	})
+
+	test('expands plus-minus sums', () => {
+		expectSimplifyToGive(plusMinus(sum(x, y)), sum(plusMinus(x), plusMinus(y)), { expandPlusMinusSums: true })
+		expectSimplifyToGive(plusMinus(sum(x, y, z)), sum(plusMinus(x), plusMinus(y), plusMinus(z)), { expandPlusMinusSums: true })
+		expectSimplifyToGive(plusMinus(sum(x, negative(y))), sum(plusMinus(x), plusMinus(negative(y))), { expandPlusMinusSums: true })
+		expectSimplifyToGive(minusPlus(sum(x, y)), sum(minusPlus(x), minusPlus(y)), { expandPlusMinusSums: true })
+	})
+
 	test('pulls out common sum numbers', () => {
 		expectSimplifyToGive(sum(product(6, x), product(9, y)), product(3, sum(product(2, x), product(3, y))), { pullOutCommonSumNumbers: true })
 		expectSimplifyToGive(sum(product(4, x), product(10, y), 6), product(2, sum(product(2, x), product(5, y), 3)), { pullOutCommonSumNumbers: true })
@@ -46,14 +57,14 @@ describe('sum simplification', () => {
 
 	test('pulls out common sum factors', () => {
 		expectSimplifyToGive(sum(product(x, y), product(x, z)), product(x, sum(y, z)), { pullOutCommonSumFactors: true })
-		expectSimplifyToGive(sum(product(x, y, z), product(x, y)), product(product(x, y), sum(z, 1)), { pullOutCommonSumFactors: true })
+		expectSimplifyToGive(sum(product(x, y, z), product(x, y)), product(x, y, sum(z, 1)), { pullOutCommonSumFactors: true })
 		expectSimplifyToGive(sum(product(x, y), product(x, z), x), product(x, sum(y, z, 1)), { pullOutCommonSumFactors: true })
 		expectSimplifyToGive(sum(product(x, y), product(z, y)), product(y, sum(x, z)), { pullOutCommonSumFactors: true })
-		expectSimplifyToGive(sum(product(x, y), product(x, y)), product(product(x, y), sum(1, 1)), { pullOutCommonSumFactors: true })
+		expectSimplifyToGive(sum(product(x, y), product(x, y)), product(x, y, sum(1, 1)), { pullOutCommonSumFactors: true })
 	})
 
 	test('sorts sums', () => {
-		expectSimplifyToGive(sum(2, x), sum(x, 2), { sortSums: true })
+		expectSimplifyToGive(sum(-2, x), sum(x, -2), { sortSums: true })
 		expectSimplifyToGive(sum(y, x), sum(x, y), { sortSums: true })
 		expectSimplifyToGive(sum(x, 1, power(x, 2)), sum(power(x, 2), x, 1), { sortSums: true })
 		expectSimplifyToGive(sum(1, x, y, power(x, 2), power(y, 2), product(x, y)), sum(power(x, 2), product(x, y), x, power(y, 2), y, 1), { sortSums: true }, undefined)

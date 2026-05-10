@@ -43,7 +43,7 @@ function getSolution(state) {
 
 	// Check the solution.
 	const equationWithSolution = equation.substituteVariables({ [variables.x]: ansCleaned })
-	const equationWithSolutionMergedFractions = equationWithSolution.basicClean({ mergeFractionSums: true, crossOutFractionFactors: true })
+	const equationWithSolutionMergedFractions = equationWithSolution.basicClean({ mergeFractionSums: true, cancelFractionFactors: true })
 	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.basicClean({ expandProductsOfSums: true, sortSums: true })
 
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans, ansCleaned, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }

@@ -1,6 +1,6 @@
-import { type Variable } from '../../../construction'
+import { type Variable } from '../../../../construction'
 
-// Given two variables, check which should appear earlier in a sum.
+// Given two variables, check which should appear earlier when sorting sums/products.
 export function compareVariableNodes(a: Variable, b: Variable): number {
 	const symbolOrder = a.symbol.localeCompare(b.symbol)
 	if (symbolOrder !== 0) return symbolOrder

@@ -1,6 +1,6 @@
 import { ExpressionNode, Variable, numericVariables } from '../../../construction'
 
-import { someDescendant, isFloatNode, isIntegerNode, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../fundamentals'
+import { someDescendant, isSignNode, isFloatNode, isIntegerNode, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../fundamentals'
 
 import { isPlusMinusSign } from './valueChecks'
 
@@ -34,6 +34,7 @@ export function isSingular(node: ExpressionNode): boolean {
 // Structural polynomial check.
 export function isPolynomial(node: ExpressionNode): boolean {
 	if (isNumeric(node)) return true
+	if (isSignNode(node)) return isPolynomial(node.node)
 	if (isVariable(node)) return true
 	if (isSum(node)) return node.terms.every(isPolynomial)
 	if (isProduct(node)) return node.factors.every(isPolynomial)
@@ -45,6 +46,7 @@ export function isPolynomial(node: ExpressionNode): boolean {
 // Structural rational check.
 export function isRational(node: ExpressionNode): boolean {
 	if (isPolynomial(node)) return true
+	if (isSignNode(node)) return isRational(node.node)
 	if (isSum(node)) return node.terms.every(isRational)
 	if (isProduct(node)) return node.factors.every(isRational)
 	if (isFraction(node)) return isRational(node.numerator) && isRational(node.denominator)

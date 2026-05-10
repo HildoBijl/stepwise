@@ -1,6 +1,8 @@
-import { type ExpressionNode, type Product, Integer, power, product, sum } from '../../../../construction'
+import { type ExpressionNode, type Product, power, product, sum } from '../../../../construction'
 
-import { isPower, equalNodes } from '../../../structural'
+import { equalNodes } from '../../../structural'
+
+import { getBaseAndExponent } from '../utils'
 
 export function mergeProductFactors(node: Product): ExpressionNode {
 	const groups: { base: ExpressionNode, exponents: ExpressionNode[], original: ExpressionNode }[] = []
@@ -11,10 +13,5 @@ export function mergeProductFactors(node: Product): ExpressionNode {
 		else groups.push({ base, exponents: [exponent], original: factor })
 	}
 	if (groups.length === node.factors.length) return node
-	return product(...groups.map(group =>	group.exponents.length === 1 ? group.original : power(group.base, sum(...group.exponents))))
-}
-
-function getBaseAndExponent(node: ExpressionNode): { base: ExpressionNode, exponent: ExpressionNode } {
-	if (isPower(node)) return { base: node.base, exponent: node.exponent }
-	return { base: node, exponent: Integer.one }
+	return product(...groups.map(group => group.exponents.length === 1 ? group.original : power(group.base, sum(...group.exponents))))
 }

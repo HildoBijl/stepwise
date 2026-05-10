@@ -1,6 +1,6 @@
 import { mergeDefaults } from '@step-wise/utils'
 
-import { type SimplificationOptions } from './types'
+import { type SimplificationOption, type SimplificationOptions } from './types'
 import { noSimplify } from './noSimplify'
 
 export function validateSimplificationOptions(simplificationOptions: Partial<SimplificationOptions>): SimplificationOptions {
@@ -8,43 +8,45 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 
 	// Define handlers to register conflicts.
 	const errors: string[] = []
-	const requireOption = (option: keyof SimplificationOptions, requiredOption: keyof SimplificationOptions) => {
-		if (options[option] && !options[requiredOption]) errors.push(`Invalid simplification options: "${option}" requires "${requiredOption}" to also be enabled.`)
+	const requireOption = (extraOptions: SimplificationOption | SimplificationOption[], requiredOptions: SimplificationOption | SimplificationOption[]) => {
+		(Array.isArray(extraOptions) ? extraOptions : [extraOptions]).forEach(extraOption => {
+			(Array.isArray(requiredOptions) ? requiredOptions : [requiredOptions]).forEach(requiredOption => {
+				if (options[extraOption] && !options[requiredOption]) errors.push(`Invalid simplification options: "${extraOption}" requires "${requiredOption}" to also be enabled.`)
+			})
+		})
 	}
-	const conflict = (a: keyof SimplificationOptions, b: keyof SimplificationOptions) => {
-		if (options[a] && options[b]) errors.push(`Invalid simplification options: "${a}" conflicts with "${b}".`)
+	const conflict = (a: SimplificationOption | SimplificationOption[], b: SimplificationOption | SimplificationOption[]) => {
+		(Array.isArray(a) ? a : [a]).forEach(aItem => {
+			(Array.isArray(b) ? b : [b]).forEach(bItem => {
+				if (options[aItem] && options[bItem]) errors.push(`Invalid simplification options: "${aItem}" conflicts with "${bItem}".`)
+			})
+		})
 	}
 
-	// Sign dependencies.
+	// Sign option requirements.
 	requireOption('removeDoublePlusMinusSigns', 'removeDoubleNegatives')
 	requireOption('mergeProductPlusMinuses', 'mergeProductMinuses')
 
-	// Constant conflicts.
-	conflict('factorizeIntegers', 'mergeProductNumbers')
-	conflict('factorizeIntegers', 'mergePowerNumbers')
+	// Expansion/factorization conflicts.
+	conflict('factorizeIntegers', ['mergeProductNumbers', 'mergePowerNumbers'])
+	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSums'])
 
-	// Sum/product expansion conflicts.
-	conflict('cancelSumTerms', 'groupSumTerms')
-	conflict('pullOutCommonSumNumbers', 'expandProductsOfSums')
-	conflict('pullOutCommonSumNumbers', 'expandPowersOfSums')
-	// conflict('pullOutCommonSumFactors', 'expandProductsOfSums')
-	// conflict('pullOutCommonSumFactors', 'expandPowersOfSums')
-
-	// // Fraction conflicts/dependencies.
-	// conflict('splitFractions', 'mergeFractionSums')
-	// requireOption('crossOutFractionFactors', 'mergeProductFactors')
-	// conflict('pullConstantPartOutOfFraction', 'mergeFractionProducts')
-	// conflict('pullConstantPartOutOfFraction', 'removeNegativePowers')
+	// Fraction conflicts/dependencies.
+	conflict('splitFractions', 'mergeFractionSums')
+	requireOption('mergeFractionFactors', 'mergeProductFactors')
+	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
+	// conflict('pullConstantPartOutOfFractions', 'mergeFractionProducts')
+	// conflict('pullConstantPartOutOfFractions', 'removeNegativePowers')
 
 	// // Power conflicts.
 	// conflict('expandPowers', 'mergeProductFactors')
-	// conflict('removeNegativePowers', 'pullConstantPartOutOfFraction')
+	// conflict('removeNegativePowers', 'pullConstantPartOutOfFractions')
 
 	// // Root conflicts/dependencies.
 	// conflict('turnRootIntoFractionExponent', 'turnFractionExponentIntoRoot')
 	// conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
 	// conflict('pullExponentsIntoRoots', 'turnRootIntoFractionExponent')
-	// conflict('preventRootDenominators', 'crossOutFractionFactors')
+	// conflict('preventRootDenominators', 'cancelFractionFactors')
 
 	// Log/trig conflicts are currently fine.
 

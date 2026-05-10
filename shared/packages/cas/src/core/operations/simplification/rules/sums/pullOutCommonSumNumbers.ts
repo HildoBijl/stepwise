@@ -1,7 +1,10 @@
 import { gcd } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type ConstantNode, type Sum, Integer, integer, sum, product } from '../../../../construction'
-import { isSignNode, isConstantNode, isIntegerNode, isProduct } from '../../../structural'
+import { type ExpressionNode, type Sum, integer, sum, product } from '../../../../construction'
+
+import { isIntegerNode } from '../../../structural'
+
+import { getLeadingNumber, divideLeadingNumberBy } from '../utils'
 
 // If all leading numbers are integers, and their GCD is not one, then pull out an integer.
 export function pullOutCommonSumNumbers(node: Sum): ExpressionNode {
@@ -11,20 +14,4 @@ export function pullOutCommonSumNumbers(node: Sum): ExpressionNode {
 	if (divisor === 1) return node
 	const terms = node.terms.map(term => divideLeadingNumberBy(term, divisor))
 	return product(integer(divisor), sum(...terms))
-}
-
-// Get the number that's at the front of the given expression.
-function getLeadingNumber(node: ExpressionNode): ConstantNode {
-	if (isConstantNode(node)) return node
-	if (isSignNode(node)) return getLeadingNumber(node.node)
-	if (isProduct(node) && node.factors.length > 0 && isConstantNode(node.factors[0])) return node.factors[0]
-	return Integer.one
-}
-
-// Take the expression's leading number and divide it by the given factor. It assumes that's possible.
-function divideLeadingNumberBy(node: ExpressionNode, factor: number): ExpressionNode {
-	if (isConstantNode(node)) return integer(node.value / factor)
-	if (isSignNode(node)) return node.recreateWith(divideLeadingNumberBy(node.node, factor))
-	if (isProduct(node) && node.factors.length > 0 && isConstantNode(node.factors[0])) return product(divideLeadingNumberBy(node.factors[0], factor), ...node.factors.slice(1))
-	throw new Error(`Could not divide the leading number of the expression by the factor: the types don't line up.`)
 }

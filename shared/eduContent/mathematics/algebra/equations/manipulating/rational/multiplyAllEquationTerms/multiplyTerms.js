@@ -57,7 +57,7 @@ function getSolution(state) {
 	const form = equation.multiply(factor, true)
 	const expandedIntermediate = form.removeUseless({ mergeFractionProducts: false, expandProductsOfSums: true })
 	const expanded = expandedIntermediate.basicClean({ expandProductsOfSums: true, mergeFractionProducts: true })
-	const ans = expanded.basicClean({ crossOutFractionNumbers: true, crossOutFractionFactors: true })
+	const ans = expanded.basicClean({ cancelFractionNumbers: true, cancelFractionFactors: true })
 	return { ...state, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 }
 

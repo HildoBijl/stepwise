@@ -12,7 +12,7 @@ export function sortSums(node: Sum): Sum {
 // Sorting function that determines which of two expressions should come first.
 function orderSumTerms(a: ExpressionNode, b: ExpressionNode): number {
 	// First sort by type.
-	const tests = [isPolynomial, isNumeric, isRational, () => true]
+	const tests = [(node: ExpressionNode) => isPolynomial(node) && !isNumeric(node), isNumeric, isRational, () => true]
 	const index = tests.findIndex(test => test(a) || test(b))
 	const test = tests[index]
 	if (!test(a)) return 1
