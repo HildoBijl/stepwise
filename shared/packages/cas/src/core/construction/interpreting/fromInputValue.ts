@@ -6,7 +6,7 @@ import type { InterpreterContext } from './types'
 import { interpretBrackets, interpretProducts, interpretSpecialFunctionWithParameterAfter, interpretStringsAndElements, interpretSums } from './steps'
 
 // Turn an InputValue to an ExpressionNode.
-export function inputValueToExpressionNode(input: ExpressionInputValue, settings: InterpretationSettings): ExpressionNode {
+export function inputValueToNode(input: ExpressionInputValue, settings: InterpretationSettings): ExpressionNode {
 	const context: InterpreterContext = { interpretBrackets, interpretSums, interpretProducts, interpretStringsAndElements, interpretSpecialFunctionWithParameterAfter } satisfies InterpreterContext
 	return interpretBrackets(input.value, settings, context)
 }

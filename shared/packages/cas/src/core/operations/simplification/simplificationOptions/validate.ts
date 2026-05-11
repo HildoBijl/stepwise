@@ -1,10 +1,10 @@
 import { mergeDefaults } from '@step-wise/utils'
 
 import { type SimplificationOption, type SimplificationOptions } from './types'
-import { noSimplify } from './noSimplify'
+import { defaultSimplificationOptions } from './utils'
 
 export function validateSimplificationOptions(simplificationOptions: Partial<SimplificationOptions>): SimplificationOptions {
-	const options = mergeDefaults(simplificationOptions, noSimplify)
+	const options = mergeDefaults(simplificationOptions, defaultSimplificationOptions)
 
 	// Define handlers to register conflicts.
 	const errors: string[] = []
@@ -46,14 +46,9 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	conflict('turnBaseTwoRootsIntoSqrts', 'turnSqrtsIntoBaseTwoRoots')
 	conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
 
-	// conflict('turnRootsIntoFractionExponents', 'turnFractionExponentsIntoRoots')
-	// conflict('pullExponentsIntoRoots', 'turnRootsIntoFractionExponents')
-	// conflict('preventRootDenominators', 'cancelFractionFactors')
-
-	// Log/trig conflicts are currently fine.
-
+	// Throw any encountered errors.
 	if (errors.length > 0) throw new Error(errors.join('\n'))
 	return options
 }
 
-export const polynomialCancellationSimplificationOptionList: SimplificationOption[] = ['removeDoubleNegatives', 'removeMinusFromZero', 'turnFloatsIntoIntegers', 'flattenSums', 'removePlusZeroFromSums', 'mergeSumNumbers', 'cancelSumTerms', 'groupSumTerms', 'expandMinusSums', 'sortSums', 'flattenProducts', 'mergeProductMinuses', 'reduceProductsWithZero', 'removeTimesOneFromProducts', 'mergeProductNumbers', 'mergeProductFactors', 'expandProductsOfSums', 'sortProducts', 'reduceFractionsWithZeroNumerator', 'reduceFractionsWithOneDenominator', 'mergeFractionProducts', 'flattenFractions', 'mergeFractionSums', 'mergeFractionMinuses', 'mergeFractionNumbers', 'cancelFractionFactors', 'mergeFractionFactors', 'normalizeFractionMinuses', 'removeZeroExponentFromPowers', 'removeZeroBaseFromPowers', 'removeOneExponentFromPowers', 'removeOneBaseFromPowers', 'mergePowerNumbers', 'removePowersWithinPowers', 'removeNegativePowers', 'expandPowersOfProducts', 'expandPowersOfSums']
+export const polynomialCancellationSimplificationOptionList: SimplificationOption[] = ['removeDoubleNegatives', 'removeMinusFromZero', 'turnFloatsIntoIntegers', 'flattenSums', 'removePlusZeroFromSums', 'mergeSumNumbers', 'cancelSumTerms', 'groupSumTerms', 'expandMinusSums', 'sortSums', 'flattenProducts', 'mergeProductMinuses', 'reduceProductsWithZero', 'removeTimesOneFromProducts', 'mergeProductNumbers', 'mergeProductFactors', 'expandProductsOfSums', 'sortProducts', 'reduceFractionsWithZeroNumerator', 'reduceFractionsWithOneDenominator', 'mergeFractionProducts', 'flattenFractions', 'mergeFractionSums', 'mergeFractionMinuses', 'mergeFractionNumbers', 'cancelFractionFactors', 'mergeFractionFactors', 'normalizeFractionMinuses', 'reducePowersWithZeroExponent', 'reducePowersWithZeroBase', 'removeOneExponentFromPowers', 'reducePowersWithOneBase', 'mergePowerNumbers', 'removePowersWithinPowers', 'removeNegativePowers', 'expandPowersOfProducts', 'expandPowersOfSums']

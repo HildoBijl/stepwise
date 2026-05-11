@@ -1,6 +1,6 @@
 import { defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToExpressionNode } from '../construction'
+import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToNode } from '../construction'
 import { equalNodes } from '../operations'
 
 import { nodeToString } from '../export/printing/toString'
@@ -85,6 +85,6 @@ describe('toString', () => {
 // Test parsing: does the string give the node?
 describe('stringToExpressionNode', () => {
 	test.each(parserTestCases)('interprets "$str"', ({ str, node }) => {
-		expect(equalNodes(stringToExpressionNode(str, defaultInterpretationSettings), node)).toBe(true)
+		expect(equalNodes(stringToNode(str, defaultInterpretationSettings), node)).toBe(true)
 	})
 })

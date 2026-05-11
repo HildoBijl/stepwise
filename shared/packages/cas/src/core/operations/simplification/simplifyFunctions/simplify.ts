@@ -5,11 +5,11 @@ import { type ExpressionNode } from '../../../construction'
 
 import { replaceDescendants } from '../../structural'
 
-import { type SimplificationPreset, type SimplificationContext, validateSimplificationOptions, getActiveSimplificationOptions } from '../definitions'
+import { type SimplificationPreset, type SimplificationContext, validateSimplificationOptions, getActiveSimplificationOptions } from '../simplificationOptions'
 
 import { applySimplificationRules } from './simplifyPipeline'
 
-export function simplify(node: ExpressionNode, options: Partial<SimplificationPreset> = {}, settings: Partial<ExpressionSettings> = {}): ExpressionNode {
+export function simplify(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, options: Partial<SimplificationPreset> = {}): ExpressionNode {
 	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
 	const optionSequence = Array.isArray(options) ? options : [options]
 	let current = node

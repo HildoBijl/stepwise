@@ -2,7 +2,7 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isSignNode } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { removeDoubleNegatives } from './removeDoubleNegatives'
 import { removeMinusFromZero } from './removeMinusFromZero'

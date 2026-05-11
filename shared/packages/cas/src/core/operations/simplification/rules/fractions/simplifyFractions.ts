@@ -2,7 +2,7 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isSum, isProduct, isFraction } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { reduceFractionsWithZeroNumerator } from './reduceFractionsWithZeroNumerator'
 import { reduceFractionsWithOneDenominator } from './reduceFractionsWithOneDenominator'

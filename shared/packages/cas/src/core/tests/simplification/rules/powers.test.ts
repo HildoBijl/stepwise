@@ -1,6 +1,6 @@
-import { variable, negative, sum, product, fraction, power } from '../../construction'
+import { variable, negative, sum, product, fraction, power } from '../../../construction'
 
-import { expectSimplifyToGive } from './testUtils'
+import { expectSimplifyToGive } from '../testUtils'
 
 const x = variable('x')
 const y = variable('y')
@@ -8,15 +8,15 @@ const z = variable('z')
 
 describe('power simplification', () => {
 	test('removes zero exponent from powers', () => {
-		expectSimplifyToGive(power(x, 0), 1, { removeZeroExponentFromPowers: true })
-		expectSimplifyToGive(power(sum(x, y), 0), 1, { removeZeroExponentFromPowers: true })
-		expectSimplifyToGive(power(0, 0), power(0, 0), { removeZeroExponentFromPowers: true })
+		expectSimplifyToGive(power(x, 0), 1, { reducePowersWithZeroExponent: true })
+		expectSimplifyToGive(power(sum(x, y), 0), 1, { reducePowersWithZeroExponent: true })
+		expectSimplifyToGive(power(0, 0), power(0, 0), { reducePowersWithZeroExponent: true })
 	})
 
 	test('removes zero base from powers', () => {
-		expectSimplifyToGive(power(0, 3), 0, { removeZeroBaseFromPowers: true })
-		expectSimplifyToGive(power(0, sum(x, y)), 0, { removeZeroBaseFromPowers: true })
-		expectSimplifyToGive(power(0, 0), power(0, 0), { removeZeroBaseFromPowers: true })
+		expectSimplifyToGive(power(0, 3), 0, { reducePowersWithZeroBase: true })
+		expectSimplifyToGive(power(0, sum(x, y)), 0, { reducePowersWithZeroBase: true })
+		expectSimplifyToGive(power(0, 0), power(0, 0), { reducePowersWithZeroBase: true })
 	})
 
 	test('removes one exponent from powers', () => {
@@ -25,8 +25,8 @@ describe('power simplification', () => {
 	})
 
 	test('removes one base from powers', () => {
-		expectSimplifyToGive(power(1, x), 1, { removeOneBaseFromPowers: true })
-		expectSimplifyToGive(power(1, sum(x, y)), 1, { removeOneBaseFromPowers: true })
+		expectSimplifyToGive(power(1, x), 1, { reducePowersWithOneBase: true })
+		expectSimplifyToGive(power(1, sum(x, y)), 1, { reducePowersWithOneBase: true })
 	})
 
 	test('merges power minuses', () => {
@@ -74,7 +74,7 @@ describe('power simplification', () => {
 	test('expands powers of sums', () => {
 		expectSimplifyToGive(power(sum(x, y), 2), sum(product(1, power(x, 2), power(y, 0)), product(2, power(x, 1), power(y, 1)), product(1, power(x, 0), power(y, 2))), { expandPowersOfSums: true })
 		expectSimplifyToGive(power(sum(x, y), 3), sum(product(1, power(x, 3), power(y, 0)), product(3, power(x, 2), power(y, 1)), product(3, power(x, 1), power(y, 2)), product(1, power(x, 0), power(y, 3))), { expandPowersOfSums: true })
-		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), { flattenSums: true, flattenProducts: true, removeTimesOneFromProducts: true, removeZeroExponentFromPowers: true, removeOneExponentFromPowers: true, expandProductsOfSums: true, expandPowersOfSums: true })
+		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), { flattenSums: true, flattenProducts: true, removeTimesOneFromProducts: true, reducePowersWithZeroExponent: true, removeOneExponentFromPowers: true, expandProductsOfSums: true, expandPowersOfSums: true })
 	})
 
 	test('expands powers of sums within sums', () => {

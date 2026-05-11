@@ -1,8 +1,8 @@
 import { type InterpretationSettings, stringToInputValue } from '@step-wise/math-input-value'
 
-import { inputValueToExpressionNode } from './fromInputValue'
+import { inputValueToNode } from './fromInputValue'
 
 // Turn a string into an ExpressionNode.
-export function stringToExpressionNode(str: string, settings: InterpretationSettings) {
-	return inputValueToExpressionNode(stringToInputValue(str, settings), settings)
+export function stringToNode(str: string, settings: InterpretationSettings) {
+	return inputValueToNode(stringToInputValue(str, settings), settings)
 }

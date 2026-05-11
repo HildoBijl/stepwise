@@ -2,7 +2,7 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isProduct, isFraction, isPower, isSqrt, isRoot } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { isRootLike } from '../utils'
 

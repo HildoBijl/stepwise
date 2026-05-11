@@ -43,10 +43,10 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
 	// Power options.
-	removeZeroExponentFromPowers: false, // Turn x^0 into 1.
-	removeZeroBaseFromPowers: false, // Turn 0^x into 0.
+	reducePowersWithZeroExponent: false, // Turn x^0 into 1.
+	reducePowersWithZeroBase: false, // Turn 0^x into 0.
 	removeOneExponentFromPowers: false, // Turn x^1 into x.
-	removeOneBaseFromPowers: false, // Turn 1^x into 1.
+	reducePowersWithOneBase: false, // Turn 1^x into 1.
 	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
@@ -120,10 +120,10 @@ const removeUseless = {
 	removeTimesOneFromProducts: true,
 	reduceFractionsWithZeroNumerator: true,
 	reduceFractionsWithOneDenominator: true,
-	removeZeroExponentFromPowers: true,
-	removeZeroBaseFromPowers: true,
+	reducePowersWithZeroExponent: true,
+	reducePowersWithZeroBase: true,
 	removeOneExponentFromPowers: true,
-	removeOneBaseFromPowers: true,
+	reducePowersWithOneBase: true,
 	reduceRootsWithZeroArgument: true,
 	reduceRootsWithOneArgument: true,
 	removeOneLogarithm: true,

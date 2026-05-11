@@ -2,12 +2,12 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isPower, isSum } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
-import { removeZeroExponentFromPowers } from './removeZeroExponentFromPowers'
-import { removeZeroBaseFromPowers } from './removeZeroBaseFromPowers'
+import { reducePowersWithZeroExponent } from './reducePowersWithZeroExponent'
+import { reducePowersWithZeroBase } from './reducePowersWithZeroBase'
 import { removeOneExponentFromPowers } from './removeOneExponentFromPowers'
-import { removeOneBaseFromPowers } from './removeOneBaseFromPowers'
+import { reducePowersWithOneBase } from './reducePowersWithOneBase'
 import { mergePowerMinuses } from './mergePowerMinuses'
 import { mergePowerNumbers } from './mergePowerNumbers'
 import { removePowersWithinPowers } from './removePowersWithinPowers'
@@ -18,10 +18,10 @@ import { expandPowersOfFractions } from './expandPowersOfFractions'
 import { expandPowersOfSums } from './expandPowersOfSums'
 
 export function simplifyPowers(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	if (isPower(node) && context.simplificationOptions.removeZeroExponentFromPowers) node = removeZeroExponentFromPowers(node)
-	if (isPower(node) && context.simplificationOptions.removeZeroBaseFromPowers) node = removeZeroBaseFromPowers(node)
+	if (isPower(node) && context.simplificationOptions.reducePowersWithZeroExponent) node = reducePowersWithZeroExponent(node)
+	if (isPower(node) && context.simplificationOptions.reducePowersWithZeroBase) node = reducePowersWithZeroBase(node)
 	if (isPower(node) && context.simplificationOptions.removeOneExponentFromPowers) node = removeOneExponentFromPowers(node)
-	if (isPower(node) && context.simplificationOptions.removeOneBaseFromPowers) node = removeOneBaseFromPowers(node)
+	if (isPower(node) && context.simplificationOptions.reducePowersWithOneBase) node = reducePowersWithOneBase(node)
 	if (isPower(node) && context.simplificationOptions.mergePowerMinuses) node = mergePowerMinuses(node)
 	if (isPower(node) && context.simplificationOptions.mergePowerNumbers) node = mergePowerNumbers(node)
 	if (isPower(node) && context.simplificationOptions.removePowersWithinPowers) node = removePowersWithinPowers(node)

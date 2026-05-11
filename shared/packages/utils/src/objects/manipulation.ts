@@ -101,8 +101,7 @@ export function mergeDefaults<T extends Record<string, unknown>>(givenOptions: R
 		givenOptions = pickFromDefaults(givenOptions, defaultOptions)
 	} else {
 		Object.keys(givenOptions).forEach(key => {
-			if (!Object.prototype.hasOwnProperty.call(defaultOptions, key))
-				throw new Error(`Invalid option: "${key}" is not a recognized option`)
+			if (!Object.prototype.hasOwnProperty.call(defaultOptions, key)) throw new Error(`Invalid option: "${key}" is not a recognized option`)
 		})
 	}
 

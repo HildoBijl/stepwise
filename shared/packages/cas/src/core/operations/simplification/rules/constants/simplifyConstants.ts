@@ -2,7 +2,7 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isConstantNode, isFloatNode, isIntegerNode } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { turnFloatsIntoIntegers } from './turnFloatsIntoIntegers'
 import { factorizeIntegers } from './factorizeIntegers'

@@ -1,8 +1,8 @@
-import { negative, variable, sum, product, fraction, power } from '../../construction'
+import { negative, variable, sum, product, fraction, power } from '../../../construction'
 
-import { polynomialCancellationSimplificationOptionList, getSimplificationOptionsFromList } from '../../operations'
+import { polynomialCancellationSimplificationOptionList, getSimplificationOptionsFromList } from '../../../operations'
 
-import { expectSimplifyToGive } from './testUtils'
+import { expectSimplifyToGive } from '../testUtils'
 
 const x = variable('x')
 const y = variable('y')

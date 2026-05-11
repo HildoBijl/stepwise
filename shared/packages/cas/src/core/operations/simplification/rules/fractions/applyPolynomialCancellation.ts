@@ -4,7 +4,7 @@ import { type ExpressionNode, type Fraction, fraction, product } from '../../../
 
 import { isOne } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { getPolynomialGCD, getProductFactors } from '../utils'
 

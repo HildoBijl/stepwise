@@ -2,7 +2,7 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isSum, isProduct } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { flattenProducts } from './flattenProducts'
 import { mergeProductMinuses } from './mergeProductMinuses'

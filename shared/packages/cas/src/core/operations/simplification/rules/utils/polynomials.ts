@@ -4,7 +4,7 @@ import { type ExpressionNode, type Variable, Integer, power, product, sum } from
 
 import { subtract, multiply, divide, equalVariables, getVariables, isNumeric, isZero, isPolynomial, isPower, isVariable, numericNodeToNumber } from '../../../structural'
 
-import { type SimplificationOptions, getSimplificationOptionsFromList, polynomialCancellationSimplificationOptionList } from '../../definitions'
+import { type SimplificationOptions, getSimplificationOptionsFromList, polynomialCancellationSimplificationOptionList } from '../../simplificationOptions'
 
 import { getSumTerms, getConstantAndVariablePart } from './defaults'
 

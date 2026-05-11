@@ -2,7 +2,7 @@ import { type ExpressionNode } from '../../../../construction'
 
 import { isNegativeSign, isPlusMinusSign, isSum } from '../../../structural'
 
-import { type SimplificationContext } from '../../definitions'
+import { type SimplificationContext } from '../../simplificationOptions'
 
 import { flattenSums } from './flattenSums'
 import { removePlusZeroFromSums } from './removePlusZeroFromSums'
