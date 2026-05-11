@@ -1,7 +1,9 @@
 import { type ExpressionSettings } from '@step-wise/math-input-value'
 
+import { type ExpressionNode } from '../../../../construction'
+
 export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[]
-export type SimplificationContext = { simplificationOptions: SimplificationOptions, expressionSettings: ExpressionSettings }
+export type SimplificationContext = { simplificationOptions: SimplificationOptions, expressionSettings: ExpressionSettings, simplify: (node: ExpressionNode, options?: Partial<SimplificationOptions>) => ExpressionNode }
 export type SimplificationOption = keyof SimplificationOptions
 export type SimplificationOptions = {
 	// Sign options.
@@ -48,8 +50,8 @@ export type SimplificationOptions = {
 	mergeFractionNumbers: boolean // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2.
 	cancelFractionFactors: boolean // Cancel factors in fractions. So (ab)/(bc) becomes a/c.
 	mergeFractionFactors: boolean // Merge factors in fractions. So a^x/a^y becomes a^(x-y). Only works when mergeProductFactors is true.
+	normalizeFractionMinuses: boolean // Makes sure the first term in the numerator/denominator does not have a minus sign. Requires mergeProductMinuses, removeDoubleNegatives and sortSums to be on.
 	applyPolynomialCancellation: boolean // Cancel polynomial terms between numerator and denominator. Only univariate for now.
-	normalizeFractionMinuses: boolean // Makes sure the first term in the numerator/denominator does not have a minus sign. Requires mergeProductMinuses and sortSums to be on.
 
 	// Power options.
 	removeZeroExponentFromPower: boolean // Turn x^0 into 1.

@@ -40,8 +40,8 @@ export const noSimplify: SimplificationOptions = {
 	mergeFractionNumbers: false,
 	cancelFractionFactors: false,
 	mergeFractionFactors: false,
-	applyPolynomialCancellation: false,
 	normalizeFractionMinuses: false,
+	applyPolynomialCancellation: false,
 
 	removeZeroExponentFromPower: false,
 	removeZeroBaseFromPower: false,

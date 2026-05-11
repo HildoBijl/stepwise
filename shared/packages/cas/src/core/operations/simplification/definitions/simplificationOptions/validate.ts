@@ -35,6 +35,7 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	conflict('splitFractions', 'mergeFractionSums')
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
+	requireOption('applyPolynomialCancellation', polynomialCancellationSimplificationOptionList)
 	// conflict('pullConstantPartOutOfFractions', 'mergeFractionProducts')
 	// conflict('pullConstantPartOutOfFractions', 'removeNegativePowers')
 
@@ -53,3 +54,5 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	if (errors.length > 0) throw new Error(errors.join('\n'))
 	return options
 }
+
+export const polynomialCancellationSimplificationOptionList: SimplificationOption[] = ['removeDoubleNegatives', 'removeMinusFromZero', 'turnFloatsIntoIntegers', 'flattenSums', 'removePlusZeroFromSums', 'mergeSumNumbers', 'cancelSumTerms', 'groupSumTerms', 'expandMinusSums', 'sortSums', 'flattenProducts', 'mergeProductMinuses', 'reduceProductsWithZero', 'removeTimesOneFromProducts', 'mergeProductNumbers', 'mergeProductFactors', 'expandProductsOfSums', 'sortProducts', 'reduceFractionsWithZeroNumerator', 'reduceFractionsWithOneDenominator', 'mergeFractionProducts', 'flattenFractions', 'mergeFractionSums', 'mergeFractionMinuses', 'mergeFractionNumbers', 'cancelFractionFactors', 'mergeFractionFactors', 'normalizeFractionMinuses', 'removeZeroExponentFromPower', 'removeZeroBaseFromPower', 'removeOneExponentFromPower', 'removeOneBaseFromPower', 'mergePowerNumbers', 'removePowersWithinPowers', 'removeNegativePowers', 'expandPowersOfProducts', 'expandPowersOfSums']

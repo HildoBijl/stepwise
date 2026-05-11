@@ -15,7 +15,7 @@ import { normalizeFractionMinuses } from './normalizeFractionMinuses'
 import { mergeFractionNumbers } from './mergeFractionNumbers'
 import { cancelFractionFactors } from './cancelFractionFactors'
 import { mergeFractionFactors } from './mergeFractionFactors'
-// import { applyPolynomialCancellation } from './applyPolynomialCancellation'
+import { applyPolynomialCancellation } from './applyPolynomialCancellation'
 
 export function simplifyFractions(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	if (isFraction(node) && context.simplificationOptions.reduceFractionsWithZeroNumerator) node = reduceFractionsWithZeroNumerator(node)
@@ -28,7 +28,7 @@ export function simplifyFractions(node: ExpressionNode, context: SimplificationC
 	if (isFraction(node) && context.simplificationOptions.mergeFractionNumbers) node = mergeFractionNumbers(node)
 	if (isFraction(node) && context.simplificationOptions.cancelFractionFactors) node = cancelFractionFactors(node)
 	if (isFraction(node) && context.simplificationOptions.mergeFractionFactors) node = mergeFractionFactors(node)
-	// if (isFraction(node) && context.simplificationOptions.applyPolynomialCancellation) node = applyPolynomialCancellation(node)
+	if (isFraction(node) && context.simplificationOptions.applyPolynomialCancellation) node = applyPolynomialCancellation(node, context)
 	if (isFraction(node) && context.simplificationOptions.normalizeFractionMinuses) node = normalizeFractionMinuses(node)
 	return node
 }

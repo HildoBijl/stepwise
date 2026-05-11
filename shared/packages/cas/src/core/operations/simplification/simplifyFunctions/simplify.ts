@@ -13,7 +13,14 @@ export function simplify(node: ExpressionNode, options: Partial<SimplificationPr
 	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
 	const optionSequence = Array.isArray(options) ? options : [options]
 	let current = node
-	for (const options of optionSequence) current = simplifyUntilStable(current, { simplificationOptions: validateSimplificationOptions(options), expressionSettings })
+	for (const options of optionSequence) {
+		const context: SimplificationContext = {
+			simplificationOptions: validateSimplificationOptions(options),
+			expressionSettings,
+			simplify: (node, options) => simplify(node, options, expressionSettings),
+		}
+		current = simplifyUntilStable(current, context)
+	}
 	return current
 }
 

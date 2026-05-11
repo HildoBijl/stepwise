@@ -1,5 +1,7 @@
 import { negative, variable, sum, product, fraction, power } from '../../construction'
 
+import { polynomialCancellationSimplificationOptionList, getSimplificationOptionsFromList } from '../../operations'
+
 import { expectSimplifyToGive } from './testUtils'
 
 const x = variable('x')
@@ -48,13 +50,6 @@ describe('fraction simplification', () => {
 		expectSimplifyToGive(fraction(x, negative(y)), negative(fraction(x, y)), { mergeFractionMinuses: true })
 	})
 
-	test('normalizes fraction minuses', () => {
-		expectSimplifyToGive(fraction(sum(negative(x), -3), 5), negative(fraction(sum(x, 3), 5)), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
-		expectSimplifyToGive(fraction(x, sum(negative(y), 5)), negative(fraction(x, sum(y, negative(5)))), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
-		expectSimplifyToGive(fraction(sum(negative(x), 3), sum(5, negative(y))), fraction(sum(x, -3), sum(y, -5)), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
-		expectSimplifyToGive(fraction(sum(-3, x), negative(y)), negative(fraction(sum(x, -3), y)), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
-	})
-
 	test('cancels fraction numbers', () => {
 		expectSimplifyToGive(fraction(6, 9), fraction(2, 3), { mergeFractionNumbers: true })
 		expectSimplifyToGive(fraction(product(6, x), product(9, y)), fraction(product(2, x), product(3, y)), { mergeFractionNumbers: true })
@@ -72,5 +67,44 @@ describe('fraction simplification', () => {
 		expectSimplifyToGive(fraction(power(x, 5), power(x, 2)), fraction(power(x, sum(5, -2)), 1), { mergeProductFactors: true, mergeFractionFactors: true })
 		expectSimplifyToGive(fraction(product(power(x, 2), y), product(power(x, 5), z)), fraction(product(power(x, sum(2, -5)), y), z), { mergeProductFactors: true, mergeFractionFactors: true })
 		expectSimplifyToGive(fraction(product(x, power(y, 4)), product(power(x, 3), y)), fraction(product(power(x, sum(1, -3)), power(y, sum(4, -1))), 1), { mergeProductFactors: true, mergeFractionFactors: true })
+	})
+
+	test('normalizes fraction minuses', () => {
+		expectSimplifyToGive(fraction(sum(negative(x), -3), 5), negative(fraction(sum(x, 3), 5)), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
+		expectSimplifyToGive(fraction(x, sum(negative(y), 5)), negative(fraction(x, sum(y, negative(5)))), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
+		expectSimplifyToGive(fraction(sum(negative(x), 3), sum(5, negative(y))), fraction(sum(x, -3), sum(y, -5)), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
+		expectSimplifyToGive(fraction(sum(-3, x), negative(y)), negative(fraction(sum(x, -3), y)), { mergeProductMinuses: true, sortSums: true, removeDoubleNegatives: true, normalizeFractionMinuses: true })
+	})
+
+	test('applies polynomial cancellation', () => {
+		// expectSimplifyToGive(
+		// 	fraction(sum(power(x, 2), product(3, x), 2), sum(power(x, 2), -1)),
+		// 	fraction(sum(x, 2), sum(x, -1)),
+		// 	getSimplificationOptionsFromList([...polynomialCancellationSimplificationOptionList, 'applyPolynomialCancellation']),
+		// )
+
+		// expectSimplifyToGive(
+		// 	fraction(sum(power(x, 2), product(-1, x), -2), sum(power(x, 2), product(-3, x), 2)),
+		// 	fraction(sum(x, 1), sum(x, -2)),
+		// 	getSimplificationOptionsFromList([...polynomialCancellationSimplificationOptionList, 'applyPolynomialCancellation']),
+		// )
+
+		// expectSimplifyToGive(
+		// 	fraction(product(sum(x, 1), sum(x, 2)), product(sum(x, 1), sum(x, -3))),
+		// 	fraction(product(1, sum(x, 2)), product(1, sum(x, -3))),
+		// 	getSimplificationOptionsFromList([...polynomialCancellationSimplificationOptionList, 'applyPolynomialCancellation']),
+		// )
+
+		// expectSimplifyToGive( // Not supported yet.
+		// 	fraction(sum(x, y), sum(x, 1)),
+		// 	fraction(sum(x, y), sum(x, 1)),
+		// 	getSimplificationOptionsFromList([...polynomialCancellationSimplificationOptionList, 'applyPolynomialCancellation']),
+		// )
+
+		// expectSimplifyToGive(
+		// 	fraction(sum(power(x, 2), 1), sum(x, 1)),
+		// 	fraction(sum(power(x, 2), 1), sum(x, 1)),
+		// 	getSimplificationOptionsFromList([...polynomialCancellationSimplificationOptionList, 'applyPolynomialCancellation']),
+		// )
 	})
 })
