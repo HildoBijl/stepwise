@@ -56,6 +56,13 @@ describe('product simplification', () => {
 		expectSimplifyToGive(product(sum(x, y), sum(y, z)), sum(sum(product(x, y), product(x, z)), sum(product(y, y), product(y, z))), { expandProductsOfSums: true })
 	})
 
+	test('expands products of sums within sums', () => {
+		expectSimplifyToGive(product(x, sum(y, z)), product(x, sum(y, z)), { expandProductsOfSumsWithinSums: true })
+		expectSimplifyToGive(sum(product(x, sum(y, z)), 1), sum(sum(product(x, y), product(x, z)), 1), { expandProductsOfSumsWithinSums: true })
+		expectSimplifyToGive(sum(1, product(sum(x, y), z)), sum(1, sum(product(x, z), product(y, z))), { expandProductsOfSumsWithinSums: true })
+		expectSimplifyToGive(sum(product(x, sum(y, z)), product(y, sum(x, z))), sum(sum(product(x, y), product(x, z)), sum(product(y, x), product(y, z))), { expandProductsOfSumsWithinSums: true })
+	})
+
 	test('sorts products', () => {
 		expectSimplifyToGive(product(x, 2), product(2, x), { sortProducts: true })
 		expectSimplifyToGive(product(y, x), product(x, y), { sortProducts: true })

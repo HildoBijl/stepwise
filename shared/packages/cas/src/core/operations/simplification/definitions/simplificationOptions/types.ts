@@ -60,16 +60,17 @@ export type SimplificationOptions = {
 	applyPolynomialCancellation: boolean // Cancel polynomial terms between numerator and denominator. Only univariate for now.
 
 	// Power options.
-	removeZeroExponentFromPower: boolean // Turn x^0 into 1.
-	removeZeroBaseFromPower: boolean // Turn 0^x into 0.
-	removeOneExponentFromPower: boolean // Turn x^1 into x.
-	removeOneBaseFromPower: boolean // Turn 1^x into 1.
+	removeZeroExponentFromPowers: boolean // Turn x^0 into 1.
+	removeZeroBaseFromPowers: boolean // Turn 0^x into 0.
+	removeOneExponentFromPowers: boolean // Turn x^1 into x.
+	removeOneBaseFromPowers: boolean // Turn 1^x into 1.
 	mergePowerMinuses: boolean // Reduce (-x)^n for integer n to either x^n or -x^n.
 	mergePowerNumbers: boolean // Reduce powers containing only numbers into a number.
 	removePowersWithinPowers: boolean // Turn (a^b)^c into a^(b*c).
 	removeNegativePowers: boolean // Turn x^-2 into 1/x^2.
 	expandPowers: boolean // Turn a^3 into a*a*a. Opposite of mergeProductFactors.
 	expandPowersOfProducts: boolean // Turn (a*b)^n into a^n*b^n.
+	expandPowersOfFractions: boolean // Turn (a/b)^n into a^n/b^n.
 	expandPowersOfSums: boolean // Turn (a+b)^3 into a^3+3*a^2*b+3*a*b^2+b^3. Integer powers only.
 	expandPowersOfSumsWithinSums: boolean // Expand powers of sums only inside sums. Ignored if expandPowersOfSums is on.
 

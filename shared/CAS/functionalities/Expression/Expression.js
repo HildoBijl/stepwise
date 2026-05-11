@@ -2591,19 +2591,19 @@ class Power extends Function {
 		}
 
 		// Check for useless terms.
-		if (options.removeZeroExponentFromPower) {
+		if (options.removeZeroExponentFromPowers) {
 			if (Integer.zero.equalsBasic(exponent) && !Integer.zero.equalsBasic(base))
 				return Integer.one // If the power is 0, become 1.
 		}
-		if (options.removeZeroBaseFromPower) {
+		if (options.removeZeroBaseFromPowers) {
 			if (Integer.zero.equalsBasic(base) && !Integer.zero.equalsBasic(exponent))
 				return Integer.zero // If the base is 0, become 0.
 		}
-		if (options.removeOneExponentFromPower) {
+		if (options.removeOneExponentFromPowers) {
 			if (Integer.one.equalsBasic(exponent))
 				return base // If the power is 1, become the base.
 		}
-		if (options.removeOneBaseFromPower) {
+		if (options.removeOneBaseFromPowers) {
 			if (Integer.one.equalsBasic(base))
 				return Integer.one // If the base is 1, become 1.
 		}
