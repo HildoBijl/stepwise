@@ -17,6 +17,7 @@ export function simplify(node: ExpressionNode, options: Partial<SimplificationPr
 		const context: SimplificationContext = {
 			simplificationOptions: validateSimplificationOptions(options),
 			expressionSettings,
+			parents: [],
 			simplify: (node, options) => simplify(node, options, expressionSettings),
 		}
 		current = simplifyUntilStable(current, context)
@@ -35,5 +36,5 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 }
 
 function simplifyOnce(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	return replaceDescendants(node, descendant => applySimplificationRules(descendant, context))
+	return replaceDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }))
 }

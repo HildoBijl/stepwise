@@ -47,6 +47,7 @@ export const noSimplify: SimplificationOptions = {
 	removeZeroBaseFromPower: false,
 	removeOneExponentFromPower: false,
 	removeOneBaseFromPower: false,
+	mergePowerMinuses: false,
 	mergePowerNumbers: false,
 	removePowersWithinPowers: false,
 	removeNegativePowers: false,
@@ -75,6 +76,4 @@ export const noSimplify: SimplificationOptions = {
 	remove01TrigFunctions: false,
 	removeRootTrigFunctions: false,
 	turnTanIntoSinCos: false,
-
-	cleanFractionPolynomials: false,
 }

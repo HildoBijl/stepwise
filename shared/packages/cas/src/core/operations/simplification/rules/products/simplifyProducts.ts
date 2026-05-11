@@ -1,6 +1,6 @@
 import { type ExpressionNode } from '../../../../construction'
 
-import { isProduct } from '../../../structural'
+import { isSum, isProduct } from '../../../structural'
 
 import { type SimplificationContext } from '../../definitions'
 
@@ -22,7 +22,7 @@ export function simplifyProducts(node: ExpressionNode, context: SimplificationCo
 	if (isProduct(node) && context.simplificationOptions.removeTimesOneFromProducts) node = removeTimesOneFromProducts(node)
 	if (isProduct(node) && context.simplificationOptions.mergeProductNumbers) node = mergeProductNumbers(node)
 	if (isProduct(node) && context.simplificationOptions.mergeProductFactors) node = mergeProductFactors(node)
-	if (isProduct(node) && context.simplificationOptions.expandProductsOfSums) node = expandProductsOfSums(node)
+	if (isProduct(node) && (context.simplificationOptions.expandProductsOfSums || (context.simplificationOptions.expandProductsOfSumsWithinSums && context.parents.some(isSum)))) node = expandProductsOfSums(node)
 	if (isProduct(node) && context.simplificationOptions.sortProducts) node = sortProducts(node)
 	return node
 }

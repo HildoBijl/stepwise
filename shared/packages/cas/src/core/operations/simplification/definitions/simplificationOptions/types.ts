@@ -2,8 +2,14 @@ import { type ExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode } from '../../../../construction'
 
+export type SimplificationContext = {
+	simplificationOptions: SimplificationOptions
+	expressionSettings: ExpressionSettings
+	parents: readonly ExpressionNode[]
+	simplify: (node: ExpressionNode, options?: Partial<SimplificationOptions>) => ExpressionNode
+}
+
 export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[]
-export type SimplificationContext = { simplificationOptions: SimplificationOptions, expressionSettings: ExpressionSettings, simplify: (node: ExpressionNode, options?: Partial<SimplificationOptions>) => ExpressionNode }
 export type SimplificationOption = keyof SimplificationOptions
 export type SimplificationOptions = {
 	// Sign options.
@@ -58,6 +64,7 @@ export type SimplificationOptions = {
 	removeZeroBaseFromPower: boolean // Turn 0^x into 0.
 	removeOneExponentFromPower: boolean // Turn x^1 into x.
 	removeOneBaseFromPower: boolean // Turn 1^x into 1.
+	mergePowerMinuses: boolean // Reduce (-x)^n for integer n to either x^n or -x^n.
 	mergePowerNumbers: boolean // Reduce powers containing only numbers into a number.
 	removePowersWithinPowers: boolean // Turn (a^b)^c into a^(b*c).
 	removeNegativePowers: boolean // Turn x^-2 into 1/x^2.
@@ -89,7 +96,4 @@ export type SimplificationOptions = {
 	remove01TrigFunctions: boolean // Turn sin/cos/tan into 0, 1 or -1 where possible, and similar for asin/acos/atan.
 	removeRootTrigFunctions: boolean // Turn sin/cos/tan into roots where possible, and similar for asin/acos/atan.
 	turnTanIntoSinCos: boolean // Turn tan(x) into sin(x)/cos(x).
-
-	// ToDo.
-	cleanFractionPolynomials: boolean // Cancel polynomial factors in fractions, including multivariate cases eventually.
 }

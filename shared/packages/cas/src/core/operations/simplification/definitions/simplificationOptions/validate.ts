@@ -30,18 +30,17 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	// Expansion/factorization conflicts.
 	conflict('factorizeIntegers', ['mergeProductNumbers', 'mergePowerNumbers'])
 	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSums'])
+	conflict('expandProductsOfSums', 'expandProductsOfSumsWithinSums')
 
 	// Fraction conflicts/dependencies.
 	conflict('splitFractions', 'mergeFractionSums')
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
 	requireOption('applyPolynomialCancellation', polynomialCancellationSimplificationOptionList)
-	// conflict('pullConstantPartOutOfFractions', 'mergeFractionProducts')
-	// conflict('pullConstantPartOutOfFractions', 'removeNegativePowers')
 
 	// // Power conflicts.
-	// conflict('expandPowers', 'mergeProductFactors')
-	// conflict('removeNegativePowers', 'pullConstantPartOutOfFractions')
+	conflict('expandPowers', 'mergeProductFactors')
+	conflict('expandPowersOfSumsWithinSums', 'expandPowersOfSums')
 
 	// // Root conflicts/dependencies.
 	// conflict('turnRootIntoFractionExponent', 'turnFractionExponentIntoRoot')
