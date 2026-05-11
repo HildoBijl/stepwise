@@ -7,8 +7,8 @@ export abstract class ConstantNode extends ExpressionNode {
 		super()
 		ensureNumber(value, true)
 	}
-
+	
 	recreateWith(value: number): ConstantNode {
-		throw new Error(`Cannot recreate "${this.subtype}".`)
+		return new (this.constructor as new (value:number) => ConstantNode)(value)
 	}
 }

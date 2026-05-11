@@ -1,7 +1,7 @@
 import { type ExpressionNode } from '../../../construction'
 
 import { type SimplificationContext } from '../definitions'
-import { simplifySigns, simplifyConstants, simplifySums, simplifyProducts, simplifyFractions, simplifyPowers } from '../rules'
+import { simplifySigns, simplifyConstants, simplifySums, simplifyProducts, simplifyFractions, simplifyPowers, simplifyRoots } from '../rules'
 
 export function applySimplificationRules(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	node = simplifySigns(node, context)
@@ -10,7 +10,7 @@ export function applySimplificationRules(node: ExpressionNode, context: Simplifi
 	node = simplifyProducts(node, context)
 	node = simplifyFractions(node, context)
 	node = simplifyPowers(node, context)
-	// node = simplifyRoots(node, context)
+	node = simplifyRoots(node, context)
 	// node = simplifyLogarithms(node, context)
 	// node = simplifyTrigonometry(node, context)
 	return node

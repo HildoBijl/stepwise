@@ -2527,7 +2527,7 @@ class Power extends Function {
 		}
 
 		// Check for fractional exponents. Reduce x^(2/3) to root[3](x^2) and x^(8/3) to x^2*root[3](x^2).
-		if (options.turnFractionExponentIntoRoot) {
+		if (options.turnFractionExponentsIntoRoots) {
 			if (exponent.isSubtype(Fraction) && exponent.denominator.isSubtype(Integer)) {
 				// On an integer numerator that is bigger than the denominator, add a preamble.
 				if (exponent.numerator.isSubtype(Integer) && exponent.numerator.number > exponent.denominator.number) {
@@ -2696,25 +2696,25 @@ class Sqrt extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.removeZeroRoot) {
+		if (options.reduceRootsWithZeroArgument) {
 			if (Integer.zero.equalsBasic(argument))
 				return Integer.zero // If the argument is 0, become 0.
 		}
-		if (options.removeOneRoot) {
+		if (options.reduceRootsWithOneArgument) {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
-		if (options.removeIntegerRoot) {
+		if (options.reduceIntegerRoots) {
 			if (argument.isSubtype(Integer) && isSquare(argument.number))
 				return new Integer(Math.round(Math.sqrt(argument.number))) // Round to prevent numerical inaccuracies from causing problems.
 		}
-		if (options.removeCanceledRoot) {
+		if (options.reduceCanceledRoots) {
 			if (argument.isSubtype(Power) && Integer.two.equalsBasic(argument.exponent))
 				return argument.base
 		}
 
 		// For analysis reduce to a power.
-		if (options.turnRootIntoFractionExponent)
+		if (options.turnRootsIntoFractionExponents)
 			return new Power(argument, new Fraction(1, 2)).simplifyBasic(options)
 
 		// Expand roots of products.
@@ -2761,29 +2761,29 @@ class Root extends Function {
 		let { base, argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.removeZeroRoot) {
+		if (options.reduceRootsWithZeroArgument) {
 			if (Integer.zero.equalsBasic(argument))
 				return Integer.zero // If the argument is 0, become 0.
 		}
-		if (options.removeOneRoot) {
+		if (options.reduceRootsWithOneArgument) {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
-		if (options.removeIntegerRoot) {
+		if (options.reduceIntegerRoots) {
 			if (argument.isSubtype(Integer) && base.isSubtype(Integer) && isPerfectPower(argument.number, base.number))
 				return new Integer(Math.round(Math.pow(argument.number, 1 / base.number))) // Round to prevent numerical inaccuracies from causing problems.
 		}
-		if (options.removeCanceledRoot) {
+		if (options.reduceCanceledRoots) {
 			if (argument.isSubtype(Power) && base.equalsBasic(argument.exponent))
 				return argument.base
 		}
 
 		// For analysis reduce to a power.
-		if (options.turnRootIntoFractionExponent)
+		if (options.turnRootsIntoFractionExponents)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
 		// Turn roots with base two into Sqrts.
-		if (options.turnBaseTwoRootIntoSqrt) {
+		if (options.turnBaseTwoRootsIntoSqrts) {
 			if (Integer.two.equalsBasic(base))
 				return new Sqrt(argument).simplifyBasic(options)
 		}

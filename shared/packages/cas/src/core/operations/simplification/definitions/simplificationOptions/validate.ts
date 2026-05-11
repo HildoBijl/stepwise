@@ -43,9 +43,11 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	conflict('expandPowersOfSumsWithinSums', 'expandPowersOfSums')
 
 	// // Root conflicts/dependencies.
-	// conflict('turnRootIntoFractionExponent', 'turnFractionExponentIntoRoot')
-	// conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
-	// conflict('pullExponentsIntoRoots', 'turnRootIntoFractionExponent')
+	conflict('turnBaseTwoRootsIntoSqrts', 'turnSqrtsIntoBaseTwoRoots')
+	conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
+
+	// conflict('turnRootsIntoFractionExponents', 'turnFractionExponentsIntoRoots')
+	// conflict('pullExponentsIntoRoots', 'turnRootsIntoFractionExponents')
 	// conflict('preventRootDenominators', 'cancelFractionFactors')
 
 	// Log/trig conflicts are currently fine.

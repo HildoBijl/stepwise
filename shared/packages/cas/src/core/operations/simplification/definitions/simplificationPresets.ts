@@ -25,8 +25,8 @@ export const removeUseless: SimplificationOptions = {
 	removeZeroBaseFromPowers: true,
 	removeOneExponentFromPowers: true,
 	removeOneBaseFromPowers: true,
-	removeZeroRoot: true,
-	removeOneRoot: true,
+	reduceRootsWithZeroArgument: true,
+	reduceRootsWithOneArgument: true,
 	removeOneLogarithm: true,
 }
 
@@ -38,7 +38,7 @@ export const basicClean: SimplificationOptions = {
 	cancelSumTerms: true,
 	mergeProductFactors: true,
 	flattenFractions: true,
-	removeIntegerRoot: true,
+	reduceIntegerRoots: true,
 }
 
 export const regularClean: SimplificationOptions = {
@@ -50,8 +50,8 @@ export const regularClean: SimplificationOptions = {
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
-	removeCanceledRoot: true,
-	turnBaseTwoRootIntoSqrt: true,
+	reduceCanceledRoots: true,
+	turnBaseTwoRootsIntoSqrts: true,
 	pullExponentsIntoRoots: true,
 	pullFactorsOutOfRoots: true,
 	mergeProductsOfRoots: true,
@@ -62,7 +62,7 @@ const advancedCleanMain: SimplificationOptions = {
 	...regularClean,
 	sortSums: true,
 	expandPowersOfProducts: true,
-	turnRootIntoFractionExponent: true,
+	turnRootsIntoFractionExponents: true,
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
 }
@@ -112,7 +112,7 @@ export const forAnalysis: readonly SimplificationOptions[] = [
 
 export const forDerivatives: SimplificationOptions = {
 	...removeUseless,
-	turnRootIntoFractionExponent: true,
+	turnRootsIntoFractionExponents: true,
 	turnLogIntoLn: true,
 	turnTanIntoSinCos: true,
 }
@@ -121,8 +121,8 @@ export const forDisplay: SimplificationOptions = {
 	...regularClean,
 	mergeFractionProducts: false,
 	removeNegativePowers: false,
-	turnFractionExponentIntoRoot: true,
-	turnBaseTwoRootIntoSqrt: true,
+	turnFractionExponentsIntoRoots: true,
+	turnBaseTwoRootsIntoSqrts: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,
 	cancelFractionFactors: false,

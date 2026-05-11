@@ -10,10 +10,6 @@ export class Integer extends ConstantNode {
 		super(ensureInt(value))
 	}
 
-	override recreateWith(value: number): Integer {
-		return new Integer(value)
-	}
-
 	static readonly minusOne = new Sign(new Integer(1), true)
 	static readonly zero = new Integer(0)
 	static readonly one = new Integer(1)

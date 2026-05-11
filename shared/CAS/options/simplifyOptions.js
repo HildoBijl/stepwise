@@ -56,13 +56,13 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	expandPowersOfSumsWithinSums: false, // Applies expandPowersOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandPowersOfSumsWithinSums is on, this is ignored.
 
 	// Root options.
-	removeZeroRoot: false, // Turn sqrt(0) and root(0) into 0.
-	removeOneRoot: false, // Turn sqrt(1) and root(1) into 1.
-	removeIntegerRoot: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
-	removeCanceledRoot: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
-	turnRootIntoFractionExponent: false, // Reduces root[3](x) to x^(1/3).
-	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
-	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
+	reduceRootsWithZeroArgument: false, // Turn sqrt(0) and root(0) into 0.
+	reduceRootsWithOneArgument: false, // Turn sqrt(1) and root(1) into 1.
+	reduceIntegerRoots: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
+	reduceCanceledRoots: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
+	turnRootsIntoFractionExponents: false, // Reduces root[3](x) to x^(1/3).
+	turnFractionExponentsIntoRoots: false, // Reduces x^(1/3) to root[3](x).
+	turnBaseTwoRootsIntoSqrts: false, // Reduces root[2](x) to sqrt(x).
 	expandRootsOfProducts: false, // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
 	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
@@ -124,8 +124,8 @@ const removeUseless = {
 	removeZeroBaseFromPowers: true,
 	removeOneExponentFromPowers: true,
 	removeOneBaseFromPowers: true,
-	removeZeroRoot: true,
-	removeOneRoot: true,
+	reduceRootsWithZeroArgument: true,
+	reduceRootsWithOneArgument: true,
 	removeOneLogarithm: true,
 }
 module.exports.removeUseless = { ...noSimplify, ...removeUseless }
@@ -139,7 +139,7 @@ const basicClean = {
 	cancelSumTerms: true,
 	mergeProductFactors: true,
 	flattenFractions: true,
-	removeIntegerRoot: true,
+	reduceIntegerRoots: true,
 }
 module.exports.basicClean = { ...noSimplify, ...basicClean }
 
@@ -153,8 +153,8 @@ const regularClean = {
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
-	removeCanceledRoot: true,
-	turnBaseTwoRootIntoSqrt: true,
+	reduceCanceledRoots: true,
+	turnBaseTwoRootsIntoSqrts: true,
 	pullExponentsIntoRoots: true,
 	pullFactorsOutOfRoots: true,
 	mergeProductsOfRoots: true,
@@ -167,7 +167,7 @@ const advancedCleanMain = {
 	...regularClean,
 	sortSums: true,
 	expandPowersOfProducts: true,
-	turnRootIntoFractionExponent: true,
+	turnRootsIntoFractionExponents: true,
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
 }
@@ -221,7 +221,7 @@ module.exports.forAnalysis = forAnalysis.map(options => ({ ...noSimplify, ...opt
 // forDerivatives puts expressions in a form making it easier to take derivatives. Some components (like tan(x)) do not have a derivative specified, but in basic form (sin(x)/cos(x)) derivatives are possible.
 const forDerivatives = {
 	...removeUseless,
-	turnRootIntoFractionExponent: true,
+	turnRootsIntoFractionExponents: true,
 	turnLogIntoLn: true,
 	turnTanIntoSinCos: true,
 }
@@ -233,8 +233,8 @@ const forDisplay = {
 	pullConstantPartOutOfFractions: true,
 	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFractions.
 	removeNegativePowers: false, // Blocks pullConstantPartOutOfFractions.
-	turnFractionExponentIntoRoot: true,
-	turnBaseTwoRootIntoSqrt: true,
+	turnFractionExponentsIntoRoots: true,
+	turnBaseTwoRootsIntoSqrts: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,
 	cancelFractionFactors: false, // Blocks preventRootDenominator.

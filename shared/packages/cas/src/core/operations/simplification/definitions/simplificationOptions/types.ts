@@ -75,13 +75,14 @@ export type SimplificationOptions = {
 	expandPowersOfSumsWithinSums: boolean // Expand powers of sums only inside sums. Ignored if expandPowersOfSums is on.
 
 	// Root options.
-	removeZeroRoot: boolean // Turn sqrt(0) and root(0) into 0.
-	removeOneRoot: boolean // Turn sqrt(1) and root(1) into 1.
-	removeIntegerRoot: boolean // Turn integer roots into integers. So sqrt(25) becomes 5, but sqrt(24) stays.
-	removeCanceledRoot: boolean // Turn sqrt(x^2) into x and root[n](x^n) into x.
-	turnRootIntoFractionExponent: boolean // Turn root[3](x) into x^(1/3).
-	turnFractionExponentIntoRoot: boolean // Turn x^(1/3) into root[3](x).
-	turnBaseTwoRootIntoSqrt: boolean // Turn root[2](x) into sqrt(x).
+	reduceRootsWithZeroArgument: boolean // Turn sqrt(0) and root(0) into 0.
+	reduceRootsWithOneArgument: boolean // Turn sqrt(1) and root(1) into 1.
+	reduceIntegerRoots: boolean // Turn integer roots into integers. So sqrt(25) becomes 5, but sqrt(24) stays.
+	reduceCanceledRoots: boolean // Turn sqrt(x^2) into x and root[n](x^n) into x.
+	turnRootsIntoFractionExponents: boolean // Turn root[3](x) into x^(1/3).
+	turnFractionExponentsIntoRoots: boolean // Turn x^(1/3) into root[3](x).
+	turnBaseTwoRootsIntoSqrts: boolean // Turn root[2](x) into sqrt(x).
+	turnSqrtsIntoBaseTwoRoots: boolean // Turn sqrt(x) into root[2](x).
 	expandRootsOfProducts: boolean // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
 	mergeProductsOfRoots: boolean // Turn sqrt(x)*sqrt(y) into sqrt(x*y). Ignored if expandRootsOfProducts is on.
 	pullExponentsIntoRoots: boolean // Turn sqrt(4)^3 into sqrt(4^3).
