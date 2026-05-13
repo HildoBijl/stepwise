@@ -1,6 +1,7 @@
 import { mergeDefaults } from '@step-wise/utils'
 
 import { type SimplificationOption, type SimplificationOptions } from './types'
+import { normalizeRequirements } from './presets'
 import { defaultSimplificationOptions } from './utils'
 
 export function validateSimplificationOptions(simplificationOptions: Partial<SimplificationOptions>): SimplificationOptions {
@@ -29,26 +30,27 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 
 	// Expansion/factorization conflicts.
 	conflict('factorizeIntegers', ['mergeProductNumbers', 'mergePowerNumbers'])
-	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSums'])
-	conflict('expandProductsOfSums', 'expandProductsOfSumsWithinSums')
+	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSumsWithinSums'])
 
-	// Fraction conflicts/dependencies.
+	// Fraction conflicts/requirements.
 	conflict('splitFractions', 'mergeFractionSums')
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
-	requireOption('applyPolynomialCancellation', polynomialCancellationSimplificationOptionList)
+	requireOption('applyPolynomialCancellation', [...normalizeRequirements])
 
-	// // Power conflicts.
+	// Power conflicts.
 	conflict('expandPowers', 'mergeProductFactors')
-	conflict('expandPowersOfSumsWithinSums', 'expandPowersOfSums')
 
-	// // Root conflicts/dependencies.
+	// Root conflicts/dependencies.
 	conflict('turnBaseTwoRootsIntoSqrts', 'turnSqrtsIntoBaseTwoRoots')
 	conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
+	conflict('preventRootDenominators', 'cancelFractionFactors')
+
+	// Expand only within sums conflicts.
+	conflict('expandProductsOfSumsWithinSums', 'expandProductsOfSums')
+	conflict('expandPowersOfSumsWithinSums', 'expandPowersOfSums')
 
 	// Throw any encountered errors.
 	if (errors.length > 0) throw new Error(errors.join('\n'))
 	return options
 }
-
-export const polynomialCancellationSimplificationOptionList: SimplificationOption[] = ['removeDoubleNegatives', 'removeMinusFromZero', 'turnFloatsIntoIntegers', 'flattenSums', 'removePlusZeroFromSums', 'mergeSumNumbers', 'cancelSumTerms', 'groupSumTerms', 'expandMinusSums', 'sortSums', 'flattenProducts', 'mergeProductMinuses', 'reduceProductsWithZero', 'removeTimesOneFromProducts', 'mergeProductNumbers', 'mergeProductFactors', 'expandProductsOfSums', 'sortProducts', 'reduceFractionsWithZeroNumerator', 'reduceFractionsWithOneDenominator', 'mergeFractionProducts', 'flattenFractions', 'mergeFractionSums', 'mergeFractionMinuses', 'mergeFractionNumbers', 'cancelFractionFactors', 'mergeFractionFactors', 'normalizeFractionMinuses', 'reducePowersWithZeroExponent', 'reducePowersWithZeroBase', 'removeOneExponentFromPowers', 'reducePowersWithOneBase', 'mergePowerNumbers', 'removePowersWithinPowers', 'removeNegativePowers', 'expandPowersOfProducts', 'expandPowersOfSums']

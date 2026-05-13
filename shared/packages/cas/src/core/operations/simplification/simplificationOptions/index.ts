@@ -1,5 +1,6 @@
 export * from './allSimplificationOptions'
 export * from './types'
 export * from './utils'
+export * from './oldPresets'
 export * from './presets'
 export * from './validate'
