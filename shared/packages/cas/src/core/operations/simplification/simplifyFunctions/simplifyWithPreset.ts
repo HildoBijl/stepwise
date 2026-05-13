@@ -5,7 +5,7 @@ import { type ExpressionNode } from '../../../construction'
 
 import { type SimplificationOption, type SimplificationOptions, type SimplificationPreset, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions } from '../simplificationOptions'
 
-import { simplify } from './simplify'
+import { repeatedSimplify } from './simplify'
 
 type OptionAdjustments = Partial<SimplificationOptions>
 type OptionList = readonly SimplificationOption[]
@@ -28,13 +28,13 @@ function adjustPreset(preset: SimplificationPreset, arg1: OptionAdjustments | Op
 }
 function simplifyWithPreset(node: ExpressionNode, settings: Partial<ExpressionSettings>, preset: SimplificationPreset, arg1?: OptionAdjustments | OptionList, arg2?: OptionList): ExpressionNode {
 	const options = Array.isArray(arg1) ? adjustPreset(preset, arg1, arg2) : adjustPreset(preset, arg1 as OptionAdjustments)
-	return simplify(node, settings, options)
+	return repeatedSimplify(node, settings, options)
 }
 
 // Simplification functions.
-export function structureOnly(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
-export function structureOnly(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
-export function structureOnly(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
+export function cleanStructureOnly(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
+export function cleanStructureOnly(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
+export function cleanStructureOnly(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
 	return simplifyWithPreset(node, settings, structureOnlyOptions, arg1, arg2)
 }
 
@@ -68,20 +68,20 @@ export function advancedClean(node: ExpressionNode, settings: Partial<Expression
 	return simplifyWithPreset(node, settings, advancedCleanOptions, arg1, arg2)
 }
 
-export function forAnalysis(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
-export function forAnalysis(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
-export function forAnalysis(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
+export function cleanForAnalysis(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
+export function cleanForAnalysis(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
+export function cleanForAnalysis(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
 	return simplifyWithPreset(node, settings, forAnalysisOptions, arg1, arg2)
 }
 
-export function forDerivatives(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
-export function forDerivatives(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
-export function forDerivatives(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
+export function cleanForDerivatives(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
+export function cleanForDerivatives(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
+export function cleanForDerivatives(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
 	return simplifyWithPreset(node, settings, forDerivativesOptions, arg1, arg2)
 }
 
-export function forDisplay(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
-export function forDisplay(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
-export function forDisplay(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
+export function cleanForDisplay(node: ExpressionNode, settings?: Partial<ExpressionSettings>, adjustments?: Partial<SimplificationOptions>): ExpressionNode
+export function cleanForDisplay(node: ExpressionNode, settings?: Partial<ExpressionSettings>, addOptions?: SimplificationOption[], removeOptions?: SimplificationOption[]): ExpressionNode
+export function cleanForDisplay(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, arg1: OptionAdjustments | OptionList = {}, arg2: OptionList = []) {
 	return simplifyWithPreset(node, settings, forDisplayOptions, arg1, arg2)
 }

@@ -3,6 +3,10 @@ import { union, difference } from '@step-wise/utils'
 import { type SimplificationOption } from './types'
 import { getSimplificationOptionsFromSet } from './utils'
 
+/*
+ * This legacy file has some old presets that should not be used anymore.
+ */
+
 // Do nothing.
 export const noSimplifySet = new Set<SimplificationOption>()
 export const noSimplifyOptions = getSimplificationOptionsFromSet(noSimplifySet)

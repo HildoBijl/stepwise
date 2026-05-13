@@ -1,10 +1,10 @@
+import { union, difference } from '@step-wise/utils'
+
 import { type SimplificationOption } from './types'
 import { getSimplificationOptionsFromSet } from './utils'
 
-// Do nothing.
 export const noSimplify = new Set<SimplificationOption>()
 
-// Remove trivial entries.
 export const removeTrivial = new Set<SimplificationOption>([
 	// Structure
 	'turnFloatsIntoIntegers',
@@ -42,25 +42,23 @@ export const removeTrivial = new Set<SimplificationOption>([
 ])
 export const removeTrivialOptions = getSimplificationOptionsFromSet(removeTrivial)
 
-// Reduce numbers
-export const reduceNumbers = new Set<SimplificationOption>([
+export const mergeNumbers = new Set<SimplificationOption>([
 	'mergeSumNumbers',
 	'mergeProductNumbers',
 	'mergeFractionNumbers',
+	'reduceFractionsWithOneDenominator',
 	'mergePowerNumbers',
 	'reduceIntegerRoots',
 ])
 
-// Cancel terms and factors
 export const applyCancellations = new Set<SimplificationOption>([
 	...removeTrivial,
-	...reduceNumbers,
+	...mergeNumbers,
 	'cancelSumTerms',
 	'cancelFractionFactors',
 	'reduceCanceledRoots',
 ])
 
-// Apply grouping
 export const applyGroupings = new Set<SimplificationOption>([
 	...applyCancellations,
 	'groupSumTerms',
@@ -72,7 +70,6 @@ export const applyGroupings = new Set<SimplificationOption>([
 	'pullExponentsIntoRoots',
 ])
 
-// Apply expansions
 export const applyExpansions = new Set<SimplificationOption>([
 	...applyGroupings,
 	'expandMinusSums',
@@ -86,14 +83,23 @@ export const applyExpansions = new Set<SimplificationOption>([
 	'expandPowersOfSums',
 ])
 
+// Adjust the expansions set by adding and removing various options
+export const applyExpansionsOnlyWithinSums = difference(
+	union(
+		applyExpansions,
+		new Set<SimplificationOption>(['expandProductsOfSumsWithinSums', 'expandPowersOfSumsWithinSums'])
+	),
+	new Set<SimplificationOption>(['expandProductsOfSums', 'expandPowersOfSums']),
+)
+
 export const applySorting = new Set<SimplificationOption>([
 	'sortSums',
 	'sortProducts',
 ])
 
-export const normalizeRequirements = new Set<SimplificationOption>([
+export const normalizationRequirements = new Set<SimplificationOption>([
 	...removeTrivial,
-	...reduceNumbers,
+	...mergeNumbers,
 	...applyCancellations,
 	...applyGroupings,
 	...applyExpansions,
@@ -101,7 +107,7 @@ export const normalizeRequirements = new Set<SimplificationOption>([
 ])
 
 export const normalize = new Set<SimplificationOption>([
-	...normalizeRequirements,
+	...normalizationRequirements,
 	'normalizeFractionMinuses',
 	'applyPolynomialCancellation',
 	'removeNegativePowers',
@@ -117,22 +123,9 @@ export const factorize = new Set<SimplificationOption>([
 	'pullFactorsOutOfRoots',
 ])
 
-export const applyExpansionsOnlyWithinSums = new Set<SimplificationOption>([
-	...applyGroupings,
-	'expandMinusSums',
-	'expandPlusMinusSums',
-	'expandProductsOfSumsWithinSums',
-	'mergeFractionSums',
-	'mergePowerMinuses',
-	'removePowersWithinPowers',
-	'expandPowersOfProducts',
-	'expandPowersOfFractions',
-	'expandPowersOfSumsWithinSums',
-])
-
 export const forDisplay = new Set<SimplificationOption>([
 	...removeTrivial,
-	...reduceNumbers,
+	...mergeNumbers,
 	...applySorting,
 	'pullOutCommonSumNumbers',
 	'pullOutCommonSumFactors',

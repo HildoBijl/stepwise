@@ -1,5 +1,5 @@
 import { Float, Integer, negative, variable, sum, product, fraction, power, sqrt } from '../../construction'
-import { structureOnly, elementaryClean, removeUseless } from '../../operations'
+import { cleanStructureOnly, elementaryClean, removeUseless } from '../../operations'
 
 import { expectNodeToEqual } from './testUtils'
 
@@ -9,17 +9,17 @@ const z = variable('z')
 
 describe('structure-only simplification', () => {
 	test('flattens consecutive sums', () => {
-		expectNodeToEqual(structureOnly(sum(x, sum(y, z))), sum(x, y, z))
-		expectNodeToEqual(structureOnly(sum(sum(x, y), sum(z, x))), sum(x, y, z, x))
+		expectNodeToEqual(cleanStructureOnly(sum(x, sum(y, z))), sum(x, y, z))
+		expectNodeToEqual(cleanStructureOnly(sum(sum(x, y), sum(z, x))), sum(x, y, z, x))
 	})
 	test('flattens consecutive products', () => {
-		expectNodeToEqual(structureOnly(product(x, product(y, z))), product(x, y, z))
-		expectNodeToEqual(structureOnly(product(product(x, y), product(z, x))), product(x, y, z, x))
+		expectNodeToEqual(cleanStructureOnly(product(x, product(y, z))), product(x, y, z))
+		expectNodeToEqual(cleanStructureOnly(product(product(x, y), product(z, x))), product(x, y, z, x))
 	})
 	test('turns integer-valued floats into integers', () => {
-		expectNodeToEqual(structureOnly(new Float(3)), Integer.three)
-		expectNodeToEqual(structureOnly(new Float(12)), Integer.twelve)
-		expectNodeToEqual(structureOnly(new Float(3.5)), new Float(3.5))
+		expectNodeToEqual(cleanStructureOnly(new Float(3)), Integer.three)
+		expectNodeToEqual(cleanStructureOnly(new Float(12)), Integer.twelve)
+		expectNodeToEqual(cleanStructureOnly(new Float(3.5)), new Float(3.5))
 	})
 })
 

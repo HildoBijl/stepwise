@@ -8,6 +8,7 @@ import { nodeToString } from '../export/printing/toString'
 type ParserTestCase = {
 	str: string
 	node: ExpressionNode
+	oneWay?: true
 }
 
 // Define bidirectional test cases: the string should give the node and vice versa.
@@ -60,14 +61,16 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: '2/3*4/5', node: product(fraction(2, 3), fraction(4, 5)) },
 	{ str: '2*3/4/5', node: product(2, fraction(fraction(3, 4), 5)) },
 	{ str: '2-3*4/5', node: sum(2, negative(product(3, fraction(4, 5)))) },
+	{ str: '1/2*x', node: product(fraction(1, 2), 'x') },
+	// { str: '1/2x', node: product(fraction(1, 2), 'x'), oneWay: true },
 
 	// Powers
 	{ str: 'x^y', node: power('x', 'y') },
 	{ str: '2^34', node: power(2, 34) },
-	{ str: 'x^y*z', node: product(power('x', 'y'), 'z') },
+	{ str: 'x^yz', node: product(power('x', 'y'), 'z') },
 	{ str: '23^4', node: power(23, 4) },
-	{ str: 'x*y^z', node: product('x', power('y', 'z')) },
-	{ str: 'x^y*z^w', node: product(power('x', 'y'), power('z', 'w')) },
+	{ str: 'xy^z', node: product('x', power('y', 'z')) },
+	{ str: 'x^yz^w', node: product(power('x', 'y'), power('z', 'w')) },
 	{ str: '(x^y)^z', node: power(power('x', 'y'), 'z') },
 	{ str: 'x^(y^z)', node: power('x', power('y', 'z')) },
 	{ str: 'x^y/z', node: fraction(power('x', 'y'), 'z') },
@@ -77,8 +80,9 @@ const parserTestCases: ParserTestCase[] = [
 
 // Test printing: does the node give the string?
 describe('toString', () => {
-	test.each(parserTestCases)('prints "$str"', ({ str, node }) => {
-		expect(nodeToString(node)).toBe(str)
+	test.each(parserTestCases)('prints "$str"', ({ str, node, oneWay }) => {
+		if (!oneWay)
+			expect(nodeToString(node)).toBe(str)
 	})
 })
 

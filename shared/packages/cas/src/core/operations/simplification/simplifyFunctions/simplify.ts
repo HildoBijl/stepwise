@@ -5,21 +5,35 @@ import { type ExpressionNode } from '../../../construction'
 
 import { replaceDescendants } from '../../structural'
 
-import { type SimplificationPreset, type SimplificationContext, validateSimplificationOptions, getActiveSimplificationOptions } from '../simplificationOptions'
+import { type SimplificationOptionsInput, type AddSimplificationOptions, type RemoveSimplificationOptions, type SimplificationPreset, type SimplificationContext, validateSimplificationOptions, getActiveSimplificationOptions, adjustSimplificationOptions } from '../simplificationOptions'
 
 import { applySimplificationRules } from './simplifyPipeline'
 
-// Run through the (possibly array of) simplification options and apply each set of simplifications.
-export function simplify(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, options: Partial<SimplificationPreset> = {}): ExpressionNode {
+// Take some form of simplification option input, process it, and apply it to the node.
+export function simplify(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, options: SimplificationOptionsInput = [], addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): ExpressionNode {
+	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
+	const simplificationOptions = validateSimplificationOptions(adjustSimplificationOptions(options, addOptions, removeOptions))
+	const context: SimplificationContext = {
+		simplificationOptions,
+		expressionSettings,
+		parents: [],
+		simplify: (node, options, addOptions, removeOptions) => simplify(node, expressionSettings, options, addOptions, removeOptions),
+	}
+	return simplifyUntilStable(node, context)
+}
+
+// Legacy Simlification Preset: Run through the (possibly array of) simplification options and apply each set of simplifications.
+export function repeatedSimplify(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, options: Partial<SimplificationPreset> = {}, addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): ExpressionNode {
 	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
 	const optionSequence = Array.isArray(options) ? options : [options]
 	let current = node
 	for (const options of optionSequence) {
+		const simplificationOptions = validateSimplificationOptions(adjustSimplificationOptions(options, addOptions, removeOptions))
 		const context: SimplificationContext = {
-			simplificationOptions: validateSimplificationOptions(options),
+			simplificationOptions,
 			expressionSettings,
 			parents: [],
-			simplify: (node, options) => simplify(node, options, expressionSettings),
+			simplify: (node, options, addOptions, removeOptions) => simplify(node, expressionSettings, options, addOptions, removeOptions),
 		}
 		current = simplifyUntilStable(current, context)
 	}

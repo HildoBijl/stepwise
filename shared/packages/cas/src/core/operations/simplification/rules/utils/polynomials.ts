@@ -4,13 +4,13 @@ import { type ExpressionNode, type Variable, Integer, power, product, sum } from
 
 import { subtract, multiply, divide, equalVariables, getVariables, isNumeric, isZero, isPolynomial, isPower, isVariable, numericNodeToNumber } from '../../../structural'
 
-import { type SimplificationOptions, getSimplificationOptionsFromList, polynomialCancellationSimplificationOptionList } from '../../simplificationOptions'
+import { type SimplificationOptions, getSimplificationOptionsFromSet, normalizationRequirements } from '../../simplificationOptions'
 
 import { getSumTerms, getConstantAndVariablePart } from './defaults'
 
 type PolynomialGCDResult = { gcd: ExpressionNode, factors: [ExpressionNode, ExpressionNode] }
 type Simplify = (node: ExpressionNode, options: Partial<SimplificationOptions>) => ExpressionNode
-const coefficientSimplificationOptions = getSimplificationOptionsFromList(polynomialCancellationSimplificationOptionList)
+const coefficientSimplificationOptions = getSimplificationOptionsFromSet(normalizationRequirements)
 
 // Try to find a polynomial GCD. On unsupported input, safely return gcd 1.
 export function getPolynomialGCD(a: ExpressionNode, b: ExpressionNode, simplify: Simplify): PolynomialGCDResult {

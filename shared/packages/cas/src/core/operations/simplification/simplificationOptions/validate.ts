@@ -1,7 +1,7 @@
 import { mergeDefaults } from '@step-wise/utils'
 
 import { type SimplificationOption, type SimplificationOptions } from './types'
-import { normalizeRequirements } from './presets'
+import { normalizationRequirements } from './presets'
 import { defaultSimplificationOptions } from './utils'
 
 export function validateSimplificationOptions(simplificationOptions: Partial<SimplificationOptions>): SimplificationOptions {
@@ -36,7 +36,7 @@ export function validateSimplificationOptions(simplificationOptions: Partial<Sim
 	conflict('splitFractions', 'mergeFractionSums')
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
-	requireOption('applyPolynomialCancellation', [...normalizeRequirements])
+	requireOption('applyPolynomialCancellation', [...normalizationRequirements])
 
 	// Power conflicts.
 	conflict('expandPowers', 'mergeProductFactors')

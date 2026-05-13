@@ -1,10 +1,12 @@
-import { sum, product, fraction, negative, power } from '../../../construction'
+import { type ExpressionNode, variable, sum, product, fraction, negative, power, plusMinus, minusPlus } from '../../../construction'
 
 import { equalNodes } from '../fundamentals'
 
 import { add, subtract, multiply, divide } from './arithmetic'
+import { expandToSingulars } from './plurals'
 import { substitute } from './substitution'
 
+// Check arithmetics
 describe('structural arithmetic operations', () => {
 	test('add', () => {
 		expect(equalNodes(add('x', 'y', 2), sum('x', 'y', 2))).toBe(true)
@@ -23,6 +25,31 @@ describe('structural arithmetic operations', () => {
 	})
 })
 
+// Check plurals
+function expectEqualNodeLists(result: readonly ExpressionNode[], expected: readonly ExpressionNode[]) {
+	expect(result.length).toBe(expected.length)
+	result.forEach((node, index) => expect(equalNodes(node, expected[index])).toBe(true))
+}
+describe('expandToSingulars', () => {
+	test('keeps singular expressions unchanged', () => {
+		expectEqualNodeLists(expandToSingulars(sum('x', 'y')), [sum('x', 'y')])
+	})
+	test('expands plus-minus signs', () => {
+		expectEqualNodeLists(expandToSingulars(plusMinus('x')), [variable('x'), negative('x')])
+		expectEqualNodeLists(expandToSingulars(minusPlus('x')), [negative('x'), variable('x')])
+	})
+	test('expands plus-minus signs inside sums', () => {
+		expectEqualNodeLists(expandToSingulars(sum('x', plusMinus('y'))), [sum('x', 'y'), sum('x', negative('y'))])
+	})
+	test('expands multiple plus-minus signs', () => {
+		expectEqualNodeLists(expandToSingulars(sum('x', plusMinus('y'), plusMinus('z'))), [sum('x', 'y', 'z'), sum('x', 'y', negative('z')), sum('x', negative('y'), 'z'), sum('x', negative('y'), negative('z'))])
+	})
+	test('expands plus-minus signs inside products', () => {
+		expectEqualNodeLists(expandToSingulars(product('x', plusMinus('y'))), [product('x', 'y'), product('x', negative('y'))])
+	})
+})
+
+// Check substitution
 describe('substitute', () => {
 	test('substitutes a variable', () => {
 		const expression = sum(power('x', 2), product(3, 'x'), 1)

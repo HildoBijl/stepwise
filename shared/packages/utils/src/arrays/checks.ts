@@ -6,6 +6,11 @@ export function isArray(x: unknown): x is unknown[] {
 	return Array.isArray(x)
 }
 
+// Typescript hack to have type checks for readonly arrays.
+export function isReadonlyArray(value: unknown): value is readonly unknown[] {
+	return Array.isArray(value)
+}
+
 // Check if the given parameter is an array that's empty.
 export function isEmptyArray(x: unknown): boolean {
 	return Array.isArray(x) && x.length === 0
