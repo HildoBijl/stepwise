@@ -1,4 +1,4 @@
-import { negative, plusMinus, minusPlus, variable, sum, product, power } from '../../../construction'
+import { negative, plusMinus, variable, sum, product, power } from '../../../construction'
 
 import { expectSimplifyToGive } from '../testUtils'
 
@@ -13,8 +13,8 @@ describe('sum simplification', () => {
 	})
 
 	test('removes plus zero from sums', () => {
-		expectSimplifyToGive(sum(x, 0), sum(x), ['removePlusZeroFromSums'])
-		expectSimplifyToGive(sum(0, x, 0), sum(x), ['removePlusZeroFromSums'])
+		expectSimplifyToGive(sum(x, 0), sum(x), ['removeZeroesFromSums'])
+		expectSimplifyToGive(sum(0, x, 0), sum(x), ['removeZeroesFromSums'])
 	})
 
 	test('merges sum numbers', () => {
@@ -46,7 +46,6 @@ describe('sum simplification', () => {
 		expectSimplifyToGive(plusMinus(sum(x, y)), sum(plusMinus(x), plusMinus(y)), ['expandPlusMinusSums'])
 		expectSimplifyToGive(plusMinus(sum(x, y, z)), sum(plusMinus(x), plusMinus(y), plusMinus(z)), ['expandPlusMinusSums'])
 		expectSimplifyToGive(plusMinus(sum(x, negative(y))), sum(plusMinus(x), plusMinus(negative(y))), ['expandPlusMinusSums'])
-		expectSimplifyToGive(minusPlus(sum(x, y)), sum(minusPlus(x), minusPlus(y)), ['expandPlusMinusSums'])
 	})
 
 	test('pulls out common sum numbers', () => {

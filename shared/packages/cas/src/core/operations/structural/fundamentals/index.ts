@@ -1,5 +1,3 @@
-export * from './comparisonSettings'
-export * from './equality'
 export * from './typeChecks'
 export * from './traversal'
 export * from './numeric'

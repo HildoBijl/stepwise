@@ -1,9 +1,7 @@
-import { Sign, type ExpressionNode } from '../../../../construction'
+import type { ExpressionNode, Minus } from '../../../../construction'
 
-import { isSignNode } from '../../../structural'
+import { isMinus } from '../../../structural'
 
-export function removeDoubleNegatives(node: Sign): ExpressionNode {
-	if (!isSignNode(node.node)) return node
-	if (node.plusMinus || node.node.plusMinus) return node
-	return node.negative && node.node.negative ? node.node.node : node
+export function removeDoubleNegatives(node: Minus): ExpressionNode {
+	return isMinus(node.node) ? node.node.node : node
 }

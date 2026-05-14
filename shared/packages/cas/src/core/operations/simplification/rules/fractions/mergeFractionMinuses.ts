@@ -1,10 +1,10 @@
 import { type ExpressionNode, type Fraction, fraction, negative } from '../../../../construction'
 
-import { isNegativeSign } from '../../../structural'
+import { isMinus } from '../../../structural'
 
 export function mergeFractionMinuses(node: Fraction): ExpressionNode {
-	const numeratorIsNegative = isNegativeSign(node.numerator)
-	const denominatorIsNegative = isNegativeSign(node.denominator)
+	const numeratorIsNegative = isMinus(node.numerator)
+	const denominatorIsNegative = isMinus(node.denominator)
 	if (!numeratorIsNegative && !denominatorIsNegative) return node
 
 	const numerator = numeratorIsNegative ? node.numerator.node : node.numerator

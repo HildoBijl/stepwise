@@ -1,12 +1,12 @@
 import { type Sign, type Product, negative, product } from '../../../../construction'
 
-import { isNegativeSignNode } from '../../../structural'
+import { isMinus } from '../../../structural'
 
 export function mergeProductMinuses(node: Product): Product | Sign {
-	// Check the number of minus signs.
+	// Remove all minus signs from the factors. Count them.
 	let negativeCount = 0
 	const factors = node.factors.map(factor => {
-		if (!isNegativeSignNode(factor)) return factor
+		if (!isMinus(factor)) return factor
 		negativeCount++
 		return factor.node
 	})

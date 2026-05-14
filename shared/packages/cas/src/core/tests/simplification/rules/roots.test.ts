@@ -38,10 +38,10 @@ describe('root simplification', () => {
 	})
 
 	test('turns fraction exponents into roots', () => {
-		expectSimplifyToGive(power(x, fraction(1, 2)), root(x, 2), ['removeOneExponentFromPowers', 'turnFractionExponentsIntoRoots'])
-		expectSimplifyToGive(power(x, fraction(1, 3)), root(x, 3), ['removeOneExponentFromPowers', 'turnFractionExponentsIntoRoots'])
-		expectSimplifyToGive(power(x, fraction(2, 3)), root(power(x, 2), 3), ['removeOneExponentFromPowers', 'turnFractionExponentsIntoRoots'])
-		expectSimplifyToGive(power(x, fraction(8, 3)), root(power(x, 8), 3), ['removeOneExponentFromPowers', 'turnFractionExponentsIntoRoots'])
+		expectSimplifyToGive(power(x, fraction(1, 2)), root(x, 2), ['removeOneExponentsFromPowers', 'turnFractionExponentsIntoRoots'])
+		expectSimplifyToGive(power(x, fraction(1, 3)), root(x, 3), ['removeOneExponentsFromPowers', 'turnFractionExponentsIntoRoots'])
+		expectSimplifyToGive(power(x, fraction(2, 3)), root(power(x, 2), 3), ['removeOneExponentsFromPowers', 'turnFractionExponentsIntoRoots'])
+		expectSimplifyToGive(power(x, fraction(8, 3)), root(power(x, 8), 3), ['removeOneExponentsFromPowers', 'turnFractionExponentsIntoRoots'])
 	})
 
 	test('turns base two roots into square roots', () => {
@@ -76,16 +76,16 @@ describe('root simplification', () => {
 	})
 
 	test('pulls factors out of roots', () => {
-		expectSimplifyToGive(sqrt(20), product(2, sqrt(5)), ['removeOneExponentFromPowers', 'pullFactorsOutOfRoots'])
-		expectSimplifyToGive(root(54, 3), product(3, root(2, 3)), ['removeOneExponentFromPowers', 'pullFactorsOutOfRoots'])
-		expectSimplifyToGive(sqrt(product(power(x, 3), power(y, 4), power(z, 5))), product(x, power(y, 2), power(z, 2), sqrt(product(x, z))), ['removeOneExponentFromPowers', 'pullFactorsOutOfRoots'])
-		expectSimplifyToGive(root(product(power(x, 4), power(y, 5)), 3), product(x, y, root(product(x, power(y, 2)), 3)), ['removeOneExponentFromPowers', 'pullFactorsOutOfRoots'])
+		expectSimplifyToGive(sqrt(20), product(2, sqrt(5)), ['removeOneExponentsFromPowers', 'pullFactorsOutOfRoots'])
+		expectSimplifyToGive(root(54, 3), product(3, root(2, 3)), ['removeOneExponentsFromPowers', 'pullFactorsOutOfRoots'])
+		expectSimplifyToGive(sqrt(product(power(x, 3), power(y, 4), power(z, 5))), product(x, power(y, 2), power(z, 2), sqrt(product(x, z))), ['removeOneExponentsFromPowers', 'pullFactorsOutOfRoots'])
+		expectSimplifyToGive(root(product(power(x, 4), power(y, 5)), 3), product(x, y, root(product(x, power(y, 2)), 3)), ['removeOneExponentsFromPowers', 'pullFactorsOutOfRoots'])
 	})
 
 	test('prevents root denominators', () => {
-		expectSimplifyToGive(fraction(1, sqrt(2)), fraction(sqrt(2), 2), ['mergeSumNumbers', 'removeTimesOneFromProducts', 'removeOneExponentFromPowers', 'preventRootDenominators'])
-		expectSimplifyToGive(fraction(x, sqrt(y)), fraction(product(x, sqrt(y)), y), ['mergeSumNumbers', 'removeTimesOneFromProducts', 'removeOneExponentFromPowers', 'preventRootDenominators'])
-		expectSimplifyToGive(fraction(1, root(x, 3)), fraction(root(power(x, 2), 3), x), ['mergeSumNumbers', 'removeTimesOneFromProducts', 'removeOneExponentFromPowers', 'preventRootDenominators'])
-		expectSimplifyToGive(fraction(1, product(2, sqrt(x))), fraction(sqrt(x), product(2, x)), ['mergeSumNumbers', 'removeTimesOneFromProducts', 'removeOneExponentFromPowers', 'preventRootDenominators'])
+		expectSimplifyToGive(fraction(1, sqrt(2)), fraction(sqrt(2), 2), ['mergeSumNumbers', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'preventRootDenominators'])
+		expectSimplifyToGive(fraction(x, sqrt(y)), fraction(product(x, sqrt(y)), y), ['mergeSumNumbers', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'preventRootDenominators'])
+		expectSimplifyToGive(fraction(1, root(x, 3)), fraction(root(power(x, 2), 3), x), ['mergeSumNumbers', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'preventRootDenominators'])
+		expectSimplifyToGive(fraction(1, product(2, sqrt(x))), fraction(sqrt(x), product(2, x)), ['mergeSumNumbers', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'preventRootDenominators'])
 	})
 })

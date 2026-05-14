@@ -1,5 +1,5 @@
-import { ExpressionNode } from '../../ExpressionNode'
-import { Variable } from '../../Variable'
+import { type ExpressionNode } from '../../ExpressionNode'
+import { namedConstants } from '../../constants'
 
 import { SingleArgumentFunctionNode } from '../abstracts'
 
@@ -11,6 +11,6 @@ export class Ln extends SingleArgumentFunctionNode {
 	}
 
 	get base(): ExpressionNode {
-		return Variable.e
+		return namedConstants.e
 	}
 }

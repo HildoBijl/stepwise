@@ -4,10 +4,10 @@ import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/m
 import {
 	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, // Core types
 	stringToVariable, // Creation
-	isConstant, isInteger, isFloat, isVariable, isNumericVariable, isSignNode, isNegativeSign, isPlusMinusSign, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
+	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
 	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, // Operations
-	type SimplificationOptions, type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification types and functions
+	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification types and functions
 	type SimplificationOptionsObject, legacySimplify, removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Legacy: Simplification presets
 	structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
@@ -75,13 +75,13 @@ export class Expression {
 	isConstant(): boolean { return isConstant(this.node) }
 	isInteger(): boolean { return isInteger(this.node) }
 	isFloat(): boolean { return isFloat(this.node) }
-	isNumericVariable(): boolean { return isNumericVariable(this.node) }
+	isNamedConstant(): boolean { return isNamedConstant(this.node) }
 
 	isVariable(): boolean { return isVariable(this.node) }
 
 	isSign(): boolean { return isSignNode(this.node) }
-	isNegative(): boolean { return isNegativeSign(this.node) }
-	isPlusMinusSign(): boolean { return isPlusMinusSign(this.node) }
+	isNegative(): boolean { return isMinus(this.node) }
+	isPlusMinusSign(): boolean { return isPlusMinus(this.node) }
 
 	isSum(): boolean { return isSum(this.node) }
 	isProduct(): boolean { return isProduct(this.node) }

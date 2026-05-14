@@ -67,9 +67,9 @@ function getSolution(state) {
 	const expression = (state.flip ? part2.divide(part1) : part1.divide(part2)).removeUseless()
 
 	// Apply cleaning.
-	const part1WithoutNegativeExponents = part1.removeUseless({ removeNegativePowers: true })
-	const part2WithoutNegativeExponents = part2.removeUseless({ removeNegativePowers: true })
-	const withoutNegativeExponents = expression.removeUseless({ removeNegativePowers: true })
+	const part1WithoutNegativeExponents = part1.removeUseless({ convertNegativePowers: true })
+	const part2WithoutNegativeExponents = part2.removeUseless({ convertNegativePowers: true })
+	const withoutNegativeExponents = expression.removeUseless({ convertNegativePowers: true })
 	const singleFraction = withoutNegativeExponents.simplify({ mergeFractionProducts: true, flattenFractions: true })
 	const inBetween = singleFraction.basicClean({ mergeProductFactors: false })
 	const ans = expression.regularClean()

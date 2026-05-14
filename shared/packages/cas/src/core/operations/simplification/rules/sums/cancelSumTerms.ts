@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Sum, sum } from '../../../../construction'
 
-import { isNegativeSignNode, equalNodes } from '../../../structural'
+import { isMinus, equalNodes } from '../../../structural'
 
 export function cancelSumTerms(node: Sum): ExpressionNode {
 	const skipped = node.terms.map(() => false)
@@ -16,5 +16,5 @@ export function cancelSumTerms(node: Sum): ExpressionNode {
 }
 
 function isOppositeTerm(a: ExpressionNode, b: ExpressionNode) {
-	return (isNegativeSignNode(a) && equalNodes(a.node, b)) || (isNegativeSignNode(b) && equalNodes(a, b.node))
+	return (isMinus(a) && equalNodes(a.node, b)) || (isMinus(b) && equalNodes(a, b.node))
 }

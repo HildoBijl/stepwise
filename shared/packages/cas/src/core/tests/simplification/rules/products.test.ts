@@ -1,4 +1,4 @@
-import { variable, negative, plusMinus, minusPlus, sum, product, power } from '../../../construction'
+import { variable, negative, plusMinus, sum, product, power } from '../../../construction'
 
 import { expectSimplifyToGive } from '../testUtils'
 
@@ -21,9 +21,7 @@ describe('product simplification', () => {
 	test('merges product plus-minuses', () => {
 		expectSimplifyToGive(product(plusMinus(x), y), plusMinus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
 		expectSimplifyToGive(product(plusMinus(x), plusMinus(y)), plusMinus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		expectSimplifyToGive(product(minusPlus(x), y), minusPlus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		expectSimplifyToGive(product(minusPlus(x), plusMinus(y)), minusPlus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		expectSimplifyToGive(product(minusPlus(x), minusPlus(y)), plusMinus(product(x, y)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
+		expectSimplifyToGive(product(plusMinus(x), y, plusMinus(z)), plusMinus(product(x, y, z)), ['mergeProductMinuses', 'mergeProductPlusMinuses'])
 	})
 
 	test('removes times zero from products', () => {
@@ -32,8 +30,8 @@ describe('product simplification', () => {
 	})
 
 	test('removes times one from products', () => {
-		expectSimplifyToGive(product(x, 1), product(x), ['removeTimesOneFromProducts'])
-		expectSimplifyToGive(product(1, x, 1), product(x), ['removeTimesOneFromProducts'])
+		expectSimplifyToGive(product(x, 1), product(x), ['removeOnesFromProducts'])
+		expectSimplifyToGive(product(1, x, 1), product(x), ['removeOnesFromProducts'])
 	})
 
 	test('merges product numbers', () => {

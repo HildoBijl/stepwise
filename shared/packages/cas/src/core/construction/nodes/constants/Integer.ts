@@ -1,7 +1,6 @@
 import { ensureInt } from '@step-wise/utils'
 
 import { ConstantNode } from './ConstantNode'
-import { Sign } from './Sign'
 
 export class Integer extends ConstantNode {
 	readonly subtype = 'Integer'
@@ -10,7 +9,6 @@ export class Integer extends ConstantNode {
 		super(ensureInt(value))
 	}
 
-	static readonly minusOne = new Sign(new Integer(1), true)
 	static readonly zero = new Integer(0)
 	static readonly one = new Integer(1)
 	static readonly two = new Integer(2)

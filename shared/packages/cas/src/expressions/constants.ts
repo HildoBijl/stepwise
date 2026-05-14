@@ -1,9 +1,9 @@
-import { Integer, Variable } from '../core'
+import { Integer, Minus, namedConstants, Variable } from '../core'
 
 import { Expression } from './Expression'
 
 // Integer constants.
-export const minusOne = new Expression(Integer.minusOne)
+export const minusOne = new Expression(new Minus(Integer.one))
 export const zero = new Expression(Integer.zero)
 export const one = new Expression(Integer.one)
 export const two = new Expression(Integer.two)
@@ -20,7 +20,7 @@ export const twelve = new Expression(Integer.twelve)
 export const twenty = new Expression(Integer.twenty)
 export const hundred = new Expression(Integer.hundred)
 
-// Symbolic constants.
-export const e = new Expression(Variable.e)
-export const pi = new Expression(Variable.pi)
-export const infinity = new Expression(Variable.infinity)
+// Named constants.
+export const e = new Expression(namedConstants.e)
+export const pi = new Expression(namedConstants.pi)
+export const infinity = new Expression(namedConstants.infinity)

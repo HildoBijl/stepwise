@@ -1,12 +1,8 @@
-import { ExpressionNode, Variable, numericVariables } from '../../../construction'
+import { type ExpressionNode } from '../../../construction'
 
-import { someDescendant, isSignNode, isFloatNode, isIntegerNode, isVariableNode, isSum, isProduct, isFraction, isPower, equalVariables } from '../fundamentals'
+import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, someDescendant } from '../fundamentals'
 
-import { isPlusMinusSign } from './valueChecks'
-
-// Typing to distinguish numeric and non-numeric variables.
-export function isNumericVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && numericVariables.some(variable => equalVariables(node, variable)) }
-export function isVariable(node: ExpressionNode): node is Variable { return isVariableNode(node) && !isNumericVariable(node) }
+import { isInteger } from './valueChecks'
 
 // Check if an expression contains variables.
 export function hasVariables(node: ExpressionNode): boolean {
@@ -25,7 +21,7 @@ export function hasFloat(node: ExpressionNode): boolean {
 
 // Check if an expression is plural-valued or single-valued.
 export function isPlural(node: ExpressionNode): boolean {
-	return someDescendant(node, descendant => isPlusMinusSign(descendant), true)
+	return someDescendant(node, descendant => isPlusMinus(descendant), true)
 }
 export function isSingular(node: ExpressionNode): boolean {
 	return !isPlural(node)
@@ -39,7 +35,7 @@ export function isPolynomial(node: ExpressionNode): boolean {
 	if (isSum(node)) return node.terms.every(isPolynomial)
 	if (isProduct(node)) return node.factors.every(isPolynomial)
 	if (isFraction(node)) return isPolynomial(node.numerator) && isNumeric(node.denominator)
-	if (isPower(node)) return isPolynomial(node.base) && isIntegerNode(node.exponent) && node.exponent.value >= 0
+	if (isPower(node)) return isPolynomial(node.base) && isIntegerNode(node.exponent)
 	return false
 }
 
@@ -50,6 +46,6 @@ export function isRational(node: ExpressionNode): boolean {
 	if (isSum(node)) return node.terms.every(isRational)
 	if (isProduct(node)) return node.factors.every(isRational)
 	if (isFraction(node)) return isRational(node.numerator) && isRational(node.denominator)
-	if (isPower(node)) return isRational(node.base) && isIntegerNode(node.exponent)
+	if (isPower(node)) return isRational(node.base) && isInteger(node.exponent)
 	return false
 }

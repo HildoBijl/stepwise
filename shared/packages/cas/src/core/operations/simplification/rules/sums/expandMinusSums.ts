@@ -1,8 +1,7 @@
-import { type ExpressionNode, type Sign, negative, sum } from '../../../../construction'
+import { type Minus, type Sum, negative, sum } from '../../../../construction'
 
-import { isNegativeSign, isSum } from '../../../structural'
+import { isSum } from '../../../structural'
 
-export function expandMinusSums(node: Sign): ExpressionNode {
-	if (!isNegativeSign(node) || !isSum(node.node)) return node
-	return sum(...node.node.terms.map(negative))
+export function expandMinusSums(node: Minus): Sum | Minus {
+	return isSum(node.node) ? sum(...node.node.terms.map(negative)) as Sum : node
 }

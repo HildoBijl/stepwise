@@ -1,4 +1,6 @@
 export * from './numbers'
 export * from './variables'
 export * from './asExpressionNode'
-export * from './otherTypes'
+export * from './signs'
+export * from './lists'
+export * from './functions'

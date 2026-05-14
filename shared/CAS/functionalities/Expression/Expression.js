@@ -1241,7 +1241,7 @@ class Sum extends ExpressionList {
 		}
 
 		// Filter out zero elements.
-		if (options.removePlusZeroFromSums) {
+		if (options.removeZeroesFromSums) {
 			terms = terms.filter(term => !Integer.zero.equalsBasic(term))
 		}
 
@@ -1732,7 +1732,7 @@ class Product extends ExpressionList {
 			}
 
 			// Remove all ones from the product.
-			if (options.removeTimesOneFromProducts) {
+			if (options.removeOnesFromProducts) {
 				terms = terms.filter(term => !Integer.one.equalsBasic(term))
 			}
 		}
@@ -2343,7 +2343,7 @@ class Fraction extends Function {
 
 		// Apply the display option to split constant and variable parts, writing (2x)/y as 2*(x/y). But only when there does not wind up a one in a numerator somewhere.
 		const result = new Fraction(numerator, denominator)
-		if (options.pullConstantPartOutOfFractions && !options.mergeFractionProducts && !options.removeNegativePowers) {
+		if (options.pullConstantPartOutOfFractions && !options.mergeFractionProducts && !options.convertNegativePowers) {
 			const { constantPart, variablePart } = result.getConstantAndVariablePart()
 			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart) && !(constantPart.isSubtype(Fraction) && Integer.one.equalsBasic(constantPart.numerator)) && !(variablePart.isSubtype(Fraction) && Integer.one.equalsBasic(variablePart.numerator)))
 				return new Product([constantPart, variablePart]).simplifyBasic(options)
@@ -2521,7 +2521,7 @@ class Power extends Function {
 		}
 
 		// Check for negative powers. Reduce x^(-2) to 1/x^2.
-		if (options.removeNegativePowers) {
+		if (options.convertNegativePowers) {
 			if (exponent.isNegative())
 				return new Fraction(Integer.one, new Power(base, exponent.applyMinus(true))).simplifyBasic(options)
 		}
@@ -2599,7 +2599,7 @@ class Power extends Function {
 			if (Integer.zero.equalsBasic(base) && !Integer.zero.equalsBasic(exponent))
 				return Integer.zero // If the base is 0, become 0.
 		}
-		if (options.removeOneExponentFromPowers) {
+		if (options.removeOneExponentsFromPowers) {
 			if (Integer.one.equalsBasic(exponent))
 				return base // If the power is 1, become the base.
 		}

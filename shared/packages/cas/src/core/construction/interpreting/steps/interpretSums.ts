@@ -1,7 +1,7 @@
 import { InterpretationError, findNextOf } from '@step-wise/utils'
 import { type InputCursorEnd, type InterpretationSettings, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
-import { ExpressionNode, Sign, Integer, Product, Sum } from '../../nodes'
+import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
 
 import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
 
@@ -13,8 +13,8 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 	const addTerm = (start: InputCursorEnd, end: InputCursorEnd, symbolBefore: string) => {
 		if (equalCursor(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
 		let expression = context.interpretProducts(getSubExpression<ExpressionNode>(value, start, end), settings, context)
-		if (symbolBefore === '-') expression = new Sign(expression, true)
-		if (symbolBefore === '±') expression = new Sign(expression, false, true)
+		if (symbolBefore === '-') expression = new Minus(expression)
+		if (symbolBefore === '±') expression = new PlusMinus(expression)
 		terms.push(expression)
 	}
 
@@ -28,11 +28,11 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 			let symbolAfter = str[nextPlusMinus]
 			let end = { part, cursor: nextPlusMinus }
 
-			// Run checks: no plus at the start, and notwo consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
+			// Run checks: no plus at the start, and no two consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (end.part === 0 && end.cursor === 0 && symbolAfter === '+') throw new InterpretationError('Could not interpret the Expression due to it starting with a plus.', 'PlusAtStart', '+')
 			if (equalCursor(start, end) && (symbolBefore === symbolAfter || symbolAfter === '+')) throw new InterpretationError('Could not interpret the Expression due to a double plus/minus.', 'DoublePlusMinus', `${symbolBefore}${symbolAfter}`)
 
-			// If we have "2+-3", "2±-3", "2-±3" or similar, jump over the second plus/minus character and incorporate it into the string to be interpreted.
+			// On "2+-3", "2±-3", "2-±3" or similar, ignore the second sign symbol: incorporate it later.
 			if (equalCursor(start, end)) {
 				nextPlusMinus = getNextPlusMinus(nextPlusMinus)
 				if (nextPlusMinus === -1) break
@@ -40,7 +40,7 @@ export function interpretSums(value: IntermediateInterpretationPart[], settings:
 				end = { part, cursor: nextPlusMinus }
 			}
 
-			// If there is a minus sign or plus/minus preceded by a times, ignore it here and incorporate the minus when dealing with the product.
+			// On "*-" or "*±" ignore the minus or plusMinus sign: incorporate it later.
 			if ((symbolAfter === '-' || symbolAfter === '±') && str[nextPlusMinus - 1] === '*') continue
 
 			// Extract the term, process it, and shift cursors.

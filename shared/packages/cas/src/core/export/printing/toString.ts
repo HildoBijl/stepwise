@@ -1,7 +1,7 @@
 import { decimalSeparator } from '../../../settings'
 
 import { ExpressionNode, ConstantNode, Sign, Sum, Product, Fraction, Power, FunctionNode, variableToString } from '../../construction'
-import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
+import { isConstantNode, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport'
@@ -9,7 +9,7 @@ import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSup
 export function nodeToString(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToString(node)
 	if (isSignNode(node)) return signToString(node)
-	if (isVariableNode(node)) return variableToString(node)
+	if (isVariable(node)) return variableToString(node)
 	if (isSum(node)) return sumToString(node)
 	if (isProduct(node)) return productToString(node)
 	if (isFraction(node)) return fractionToString(node)
@@ -27,9 +27,9 @@ function signToString(node: Sign): string {
 	return `${getSignSymbol(node)}${nodeStr}`
 }
 function getSignSymbol(node: Sign): string {
-	if (node.plusMinus) return '±'
-	if (node.negative) return '-'
-	throw new Error(`Invalid Sign: cannot have a sign that is neither negative nor plus-minus.`)
+	if (isMinus(node)) return '-'
+	if (isPlusMinus(node)) return '±'
+	throw new Error(`Invalid getSignSymbol toString call: cannot turn "${node.name}" sign to a string.`)
 }
 
 function sumToString(node: Sum): string {

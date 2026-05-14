@@ -6,12 +6,12 @@ import { type SimplificationContext } from '../../simplificationOptions'
 
 import { reducePowersWithZeroExponent } from './reducePowersWithZeroExponent'
 import { reducePowersWithZeroBase } from './reducePowersWithZeroBase'
-import { removeOneExponentFromPowers } from './removeOneExponentFromPowers'
+import { removeOneExponentsFromPowers } from './removeOneExponentsFromPowers'
 import { reducePowersWithOneBase } from './reducePowersWithOneBase'
 import { mergePowerMinuses } from './mergePowerMinuses'
 import { mergePowerNumbers } from './mergePowerNumbers'
 import { removePowersWithinPowers } from './removePowersWithinPowers'
-import { removeNegativePowers } from './removeNegativePowers'
+import { convertNegativePowers } from './convertNegativePowers'
 import { expandPowers } from './expandPowers'
 import { expandPowersOfProducts } from './expandPowersOfProducts'
 import { expandPowersOfFractions } from './expandPowersOfFractions'
@@ -21,12 +21,12 @@ export function simplifyPowers(node: ExpressionNode, context: SimplificationCont
 	const options = context.simplificationOptions
 	if (isPower(node) && options.has('reducePowersWithZeroExponent')) node = reducePowersWithZeroExponent(node)
 	if (isPower(node) && options.has('reducePowersWithZeroBase')) node = reducePowersWithZeroBase(node)
-	if (isPower(node) && options.has('removeOneExponentFromPowers')) node = removeOneExponentFromPowers(node)
+	if (isPower(node) && options.has('removeOneExponentsFromPowers')) node = removeOneExponentsFromPowers(node)
 	if (isPower(node) && options.has('reducePowersWithOneBase')) node = reducePowersWithOneBase(node)
 	if (isPower(node) && options.has('mergePowerMinuses')) node = mergePowerMinuses(node)
 	if (isPower(node) && options.has('mergePowerNumbers')) node = mergePowerNumbers(node)
 	if (isPower(node) && options.has('removePowersWithinPowers')) node = removePowersWithinPowers(node)
-	if (isPower(node) && options.has('removeNegativePowers')) node = removeNegativePowers(node)
+	if (isPower(node) && options.has('convertNegativePowers')) node = convertNegativePowers(node)
 	if (isPower(node) && options.has('expandPowers')) node = expandPowers(node)
 	if (isPower(node) && options.has('expandPowersOfProducts')) node = expandPowersOfProducts(node)
 	if (isPower(node) && options.has('expandPowersOfFractions')) node = expandPowersOfFractions(node)

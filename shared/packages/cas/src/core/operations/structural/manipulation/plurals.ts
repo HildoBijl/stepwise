@@ -2,15 +2,11 @@ import { cartesianProduct } from '@step-wise/utils'
 
 import { type ExpressionNode, negative } from '../../../construction'
 
-import { isPlusMinusSign } from '../checks'
+import { isPlusMinus } from '../fundamentals'
 
 export function expandToSingulars(node: ExpressionNode): ExpressionNode[] {
 	// Turn a plus/minus sign into a list of options.
-	if (isPlusMinusSign(node)) {
-		const positive = node.negative ? negative(node.node) : node.node
-		const negativeNode = node.negative ? node.node : negative(node.node)
-		return [...expandToSingulars(positive), ...expandToSingulars(negativeNode)]
-	}
+	if (isPlusMinus(node)) return [...expandToSingulars(node.node), ...expandToSingulars(negative(node.node))]
 
 	// Apply the expansion to children.
 	if (node.children.length === 0) return [node]

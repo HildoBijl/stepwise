@@ -13,18 +13,17 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'flattenProducts',
 
 	// Excess minuses
-	'mergeProductMinuses',
-	'mergeFractionMinuses',
+	'removeSignsFromZeros',
 	'removeDoubleNegatives',
-	'removeMinusFromZero',
+	'mergeProductMinuses',
 	'mergeFractionMinuses',
 
 	// Excess plus-minuses.
-	'removeDoublePlusMinusSigns',
+	'removeDoubleSigns',
 	'mergeProductPlusMinuses',
 
 	// Excess zeros
-	'removePlusZeroFromSums',
+	'removeZeroesFromSums',
 	'reduceProductsWithZero',
 	'reduceFractionsWithZeroNumerator',
 	'reducePowersWithZeroExponent',
@@ -32,9 +31,9 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'reduceRootsWithZeroArgument',
 
 	// Excess ones
-	'removeTimesOneFromProducts',
+	'removeOnesFromProducts',
 	'reduceFractionsWithOneDenominator',
-	'removeOneExponentFromPowers',
+	'removeOneExponentsFromPowers',
 	'reducePowersWithOneBase',
 	'reduceRootsWithOneArgument',
 ])
@@ -105,7 +104,7 @@ export const normalize = new Set<SimplificationOption>([
 	...normalizationRequirements,
 	'normalizeFractionMinuses',
 	'applyPolynomialCancellation',
-	'removeNegativePowers',
+	'convertNegativePowers',
 	'turnRootsIntoFractionExponents',
 ])
 

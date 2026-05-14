@@ -1,33 +1,29 @@
 import { fromKeys } from '@step-wise/utils'
 
-import { ExpressionNode, ConstantNode, Sign, Variable, ListNode, FunctionNode } from '../../construction'
+import type { ExpressionNode, ConstantNode, Sign, Variable, ListNode, FunctionNode } from '../../construction'
+import { isConstantNode, isSignNode, isVariable, isListNode, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations'
 
-import type { ConstantNodeStorageValue, SignStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types'
+import type { ConstantNodeStorageValue, SignNodeStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types'
 
 export function nodeToStorageValue(node: ExpressionNode): ExpressionNodeStorageValue {
-	if (node instanceof ConstantNode) return constantToStorageValue(node)
-	if (node instanceof Sign) return signToStorageValue(node)
-	if (node instanceof Variable) return variableToStorageValue(node)
-	if (node instanceof ListNode) return expressionListToStorageValue(node)
-	if (node instanceof FunctionNode) return functionToStorageValue(node)
+	if (isConstantNode(node)) return constantToStorageValue(node)
+	if (isSignNode(node)) return signToStorageValue(node)
+	if (isVariable(node)) return variableToStorageValue(node)
+	if (isListNode(node)) return expressionListToStorageValue(node)
+	if (isFunctionNode(node)) return functionToStorageValue(node)
 
 	throw new Error(`Cannot serialize expression node of subtype "${node.subtype}": the serialization method has not been implemented yet for this subtype.`)
 }
 
-function signToStorageValue(node: Sign): SignStorageValue {
-	return {
-		subtype: 'Sign',
-		node: nodeToStorageValue(node.node),
-		...(node.negative ? { negative: true } : {}),
-		...(node.plusMinus ? { plusMinus: true } : {}),
-	}
+function constantToStorageValue(node: ConstantNode): ConstantNodeStorageValue {
+	if (isIntegerNode(node)) return { subtype: node.subtype, value: node.value }
+	if (isFloatNode(node)) return { subtype: node.subtype, value: node.value }
+	if (isNamedConstant(node)) return { subtype: node.subtype, symbol: node.symbol }
+	throw new Error(`Invalid node type: cannot serialize node of type "${node.subtype}".`)
 }
 
-function constantToStorageValue(node: ConstantNode): ConstantNodeStorageValue {
-	return {
-		subtype: node.subtype as ConstantNodeStorageValue['subtype'],
-		value: node.value,
-	}
+function signToStorageValue(node: Sign): SignNodeStorageValue {
+	return { subtype: node.subtype as SignNodeStorageValue['subtype'], node: nodeToStorageValue(node.node) }
 }
 
 function variableToStorageValue(node: Variable): VariableStorageValue {

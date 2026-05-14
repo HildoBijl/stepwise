@@ -8,7 +8,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Sum options.
 	flattenSums: false, // Turn x+(y+z) into x+y+z.
 	removeTrivialSums: false, // Turn a sum with zero or one element into 0 or said element, respectively.
-	removePlusZeroFromSums: false, // Remove "+0" from sums.
+	removeZeroesFromSums: false, // Remove "+0" from sums.
 	mergeSumNumbers: false, // Reduce the number of numbers that are used in sums. If there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
 	sortSums: false, // Sort the terms inside sums to put simpler terms first and more complex terms later.
 	cancelSumTerms: false, // Cancel terms in sums. So 2x+3y-2x becoming 3y. Note that this is a more basic version than groupSumTerms, which can group terms, and it's not applied (ignored) if groupSumTerms is applied.
@@ -20,7 +20,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	flattenProducts: false, // Turn x*(y*z) into x*y*z.
 	removeTrivialProducts: false, // Turn a product with zero or one element into 1 or said element, respectively.
 	reduceProductsWithZero: false, // Turn "[...]*0" into "0".
-	removeTimesOneFromProducts: false, // Remove "*1" from products.
+	removeOnesFromProducts: false, // Remove "*1" from products.
 	pullPlusMinusToFront: false, // Within products pull the plus/minus symbol to the front and merge multiple plus/minus symbols.
 	mergeProductNumbers: false, // Reduce the number of numbers that are used in products. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z.
 	mergeProductMinuses: false, // Reduces the negative numbers in products. Turns "-2*x*-3*-1*4" into "-2*x*3*1*4". If mergeProductNumbers is on this option is ignored.
@@ -39,17 +39,17 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	mergeFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	cancelFractionFactors: false, // Cancel factors inside fractions. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductFactors is also true.
-	pullConstantPartOutOfFractions: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
+	pullConstantPartOutOfFractions: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or convertNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
 	// Power options.
 	reducePowersWithZeroExponent: false, // Turn x^0 into 1.
 	reducePowersWithZeroBase: false, // Turn 0^x into 0.
-	removeOneExponentFromPowers: false, // Turn x^1 into x.
+	removeOneExponentsFromPowers: false, // Turn x^1 into x.
 	reducePowersWithOneBase: false, // Turn 1^x into 1.
 	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
-	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
+	convertNegativePowers: false, // Turns x^-2 into 1/x^2.
 	expandPowers: false, // Turns a^3 into a*a*a. Opposite of mergeProductFactors.
 	expandPowersOfProducts: false, // Reduces (a*b)^n to a^n*b^n.
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
@@ -115,14 +115,14 @@ module.exports.elementaryClean = { ...noSimplify, ...elementaryClean }
 // removeUseless removes useless things from equations. Think of adding/subtracting 0, multiplying/dividing by 1 and taking the power of 0 or 1.
 const removeUseless = {
 	...elementaryClean,
-	removePlusZeroFromSums: true,
+	removeZeroesFromSums: true,
 	reduceProductsWithZero: true,
-	removeTimesOneFromProducts: true,
+	removeOnesFromProducts: true,
 	reduceFractionsWithZeroNumerator: true,
 	reduceFractionsWithOneDenominator: true,
 	reducePowersWithZeroExponent: true,
 	reducePowersWithZeroBase: true,
-	removeOneExponentFromPowers: true,
+	removeOneExponentsFromPowers: true,
 	reducePowersWithOneBase: true,
 	reduceRootsWithZeroArgument: true,
 	reduceRootsWithOneArgument: true,
@@ -152,7 +152,7 @@ const regularClean = {
 	cancelFractionFactors: true,
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
-	removeNegativePowers: true,
+	convertNegativePowers: true,
 	reduceCanceledRoots: true,
 	turnBaseTwoRootsIntoSqrts: true,
 	pullExponentsIntoRoots: true,
@@ -232,7 +232,7 @@ const forDisplay = {
 	...regularClean,
 	pullConstantPartOutOfFractions: true,
 	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFractions.
-	removeNegativePowers: false, // Blocks pullConstantPartOutOfFractions.
+	convertNegativePowers: false, // Blocks pullConstantPartOutOfFractions.
 	turnFractionExponentsIntoRoots: true,
 	turnBaseTwoRootsIntoSqrts: true,
 	mergeProductsOfRoots: true,

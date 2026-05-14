@@ -1,4 +1,4 @@
-import { Integer, variable, negative, plusMinus, minusPlus } from '../../../construction'
+import { Integer, variable, negative, plusMinus } from '../../../construction'
 
 import { expectSimplifyToGive } from '../testUtils'
 
@@ -12,15 +12,15 @@ describe('sign simplification', () => {
 	})
 
 	test('removes minus from zero', () => {
-		expectSimplifyToGive(negative(Integer.zero), Integer.zero, ['removeMinusFromZero'])
-		expectSimplifyToGive(negative(Integer.one), negative(Integer.one), ['removeMinusFromZero'])
+		expectSimplifyToGive(negative(Integer.zero), Integer.zero, ['removeSignsFromZeros'])
+		expectSimplifyToGive(negative(Integer.one), negative(Integer.one), ['removeSignsFromZeros'])
 	})
 
 	test('removes double plus-minus signs', () => {
-		expectSimplifyToGive(plusMinus(plusMinus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
-		expectSimplifyToGive(plusMinus(plusMinus(plusMinus(x))), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
-		expectSimplifyToGive(negative(plusMinus(x)), minusPlus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
-		expectSimplifyToGive(negative(minusPlus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
-		expectSimplifyToGive(minusPlus(minusPlus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
+		expectSimplifyToGive(plusMinus(plusMinus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoubleSigns'])
+		expectSimplifyToGive(plusMinus(plusMinus(plusMinus(x))), plusMinus(x), ['removeDoubleNegatives', 'removeDoubleSigns'])
+		expectSimplifyToGive(negative(plusMinus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoubleSigns'])
+		expectSimplifyToGive(plusMinus(negative(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoubleSigns'])
+		expectSimplifyToGive(negative(plusMinus(negative(x))), plusMinus(x), ['removeDoubleNegatives', 'removeDoubleSigns'])
 	})
 })

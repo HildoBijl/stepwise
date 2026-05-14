@@ -20,8 +20,8 @@ describe('power simplification', () => {
 	})
 
 	test('removes one exponent from powers', () => {
-		expectSimplifyToGive(power(x, 1), x, ['removeOneExponentFromPowers'])
-		expectSimplifyToGive(power(sum(x, y), 1), sum(x, y), ['removeOneExponentFromPowers'])
+		expectSimplifyToGive(power(x, 1), x, ['removeOneExponentsFromPowers'])
+		expectSimplifyToGive(power(sum(x, y), 1), sum(x, y), ['removeOneExponentsFromPowers'])
 	})
 
 	test('removes one base from powers', () => {
@@ -50,9 +50,9 @@ describe('power simplification', () => {
 	})
 
 	test('removes negative powers', () => {
-		expectSimplifyToGive(power(x, -2), fraction(1, power(x, 2)), ['removeNegativePowers'])
-		expectSimplifyToGive(power(sum(x, y), -3), fraction(1, power(sum(x, y), 3)), ['removeNegativePowers'])
-		expectSimplifyToGive(power(x, 2), power(x, 2), ['removeNegativePowers'])
+		expectSimplifyToGive(power(x, -2), fraction(1, power(x, 2)), ['convertNegativePowers'])
+		expectSimplifyToGive(power(sum(x, y), -3), fraction(1, power(sum(x, y), 3)), ['convertNegativePowers'])
+		expectSimplifyToGive(power(x, 2), power(x, 2), ['convertNegativePowers'])
 	})
 
 	test('expands powers', () => {
@@ -74,7 +74,7 @@ describe('power simplification', () => {
 	test('expands powers of sums', () => {
 		expectSimplifyToGive(power(sum(x, y), 2), sum(product(1, power(x, 2), power(y, 0)), product(2, power(x, 1), power(y, 1)), product(1, power(x, 0), power(y, 2))), ['expandPowersOfSums'])
 		expectSimplifyToGive(power(sum(x, y), 3), sum(product(1, power(x, 3), power(y, 0)), product(3, power(x, 2), power(y, 1)), product(3, power(x, 1), power(y, 2)), product(1, power(x, 0), power(y, 3))), ['expandPowersOfSums'])
-		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), ['flattenSums', 'flattenProducts', 'removeTimesOneFromProducts', 'reducePowersWithZeroExponent', 'removeOneExponentFromPowers', 'expandProductsOfSums', 'expandPowersOfSums'])
+		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), ['flattenSums', 'flattenProducts', 'removeOnesFromProducts', 'reducePowersWithZeroExponent', 'removeOneExponentsFromPowers', 'expandProductsOfSums', 'expandPowersOfSums'])
 	})
 
 	test('expands powers of sums within sums', () => {

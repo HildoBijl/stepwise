@@ -24,22 +24,24 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 		}
 	}
 
-	// Sign option requirements.
-	requireOption('removeDoublePlusMinusSigns', 'removeDoubleNegatives')
+	// Sign requirements.
+	requireOption('removeDoubleSigns', 'removeDoubleNegatives')
 	requireOption('mergeProductPlusMinuses', 'mergeProductMinuses')
 
-	// Expansion/factorization conflicts.
-	conflict('factorizeIntegers', ['mergeProductNumbers', 'mergePowerNumbers'])
-	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSumsWithinSums'])
-
-	// Fraction conflicts/requirements.
-	conflict('splitFractions', 'mergeFractionSums')
+	// Fraction requirements.
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
 	requireOption('applyPolynomialCancellation', [...normalizationRequirements])
 
+	// Fraction conflicts.
+	conflict('splitFractions', 'mergeFractionSums')
+
 	// Power conflicts.
 	conflict('expandPowers', 'mergeProductFactors')
+
+	// Expansion/factorization conflicts.
+	conflict('factorizeIntegers', ['mergeProductNumbers', 'mergePowerNumbers'])
+	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSumsWithinSums'])
 
 	// Root conflicts/dependencies.
 	conflict('turnBaseTwoRootsIntoSqrts', 'turnSqrtsIntoBaseTwoRoots')

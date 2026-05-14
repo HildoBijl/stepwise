@@ -1,6 +1,6 @@
-import { type ExpressionNode, variable, sum, product, fraction, negative, power, plusMinus, minusPlus } from '../../../construction'
+import { type ExpressionNode, variable, sum, product, fraction, negative, power, plusMinus } from '../../../construction'
 
-import { equalNodes } from '../fundamentals'
+import { equalNodes } from '../comparisons'
 
 import { add, subtract, multiply, divide } from './arithmetic'
 import { expandToSingulars } from './plurals'
@@ -36,7 +36,6 @@ describe('expandToSingulars', () => {
 	})
 	test('expands plus-minus signs', () => {
 		expectEqualNodeLists(expandToSingulars(plusMinus('x')), [variable('x'), negative('x')])
-		expectEqualNodeLists(expandToSingulars(minusPlus('x')), [negative('x'), variable('x')])
 	})
 	test('expands plus-minus signs inside sums', () => {
 		expectEqualNodeLists(expandToSingulars(sum('x', plusMinus('y'))), [sum('x', 'y'), sum('x', negative('y'))])

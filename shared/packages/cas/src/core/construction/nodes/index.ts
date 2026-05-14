@@ -1,5 +1,6 @@
 export * from './ExpressionNode'
 export * from './constants'
+export * from './signs'
 export * from './Variable'
 export * from './lists'
 export * from './functions'

@@ -1,7 +1,7 @@
 import { type VariableInput, type ExpressionNode, type ExpressionNodeInput, asExpressionNode, asVariable } from '../../../construction'
 
-import { equalVariables } from '../fundamentals'
-import { isVariable } from '../checks'
+import { isVariable } from '../fundamentals'
+import { equalVariables } from '../comparisons'
 
 import { replaceDescendants } from './replacing'
 

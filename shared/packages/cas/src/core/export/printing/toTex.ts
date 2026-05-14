@@ -1,7 +1,7 @@
 import { decimalSeparatorTex } from '../../../settings'
 
 import { ExpressionNode, ConstantNode, Sign, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
-import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
+import { isConstantNode, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusBetweenNodesTex, requiresTimesBetweenFactorsTex } from './listSupport'
@@ -9,7 +9,7 @@ import { requiresPlusBetweenNodesTex, requiresTimesBetweenFactorsTex } from './l
 export function nodeToTex(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToTex(node)
 	if (isSignNode(node)) return signToTex(node)
-	if (isVariableNode(node)) return variableToTex(node)
+	if (isVariable(node)) return variableToTex(node)
 	if (isSum(node)) return sumToTex(node)
 	if (isProduct(node)) return productToTex(node)
 	if (isFraction(node)) return fractionToTex(node)
@@ -30,9 +30,9 @@ function signToTex(node: Sign): string {
 	return `${getSignSymbol(node)}${nodeTex}`
 }
 function getSignSymbol(node: Sign): string {
-	if (node.plusMinus) return '\\pm '
-	if (node.negative) return '-'
-	throw new Error(`Invalid Sign: cannot have a sign that is neither negative nor plus-minus.`)
+	if (isMinus(node)) return '-'
+	if (isPlusMinus(node)) return '\\pm '
+	throw new Error(`Invalid getSignSymbol toTex call: cannot turn "${node.name}" sign to tex.`)
 }
 
 function variableToTex(node: Variable): string {

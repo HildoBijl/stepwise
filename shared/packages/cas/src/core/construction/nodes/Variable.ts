@@ -10,9 +10,4 @@ export class Variable extends ExpressionNode {
 		if (symbol.length === 0) throw new Error('Invalid variable symbol: the symbol must be non-empty.')
 		if (accent !== undefined && !accents.includes(accent)) throw new Error(`Invalid variable accent: the accent "${accent}" is unknown.`)
 	}
-
-	static readonly e = new Variable('e')
-	static readonly pi = new Variable('π')
-	static readonly infinity = new Variable('∞')
 }
-export const numericVariables = [Variable.e, Variable.pi, Variable.infinity]

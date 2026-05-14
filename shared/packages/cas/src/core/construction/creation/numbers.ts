@@ -1,14 +1,18 @@
 import { isInt } from '@step-wise/utils'
 
-import { ExpressionNode, Sign, Integer, Float } from '../nodes'
+import { type ExpressionNode, Integer, Float, type NamedConstant, getNamedConstant, Minus } from '../nodes'
 
 // Creation functions for numbers.
-export function integer(value: number): ExpressionNode {
-	return value < 0 ? new Sign(new Integer(-value), true) : new Integer(value)
+export function integer(value: number): Integer | Minus {
+	return value < 0 ? new Minus(new Integer(-value)) : new Integer(value)
 }
-export function float(value: number): ExpressionNode {
-	return value < 0 ? new Sign(new Float(-value), true) : new Float(value)
+export function float(value: number): Float | Minus {
+	return value < 0 ? new Minus(new Float(-value)) : new Float(value)
 }
-export function number(value: number): ExpressionNode {
+export function namedConstant(symbol: string): NamedConstant {
+	return getNamedConstant(symbol)
+}
+export function number(value: number | string): ExpressionNode {
+	if (typeof value === 'string') return namedConstant(value)
 	return isInt(value) ? integer(value) : float(value)
 }

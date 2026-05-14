@@ -8,7 +8,7 @@ import { flattenProducts } from './flattenProducts'
 import { mergeProductMinuses } from './mergeProductMinuses'
 import { mergeProductPlusMinuses } from './mergeProductPlusMinuses'
 import { reduceProductsWithZero } from './reduceProductsWithZero'
-import { removeTimesOneFromProducts } from './removeTimesOneFromProducts'
+import { removeOnesFromProducts } from './removeOnesFromProducts'
 import { mergeProductNumbers } from './mergeProductNumbers'
 import { mergeProductFactors } from './mergeProductFactors'
 import { expandProductsOfSums } from './expandProductsOfSums'
@@ -20,7 +20,7 @@ export function simplifyProducts(node: ExpressionNode, context: SimplificationCo
 	if (isProduct(node) && options.has('mergeProductMinuses')) node = mergeProductMinuses(node)
 	if (isProduct(node) && options.has('mergeProductPlusMinuses')) node = mergeProductPlusMinuses(node)
 	if (isProduct(node) && options.has('reduceProductsWithZero')) node = reduceProductsWithZero(node)
-	if (isProduct(node) && options.has('removeTimesOneFromProducts')) node = removeTimesOneFromProducts(node)
+	if (isProduct(node) && options.has('removeOnesFromProducts')) node = removeOnesFromProducts(node)
 	if (isProduct(node) && options.has('mergeProductNumbers')) node = mergeProductNumbers(node)
 	if (isProduct(node) && options.has('mergeProductFactors')) node = mergeProductFactors(node)
 	if (isProduct(node) && (options.has('expandProductsOfSums') || (options.has('expandProductsOfSumsWithinSums') && context.parents.some(isSum)))) node = expandProductsOfSums(node)

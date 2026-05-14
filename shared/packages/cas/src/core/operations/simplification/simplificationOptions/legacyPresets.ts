@@ -31,15 +31,15 @@ export const elementaryCleanOptions = getSimplificationOptionsObjectFromSet(elem
 export const removeUselessSet = new Set<SimplificationOption>([
 	...elementaryCleanSet,
 	'removeDoubleNegatives',
-	'removeMinusFromZero',
-	'removePlusZeroFromSums',
+	'removeSignsFromZeros',
+	'removeZeroesFromSums',
 	'reduceProductsWithZero',
-	'removeTimesOneFromProducts',
+	'removeOnesFromProducts',
 	'reduceFractionsWithZeroNumerator',
 	'reduceFractionsWithOneDenominator',
 	'reducePowersWithZeroExponent',
 	'reducePowersWithZeroBase',
-	'removeOneExponentFromPowers',
+	'removeOneExponentsFromPowers',
 	'reducePowersWithOneBase',
 	'reduceRootsWithZeroArgument',
 	'reduceRootsWithOneArgument',
@@ -68,7 +68,7 @@ export const regularCleanSet = new Set<SimplificationOption>([
 	'cancelFractionFactors',
 	'mergeFractionSums',
 	'removePowersWithinPowers',
-	'removeNegativePowers',
+	'convertNegativePowers',
 	'reduceCanceledRoots',
 	'turnBaseTwoRootsIntoSqrts',
 	'pullExponentsIntoRoots',
@@ -79,7 +79,7 @@ export const regularCleanSet = new Set<SimplificationOption>([
 export const regularCleanOptions = getSimplificationOptionsObjectFromSet(regularCleanSet)
 
 // Advanced clean-up: apply all relevant algebraic simplification steps.
-export const advancedCleanMainSet = new Set<SimplificationOption>([...regularCleanSet, 'expandPowersOfProducts', 'turnRootsIntoFractionExponents', 'sortSums', 'removeDoublePlusMinusSigns', 'mergeProductPlusMinuses', 'mergeFractionProducts', 'mergeFractionFactors', 'expandMinusSums', 'expandPlusMinusSums', 'expandProductsOfSums', 'expandPowersOfFractions', 'expandPowersOfSums'])
+export const advancedCleanMainSet = new Set<SimplificationOption>([...regularCleanSet, 'expandPowersOfProducts', 'turnRootsIntoFractionExponents', 'sortSums', 'removeDoubleSigns', 'mergeProductPlusMinuses', 'mergeFractionProducts', 'mergeFractionFactors', 'expandMinusSums', 'expandPlusMinusSums', 'expandProductsOfSums', 'expandPowersOfFractions', 'expandPowersOfSums'])
 export const advancedCleanSets = [
 	// First pull factors out as much as possible.
 	difference(
@@ -137,6 +137,6 @@ export const forDisplaySet = difference(
 		regularCleanSet, // Already clean things a bit in advance.
 		new Set<SimplificationOption>(['turnFractionExponentsIntoRoots', 'turnBaseTwoRootsIntoSqrts', 'mergeProductsOfRoots', 'preventRootDenominators']), // Add some options that make the output prettier.
 	),
-	new Set<SimplificationOption>(['mergeFractionProducts', 'removeNegativePowers', 'cancelFractionFactors']) // Remove some cleaning options that are not needed for the display purpose.
+	new Set<SimplificationOption>(['mergeFractionProducts', 'convertNegativePowers', 'cancelFractionFactors']) // Remove some cleaning options that are not needed for the display purpose.
 )
 export const forDisplayOptions = getSimplificationOptionsObjectFromSet(forDisplaySet)

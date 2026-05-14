@@ -1,8 +1,8 @@
 export const allSimplificationOptionsList = [
 	// Sign options.
+	'removeSignsFromZeros', // Turns -0 into 0 and identically ±0 to 0.
 	'removeDoubleNegatives', // Remove two consecutive minus signs: -(-x) becomes x.
-	'removeMinusFromZero', // Turns -0 into 0.
-	'removeDoublePlusMinusSigns', // Remove consecutive plus-minus signs: ±±x becomes ±x.
+	'removeDoubleSigns', // Remove consecutive signs: ±±x becomes ±x, and both -±x and ±-x become ±x.. Requires removeDoubleNegatives.
 
 	// Constant options.
 	'turnFloatsIntoIntegers', // Turn floats into integers whenever possible. So when 4.5/1.5 reduces to 3.0, it becomes 3.
@@ -10,7 +10,7 @@ export const allSimplificationOptionsList = [
 
 	// Sum options.
 	'flattenSums', // Turn x+(y+z) into x+y+z.
-	'removePlusZeroFromSums', // Remove "+0" from sums.
+	'removeZeroesFromSums', // Remove "+0" from sums.
 	'mergeSumNumbers', // Group numbers in sums. So 2+3*x+4 becomes 6+3*x.
 	'cancelSumTerms', // Cancel terms in sums. So 2x+3y-2x becomes 3y.
 	'groupSumTerms', // Group sum terms. So 2*x+3*x becomes (2+3)*x, then 5*x.
@@ -25,7 +25,7 @@ export const allSimplificationOptionsList = [
 	'mergeProductMinuses', // Reduce negative numbers in products. So -2*x*-3*-1*4 becomes -2*x*3*1*4.
 	'mergeProductPlusMinuses', // In products, pull plus/minus symbols to the front and merge them.
 	'reduceProductsWithZero', // Turn "[...]*0" into 0.
-	'removeTimesOneFromProducts', // Remove "*1" from products.
+	'removeOnesFromProducts', // Remove "*1" from products.
 	'mergeProductNumbers', // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z.
 	'mergeProductFactors', // Merge product factors into powers. So x*x^2 becomes x^3.
 	'expandProductsOfSums', // Turn a*(b+c) into a*b+a*c.
@@ -49,12 +49,12 @@ export const allSimplificationOptionsList = [
 	// Power options.
 	'reducePowersWithZeroExponent', // Turn x^0 into 1.
 	'reducePowersWithZeroBase', // Turn 0^x into 0.
-	'removeOneExponentFromPowers', // Turn x^1 into x.
+	'removeOneExponentsFromPowers', // Turn x^1 into x.
 	'reducePowersWithOneBase', // Turn 1^x into 1.
 	'mergePowerMinuses', // Reduce (-x)^n for integer n to either x^n or -x^n.
 	'mergePowerNumbers', // Reduce powers containing only numbers into a number.
 	'removePowersWithinPowers', // Turn (a^b)^c into a^(b*c).
-	'removeNegativePowers', // Turn x^-2 into 1/x^2.
+	'convertNegativePowers', // Turn x^-2 into 1/x^2.
 	'expandPowers', // Turn a^3 into a*a*a. Conflicts with mergeProductFactors.
 	'expandPowersOfProducts', // Turn (a*b)^n into a^n*b^n.
 	'expandPowersOfFractions', // Turn (a/b)^n into a^n/b^n.

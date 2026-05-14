@@ -1,18 +1,24 @@
-import { ExpressionNode, ConstantNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Sign, Integer, Float, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
+import { ExpressionNode, ConstantNode, Sign, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
 
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }
 export function isConstantNode(node: ExpressionNode): node is ConstantNode { return node instanceof ConstantNode }
+export function isSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign }
 export function isListNode(node: ExpressionNode): node is ListNode { return node instanceof ListNode }
 export function isFunctionNode(node: ExpressionNode): node is FunctionNode { return node instanceof FunctionNode }
 export function isSingleArgumentFunctionNode(node: ExpressionNode): node is SingleArgumentFunctionNode { return node instanceof SingleArgumentFunctionNode }
 
 // Constants and variables.
-export function isSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign }
-export function isNegativeSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign && node.negative && !node.plusMinus }
 export function isIntegerNode(node: ExpressionNode): node is Integer { return node instanceof Integer }
 export function isFloatNode(node: ExpressionNode): node is Float { return node instanceof Float }
-export function isVariableNode(node: ExpressionNode): node is Variable { return node instanceof Variable }
+export function isNamedConstant(node: ExpressionNode): node is NamedConstant { return node instanceof NamedConstant }
+
+// Signs.
+export function isMinus(node: ExpressionNode): node is Minus { return node instanceof Minus }
+export function isPlusMinus(node: ExpressionNode): node is PlusMinus { return node instanceof PlusMinus }
+
+// Variables.
+export function isVariable(node: ExpressionNode): node is Variable { return node instanceof Variable }
 
 // Lists.
 export function isSum(node: ExpressionNode): node is Sum { return node instanceof Sum }

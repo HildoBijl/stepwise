@@ -3,8 +3,7 @@ import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/m
 
 import { type ExpressionNode, Variable, variableToString } from '../../../construction'
 
-import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
-import { equalVariables } from './equality'
+import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
 export function numericNodeToNumber(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}): number {
@@ -14,20 +13,14 @@ export function numericNodeToNumber(node: ExpressionNode, settings: Partial<Expr
 
 function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): number {
 	// Constants
-	if (isSignNode(node)) {
-		if (node.plusMinus) throw new Error('Invalid toNumber call: cannot turn a plus-minus into a single number.')
-		const value = toNumberInternal(node.node, settings)
-		return node.negative ? -value : value
-	}
 	if (isConstantNode(node)) return node.value
 
+	// Signs
+	if (isMinus(node)) return -toNumberInternal(node.node, settings)
+	if (isPlusMinus(node)) throw new Error('Invalid toNumber call: cannot turn a plus-minus into a single number.')
+
 	// Variables
-	if (isVariableNode(node)) {
-		if (equalVariables(node, Variable.pi)) return Math.PI
-		if (equalVariables(node, Variable.e)) return Math.E
-		if (equalVariables(node, Variable.infinity)) return Infinity
-		throw new Error(`Invalid toNumber call: cannot turn a variable "${variableToString(node)}" into a number.`)
-	}
+	if (isVariable(node)) new Error(`Invalid toNumber call: cannot turn a variable "${variableToString(node)}" into a number.`)
 
 	// Lists
 	if (isSum(node)) return node.terms.reduce((sum, term) => sum + toNumberInternal(term, settings), 0)
