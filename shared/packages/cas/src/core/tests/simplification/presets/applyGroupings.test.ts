@@ -17,6 +17,7 @@ describe('apply-groupings simplification', () => {
 	})
 
 	test('merges fraction products', () => {
-		expectNodeToEqual(simplify(product(fraction(x, y), fraction(z, 2)), undefined, applyGroupings), fraction(product(x, z), product(y, 2)))
+		expectNodeToEqual(simplify(product(fraction(x, y), fraction(z, 2)), undefined, applyGroupings), fraction(product(x, z), product(2, y)))
+		expectNodeToEqual(simplify(product(fraction(x, product(3, y)), fraction(z, 2)), undefined, applyGroupings), fraction(product(x, z), product(6, y)))
 	})
 })

@@ -35,6 +35,7 @@ describe('product simplification', () => {
 	})
 
 	test('merges product numbers', () => {
+		expectSimplifyToGive(product(x, 3), product(3, x), ['mergeProductNumbers'])
 		expectSimplifyToGive(product(2, x, 3), product(6, x), ['mergeProductNumbers'])
 		expectSimplifyToGive(product(2, x, -3, 5), product(10, x, -3), ['mergeProductNumbers'])
 		expectSimplifyToGive(product(2, x, 0), product(0, x), ['mergeProductNumbers'])

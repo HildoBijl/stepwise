@@ -15,7 +15,8 @@ export function getProductFactors(node: ExpressionNode): readonly ExpressionNode
 }
 
 // Get the base and exponent of a power, or turn it into this if not a power.
-export function getBaseAndExponent(node: ExpressionNode): { base: ExpressionNode, exponent: ExpressionNode } {
+export type BaseAndExponent = { base: ExpressionNode, exponent: ExpressionNode }
+export function getBaseAndExponent(node: ExpressionNode): BaseAndExponent {
 	if (isPower(node)) return { base: node.base, exponent: node.exponent }
 	return { base: node, exponent: Integer.one }
 }

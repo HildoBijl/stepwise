@@ -28,6 +28,9 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 	requireOption('removeDoubleSigns', 'removeDoubleNegatives')
 	requireOption('mergeProductPlusMinuses', 'mergeProductMinuses')
 
+	// Factorization requirements.
+	requireOption('pullOutCommonSumFactors', ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers'])
+
 	// Fraction requirements.
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])

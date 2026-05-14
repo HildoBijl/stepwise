@@ -1,8 +1,8 @@
 import { type ExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNodeInput, asExpressionNode } from '../../construction'
+import { type ExpressionNodeInput, asExpressionNode, nodeToTree } from '../../construction'
 import { type SimplificationOptionsInput, type ComparisonSettings, equalNodes, simplify } from '../../operations'
-import { nodeToString, nodeToStorageValue } from '../../export'
+import { nodeToString } from '../../export'
 
 export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: Partial<ExpressionSettings> = {}, comparisonSettings: Partial<ComparisonSettings> = {}) {
 	const inputValue = asExpressionNode(input)
@@ -12,9 +12,9 @@ export function expectSimplifyToGive(input: ExpressionNodeInput, output: Express
 	Actual output:   ${nodeToString(result)}
 	Expected output: ${nodeToString(outputValue)}
 	Original input:  ${nodeToString(inputValue)}
-	Actual output structure:   ${JSON.stringify(nodeToStorageValue(result))}
-	Expected output structure: ${JSON.stringify(nodeToStorageValue(outputValue))}
-	Original input structure:  ${JSON.stringify(nodeToStorageValue(inputValue))}`)
+	Actual output structure:   ${JSON.stringify(nodeToTree(result))}
+	Expected output structure: ${JSON.stringify(nodeToTree(outputValue))}
+	Original input structure:  ${JSON.stringify(nodeToTree(inputValue))}`)
 }
 
 export function expectNodeToEqual(result: ExpressionNodeInput, expected: ExpressionNodeInput, comparisonSettings: Partial<ComparisonSettings> = {}) {
@@ -23,6 +23,6 @@ export function expectNodeToEqual(result: ExpressionNodeInput, expected: Express
 	if (!equalNodes(resultValue, expectedValue, comparisonSettings)) throw new Error(`A simplification call did not give the expected result.
 	Actual output:   ${nodeToString(resultValue)}
 	Expected output: ${nodeToString(expectedValue)}
-	Actual output structure:   ${JSON.stringify(nodeToStorageValue(resultValue))}
-	Expected output structure: ${JSON.stringify(nodeToStorageValue(expectedValue))}`)
+	Actual output structure:   ${JSON.stringify(nodeToTree(resultValue))}
+	Expected output structure: ${JSON.stringify(nodeToTree(expectedValue))}`)
 }

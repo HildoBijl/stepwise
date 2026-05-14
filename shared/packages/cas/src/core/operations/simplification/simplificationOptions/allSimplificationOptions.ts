@@ -16,8 +16,8 @@ export const allSimplificationOptionsList = [
 	'groupSumTerms', // Group sum terms. So 2*x+3*x becomes (2+3)*x, then 5*x.
 	'expandMinusSums', // Turn -(x-y) into -x-(-y).
 	'expandPlusMinusSums', // Turn ±(x-y) into ±x±(-y).
-	'pullOutCommonSumNumbers', // Pull common numbers outside sums. So 6x+9y becomes 3(2x+3y). Conflicts with expandProductsOfSums.
-	'pullOutCommonSumFactors', // Pull common factors outside sums. So x^3*(y+1)z + x^2*(y+1)^3*w becomes x^2*(y+1)(xz+(y+1)^2*w). Conflicts with expandProductsOfSums.
+	'pullOutCommonSumNumbers', // Pull common numbers outside sums. So 6x+9y becomes 3(2x+3y). Only examines leading numbers. Conflicts with expandProductsOfSums.
+	'pullOutCommonSumFactors', // Pull common factors outside sums. So x^3*(y+1)*z + x^2*(y+1)^3*w becomes x^2*(y+1)*(xz+(y+1)^2*w). Conflicts with expandProductsOfSums.
 	'sortSums', // Sort terms in sums, putting simpler terms first.
 
 	// Product options.
@@ -26,7 +26,7 @@ export const allSimplificationOptionsList = [
 	'mergeProductPlusMinuses', // In products, pull plus/minus symbols to the front and merge them.
 	'reduceProductsWithZero', // Turn "[...]*0" into 0.
 	'removeOnesFromProducts', // Remove "*1" from products.
-	'mergeProductNumbers', // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z.
+	'mergeProductNumbers', // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z. Puts numbers in products at the start.
 	'mergeProductFactors', // Merge product factors into powers. So x*x^2 becomes x^3.
 	'expandProductsOfSums', // Turn a*(b+c) into a*b+a*c.
 	'expandProductsOfSumsWithinSums', // Expand products of sums only inside sums. Conflicts with expandProductsOfSums.
@@ -40,9 +40,9 @@ export const allSimplificationOptionsList = [
 	'mergeFractionSums', // Turn sums of fractions into one fraction. So a/b+c/d becomes (ad+bc)/(bd).
 	'splitFractions', // Split fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums.
 	'mergeFractionMinuses', // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y).
-	'mergeFractionNumbers', // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2.
-	'cancelFractionFactors', // Cancel factors in fractions. So (ab)/(bc) becomes a/c.
-	'mergeFractionFactors', // Merge factors in fractions. So a^x/a^y becomes a^(x-y). Requires mergeProductFactors.
+	'mergeFractionNumbers', // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2 and (18x+24y)/(12z) becomes (3x+4y)/(2z). Only considers leading numbers.
+	'cancelFractionFactors', // Cancel factors in fractions. So (xy)/(yz) becomes x/z. Only works on exact matches: x^3/x^2 remains as is.
+	'mergeFractionFactors', // Merge factors in fractions. So x^a/x^b becomes x^(a-b). Requires mergeProductFactors.
 	'normalizeFractionMinuses', // Makes sure the first term in the numerator/denominator does not have a minus sign. Requires mergeProductMinuses, removeDoubleNegatives and sortSums.
 	'applyPolynomialCancellation', // Cancel polynomial terms between numerator and denominator. Only univariate for now.
 

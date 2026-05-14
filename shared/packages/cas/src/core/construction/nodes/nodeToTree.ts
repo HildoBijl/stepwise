@@ -1,17 +1,21 @@
-import type { ExpressionNode, ConstantNode, Sign, Variable, ListNode, FunctionNode } from '../../construction'
-import { isConstantNode, isNamedConstant, isSignNode, isVariable, isListNode, isFunctionNode } from '../../operations'
+import { ExpressionNode } from './ExpressionNode'
+import { ConstantNode, NamedConstant } from './constants'
+import { Sign } from './signs'
+import { Variable } from './Variable'
+import { ListNode } from './lists'
+import { FunctionNode } from './functions'
 
 export function nodeToTree(node: ExpressionNode) {
-	if (isConstantNode(node)) return constantToTree(node)
-	if (isSignNode(node)) return signToTree(node)
-	if (isVariable(node)) return variableToTree(node)
-	if (isListNode(node)) return sumToTree(node)
-	if (isFunctionNode(node)) return functionToTree(node)
+	if (node instanceof ConstantNode) return constantToTree(node)
+	if (node instanceof Sign) return signToTree(node)
+	if (node instanceof Variable) return variableToTree(node)
+	if (node instanceof ListNode) return sumToTree(node)
+	if (node instanceof FunctionNode) return functionToTree(node)
 	throw new Error(`Invalid toTree call: the sub"${node.subtype}" has no implemented toTree method. Could not stringify the object "${node}".`)
 }
 
 function constantToTree(node: ConstantNode): string {
-	return `${node.name}(${isNamedConstant(node) ? `'${node.symbol}'` : node.value})`
+	return `${node.name}(${node instanceof NamedConstant ? `'${node.symbol}'` : node.value})`
 }
 
 function signToTree(node: Sign): string {

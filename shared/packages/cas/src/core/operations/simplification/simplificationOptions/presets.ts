@@ -110,7 +110,13 @@ export const normalize = new Set<SimplificationOption>([
 
 export const factorize = new Set<SimplificationOption>([
 	...removeTrivial,
+	'mergeSumNumbers',
+	'cancelSumTerms',
+	'expandMinusSums',
+	'reducePowersWithZeroExponent',
+	'removeOnesFromProducts',
 	'factorizeIntegers',
+	'mergeProductFactors',
 	'pullOutCommonSumNumbers',
 	'pullOutCommonSumFactors',
 	'expandRootsOfProducts',

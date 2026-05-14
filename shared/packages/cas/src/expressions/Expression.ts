@@ -3,14 +3,14 @@ import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/m
 
 import {
 	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, // Core types
-	stringToVariable, // Creation
+	nodeToTree, stringToVariable, // Creation
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
 	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, // Operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification types and functions
 	type SimplificationOptionsObject, legacySimplify, removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Legacy: Simplification presets
 	structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
-	nodeToString, nodeToTex, nodeToTree, nodeToStorageValue, storageValueToNode, // Printing
+	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
 import { asExpression } from './interpreting'

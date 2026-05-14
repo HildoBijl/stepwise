@@ -1,7 +1,7 @@
 import { mergeDefaults, setToString } from '@step-wise/utils'
 import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode } from '../../construction'
+import { type ExpressionNode, nodeToTree } from '../../construction'
 
 import { replaceDescendants } from '../structural'
 
@@ -43,12 +43,12 @@ export function legacySimplify(node: ExpressionNode, settings: Partial<Expressio
 // Repeat the simplification options until there are no more changes. Simplifications should stabilize.
 function simplifyUntilStable(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	let current = node
-	for (let iteration = 0; iteration < 10; iteration++) {
+	for (let iteration = 0; iteration < 5; iteration++) {
 		const next = simplifyOnce(current, context)
 		if (next === current) return current
 		current = next
 	}
-	throw new Error(`Simplification did not stabilize. Some of the simplification options lock each other in an infinite loop. Simplifications used: ${setToString(context.simplificationOptions)}`)
+	throw new Error(`Simplification did not stabilize. Some of the simplification options lock each other in an infinite loop.\nFinal expression: ${nodeToTree(current)}\nSimplifications used: ${setToString(context.simplificationOptions)}`)
 }
 
 // Run a set of simplification operations once on all nodes.
