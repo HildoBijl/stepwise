@@ -1,10 +1,10 @@
 import { type ExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, type ExpressionNodeInput, asExpressionNode } from '../../construction'
-import { type SimplificationOptions, type ComparisonSettings, equalNodes, simplify } from '../../operations'
+import { type ExpressionNodeInput, asExpressionNode } from '../../construction'
+import { type SimplificationOptionsInput, type ComparisonSettings, equalNodes, simplify } from '../../operations'
 import { nodeToString, nodeToStorageValue } from '../../export'
 
-export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: Partial<SimplificationOptions>, expressionSettings: Partial<ExpressionSettings> = {}, comparisonSettings: Partial<ComparisonSettings> = {}) {
+export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: Partial<ExpressionSettings> = {}, comparisonSettings: Partial<ComparisonSettings> = {}) {
 	const inputValue = asExpressionNode(input)
 	const outputValue = asExpressionNode(output)
 	const result = simplify(inputValue, expressionSettings, options)

@@ -1,2 +1,2 @@
 export * from './simplificationOptions'
-export * from './simplifyFunctions'
+export * from './simplify'

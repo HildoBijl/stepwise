@@ -6,21 +6,21 @@ const x = variable('x')
 
 describe('sign simplification', () => {
 	test('removes double negatives', () => {
-		expectSimplifyToGive(negative(negative(x)), x, { removeDoubleNegatives: true })
-		expectSimplifyToGive(negative(negative(negative(x))), negative(x), { removeDoubleNegatives: true })
-		expectSimplifyToGive(negative(negative(negative(negative(x)))), x, { removeDoubleNegatives: true })
+		expectSimplifyToGive(negative(negative(x)), x, ['removeDoubleNegatives'])
+		expectSimplifyToGive(negative(negative(negative(x))), negative(x), ['removeDoubleNegatives'])
+		expectSimplifyToGive(negative(negative(negative(negative(x)))), x, ['removeDoubleNegatives'])
 	})
 
 	test('removes minus from zero', () => {
-		expectSimplifyToGive(negative(Integer.zero), Integer.zero, { removeMinusFromZero: true })
-		expectSimplifyToGive(negative(Integer.one), negative(Integer.one), { removeMinusFromZero: true })
+		expectSimplifyToGive(negative(Integer.zero), Integer.zero, ['removeMinusFromZero'])
+		expectSimplifyToGive(negative(Integer.one), negative(Integer.one), ['removeMinusFromZero'])
 	})
 
 	test('removes double plus-minus signs', () => {
-		expectSimplifyToGive(plusMinus(plusMinus(x)), plusMinus(x), { removeDoubleNegatives: true, removeDoublePlusMinusSigns: true })
-		expectSimplifyToGive(plusMinus(plusMinus(plusMinus(x))), plusMinus(x), { removeDoubleNegatives: true, removeDoublePlusMinusSigns: true })
-		expectSimplifyToGive(negative(plusMinus(x)), minusPlus(x), { removeDoubleNegatives: true, removeDoublePlusMinusSigns: true })
-		expectSimplifyToGive(negative(minusPlus(x)), plusMinus(x), { removeDoubleNegatives: true, removeDoublePlusMinusSigns: true })
-		expectSimplifyToGive(minusPlus(minusPlus(x)), plusMinus(x), { removeDoubleNegatives: true, removeDoublePlusMinusSigns: true })
+		expectSimplifyToGive(plusMinus(plusMinus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
+		expectSimplifyToGive(plusMinus(plusMinus(plusMinus(x))), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
+		expectSimplifyToGive(negative(plusMinus(x)), minusPlus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
+		expectSimplifyToGive(negative(minusPlus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
+		expectSimplifyToGive(minusPlus(minusPlus(x)), plusMinus(x), ['removeDoubleNegatives', 'removeDoublePlusMinusSigns'])
 	})
 })

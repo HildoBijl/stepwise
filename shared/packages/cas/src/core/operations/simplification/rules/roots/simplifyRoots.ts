@@ -21,18 +21,19 @@ import { pullFactorsOutOfRoots } from './pullFactorsOutOfRoots'
 import { preventRootDenominators } from './preventRootDenominators'
 
 export function simplifyRoots(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	if (isRootLike(node) && context.simplificationOptions.reduceRootsWithZeroArgument) node = reduceRootsWithZeroArgument(node)
-	if (isRootLike(node) && context.simplificationOptions.reduceRootsWithOneArgument) node = reduceRootsWithOneArgument(node)
-	if (isRootLike(node) && context.simplificationOptions.reduceIntegerRoots) node = reduceIntegerRoots(node)
-	if ((isRootLike(node) || isPower(node)) && context.simplificationOptions.reduceCanceledRoots) node = reduceCanceledRoots(node)
-	if (isRootLike(node) && context.simplificationOptions.turnRootsIntoFractionExponents) node = turnRootsIntoFractionExponents(node)
-	if (isPower(node) && context.simplificationOptions.turnFractionExponentsIntoRoots) node = turnFractionExponentsIntoRoots(node)
-	if (isRoot(node) && context.simplificationOptions.turnBaseTwoRootsIntoSqrts) node = turnBaseTwoRootsIntoSqrts(node)
-	if (isSqrt(node) && context.simplificationOptions.turnSqrtsIntoBaseTwoRoots) node = turnSqrtsIntoBaseTwoRoots(node)
-	if (isRootLike(node) && context.simplificationOptions.expandRootsOfProducts) node = expandRootsOfProducts(node)
-	if (isProduct(node) && context.simplificationOptions.mergeProductsOfRoots && !context.simplificationOptions.expandRootsOfProducts) node = mergeProductsOfRoots(node)
-	if (isPower(node) && context.simplificationOptions.pullExponentsIntoRoots) node = pullExponentsIntoRoots(node)
-	if (isRootLike(node) && context.simplificationOptions.pullFactorsOutOfRoots) node = pullFactorsOutOfRoots(node)
-	if (isFraction(node) && context.simplificationOptions.preventRootDenominators) node = preventRootDenominators(node)
+	const options = context.simplificationOptions
+	if (isRootLike(node) && options.has('reduceRootsWithZeroArgument')) node = reduceRootsWithZeroArgument(node)
+	if (isRootLike(node) && options.has('reduceRootsWithOneArgument')) node = reduceRootsWithOneArgument(node)
+	if (isRootLike(node) && options.has('reduceIntegerRoots')) node = reduceIntegerRoots(node)
+	if ((isRootLike(node) || isPower(node)) && options.has('reduceCanceledRoots')) node = reduceCanceledRoots(node)
+	if (isRootLike(node) && options.has('turnRootsIntoFractionExponents')) node = turnRootsIntoFractionExponents(node)
+	if (isPower(node) && options.has('turnFractionExponentsIntoRoots')) node = turnFractionExponentsIntoRoots(node)
+	if (isRoot(node) && options.has('turnBaseTwoRootsIntoSqrts')) node = turnBaseTwoRootsIntoSqrts(node)
+	if (isSqrt(node) && options.has('turnSqrtsIntoBaseTwoRoots')) node = turnSqrtsIntoBaseTwoRoots(node)
+	if (isRootLike(node) && options.has('expandRootsOfProducts')) node = expandRootsOfProducts(node)
+	if (isProduct(node) && options.has('mergeProductsOfRoots') && !options.has('expandRootsOfProducts')) node = mergeProductsOfRoots(node)
+	if (isPower(node) && options.has('pullExponentsIntoRoots')) node = pullExponentsIntoRoots(node)
+	if (isRootLike(node) && options.has('pullFactorsOutOfRoots')) node = pullFactorsOutOfRoots(node)
+	if (isFraction(node) && options.has('preventRootDenominators')) node = preventRootDenominators(node)
 	return node
 }

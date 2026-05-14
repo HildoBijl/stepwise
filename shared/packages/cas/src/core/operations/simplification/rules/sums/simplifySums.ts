@@ -16,15 +16,16 @@ import { pullOutCommonSumFactors } from './pullOutCommonSumFactors'
 import { sortSums } from './sortSums'
 
 export function simplifySums(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	if (isSum(node) && context.simplificationOptions.flattenSums) node = flattenSums(node)
-	if (isSum(node) && context.simplificationOptions.removePlusZeroFromSums) node = removePlusZeroFromSums(node)
-	if (isSum(node) && context.simplificationOptions.mergeSumNumbers) node = mergeSumNumbers(node)
-	if (isSum(node) && context.simplificationOptions.cancelSumTerms) node = cancelSumTerms(node)
-	if (isSum(node) && context.simplificationOptions.groupSumTerms) node = groupSumTerms(node)
-	if (isNegativeSign(node) && context.simplificationOptions.expandMinusSums) node = expandMinusSums(node)
-	if (isPlusMinusSign(node) && context.simplificationOptions.expandPlusMinusSums) node = expandPlusMinusSums(node)
-	if (isSum(node) && context.simplificationOptions.pullOutCommonSumNumbers) node = pullOutCommonSumNumbers(node)
-	if (isSum(node) && context.simplificationOptions.pullOutCommonSumFactors) node = pullOutCommonSumFactors(node)
-	if (isSum(node) && context.simplificationOptions.sortSums) node = sortSums(node)
+	const options = context.simplificationOptions
+	if (isSum(node) && options.has('flattenSums')) node = flattenSums(node)
+	if (isSum(node) && options.has('removePlusZeroFromSums')) node = removePlusZeroFromSums(node)
+	if (isSum(node) && options.has('mergeSumNumbers')) node = mergeSumNumbers(node)
+	if (isSum(node) && options.has('cancelSumTerms')) node = cancelSumTerms(node)
+	if (isSum(node) && options.has('groupSumTerms')) node = groupSumTerms(node)
+	if (isNegativeSign(node) && options.has('expandMinusSums')) node = expandMinusSums(node)
+	if (isPlusMinusSign(node) && options.has('expandPlusMinusSums')) node = expandPlusMinusSums(node)
+	if (isSum(node) && options.has('pullOutCommonSumNumbers')) node = pullOutCommonSumNumbers(node)
+	if (isSum(node) && options.has('pullOutCommonSumFactors')) node = pullOutCommonSumFactors(node)
+	if (isSum(node) && options.has('sortSums')) node = sortSums(node)
 	return node
 }

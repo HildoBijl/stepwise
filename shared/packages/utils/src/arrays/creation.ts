@@ -1,5 +1,12 @@
 import { ensureInt, ensureNumber } from '../numbers'
 
+import { isReadonlyArray } from './checks'
+
+// Make sure something is an array, or turn it into a single-value array if not.
+export function asArray<T>(value: T | readonly T[]): readonly T[] {
+	return isReadonlyArray(value) ? value : [value]
+}
+
 // Create an array with numbers from start (inclusive) to end (inclusive). If only one parameter is given, it is treated as the end and start is 0.
 export function integerRange(end: number): number[]
 export function integerRange(start: number, end: number): number[]
@@ -8,7 +15,7 @@ export function integerRange(start: number, end?: number): number[] {
 		end = start
 		start = 0
 	}
-	if (start <= end)	return [...Array(end - start + 1).keys()].map(x => x + start)
+	if (start <= end) return [...Array(end - start + 1).keys()].map(x => x + start)
 	return [...Array(start - end + 1).keys()].map(x => start - x)
 }
 

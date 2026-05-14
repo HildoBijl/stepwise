@@ -1,7 +1,5 @@
-import { union, difference } from '@step-wise/utils'
-
 import { type SimplificationOption } from './types'
-import { getSimplificationOptionsFromSet } from './utils'
+import { adjustSimplificationOptions } from './utils'
 
 export const noSimplify = new Set<SimplificationOption>()
 
@@ -40,7 +38,6 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'reducePowersWithOneBase',
 	'reduceRootsWithOneArgument',
 ])
-export const removeTrivialOptions = getSimplificationOptionsFromSet(removeTrivial)
 
 export const mergeNumbers = new Set<SimplificationOption>([
 	'mergeSumNumbers',
@@ -84,12 +81,10 @@ export const applyExpansions = new Set<SimplificationOption>([
 ])
 
 // Adjust the expansions set by adding and removing various options
-export const applyExpansionsOnlyWithinSums = difference(
-	union(
-		applyExpansions,
-		new Set<SimplificationOption>(['expandProductsOfSumsWithinSums', 'expandPowersOfSumsWithinSums'])
-	),
-	new Set<SimplificationOption>(['expandProductsOfSums', 'expandPowersOfSums']),
+export const applyExpansionsOnlyWithinSums = adjustSimplificationOptions(
+	applyExpansions,
+	['expandProductsOfSumsWithinSums', 'expandPowersOfSumsWithinSums'], // To add
+	['expandProductsOfSums', 'expandPowersOfSums'], // To remove
 )
 
 export const applySorting = new Set<SimplificationOption>([

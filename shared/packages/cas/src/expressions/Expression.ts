@@ -7,8 +7,8 @@ import {
 	isConstant, isInteger, isFloat, isVariable, isNumericVariable, isSignNode, isNegativeSign, isPlusMinusSign, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
 	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, // Operations
-	type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput, type SimplificationOptionList, type AddSimplificationOptions, type RemoveSimplificationOptions, type SimplificationPreset, simplify, // Simplification types and functions
-	repeatedSimplify, removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Legacy: Simplification presets
+	type SimplificationOptions, type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification types and functions
+	type SimplificationOptionsObject, legacySimplify, removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Legacy: Simplification presets
 	structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
@@ -211,91 +211,42 @@ export class Expression {
 	 * Simplification
 	 */
 
-	simplify(options: SimplificationOptionsInput): Expression {
+	simplify(options: SimplificationOptionsInput = []): Expression {
 		return new Expression(simplify(this.node, this.settings, options), this.settings)
 	}
 
-	private adjustedSimplify(options: SimplificationOptionsInput, addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return new Expression(simplify(this.node, this.settings, options, addOptions, removeOptions), this.settings)
+	private simplifyWithPreset(options: SimplificationOptionsInput, addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression {
+		return this.simplify(adjustSimplificationOptions(options, addOptions, removeOptions))
 	}
 
-	removeTrivial(adjustments?: Partial<SimplificationOptions>): Expression
-	removeTrivial(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	removeTrivial(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(removeTrivial, addOptions, removeOptions)
-	}
-
-	mergeNumbers(adjustments?: Partial<SimplificationOptions>): Expression
-	mergeNumbers(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	mergeNumbers(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(mergeNumbers, addOptions, removeOptions)
-	}
-
-	applyCancellations(adjustments?: Partial<SimplificationOptions>): Expression
-	applyCancellations(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	applyCancellations(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(applyCancellations, addOptions, removeOptions)
-	}
-
-	applyGroupings(adjustments?: Partial<SimplificationOptions>): Expression
-	applyGroupings(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	applyGroupings(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(applyGroupings, addOptions, removeOptions)
-	}
-
-	applyExpansions(adjustments?: Partial<SimplificationOptions>): Expression
-	applyExpansions(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	applyExpansions(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(applyExpansions, addOptions, removeOptions)
-	}
-
-	applyExpansionsOnlyWithinSums(adjustments?: Partial<SimplificationOptions>): Expression
-	applyExpansionsOnlyWithinSums(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	applyExpansionsOnlyWithinSums(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(applyExpansionsOnlyWithinSums, addOptions, removeOptions)
-	}
-
-	applySorting(adjustments?: Partial<SimplificationOptions>): Expression
-	applySorting(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	applySorting(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(applySorting, addOptions, removeOptions)
-	}
-
-	normalize(adjustments?: Partial<SimplificationOptions>): Expression
-	normalize(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	normalize(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(normalize, addOptions, removeOptions)
-	}
-
-	factorize(adjustments?: Partial<SimplificationOptions>): Expression
-	factorize(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	factorize(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(factorize, addOptions, removeOptions)
-	}
-
-	forDisplay(adjustments?: Partial<SimplificationOptions>): Expression
-	forDisplay(addOptions?: SimplificationOptionList, removeOptions?: SimplificationOptionList): Expression
-	forDisplay(addOptions: AddSimplificationOptions = [], removeOptions: RemoveSimplificationOptions = []): Expression {
-		return this.adjustedSimplify(forDisplay, addOptions, removeOptions)
-	}
+	removeTrivial(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(removeTrivial, addOptions, removeOptions) }
+	mergeNumbers(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(mergeNumbers, addOptions, removeOptions) }
+	applyCancellations(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyCancellations, addOptions, removeOptions) }
+	applyGroupings(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyGroupings, addOptions, removeOptions) }
+	applyExpansions(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyExpansions, addOptions, removeOptions) }
+	applyExpansionsOnlyWithinSums(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyExpansionsOnlyWithinSums, addOptions, removeOptions) }
+	applySorting(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applySorting, addOptions, removeOptions) }
+	normalize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(normalize, addOptions, removeOptions) }
+	factorize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(factorize, addOptions, removeOptions) }
+	forDisplay(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(forDisplay, addOptions, removeOptions) }
 
 	/*
 	 * Legacy Simplification Presets simplification functions
 	 */
 
-	private legacyClean(preset: SimplificationPreset, adjustments: Partial<SimplificationOptions> = {}): Expression {
-		return new Expression(repeatedSimplify(this.node, this.settings, preset, adjustments), this.settings)
+	private legacyClean(preset: SimplificationPreset, adjustments: SimplificationOptionsObject = {}): Expression {
+		return new Expression(legacySimplify(this.node, this.settings, preset, adjustments), this.settings)
 	}
 
-	cleanStructureOnly(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(structureOnlyOptions, adjustments) }
-	elementaryClean(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(elementaryCleanOptions, adjustments) }
-	removeUseless(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(removeUselessOptions, adjustments) }
-	basicClean(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(basicCleanOptions, adjustments) }
-	regularClean(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(regularCleanOptions, adjustments) }
-	advancedClean(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(advancedCleanOptions, adjustments) }
-	cleanForAnalysis(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(forAnalysisOptions, adjustments) }
-	cleanForDerivatives(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(forDerivativesOptions, adjustments) }
-	cleanForDisplay(adjustments: Partial<SimplificationOptions> = {}): Expression { return this.legacyClean(forDisplayOptions, adjustments) }
+	cleanStructureOnly(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(structureOnlyOptions, adjustments) }
+	elementaryClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(elementaryCleanOptions, adjustments) }
+	removeUseless(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(removeUselessOptions, adjustments) }
+	basicClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(basicCleanOptions, adjustments) }
+	regularClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(regularCleanOptions, adjustments) }
+	advancedClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(advancedCleanOptions, adjustments) }
+	cleanForAnalysis(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forAnalysisOptions, adjustments) }
+	cleanForDerivatives(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDerivativesOptions, adjustments) }
+	cleanForDisplay(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDisplayOptions, adjustments) }
 
 	/*
 	 * Comparisons

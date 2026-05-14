@@ -15,14 +15,15 @@ import { expandProductsOfSums } from './expandProductsOfSums'
 import { sortProducts } from './sortProducts'
 
 export function simplifyProducts(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	if (isProduct(node) && context.simplificationOptions.flattenProducts) node = flattenProducts(node)
-	if (isProduct(node) && context.simplificationOptions.mergeProductMinuses) node = mergeProductMinuses(node)
-	if (isProduct(node) && context.simplificationOptions.mergeProductPlusMinuses) node = mergeProductPlusMinuses(node)
-	if (isProduct(node) && context.simplificationOptions.reduceProductsWithZero) node = reduceProductsWithZero(node)
-	if (isProduct(node) && context.simplificationOptions.removeTimesOneFromProducts) node = removeTimesOneFromProducts(node)
-	if (isProduct(node) && context.simplificationOptions.mergeProductNumbers) node = mergeProductNumbers(node)
-	if (isProduct(node) && context.simplificationOptions.mergeProductFactors) node = mergeProductFactors(node)
-	if (isProduct(node) && (context.simplificationOptions.expandProductsOfSums || (context.simplificationOptions.expandProductsOfSumsWithinSums && context.parents.some(isSum)))) node = expandProductsOfSums(node)
-	if (isProduct(node) && context.simplificationOptions.sortProducts) node = sortProducts(node)
+	const options = context.simplificationOptions
+	if (isProduct(node) && options.has('flattenProducts')) node = flattenProducts(node)
+	if (isProduct(node) && options.has('mergeProductMinuses')) node = mergeProductMinuses(node)
+	if (isProduct(node) && options.has('mergeProductPlusMinuses')) node = mergeProductPlusMinuses(node)
+	if (isProduct(node) && options.has('reduceProductsWithZero')) node = reduceProductsWithZero(node)
+	if (isProduct(node) && options.has('removeTimesOneFromProducts')) node = removeTimesOneFromProducts(node)
+	if (isProduct(node) && options.has('mergeProductNumbers')) node = mergeProductNumbers(node)
+	if (isProduct(node) && options.has('mergeProductFactors')) node = mergeProductFactors(node)
+	if (isProduct(node) && (options.has('expandProductsOfSums') || (options.has('expandProductsOfSumsWithinSums') && context.parents.some(isSum)))) node = expandProductsOfSums(node)
+	if (isProduct(node) && options.has('sortProducts')) node = sortProducts(node)
 	return node
 }

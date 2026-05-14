@@ -18,17 +18,18 @@ import { mergeFractionFactors } from './mergeFractionFactors'
 import { applyPolynomialCancellation } from './applyPolynomialCancellation'
 
 export function simplifyFractions(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	if (isFraction(node) && context.simplificationOptions.reduceFractionsWithZeroNumerator) node = reduceFractionsWithZeroNumerator(node)
-	if (isFraction(node) && context.simplificationOptions.reduceFractionsWithOneDenominator) node = reduceFractionsWithOneDenominator(node)
-	if (isProduct(node) && context.simplificationOptions.mergeFractionProducts) node = mergeFractionProducts(node)
-	if (isFraction(node) && context.simplificationOptions.flattenFractions) node = flattenFractions(node)
-	if (isSum(node) && context.simplificationOptions.mergeFractionSums) node = mergeFractionSums(node)
-	if (isFraction(node) && context.simplificationOptions.splitFractions) node = splitFractions(node)
-	if (isFraction(node) && context.simplificationOptions.mergeFractionMinuses) node = mergeFractionMinuses(node)
-	if (isFraction(node) && context.simplificationOptions.mergeFractionNumbers) node = mergeFractionNumbers(node)
-	if (isFraction(node) && context.simplificationOptions.cancelFractionFactors) node = cancelFractionFactors(node)
-	if (isFraction(node) && context.simplificationOptions.mergeFractionFactors) node = mergeFractionFactors(node)
-	if (isFraction(node) && context.simplificationOptions.applyPolynomialCancellation) node = applyPolynomialCancellation(node, context)
-	if (isFraction(node) && context.simplificationOptions.normalizeFractionMinuses) node = normalizeFractionMinuses(node)
+	const options = context.simplificationOptions
+	if (isFraction(node) && options.has('reduceFractionsWithZeroNumerator')) node = reduceFractionsWithZeroNumerator(node)
+	if (isFraction(node) && options.has('reduceFractionsWithOneDenominator')) node = reduceFractionsWithOneDenominator(node)
+	if (isProduct(node) && options.has('mergeFractionProducts')) node = mergeFractionProducts(node)
+	if (isFraction(node) && options.has('flattenFractions')) node = flattenFractions(node)
+	if (isSum(node) && options.has('mergeFractionSums')) node = mergeFractionSums(node)
+	if (isFraction(node) && options.has('splitFractions')) node = splitFractions(node)
+	if (isFraction(node) && options.has('mergeFractionMinuses')) node = mergeFractionMinuses(node)
+	if (isFraction(node) && options.has('mergeFractionNumbers')) node = mergeFractionNumbers(node)
+	if (isFraction(node) && options.has('cancelFractionFactors')) node = cancelFractionFactors(node)
+	if (isFraction(node) && options.has('mergeFractionFactors')) node = mergeFractionFactors(node)
+	if (isFraction(node) && options.has('applyPolynomialCancellation')) node = applyPolynomialCancellation(node, context)
+	if (isFraction(node) && options.has('normalizeFractionMinuses')) node = normalizeFractionMinuses(node)
 	return node
 }

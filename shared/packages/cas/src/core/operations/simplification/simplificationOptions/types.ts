@@ -2,20 +2,20 @@ import { type ExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode } from '../../../construction'
 
-import { allSimplificationOptions } from './allSimplificationOptions'
+import { allSimplificationOptionsList } from './allSimplificationOptions'
 
-export type SimplificationOption = typeof allSimplificationOptions[number]
-export type SimplificationOptions = Record<SimplificationOption, boolean>
-export type SimplificationOptionList = ReadonlySet<SimplificationOption> | readonly SimplificationOption[]
-export type SimplificationOptionsInput = Partial<SimplificationOptions> | SimplificationOptionList
-export type AddSimplificationOptions = Partial<SimplificationOptions> | SimplificationOptionList
-export type RemoveSimplificationOptions = SimplificationOptionList
+export type SimplificationOption = typeof allSimplificationOptionsList[number]
+export type SimplificationOptions = ReadonlySet<SimplificationOption>
+export type SimplificationOptionsInput = SimplificationOptions | readonly SimplificationOption[]
 
-export type SimplificationPreset = SimplificationOptions | readonly SimplificationOptions[] // Legacy Simplification Presets
-
+export type Simplify = (node: ExpressionNode, options: SimplificationOptionsInput) => ExpressionNode
 export type SimplificationContext = {
 	simplificationOptions: SimplificationOptions
 	expressionSettings: ExpressionSettings
 	parents: readonly ExpressionNode[]
-	simplify: (node: ExpressionNode, options?: SimplificationOptionsInput, addOptions?: AddSimplificationOptions, removeOptions?: RemoveSimplificationOptions) => ExpressionNode
+	simplify: Simplify
 }
+
+// Legacy Simplification Presets: use objects to represent simplification options.
+export type SimplificationOptionsObject = Record<SimplificationOption, boolean>
+export type SimplificationPreset = SimplificationOptionsObject | readonly SimplificationOptionsObject[]

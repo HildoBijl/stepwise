@@ -1,4 +1,4 @@
-export const allSimplificationOptions = [
+export const allSimplificationOptionsList = [
 	// Sign options.
 	'removeDoubleNegatives', // Remove two consecutive minus signs: -(-x) becomes x.
 	'removeMinusFromZero', // Turns -0 into 0.
@@ -76,3 +76,4 @@ export const allSimplificationOptions = [
 	'pullFactorsOutOfRoots', // Turn sqrt(20) into 2*sqrt(5), and sqrt(a^3b^4c^5) into ab^2c^2*sqrt(ac).
 	'preventRootDenominators', // Turn 1/sqrt(2) into sqrt(2)/2. Conficts with cancelFractionFactors.
 ]
+export const allSimplificationOptions: ReadonlySet<typeof allSimplificationOptionsList[number]> = new Set(allSimplificationOptionsList)
