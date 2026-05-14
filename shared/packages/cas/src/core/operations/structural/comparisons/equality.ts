@@ -1,6 +1,6 @@
 import { compareNumbers, mergeDefaults } from '@step-wise/utils'
 
-import type { ExpressionNode, Sign, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
+import type { ExpressionNode, SignNode, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
 import { isSignNode, isConstantNode, isFunctionNode, isListNode, isVariable } from '../fundamentals'
 
@@ -25,7 +25,7 @@ export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {
 	return a.constructor === b.constructor && compareNumbers(a.value, b.value)
 }
 
-export function equalSignNodes(a: Sign, b: Sign, settings: ComparisonSettings): boolean {
+export function equalSignNodes(a: SignNode, b: SignNode, settings: ComparisonSettings): boolean {
 	return a.constructor === b.constructor && equalNodes(a.node, b.node, settings)
 }
 

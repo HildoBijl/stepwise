@@ -1,4 +1,4 @@
-import { type ExpressionNode, type ConstantNode, type Sign, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'
+import { type ExpressionNode, type ConstantNode, type SignNode, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'
 import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
@@ -20,11 +20,11 @@ function constantToString(node: ConstantNode): string {
 	return isNamedConstant(node) ? node.symbol : `${node.value}`
 }
 
-function signToString(node: Sign): string {
+function signToString(node: SignNode): string {
 	const nodeStr = addBrackets(nodeToString(node.node), requiresBracketsFor(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeStr}`
 }
-function getSignSymbol(node: Sign): string {
+function getSignSymbol(node: SignNode): string {
 	if (isMinus(node)) return '-'
 	if (isPlusMinus(node)) return '±'
 	throw new Error(`Invalid getSignSymbol toString call: cannot turn "${node.name}" sign to a string.`)

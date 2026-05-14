@@ -1,6 +1,6 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-export abstract class Sign extends ExpressionNode {
+export abstract class SignNode extends ExpressionNode {
 	constructor(readonly node: ExpressionNode) {
 		super()
 	}

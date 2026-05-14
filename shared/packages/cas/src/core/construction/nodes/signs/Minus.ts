@@ -1,8 +1,8 @@
 import { ExpressionNode } from '../ExpressionNode'
 
-import { Sign } from './Sign'
+import { SignNode } from './SignNode'
 
-export class Minus extends Sign {
+export class Minus extends SignNode {
 	readonly subtype = 'Minus'
 
 	constructor(node: ExpressionNode) {

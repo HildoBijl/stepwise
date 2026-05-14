@@ -1,4 +1,4 @@
-import type { ExpressionNode, ConstantNode, NamedConstant, Sign, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
+import type { ExpressionNode, ConstantNode, NamedConstant, SignNode, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
 import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
@@ -28,11 +28,11 @@ function getNamedConstantTex(node: NamedConstant) {
 	return node.symbol
 }
 
-function signToTex(node: Sign): string {
+function signToTex(node: SignNode): string {
 	const nodeTex = addBrackets(nodeToTex(node.node), requiresBracketsFor(node.node, bracketLevels.negation))
 	return `${getSignSymbol(node)}${nodeTex}`
 }
-function getSignSymbol(node: Sign): string {
+function getSignSymbol(node: SignNode): string {
 	if (isMinus(node)) return '-'
 	if (isPlusMinus(node)) return '\\pm '
 	throw new Error(`Invalid getSignSymbol toTex call: cannot turn "${node.name}" sign to tex.`)

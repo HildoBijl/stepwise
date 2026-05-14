@@ -2,23 +2,23 @@ import { mergeDefaults, isReadonlyArray } from '@step-wise/utils'
 import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
 import {
-	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, // Core types
-	nodeToTree, stringToVariable, // Creation
+	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
-	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, // Operations
-	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification types and functions
-	type SimplificationOptionsObject, legacySimplify, removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Legacy: Simplification presets
-	structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
+	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, // Structural operations
+	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
+	removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Simplification presets
+	getDerivative, // Semantic operations
+	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
 import { asExpression } from './interpreting'
 
 // Define types used within the class.
+type VariableLike = Expression | string
 type ExpressionLike = Expression | string
 type SubstitutionMap = Record<string, ExpressionLike>
-type VariableLike = Expression | string
 type ExpressionCheck = (expression: Expression) => boolean
 type ExpressionTransform = (expression: Expression) => Expression
 type ExpressionFunction = (expression: Expression) => void
@@ -81,11 +81,11 @@ export class Expression {
 	isFloat(): boolean { return isFloat(this.node) }
 	isNamedConstant(): boolean { return isNamedConstant(this.node) }
 
-	isVariable(): boolean { return isVariable(this.node) }
-
 	isSign(): boolean { return isSignNode(this.node) }
-	isNegative(): boolean { return isMinus(this.node) }
-	isPlusMinusSign(): boolean { return isPlusMinus(this.node) }
+	isMinus(): boolean { return isMinus(this.node) }
+	isPlusMinus(): boolean { return isPlusMinus(this.node) }
+
+	isVariable(): boolean { return isVariable(this.node) }
 
 	isSum(): boolean { return isSum(this.node) }
 	isProduct(): boolean { return isProduct(this.node) }
@@ -251,6 +251,23 @@ export class Expression {
 	cleanForAnalysis(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forAnalysisOptions, adjustments) }
 	cleanForDerivatives(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDerivativesOptions, adjustments) }
 	cleanForDisplay(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDisplayOptions, adjustments) }
+
+	/*
+	 * Semantic operations
+	 */
+
+	getDerivative(variable?: VariableLike): Expression {
+		const derivativeVariable = variable === undefined ? this.getDerivativeVariable() : this.coerceVariable(variable)
+		const derivative = getDerivative(this.node, derivativeVariable, this.settings)
+		return new Expression(derivative, this.settings)
+	}
+
+	private getDerivativeVariable(): Variable {
+		const variables = getVariables(this.node)
+		if (variables.length === 0) return variable('x')
+		if (variables.length === 1) return variables[0]
+		throw new Error(`Cannot get derivative: no variable was specified and the expression has multiple variables.`)
+	}
 
 	/*
 	 * Comparisons

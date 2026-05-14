@@ -1,6 +1,6 @@
 import { fromKeys } from '@step-wise/utils'
 
-import type { ExpressionNode, ConstantNode, Sign, Variable, ListNode, FunctionNode } from '../../construction'
+import type { ExpressionNode, ConstantNode, SignNode, Variable, ListNode, FunctionNode } from '../../construction'
 import { isConstantNode, isSignNode, isVariable, isListNode, isSum, isProduct, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations'
 
 import type { ConstantNodeStorageValue, SignNodeStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types'
@@ -22,7 +22,7 @@ function constantToStorageValue(node: ConstantNode): ConstantNodeStorageValue {
 	throw new Error(`Invalid node type: cannot serialize node of type "${node.subtype}".`)
 }
 
-function signToStorageValue(node: Sign): SignNodeStorageValue {
+function signToStorageValue(node: SignNode): SignNodeStorageValue {
 	return { subtype: node.subtype as SignNodeStorageValue['subtype'], node: nodeToStorageValue(node.node) }
 }
 

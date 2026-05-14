@@ -1,9 +1,9 @@
-import { ExpressionNode, ConstantNode, Sign, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
+import { ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
 
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }
 export function isConstantNode(node: ExpressionNode): node is ConstantNode { return node instanceof ConstantNode }
-export function isSignNode(node: ExpressionNode): node is Sign { return node instanceof Sign }
+export function isSignNode(node: ExpressionNode): node is SignNode { return node instanceof SignNode }
 export function isListNode(node: ExpressionNode): node is ListNode { return node instanceof ListNode }
 export function isFunctionNode(node: ExpressionNode): node is FunctionNode { return node instanceof FunctionNode }
 export function isSingleArgumentFunctionNode(node: ExpressionNode): node is SingleArgumentFunctionNode { return node instanceof SingleArgumentFunctionNode }
@@ -29,9 +29,9 @@ export function isFraction(node: ExpressionNode): node is Fraction { return node
 export function isPower(node: ExpressionNode): node is Power { return node instanceof Power }
 export function isRoot(node: ExpressionNode): node is Root { return node instanceof Root }
 export function isSqrt(node: ExpressionNode): node is Sqrt { return node instanceof Sqrt }
+export function isRootFunction(node: ExpressionNode): node is Root | Sqrt { return isRoot(node) || isSqrt(node) }
 export function isLn(node: ExpressionNode): node is Ln { return node instanceof Ln }
 export function isLog(node: ExpressionNode): node is Log { return node instanceof Log }
-export function isRootFunction(node: ExpressionNode): node is Root | Sqrt { return isRoot(node) || isSqrt(node) }
 export function isLogFunction(node: ExpressionNode): node is Ln | Log { return isLn(node) || isLog(node) }
 
 // Trigonometry.
