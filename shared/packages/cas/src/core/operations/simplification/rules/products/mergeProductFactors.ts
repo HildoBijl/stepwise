@@ -8,7 +8,7 @@ export function mergeProductFactors(node: Product): ExpressionNode {
 	const groups: { base: ExpressionNode, exponents: ExpressionNode[], original: ExpressionNode }[] = []
 	for (const factor of node.factors) {
 		const { base, exponent } = getBaseAndExponent(factor)
-		const group = groups.find(group => equalNodes(group.base, base, { allowOrderChanges: true }))
+		const group = groups.find(group => equalNodes(group.base, base))
 		if (group) group.exponents.push(exponent)
 		else groups.push({ base, exponents: [exponent], original: factor })
 	}

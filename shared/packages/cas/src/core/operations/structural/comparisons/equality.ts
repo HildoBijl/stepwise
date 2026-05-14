@@ -4,7 +4,7 @@ import type { ExpressionNode, Sign, ConstantNode, FunctionNode, ListNode, Variab
 
 import { isSignNode, isConstantNode, isFunctionNode, isListNode, isVariable } from '../fundamentals'
 
-import { type ComparisonSettings, defaultComparisonSettings } from './comparisonSettings'
+import { type ComparisonSettings, defaultComparisonSettings, strictComparisonSettings } from './comparisonSettings'
 
 export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
 	const settings = mergeDefaults(comparisonSettings, defaultComparisonSettings)
@@ -15,6 +15,10 @@ export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSetti
 	if (isFunctionNode(a) && isFunctionNode(b)) return equalFunctions(a, b, settings)
 	if (a.constructor !== b.constructor) return false
 	return a.children.length === 0 && b.children.length === 0
+}
+
+export function strictEqualNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
+	return equalNodes(a, b, mergeDefaults(comparisonSettings, strictComparisonSettings))
 }
 
 export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {
@@ -30,18 +34,15 @@ export function equalVariables(a: Variable, b: Variable): boolean {
 }
 
 export function equalLists(a: ListNode, b: ListNode, settings: ComparisonSettings): boolean {
-	return a.constructor === b.constructor && equalNodeLists(a.terms, b.terms, settings)
-}
-
-export function equalNodeLists(a: readonly ExpressionNode[], b: readonly ExpressionNode[], settings: ComparisonSettings): boolean {
 	// Check basic scenarios.
-	if (a.length !== b.length) return false
-	if (!settings.allowOrderChanges) return a.every((node, index) => equalNodes(node, b[index], settings))
+	if (a.constructor !== b.constructor) return false
+	if (a.nodes.length !== b.nodes.length) return false
+	if (!settings.allowOrderChanges) return a.nodes.every((node, index) => equalNodes(node, b.nodes[index], settings))
 
 	// Find a matching between nodes.
 	const used = new Set<number>()
-	return a.every(node => {
-		const index = b.findIndex((candidate, candidateIndex) => !used.has(candidateIndex) && equalNodes(node, candidate, settings))
+	return a.nodes.every(node => {
+		const index = b.nodes.findIndex((candidate, candidateIndex) => !used.has(candidateIndex) && equalNodes(node, candidate, settings))
 		if (index === -1) return false
 		used.add(index)
 		return true

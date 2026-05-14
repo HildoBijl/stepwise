@@ -23,7 +23,7 @@ export function mergeFractionFactors(node: Fraction): ExpressionNode {
 type FactorGroup = { base: ExpressionNode, exponents: ExpressionNode[], original: ExpressionNode, inDenominator: boolean }
 function addFactorToGroups(groups: FactorGroup[], factor: ExpressionNode, inDenominator: boolean): void {
 	const { base, exponent } = getBaseAndExponent(factor)
-	const group = groups.find(group => equalNodes(group.base, base, { allowOrderChanges: true }))
+	const group = groups.find(group => equalNodes(group.base, base))
 	if (group) group.exponents.push(group.inDenominator === inDenominator ? exponent : negative(exponent))
 	else groups.push({ base, exponents: [exponent], original: factor, inDenominator })
 }

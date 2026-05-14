@@ -15,7 +15,7 @@ function getCommonFactors(terms: readonly ExpressionNode[]): ExpressionNode[] {
 	for (const term of terms.slice(1)) {
 		const factors = getProductFactors(term).map(getBaseAndExponent)
 		commonFactors = commonFactors.flatMap(commonFactor => {
-			const factor = factors.find(factor => equalNodes(factor.base, commonFactor.base, { allowOrderChanges: true }))
+			const factor = factors.find(factor => equalNodes(factor.base, commonFactor.base))
 			if (!factor) return []
 			const exponent = getCommonExponent(commonFactor, factor)
 			return exponent === undefined ? [] : [{ base: factor.base, exponent }]
@@ -25,7 +25,7 @@ function getCommonFactors(terms: readonly ExpressionNode[]): ExpressionNode[] {
 }
 
 function getCommonExponent(a: BaseAndExponent, b: BaseAndExponent): ExpressionNode | undefined {
-	if (equalNodes(a.exponent, b.exponent, { allowOrderChanges: true })) return a.exponent
+	if (equalNodes(a.exponent, b.exponent)) return a.exponent
 	if (isInteger(a.exponent) && isInteger(b.exponent)) return integer(Math.min(numericNodeToNumber(a.exponent), numericNodeToNumber(b.exponent)))
 	return undefined
 }
@@ -34,7 +34,7 @@ function removeFactors(term: ExpressionNode, factorsToRemove: ExpressionNode[]):
 	let factors = getProductFactors(term)
 	for (const factorToRemove of factorsToRemove) {
 		const removal = getBaseAndExponent(factorToRemove)
-		const index = factors.findIndex(factor => equalNodes(getBaseAndExponent(factor).base, removal.base, { allowOrderChanges: true }))
+		const index = factors.findIndex(factor => equalNodes(getBaseAndExponent(factor).base, removal.base))
 		if (index === -1) throw new Error('Invalid removeFactor call: cannot remove a common factor from a term.')
 		const current = getBaseAndExponent(factors[index])
 		factors = factors.map((factor, factorIndex) => factorIndex === index ? power(current.base, subtract(current.exponent, removal.exponent)) : factor)

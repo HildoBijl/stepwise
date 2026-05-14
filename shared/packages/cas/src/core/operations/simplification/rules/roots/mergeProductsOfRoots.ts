@@ -10,7 +10,7 @@ export function mergeProductsOfRoots(node: Product): ExpressionNode {
 	const [rootFactors, otherFactors] = splitArray(node.factors, isRootLike)
 	const groups: { root: RootLike, arguments: ExpressionNode[] }[] = []
 	for (const root of rootFactors) {
-		const group = groups.find(group => equalNodes(group.root.base, root.base, { allowOrderChanges: true }) && group.root.constructor === root.constructor)
+		const group = groups.find(group => equalNodes(group.root.base, root.base) && group.root.constructor === root.constructor)
 		if (group) group.arguments.push(root.argument)
 		else groups.push({ root, arguments: [root.argument] })
 	}

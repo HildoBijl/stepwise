@@ -3,5 +3,9 @@ export type ComparisonSettings = {
 }
 
 export const defaultComparisonSettings: ComparisonSettings = {
+	allowOrderChanges: true,
+}
+
+export const strictComparisonSettings: ComparisonSettings = {
 	allowOrderChanges: false,
 }

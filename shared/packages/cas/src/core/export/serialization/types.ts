@@ -17,9 +17,8 @@ export type SignNodeStorageValue = MinusStorageValue | PlusMinusStorageValue
 export type VariableStorageValue = { subtype: 'Variable', symbol: string, subscript?: string, accent?: AccentName }
 
 // Lists
-export type BaseListNodeStorageValue = { terms: ExpressionNodeStorageValue[] }
-export type SumStorageValue = BaseListNodeStorageValue & { subtype: 'Sum' }
-export type ProductStorageValue = BaseListNodeStorageValue & { subtype: 'Product' }
+export type SumStorageValue = { subtype: 'Sum', terms: ExpressionNodeStorageValue[] }
+export type ProductStorageValue = { subtype: 'Product', factors: ExpressionNodeStorageValue[] }
 export type ListNodeStorageValue = SumStorageValue | ProductStorageValue
 
 // Functions

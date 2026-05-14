@@ -14,7 +14,7 @@ function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionN
 	let exactCommonFactors = getProductFactors(nodes[0]).filter(factor => !isOne(factor))
 	for (const node of nodes.slice(1)) {
 		const factors = getProductFactors(node)
-		exactCommonFactors = exactCommonFactors.filter(commonFactor => factors.some(factor => equalNodes(factor, commonFactor, { allowOrderChanges: true })))
+		exactCommonFactors = exactCommonFactors.filter(commonFactor => factors.some(factor => equalNodes(factor, commonFactor)))
 	}
 	return exactCommonFactors
 }
@@ -24,7 +24,7 @@ export function removeExactFactors(node: ExpressionNode, factorsToRemove: readon
 	if (isSum(node)) return sum(...node.terms.map(term => removeExactFactors(term, factorsToRemove)))
 	let factors = getProductFactors(node)
 	for (const factorToRemove of factorsToRemove) {
-		const index = factors.findIndex(factor => equalNodes(factor, factorToRemove, { allowOrderChanges: true }))
+		const index = factors.findIndex(factor => equalNodes(factor, factorToRemove))
 		if (index === -1) throw new Error('Invalid removeFactor call: cannot remove the factor from the given expression.')
 		factors = factors.filter((_, factorIndex) => factorIndex !== index)
 	}

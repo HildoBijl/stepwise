@@ -5,7 +5,7 @@ import { equalNodes, isFraction } from '../../../structural'
 export function mergeFractionSums(node: Sum): Sum | Fraction {
 	// Handle basic cases.
 	if (!node.terms.some(isFraction)) return node
-	if (node.terms.every(isFraction) && node.terms.every(term => equalNodes(term.denominator, (node.terms[0] as Fraction).denominator, { allowOrderChanges: true }))) return fraction(sum(...node.terms.map(term => term.numerator)), node.terms[0].denominator)
+	if (node.terms.every(isFraction) && node.terms.every(term => equalNodes(term.denominator, (node.terms[0] as Fraction).denominator))) return fraction(sum(...node.terms.map(term => term.numerator)), node.terms[0].denominator)
 
 	// Assemble the denominator and the numerator.
 	const denominator = product(...node.terms.map(term => isFraction(term) ? term.denominator : undefined))

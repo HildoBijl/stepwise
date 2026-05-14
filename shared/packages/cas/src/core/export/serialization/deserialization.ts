@@ -19,7 +19,7 @@ export function storageValueToNode(storageValue: ExpressionNodeStorageValue): Ex
 
 	// Lists
 	if (storageValue.subtype === 'Sum') return new Sum(storageValue.terms.map(storageValueToNode))
-	if (storageValue.subtype === 'Product') return new Product(storageValue.terms.map(storageValueToNode))
+	if (storageValue.subtype === 'Product') return new Product((storageValue.factors ?? (storageValue as any).terms).map(storageValueToNode)) // List Storage legacy: In the past lists were always stored using "terms".
 
 	// Functions
 	if (storageValue.subtype === 'Fraction') return new Fraction(storageValueToNode(storageValue.numerator), storageValueToNode(storageValue.denominator))

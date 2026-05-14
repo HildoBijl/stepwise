@@ -8,7 +8,7 @@ export function groupSumTerms(node: Sum): ExpressionNode {
 	const groups: { variablePart: ExpressionNode, constantParts: ExpressionNode[], original: ExpressionNode }[] = []
 	for (const term of node.terms) {
 		const { constantPart, variablePart } = getConstantAndVariablePart(term)
-		const group = isOne(variablePart) ? undefined : groups.find(group => equalNodes(group.variablePart, variablePart, { allowOrderChanges: true })) // Don't group numeric terms.
+		const group = isOne(variablePart) ? undefined : groups.find(group => equalNodes(group.variablePart, variablePart)) // Don't group numeric terms.
 		if (group) group.constantParts.push(constantPart)
 		else groups.push({ variablePart, constantParts: [constantPart], original: term })
 	}

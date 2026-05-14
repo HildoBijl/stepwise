@@ -1,7 +1,7 @@
 import { fromKeys } from '@step-wise/utils'
 
 import type { ExpressionNode, ConstantNode, Sign, Variable, ListNode, FunctionNode } from '../../construction'
-import { isConstantNode, isSignNode, isVariable, isListNode, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations'
+import { isConstantNode, isSignNode, isVariable, isListNode, isSum, isProduct, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations'
 
 import type { ConstantNodeStorageValue, SignNodeStorageValue, VariableStorageValue, ListNodeStorageValue, FunctionNodeStorageValue, ExpressionNodeStorageValue } from './types'
 
@@ -36,10 +36,9 @@ function variableToStorageValue(node: Variable): VariableStorageValue {
 }
 
 function expressionListToStorageValue(node: ListNode): ListNodeStorageValue {
-	return {
-		subtype: node.subtype as ListNodeStorageValue['subtype'],
-		terms: node.terms.map(nodeToStorageValue),
-	}
+	if (isSum(node)) return { subtype: node.subtype, terms: node.nodes.map(nodeToStorageValue) }
+	if (isProduct(node)) return { subtype: node.subtype, factors: node.nodes.map(nodeToStorageValue) }
+	throw new Error(`Invalid expression list storage value request: this function does not support "${node.subtype}" types.`)
 }
 
 function functionToStorageValue(node: FunctionNode): FunctionNodeStorageValue {

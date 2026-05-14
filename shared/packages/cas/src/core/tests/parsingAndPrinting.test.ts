@@ -1,7 +1,7 @@
 import { defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToNode } from '../construction'
-import { equalNodes } from '../operations'
+import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, stringToNode } from '../construction'
+import { strictEqualNodes } from '../operations'
 
 import { nodeToString } from '../export/printing/toString'
 
@@ -84,19 +84,44 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: 'x^y/z', node: fraction(power('x', 'y'), 'z') },
 	{ str: 'x/y^z', node: fraction('x', power('y', 'z')) },
 	{ str: 'x^(y/z)', node: power('x', fraction('y', 'z')) },
+	{ str: '(x/y)^z', node: power(fraction('x', 'y'), 'z') },
+
+	// Square roots
+	{ str: 'sqrt(x)', node: sqrt('x') },
+	{ str: 'sqrt(2)', node: sqrt(2) },
+	{ str: 'sqrt(x+y)', node: sqrt(sum('x', 'y')) },
+	{ str: 'sqrt(xy)', node: sqrt(product('x', 'y')) },
+	{ str: 'sqrt(x)^2', node: power(sqrt('x'), 2) },
+	{ str: 'x*sqrt(y)', node: product('x', sqrt('y')) },
+
+	// General roots
+	{ str: 'root[3](x)', node: root('x', 3) },
+	{ str: 'root[n](x)', node: root('x', 'n') },
+	{ str: 'root[3](x+y)', node: root(sum('x', 'y'), 3) },
+	{ str: 'root[3](xy)', node: root(product('x', 'y'), 3) },
+	{ str: 'root[n+1](x^2)', node: root(power('x', 2), sum('n', 1)) },
+
+	// // Logarithms
+	{ str: 'ln(x)', node: ln('x') },
+	{ str: 'ln(2)', node: ln(2) },
+	{ str: 'ln(x+y)', node: ln(sum('x', 'y')) },
+	{ str: 'log[10](x)', node: log('x', 10) },
+	{ str: 'log[b](x)', node: log('x', 'b') },
+	{ str: 'log[x+y](z+2)', node: log(sum('z', 2), sum('x', 'y')) },
+	{ str: 'x*ln(y)', node: product('x', ln('y')) },
+	{ str: 'log[2](x)^3', node: power(log('x', 2), 3) },
 ]
 
-// Test printing: does the node give the string?
+// Test the printing: does the node give the string?
 describe('toString', () => {
 	test.each(parserTestCases)('prints "$str"', ({ str, node, oneWay }) => {
-		if (!oneWay)
-			expect(nodeToString(node)).toBe(str)
+		if (!oneWay) expect(nodeToString(node)).toBe(str)
 	})
 })
 
-// Test parsing: does the string give the node?
+// Test the parsing: does the string give the node?
 describe('stringToExpressionNode', () => {
 	test.each(parserTestCases)('interprets "$str"', ({ str, node }) => {
-		expect(equalNodes(stringToNode(str, defaultInterpretationSettings), node)).toBe(true)
+		expect(strictEqualNodes(stringToNode(str, defaultInterpretationSettings), node)).toBe(true)
 	})
 })

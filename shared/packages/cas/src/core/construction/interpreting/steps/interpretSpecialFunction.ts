@@ -18,7 +18,7 @@ export function interpretSpecialFunctionWithoutParameterAfter(element: FunctionI
 	const Component = getSpecialFunctionComponent(name, false)
 
 	// Some functions have their main argument last in the InputValue and first in the DomainValue. Shift this.
-	const shiftedValue = name === 'Root' ? [last(value), ...value.slice(0, -1)] : value
+	const shiftedValue = name === 'root' ? [last(value), ...value.slice(0, -1)] : value
 
 	// Interpret the arguments and apply them.
 	const interpretedArguments = shiftedValue.map((arg: ExpressionInputValue | undefined, index: number) => {

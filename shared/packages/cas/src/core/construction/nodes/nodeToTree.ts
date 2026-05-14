@@ -30,7 +30,7 @@ function variableToTree(node: Variable) {
 }
 
 function sumToTree(node: ListNode): string {
-	return `${node.name}(${node.terms.map(nodeToTree).join(', ')})`
+	return `${node.name}(${node.nodes.map(nodeToTree).join(', ')})`
 }
 
 function functionToTree(node: FunctionNode): string {
