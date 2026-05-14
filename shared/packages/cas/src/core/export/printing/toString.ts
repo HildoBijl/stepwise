@@ -4,7 +4,7 @@ import { ExpressionNode, ConstantNode, Sign, Sum, Product, Fraction, Power, Func
 import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
-import { requiresPlusInSum, requiresTimesAfterInProduct, requiresTimesBeforeInProduct } from './listSupport'
+import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport'
 
 export function nodeToString(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToString(node)
@@ -34,7 +34,8 @@ function getSignSymbol(node: Sign): string {
 
 function sumToString(node: Sum): string {
 	return node.terms.map((term, index) => {
-		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
+		const previousTerm = index > 0 ? node.terms[index - 1] : undefined
+		const prefix = previousTerm && requiresPlusBetweenNodes(term, previousTerm) ? '+' : ''
 		const termStr = addBrackets(nodeToString(term), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termStr}`
 	}).join('')
@@ -43,7 +44,7 @@ function sumToString(node: Sum): string {
 function productToString(node: Product): string {
 	return node.factors.map((factor, index) => {
 		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
-		const precursor = previousFactor && (requiresTimesBeforeInProduct(factor, previousFactor) || requiresTimesAfterInProduct(previousFactor, factor)) ? '*' : ''
+		const precursor = previousFactor && requiresTimesBetweenFactors(factor, previousFactor) ? '*' : ''
 		const factorStr = addBrackets(nodeToString(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
 		return `${precursor}${factorStr}`
 	}).join('')

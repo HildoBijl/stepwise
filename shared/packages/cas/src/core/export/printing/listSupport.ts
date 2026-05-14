@@ -1,29 +1,23 @@
 import { ExpressionNode } from '../../construction'
 import { isConstantNode, isSignNode, isFunctionNode, isPower } from '../../operations'
 
-// Describe whether an expression node requires a plus before it if placed within a sum.
-export function requiresPlusInSum(node: ExpressionNode): boolean {
-	return !isSignNode(node)
+// Describe whether there should be a plus symbol between two nodes in a sum.
+export function requiresPlusBetweenNodes(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
+	return !isSignNode(nextNode)
+}
+export function requiresPlusBetweenNodesTex(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
+	return requiresPlusBetweenNodes(nextNode, previousNode)
 }
 
-// Describe whether an expression node requires a times before it if placed within a product.
-export function requiresTimesBeforeInProduct(node: ExpressionNode, previousNode: ExpressionNode): boolean {
-	if (isConstantNode(node)) return true
-	if (isSignNode(node)) return true
-	if (isPower(node)) return requiresTimesBeforeInProduct(node.base, previousNode)
-	if (isFunctionNode(node)) return true
+// Describe whether there should be a times symbol between two nodes in a product.
+export function requiresTimesBetweenFactors(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
+	if (isConstantNode(nextNode)) return true
+	if (isSignNode(nextNode)) return true
+	if (isFunctionNode(previousNode) && !isPower(previousNode)) return true
+	if (isPower(nextNode)) return requiresTimesBetweenFactors(nextNode.base, previousNode)
+	if (isFunctionNode(nextNode)) return true
 	return false
 }
-export function requiresTimesBeforeInProductTex(node: ExpressionNode, previousNode: ExpressionNode): boolean {
-	return requiresTimesBeforeInProduct(node, previousNode)
-}
-
-// Describe whether an expression node requires a times after it if placed within a product.
-export function requiresTimesAfterInProduct(node: ExpressionNode, nextNode: ExpressionNode): boolean {
-	if (isPower(node)) return false
-	if (isFunctionNode(node)) return true
-	return false
-}
-export function requiresTimesAfterInProductTex(node: ExpressionNode, nextNode: ExpressionNode): boolean {
-	return requiresTimesAfterInProduct(node, nextNode)
+export function requiresTimesBetweenFactorsTex(nextNode: ExpressionNode, previousNode: ExpressionNode): boolean {
+	return requiresTimesBetweenFactors(nextNode, previousNode)
 }

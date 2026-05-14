@@ -4,7 +4,7 @@ import { ExpressionNode, ConstantNode, Sign, Variable, Sum, Product, Fraction, P
 import { isConstantNode, isSignNode, isVariableNode, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
-import { requiresPlusInSum, requiresTimesAfterInProductTex, requiresTimesBeforeInProductTex } from './listSupport'
+import { requiresPlusBetweenNodesTex, requiresTimesBetweenFactorsTex } from './listSupport'
 
 export function nodeToTex(node: ExpressionNode) {
 	if (isConstantNode(node)) return constantToTex(node)
@@ -50,7 +50,8 @@ function variableToTex(node: Variable): string {
 
 function sumToTex(node: Sum): string {
 	return node.terms.map((term, index) => {
-		const prefix = index > 0 && requiresPlusInSum(term) ? '+' : ''
+		const previousTerm = index > 0 ? node.terms[index - 1] : undefined
+		const prefix = previousTerm && requiresPlusBetweenNodesTex(term, previousTerm) ? '+' : ''
 		const termTex = addBrackets(nodeToTex(term), requiresBracketsFor(term, bracketLevels.addition, index, node.terms.length))
 		return `${prefix}${termTex}`
 	}).join('')
@@ -59,7 +60,7 @@ function sumToTex(node: Sum): string {
 function productToTex(node: Product): string {
 	return node.factors.map((factor, index) => {
 		const previousFactor = index > 0 ? node.factors[index - 1] : undefined
-		const precursor = previousFactor && (requiresTimesBeforeInProductTex(factor, previousFactor) || requiresTimesAfterInProductTex(previousFactor, factor)) ? ' \\cdot ' : ''
+		const precursor = previousFactor && requiresTimesBetweenFactorsTex(factor, previousFactor) ? ' \\cdot ' : ''
 		const factorTex = addBrackets(nodeToTex(factor), requiresBracketsFor(factor, bracketLevels.multiplication, index, node.factors.length))
 		return `${precursor}${factorTex}`
 	}).join('')
