@@ -1,6 +1,6 @@
 import { defaultInterpretationSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToNode } from '../construction'
+import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, stringToNode } from '../construction'
 import { equalNodes } from '../operations'
 
 import { nodeToString } from '../export/printing/toString'
@@ -25,6 +25,9 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: 'hat(x)', node: variable('x', undefined, 'hat') },
 	{ str: 'dot(x)_1', node: variable('x', '1', 'dot') },
 	{ str: 'x_(1,2)', node: variable('x', '1,2') },
+	{ str: 'π', node: namedConstants.pi },
+	{ str: 'e', node: namedConstants.e },
+	{ str: 'e_1', node: variable('e', '1') },
 
 	// Sums
 	{ str: '2+3', node: sum(2, 3) },

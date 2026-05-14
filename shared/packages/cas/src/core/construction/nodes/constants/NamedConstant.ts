@@ -43,17 +43,17 @@ function getNamedConstantDefinition(referral: NamedConstantReferral): NamedConst
 }
 
 // Export easy-access object of premade named constants.
-export const namedConstants = mapValues(namedConstantDefinitionsByName, definition => new NamedConstant(definition.symbol))
-export const namedConstantsBySymbol = mapValues(namedConstantDefinitionsBySymbol, definition => namedConstants[definition.name])
+export const namedConstantsBySymbol: Record<NamedConstantSymbol, NamedConstant> = mapValues(namedConstantDefinitionsBySymbol, definition => new NamedConstant(definition.symbol))
+export const namedConstantsByName: Record<NamedConstantName, NamedConstant> = mapValues(namedConstantDefinitionsByName, definition => namedConstantsBySymbol[definition.symbol])
+export const namedConstants: Record<NamedConstantReferral, NamedConstant> = { ...namedConstantsByName, ...namedConstantsBySymbol }
 
 // Access function to get a premade named constant.
 export function getNamedConstant(referral: string): NamedConstant {
-	if (referral in namedConstants) return namedConstants[referral as NamedConstantSymbol]
-	if (referral in namedConstantsBySymbol) return namedConstantsBySymbol[referral as NamedConstantName]
+	if (isNamedConstantReferral(referral)) return namedConstants[referral as NamedConstantSymbol]
 	throw new Error(`Unknown named constant "${referral}".`)
 }
 
 // Checker to see if a string is a valid named constant.
 export function isNamedConstantReferral(referral: string): referral is NamedConstantReferral {
-	return referral in namedConstants || referral in namedConstantsBySymbol
+	return referral in namedConstants
 }
