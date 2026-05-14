@@ -1,3 +1,5 @@
+import { lowerFirst } from '@step-wise/utils'
+
 export abstract class ExpressionNode {
 	abstract readonly subtype: string
 
@@ -8,7 +10,7 @@ export abstract class ExpressionNode {
 	}
 
 	get name() {
-		return this.subtype.toLowerCase()
+		return lowerFirst(this.subtype)
 	}
 
 	get children(): readonly ExpressionNode[] {

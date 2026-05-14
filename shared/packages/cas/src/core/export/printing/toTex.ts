@@ -1,7 +1,5 @@
-import { decimalSeparatorTex } from '../../../settings'
-
-import { ExpressionNode, ConstantNode, Sign, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
-import { isConstantNode, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
+import type { ExpressionNode, ConstantNode, NamedConstant, Sign, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
+import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusBetweenNodesTex, requiresTimesBetweenFactorsTex } from './listSupport'
@@ -22,7 +20,12 @@ export function nodeToTex(node: ExpressionNode) {
 }
 
 function constantToTex(node: ConstantNode): string {
-	return `${node.value}`.replace('.', decimalSeparatorTex)
+	return isNamedConstant(node) ? getNamedConstantTex(node) : `${node.value}`
+}
+function getNamedConstantTex(node: NamedConstant) {
+	if (node.symbol === 'π') return '\\pi '
+	if (node.symbol === '∞') return '\\infty '
+	return node.symbol
 }
 
 function signToTex(node: Sign): string {

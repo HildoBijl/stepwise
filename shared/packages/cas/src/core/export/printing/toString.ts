@@ -1,7 +1,5 @@
-import { decimalSeparator } from '../../../settings'
-
-import { ExpressionNode, ConstantNode, Sign, Sum, Product, Fraction, Power, FunctionNode, variableToString } from '../../construction'
-import { isConstantNode, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
+import { type ExpressionNode, type ConstantNode, type Sign, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'
+import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport'
@@ -19,7 +17,7 @@ export function nodeToString(node: ExpressionNode) {
 }
 
 function constantToString(node: ConstantNode): string {
-	return `${node.value}`.replace('.', decimalSeparator)
+	return isNamedConstant(node) ? node.symbol : `${node.value}`
 }
 
 function signToString(node: Sign): string {

@@ -33,7 +33,7 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: '2+(3+4)', node: sum(2, sum(3, 4)) },
 	{ str: '(x+y)+z', node: sum(sum('x', 'y'), 'z') },
 
-	// Products (Some tests do not give the original node after a jump through a string. This is still a work-in-progress.)
+	// Products
 	{ str: '2x', node: product(2, 'x') },
 	{ str: 'x*2', node: product('x', 2) },
 	{ str: '-2x', node: negative(product(2, 'x')) },
@@ -43,10 +43,10 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: '(2*3)*4', node: product(product(2, 3), 4) },
 	{ str: 'x(yz)', node: product('x', product('y', 'z')) },
 	{ str: '(xy)z', node: product(product('x', 'y'), 'z') },
-	// { str: 'xy*-z', node: product('x', 'y', negative('z')) },
+	{ str: 'xy*-z', node: product(product('x', 'y'), negative('z')), oneWay: true },
 	{ str: '(xy)*-z', node: product(product('x', 'y'), negative('z')) },
 	{ str: 'x*-yz', node: product('x', negative(product('y', 'z'))) },
-	// { str: 'x*(-y)z', node: product('x', negative('y'), 'z') },
+	{ str: 'x*(-y)z', node: product('x', product(negative('y'), 'z')), oneWay: true },
 	{ str: 'x((-y)z)', node: product('x', product(negative('y'), 'z')) },
 
 	// Fractions
@@ -62,7 +62,12 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: '2*3/4/5', node: product(2, fraction(fraction(3, 4), 5)) },
 	{ str: '2-3*4/5', node: sum(2, negative(product(3, fraction(4, 5)))) },
 	{ str: '1/2*x', node: product(fraction(1, 2), 'x') },
-	// { str: '1/2x', node: product(fraction(1, 2), 'x'), oneWay: true },
+	{ str: 'xy/z', node: fraction(product('x', 'y'), 'z'), oneWay: true },
+	{ str: '(xy)/z', node: fraction(product('x', 'y'), 'z') },
+	{ str: 'x*y/z', node: product('x', fraction('y', 'z')) },
+	{ str: 'x/yz', node: fraction('x', product('y', 'z')), oneWay: true },
+	{ str: 'x/(yz)', node: fraction('x', product('y', 'z')) },
+	{ str: 'x/y*z', node: product(fraction('x', 'y'), 'z') },
 
 	// Powers
 	{ str: 'x^y', node: power('x', 'y') },

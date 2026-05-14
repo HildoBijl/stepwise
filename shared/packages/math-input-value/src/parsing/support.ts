@@ -53,7 +53,7 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 		}
 	}
 
-	// Walk through the expression 
+	// Walk through the expression .
 	let isFirst = true
 	while (hasNextSymbol()) {
 		const nextSymbol = getNextSymbol()
@@ -76,11 +76,6 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 
 export function findNextClosingBracket(value: InputValuePart[], cursor: InputCursorEnd): InputCursorEnd {
 	return findCharacterAtZeroBracketCount(value, cursor, ')')
-}
-
-export function findEndOfTerm(value: InputValuePart[], cursor: InputCursorEnd, toRight = true, atLeastOneCharacter = false): InputCursorEnd {
-	const endOfTermCharacters = ['=', '+', '-', '±', '*', '/', toRight ? ')' : '(']
-	return findCharacterAtZeroBracketCount(value, cursor, endOfTermCharacters, toRight, atLeastOneCharacter)
 }
 
 // Return top-level matching brackets; nested brackets are assumed to match.

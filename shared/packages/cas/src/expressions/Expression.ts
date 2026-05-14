@@ -10,7 +10,7 @@ import {
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification types and functions
 	type SimplificationOptionsObject, legacySimplify, removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Legacy: Simplification presets
 	structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
-	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
+	nodeToString, nodeToTex, nodeToTree, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
 import { asExpression } from './interpreting'
@@ -57,6 +57,10 @@ export class Expression {
 	// LaTeX
 	toTex() { return nodeToTex(this.node) }
 	get tex() { return this.toTex() }
+
+	// Tree
+	toTree() { return nodeToTree(this.node) }
+	get tree() { return this.toTree() }
 
 	/*
 	 * Serialization

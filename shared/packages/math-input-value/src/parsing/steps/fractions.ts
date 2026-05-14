@@ -4,7 +4,7 @@ import { InterpretationSettings } from '../../settings'
 import type { FunctionInputValue, InputCursorEnd, InputValuePart } from '../../types'
 import { isExpressionPart, addExpressionType, getStartCursor, getEndCursor, getSubExpression, moveRight } from '../../utils'
 
-import { findEndOfTerm } from '../support'
+import { findCharacterAtZeroBracketCount } from '../support'
 
 // Turn slashes into frac functions.
 export function processFractions(value: InputValuePart[], settings: InterpretationSettings, processExpression: (value: InputValuePart[], settings: InterpretationSettings) => InputValuePart[]): InputValuePart[] {
@@ -24,8 +24,8 @@ function applyFraction(value: InputValuePart[], cursor: InputCursorEnd, settings
 	const start = getStartCursor(value)
 	const beforeSymbol = cursor
 	const afterSymbol = moveRight(cursor)
-	const leftSide = findEndOfTerm(value, beforeSymbol, false)
-	const rightSide = findEndOfTerm(value, afterSymbol, true, true)
+	const leftSide = findEndOfFactor(value, beforeSymbol, false, false)
+	const rightSide = findEndOfFactor(value, afterSymbol, true, true)
 	const end = getEndCursor(value)
 
 	// Set up the fraction.
@@ -46,6 +46,11 @@ function applyFraction(value: InputValuePart[], cursor: InputCursorEnd, settings
 		fractionElement,
 		...getSubExpression(value, rightSide, end),
 	]
+}
+
+function findEndOfFactor(value: InputValuePart[], cursor: InputCursorEnd, toRight = true, atLeastOneCharacter = false): InputCursorEnd {
+	const endOfTermCharacters = ['=', '+', '-', '±', '*', '/', toRight ? ')' : '(']
+	return findCharacterAtZeroBracketCount(value, cursor, endOfTermCharacters, toRight, atLeastOneCharacter)
 }
 
 // Helper to remove starting/ending brackets from an expression value.
