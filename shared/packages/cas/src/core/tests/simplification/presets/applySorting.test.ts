@@ -1,7 +1,7 @@
 import { variable, sum, product } from '../../../construction'
 import { simplify, applySorting } from '../../../operations'
 
-import { expectNodeToEqual } from '../testUtils'
+import { expectNodeToEqual } from '../../testUtils'
 
 const x = variable('x')
 const y = variable('y')

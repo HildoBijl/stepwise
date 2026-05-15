@@ -1,7 +1,7 @@
 import { negative, variable, sum, product, power } from '../../../construction'
 import { simplify, applyExpansions } from '../../../operations'
 
-import { expectNodeToEqual } from '../testUtils'
+import { expectNodeToEqual } from '../../testUtils'
 
 const x = variable('x')
 const y = variable('y')

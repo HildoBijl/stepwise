@@ -1,7 +1,7 @@
 import { asArray } from '@step-wise/utils'
 
 import { type SimplificationOption, type SimplificationOptions } from './types'
-import { normalizationRequirements } from './presets'
+import { normalizationRequirements } from './simplificationPresets'
 import { ensureSimplificationOptionSet } from './utils'
 
 export function validateSimplificationOptions(options: SimplificationOptions): SimplificationOptions {

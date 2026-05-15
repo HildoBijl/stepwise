@@ -2,7 +2,7 @@ import { negative, variable, sum, product, fraction, power } from '../../../cons
 
 import { normalizationRequirements } from '../../../operations'
 
-import { expectSimplifyToGive } from '../testUtils'
+import { expectSimplifyToGive } from '../../testUtils'
 
 const x = variable('x')
 const y = variable('y')

@@ -1,6 +1,6 @@
 import { Integer, variable, negative, plusMinus } from '../../../construction'
 
-import { expectSimplifyToGive } from '../testUtils'
+import { expectSimplifyToGive } from '../../testUtils'
 
 const x = variable('x')
 
