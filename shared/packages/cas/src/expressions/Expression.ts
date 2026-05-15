@@ -3,7 +3,7 @@ import { type InterpretationSettings, type ExpressionSettings, defaultInterpreta
 
 import {
 	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, stringToNode, // Construction
-	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
+	isConstantNode, isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
 	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
@@ -52,7 +52,7 @@ export class Expression {
 		return new Expression(node, this.settings)
 	}
 
-	// Turn an ExpressionLike input into an Expression with the same ExpressionSettings.
+	// Turn an ExpressionLike input into an Expression, forcing it to have equal ExpressionSettings as this Expression.
 	private coerceExpression(expression: ExpressionLike): Expression {
 		if (expression instanceof Expression) return this.nodeToExpression(convertExpressionSettings(expression.node, expression.settings, this.settings))
 		return asExpression(expression, undefined, this.settings)
@@ -128,11 +128,11 @@ export class Expression {
 
 	isRoot(): boolean { return isRoot(this.node) }
 	isSqrt(): boolean { return isSqrt(this.node) }
-	isRootFunction(): boolean { return isRootFunction(this.node) }
+	isRootFunction(): boolean { return isRootLike(this.node) }
 
 	isLn(): boolean { return isLn(this.node) }
 	isLog(): boolean { return isLog(this.node) }
-	isLogFunction(): boolean { return isLogFunction(this.node) }
+	isLogFunction(): boolean { return isLogLike(this.node) }
 
 	isSin(): boolean { return isSin(this.node) }
 	isCos(): boolean { return isCos(this.node) }
@@ -146,10 +146,75 @@ export class Expression {
 	isInverseTrigonometricFunction(): boolean { return isInverseTrigonometricFunction(this.node) }
 
 	/*
+	 * Derived properties
+	 */
+
+	// Numbers and variables
+	get constantName(): string {
+		if (isNamedConstant(this.node)) return this.node.constantName
+		throw new Error(`Invalid request: cannot get "constantName" of an Expression of type "${this.subtype}".`)
+	}
+	get symbol(): string {
+		if (isNamedConstant(this.node) || isVariable(this.node)) return this.node.symbol
+		throw new Error(`Invalid request: cannot get "symbol" of an Expression of type "${this.subtype}".`)
+	}
+	get subscript(): string | undefined {
+		if (isVariable(this.node)) return this.node.subscript
+		throw new Error(`Invalid request: cannot get "subscript" of an Expression of type "${this.subtype}".`)
+	}
+	get accent(): string | undefined {
+		if (isVariable(this.node)) return this.node.accent
+		throw new Error(`Invalid request: cannot get "accent" of an Expression of type "${this.subtype}".`)
+	}
+
+	// Lists
+	get terms(): Expression[] {
+		if (isSum(this.node)) return this.node.terms.map(this.nodeToExpression)
+		throw new Error(`Invalid request: cannot get "terms" of an Expression of type "${this.subtype}".`)
+	}
+	get factors(): Expression[] {
+		if (isProduct(this.node)) return this.node.factors.map(this.nodeToExpression)
+		throw new Error(`Invalid request: cannot get "factors" of an Expression of type "${this.subtype}".`)
+	}
+
+	// Fractions
+	get numerator(): Expression {
+		if (isFraction(this.node)) return this.nodeToExpression(this.node.numerator)
+		throw new Error(`Invalid request: cannot get "numerator" of an Expression of type "${this.subtype}".`)
+	}
+	get denominator(): Expression {
+		if (isFraction(this.node)) return this.nodeToExpression(this.node.denominator)
+		throw new Error(`Invalid request: cannot get "denominator" of an Expression of type "${this.subtype}".`)
+	}
+
+	// Functions (power, root, and everything else)
+	get base(): Expression {
+		if (isPower(this.node) || isLog(this.node)) return this.nodeToExpression(this.node.base)
+		throw new Error(`Invalid request: cannot get "base" of an Expression of type "${this.subtype}".`)
+	}
+	get exponent(): Expression {
+		if (isPower(this.node)) return this.nodeToExpression(this.node.exponent)
+		throw new Error(`Invalid request: cannot get "exponent" of an Expression of type "${this.subtype}".`)
+	}
+	get degree(): Expression {
+		if (isRoot(this.node)) return this.nodeToExpression(this.node.degree)
+		throw new Error(`Invalid request: cannot get "degree" of an Expression of type "${this.subtype}".`)
+	}
+	get radicand(): Expression {
+		if (isRoot(this.node)) return this.nodeToExpression(this.node.radicand)
+		throw new Error(`Invalid request: cannot get "radicand" of an Expression of type "${this.subtype}".`)
+	}
+	get argument(): Expression {
+		if (isMinus(this.node)) return this.nodeToExpression(this.node.node)
+		if (isLog(this.node) || isSingleArgumentFunctionNode(this.node)) return this.nodeToExpression(this.node.argument)
+		throw new Error(`Invalid request: cannot get "argument" of an Expression of type "${this.subtype}".`)
+	}
+
+	/*
 	 * Property checks
 	 */
 
-	dependsOn(variable: VariableInput): boolean { return dependsOn(this.node, variable) }
+	dependsOn(variable: VariableLike): boolean { return dependsOn(this.node, this.coerceVariableNode(variable)) }
 	isNumeric(): boolean { return isNumeric(this.node) }
 	hasFloat(): boolean { return hasFloat(this.node) }
 	isPolynomial(): boolean { return isPolynomial(this.node) }
@@ -174,6 +239,7 @@ export class Expression {
 	 */
 
 	toNumber(): number { return numericNodeToNumber(this.node, this.settings) }
+	get value(): number { return this.toNumber() }
 	getVariables(): Expression[] { return getVariables(this.node).map(variableNode => this.nodeToExpression(variableNode)) }
 	getSingular(): Expression[] { return expandToSingulars(this.node).map(node => this.nodeToExpression(node)) }
 
@@ -263,6 +329,23 @@ export class Expression {
 		let result = this.nodeToExpression(this.node.recreateWithChildren(children))
 		return includeSelf ? func(result) : result
 	}
+
+	/*
+	 * Structure checks
+	 */
+
+	hasSumWithinMinus(): boolean { return this.recursiveSome(expression => expression.isMinus() && expression.argument.isSum()) }
+	hasSumWithinProduct(): boolean { return this.recursiveSome(expression => expression.isProduct() && expression.factors.some(factor => factor.isSum())) }
+	hasSimilarTerms(): boolean { return !this.removeTrivial(['groupSumTerms', 'mergeSumNumbers', 'mergeProductFactors']).equalStructure(this.removeTrivial()) }
+	hasFraction(includeSelf = true): boolean { return this.recursiveSome(expression => expression.isFraction(), includeSelf) }
+	hasSumAsFractionNumerator(): boolean { return this.recursiveSome(expression => expression.isFraction() && expression.numerator.isSum()) }
+	hasFractionWithinFraction(): boolean { return this.recursiveSome(expression => expression.isFraction() && expression.hasFraction(false)) }
+	hasPower(includeSelf = true): boolean { return this.recursiveSome(expression => expression.isPower(), includeSelf) }
+	hasSumAsPowerBase(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.base.isSum()) }
+	hasProductAsPowerBase(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.base.isProduct()) }
+	hasPowerAsPowerBase(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.base.isPower()) }
+	hasNegativeExponent(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.exponent.isMinus()) }
+	hasVariableInDenominator(variable: VariableLike): boolean { return this.recursiveSome(expression => expression.isFraction() && expression.denominator.dependsOn(this.coerceVariable(variable))) }
 
 	/*
 	 * Simplification

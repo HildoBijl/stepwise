@@ -41,8 +41,8 @@ export const removeUselessSet = new Set<SimplificationOption>([
 	'reducePowersWithZeroBase',
 	'removeOneExponentsFromPowers',
 	'reducePowersWithOneBase',
-	'reduceRootsWithZeroArgument',
-	'reduceRootsWithOneArgument',
+	'reduceRootsWithZeroRadicand',
+	'reduceRootsWithOneRadicand',
 ])
 export const removeUselessOptions = getSimplificationOptionsObjectFromSet(removeUselessSet)
 
@@ -70,7 +70,7 @@ export const regularCleanSet = new Set<SimplificationOption>([
 	'removePowersWithinPowers',
 	'convertNegativePowers',
 	'reduceCanceledRoots',
-	'turnBaseTwoRootsIntoSqrts',
+	'turnDegreeTwoRootsIntoSqrts',
 	'pullExponentsIntoRoots',
 	'pullFactorsOutOfRoots',
 	'mergeProductsOfRoots',
@@ -135,7 +135,7 @@ export const forDerivativesOptions = getSimplificationOptionsObjectFromSet(forDe
 export const forDisplaySet = difference(
 	union(
 		regularCleanSet, // Already clean things a bit in advance.
-		new Set<SimplificationOption>(['turnFractionExponentsIntoRoots', 'turnBaseTwoRootsIntoSqrts', 'mergeProductsOfRoots', 'preventRootDenominators']), // Add some options that make the output prettier.
+		new Set<SimplificationOption>(['turnFractionExponentsIntoRoots', 'turnDegreeTwoRootsIntoSqrts', 'mergeProductsOfRoots', 'preventRootDenominators']), // Add some options that make the output prettier.
 	),
 	new Set<SimplificationOption>(['mergeFractionProducts', 'convertNegativePowers', 'cancelFractionFactors']) // Remove some cleaning options that are not needed for the display purpose.
 )

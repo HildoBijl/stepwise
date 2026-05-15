@@ -1,4 +1,4 @@
-import { ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
+import { type RootLike, type LogLike, ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
 
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }
@@ -30,10 +30,10 @@ export function isFraction(node: ExpressionNode): node is Fraction { return node
 export function isPower(node: ExpressionNode): node is Power { return node instanceof Power }
 export function isRoot(node: ExpressionNode): node is Root { return node instanceof Root }
 export function isSqrt(node: ExpressionNode): node is Sqrt { return node instanceof Sqrt }
-export function isRootFunction(node: ExpressionNode): node is Root | Sqrt { return isRoot(node) || isSqrt(node) }
+export function isRootLike(node: ExpressionNode): node is RootLike { return isRoot(node) || isSqrt(node) }
 export function isLn(node: ExpressionNode): node is Ln { return node instanceof Ln }
 export function isLog(node: ExpressionNode): node is Log { return node instanceof Log }
-export function isLogFunction(node: ExpressionNode): node is Ln | Log { return isLn(node) || isLog(node) }
+export function isLogLike(node: ExpressionNode): node is LogLike { return isLog(node) || isLn(node) }
 
 // Trigonometry.
 export function isSin(node: ExpressionNode): node is Sin { return node instanceof Sin }

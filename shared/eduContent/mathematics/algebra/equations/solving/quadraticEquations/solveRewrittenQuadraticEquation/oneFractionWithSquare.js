@@ -96,7 +96,7 @@ function getSolution(state) {
 	const rootFull = solutionFull.find(term => term.isSubtype(Sqrt))
 	const DFull = rootFull.argument
 	const D = DFull.regularClean()
-	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substituteVariables({ p, q, r, D }).removeUseless({ reduceRootsWithZeroArgument: false, mergeProductNumbers: true })
+	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substituteVariables({ p, q, r, D }).removeUseless({ reduceRootsWithZeroRadicand: false, mergeProductNumbers: true })
 	const solution = solutionFull.regularClean()
 	const solutionsSplit = solution.getSingular().map(s => s.removeUseless())
 	const solutions = solutionsSplit.map(s => s.regularClean())

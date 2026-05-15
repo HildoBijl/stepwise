@@ -47,7 +47,7 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSumsWithinSums'])
 
 	// Root conflicts/dependencies.
-	conflict('turnBaseTwoRootsIntoSqrts', 'turnSqrtsIntoBaseTwoRoots')
+	conflict('turnDegreeTwoRootsIntoSqrts', 'turnSqrtsIntoDegreeTwoRoots')
 	conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
 	conflict('preventRootDenominators', 'cancelFractionFactors')
 

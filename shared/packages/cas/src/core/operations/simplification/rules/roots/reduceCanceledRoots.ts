@@ -1,11 +1,9 @@
-import { type Power, type ExpressionNode } from '../../../../construction'
+import { type ExpressionNode, type Power, type RootLike } from '../../../../construction'
 
-import { equalNodes, isPower } from '../../../structural'
-
-import { type RootLike, isRootLike } from '../utils'
+import { isPower, isRootLike, equalNodes } from '../../../structural'
 
 export function reduceCanceledRoots(node: RootLike | Power): ExpressionNode {
-	if (isRootLike(node) && isPower(node.argument) && equalNodes(node.argument.exponent, node.base)) return node.argument.base
-	if (isPower(node) && isRootLike(node.base) && equalNodes(node.base.base, node.exponent)) return node.base.argument
+	if (isRootLike(node) && isPower(node.radicand) && equalNodes(node.radicand.exponent, node.degree)) return node.radicand.base
+	if (isPower(node) && isRootLike(node.base) && equalNodes(node.base.degree, node.exponent)) return node.base.radicand
 	return node
 }

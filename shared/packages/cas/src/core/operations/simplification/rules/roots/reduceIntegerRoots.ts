@@ -1,13 +1,11 @@
 import { isPerfectPower } from '@step-wise/math-tools'
 
-import { type ExpressionNode, Integer } from '../../../../construction'
+import { type ExpressionNode, type RootLike, Integer } from '../../../../construction'
 
 import { isIntegerNode } from '../../../structural'
 
-import { type RootLike } from '../utils'
-
 export function reduceIntegerRoots(node: RootLike): ExpressionNode {
-	if (!isIntegerNode(node.argument) || !isIntegerNode(node.base)) return node
-	if (isPerfectPower(node.argument.value, node.base.value)) return new Integer(Math.round(node.argument.value ** (1 / node.base.value)))
+	if (!isIntegerNode(node.radicand) || !isIntegerNode(node.degree)) return node
+	if (isPerfectPower(node.radicand.value, node.degree.value)) return new Integer(Math.round(node.radicand.value ** (1 / node.degree.value)))
 	return node
 }

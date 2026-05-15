@@ -2696,11 +2696,11 @@ class Sqrt extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.reduceRootsWithZeroArgument) {
+		if (options.reduceRootsWithZeroRadicand) {
 			if (Integer.zero.equalsBasic(argument))
 				return Integer.zero // If the argument is 0, become 0.
 		}
-		if (options.reduceRootsWithOneArgument) {
+		if (options.reduceRootsWithOneRadicand) {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
@@ -2761,11 +2761,11 @@ class Root extends Function {
 		let { base, argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.reduceRootsWithZeroArgument) {
+		if (options.reduceRootsWithZeroRadicand) {
 			if (Integer.zero.equalsBasic(argument))
 				return Integer.zero // If the argument is 0, become 0.
 		}
-		if (options.reduceRootsWithOneArgument) {
+		if (options.reduceRootsWithOneRadicand) {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
@@ -2783,7 +2783,7 @@ class Root extends Function {
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
 		// Turn roots with base two into Sqrts.
-		if (options.turnBaseTwoRootsIntoSqrts) {
+		if (options.turnDegreeTwoRootsIntoSqrts) {
 			if (Integer.two.equalsBasic(base))
 				return new Sqrt(argument).simplifyBasic(options)
 		}

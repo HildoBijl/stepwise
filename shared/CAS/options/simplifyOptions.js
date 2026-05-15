@@ -56,13 +56,13 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	expandPowersOfSumsWithinSums: false, // Applies expandPowersOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandPowersOfSumsWithinSums is on, this is ignored.
 
 	// Root options.
-	reduceRootsWithZeroArgument: false, // Turn sqrt(0) and root(0) into 0.
-	reduceRootsWithOneArgument: false, // Turn sqrt(1) and root(1) into 1.
+	reduceRootsWithZeroRadicand: false, // Turn sqrt(0) and root(0) into 0.
+	reduceRootsWithOneRadicand: false, // Turn sqrt(1) and root(1) into 1.
 	reduceIntegerRoots: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
 	reduceCanceledRoots: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	turnRootsIntoFractionExponents: false, // Reduces root[3](x) to x^(1/3).
 	turnFractionExponentsIntoRoots: false, // Reduces x^(1/3) to root[3](x).
-	turnBaseTwoRootsIntoSqrts: false, // Reduces root[2](x) to sqrt(x).
+	turnDegreeTwoRootsIntoSqrts: false, // Reduces root[2](x) to sqrt(x).
 	expandRootsOfProducts: false, // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
 	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
@@ -124,8 +124,8 @@ const removeUseless = {
 	reducePowersWithZeroBase: true,
 	removeOneExponentsFromPowers: true,
 	reducePowersWithOneBase: true,
-	reduceRootsWithZeroArgument: true,
-	reduceRootsWithOneArgument: true,
+	reduceRootsWithZeroRadicand: true,
+	reduceRootsWithOneRadicand: true,
 	removeOneLogarithm: true,
 }
 module.exports.removeUseless = { ...noSimplify, ...removeUseless }
@@ -154,7 +154,7 @@ const regularClean = {
 	removePowersWithinPowers: true,
 	convertNegativePowers: true,
 	reduceCanceledRoots: true,
-	turnBaseTwoRootsIntoSqrts: true,
+	turnDegreeTwoRootsIntoSqrts: true,
 	pullExponentsIntoRoots: true,
 	pullFactorsOutOfRoots: true,
 	mergeProductsOfRoots: true,
@@ -234,7 +234,7 @@ const forDisplay = {
 	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFractions.
 	convertNegativePowers: false, // Blocks pullConstantPartOutOfFractions.
 	turnFractionExponentsIntoRoots: true,
-	turnBaseTwoRootsIntoSqrts: true,
+	turnDegreeTwoRootsIntoSqrts: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,
 	cancelFractionFactors: false, // Blocks preventRootDenominator.

@@ -62,14 +62,14 @@ export const allSimplificationOptionsList = [
 	'expandPowersOfSumsWithinSums', // Expand powers of sums only inside sums. Conflicts with expandPowersOfSums.
 
 	// Root options.
-	'reduceRootsWithZeroArgument', // Turn sqrt(0) and root(0) into 0.
-	'reduceRootsWithOneArgument', // Turn sqrt(1) and root(1) into 1.
+	'reduceRootsWithZeroRadicand', // Turn sqrt(0) and root(0) into 0.
+	'reduceRootsWithOneRadicand', // Turn sqrt(1) and root(1) into 1.
 	'reduceIntegerRoots', // Turn integer roots into integers. So sqrt(25) becomes 5, but sqrt(24) stays.
 	'reduceCanceledRoots', // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	'turnRootsIntoFractionExponents', // Turn root[3](x) into x^(1/3).
 	'turnFractionExponentsIntoRoots', // Turn x^(1/3) into root[3](x).
-	'turnBaseTwoRootsIntoSqrts', // Turn root[2](x) into sqrt(x).
-	'turnSqrtsIntoBaseTwoRoots', // Turn sqrt(x) into root[2](x). Conflicts with turnBaseTwoRootsIntoSqrts.
+	'turnDegreeTwoRootsIntoSqrts', // Turn root[2](x) into sqrt(x).
+	'turnSqrtsIntoDegreeTwoRoots', // Turn sqrt(x) into root[2](x). Conflicts with turnDegreeTwoRootsIntoSqrts.
 	'expandRootsOfProducts', // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
 	'mergeProductsOfRoots', // Turn sqrt(x)*sqrt(y) into sqrt(x*y). Conflicts with expandRootsOfProducts.
 	'pullExponentsIntoRoots', // Turn sqrt(4)^3 into sqrt(4^3).

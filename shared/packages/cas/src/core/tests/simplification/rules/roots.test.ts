@@ -8,13 +8,13 @@ const z = variable('z')
 
 describe('root simplification', () => {
 	test('reduces roots with zero argument', () => {
-		expectSimplifyToGive(sqrt(0), 0, ['reduceRootsWithZeroArgument'])
-		expectSimplifyToGive(root(0, 3), 0, ['reduceRootsWithZeroArgument'])
+		expectSimplifyToGive(sqrt(0), 0, ['reduceRootsWithZeroRadicand'])
+		expectSimplifyToGive(root(0, 3), 0, ['reduceRootsWithZeroRadicand'])
 	})
 
 	test('reduces roots with one argument', () => {
-		expectSimplifyToGive(sqrt(1), 1, ['reduceRootsWithOneArgument'])
-		expectSimplifyToGive(root(1, 3), 1, ['reduceRootsWithOneArgument'])
+		expectSimplifyToGive(sqrt(1), 1, ['reduceRootsWithOneRadicand'])
+		expectSimplifyToGive(root(1, 3), 1, ['reduceRootsWithOneRadicand'])
 	})
 
 	test('reduces integer roots', () => {
@@ -45,15 +45,15 @@ describe('root simplification', () => {
 	})
 
 	test('turns base two roots into square roots', () => {
-		expectSimplifyToGive(root(x, 2), sqrt(x), ['turnBaseTwoRootsIntoSqrts'])
-		expectSimplifyToGive(root(sum(x, y), 2), sqrt(sum(x, y)), ['turnBaseTwoRootsIntoSqrts'])
-		expectSimplifyToGive(root(x, 3), root(x, 3), ['turnBaseTwoRootsIntoSqrts'])
+		expectSimplifyToGive(root(x, 2), sqrt(x), ['turnDegreeTwoRootsIntoSqrts'])
+		expectSimplifyToGive(root(sum(x, y), 2), sqrt(sum(x, y)), ['turnDegreeTwoRootsIntoSqrts'])
+		expectSimplifyToGive(root(x, 3), root(x, 3), ['turnDegreeTwoRootsIntoSqrts'])
 	})
 
 	test('turns square roots into base two roots', () => {
-		expectSimplifyToGive(sqrt(x), root(x, 2), ['turnSqrtsIntoBaseTwoRoots'])
-		expectSimplifyToGive(sqrt(sum(x, y)), root(sum(x, y), 2), ['turnSqrtsIntoBaseTwoRoots'])
-		expectSimplifyToGive(root(x, 2), root(x, 2), ['turnSqrtsIntoBaseTwoRoots'])
+		expectSimplifyToGive(sqrt(x), root(x, 2), ['turnSqrtsIntoDegreeTwoRoots'])
+		expectSimplifyToGive(sqrt(sum(x, y)), root(sum(x, y), 2), ['turnSqrtsIntoDegreeTwoRoots'])
+		expectSimplifyToGive(root(x, 2), root(x, 2), ['turnSqrtsIntoDegreeTwoRoots'])
 	})
 
 	test('expands roots of products', () => {

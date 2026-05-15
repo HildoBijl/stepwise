@@ -4,14 +4,23 @@ import { Integer } from '../../constants'
 import { SingleArgumentFunctionNode } from '../abstracts'
 
 export class Sqrt extends SingleArgumentFunctionNode {
+	static override readonly argumentNames: readonly string[] = ['radicand']
 	readonly subtype = 'Sqrt'
 
-	constructor(argument: ExpressionNode) {
-		super(argument)
+	constructor(radicand: ExpressionNode) {
+		super(radicand)
 	}
 
-	get base(): ExpressionNode {
+	get radicand(): ExpressionNode {
+		return this.argument
+	}
+
+	get degree(): ExpressionNode {
 		return Integer.two
+	}
+
+	recreateWith(radicand: ExpressionNode): Sqrt {
+		return this.recreateWithChildren([radicand]) as Sqrt
 	}
 
 	static readonly two = new Sqrt(Integer.two)

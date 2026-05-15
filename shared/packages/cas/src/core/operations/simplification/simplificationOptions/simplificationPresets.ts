@@ -6,7 +6,7 @@ export const noSimplify = new Set<SimplificationOption>()
 export const removeTrivial = new Set<SimplificationOption>([
 	// Structure
 	'turnFloatsIntoIntegers',
-	'turnBaseTwoRootsIntoSqrts',
+	'turnDegreeTwoRootsIntoSqrts',
 
 	// Excess brackets
 	'flattenSums',
@@ -28,14 +28,14 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'reduceFractionsWithZeroNumerator',
 	'reducePowersWithZeroExponent',
 	'reducePowersWithZeroBase',
-	'reduceRootsWithZeroArgument',
+	'reduceRootsWithZeroRadicand',
 
 	// Excess ones
 	'removeOnesFromProducts',
 	'reduceFractionsWithOneDenominator',
 	'removeOneExponentsFromPowers',
 	'reducePowersWithOneBase',
-	'reduceRootsWithOneArgument',
+	'reduceRootsWithOneRadicand',
 ])
 
 export const mergeNumbers = new Set<SimplificationOption>([

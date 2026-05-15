@@ -24,8 +24,8 @@ export function storageValueToNode(storageValue: ExpressionNodeStorageValue): Ex
 	// Functions
 	if (storageValue.subtype === 'Fraction') return new Fraction(storageValueToNode(storageValue.numerator), storageValueToNode(storageValue.denominator))
 	if (storageValue.subtype === 'Power') return new Power(storageValueToNode(storageValue.base), storageValueToNode(storageValue.exponent))
-	if (storageValue.subtype === 'Sqrt') return new Sqrt(storageValueToNode(storageValue.argument))
-	if (storageValue.subtype === 'Root') return new Root(storageValueToNode(storageValue.argument), storageValueToNode(storageValue.base))
+	if (storageValue.subtype === 'Sqrt') return new Sqrt(storageValueToNode(storageValue.radicand ?? (storageValue as any).argument)) // Root Storage legacy: In the past roots had parameters "argument" and "base".
+	if (storageValue.subtype === 'Root') return new Root(storageValueToNode(storageValue.radicand ?? (storageValue as any).argument), storageValueToNode(storageValue.degree ?? (storageValue as any).base)) // Root Storage legacy: In the past roots had parameters "argument" and "base".
 	if (storageValue.subtype === 'Ln') return new Ln(storageValueToNode(storageValue.argument))
 	if (storageValue.subtype === 'Log') return new Log(storageValueToNode(storageValue.argument), storageValueToNode(storageValue.base))
 

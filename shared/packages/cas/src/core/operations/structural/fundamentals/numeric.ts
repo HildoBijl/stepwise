@@ -29,8 +29,8 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 	// Functions
 	if (isFraction(node)) return toNumberInternal(node.numerator, settings) / toNumberInternal(node.denominator, settings)
 	if (isPower(node)) return toNumberInternal(node.base, settings) ** toNumberInternal(node.exponent, settings)
-	if (isRoot(node)) return toNumberInternal(node.argument, settings) ** (1 / toNumberInternal(node.base, settings))
-	if (isSqrt(node)) return Math.sqrt(toNumberInternal(node.argument, settings))
+	if (isRoot(node)) return toNumberInternal(node.radicand, settings) ** (1 / toNumberInternal(node.degree, settings))
+	if (isSqrt(node)) return Math.sqrt(toNumberInternal(node.radicand, settings))
 	if (isLn(node)) return Math.log(toNumberInternal(node.argument, settings))
 	if (isLog(node)) return Math.log(toNumberInternal(node.argument, settings)) / Math.log(toNumberInternal(node.base, settings))
 

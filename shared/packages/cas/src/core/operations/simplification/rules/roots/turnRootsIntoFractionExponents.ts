@@ -1,7 +1,5 @@
-import { type ExpressionNode, fraction, power } from '../../../../construction'
-
-import { type RootLike } from '../utils'
+import { type ExpressionNode, type RootLike, fraction, power } from '../../../../construction'
 
 export function turnRootsIntoFractionExponents(node: RootLike): ExpressionNode {
-	return power(node.argument, fraction(1, node.base))
+	return power(node.radicand, fraction(1, node.degree))
 }

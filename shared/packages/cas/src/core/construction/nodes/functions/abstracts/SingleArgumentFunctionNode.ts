@@ -3,7 +3,7 @@ import { ExpressionNode } from '../../ExpressionNode'
 import { FunctionNode } from './FunctionNode'
 
 export abstract class SingleArgumentFunctionNode extends FunctionNode {
-	static readonly argumentNames = ['argument'] as const
+	static override readonly argumentNames: readonly string[] = ['argument']
 
 	constructor(argument: ExpressionNode) {
 		super([argument])
