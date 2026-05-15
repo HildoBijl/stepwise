@@ -1,5 +1,5 @@
 import { negative, variable, sum, product, power } from '../../../construction'
-import { simplify, applyExpansions } from '../../../operations'
+import { simplify, expand } from '../../../operations'
 
 import { expectNodeToEqual } from '../../testUtils'
 
@@ -9,14 +9,14 @@ const z = variable('z')
 
 describe('apply-expansions simplification', () => {
 	test('expands minus sums', () => {
-		expectNodeToEqual(simplify(negative(sum(x, y)), undefined, applyExpansions), sum(negative(x), negative(y)))
+		expectNodeToEqual(simplify(negative(sum(x, y)), undefined, expand), sum(negative(x), negative(y)))
 	})
 
 	test('expands products of sums', () => {
-		expectNodeToEqual(simplify(product(x, sum(y, z)), undefined, applyExpansions), sum(product(x, y), product(x, z)))
+		expectNodeToEqual(simplify(product(x, sum(y, z)), undefined, expand), sum(product(x, y), product(x, z)))
 	})
 
 	test('expands powers of sums', () => {
-		expectNodeToEqual(simplify(power(sum(x, y), 2), undefined, applyExpansions), sum(power(x, 2), product(2, x, y), power(y, 2)))
+		expectNodeToEqual(simplify(power(sum(x, y), 2), undefined, expand), sum(power(x, 2), product(2, x, y), power(y, 2)))
 	})
 })

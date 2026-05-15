@@ -41,8 +41,8 @@ describe('expression simplification presets', () => {
 		expectExpressionToEqual(asExpression('2*x*3').mergeNumbers(), '6*x')
 	})
 	test('applies cancellations', () => {
-		expectExpressionToEqual(asExpression('x-x').applyCancellations(), '0')
-		expectExpressionToEqual(asExpression('(x*y)/x').applyCancellations(), 'y')
+		expectExpressionToEqual(asExpression('x-x').cancel(), '0')
+		expectExpressionToEqual(asExpression('(x*y)/x').cancel(), 'y')
 	})
 	test('normalizes expressions', () => {
 		expectExpressionToEqual(asExpression('2(2x^2+3x+1)/(x^2-1)').normalize(), '(4x+2)/(x-1)')

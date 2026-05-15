@@ -8,7 +8,7 @@ import {
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
 	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
-	removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Simplification presets
+	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
@@ -361,14 +361,14 @@ export class Expression {
 
 	removeTrivial(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(removeTrivial, addOptions, removeOptions) }
 	mergeNumbers(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(mergeNumbers, addOptions, removeOptions) }
-	applyCancellations(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyCancellations, addOptions, removeOptions) }
-	applyGroupings(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyGroupings, addOptions, removeOptions) }
-	applyExpansions(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyExpansions, addOptions, removeOptions) }
-	applyExpansionsOnlyWithinSums(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applyExpansionsOnlyWithinSums, addOptions, removeOptions) }
-	applySorting(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(applySorting, addOptions, removeOptions) }
+	cancel(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(cancel, addOptions, removeOptions) }
+	combine(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(combine, addOptions, removeOptions) }
+	expand(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(expand, addOptions, removeOptions) }
+	expandOnlyWithinSums(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(expandOnlyWithinSums, addOptions, removeOptions) }
+	sort(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(sort, addOptions, removeOptions) }
 	normalize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(normalize, addOptions, removeOptions) }
 	factorize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(factorize, addOptions, removeOptions) }
-	forDisplay(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(forDisplay, addOptions, removeOptions) }
+	format(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(format, addOptions, removeOptions) }
 
 	/*
 	 * Legacy Simplification Presets simplification functions
@@ -395,19 +395,15 @@ export class Expression {
 	equalStructure(other: ExpressionLike, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
 		return equalNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
-
 	strictEqualStructure(other: ExpressionLike, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
 		return strictEqualNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
-
 	equivalent(other: ExpressionLike): boolean {
 		return equivalent(this.node, this.coerceExpression(other).node, this.settings)
 	}
-
 	isConstantMultiple(other: ExpressionLike): boolean {
 		return isConstantMultiple(this.node, this.coerceExpression(other).node, this.settings)
 	}
-
 	isIntegerMultiple(other: ExpressionLike): boolean {
 		return isIntegerMultiple(this.node, this.coerceExpression(other).node, this.settings)
 	}

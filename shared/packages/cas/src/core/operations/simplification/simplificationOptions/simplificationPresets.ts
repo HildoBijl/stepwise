@@ -47,7 +47,7 @@ export const mergeNumbers = new Set<SimplificationOption>([
 	'reduceIntegerRoots',
 ])
 
-export const applyCancellations = new Set<SimplificationOption>([
+export const cancel = new Set<SimplificationOption>([
 	...removeTrivial,
 	...mergeNumbers,
 	'cancelSumTerms',
@@ -55,8 +55,8 @@ export const applyCancellations = new Set<SimplificationOption>([
 	'reduceCanceledRoots',
 ])
 
-export const applyGroupings = new Set<SimplificationOption>([
-	...applyCancellations,
+export const combine = new Set<SimplificationOption>([
+	...cancel,
 	'groupSumTerms',
 	'mergeProductFactors',
 	'mergeFractionProducts',
@@ -66,8 +66,8 @@ export const applyGroupings = new Set<SimplificationOption>([
 	'pullExponentsIntoRoots',
 ])
 
-export const applyExpansions = new Set<SimplificationOption>([
-	...applyGroupings,
+export const expand = new Set<SimplificationOption>([
+	...combine,
 	'expandMinusSums',
 	'expandPlusMinusSums',
 	'expandProductsOfSums',
@@ -80,24 +80,20 @@ export const applyExpansions = new Set<SimplificationOption>([
 ])
 
 // Adjust the expansions set by adding and removing various options
-export const applyExpansionsOnlyWithinSums = adjustSimplificationOptions(
-	applyExpansions,
+export const expandOnlyWithinSums = adjustSimplificationOptions(
+	expand,
 	['expandProductsOfSumsWithinSums', 'expandPowersOfSumsWithinSums'], // To add
 	['expandProductsOfSums', 'expandPowersOfSums'], // To remove
 )
 
-export const applySorting = new Set<SimplificationOption>([
+export const sort = new Set<SimplificationOption>([
 	'sortSums',
 	'sortProducts',
 ])
 
 export const normalizationRequirements = new Set<SimplificationOption>([
-	...removeTrivial,
-	...mergeNumbers,
-	...applyCancellations,
-	...applyGroupings,
-	...applyExpansions,
-	...applySorting,
+	...expand,
+	...sort,
 ])
 
 export const normalize = new Set<SimplificationOption>([
@@ -123,10 +119,10 @@ export const factorize = new Set<SimplificationOption>([
 	'pullFactorsOutOfRoots',
 ])
 
-export const forDisplay = new Set<SimplificationOption>([
+export const format = new Set<SimplificationOption>([
 	...removeTrivial,
 	...mergeNumbers,
-	...applySorting,
+	...sort,
 	'pullOutCommonSumNumbers',
 	'pullOutCommonSumFactors',
 	'turnFractionExponentsIntoRoots',

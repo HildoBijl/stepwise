@@ -1,11 +1,13 @@
-import { isReadonlyArray, union, difference } from '@step-wise/utils'
+import { isReadonlyArray, isReadonlySet, union, difference } from '@step-wise/utils'
 
 import { allSimplificationOptions } from './allSimplificationOptions'
 import type { SimplificationOption, SimplificationOptions, SimplificationOptionsInput } from './types'
 
-// Turn a SimplificationOptionsInput parameter into a set of simplification options.
+// Turn a SimplificationOptionsInput parameter into a set of simplification options. Also checks its format.
 export function asSimplificationOptionsSet(options: SimplificationOptionsInput): SimplificationOptions {
-	return isReadonlyArray(options) ? new Set(options) : options
+	if (isReadonlySet(options)) return ensureSimplificationOptionSet(options)
+	if (isReadonlyArray(options)) return ensureSimplificationOptionSet(new Set(options))
+	throw new Error(`Invalid simplification options: could not interpret "${JSON.stringify(options)}".`)
 }
 
 // Check a given set of simplification options.
