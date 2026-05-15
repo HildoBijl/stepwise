@@ -6,10 +6,10 @@ import {
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
-	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, // Structural operations
+	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Simplification presets
-	getDerivative, // Semantic operations
+	equivalent, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
@@ -300,6 +300,18 @@ export class Expression {
 	cleanForDisplay(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDisplayOptions, adjustments) }
 
 	/*
+	 * Comparisons
+	 */
+
+	equalStructure(other: ExpressionLike, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
+		return equalNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
+	}
+
+	equivalent(other: ExpressionLike): boolean {
+		return equivalent(this.node, this.coerceExpression(other).node, this.settings)
+	}
+
+	/*
 	 * Derivatives
 	 */
 
@@ -313,10 +325,4 @@ export class Expression {
 		const derivativeVariables = variables.map(this.coerceVariable)
 		return derivativeVariables.map(variable => this.getDerivative(variable))
 	}
-
-	/*
-	 * Comparisons
-	 */
-
-	// ToDo
 }

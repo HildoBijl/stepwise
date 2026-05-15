@@ -21,7 +21,7 @@ export function simplifySums(node: ExpressionNode, context: SimplificationContex
 	if (isSum(node) && options.has('removeZeroesFromSums')) node = removeZeroesFromSums(node)
 	if (isSum(node) && options.has('mergeSumNumbers')) node = mergeSumNumbers(node)
 	if (isSum(node) && options.has('cancelSumTerms')) node = cancelSumTerms(node)
-	if (isSum(node) && options.has('groupSumTerms')) node = groupSumTerms(node)
+	if (isSum(node) && options.has('groupSumTerms')) node = groupSumTerms(node, context)
 	if (isMinus(node) && options.has('expandMinusSums')) node = expandMinusSums(node)
 	if (isPlusMinus(node) && options.has('expandPlusMinusSums')) node = expandPlusMinusSums(node)
 	if (isSum(node) && options.has('pullOutCommonSumNumbers')) node = pullOutCommonSumNumbers(node)

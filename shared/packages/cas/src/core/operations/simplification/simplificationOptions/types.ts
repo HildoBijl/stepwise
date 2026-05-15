@@ -8,7 +8,7 @@ export type SimplificationOption = typeof allSimplificationOptionsList[number]
 export type SimplificationOptions = ReadonlySet<SimplificationOption>
 export type SimplificationOptionsInput = SimplificationOptions | readonly SimplificationOption[]
 
-export type Simplify = (node: ExpressionNode, options: SimplificationOptionsInput) => ExpressionNode
+export type Simplify = (node: ExpressionNode, options?: SimplificationOptionsInput) => ExpressionNode
 export type SimplificationContext = {
 	simplificationOptions: SimplificationOptions
 	expressionSettings: ExpressionSettings

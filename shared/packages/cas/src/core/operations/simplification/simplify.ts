@@ -16,7 +16,7 @@ export function simplify(node: ExpressionNode, settings: Partial<ExpressionSetti
 		simplificationOptions,
 		expressionSettings,
 		parents: [],
-		simplify: (node, options) => simplify(node, expressionSettings, options),
+		simplify: (node, options = simplificationOptions) => simplify(node, expressionSettings, options),
 	}
 	return simplifyUntilStable(node, context)
 }
