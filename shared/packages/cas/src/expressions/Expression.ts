@@ -2,8 +2,8 @@ import { mergeDefaults, isReadonlyArray } from '@step-wise/utils'
 import { type InterpretationSettings, type ExpressionSettings, defaultInterpretationSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
 import {
-	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, stringToNode, // Construction
-	isConstantNode, isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
+	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, stringToNode, // Construction
+	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
 	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
@@ -11,7 +11,7 @@ import {
 	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
-	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
+	type TexDisplayOptions, nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
 // Define types used within the class.
@@ -26,10 +26,13 @@ export type ExpressionFunction = (expression: Expression) => void
 export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || typeof value === 'string' || typeof value === 'number'
 }
-export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings: Partial<ExpressionSettings> = {}) {
+export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings: Partial<ExpressionSettings> = {}): Expression {
+	// Keep an already existing expression: just fix its settings.
+	if (value instanceof Expression) return value.convertToSettings(expressionSettings)
+
+	// Interpret strings/numbers.
 	let expressionNode
-	if (value instanceof Expression) expressionNode = convertExpressionSettings(value.node, value.settings, expressionSettings)
-	else if (typeof value === 'string') expressionNode = stringToNode(value, mergeDefaults(interpretationSettings, defaultInterpretationSettings))
+	if (typeof value === 'string') expressionNode = stringToNode(value, mergeDefaults(interpretationSettings, defaultInterpretationSettings))
 	else if (typeof value === 'number') expressionNode = number(value)
 	else throw new Error(`Invalid asExpression case: received a value of type "${typeof value}".`)
 	return new Expression(expressionNode, expressionSettings)
@@ -38,7 +41,7 @@ export function asExpression(value: Expression | string | number, interpretation
 // Set up the Expression wrapper.
 export class Expression {
 	readonly settings: ExpressionSettings
-	constructor(readonly node: ExpressionNode, settings: Partial<ExpressionSettings> = {}) {
+	constructor(private readonly node: ExpressionNode, settings: Partial<ExpressionSettings> = {}) {
 		this.settings = mergeDefaults(settings, defaultExpressionSettings)
 	}
 	get subtype() { return this.node.subtype }
@@ -54,7 +57,7 @@ export class Expression {
 
 	// Turn an ExpressionLike input into an Expression, forcing it to have equal ExpressionSettings as this Expression.
 	private coerceExpression(expression: ExpressionLike): Expression {
-		if (expression instanceof Expression) return this.nodeToExpression(convertExpressionSettings(expression.node, expression.settings, this.settings))
+		if (expression instanceof Expression) return expression.convertToSettings(this.settings)
 		return asExpression(expression, undefined, this.settings)
 	}
 
@@ -88,7 +91,7 @@ export class Expression {
 	print() { console.log(this.toString()) }
 
 	// LaTeX
-	toTex() { return nodeToTex(this.node) }
+	toTex(options?: TexDisplayOptions) { return nodeToTex(this.node, options) }
 	get tex() { return this.toTex() }
 
 	// Tree
@@ -103,6 +106,10 @@ export class Expression {
 	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
 	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings: Partial<ExpressionSettings> = {}): Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), mergeDefaults(settings, defaultExpressionSettings))
+	}
+
+	convertToSettings(newSettings: Partial<ExpressionSettings> = {}): Expression {
+		return new Expression(convertExpressionSettings(this.node, this.settings, newSettings))
 	}
 
 	/*

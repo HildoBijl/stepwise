@@ -3,7 +3,6 @@ import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/m
 
 import { type ExpressionNodeStorageValue } from '../core'
 
-import { } from '../core'
 import { Expression } from './Expression'
 
 export type SerializedExpression = {
