@@ -1,8 +1,9 @@
-import { type ExpressionNode, type Power } from '../../../../construction'
+import { type ExpressionNode, type Power, integer, float } from '../../../../construction'
 
-import { isConstantNode, isIntegerNode } from '../../../structural'
+import { isNumberNode, isIntegerNode } from '../../../structural'
 
 export function mergePowerNumbers(node: Power): ExpressionNode {
-	if (!isConstantNode(node.base) || !isIntegerNode(node.exponent)) return node
-	return node.base.recreateWith(node.base.value ** node.exponent.value)
+	if (!isNumberNode(node.base) || !isNumberNode(node.exponent)) return node
+	const value = node.base.value ** node.exponent.value
+	return isIntegerNode(node.base) && isIntegerNode(node.exponent) ? integer(value) : float(value)
 }

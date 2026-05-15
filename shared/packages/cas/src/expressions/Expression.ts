@@ -1,32 +1,38 @@
 import { mergeDefaults, isReadonlyArray } from '@step-wise/utils'
-import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+import { type InterpretationSettings, type ExpressionSettings, defaultInterpretationSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
 import {
-	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, // Construction
+	type ExpressionNode, type VariableInput, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, stringToNode, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootFunction, isLn, isLog, isLogFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
-	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
+	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	removeTrivial, mergeNumbers, applyCancellations, applyGroupings, applyExpansions, applySorting, normalize, factorize, applyExpansionsOnlyWithinSums, forDisplay, // Simplification presets
-	equivalent, getDerivative, // Semantic operations
+	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { asExpression } from './interpreting'
-
 // Define types used within the class.
-type VariableLike = Expression | string
-type ExpressionLike = Expression | string | number
-type SubstitutionMap = Record<string, ExpressionLike>
-type ExpressionCheck = (expression: Expression) => boolean
-type ExpressionTransform = (expression: Expression) => Expression
-type ExpressionFunction = (expression: Expression) => void
+export type VariableLike = Expression | string
+export type ExpressionLike = Expression | string | number
+export type SubstitutionMap = Record<string, ExpressionLike>
+export type ExpressionCheck = (expression: Expression) => boolean
+export type ExpressionTransform = (expression: Expression) => Expression
+export type ExpressionFunction = (expression: Expression) => void
 
-// Add a small type checker.
+// Add a type checker and type coercer.
 export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || typeof value === 'string' || typeof value === 'number'
+}
+export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings: Partial<ExpressionSettings> = {}) {
+	let expressionNode
+	if (value instanceof Expression) expressionNode = convertExpressionSettings(value.node, value.settings, expressionSettings)
+	else if (typeof value === 'string') expressionNode = stringToNode(value, mergeDefaults(interpretationSettings, defaultInterpretationSettings))
+	else if (typeof value === 'number') expressionNode = number(value)
+	else throw new Error(`Invalid asExpression case: received a value of type "${typeof value}".`)
+	return new Expression(expressionNode, expressionSettings)
 }
 
 // Set up the Expression wrapper.
@@ -41,9 +47,14 @@ export class Expression {
 	 * Input argument coercion/conversion
 	 */
 
+	// Turn a node into an Expression with the same ExpressionSettings. Useful for at the end of function calls, to turn a resulting node into the requested output Expression.
+	private nodeToExpression(node: ExpressionNode): Expression {
+		return new Expression(node, this.settings)
+	}
+
 	// Turn an ExpressionLike input into an Expression with the same ExpressionSettings.
 	private coerceExpression(expression: ExpressionLike): Expression {
-		if (expression instanceof Expression) return expression
+		if (expression instanceof Expression) return this.nodeToExpression(convertExpressionSettings(expression.node, expression.settings, this.settings))
 		return asExpression(expression, undefined, this.settings)
 	}
 
@@ -65,11 +76,6 @@ export class Expression {
 		if (variables.length === 0) return variable('x')
 		if (variables.length === 1) return variables[0]
 		throw new Error(`Invalid call: no variable was specified, while for a multi-variable expression it is required to specify a variable. The expression depends on ${JSON.stringify(this.getVariables().map(variable => variable.str))}.`)
-	}
-
-	// Turn a node into an Expression with the same ExpressionSettings. Useful for at the end of function calls, to turn a resulting node into the requested output Expression.
-	private nodeToExpression(node: ExpressionNode): Expression {
-		return new Expression(node, this.settings)
 	}
 
 	/*
@@ -307,8 +313,20 @@ export class Expression {
 		return equalNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
 
+	strictEqualStructure(other: ExpressionLike, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
+		return strictEqualNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
+	}
+
 	equivalent(other: ExpressionLike): boolean {
 		return equivalent(this.node, this.coerceExpression(other).node, this.settings)
+	}
+
+	isConstantMultiple(other: ExpressionLike): boolean {
+		return isConstantMultiple(this.node, this.coerceExpression(other).node, this.settings)
+	}
+
+	isIntegerMultiple(other: ExpressionLike): boolean {
+		return isIntegerMultiple(this.node, this.coerceExpression(other).node, this.settings)
 	}
 
 	/*

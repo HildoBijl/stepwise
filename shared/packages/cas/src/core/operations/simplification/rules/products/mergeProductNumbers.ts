@@ -2,12 +2,12 @@ import { first, product as arrayProduct, splitArray } from '@step-wise/utils'
 
 import { type ExpressionNode, type Product, integer, float, product } from '../../../../construction'
 
-import { isConstantNode, isFloatNode } from '../../../structural'
+import { isNumberNode, isFloatNode } from '../../../structural'
 
 export function mergeProductNumbers(node: Product): ExpressionNode {
-	const [constants, nonConstants] = splitArray(node.factors, isConstantNode)
-	if (constants.length === 0 || (constants.length === 1 && isConstantNode(first(node.factors)))) return node
-	const value = arrayProduct(constants.map(node => node.value))
-	const constant = constants.some(isFloatNode) ? float(value) : integer(value)
-	return product(constant, ...nonConstants)
+	const [numberFactors, nonNumberFactors] = splitArray(node.factors, node => isNumberNode(node))
+	if (numberFactors.length === 0 || (numberFactors.length === 1 && isNumberNode(first(node.factors)))) return node
+	const value = arrayProduct(numberFactors.map(node => node.value))
+	const constant = numberFactors.some(isFloatNode) ? float(value) : integer(value)
+	return product(constant, ...nonNumberFactors)
 }

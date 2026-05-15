@@ -3,6 +3,7 @@ import { ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleA
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }
 export function isConstantNode(node: ExpressionNode): node is ConstantNode { return node instanceof ConstantNode }
+export function isNumberNode(node: ExpressionNode): node is Integer | Float { return node instanceof Integer || node instanceof Float }
 export function isSignNode(node: ExpressionNode): node is SignNode { return node instanceof SignNode }
 export function isListNode(node: ExpressionNode): node is ListNode { return node instanceof ListNode }
 export function isFunctionNode(node: ExpressionNode): node is FunctionNode { return node instanceof FunctionNode }

@@ -1,5 +1,5 @@
-import { type ExpressionNodeInput, asExpressionNode, negative, plusMinus, variable, sum, product, fraction, power } from '../construction'
-import { equivalent } from '../operations'
+import { type ExpressionNodeInput, asExpressionNode, negative, plusMinus, variable, sum, product, fraction, power } from '../../construction'
+import { equivalent } from '../../operations'
 
 const x = variable('x')
 const y = variable('y')
