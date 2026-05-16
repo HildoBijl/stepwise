@@ -9,13 +9,28 @@ The main point of entry is
 
 ```
 import { asExpression, asEquation } from '@step-wise/cas'
-const exp = asExpression('(2x^2+3x+1)/(x^2-1)')
+const ex = asExpression('(2x^2+3x+1)/(x^2-1)')
 const eq = asEquation('2x+3=9')
 ```
 
-Once you have an `Expression` or `Equation` object, you have access to a variety of methods. For the exact possibilities, see the folders for [expressions](./src/expressions/) and [equations](./src/equations/).
+Once you have an `Expression` or `Equation` object, you have access to a variety of methods. For the exact possibilities, see the respective for [Expression](./src/expressions/Expression.ts) and [Equation](./src/equations/Equation.ts) classes.
 
-It is also possible to add `ExpressionSettings` to an expression or equation. You could for instance use `const exp = asExpression('sin(2x)', { degrees: true })` to make trigonometric functions work with degrees rather than radians.
+
+## Settings 
+
+The `Expression` and `Equation` objects support `InterpretationSettings` and `ExpressionSettings`.
+
+- `InterpretationSettings` describe how to turn the given input into an expression tree. After interpretation, these settings are not needed anymore and discarded.
+- `ExpressionSettings` describe how to handle the expression tree. They are still relevant for given expressions.
+
+You could for instance write
+
+```
+const ex = asExpression('f(2x)') // Gives f*(2*x).
+const ex = asExpression('f(2x)', { customFunctions: true }) // Gives the function f with argument 2*x.
+const ex = asExpression('sin(180)') // Will evaluate as -0.80115...
+const ex = asExpression('sin(180)', undefined, { degrees: true }) // Will evaluate as 0.
+```
 
 
 ## Internals

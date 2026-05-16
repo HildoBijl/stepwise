@@ -126,10 +126,13 @@ export class Equation {
 	switch(): Equation { return this.recreateWith(this.right, this.left) }
 	applyMinus(): Equation { return this.mapSides(side => side.applyMinus()) }
 	add(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.add(...terms)) }
+	addLeft(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.addLeft(...terms)) }
 	subtract(term: ExpressionLike): Equation { return this.mapSides(side => side.subtract(term)) }
 	multiply(...factors: ExpressionLike[]): Equation { return this.mapSides(side => side.multiply(...factors)) }
+	multiplyLeft(...factors: ExpressionLike[]): Equation { return this.mapSides(side => side.multiplyLeft(...factors)) }
 	divide(denominator: ExpressionLike): Equation { return this.mapSides(side => side.divide(denominator)) }
 	toPower(exponent: ExpressionLike): Equation { return this.mapSides(side => side.toPower(exponent)) }
+	asExponentOf(base: ExpressionLike): Equation { return this.mapSides(side => side.asExponentOf(base)) }
 
 	/*
 	 * Substitution
