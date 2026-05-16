@@ -83,12 +83,17 @@ export class Expression {
 		return this.coerceVariable(variable).node as Variable
 	}
 
-	// When no variable is specified within a function call, try to derive its variable by assuming there is only one variable in the expression. (Or zero, in which case 'x' is given.)
-	private getVariableNode(): Variable {
-		const variables = getVariables(this.node)
-		if (variables.length === 0) return variable('x')
+	// When no variable is specified within a function call, try to derive its variable by assuming there is only one variable in the expression.
+	private getVariableNode(): Variable | undefined {
+		return this.getVariable()?.node as Variable | undefined
+	}
+
+	// Assume the expression has a single variable and extract it or throw.
+	getVariable(): Expression | undefined {
+		const variables = this.getVariables()
+		if (variables.length === 0) return undefined
 		if (variables.length === 1) return variables[0]
-		throw new Error(`Invalid call: no variable was specified, while for a multi-variable expression it is required to specify a variable. The expression depends on ${JSON.stringify(this.getVariables().map(variable => variable.str))}.`)
+		throw new Error(`Invalid call: no variable was specified, while for a multi-variable expression it is required to specify a variable. The expression depends on ${JSON.stringify(variables.map(variable => variable.str))}.`)
 	}
 
 	/*
@@ -271,36 +276,62 @@ export class Expression {
 	 * Substitution
 	 */
 
+	substitute(value: ExpressionLike): Expression
 	substitute(variable: VariableLike, substitution: ExpressionLike): Expression
 	substitute(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): Expression
 	substitute(substitutions: SubstitutionMap): Expression
-	substitute(arg1: VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): Expression {
-		// List-based substitution
+	substitute(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): Expression {
+		// List-based substitution.
 		if (Array.isArray(arg1)) {
 			if (!Array.isArray(arg2)) throw new Error('Invalid substitute call: expected a list of substitutions.')
 			if (arg1.length !== arg2.length) throw new Error(`Invalid substitute call: got ${arg1.length} variables but ${arg2.length} substitutions.`)
 			return arg1.reduce((expression, variable, index) => expression.substitute(variable, arg2[index]), this)
 		}
 
-		// Object-based substitution
+		// Object-based substitution.
 		if (typeof arg1 === 'object' && !(arg1 instanceof Expression)) {
 			return Object.entries(arg1).reduce((expression, [variable, substitution]) => expression.substitute(variable, substitution), this as Expression)
 		}
 
-		// Single-variable substitution
-		if (arg2 === undefined || isReadonlyArray(arg2)) throw new Error('Invalid substitute call: expected one substitution.')
-		const variableNode = this.coerceVariableNode(arg1)
+		// Single-value substitution. Infer the variable.
+		if (arg2 === undefined) {
+			if (!isExpressionLike(arg1)) throw new Error(`Invalid expression: cannot substitute a value of type "${typeof arg1}".`)
+			const variable = this.getVariable()
+			return variable === undefined ? this : this.substitute(variable, arg1)
+		}
+
+		// Single-variable substitution.
+		if (isReadonlyArray(arg2)) throw new Error('Invalid substitute call: expected one substitution.')
+		const variableNode = this.coerceVariableNode(arg1 as VariableLike)
 		const substitution = this.coerceExpression(arg2)
 		return this.recreateWith(substitute(this.node, variableNode, substitution.node))
 	}
 
-	evaluateAt(substitutions: SubstitutionMap): number
 	evaluateAt(value: ExpressionLike): number
-	evaluateAt(input: SubstitutionMap | ExpressionLike): number {
-		const substitution = isExpressionLike(input) ? this.substitute(this.recreateWith(this.getVariableNode()), input) : this.substitute(input)
-		if (!substitution.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substitution.getVariables().map(variable => variable.str))}.`)
-		return substitution.toNumber()
+	evaluateAt(variable: VariableLike, substitution: ExpressionLike): number
+	evaluateAt(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): number
+	evaluateAt(substitutions: SubstitutionMap): number
+	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): number {
+		const substituted = this.substitute(arg1 as never, arg2 as never)
+		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
+		return substituted.toNumber()
 	}
+
+	// evaluateAt(substitutions: SubstitutionMap): number
+	// evaluateAt(value: ExpressionLike): number
+	// evaluateAt(input: SubstitutionMap | ExpressionLike): number {
+	// 	// Apply the substitution.
+	// 	if (isExpressionLike(input)) {
+	// 		const variable = this.getVariable()
+	// 		substitution = variable ? this.substitute(variable, input) : this
+	// 	} else {
+	// 		substitution = this.substitute(input)
+	// 	}
+	// 	eturn this.substitute(input)
+	// 	const substitution = isExpressionLike(input) ? this.substitute(this.recreateWith(this.getVariableNode()), input) : this.substitute(input)
+	// 	if (!substitution.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substitution.getVariables().map(variable => variable.str))}.`)
+	// 	return substitution.toNumber()
+	// }
 
 	/*
 	 * Inspection methods
@@ -432,10 +463,9 @@ export class Expression {
 	 * Derivatives
 	 */
 
-	getDerivative(variable?: VariableLike): Expression {
-		const derivativeVariable = variable === undefined ? this.getVariableNode() : this.coerceVariableNode(variable)
-		const derivative = getDerivative(this.node, derivativeVariable, this.settings)
-		return this.recreateWith(derivative)
+	getDerivative(derivativeVariable?: VariableLike): Expression {
+		const variableNode = derivativeVariable === undefined ? (this.getVariableNode() ?? variable('x')) : this.coerceVariableNode(derivativeVariable)
+		return this.recreateWith(getDerivative(this.node, variableNode, this.settings))
 	}
 
 	getGradient(variables: readonly VariableLike[] = this.getVariables()): Expression[] {

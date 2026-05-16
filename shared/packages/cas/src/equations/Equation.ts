@@ -1,7 +1,7 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { compareNumbers, mergeDefaults } from '@step-wise/utils'
 import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type TexDisplayOptions, type ExpressionLike, type ExpressionAncestors, Expression, asExpression } from '../expressions'
+import { type TexDisplayOptions, type VariableLike, type ExpressionLike, type SubstitutionMap, type ExpressionAncestors, Expression, isExpressionLike, asExpression } from '../expressions'
 
 import { type EquationStorageValue } from './types'
 
@@ -79,6 +79,71 @@ export class Equation {
 	// Tree
 	toTree(): string { return `equation(${this.left.tree}, ${this.right.tree})` }
 	get tree() { return this.toTree() }
+
+	/*
+	 * Property checks
+	 */
+
+	dependsOn(variable: VariableLike): boolean { return this.someSide(side => side.dependsOn(variable)) }
+	isNumeric(): boolean { return this.everySide(side => side.isNumeric()) }
+	hasFloat(): boolean { return this.someSide(side => side.hasFloat()) }
+	isPolynomial(): boolean { return this.everySide(side => side.isPolynomial()) }
+	isRational(): boolean { return this.everySide(side => side.isRational()) }
+	isSingular(): boolean { return this.everySide(side => side.isSingular()) }
+	isPlural(): boolean { return this.someSide(side => side.isPlural()) }
+
+	/*
+	 * Basic extractions
+	 */
+
+	getVariables(): Expression[] {
+		const variables: Expression[] = []
+		this.forEverySide(side => {
+			side.getVariables().forEach(variable => {
+				if (!variables.some(existingVariable => existingVariable.strictEqualStructure(variable))) variables.push(variable)
+			})
+		})
+		return variables
+	}
+
+	getSingular(): Equation[] {
+		const leftSingulars = this.left.getSingular()
+		const rightSingulars = this.right.getSingular()
+		return leftSingulars.flatMap(left => rightSingulars.map(right => this.recreateWith(left, right)))
+	}
+
+	/*
+	 * Algebraic operations
+	 */
+
+	applyMinus(): Equation { return this.mapSides(side => side.applyMinus()) }
+	add(...terms: ExpressionLike[]): Equation { return this.mapSides(side => side.add(...terms)) }
+	subtract(term: ExpressionLike): Equation { return this.mapSides(side => side.subtract(term)) }
+	multiply(...factors: ExpressionLike[]): Equation { return this.mapSides(side => side.multiply(...factors)) }
+	divide(denominator: ExpressionLike): Equation { return this.mapSides(side => side.divide(denominator)) }
+	toPower(exponent: ExpressionLike): Equation { return this.mapSides(side => side.toPower(exponent)) }
+
+	/*
+	 * Substitution
+	 */
+
+	substitute(value: ExpressionLike): Equation
+	substitute(variable: VariableLike, substitution: ExpressionLike): Equation
+	substitute(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): Equation
+	substitute(substitutions: SubstitutionMap): Equation
+	substitute(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): Equation {
+		return this.mapSides(side => side.substitute(arg1 as never, arg2 as never))
+	}
+
+	evaluateAt(value: ExpressionLike): boolean
+	evaluateAt(variable: VariableLike, substitution: ExpressionLike): boolean
+	evaluateAt(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): boolean
+	evaluateAt(substitutions: SubstitutionMap): boolean
+	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): boolean {
+		const substituted = this.substitute(arg1 as never, arg2 as never)
+		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the equation still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
+		return compareNumbers(substituted.left.toNumber(), substituted.right.toNumber())
+	}
 
 	/*
 	 * Side inspection methods
@@ -160,4 +225,23 @@ export class Equation {
 	mapEvery(transform: ExpressionInEquationTransform, childrenFirst = true): Equation {
 		return this.mapSides((side, sideName) => side.mapEvery((child, ancestors) => transform(child, ancestors, sideName), childrenFirst, true))
 	}
+
+	/*
+	 * Structure checks
+	 */
+
+	// ToDo
+
+	/*
+	 * Simplification
+	 */
+
+	// ToDo
+
+	/*
+	 * Comparisons
+	 */
+
+	// ToDo
+
 }
