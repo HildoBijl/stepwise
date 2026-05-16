@@ -182,11 +182,11 @@ export class Expression {
 
 	// Lists
 	get terms(): Expression[] {
-		if (isSum(this.node)) return this.node.terms.map(this.recreateWith)
+		if (isSum(this.node)) return this.node.terms.map(term => this.recreateWith(term))
 		throw new Error(`Invalid request: cannot get "terms" of an Expression of type "${this.subtype}".`)
 	}
 	get factors(): Expression[] {
-		if (isProduct(this.node)) return this.node.factors.map(this.recreateWith)
+		if (isProduct(this.node)) return this.node.factors.map(factor => this.recreateWith(factor))
 		throw new Error(`Invalid request: cannot get "factors" of an Expression of type "${this.subtype}".`)
 	}
 
