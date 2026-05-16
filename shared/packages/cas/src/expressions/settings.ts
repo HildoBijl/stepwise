@@ -5,7 +5,7 @@ export { type InterpretationSettings, defaultInterpretationSettings } from '@ste
 export { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
 // Structural comparison
-export { type ComparisonSettings, defaultComparisonSettings, strictComparisonSettings } from '../core'
+export { type ExpressionComparisonSettings, defaultExpressionComparisonSettings, strictExpressionComparisonSettings } from '../core'
 
 // Simplification
 export { type SimplificationOption, SimplificationOptions, SimplificationOptionsInput, allSimplificationOptions } from '../core'

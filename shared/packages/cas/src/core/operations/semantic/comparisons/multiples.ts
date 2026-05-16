@@ -7,12 +7,14 @@ import { normalize, simplify } from '../../simplification'
 
 export function isConstantMultiple(a: ExpressionNode, b: ExpressionNode, settings: Partial<ExpressionSettings> = {}): boolean {
 	const normalized = getNormalizedPair(a, b, settings)
-	return !isZero(normalized.a) && !isZero(normalized.b) && isNumeric(getNormalizedQuotient(normalized.a, normalized.b, settings))
+	if (isZero(normalized.a) || isZero(normalized.b)) return isZero(normalized.a) === isZero(normalized.b)
+	return isNumeric(getNormalizedQuotient(normalized.a, normalized.b, settings))
 }
 
 export function isIntegerMultiple(a: ExpressionNode, b: ExpressionNode, settings: Partial<ExpressionSettings> = {}): boolean {
 	const normalized = getNormalizedPair(a, b, settings)
-	return !isZero(normalized.a) && !isZero(normalized.b) && isInteger(getNormalizedQuotient(normalized.a, normalized.b, settings))
+	if (isZero(normalized.a) || isZero(normalized.b)) return isZero(normalized.a) === isZero(normalized.b)
+	return isInteger(getNormalizedQuotient(normalized.a, normalized.b, settings))
 }
 
 function getNormalizedPair(a: ExpressionNode, b: ExpressionNode, settings: Partial<ExpressionSettings>) {

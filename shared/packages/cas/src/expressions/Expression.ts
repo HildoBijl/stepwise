@@ -1,11 +1,11 @@
-import { mergeDefaults, isReadonlyArray } from '@step-wise/utils'
+import { isReadonlyArray, mergeDefaults, deepEquals } from '@step-wise/utils'
 
 import {
 	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, stringToNode, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
-	type ComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
+	type ExpressionComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
@@ -28,7 +28,7 @@ export type ExpressionFunction = (expression: Expression, ancestors: ExpressionA
 export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || typeof value === 'string' || typeof value === 'number'
 }
-export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings: Partial<ExpressionSettings> = {}): Expression {
+export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings?: Partial<ExpressionSettings>): Expression {
 	// Keep an already existing expression: just fix its settings.
 	if (value instanceof Expression) return value.withSettings(expressionSettings)
 
@@ -54,11 +54,11 @@ export class Expression {
 	get subtype() { return this.node.subtype }
 
 	private recreateWith(node: ExpressionNode): Expression {
-		return new Expression(node, this.settings)
+		return node === this.node ? this : new Expression(node, this.settings)
 	}
 
 	withSettings(newSettings: Partial<ExpressionSettings> = {}): Expression {
-		return new Expression(convertExpressionSettings(this.node, this.settings, newSettings))
+		return deepEquals(newSettings, this.settings) ? this : new Expression(convertExpressionSettings(this.node, this.settings, newSettings), newSettings)
 	}
 
 	/*
@@ -67,7 +67,6 @@ export class Expression {
 
 	// Turn an ExpressionLike input into an Expression, forcing it to have equal ExpressionSettings as this Expression.
 	private coerceExpression(expression: ExpressionLike): Expression {
-		if (expression instanceof Expression) return expression.withSettings(this.settings)
 		return asExpression(expression, undefined, this.settings)
 	}
 
@@ -388,15 +387,17 @@ export class Expression {
 	hasSumWithinMinus(): boolean { return this.some(expression => expression.isMinus() && expression.argument.isSum()) }
 	hasSumWithinProduct(): boolean { return this.some(expression => expression.isProduct() && expression.factors.some(factor => factor.isSum())) }
 	hasSimilarTerms(): boolean { return !this.removeTrivial(['groupSumTerms', 'mergeSumNumbers', 'mergeProductFactors']).equalStructure(this.removeTrivial()) }
+
 	hasFraction(includeSelf = true): boolean { return this.some(expression => expression.isFraction(), includeSelf) }
 	hasSumAsFractionNumerator(): boolean { return this.some(expression => expression.isFraction() && expression.numerator.isSum()) }
 	hasFractionWithinFraction(): boolean { return this.some(expression => expression.isFraction() && expression.hasFraction(false)) }
+	hasVariableInDenominator(variable: VariableLike): boolean { return this.some(expression => expression.isFraction() && expression.denominator.dependsOn(this.coerceVariable(variable))) }
+
 	hasPower(includeSelf = true): boolean { return this.some(expression => expression.isPower(), includeSelf) }
 	hasSumAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isSum()) }
 	hasProductAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isProduct()) }
 	hasPowerAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isPower()) }
 	hasNegativeExponent(): boolean { return this.some(expression => expression.isPower() && expression.exponent.isMinus()) }
-	hasVariableInDenominator(variable: VariableLike): boolean { return this.some(expression => expression.isFraction() && expression.denominator.dependsOn(this.coerceVariable(variable))) }
 
 	/*
 	 * Simplification
@@ -443,10 +444,10 @@ export class Expression {
 	 * Comparisons
 	 */
 
-	equalStructure(other: ExpressionLike, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
+	equalStructure(other: ExpressionLike, comparisonSettings: Partial<ExpressionComparisonSettings> = {}): boolean {
 		return equalNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
-	strictEqualStructure(other: ExpressionLike, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
+	strictEqualStructure(other: ExpressionLike, comparisonSettings: Partial<ExpressionComparisonSettings> = {}): boolean {
 		return strictEqualNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
 	equivalent(other: ExpressionLike): boolean {

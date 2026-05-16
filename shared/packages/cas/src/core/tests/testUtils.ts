@@ -1,10 +1,10 @@
 import { type ExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNodeInput, asExpressionNode, nodeToTree } from '../construction'
-import { type SimplificationOptionsInput, type ComparisonSettings, strictEqualNodes, simplify } from '../operations'
+import { type SimplificationOptionsInput, type ExpressionComparisonSettings, strictEqualNodes, simplify } from '../operations'
 import { nodeToString } from '../export'
 
-export function expectNodeToEqual(result: ExpressionNodeInput, expected: ExpressionNodeInput, comparisonSettings: Partial<ComparisonSettings> = {}) {
+export function expectNodeToEqual(result: ExpressionNodeInput, expected: ExpressionNodeInput, comparisonSettings: Partial<ExpressionComparisonSettings> = {}) {
 	const resultValue = asExpressionNode(result)
 	const expectedValue = asExpressionNode(expected)
 	if (!strictEqualNodes(resultValue, expectedValue, comparisonSettings)) throw new Error(`A node was not what was expected.
@@ -14,7 +14,7 @@ export function expectNodeToEqual(result: ExpressionNodeInput, expected: Express
 	Expected output structure: ${nodeToTree(expectedValue)}`)
 }
 
-export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: Partial<ExpressionSettings> = {}, comparisonSettings: Partial<ComparisonSettings> = {}) {
+export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: Partial<ExpressionSettings> = {}, comparisonSettings: Partial<ExpressionComparisonSettings> = {}) {
 	const inputValue = asExpressionNode(input)
 	const outputValue = asExpressionNode(output)
 	const result = simplify(inputValue, expressionSettings, options)

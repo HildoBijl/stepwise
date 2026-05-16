@@ -4,10 +4,10 @@ import type { ExpressionNode, SignNode, ConstantNode, FunctionNode, ListNode, Va
 
 import { isSignNode, isConstantNode, isFunctionNode, isListNode, isVariable } from '../fundamentals'
 
-import { type ComparisonSettings, defaultComparisonSettings, strictComparisonSettings } from './comparisonSettings'
+import { type ExpressionComparisonSettings, defaultExpressionComparisonSettings, strictExpressionComparisonSettings } from './comparisonSettings'
 
-export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
-	const settings = mergeDefaults(comparisonSettings, defaultComparisonSettings)
+export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ExpressionComparisonSettings> = {}): boolean {
+	const settings = mergeDefaults(comparisonSettings, defaultExpressionComparisonSettings)
 	if (isConstantNode(a) && isConstantNode(b)) return equalConstants(a, b)
 	if (isSignNode(a) && isSignNode(b)) return equalSignNodes(a, b, settings)
 	if (isVariable(a) && isVariable(b)) return equalVariables(a, b)
@@ -17,15 +17,15 @@ export function equalNodes(a: ExpressionNode, b: ExpressionNode, comparisonSetti
 	return a.children.length === 0 && b.children.length === 0
 }
 
-export function strictEqualNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ComparisonSettings> = {}): boolean {
-	return equalNodes(a, b, mergeDefaults(comparisonSettings, strictComparisonSettings))
+export function strictEqualNodes(a: ExpressionNode, b: ExpressionNode, comparisonSettings: Partial<ExpressionComparisonSettings> = {}): boolean {
+	return equalNodes(a, b, mergeDefaults(comparisonSettings, strictExpressionComparisonSettings))
 }
 
 export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {
 	return a.constructor === b.constructor && compareNumbers(a.value, b.value)
 }
 
-export function equalSignNodes(a: SignNode, b: SignNode, settings: ComparisonSettings): boolean {
+export function equalSignNodes(a: SignNode, b: SignNode, settings: ExpressionComparisonSettings): boolean {
 	return a.constructor === b.constructor && equalNodes(a.node, b.node, settings)
 }
 
@@ -33,7 +33,7 @@ export function equalVariables(a: Variable, b: Variable): boolean {
 	return a.symbol === b.symbol && a.subscript === b.subscript && a.accent === b.accent
 }
 
-export function equalLists(a: ListNode, b: ListNode, settings: ComparisonSettings): boolean {
+export function equalLists(a: ListNode, b: ListNode, settings: ExpressionComparisonSettings): boolean {
 	// Check basic scenarios.
 	if (a.constructor !== b.constructor) return false
 	if (a.nodes.length !== b.nodes.length) return false
@@ -49,6 +49,6 @@ export function equalLists(a: ListNode, b: ListNode, settings: ComparisonSetting
 	})
 }
 
-export function equalFunctions(a: FunctionNode, b: FunctionNode, settings: ComparisonSettings): boolean {
+export function equalFunctions(a: FunctionNode, b: FunctionNode, settings: ExpressionComparisonSettings): boolean {
 	return a.constructor === b.constructor && a.args.length === b.args.length && a.args.every((arg, index) => equalNodes(arg, b.args[index], settings))
 }
