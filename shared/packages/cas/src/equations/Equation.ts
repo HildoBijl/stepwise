@@ -1,8 +1,11 @@
 import { mergeDefaults } from '@step-wise/utils'
 import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionLike, type ExpressionAncestors, Expression, asExpression } from '../expressions'
+import { type TexDisplayOptions, type ExpressionLike, type ExpressionAncestors, Expression, asExpression } from '../expressions'
 
+import { type EquationStorageValue } from './types'
+
+// Define types used within the class.
 export const equationSideNames = ['left', 'right'] as const
 export type EquationSideName = typeof equationSideNames[number]
 export type EquationSideCheck = (side: Expression, sideName: EquationSideName) => boolean
@@ -12,32 +15,78 @@ export type ExpressionInEquationCheck = (expression: Expression, ancestors: Expr
 export type ExpressionInEquationTransform = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => Expression
 export type ExpressionInEquationFunction = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => void
 
+// Set up the Equation class.
 export class Equation {
 	readonly left: Expression
 	readonly right: Expression
 	readonly settings: ExpressionSettings
 
-	constructor(left: ExpressionLike, right: ExpressionLike, settings?: Partial<ExpressionSettings>) {
-		this.settings = this.getEquationSettings(left, right, settings)
-		this.left = asExpression(left, {}, this.settings)
-		this.right = asExpression(right, {}, this.settings)
-	}
+	/*
+	 * Creation methods
+	 */
 
-	// Pick the right ExpressionSettings for this equation. Either the provided settings, or the settings of left, or the settings of right, in that order.
-	private getEquationSettings(left: ExpressionLike, right: ExpressionLike, settings?: Partial<ExpressionSettings>): ExpressionSettings {
-		if (settings) return mergeDefaults(settings, defaultExpressionSettings)
-		if (left instanceof Expression) return left.settings
-		if (right instanceof Expression) return right.settings
-		return defaultExpressionSettings
+	constructor(left: ExpressionLike, right: ExpressionLike, settings?: Partial<ExpressionSettings>) {
+		// Determine the expression settings used.
+		if (settings) this.settings = mergeDefaults(settings, defaultExpressionSettings)
+		else if (left instanceof Expression) this.settings = left.settings
+		else if (right instanceof Expression) this.settings = right.settings
+		else this.settings = defaultExpressionSettings
+
+		// Keep expression settings uniform across the Equation.
+		this.left = asExpression(left, undefined, this.settings)
+		this.right = asExpression(right, undefined, this.settings)
 	}
 
 	private recreateWith(left: Expression, right: Expression) {
 		return new Equation(left, right, this.settings)
 	}
 
+	withSettings(newSettings: Partial<ExpressionSettings> = {}): Equation {
+		return new Equation(this.left, this.right, newSettings)
+	}
+
+	/*
+	 * Input argument coercion/conversion
+	 */
+
+	// ToDo
+
+	/*
+	 * Serialization
+	 */
+
+	toStorageValue(): EquationStorageValue {
+		return { left: this.left.toStorageValue(), right: this.right.toStorageValue() }
+	}
+	get SO(): EquationStorageValue { return this.toStorageValue() } // SO Legacy
+	static fromStorageValue(storageValue: EquationStorageValue, settings: Partial<ExpressionSettings> = {}): Equation {
+		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
+	}
+
+	/*
+	 * Printing
+	 */
+
+	// Strings
+	toString(): string { return `${this.left.str}=${this.right.str}` }
+	get str() { return this.toString() }
+	print() { console.log(this.toString()) }
+
+	// LaTeX
+	toTex(options?: TexDisplayOptions): string { return `${this.left.toTex(options)}=${this.right.toTex(options)}` }
+	get tex() { return this.toTex() }
+
+	// Tree
+	toTree(): string { return `equation(${this.left.tree}, ${this.right.tree})` }
+	get tree() { return this.toTree() }
+
 	/*
 	 * Side inspection methods
 	 */
+
+	get sides(): Expression[] {
+		return equationSideNames.map(sideName => this[sideName])
+	}
 
 	someSide(check: EquationSideCheck): boolean {
 		return equationSideNames.some(side => check(this[side], side))
@@ -112,4 +161,3 @@ export class Equation {
 		return this.mapSides((side, sideName) => side.mapEvery((child, ancestors) => transform(child, ancestors, sideName), childrenFirst, true))
 	}
 }
-

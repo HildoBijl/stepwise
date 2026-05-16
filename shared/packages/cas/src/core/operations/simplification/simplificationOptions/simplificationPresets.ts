@@ -1,8 +1,6 @@
 import { type SimplificationOption } from './types'
 import { adjustSimplificationOptions } from './utils'
 
-export const noSimplify = new Set<SimplificationOption>()
-
 export const removeTrivial = new Set<SimplificationOption>([
 	// Structure
 	'turnFloatsIntoIntegers',

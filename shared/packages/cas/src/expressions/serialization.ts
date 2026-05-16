@@ -1,15 +1,8 @@
 import { isEmptyObject, omitDefaults } from '@step-wise/utils'
-import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNodeStorageValue } from '../core'
-
+import { defaultExpressionSettings } from './settings'
+import { type SerializedExpression } from './types'
 import { Expression } from './Expression'
-
-export type SerializedExpression = {
-	type: 'Expression'
-	value: ExpressionNodeStorageValue
-	settings?: Partial<ExpressionSettings>
-}
 
 export function serializeExpression(expression: Expression): SerializedExpression {
 	const serialized: SerializedExpression = { type: 'Expression', value: expression.toStorageValue() }
