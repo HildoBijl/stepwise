@@ -1,12 +1,12 @@
 import { InterpretationError, last } from '@step-wise/utils'
-import { type InterpretationSettings, type SubSupInputValue } from '@step-wise/math-input-value'
+import { type SubSupInputValue } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Power, Variable } from '../../nodes'
 
 import type { InterpreterContext } from '../types'
 
 // Incorporate subscript/superscript into the ALREADY EXISTING previous term.
-export function incorporateSubSup(element: SubSupInputValue, result: ExpressionNode[], settings: InterpretationSettings, context: InterpreterContext) {
+export function incorporateSubSup(element: SubSupInputValue, result: ExpressionNode[], context: InterpreterContext) {
 	const [sub, sup] = element.value
 	const previousTerm = last(result)
 
@@ -20,6 +20,6 @@ export function incorporateSubSup(element: SubSupInputValue, result: ExpressionN
 	if (sup) {
 		const base = last(result)
 		if (!base) throw new InterpretationError('Could not interpret the superscript due to a missing term prior to it.', 'MisplacedSuperscript', '')
-		result[result.length - 1] = new Power(base, context.interpretBrackets(sup.value, settings, context))
+		result[result.length - 1] = new Power(base, context.interpretBrackets(sup.value, context))
 	}
 }

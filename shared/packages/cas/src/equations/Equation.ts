@@ -1,33 +1,21 @@
-import { compareNumbers, isPlainObject, mergeDefaults, pickFromDefaults, deepEquals } from '@step-wise/utils'
+import { compareNumbers, mergeDefaults, pickFromDefaults, deepEquals } from '@step-wise/utils'
 import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type InterpretationSettings, type TexDisplayOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, type ExpressionAncestors, isExpressionLike, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
+import { type InterpretationSettings, type TexDisplayOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
 
-import { type EquationStorageValue } from './types'
+import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
 import { type EquationComparisonSettings, defaultEquationComparisonSettings, strictEquationComparisonSettings } from './settings'
+import { isEquationInput, interpretEquationInput } from './interpreting'
 
-// Define types used within the class.
-export const equationSideNames = ['left', 'right'] as const
-export type EquationSideName = typeof equationSideNames[number]
-export type EquationLike = Equation | { left: ExpressionLike, right: ExpressionLike } | string
-export type EquationSideCheck = (side: Expression, sideName: EquationSideName) => boolean
-export type EquationSideTransform = (side: Expression, sideName: EquationSideName) => Expression
-export type EquationSideFunction = (side: Expression, sideName: EquationSideName) => void
-export type ExpressionInEquationCheck = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => boolean
-export type ExpressionInEquationTransform = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => Expression
-export type ExpressionInEquationFunction = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => void
-
-// Add a type checker and type coercer.
+// Add a type checker and interpreter.
+export type EquationLike = Equation | EquationInput
 export function isEquationLike(value: unknown): value is EquationLike {
-	if (value instanceof Equation) return true
-	if (isPlainObject(value) && equationSideNames.forEach(sideName => sideName in value && isExpressionLike(value[sideName]))) return true
-	if (typeof value === 'string') return true
-	return true
+	return value instanceof Equation || isEquationInput(value)
 }
-export function asEquation(value: EquationLike, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings?: Partial<ExpressionSettings>): Equation {
-	if (value instanceof Equation) return value.withSettings(expressionSettings)
-	if (typeof value === 'string') throw new Error(`Equation interpretation has not been implemented yet. ToDo: implement this.`)
-	return new Equation(asExpression(value.left, interpretationSettings, expressionSettings), asExpression(value.right, interpretationSettings, expressionSettings), expressionSettings)
+export function asEquation(value: EquationLike | EquationInput, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): Equation {
+	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
+	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
+	return new Equation(equationParts.left, equationParts.right, equationParts.expressionSettings)
 }
 
 // Set up the Equation class.

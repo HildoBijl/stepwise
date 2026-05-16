@@ -1,5 +1,5 @@
 import { last, InterpretationError } from '@step-wise/utils'
-import { type InterpretationSettings, type FunctionInputValue, type ExpressionInputValue, isEmptyExpressionValue, specialFunctionSettings } from '@step-wise/math-input-value'
+import { type FunctionInputValue, type ExpressionInputValue, isEmptyExpressionValue, specialFunctionSettings } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Integer } from '../../nodes'
 
@@ -7,13 +7,13 @@ import type { InterpreterContext } from '../types'
 import { type SpecialFunctionName, type SpecialFunctionConstructor, specialFunctionComponents } from '../functionComponents'
 
 // Interpret a function object with an external bracket argument.
-export function interpretSpecialFunctionWithParameterAfter(name: string, externalArgument: ExpressionNode, internalArguments: ExpressionNode[], settings: InterpretationSettings, context: InterpreterContext): ExpressionNode {
+export function interpretSpecialFunctionWithParameterAfter(name: string, externalArgument: ExpressionNode, internalArguments: ExpressionNode[], context: InterpreterContext): ExpressionNode {
 	const Component = getSpecialFunctionComponent(name, true)
 	return new Component(externalArgument, ...internalArguments)
 }
 
 // Interpret a function object without an external bracket argument.
-export function interpretSpecialFunctionWithoutParameterAfter(element: FunctionInputValue, settings: InterpretationSettings, context: InterpreterContext): ExpressionNode {
+export function interpretSpecialFunctionWithoutParameterAfter(element: FunctionInputValue, context: InterpreterContext): ExpressionNode {
 	const { name, value } = element
 	const Component = getSpecialFunctionComponent(name, false)
 
@@ -27,7 +27,7 @@ export function interpretSpecialFunctionWithoutParameterAfter(element: FunctionI
 			if (defaultArgument) return defaultArgument
 		}
 		if (!arg) throw new InterpretationError(`Missing argument for function "${name}".`, 'MissingFunctionArgument', name)
-		return context.interpretBrackets(arg.value, settings, context)
+		return context.interpretBrackets(arg.value, context)
 	})
 	return new Component(...interpretedArguments)
 }

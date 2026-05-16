@@ -1,4 +1,5 @@
-import { type ExpressionInputValue, type InterpretationSettings } from '@step-wise/math-input-value'
+import { mergeDefaults } from '@step-wise/utils'
+import { type ExpressionInputValue, type InterpretationSettings, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, Variable, isNamedConstantReferral, getNamedConstant } from '../nodes'
 
@@ -6,9 +7,10 @@ import type { InterpreterContext } from './types'
 import { interpretBrackets, interpretProducts, interpretSpecialFunctionWithParameterAfter, interpretStringsAndElements, interpretSums } from './steps'
 
 // Turn an InputValue to an ExpressionNode.
-export function inputValueToNode(input: ExpressionInputValue, settings: InterpretationSettings): ExpressionNode {
-	const context: InterpreterContext = { interpretBrackets, interpretSums, interpretProducts, interpretStringsAndElements, interpretSpecialFunctionWithParameterAfter } satisfies InterpreterContext
-	const result = interpretBrackets(input.value, settings, context)
+export function inputValueToNode(input: ExpressionInputValue): ExpressionNode {
+	const interpretationSettings = mergeDefaults(input.interpretationSettings ?? {}, defaultInterpretationSettings)
+	const context: InterpreterContext = { interpretationSettings, interpretBrackets, interpretSums, interpretProducts, interpretStringsAndElements, interpretSpecialFunctionWithParameterAfter } satisfies InterpreterContext
+	const result = interpretBrackets(input.value, context)
 	return insertNamedConstants(result)
 }
 

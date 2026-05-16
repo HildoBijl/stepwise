@@ -1,7 +1,7 @@
 import { isReadonlyArray, mergeDefaults, deepEquals } from '@step-wise/utils'
 
 import {
-	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, stringToNode, // Construction
+	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
@@ -13,31 +13,27 @@ import {
 	type TexDisplayOptions, nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettings, type ExpressionSettings, defaultInterpretationSettings, defaultExpressionSettings } from './settings'
+import { type InterpretationSettings, type ExpressionSettings, defaultExpressionSettings } from './settings'
+import { type ExpressionInput } from './types'
+import { isExpressionInput, interpretExpressionInput } from './interpreting'
 
 // Define types used within the class.
 export type VariableLike = Expression | string
-export type ExpressionLike = Expression | string | number
+export type ExpressionLike = Expression | ExpressionInput
 export type SubstitutionMap = Record<string, ExpressionLike>
 export type ExpressionAncestors = readonly Expression[]
 export type ExpressionCheck = (expression: Expression, ancestors: ExpressionAncestors) => boolean
 export type ExpressionTransform = (expression: Expression, ancestors: ExpressionAncestors) => Expression
 export type ExpressionFunction = (expression: Expression, ancestors: ExpressionAncestors) => void
 
-// Add a type checker and type coercer.
+// Add a type checker and interpreter.
 export function isExpressionLike(value: unknown): value is ExpressionLike {
-	return value instanceof Expression || typeof value === 'string' || typeof value === 'number'
+	return value instanceof Expression || isExpressionInput(value)
 }
-export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings?: Partial<ExpressionSettings>): Expression {
-	// Keep an already existing expression: just fix its settings.
-	if (value instanceof Expression) return value.withSettings(expressionSettings)
-
-	// Interpret strings/numbers.
-	let expressionNode
-	if (typeof value === 'string') expressionNode = stringToNode(value, mergeDefaults(interpretationSettings, defaultInterpretationSettings))
-	else if (typeof value === 'number') expressionNode = number(value)
-	else throw new Error(`Invalid asExpression case: received a value of type "${typeof value}".`)
-	return new Expression(expressionNode, expressionSettings)
+export function asExpression(value: ExpressionLike, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): Expression {
+	if (value instanceof Expression) return expressionSettings ? value.withSettings(expressionSettings) : value
+	const expressionParts = interpretExpressionInput(value, interpretationSettings, expressionSettings)
+	return new Expression(expressionParts.node, expressionParts.expressionSettings)
 }
 
 // Set up the Expression wrapper.
@@ -315,22 +311,6 @@ export class Expression {
 		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
 		return substituted.toNumber()
 	}
-
-	// evaluateAt(substitutions: SubstitutionMap): number
-	// evaluateAt(value: ExpressionLike): number
-	// evaluateAt(input: SubstitutionMap | ExpressionLike): number {
-	// 	// Apply the substitution.
-	// 	if (isExpressionLike(input)) {
-	// 		const variable = this.getVariable()
-	// 		substitution = variable ? this.substitute(variable, input) : this
-	// 	} else {
-	// 		substitution = this.substitute(input)
-	// 	}
-	// 	eturn this.substitute(input)
-	// 	const substitution = isExpressionLike(input) ? this.substitute(this.recreateWith(this.getVariableNode()), input) : this.substitute(input)
-	// 	if (!substitution.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the expression still depends on variables ${JSON.stringify(substitution.getVariables().map(variable => variable.str))}.`)
-	// 	return substitution.toNumber()
-	// }
 
 	/*
 	 * Inspection methods

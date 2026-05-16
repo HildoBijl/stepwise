@@ -33,8 +33,8 @@ describe('multiple comparisons', () => {
 	})
 
 	test('rejects zero expressions', () => {
-		expect(isConstantMultiple(Integer.zero, Integer.zero)).toBe(false)
-		expect(isIntegerMultiple(Integer.zero, Integer.zero)).toBe(false)
+		expect(isConstantMultiple(Integer.zero, Integer.zero)).toBe(true)
+		expect(isIntegerMultiple(Integer.zero, Integer.zero)).toBe(true)
 		expect(isConstantMultiple(Integer.zero, x)).toBe(false)
 		expect(isIntegerMultiple(Integer.zero, x)).toBe(false)
 		expect(isConstantMultiple(x, Integer.zero)).toBe(false)

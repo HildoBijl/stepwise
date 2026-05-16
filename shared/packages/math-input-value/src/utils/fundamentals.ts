@@ -1,8 +1,12 @@
 import { first, isPlainObject } from '@step-wise/utils'
 
+import type { InterpretationSettings, ExpressionSettings } from '../settings'
 import type { ExpressionInputValue, ExpressionPartInputValue, InputValuePart } from '../types'
 
 // Checks.
+export function isExpressionInputValue(element: unknown): element is ExpressionInputValue {
+	return isPlainObject(element) && element.type === 'Expression' && Array.isArray(element.value)
+}
 export function isExpressionPart(element: unknown): element is ExpressionPartInputValue {
 	return isPlainObject(element) && Object.keys(element).length === 2 && element.type === 'ExpressionPart' && typeof element.value === 'string'
 }
@@ -25,7 +29,7 @@ export function getExpressionValueWith(value: string): ExpressionPartInputValue[
 	return [getExpressionPartWith(value)]
 }
 export function getExpressionWith(value: string): ExpressionInputValue {
-	return addExpressionType(getExpressionValueWith(value))
+	return addExpressionWrapper(getExpressionValueWith(value))
 }
 
 // Getters for empty objects.
@@ -40,6 +44,9 @@ export function getEmptyExpression(): ExpressionInputValue {
 }
 
 // Expanding a value to an Expression.
-export function addExpressionType(value: InputValuePart[]): ExpressionInputValue {
-	return { type: 'Expression', value }
+export function addExpressionWrapper(value: InputValuePart[], interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): ExpressionInputValue {
+	const result: ExpressionInputValue = { type: 'Expression', value }
+	if (interpretationSettings) result.interpretationSettings = interpretationSettings
+	if (expressionSettings) result.expressionSettings = expressionSettings
+	return result
 }

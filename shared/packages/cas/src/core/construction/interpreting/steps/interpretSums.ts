@@ -1,18 +1,18 @@
 import { InterpretationError, findNextOf } from '@step-wise/utils'
-import { type InputCursorEnd, type InterpretationSettings, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
+import { type InputCursorEnd, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
 
 import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
 
 // Interpret pluses, minuses and plus-minuses in an expression with some already-interpreted ExpressionNodes but without brackets.
-export function interpretSums(value: IntermediateInterpretationPart[], settings: InterpretationSettings, context: InterpreterContext): ExpressionNode {
+export function interpretSums(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode {
 	// Set up a handler to add terms to the sum.
 	const terms: ExpressionNode[] = []
 	let symbolBefore = ''
 	const addTerm = (start: InputCursorEnd, end: InputCursorEnd, symbolBefore: string) => {
 		if (equalCursor(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
-		let expression = context.interpretProducts(getSubExpression<ExpressionNode>(value, start, end), settings, context)
+		let expression = context.interpretProducts(getSubExpression<ExpressionNode>(value, start, end), context)
 		if (symbolBefore === '-') expression = new Minus(expression)
 		if (symbolBefore === '±') expression = new PlusMinus(expression)
 		terms.push(expression)

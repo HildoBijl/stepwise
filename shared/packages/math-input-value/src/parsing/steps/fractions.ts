@@ -2,7 +2,7 @@ import { first, last } from '@step-wise/utils'
 
 import { InterpretationSettings } from '../../settings'
 import type { FunctionInputValue, InputCursorEnd, InputValuePart } from '../../types'
-import { isExpressionPart, addExpressionType, getStartCursor, getEndCursor, getSubExpression, moveRight } from '../../utils'
+import { isExpressionPart, addExpressionWrapper, getStartCursor, getEndCursor, getSubExpression, moveRight } from '../../utils'
 
 import { findCharacterAtZeroBracketCount } from '../support'
 
@@ -35,8 +35,8 @@ function applyFraction(value: InputValuePart[], cursor: InputCursorEnd, settings
 		type: 'Function',
 		name: 'frac',
 		value: [
-			addExpressionType(removeSurroundingBrackets(numerator)),
-			addExpressionType(removeSurroundingBrackets(denominator)),
+			addExpressionWrapper(removeSurroundingBrackets(numerator)),
+			addExpressionWrapper(removeSurroundingBrackets(denominator)),
 		],
 	} as FunctionInputValue
 

@@ -1,19 +1,19 @@
 import { InterpretationError } from '@step-wise/utils'
-import { type InputCursorEnd, type InterpretationSettings, getExpressionPartValue, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
+import { type InputCursorEnd, getExpressionPartValue, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Product } from '../../nodes'
 
 import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
 
 // Interpret explicit products split by *, in an expression with partly interpreted parts and no brackets.
-export function interpretProducts(value: IntermediateInterpretationPart[], settings: InterpretationSettings, context: InterpreterContext): ExpressionNode {
+export function interpretProducts(value: IntermediateInterpretationPart[], context: InterpreterContext): ExpressionNode {
 	// Set up a handler to add factors to the product.
 	const factors: ExpressionNode[] = []
 	const addFactor = (start: InputCursorEnd, end: InputCursorEnd) => {
 		const firstChar = getExpressionPartValue(value[start.part])[start.cursor]
 		const minusAfterTimes = firstChar === '-' || firstChar === '±'
 		const shiftedStart = minusAfterTimes ? moveRight(start) : start
-		let expression = context.interpretStringsAndElements(getSubExpression<ExpressionNode>(value, shiftedStart, end), settings, context)
+		let expression = context.interpretStringsAndElements(getSubExpression<ExpressionNode>(value, shiftedStart, end), context)
 		if (minusAfterTimes) {
 			if (firstChar === '-') expression = new Minus(expression)
 			else if (firstChar === '±') expression = new PlusMinus(expression)
