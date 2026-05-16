@@ -4,7 +4,7 @@ import { strictEqualNodes } from '../comparisons'
 
 import { add, subtract, multiply, divide } from './arithmetic'
 import { expandToSingulars } from './plurals'
-import { substitute } from './substitution'
+import { substitute } from './replacing'
 
 // Check arithmetics
 describe('structural arithmetic operations', () => {

@@ -1,12 +1,16 @@
-// Find the first element for which fn returns a truthy value, and also return that value.
-type Falsy = 0 | '' | false | null | undefined
-export function findWithValue<T, V>(array: readonly T[], fn: (element: T, index: number, array: readonly T[]) => V): { index: number; element: T; value: Exclude<V, Falsy> } | undefined {
+// Find the first element for which fn returns a non-undefined value, and return the index, the corresponding element, and the returned value.
+export function findWithValue<T, V>(array: readonly T[], fn: (element: T, index: number, array: readonly T[]) => V | undefined): { index: number; element: T; value: V } | undefined {
 	for (let index = 0; index < array.length; index++) {
 		const element = array[index]
 		const value = fn(element, index, array)
-		if (value) return { index, element, value: value as Exclude<V, Falsy> }
+		if (value) return { index, element, value: value as V }
 	}
 	return undefined
+}
+
+// Find the first element for which fn returns a non-undefined value, and return that value.
+export function findValue<T, V>(array: readonly T[], fn: (element: T, index: number, array: readonly T[]) => V | undefined): V | undefined {
+	return findWithValue(array, fn)?.value
 }
 
 // Find the index path of a value inside a nested array structure.
@@ -18,7 +22,7 @@ export function findIndexPath<T>(array: NestedArray<T>, elementToFind: T): numbe
 			const trace = findIndexPath(element, elementToFind)
 			return trace && [index, ...trace]
 		}
-		return false
+		return undefined
 	})
 	return result?.value
 }

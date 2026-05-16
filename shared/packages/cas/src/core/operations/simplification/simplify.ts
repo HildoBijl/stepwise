@@ -3,7 +3,7 @@ import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/m
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
-import { replaceDescendants } from '../structural'
+import { mapDescendants } from '../structural'
 
 import { type SimplificationOptionsInput, type SimplificationPreset, type SimplificationContext, type SimplificationOptionsObject, asSimplificationOptionsSet, validateSimplificationOptions, getActiveSimplificationOptions } from './simplificationOptions'
 import { applySimplificationRules } from './rules'
@@ -53,5 +53,5 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 
 // Run a set of simplification operations once on all nodes.
 function simplifyOnce(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	return replaceDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }))
+	return mapDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }))
 }

@@ -18,9 +18,10 @@ import {
 export type VariableLike = Expression | string
 export type ExpressionLike = Expression | string | number
 export type SubstitutionMap = Record<string, ExpressionLike>
-export type ExpressionCheck = (expression: Expression) => boolean
-export type ExpressionTransform = (expression: Expression) => Expression
-export type ExpressionFunction = (expression: Expression) => void
+export type ExpressionAncestors = readonly Expression[]
+export type ExpressionCheck = (expression: Expression, ancestors: ExpressionAncestors) => boolean
+export type ExpressionTransform = (expression: Expression, ancestors: ExpressionAncestors) => Expression
+export type ExpressionFunction = (expression: Expression, ancestors: ExpressionAncestors) => void
 
 // Add a type checker and type coercer.
 export function isExpressionLike(value: unknown): value is ExpressionLike {
@@ -28,7 +29,7 @@ export function isExpressionLike(value: unknown): value is ExpressionLike {
 }
 export function asExpression(value: Expression | string | number, interpretationSettings: Partial<InterpretationSettings> = {}, expressionSettings: Partial<ExpressionSettings> = {}): Expression {
 	// Keep an already existing expression: just fix its settings.
-	if (value instanceof Expression) return value.convertToSettings(expressionSettings)
+	if (value instanceof Expression) return value.withSettings(expressionSettings)
 
 	// Interpret strings/numbers.
 	let expressionNode
@@ -57,7 +58,7 @@ export class Expression {
 
 	// Turn an ExpressionLike input into an Expression, forcing it to have equal ExpressionSettings as this Expression.
 	private coerceExpression(expression: ExpressionLike): Expression {
-		if (expression instanceof Expression) return expression.convertToSettings(this.settings)
+		if (expression instanceof Expression) return expression.withSettings(this.settings)
 		return asExpression(expression, undefined, this.settings)
 	}
 
@@ -79,6 +80,10 @@ export class Expression {
 		if (variables.length === 0) return variable('x')
 		if (variables.length === 1) return variables[0]
 		throw new Error(`Invalid call: no variable was specified, while for a multi-variable expression it is required to specify a variable. The expression depends on ${JSON.stringify(this.getVariables().map(variable => variable.str))}.`)
+	}
+
+	withSettings(newSettings: Partial<ExpressionSettings> = {}): Expression {
+		return new Expression(convertExpressionSettings(this.node, this.settings, newSettings))
 	}
 
 	/*
@@ -106,10 +111,6 @@ export class Expression {
 	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
 	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings: Partial<ExpressionSettings> = {}): Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), mergeDefaults(settings, defaultExpressionSettings))
-	}
-
-	convertToSettings(newSettings: Partial<ExpressionSettings> = {}): Expression {
-		return new Expression(convertExpressionSettings(this.node, this.settings, newSettings))
 	}
 
 	/*
@@ -300,59 +301,66 @@ export class Expression {
 	 * Inspection methods
 	 */
 
-	recursiveSome(check: ExpressionCheck, includeSelf = true): boolean {
-		if (includeSelf && check(this)) return true
-		return this.node.children.some(child => this.nodeToExpression(child).recursiveSome(check, true))
+	some(check: ExpressionCheck, includeSelf = true, ancestors: ExpressionAncestors = []): boolean {
+		if (includeSelf && check(this, ancestors)) return true
+		return this.node.children.some(child => this.nodeToExpression(child).some(check, true, [...ancestors, this]))
 	}
 
-	recursiveEvery(check: ExpressionCheck, includeSelf = true): boolean {
-		if (includeSelf && !check(this)) return false
-		return this.node.children.every(child => this.nodeToExpression(child).recursiveEvery(check, true))
+	every(check: ExpressionCheck, includeSelf = true, ancestors: ExpressionAncestors = []): boolean {
+		if (includeSelf && !check(this, ancestors)) return false
+		return this.node.children.every(child => this.nodeToExpression(child).every(check, true, [...ancestors, this]))
 	}
 
-	find(check: ExpressionCheck, includeSelf = true): Expression | undefined {
-		if (includeSelf && check(this)) return this
+	find(check: ExpressionCheck, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): Expression | undefined {
+		if (includeSelf && !childrenFirst && check(this, ancestors)) return this
 		for (const child of this.node.children) {
-			const result = this.nodeToExpression(child).find(check, true)
+			const result = this.nodeToExpression(child).find(check, childrenFirst, true, [...ancestors, this])
 			if (result) return result
 		}
+		if (includeSelf && childrenFirst && check(this, ancestors)) return this
 		return undefined
 	}
 
-	runForEvery(func: ExpressionFunction, includeSelf = true, recursive = true): void {
-		if (includeSelf) func(this)
-		if (!recursive) return
-		this.node.children.forEach(child => { this.nodeToExpression(child).runForEvery(func, true, true) })
-	}
-
-	findAll(check: ExpressionCheck, includeSelf = true): Expression[] {
+	findAll(check: ExpressionCheck, childrenFirst = false, includeSelf = true): Expression[] {
 		const results: Expression[] = []
-		this.runForEvery(expression => { if (check(expression)) results.push(expression) }, includeSelf)
+		this.forEvery((expression, ancestors) => { if (check(expression, ancestors)) results.push(expression) }, childrenFirst, includeSelf)
 		return results
 	}
 
-	applyToEvery(func: ExpressionTransform, includeSelf = true, recursive = true): Expression {
-		const children = recursive ? this.node.children.map(child => this.nodeToExpression(child).applyToEvery(func, true, true).node) : this.node.children
-		let result = this.nodeToExpression(this.node.recreateWithChildren(children))
-		return includeSelf ? func(result) : result
+	/*
+	 * Recursive operations
+	 */
+
+	forEvery(func: ExpressionFunction, childrenFirst = false, includeSelf = true, ancestors: ExpressionAncestors = []): void {
+		if (includeSelf && !childrenFirst) func(this, ancestors)
+		this.node.children.forEach(child => { this.nodeToExpression(child).forEvery(func, childrenFirst, true, [...ancestors, this]) })
+		if (includeSelf && childrenFirst) func(this, ancestors)
+	}
+
+	mapEvery(transform: ExpressionTransform, childrenFirst = true, includeSelf = true, ancestors: ExpressionAncestors = []): Expression {
+		let result: Expression = this
+		if (includeSelf && !childrenFirst) result = transform(result, ancestors)
+		result = this.nodeToExpression(result.node.recreateWithChildren(result.node.children.map(child => this.nodeToExpression(child).mapEvery(transform, childrenFirst, true, [...ancestors, result]).node)))
+		if (includeSelf && childrenFirst) result = transform(result, ancestors)
+		return result
 	}
 
 	/*
 	 * Structure checks
 	 */
 
-	hasSumWithinMinus(): boolean { return this.recursiveSome(expression => expression.isMinus() && expression.argument.isSum()) }
-	hasSumWithinProduct(): boolean { return this.recursiveSome(expression => expression.isProduct() && expression.factors.some(factor => factor.isSum())) }
+	hasSumWithinMinus(): boolean { return this.some(expression => expression.isMinus() && expression.argument.isSum()) }
+	hasSumWithinProduct(): boolean { return this.some(expression => expression.isProduct() && expression.factors.some(factor => factor.isSum())) }
 	hasSimilarTerms(): boolean { return !this.removeTrivial(['groupSumTerms', 'mergeSumNumbers', 'mergeProductFactors']).equalStructure(this.removeTrivial()) }
-	hasFraction(includeSelf = true): boolean { return this.recursiveSome(expression => expression.isFraction(), includeSelf) }
-	hasSumAsFractionNumerator(): boolean { return this.recursiveSome(expression => expression.isFraction() && expression.numerator.isSum()) }
-	hasFractionWithinFraction(): boolean { return this.recursiveSome(expression => expression.isFraction() && expression.hasFraction(false)) }
-	hasPower(includeSelf = true): boolean { return this.recursiveSome(expression => expression.isPower(), includeSelf) }
-	hasSumAsPowerBase(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.base.isSum()) }
-	hasProductAsPowerBase(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.base.isProduct()) }
-	hasPowerAsPowerBase(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.base.isPower()) }
-	hasNegativeExponent(): boolean { return this.recursiveSome(expression => expression.isPower() && expression.exponent.isMinus()) }
-	hasVariableInDenominator(variable: VariableLike): boolean { return this.recursiveSome(expression => expression.isFraction() && expression.denominator.dependsOn(this.coerceVariable(variable))) }
+	hasFraction(includeSelf = true): boolean { return this.some(expression => expression.isFraction(), includeSelf) }
+	hasSumAsFractionNumerator(): boolean { return this.some(expression => expression.isFraction() && expression.numerator.isSum()) }
+	hasFractionWithinFraction(): boolean { return this.some(expression => expression.isFraction() && expression.hasFraction(false)) }
+	hasPower(includeSelf = true): boolean { return this.some(expression => expression.isPower(), includeSelf) }
+	hasSumAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isSum()) }
+	hasProductAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isProduct()) }
+	hasPowerAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isPower()) }
+	hasNegativeExponent(): boolean { return this.some(expression => expression.isPower() && expression.exponent.isMinus()) }
+	hasVariableInDenominator(variable: VariableLike): boolean { return this.some(expression => expression.isFraction() && expression.denominator.dependsOn(this.coerceVariable(variable))) }
 
 	/*
 	 * Simplification

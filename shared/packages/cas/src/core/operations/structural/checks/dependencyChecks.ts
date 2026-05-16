@@ -1,7 +1,9 @@
 import { type VariableInput, ExpressionNode, Variable, variableToString, asVariable } from '../../../construction'
 
-import { isVariable, someDescendant, everyDescendant, forEachDescendant } from '../fundamentals'
+import { isVariable } from '../fundamentals'
 import { equalVariables } from '../comparisons'
+
+import { someDescendant, everyDescendant, forEachDescendant } from './traversal'
 
 // Get all variables occurring in an expression.
 export function getVariables(node: ExpressionNode): Variable[] {

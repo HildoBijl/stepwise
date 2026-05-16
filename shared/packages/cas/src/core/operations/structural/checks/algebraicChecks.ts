@@ -1,7 +1,8 @@
 import { type ExpressionNode } from '../../../construction'
 
-import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, someDescendant } from '../fundamentals'
+import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower } from '../fundamentals'
 
+import { someDescendant } from './traversal'
 import { isInteger } from './valueChecks'
 
 // Check if an expression contains variables.
