@@ -5,7 +5,7 @@ import { type InterpretationSettings, type TexDisplayOptions, type VariableLike,
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
 import { type EquationComparisonSettings, defaultEquationComparisonSettings, strictEquationComparisonSettings } from './settings'
-import { isEquationInput, interpretEquationInput } from './interpreting'
+import { isEquationInput, interpretEquationInput } from './interpretation'
 
 // Add a type checker and interpreter.
 export type EquationLike = Equation | EquationInput

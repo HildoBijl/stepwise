@@ -2,11 +2,11 @@ import type { ExpressionInputValue } from '@step-wise/math-input-value'
 
 import type { Expression, ExpressionAncestors, ExpressionStorageValue, ExpressionSettings } from '../expressions'
 
-// Equation set-up
+// Equation attributes
 export const equationSideNames = ['left', 'right'] as const
 export type EquationSideName = typeof equationSideNames[number]
 
-// Equation function types
+// Method argument types
 export type EquationSideCheck = (side: Expression, sideName: EquationSideName) => boolean
 export type EquationSideTransform = (side: Expression, sideName: EquationSideName) => Expression
 export type EquationSideFunction = (side: Expression, sideName: EquationSideName) => void

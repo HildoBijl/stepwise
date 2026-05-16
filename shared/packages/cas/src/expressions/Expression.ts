@@ -15,7 +15,7 @@ import {
 
 import { type InterpretationSettings, type ExpressionSettings, defaultExpressionSettings } from './settings'
 import { type ExpressionInput } from './types'
-import { isExpressionInput, interpretExpressionInput } from './interpreting'
+import { isExpressionInput, interpretExpressionInput } from './interpretation'
 
 // Define types used within the class.
 export type VariableLike = Expression | string
