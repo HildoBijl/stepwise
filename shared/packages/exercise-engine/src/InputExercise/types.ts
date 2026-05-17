@@ -1,4 +1,4 @@
-import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseState } from '../Exercise'
+import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseState } from '@step-wise/exercise-definition'
 
 // Meta data: extend with comparison options.
 export type InputExerciseMetaData = ExerciseMetaData & { comparison?: unknown }

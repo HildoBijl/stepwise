@@ -1,6 +1,5 @@
 import { pickKeys, isPlainObject } from '@step-wise/utils'
-
-import type { ExerciseState } from '../Exercise'
+import type { ExerciseState } from '@step-wise/exercise-definition'
 
 import type { GetSolution, InputExerciseInput, Solution } from './types'
 

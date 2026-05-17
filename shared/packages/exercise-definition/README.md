@@ -1,3 +1,3 @@
-# Exercise definitions and types
+# Exercise definition: a reducer
 
 ToDo: write this ReadMe file.

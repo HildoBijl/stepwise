@@ -1,4 +1,4 @@
-import type { ExerciseHistory } from '../Exercise'
+import type { ExerciseHistory } from '@step-wise/exercise-definition'
 
 import type { InputExerciseAction, InputExerciseInput } from './types'
 

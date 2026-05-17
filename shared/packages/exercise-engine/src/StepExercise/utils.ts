@@ -1,6 +1,6 @@
 import { ensureNumber } from '@step-wise/utils'
+import type { ExerciseHistory } from '@step-wise/exercise-definition'
 
-import type { ExerciseHistory } from '../Exercise'
 import type { InputExerciseAction, InputExerciseInput } from '../InputExercise'
 
 import type { StepExerciseProgress } from './types'
@@ -23,7 +23,7 @@ export function getLastInputAtStep(history: ExerciseHistory<InputExerciseAction,
 
 		// If there is no valid input action, or it was made at the wrong step, keep looking. Otherwise give the input.
 		if (!userAction || userAction.type !== 'input') continue
-		const previousProgress = index === 0 ? {} : history[index - 1].progress ?? {}
+		const previousProgress = index === 0 ? {} : (history[index - 1] as any).progress ?? {}
 		if (getStep(previousProgress) !== step) continue
 		return userAction.input
 	}

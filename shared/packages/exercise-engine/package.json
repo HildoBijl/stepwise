@@ -8,7 +8,9 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/skill-setup": "file:../skill-setup"
+		"@step-wise/exercise-definition": "file:../exercise-definition",
+		"@step-wise/skill-setup": "file:../skill-setup",
+		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

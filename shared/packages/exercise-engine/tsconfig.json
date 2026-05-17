@@ -10,7 +10,9 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../skill-setup" }
+    { "path": "../exercise-definition" },
+    { "path": "../skill-setup" },
+    { "path": "../utils" }
   ],
   "include": ["src"]
 }

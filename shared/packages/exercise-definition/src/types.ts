@@ -10,16 +10,23 @@ export type SingleUserExerciseHistoryEvent<TAction extends ExerciseAction = Exer
 	action: TAction
 	progress: TProgress
 }
+export type SingleUserExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = SingleUserExerciseHistoryEvent<TAction, TProgress>[]
+
 export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAction> = {
 	userId?: string
 	action: TAction
 }
-export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
+export type ResolvedGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
 	submissions: GroupExerciseSubmission<TAction>[]
-	progress?: TProgress
+	progress: TProgress
 }
-export type ExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = SingleUserExerciseHistoryEvent<TAction, TProgress> | GroupExerciseHistoryEvent<TAction, TProgress>
-export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ExerciseHistoryEvent<TAction, TProgress>[]
+export type PendingGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction> = {
+	submissions: GroupExerciseSubmission<TAction>[]
+}
+export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ResolvedGroupExerciseHistoryEvent<TAction, TProgress> | PendingGroupExerciseHistoryEvent<TAction>
+export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ResolvedGroupExerciseHistoryEvent<TAction, TProgress>[] | [...ResolvedGroupExerciseHistoryEvent<TAction, TProgress>[], PendingGroupExerciseHistoryEvent<TAction>]
+
+export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = SingleUserExerciseHistory<TAction, TProgress> | GroupExerciseHistory<TAction, TProgress>
 
 // Exercise parameters
 export type ExerciseMetaData = {
@@ -37,11 +44,11 @@ type ExerciseReducerGeneralInput<TAction extends ExerciseAction, TProgress exten
 	progress: TProgress
 	state: TState
 	history: ExerciseHistory<TAction, TProgress>
-	updateSkills: UpdateSkills
+	updateSkills?: UpdateSkills
 }
-export type ExerciseReducerUserInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { action: TAction }
+export type ExerciseReducerSingleUserInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { action: TAction }
 export type ExerciseReducerGroupInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { submissions: GroupExerciseSubmission<TAction>[] }
-export type ExerciseReducerInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerUserInput<TAction, TProgress, TState> | ExerciseReducerGroupInput<TAction, TProgress, TState>
+export type ExerciseReducerInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerSingleUserInput<TAction, TProgress, TState> | ExerciseReducerGroupInput<TAction, TProgress, TState>
 export type ExerciseReducer<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = (input: ExerciseReducerInput<TAction, TProgress, TState>) => TProgress
 
 // Exercise

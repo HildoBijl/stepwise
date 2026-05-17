@@ -1,6 +1,6 @@
 import { type SkillSetupLike } from '@step-wise/skill-setup'
+import type { ExerciseState } from '@step-wise/exercise-definition'
 
-import type { ExerciseState } from '../Exercise'
 import type { CheckInputData, InputExerciseAction, InputExerciseMetaData, InputExercise, Solution } from '../InputExercise'
 import type { SimpleExerciseProgress } from '../SimpleExercise'
 
