@@ -1,11 +1,11 @@
 import { InterpretationError } from '@step-wise/utils'
 import { type ExpressionInputValue, type InputCursorEnd, moveRight, getSubExpression, isExpressionInputValue, stringToInputValue } from '@step-wise/math-input-value'
 
-import { type InterpretationSettings, type ExpressionSettings, Expression, asExpression } from '../expressions'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, Expression, asExpression } from '../expressions'
 
 import { type EquationInput } from './types'
 
-type EquationParts = { left: Expression, right: Expression, expressionSettings?: Partial<ExpressionSettings> }
+type EquationParts = { left: Expression, right: Expression, expressionSettings?: ExpressionSettingsInput }
 
 function interpretInputValue(value: ExpressionInputValue): EquationParts {
 	const equalsPosition = findEqualsPosition(value)
@@ -14,7 +14,7 @@ function interpretInputValue(value: ExpressionInputValue): EquationParts {
 	return { left: asExpression(left), right: asExpression(right), expressionSettings: value.expressionSettings }
 }
 
-function interpretString(value: string, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): EquationParts {
+function interpretString(value: string, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationParts {
 	return interpretInputValue(stringToInputValue(value, interpretationSettings, expressionSettings))
 }
 
@@ -22,7 +22,7 @@ export function isEquationInput(value: unknown): value is EquationInput {
 	return isExpressionInputValue(value) || typeof value === 'string'
 }
 
-export function interpretEquationInput(value: EquationInput, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): EquationParts {
+export function interpretEquationInput(value: EquationInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationParts {
 	if (isExpressionInputValue(value)) return interpretInputValue(value)
 	if (typeof value === 'string') return interpretString(value, interpretationSettings, expressionSettings)
 	throw new Error(`Invalid equation interpretation: cannot turn input of type "${typeof value}" into an equation.`)

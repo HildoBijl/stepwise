@@ -1,4 +1,4 @@
-import type { InterpretationSettings, ExpressionSettings } from '../settings'
+import type { InterpretationSettingsInput, ExpressionSettingsInput } from '../settings'
 
 // The parts of an expression InputValue.
 export type ExpressionPartInputValue = { type: 'ExpressionPart', value: string }
@@ -9,5 +9,5 @@ export type FunctionInputValue = { type: 'Function', name: string, value: Expres
 export type InputValuePart = ExpressionPartInputValue | AccentInputValue | SubSupInputValue | FunctionInputValue
 
 // Combine with settings to get InputValues for expressions and similar.
-export type ExpressionInputValue = { type: 'Expression', value: InputValuePart[], interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings> }
+export type ExpressionInputValue = { type: 'Expression', value: InputValuePart[], interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput }
 export type InputValue = ExpressionInputValue // ToDo: Add equation?

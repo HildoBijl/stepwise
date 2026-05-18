@@ -1,13 +1,13 @@
-import { mergeDefaults, removeWhitespace } from '@step-wise/utils'
+import { removeWhitespace } from '@step-wise/utils'
 
-import { type InterpretationSettings, type ExpressionSettings, defaultInterpretationSettings } from '../settings'
+import { type InterpretationSettingsInput, type InterpretationSettings, type ExpressionSettingsInput, asInterpretationSettings } from '../settings'
 import type { InputValuePart, ExpressionInputValue } from '../types'
 import { getExpressionValueWith, addExpressionWrapper } from '../utils'
 
 import { processFunctionsAndAccents, processSubSups, processFractions } from './steps'
 
-export function stringToInputValue(str: string, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): ExpressionInputValue {
-	const fullInterpretationSettings = mergeDefaults(interpretationSettings ?? {}, defaultInterpretationSettings)
+export function stringToInputValue(str: string, interpretationSettings: InterpretationSettingsInput = {}, expressionSettings?: ExpressionSettingsInput): ExpressionInputValue {
+	const fullInterpretationSettings = asInterpretationSettings(interpretationSettings)
 	return addExpressionWrapper(stringToInputValueParts(str, fullInterpretationSettings), interpretationSettings, expressionSettings)
 }
 

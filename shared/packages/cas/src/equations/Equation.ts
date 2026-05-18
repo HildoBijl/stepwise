@@ -1,10 +1,10 @@
 import { compareNumbers, mergeDefaults, pickFromDefaults, deepEquals } from '@step-wise/utils'
-import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettings, asExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type InterpretationSettings, type TexDisplayOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
-import { type EquationComparisonSettings, defaultEquationComparisonSettings, strictEquationComparisonSettings } from './settings'
+import { type EquationComparisonSettingsInput, asEquationComparisonSettings, asStrictEquationComparisonSettings } from './settings'
 import { isEquationInput, interpretEquationInput } from './interpretation'
 
 // Add a type checker and interpreter.
@@ -12,7 +12,7 @@ export type EquationLike = Equation | EquationInput
 export function isEquationLike(value: unknown): value is EquationLike {
 	return value instanceof Equation || isEquationInput(value)
 }
-export function asEquation(value: EquationLike | EquationInput, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): Equation {
+export function asEquation(value: EquationLike | EquationInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Equation {
 	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
 	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
 	return new Equation(equationParts.left, equationParts.right, equationParts.expressionSettings)
@@ -28,9 +28,9 @@ export class Equation {
 	 * Creation methods
 	 */
 
-	constructor(left: ExpressionLike, right: ExpressionLike, settings?: Partial<ExpressionSettings>) {
+	constructor(left: ExpressionLike, right: ExpressionLike, settings?: ExpressionSettingsInput) {
 		// Determine the expression settings used.
-		if (settings) this.settings = mergeDefaults(settings, defaultExpressionSettings)
+		if (settings) this.settings = asExpressionSettings(settings)
 		else if (left instanceof Expression) this.settings = left.settings
 		else if (right instanceof Expression) this.settings = right.settings
 		else this.settings = defaultExpressionSettings
@@ -44,7 +44,7 @@ export class Equation {
 		return left === this.left && right === this.right ? this : new Equation(left, right, this.settings)
 	}
 
-	withSettings(newSettings: Partial<ExpressionSettings> = {}): Equation {
+	withSettings(newSettings: ExpressionSettingsInput = {}): Equation {
 		return deepEquals(newSettings, this.settings) ? this : new Equation(this.left, this.right, newSettings)
 	}
 
@@ -64,7 +64,7 @@ export class Equation {
 		return { left: this.left.toStorageValue(), right: this.right.toStorageValue() }
 	}
 	get SO(): EquationStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(storageValue: EquationStorageValue, settings: Partial<ExpressionSettings> = {}): Equation {
+	static fromStorageValue(storageValue: EquationStorageValue, settings: ExpressionSettingsInput = {}): Equation {
 		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
 	}
 
@@ -281,17 +281,17 @@ export class Equation {
 	 * Comparisons
 	 */
 
-	equalStructure(other: EquationLike, comparisonSettings: Partial<EquationComparisonSettings> = {}): boolean {
+	equalStructure(other: EquationLike, settings: EquationComparisonSettingsInput = {}): boolean {
 		const equation = this.coerceEquation(other)
-		const fullComparisonSettings = mergeDefaults(comparisonSettings, defaultEquationComparisonSettings)
+		const fullComparisonSettings = asEquationComparisonSettings(settings)
 		const expressionComparisonSettings = pickFromDefaults(fullComparisonSettings, defaultExpressionComparisonSettings)
 		if (this.left.equalStructure(equation.left, expressionComparisonSettings) && this.right.equalStructure(equation.right, expressionComparisonSettings)) return true
 		if (fullComparisonSettings.allowSideSwitch && this.left.equalStructure(equation.right, expressionComparisonSettings) && this.right.equalStructure(equation.left, expressionComparisonSettings)) return true
 		return false
 	}
 
-	strictEqualStructure(other: EquationLike, comparisonSettings: Partial<EquationComparisonSettings> = {}): boolean {
-		return this.equalStructure(other, mergeDefaults(comparisonSettings, strictEquationComparisonSettings))
+	strictEqualStructure(other: EquationLike, comparisonSettings: EquationComparisonSettingsInput = {}): boolean {
+		return this.equalStructure(other, asStrictEquationComparisonSettings(comparisonSettings))
 	}
 
 	equivalent(other: EquationLike): boolean {

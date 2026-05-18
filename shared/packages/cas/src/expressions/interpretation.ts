@@ -2,12 +2,12 @@ import { type ExpressionInputValue, isExpressionInputValue } from '@step-wise/ma
 
 import { type ExpressionNode, inputValueToNode, stringToNode, number } from '../core'
 
-import { type InterpretationSettings, type ExpressionSettings } from './settings'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput } from './settings'
 import { type ExpressionInput } from './types'
 
-type ExpressionParts = { node: ExpressionNode, expressionSettings?: Partial<ExpressionSettings> }
+type ExpressionParts = { node: ExpressionNode, expressionSettings?: ExpressionSettingsInput }
 
-function interpretNode(node: ExpressionNode, expressionSettings?: Partial<ExpressionSettings>): ExpressionParts {
+function interpretNode(node: ExpressionNode, expressionSettings?: ExpressionSettingsInput): ExpressionParts {
 	const result: ExpressionParts = { node }
 	if (expressionSettings) result.expressionSettings = expressionSettings
 	return result
@@ -17,7 +17,7 @@ function interpretInputValue(value: ExpressionInputValue): ExpressionParts {
 	return interpretNode(inputValueToNode(value), value.expressionSettings)
 }
 
-function interpretString(value: string, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): ExpressionParts {
+function interpretString(value: string, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): ExpressionParts {
 	return interpretNode(stringToNode(value, interpretationSettings, expressionSettings), expressionSettings)
 }
 
@@ -25,7 +25,7 @@ export function isExpressionInput(value: unknown): value is ExpressionInput {
 	return isExpressionInputValue(value) || typeof value === 'string' || typeof value === 'number'
 }
 
-export function interpretExpressionInput(value: ExpressionInput, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): ExpressionParts {
+export function interpretExpressionInput(value: ExpressionInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): ExpressionParts {
 	if (isExpressionInputValue(value)) return interpretInputValue(value)
 	if (typeof value === 'string') return interpretString(value, interpretationSettings, expressionSettings)
 	if (typeof value === 'number') return interpretNode(number(value), expressionSettings)

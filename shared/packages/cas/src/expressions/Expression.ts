@@ -1,11 +1,11 @@
-import { isReadonlyArray, mergeDefaults, deepEquals } from '@step-wise/utils'
+import { isReadonlyArray, deepEquals } from '@step-wise/utils'
 
 import {
 	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
-	type ExpressionComparisonSettings, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
+	type ExpressionComparisonSettingsInput, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
@@ -13,7 +13,7 @@ import {
 	type TexDisplayOptions, nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettings, type ExpressionSettings, defaultExpressionSettings } from './settings'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, asExpressionSettings } from './settings'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
 
@@ -30,7 +30,7 @@ export type ExpressionFunction = (expression: Expression, ancestors: ExpressionA
 export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || isExpressionInput(value)
 }
-export function asExpression(value: ExpressionLike, interpretationSettings?: Partial<InterpretationSettings>, expressionSettings?: Partial<ExpressionSettings>): Expression {
+export function asExpression(value: ExpressionLike, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Expression {
 	if (value instanceof Expression) return expressionSettings ? value.withSettings(expressionSettings) : value
 	const expressionParts = interpretExpressionInput(value, interpretationSettings, expressionSettings)
 	return new Expression(expressionParts.node, expressionParts.expressionSettings)
@@ -44,8 +44,8 @@ export class Expression {
 	 * Creation methods
 	 */
 
-	constructor(private readonly node: ExpressionNode, settings: Partial<ExpressionSettings> = {}) {
-		this.settings = mergeDefaults(settings, defaultExpressionSettings)
+	constructor(private readonly node: ExpressionNode, settings: ExpressionSettingsInput = {}) {
+		this.settings = asExpressionSettings(settings)
 	}
 	get subtype() { return this.node.subtype }
 
@@ -53,7 +53,7 @@ export class Expression {
 		return node === this.node ? this : new Expression(node, this.settings)
 	}
 
-	withSettings(newSettings: Partial<ExpressionSettings> = {}): Expression {
+	withSettings(newSettings: ExpressionSettingsInput = {}): Expression {
 		return deepEquals(newSettings, this.settings) ? this : new Expression(convertExpressionSettings(this.node, this.settings, newSettings), newSettings)
 	}
 
@@ -97,8 +97,8 @@ export class Expression {
 
 	toStorageValue(): ExpressionNodeStorageValue { return nodeToStorageValue(this.node) }
 	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings: Partial<ExpressionSettings> = {}): Expression {
-		return new Expression(storageValueToNode(nodeStorageValue), mergeDefaults(settings, defaultExpressionSettings))
+	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings: ExpressionSettingsInput = {}): Expression {
+		return new Expression(storageValueToNode(nodeStorageValue), asExpressionSettings(settings))
 	}
 
 	/*
@@ -427,10 +427,10 @@ export class Expression {
 	 * Comparisons
 	 */
 
-	equalStructure(other: ExpressionLike, comparisonSettings: Partial<ExpressionComparisonSettings> = {}): boolean {
+	equalStructure(other: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}): boolean {
 		return equalNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
-	strictEqualStructure(other: ExpressionLike, comparisonSettings: Partial<ExpressionComparisonSettings> = {}): boolean {
+	strictEqualStructure(other: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}): boolean {
 		return strictEqualNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
 	}
 	equivalent(other: ExpressionLike): boolean {

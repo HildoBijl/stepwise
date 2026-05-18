@@ -1,5 +1,5 @@
 import { mergeDefaults, setToString } from '@step-wise/utils'
-import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsInput, asExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
@@ -9,8 +9,8 @@ import { type SimplificationOptionsInput, type SimplificationPreset, type Simpli
 import { applySimplificationRules } from './rules'
 
 // Take some form of simplification option input, process it, and apply it to the node.
-export function simplify(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, options: SimplificationOptionsInput = []): ExpressionNode {
-	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
+export function simplify(node: ExpressionNode, settings: ExpressionSettingsInput = {}, options: SimplificationOptionsInput = []): ExpressionNode {
+	const expressionSettings = asExpressionSettings(settings)
 	const simplificationOptions = validateSimplificationOptions(asSimplificationOptionsSet(options))
 	const context: SimplificationContext = {
 		simplificationOptions,
@@ -21,9 +21,9 @@ export function simplify(node: ExpressionNode, settings: Partial<ExpressionSetti
 	return simplifyUntilStable(node, context)
 }
 
-// Legacy Simlification Presets: Run through the (possibly array of) simplification options and apply each set of simplifications.
-export function legacySimplify(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}, options: Partial<SimplificationPreset> = {}, adjustments: SimplificationOptionsObject = {}): ExpressionNode {
-	const expressionSettings = mergeDefaults(settings, defaultExpressionSettings)
+// Legacy Simplification Presets: Run through the (possibly array of) simplification options and apply each set of simplifications.
+export function legacySimplify(node: ExpressionNode, settings: ExpressionSettingsInput = {}, options: Partial<SimplificationPreset> = {}, adjustments: SimplificationOptionsObject = {}): ExpressionNode {
+	const expressionSettings = asExpressionSettings(settings)
 	const optionSequence = Array.isArray(options) ? options : [options]
 	let current = node
 	for (const options of optionSequence) {

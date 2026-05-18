@@ -1,13 +1,13 @@
-import { compareNumbers, mergeDefaults } from '@step-wise/utils'
-import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+import { compareNumbers } from '@step-wise/utils'
+import { type ExpressionSettingsInput, type ExpressionSettings, asExpressionSettings } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, Variable, variableToString } from '../../../construction'
+import { type ExpressionNode, variableToString } from '../../../construction'
 
 import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
-export function numericNodeToNumber(node: ExpressionNode, settings: Partial<ExpressionSettings> = {}): number {
-	const number = toNumberInternal(node, mergeDefaults(settings, defaultExpressionSettings))
+export function numericNodeToNumber(node: ExpressionNode, settings: ExpressionSettingsInput = {}): number {
+	const number = toNumberInternal(node, asExpressionSettings(settings))
 	return compareNumbers(number, 0) ? 0 : number
 }
 
@@ -61,6 +61,6 @@ function radiansToDegrees(value: number, settings: ExpressionSettings): number {
 }
 
 // Check if two numeric expressions are equal. Throws when given non-numeric expressions.
-export function equalNumbers(a: ExpressionNode, b: ExpressionNode, aSettings: Partial<ExpressionSettings> = {}, bSettings: Partial<ExpressionSettings> = aSettings): boolean {
+export function equalNumbers(a: ExpressionNode, b: ExpressionNode, aSettings: ExpressionSettingsInput = {}, bSettings: ExpressionSettingsInput = aSettings): boolean {
 	return compareNumbers(numericNodeToNumber(a, aSettings), numericNodeToNumber(b, bSettings))
 }

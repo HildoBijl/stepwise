@@ -1,4 +1,4 @@
-import { type ExpressionComparisonSettings } from '../core'
+import { type ExpressionComparisonSettingsInput } from '../core'
 
 import { type ExpressionLike, asExpression } from './Expression'
 
@@ -101,7 +101,7 @@ describe('expression derivatives', () => {
 	})
 })
 
-export function expectExpressionToEqual(result: ExpressionLike, expected: ExpressionLike, comparisonSettings: Partial<ExpressionComparisonSettings> = {}) {
+export function expectExpressionToEqual(result: ExpressionLike, expected: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}) {
 	const resultValue = asExpression(result)
 	const expectedValue = asExpression(expected)
 	if (!expectedValue.strictEqualStructure(resultValue, comparisonSettings)) throw new Error(`An expression was not what was expected.

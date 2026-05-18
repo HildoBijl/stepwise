@@ -1,5 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
-import { type ExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsInput, asExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, type VariableInput, asVariable } from '../../../construction'
 
@@ -8,11 +7,11 @@ import { simplify, removeTrivial } from '../../simplification'
 import { type DerivativeContext } from './types'
 import { applyDerivativeRules } from './rules'
 
-export function getDerivative(node: ExpressionNode, variable: VariableInput, settings: Partial<ExpressionSettings> = {}): ExpressionNode {
+export function getDerivative(node: ExpressionNode, variable: VariableInput, settings: ExpressionSettingsInput = {}): ExpressionNode {
 	// Set up the context.
 	const context: DerivativeContext = {
 		variable: asVariable(variable),
-		expressionSettings: mergeDefaults(settings, defaultExpressionSettings),
+		expressionSettings: asExpressionSettings(settings),
 		getDerivative: (node: ExpressionNode) => applyDerivativeRules(node, context),
 	}
 
