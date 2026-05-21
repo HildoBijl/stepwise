@@ -1,6 +1,6 @@
 import { asExpression } from '../expressions'
 
-import { type EquationComparisonSettings } from './settings'
+import { type EquationComparisonSettings } from './comparisonSettings'
 import { type EquationLike, Equation, asEquation } from './Equation'
 
 describe('equation interpretation and printing', () => {

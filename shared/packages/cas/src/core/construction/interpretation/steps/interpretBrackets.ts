@@ -53,7 +53,7 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 		}
 
 		// If custom functions are allowed, add as a function.
-		if (context.interpretationSettings.customFunctions) throw new Error(`Invalid interpretation settings: the custom functions option has not been implemented yet.`)
+		// if (context.interpretationSettings.customFunctions) throw new Error(`Invalid interpretation settings: the custom functions option has not been implemented yet.`)
 
 		// Add as a regular bracket.
 		result.push(...getSubExpression(value, lastPosition, end))

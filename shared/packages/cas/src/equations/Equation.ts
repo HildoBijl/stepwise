@@ -1,10 +1,10 @@
 import { compareNumbers, mergeDefaults, pickFromDefaults, deepEquals } from '@step-wise/utils'
 import { type ExpressionSettings, asExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptions, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
-import { type EquationComparisonSettingsInput, asEquationComparisonSettings, asStrictEquationComparisonSettings } from './settings'
+import { type EquationComparisonSettingsInput, asEquationComparisonSettings, asStrictEquationComparisonSettings } from './comparisonSettings'
 import { isEquationInput, interpretEquationInput } from './interpretation'
 
 // Add a type checker and interpreter.
@@ -68,17 +68,21 @@ export class Equation {
 		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
 	}
 
+	getInterpretationSettings(): InterpretationSettingsInput {
+		return { ...this.left.getInterpretationSettings(), ...this.right.getInterpretationSettings() }
+	}
+
 	/*
 	 * Printing
 	 */
 
 	// Strings
-	toString(): string { return `${this.left.str}=${this.right.str}` }
+	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
 	// LaTeX
-	toTex(options?: TexDisplayOptions): string { return `${this.left.toTex(options)}=${this.right.toTex(options)}` }
+	toTex(options?: TexDisplayOptionsInput): string { return `${this.left.toTex(options)}=${this.right.toTex(options)}` }
 	get tex() { return this.toTex() }
 
 	// Tree

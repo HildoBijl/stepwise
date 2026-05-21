@@ -1,14 +1,11 @@
 import { mergeDefaults } from '@step-wise/utils'
 
-export type ExpressionComparisonSettings = {
-	allowOrderChanges: boolean
-}
-export type ExpressionComparisonSettingsInput = Partial<ExpressionComparisonSettings>
-
 // The default comparison settings are relatively loose and accepting.
-export const defaultExpressionComparisonSettings: ExpressionComparisonSettings = {
-	allowOrderChanges: true,
+export const defaultExpressionComparisonSettings = {
+	allowOrderChanges: true, // In expression lists, check order or check permutation? Is x+y the same as y+x and x*y the same as y*x?
 }
+export type ExpressionComparisonSettings = typeof defaultExpressionComparisonSettings
+export type ExpressionComparisonSettingsInput = Partial<ExpressionComparisonSettings>
 export function asExpressionComparisonSettings(settings: ExpressionComparisonSettingsInput): ExpressionComparisonSettings {
 	return mergeDefaults(settings, defaultExpressionComparisonSettings)
 }

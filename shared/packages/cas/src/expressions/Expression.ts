@@ -4,13 +4,13 @@ import {
 	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
-	dependsOn, isNumeric, isPolynomial, isRational, isSingular, isPlural, hasFloat, // Property checks
+	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
 	type ExpressionComparisonSettingsInput, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
-	type TexDisplayOptions, nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
+	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, asExpressionSettings } from './settings'
@@ -101,17 +101,21 @@ export class Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), asExpressionSettings(settings))
 	}
 
+	getInterpretationSettings(): InterpretationSettingsInput {
+		return getNodeInterpretationSettingsInput(this.node)
+	}
+
 	/*
 	 * Printing
 	 */
 
 	// Strings
-	toString(): string { return nodeToString(this.node) }
+	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return nodeToString(this.node, settings) }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
 	// LaTeX
-	toTex(options?: TexDisplayOptions) { return nodeToTex(this.node, options) }
+	toTex(options?: TexDisplayOptionsInput) { return nodeToTex(this.node, this.getInterpretationSettings(), options) }
 	get tex() { return this.toTex() }
 
 	// Tree

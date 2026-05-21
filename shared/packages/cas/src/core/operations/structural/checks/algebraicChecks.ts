@@ -15,6 +15,11 @@ export function isNumeric(node: ExpressionNode): boolean {
 	return !hasVariables(node)
 }
 
+// Check if there any multi-character variables. (Needed for determining interpretation settings.)
+export function hasMultiCharacterVariables(node: ExpressionNode): boolean {
+	return someDescendant(node, node => isVariable(node) && node.symbol.length > 1, true)
+}
+
 // Check if an expression has any float.
 export function hasFloat(node: ExpressionNode): boolean {
 	return someDescendant(node, isFloatNode, true)

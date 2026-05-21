@@ -2,7 +2,7 @@ import { compareNumbers, mergeDefaults } from '@step-wise/utils'
 
 import type { ExpressionNode, SignNode, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
-import { isSignNode, isConstantNode, isFunctionNode, isListNode, isVariable } from '../fundamentals'
+import { isSignNode, isConstantNode, isNamedConstant, isFunctionNode, isListNode, isVariable } from '../fundamentals'
 
 import { type ExpressionComparisonSettingsInput, type ExpressionComparisonSettings, asExpressionComparisonSettings, asStrictExpressionComparisonSettings } from './comparisonSettings'
 
@@ -22,6 +22,7 @@ export function strictEqualNodes(a: ExpressionNode, b: ExpressionNode, compariso
 }
 
 export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {
+	if (isNamedConstant(a) && isNamedConstant(b)) return a.symbol === b.symbol
 	return a.constructor === b.constructor && compareNumbers(a.value, b.value)
 }
 

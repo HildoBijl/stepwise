@@ -6,7 +6,7 @@ import { type ExpressionNode, Variable, isNamedConstantReferral, getNamedConstan
 import type { InterpreterContext } from './types'
 import { interpretBrackets, interpretProducts, interpretSpecialFunctionWithParameterAfter, interpretStringsAndElements, interpretSums } from './steps'
 
-// Turn an InputValue to an ExpressionNode.
+// Turn an InputValue to an ExpressionNode. Interpreting functions successively call themselves.
 export function inputValueToNode(input: ExpressionInputValue): ExpressionNode {
 	const interpretationSettings = asInterpretationSettings(input.interpretationSettings ?? {})
 	const context: InterpreterContext = { interpretationSettings, interpretBrackets, interpretSums, interpretProducts, interpretStringsAndElements, interpretSpecialFunctionWithParameterAfter } satisfies InterpreterContext

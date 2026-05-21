@@ -12,4 +12,4 @@ export { type SimplificationOption, SimplificationOptions, SimplificationOptions
 export { removeTrivial, mergeNumbers, cancel, combine, expand, expandOnlyWithinSums, sort, normalize, factorize, format } from '../core'
 
 // Printing
-export type { TexDisplayOptions } from '../core'
+export type { TexDisplayOptions, TexDisplayOptionsInput, defaultTexDisplayOptions, asTexDisplayOptions } from '../core'
