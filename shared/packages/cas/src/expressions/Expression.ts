@@ -5,15 +5,16 @@ import {
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
-	type ExpressionComparisonSettingsInput, add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, strictEqualNodes, // Structural operations
+	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
-	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
+	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, asExpressionSettings } from './settings'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, asExpressionSettings } from './settingsReexport'
+import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions, defaultExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
 
@@ -403,6 +404,7 @@ export class Expression {
 		return this.simplify(adjustSimplificationOptions(options, addOptions, removeOptions))
 	}
 
+	flatten(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(flatten, addOptions, removeOptions) }
 	removeTrivial(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(removeTrivial, addOptions, removeOptions) }
 	mergeNumbers(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(mergeNumbers, addOptions, removeOptions) }
 	cancel(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(cancel, addOptions, removeOptions) }
@@ -436,11 +438,15 @@ export class Expression {
 	 * Comparisons
 	 */
 
-	equalStructure(other: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}): boolean {
-		return equalNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
+	equalStructure(other: ExpressionLike, allowOrderChanges = true): boolean {
+		return equalNodes(this.node, this.coerceExpression(other).node, allowOrderChanges)
 	}
-	strictEqualStructure(other: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}): boolean {
-		return strictEqualNodes(this.node, this.coerceExpression(other).node, comparisonSettings)
+	strictEqualStructure(other: ExpressionLike): boolean {
+		return this.equalStructure(other, false)
+	}
+	equals(other: ExpressionLike, options: ExpressionEqualityOptionsInput = {}): boolean {
+		const { preprocess, allowOrderChanges } = asExpressionEqualityOptions(options)
+		return preprocess(this).equalStructure(preprocess(this.coerceExpression(other)), allowOrderChanges)
 	}
 	equivalent(other: ExpressionLike): boolean {
 		return equivalent(this.node, this.coerceExpression(other).node, this.settings)

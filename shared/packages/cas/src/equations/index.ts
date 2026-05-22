@@ -1,4 +1,6 @@
-export * from './comparisonSettings'
+export * from './equalityOptions'
 export * from './types'
 export * from './Equation'
 export * from './serialization'
+export * from './checks'
+export * from './comparisons'

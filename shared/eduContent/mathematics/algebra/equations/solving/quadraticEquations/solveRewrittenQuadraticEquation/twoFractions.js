@@ -15,7 +15,7 @@ const metaData = {
 	steps: ['bringEquationToStandardForm', 'solveQuadraticEquation'],
 	comparison: {
 		standardForm: {
-			leftCheck: (input, correct) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
+			compareLeft: (input, correct) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
 				if (constantMultiple(input, correct))
 					return true
 				const getFactor = value => {
@@ -24,7 +24,7 @@ const metaData = {
 				}
 				const adjustmentFactor = getFactor(input) / getFactor(correct)
 				return constantMultiple(input, correct.multiply(adjustmentFactor).regularClean())
-			}, rightCheck: exactEqual
+			}, compareRight: exactEqual
 		},
 		// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
 		ans1: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),

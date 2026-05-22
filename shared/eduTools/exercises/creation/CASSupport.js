@@ -1,12 +1,12 @@
 const { pickKeys, mapValues, randomSubset } = require('@step-wise/utils')
-const { Variable } = require('../../../CAS')
+const { asExpression } = require('@step-wise/cas')
 
 // selectRandomVariables takes an array of variable strings, like ['x', 'y', 'z'], and an array of variables to be used, like ['a', 'b'], and then returns a randomly generated object like { a: 'z', b: 'x' }. This can then be used in exercises to have random variables. It also turns the parameters into CAS Variables, so the result will be { a: new Variable('z'), b: new Variable('x') }.
 function selectRandomVariables(availableVariables, usedVariables) {
 	const result = {}
 	const chosenVariables = randomSubset(availableVariables, usedVariables.length)
 	usedVariables.forEach((variable, index) => {
-		result[variable] = new Variable(chosenVariables[index])
+		result[variable] = asExpression(chosenVariables[index])
 	})
 	return result
 }
@@ -16,6 +16,6 @@ module.exports.selectRandomVariables = selectRandomVariables
 function filterVariables(state, usedVariables, constants) {
 	const allVariables = constants ? [...usedVariables, ...constants] : usedVariables
 	const filteredVariables = pickKeys(state, allVariables) // Filter non-variable properties out.
-	return mapValues(filteredVariables, Variable.ensureVariable) // Ensure all variables are Variable objects.
+	return mapValues(filteredVariables, value => asExpression(value)) // Ensure all variables are Variable objects.
 }
 module.exports.filterVariables = filterVariables

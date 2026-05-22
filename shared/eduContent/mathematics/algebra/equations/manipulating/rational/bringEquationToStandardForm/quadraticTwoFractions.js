@@ -19,7 +19,7 @@ const metaData = {
 	comparison: {
 		multiplied: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct)),
 		expanded: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct)),
-		moved: { leftCheck: expressionComparisons.constantMultiple, rightCheck: expressionComparisons.exactEqual },
+		moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
 		ans: (input, correct, { normalize }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.applyMinus()))) && exactEqual(input.right, correct.right),
 	}
 }

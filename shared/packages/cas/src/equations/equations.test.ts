@@ -1,6 +1,5 @@
 import { asExpression } from '../expressions'
 
-import { type EquationComparisonSettings } from './comparisonSettings'
 import { type EquationLike, Equation, asEquation } from './Equation'
 
 describe('equation interpretation and printing', () => {
@@ -126,10 +125,10 @@ describe('equation input value conversion', () => {
 	})
 })
 
-export function expectEquationToEqual(result: EquationLike, expected: EquationLike, comparisonSettings: Partial<EquationComparisonSettings> = {}) {
+export function expectEquationToEqual(result: EquationLike, expected: EquationLike) {
 	const resultValue = asEquation(result)
 	const expectedValue = asEquation(expected)
-	if (!expectedValue.strictEqualStructure(resultValue, comparisonSettings)) throw new Error(`An equation was not what was expected.
+	if (!expectedValue.strictEqualStructure(resultValue)) throw new Error(`An equation was not what was expected.
 	Actual output:   ${resultValue.str}
 	Expected output: ${expectedValue.str}
 	Actual output structure:   ${resultValue.tree}

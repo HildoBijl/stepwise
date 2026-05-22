@@ -1,5 +1,5 @@
 import { isPlainObject } from '@step-wise/utils'
-import { Variable } from 'step-wise/CAS'
+import { asExpression } from '@step-wise/cas'
 
 import { Translation } from 'i18n'
 import { M } from 'ui/components'
@@ -27,12 +27,12 @@ export function validWithVariables(...variables) {
 	}
 
 	// Filter out non-variable elements and make sure the rest are variables.
-	variables = variables.filter(term => (term instanceof Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
+	variables = variables.map(variable => asExpression(variable)).filter(expression => expression.isVariable())
 
 	// Set up a validation function based on these variables.
 	return (expression) => {
 		const inputVariables = expression.getVariables()
-		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalsBasic(inputVariable)))
+		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalStructure(inputVariable)))
 		if (invalidVariable)
 			return <Translation path="inputs" entry="expressionInput.validation.unknownVariable">Unknown variable <M>{invalidVariable}</M>.</Translation>
 	}

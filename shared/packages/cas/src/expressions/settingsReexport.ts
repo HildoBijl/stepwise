@@ -7,12 +7,10 @@ export { type ExpressionSettings, type ExpressionSettingsInput, defaultExpressio
 // Input value
 export { type ExpressionInputValue } from '@step-wise/math-input-value'
 
-// Structural comparison
-export { type ExpressionComparisonSettings, type ExpressionComparisonSettingsInput, defaultExpressionComparisonSettings, asExpressionComparisonSettings, strictExpressionComparisonSettings, asStrictExpressionComparisonSettings } from '../core'
-
 // Simplification
 export { type SimplificationOption, SimplificationOptions, SimplificationOptionsInput, allSimplificationOptions } from '../core'
-export { removeTrivial, mergeNumbers, cancel, combine, expand, expandOnlyWithinSums, sort, normalize, factorize, format } from '../core'
+export { type SimplificationOptionsObject } from '../core' // Legacy Simplification Presets
+export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, expandOnlyWithinSums, sort, normalize, factorize, format } from '../core'
 
 // Printing
 export type { TexDisplayOptions, TexDisplayOptionsInput, defaultTexDisplayOptions, asTexDisplayOptions } from '../core'

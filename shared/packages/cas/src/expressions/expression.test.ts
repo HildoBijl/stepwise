@@ -1,5 +1,3 @@
-import { type ExpressionComparisonSettingsInput } from '../core'
-
 import { type ExpressionLike, asExpression } from './Expression'
 
 describe('expression substitution', () => {
@@ -120,10 +118,10 @@ describe('expression input value conversion', () => {
 	})
 })
 
-export function expectExpressionToEqual(result: ExpressionLike, expected: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}) {
+export function expectExpressionToEqual(result: ExpressionLike, expected: ExpressionLike) {
 	const resultValue = asExpression(result)
 	const expectedValue = asExpression(expected)
-	if (!expectedValue.strictEqualStructure(resultValue, comparisonSettings)) throw new Error(`An expression was not what was expected.
+	if (!expectedValue.strictEqualStructure(resultValue)) throw new Error(`An expression was not what was expected.
 	Actual output:   ${resultValue.str}
 	Expected output: ${expectedValue.str}
 	Actual output structure:   ${resultValue.tree}

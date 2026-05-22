@@ -1,10 +1,11 @@
-import { compareNumbers, pickFromDefaults, deepEquals } from '@step-wise/utils'
+import { compareNumbers, deepEquals, identity } from '@step-wise/utils'
 import { type ExpressionSettings, type ExpressionInputValue, asExpressionSettings, defaultExpressionSettings, addExpressionWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
+import { type SimplificationOptionsObject } from '../expressions' // Legacy Simplification Presets
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
-import { type EquationComparisonSettingsInput, asEquationComparisonSettings, asStrictEquationComparisonSettings } from './comparisonSettings'
+import { type EquationEqualityOptionsInput, asEquationEqualityOptions } from './equalityOptions'
 import { isEquationInput, interpretEquationInput } from './interpretation'
 
 // Add a type checker and interpreter.
@@ -273,6 +274,7 @@ export class Equation {
 
 	// Separate side simplification
 	simplify(options: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.simplify(options)) }
+	flatten(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.flatten(addOptions, removeOptions)) }
 	removeTrivial(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.removeTrivial(addOptions, removeOptions)) }
 	mergeNumbers(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.mergeNumbers(addOptions, removeOptions)) }
 	cancel(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.cancel(addOptions, removeOptions)) }
@@ -289,20 +291,60 @@ export class Equation {
 	normalizeToZero(): Equation { return this.moveAllToLeft().normalize() }
 
 	/*
+	 * Legacy Simplification Presets simplification functions
+	 */
+
+	/*
+	 * Legacy simplification presets
+	 */
+
+	cleanStructureOnly(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanStructureOnly(adjustments)) }
+	elementaryClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.elementaryClean(adjustments)) }
+	removeUseless(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.removeUseless(adjustments)) }
+	basicClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.basicClean(adjustments)) }
+	regularClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.regularClean(adjustments)) }
+	advancedClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.advancedClean(adjustments)) }
+	cleanForAnalysis(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanForAnalysis(adjustments)) }
+	cleanForDerivatives(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanForDerivatives(adjustments)) }
+	cleanForDisplay(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanForDisplay(adjustments)) }
+
+	/*
 	 * Comparisons
 	 */
 
-	equalStructure(other: EquationLike, settings: EquationComparisonSettingsInput = {}): boolean {
+	equalStructure(other: EquationLike, allowSwitch = true, allowOrderChanges?: boolean): boolean {
 		const equation = this.coerceEquation(other)
-		const fullComparisonSettings = asEquationComparisonSettings(settings)
-		const expressionComparisonSettings = pickFromDefaults(fullComparisonSettings, defaultExpressionComparisonSettings)
-		if (this.left.equalStructure(equation.left, expressionComparisonSettings) && this.right.equalStructure(equation.right, expressionComparisonSettings)) return true
-		if (fullComparisonSettings.allowSideSwitch && this.left.equalStructure(equation.right, expressionComparisonSettings) && this.right.equalStructure(equation.left, expressionComparisonSettings)) return true
+		if (this.left.equalStructure(equation.left, allowOrderChanges) && this.right.equalStructure(equation.right, allowOrderChanges)) return true
+		if (allowSwitch && this.equalStructure(equation.switch(), false, allowOrderChanges)) return true
 		return false
 	}
 
-	strictEqualStructure(other: EquationLike, comparisonSettings: EquationComparisonSettingsInput = {}): boolean {
-		return this.equalStructure(other, asStrictEquationComparisonSettings(comparisonSettings))
+	strictEqualStructure(other: EquationLike): boolean {
+		return this.equalStructure(other, false, false)
+	}
+
+	equals(other: EquationLike, equalityOptions: EquationEqualityOptionsInput): boolean {
+		// Verify the given options.
+		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(equalityOptions)
+		if (preprocessSide && (preprocessLeft || preprocessRight)) throw new Error(`Invalid equation equality options: cannot define both preprocessSide and preprocessLeft/preprocessRight. Either use preprocessSide to preprocess both sides in the same way, or use preprocessLeft and preprocessRight to define different preprocessing for the two sides.`)
+		if (compareSide && (compareLeft || compareRight)) throw new Error(`Invalid equation equality options: cannot define both compareSide and compareLeft/compareRight. Either use compareSide to compare both sides in the same way, or use compareLeft and compareRight to define different comparisons for the two sides.`)
+
+		// Preprocess the equations.
+		const otherEquation = this.coerceEquation(other)
+		const thisEq = preprocess(this)
+		const otherEq = preprocess(otherEquation)
+
+		// Determine preprocessing and comparison methods.
+		const prepLeft = preprocessLeft || preprocessSide || identity
+		const prepRight = preprocessRight || preprocessSide || identity
+		const defaultCompare = (a: Expression, b: Expression) => a.equalStructure(b, allowOrderChanges)
+		const compLeft = compareLeft || compareSide || defaultCompare
+		const compRight = compareRight || compareSide || defaultCompare
+
+		// Run comparisons.
+		if (compLeft(prepLeft(otherEq.left), prepLeft(thisEq.left)) && compRight(prepRight(otherEq.right), prepRight(thisEq.right))) return true
+		if (allowSwitch && this.equals(otherEquation.switch(), { ...equalityOptions, allowSwitch: false })) return true
+		return false
 	}
 
 	equivalent(other: EquationLike): boolean {

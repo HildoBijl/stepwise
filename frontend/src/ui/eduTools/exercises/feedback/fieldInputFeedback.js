@@ -1,7 +1,7 @@
 import { isValidElement } from 'react'
 
 import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues } from '@step-wise/utils'
-import { Equation } from 'step-wise/CAS'
+import { Equation } from '@step-wise/cas'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison } from 'step-wise/eduTools'
 

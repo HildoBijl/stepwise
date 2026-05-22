@@ -1,14 +1,18 @@
 import { type SimplificationOption } from './types'
 import { adjustSimplificationOptions } from './utils'
 
-export const removeTrivial = new Set<SimplificationOption>([
-	// Structure
-	'turnFloatsIntoIntegers',
-	'turnDegreeTwoRootsIntoSqrts',
-
+export const flatten = new Set<SimplificationOption>([
 	// Excess brackets
 	'flattenSums',
 	'flattenProducts',
+])
+
+export const removeTrivial = new Set<SimplificationOption>([
+	...flatten,
+
+	// Structure
+	'turnFloatsIntoIntegers',
+	'turnDegreeTwoRootsIntoSqrts',
 
 	// Excess minuses
 	'removeSignsFromZeros',

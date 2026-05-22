@@ -11,7 +11,7 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b']
 
-const ansEqualsOptions = ({ switchSides }) => ({ preprocess: side => side.basicClean({ flattenFractions: false }), leftCheck: switchSides ? equivalent : onlyOrderChanges, rightCheck: switchSides ? onlyOrderChanges : equivalent })
+const ansEqualsOptions = ({ switchSides }) => ({ preprocessSide: side => side.basicClean({ flattenFractions: false }), compareLeft: switchSides ? equivalent : onlyOrderChanges, compareRight: switchSides ? onlyOrderChanges : equivalent })
 
 const metaData = {
 	skill: 'moveEquationFactor',

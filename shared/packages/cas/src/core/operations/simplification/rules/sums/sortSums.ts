@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
 
-import { isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
+import { isSignNode, isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
 
 import { compareVariableNodes } from '../utils'
 
@@ -48,11 +48,12 @@ function compareVariablePower(a: ExpressionNode, b: ExpressionNode, variable: Va
 }
 
 // For an expression depending on a variable, try to find the exponent that's above this variable.
-function getExponentOfVariable(variable: Variable, expression: ExpressionNode): number | undefined {
-	if (isVariable(expression) && equalVariables(expression, variable)) return 1
-	if (isPower(expression) && isVariable(expression.base) && equalVariables(expression.base, variable) && isNumeric(expression.exponent)) return numericNodeToNumber(expression.exponent)
-	if (isProduct(expression)) {
-		const factor = expression.factors.find(factor => dependsOn(factor, variable))
+function getExponentOfVariable(variable: Variable, node: ExpressionNode): number | undefined {
+	if (isSignNode(node)) return getExponentOfVariable(variable, node.node)
+	if (isVariable(node) && equalVariables(node, variable)) return 1
+	if (isPower(node) && isVariable(node.base) && equalVariables(node.base, variable) && isNumeric(node.exponent)) return numericNodeToNumber(node.exponent)
+	if (isProduct(node)) {
+		const factor = node.factors.find(factor => dependsOn(factor, variable))
 		return factor ? getExponentOfVariable(variable, factor) : undefined
 	}
 	return undefined

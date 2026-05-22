@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { Sum, Product, Fraction, Power, Integer, expressionChecks, expressionComparisons } from 'step-wise/CAS'
+import { expressionChecks, expressionComparisons } from '@step-wise/cas'
 
 import { Translation, CountingWord } from 'i18n'
 import { M } from 'ui/components'
@@ -31,14 +31,14 @@ export const equivalentExpression = (input, correct, solution, isCorrect) => !is
  * Sum and terms checks.
  */
 
-export const noSum = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(Sum) && <Translation path={translationPath} entry="expression.noSum">You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.</Translation>
+export const noSum = (input, correct, solution, isCorrect) => !isCorrect && !input.isSum() && <Translation path={translationPath} entry="expression.noSum">You have to write your solution as an addition/subtraction of terms. Your solution sadly is not an addition/subtraction.</Translation>
 
 export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
 
 	// When the correct version is not a sum, something is wrong.
-	if (!correct.isSubtype(Sum))
+	if (!correct.isSum())
 		return // Cannot check for a non-sum.
 
 	// Ensure it's a sum.
@@ -75,14 +75,14 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
  * Product and factor checks.
  */
 
-export const noProduct = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(Product) && <Translation path={translationPath} entry="expression.noProduct">You have to write your solution as a multiplication of factors. Your solution sadly is not a product.</Translation>
+export const noProduct = (input, correct, solution, isCorrect) => !isCorrect && !input.isProduct() && <Translation path={translationPath} entry="expression.noProduct">You have to write your solution as a multiplication of factors. Your solution sadly is not a product.</Translation>
 
 export const productWithWrongFactors = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
 
 	// When the correct version is not a product, something is wrong.
-	if (!correct.isSubtype(Product))
+	if (!correct.isProduct())
 		return // Cannot check for a non-product.
 
 	// Ensure it's a product.
@@ -114,7 +114,7 @@ export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isC
 
 export const hasProductWithinPowerBase = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasProductWithinPowerBase(input) || expressionChecks.hasPowerWithinPowerBase(input)) && <Translation path={translationPath} entry="expression.hasProductWithinPowerBase">Your solution has unexpanded brackets at a power.</Translation>
 
-export const hasNegativeExponent = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasNegativeExponent(input) && <Translation path={translationPath} entry="expression.hasNegativeExponent">The power <M>{input.find(term => term.isSubtype(Power) && term.exponent.isNegative())}</M> in your input has a negative exponent.</Translation>)
+export const hasNegativeExponent = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasNegativeExponent(input) && <Translation path={translationPath} entry="expression.hasNegativeExponent">The power <M>{input.find(term => term.isPower() && term.exponent.isNegative())}</M> in your input has a negative exponent.</Translation>)
 
 export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <Translation path={translationPath} entry="expression.hasSumWithinFraction">Your solution has an unseparated fraction.</Translation>
 
@@ -122,7 +122,7 @@ export const hasSimilarTerms = (input, correct, solution, isCorrect) => !isCorre
 
 export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFraction(input) && <Translation path={translationPath} entry="expression.hasFraction">Your solution still has a fraction. The idea was to remove all fractions.</Translation>
 
-export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.elementaryClean().isSubtype(Fraction) && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
+export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.elementaryClean().isFraction() && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <Translation path={translationPath} entry="expression.hasFractionWithinFraction">Your solution may not contain fractions within fractions. You can still simplify this further.</Translation>
 
@@ -132,7 +132,7 @@ export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect)
 
 export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true, cancelFractionFactors: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
 
-export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isSubtype(Fraction) && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
+export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isFraction() && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
 
 export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <Translation path={translationPath} entry="expression.hasPower">Your solution still has an exponent. You can simplify this further.</Translation>
 
@@ -150,15 +150,15 @@ export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
 	input = input.elementaryClean()
-	if (correct.isSubtype(Fraction) && !input.isSubtype(Fraction))
+	if (correct.isFraction() && !input.isFraction())
 		return <Translation path={translationPath} entry="expression.incorrectFraction.noFraction">Hmm ... a fraction was expected as a solution here.</Translation>
 	const invertedFractionResult = invertedFraction(input, correct, solution, isCorrect)
 	if (invertedFractionResult)
 		return invertedFractionResult
 
 	// If we didn't receive a Fraction, it's probably because accidentally things got canceled out and we remain with [stuff]/1. So put it back in that form.
-	if (!correct.isSubtype(Fraction))
-		correct = new Fraction({ numerator: correct, denominator: Integer.one })
+	if (!correct.isFraction())
+		correct = correct.divide(1)
 	if (!constantMultiple(input.numerator, correct.numerator))
 		return <Translation path={translationPath} entry="expression.incorrectFraction.incorrectNumerator">The numerator of your fraction (above) is not what was expected. Did you apply all the rules correctly?</Translation>
 	if (!constantMultiple(input.denominator, correct.denominator))

@@ -1,24 +1,24 @@
 import { type ExpressionSettingsInput } from '@step-wise/math-input-value'
 
 import { type ExpressionNodeInput, asExpressionNode, nodeToTree } from '../construction'
-import { type SimplificationOptionsInput, type ExpressionComparisonSettingsInput, strictEqualNodes, simplify } from '../operations'
+import { type SimplificationOptionsInput, equalNodes, simplify } from '../operations'
 import { nodeToString } from '../export'
 
-export function expectNodeToEqual(result: ExpressionNodeInput, expected: ExpressionNodeInput, comparisonSettings: ExpressionComparisonSettingsInput = {}) {
+export function expectNodeToEqual(result: ExpressionNodeInput, expected: ExpressionNodeInput) {
 	const resultValue = asExpressionNode(result)
 	const expectedValue = asExpressionNode(expected)
-	if (!strictEqualNodes(resultValue, expectedValue, comparisonSettings)) throw new Error(`A node was not what was expected.
+	if (!equalNodes(resultValue, expectedValue, false)) throw new Error(`A node was not what was expected.
 	Actual output:   ${nodeToString(resultValue)}
 	Expected output: ${nodeToString(expectedValue)}
 	Actual output structure:   ${nodeToTree(resultValue)}
 	Expected output structure: ${nodeToTree(expectedValue)}`)
 }
 
-export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: ExpressionSettingsInput = {}, comparisonSettings: ExpressionComparisonSettingsInput = {}) {
+export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: ExpressionSettingsInput = {}) {
 	const inputValue = asExpressionNode(input)
 	const outputValue = asExpressionNode(output)
 	const result = simplify(inputValue, expressionSettings, options)
-	if (!strictEqualNodes(result, outputValue, comparisonSettings)) throw new Error(`A simplification check did not give the expected result.
+	if (!equalNodes(result, outputValue, false)) throw new Error(`A simplification check did not give the expected result.
 	Actual output:   ${nodeToString(result)}
 	Expected output: ${nodeToString(outputValue)}
 	Original input:  ${nodeToString(inputValue)}

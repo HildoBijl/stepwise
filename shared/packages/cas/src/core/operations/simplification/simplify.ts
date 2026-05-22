@@ -43,7 +43,7 @@ export function legacySimplify(node: ExpressionNode, settings: ExpressionSetting
 // Repeat the simplification options until there are no more changes. Simplifications should stabilize.
 function simplifyUntilStable(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	let current = node
-	for (let iteration = 0; iteration < 5; iteration++) {
+	for (let iteration = 0; iteration < 20; iteration++) {
 		const next = simplifyOnce(current, context)
 		if (next === current) return current
 		current = next

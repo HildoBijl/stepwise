@@ -1,7 +1,7 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { findWithValue, resolveFunctions, resolveFunctionsShallow, mergeDefaults } from '@step-wise/utils'
-import { Sum, Equation, expressionComparisons, equationComparisons } from 'step-wise/CAS'
+import { findWithValue, resolveFunctions, resolveFunctionsShallow, identity } from '@step-wise/utils'
+import { asEquationEqualityOptions, expressionComparisons, equationComparisons } from '@step-wise/cas'
 
 import { Translation, Check, CountingWord } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/inputs'
@@ -20,24 +20,29 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 		return selectRandomCorrect()
 
 	// Find the right processing and checking functions.
-	comparison = mergeDefaults(resolveFunctionsShallow(comparison, solution), Equation.defaultEqualsOptions)
-	const leftPreprocess = comparison.leftPreprocess || comparison.preprocess
-	const rightPreprocess = comparison.leftPreprocess || comparison.preprocess
-	const leftCheck = comparison.leftCheck || comparison.check
-	const rightCheck = comparison.richtCheck || comparison.check
+	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionsShallow(comparison, solution))
+	input = preprocess(input)
+	correct = preprocess(correct)
+
+	// Determine the right preprocessing and comparison functions.
+	const prepLeft = preprocessLeft || preprocessSide || identity
+	const prepRight = preprocessRight || preprocessSide || identity
+	const defaultCompare = (a, b) => a.equalStructure(b, allowOrderChanges)
+	const compLeft = compareLeft || compareSide || defaultCompare
+	const compRight = compareRight || compareSide || defaultCompare
 
 	// Check direct equality.
-	const left = leftPreprocess(correct.left)
-	const right = rightPreprocess(correct.right)
-	const isLeftSideCorrect = leftCheck(leftPreprocess(input.left), left, comparison)
-	const isRightSideCorrect = rightCheck(rightPreprocess(input.right), right, comparison)
+	const left = prepLeft(correct.left)
+	const right = prepRight(correct.right)
+	const isLeftSideCorrect = compLeft(prepLeft(input.left), left)
+	const isRightSideCorrect = compRight(prepRight(input.right), right)
 	if ((isLeftSideCorrect && !isRightSideCorrect) || (!isLeftSideCorrect && isRightSideCorrect))
 		return oneSideCorrect(isLeftSideCorrect, isLeftSideCorrect ? expressionComparisons.equivalent(input.right, correct.right) : expressionComparisons.equivalent(input.left, correct.left))
 
 	// Check if sides are mixed up.
-	const correctLeftIsRight = leftCheck(leftPreprocess(input.right), left, comparison)
-	const correctRightIsLeft = rightCheck(rightPreprocess(input.left), right, comparison)
-	if (comparison.allowSwitch) {
+	const correctLeftIsRight = compLeft(prepLeft(input.right), left)
+	const correctRightIsLeft = compRight(prepRight(input.left), right)
+	if (allowSwitch) {
 		if (correctLeftIsRight || correctRightIsLeft)
 			return oneSideCorrect(correctRightIsLeft, correctRightIsLeft ? expressionComparisons.equivalent(input.right, correct.left) : expressionComparisons.equivalent(input.left, correct.right))
 	} else {
@@ -94,9 +99,9 @@ export const noSum = (input, correct, solution, isCorrect) => {
 		const atLeft = side === 'left'
 
 		// If the correct answer has a sum ...
-		if (correctSide.isSubtype(Sum) && !inputSide.isSubtype(Sum))
+		if (correctSide.isSum() && !inputSide.isSum())
 			return <Translation path={translationPath} entry="equation.noSum">You have only written a single term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side. A sum was expected here: an addition/subtraction of terms.</Translation>
-		if (!correctSide.isSubtype(Sum) && inputSide.isSubtype(Sum))
+		if (!correctSide.isSum() && inputSide.isSum())
 			return <Translation path={translationPath} entry="equation.hasSum">You have written a sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side: an addition/subtraction of terms. Only a single term was expected here.</Translation>
 	}
 
@@ -121,7 +126,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 		const atLeft = side === 'left'
 
 		// If the correct answer has a sum ...
-		if (correctSide.isSubtype(Sum)) {
+		if (correctSide.isSum()) {
 			// Check that it has the right number of terms.
 			if (correctSide.terms.length !== inputSide.terms.length)
 				return <Translation path={translationPath} entry="equation.wrongNumberOfSumTerms">The sum on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side of the equals sign has <CountingWord>{inputSide.terms.length}</CountingWord> terms. There were <CountingWord>{correctSide.terms.length}</CountingWord> terms expected.</Translation>
@@ -158,7 +163,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		const atLeft = side === 'left'
 
 		// If the correct answer has a sum ...
-		if (correctSide.isSubtype(Sum)) {
+		if (correctSide.isSum()) {
 			// Find an input term that is not in the solution when checking only for order changes.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.onlyOrderChanges(inputTerm, correctTerm)))
 			if (index !== -1)

@@ -1,9 +1,6 @@
 const { sample, randomInteger, randomBoolean, count } = require('@step-wise/utils')
-const { asExpression, expressionComparisons, expressionChecks, Product } = require('../../../../../../CAS')
+const { asExpression } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
-
-const { equivalent, onlyOrderChanges } = expressionComparisons
-const { hasSumWithinProduct } = expressionChecks
 
 // ax(bx^2+cx+d) = abx^3+acx^2+adx.
 const variableSet = ['x', 'y', 'z']
@@ -14,9 +11,9 @@ const metaData = {
 	skill: 'expandBrackets',
 	steps: [null, 'simplifyNumberProduct', 'rewritePower'],
 	comparison: {
-		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
-		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isSubtype(Product) && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
-		ans: onlyOrderChanges,
+		expanded: (input, correct) => !input.hasSumWithinProduct() && correct.equivalent(input),
+		numbersMerged: (input, correct) => !input.hasSumWithinProduct() && !input.recursiveSome(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && correct.equivalent(input),
+		ans: (input, correct) => correct.equalStructure(input),
 	}
 }
 addSetupFromSteps(metaData)
@@ -34,12 +31,12 @@ function generateState() {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('a*x').substituteVariables(variables)
-	const sum = asExpression(state.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substituteVariables(variables).removeUseless()
+	const factor = asExpression('a*x').substitute(variables)
+	const sum = asExpression(state.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeUseless()
 	const expression = factor.multiply(sum)
-	const expanded = expression.simplify({ expandProductsOfSums: true })
-	const numbersMerged = expanded.simplify({ mergeProductNumbers: true })
-	const ans = numbersMerged.simplify({ mergeProductFactors: true, mergeSumNumbers: true })
+	const expanded = expression.flatten(['expandProductsOfSums'])
+	const numbersMerged = expanded.flatten(['mergeProductNumbers', 'mergeProductMinuses'])
+	const ans = numbersMerged.flatten(['mergeProductFactors', 'mergeSumNumbers'])
 	return { ...state, variables, factor, sum, expression, expanded, numbersMerged, ans }
 }
 
