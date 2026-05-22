@@ -26,7 +26,9 @@ export class SkillLevelSet {
 		})
 	}
 
-	// Basic getters/checks.
+	/*
+	 * Basic getters/checks.
+	 */
 
 	private ensureSkillId(skillId: SkillId): SkillId {
 		return ensureSkillId(this.skillTree, skillId)
@@ -48,7 +50,9 @@ export class SkillLevelSet {
 		return linkedSkillIds.every(linkedSkillId => this.hasSkill(linkedSkillId))
 	}
 
-	// Getters for inferred skills.
+	/*
+	 * Getters for inferred skills.
+	 */
 
 	private getSmoothedCoefficients(skillId: SkillId): BernsteinCoefficients {
 		return this.getSkillLevelObject(skillId).smoothedCoefficients
@@ -82,7 +86,9 @@ export class SkillLevelSet {
 		return getBernsteinExpectedValue(this.getCoefficients(skillId))
 	}
 
-	// Getters for inferred setups.
+	/*
+	 * Getters for inferred setups.
+	 */
 
 	getSetupExpectedValue(setup: SkillSetupLike): number {
 		return getSetupExpectedValue(ensureSetup(setup), skillId => this.getSmoothedCoefficients(skillId))
@@ -102,7 +108,9 @@ export class SkillLevelSet {
 		return mergeBernsteinCoefficients(...coefficients.filter(c => !!c))
 	}
 
-	// Getters for the inferred highest coefficients of skills.
+	/*
+	 * Getters for the inferred highest coefficients of skills.
+	 */
 
 	private getRawHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
 		return this.getSkillLevelObject(skillId).highestCoefficients
@@ -136,7 +144,9 @@ export class SkillLevelSet {
 		return getBernsteinExpectedValue(this.getHighestCoefficients(skillId))
 	}
 
-	// Getters for the inferred highest coefficients of setups.
+	/*
+	 * Getters for the inferred highest coefficients of setups.
+	 */
 
 	getSetupHighestExpectedValue(setup: SkillSetupLike): number {
 		return getSetupExpectedValue(ensureSetup(setup), skillId => this.getRawHighestCoefficients(skillId))
@@ -146,7 +156,9 @@ export class SkillLevelSet {
 		return getSetupCoefficients(ensureSetup(setup), skillId => this.getRawHighestCoefficients(skillId), inferenceOrder)
 	}
 
-	// Aggregated getters for inferred coefficients.
+	/*
+	 * Aggregated getters for inferred coefficients.
+	 */
 
 	getSkillLevel(skillId: SkillId): SkillLevelOutput {
 		const skillLevelObject = this.getSkillLevelObject(skillId)
@@ -160,7 +172,9 @@ export class SkillLevelSet {
 		}
 	}
 
-	// Subscribers.
+	/*
+	 * Subscribers.
+	 */
 
 	subscribe(listener: () => void): () => void {
 		this.listeners.add(listener)
@@ -171,7 +185,9 @@ export class SkillLevelSet {
 		return this.skillLevels
 	}
 
-	// Updaters.
+	/*
+	 * Updaters.
+	 */
 
 	update(skillLevelUpdateSet: SkillLevelUpdateSet): void {
 		// Determine when a skill should update.
@@ -209,7 +225,9 @@ export class SkillLevelSet {
 		for (const listener of this.listeners) { listener() }
 	}
 
-	// Observations.
+	/*
+	 * Observations.
+	 */
 
 	// Apply an observation to the skill levels to update them. Returns the new coefficients of adjusted skills.
 	processObservation(observation: SkillObservation): SkillLevelUpdateSet {
@@ -217,7 +235,7 @@ export class SkillLevelSet {
 		const { setup, correct } = observation
 		if (!setup.isDeterministic()) throw new TypeError(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
 		const skillIds = setup.getSkillList()
-		if (skillIds.some(skillId => !this.hasDataOn(skillId))) throw new Error(`Invalid observation processing: the skill level data on the relevant skills has not been loaded yet.`)
+		if (skillIds.some(skillId => !this.hasDataOn(skillId))) throw new Error(`Invalid observation processing: the skill level data on the relevant skills has not been loaded yet. Data on "${skillIds.find(skillId => !this.hasDataOn(skillId))}" and/or its prerequisites/links is not loaded in.`)
 
 		// Gather general data.
 		const now = new Date()

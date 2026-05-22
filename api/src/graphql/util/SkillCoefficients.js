@@ -56,9 +56,10 @@ async function applySkillUpdatesForUser(db, userId, skillUpdates, transaction) {
 		return []
 
 	// Pull everything from the database.
-	const skills = await getUserSkills(db, userId, includeDirectPrerequisitesAndLinks(skillIds))
+	const skillsToLoad = includeDirectPrerequisitesAndLinks(skillIds)
+	const skills = await getUserSkills(db, userId, skillsToLoad)
 	const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
-	const rawSkillLevelSet = fromKeys(skillIds, skillId => skillsAsObject[skillId] ? ensureSkillLevel(skillsAsObject[skillId]) : getInitialSkillLevel())
+	const rawSkillLevelSet = fromKeys(skillsToLoad, skillId => skillsAsObject[skillId] ? ensureSkillLevel(skillsAsObject[skillId]) : getInitialSkillLevel())
 
 	// Plug it into the SkillLevelSet object and let it run its magic.
 	const skillLevelSet = new SkillLevelSet(skillTree, rawSkillLevelSet)

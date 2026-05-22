@@ -10,10 +10,10 @@ import {
 	removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
-	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToStorageValue, storageValueToNode, // Printing
+	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, asExpressionSettings } from './settings'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, asExpressionSettings } from './settings'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
 
@@ -109,18 +109,23 @@ export class Expression {
 	 * Printing
 	 */
 
-	// Strings
+	// String
 	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return nodeToString(this.node, settings) }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
 	// LaTeX
-	toTex(options?: TexDisplayOptionsInput) { return nodeToTex(this.node, this.getInterpretationSettings(), options) }
+	toTex(options?: TexDisplayOptionsInput): string { return nodeToTex(this.node, this.getInterpretationSettings(), options) }
 	get tex() { return this.toTex() }
 
 	// Tree
-	toTree() { return nodeToTree(this.node) }
+	toTree(): string { return nodeToTree(this.node) }
 	get tree() { return this.toTree() }
+
+	// InputValue
+	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): ExpressionInputValue {
+		return nodeToInputValue(this.node, interpretationSettings, this.settings)
+	}
 
 	/*
 	 * Type checks

@@ -101,6 +101,25 @@ describe('expression derivatives', () => {
 	})
 })
 
+describe('expression input value conversion', () => {
+	test('round-trips expressions through input values', () => {
+		const expressions = [
+			asExpression('2*x+3'),
+			asExpression('x_1+x_2^2+dot(x)_3'),
+			asExpression('(x+y)/z'),
+			asExpression('sqrt(x^2+1)'),
+			asExpression('sin(x)', {}, { degrees: true }),
+		]
+		expressions.forEach(expression => {
+			expectExpressionToEqual(asExpression(expression.toInputValue()), expression)
+		})
+	})
+	test('round-trips expressions with multi-character variables through input values', () => {
+		const expression = asExpression('xy+2*z', { multiCharacterVariables: true })
+		expectExpressionToEqual(asExpression(expression.toInputValue()), expression)
+	})
+})
+
 export function expectExpressionToEqual(result: ExpressionLike, expected: ExpressionLike, comparisonSettings: ExpressionComparisonSettingsInput = {}) {
 	const resultValue = asExpression(result)
 	const expectedValue = asExpression(expected)

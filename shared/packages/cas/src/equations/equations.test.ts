@@ -107,6 +107,25 @@ describe('equation equality and equivalence', () => {
 	})
 })
 
+describe('equation input value conversion', () => {
+	test('round-trips equations through input values', () => {
+		const equations = [
+			asEquation('2*x+3=7'),
+			asEquation('x_1+x_2^2+dot(x)_3=0'),
+			asEquation('(x+y)/z=2'),
+			asEquation('sqrt(x^2+1)=y'),
+			asEquation('sin(x)=1', {}, { degrees: true }),
+		]
+		equations.forEach(equation => {
+			expectEquationToEqual(asEquation(equation.toInputValue()), equation)
+		})
+	})
+	test('round-trips equations with multi-character variables through input values', () => {
+		const equation = asEquation('xy+2*z=5', { multiCharacterVariables: true })
+		expectEquationToEqual(asEquation(equation.toInputValue()), equation)
+	})
+})
+
 export function expectEquationToEqual(result: EquationLike, expected: EquationLike, comparisonSettings: Partial<EquationComparisonSettings> = {}) {
 	const resultValue = asEquation(result)
 	const expectedValue = asEquation(expected)

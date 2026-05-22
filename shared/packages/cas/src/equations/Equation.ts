@@ -1,5 +1,5 @@
-import { compareNumbers, mergeDefaults, pickFromDefaults, deepEquals } from '@step-wise/utils'
-import { type ExpressionSettings, asExpressionSettings, defaultExpressionSettings } from '@step-wise/math-input-value'
+import { compareNumbers, pickFromDefaults, deepEquals } from '@step-wise/utils'
+import { type ExpressionSettings, type ExpressionInputValue, asExpressionSettings, defaultExpressionSettings, addExpressionWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression, defaultExpressionComparisonSettings } from '../expressions'
 
@@ -76,7 +76,7 @@ export class Equation {
 	 * Printing
 	 */
 
-	// Strings
+	// String
 	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
@@ -88,6 +88,13 @@ export class Equation {
 	// Tree
 	toTree(): string { return `equation(${this.left.tree}, ${this.right.tree})` }
 	get tree() { return this.toTree() }
+
+	// InputValue
+	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): ExpressionInputValue {
+		const leftInputValue = this.left.toInputValue(interpretationSettings)
+		const rightInputValue = this.right.toInputValue(interpretationSettings)
+		return addExpressionWrapper(mergeAdjacentExpressionParts([...leftInputValue.value, getExpressionPartWith('='), ...rightInputValue.value]), interpretationSettings, this.settings)
+	}
 
 	/*
 	 * Property checks

@@ -4,6 +4,9 @@ export { type InterpretationSettings, type InterpretationSettingsInput, defaultI
 // Expression settings
 export { type ExpressionSettings, type ExpressionSettingsInput, defaultExpressionSettings, asExpressionSettings } from '@step-wise/math-input-value'
 
+// Input value
+export { type ExpressionInputValue } from '@step-wise/math-input-value'
+
 // Structural comparison
 export { type ExpressionComparisonSettings, type ExpressionComparisonSettingsInput, defaultExpressionComparisonSettings, asExpressionComparisonSettings, strictExpressionComparisonSettings, asStrictExpressionComparisonSettings } from '../core'
 
