@@ -6,7 +6,7 @@ import { useConsistentValue } from 'util/index' // Unit test import issue: shoul
 
 export function useIdentityTransformationSettings(width, height, points) {
 	points = useConsistentValue(points)
-	const bounds = useMemo(() => new Rectangle({ start: new Vector(0, 0), end: new Vector(width, height) }), [width, height])
+	const bounds = useMemo(() => new Rectangle({ min: new Vector(0, 0), max: new Vector(width, height) }), [width, height])
 	return useMemo(() => ({
 		points,
 		scale: [1, 1],

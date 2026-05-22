@@ -7,7 +7,7 @@ import { type RectangleLike, Rectangle, ensureRectangle, isRectangleLike } from 
 import { type MatrixLike, Matrix, ensureSquareMatrix } from '../Matrix'
 
 import type { TransformationInput, TransformationData, TransformableLike } from './types'
-import { isTransformationDescription } from './support'
+import { isTransformationObject } from './support'
 
 export type { TransformationData }
 export type TransformationLike = Transformation | TransformationInput
@@ -45,7 +45,7 @@ export class Transformation {
 			}
 
 			// On an object with data, process the data.
-			if (isTransformationDescription(value)) {
+			if (isTransformationObject(value)) {
 				matrix = value.matrix
 				translation = value.translation
 			} else {

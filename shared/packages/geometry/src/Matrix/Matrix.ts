@@ -2,14 +2,14 @@ import { ensureInt, ensureNumber, compareNumbers, count } from '@step-wise/utils
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
-import type { MatrixRow, MatrixData, MatrixInput } from './types'
-import { isMatrixData } from './support'
+import type { MatrixRow, MatrixArray, MatrixInput } from './types'
+import { isMatrixArray } from './support'
 
-export type { MatrixData }
+export type { MatrixArray as MatrixData }
 export type MatrixLike = Matrix | MatrixInput
 
 export class Matrix {
-	private _rows: MatrixData
+	private _rows: MatrixArray
 
 	/*
 	 * Common matrices.
@@ -23,8 +23,8 @@ export class Matrix {
 	 */
 
 	constructor(input: MatrixLike)
-	constructor(...rows: MatrixData)
-	constructor(...args: [MatrixLike] | MatrixData) {
+	constructor(...rows: MatrixArray)
+	constructor(...args: [MatrixLike] | MatrixArray) {
 		// Check for empty input.
 		if (args.length === 0) throw new Error(`Invalid Matrix: the Matrix constructor was called without input.`)
 
@@ -39,7 +39,7 @@ export class Matrix {
 			}
 
 			// On a 2D array, check values and apply.
-			if (isMatrixData(value)) {
+			if (isMatrixArray(value)) {
 				this._rows = value.map(row => row.map(entry => ensureNumber(entry)))
 				return
 			}
@@ -48,7 +48,7 @@ export class Matrix {
 		}
 
 		// Handle constructor(...rows).
-		if (!isMatrixData(args)) throw new Error(`Invalid Matrix: expected matrix rows of equal length.`)
+		if (!isMatrixArray(args)) throw new Error(`Invalid Matrix: expected matrix rows of equal length.`)
 		this._rows = args.map(row => row.map(entry => ensureNumber(entry)))
 	}
 
@@ -62,7 +62,7 @@ export class Matrix {
 		return (this.constructor as typeof Matrix).type
 	}
 
-	get rows(): MatrixData {
+	get rows(): MatrixArray {
 		return this._rows.map(row => [...row])
 	}
 
@@ -70,15 +70,15 @@ export class Matrix {
 		return new Matrix(this._rows)
 	}
 
-	toStorageValue(): MatrixData {
+	toStorageValue(): MatrixArray {
 		return this.rows
 	}
 
-	get SO(): MatrixData { // SO legacy
+	get SO(): MatrixArray { // SO legacy
 		return this.toStorageValue()
 	}
 
-	static fromStorageValue(rows: MatrixData): Matrix {
+	static fromStorageValue(rows: MatrixArray): Matrix {
 		return new Matrix(rows)
 	}
 

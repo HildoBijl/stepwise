@@ -95,10 +95,10 @@ function SquareVisualization() {
 	const transformationSettings = useIdentityTransformationSettings(w + offset, w + offset)
 	return <Drawing transformationSettings={transformationSettings}>
 		{/* Rectangles. */}
-		<Rectangle dimensions={{ start: [offset, 0], end: [offset + w * f, w * (1 - f)] }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle dimensions={{ start: [offset + w * f, 0], end: [offset + w, w * (1 - f)] }} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
-		<Rectangle dimensions={{ start: [offset, w * (1 - f)], end: [offset + w * f, w] }} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
-		<Rectangle dimensions={{ start: [offset + w * f, w * (1 - f)], end: [offset + w, w] }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: [offset, 0], max: [offset + w * f, w * (1 - f)] }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: [offset + w * f, 0], max: [offset + w, w * (1 - f)] }} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: [offset, w * (1 - f)], max: [offset + w * f, w] }} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: [offset + w * f, w * (1 - f)], max: [offset + w, w] }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
 
 		{/* Labels left/below the square. */}
 		<Element anchor={[1, 0.5]} position={[offset - 5, w * (1 - f) / 2]}><M>3</M></Element>
@@ -131,10 +131,10 @@ function CubeVisualization() {
 
 	return <Drawing transformationSettings={transformationSettings}>
 		{/* Front rectangles. */}
-		<Rectangle dimensions={{ start: bottomLeft, end: frontCenter }} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
-		<Rectangle dimensions={{ start: left, end: frontCenter }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle dimensions={{ start: bottom, end: frontCenter }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
-		<Rectangle dimensions={{ start: center, end: frontCenter }} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: bottomLeft, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.1), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: left, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: bottom, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }} />
+		<Rectangle dimensions={{ min: center, max: frontCenter }} style={{ fill: alpha(primaryColor, 0.3), stroke: primaryColor }} />
 
 		{/* Top shapes. */}
 		<Polygon points={[left, left.interpolate(top, f), topCenter, left.interpolate(center, f)]} style={{ fill: alpha(primaryColor, 0.2), stroke: primaryColor }}></Polygon>

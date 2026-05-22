@@ -2,8 +2,8 @@ import type { VectorData, VectorLike } from '../Vector'
 
 export type LineSegmentObject = {
 	start?: VectorLike
-	vector?: VectorLike
 	end?: VectorLike
+	vector?: VectorLike
 }
 
 export type LineSegmentData = {

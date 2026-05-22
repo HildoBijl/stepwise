@@ -19,7 +19,7 @@ export function getBoundingRectangle(points) {
 		if (maxY === undefined || point.y > maxY)
 			maxY = point.y
 	})
-	return new Rectangle({ start: new Vector(minX, minY), end: new Vector(maxX, maxY) })
+	return new Rectangle({ min: new Vector(minX, minY), max: new Vector(maxX, maxY) })
 }
 
 // ensureScale takes a possible scale definition (could be a number or an array of two numbers) and ensures it's the proper shape of [scaleX, scaleY]. Also works for higher dimensions when indicated.

@@ -25,8 +25,8 @@ export const Rectangle = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the circle.
-	const { start, vector, end } = dimensions
-	return <SvgPortal><rect ref={ref} x={Math.min(start.x, end.x)} y={Math.min(start.y, end.y)} width={Math.abs(vector.x)} height={Math.abs(vector.y)} rx={cornerRadius} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
+	const { min, size } = dimensions
+	return <SvgPortal><rect ref={ref} x={min.x} y={min.y} width={size.x} height={size.y} rx={cornerRadius} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
 })
 Rectangle.defaultProps = defaultRectangle
 export default Rectangle

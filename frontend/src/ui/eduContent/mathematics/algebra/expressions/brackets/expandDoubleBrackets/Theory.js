@@ -50,10 +50,10 @@ function BlockDrawing({ useLetters = false }) {
 	const rectangleStyle = { fill: alpha(primaryColor, 0.2), stroke: primaryColor, strokeWidth: 2 }
 	const transformationSettings = useIdentityTransformationSettings(left + (c + d) * size + delta, top + (a + b) * size)
 	return <Drawing transformationSettings={transformationSettings}>
-		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + x * size, top + y * size], vector: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([c, b], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + x * size, top + (a + y) * size + delta], vector: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([d, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + (c + x) * size + delta, top + y * size], vector: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([d, b], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + (c + x) * size + delta, top + (a + y) * size + delta], vector: [size, size] }} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + x * size, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, b], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + x * size, top + (a + y) * size + delta], size: [size, size] }} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([d, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + (c + x) * size + delta, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([d, b], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + (c + x) * size + delta, top + (a + y) * size + delta], size: [size, size] }} style={rectangleStyle} />).flat()}
 		<Element anchor={[1, 0.5]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></Element>
 		<Element anchor={[1, 0.5]} position={[left - 6, top + (a + b / 2) * size]}><M>{useLetters ? 'b' : b}</M></Element>
 		<Element anchor={[0.5, 1]} position={[left + (c / 2) * size, top - 1]}><M>{useLetters ? 'c' : c}</M></Element>

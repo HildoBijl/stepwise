@@ -5,14 +5,10 @@ import { isVectorLike } from '../Vector'
 
 import type { TransformationInput, TransformationDescription } from './types'
 
-export function isTransformationDescription(value: unknown): value is TransformationDescription {
-	if (!isPlainObject(value)) return false
-	const obj = value as Record<string, unknown>
-	if (!isMatrixLike(obj.matrix)) return false
-	if (obj.translation !== undefined && !isVectorLike(obj.translation)) return false
-	return true
+export function isTransformationObject(value: unknown): value is TransformationDescription {
+	return isPlainObject(value) && isMatrixLike(value.matrix) && isVectorLike(value.translation)
 }
 
 export function isTransformationInput(value: unknown): value is TransformationInput {
-	return isMatrixLike(value) || isTransformationDescription(value)
+	return isMatrixLike(value) || isTransformationObject(value)
 }

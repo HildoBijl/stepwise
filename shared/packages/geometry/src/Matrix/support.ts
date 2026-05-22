@@ -1,6 +1,6 @@
 import { isNumber } from '@step-wise/utils'
 
-import type { MatrixData, MatrixInput } from './types'
+import type { MatrixArray, MatrixInput } from './types'
 
 // Check if the given value is a matrix row.
 export function isMatrixRow(value: unknown): value is number[] {
@@ -8,7 +8,7 @@ export function isMatrixRow(value: unknown): value is number[] {
 }
 
 // Check if the given value is valid matrix data.
-export function isMatrixData(value: unknown): value is MatrixData {
+export function isMatrixArray(value: unknown): value is MatrixArray {
 	if (!Array.isArray(value) || value.length === 0) return false
 	if (!value.every(isMatrixRow)) return false
 	
@@ -19,5 +19,5 @@ export function isMatrixData(value: unknown): value is MatrixData {
 
 // Check if the given value is matrix input.
 export function isMatrixInput(value: unknown): value is MatrixInput {
-	return isMatrixData(value)
+	return isMatrixArray(value)
 }

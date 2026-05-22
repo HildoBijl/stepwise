@@ -101,7 +101,7 @@ function Diagram({ decompose = false, showIntersection = false }) {
 
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames, angle, intersection } = useSolution()
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
-	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
+	const rectangle = new Rectangle({ min: new Vector(-rectangleMargin, -rectangleMargin), max: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 	const force = loads[3].force
 	const lineEndpoint = new Vector(force.end.x, force.start.y)
 

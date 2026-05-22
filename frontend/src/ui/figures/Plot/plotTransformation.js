@@ -38,7 +38,7 @@ export function usePlotTransformationSettings(points, options = {}) {
 
 		// Depending on whether we extend bounds, update the bounds.
 		if (extendBoundsToTicks)
-			bounds = new Rectangle({ start: ticks.map(ticksForAxis => first(ticksForAxis)), end: ticks.map(ticksForAxis => last(ticksForAxis)) })
+			bounds = new Rectangle({ min: ticks.map(ticksForAxis => first(ticksForAxis)), max: ticks.map(ticksForAxis => last(ticksForAxis)) })
 
 		return { ticks, bounds }
 	}, [points, includeOrigin, desiredNumTicks, extendBoundsToTicks])
@@ -55,6 +55,6 @@ export function usePlotTransformationSettings(points, options = {}) {
 	return useMemo(() => ({
 		...boundsBasedTransformationSettings,
 		ticks,
-		plotBounds: new Rectangle({ start: ticks.map(ticksForAxis => first(ticksForAxis)), end: ticks.map(ticksForAxis => last(ticksForAxis)) }),
+		plotBounds: new Rectangle({ min: ticks.map(ticksForAxis => first(ticksForAxis)), max: ticks.map(ticksForAxis => last(ticksForAxis)) }),
 	}), [boundsBasedTransformationSettings, ticks])
 }

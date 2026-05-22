@@ -19,7 +19,7 @@ export class Rectangle {
 	 */
 
 	constructor(rectangle: RectangleLike)
-	constructor(start: VectorLike, end: VectorLike)
+	constructor(min: VectorLike, max: VectorLike)
 	constructor(...args: [RectangleLike] | [VectorLike, VectorLike]) {
 		// Handle constructor(RectangleLike).
 		if (args.length === 1) {
@@ -32,9 +32,34 @@ export class Rectangle {
 				return
 			}
 
-			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with start and end points.`);
+			// Make sure we have a Rectangle object.
+			if (!isRectangleObject(value)) throw new Error(`Invalid Rectangle value: expected an object with "min", "max" and/or "size" points (two out of the three) but received something of type "${typeof value}".`);
 
-			[this._min, this._max] = getMinAndMax(value.start, value.end)
+			// Look at the various cases of what is provided.
+			const hasMin = value.min !== undefined
+			const hasMax = value.max !== undefined
+			const hasSize = value.size !== undefined
+
+			if (!hasMax) {
+				this._min = ensureVector(value.min)
+				const size = ensureVector(value.size, this._min.dimension)
+				this._max = this._min.add(size)
+			} else if (!hasMin) {
+				this._max = ensureVector(value.max)
+				const size = ensureVector(value.size, this._max.dimension)
+				this._min = this._max.subtract(size)
+			} else {
+				this._min = ensureVector(value.min)
+				this._max = ensureVector(value.max, this._min.dimension);
+			}
+			[this._min, this._max] = getMinAndMax(this._min, this._max)
+
+			// On all three parameters, run a check to see if they match.
+			if (hasSize) {
+				const actualSize = this._max.subtract(this._min)
+				const givenSize = ensureVector(value.size, this._min.dimension)
+				if (!actualSize.equals(givenSize)) throw new Error(`Invalid LineSegment: the given size "${givenSize}" is not the difference between the minimum "${this._min}" and the maximum "${this._max}" values.`)
+			}
 			return
 		}
 
@@ -64,20 +89,12 @@ export class Rectangle {
 		return this._max.clone()
 	}
 
-	get start(): Vector {
-		return this.min
-	}
-
-	get end(): Vector {
-		return this.max
-	}
-
 	get vector(): Vector {
 		return this._max.subtract(this._min)
 	}
 
 	clone(): Rectangle {
-		return new Rectangle({ start: this._min, end: this._max })
+		return new Rectangle({ min: this._min, max: this._max })
 	}
 
 	toStorageValue(): RectangleData {
@@ -92,7 +109,7 @@ export class Rectangle {
 	}
 
 	static fromStorageValue(value: RectangleData): Rectangle {
-		return new Rectangle({ start: value.min, end: value.max })
+		return new Rectangle(value)
 	}
 
 	/*
@@ -144,8 +161,8 @@ export class Rectangle {
 		return max - min
 	}
 
-	get size(): number[] {
-		return integerRange(0, this.dimension - 1).map(axis => this.getSize(axis))
+	get size(): Vector {
+		return this.max.subtract(this.min)
 	}
 
 	/*

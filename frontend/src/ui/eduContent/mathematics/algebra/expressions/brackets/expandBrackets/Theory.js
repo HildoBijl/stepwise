@@ -48,8 +48,8 @@ function BlockDrawing({ useLetters = false }) {
 	const rectangleStyle = { fill: alpha(primaryColor, 0.2), stroke: primaryColor, strokeWidth: 2 }
 	const transformationSettings = useIdentityTransformationSettings(left + (b + c) * size + delta, top + a * size)
 	return <Drawing transformationSettings={transformationSettings}>
-		{repeatMultidimensional([b, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + x * size, top + y * size], vector: [size, size] }} style={rectangleStyle} />).flat()}
-		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ start: [left + (b + x) * size + delta, top + y * size], vector: [size, size] }} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([b, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + x * size, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
+		{repeatMultidimensional([c, a], (x, y) => <Rectangle key={`${x}-${y}`} dimensions={{ min: [left + (b + x) * size + delta, top + y * size], size: [size, size] }} style={rectangleStyle} />).flat()}
 		<Element anchor={[1, 0.5]} position={[left - 6, top + (a / 2) * size]}><M>{useLetters ? 'a' : a}</M></Element>
 		<Element anchor={[0.5, 1]} position={[left + (b / 2) * size, top - 1]}><M>{useLetters ? 'b' : b}</M></Element>
 		<Element anchor={[0.5, 1]} position={[left + (b + c / 2) * size + delta, top - 1]}><M>{useLetters ? 'c' : c}</M></Element>

@@ -1,8 +1,9 @@
 import type { VectorData, VectorLike } from '../Vector'
 
 export type RectangleObject = {
-	start: VectorLike
-	end: VectorLike
+	min?: VectorLike
+	max?: VectorLike
+	size?: VectorLike
 }
 
 export type RectangleData = {

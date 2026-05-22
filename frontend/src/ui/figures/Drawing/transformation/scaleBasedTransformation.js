@@ -37,15 +37,15 @@ export function useScaleBasedTransformationSettings(points, options = {}) {
 
 		// Set up the full transformation and determine the final bounds including both margins.
 		const transformation = pretransformation.then(scaleTransformation).then(shiftTransformation)
-		const end = new Vector(...currBounds.size.map((length, axis) => length + margin[axis][0] + margin[axis][1]))
+		const max = new Vector(...currBounds.size.map((length, axis) => length + margin[axis][0] + margin[axis][1]))
 		const graphicalBounds = new Rectangle({
-			start: Vector.zero,
-			end,
+			min: Vector.zero,
+			end: max,
 		})
 		const inverseTransformation = transformation.inverse
 		const bounds = new Rectangle({
-			start: inverseTransformation.transform(Vector.zero),
-			end: inverseTransformation.transform(end),
+			min: inverseTransformation.transform(Vector.zero),
+			max: inverseTransformation.transform(max),
 		})
 
 		// Return all data.

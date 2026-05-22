@@ -6,8 +6,18 @@ import type { RectangleInput, RectangleObject } from './types'
 
 export function isRectangleObject(value: unknown): value is RectangleObject {
 	if (!isPlainObject(value)) return false
-	const obj = value as Record<string, unknown>
-	return isVectorLike(obj.start) && isVectorLike(obj.end)
+
+	const hasMin = value.min !== undefined
+	const hasMax = value.max !== undefined
+	const hasSize = value.size !== undefined
+
+	// A line segment must at least specify two of the three.
+	const count = Number(hasMin) + Number(hasMax) + Number(hasSize)
+	if (count < 2) return false
+	if (hasMin && !isVectorLike(value.min)) return false
+	if (hasMax && !isVectorLike(value.max)) return false
+	if (hasSize && !isVectorLike(value.size)) return false
+	return true
 }
 
 export function isRectangleInput(value: unknown): value is RectangleInput {

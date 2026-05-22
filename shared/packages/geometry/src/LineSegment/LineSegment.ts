@@ -31,7 +31,7 @@ export class LineSegment {
 			}
 
 			// Make sure we have a LineSegment object.
-			if (!isLineSegmentObject(value)) throw new Error(`Invalid LineSegment value: expected to receive some kind of object, but instead received something of type "${typeof value}".`)
+			if (!isLineSegmentObject(value)) throw new Error(`Invalid LineSegment value: expected an object with "start", "end" and/or "vector" points (two out of the three) but received something of type "${typeof value}".`)
 
 			// Look at the various cases of what is provided.
 			const hasStart = value.start !== undefined
