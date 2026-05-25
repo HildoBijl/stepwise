@@ -38,7 +38,7 @@ function getSolution(state) {
 	const factor2 = asExpression(state.xFirst ? 'c*x+d' : 'd+c*x').substitute(variables)
 	const expression = factor1.multiply(factor2)
 	const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2))
-	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
+	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, expandMinusSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
 	const ans = allExpanded.cleanStructureOnly({ groupSumTerms: true, mergeSumNumbers: true })
 	const xFactors = allExpanded.terms.filter(term => term.isProduct() && term.factors.some(factor => variables.x.equals(factor)))
 	const xFactorsMerged = xFactors[0].add(xFactors[1]).cleanForAnalysis()

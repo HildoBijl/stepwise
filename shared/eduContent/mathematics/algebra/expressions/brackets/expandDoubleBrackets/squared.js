@@ -39,7 +39,7 @@ function getSolution(state) {
 	const expression = factor.toPower(2)
 	const multiplication = factor.multiply(factor)
 	const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor))
-	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
+	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, expandMinusSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
 	const ans = allExpanded.cleanStructureOnly({ groupSumTerms: true, mergeSumNumbers: true })
 	const xFactors = allExpanded.terms.filter(term => variables.x.toPower(state.p + state.q).removeUseless().equals(term) || (term.isProduct() && term.factors.some(factor => variables.x.toPower(state.p + state.q).removeUseless().equals(factor))))
 	const xFactorsMerged = xFactors[0].add(xFactors[1]).cleanForAnalysis()

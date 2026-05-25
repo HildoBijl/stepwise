@@ -1,6 +1,9 @@
 const { sample, randomInteger, randomBoolean, count } = require('@step-wise/utils')
-const { asExpression } = require('@step-wise/cas')
+const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+
+const { hasSumWithinProduct } = expressionChecks
+const { onlyOrderChanges, equivalent } = expressionComparisons
 
 // With a negative: ax(b-cx^n) = abx-acx^(n+1).
 const variableSet = ['x', 'y', 'z']
@@ -11,9 +14,9 @@ const metaData = {
 	skill: 'expandBrackets',
 	steps: [null, 'simplifyNumberProduct', 'rewritePower'],
 	comparison: {
-		expanded: (input, correct) => !input.hasSumWithinProduct() && correct.equivalent(input),
-		numbersMerged: (input, correct) => !input.hasSumWithinProduct() && !input.recursiveSome(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && correct.equivalent(input),
-		ans: (input, correct) => correct.equalStructure(input),
+		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
+		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
+		ans: onlyOrderChanges,
 	}
 }
 addSetupFromSteps(metaData)
@@ -31,11 +34,11 @@ function generateState() {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('ax').substitute(variables)
-	const sum = asExpression(state.xFirst ? 'b-c*x^n' : 'c*x^n-b').substitute(variables).removeUseless()
-	const expression = factor.multiply(sum)
-	const expanded = expression.flatten(['expandProductsOfSums'])
-	const numbersMerged = expanded.flatten(['mergeProductNumbers', 'mergeProductMinuses'])
+	const factor = asExpression('ax').substitute(variables).removeTrivial()
+	const sum = asExpression(state.xFirst ? 'b-c*x^n' : 'c*x^n-b').substitute(variables).removeTrivial()
+	const expression = factor.multiply(sum).removeTrivial()
+	const expanded = expression.flatten(['expandProductsOfSums', 'expandMinusSums'])
+	const numbersMerged = expanded.flatten(['mergeProductNumbers', 'mergeProductMinuses', 'removeDoubleNegatives'])
 	const ans = numbersMerged.flatten(['mergeProductFactors', 'mergeSumNumbers'])
 	return { ...state, variables, factor, sum, expression, expanded, numbersMerged, ans }
 }

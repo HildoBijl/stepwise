@@ -250,25 +250,6 @@ export class Equation {
 	}
 
 	/*
-	 * Structure checks
-	 */
-
-	hasSumWithinMinus(): boolean { return this.someSide(side => side.hasSumWithinMinus()) }
-	hasSumWithinProduct(): boolean { return this.someSide(side => side.hasSumWithinProduct()) }
-	hasSimilarTerms(): boolean { return this.someSide(side => side.hasSimilarTerms()) }
-
-	hasFraction(includeSelf = true): boolean { return this.someSide(side => side.hasFraction(includeSelf)) }
-	hasSumAsFractionNumerator(): boolean { return this.someSide(side => side.hasSumAsFractionNumerator()) }
-	hasFractionWithinFraction(): boolean { return this.someSide(side => side.hasFractionWithinFraction()) }
-	hasVariableInDenominator(variable: VariableLike): boolean { return this.someSide(side => side.hasVariableInDenominator(variable)) }
-
-	hasPower(includeSelf = true): boolean { return this.someSide(side => side.hasPower(includeSelf)) }
-	hasSumAsPowerBase(): boolean { return this.someSide(side => side.hasSumAsPowerBase()) }
-	hasProductAsPowerBase(): boolean { return this.someSide(side => side.hasProductAsPowerBase()) }
-	hasPowerAsPowerBase(): boolean { return this.someSide(side => side.hasPowerAsPowerBase()) }
-	hasNegativeExponent(): boolean { return this.someSide(side => side.hasNegativeExponent()) }
-
-	/*
 	 * Simplification
 	 */
 
@@ -292,10 +273,6 @@ export class Equation {
 
 	/*
 	 * Legacy Simplification Presets simplification functions
-	 */
-
-	/*
-	 * Legacy simplification presets
 	 */
 
 	cleanStructureOnly(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanStructureOnly(adjustments)) }

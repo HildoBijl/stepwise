@@ -1,65 +1,31 @@
-// Legacy CAS functions: These are now methods within the objects. For temporary backwards compatibility, we define these functions here anyway.
+import { count } from '@step-wise/utils'
 
 import { type VariableLike, type ExpressionLike, type ExpressionCheck, asExpression } from './Expression'
 
-export function isInteger(input: ExpressionLike): boolean {
-	return asExpression(input).isInteger()
-}
+export const expressionChecks = {
+	// Property checks.
+	isInteger(input: ExpressionLike): boolean { return asExpression(input).isInteger() },
+	isPolynomial(input: ExpressionLike): boolean { return asExpression(input).isPolynomial() },
+	isRational(input: ExpressionLike): boolean { return asExpression(input).isRational() },
 
-export function hasSumWithinProduct(input: ExpressionLike): boolean {
-	return asExpression(input).hasSumWithinProduct()
-}
+	// Structure checks.
+	hasUnmergedProductNumbers(input: ExpressionLike): boolean { return asExpression(input).some(term => term.isProduct() && count(term.factors, factor => (factor.isNumeric() && !factor.isNamedConstant())) > 1) },
+	hasSumWithinMinus(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isMinus() && expression.argument.isSum()) },
+	hasSumWithinProduct(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isProduct() && expression.factors.some(factor => factor.isSum())) },
+	hasFraction(input: ExpressionLike, includeSelf = true): boolean { return asExpression(input).some(expression => expression.isFraction(), includeSelf) },
+	hasSumWithinFraction(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isFraction() && expression.numerator.isSum()) },
+	hasFractionWithinFraction(input: ExpressionLike): boolean { return this.hasFractionSatisfying(input, fraction => this.hasFraction(fraction, false)) },
+	hasVariableInDenominator(input: ExpressionLike, variable: VariableLike): boolean { return asExpression(input).some(expression => expression.isFraction() && expression.denominator.dependsOn(variable)) },
+	hasPower(input: ExpressionLike, includeSelf = true): boolean { return asExpression(input).some(expression => expression.isPower(), includeSelf) },
+	hasSumWithinPowerBase(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isPower() && expression.base.isSum()) },
+	hasProductWithinPowerBase(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isPower() && expression.base.isProduct()) },
+	hasPowerWithinPowerBase(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isPower() && expression.base.isPower()) },
+	hasNegativeExponent(input: ExpressionLike): boolean { return asExpression(input).some(expression => expression.isPower() && expression.exponent.isMinus()) },
 
-export function hasSumWithinFraction(input: ExpressionLike): boolean {
-	return asExpression(input).hasSumAsFractionNumerator()
+	// Semantic checks.
+	hasFractionSatisfying(input: ExpressionLike, check: ExpressionCheck): boolean { return asExpression(input).some((expression, ancestors) => expression.isFraction() && check(expression, ancestors)) },
+	hasSimilarTerms(input: ExpressionLike): boolean {
+		const expression = asExpression(input).removeTrivial()
+		return !expression.removeTrivial(['groupSumTerms', 'mergeSumNumbers', 'mergeProductFactors']).equalStructure(expression)
+	},
 }
-
-export function hasSumWithinPowerBase(input: ExpressionLike): boolean {
-	return asExpression(input).hasSumAsPowerBase()
-}
-
-export function hasProductWithinPowerBase(input: ExpressionLike): boolean {
-	return asExpression(input).hasProductAsPowerBase()
-}
-
-export function hasPowerWithinPowerBase(input: ExpressionLike): boolean {
-	return asExpression(input).hasPowerAsPowerBase()
-}
-
-export function hasNegativeExponent(input: ExpressionLike): boolean {
-	return asExpression(input).hasNegativeExponent()
-}
-
-export function hasSimilarTerms(input: ExpressionLike): boolean {
-	return asExpression(input).hasSimilarTerms()
-}
-
-export function hasFraction(input: ExpressionLike, includeSelf = true): boolean {
-	return asExpression(input).hasFraction(includeSelf)
-}
-
-export function hasFractionSatisfying(input: ExpressionLike, check: ExpressionCheck): boolean {
-	return asExpression(input).some((expression, ancestors) => expression.isFraction() && check(expression, ancestors))
-}
-
-export function hasFractionWithinFraction(input: ExpressionLike): boolean {
-	return asExpression(input).hasFractionWithinFraction()
-}
-
-export function hasVariableInDenominator(input: ExpressionLike, variable: VariableLike): boolean {
-	return asExpression(input).hasVariableInDenominator(variable)
-}
-
-export function hasPower(input: ExpressionLike, includeSelf = true): boolean {
-	return asExpression(input).hasPower(includeSelf)
-}
-
-export function isPolynomial(input: ExpressionLike): boolean {
-	return asExpression(input).isPolynomial()
-}
-
-export function isRational(input: ExpressionLike): boolean {
-	return asExpression(input).isRational()
-}
-
-export const expressionChecks = { isInteger, hasSumWithinProduct, hasSumWithinFraction, hasSumWithinPowerBase, hasProductWithinPowerBase, hasPowerWithinPowerBase, hasNegativeExponent, hasSimilarTerms, hasFraction, hasFractionSatisfying, hasFractionWithinFraction, hasVariableInDenominator, hasPower, isPolynomial, isRational }

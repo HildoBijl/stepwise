@@ -374,25 +374,6 @@ export class Expression {
 	}
 
 	/*
-	 * Structure checks
-	 */
-
-	hasSumWithinMinus(): boolean { return this.some(expression => expression.isMinus() && expression.argument.isSum()) }
-	hasSumWithinProduct(): boolean { return this.some(expression => expression.isProduct() && expression.factors.some(factor => factor.isSum())) }
-	hasSimilarTerms(): boolean { return !this.removeTrivial(['groupSumTerms', 'mergeSumNumbers', 'mergeProductFactors']).equalStructure(this.removeTrivial()) }
-
-	hasFraction(includeSelf = true): boolean { return this.some(expression => expression.isFraction(), includeSelf) }
-	hasSumAsFractionNumerator(): boolean { return this.some(expression => expression.isFraction() && expression.numerator.isSum()) }
-	hasFractionWithinFraction(): boolean { return this.some(expression => expression.isFraction() && expression.hasFraction(false)) }
-	hasVariableInDenominator(variable: VariableLike): boolean { return this.some(expression => expression.isFraction() && expression.denominator.dependsOn(this.coerceVariable(variable))) }
-
-	hasPower(includeSelf = true): boolean { return this.some(expression => expression.isPower(), includeSelf) }
-	hasSumAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isSum()) }
-	hasProductAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isProduct()) }
-	hasPowerAsPowerBase(): boolean { return this.some(expression => expression.isPower() && expression.base.isPower()) }
-	hasNegativeExponent(): boolean { return this.some(expression => expression.isPower() && expression.exponent.isMinus()) }
-
-	/*
 	 * Simplification
 	 */
 

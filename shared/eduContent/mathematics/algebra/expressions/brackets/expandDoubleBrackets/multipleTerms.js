@@ -39,7 +39,7 @@ function getSolution(state) {
 	const factor2 = asExpression(state.switch ? 'c*x^2+d*x+e' : 'e+d*x+c*x^2').substitute(variables).removeUseless()
 	const expression = factor1.multiply(factor2)
 	const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2))
-	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
+	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, expandMinusSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
 	const ans = allExpanded.cleanStructureOnly({ groupSumTerms: true, mergeSumNumbers: true })
 	const xFactors1 = allExpanded.terms.filter(term => variables.x.equals(term) || (term.isProduct() && term.factors.some(factor => variables.x.equals(factor))))
 	const xFactors2 = allExpanded.terms.filter(term => term.some(factor => variables.x.toPower(2).equals(factor)))
