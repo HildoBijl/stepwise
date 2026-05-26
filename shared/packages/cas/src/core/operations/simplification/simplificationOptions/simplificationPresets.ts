@@ -41,6 +41,7 @@ export const removeTrivial = new Set<SimplificationOption>([
 ])
 
 export const mergeNumbers = new Set<SimplificationOption>([
+	...removeTrivial,
 	'mergeSumNumbers',
 	'mergeProductNumbers',
 	'mergeFractionNumbers',
@@ -50,7 +51,6 @@ export const mergeNumbers = new Set<SimplificationOption>([
 ])
 
 export const cancel = new Set<SimplificationOption>([
-	...removeTrivial,
 	...mergeNumbers,
 	'cancelSumTerms',
 	'cancelFractionFactors',

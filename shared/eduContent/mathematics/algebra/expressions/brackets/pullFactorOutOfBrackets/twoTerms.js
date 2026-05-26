@@ -1,5 +1,5 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
-const { asExpression, expressionComparisons, Product, Sum } = require('../../../../../../CAS')
+const { asExpression, expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
@@ -14,9 +14,9 @@ const metaData = {
 	steps: [null, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'],
 	comparison: {
 		startingForm: (input, correct) => onlyOrderChanges(input, correct),
-		splitUp: (input, correct, { expression, factor }) => input.isSubtype(Product) && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSubtype(Sum) && inputFactor.terms.length === expression.terms.length) && equivalent(input, correct),
-		ans: (input, correct) => onlyOrderChanges(input.basicClean(), correct),
-		check: (input, correct) => onlyOrderChanges(input.basicClean(), correct),
+		splitUp: (input, correct, { expression, factor }) => input.isProduct() && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && equivalent(input, correct),
+		ans: (input, correct) => onlyOrderChanges(input.cancel(), correct),
+		check: (input, correct) => onlyOrderChanges(input.cancel(), correct),
 	}
 }
 addSetupFromSteps(metaData)
@@ -35,12 +35,12 @@ function generateState(example) {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('a*x^n').substituteVariables(variables).removeUseless()
-	const sum = asExpression(state.descending ? 'b*x+c' : 'c+b*x').substituteVariables(variables)
-	const ans = factor.multiply(sum)
-	const expression = ans.basicClean({ expandProductsOfSums: true })
-	const startingForm = factor.multiply(expression.divide(factor))
-	const splitUp = factor.multiply(expression.divide(factor).basicClean({ splitFractions: true }))
+	const factor = asExpression('a*x^n').substitute(variables).removeTrivial()
+	const sum = asExpression(state.descending ? 'b*x+c' : 'c+b*x').substitute(variables).removeTrivial()
+	const ans = factor.multiply(sum).combine()
+	const expression = ans.combine(['expandProductsOfSums'])
+	const startingForm = factor.multiply(expression.divide(factor)).flatten()
+	const splitUp = factor.multiply(expression.divide(factor).removeTrivial(['splitFractions']))
 	const check = expression
 	return { ...state, variables, factor, sum, expression, startingForm, splitUp, ans, check }
 }

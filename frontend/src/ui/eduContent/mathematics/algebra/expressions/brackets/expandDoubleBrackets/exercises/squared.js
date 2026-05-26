@@ -87,9 +87,9 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ expression, variables, allExpanded, ans, xFactors, xFactorsMerged }) => {
+		Solution: ({ jointFactor, expression, allExpanded, ans, xFactors, xFactorsMerged }) => {
 			return <Translation>
-				<Par>There are two terms that have <M>{variables.x}</M> as a factor, being <M>{xFactors[0]}</M> and again <M>{xFactors[1]}</M>. Together these can be written as <M>{xFactorsMerged}</M>. The resulting expression then becomes <BM>{allExpanded} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Par>
+				<Par>There are two terms that have <M>{jointFactor}</M> as a factor, being <M>{xFactors[0]}</M> and again <M>{xFactors[1]}</M>. Together these can be written as <M>{xFactorsMerged}</M>. The resulting expression then becomes <BM>{allExpanded} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Par>
 				<SubHead>Short-cut</SubHead>
 				<Par>There is a possible short-cut for this question. A square of a sum, like <M>\left(a+b\right)^2</M>, always comes out as <M>a^2 + 2ab + b^2</M>. Using this knowledge, we could have also directly seen that <BM>{expression} = {ans}.</BM></Par>
 			</Translation>

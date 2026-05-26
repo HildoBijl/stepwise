@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Sum, Product, Fraction, expressionComparisons } from 'step-wise/CAS'
+import { expressionComparisons } from '@step-wise/cas'
 
 import { Translation, useGetTranslation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -99,14 +99,14 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define general checks.
-	const missingFactor = (input, correct, { factor }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSubtype(Product) && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor)))) && translateCrossExercise(<>Your answer should be of the form <M>{factor} \cdot \left(\ldots\right)</M>.</>, 'missingFactor')
+	const missingFactor = (input, correct, { factor }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor)))) && translateCrossExercise(<>Your answer should be of the form <M>{factor} \cdot \left(\ldots\right)</M>.</>, 'missingFactor')
 
 	// Define checks for the starting form.
-	const incorrectFractionDenominator = (input, correct, { factor }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSubtype(Product) && input.factors.find(inputFactor => inputFactor.isSubtype(Fraction) && onlyOrderChanges(inputFactor.denominator, factor))) && translateCrossExercise(<>Your answer should be in the given starting form. Have you put the factor <M>{factor}</M> in the denominator of a fraction?</>, 'incorrectFractionDenominator')
-	const incorrectFractionNumerator = (input, correct, { expression }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSubtype(Product) && input.factors.find(inputFactor => inputFactor.isSubtype(Fraction) && onlyOrderChanges(inputFactor.numerator, expression))) && translateCrossExercise(<>Your answer should be in the given starting form. Have you put the original expression <M>{expression}</M> in the numerator of a fraction?</>, 'incorrectFractionNumerator')
+	const incorrectFractionDenominator = (input, correct, { factor }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isFraction() && onlyOrderChanges(inputFactor.denominator, factor))) && translateCrossExercise(<>Your answer should be in the given starting form. Have you put the factor <M>{factor}</M> in the denominator of a fraction?</>, 'incorrectFractionDenominator')
+	const incorrectFractionNumerator = (input, correct, { expression }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isFraction() && onlyOrderChanges(inputFactor.numerator, expression))) && translateCrossExercise(<>Your answer should be in the given starting form. Have you put the original expression <M>{expression}</M> in the numerator of a fraction?</>, 'incorrectFractionNumerator')
 
 	// Define checks for the split form.
-	const hasFractionBeenSplit = (input, correct, { expression }, isCorrect, { translateCrossExercise}) => !isCorrect && !(input.isSubtype(Product) && input.factors.find(inputFactor => inputFactor.isSubtype(Sum) && inputFactor.terms.length === expression.terms.length)) && translateCrossExercise(<>Have you split up the fraction into a summation?</>, 'hasFractionBeenSplit')
+	const hasFractionBeenSplit = (input, correct, { expression }, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isProduct() && input.factors.find(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length)) && translateCrossExercise(<>Have you split up the fraction into a summation?</>, 'hasFractionBeenSplit')
 
 	return getFieldInputFeedback(exerciseData, {
 		startingForm: [originalExpression, missingFactor, incorrectFractionDenominator, incorrectFractionNumerator, nonEquivalentExpression, equivalentExpression],

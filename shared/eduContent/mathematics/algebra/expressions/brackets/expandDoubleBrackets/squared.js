@@ -35,15 +35,16 @@ function generateState() {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('a*x^p+b*x^q').substitute(variables).removeUseless()
+	const factor = asExpression('a*x^p+b*x^q').substitute(variables).removeTrivial()
 	const expression = factor.toPower(2)
-	const multiplication = factor.multiply(factor)
-	const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor))
-	const allExpanded = firstExpanded.cleanStructureOnly({ expandProductsOfSums: true, expandMinusSums: true, mergeProductNumbers: true, mergeSumNumbers: true, mergePowerNumbers: true, mergeProductFactors: true })
-	const ans = allExpanded.cleanStructureOnly({ groupSumTerms: true, mergeSumNumbers: true })
-	const xFactors = allExpanded.terms.filter(term => variables.x.toPower(state.p + state.q).removeUseless().equals(term) || (term.isProduct() && term.factors.some(factor => variables.x.toPower(state.p + state.q).removeUseless().equals(factor))))
-	const xFactorsMerged = xFactors[0].add(xFactors[1]).cleanForAnalysis()
-	return { ...state, variables, factor, expression, multiplication, firstExpanded, allExpanded, ans, xFactors, xFactorsMerged }
+	const multiplication = factor.multiply(factor).flatten()
+	const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor)).flatten(['mergeProductMinuses'])
+	const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+	const jointFactor = asExpression('x^(p+q)').substitute(variables).normalize()
+	const ans = allExpanded.combine()
+	const xFactors = allExpanded.terms.filter(term => variables.x.toPower(state.p + state.q).removeUseless().equalStructure(term) || (term.isProduct() && term.factors.some(factor => variables.x.toPower(state.p + state.q).removeUseless().equalStructure(factor))))
+	const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()
+	return { ...state, variables, factor, expression, multiplication, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
 }
 
 function checkInput(exerciseData, step) {
