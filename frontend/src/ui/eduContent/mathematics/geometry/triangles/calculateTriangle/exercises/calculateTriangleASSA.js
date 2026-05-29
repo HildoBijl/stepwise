@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { deg2rad, roundToDigits, integerRange } from '@step-wise/utils'
-import { Integer } from 'step-wise/CAS'
+import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
 import { Float } from 'step-wise/inputTypes'
 
@@ -72,7 +72,7 @@ const steps = [
 			return <>
 				<Par>De som van de hoeken van een driehoek is altijd <M>180^\circ.</M> Hiermee kunnen we direct <M>{β}_1</M> en <M>{β}_2</M> vinden als
 					<BMList>
-						<BMPart>{β}_1 = 180 - {α} - {γ}_1 = 180 - {α} - {γ1} = {new Integer(180).subtract(α).regularClean()} - {γ1},</BMPart>
+						<BMPart>{β}_1 = 180 - {α} - {γ}_1 = 180 - {α} - {γ1} = {asExpression('180').subtract(α).regularClean()} - {γ1},</BMPart>
 						<BMPart>{β}_2 = 180 - {α} - {γ}_2 = 180 - {α} - \left({γ2}\right) = {γ1} - {α}.</BMPart>
 					</BMList>
 					Eventueel kunnen we deze twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{β}_1 \approx {new Float(roundToDigits(β1.number, 3))}^\circ</M> en <M>{β}_2 \approx {new Float(roundToDigits(β2.number, 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{β}_1.</M> We kunnen met <M>{β}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>

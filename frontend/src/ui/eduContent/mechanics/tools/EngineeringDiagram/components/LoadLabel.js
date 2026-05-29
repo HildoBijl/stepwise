@@ -1,6 +1,6 @@
 import { mergeDefaults } from '@step-wise/utils'
+import { asExpression } from '@step-wise/cas'
 import { Vector, ensureVector } from '@step-wise/geometry'
-import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/eduContent/mechanics'
 
 import { M } from 'ui/components'
@@ -15,7 +15,7 @@ const momentAngleDeviation = Math.PI / 12
 export default function LoadLabel({ load, variable, point }) {
 	// Check the input.
 	load = ensureLoad(load)
-	variable = Variable.ensureVariable(variable)
+	variable = asExpression(variable)
 	point = ensureVector(point, 2)
 
 	// Set up the Label based on the load type.

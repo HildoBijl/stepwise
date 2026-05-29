@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Sum, Fraction, expressionComparisons } from 'step-wise/CAS'
+import { expressionComparisons } from '@step-wise/cas'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'

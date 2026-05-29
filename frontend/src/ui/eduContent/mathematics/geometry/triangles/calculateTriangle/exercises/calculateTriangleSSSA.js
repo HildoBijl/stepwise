@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { deg2rad, roundToDigits, integerRange } from '@step-wise/utils'
-import { Integer } from 'step-wise/CAS'
 import { Vector } from '@step-wise/geometry'
 import { Float } from 'step-wise/inputTypes'
 
@@ -114,7 +113,7 @@ function getFeedback(exerciseData) {
 	]
 
 	// Set up feedback checks for the equation field.
-	const leftSideNoSquare = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isPower() || !input.left.exponent.equals(Integer.two)) && <>De cosinusregel heeft aan de linkerkant een kwadraat. Dat is bij jouw vergelijking niet het geval.</>
+	const leftSideNoSquare = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isPower() || !input.left.exponent.equalStructure(2)) && <>De cosinusregel heeft aan de linkerkant een kwadraat. Dat is bij jouw vergelijking niet het geval.</>
 	const equationChecks = [leftSideNoSquare, hasIncorrectSide]
 
 	return {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Variable } from 'step-wise/CAS'
+import { constants } from '@step-wise/cas'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -51,7 +51,7 @@ const Solution = ({ f, x, func, derivative }) => {
 			<Par>Een andere manier om het bovenstaande in te zien is door de wortel eerst als macht te schrijven, volgens <BM>{f}\left({x}\right) = {func} = {x}^(\frac(1)({n})).</BM> We kunnen nu de standaard regel voor de afgeleide van <M>{x}^n</M> toepassen, waarbij <M>n = \frac(1)({n}).</M> We halen de macht naar voren (als vermenigvuldiging) waarna we de macht zelf verlagen met één. Oftewel, <BM>{f}'\left({x}\right) = \frac(1)({n}) {x}^(\frac(1)({n})-1) = \frac(1)({n}) {x}^(-\frac({n - 1})({n})).</BM> Een negatieve macht betekent 'delen door het getal met positieve macht' waardoor we dit ook kunnen schrijven als<BM>{f}'\left({x}\right) = \frac(1)({n}{x}^(\frac({n - 1})({n}))) = \frac(1)({n}\sqrt[{n}]({x}^({n - 1}))).</BM> En dit is hetzelfde als wat we eerder opgezocht hebben.</Par>
 		</>
 	}
-	if (func.isPower() && !func.base.equals(Variable.e)) {
+	if (func.isPower() && !func.base.equals(constants.e)) {
 		const g = func.base.number
 		return <>
 			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func}</M> kunnen schrijven als <M>g^{x},</M> waar wij een grondgetal hebben van <M>g = {g}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = \ln\left(g\right) g^{x} = {derivative}.</BM> Hiermee is de opgave klaar.</Par>
@@ -110,7 +110,7 @@ function getFeedback(exerciseData) {
 		check = (input, correct, { x }, isCorrect) => !isCorrect && <>Tip: schrijf de functie eerst als <M>{x}^(\rm iets)</M> waarbij de macht mogelijk negatief is.</>
 	} else if (func.isRoot()) {
 		check = (input, correct, { x }, isCorrect) => !isCorrect && <>Tip: schrijf de functie eerst als <M>{x}^(\rm iets)</M> waarbij de macht mogelijk een breuk is.</>
-	} else if (func.isPower() && !func.base.equals(Variable.e)) {
+	} else if (func.isPower() && !func.base.equals(constants.e)) {
 		const g = func.base.number
 		check = (input, correct, { x }, isCorrect) => !isCorrect && <>Dit is niet het juiste antwoord. Heb je wel <M>g = {g}</M> als grondgetal gebruikt?</>
 	} else if (func.isLog()) {

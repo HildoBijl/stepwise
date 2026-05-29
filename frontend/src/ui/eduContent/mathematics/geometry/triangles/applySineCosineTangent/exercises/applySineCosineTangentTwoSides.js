@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { expressionComparisons } from 'step-wise/CAS'
 import { Vector } from '@step-wise/geometry'
+import { expressionComparisons } from '@step-wise/cas'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'

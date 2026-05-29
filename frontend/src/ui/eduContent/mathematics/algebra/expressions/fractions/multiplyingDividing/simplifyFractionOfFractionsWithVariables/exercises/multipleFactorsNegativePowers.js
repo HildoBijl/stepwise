@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { gcd } from '@step-wise/math-tools'
-import { Fraction } from 'step-wise/CAS'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'

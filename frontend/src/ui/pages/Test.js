@@ -7,13 +7,11 @@ import * as c from '@step-wise/cas'
 import * as m from '@step-wise/math-input-value'
 
 import CAS from 'step-wise/CAS'
-import * as Stuff from 'step-wise/CAS/functionalities/Expression'
 
 window.c = c
 window.m = m
 
 window.CAS = CAS
-window.Stuff = Stuff
 
 export function Test() {
 	const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])

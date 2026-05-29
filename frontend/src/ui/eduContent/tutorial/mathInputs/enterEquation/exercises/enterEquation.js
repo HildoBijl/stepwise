@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { equationComparisons } from 'step-wise/CAS'
+import { equationComparisons } from '@step-wise/cas'
 
 import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'

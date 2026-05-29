@@ -1,4 +1,4 @@
-import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
+import { expressionComparisons } from '@step-wise/cas'
 
 import { M } from 'ui/components'
 import { equationChecks } from 'ui/eduTools'

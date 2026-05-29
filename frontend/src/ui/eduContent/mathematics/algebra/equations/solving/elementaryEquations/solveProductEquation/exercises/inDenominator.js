@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Integer, expressionComparisons } from 'step-wise/CAS'
+import { expressionComparisons } from '@step-wise/cas'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -57,7 +57,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, isolated }) => {
-			return <Par><Translation>We move the factor <M>{variables.a}</M> to the other side, where it turns into a division.<Check value={Integer.one.equals(variables.b)}><Check.False> We also move the factor <M>{variables.b}</M> to the other side, where it becomes a multiplication.</Check.False></Check> All together, we wind up with <BM>{isolated}.</BM> Note that <M>{variables.x}</M> has been isolated.</Translation></Par>
+			return <Par><Translation>We move the factor <M>{variables.a}</M> to the other side, where it turns into a division.<Check value={variables.b.equalStructure(1)}><Check.False> We also move the factor <M>{variables.b}</M> to the other side, where it becomes a multiplication.</Check.False></Check> All together, we wind up with <BM>{isolated}.</BM> Note that <M>{variables.x}</M> has been isolated.</Translation></Par>
 		},
 	},
 	{

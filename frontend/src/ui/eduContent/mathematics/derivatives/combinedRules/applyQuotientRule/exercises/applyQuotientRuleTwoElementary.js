@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { expressionComparisons } from 'step-wise/CAS'
+import { expressionComparisons } from '@step-wise/cas'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
