@@ -1,5 +1,5 @@
 const { sample, randomInteger } = require('@step-wise/utils')
-const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('../../../../../../../CAS')
+const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 // (ax-x^2/y)/(bx^2) = cz.

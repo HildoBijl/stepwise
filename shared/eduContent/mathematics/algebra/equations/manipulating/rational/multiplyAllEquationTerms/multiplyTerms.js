@@ -1,5 +1,5 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
-const { asExpression, Equation, Integer, expressionComparisons, expressionChecks } = require('../../../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons, expressionChecks } = require('@step-wise/cas')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -42,15 +42,15 @@ function getSolution(state) {
 	// Assemble the equation.
 	const variables = filterVariables(state, usedVariables, constants)
 	const terms = ['a*x', 'b', 'c/x', 'd/x^2'].map(term => asExpression(term).substitute(variables))
-	let left = Integer.zero
-	let right = Integer.zero
+	let left = asExpression(0)
+	let right = asExpression(0)
 	terms.forEach((term, index) => {
 		if (state[`${constants[index]}Left`])
 			left = left.add(term)
 		else
 			right = right.add(term)
 	})
-	const equation = new Equation(left, right).removeTrivial()
+	const equation = asEquation({ left, right }).removeTrivial()
 	const factor = asExpression('e*x^n').substitute(variables).removeTrivial()
 
 	// Manipulate the equation.

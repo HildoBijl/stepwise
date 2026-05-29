@@ -1,7 +1,7 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { and } = require('@step-wise/skill-setup')
-const { asEquation, Power, expressionComparisons, equationChecks, equationComparisons } = require('../../../../../../../CAS')
+const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks

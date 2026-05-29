@@ -1,6 +1,6 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
-const { asExpression, asEquation, Product, Power, Sqrt, expressionComparisons } = require('../../../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
@@ -94,7 +94,7 @@ function getSolution(state) {
 	const [p, q, r] = coefficients.map(coeff => coeff / divisor)
 	const solutionFull = asExpression('(-q±sqrt(q^2-4*p*r))/(2p)').substitute({ p, q, r }).removeTrivial()
 	const rootFull = solutionFull.find(term => term.isSqrt())
-	const DFull = rootFull.argument
+	const DFull = rootFull.radicand
 	const D = DFull.combine()
 	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial({ reduceRootsWithZeroRadicand: false, mergeProductNumbers: true })
 	const solution = solutionFull.combine()

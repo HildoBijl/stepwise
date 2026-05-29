@@ -1,5 +1,5 @@
 const { sample, randomInteger, randomBoolean, randomIndices } = require('@step-wise/utils')
-const { asEquation, expressionComparisons, Equation, Integer } = require('../../../../../../../CAS')
+const { asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -51,7 +51,7 @@ function getSolution(state) {
 
 	// Also set up possibly wrong answers.
 	const sidesAdded = equation.left.add(equation.right)
-	const ansWithWrongSignUsed = new Equation({ left: state.toLeft ? sidesAdded : Integer.zero, right: state.toLeft ? Integer.zero : sidesAdded }).combine()
+	const ansWithWrongSignUsed = asEquation({ left: state.toLeft ? sidesAdded : 0, right: state.toLeft ? 0 : sidesAdded }).combine()
 	return { ...state, variables, equation, sideToMove, termsToMove, positive, bothSidesChanged, ans, ansWithWrongSignUsed }
 }
 

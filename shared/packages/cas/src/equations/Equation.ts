@@ -16,7 +16,7 @@ export function isEquationLike(value: unknown): value is EquationLike {
 export function asEquation(value: EquationLike | EquationInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Equation {
 	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
 	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
-	return new Equation(equationParts.left, equationParts.right, equationParts.expressionSettings)
+	return new Equation(equationParts.left, equationParts.right, equationParts.settings)
 }
 
 // Set up the Equation class.

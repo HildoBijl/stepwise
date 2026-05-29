@@ -1,5 +1,5 @@
 const { epsilon, deg2rad, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, equationComparisons } = require('../../../../../CAS')
+const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison, performListComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']

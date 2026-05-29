@@ -1,5 +1,5 @@
 const { randomInteger } = require('@step-wise/utils')
-const { asExpression, expressionChecks, expressionComparisons } = require('../../../../../CAS')
+const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // 1/a^b => a^(-b)

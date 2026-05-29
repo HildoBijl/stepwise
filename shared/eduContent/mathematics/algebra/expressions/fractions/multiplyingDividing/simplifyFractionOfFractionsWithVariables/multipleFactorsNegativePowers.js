@@ -1,5 +1,5 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
-const { asExpression, Fraction, expressionChecks, expressionComparisons } = require('../../../../../../../CAS')
+const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasNegativeExponent, hasFractionWithinFraction } = expressionChecks

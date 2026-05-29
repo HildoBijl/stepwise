@@ -1,5 +1,5 @@
 const { sample } = require('@step-wise/utils')
-const { expressionComparisons } = require('../../../../../CAS')
+const { expressionComparisons } = require('@step-wise/cas')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunction } = require('../../tools')

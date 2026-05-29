@@ -1,7 +1,7 @@
 const { sample, randomInteger, count, repeat, fromEntries } = require('@step-wise/utils')
 const { binomial } = require('@step-wise/math-tools')
 const { repeat: skillRepeat } = require('@step-wise/skill-setup')
-const { asExpression, expressionComparisons, expressionChecks, Sum, Product } = require('../../../../../../CAS')
+const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -40,7 +40,7 @@ function getSolution(state) {
 	const t2 = asExpression('c*x^d').substitute(variables).removeTrivial()
 	const expression = t1.add(t2).toPower(e)
 	const terms = repeat(e + 1, n => t1.toPower(e - n).multiply(t2.toPower(n)))
-	const termsSimplified = terms.map(term => term.advancedClean())
+	const termsSimplified = terms.map(term => term.normalize())
 	const coefficients = repeat(e + 1, n => binomial(e, n))
 	const sum = new Sum(coefficients.map((c, i) => termsSimplified[i].multiply(c, true)))
 	const ans = sum.combine()

@@ -1,5 +1,5 @@
 const { sample, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, expressionComparisons, Integer, Sqrt } = require('../../../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -39,9 +39,9 @@ function generateState(example) {
 
 	return {
 		x: sample(variableSet),
-		a: new Integer(a),
-		b: new Integer(b),
-		c: new Integer(c),
+		a: asExpression(a),
+		b: asExpression(b),
+		c: asExpression(c),
 	}
 }
 
@@ -51,7 +51,7 @@ function getSolution(state) {
 
 	const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 	const rootFull = solutionFull.find(term => term.isSqrt())
-	const DFull = rootFull.argument
+	const DFull = rootFull.radicand
 	const D = DFull.combine()
 	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial({ reduceRootsWithZeroRadicand: false })
 	const solution = solutionFull.combine()

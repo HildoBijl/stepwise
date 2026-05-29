@@ -1,6 +1,6 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
-const { asExpression, Fraction, expressionComparisons, expressionChecks, simplifyOptions } = require('../../../../../../../CAS')
+const { asExpression, expressionComparisons, expressionChecks, simplifyOptions } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { equivalent } = expressionComparisons

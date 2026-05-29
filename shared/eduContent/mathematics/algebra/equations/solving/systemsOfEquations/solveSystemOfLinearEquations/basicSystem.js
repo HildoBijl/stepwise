@@ -1,5 +1,5 @@
 const { sample, randomInteger } = require('@step-wise/utils')
-const { Integer, asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 // ax + by = c.
@@ -57,8 +57,8 @@ function getSolution(state) {
 
 	// Find the solution.
 	const { a, b, c, d, e, f } = variables
-	const x = new Integer((b * f - e * c) / (b * d - a * e))
-	const y = new Integer((a * f - d * c) / (a * e - b * d))
+	const x = asExpression((b * f - e * c) / (b * d - a * e))
+	const y = asExpression((a * f - d * c) / (a * e - b * d))
 	return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
 }
 

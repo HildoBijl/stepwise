@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]

@@ -1,5 +1,5 @@
 const { pickKeys, sample, randomInteger } = require('@step-wise/utils')
-const { expressionComparisons } = require('../../../../../CAS')
+const { expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunctions } = require('../../tools')

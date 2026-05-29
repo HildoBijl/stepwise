@@ -1,6 +1,6 @@
 const { deg2rad, integerRange, randomBoolean, randomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
-const { asExpression } = require('../../../../CAS')
+const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 

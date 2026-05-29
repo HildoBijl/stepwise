@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, equationComparisons } = require('../../../../../CAS')
+const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison } = require('../../../../../eduTools')
 
 const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)'], [3, 4, 5], [5, 12, 13]]

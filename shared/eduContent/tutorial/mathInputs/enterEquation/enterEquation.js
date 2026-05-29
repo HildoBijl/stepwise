@@ -1,5 +1,5 @@
 const { sample, randomInteger } = require('@step-wise/utils')
-const { asEquation, equationComparisons } = require('../../../../CAS')
+const { asEquation, equationComparisons } = require('@step-wise/cas')
 const { getSimpleExerciseProcessor, selectRandomVariables, performComparison } = require('../../../../eduTools')
 
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
