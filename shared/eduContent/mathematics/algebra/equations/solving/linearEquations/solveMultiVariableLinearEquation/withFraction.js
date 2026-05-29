@@ -32,7 +32,7 @@ function generateState() {
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('x/y + a = bz + cx').substituteVariables(variables).removeUseless()
+	const equation = asEquation('x/y + a = bz + cx').substitute(variables).removeTrivial()
 
 	// Find the solution.
 	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[1]).simplify({ cancelSumTerms: true })
@@ -42,9 +42,9 @@ function getSolution(state) {
 	const ansCleaned = ans.multiplyNumDen(variables.y).simplify({ expandProductsOfSums: true }).cleanForAnalysis()
 
 	// Check the solution.
-	const equationWithSolution = equation.substituteVariables({ [variables.x]: ansCleaned })
-	const equationWithSolutionMergedFractions = equationWithSolution.basicClean({ mergeFractionSums: true, cancelFractionFactors: true })
-	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.basicClean({ expandProductsOfSums: true, sortSums: true })
+	const equationWithSolution = equation.substitute({ [variables.x]: ansCleaned })
+	const equationWithSolutionMergedFractions = equationWithSolution.cancel({ mergeFractionSums: true, cancelFractionFactors: true })
+	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.cancel({ expandProductsOfSums: true, sortSums: true })
 
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans, ansCleaned, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }
 }

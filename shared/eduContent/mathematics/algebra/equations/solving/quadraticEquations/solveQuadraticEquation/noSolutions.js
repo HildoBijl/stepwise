@@ -44,12 +44,12 @@ function generateState(example) {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a*x^2 + b*x + c = 0').substituteVariables(variables).removeUseless()
+	const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 
-	const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substituteVariables(variables).removeUseless()
+	const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.argument
-	const D = DFull.regularClean()
+	const D = DFull.combine()
 	const numSolutions = 0
 	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, numSolutions }
 }

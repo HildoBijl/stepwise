@@ -31,13 +31,13 @@ function generateState() {
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substituteVariables(variables).removeUseless()
+	const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 	// Find the solution.
 	const simplified = equation.applyToLeft(left => left.cleanForAnalysis({ sortSums: false }))
-	const multiplied = simplified.applyToBothSides(side => side.multiply(simplified.left.denominator)).regularClean()
-	const shifted = multiplied.subtract(multiplied.left.terms[1]).basicClean()
-	const pulledOut = shifted.applyToRight(side => side.pullOutsideBrackets(variables.x).regularClean())
+	const multiplied = simplified.applyToBothSides(side => side.multiply(simplified.left.denominator)).combine()
+	const shifted = multiplied.subtract(multiplied.left.terms[1]).cancel()
+	const pulledOut = shifted.applyToRight(side => side.pullOutsideBrackets(variables.x).combine())
 	const bracketFactor = pulledOut.right.terms.find(factor => !variables.x.equals(factor))
 	const ans = pulledOut.left.divide(bracketFactor).cleanForAnalysis({ sortSums: false })
 

@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, expressionComparisons, equationComparisons, Variable, Integer, Sqrt } = require('../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
@@ -23,16 +23,16 @@ function generateState() {
 		randomInteger(1, 10), // b
 		randomInteger(1, 12), // c
 	]
-	const x = new Variable(sample(variableSet))
+	const x = asExpression(sample(variableSet))
 
 	// Check if it is valid.
 	if ((toFind === 0 && triplet[1] >= triplet[2]) || (toFind === 1 && triplet[0] >= triplet[2]))
 		return generateState()
 
 	return {
-		a: toFind === 0 ? x : new Integer(triplet[0]),
-		b: toFind === 1 ? x : new Integer(triplet[1]),
-		c: toFind === 2 ? x : new Integer(triplet[2]),
+		a: toFind === 0 ? x : asExpression(triplet[0]),
+		b: toFind === 1 ? x : asExpression(triplet[1]),
+		c: toFind === 2 ? x : asExpression(triplet[2]),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
@@ -55,9 +55,9 @@ function getSolution(state) {
 		toFind = 2
 		ansSquared = asExpression('a^2 + b^2').substitute('a', a).substitute('b', b)
 	}
-	const ansSquaredSimplified = ansSquared.regularClean()
-	const ansRaw = new Sqrt(ansSquaredSimplified)
-	const ans = ansRaw.regularClean()
+	const ansSquaredSimplified = ansSquared.combine()
+	const ansRaw = ansSquaredSimplified.sqrt()
+	const ans = ansRaw.combine()
 	const ansCanBeSimplified = !expressionComparisons.exactEqual(ans, ansRaw)
 
 	// Define the right variables.

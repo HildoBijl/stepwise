@@ -40,14 +40,14 @@ function generateState(example) {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const fractions = ['(a*(x+b))/(ex+f)', '(c*x+d)/(e*x+f)'].map(str => asExpression(str).substituteVariables(variables).removeUseless())
-	const expression = fractions[state.switch ? 1 : 0][state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1]).removeUseless()
+	const fractions = ['(a*(x+b))/(ex+f)', '(c*x+d)/(e*x+f)'].map(str => asExpression(str).substitute(variables).removeTrivial())
+	const expression = fractions[state.switch ? 1 : 0][state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1]).removeTrivial()
 
 	// Apply the various cleaning steps.
-	const singleFraction = fractions[state.switch ? 1 : 0].numerator[state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1].numerator).divide(fractions[0].denominator).removeUseless()
-	const bracketsExpanded = singleFraction.basicClean({ expandProductsOfSums: true, mergeSumNumbers: false })
-	const ans = bracketsExpanded.basicClean({ groupSumTerms: true })
-	const ansCleaned = ans.regularClean()
+	const singleFraction = fractions[state.switch ? 1 : 0].numerator[state.plus ? 'add' : 'subtract'](fractions[state.switch ? 0 : 1].numerator).divide(fractions[0].denominator).removeTrivial()
+	const bracketsExpanded = singleFraction.cancel({ expandProductsOfSums: true, mergeSumNumbers: false })
+	const ans = bracketsExpanded.cancel({ groupSumTerms: true })
+	const ansCleaned = ans.combine()
 	const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 }

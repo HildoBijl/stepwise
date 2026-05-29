@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asEquation, equationComparisons, Integer, Variable, Sqrt } = require('../../../../../CAS')
+const { asEquation, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['x', 'y', 'z']
@@ -16,10 +16,10 @@ const metaData = {
 
 function generateState() {
 	return {
-		α: new Integer(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
-		a: new Variable(sample(variableSet)),
-		b: new Integer(randomInteger(2, 12)),
-		c: new Integer(randomInteger(2, 12)),
+		α: asExpression(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+		a: asExpression(sample(variableSet)),
+		b: asExpression(randomInteger(2, 12)),
+		c: asExpression(randomInteger(2, 12)),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
@@ -31,13 +31,13 @@ function getSolution(state) {
 
 	// Define solution method data.
 	const rule = 1 // Use the cosine rule.
-	const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', { useDegrees: true }).substituteVariables(variables)
-	const equation = equationRaw.regularClean()
+	const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { degrees: true }).substitute(variables)
+	const equation = equationRaw.combine()
 	const numSolutions = 1
 
 	// Determine the remaining side a.
-	const aRaw = new Sqrt(equation.right)
-	a = aRaw.regularClean()
+	const aRaw = equation.right.sqrt()
+	a = aRaw.combine()
 
 	return { ...state, variables, rule, equationRaw, equation, numSolutions, aRaw, a }
 }

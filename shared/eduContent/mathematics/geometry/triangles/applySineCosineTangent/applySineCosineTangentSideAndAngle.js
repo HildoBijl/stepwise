@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['x', 'y', 'z']
@@ -21,10 +21,10 @@ function generateState() {
 	// Gather all data into a state.
 	return {
 		known,
-		x: new Integer(randomInteger(2, known === 2 ? 12 : 10)),
-		beta: new Integer(randomInteger(5, 13) * 5),
+		x: asExpression(randomInteger(2, known === 2 ? 12 : 10)),
+		beta: asExpression(randomInteger(5, 13) * 5),
 		requested,
-		y: new Variable(sample(variableSet)),
+		y: asExpression(sample(variableSet)),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
@@ -41,27 +41,27 @@ function getSolution(state) {
 
 	// Determine the rule to apply.
 	const rule = 3 - (known + requested) // 0 for sine, 1 for cosine, 2 for tangent.
-	const equation = asEquation(['sin(β)=b/c', 'cos(β)=a/c', 'tan(β)=b/a'][rule], { useDegrees: true }).substituteVariables(variables)
+	const equation = asEquation(['sin(β)=b/c', 'cos(β)=a/c', 'tan(β)=b/a'][rule], undefined, { degrees: true }).substitute(variables)
 
 	// Depending on what is known, determine a, b and c.
 	let a, b, c
 	if (known === 0) {
 		a = x
-		b = asExpression('a*tan(β)', { useDegrees: true }).substituteVariables(variables)
-		c = asExpression('a/cos(β)', { useDegrees: true }).substituteVariables(variables)
+		b = asExpression('a*tan(β)', undefined, { degrees: true }).substitute(variables)
+		c = asExpression('a/cos(β)', undefined, { degrees: true }).substitute(variables)
 	} else if (known === 1) {
-		a = asExpression('b/tan(β)', { useDegrees: true }).substituteVariables(variables)
+		a = asExpression('b/tan(β)', undefined, { degrees: true }).substitute(variables)
 		b = x
-		c = asExpression('b/sin(β)', { useDegrees: true }).substituteVariables(variables)
+		c = asExpression('b/sin(β)', undefined, { degrees: true }).substitute(variables)
 	} else {
-		a = asExpression('c*cos(β)', { useDegrees: true }).substituteVariables(variables)
-		b = asExpression('c*sin(β)', { useDegrees: true }).substituteVariables(variables)
+		a = asExpression('c*cos(β)', undefined, { degrees: true }).substitute(variables)
+		b = asExpression('c*sin(β)', undefined, { degrees: true }).substitute(variables)
 		c = x
 	}
 
 	// Determine the solution.
 	const ansRaw = [a, b, c][requested]
-	const ans = ansRaw.regularClean()
+	const ans = ansRaw.combine()
 	const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
 
 	return { ...state, a, b, c, variables, rule, equation, ansRaw, ans, canSimplifyAns }

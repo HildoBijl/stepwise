@@ -1,7 +1,7 @@
 const { fromEntries, randomBoolean } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
+const { asExpression } = require('../../../../CAS')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes')
-const { Variable } = require('../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')
@@ -53,7 +53,7 @@ function getStaticSolution(state) {
 		getDefaultForce(C, (clockwise ? -1 : 1) * Math.PI / 2, reaction, !clockwise),
 	]
 	const loadNames = ['M', 'FAx', 'FAy', 'FC']
-	const loadVariables = loadNames.map(Variable.ensureVariable)
+	const loadVariables = loadNames.map(asExpression)
 	const prenamedLoads = [{ load: loads[0], variable: loadVariables[0] }]
 	const loadsToCheck = loadNames.slice(1, 4)
 

@@ -16,7 +16,7 @@ const metaData = {
 	comparison: {
 		withoutNegativeExponents: (input, correct) => !hasNegativeExponent(input) && equivalent(input, correct),
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
-		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
 addSetupFromSteps(metaData)
@@ -62,17 +62,17 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const part1 = asExpression('a*(x+c)^p*(x+d)^q').substituteVariables(variables).removeUseless()
-	const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t').substituteVariables(variables).removeUseless()
-	const expression = (state.flip ? part2.divide(part1) : part1.divide(part2)).removeUseless()
+	const part1 = asExpression('a*(x+c)^p*(x+d)^q').substitute(variables).removeTrivial()
+	const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t').substitute(variables).removeTrivial()
+	const expression = (state.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial()
 
 	// Apply cleaning.
-	const part1WithoutNegativeExponents = part1.removeUseless({ convertNegativePowers: true })
-	const part2WithoutNegativeExponents = part2.removeUseless({ convertNegativePowers: true })
-	const withoutNegativeExponents = expression.removeUseless({ convertNegativePowers: true })
+	const part1WithoutNegativeExponents = part1.removeTrivial({ convertNegativePowers: true })
+	const part2WithoutNegativeExponents = part2.removeTrivial({ convertNegativePowers: true })
+	const withoutNegativeExponents = expression.removeTrivial({ convertNegativePowers: true })
 	const singleFraction = withoutNegativeExponents.simplify({ mergeFractionProducts: true, flattenFractions: true })
-	const inBetween = singleFraction.basicClean({ mergeProductFactors: false })
-	const ans = expression.regularClean()
+	const inBetween = singleFraction.cancel({ mergeProductFactors: false })
+	const ans = expression.combine()
 	return { ...state, variables, part1, part2, part1WithoutNegativeExponents, part2WithoutNegativeExponents, expression, withoutNegativeExponents, singleFraction, inBetween, ans }
 }
 

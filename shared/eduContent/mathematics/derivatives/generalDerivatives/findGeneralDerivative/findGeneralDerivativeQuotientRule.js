@@ -26,7 +26,7 @@ function generateState() {
 function getStaticSolution(state) {
 	const { c, fRaw, g } = state
 	const method = 1
-	const f = fRaw.multiply(c, true).basicClean()
+	const f = fRaw.multiply(c, true).cancel()
 	const h = f.divide(g).elementaryClean()
 	const x = h.getVariables()[0]
 	return { ...state, method, x, f, h }

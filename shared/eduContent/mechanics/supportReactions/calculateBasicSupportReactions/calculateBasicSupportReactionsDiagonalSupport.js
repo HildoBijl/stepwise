@@ -1,7 +1,7 @@
 const { deg2rad, fromEntries, randomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
+const { asExpression } = require('../../../../CAS')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
-const { Variable } = require('../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')
@@ -50,7 +50,7 @@ function getStaticSolution(state) {
 		getDefaultForce(C, -Math.PI / 2 - angleRad, reaction),
 	]
 	const loadNames = ['P', 'FAx', 'FAy', 'FC']
-	const loadVariables = loadNames.map(Variable.ensureVariable)
+	const loadVariables = loadNames.map(asExpression)
 	const prenamedLoads = [{ load: loads[0], variable: loadVariables[0] }]
 	const loadsToCheck = loadNames.slice(1, 4)
 

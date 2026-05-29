@@ -1,5 +1,5 @@
 const { mapValues, sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../../../CAS')
+const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
@@ -30,7 +30,7 @@ function generateState() {
 
 	// Gather all data into a state.
 	return {
-		...mapValues(sides, side => new Integer(side)),
+		...mapValues(sides, side => asExpression(side)),
 		beta: new Variable(sample(variableSet)),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
@@ -57,22 +57,22 @@ function getSolution(state) {
 		'sin(β) = b/c',
 		'cos(β) = a/c',
 		'tan(β) = b/a',
-	][rule], { useDegrees: true }).substituteVariables(variables)
+	][rule], undefined, { degrees: true }).substitute(variables)
 	const ansRaw = asExpression([
 		'asin(b/c)',
 		'acos(a/c)',
 		'atan(b/a)',
-	][rule], { useDegrees: true }).substituteVariables(variables)
-	const ans = ansRaw.regularClean()
+	][rule], undefined, { degrees: true }).substitute(variables)
+	const ans = ansRaw.combine()
 	const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
 
 	// Calculate the remaining side.
 	if (notGiven === 0)
-		a = asExpression('sqrt(c^2 - b^2)').substituteVariables(variables)
+		a = asExpression('sqrt(c^2 - b^2)').substitute(variables)
 	else if (notGiven === 1)
-		b = asExpression('sqrt(c^2 - a^2)').substituteVariables(variables)
+		b = asExpression('sqrt(c^2 - a^2)').substitute(variables)
 	else
-		c = asExpression('sqrt(a^2 + b^2)').substituteVariables(variables)
+		c = asExpression('sqrt(a^2 + b^2)').substitute(variables)
 
 	return { ...state, a, b, c, notGiven, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 }

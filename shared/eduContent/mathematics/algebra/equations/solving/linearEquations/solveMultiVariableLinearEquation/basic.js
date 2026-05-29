@@ -33,7 +33,7 @@ function generateState() {
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('ax + by = cxy + dz').substituteVariables(variables).removeUseless()
+	const equation = asEquation('ax + by = cxy + dz').substitute(variables).removeTrivial()
 
 	// Find the solution.
 	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[0]).simplify({ cancelSumTerms: true })
@@ -42,9 +42,9 @@ function getSolution(state) {
 	const ans = termsMoved.right.divide(bracketTerm)
 
 	// Check the solution.
-	const equationWithSolution = equation.substituteVariables({ [variables.x]: ans })
-	const equationWithSolutionMergedFractions = equationWithSolution.basicClean({ mergeFractionSums: true })
-	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.basicClean({ expandProductsOfSums: true, sortSums: true })
+	const equationWithSolution = equation.substitute({ [variables.x]: ans })
+	const equationWithSolutionMergedFractions = equationWithSolution.cancel({ mergeFractionSums: true })
+	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.cancel({ expandProductsOfSums: true, sortSums: true })
 
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }
 }

@@ -41,17 +41,17 @@ function generateState() {
 function getSolution(state) {
 	const { a, b, c, d } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('(x+a)/(x+b)=(x+c)/(x+d)').substituteVariables(variables).removeUseless()
-	const factorMoved = asEquation('(x+a)(x+d)=(x+c)(x+b)').substituteVariables(variables).removeUseless()
-	const expanded = factorMoved.regularClean({ expandProductsOfSums: true })
-	const termMoved = asEquation(`(${a + d})*x - (${b + c})*x = ${c * b}-(${a * d})`).substituteVariables(variables).removeUseless()
-	const cleaned = termMoved.regularClean()
+	const equation = asEquation('(x+a)/(x+b)=(x+c)/(x+d)').substitute(variables).removeTrivial()
+	const factorMoved = asEquation('(x+a)(x+d)=(x+c)(x+b)').substitute(variables).removeTrivial()
+	const expanded = factorMoved.combine({ expandProductsOfSums: true })
+	const termMoved = asEquation(`(${a + d})*x - (${b + c})*x = ${c * b}-(${a * d})`).substitute(variables).removeTrivial()
+	const cleaned = termMoved.combine()
 	const factor = asExpression(a + d - b - c)
 	const solution = asExpression(`${(c * b - a * d)}/${(a + d - b - c)}`)
-	const ans = solution.regularClean()
+	const ans = solution.combine()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
-	const equationInserted = equation.substituteVariables({ [variables.x]: ans })
-	const sideValue = equationInserted.left.regularClean()
+	const equationInserted = equation.substitute({ [variables.x]: ans })
+	const sideValue = equationInserted.left.combine()
 	return { ...state, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

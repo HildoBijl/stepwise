@@ -33,13 +33,13 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 
 	// Define numerator.
-	const term1 = asExpression('a').substituteVariables(variables)
-	const fraction1 = asExpression('x/y').substituteVariables(variables)
+	const term1 = asExpression('a').substitute(variables)
+	const fraction1 = asExpression('x/y').substitute(variables)
 	const numerator = term1[state.plus1 ? 'add' : 'subtract'](fraction1)
 
 	// Define denominator.
-	const fraction2 = asExpression('z^b/x').substituteVariables(variables)
-	const term2 = asExpression('c').substituteVariables(variables)
+	const fraction2 = asExpression('z^b/x').substitute(variables)
+	const term2 = asExpression('c').substitute(variables)
 	const denominator = fraction2[state.plus2 ? 'add' : 'subtract'](term2)
 
 	// Define the expression.
@@ -57,7 +57,7 @@ function getSolution(state) {
 
 	// Simplify the expression.
 	const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
-	const ans = intermediate.basicClean()
+	const ans = intermediate.cancel()
 	return { ...state, variables, term1, fraction1, numerator, fraction2, term2, denominator, expression, term1Intermediate, numeratorSplit, numeratorIntermediate, term2Intermediate, denominatorSplit, denominatorIntermediate, intermediate, ans }
 }
 

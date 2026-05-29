@@ -32,14 +32,14 @@ function getSolution(state) {
 	const { plus, x, y } = state
 
 	// Set up the original expression.
-	const leftExpression = asExpression(`(ay)/x`).substituteVariables(variables)
-	const rightExpression = asExpression(`(bz)/y`).substituteVariables(variables)
+	const leftExpression = asExpression(`(ay)/x`).substitute(variables)
+	const rightExpression = asExpression(`(bz)/y`).substitute(variables)
 	const expression = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
-	const denominator = asExpression('xy').substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDen(y).removeUseless({ mergeProductNumbers: true, mergeProductFactors: true, mergeSumNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDen(x).removeUseless({ mergeProductNumbers: true, mergeProductFactors: true, mergeSumNumbers: true, sortProducts: true })
+	const denominator = asExpression('xy').substitute(variables).simplify({ sortProducts: true })
+	const leftAns = leftExpression.multiplyNumDen(y).removeTrivial({ mergeProductNumbers: true, mergeProductFactors: true, mergeSumNumbers: true, sortProducts: true })
+	const rightAns = rightExpression.multiplyNumDen(x).removeTrivial({ mergeProductNumbers: true, mergeProductFactors: true, mergeSumNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)
 
 	return { ...state, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }

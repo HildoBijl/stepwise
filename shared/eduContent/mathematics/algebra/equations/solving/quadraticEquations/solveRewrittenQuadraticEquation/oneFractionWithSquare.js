@@ -23,12 +23,12 @@ const metaData = {
 					return (powerTerm && powerTerm.find(factor => factor.isNumeric())?.number) || 1
 				}
 				const adjustmentFactor = getFactor(input) / getFactor(correct)
-				return constantMultiple(input, correct.multiply(adjustmentFactor).regularClean())
+				return constantMultiple(input, correct.multiply(adjustmentFactor).combine())
 			}, compareRight: exactEqual
 		},
 		// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-		ans1: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),
-		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.regularClean({ mergeFractionSums: false, splitFractions: true })),
+		ans1: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine({ mergeFractionSums: false, splitFractions: true })),
+		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine({ mergeFractionSums: false, splitFractions: true })),
 	}
 }
 addSetupFromSteps(metaData)
@@ -75,33 +75,33 @@ function getSolution(state) {
 	// Assemble the equation.
 	const { a, b, c, d, e, flip } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('(x+a)^2/(x+b) = cx+d').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
+	const equation = asEquation('(x+a)^2/(x+b) = cx+d').substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
 
 	// Bring the equation into standard form.
-	const multiplied = asEquation('(x+a)^2 = (cx+d)(x+b)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
-	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isPower() ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
-	const merged = expanded.regularClean({ sortSums: true })
-	const moved = merged.subtract(merged.right).regularClean({ sortSums: true })
+	const multiplied = asEquation('(x+a)^2 = (cx+d)(x+b)').substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
+	const expanded = multiplied.cancel({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isPower() ? term.combine() : term)).cancel({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+	const merged = expanded.combine({ sortSums: true })
+	const moved = merged.subtract(merged.right).combine({ sortSums: true })
 
 	// Find out how to adjust the equation in the end.
 	const coefficients = getCoefficients([a, b, c, d, e], flip)
 	let divisor = gcd(...coefficients)
 	if (Math.sign(divisor) !== Math.sign(coefficients[0]))
 		divisor *= -1
-	const standardForm = moved.divide(divisor).regularClean({ splitFractions: true, mergeFractionSums: false }).removeUseless({ pullConstantPartOutOfFractions: true, mergeFractionProducts: false })
+	const standardForm = moved.divide(divisor).combine({ splitFractions: true, mergeFractionSums: false }).removeTrivial({ pullConstantPartOutOfFractions: true, mergeFractionProducts: false })
 
 	// Solve the equation in standard form.
 	const [p, q, r] = coefficients.map(coeff => coeff / divisor)
-	const solutionFull = asExpression('(-q±sqrt(q^2-4*p*r))/(2p)').substituteVariables({ p, q, r }).removeUseless()
+	const solutionFull = asExpression('(-q±sqrt(q^2-4*p*r))/(2p)').substitute({ p, q, r }).removeTrivial()
 	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.argument
-	const D = DFull.regularClean()
-	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substituteVariables({ p, q, r, D }).removeUseless({ reduceRootsWithZeroRadicand: false, mergeProductNumbers: true })
-	const solution = solutionFull.regularClean()
-	const solutionsSplit = solution.getSingular().map(s => s.removeUseless())
-	const solutions = solutionsSplit.map(s => s.regularClean())
+	const D = DFull.combine()
+	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial({ reduceRootsWithZeroRadicand: false, mergeProductNumbers: true })
+	const solution = solutionFull.combine()
+	const solutionsSplit = solution.getSingular().map(s => s.removeTrivial())
+	const solutions = solutionsSplit.map(s => s.combine())
 	const numSolutions = D.number < 0 ? 0 : solutions.length
-	const equationsSubstituted = solutions.map(s => equation.substituteVariables({ [variables.x]: s }))
+	const equationsSubstituted = solutions.map(s => equation.substitute({ [variables.x]: s }))
 	const [ans1, ans2] = solutions
 
 	// Return all calculated parameters.

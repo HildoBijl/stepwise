@@ -15,7 +15,7 @@ const metaData = {
 	steps: ['multiplyDivideFractions', 'simplifyFractionWithVariables'],
 	comparison: {
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
-		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
 addSetupFromSteps(metaData)
@@ -40,11 +40,11 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('(a*(x+c)^p)/(b*(x+c)^q/(x+d)^r)').substituteVariables(variables)[state.flip ? 'invert' : 'self']().removeUseless()
+	const expression = asExpression('(a*(x+c)^p)/(b*(x+c)^q/(x+d)^r)').substitute(variables)[state.flip ? 'invert' : 'self']().removeTrivial()
 
 	// Apply cleaning.
 	const singleFraction = expression.simplify({ mergeFractionProducts: true, flattenFractions: true })
-	const ans = expression.regularClean()
+	const ans = expression.combine()
 	return { ...state, variables, expression, singleFraction, ans }
 }
 

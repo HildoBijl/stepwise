@@ -36,22 +36,22 @@ function generateState(example) {
 function getSolution(state) {
 	// Set up the equation.
 	const variables = filterVariables(state, usedVariables, constants)
-	let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substituteVariables(variables).removeUseless()
+	let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substitute(variables).removeTrivial()
 	state.termsLeft.forEach(index => {
 		equation = equation.subtract(equation.right.terms[index])
 	})
-	equation = equation.regularClean()
+	equation = equation.combine()
 
 	// Find the term to move, add/subtract it and simplify.
 	const sideToMove = equation[state.toLeft ? 'right' : 'left']
 	const termsToMove = sideToMove.terms
 	const positive = termsToMove.some(term => !term.isNegative())
 	const bothSidesChanged = equation.subtract(sideToMove)
-	const ans = bothSidesChanged.basicClean()
+	const ans = bothSidesChanged.cancel()
 
 	// Also set up possibly wrong answers.
 	const sidesAdded = equation.left.add(equation.right)
-	const ansWithWrongSignUsed = new Equation({ left: state.toLeft ? sidesAdded : Integer.zero, right: state.toLeft ? Integer.zero : sidesAdded }).regularClean()
+	const ansWithWrongSignUsed = new Equation({ left: state.toLeft ? sidesAdded : Integer.zero, right: state.toLeft ? Integer.zero : sidesAdded }).combine()
 	return { ...state, variables, equation, sideToMove, termsToMove, positive, bothSidesChanged, ans, ansWithWrongSignUsed }
 }
 

@@ -37,18 +37,18 @@ function generateState(example) {
 function getSolution(state) {
 	const { x, a, b, c, switchSides } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('(a*x*y)/(b*z) = c*z')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const factor1 = asExpression('b*z').substituteVariables(variables).removeUseless()
-	const factor2 = asExpression('a*y').substituteVariables(variables).removeUseless()
-	const isolated = asEquation('x = (c*z*b*z)/(a*y)')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
+	const equation = asEquation('(a*x*y)/(b*z) = c*z')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const factor1 = asExpression('b*z').substitute(variables).removeTrivial()
+	const factor2 = asExpression('a*y').substitute(variables).removeTrivial()
+	const isolated = asEquation('x = (c*z*b*z)/(a*y)')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const isolatedSolution = isolated[switchSides ? 'left' : 'right']
 	const fractionGcd = gcd(a, b * c)
 	const canSimplifyFraction = (fractionGcd !== 1)
-	const ans = isolatedSolution.regularClean()
-	const equationWithSolution = equation.substituteVariables({ [x]: ans })
-	const equationWithSolutionCleaned = equationWithSolution.regularClean()
-	const checkLeft = equationWithSolution.left.regularClean()
-	const checkRight = equationWithSolution.right.regularClean()
+	const ans = isolatedSolution.combine()
+	const equationWithSolution = equation.substitute({ [x]: ans })
+	const equationWithSolutionCleaned = equationWithSolution.combine()
+	const checkLeft = equationWithSolution.left.combine()
+	const checkRight = equationWithSolution.right.combine()
 	return { ...state, variables, equation, factor1, factor2, isolated, isolatedSolution, canSimplifyFraction, ans, equationWithSolution, equationWithSolutionCleaned, checkLeft, checkRight }
 }
 

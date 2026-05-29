@@ -31,9 +31,9 @@ function generateState() {
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const factor = variables.x
-	const equation = asEquation('a=b/x')[state.switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const bothSidesChanged = equation.multiply(factor).removeUseless({ mergeFractionProducts: true })
-	const ans = bothSidesChanged.basicClean({ mergeProductFactors: true, cancelFractionFactors: true })
+	const equation = asEquation('a=b/x')[state.switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const bothSidesChanged = equation.multiply(factor).removeTrivial({ mergeFractionProducts: true })
+	const ans = bothSidesChanged.cancel({ mergeProductFactors: true, cancelFractionFactors: true })
 	return { ...state, variables, factor, equation, bothSidesChanged, ans }
 }
 

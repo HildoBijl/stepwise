@@ -30,16 +30,16 @@ function generateState() {
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('(y+b)/(x+c) + a/x = z/x').substituteVariables(variables).removeUseless()
+	const equation = asEquation('(y+b)/(x+c) + a/x = z/x').substitute(variables).removeTrivial()
 
 	// Find the solution.
 	const factor1 = variables.x
 	const factor2 = equation.left.terms[0].denominator
 	const factor = factor1.multiply(factor2)
-	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiply(factor))).applyToRight(side => side.multiply(factor)).basicClean({ cancelFractionFactors: true })
+	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiply(factor))).applyToRight(side => side.multiply(factor)).cancel({ cancelFractionFactors: true })
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, mergeProductNumbers: true })
-	const merged = expanded.regularClean({ sortProducts: false })
-	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).basicClean()
+	const merged = expanded.combine({ sortProducts: false })
+	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).cancel()
 	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x))
 	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
 	const ans = pulledOut.right.divide(bracketFactor)

@@ -23,8 +23,8 @@ function generateState() {
 function getSolution(state) {
 	const { c, f1, f2, g } = state
 	const x = g.getVariables()[0]
-	const f = f1.add(f2.multiply(c, true)).removeUseless()
-	const h = f.divide(g).removeUseless()
+	const f = f1.add(f2.multiply(c, true)).removeTrivial()
+	const h = f.divide(g).removeTrivial()
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2)).elementaryClean()

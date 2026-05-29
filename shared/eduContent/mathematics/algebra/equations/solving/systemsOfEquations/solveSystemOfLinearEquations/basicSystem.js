@@ -44,16 +44,16 @@ function generateState(example) {
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const eq1 = asEquation('ax + by = c').substituteVariables(variables).removeUseless()
-	const eq2 = asEquation('dx + ey = f').substituteVariables(variables).removeUseless()
+	const eq1 = asEquation('ax + by = c').substitute(variables).removeTrivial()
+	const eq2 = asEquation('dx + ey = f').substitute(variables).removeTrivial()
 
 	// Solve the steps.
-	const eq1Solution = asExpression('(c-b*y)/a').substituteVariables(variables).removeUseless()
+	const eq1Solution = asExpression('(c-b*y)/a').substitute(variables).removeTrivial()
 	const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
-	const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f').substituteVariables(variables).removeUseless()
-	const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c').substituteVariables(variables).regularClean()
-	const eq2SubstitutedStep4 = asExpression('a*f-d*c').substituteVariables(variables).basicClean().divide(asExpression('a*e-d*b').substituteVariables(variables).basicClean())
+	const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f').substitute(variables).removeTrivial()
+	const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f').substitute(variables).cancel()
+	const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c').substitute(variables).combine()
+	const eq2SubstitutedStep4 = asExpression('a*f-d*c').substitute(variables).cancel().divide(asExpression('a*e-d*b').substitute(variables).cancel())
 
 	// Find the solution.
 	const { a, b, c, d, e, f } = variables

@@ -35,10 +35,10 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 
 	// Define the expression.
-	const fraction1 = asExpression('a/w').substituteVariables(variables)
-	const fraction2 = asExpression('b/x').substituteVariables(variables)
-	const fraction3 = asExpression('c/y').substituteVariables(variables)
-	const fraction4 = asExpression('d/z').substituteVariables(variables)
+	const fraction1 = asExpression('a/w').substitute(variables)
+	const fraction2 = asExpression('b/x').substitute(variables)
+	const fraction3 = asExpression('c/y').substitute(variables)
+	const fraction4 = asExpression('d/z').substitute(variables)
 	const numerator = fraction1[state.plus1 ? 'add' : 'subtract'](fraction2)
 	const denominator = fraction3[state.plus2 ? 'add' : 'subtract'](fraction4)
 	const expression = numerator.divide(denominator)
@@ -58,7 +58,7 @@ function getSolution(state) {
 	const intermediateFlipped = intermediate.numerator.multiply(intermediate.denominator.invert())
 	const intermediateMerged = intermediateFlipped.simplify({ mergeFractionProducts: true })
 
-	const ans = asExpression(`((${variables.a / gcdValue}x ${state.plus1 ? '+' : '-'} ${variables.b / gcdValue}w)yz)/(wx(${variables.c / gcdValue}z ${state.plus2 ? '+' : '-'} ${variables.d / gcdValue}y))`).substituteVariables(variables).simplify({ ...simplifyOptions.removeUseless, sortProducts: true })
+	const ans = asExpression(`((${variables.a / gcdValue}x ${state.plus1 ? '+' : '-'} ${variables.b / gcdValue}w)yz)/(wx(${variables.c / gcdValue}z ${state.plus2 ? '+' : '-'} ${variables.d / gcdValue}y))`).substitute(variables).simplify({ ...simplifyOptions.removeUseless, sortProducts: true })
 
 	return { ...state, variables, fraction1, fraction2, fraction3, fraction4, numerator, denominator, expression, gcdValue, fraction1Intermediate, fraction2Intermediate, fraction3Intermediate, fraction4Intermediate, numeratorSplit, denominatorSplit, numeratorIntermediate, denominatorIntermediate, intermediate, intermediateFlipped, intermediateMerged, ans }
 }

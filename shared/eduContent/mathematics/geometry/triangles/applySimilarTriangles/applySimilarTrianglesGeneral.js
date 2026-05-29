@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, equationComparisons, Variable, Integer } = require('../../../../../CAS')
+const { asExpression, asEquation, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison } = require('../../../../../eduTools')
 
 const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)'], [3, 4, 5], [5, 12, 13]]
@@ -25,9 +25,9 @@ function generateState() {
 
 	// Gather all data into a state.
 	return {
-		a: given === 0 ? new Integer(randomInteger(2, 20)) : new Variable(variables.a),
-		b: given === 1 ? new Integer(randomInteger(2, 20)) : new Variable(variables.b),
-		c: given === 2 ? new Integer(randomInteger(2, 30)) : new Variable(variables.c),
+		a: given === 0 ? asExpression(randomInteger(2, 20)) : asExpression(variables.a),
+		b: given === 1 ? asExpression(randomInteger(2, 20)) : asExpression(variables.b),
+		c: given === 2 ? asExpression(randomInteger(2, 30)) : asExpression(variables.c),
 		La: triangle[0],
 		Lb: triangle[1],
 		rotation: randomNumber(0, 2 * Math.PI),
@@ -38,32 +38,32 @@ function generateState() {
 function getSolution(state) {
 	// Extract all the variables.
 	let { a, b, c, La, Lb } = state
-	const Lc = asExpression('sqrt(L_a^2 + L_b^2)').substituteVariables({ La, Lb }).regularClean()
+	const Lc = asExpression('sqrt(L_a^2 + L_b^2)').substitute({ La, Lb }).combine()
 	const variables = { a, b, c, La, Lb, Lc }
 
 	// Determine the solution.
 	let given, equation1, equation2, ans1Raw, ans2Raw
 	if (a.isNumeric()) {
 		given = 0
-		equation1 = asEquation('a/L_a=b/L_b').substituteVariables(variables)
-		equation2 = asEquation('a/L_a=c/L_c').substituteVariables(variables)
-		ans1Raw = asExpression('a*(L_b/L_a)').substituteVariables(variables)
-		ans2Raw = asExpression('a*(L_c/L_a)').substituteVariables(variables)
+		equation1 = asEquation('a/L_a=b/L_b').substitute(variables)
+		equation2 = asEquation('a/L_a=c/L_c').substitute(variables)
+		ans1Raw = asExpression('a*(L_b/L_a)').substitute(variables)
+		ans2Raw = asExpression('a*(L_c/L_a)').substitute(variables)
 	} else if (b.isNumeric()) {
 		given = 1
-		equation1 = asEquation('a/L_a=b/L_b').substituteVariables(variables)
-		equation2 = asEquation('b/L_b=c/L_c').substituteVariables(variables)
-		ans1Raw = asExpression('b*(L_a/L_b)').substituteVariables(variables)
-		ans2Raw = asExpression('b*(L_c/L_b)').substituteVariables(variables)
+		equation1 = asEquation('a/L_a=b/L_b').substitute(variables)
+		equation2 = asEquation('b/L_b=c/L_c').substitute(variables)
+		ans1Raw = asExpression('b*(L_a/L_b)').substitute(variables)
+		ans2Raw = asExpression('b*(L_c/L_b)').substitute(variables)
 	} else {
 		given = 2
-		equation1 = asEquation('a/L_a=c/L_c').substituteVariables(variables)
-		equation2 = asEquation('b/L_b=c/L_c').substituteVariables(variables)
-		ans1Raw = asExpression('c*(L_a/L_c)').substituteVariables(variables)
-		ans2Raw = asExpression('c*(L_b/L_c)').substituteVariables(variables)
+		equation1 = asEquation('a/L_a=c/L_c').substitute(variables)
+		equation2 = asEquation('b/L_b=c/L_c').substitute(variables)
+		ans1Raw = asExpression('c*(L_a/L_c)').substitute(variables)
+		ans2Raw = asExpression('c*(L_b/L_c)').substitute(variables)
 	}
-	const ans1 = ans1Raw.regularClean()
-	const ans2 = ans2Raw.regularClean()
+	const ans1 = ans1Raw.combine()
+	const ans2 = ans2Raw.combine()
 
 	// Define the right variables.
 	let x, y, z

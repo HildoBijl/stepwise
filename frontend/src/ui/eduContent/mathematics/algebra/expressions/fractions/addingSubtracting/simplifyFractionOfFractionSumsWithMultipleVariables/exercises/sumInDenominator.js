@@ -62,7 +62,7 @@ const steps = [
 			return <Translation>
 				<Par>When dividing something by a fraction, the rule says we may also multiply it by its inverse. So we can write this as <BM>{numerator.multiply(intermediate.invert())}.</BM> If we subsequently merge the fractions, as well as cancel the factor <M>{variables.x}</M> that appears in all terms on both sides, then we can simplify this to <BM>{ans}.</BM> This cannot be simplified further.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We could have also multiplied both sides of the original fraction by <M>{variables.x.toPower(2).multiply(variables.y).divide(gcdValue).regularClean()}</M>. After simplifying the inner fractions, we then directly find that <BM>{expression} = {ans}.</BM> However, this short-cut requires insights that are generally only obtained through lots of practice.</Par>
+				<Par>We could have also multiplied both sides of the original fraction by <M>{variables.x.toPower(2).multiply(variables.y).divide(gcdValue).combine()}</M>. After simplifying the inner fractions, we then directly find that <BM>{expression} = {ans}.</BM> However, this short-cut requires insights that are generally only obtained through lots of practice.</Par>
 			</Translation>
 		},
 	},

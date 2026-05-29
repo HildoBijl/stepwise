@@ -35,15 +35,15 @@ function generateState(example) {
 function getSolution(state) {
 	const { a, b, c, d } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a*x+b=c*x+d').substituteVariables(variables).removeUseless()
-	const moved = asEquation('a*x-c*x=d-b').substituteVariables(variables).removeUseless()
-	const cleaned = moved.regularClean()
+	const equation = asEquation('a*x+b=c*x+d').substitute(variables).removeTrivial()
+	const moved = asEquation('a*x-c*x=d-b').substitute(variables).removeTrivial()
+	const cleaned = moved.combine()
 	const factor = asExpression(a - c)
 	const solution = asExpression(`${d - b}/${a - c}`)
-	const ans = solution.regularClean()
+	const ans = solution.combine()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
-	const equationInserted = equation.substituteVariables({ [variables.x]: ans })
-	const sideValue = equationInserted.left.regularClean()
+	const equationInserted = equation.substitute({ [variables.x]: ans })
+	const sideValue = equationInserted.left.combine()
 	return { ...state, variables, equation, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

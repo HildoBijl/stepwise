@@ -19,7 +19,7 @@ function generateState() {
 	const x = sample(variableSet)
 	const c1 = randomInteger(-12, 12, [0])
 	const c2 = randomInteger(-12, 12, [0])
-	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).substitute('x', x).basicClean({ mergeProductFactors: false }) // Do not turn 10 * 10^x into 10^(x+1).
+	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).substitute('x', x).cancel({ mergeProductFactors: false }) // Do not turn 10 * 10^x into 10^(x+1).
 	return {
 		x,
 		f: sample(functionSet),
@@ -33,7 +33,7 @@ function getSolution(state) {
 	const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
 	const f1Derivative = f1.getDerivative().regularCleanDisplay()
 	const f2Derivative = f2.getDerivative().regularCleanDisplay()
-	const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).basicClean()
+	const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).cancel()
 	return { ...state, c1, c2, f1, f2, f1Derivative, f2Derivative, derivative }
 }
 

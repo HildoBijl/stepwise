@@ -22,7 +22,7 @@ function generateState() {
 			asExpression(`${sample(['sin', 'cos', 'tan'])}(${randomInteger(-4, 4, [0, 1])}*${sample(['asin', 'acos', 'atan'])}(x/y))`), // Trigonometric functions.
 			asExpression(`root[x](${randomInteger(-12, 12, [0])}+y)`), // Roots.
 			asExpression(`log[x](${randomInteger(-12, 12, [0])}y)`), // Logarithms.
-		]).regularClean().substituteVariables(variables)
+		]).combine().substitute(variables)
 	}
 }
 

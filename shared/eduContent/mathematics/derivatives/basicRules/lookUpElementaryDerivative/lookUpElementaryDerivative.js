@@ -23,7 +23,7 @@ function generateState() {
 }
 
 function getSolution(state) {
-	return { ...state, derivative: state.func.getDerivative().regularClean() }
+	return { ...state, derivative: state.func.getDerivative().combine() }
 }
 
 function checkInput(exerciseData) {

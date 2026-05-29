@@ -15,7 +15,7 @@ const metaData = {
 	steps: ['multiplyDivideFractions', 'simplifyFractionWithVariables'],
 	comparison: {
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
-		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
 addSetupFromSteps(metaData)
@@ -42,14 +42,14 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))').substituteVariables(variables).removeUseless()
-	const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))').substituteVariables(variables).removeUseless()
-	const expression = fraction1.divide(fraction2)[state.flip ? 'invert' : 'self']().removeUseless()
+	const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))').substitute(variables).removeTrivial()
+	const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))').substitute(variables).removeTrivial()
+	const expression = fraction1.divide(fraction2)[state.flip ? 'invert' : 'self']().removeTrivial()
 
 	// Apply cleaning.
 	const singleFraction = expression.simplify({ mergeFractionProducts: true, flattenFractions: true })
-	const inBetween = singleFraction.basicClean()
-	const ans = expression.regularClean()
+	const inBetween = singleFraction.cancel()
+	const ans = expression.combine()
 	return { ...state, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }
 }
 

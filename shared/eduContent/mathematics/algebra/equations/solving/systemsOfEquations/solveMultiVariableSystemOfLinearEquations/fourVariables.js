@@ -37,17 +37,17 @@ function generateState() {
 function getSolution(state) {
 	// Set up the equations.
 	const variables = filterVariables(state, usedVariables, constants)
-	const eq1 = asEquation('ax + wy = b').substituteVariables(variables).removeUseless()
-	const eq2 = asEquation('zx + cy = d').substituteVariables(variables).removeUseless()
+	const eq1 = asEquation('ax + wy = b').substitute(variables).removeTrivial()
+	const eq2 = asEquation('zx + cy = d').substitute(variables).removeTrivial()
 
 	// Solve it step by step.
-	const eq1Solution = asExpression('(b - wy)/a').substituteVariables(variables).removeUseless()
+	const eq1Solution = asExpression('(b - wy)/a').substitute(variables).removeTrivial()
 	const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
-	const eq2SubstitutedStep1 = asEquation('z*(b - wy) + acy = ad').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep2 = asEquation('bz - zwy + acy = ad').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep3 = asEquation('-zwy + acy = ad - bz').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep4 = asEquation('(-zw + ac)*y = ad - bz').substituteVariables(variables).basicClean()
-	const y = asExpression('(ad - bz)/(-zw + ac)').substituteVariables(variables).regularClean()
+	const eq2SubstitutedStep1 = asEquation('z*(b - wy) + acy = ad').substitute(variables).cancel()
+	const eq2SubstitutedStep2 = asEquation('bz - zwy + acy = ad').substitute(variables).cancel()
+	const eq2SubstitutedStep3 = asEquation('-zwy + acy = ad - bz').substitute(variables).cancel()
+	const eq2SubstitutedStep4 = asEquation('(-zw + ac)*y = ad - bz').substitute(variables).cancel()
+	const y = asExpression('(ad - bz)/(-zw + ac)').substitute(variables).combine()
 	const xRaw = eq1Solution.substitute(variables.y, y)
 	const x = xRaw.cleanForAnalysis()
 

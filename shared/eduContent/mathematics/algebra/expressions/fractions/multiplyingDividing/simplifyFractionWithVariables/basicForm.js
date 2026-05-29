@@ -16,7 +16,7 @@ const metaData = {
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
 		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
-		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct),
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)
@@ -37,15 +37,15 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('(a*x^c)/(b*x^d*(x+e))').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
+	const expression = asExpression('(a*x^c)/(b*x^d*(x+e))').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
 
 	// Set up the numeric parts for display purposes.
-	const numericPartOriginal = asExpression('a/b').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
-	const numericPart = numericPartOriginal.regularClean()
+	const numericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
+	const numericPart = numericPartOriginal.combine()
 
 	// Apply cleaning.
 	const numericSimplified = expression.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true })
-	const ans = expression.regularClean()
+	const ans = expression.combine()
 	return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
 }
 

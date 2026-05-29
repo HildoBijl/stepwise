@@ -1,6 +1,6 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
-const { asEquation, equationComparisons, Integer, Variable, Arccos } = require('../../../../../CAS')
+const { asEquation, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
@@ -25,10 +25,10 @@ function generateState() {
 
 	// Assemble the state.
 	return {
-		α: new Variable(sample(variableSet)),
-		a: new Integer(a),
-		b: new Integer(b),
-		c: new Integer(c),
+		α: asExpression(sample(variableSet)),
+		a: asExpression(a),
+		b: asExpression(b),
+		c: asExpression(c),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
@@ -40,13 +40,13 @@ function getSolution(state) {
 
 	// Define solution method data.
 	const rule = 1 // Use the cosine rule.
-	const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', { useDegrees: true }).substituteVariables(variables)
-	const equation = equationRaw.regularClean()
+	const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { degrees: true }).substitute(variables)
+	const equation = equationRaw.combine()
 	const numSolutions = 1
 
 	// Determine the remaining side a.
-	const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', { useDegrees: true }).substituteVariables(variables).regularClean()
-	α = new Arccos(intermediateEquation.right).applySettings({ useDegrees: true })
+	const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', undefined, { degrees: true }).substitute(variables).combine()
+	α = intermediateEquation.right.arccos()
 
 	return { ...state, variables, rule, equationRaw, equation, numSolutions, intermediateEquation, α }
 }

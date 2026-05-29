@@ -41,7 +41,7 @@ function generateState(example) {
 function getSolution(state) {
 	// Assemble the equation.
 	const variables = filterVariables(state, usedVariables, constants)
-	const terms = ['a*x', 'b', 'c/x', 'd/x^2'].map(term => asExpression(term).substituteVariables(variables))
+	const terms = ['a*x', 'b', 'c/x', 'd/x^2'].map(term => asExpression(term).substitute(variables))
 	let left = Integer.zero
 	let right = Integer.zero
 	terms.forEach((term, index) => {
@@ -50,14 +50,14 @@ function getSolution(state) {
 		else
 			right = right.add(term)
 	})
-	const equation = new Equation(left, right).removeUseless()
-	const factor = asExpression('e*x^n').substituteVariables(variables).removeUseless()
+	const equation = new Equation(left, right).removeTrivial()
+	const factor = asExpression('e*x^n').substitute(variables).removeTrivial()
 
 	// Manipulate the equation.
 	const form = equation.multiply(factor, true)
-	const expandedIntermediate = form.removeUseless({ mergeFractionProducts: false, expandProductsOfSums: true })
-	const expanded = expandedIntermediate.basicClean({ expandProductsOfSums: true, mergeFractionProducts: true })
-	const ans = expanded.basicClean({ mergeFractionNumbers: true, cancelFractionFactors: true })
+	const expandedIntermediate = form.removeTrivial({ mergeFractionProducts: false, expandProductsOfSums: true })
+	const expanded = expandedIntermediate.cancel({ expandProductsOfSums: true, mergeFractionProducts: true })
+	const ans = expanded.cancel({ mergeFractionNumbers: true, cancelFractionFactors: true })
 	return { ...state, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 }
 

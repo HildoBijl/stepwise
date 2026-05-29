@@ -40,16 +40,16 @@ function generateState(example) {
 function getSolution(state) {
 	const { a, b, c, d, e, switchSides, bracketsRight } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d')[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const expanded = equation.regularClean({ expandProductsOfSums: true })
-	const moved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`)[switchSides ? 'applyMinus' : 'self']()[switchSides ? 'switch' : 'self']().substituteVariables(variables).removeUseless()
-	const cleaned = moved.regularClean()
+	const equation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const expanded = equation.combine({ expandProductsOfSums: true })
+	const moved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`)[switchSides ? 'applyMinus' : 'self']()[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const cleaned = moved.combine()
 	const factor = asExpression(switchSides ? c - a : a - c)
 	const solution = asExpression(`${(bracketsRight ? c * d : d) - (a * b + e)}/${a - c}`)
-	const ans = solution.regularClean()
+	const ans = solution.combine()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
-	const equationInserted = equation.substituteVariables({ [variables.x]: ans })
-	const sideValue = equationInserted.left.regularClean()
+	const equationInserted = equation.substitute({ [variables.x]: ans })
+	const sideValue = equationInserted.left.combine()
 	return { ...state, variables, equation, expanded, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

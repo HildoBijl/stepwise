@@ -36,14 +36,14 @@ function generateState(example) {
 function getSolution(state) {
 	const { e } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const t1 = asExpression('a*x^b').substituteVariables(variables).removeUseless()
-	const t2 = asExpression('c*x^d').substituteVariables(variables).removeUseless()
+	const t1 = asExpression('a*x^b').substitute(variables).removeTrivial()
+	const t2 = asExpression('c*x^d').substitute(variables).removeTrivial()
 	const expression = t1.add(t2).toPower(e)
 	const terms = repeat(e + 1, n => t1.toPower(e - n).multiply(t2.toPower(n)))
 	const termsSimplified = terms.map(term => term.advancedClean())
 	const coefficients = repeat(e + 1, n => binomial(e, n))
 	const sum = new Sum(coefficients.map((c, i) => termsSimplified[i].multiply(c, true)))
-	const ans = sum.regularClean()
+	const ans = sum.combine()
 	const termsNames = repeat(e + 1, i => `term${i}`)
 	const coefficientsNames = repeat(e + 1, i => `c${i}`)
 	return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromEntries(termsNames, termsSimplified), termsNames, ...fromEntries(coefficientsNames, coefficients), coefficientsNames }

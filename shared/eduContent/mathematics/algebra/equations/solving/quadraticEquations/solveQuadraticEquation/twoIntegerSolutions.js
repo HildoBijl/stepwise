@@ -44,18 +44,18 @@ function generateState(example) {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a*x^2 + b*x + c = 0').substituteVariables(variables).removeUseless()
+	const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 
-	const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substituteVariables(variables).removeUseless()
+	const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.argument
-	const D = DFull.regularClean()
-	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substituteVariables({ ...variables, D }).removeUseless({ reduceRootsWithZeroRadicand: false })
-	const solution = solutionFull.regularClean()
-	const solutionsSplit = solution.getSingular().map(s => s.removeUseless())
-	const solutions = solutionsSplit.map(s => s.regularClean())
+	const D = DFull.combine()
+	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial({ reduceRootsWithZeroRadicand: false })
+	const solution = solutionFull.combine()
+	const solutionsSplit = solution.getSingular().map(s => s.removeTrivial())
+	const solutions = solutionsSplit.map(s => s.combine())
 	const numSolutions = solutions.length
-	const equationsSubstituted = solutions.map(s => equation.substituteVariables({ [variables.x]: s }))
+	const equationsSubstituted = solutions.map(s => equation.substitute({ [variables.x]: s }))
 	const [ans1, ans2] = solutions
 	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
 }

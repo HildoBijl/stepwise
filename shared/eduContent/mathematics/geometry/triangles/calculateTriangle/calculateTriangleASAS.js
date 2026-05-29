@@ -1,5 +1,5 @@
 const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
-const { asExpression, asEquation, equationComparisons, Integer, Variable } = require('../../../../../CAS')
+const { asExpression, asEquation, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['x', 'y', 'z']
@@ -23,10 +23,10 @@ function generateState() {
 
 	// Gather all data into a state.
 	return {
-		α: new Integer(α),
-		β: new Integer(β),
-		a: new Variable(sample(variableSet)),
-		c: new Integer(randomInteger(2, 12)),
+		α: asExpression(α),
+		β: asExpression(β),
+		a: asExpression(sample(variableSet)),
+		c: asExpression(randomInteger(2, 12)),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
@@ -37,20 +37,20 @@ function getSolution(state) {
 	const variables = { α, β, a, c }
 
 	// Determine gamma.
-	const γRaw = asExpression('180-α-β').substituteVariables(variables)
-	const γ = γRaw.regularClean()
+	const γRaw = asExpression('180-α-β', undefined, { degrees: true }).substitute(variables)
+	const γ = γRaw.combine()
 	variables.γ = γ
 
 	// Define solution method data.
 	const rule = 0 // Use the sine rule.
-	const equation = asEquation('a/sin(α)=c/sin(γ)', { useDegrees: true }).substituteVariables(variables)
+	const equation = asEquation('a/sin(α)=c/sin(γ)', undefined, { degrees: true }).substitute(variables)
 	const numSolutions = 1
 
 	// Determine a and b.
-	const aRaw = asExpression('c*sin(α)/sin(γ)', { useDegrees: true }).substituteVariables(variables)
-	a = aRaw.regularClean()
-	const bRaw = asExpression('c*sin(β)/sin(γ)', { useDegrees: true }).substituteVariables(variables)
-	const b = bRaw.regularClean()
+	const aRaw = asExpression('c*sin(α)/sin(γ)', undefined, { degrees: true }).substitute(variables)
+	a = aRaw.combine()
+	const bRaw = asExpression('c*sin(β)/sin(γ)', undefined, { degrees: true }).substitute(variables)
+	const b = bRaw.combine()
 
 	return { ...state, variables, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
 }

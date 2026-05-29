@@ -79,7 +79,7 @@ const steps = [
 		},
 		Solution: ({ a, b, c, d, variables, expression, singleFraction, inBetween, ans }) => {
 			const gcdValue = gcd(a, b)
-			return <Par><Translation><Check value={gcdValue > 1}><Check.True>We can first divide the numerator and the denominator by <M>{gcdValue}</M>. This gives us <BM>{singleFraction} = {inBetween}.</BM></Check.True><Check.False>First we can see that there is no simplification possible for the number values.</Check.False></Check> Continuing with the variables, we can sort out the factors <M>{variables.x.add(c).removeUseless()}</M> and <M>{variables.x.add(d).removeUseless()}</M> to get <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation><Check value={gcdValue > 1}><Check.True>We can first divide the numerator and the denominator by <M>{gcdValue}</M>. This gives us <BM>{singleFraction} = {inBetween}.</BM></Check.True><Check.False>First we can see that there is no simplification possible for the number values.</Check.False></Check> Continuing with the variables, we can sort out the factors <M>{variables.x.add(c).removeTrivial()}</M> and <M>{variables.x.add(d).removeTrivial()}</M> to get <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

@@ -17,7 +17,7 @@ const metaData = {
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
 		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
-		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct),
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)
@@ -42,18 +42,18 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	let expression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
-	const factor1 = asExpression('x+c').substituteVariables(variables).removeUseless()
-	const factor2 = asExpression('x+d').substituteVariables(variables).removeUseless()
+	let expression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
+	const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
+	const factor2 = asExpression('x+d').substitute(variables).removeTrivial()
 
 	// Set up the numeric parts for display purposes.
-	const numericPartOriginal = asExpression('a/b').substituteVariables(variables).removeUseless()[state.switch ? 'invert' : 'self']()
-	const numericPart = numericPartOriginal.regularClean()
+	const numericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
+	const numericPart = numericPartOriginal.combine()
 	const factor = gcd(state.a, state.b) * (state.a < 0 && state.b < 0 ? -1 : 1)
 
 	// Apply cleaning.
 	const numericSimplified = expression.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true })
-	const ans = expression.regularClean()
+	const ans = expression.combine()
 	return { ...state, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 }
 

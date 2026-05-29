@@ -58,7 +58,7 @@ const steps = [
 		},
 		Solution: ({ a, b, c, d, e, f, p, q, variables, expression, singleFraction, inBetween, ans }) => {
 			const gcdValue = gcd(a * d, b * c)
-			return <Par><Translation>We can merge number products<Check value={gcdValue > 1}><Check.True> and subsequently divide the numerator and the denominator by <M>{gcd(a * d, b * c)}</M></Check.True></Check>. This gives us <BM>{singleFraction} = {inBetween}.</BM> Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(e).removeUseless()}\right)</M> and <CountingWord>{q}</CountingWord> factors of <M>\left({variables.x.add(f).removeUseless()}\right)</M> from both sides. This results in <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation>We can merge number products<Check value={gcdValue > 1}><Check.True> and subsequently divide the numerator and the denominator by <M>{gcd(a * d, b * c)}</M></Check.True></Check>. This gives us <BM>{singleFraction} = {inBetween}.</BM> Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(e).removeTrivial()}\right)</M> and <CountingWord>{q}</CountingWord> factors of <M>\left({variables.x.add(f).removeTrivial()}\right)</M> from both sides. This results in <BM>{inBetween} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

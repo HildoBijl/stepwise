@@ -1,6 +1,6 @@
 const { epsilon, deg2rad, sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
-const { asExpression, asEquation, equationComparisons, Integer, Variable, Arcsin } = require('../../../../../CAS')
+const { asExpression, asEquation, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison, performListComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
@@ -25,10 +25,10 @@ function generateState() {
 
 	// Assemble the state.
 	return {
-		α: new Integer(α),
-		γ: new Variable(sample(variableSet)),
-		a: new Integer(a),
-		c: new Integer(c),
+		α: asExpression(α),
+		γ: asExpression(sample(variableSet)),
+		a: asExpression(a),
+		c: asExpression(c),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
@@ -40,15 +40,15 @@ function getSolution(state) {
 
 	// Determine the solution.
 	const rule = 0 // Use the sine rule.
-	const equation = asEquation('a/sin(α) = c/sin(γ)', { useDegrees: true }).substituteVariables(variables)
-	const intermediateEquation = asEquation('sin(γ) = c/a*sin(α)', { useDegrees: true }).substituteVariables(variables).regularClean()
-	const γ1 = new Arcsin(intermediateEquation.right).applySettings({ useDegrees: true })
-	const γ2 = new Integer(180).subtract(γ1).regularClean()
+	const equation = asEquation('a/sin(α) = c/sin(γ)', undefined, { degrees: true }).substitute(variables)
+	const intermediateEquation = asEquation('sin(γ) = c/a*sin(α)', undefined, { degrees: true }).substitute(variables).combine()
+	const γ1 = intermediateEquation.right.arcsin()
+	const γ2 = asExpression(180, undefined, { degrees: true }).subtract(γ1).combine()
 	const numSolutions = 2
 
 	// Determine corresponding b values.
-	const b1 = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', { useDegrees: true }).substituteVariables(variables)
-	const b2 = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', { useDegrees: true }).substituteVariables(variables)
+	const b1 = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
+	const b2 = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
 
 	return { ...state, variables, rule, equation, intermediateEquation, γ1, γ2, b1, b2, numSolutions }
 }

@@ -18,14 +18,14 @@ function generateState() {
 	const x = sample(variableSet)
 	const [fRaw, g] = getRandomElementaryFunctions(2, false, false, true, false).map(func => func.substitute('x', x))
 	const c = randomInteger(-12, 12, [0])
-	const f = fRaw.multiply(c, true).basicClean()
+	const f = fRaw.multiply(c, true).cancel()
 	return { f, g }
 }
 
 function getSolution(state) {
 	const { f, g } = state
 	const x = f.getVariables()[0]
-	const h = f.multiply(g).removeUseless()
+	const h = f.multiply(g).removeTrivial()
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))

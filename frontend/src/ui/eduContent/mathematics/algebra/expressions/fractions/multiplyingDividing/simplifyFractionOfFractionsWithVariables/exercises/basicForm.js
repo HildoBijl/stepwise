@@ -56,7 +56,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ a, b, c, p, variables, expression, singleFraction, ans }) => {
-			return <Par><Translation>We can divide the numerator and the denominator by <M>{gcd(a, b)}</M>. Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(c).removeUseless()}\right)</M> from both sides. This results in <BM>{singleFraction} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation>We can divide the numerator and the denominator by <M>{gcd(a, b)}</M>. Next to that, we can cancel <CountingWord>{p}</CountingWord> factors of <M>\left({variables.x.add(c).removeTrivial()}\right)</M> from both sides. This results in <BM>{singleFraction} = {ans}.</BM> This is as simplified as possible. Altogether, the final result is <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

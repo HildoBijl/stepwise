@@ -1,11 +1,11 @@
 import { isReadonlyArray, deepEquals } from '@step-wise/utils'
 
 import {
-	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, number, nodeToTree, stringToVariable, variable, // Construction
+	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
-	add, subtract, multiply, divide, negative, power, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
+	add, subtract, multiply, divide, negative, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
@@ -279,6 +279,18 @@ export class Expression {
 	divide(denominator: ExpressionLike): Expression { return this.recreateWith(divide(this.node, this.coerceExpression(denominator).node)) }
 	toPower(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.node, this.coerceExpression(exponent).node)) }
 	asExponentOf(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.coerceExpression(exponent).node, this.node)) }
+
+	sqrt(): Expression { return this.recreateWith(sqrt(this.node)) }
+	root(degree: ExpressionLike): Expression { return this.recreateWith(root(this.node, this.coerceExpression(degree).node)) }
+	ln(): Expression { return this.recreateWith(ln(this.node)) }
+	log(base: ExpressionLike): Expression { return this.recreateWith(log(this.node, this.coerceExpression(base).node)) }
+
+	sin(): Expression { return this.recreateWith(sin(this.node)) }
+	cos(): Expression { return this.recreateWith(cos(this.node)) }
+	tan(): Expression { return this.recreateWith(tan(this.node)) }
+	arcsin(): Expression { return this.recreateWith(arcsin(this.node)) }
+	arccos(): Expression { return this.recreateWith(arccos(this.node)) }
+	arctan(): Expression { return this.recreateWith(arctan(this.node)) }
 
 	/*
 	 * Substitution

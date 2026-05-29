@@ -19,7 +19,7 @@ function generateState() {
 			asEquation(`(${randomInteger(-12, 12, [0, 1])}x+${randomInteger(-12, 12, [0, 1])}y)/(${randomInteger(-12, 12, [0])}z)=1`),
 			asEquation(`x^y-${randomInteger(1, 8)}=z`),
 			asEquation(`(x+${randomInteger(-12, 12, [0])})(y+${randomInteger(-12, 12, [0])})(z+${randomInteger(-12, 12, [0])}) = 1`),
-		]).regularClean().substituteVariables(variables)
+		]).combine().substitute(variables)
 	}
 }
 

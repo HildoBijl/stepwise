@@ -45,17 +45,17 @@ function generateState() {
 function getSolution(state) {
 	// Set up the equations.
 	const variables = filterVariables(state, usedVariables, constants)
-	const eq1 = asEquation('ax + by + cz = d').substituteVariables(variables).removeUseless()
-	const eq2 = asEquation('ex + fy + gz = h').substituteVariables(variables).removeUseless()
+	const eq1 = asEquation('ax + by + cz = d').substitute(variables).removeTrivial()
+	const eq2 = asEquation('ex + fy + gz = h').substitute(variables).removeTrivial()
 
 	// Solve it step by step.
-	const eq1Solution = asExpression('(d - by - cz)/a').substituteVariables(variables).removeUseless()
+	const eq1Solution = asExpression('(d - by - cz)/a').substitute(variables).removeTrivial()
 	const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
-	const eq2SubstitutedStep1 = asEquation('e*(d - by - cz) + afy + agz = ah').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep2 = asEquation('ed - eby - ecz + afy + agz = ah').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep3 = asEquation('-eby + afy = ah - ed + ecz - agz').substituteVariables(variables).basicClean()
-	const eq2SubstitutedStep4 = eq2SubstitutedStep3.regularClean()
-	const y = asExpression('(ah - ed + ecz - agz)/(-eb + af)').substituteVariables(variables).regularClean()
+	const eq2SubstitutedStep1 = asEquation('e*(d - by - cz) + afy + agz = ah').substitute(variables).cancel()
+	const eq2SubstitutedStep2 = asEquation('ed - eby - ecz + afy + agz = ah').substitute(variables).cancel()
+	const eq2SubstitutedStep3 = asEquation('-eby + afy = ah - ed + ecz - agz').substitute(variables).cancel()
+	const eq2SubstitutedStep4 = eq2SubstitutedStep3.combine()
+	const y = asExpression('(ah - ed + ecz - agz)/(-eb + af)').substitute(variables).combine()
 	const xRaw = eq1Solution.substitute(variables.y, y)
 	const x = xRaw.cleanForAnalysis()
 

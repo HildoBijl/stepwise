@@ -33,15 +33,15 @@ function getSolution(state) {
 	const { plus, a, b, x, y } = state
 
 	// Set up the original expression.
-	const leftExpression = asExpression(`1/(ax)`).substituteVariables(variables)
-	const rightExpression = asExpression(`1/(by)`).substituteVariables(variables)
+	const leftExpression = asExpression(`1/(ax)`).substitute(variables)
+	const rightExpression = asExpression(`1/(by)`).substitute(variables)
 	const expression = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
 	const lcmValue = lcm(a, b)
-	const denominator = asExpression(`${lcmValue}xy`).substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDen(lcmValue / a).multiplyNumDen(y).removeUseless({ mergeProductNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDen(lcmValue / b).multiplyNumDen(x).removeUseless({ mergeProductNumbers: true, sortProducts: true })
+	const denominator = asExpression(`${lcmValue}xy`).substitute(variables).simplify({ sortProducts: true })
+	const leftAns = leftExpression.multiplyNumDen(lcmValue / a).multiplyNumDen(y).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
+	const rightAns = rightExpression.multiplyNumDen(lcmValue / b).multiplyNumDen(x).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)
 
 	return { ...state, variables, leftExpression, rightExpression, expression, lcmValue, denominator, leftAns, rightAns, ans }

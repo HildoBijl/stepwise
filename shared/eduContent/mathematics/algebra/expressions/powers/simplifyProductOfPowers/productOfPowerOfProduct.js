@@ -34,11 +34,11 @@ function generateState(example) {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('a*x^b*(c*x)^d').substituteVariables(variables)
+	const expression = asExpression('a*x^b*(c*x)^d').substitute(variables)
 	const bracketsExpanded = expression.simplify({ expandPowersOfProducts: true })
 	const numbersSimplified = bracketsExpanded.simplify({ mergeProductNumbers: true, mergePowerNumbers: true })
 	const powersMerged = numbersSimplified.simplify({ mergeProductFactors: true })
-	const ans = powersMerged.regularClean()
+	const ans = powersMerged.combine()
 	return { ...state, variables, expression, bracketsExpanded, numbersSimplified, powersMerged, ans }
 }
 

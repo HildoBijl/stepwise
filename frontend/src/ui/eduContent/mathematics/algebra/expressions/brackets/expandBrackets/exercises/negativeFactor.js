@@ -70,7 +70,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ expression, variables, n, numbersMerged, ans }) => {
-			return <Par><Translation>We can turn the multiplication of <M>{variables.x}</M> with <M>{variables.x.toPower(n).removeUseless()}</M> into <M>{variables.x.toPower(n + 1)}</M>. This turns the full expression into <BM>{numbersMerged} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Translation></Par>
+			return <Par><Translation>We can turn the multiplication of <M>{variables.x}</M> with <M>{variables.x.toPower(n).removeTrivial()}</M> into <M>{variables.x.toPower(n + 1)}</M>. This turns the full expression into <BM>{numbersMerged} = {ans}.</BM> This is our final answer. In short, <M>{expression} = {ans}</M>.</Translation></Par>
 		},
 	},
 ]

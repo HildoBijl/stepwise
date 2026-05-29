@@ -16,9 +16,9 @@ function generateState(example) {
 }
 
 function getSolution(state) {
-	const expression = asExpression('a^(-b)').substituteVariables(state).removeUseless()
-	const ans = asExpression('1/a^b').substituteVariables(state).removeUseless()
-	const simplified = ans.regularClean()
+	const expression = asExpression('a^(-b)').substitute(state).removeTrivial()
+	const ans = asExpression('1/a^b').substitute(state).removeTrivial()
+	const simplified = ans.combine()
 	return { ...state, expression, ans, simplified }
 }
 

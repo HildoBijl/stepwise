@@ -25,7 +25,7 @@ function generateState() {
 function getSolution(state) {
 	const { c, fRaw, g1, g2 } = state
 	const method = 2
-	const f = fRaw.multiply(c, true).basicClean()
+	const f = fRaw.multiply(c, true).cancel()
 	const g = g1.divide(g2)
 	const x = f.getVariables()[0]
 	const h = f.substitute(x, g).elementaryClean()

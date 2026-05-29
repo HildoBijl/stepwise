@@ -41,7 +41,7 @@ function generateState(example) {
 function getSolution(state) {
 	// Assemble the equation.
 	const variables = filterVariables(state, usedVariables, constants)
-	const terms = ['a*x^4', 'b*x^3', 'c*x^2', 'd*x'].map(term => asExpression(term).substituteVariables(variables))
+	const terms = ['a*x^4', 'b*x^3', 'c*x^2', 'd*x'].map(term => asExpression(term).substitute(variables))
 	let left = Integer.zero
 	let right = Integer.zero
 	terms.forEach((term, index) => {
@@ -50,14 +50,14 @@ function getSolution(state) {
 		else
 			right = right.add(term)
 	})
-	const equation = new Equation(left, right).removeUseless()
-	const factor = asExpression('e*x^n').substituteVariables(variables).removeUseless()
+	const equation = new Equation(left, right).removeTrivial()
+	const factor = asExpression('e*x^n').substitute(variables).removeTrivial()
 
 	// Manipulate the equation.
 	const form = equation.divide(factor)
-	const expanded = form.removeUseless({ splitFractions: true })
-	const ansIntermediate = expanded.basicClean({ mergeFractionNumbers: true })
-	const ans = ansIntermediate.basicClean({ cancelFractionFactors: true })
+	const expanded = form.removeTrivial({ splitFractions: true })
+	const ansIntermediate = expanded.cancel({ mergeFractionNumbers: true })
+	const ans = ansIntermediate.cancel({ cancelFractionFactors: true })
 	return { ...state, variables, equation, factor, form, expanded, ansIntermediate, ans }
 }
 
