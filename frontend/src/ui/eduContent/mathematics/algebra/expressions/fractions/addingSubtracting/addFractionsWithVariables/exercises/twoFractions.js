@@ -80,12 +80,12 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up additional checks for the specific requirements.
-	const notTwoFractions = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSubtype(Sum) && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isSubtype(Fraction)))) && translateCrossExercise(<>We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</>, 'notTwoFractions')
+	const notTwoFractions = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !(input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction()))) && translateCrossExercise(<>We are expecting a sum of two fractions. Only rewrite the fractions and don't merge them together yet.</>, 'notTwoFractions')
 
-	const unequalDenominators = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !equivalent(...input.terms.map(term => term.find(part => part.isSubtype(Fraction)).denominator)) && translateCrossExercise(<>The two fractions do not have the same denominator.</>, 'unequalDenominators')
+	const unequalDenominators = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && translateCrossExercise(<>The two fractions do not have the same denominator.</>, 'unequalDenominators')
 
 	const unsimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !input.terms.every(term => {
-		const numerator = term.find(part => part.isSubtype(Fraction)).numerator
+		const numerator = term.find(part => part.isFraction()).numerator
 		return onlyOrderChanges(numerator.elementaryClean(), numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true }))
 	}) && translateCrossExercise(<>You can still further simplify the numerators.</>, 'unsimplifiedNumerator')
 

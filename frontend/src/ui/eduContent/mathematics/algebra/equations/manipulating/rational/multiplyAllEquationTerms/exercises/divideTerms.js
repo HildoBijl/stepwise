@@ -81,8 +81,8 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up checks to check the form of the first step, first checking if the factor is set up properly and then whether or not the original expression has been copied properly.
-	const incorrectForm = (input, correct, { equation, factor }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Fraction) && onlyOrderChanges(side.denominator, factor)) && translateCrossExercise(incorrectFormMessage(part, <M>\frac(\left(\ldots\right))({factor})</M>), 'incorrectForm'))?.value
-	const incorrectCopy = (input, correct, { equation }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Fraction) && onlyOrderChanges(side.numerator, equation[part])) && translateCrossExercise(incorrectCopyMessage(part), 'incorrectCopy'))?.value
+	const incorrectForm = (input, correct, { equation, factor }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSum() && !(side.isFraction() && onlyOrderChanges(side.denominator, factor)) && translateCrossExercise(incorrectFormMessage(part, <M>\frac(\left(\ldots\right))({factor})</M>), 'incorrectForm'))?.value
+	const incorrectCopy = (input, correct, { equation }, isCorrect, { translateCrossExercise }) => !isCorrect && input.findSide((side, part) => equation[part].isSum() && !(side.isFraction() && onlyOrderChanges(side.numerator, equation[part])) && translateCrossExercise(incorrectCopyMessage(part), 'incorrectCopy'))?.value
 
 	// Assemble all the feedback checks.
 	return getFieldInputFeedback(exerciseData, {

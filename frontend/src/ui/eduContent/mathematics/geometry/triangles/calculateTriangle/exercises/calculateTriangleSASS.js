@@ -114,7 +114,7 @@ function getFeedback(exerciseData) {
 	]
 
 	// Set up feedback checks for the equation field.
-	const leftSideNoSquare = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isSubtype('Power') || !input.left.exponent.equals(Integer.two)) && <>De cosinusregel heeft aan de linkerkant een kwadraat. Dat is bij jouw vergelijking niet het geval.</>
+	const leftSideNoSquare = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isPower() || !input.left.exponent.equals(Integer.two)) && <>De cosinusregel heeft aan de linkerkant een kwadraat. Dat is bij jouw vergelijking niet het geval.</>
 	const equationChecks = [leftSideNoSquare, hasIncorrectSide]
 
 	return {

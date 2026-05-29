@@ -14,7 +14,7 @@ const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
 	steps: ['multiplyDivideFractions', 'simplifyFractionWithVariables'],
 	comparison: {
-		singleFraction: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
+		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
 		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }

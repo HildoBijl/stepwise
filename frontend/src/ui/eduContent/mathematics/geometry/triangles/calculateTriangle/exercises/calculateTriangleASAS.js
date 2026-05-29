@@ -127,7 +127,7 @@ function getFeedback(exerciseData) {
 	]
 
 	// Set up feedback checks for the equation field.
-	const someSideNoFraction = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isSubtype('Fraction') || !input.right.isSubtype('Fraction')) && <>De sinusregel heeft aan beide kanten van de vergelijking een breuk. Dat is nu niet het geval.</>
+	const someSideNoFraction = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isFraction() || !input.right.isFraction()) && <>De sinusregel heeft aan beide kanten van de vergelijking een breuk. Dat is nu niet het geval.</>
 	const equationChecks = [someSideNoFraction, hasIncorrectSide]
 
 	return {

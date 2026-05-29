@@ -47,7 +47,7 @@ function getSolution(state) {
 	const equation = asEquation('a*x^2 + b*x + c = 0').substituteVariables(variables).removeUseless()
 
 	const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substituteVariables(variables).removeUseless()
-	const rootFull = solutionFull.find(term => term.isSubtype(Sqrt))
+	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.argument
 	const D = DFull.regularClean()
 	const numSolutions = 0

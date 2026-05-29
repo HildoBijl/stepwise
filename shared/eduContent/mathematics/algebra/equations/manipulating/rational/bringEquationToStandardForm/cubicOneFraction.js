@@ -69,7 +69,7 @@ function getSolution(state) {
 
 	// Rewrite the equation in various ways.
 	const multiplied = asEquation('(ax+b)(x^2+e) = cx(x+d)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
-	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isSubtype(Power) ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isPower() ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 	const merged = expanded.regularClean({ sortSums: true })
 	const moved = merged.subtract(merged.right).regularClean({ sortSums: true })
 

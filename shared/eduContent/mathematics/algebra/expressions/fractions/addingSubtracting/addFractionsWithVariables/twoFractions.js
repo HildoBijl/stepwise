@@ -15,12 +15,12 @@ const metaData = {
 	skill: 'addFractionsWithVariables',
 	steps: ['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables'],
 	comparison: {
-		sameDenominator: (input, correct) => input.isSubtype(Sum) && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isSubtype(Fraction))) && equivalent(...input.terms.map(term => term.find(part => part.isSubtype(Fraction)).denominator)) && equivalent(input, correct),
-		bracketsExpanded: (input, correct) => input.isSubtype(Sum) && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isSubtype(Fraction))) && equivalent(...input.terms.map(term => term.find(part => part.isSubtype(Fraction)).denominator)) && input.terms.every(term => {
-			const numerator = term.find(part => part.isSubtype(Fraction)).numerator
+		sameDenominator: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && equivalent(input, correct),
+		bracketsExpanded: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && input.terms.every(term => {
+			const numerator = term.find(part => part.isFraction()).numerator
 			return onlyOrderChanges(numerator.elementaryClean(), numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true }))
 		}) && equivalent(input, correct),
-		ans: (input, correct) => input.elementaryClean().isSubtype(Fraction) && !hasFractionWithinFraction(input) && onlyOrderChanges(input.elementaryClean().numerator, input.elementaryClean().numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
+		ans: (input, correct) => input.elementaryClean().isFraction() && !hasFractionWithinFraction(input) && onlyOrderChanges(input.elementaryClean().numerator, input.elementaryClean().numerator.basicClean({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)

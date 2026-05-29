@@ -15,7 +15,7 @@ const metaData = {
 	steps: ['rewritePower', 'simplifyNumberProduct', 'rewritePower'],
 	comparison: {
 		bracketsExpanded: (input, correct) => !hasProductWithinPowerBase(input) && equivalent(input, correct),
-		numbersSimplified: (input, correct) => !hasProductWithinPowerBase(input) && !input.recursiveSome(term => term.isSubtype(Product) && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
+		numbersSimplified: (input, correct) => !hasProductWithinPowerBase(input) && !input.recursiveSome(term => term.isProduct() && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
 		ans: onlyOrderChanges,
 	}
 }

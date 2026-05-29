@@ -15,7 +15,7 @@ const metaData = {
 	steps: ['rewriteNegativePower', 'multiplyDivideFractions', 'simplifyFractionWithVariables'],
 	comparison: {
 		withoutNegativeExponents: (input, correct) => !hasNegativeExponent(input) && equivalent(input, correct),
-		singleFraction: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
+		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
 		ans: (input, correct) => onlyOrderChanges(input.regularClean(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }

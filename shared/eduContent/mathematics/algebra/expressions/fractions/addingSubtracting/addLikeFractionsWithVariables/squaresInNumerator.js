@@ -15,9 +15,9 @@ const metaData = {
 	skill: 'addLikeFractionsWithVariables',
 	steps: [null, 'expandBrackets', 'mergeSimilarTerms'],
 	comparison: {
-		singleFraction: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
-		bracketsExpanded: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
-		ans: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
+		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
+		bracketsExpanded: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
+		ans: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)

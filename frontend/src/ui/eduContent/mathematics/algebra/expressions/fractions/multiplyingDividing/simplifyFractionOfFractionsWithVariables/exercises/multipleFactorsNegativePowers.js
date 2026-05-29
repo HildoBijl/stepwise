@@ -60,8 +60,8 @@ const steps = [
 			const numerator = flip ? part2WithoutNegativeExponents : part1WithoutNegativeExponents
 			const denominator = flip ? part1WithoutNegativeExponents : part2WithoutNegativeExponents
 			const flippedMultiplication = numerator.multiply(denominator.invert())
-			return <Par><Translation><Check value={denominator.isSubtype(Fraction)}>
-				<Check.True>When dividing by a fraction, we can also multiply by the inverse. This results in <BM>{withoutNegativeExponents} = {flippedMultiplication}.</BM> <Check value={numerator.isSubtype(Fraction)}><Check.True>These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator.</Check.True><Check.False>We can merge this together, by pulling the multiplication on the left into the numerator.</Check.False></Check> This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Check.True>
+			return <Par><Translation><Check value={denominator.isFraction()}>
+				<Check.True>When dividing by a fraction, we can also multiply by the inverse. This results in <BM>{withoutNegativeExponents} = {flippedMultiplication}.</BM> <Check value={numerator.isFraction()}><Check.True>These two fractions can subsequently be merged together, multiplying the numerator by the numerator and the denominator by the denominator.</Check.True><Check.False>We can merge this together, by pulling the multiplication on the left into the numerator.</Check.False></Check> This gives <BM>{flippedMultiplication} = {singleFraction}.</BM></Check.True>
 				<Check.False>When dividing by a multiplication, this whole multiplication may also be put into the denominator. Doing so results in <BM>{withoutNegativeExponents} = {singleFraction}.</BM></Check.False>
 			</Check></Translation></Par>
 		},

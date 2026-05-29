@@ -19,7 +19,7 @@ const metaData = {
 				if (constantMultiple(input, correct))
 					return true
 				const getFactor = value => {
-					const powerTerm = value.find(term => term.isSubtype(Product) && term.factors.some(factor => factor.isSubtype(Power)))
+					const powerTerm = value.find(term => term.isProduct() && term.factors.some(factor => factor.isPower()))
 					return (powerTerm && powerTerm.find(factor => factor.isNumeric())?.number) || 1
 				}
 				const adjustmentFactor = getFactor(input) / getFactor(correct)
@@ -80,7 +80,7 @@ function getSolution(state) {
 
 	// Bring the equation into standard form.
 	const multiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)').substituteVariables(variables).removeUseless()[flip ? 'switch' : 'self']()
-	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isSubtype(Power) ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+	const expanded = multiplied.basicClean({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isPower() ? term.regularClean() : term)).basicClean({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 	const merged = expanded.regularClean({ sortSums: true })
 	const moved = merged.subtract(merged.right).regularClean({ sortSums: true })
 
@@ -94,7 +94,7 @@ function getSolution(state) {
 	// Solve the equation in standard form.
 	const [p, q, r] = coefficients.map(coeff => coeff / divisor)
 	const solutionFull = asExpression('(-q±sqrt(q^2-4*p*r))/(2p)').substituteVariables({ p, q, r }).removeUseless()
-	const rootFull = solutionFull.find(term => term.isSubtype(Sqrt))
+	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.argument
 	const D = DFull.regularClean()
 	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substituteVariables({ p, q, r, D }).removeUseless({ reduceRootsWithZeroRadicand: false, mergeProductNumbers: true })

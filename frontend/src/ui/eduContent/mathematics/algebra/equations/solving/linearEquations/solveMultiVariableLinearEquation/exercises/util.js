@@ -13,7 +13,7 @@ export const termsWithoutVariableInWrongPlace = (input, correct, { variables }, 
 	const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))?.side
 	if (!sideWithVariable)
 		return translateCrossExercise(<>Your solution does not contain <M>{variables.x}</M>. Where did it go?</>, 'missingVariable')
-	if (!sideWithVariable.isSubtype(Sum))
+	if (!sideWithVariable.isSum())
 		return translateCrossExercise(<>There were multiple terms with <M>{variables.x}</M>, but you only wrote down one.</>, 'oneVariable')
 	const termWithoutVariable = sideWithVariable.terms.find(term => !term.dependsOn(variables.x))
 	if (termWithoutVariable)
@@ -40,6 +40,6 @@ export const sideWithVariableEqual = (input, correct, { variables }, isCorrect, 
 		return translateCrossExercise(<>You somehow let <M>{variables.x}</M> disappear entirely. That was not supposed to happen.</>, 'disappearedVariable')
 	if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.applyMinus()))
 		return translateCrossExercise(<>The side with <M>{variables.x}</M> is not equal to what it was before. Something went wrong during the rewriting.</>, 'unequalSide')
-	if (!(sideWithVariable.isSubtype(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
+	if (!(sideWithVariable.isProduct() && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
 		return translateCrossExercise(<>You did not pull <M>{variables.x}</M> outside of brackets. You should write the side containing <M>{variables.x}</M> as <M>{variables.x}\cdot\left(\ldots\right)</M>, with on the dots an expression that's as simple as possible.</>, 'notOutsideOfBrackets')
 }

@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c', 'd']
 const metaData = {
 	skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 	steps: ['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'],
-	comparison: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
+	comparison: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 }
 addSetupFromSteps(metaData)
 

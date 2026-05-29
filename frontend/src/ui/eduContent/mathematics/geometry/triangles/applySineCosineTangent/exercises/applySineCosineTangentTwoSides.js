@@ -73,7 +73,7 @@ const steps = [
 		Solution: (state) => {
 			const { beta } = state
 			const { rule, ansRaw, ans, canSimplifyAns } = useSolution()
-			return <Par>Om <M>{beta}</M> op te lossen nemen we van beide kanten de omgekeerde {funcNames[rule]} (de arc{funcNames[rule]}). Hiermee krijgen we <BM>{beta} = {ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{beta} = {ans}{ans.isSubtype('Integer') ? `^\\circ` : ``}.</BM></> : null}</Par>
+			return <Par>Om <M>{beta}</M> op te lossen nemen we van beide kanten de omgekeerde {funcNames[rule]} (de arc{funcNames[rule]}). Hiermee krijgen we <BM>{beta} = {ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{beta} = {ans}{ans.isInteger() ? `^\\circ` : ``}.</BM></> : null}</Par>
 		},
 	},
 ]
@@ -86,14 +86,14 @@ function getFeedback(exerciseData) {
 	const text = ruleNames.map((ruleName, index) => index === rule ? <>Klopt. De {notGiven === 1 ? sides[0] : sides[1]} en {notGiven === 2 ? sides[0] : sides[2]} zijden zijn gegeven, en dus gebruik je {ruleName}.</> : <>Nee. De {sides[notGiven]} zijde is niet gegeven, en dus kun je {ruleName} hier niet direct gebruiken.</>)
 
 	// Set up feedback checks for the ans field.
-	const hasNoArcFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype('Arcsin') && !input.isSubtype('Arccos') && !input.isSubtype('Arctan') && <>Je zit nog niet in de buurt. Er werd een antwoord verwacht met een omgekeerde sinus/cosinus/tangens.</>
-	const hasWrongArcFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(correct.constructor) && <>Je hebt niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt.</>
+	const hasNoArcFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.isInverseTrigonometricFunction() && <>Je zit nog niet in de buurt. Er werd een antwoord verwacht met een omgekeerde sinus/cosinus/tangens.</>
+	const hasWrongArcFunction = (input, correct, solution, isCorrect) => !isCorrect && input.subtype !== correct.subtype && <>Je hebt niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt.</>
 	const ansRemaining = (input, correct, solution, isCorrect) => !isCorrect && <>Je hebt de juiste goniometrische functie, maar erbinnen gaat iets mis. Heb je wel de juiste zijden door elkaar gedeeld?</>
 	const ansChecks = [hasNoArcFunction, hasWrongArcFunction, ansRemaining]
 
 	// Set up feedback checks for the equation field.
-	const hasNoFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.left.isSubtype('Sin') && !input.left.isSubtype('Cos') && !input.left.isSubtype('Tan') && <>Aan de linkerkant wordt een goniometrische functie (sinus/cosinus/tangens) verwacht. Kijk nog eens goed naar hoe je de betreffende regel toepast.</>
-	const hasWrongFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.left.isSubtype(correct.left) && <>Je hebt aan de linkerkant niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt. Kijk nog eens goed naar welke regel je toepast.</>
+	const hasNoFunction = (input, correct, solution, isCorrect) => !isCorrect && !input.left.isTrigonometricFunction() && <>Aan de linkerkant wordt een goniometrische functie (sinus/cosinus/tangens) verwacht. Kijk nog eens goed naar hoe je de betreffende regel toepast.</>
+	const hasWrongFunction = (input, correct, solution, isCorrect) => !isCorrect && input.left.subtype !== correct.left.subtype && <>Je hebt aan de linkerkant niet de juiste goniometrische functie (sinus/cosinus/tangens) gebruikt. Kijk nog eens goed naar welke regel je toepast.</>
 	const hasWrongLeft = (input, correct, { beta }, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.left, correct.left) && <>Je moet aan de linkerkant binnenin de functie simpelweg de hoek <M>{beta}</M> gebruiken.</>
 	const equationRemaining = (input, correct, solution, isCorrect) => !isCorrect && <>De linkerkant klopt, maar de rechterkant is niet correct. Heb je wel de juiste zijden door elkaar gedeeld?</>
 	const equationChecks = [hasNoFunction, hasWrongFunction, hasWrongLeft, equationRemaining]
