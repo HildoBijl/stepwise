@@ -1,6 +1,6 @@
 import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/utils'
 import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
-import { functions } from 'step-wise/CAS'
+import { accents, constructs, textFunctions } from '@step-wise/cas'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { getClickSide } from 'util'
@@ -12,8 +12,6 @@ import { isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement 
 import { allFunctions as ExpressionFunctions } from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
-
-const { basicFunctions, advancedFunctions, accents } = functions
 
 const pmSymbols = [
 	{ name: 'pm', symbol: '±' },
@@ -68,9 +66,9 @@ function getLatex(FI, options) {
 
 	// Apply non-italic text for basic functions. To do so, for any text (only letters) followed by a bracket, turn the text in non-italic form.
 	let latex = value
-	latex = latex.replace(/[a-zA-Z]+(?=\()/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}` : `${func}`)
+	latex = latex.replace(/[a-zA-Z]+(?=\()/g, func => textFunctions.includes(func) ? `{\\rm ${func}}` : `${func}`)
 	if (beforeSubSupWithBrackets)
-		latex = latex.replace(/[a-zA-Z]+$/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}` : func) // Don't add a negative space since a subscript follows.
+		latex = latex.replace(/[a-zA-Z]+$/g, func => textFunctions.includes(func) ? `{\\rm ${func}}` : func) // Don't add a negative space since a subscript follows.
 
 	// If a string begins with a bracket, add some negative spacing.
 	if (index > 0 && latex[0] === '(')
@@ -139,14 +137,14 @@ export function acceptsKey(keyInfo, FI, settings) {
 	if (key === 'sqrt' || key === 'root')
 		return settings.root
 	if (key === 'ln' || key === 'log')
-		return settings.logarithm
+		return settings.logarithms
 	if (accents.includes(key))
 		return settings.accent
 	if (key === 'eMath')
 		return settings.eMath
 	if (greekAlphabet[key] !== undefined)
 		return (key === 'pi' && settings.pi) || settings.greek
-	if (basicFunctions.includes(key) || advancedFunctions.includes(key))
+	if (textFunctions.includes(key) || constructs.includes(key))
 		return true
 	if (key === '=')
 		return settings.equals
@@ -252,7 +250,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		return addStrToFI(key, FI)
 
 	// On mathematical functions, add the words and then add the bracket.
-	if (basicFunctions.includes(key) || accents.includes(key) || advancedFunctions.includes(key)) {
+	if (textFunctions.includes(key) || accents.includes(key) || constructs.includes(key)) {
 		const FIWithKey = addStrToFI(key, FI)
 		return keyPressToFI({ key: '(' }, FIWithKey, settings, charElements, topParentFI, contentsElement, cursorElement)
 	}

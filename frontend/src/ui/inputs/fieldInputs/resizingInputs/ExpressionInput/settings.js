@@ -3,7 +3,7 @@
 // The following are subgroups that can be added in.
 export const noFunctions = {
 	trigonometry: false,
-	logarithm: false,
+	logarithms: false,
 }
 export const noPowers = {
 	power: false,

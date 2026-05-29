@@ -2,7 +2,7 @@ import { isLetter } from '@step-wise/utils'
 
 import { InterpretationSettings } from '../../settings'
 import type { InputValuePart, ExpressionInputValue, InputCursorEnd } from '../../types'
-import { accents, specialFunctionSettings, isSpecialFunction } from '../../definitions'
+import { accents, constructSettings, isConstructName } from '../../definitions'
 import { getStartCursor, getEndCursor, getSubExpression, moveLeft, moveRight, mergeAdjacentExpressionParts } from '../../utils'
 
 import { squareBrackets, getMatchingBrackets, findCharacterAtZeroBracketCount } from '../support'
@@ -41,9 +41,9 @@ export function processFunctionsAndAccents(value: InputValuePart[], settings: In
 		end = { ...end, cursor: movingCursor }
 
 		// If the function name corresponds to an acceptable advanced function, apply it.
-		if (isSpecialFunction(functionName)) {
+		if (isConstructName(functionName)) {
 			// Check the number of arguments and fill it up with defaults if there are too few.
-			const functionSettings = specialFunctionSettings[functionName]
+			const functionSettings = constructSettings[functionName]
 			const defaultOptionalArguments = functionSettings.defaultArguments.slice(1)
 			const numOptionalArguments = defaultOptionalArguments.length
 			if (parsedOptionalArguments.length > numOptionalArguments) throw new Error(`Invalid optional parameters: "${functionName}" received ${parsedOptionalArguments.length}, but allows at most ${numOptionalArguments}.`)

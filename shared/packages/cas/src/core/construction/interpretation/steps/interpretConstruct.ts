@@ -1,21 +1,21 @@
 import { last, InterpretationError } from '@step-wise/utils'
-import { type FunctionInputValue, type ExpressionInputValue, isEmptyExpressionValue, specialFunctionSettings } from '@step-wise/math-input-value'
+import { type FunctionInputValue, type ExpressionInputValue, isEmptyExpressionValue, constructSettings } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Integer } from '../../nodes'
 
 import type { InterpreterContext } from '../types'
-import { type SpecialFunctionName, type SpecialFunctionConstructor, specialFunctionComponents } from '../functionComponents'
+import { type ConstructName, type ConstructConstructor, constructComponents } from '../constructComponents'
 
 // Interpret a function object with an external bracket argument.
-export function interpretSpecialFunctionWithParameterAfter(name: string, externalArgument: ExpressionNode, internalArguments: ExpressionNode[], context: InterpreterContext): ExpressionNode {
-	const Component = getSpecialFunctionComponent(name, true)
+export function interpretConstructWithParameterAfter(name: string, externalArgument: ExpressionNode, internalArguments: ExpressionNode[], context: InterpreterContext): ExpressionNode {
+	const Component = getConstructComponent(name, true)
 	return new Component(externalArgument, ...internalArguments)
 }
 
 // Interpret a function object without an external bracket argument.
-export function interpretSpecialFunctionWithoutParameterAfter(element: FunctionInputValue, context: InterpreterContext): ExpressionNode {
+export function interpretConstructWithoutParameterAfter(element: FunctionInputValue, context: InterpreterContext): ExpressionNode {
 	const { name, value } = element
-	const Component = getSpecialFunctionComponent(name, false)
+	const Component = getConstructComponent(name, false)
 
 	// Some functions have their main argument last in the InputValue and first in the DomainValue. Shift this.
 	const shiftedValue = name === 'root' ? [last(value), ...value.slice(0, -1)] : value
@@ -33,14 +33,14 @@ export function interpretSpecialFunctionWithoutParameterAfter(element: FunctionI
 }
 
 // Get the constructor for a special function. Optionally check if it has the right settings.
-function getSpecialFunctionComponent(name: string, hasParameterAfterValue?: boolean): SpecialFunctionConstructor {
+function getConstructComponent(name: string, hasParameterAfterValue?: boolean): ConstructConstructor {
 	const throwError = () => { throw new InterpretationError(`Could not interpret the function "${name}".`, 'UnknownFunction', name) }
-	if (!(name in specialFunctionComponents)) throwError()
-	const functionSettings = specialFunctionSettings[name as SpecialFunctionName]
+	if (!(name in constructComponents)) throwError()
+	const functionSettings = constructSettings[name as ConstructName]
 	if (hasParameterAfterValue !== undefined && hasParameterAfterValue !== ('hasParameterAfter' in functionSettings && !!functionSettings.hasParameterAfter)) throwError()
-	const functionComponent = specialFunctionComponents[name as SpecialFunctionName]
+	const functionComponent = constructComponents[name as ConstructName]
 	if (!functionComponent) throwError()
-	return functionComponent as SpecialFunctionConstructor
+	return functionComponent as ConstructConstructor
 }
 
 // Extract default arguments for specific special functions.

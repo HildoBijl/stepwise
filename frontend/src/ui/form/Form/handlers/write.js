@@ -14,10 +14,10 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 				oldFI = fieldData.functionalize(fieldData.initialSI)
 
 			// Allow for functions in the new FI that take into account the old FI.
-			FI = preserveRefs(FI, oldFI)
-
-			// On a non-change, keep the old input.
 			FI = resolveFunctions(FI, oldFI)
+			
+			// On a non-change, keep the old input.
+			FI = preserveRefs(FI, oldFI)
 			if (FI === oldFI)
 				return input
 

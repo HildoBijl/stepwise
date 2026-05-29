@@ -1,14 +1,12 @@
 // This is the template for functions like sqrt(...) which have a parameter after their term and have no other parameters.
 
 import { last } from '@step-wise/utils'
-import { support } from 'step-wise/CAS'
+import { getSubExpression, findNextClosingBracket } from '@step-wise/math-input-value'
 
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'
 import { mergeWithRight, splitToRight } from '../../support'
 
 import { allFunctions as defaultFunctions } from './default'
-
-const { getSubExpression, findNextClosingBracket } = support
 
 export const allFunctions = {
 	...defaultFunctions,

@@ -1,5 +1,5 @@
 const { randomInteger, sample, randomIndices } = require('@step-wise/utils')
-const { asExpression, Integer, Fraction } = require('../../../../CAS')
+const { asExpression, constants } = require('@step-wise/cas')
 
 function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true) {
 	// Determine the indices of the elementary functions that we use.
@@ -55,18 +55,18 @@ module.exports.getRandomElementaryFunction = getRandomElementaryFunction
 
 // getElementaryFunctionFromTerm takes a term consisting of a constant muliplication times an elementary function, like "-4/x", and extracts the elementary function and the constant.
 function getElementaryFunctionFromTerm(func) {
-	let constant = Integer.one
+	let constant = constants.one
 
 	// The function should not be a sum.
-	if (func.isSubtype('Sum'))
+	if (func.isSum())
 		throw new Error(`Invalid case: cannot process sums. Only a single term is expected.`)
 
 	// For integers, just return them right away.
-	if (func.isSubtype('Integer'))
-		return { constant: Integer.one, func }
+	if (func.isInteger())
+		return { constant: constants.one, func }
 
 	// For products, pull out the constant.
-	if (func.isSubtype('Product')) {
+	if (func.isProduct()) {
 		if (func.terms.length > 2)
 			throw new Error(`Invalid case: cannot process products with more than two terms.`)
 		const constantTerm = func.terms.find(factor => factor.isNumeric())
@@ -78,17 +78,17 @@ function getElementaryFunctionFromTerm(func) {
 	}
 
 	// For fractions, pull out the constant too.
-	if (func.isSubtype('Fraction')) {
+	if (func.isFraction()) {
 		if (!func.numerator.isNumeric())
 			throw new Error(`Invalid case: cannot process fractions with a non-constant numerator.`)
 		constant = constant.multiply(func.numerator)
-		func = new Fraction(Integer.one, func.denominator)
+		func = constants.one.divide(func.denominator)
 	}
 
 	// Constants have been pulled out. The result should be an elementary function. (Or the input was faulty, but it's too much of a hassle to check.)
 	return {
 		func,
-		constant: constant.basicClean(),
+		constant: constant.cancel(),
 	}
 }
 module.exports.getElementaryFunctionFromTerm = getElementaryFunctionFromTerm

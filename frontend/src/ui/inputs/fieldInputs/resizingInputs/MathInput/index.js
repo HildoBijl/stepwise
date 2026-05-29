@@ -1,4 +1,5 @@
 export * from './settings'
+export * from './inputSettings'
 export * from './support'
 export * from './types'
 export * from './MathInput'

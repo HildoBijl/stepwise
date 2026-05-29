@@ -1,2 +1,2 @@
 export * from './accents'
-export * from './functions'
+export * from './constructs'

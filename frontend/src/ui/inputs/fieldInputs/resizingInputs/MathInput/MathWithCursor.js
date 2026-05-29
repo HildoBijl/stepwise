@@ -5,9 +5,8 @@ import { useInputData } from '../../../Input'
 import { getFIFuncs } from './types'
 import { MathWithoutCursor } from './MathWithoutCursor'
 
-export function MathWithCursor({ ...FI }) {
+export function MathWithCursor({ FI }) {
 	const { cursorRef, inputFieldRef, charElementsRef, active } = useInputData()
-	const { type, value } = FI
 
 	// When the cursor changes, or the value changes (like on a delete key), reposition the cursor.
 	useEffect(() => {
@@ -25,5 +24,5 @@ export function MathWithCursor({ ...FI }) {
 	}, [active, inputFieldRef, charElementsRef, cursorRef, FI])
 
 	// Render the maths without the cursor. This one should not update on a cursor change.
-	return <MathWithoutCursor type={type} value={value} />
+	return <MathWithoutCursor FI={FI} />
 }

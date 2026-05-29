@@ -1,4 +1,4 @@
-import { type RootLike, type LogLike, ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan } from '../../../construction'
+import { type RootLike, type LogLike, ExpressionNode, ConstantNode, SignNode, ListNode, FunctionNode, SingleArgumentFunctionNode, Integer, Float, NamedConstant, Minus, PlusMinus, Variable, Sum, Product, Fraction, Power, Root, Sqrt, Ln, Log, Sin, Cos, Tan, Arcsin, Arccos, Arctan, TrigonometricFunction, InverseTrigonometricFunction, TrigonometryLike } from '../../../construction'
 
 // Abstract types.
 export function isExpressionNode(value: unknown): value is ExpressionNode { return value instanceof ExpressionNode }
@@ -42,5 +42,6 @@ export function isTan(node: ExpressionNode): node is Tan { return node instanceo
 export function isArcsin(node: ExpressionNode): node is Arcsin { return node instanceof Arcsin }
 export function isArccos(node: ExpressionNode): node is Arccos { return node instanceof Arccos }
 export function isArctan(node: ExpressionNode): node is Arctan { return node instanceof Arctan }
-export function isTrigonometricFunction(node: ExpressionNode): node is Sin | Cos | Tan { return isSin(node) || isCos(node) || isTan(node) }
-export function isInverseTrigonometricFunction(node: ExpressionNode): node is Arcsin | Arccos | Arctan { return isArcsin(node) || isArccos(node) || isArctan(node) }
+export function isTrigonometricFunction(node: ExpressionNode): node is TrigonometricFunction { return isSin(node) || isCos(node) || isTan(node) }
+export function isInverseTrigonometricFunction(node: ExpressionNode): node is InverseTrigonometricFunction { return isArcsin(node) || isArccos(node) || isArctan(node) }
+export function isTrigonometryLike(node: ExpressionNode): node is TrigonometryLike { return isTrigonometricFunction(node) || isInverseTrigonometricFunction(node) }

@@ -1,25 +1,23 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
 import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEquals } from '@step-wise/utils'
-import { options as CASOptions, support as CASSupport } from 'step-wise/CAS'
+import { getEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
 import { ResizingInput, defaultResizingInputOptions } from '../ResizingInput'
 
+import { defaultFieldSettings, defaultInterpretationExpressionSettings } from './inputSettings'
 import { mouseClickToCursor } from './support'
 import { expressionFunctions } from './types'
 import { MathInputInner, defaultMathInputInnerOptions } from './MathInputInner'
-
-const { defaultFieldSettings, defaultInterpretationExpressionSettings } = CASOptions
-const { getEmpty, isEmpty } = CASSupport
 
 export const defaultMathInputOptions = {
 	...defaultResizingInputOptions,
 	...defaultMathInputInnerOptions,
 
 	// Apply some default settings.
-	isEmpty,
+	isEmpty: isEmptyExpressionValue,
 	getStartCursor: expressionFunctions.getStartCursor,
 	getEndCursor: expressionFunctions.getEndCursor,
 	isCursorAtStart: expressionFunctions.isCursorAtStart,
@@ -31,7 +29,7 @@ export const defaultMathInputOptions = {
 	heightDelta: -10, // Equations always have some margin, and we want less for the input field.
 
 	// Add in other options.
-	initialValue: getEmpty(),
+	initialValue: getEmptyExpressionValue(),
 	settings: {}, // The settings object specifying what is allowed.
 }
 

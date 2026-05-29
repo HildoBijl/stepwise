@@ -1,5 +1,5 @@
 import { arraySplice } from '@step-wise/utils'
-import { support } from 'step-wise/CAS'
+import { getSubExpression } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'
 
@@ -9,8 +9,6 @@ import { allFunctions as expressionFunctions } from '../Expression'
 
 import { allFunctions as defaultFunctions } from './templates/with2In0AfterVertical'
 import { allFunctions as subscriptTextFunctions } from './SubscriptText'
-
-const { getSubExpression } = support
 
 export const allFunctions = {
 	...defaultFunctions,

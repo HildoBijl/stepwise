@@ -1,7 +1,9 @@
 import { last } from '@step-wise/utils'
-import { support, functions as CASfunctions } from 'step-wise/CAS'
+import { getEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'
+
+import { isFunctionAllowed } from '../../inputSettings'
 
 import { getFIFuncs } from '..'
 import { allFunctions as expressionFunctions } from '../Expression'
@@ -10,9 +12,6 @@ import { functions } from '../Function'
 import { accents } from '../Accent'
 
 import { zoomIn, zoomInAt } from './zooming'
-
-const { getEmpty } = support
-const { isFunctionAllowed } = CASfunctions
 
 export function cleanUp(FI, settings) {
 	const hasCursor = !!FI.cursor
@@ -119,7 +118,7 @@ function alternateExpressionParts(FI, settings) {
 
 	// Check a special case.
 	if (value.length === 0)
-		return { type: 'Expression', value: getEmpty(), cursor: expressionFunctions.getStartCursor() }
+		return { type: 'Expression', value: getEmptyExpressionValue(), cursor: expressionFunctions.getStartCursor() }
 
 	// Set up result parameters.
 	const newValue = []

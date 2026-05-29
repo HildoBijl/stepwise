@@ -1,6 +1,8 @@
 import { mergeDefaults } from '@step-wise/utils'
 
 export const defaultInterpretationSettings = {
+	logarithms: true, // Should ln(x) be interpreted as the natural logarithm function, or as l*n*(x)?
+	trigonometry: true, // Should sin(x) be interpreted as the sine function, or as s*i*n*(x)?
 	multiCharacterVariables: false, // Should we interpret 2xy as "2*x*y" or as "2*xy" with xy being a single variable?
 
 	// To implement in the future.

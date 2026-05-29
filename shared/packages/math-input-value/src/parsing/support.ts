@@ -2,7 +2,7 @@ import { findNextOf, isObject, last, InterpretationError } from '@step-wise/util
 
 import type { FunctionInputValue, InputCursorEnd, InputValuePart } from '../types'
 import { isExpressionPart } from '../utils'
-import { specialFunctionSettings, isSpecialFunction } from '../definitions'
+import { constructSettings, isConstructName } from '../definitions'
 
 export const roundBrackets = ['(', ')'] as const
 export const squareBrackets = ['[', ']'] as const
@@ -118,7 +118,7 @@ export function getMatchingBrackets(value: InputValuePart[]): MatchingBrackets[]
 function isFunctionWithParameterAfter(symbol: string | InputValuePart): symbol is FunctionInputValue {
 	if (!isObject(symbol) || (symbol as InputValuePart).type !== 'Function') return false
 	const name = (symbol as FunctionInputValue).name
-	if (!isSpecialFunction(name)) return false
-	const settings = specialFunctionSettings[name]
+	if (!isConstructName(name)) return false
+	const settings = constructSettings[name]
 	return 'hasParameterAfter' in settings && settings.hasParameterAfter
 }

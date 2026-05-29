@@ -1,6 +1,6 @@
 import { type ExpressionNode } from '../../../construction'
 
-import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower } from '../fundamentals'
+import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootLike, isLogLike, isTrigonometryLike } from '../fundamentals'
 
 import { someDescendant } from './traversal'
 import { isInteger } from './valueChecks'
@@ -23,6 +23,17 @@ export function hasMultiCharacterVariables(node: ExpressionNode): boolean {
 // Check if an expression has any float.
 export function hasFloat(node: ExpressionNode): boolean {
 	return someDescendant(node, isFloatNode, true)
+}
+
+// Check if there are specific types of functions.
+export function hasRoot(node: ExpressionNode): boolean {
+	return someDescendant(node, node => isRootLike(node), true)
+}
+export function hasLog(node: ExpressionNode): boolean {
+	return someDescendant(node, node => isLogLike(node), true)
+}
+export function hasTrigonometry(node: ExpressionNode): boolean {
+	return someDescendant(node, node => isTrigonometryLike(node), true)
 }
 
 // Check if an expression is plural-valued or single-valued.

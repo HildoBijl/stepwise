@@ -2,11 +2,11 @@ import type { ExpressionInputValue } from '../types'
 import { getEmptyExpression, getExpressionWith } from '../utils'
 
 // Define for all special functions - those with specific behavior in the input type - what properties they have.
-export type SpecialFunctionSettings = {
+export type ConstructSettings = {
 	hasParameterAfter?: boolean
 	defaultArguments: ExpressionInputValue[]
 }
-export const specialFunctionSettings = {
+export const constructSettings = {
 	frac: {
 		defaultArguments: [getEmptyExpression(), getEmptyExpression()],
 	},
@@ -23,11 +23,11 @@ export const specialFunctionSettings = {
 	root: {
 		defaultArguments: [getEmptyExpression(), getExpressionWith('2')],
 	},
-} satisfies Record<string, SpecialFunctionSettings>
+} satisfies Record<string, ConstructSettings>
 
 // Add extra helper types and functions.
-export type SpecialFunctionName = keyof typeof specialFunctionSettings
-export const specialFunctions = Object.keys(specialFunctionSettings) as SpecialFunctionName[]
-export function isSpecialFunction(name: string): name is SpecialFunctionName {
-	return name in specialFunctionSettings
+export type ConstructName = keyof typeof constructSettings
+export const constructs = Object.keys(constructSettings) as ConstructName[]
+export function isConstructName(name: string): name is ConstructName {
+	return name in constructSettings
 }

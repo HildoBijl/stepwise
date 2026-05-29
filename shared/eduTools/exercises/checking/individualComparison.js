@@ -1,5 +1,5 @@
 const { isPlainObject } = require('@step-wise/utils')
-const { Expression } = require('../../../CAS')
+const { Expression } = require('@step-wise/cas')
 
 const { areNumbersEqual } = require('../../../inputTypes')
 

@@ -1,9 +1,7 @@
 import { first, last } from '@step-wise/utils'
-import { support } from 'step-wise/CAS'
+import { getSubExpression, findEndOfTerm } from '@step-wise/math-input-value'
 
 import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'
-
-const { getSubExpression, findEndOfTerm } = support
 
 export function mergeWithLeft(FI, partIndex, fromOutside) {
 	const { value } = FI

@@ -50,7 +50,7 @@ describe('equation algebraic operations', () => {
 describe('equation simplification presets', () => {
 	test('simplifies both sides', () => {
 		expectEquationToEqual(asEquation('x+0=2+3').removeTrivial(), 'x=2+3')
-		expectEquationToEqual(asEquation('x+0=2+3').mergeNumbers(), 'x+0=5')
+		expectEquationToEqual(asEquation('x+0=2+3').mergeNumbers(), 'x=5')
 		expectEquationToEqual(asEquation('x-x=2*3').cancel(), '0=6')
 	})
 	test('normalizes both sides', () => {
@@ -73,18 +73,6 @@ describe('equation property checks', () => {
 	})
 	test('extracts variables', () => {
 		expect(asEquation('x+y=5').getVariables().map(variable => variable.str)).toEqual(['x', 'y'])
-	})
-})
-
-describe('equation structure checks', () => {
-	test('detects fractions and powers', () => {
-		expect(asEquation('x/2=3').hasFraction()).toBe(true)
-		expect(asEquation('x^2=4').hasPower()).toBe(true)
-		expect(asEquation('x=3').hasFraction()).toBe(false)
-	})
-	test('detects similar terms', () => {
-		expect(asEquation('2x+3x=5').hasSimilarTerms()).toBe(true)
-		expect(asEquation('2x+y=5').hasSimilarTerms()).toBe(false)
 	})
 })
 

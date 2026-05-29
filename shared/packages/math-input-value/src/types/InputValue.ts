@@ -4,7 +4,7 @@ import type { InterpretationSettingsInput, ExpressionSettingsInput } from '../se
 export type ExpressionPartInputValue = { type: 'ExpressionPart', value: string }
 export type AccentInputValue = { type: 'Accent', name: string, alias?: string, value: string }
 export type SubscriptTextInputValue = { type: 'SubscriptText', value: string }
-export type SubSupInputValue = { type: 'Function', name: 'subSup', value: [SubscriptTextInputValue?, ExpressionInputValue?], alias?: string }
+export type SubSupInputValue = { type: 'Function', name: 'subSup', value: [SubscriptTextInputValue?, ExpressionInputValue?], alias?: string } // ToDo: adjust to not have "type Function, name subSup" but instantly have "type subSup"?
 export type FunctionInputValue = { type: 'Function', name: string, value: ExpressionInputValue[], alias?: string }
 export type InputValuePart = ExpressionPartInputValue | AccentInputValue | SubSupInputValue | FunctionInputValue
 

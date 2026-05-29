@@ -1,5 +1,5 @@
 import { insertAt, first, last, sum } from '@step-wise/utils'
-import { support } from 'step-wise/CAS'
+import { isEmptyExpressionValue, getEmptyExpressionValue, getStartCursor, getEndCursor } from '@step-wise/math-input-value'
 
 import { addCursor, removeCursor } from '../../../FieldInput'
 
@@ -9,8 +9,9 @@ import { cleanUp, zoomIn, getKeyPressHandlers, isCursorKey } from './support'
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './main.js'
 import { allFunctions as ExpressionPartFunctions } from './ExpressionPart'
 
-const { isEmpty, getEmpty, getStartCursor, getEndCursor } = support
-
+export const getEmpty = getEmptyExpressionValue
+export const isEmpty = isEmptyExpressionValue
+export { cleanUp, getStartCursor, getEndCursor }
 export const allFunctions = {
 	toLatex,
 	getCursorProperties,
@@ -29,7 +30,6 @@ export const allFunctions = {
 	canSplit,
 	cleanUp,
 }
-export { getStartCursor, getEndCursor }
 
 export function getFuncs() {
 	return allFunctions
@@ -299,8 +299,6 @@ export function isCursorAtStart(value, cursor) {
 export function isCursorAtEnd(value, cursor) {
 	return cursor.part === value.length - 1 && isCursorAtFIEnd(addCursor(last(value), cursor.cursor))
 }
-
-export { getEmpty, isEmpty, cleanUp }
 
 // countNetBrackets counts the net number of opening minus closing brackets in a certain part of the expression. If relativeToCursor is 0, it's for the full expression. For -1 it's prior to the cursor and for 1 it's after the cursor. When the cursor is used, we assume it's in an ExpressionPart element.
 export function countNetBrackets(FI, relativeToCursor = 0) {

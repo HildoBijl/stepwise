@@ -19,7 +19,7 @@ function orderProductFactors(a: ExpressionNode, b: ExpressionNode): number {
 	if (!test(b)) return -1
 
 	// On numbers, sort small to large.
-	if (index === 0) return numericNodeToNumber(a) - numericNodeToNumber(b)
+	if (index === 0 || index === 1) return numericNodeToNumber(a) - numericNodeToNumber(b)
 
 	// On single-variable factors, sort by variable name.
 	if (index === 2) {

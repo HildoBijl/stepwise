@@ -6,5 +6,5 @@ export const defaultMathInputInnerOptions = {}
 
 export function MathInputInner() {
 	const FI = useInputValue()
-	return <MathWithCursor {...FI} />
+	return <MathWithCursor FI={FI} />
 }

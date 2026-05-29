@@ -1,6 +1,6 @@
 // This is the template for functions like frac(...)(...) or SubSup which have two parameters that are vertically above each other.
 
-import { support } from 'step-wise/CAS'
+import { getSubExpression, findEndOfTerm, addExpressionType } from '@step-wise/math-input-value'
 
 import { charElementsToBounds, getClosestElement } from '../../..'
 
@@ -8,8 +8,6 @@ import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCurs
 import { mergeWithLeft, mergeWithRight, splitToLeft, splitToRight } from '../../support'
 
 import { allFunctions as defaultFunctions } from './with1In0After'
-
-const { getSubExpression, findEndOfTerm, addExpressionType } = support
 
 export const allFunctions = {
 	...defaultFunctions,

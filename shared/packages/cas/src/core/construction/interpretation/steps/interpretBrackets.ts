@@ -4,7 +4,7 @@ import { type FunctionInputValue, type InputValuePart, getExpressionPartValue, g
 import { ExpressionNode } from '../../nodes'
 
 import type { IntermediateInterpretationPart, InterpreterContext } from '../types'
-import { type BasicFunctionName, basicFunctionComponents } from '../functionComponents'
+import { type TextFunctionName, textFunctionComponents, isTextFunction, isTextFunctionInterpreted } from '../textFunctionComponents'
 
 // Interpret brackets, including regular brackets, basic functions like sin(...), and special functions with a parameter after like log[...](...).
 export function interpretBrackets(value: InputValuePart[], context: InterpreterContext): ExpressionNode {
@@ -28,7 +28,7 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 			const element = value[opening.part] as FunctionInputValue
 			const externalArgument = context.interpretBrackets(getSubExpression(value, { part: opening.part + 1, cursor: 0 }, closing), context)
 			const internalArguments = element.value.map(expression => context.interpretBrackets(expression.value, context))
-			result.push(context.interpretSpecialFunctionWithParameterAfter(element.name, externalArgument, internalArguments, context))
+			result.push(context.interpretConstructWithParameterAfter(element.name, externalArgument, internalArguments, context))
 
 			// Shift the cursor.
 			lastPosition = moveRight(closing)
@@ -44,10 +44,10 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 		const functionName = str.substring(movingCursor, end.cursor)
 
 		// If the function name is in the allowed function list, add it.
-		if (functionName in basicFunctionComponents) {
+		if (isTextFunction(functionName) && isTextFunctionInterpreted(functionName, context.interpretationSettings)) {
 			end.cursor -= functionName.length
 			result.push(...getSubExpression(value, lastPosition, end))
-			result.push(new basicFunctionComponents[functionName as BasicFunctionName](interpretedExpression))
+			result.push(new textFunctionComponents[functionName](interpretedExpression))
 			lastPosition = moveRight(closing)
 			return
 		}

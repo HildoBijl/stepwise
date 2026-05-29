@@ -8,8 +8,9 @@ import { getFIFuncs } from './types'
 import { matchCharElements } from './support'
 
 // A separate MathWithoutCursor element is used that does not get the cursor. This makes sure it only rerenders on changes in value. It does make sure that the MathWithCursor context knows of all the characters in the equation.
-export function MathWithoutCursor({ type, value }) {
+export function MathWithoutCursor({ FI }) {
 	const { inputFieldRef, storeCharElements } = useInputData()
+	const { type, value } = FI
 
 	// Set up the latex and get the corresponding characters.
 	const { latex, chars } = useMemo(() => {

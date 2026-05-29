@@ -2,11 +2,13 @@ import { omitDefaults } from '@step-wise/utils'
 import { type InterpretationSettings, type InterpretationSettingsInput, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode } from '../../construction'
-import { hasMultiCharacterVariables } from '../../operations'
+import { hasLog, hasTrigonometry, hasMultiCharacterVariables } from '../../operations'
 
 export function getNodeInterpretationSettings(node: ExpressionNode): InterpretationSettings {
 	return {
-		multiCharacterVariables: hasMultiCharacterVariables(node),
+		logarithms: defaultInterpretationSettings.logarithms || hasLog(node),
+		trigonometry: defaultInterpretationSettings.trigonometry || hasTrigonometry(node),
+		multiCharacterVariables: defaultInterpretationSettings.multiCharacterVariables || hasMultiCharacterVariables(node),
 	}
 }
 
