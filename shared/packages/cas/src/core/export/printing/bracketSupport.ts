@@ -1,5 +1,5 @@
 import { ExpressionNode } from '../../construction'
-import { isSignNode, isSum, isProduct, isFraction, isPower } from '../../operations'
+import { isSignNode, isNumberNode, isSum, isProduct, isFraction, isPower } from '../../operations'
 
 // Define the various levels of operation urgency, to check if brackets are needed.
 export const bracketLevels = {

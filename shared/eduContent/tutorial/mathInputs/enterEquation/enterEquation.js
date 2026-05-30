@@ -18,7 +18,7 @@ function generateState() {
 			asEquation(`x^${randomInteger(2, 4)}+y^${randomInteger(2, 4)}=z^${randomInteger(2, 4)}`),
 			asEquation(`(${randomInteger(-12, 12, [0, 1])}x+${randomInteger(-12, 12, [0, 1])}y)/(${randomInteger(-12, 12, [0])}z)=1`),
 			asEquation(`x^y-${randomInteger(1, 8)}=z`),
-			asEquation(`(x+${randomInteger(-12, 12, [0])})(y+${randomInteger(-12, 12, [0])})(z+${randomInteger(-12, 12, [0])}) = 1`),
+			asEquation(`(x+${randomInteger(-12, 12, [0])})(y+${randomInteger(-12, 12, [0])})(z+${randomInteger(-12, 12, [0])})=1`),
 		]).combine().substitute(variables)
 	}
 }

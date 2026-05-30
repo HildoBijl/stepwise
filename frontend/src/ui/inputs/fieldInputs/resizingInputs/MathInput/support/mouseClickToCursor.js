@@ -1,4 +1,4 @@
-import { findOptimum, findOptimumIndex, findIndexPath, pickKeys } from '@step-wise/utils'
+import { findOptimum, findOptimumIndex, findIndexPath } from '@step-wise/utils'
 
 import { getCoordinatesOf } from 'util'
 
@@ -35,8 +35,9 @@ export function charElementsToBounds(charElements) {
 	const parts = charElements.map(element => {
 		if (Array.isArray(element))
 			return charElementsToBounds(element)
+		const rect = element.getBoundingClientRect()
 		return {
-			bounds: pickKeys(element.getBoundingClientRect(), ['left', 'top', 'right', 'bottom'])
+			bounds: { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom }
 		}
 	})
 

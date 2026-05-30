@@ -9,5 +9,7 @@ export type FunctionInputValue = { type: 'Function', name: string, value: Expres
 export type InputValuePart = ExpressionPartInputValue | AccentInputValue | SubSupInputValue | FunctionInputValue
 
 // Combine with settings to get InputValues for expressions and similar.
-export type ExpressionInputValue = { type: 'Expression', value: InputValuePart[], interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput }
-export type InputValue = ExpressionInputValue // ToDo: Add equation?
+type MathInputValueBase = { value: InputValuePart[], interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput }
+export type ExpressionInputValue = { type: 'Expression' } & MathInputValueBase
+export type EquationInputValue = { type: 'Equation' } & MathInputValueBase
+export type InputValue = ExpressionInputValue | EquationInputValue

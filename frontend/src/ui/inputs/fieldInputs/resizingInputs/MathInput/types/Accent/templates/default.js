@@ -1,7 +1,7 @@
 // This is the most general template for settings up accents.
 
 import { removeAt } from '@step-wise/utils'
-import { getSubExpression, findNextClosingBracket } from '@step-wise/cas'
+import { getSubExpression, findNextClosingBracket } from '@step-wise/math-input-value'
 
 import { getFIStartCursor, getFIEndCursor } from '../..'
 import { allFunctions as expressionPartFunctions, addStrToFI } from '../../ExpressionPart'

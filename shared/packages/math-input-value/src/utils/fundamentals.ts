@@ -1,11 +1,14 @@
 import { first, isPlainObject } from '@step-wise/utils'
 
 import type { InterpretationSettingsInput, ExpressionSettingsInput } from '../settings'
-import type { ExpressionInputValue, ExpressionPartInputValue, InputValuePart } from '../types'
+import type { ExpressionInputValue, EquationInputValue, InputValue, ExpressionPartInputValue, InputValuePart } from '../types'
 
 // Checks.
 export function isExpressionInputValue(element: unknown): element is ExpressionInputValue {
 	return isPlainObject(element) && element.type === 'Expression' && Array.isArray(element.value)
+}
+export function isEquationInputValue(element: unknown): element is EquationInputValue {
+	return isPlainObject(element) && element.type === 'Equation' && Array.isArray(element.value)
 }
 export function isExpressionPart(element: unknown): element is ExpressionPartInputValue {
 	return isPlainObject(element) && Object.keys(element).length === 2 && element.type === 'ExpressionPart' && typeof element.value === 'string'
@@ -46,7 +49,14 @@ export function getEmptyExpression(): ExpressionInputValue {
 // Expanding a value to an Expression.
 export function addExpressionWrapper(value: InputValuePart[], interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): ExpressionInputValue {
 	const result: ExpressionInputValue = { type: 'Expression', value }
-	if (interpretationSettings) result.interpretationSettings = interpretationSettings
-	if (expressionSettings) result.expressionSettings = expressionSettings
-	return result
+	return addPotentialSettings(result, interpretationSettings, expressionSettings)
+}
+export function addEquationWrapper(value: InputValuePart[], interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationInputValue {
+	const result: EquationInputValue = { type: 'Equation', value }
+	return addPotentialSettings(result, interpretationSettings, expressionSettings)
+}
+function addPotentialSettings<T extends InputValue>(value: T, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): T {
+	if (interpretationSettings) value.interpretationSettings = interpretationSettings
+	if (expressionSettings) value.expressionSettings = expressionSettings
+	return value
 }

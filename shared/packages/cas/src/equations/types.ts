@@ -1,4 +1,4 @@
-import type { ExpressionInputValue } from '@step-wise/math-input-value'
+import type { EquationInputValue } from '@step-wise/math-input-value'
 
 import type { ExpressionInput, Expression, ExpressionAncestors, ExpressionStorageValue, ExpressionSettingsInput } from '../expressions'
 
@@ -16,7 +16,7 @@ export type ExpressionInEquationFunction = (expression: Expression, ancestors: E
 
 // Input
 export type EquationShape = Record<EquationSideName, ExpressionInput> & { settings?: ExpressionSettingsInput }
-export type EquationInput = ExpressionInputValue | EquationShape | string
+export type EquationInput = EquationInputValue | EquationShape | string
 
 // Serialization
 export type EquationStorageValue = Record<EquationSideName, ExpressionStorageValue>

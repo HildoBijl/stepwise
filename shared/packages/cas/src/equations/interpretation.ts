@@ -1,5 +1,5 @@
 import { isPlainObject, InterpretationError } from '@step-wise/utils'
-import { type ExpressionInputValue, type InputCursorEnd, moveRight, getSubExpression, isExpressionInputValue, stringToInputValue } from '@step-wise/math-input-value'
+import { type ExpressionInputValue, type EquationInputValue, type InputCursorEnd, moveRight, getSubExpression, isEquationInputValue, stringToInputValue } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, isExpressionLike, Expression, asExpression } from '../expressions'
 
@@ -12,13 +12,13 @@ function hasEquationShape(value: unknown): value is EquationShape {
 }
 
 export function isEquationInput(value: unknown): value is EquationInput {
-	return isExpressionInputValue(value) || hasEquationShape(value) || typeof value === 'string'
+	return isEquationInputValue(value) || hasEquationShape(value) || typeof value === 'string'
 }
 
-function interpretInputValue(value: ExpressionInputValue): EquationParts {
+function interpretInputValue(value: EquationInputValue): EquationParts {
 	const equalsPosition = findEqualsPosition(value)
-	const left = { ...value, value: getSubExpression(value.value, undefined, equalsPosition) }
-	const right = { ...value, value: getSubExpression(value.value, moveRight(equalsPosition), undefined) }
+	const left: ExpressionInputValue = { ...value, value: getSubExpression(value.value, undefined, equalsPosition), type: 'Expression' }
+	const right: ExpressionInputValue = { ...value, value: getSubExpression(value.value, moveRight(equalsPosition), undefined), type: 'Expression' }
 	return { left: asExpression(left), right: asExpression(right), settings: value.expressionSettings }
 }
 
@@ -29,18 +29,18 @@ function interpretEquationShape(value: EquationShape): EquationParts {
 }
 
 function interpretString(value: string, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationParts {
-	return interpretInputValue(stringToInputValue(value, interpretationSettings, expressionSettings))
+	return interpretInputValue(stringToInputValue(value, interpretationSettings, expressionSettings, true))
 }
 
 export function interpretEquationInput(value: EquationInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationParts {
-	if (isExpressionInputValue(value)) return interpretInputValue(value)
+	if (isEquationInputValue(value)) return interpretInputValue(value)
 	if (hasEquationShape(value)) return interpretEquationShape(value)
 	if (typeof value === 'string') return interpretString(value, interpretationSettings, expressionSettings)
 	throw new Error(`Invalid equation interpretation: cannot turn input of type "${typeof value}" into an equation.`)
 }
 
 // Find the position of the equals sign in the ExpressionInputValue. Throw an error if there's zero or 2+.
-function findEqualsPosition(value: ExpressionInputValue): InputCursorEnd {
+function findEqualsPosition(value: EquationInputValue): InputCursorEnd {
 	let result: InputCursorEnd | undefined
 	value.value.forEach((part, partIndex) => {
 		if (part.type !== 'ExpressionPart') return

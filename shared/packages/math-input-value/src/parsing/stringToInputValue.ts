@@ -1,14 +1,17 @@
 import { removeWhitespace } from '@step-wise/utils'
 
 import { type InterpretationSettingsInput, type InterpretationSettings, type ExpressionSettingsInput, asInterpretationSettings } from '../settings'
-import type { InputValuePart, ExpressionInputValue } from '../types'
-import { getExpressionValueWith, addExpressionWrapper } from '../utils'
+import type { InputValuePart, InputValue, ExpressionInputValue, EquationInputValue } from '../types'
+import { getExpressionValueWith, addExpressionWrapper, addEquationWrapper } from '../utils'
 
 import { processFunctionsAndAccents, processSubSups, processFractions } from './steps'
 
-export function stringToInputValue(str: string, interpretationSettings: InterpretationSettingsInput = {}, expressionSettings?: ExpressionSettingsInput): ExpressionInputValue {
+export function stringToInputValue(str: string, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput, toEquation?: false): ExpressionInputValue
+export function stringToInputValue(str: string, interpretationSettings: InterpretationSettingsInput | undefined, expressionSettings: ExpressionSettingsInput | undefined, toEquation: true): EquationInputValue
+export function stringToInputValue(str: string, interpretationSettings: InterpretationSettingsInput = {}, expressionSettings?: ExpressionSettingsInput, toEquation = false): InputValue {
 	const fullInterpretationSettings = asInterpretationSettings(interpretationSettings)
-	return addExpressionWrapper(stringToInputValueParts(str, fullInterpretationSettings), interpretationSettings, expressionSettings)
+	const value = stringToInputValueParts(str, fullInterpretationSettings)
+	return toEquation ? addEquationWrapper(value, interpretationSettings, expressionSettings) : addExpressionWrapper(value, interpretationSettings, expressionSettings)
 }
 
 function stringToInputValueParts(str: string, settings: InterpretationSettings): InputValuePart[] {

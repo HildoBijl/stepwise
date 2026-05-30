@@ -1,5 +1,5 @@
 import { compareNumbers, deepEquals, identity } from '@step-wise/utils'
-import { type ExpressionSettings, type ExpressionInputValue, asExpressionSettings, defaultExpressionSettings, addExpressionWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
+import { type ExpressionSettings, type EquationInputValue, asExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
 import { type SimplificationOptionsObject } from '../expressions' // Legacy Simplification Presets
@@ -21,6 +21,7 @@ export function asEquation(value: EquationLike | EquationInput, interpretationSe
 
 // Set up the Equation class.
 export class Equation {
+	readonly type = 'Equation'
 	readonly left: Expression
 	readonly right: Expression
 	readonly settings: ExpressionSettings
@@ -91,10 +92,10 @@ export class Equation {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): ExpressionInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): EquationInputValue {
 		const leftInputValue = this.left.toInputValue(interpretationSettings)
 		const rightInputValue = this.right.toInputValue(interpretationSettings)
-		return addExpressionWrapper(mergeAdjacentExpressionParts([...leftInputValue.value, getExpressionPartWith('='), ...rightInputValue.value]), interpretationSettings, this.settings)
+		return addEquationWrapper(mergeAdjacentExpressionParts([...leftInputValue.value, getExpressionPartWith('='), ...rightInputValue.value]), interpretationSettings, this.settings)
 	}
 
 	/*

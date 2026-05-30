@@ -17,7 +17,7 @@ export function removeCursor(input) {
 		return input
 
 	// If there is an object, check if there is a cursor.
-	if (input.cursor === undefined)
+	if (!('cursor' in input))
 		return input
 
 	// There is a cursor. Remove it.

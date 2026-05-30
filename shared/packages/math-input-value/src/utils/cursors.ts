@@ -10,7 +10,7 @@ export function equalCursor(a: InputCursorEnd, b: InputCursorEnd): boolean {
 
 export function getStartCursor<TExtension = never>(value: (InputValuePart | TExtension)[] = getEmptyExpressionValue()): InputCursorEnd {
 	const firstPart = first(value)
-	if (!isExpressionPart(firstPart)) throw new Error(`Could not extract starting cursor position of non-InputValuePart parameter "${JSON.stringify(firstPart)}".`)
+	if (!isExpressionPart(firstPart)) throw new Error(`Could not extract starting cursor position. The received ExpressionInputValue had as first part "${JSON.stringify(firstPart)}" which is not an ExpressionPart.`)
 	return { part: 0, cursor: 0 }
 }
 

@@ -39,6 +39,7 @@ export function asExpression(value: ExpressionLike, interpretationSettings?: Int
 
 // Set up the Expression wrapper.
 export class Expression {
+	readonly type = 'Expression'
 	readonly settings: ExpressionSettings
 
 	/*

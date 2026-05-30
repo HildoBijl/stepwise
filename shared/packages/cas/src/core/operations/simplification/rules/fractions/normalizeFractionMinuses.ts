@@ -2,6 +2,7 @@ import { type ExpressionNode, type Fraction, fraction, negative, sum } from '../
 
 import { isMinus, isSum } from '../../../structural'
 
+import { removeDoubleNegatives } from '../signs/removeDoubleNegatives'
 import { mergeFractionMinuses } from './mergeFractionMinuses'
 
 export function normalizeFractionMinuses(node: Fraction): ExpressionNode {
@@ -11,5 +12,5 @@ export function normalizeFractionMinuses(node: Fraction): ExpressionNode {
 }
 
 function pullMinusOutOfSum(node: ExpressionNode): ExpressionNode {
-	return isSum(node) && isMinus(node.terms[0]) ? negative(sum(...node.terms.map(negative))) : node
+	return isSum(node) && isMinus(node.terms[0]) ? negative(sum(...node.terms.map(term => removeDoubleNegatives(negative(term))))) : node
 }

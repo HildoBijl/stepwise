@@ -9,8 +9,8 @@ module.exports.SOtoFO = (SO, expressionSettings) => Expression.fromStorageValue(
 module.exports.SItoFO = (value, expressionInterpretationSettings) => asExpression({
 	type: 'Expression',
 	value,
-	interpretationSettings: omitDefaults(pickFromDefaults(expressionInterpretationSettings, defaultInterpretationSettings), defaultInterpretationSettings),
-	expressionSettings: omitDefaults(pickFromDefaults(expressionInterpretationSettings, defaultExpressionSettings), defaultExpressionSettings),
+	interpretationSettings: omitDefaults(pickFromDefaults(expressionInterpretationSettings ?? {}, defaultInterpretationSettings), defaultInterpretationSettings),
+	expressionSettings: omitDefaults(pickFromDefaults(expressionInterpretationSettings ?? {}, defaultExpressionSettings), defaultExpressionSettings),
 })
 module.exports.FOtoSI = (expression) => stringToInputValue(expression.toString(), expression.getInterpretationSettings(), expression.settings).value
 module.exports.FOtoSO = (expression) => expression.toStorageValue()

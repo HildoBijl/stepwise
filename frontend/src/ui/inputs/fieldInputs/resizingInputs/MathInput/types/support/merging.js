@@ -1,5 +1,5 @@
 import { first, last } from '@step-wise/utils'
-import { getSubExpression, findEndOfTerm } from '@step-wise/math-input-value'
+import { getSubExpression, findEndOfFactor } from '@step-wise/math-input-value'
 
 import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'
 
@@ -108,7 +108,7 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 		part: edgeElementIndex,
 		cursor: (toRight ? getFIStartCursor : getFIEndCursor)(expressionValue[edgeElementIndex]),
 	}
-	const cursorAtBreak = findEndOfTerm(expressionValue, cursorAtEdgeOfElement, toRight, skipFirst)
+	const cursorAtBreak = findEndOfFactor(expressionValue, cursorAtEdgeOfElement, toRight, skipFirst)
 	const cursorAtEnd = toRight ? expressionFunctions.getEndCursor(expressionValue) : expressionFunctions.getStartCursor(expressionValue)
 
 	// Apply the proper split.
