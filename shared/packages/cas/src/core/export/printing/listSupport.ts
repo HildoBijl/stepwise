@@ -14,7 +14,6 @@ export function requiresPlusBetweenNodesTex(nextNode: ExpressionNode, previousNo
 // Describe whether there should be a times symbol between two nodes in a product.
 export function requiresTimesBetweenFactors(nextNode: ExpressionNode, previousNode: ExpressionNode, settings: InterpretationSettings): boolean {
 	if (isConstantNode(nextNode)) return true
-	if (isSignNode(nextNode)) return true
 	if (isFunctionNode(previousNode) && !isPower(previousNode)) return true
 	if (isPower(nextNode)) return requiresTimesBetweenFactors(nextNode.base, previousNode, settings)
 	if (isFunctionNode(nextNode)) return true

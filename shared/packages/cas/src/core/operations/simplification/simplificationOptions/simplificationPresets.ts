@@ -65,6 +65,7 @@ export const combine = new Set<SimplificationOption>([
 	'mergeFractionProducts',
 	'flattenFractions',
 	'mergeFractionFactors',
+	'convertNegativePowers',
 	'mergeProductsOfRoots',
 	'pullExponentsIntoRoots',
 ])
@@ -102,7 +103,6 @@ export const normalize = new Set<SimplificationOption>([
 	...normalizationRequirements,
 	'normalizeFractionMinuses',
 	'applyPolynomialCancellation',
-	'convertNegativePowers',
 	'turnRootsIntoFractionExponents',
 ])
 

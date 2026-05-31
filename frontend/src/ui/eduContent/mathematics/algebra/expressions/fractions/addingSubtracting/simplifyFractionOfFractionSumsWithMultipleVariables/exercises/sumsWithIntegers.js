@@ -79,7 +79,7 @@ const steps = [
 			return <Translation>
 				<Par>When dividing something by a fraction, the rule says we may also multiply it by its inverse. So we can write this as <BM>{intermediate.numerator.multiply(intermediate.denominator.invert())}.</BM> If we subsequently merge the fractions, then we can simplify this to <BM>{ans}.</BM> Optionally we can also expand the brackets here, but this is not necessarily required.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We could have also multiplied both sides of the original fraction by <M>{variables.x.multiply(variables.y).simplify({ sortProducts: true })}</M>. After simplifying the inner fractions, we then directly find that <BM>{expression} = {ans.simplify({ expandProductsOfSums: true, sortProducts: true, mergeProductFactors: true, mergeSumNumbers: true })}.</BM> However, this short-cut requires insights that are generally only obtained through lots of practice.</Par>
+				<Par>We could have also multiplied both sides of the original fraction by <M>{variables.x.multiply(variables.y).flatten(['sortProducts'])}</M>. After simplifying the inner fractions, we then directly find that <BM>{expression} = {ans.flatten(['expandProductsOfSums', 'sortProducts', 'mergeProductFactors', 'mergeSumNumbers'])}.</BM> However, this short-cut requires insights that are generally only obtained through lots of practice.</Par>
 			</Translation>
 		},
 	},

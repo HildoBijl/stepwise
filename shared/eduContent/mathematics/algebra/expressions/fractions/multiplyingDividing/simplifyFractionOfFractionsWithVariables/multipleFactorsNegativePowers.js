@@ -5,10 +5,10 @@ const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performCom
 const { hasNegativeExponent, hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// (a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+e)^s*(x+c)^t).
+// (a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+f)^s*(x+c)^t).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e', 'p', 'q', 'r', 's', 't']
+const constants = ['a', 'b', 'c', 'd', 'f', 'p', 'q', 'r', 's', 't']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
@@ -29,10 +29,10 @@ function generateState() {
 	// Generate factor constants.
 	const c = randomInteger(-4, 4)
 	const d = randomInteger(-4, 4, [c])
-	const e = randomInteger(-4, 4, [c, d])
-	
+	const f = randomInteger(-4, 4, [c, d])
+
 	// If there is no zero addition (no pure x term) then restart generation.
-	if (c !== 0 && d !== 0 && e !== 0)
+	if (c !== 0 && d !== 0 && f !== 0)
 		return generateState()
 
 	// Generate exponents.
@@ -53,7 +53,7 @@ function generateState() {
 	return {
 		x: sample(variableSet),
 		a, b,
-		c, d, e,
+		c, d, f,
 		p, q, r, s, t,
 		flip: randomBoolean(), // Flip the numerator and the denominator?
 	}
@@ -62,16 +62,16 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const part1 = asExpression('a*(x+c)^p*(x+d)^q').substitute(variables).removeTrivial()
-	const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t').substitute(variables).removeTrivial()
-	const expression = (state.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial()
+	const part1 = asExpression('a*(x+c)^p*(x+d)^q').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+	const part2 = asExpression('b*(x+d)^r*(x+f)^s*(x+c)^t').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+	const expression = (state.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial([], ['mergeFractionMinuses'])
 
 	// Apply cleaning.
-	const part1WithoutNegativeExponents = part1.removeTrivial({ convertNegativePowers: true })
-	const part2WithoutNegativeExponents = part2.removeTrivial({ convertNegativePowers: true })
-	const withoutNegativeExponents = expression.removeTrivial({ convertNegativePowers: true })
-	const singleFraction = withoutNegativeExponents.simplify({ mergeFractionProducts: true, flattenFractions: true })
-	const inBetween = singleFraction.cancel({ mergeProductFactors: false })
+	const part1WithoutNegativeExponents = part1.removeTrivial(['convertNegativePowers'])
+	const part2WithoutNegativeExponents = part2.removeTrivial(['convertNegativePowers'])
+	const withoutNegativeExponents = expression.removeTrivial(['convertNegativePowers'])
+	const singleFraction = withoutNegativeExponents.removeTrivial(['mergeFractionProducts', 'flattenFractions'])
+	const inBetween = singleFraction.cancel()
 	const ans = expression.combine()
 	return { ...state, variables, part1, part2, part1WithoutNegativeExponents, part2WithoutNegativeExponents, expression, withoutNegativeExponents, singleFraction, inBetween, ans }
 }

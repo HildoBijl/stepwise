@@ -5,17 +5,17 @@ const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performCom
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// (a*x^c)/(b*x^d*(x+e)).
+// (a*x^c)/(b*x^d*(x+f)).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e']
+const constants = ['a', 'b', 'c', 'd', 'f']
 
 const metaData = {
 	skill: 'simplifyFractionWithVariables',
 	steps: ['simplifyFraction', and('rewritePower', 'cancelFractionFactors')],
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
-		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.flatten()) && equivalent(input, correct),
+		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().simplify(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
 		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
 	}
 }
@@ -29,7 +29,7 @@ function generateState() {
 	return {
 		x: sample(variableSet),
 		a, b, c, d,
-		e: randomInteger(-6, 6, [0]),
+		f: randomInteger(-6, 6, [0]),
 		switch: randomBoolean(), // Flip the numerator and the denominator?
 	}
 }
@@ -37,14 +37,14 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('(a*x^c)/(b*x^d*(x+e))').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
+	const expression = asExpression('(a*x^c)/(b*x^d*(x+f))').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
 
 	// Set up the numeric parts for display purposes.
 	const numericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
 	const numericPart = numericPartOriginal.combine()
 
 	// Apply cleaning.
-	const numericSimplified = expression.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true })
+	const numericSimplified = expression.removeTrivial(['mergeProductNumbers', 'mergeFractionNumbers'])
 	const ans = expression.combine()
 	return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
 }

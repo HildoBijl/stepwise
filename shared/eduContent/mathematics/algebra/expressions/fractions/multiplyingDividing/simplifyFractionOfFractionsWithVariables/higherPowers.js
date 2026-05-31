@@ -5,10 +5,10 @@ const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performCom
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// ((a*(x+e)^p)/(b*(x+f)^q))/((c*(x+e)^r)/(d*(x+f)^s)).
+// ((a*(x+f)^p)/(b*(x+f)^q))/((c*(x+f)^r)/(d*(x+g)^s)).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'p', 'q', 'r', 's']
+const constants = ['a', 'b', 'c', 'd', 'f', 'g', 'p', 'q', 'r', 's']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
@@ -25,8 +25,8 @@ function generateState() {
 	const b = randomInteger(-12, 12, [-1, 0, 1, a])
 	const c = randomInteger(-12, 12, [-1, 0, 1, a, b])
 	const d = randomInteger(-12, 12, [-1, 0, 1, a, b, c])
-	const e = randomInteger(-4, 4)
-	const f = randomInteger(-4, 4, [e])
+	const f = randomInteger(-4, 4)
+	const g = randomInteger(-4, 4, [f])
 	const p = randomInteger(2, 4)
 	const q = randomInteger(2, 4, [p])
 	const r = p + randomInteger(1, 3)
@@ -34,7 +34,7 @@ function generateState() {
 
 	return {
 		x: sample(variableSet),
-		a, b, c, d, e, f, p, q, r, s,
+		a, b, c, d, f, g, p, q, r, s,
 		flip: randomBoolean(), // Flip the numerator and the denominator?
 	}
 }
@@ -42,12 +42,12 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))').substitute(variables).removeTrivial()
-	const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))').substitute(variables).removeTrivial()
-	const expression = fraction1.divide(fraction2)[state.flip ? 'invert' : 'self']().removeTrivial()
+	const fraction1 = asExpression('((a*(x+f)^p)/(b*(x+g)^q))').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+	const fraction2 = asExpression('((c*(x+f)^r)/(d*(x+g)^s))').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+	const expression = fraction1.divide(fraction2)[state.flip ? 'invert' : 'self']().removeTrivial([], ['mergeFractionMinuses'])
 
 	// Apply cleaning.
-	const singleFraction = expression.simplify({ mergeFractionProducts: true, flattenFractions: true })
+	const singleFraction = expression.simplify(['mergeFractionProducts', 'flattenFractions'])
 	const inBetween = singleFraction.cancel()
 	const ans = expression.combine()
 	return { ...state, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }

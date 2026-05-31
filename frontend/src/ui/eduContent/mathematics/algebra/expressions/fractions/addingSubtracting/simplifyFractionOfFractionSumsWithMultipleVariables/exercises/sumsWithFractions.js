@@ -81,7 +81,7 @@ const steps = [
 			return <Translation>
 				<Par>When dividing something by a fraction, the rule says we may also multiply it by its inverse. So we can write this as <BM>{intermediateFlipped}.</BM> If we subsequently merge the fractions, then we can simplify this to <BM>{intermediateMerged}.</BM> We could still reorder this a bit to <BM>{ans}.</BM></Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We could have also multiplied both sides of the original fraction by <M>{variables.w.multiply(variables.x).multiply(variables.y).multiply(variables.z).divide(gcdValue).combine()}</M>. After simplifying the inner fractions, we then directly find that <BM>{expression} = {ans.simplify({ expandProductsOfSums: true, sortProducts: true })}.</BM> However, this short-cut requires insights that are generally only obtained through lots of practice.</Par>
+				<Par>We could have also multiplied both sides of the original fraction by <M>{variables.w.multiply(variables.x).multiply(variables.y).multiply(variables.z).divide(gcdValue).combine()}</M>. After simplifying the inner fractions, we then directly find that <BM>{expression} = {ans.flatten(['expandProductsOfSums', 'sortProducts'])}.</BM> However, this short-cut requires insights that are generally only obtained through lots of practice.</Par>
 			</Translation>
 		},
 	},

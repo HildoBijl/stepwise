@@ -32,10 +32,10 @@ describe('fraction simplification', () => {
 	})
 
 	test('merges fraction sums', () => {
-		expectSimplifyToGive(sum(fraction(x, z), fraction(y, z)), fraction(sum(x, y), z), ['mergeFractionSums'])
-		expectSimplifyToGive(sum(fraction(x, y), fraction(y, z)), fraction(sum(product(x, z), product(y, y)), product(y, z)), ['mergeFractionSums'])
-		expectSimplifyToGive(sum(x, fraction(y, z)), fraction(sum(product(x, z), y), z), ['mergeFractionSums'])
-		expectSimplifyToGive(sum(fraction(2, product(x, y)), fraction(3, product(y, z))), fraction(sum(product(2, product(y, z)), product(product(x, y), 3)), product(product(x, y), product(y, z))), ['mergeFractionSums'])
+		expectSimplifyToGive(sum(fraction(x, z), fraction(y, z)), fraction(sum(x, y), z), ['mergeFractionSums', 'mergeFractionProducts'])
+		expectSimplifyToGive(sum(fraction(x, y), fraction(y, z)), fraction(sum(product(x, z), product(y, y)), product(y, z)), ['mergeFractionSums', 'mergeFractionProducts'])
+		expectSimplifyToGive(sum(x, fraction(y, z)), fraction(sum(product(x, z), y), z), ['mergeFractionSums', 'mergeFractionProducts'])
+		expectSimplifyToGive(sum(fraction(2, product(x, y)), fraction(3, product(y, z))), fraction(sum(product(2, product(y, z)), product(product(x, y), 3)), product(product(x, y), product(y, z))), ['mergeFractionSums', 'mergeFractionProducts'])
 	})
 
 	test('splits fractions', () => {
@@ -45,9 +45,9 @@ describe('fraction simplification', () => {
 	})
 
 	test('cancels fraction minuses', () => {
-		expectSimplifyToGive(fraction(negative(x), negative(y)), fraction(x, y), ['mergeFractionMinuses'])
-		expectSimplifyToGive(fraction(negative(x), y), negative(fraction(x, y)), ['mergeFractionMinuses'])
-		expectSimplifyToGive(fraction(x, negative(y)), negative(fraction(x, y)), ['mergeFractionMinuses'])
+		expectSimplifyToGive(fraction(negative(x), negative(y)), fraction(x, y), ['mergeFractionMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(negative(x), y), negative(fraction(x, y)), ['mergeFractionMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(x, negative(y)), negative(fraction(x, y)), ['mergeFractionMinuses', 'removeDoubleNegatives'])
 	})
 
 	test('cancels fraction numbers', () => {
@@ -57,10 +57,10 @@ describe('fraction simplification', () => {
 	})
 
 	test('cancels fraction factors', () => {
-		expectSimplifyToGive(fraction(x, x), fraction(1, 1), ['cancelFractionFactors'])
-		expectSimplifyToGive(fraction(product(x, y), product(x, z)), fraction(y, z), ['cancelFractionFactors'])
-		expectSimplifyToGive(fraction(product(x, y, z), product(x, y)), fraction(z, 1), ['cancelFractionFactors'])
-		expectSimplifyToGive(fraction(product(power(x, 3), power(y, 3)), product(power(x, 2), power(y, 3))), fraction(power(x, 3), power(x, 2)), ['cancelFractionFactors'])
+		expectSimplifyToGive(fraction(x, x), fraction(1, 1), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(product(x, y), product(x, z)), fraction(y, z), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(product(x, y, z), product(x, y)), fraction(z, 1), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(product(power(x, 3), power(y, 3)), product(power(x, 2), power(y, 3))), fraction(power(x, 3), power(x, 2)), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
 	})
 
 	test('merges fraction factors', () => {

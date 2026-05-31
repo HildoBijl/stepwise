@@ -39,7 +39,7 @@ function getSolution(state) {
 
 	// Set up the solution.
 	const lcmValue = lcm(a, b)
-	const denominator = asExpression(`${lcmValue}xy`).substitute(variables).simplify({ sortProducts: true })
+	const denominator = asExpression(`${lcmValue}xy`).substitute(variables).flatten(['sortProducts'])
 	const leftAns = leftExpression.multiplyNumDen(lcmValue / a).multiplyNumDen(y).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
 	const rightAns = rightExpression.multiplyNumDen(lcmValue / b).multiplyNumDen(x).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)

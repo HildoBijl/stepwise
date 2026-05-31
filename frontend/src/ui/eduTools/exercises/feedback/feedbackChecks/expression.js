@@ -108,7 +108,7 @@ export const hasVariable = (variableName) => ((input, correct, { variables }, is
 
 export const hasX = hasVariable('x')
 
-export const hasNumberSimplifications = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input, input.simplify({ mergeSumNumbers: true, mergeProductNumbers: true, mergeProductMinuses: true, mergeInitialMinusOne: true, mergePowerNumbers: true })) && <Translation path={translationPath} entry="expression.hasNumberSimplifications">You can still simplify the numbers in your solution.</Translation>
+export const hasNumberSimplifications = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.removeTrivial(), input.mergeNumbers()) && <Translation path={translationPath} entry="expression.hasNumberSimplifications">You can still simplify the numbers in your solution.</Translation>
 
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <Translation path={translationPath} entry="expression.hasSumWithinProduct">Your solution has unexpanded brackets.</Translation>
 
@@ -128,15 +128,15 @@ export const hasFractionWithinFraction = (input, correct, solution, isCorrect) =
 
 export const hasXInDenominator = (input, correct, { variables }, isCorrect) => !isCorrect && expressionChecks.hasVariableInDenominator(input, variables.x) && <Translation path={translationPath} entry="expression.hasXInDenominator">You cannot have <M>{variables.x}</M> appear in any denominator anymore.</Translation>
 
-export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</Translation>
+export const unsimplifiedFractionNumbers = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionNumbers">The fraction can still be simplified further. Try dividing the numerator and the denominator by the right number.</Translation>
 
-export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true, cancelFractionFactors: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
+export const unsimplifiedFractionFactors = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.flatten(['mergeProductFactors', 'cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives']), input) && <Translation path={translationPath} entry="expression.unsimplifiedFractionFactors">There are still factors that can be canceled in the numerator and the denominator.</Translation>
 
 export const fractionNumeratorHasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && input.isFraction() && expressionChecks.hasSumWithinProduct(input.numerator) && <Translation path={translationPath} entry="expression.fractionNumeratorHasSumWithinProduct">There are still unexpanded brackets in the numerator.</Translation>
 
 export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <Translation path={translationPath} entry="expression.hasPower">Your solution still has an exponent. You can simplify this further.</Translation>
 
-export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.simplify({ mergeProductFactors: true }), input) && <Translation path={translationPath} entry="expression.unsimplifiedPowerMerging">There are still factors in a product that can be pulled together into a power.</Translation>
+export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) => !isCorrect && !onlyOrderChanges(input.flatten(['mergeProductFactors']), input) && <Translation path={translationPath} entry="expression.unsimplifiedPowerMerging">There are still factors in a product that can be pulled together into a power.</Translation>
 
 /*
  * Common mistake checks.

@@ -271,6 +271,7 @@ export class Expression {
 	 * Algebraic operations
 	 */
 
+	self(): Expression { return this }
 	negate(): Expression { return this.recreateWith(negative(this.node)) }
 	abs(): Expression { return this.recreateWith(abs(this.node)) }
 	add(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(this.node, ...terms.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
@@ -279,7 +280,7 @@ export class Expression {
 	multiply(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(this.node, ...factors.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	multiplyLeft(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(...factors.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	divide(denominator: ExpressionLike): Expression { return this.recreateWith(divide(this.node, this.coerceExpression(denominator).node)) }
-	invert(): Expression { return this.recreateWith(divide(1, this.node)) }
+	invert(): Expression { return this.isMinus() ? this.argument.invert().negate() : this.isFraction() ? this.denominator.divide(this.numerator) : this.recreateWith(divide(1, this.node)) }
 	toPower(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.node, this.coerceExpression(exponent).node)) }
 	asExponentOf(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.coerceExpression(exponent).node, this.node)) }
 

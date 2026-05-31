@@ -37,7 +37,7 @@ function getSolution(state) {
 	const factor2 = equation.left.terms[0].denominator
 	const factor = factor1.multiply(factor2)
 	const multiplied = equation.mapLeft(side => side.applyToAllTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel({ cancelFractionFactors: true })
-	const expanded = multiplied.simplify({ expandProductsOfSums: true, mergeProductNumbers: true })
+	const expanded = multiplied.simplify(['expandProductsOfSums', 'mergeProductNumbers'])
 	const merged = expanded.combine({ sortProducts: false })
 	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).cancel()
 	const pulledOut = shifted.mapLeft(side => side.factorOut(variables.x).combine())

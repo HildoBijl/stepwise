@@ -40,10 +40,10 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('(a*(x+c)^p)/(b*(x+c)^q/(x+d)^r)').substitute(variables)[state.flip ? 'invert' : 'self']().removeTrivial()
+	const expression = asExpression('(a(x+c)^p)/(b(x+c)^q/(x+d)^r)').substitute(variables)[state.flip ? 'invert' : 'self']().removeTrivial()
 
 	// Apply cleaning.
-	const singleFraction = expression.simplify({ mergeFractionProducts: true, flattenFractions: true })
+	const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
 	const ans = expression.combine()
 	return { ...state, variables, expression, singleFraction, ans }
 }

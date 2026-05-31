@@ -8,7 +8,6 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/math-tools": "file:../math-tools",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

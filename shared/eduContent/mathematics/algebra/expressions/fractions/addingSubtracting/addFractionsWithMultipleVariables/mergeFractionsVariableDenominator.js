@@ -37,7 +37,7 @@ function getSolution(state) {
 	const expression = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
-	const denominator = asExpression('xyz').substitute(variables).simplify({ sortProducts: true })
+	const denominator = asExpression('xyz').substitute(variables).flatten(['sortProducts'])
 	const leftAns = leftExpression.multiplyNumDen(y).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
 	const rightAns = rightExpression.multiplyNumDen(x).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)

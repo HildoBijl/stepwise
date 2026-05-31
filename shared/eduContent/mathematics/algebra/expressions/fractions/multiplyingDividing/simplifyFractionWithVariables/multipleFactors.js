@@ -9,14 +9,14 @@ const { equivalent, onlyOrderChanges } = expressionComparisons
 // (a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c)).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'p', 'q']
+const constants = ['a', 'b', 'c', 'd', 'f', 'p', 'q']
 
 const metaData = {
 	skill: 'simplifyFractionWithVariables',
 	steps: ['simplifyFraction', and('rewritePower', 'cancelFractionFactors')],
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
-		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.flatten()) && equivalent(input, correct),
+		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
 		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
 	}
 }
@@ -28,12 +28,12 @@ function generateState() {
 	const b = factor * randomInteger(-8, 8, [-1, 0, 1, a / factor, -a / factor])
 	const c = randomInteger(-4, 4)
 	const d = randomInteger(-4, 4, [c])
-	const e = randomInteger(-4, 4, [c, d])
+	const f = randomInteger(-4, 4, [c, d])
 	const p = randomInteger(2, 4)
 	const q = randomInteger(2, 4)
 	return {
 		x: sample(variableSet),
-		a, b, c, d, e,
+		a, b, c, d, f,
 		p, q,
 		switch: randomBoolean(), // Put the highest power at the front or the back?
 	}
@@ -42,7 +42,7 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	let expression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
+	let expression = asExpression('(a*(x+c)^p*(x+f)*(x+d))/(b*(x+d)^p*(x+c))').substitute(variables).removeTrivial()[state.switch ? 'invert' : 'self']()
 	const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
 	const factor2 = asExpression('x+d').substitute(variables).removeTrivial()
 
@@ -52,7 +52,7 @@ function getSolution(state) {
 	const factor = gcd(state.a, state.b) * (state.a < 0 && state.b < 0 ? -1 : 1)
 
 	// Apply cleaning.
-	const numericSimplified = expression.simplify({ mergeProductNumbers: true, mergeFractionNumbers: true })
+	const numericSimplified = expression.removeTrivial(['mergeProductNumbers', 'mergeFractionNumbers'])
 	const ans = expression.combine()
 	return { ...state, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 }

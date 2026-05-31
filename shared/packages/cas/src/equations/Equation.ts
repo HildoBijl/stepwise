@@ -136,6 +136,7 @@ export class Equation {
 	 * Algebraic operations
 	 */
 
+	self(): Equation { return this }
 	switch(): Equation { return this.recreateWith(this.right, this.left) }
 	negate(): Equation { return this.mapSides(side => side.negate()) }
 	abs(): Equation { return this.mapSides(side => side.abs()) }

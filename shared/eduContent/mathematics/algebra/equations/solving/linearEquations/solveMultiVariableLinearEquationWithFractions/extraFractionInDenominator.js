@@ -35,7 +35,7 @@ function getSolution(state) {
 	// Find the solution.
 	const simplified = equation.mapLeft(side => side.cleanForAnalysis({ sortSums: false }))
 	const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator).multiply(simplified.right.denominator)).combine()
-	const expanded = multiplied.simplify({ expandProductsOfSums: true, splitFractions: true, mergeProductNumbers: true })
+	const expanded = multiplied.flatten(['expandProductsOfSums', 'splitFractions', 'mergeProductNumbers'])
 	const termToMove = expanded.right.terms.find(term => term.dependsOn(variables.x))
 	const shifted = expanded.subtract(termToMove).combine()
 	const pulledOut = shifted.mapLeft(side => side.factorOut(variables.x).combine())

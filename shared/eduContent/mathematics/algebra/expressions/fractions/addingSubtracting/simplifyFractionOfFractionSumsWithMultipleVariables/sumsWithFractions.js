@@ -45,10 +45,10 @@ function getSolution(state) {
 
 	// Simplify the expression.
 	const gcdValue = gcd(...constants.map(constant => state[constant]))
-	const fraction1Intermediate = fraction1.multiplyNumDen(variables.x).simplify({ sortProducts: true })
-	const fraction2Intermediate = fraction2.multiplyNumDen(variables.w).simplify({ sortProducts: true })
-	const fraction3Intermediate = fraction3.multiplyNumDen(variables.z).simplify({ sortProducts: true })
-	const fraction4Intermediate = fraction4.multiplyNumDen(variables.y).simplify({ sortProducts: true })
+	const fraction1Intermediate = fraction1.multiplyNumDen(variables.x).flatten(['sortProducts'])
+	const fraction2Intermediate = fraction2.multiplyNumDen(variables.w).flatten(['sortProducts'])
+	const fraction3Intermediate = fraction3.multiplyNumDen(variables.z).flatten(['sortProducts'])
+	const fraction4Intermediate = fraction4.multiplyNumDen(variables.y).flatten(['sortProducts'])
 	const numeratorSplit = fraction1Intermediate[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate)
 	const denominatorSplit = fraction3Intermediate[state.plus2 ? 'add' : 'subtract'](fraction4Intermediate)
 	const numeratorIntermediate = fraction1Intermediate.numerator[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator)
@@ -56,9 +56,9 @@ function getSolution(state) {
 
 	const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
 	const intermediateFlipped = intermediate.numerator.multiply(intermediate.denominator.invert())
-	const intermediateMerged = intermediateFlipped.simplify({ mergeFractionProducts: true })
+	const intermediateMerged = intermediateFlipped.flatten(['mergeFractionProducts'])
 
-	const ans = asExpression(`((${variables.a / gcdValue}x ${state.plus1 ? '+' : '-'} ${variables.b / gcdValue}w)yz)/(wx(${variables.c / gcdValue}z ${state.plus2 ? '+' : '-'} ${variables.d / gcdValue}y))`).substitute(variables).simplify({ ...simplifyOptions.removeUseless, sortProducts: true })
+	const ans = asExpression(`((${variables.a / gcdValue}x ${state.plus1 ? '+' : '-'} ${variables.b / gcdValue}w)yz)/(wx(${variables.c / gcdValue}z ${state.plus2 ? '+' : '-'} ${variables.d / gcdValue}y))`).substitute(variables).removeTrivial(['sortProducts'])
 
 	return { ...state, variables, fraction1, fraction2, fraction3, fraction4, numerator, denominator, expression, gcdValue, fraction1Intermediate, fraction2Intermediate, fraction3Intermediate, fraction4Intermediate, numeratorSplit, denominatorSplit, numeratorIntermediate, denominatorIntermediate, intermediate, intermediateFlipped, intermediateMerged, ans }
 }
