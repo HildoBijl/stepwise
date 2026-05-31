@@ -41,7 +41,7 @@ function getSolution(state) {
 	const rule = 1 // Use the cosine rule.
 	const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*c*b*cos(α)', undefined, { degrees: true }).substitute(variables)
 	const equation = equationRaw.advancedCleanDisplay()
-	const equationInStandardForm = equation.applyToBothSides(side => side.subtract(equation.left)).switch().advancedCleanDisplay()
+	const equationInStandardForm = equation.mapSides(side => side.subtract(equation.left)).switch().advancedCleanDisplay()
 	const numSolutions = 2
 
 	// Determine the solution.

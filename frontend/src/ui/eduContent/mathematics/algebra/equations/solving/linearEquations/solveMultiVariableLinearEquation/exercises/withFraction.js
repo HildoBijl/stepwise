@@ -75,7 +75,7 @@ const steps = [
 		Solution: ({ x, y, bracketTerm, ans, ansCleaned, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }) => {
 			return <Translation>
 				<Par>If we divide both sides by <M>{bracketTerm}</M>, then on the left the term between brackets disappears. We only remain with <M>{x}</M>, meaning that we have indeed solved the equation for <M>{x}</M>! The final result is <BM>{x} = {ans}.</BM> Optionally this can still be simplified to <BM>{x} = {ansCleaned}</BM> but that is not necessarily required here.</Par>
-				<Par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <BM>{equationWithSolution}.</BM> We can and cross out <M>{y}</M> on the left and write each side as one large fraction to get <BM>{equationWithSolutionMergedFractions}.</BM> Subsequently expanding brackets and canceling sum terms turns this into <BM>{equationWithSolutionExpandedBrackets}.</BM> Note that both sides have reduced to the same. This means that our solution is correct.</Par>
+				<Par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <BM>{equationWithSolution}.</BM> We can cross out <M>{y}</M> on the left and write each side as one large fraction to get <BM>{equationWithSolutionMergedFractions}.</BM> Subsequently expanding brackets and canceling sum terms turns this into <BM>{equationWithSolutionExpandedBrackets}.</BM> Note that both sides have reduced to the same. This means that our solution is correct.</Par>
 			</Translation>
 		},
 	},

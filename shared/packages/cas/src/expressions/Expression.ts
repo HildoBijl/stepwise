@@ -5,7 +5,7 @@ import {
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
-	add, subtract, multiply, divide, negative, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
+	add, subtract, multiply, divide, negative, abs, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
 	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
@@ -271,13 +271,15 @@ export class Expression {
 	 * Algebraic operations
 	 */
 
-	applyMinus(): Expression { return this.recreateWith(negative(this.node)) }
+	negate(): Expression { return this.recreateWith(negative(this.node)) }
+	abs(): Expression { return this.recreateWith(abs(this.node)) }
 	add(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(this.node, ...terms.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	addLeft(...terms: ExpressionLike[]): Expression { return this.recreateWith(add(...terms.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	subtract(term: ExpressionLike): Expression { return this.recreateWith(subtract(this.node, this.coerceExpression(term).node)) }
 	multiply(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(this.node, ...factors.map(term => this.coerceExpression(term)).map(expression => expression.node))) }
 	multiplyLeft(...factors: ExpressionLike[]): Expression { return this.recreateWith(multiply(...factors.map(term => this.coerceExpression(term)).map(expression => expression.node), this.node)) }
 	divide(denominator: ExpressionLike): Expression { return this.recreateWith(divide(this.node, this.coerceExpression(denominator).node)) }
+	invert(): Expression { return this.recreateWith(divide(1, this.node)) }
 	toPower(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.node, this.coerceExpression(exponent).node)) }
 	asExponentOf(exponent: ExpressionLike): Expression { return this.recreateWith(power(this.coerceExpression(exponent).node, this.node)) }
 
@@ -293,6 +295,22 @@ export class Expression {
 	arccos(): Expression { return this.recreateWith(arccos(this.node)) }
 	arctan(): Expression { return this.recreateWith(arctan(this.node)) }
 
+	mapTerms(transform: (term: Expression, index: number) => Expression): Expression {
+		if (!this.isSum()) throw new Error(`Invalid mapTerms call: expression is of type "${this.subtype}", not "Sum".`)
+		const mappedTerms = this.terms.map((term, index) => transform(term, index))
+		return mappedTerms[0].add(...mappedTerms.slice(1))
+	}
+	mapFactors(transform: (factor: Expression, index: number) => Expression): Expression {
+		if (!this.isProduct()) throw new Error(`Invalid mapFactors call: expression is of type "${this.subtype}", not "Product".`)
+		const mappedFactors = this.factors.map((factor, index) => transform(factor, index))
+		return mappedFactors[0].multiply(...mappedFactors.slice(1))
+	}
+	factorOut(factor: ExpressionLike): Expression {
+		const factorToPull = this.coerceExpression(factor)
+		const inner = this.isSum() ? this.mapTerms(term => term.divide(factorToPull)) : this.divide(factorToPull)
+		return factorToPull.multiply(inner)
+	}
+
 	/*
 	 * Substitution
 	 */
@@ -306,12 +324,12 @@ export class Expression {
 		if (Array.isArray(arg1)) {
 			if (!Array.isArray(arg2)) throw new Error('Invalid substitute call: expected a list of substitutions.')
 			if (arg1.length !== arg2.length) throw new Error(`Invalid substitute call: got ${arg1.length} variables but ${arg2.length} substitutions.`)
-			return arg1.reduce((expression, variable, index) => expression.substitute(variable, arg2[index]), this)
+			return this.substituteAll(arg1, arg2)
 		}
 
 		// Object-based substitution.
 		if (typeof arg1 === 'object' && !(arg1 instanceof Expression)) {
-			return Object.entries(arg1).reduce((expression, [variable, substitution]) => expression.substitute(variable, substitution), this as Expression)
+			return this.substituteAll(Object.keys(arg1), Object.values(arg1))
 		}
 
 		// Single-value substitution. Infer the variable.
@@ -325,7 +343,20 @@ export class Expression {
 		if (isReadonlyArray(arg2)) throw new Error('Invalid substitute call: expected one substitution.')
 		const variableNode = this.coerceVariableNode(arg1 as VariableLike)
 		const substitution = this.coerceExpression(arg2)
-		return this.recreateWith(substitute(this.node, variableNode, substitution.node))
+		return this.substituteVariable(variableNode, substitution.node)
+	}
+
+	private substituteAll(variables: readonly VariableLike[], substitutions: readonly ExpressionLike[]): Expression {
+		if (variables.length !== substitutions.length) throw new Error(`Invalid substitute call: got ${variables.length} variables but ${substitutions.length} substitutions.`)
+		const dummyVariableNodes = variables.map((_, index) => variable('TemporaryDummyVariable', `index${index}`))
+		let result: Expression = this
+		variables.forEach((currVariable, index) => { result = result.substituteVariable(this.coerceVariableNode(currVariable), dummyVariableNodes[index]) })
+		substitutions.forEach((substitution, index) => { result = result.substituteVariable(dummyVariableNodes[index], this.coerceExpression(substitution).node) })
+		return result
+	}
+
+	protected substituteVariable(variableNode: Variable, substitutionNode: ExpressionNode) {
+		return this.recreateWith(substitute(this.node, variableNode, substitutionNode))
 	}
 
 	evaluateAt(value: ExpressionLike): number
@@ -415,6 +446,7 @@ export class Expression {
 	 */
 
 	private legacyClean(preset: SimplificationPreset, adjustments: SimplificationOptionsObject = {}): Expression {
+		console.warn('Legacy clean called for' + this.str)
 		return this.recreateWith(legacySimplify(this.node, this.settings, preset, adjustments))
 	}
 

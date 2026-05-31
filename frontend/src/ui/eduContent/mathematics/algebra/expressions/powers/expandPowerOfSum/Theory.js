@@ -149,12 +149,12 @@ function CubeVisualization() {
 		<Polygon points={[topRight, center.interpolate(topRight, f), rightCenter, right.interpolate(topRight, f)]} style={{ fill: alpha(primaryColor, 0.4), stroke: primaryColor }}></Polygon>
 
 		{/* Outside labels. */}
-		<Element anchor={[1, 0.5]} position={[bottomLeft.interpolate(left, f / 2).add([-5, 0])]}><M>2x</M></Element>
-		<Element anchor={[1, 0.5]} position={[bottomLeft.interpolate(left, f + (1 - f) / 2).add([-5, 0])]}><M>3</M></Element>
-		<Element anchor={[0.5, 0]} position={[bottomLeft.interpolate(bottom, f / 2).add([0, 3])]}><M>2x</M></Element>
-		<Element anchor={[0.5, 0]} position={[bottomLeft.interpolate(bottom, f + (1 - f) / 2).add([0, 3])]}><M>3</M></Element>
-		<Element anchor={[0, 0]} position={[bottom.interpolate(right, f / 2).add([4, 0])]}><M>2x</M></Element>
-		<Element anchor={[0, 0]} position={[bottom.interpolate(right, f + (1 - f) / 2).add([4, 0])]}><M>3</M></Element>
+		<Element anchor={[1, 0.5]} position={bottomLeft.interpolate(left, f / 2).add([-5, 0])}><M>2x</M></Element>
+		<Element anchor={[1, 0.5]} position={bottomLeft.interpolate(left, f + (1 - f) / 2).add([-5, 0])}><M>3</M></Element>
+		<Element anchor={[0.5, 0]} position={bottomLeft.interpolate(bottom, f / 2).add([0, 3])}><M>2x</M></Element>
+		<Element anchor={[0.5, 0]} position={bottomLeft.interpolate(bottom, f + (1 - f) / 2).add([0, 3])}><M>3</M></Element>
+		<Element anchor={[0, 0]} position={bottom.interpolate(right, f / 2).add([4, 0])}><M>2x</M></Element>
+		<Element anchor={[0, 0]} position={bottom.interpolate(right, f + (1 - f) / 2).add([4, 0])}><M>3</M></Element>
 
 		{/* Front labels. */}
 		<Element position={frontCenter.interpolate(bottomLeft)}><M>\left(2x\right)^3</M></Element>

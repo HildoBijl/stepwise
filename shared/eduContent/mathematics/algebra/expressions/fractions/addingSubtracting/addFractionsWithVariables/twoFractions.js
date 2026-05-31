@@ -18,9 +18,9 @@ const metaData = {
 		sameDenominator: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && equivalent(input, correct),
 		bracketsExpanded: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && input.terms.every(term => {
 			const numerator = term.find(part => part.isFraction()).numerator
-			return onlyOrderChanges(numerator.elementaryClean(), numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true }))
+			return onlyOrderChanges(numerator.flatten(), numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true }))
 		}) && equivalent(input, correct),
-		ans: (input, correct) => input.elementaryClean().isFraction() && !hasFractionWithinFraction(input) && onlyOrderChanges(input.elementaryClean().numerator, input.elementaryClean().numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
+		ans: (input, correct) => input.flatten().isFraction() && !hasFractionWithinFraction(input) && onlyOrderChanges(input.flatten().numerator, input.flatten().numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)
@@ -52,7 +52,7 @@ function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
 	const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str).substitute(variables).removeTrivial())
-	const joinFractions = fractions => fractions[0].add(state.plus ? fractions[1] : fractions[1].applyMinus(false)).removeTrivial()
+	const joinFractions = fractions => fractions[0].add(state.plus ? fractions[1] : fractions[1].negate(false)).removeTrivial()
 	const expression = joinFractions(fractions)
 
 	// Apply the various cleaning steps.

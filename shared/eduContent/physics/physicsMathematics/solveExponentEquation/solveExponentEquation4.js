@@ -36,7 +36,7 @@ function generateState() {
 function getSolution({ a, b, c, p }) {
 	const aMinusB = a.subtract(b, true)
 	const cDivAMinusB = c.divide(aMinusB, true)
-	const ans = a.subtract(b).divide(c).toPower(p.applyMinus().invert()).setMinimumSignificantDigits(2)
+	const ans = a.subtract(b).divide(c).toPower(p.negate().invert()).setMinimumSignificantDigits(2)
 	return { aMinusB, cDivAMinusB, ans }
 }
 

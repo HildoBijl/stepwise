@@ -4,11 +4,15 @@ import { type EquationLike, asEquation } from './Equation'
 
 export const equationComparisons = {
 	exactEqual(input: EquationLike, correct: EquationLike): boolean {
-		return asEquation(correct).elementaryClean().strictEqualStructure(asEquation(input).elementaryClean())
+		return asEquation(correct).flatten().strictEqualStructure(asEquation(input).flatten())
 	},
 
 	onlyOrderChanges(input: EquationLike, correct: EquationLike): boolean {
-		return asEquation(correct).elementaryClean().equalStructure(asEquation(input).elementaryClean())
+		return asEquation(correct).flatten().equalStructure(asEquation(input).flatten(), false)
+	},
+
+	onlyOrderChangesAndSwitch(input: EquationLike, correct: EquationLike): boolean {
+		return asEquation(correct).flatten().equalStructure(asEquation(input).flatten())
 	},
 
 	equalNumber(input: EquationLike, correct: EquationLike): boolean {

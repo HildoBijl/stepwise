@@ -43,7 +43,7 @@ describe('equation algebraic operations', () => {
 	})
 	test('switches sides and applies minus', () => {
 		expectEquationToEqual(asEquation('x=3').switch(), '3=x')
-		expectEquationToEqual(asEquation('x=3').applyMinus(), '-x=-3')
+		expectEquationToEqual(asEquation('x=3').negate(), '-x=-3')
 	})
 })
 

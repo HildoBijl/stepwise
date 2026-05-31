@@ -24,12 +24,12 @@ function getSolution(state) {
 	const { f1, f2, g } = state
 	const method = 1
 	const x = g.getVariables()[0]
-	const f = f1.substitute(x, f2).elementaryClean()
-	const h = f.divide(g).elementaryClean()
-	const fDerivative = f.getDerivative().regularCleanDisplay()
-	const gDerivative = g.getDerivative().regularCleanDisplay()
+	const f = f1.substitute(x, f2).flatten()
+	const h = f.divide(g).flatten()
+	const fDerivative = f.getDerivative().combine()
+	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-	const derivative = derivativeRaw.advancedCleanDisplay({ expandPowersOfSums: false })
+	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
 	return { ...state, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

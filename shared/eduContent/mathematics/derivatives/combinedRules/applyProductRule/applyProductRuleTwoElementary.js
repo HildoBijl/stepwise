@@ -26,10 +26,10 @@ function getSolution(state) {
 	const { f, g } = state
 	const x = f.getVariables()[0]
 	const h = f.multiply(g).removeTrivial()
-	const fDerivative = f.getDerivative().regularCleanDisplay()
-	const gDerivative = g.getDerivative().regularCleanDisplay()
+	const fDerivative = f.getDerivative().combine()
+	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
-	const derivative = derivativeRaw.advancedCleanDisplay()
+	const derivative = derivativeRaw.normalize()
 	return { ...state, x, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

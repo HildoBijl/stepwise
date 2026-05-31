@@ -351,8 +351,8 @@ class Float {
 		return Math.sign(this.number)
 	}
 
-	// applyMinus will return minus this number. It does not adjust this object but returns a copy.
-	applyMinus() {
+	// negate will return minus this number. It does not adjust this object but returns a copy.
+	negate() {
 		return new Float({
 			number: -this.number,
 			power: this.power,
@@ -399,7 +399,7 @@ class Float {
 			x = new this.constructor(x)
 
 		// Add the negative number.
-		return this.add(x.applyMinus(), keepDecimals)
+		return this.add(x.negate(), keepDecimals)
 	}
 
 	// invert will turn this number into 1/number. It returns a copy without adjusting this object.

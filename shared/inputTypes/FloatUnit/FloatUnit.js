@@ -254,10 +254,10 @@ class FloatUnit {
 		}
 	}
 
-	// applyMinus will apply a minus sign to this FloatUnit.
-	applyMinus() {
+	// negate will apply a minus sign to this FloatUnit.
+	negate() {
 		return new FloatUnit({
-			float: this.float.applyMinus(),
+			float: this.float.negate(),
 			unit: this.unit,
 		})
 	}
@@ -304,7 +304,7 @@ class FloatUnit {
 			x = new this.constructor(x)
 
 		// Add the number with a minus sign.
-		return this.add(x.applyMinus(), keepDecimals)
+		return this.add(x.negate(), keepDecimals)
 	}
 
 	// invert will return 1/number, inverting both the number and the unit. It does not adjust this object but returns a copy.

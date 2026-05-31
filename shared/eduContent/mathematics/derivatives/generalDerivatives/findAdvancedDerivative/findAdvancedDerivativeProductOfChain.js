@@ -27,8 +27,8 @@ function getStaticSolution(state) {
 	const { f, g1, g2 } = state
 	const method = 0
 	const x = f.getVariables()[0]
-	const g = g1.substitute(x, g2).elementaryClean()
-	const h = f.multiply(g).elementaryClean()
+	const g = g1.substitute(x, g2).flatten()
+	const h = f.multiply(g).flatten()
 	return { ...state, method, x, f, g, h }
 }
 
@@ -41,10 +41,10 @@ function getDynamicSolution(switched, solution) {
 	if (switched)
 		solution = { ...solution, f: solution.g, g: solution.f }
 	const { f, g } = solution
-	const fDerivative = f.getDerivative().regularCleanDisplay()
-	const gDerivative = g.getDerivative().regularCleanDisplay()
+	const fDerivative = f.getDerivative().combine()
+	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
-	const derivative = derivativeRaw.advancedCleanDisplay({ expandPowersOfSums: false })
+	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
 	return { ...solution, switched, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

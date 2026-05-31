@@ -15,8 +15,8 @@ const metaData = {
 	steps: ['simplifyFraction', and('rewritePower', 'cancelFractionFactors')],
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
-		numericSimplified: (input, correct) => onlyOrderChanges(input.elementaryClean().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.elementaryClean()) && equivalent(input, correct),
-		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct),
+		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().simplify({ mergeProductNumbers: true, mergeFractionNumbers: true }), input.flatten()) && equivalent(input, correct),
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)

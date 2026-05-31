@@ -20,7 +20,7 @@ const metaData = {
 		multiplied: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct)),
 		expanded: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct)),
 		moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
-		ans: (input, correct, { normalize }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.applyMinus()))) && exactEqual(input.right, correct.right),
+		ans: (input, correct, { normalize }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.negate()))) && exactEqual(input.right, correct.right),
 	}
 }
 addSetupFromSteps(metaData)

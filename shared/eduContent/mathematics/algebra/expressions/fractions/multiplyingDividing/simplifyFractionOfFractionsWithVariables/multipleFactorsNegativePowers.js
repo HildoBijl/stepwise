@@ -16,7 +16,7 @@ const metaData = {
 	comparison: {
 		withoutNegativeExponents: (input, correct) => !hasNegativeExponent(input) && equivalent(input, correct),
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
-		ans: (input, correct) => onlyOrderChanges(input.combine(), input.elementaryClean()) && equivalent(input, correct), // No further basic simplifications possible.
+		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
 addSetupFromSteps(metaData)

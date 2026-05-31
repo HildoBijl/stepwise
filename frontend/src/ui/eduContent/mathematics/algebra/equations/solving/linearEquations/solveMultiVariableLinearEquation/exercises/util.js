@@ -21,7 +21,7 @@ export const termsWithoutVariableInWrongPlace = (input, correct, { variables }, 
 }
 
 export const sumWithWrongTermsAndFlip = (input, correct, solution, isCorrect) => {
-	return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switch().applyMinus(), solution, isCorrect)
+	return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switch().negate(), solution, isCorrect)
 }
 
 // Define pulledOut checks.
@@ -30,7 +30,7 @@ export const sideWithoutVariableEqual = (input, correct, { variables }, isCorrec
 	const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))?.side
 	if (!sideWithoutVariable)
 		return translateCrossExercise(<>You put the variable <M>{variables.x}</M> on both sides of the equation again. That was not supposed to happen.</>, 'noSideWithoutVariable')
-	if (sideWithVariable && !onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
+	if (sideWithVariable && !onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.negate()))
 		return translateCrossExercise(<>The side without <M>{variables.x}</M> should remain the same!</>, 'unequalSideWithoutVariable')
 }
 
@@ -38,8 +38,8 @@ export const sideWithVariableEqual = (input, correct, { variables }, isCorrect, 
 	const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))?.side
 	if (!sideWithVariable)
 		return translateCrossExercise(<>You somehow let <M>{variables.x}</M> disappear entirely. That was not supposed to happen.</>, 'disappearedVariable')
-	if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.applyMinus()))
+	if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.negate()))
 		return translateCrossExercise(<>The side with <M>{variables.x}</M> is not equal to what it was before. Something went wrong during the rewriting.</>, 'unequalSide')
-	if (!(sideWithVariable.isProduct() && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
+	if (!(sideWithVariable.isProduct() && sideWithVariable.factors.length === 2 && sideWithVariable.factors.some(term => term.equalStructure(variables.x))))
 		return translateCrossExercise(<>You did not pull <M>{variables.x}</M> outside of brackets. You should write the side containing <M>{variables.x}</M> as <M>{variables.x}\cdot\left(\ldots\right)</M>, with on the dots an expression that's as simple as possible.</>, 'notOutsideOfBrackets')
 }

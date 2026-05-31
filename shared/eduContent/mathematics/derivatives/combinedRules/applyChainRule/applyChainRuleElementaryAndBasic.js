@@ -25,10 +25,10 @@ function getSolution(state) {
 	const x = f.getVariables()[0]
 	const g = g1.add(g2.multiply(c, true)).removeTrivial()
 	const h = f.substitute(x, g).removeTrivial()
-	const fDerivative = f.getDerivative().regularCleanDisplay()
-	const gDerivative = g.getDerivative().regularCleanDisplay()
-	const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative).elementaryClean()
-	const derivative = derivativeRaw.advancedCleanDisplay({ expandPowersOfSums: false })
+	const fDerivative = f.getDerivative().combine()
+	const gDerivative = g.getDerivative().combine()
+	const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative).flatten()
+	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
 	return { ...state, x, g, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

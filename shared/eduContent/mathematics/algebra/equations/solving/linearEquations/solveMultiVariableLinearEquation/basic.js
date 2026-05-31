@@ -12,8 +12,8 @@ const metaData = {
 	skill: 'solveMultiVariableLinearEquation',
 	steps: ['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms'],
 	comparison: {
-		termsMoved: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
-		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
+		termsMoved: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
+		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
 	},
 }
@@ -36,15 +36,15 @@ function getSolution(state) {
 	const equation = asEquation('ax + by = cxy + dz').substitute(variables).removeTrivial()
 
 	// Find the solution.
-	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[0]).simplify({ cancelSumTerms: true })
-	const pulledOut = termsMoved.applyToLeft(left => left.pullOutsideBrackets(variables.x))
-	const bracketTerm = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
+	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[0]).removeTrivial(['cancelSumTerms'])
+	const pulledOut = termsMoved.mapLeft(left => left.factorOut(variables.x).combine())
+	const bracketTerm = pulledOut.left.find(exp => exp.isProduct()).factors.find(factor => !factor.equalStructure(variables.x))
 	const ans = termsMoved.right.divide(bracketTerm)
 
 	// Check the solution.
 	const equationWithSolution = equation.substitute({ [variables.x]: ans })
-	const equationWithSolutionMergedFractions = equationWithSolution.cancel({ mergeFractionSums: true })
-	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.cancel({ expandProductsOfSums: true, sortSums: true })
+	const equationWithSolutionMergedFractions = equationWithSolution.cancel(['mergeFractionProducts', 'mergeFractionSums'])
+	const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.combine(['expandProductsOfSums', 'expandMinusSums', 'sortSums'])
 
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }
 }

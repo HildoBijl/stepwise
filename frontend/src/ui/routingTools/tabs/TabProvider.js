@@ -18,8 +18,7 @@ export function TabProvider({ children }) {
 	// Set up handlers.
 	const setTabIndex = useCallback(tabIndex => {
 		const tabs = tabsRef.current
-		tabIndex = clamp(tabIndex, 0, tabs.length - 1)
-		setTab(tabs[tabIndex])
+		setTab(tabs.length === 0 ? undefined : tabs[clamp(tabIndex, 0, tabs.length - 1)])
 	}, [tabsRef, setTab])
 	const reset = useCallback(() => {
 		setTab(undefined)

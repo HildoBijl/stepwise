@@ -54,7 +54,8 @@ const steps = [
 			</>
 		},
 		Solution: ({ bracketsExpanded, numbersSimplified }) => {
-			return <Par><Translation>The numbers in the expression are <M>{bracketsExpanded.terms[0]}</M> and <M>{bracketsExpanded.terms[2]}</M>. Their product equals <M>{numbersSimplified.terms[0]}</M> which turns the expression into <BM>{bracketsExpanded} = {numbersSimplified}.</BM></Translation></Par>
+			const numberFactors = bracketsExpanded.find(exp => exp.isProduct()).factors.filter(factor => factor.isNumeric())
+			return <Par><Translation>The numbers in the expression are <M>{numberFactors[0]}</M> and <M>{numberFactors[1]}</M>. Their product equals <M>{numbersSimplified.find(exp => exp.isNumeric())}</M> which turns the expression into <BM>{bracketsExpanded} = {numbersSimplified}.</BM></Translation></Par>
 		},
 	},
 	{

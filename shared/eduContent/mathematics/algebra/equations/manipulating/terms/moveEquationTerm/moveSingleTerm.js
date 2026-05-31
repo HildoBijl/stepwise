@@ -37,7 +37,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const terms = ['a*x^2', 'b*x', 'c'].map(term => asExpression(term).substitute(variables).removeTrivial())
 	let equation = asEquation('0 = 0')
-	terms.forEach((term, index) => equation = equation[state.switchSides[index] ? 'applyToRight' : 'applyToLeft'](side => side.add(term)))
+	terms.forEach((term, index) => equation = equation[state.switchSides[index] ? 'mapRight' : 'mapLeft'](side => side.add(term)))
 	equation = equation.removeTrivial()
 
 	// Find the term to move, add/subtract it and simplify.
@@ -48,7 +48,7 @@ function getSolution(state) {
 	const ans = bothSidesChanged.cancel()
 
 	// Also set up possibly wrong answers.
-	const ansWithWrongSignUsed = ans[termIsLeft ? 'applyToRight' : 'applyToLeft'](side => side[positive ? 'add' : 'subtract'](termToMove.multiply(2))).combine()
+	const ansWithWrongSignUsed = ans[termIsLeft ? 'mapRight' : 'mapLeft'](side => side[positive ? 'add' : 'subtract'](termToMove.multiply(2))).combine()
 	return { ...state, variables, terms, equation, termIsLeft, positive, termToMove, bothSidesChanged, ans, ansWithWrongSignUsed }
 }
 

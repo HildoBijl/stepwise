@@ -41,7 +41,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ equation, bracketsExpanded }) => {
-			return <Par><Translation>To expand the brackets, we multiply <M>{equation.left.terms[0].terms[0].abs()}</M> and <M>{equation.left.terms[0].terms[1].abs()}</M> separately by <M>{equation.left.terms[1]}</M>. This turns the equation into <BM>{bracketsExpanded}.</BM></Translation></Par>
+			return <Par><Translation>To expand the brackets, we multiply <M>{equation.left.factors[0].terms[0]}</M> and <M>{equation.left.factors[0].terms[1]}</M> separately by <M>{equation.left.factors[1]}</M>. This turns the equation into <BM>{bracketsExpanded}.</BM></Translation></Par>
 		},
 	},
 	{

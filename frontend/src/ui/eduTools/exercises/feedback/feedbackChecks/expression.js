@@ -16,7 +16,7 @@ const translationPath = 'eduTools/feedback'
 export const originalExpression = (input, correct, { expression }, isCorrect) => {
 	if (!expression)
 		throw new Error(`Invalid originalExpression call: to use the originalExpression feedback check, there must be an "expression" parameter (the starting point) in the solution object to compare to. This is not present.`)
-	return !isCorrect && onlyOrderChanges(input.elementaryClean(), expression.elementaryClean()) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
+	return !isCorrect && onlyOrderChanges(input.flatten(), expression.flatten()) && <Translation path={translationPath} entry="expression.original">This is the original expression. You have not rewritten it yet.</Translation>
 }
 
 // nonEquivalentExpression checks for equivalency and is useful for exercises where an expression needs to be rewritten. The text assumes an expression was given.
@@ -122,7 +122,7 @@ export const hasSimilarTerms = (input, correct, solution, isCorrect) => !isCorre
 
 export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFraction(input) && <Translation path={translationPath} entry="expression.hasFraction">Your solution still has a fraction. The idea was to remove all fractions.</Translation>
 
-export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.elementaryClean().isFraction() && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
+export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.flatten().isFraction() && <Translation path={translationPath} entry="expression.noFraction">Your solution is not a fraction. A single fraction was expected as answer.</Translation>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <Translation path={translationPath} entry="expression.hasFractionWithinFraction">Your solution may not contain fractions within fractions. You can still simplify this further.</Translation>
 
@@ -142,14 +142,14 @@ export const unsimplifiedPowerMerging = (input, correct, solution, isCorrect) =>
  * Common mistake checks.
  */
 
-export const wrongSign = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.applyMinus()) && <Translation path={translationPath} entry="expression.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
+export const wrongSign = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.negate()) && <Translation path={translationPath} entry="expression.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
 
 export const invertedFraction = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct.invert()) && <Translation path={translationPath} entry="expression.incorrectFraction.inverted">You entered your fraction the wrong way around. Check carefuly through what factor you're dividing!</Translation>
 
 export const incorrectFraction = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
 		return
-	input = input.elementaryClean()
+	input = input.flatten()
 	if (correct.isFraction() && !input.isFraction())
 		return <Translation path={translationPath} entry="expression.incorrectFraction.noFraction">Hmm ... a fraction was expected as a solution here.</Translation>
 	const invertedFractionResult = invertedFraction(input, correct, solution, isCorrect)

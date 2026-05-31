@@ -27,7 +27,7 @@ function getStaticSolution(state) {
 	const { c, fRaw, g } = state
 	const method = 0
 	const f = fRaw.multiply(c, true).cancel()
-	const h = f.multiply(g).elementaryClean()
+	const h = f.multiply(g).flatten()
 	const x = h.getVariables()[0]
 	return { ...state, method, x, f, h }
 }
@@ -49,10 +49,10 @@ function getInputDependency(input, solution) {
 function getDynamicSolution(inputDependency, solution) {
 	const solutionMerged = { ...solution, ...inputDependency }
 	const { f, g } = solutionMerged
-	const fDerivative = f.getDerivative().regularCleanDisplay()
-	const gDerivative = g.getDerivative().regularCleanDisplay()
+	const fDerivative = f.getDerivative().combine()
+	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
-	const derivative = derivativeRaw.advancedCleanDisplay()
+	const derivative = derivativeRaw.normalize()
 	return { ...solutionMerged, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

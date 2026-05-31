@@ -33,12 +33,12 @@ function getSolution(state) {
 	const equation = asEquation('1/(a/w+b/x) = y/z').substitute(variables).removeTrivial()
 
 	// Find the solution.
-	const simplified = equation.applyToLeft(side => side.cleanForAnalysis({ sortSums: false }))
-	const multiplied = simplified.applyToBothSides(side => side.multiply(simplified.left.denominator).multiply(simplified.right.denominator)).combine()
+	const simplified = equation.mapLeft(side => side.cleanForAnalysis({ sortSums: false }))
+	const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator).multiply(simplified.right.denominator)).combine()
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, splitFractions: true, mergeProductNumbers: true })
 	const termToMove = expanded.right.terms.find(term => term.dependsOn(variables.x))
 	const shifted = expanded.subtract(termToMove).combine()
-	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x).combine())
+	const pulledOut = shifted.mapLeft(side => side.factorOut(variables.x).combine())
 	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
 	const ans = pulledOut.right.divide(bracketFactor).cleanForAnalysis({ sortSums: false })
 

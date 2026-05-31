@@ -54,7 +54,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ bracketsExpanded, numbersSimplified }) => {
-			return <Par><Translation>By reducing <M>{bracketsExpanded.terms[0]}</M> to <M>{numbersSimplified.terms[0]}</M> we can write <BM>{bracketsExpanded} = {numbersSimplified}.</BM></Translation></Par>
+			return <Par><Translation>By reducing <M>{bracketsExpanded.find(exp => exp.isPower() && exp.isNumeric())}</M> to <M>{numbersSimplified.find(exp => exp.isNumeric())}</M> we can write <BM>{bracketsExpanded} = {numbersSimplified}.</BM></Translation></Par>
 		},
 	},
 	{
@@ -70,7 +70,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ expression, numbersSimplified, powersMerged, ans }) => {
-			return <Par><Translation>We can pull the outer power in <M>{numbersSimplified.terms[1]}</M> into the exponent, where it becomes a multiplication <M>{powersMerged.terms[1]}</M> (rule 3), which in turn becomes <M>{ans.terms[1]}</M>. This leads us to the final result, <BM>{expression} = {ans}.</BM></Translation></Par>
+			return <Par><Translation>We can pull the outer power in <M>{numbersSimplified.find(exp => exp.isPower() && !exp.base.isPower())}</M> into the exponent, where it becomes a multiplication <M>{powersMerged.find(exp => exp.isPower())}</M> (rule 3), which in turn becomes <M>{ans.find(exp => exp.isPower())}</M>. This leads us to the final result, <BM>{expression} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

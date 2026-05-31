@@ -39,7 +39,7 @@ export const allSimplificationOptionsList = [
 	'flattenFractions', // Flatten nested fractions. So (a/b)/(c/d) becomes ad/bc.
 	'mergeFractionSums', // Turn sums of fractions into one fraction. So a/b+c/d becomes (ad+bc)/(bd).
 	'splitFractions', // Split fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums.
-	'mergeFractionMinuses', // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y).
+	'mergeFractionMinuses', // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y). Also pulls out minuses from sums whose terms are all negative.
 	'mergeFractionNumbers', // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2 and (18x+24y)/(12z) becomes (3x+4y)/(2z). Only considers leading numbers.
 	'cancelFractionFactors', // Cancel factors in fractions. So (xy)/(yz) becomes x/z. Only works on exact matches: x^3/x^2 remains as is.
 	'mergeFractionFactors', // Merge factors in fractions. So x^a/x^b becomes x^(a-b). Requires mergeProductFactors.

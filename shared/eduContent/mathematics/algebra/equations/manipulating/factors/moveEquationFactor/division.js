@@ -42,7 +42,7 @@ function getSolution(state) {
 	const factor = [variables.a, variables.x, variables.a.multiply(variables.x)][state.type]
 	const equation = asEquation('a*x=b/c')[state.switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const bothSidesChanged = equation.divide(factor)
-	const fractionFactorsCanceled = bothSidesChanged[state.switchSides ? 'applyToRight' : 'applyToLeft'](side => side.cancel({ mergeFractionNumbers: true, cancelFractionFactors: true, flattenFractions: false }))
+	const fractionFactorsCanceled = bothSidesChanged[state.switchSides ? 'mapRight' : 'mapLeft'](side => side.cancel({ mergeFractionNumbers: true, cancelFractionFactors: true, flattenFractions: false }))
 	const ans = fractionFactorsCanceled.removeTrivial({ flattenFractions: true })
 	const ansCleaned = ans.cancel({ mergeFractionNumbers: true })
 	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)

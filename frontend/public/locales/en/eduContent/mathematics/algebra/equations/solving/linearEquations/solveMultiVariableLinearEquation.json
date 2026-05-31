@@ -55,7 +55,7 @@
       },
       "step3": {
         "problem": "Move the factor between brackets to the other side, to solve for <inline-math/>.",
-        "solution": "<par>If we divide both sides by <inline-math/>, then on the left the term between brackets disappears. We only remain with <inline-math/>, meaning that we have indeed solved the equation for <inline-math/>! The final result is <block-math/> Optionally this can still be simplified to <block-math/> but that is not necessarily required here.</par><par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <block-math/> We can and cross out <inline-math/> on the left and write each side as one large fraction to get <block-math/> Subsequently expanding brackets and canceling sum terms turns this into <block-math/> Note that both sides have reduced to the same. This means that our solution is correct.</par>"
+        "solution": "<par>If we divide both sides by <inline-math/>, then on the left the term between brackets disappears. We only remain with <inline-math/>, meaning that we have indeed solved the equation for <inline-math/>! The final result is <block-math/> Optionally this can still be simplified to <block-math/> but that is not necessarily required here.</par><par>A final recommended step is to check the solution. If we literally insert the solution into the original equation, we get <block-math/> We can cross out <inline-math/> on the left and write each side as one large fraction to get <block-math/> Subsequently expanding brackets and canceling sum terms turns this into <block-math/> Note that both sides have reduced to the same. This means that our solution is correct.</par>"
       }
     },
     "crossExercise": {

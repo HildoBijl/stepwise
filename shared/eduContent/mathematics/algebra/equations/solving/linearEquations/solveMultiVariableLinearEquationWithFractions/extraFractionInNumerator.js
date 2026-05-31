@@ -12,7 +12,7 @@ const metaData = {
 	steps: ['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation'],
 	comparison: {
 		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && !expressionChecks.hasPower(input.left) && expressionComparisons.equivalent(input.left, correct.left),
-		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.applyMinus())),
+		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.negate())),
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 	},
 }
@@ -34,10 +34,10 @@ function getSolution(state) {
 	const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 	// Find the solution.
-	const simplified = equation.applyToLeft(left => left.cleanForAnalysis({ sortSums: false }))
-	const multiplied = simplified.applyToBothSides(side => side.multiply(simplified.left.denominator)).combine()
+	const simplified = equation.mapLeft(left => left.cleanForAnalysis({ sortSums: false }))
+	const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator)).combine()
 	const shifted = multiplied.subtract(multiplied.left.terms[1]).cancel()
-	const pulledOut = shifted.applyToRight(side => side.pullOutsideBrackets(variables.x).combine())
+	const pulledOut = shifted.mapRight(side => side.factorOut(variables.x).combine())
 	const bracketFactor = pulledOut.right.terms.find(factor => !variables.x.equals(factor))
 	const ans = pulledOut.left.divide(bracketFactor).cleanForAnalysis({ sortSums: false })
 

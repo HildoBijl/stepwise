@@ -1,14 +1,22 @@
-import { type ExpressionNode, type Fraction, fraction, negative } from '../../../../construction'
+import { type ExpressionNode, type Sum, type Fraction, negative, sum, fraction } from '../../../../construction'
 
-import { isMinus } from '../../../structural'
+import { isMinus, isSum } from '../../../structural'
+
+import { removeDoubleNegatives } from '../signs/removeDoubleNegatives'
 
 export function mergeFractionMinuses(node: Fraction): ExpressionNode {
-	const numeratorIsNegative = isMinus(node.numerator)
-	const denominatorIsNegative = isMinus(node.denominator)
-	if (!numeratorIsNegative && !denominatorIsNegative) return node
+	const fixedNumerator = fixNegativeSum(node.numerator)
+	const fixedDenominator = fixNegativeSum(node.denominator)
+	const numeratorIsNegative = isMinus(fixedNumerator)
+	const denominatorIsNegative = isMinus(fixedDenominator)
+	if (!numeratorIsNegative && !denominatorIsNegative && !isMinus(node.numerator) && !isMinus(node.denominator)) return node
 
-	const numerator = numeratorIsNegative ? node.numerator.node : node.numerator
-	const denominator = denominatorIsNegative ? node.denominator.node : node.denominator
+	const numerator = numeratorIsNegative ? fixedNumerator.node : fixedNumerator
+	const denominator = denominatorIsNegative ? fixedDenominator.node : fixedDenominator
 	const result = fraction(numerator, denominator)
 	return numeratorIsNegative === denominatorIsNegative ? result : negative(result)
+}
+
+function fixNegativeSum(node: ExpressionNode): ExpressionNode {
+	return isSum(node) && node.terms.every(isMinus) ? removeDoubleNegatives(negative(sum(...node.terms.map(term => removeDoubleNegatives(negative(term)))))) : node
 }

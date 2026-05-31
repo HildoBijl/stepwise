@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { last } from '@step-wise/utils'
+
 import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -38,7 +40,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ expression, powersReducedStep, powersReduced }) => {
-			return <Par><Translation>We can pull the outer power in <M>{expression.terms[2]}</M> into the exponent, where it becomes a multiplication <M>{powersReducedStep.terms[2]}</M> (rule 3), which in turn becomes <M>{powersReduced.terms[2]}</M>. So we may write <BM>{expression} = {powersReduced}.</BM></Translation></Par>
+			return <Par><Translation>We can pull the outer power in <M>{expression.find(exp => exp.isPower() && exp.base.isPower())}</M> into the exponent, where it becomes a multiplication <M>{powersReducedStep.find(exp => exp.isPower() && exp.exponent.isProduct())}</M> (rule 3), which in turn becomes <M>{last(powersReduced.find(exp => exp.isProduct()).factors)}</M>. So we may write <BM>{expression} = {powersReduced}.</BM></Translation></Par>
 		},
 	},
 	{

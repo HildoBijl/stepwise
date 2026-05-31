@@ -32,7 +32,10 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 	requireOption('pullOutCommonSumFactors', ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers'])
 
 	// Fraction requirements.
+	requireOption('mergeFractionMinuses', 'removeDoubleNegatives')
 	requireOption('mergeFractionFactors', 'mergeProductFactors')
+	requireOption('mergeFractionSums', 'mergeFractionProducts')
+	requireOption('cancelFractionFactors', ['mergeProductMinuses', 'removeDoubleNegatives'])
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
 	requireOption('applyPolynomialCancellation', [...normalizationRequirements])
 

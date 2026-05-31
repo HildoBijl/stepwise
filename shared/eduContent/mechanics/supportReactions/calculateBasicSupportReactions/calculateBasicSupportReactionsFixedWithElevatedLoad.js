@@ -79,7 +79,7 @@ function getInputDependency(input, solution) {
 function getDynamicSolution(directionIndices, solution, state) {
 	const hasAdjustedSolution = directionIndices.find(value => !value) === false // There is a false value.
 	const loads = solution.loads.map((load, index) => directionIndices[index] ? load : reverseLoad(load))
-	const loadValues = solution.loadValues.map((value, index) => directionIndices[index] ? value : value.applyMinus())
+	const loadValues = solution.loadValues.map((value, index) => directionIndices[index] ? value : value.negate())
 	const loadValuesObj = fromEntries(solution.loadNames, loadValues)
 	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj }
 }

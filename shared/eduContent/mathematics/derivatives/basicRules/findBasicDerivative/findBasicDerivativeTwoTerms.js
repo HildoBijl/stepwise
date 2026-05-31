@@ -31,8 +31,8 @@ function getSolution(state) {
 	const { func } = state
 	const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])
 	const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
-	const f1Derivative = f1.getDerivative().regularCleanDisplay()
-	const f2Derivative = f2.getDerivative().regularCleanDisplay()
+	const f1Derivative = f1.getDerivative().combine()
+	const f2Derivative = f2.getDerivative().combine()
 	const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).cancel()
 	return { ...state, c1, c2, f1, f2, f1Derivative, f2Derivative, derivative }
 }

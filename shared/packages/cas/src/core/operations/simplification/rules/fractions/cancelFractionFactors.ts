@@ -1,6 +1,6 @@
-import { type ExpressionNode, type Fraction, sum, product, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
-import { isOne, isSum, equalNodes } from '../../../structural'
+import { isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
 
 import { getSumTerms, getProductFactors } from '../utils'
 
@@ -11,9 +11,9 @@ export function cancelFractionFactors(node: Fraction): ExpressionNode {
 
 // Find all common factors of a set of nodes, requiring exact matches. (x^3 only matches x^3 and not x^2.)
 function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionNode[] {
-	let exactCommonFactors = getProductFactors(nodes[0]).filter(factor => !isOne(factor))
+	let exactCommonFactors = getProductFactors(abs(nodes[0])).filter(factor => !isOne(factor))
 	for (const node of nodes.slice(1)) {
-		const factors = getProductFactors(node)
+		const factors = getProductFactors(abs(node))
 		exactCommonFactors = exactCommonFactors.filter(commonFactor => factors.some(factor => equalNodes(factor, commonFactor)))
 	}
 	return exactCommonFactors
@@ -22,6 +22,7 @@ function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionN
 // Remove multiple factors from a given expression.
 export function removeExactFactors(node: ExpressionNode, factorsToRemove: readonly ExpressionNode[]): ExpressionNode {
 	if (isSum(node)) return sum(...node.terms.map(term => removeExactFactors(term, factorsToRemove)))
+	if (isSignNode(node)) return recreateSignNode(node, removeExactFactors(node.node, factorsToRemove))
 	let factors = getProductFactors(node)
 	for (const factorToRemove of factorsToRemove) {
 		const index = factors.findIndex(factor => equalNodes(factor, factorToRemove))
