@@ -79,7 +79,7 @@ function getSolution(state) {
 
 	// Bring the equation into standard form.
 	const multiplied = asEquation('(x+a)^2 = (cx+d)(x+b)').substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
-	const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => (term.isPower() ? term.combine() : term)).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+	const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => (term.isPower() ? term.combine() : term)) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 	const merged = expanded.combine(['sortSums'])
 	const moved = merged.subtract(merged.right).combine(['sortSums'])
 
@@ -88,7 +88,7 @@ function getSolution(state) {
 	let divisor = gcd(...coefficients)
 	if (Math.sign(divisor) !== Math.sign(coefficients[0]))
 		divisor *= -1
-	const standardForm = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullConstantPartOutOfFractions'])
+	const standardForm = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
 
 	// Solve the equation in standard form.
 	const [p, q, r] = coefficients.map(coeff => coeff / divisor)

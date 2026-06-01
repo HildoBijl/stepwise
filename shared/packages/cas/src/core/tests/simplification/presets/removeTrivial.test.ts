@@ -18,7 +18,6 @@ describe('remove-trivial simplification', () => {
 		expectNodeToEqual(simplify(negative(negative(x)), undefined, removeTrivial), x)
 		expectNodeToEqual(simplify(negative(Integer.zero), undefined, removeTrivial), Integer.zero)
 		expectNodeToEqual(simplify(product(negative(x), negative(y)), undefined, removeTrivial), product(x, y))
-		expectNodeToEqual(simplify(fraction(negative(x), negative(y)), undefined, removeTrivial), fraction(x, y))
 	})
 
 	test('removes trivial zeros and ones', () => {

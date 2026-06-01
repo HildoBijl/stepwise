@@ -32,7 +32,7 @@ describe('derivatives', () => {
 
 	test('differentiates fractions', () => {
 		expectDerivativeToGive(fraction(x, y), 'x', fraction(y, power(y, 2)))
-		expectDerivativeToGive(fraction(1, x), 'x', negative(fraction(1, power(x, 2))))
+		expectDerivativeToGive(fraction(1, x), 'x', fraction(negative(1), power(x, 2)))
 	})
 
 	test('differentiates powers', () => {

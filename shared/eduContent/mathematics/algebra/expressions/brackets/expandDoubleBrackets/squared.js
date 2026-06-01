@@ -42,11 +42,9 @@ function getSolution(state) {
 	const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
 	const jointFactor = asExpression('x^(p+q)').substitute(variables).normalize()
 	const ans = allExpanded.combine()
-	console.log(allExpanded.str)
 	const xPowerToMerge = variables.x.toPower(state.p + state.q).mergeNumbers()
 	const hasXPowerToMerge = term => term.equalStructure(xPowerToMerge) || (term.isProduct() && term.factors.some(factor => factor.equalStructure(xPowerToMerge))) || (term.isMinus() && hasXPowerToMerge(term.argument))
 	const xFactors = allExpanded.terms.filter(term => hasXPowerToMerge(term))
-	console.log(xFactors.map(x => x.str))
 	const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()
 	return { ...state, variables, factor, expression, multiplication, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
 }

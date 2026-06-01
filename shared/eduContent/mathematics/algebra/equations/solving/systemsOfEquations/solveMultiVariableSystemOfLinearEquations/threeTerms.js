@@ -45,19 +45,19 @@ function generateState() {
 function getSolution(state) {
 	// Set up the equations.
 	const variables = filterVariables(state, usedVariables, constants)
-	const eq1 = asEquation('ax + by + cz = d').substitute(variables).removeTrivial()
-	const eq2 = asEquation('ex + fy + gz = h').substitute(variables).removeTrivial()
+	const eq1 = asEquation('ax + by + cz = d', {eAsConstant: false}).substitute(variables).removeTrivial()
+	const eq2 = asEquation('ex + fy + gz = h', {eAsConstant: false}).substitute(variables).removeTrivial()
 
 	// Solve it step by step.
-	const eq1Solution = asExpression('(d - by - cz)/a').substitute(variables).removeTrivial()
+	const eq1Solution = asExpression('(d - by - cz)/a', {eAsConstant: false}).substitute(variables).normalize()
 	const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
-	const eq2SubstitutedStep1 = asEquation('e*(d - by - cz) + afy + agz = ah').substitute(variables).cancel()
-	const eq2SubstitutedStep2 = asEquation('ed - eby - ecz + afy + agz = ah').substitute(variables).cancel()
-	const eq2SubstitutedStep3 = asEquation('-eby + afy = ah - ed + ecz - agz').substitute(variables).cancel()
+	const eq2SubstitutedStep1 = asEquation('e*(d - by - cz) + afy + agz = ah', {eAsConstant: false}).substitute(variables).cancel()
+	const eq2SubstitutedStep2 = asEquation('ed - eby - ecz + afy + agz = ah', {eAsConstant: false}).substitute(variables).cancel()
+	const eq2SubstitutedStep3 = asEquation('-eby + afy = ah - ed + ecz - agz', {eAsConstant: false}).substitute(variables).cancel()
 	const eq2SubstitutedStep4 = eq2SubstitutedStep3.combine()
-	const y = asExpression('(ah - ed + ecz - agz)/(-eb + af)').substitute(variables).combine()
+	const y = asExpression('(ah - ed + ecz - agz)/(-eb + af)', {eAsConstant: false}).substitute(variables).normalize()
 	const xRaw = eq1Solution.substitute(variables.y, y)
-	const x = xRaw.cleanForAnalysis()
+	const x = xRaw.normalize()
 
 	// Find the solution.
 	return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, xRaw, y }

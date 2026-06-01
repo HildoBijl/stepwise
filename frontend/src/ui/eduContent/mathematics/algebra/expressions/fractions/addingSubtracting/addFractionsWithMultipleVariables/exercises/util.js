@@ -24,18 +24,18 @@ export const denominatorMissingDependency = (input, correct, { variables }, isCo
 }
 
 // Define fraction checks.
-export const wrongDenominator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !onlyOrderChanges(correct.denominator, input.elementaryClean().denominator) && translateCrossExercise(<>Your fraction doesn't have the desired denominator <M>{correct.denominator}</M>.</>, 'wrongDenominator')
+export const wrongDenominator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !onlyOrderChanges(correct.denominator, input.flatten().denominator) && translateCrossExercise(<>Your fraction doesn't have the desired denominator <M>{correct.denominator}</M>.</>, 'wrongDenominator')
 
-export const wrongNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !equivalent(correct.numerator, input.elementaryClean().numerator) && translateCrossExercise(<>The denominator is correct, but something is off in the numerator of your fraction.</>, 'wrongNumerator')
+export const wrongNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !equivalent(correct.numerator, input.flatten().numerator) && translateCrossExercise(<>The denominator is correct, but something is off in the numerator of your fraction.</>, 'wrongNumerator')
 
-export const nonSimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !onlyOrderChanges(correct.numerator, input.elementaryClean().numerator) && translateCrossExercise(<>You can still simplify the numerator of your fraction.</>, 'nonSimplifiedNumerator')
+export const nonSimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !onlyOrderChanges(correct.numerator, input.flatten().numerator) && translateCrossExercise(<>You can still simplify the numerator of your fraction.</>, 'nonSimplifiedNumerator')
 
 export const correctFraction = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && equivalent(input, correct) && translateCrossExercise(<>The fraction is correct, but you can still simplify it further.</>, 'correctFraction')
 
 // Define ans checks.
 export const ansEquivalent = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && equivalent(input, correct) && translateCrossExercise(<>This is correct, but it can be written simpler.</>, 'ansEquivalent')
 
-export const denominatorCorrect = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && onlyOrderChanges(correct.denominator, input.elementaryClean().denominator) && translateCrossExercise(<>The denominator is correct, but something is off in the numerator of your fraction.</>, 'denominatorCorrect')
+export const denominatorCorrect = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && onlyOrderChanges(correct.denominator, input.flatten().denominator) && translateCrossExercise(<>The denominator is correct, but something is off in the numerator of your fraction.</>, 'denominatorCorrect')
 
 export const nonSimplifiedTerms = (input, correct, solution, isCorrect, { translateCrossExercise }) => {
 	const unsimplifiedTerm = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyOrderChanges(inputTerm, correctTerm)))

@@ -41,15 +41,15 @@ function getSolution(state) {
 	const eq2 = asEquation('zx + cy = d').substitute(variables).removeTrivial()
 
 	// Solve it step by step.
-	const eq1Solution = asExpression('(b - wy)/a').substitute(variables).removeTrivial()
+	const eq1Solution = asExpression('(b - wy)/a').substitute(variables).normalize()
 	const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
 	const eq2SubstitutedStep1 = asEquation('z*(b - wy) + acy = ad').substitute(variables).cancel()
 	const eq2SubstitutedStep2 = asEquation('bz - zwy + acy = ad').substitute(variables).cancel()
 	const eq2SubstitutedStep3 = asEquation('-zwy + acy = ad - bz').substitute(variables).cancel()
 	const eq2SubstitutedStep4 = asEquation('(-zw + ac)*y = ad - bz').substitute(variables).cancel()
-	const y = asExpression('(ad - bz)/(-zw + ac)').substitute(variables).combine()
+	const y = asExpression('(ad - bz)/(-zw + ac)').substitute(variables).normalize()
 	const xRaw = eq1Solution.substitute(variables.y, y)
-	const x = xRaw.cleanForAnalysis()
+	const x = xRaw.normalize()
 
 	// Find the solution.
 	return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, xRaw, y }
