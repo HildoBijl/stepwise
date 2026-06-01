@@ -14,8 +14,8 @@ const metaData = {
 	skill: 'moveEquationTerm',
 	steps: ['addToBothEquationSides', 'cancelSumTerms'],
 	comparison: {
-		bothSidesChanged: { check: equivalent },
-		ans: { check: onlyOrderChanges },
+		bothSidesChanged: { compareSide: equivalent },
+		ans: { compareSide: onlyOrderChanges },
 	}
 }
 addSetupFromSteps(metaData)
@@ -42,7 +42,7 @@ function getSolution(state) {
 
 	// Find the term to move, add/subtract it and simplify.
 	const termIsLeft = !state.switchSides[state.toMove]
-	const positive = !terms[state.toMove].isNegative()
+	const positive = !terms[state.toMove].isMinus()
 	const termToMove = terms[state.toMove].abs()
 	const bothSidesChanged = equation[positive ? 'subtract' : 'add'](termToMove)
 	const ans = bothSidesChanged.cancel()

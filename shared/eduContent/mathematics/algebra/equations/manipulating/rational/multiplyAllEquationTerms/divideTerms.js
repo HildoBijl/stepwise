@@ -15,9 +15,9 @@ const metaData = {
 	skill: 'multiplyAllEquationTerms',
 	steps: ['multiplyBothEquationSides', 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables'],
 	comparison: {
-		form: { check: equivalent },
-		expanded: { check: (input, correct) => !hasSumWithinFraction(input) && equivalent(input, correct) },
-		ans: { check: onlyOrderChanges },
+		form: { compareSide: equivalent },
+		expanded: { compareSide: (input, correct) => !hasSumWithinFraction(input) && equivalent(input, correct) },
+		ans: { compareSide: onlyOrderChanges },
 	}
 }
 addSetupFromSteps(metaData)
@@ -51,13 +51,13 @@ function getSolution(state) {
 			right = right.add(term)
 	})
 	const equation = asEquation({ left, right }).removeTrivial()
-	const factor = asExpression('e*x^n').substitute(variables).removeTrivial()
+	const factor = asExpression('e*x^n', { eAsConstant: false }).substitute(variables).removeTrivial()
 
 	// Manipulate the equation.
 	const form = equation.divide(factor)
 	const expanded = form.removeTrivial(['splitFractions'])
 	const ansIntermediate = expanded.cancel(['mergeFractionNumbers'])
-	const ans = ansIntermediate.cancel(['cancelFractionFactors'])
+	const ans = ansIntermediate.combine()
 	return { ...state, variables, equation, factor, form, expanded, ansIntermediate, ans }
 }
 

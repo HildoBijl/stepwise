@@ -11,14 +11,14 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'd']
 
-const factorMovedComparison = { check: equivalent, allowSwitch: true }
+const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
 
 const metaData = {
 	skill: 'solveLinearEquationWithFractions',
 	steps: ['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation'],
 	factorMovedComparison,
 	comparison: {
-		termMoved: { check: onlyOrderChanges, allowSwitch: true },
+		termMoved: { compareSide: onlyOrderChanges, allowSwitch: true },
 		factorMoved: (input, correct, { variables }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 		ans: onlyOrderChanges,
 	}
@@ -46,11 +46,11 @@ function getSolution(state) {
 	const expanded = factorMoved.combine(['expandProductsOfSums'])
 	const cleaned = asEquation(`a-(${(d - c) * b})=${d - c}x`)[switchSides ? 'switch' : 'self']().substitute(variables).combine()
 	const factor = asExpression(d - c)
-	const solution = asExpression(`${a - (d - c) * b}/${d - c}`)
+	const solution = asExpression(`(${a - (d - c) * b})/${d - c}`)
 	const ans = solution.combine()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
 	const equationInserted = equation.substitute({ [variables.x]: ans })
-	const sideValue = equationInserted.left.combine()
+	const sideValue = equationInserted.left.normalize()
 	return { ...state, variables, equation, termMoved, factorMoved, expanded, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

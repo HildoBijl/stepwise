@@ -14,8 +14,8 @@ const metaData = {
 	skill: 'moveEquationTerm',
 	steps: ['addToBothEquationSides', 'cancelSumTerms'],
 	comparison: {
-		bothSidesChanged: { check: equivalent },
-		ans: { check: onlyOrderChanges },
+		bothSidesChanged: { compareSide: equivalent },
+		ans: { compareSide: onlyOrderChanges },
 	}
 }
 addSetupFromSteps(metaData)
@@ -37,16 +37,14 @@ function getSolution(state) {
 	// Set up the equation.
 	const variables = filterVariables(state, usedVariables, constants)
 	let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substitute(variables).removeTrivial()
-	state.termsLeft.forEach(index => {
-		equation = equation.subtract(equation.right.terms[index])
-	})
-	equation = equation.combine()
+	const termsToSubtract = state.termsLeft.map(index => equation.right.terms[index])
+	termsToSubtract.forEach(termToSubtract => { equation = equation.subtract(termToSubtract).cancel() })
 
 	// Find the term to move, add/subtract it and simplify.
 	const sideToMove = equation[state.toLeft ? 'right' : 'left']
 	const termsToMove = sideToMove.terms
-	const positive = termsToMove.some(term => !term.isNegative())
-	const bothSidesChanged = equation.subtract(sideToMove)
+	const positive = termsToMove.some(term => !term.isMinus())
+	const bothSidesChanged = equation.subtract(sideToMove).flatten(['expandMinusSums'])
 	const ans = bothSidesChanged.cancel()
 
 	// Also set up possibly wrong answers.

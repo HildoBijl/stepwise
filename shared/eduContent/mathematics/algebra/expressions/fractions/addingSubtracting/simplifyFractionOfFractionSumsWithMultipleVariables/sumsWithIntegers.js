@@ -58,7 +58,7 @@ function getSolution(state) {
 
 	// Simplify the expression.
 	const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
-	const ans = intermediate.cancel()
+	const ans = intermediate.cancel(['flattenFractions'])
 	return { ...state, variables, term1, fraction1, numerator, fraction2, term2, denominator, expression, term1Intermediate, numeratorSplit, numeratorIntermediate, term2Intermediate, denominatorSplit, denominatorIntermediate, intermediate, ans }
 }
 

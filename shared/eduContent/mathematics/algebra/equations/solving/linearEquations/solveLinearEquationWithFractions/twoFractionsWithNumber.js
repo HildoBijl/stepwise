@@ -11,7 +11,7 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c', 'd']
 
-const factorMovedComparison = { check: equivalent, allowSwitch: true }
+const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
 
 const metaData = {
 	skill: 'solveLinearEquationWithFractions',
@@ -44,11 +44,11 @@ function getSolution(state) {
 	const termMoved = asEquation(`a*x - c*x = ${c * b}-(${a * d})`).substitute(variables).removeTrivial()
 	const cleaned = termMoved.combine()
 	const factor = asExpression(a - c)
-	const solution = asExpression(`${(c * b - a * d)}/${(a - c)}`)
+	const solution = asExpression(`(${(c * b - a * d)})/${(a - c)}`)
 	const ans = solution.combine()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
 	const equationInserted = equation.substitute({ [variables.x]: ans })
-	const sideValue = equationInserted.left.combine()
+	const sideValue = equationInserted.left.normalize()
 	return { ...state, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

@@ -1,8 +1,9 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
-const { asExpression, expressionComparisons } = require('@step-wise/cas')
+const { asExpression, expressionComparisons, expressionOperations } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges } = expressionComparisons
+const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // a/(xz) + b/(yz) = (ay+bx)/(xyz).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]

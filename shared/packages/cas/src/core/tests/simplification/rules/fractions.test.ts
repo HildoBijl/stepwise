@@ -59,6 +59,8 @@ describe('fraction simplification', () => {
 	test('cancels fraction factors', () => {
 		expectSimplifyToGive(fraction(x, x), fraction(1, 1), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
 		expectSimplifyToGive(fraction(product(x, y), product(x, z)), fraction(y, z), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(sum(y, 2), sum(y, 2)), fraction(1, 1), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
+		expectSimplifyToGive(fraction(product(x, sum(y, 2)), sum(y, 2)), fraction(x, 1), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
 		expectSimplifyToGive(fraction(product(x, y, z), product(x, y)), fraction(z, 1), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
 		expectSimplifyToGive(fraction(product(power(x, 3), power(y, 3)), product(power(x, 2), power(y, 3))), fraction(power(x, 3), power(x, 2)), ['cancelFractionFactors', 'mergeProductMinuses', 'removeDoubleNegatives'])
 	})

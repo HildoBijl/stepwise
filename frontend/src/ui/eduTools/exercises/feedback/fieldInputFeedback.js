@@ -110,12 +110,12 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 
 	// There are comparison options, so try to find detailed feedback. If the parameters are pure numbers (or numeric Expressions) compare them using number comparison.
 	if (currSolution instanceof Expression && currSolution.isNumeric())
-		currSolution = currSolution.number
+		currSolution = currSolution.toNumber()
 	if (typeof currSolution === 'number') {
 		if (currInput instanceof Expression) {
 			if (!currInput.isNumeric())
 				return { correct, text: selectRandomNonNumeric() }
-			currInput = currInput.number
+			currInput = currInput.toNumber()
 		}
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, false) }
 	}

@@ -21,7 +21,6 @@ const metaData = {
 		solutionFull: equivalent,
 		D: {},
 		numSolutions: {},
-		ans1: onlyOrderChanges,
 	}
 }
 addSetupFromSteps(metaData)

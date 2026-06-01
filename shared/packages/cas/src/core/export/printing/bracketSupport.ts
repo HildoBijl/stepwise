@@ -16,6 +16,6 @@ export function requiresBracketsFor(node: ExpressionNode, level: BracketLevel, i
 	if (isSignNode(node)) return level === bracketLevels.multiplication || level === bracketLevels.negation || level === bracketLevels.division || level === bracketLevels.powers
 	if (isSum(node)) return true
 	if (isProduct(node)) return level === bracketLevels.multiplication || level === bracketLevels.division || level === bracketLevels.powers
-	if (isFraction(node) || isPower(node)) return level === bracketLevels.powers
+	if (isFraction(node) || isPower(node)) return (level === bracketLevels.division && index === 1) || level === bracketLevels.powers
 	return false
 }

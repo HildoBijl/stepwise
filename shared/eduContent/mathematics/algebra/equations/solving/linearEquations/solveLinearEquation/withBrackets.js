@@ -16,8 +16,8 @@ const metaData = {
 	steps: ['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
 	comparison: {
 		expanded: (input, correct) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
-		moved: { check: equivalent, allowSwitch: true, allowMinus: true },
-		cleaned: { check: onlyOrderChanges, allowSwitch: true, allowMinus: true },
+		moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
+		cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
 		ans: onlyOrderChanges,
 	}
 }
@@ -40,16 +40,16 @@ function generateState(example) {
 function getSolution(state) {
 	const { a, b, c, d, e, switchSides, bracketsRight } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const equation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { eAsConstant: false })[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const expanded = equation.combine(['expandProductsOfSums'])
-	const moved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`)[switchSides ? 'negate' : 'self']()[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const moved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`)[switchSides ? 'negate' : 'self']().substitute(variables).removeTrivial(['expandMinusSums'])
 	const cleaned = moved.combine()
 	const factor = asExpression(switchSides ? c - a : a - c)
 	const solution = asExpression(`${(bracketsRight ? c * d : d) - (a * b + e)}/${a - c}`)
-	const ans = solution.combine()
+	const ans = solution.normalize()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
 	const equationInserted = equation.substitute({ [variables.x]: ans })
-	const sideValue = equationInserted.left.combine()
+	const sideValue = equationInserted.left.normalize()
 	return { ...state, variables, equation, expanded, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

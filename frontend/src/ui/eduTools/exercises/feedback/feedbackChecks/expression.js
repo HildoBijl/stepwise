@@ -114,7 +114,7 @@ export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isC
 
 export const hasProductWithinPowerBase = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasProductWithinPowerBase(input) || expressionChecks.hasPowerWithinPowerBase(input)) && <Translation path={translationPath} entry="expression.hasProductWithinPowerBase">Your solution has unexpanded brackets at a power.</Translation>
 
-export const hasNegativeExponent = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasNegativeExponent(input) && <Translation path={translationPath} entry="expression.hasNegativeExponent">The power <M>{input.find(term => term.isPower() && term.exponent.isNegative())}</M> in your input has a negative exponent.</Translation>)
+export const hasNegativeExponent = (input, correct, solution, isCorrect) => !isCorrect && (expressionChecks.hasNegativeExponent(input) && <Translation path={translationPath} entry="expression.hasNegativeExponent">The power <M>{input.find(term => term.isPower() && term.exponent.isMinus())}</M> in your input has a negative exponent.</Translation>)
 
 export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <Translation path={translationPath} entry="expression.hasSumWithinFraction">Your solution has an unseparated fraction.</Translation>
 

@@ -15,6 +15,18 @@ export const equationComparisons = {
 		return asEquation(correct).flatten().equalStructure(asEquation(input).flatten())
 	},
 
+	equivalentSides(input: EquationLike, correct: EquationLike): boolean {
+		const inputEquation = asEquation(input)
+		const correctEquation = asEquation(correct)
+		return correctEquation.everySide((side, sideName) => expressionComparisons.equivalent(side, inputEquation[sideName]))
+	}
+	,
+	equivalentSidesAndSwitch(input: EquationLike, correct: EquationLike): boolean {
+		const inputEquation = asEquation(input)
+		const correctEquation = asEquation(correct)
+		return equationComparisons.equivalentSides(inputEquation, correctEquation) || equationComparisons.equivalentSides(inputEquation.switch(), correctEquation)
+	},
+
 	equalNumber(input: EquationLike, correct: EquationLike): boolean {
 		const inputEquation = asEquation(input)
 		const correctEquation = asEquation(correct)

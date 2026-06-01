@@ -56,6 +56,7 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: '(-2)/3', node: fraction(-2, 3) },
 	{ str: '2*3/4', node: product(2, fraction(3, 4)) },
 	{ str: '2/3/4', node: fraction(fraction(2, 3), 4) },
+	{ str: '2/(3/4)', node: fraction(2, fraction(3, 4)) },
 	{ str: '2/3*4', node: product(fraction(2, 3), 4) },
 	{ str: '2*3/4*5', node: product(2, fraction(3, 4), 5) },
 	{ str: '2/3/4*5', node: product(fraction(fraction(2, 3), 4), 5) },

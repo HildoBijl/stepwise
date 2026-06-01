@@ -64,11 +64,11 @@ function getSolution(state) {
 	// Assemble the equation.
 	const { a, b, c, d, e, flip, normalize } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a/(x+b) + c = d/(x+e)').substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
+	const equation = asEquation('a/(x+b) + c = d/(x+e)', { eAsConstant: false }).substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
 
 	// Rewrite the equation in various ways.
-	const multiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)').substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
-	const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums'], ['mergeSumNumbers', 'groupSumTerms']).applyToEvery(term => (term.isPower() ? term.combine() : term)).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+	const multiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)', { eAsConstant: false }).substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
+	const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => (term.isPower() ? term.combine() : term)).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 	const merged = expanded.combine(['sortSums'])
 	const moved = merged.subtract(merged.right).combine(['sortSums'])
 
@@ -77,7 +77,7 @@ function getSolution(state) {
 	let divisor = normalize ? coefficients[0] : gcd(...coefficients)
 	if (Math.sign(divisor) !== Math.sign(coefficients[0]))
 		divisor *= -1
-	const ans = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullConstantPartOutOfFractions'])
+	const ans = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
 
 	// Return all calculated parameters.
 	return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }

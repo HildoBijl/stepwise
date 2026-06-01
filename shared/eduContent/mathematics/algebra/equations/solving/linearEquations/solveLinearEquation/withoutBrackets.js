@@ -14,8 +14,8 @@ const metaData = {
 	skill: 'solveLinearEquation',
 	steps: ['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
 	comparison: {
-		moved: { check: equivalent, allowSwitch: true, allowMinus: true },
-		cleaned: { check: onlyOrderChanges, allowSwitch: true, allowMinus: true },
+		moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
+		cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
 		ans: onlyOrderChanges,
 	}
 }
@@ -40,10 +40,10 @@ function getSolution(state) {
 	const cleaned = moved.combine()
 	const factor = asExpression(a - c)
 	const solution = asExpression(`${d - b}/${a - c}`)
-	const ans = solution.combine()
+	const ans = solution.normalize()
 	const canCleanSolution = !onlyOrderChanges(solution, ans)
 	const equationInserted = equation.substitute({ [variables.x]: ans })
-	const sideValue = equationInserted.left.combine()
+	const sideValue = equationInserted.left.normalize()
 	return { ...state, variables, equation, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 

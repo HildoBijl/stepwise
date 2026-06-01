@@ -31,7 +31,7 @@ const steps = [
 		Problem: () => {
 			const { equation, termsToMove } = useSolution()
 			return <>
-				<Par><Translation><Check value={termsToMove[0].isNegative()}><Check.True>Add the term <M>{termsToMove[0].abs()}</M> to</Check.True><Check.False>Subtract the term <M>{termsToMove[0].abs()}</M> from</Check.False></Check> both sides of the equation. Then also <Check value={termsToMove[1].isNegative()}><Check.True>add the term <M>{termsToMove[1].abs()}</M> to</Check.True><Check.False>subtract the term <M>{termsToMove[1].abs()}</M> from</Check.False></Check> both sides of the equation.</Translation></Par>
+				<Par><Translation><Check value={termsToMove[0].isMinus()}><Check.True>Add the term <M>{termsToMove[0].abs()}</M> to</Check.True><Check.False>Subtract the term <M>{termsToMove[0].abs()}</M> from</Check.False></Check> both sides of the equation. Then also <Check value={termsToMove[1].isMinus()}><Check.True>add the term <M>{termsToMove[1].abs()}</M> to</Check.True><Check.False>subtract the term <M>{termsToMove[1].abs()}</M> from</Check.False></Check> both sides of the equation.</Translation></Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="bothSidesChanged" size="l" settings={EquationInput.settings.polynomes} validate={EquationInput.validation.validWithVariables(equation.getVariables())} />

@@ -87,7 +87,6 @@ function getFeedback(exerciseData) {
 	const simplifiedChecks = [
 		rightSideChanged,
 		(input, correct, solution, isCorrect) => hasFractionWithinFraction(input.left, correct.left, solution, isCorrect),
-		(input, correct, solution, isCorrect) => hasPower(input.left, correct.left, solution, isCorrect),
 		(input, correct, solution, isCorrect) => nonEquivalentExpression(input.left, correct.left, solution, isCorrect),
 		(input, correct, solution, isCorrect) => equivalentExpression(input.left, correct.left, solution, isCorrect),
 	]

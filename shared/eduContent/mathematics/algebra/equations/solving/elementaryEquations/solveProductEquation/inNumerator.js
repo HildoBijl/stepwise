@@ -15,7 +15,7 @@ const metaData = {
 	skill: 'solveProductEquation',
 	steps: ['moveEquationFactor', 'simplifyFraction', 'checkEquationSolution'],
 	comparison: {
-		isolated: { check: equivalent, allowSwitch: true },
+		isolated: { compareSide: equivalent, allowSwitch: true },
 		ans: onlyOrderChanges,
 		checkLeft: onlyOrderChanges,
 		checkRight: onlyOrderChanges,
@@ -38,16 +38,16 @@ function generateState(example) {
 function getSolution(state) {
 	const { switchSides } = state
 	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('a*x/b=c/d')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
-	const isolated = asEquation('x = (c*b)/(d*a)')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const equation = asEquation('ax/b=c/d')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
+	const isolated = asEquation('x = (cb)/(da)')[switchSides ? 'switch' : 'self']().substitute(variables).flatten()
 	const isolatedSolution = isolated[switchSides ? 'left' : 'right']
-	const isolatedSolutionSimplified = isolatedSolution.cancel()
-	const fractionGcd = gcd(isolatedSolutionSimplified.numerator.number, isolatedSolutionSimplified.denominator.number)
+	const isolatedSolutionSimplified = isolatedSolution.mergeNumbers(['mergeFractionMinuses'], ['mergeFractionNumbers'])
+	const fractionGcd = gcd(isolatedSolutionSimplified.numerator.toNumber(), isolatedSolutionSimplified.denominator.toNumber())
 	const canSimplifyFraction = (fractionGcd !== 1)
-	const ans = isolatedSolution.combine()
+	const ans = isolatedSolution.normalize()
 	const equationWithSolution = equation.substitute({ [state.x]: ans })
-	const checkLeft = equationWithSolution.left.combine()
-	const checkRight = equationWithSolution.right.combine()
+	const checkLeft = equationWithSolution.left.normalize()
+	const checkRight = equationWithSolution.right.normalize()
 	const canNumberSideBeSimplified = !onlyOrderChanges(equationWithSolution[switchSides ? 'left' : 'right'], switchSides ? checkLeft : checkRight)
 	return { ...state, variables, equation, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
 }

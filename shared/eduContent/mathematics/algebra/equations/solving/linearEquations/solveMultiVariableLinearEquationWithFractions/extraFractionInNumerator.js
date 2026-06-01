@@ -11,7 +11,7 @@ const metaData = {
 	skill: 'solveMultiVariableLinearEquationWithFractions',
 	steps: ['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation'],
 	comparison: {
-		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && !expressionChecks.hasPower(input.left) && expressionComparisons.equivalent(input.left, correct.left),
+		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.equivalent(input.left, correct.left),
 		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.negate())),
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 	},
@@ -34,12 +34,12 @@ function getSolution(state) {
 	const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 	// Find the solution.
-	const simplified = equation.mapLeft(left => left.cleanForAnalysis({ sortSums: false }))
+	const simplified = equation.mapLeft(left => left.combine(['mergeFractionSums']))
 	const multiplied = simplified.mapSides(side => side.multiply(simplified.left.denominator)).combine()
 	const shifted = multiplied.subtract(multiplied.left.terms[1]).cancel()
 	const pulledOut = shifted.mapRight(side => side.factorOut(variables.x).combine())
-	const bracketFactor = pulledOut.right.terms.find(factor => !variables.x.equals(factor))
-	const ans = pulledOut.left.divide(bracketFactor).cleanForAnalysis({ sortSums: false })
+	const bracketFactor = pulledOut.right.factors.find(factor => !variables.x.equals(factor))
+	const ans = pulledOut.left.divide(bracketFactor).combine()
 
 	return { ...state, variables, equation, simplified, multiplied, shifted, pulledOut, bracketFactor, ans }
 }

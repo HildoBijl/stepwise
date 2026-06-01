@@ -54,8 +54,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ variables, expanded, shifted, pulledOut, bracketFactor, ans }) => {
-			return <Par><Translation>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <BM>{expanded}.</BM> We then move all terms with <M>{variables.x}</M> to one side and all terms without <M>{variables.x}</M> to the other side. That is, <M>{expanded.right.terms[0].abs()}</M> moves to the left and <M>{expanded.left.terms[3].abs()}</M> goes to the right. This gives <BM>{shifted}.</BM> Next, we pull <M>{variables.x}</M> out of brackets. This turns the above into <BM>{pulledOut}.</BM> Finally we divide both sides of the equation by <M>{bracketFactor}</M> to solve for <M>{variables.x}</M>. The result is <BM>{variables.x} = {ans}.</BM></Translation></Par>
+		Solution: ({ variables, merged, shifted, pulledOut, bracketFactor, ans }) => {
+			return <Par><Translation>The equation is linear, so we take the default plan of approach. First we expand all brackets to get <BM>{merged}.</BM> We then move all terms with <M>{variables.x}</M> to one side and all terms without <M>{variables.x}</M> to the other side. That is, <M>{merged.right.terms[0].abs()}</M> moves to the left and <M>{merged.left.terms[2].abs()}</M> goes to the right. This gives <BM>{shifted}.</BM> Next, we pull <M>{variables.x}</M> out of brackets. This turns the above into <BM>{pulledOut}.</BM> Finally we divide both sides of the equation by <M>{bracketFactor}</M> to solve for <M>{variables.x}</M>. The result is <BM>{variables.x} = {ans}.</BM></Translation></Par>
 		},
 	},
 ]

@@ -36,12 +36,15 @@ function getSolution(state) {
 	const factor1 = variables.x
 	const factor2 = equation.left.terms[0].denominator
 	const factor = factor1.multiply(factor2)
-	const multiplied = equation.mapLeft(side => side.applyToAllTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel()
-	const expanded = multiplied.simplify(['expandProductsOfSums', 'mergeProductNumbers'])
+	const multiplied = equation.mapLeft(side => side.mapTerms(term => term.multiply(factor))).mapRight(side => side.multiply(factor)).cancel(['mergeFractionProducts'])
+	console.log(multiplied.str)
+	const expanded = multiplied.simplify(['expandProductsOfSums', 'expandMinusSums', 'mergeProductNumbers'])
+	console.log(expanded.str)
 	const merged = expanded.combine()
-	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).cancel()
+	console.log(merged.str)
+	const shifted = merged.subtract(merged.left.terms[2]).subtract(merged.right.terms[0]).cancel()
 	const pulledOut = shifted.mapLeft(side => side.factorOut(variables.x).combine())
-	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
+	const bracketFactor = pulledOut.left.factors.find(factor => !variables.x.equals(factor))
 	const ans = pulledOut.right.divide(bracketFactor)
 
 	return { ...state, variables, equation, factor1, factor2, factor, multiplied, expanded, merged, shifted, pulledOut, bracketFactor, ans }

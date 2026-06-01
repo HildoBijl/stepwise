@@ -15,8 +15,8 @@ const metaData = {
 	skill: 'solveMultiVariableProductEquation',
 	steps: ['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution'],
 	comparison: {
-		moved: { check: equivalent, allowSwitch: true },
-		isolated: { check: equivalent, allowSwitch: true },
+		moved: { compareSide: equivalent, allowSwitch: true },
+		isolated: { compareSide: equivalent, allowSwitch: true },
 		ans: onlyOrderChanges,
 		checkLeft: onlyOrderChanges,
 		checkRight: onlyOrderChanges,

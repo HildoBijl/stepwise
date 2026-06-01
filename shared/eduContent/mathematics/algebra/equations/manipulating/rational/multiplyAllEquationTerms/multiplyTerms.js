@@ -15,9 +15,9 @@ const metaData = {
 	skill: 'multiplyAllEquationTerms',
 	steps: ['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables'],
 	comparison: {
-		form: { check: equivalent },
-		expanded: { check: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct) },
-		ans: { check: onlyOrderChanges },
+		form: { compareSide: equivalent },
+		expanded: { compareSide: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct) },
+		ans: { compareSide: onlyOrderChanges },
 	}
 }
 addSetupFromSteps(metaData)
@@ -51,13 +51,13 @@ function getSolution(state) {
 			right = right.add(term)
 	})
 	const equation = asEquation({ left, right }).removeTrivial()
-	const factor = asExpression('e*x^n').substitute(variables).removeTrivial()
+	const factor = asExpression('e*x^n', { eAsConstant: false }).substitute(variables).removeTrivial()
 
 	// Manipulate the equation.
-	const form = equation.multiply(factor, true)
-	const expandedIntermediate = form.removeTrivial(['expandProductsOfSums'])
-	const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'mergeFractionProducts'])
-	const ans = expanded.cancel(['mergeFractionNumbers', 'cancelFractionFactors'])
+	const form = equation.multiplyLeft(factor).flatten()
+	const expandedIntermediate = form.removeTrivial(['expandProductsOfSums', 'expandMinusSums'])
+	const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'mergeFractionProducts', 'mergeProductFactors'])
+	const ans = expanded.combine()
 	return { ...state, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 }
 

@@ -12,7 +12,7 @@ const metaData = {
 	skill: 'moveEquationFactor',
 	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
 	comparison: {
-		bothSidesChanged: { check: expressionComparisons.equivalent },
+		bothSidesChanged: { compareSide: expressionComparisons.equivalent },
 		ans: {},
 	}
 }

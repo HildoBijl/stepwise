@@ -18,7 +18,7 @@ const metaData = {
 	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
 	ansEqualsOptions,
 	comparison: {
-		bothSidesChanged: { check: equivalent },
+		bothSidesChanged: { compareSide: equivalent },
 		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
 	}
 }

@@ -1,12 +1,34 @@
-import { type ExpressionNode, type Fraction, recreateSignNode, sum, product, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
 import { isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
 
 import { getSumTerms, getProductFactors } from '../utils'
 
 export function cancelFractionFactors(node: Fraction): ExpressionNode {
-	const commonFactors = getExactCommonFactors(...getSumTerms(node.numerator), ...getSumTerms(node.denominator))
-	return commonFactors.length === 0 ? node : fraction(removeExactFactors(node.numerator, commonFactors), removeExactFactors(node.denominator, commonFactors))
+	// Try to find common factors in the numerator and denominator as a whole.
+	const wholeCommonFactors = getExactCommonFactors(node.numerator, node.denominator)
+	if (wholeCommonFactors.length > 0) return fraction(removeExactFactors(node.numerator, wholeCommonFactors), removeExactFactors(node.denominator, wholeCommonFactors))
+
+	// Try to find commonalities between the numerator as a whole and the denominator's terms.
+	if (isSum(node.denominator)) {
+		const commonFactors = getExactCommonFactors(node.numerator, ...node.denominator.terms)
+		if (commonFactors.length > 0) return fraction(removeExactFactors(node.numerator, commonFactors), removeExactFactors(node.denominator, commonFactors))
+	}
+
+	// Try to find commonalities between the denominator as a whole and the numerator's terms.
+	if (isSum(node.numerator)) {
+		const commonFactors = getExactCommonFactors(...node.numerator.terms, node.denominator)
+		if (commonFactors.length > 0) return fraction(removeExactFactors(node.numerator, commonFactors), removeExactFactors(node.denominator, commonFactors))
+	}
+
+	// Try to find commonalities between the terms of both the numerator and the denominator.
+	if (isSum(node.numerator) && isSum(node.denominator)) {
+		const commonFactors = getExactCommonFactors(...node.numerator.terms, ...node.denominator.terms)
+		if (commonFactors.length > 0) return fraction(removeExactFactors(node.numerator, commonFactors), removeExactFactors(node.denominator, commonFactors))
+	}
+
+	// Nothing found that can be simplified.
+	return node
 }
 
 // Find all common factors of a set of nodes, requiring exact matches. (x^3 only matches x^3 and not x^2.)
@@ -21,7 +43,10 @@ function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionN
 
 // Remove multiple factors from a given expression.
 export function removeExactFactors(node: ExpressionNode, factorsToRemove: readonly ExpressionNode[]): ExpressionNode {
-	if (isSum(node)) return sum(...node.terms.map(term => removeExactFactors(term, factorsToRemove)))
+	if (isSum(node)) {
+		if (factorsToRemove.length === 1 && equalNodes(node, factorsToRemove[0])) return Integer.one
+		return sum(...node.terms.map(term => removeExactFactors(term, factorsToRemove)))
+	}
 	if (isSignNode(node)) return recreateSignNode(node, removeExactFactors(node.node, factorsToRemove))
 	let factors = getProductFactors(node)
 	for (const factorToRemove of factorsToRemove) {

@@ -18,7 +18,7 @@ const metaData = {
 	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
 	ansEqualsOptions,
 	comparison: {
-		bothSidesChanged: { check: equivalent },
+		bothSidesChanged: { compareSide: equivalent },
 		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
 	}
 }
@@ -38,11 +38,11 @@ function generateState() {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][state.type]
+	const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][state.type].removeTrivial()
 	const equation = asEquation('a=b/(c*x)')[state.switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
-	const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'])
-	const ans = bothSidesChanged[state.switchSides ? 'mapLeft' : 'mapRight'](side => side.removeTrivial(['cancelFractionFactors', ...(state.type === 1 ? [] : ['mergeFractionNumbers'])]))
-	const ansCleaned = ans.removeTrivial(['mergeFractionNumbers'])
+	const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'], ['mergeProductMinuses', 'mergeProductPlusMinuses'])
+	const ans = bothSidesChanged[state.switchSides ? 'mapLeft' : 'mapRight'](side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors']))
+	const ansCleaned = ans.normalize()
 	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
 }

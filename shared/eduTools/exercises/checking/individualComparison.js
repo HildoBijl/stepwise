@@ -43,12 +43,12 @@ function performIndividualComparison(currInput, currSolution, currComparison, so
 
 	// If the parameters are pure numbers, compare them using number comparison.
 	if (currSolution instanceof Expression && currSolution.isNumeric())
-		currSolution = currSolution.number
+		currSolution = currSolution.toNumber()
 	if (typeof currSolution === 'number') {
 		if (currInput instanceof Expression) {
 			if (!currInput.isNumeric())
 				return false
-			currInput = currInput.number
+			currInput = currInput.toNumber()
 		}
 		return areNumbersEqual(currInput, currSolution, currComparison)
 	}

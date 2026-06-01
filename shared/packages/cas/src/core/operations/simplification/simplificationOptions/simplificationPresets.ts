@@ -18,7 +18,6 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'removeSignsFromZeros',
 	'removeDoubleNegatives',
 	'mergeProductMinuses',
-	'mergeFractionMinuses',
 
 	// Excess plus-minuses.
 	'removeDoubleSigns',
@@ -44,8 +43,10 @@ export const mergeNumbers = new Set<SimplificationOption>([
 	...removeTrivial,
 	'mergeSumNumbers',
 	'mergeProductNumbers',
+	'mergeFractionMinuses',
 	'mergeFractionNumbers',
 	'reduceFractionsWithOneDenominator',
+	'mergePowerMinuses',
 	'mergePowerNumbers',
 	'reduceIntegerRoots',
 ])
@@ -76,7 +77,6 @@ export const expand = new Set<SimplificationOption>([
 	'expandPlusMinusSums',
 	'expandProductsOfSums',
 	'mergeFractionSums',
-	'mergePowerMinuses',
 	'removePowersWithinPowers',
 	'expandPowersOfProducts',
 	'expandPowersOfFractions',
