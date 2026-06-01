@@ -41,7 +41,7 @@ function getSolution(state) {
 	const { a, b, c, d, e, switchSides, bracketsRight } = state
 	const variables = filterVariables(state, usedVariables, constants)
 	const equation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
-	const expanded = equation.combine({ expandProductsOfSums: true })
+	const expanded = equation.combine(['expandProductsOfSums'])
 	const moved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`)[switchSides ? 'negate' : 'self']()[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const cleaned = moved.combine()
 	const factor = asExpression(switchSides ? c - a : a - c)

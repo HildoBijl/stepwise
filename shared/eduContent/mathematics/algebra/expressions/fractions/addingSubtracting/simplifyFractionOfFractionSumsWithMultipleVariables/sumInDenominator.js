@@ -1,9 +1,10 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
-const { asExpression, expressionComparisons } = require('@step-wise/cas')
+const { asExpression, expressionComparisons, expressionOperations } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges } = expressionComparisons
+const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // (c/x)/(a/x^2 + b/(xy)) = (cxy)/(ay+bx).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -36,8 +37,8 @@ function getSolution(state) {
 	const numerator = asExpression('c/x').substitute(variables)
 	const denominator = fraction1[state.plus ? 'add' : 'subtract'](fraction2)
 	const expression = numerator.divide(denominator)
-	const fraction1Intermediate = fraction1.multiplyNumDen(variables.y).cancel()
-	const fraction2Intermediate = fraction2.multiplyNumDen(variables.x).cancel()
+	const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, variables.y).cancel()
+	const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, variables.x).cancel()
 	const intermediateSplit = fraction1Intermediate[state.plus ? 'add' : 'subtract'](fraction2Intermediate)
 	const intermediate = fraction1Intermediate.numerator[state.plus ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator)
 	const expressionWithIntermediate = numerator.divide(intermediate)

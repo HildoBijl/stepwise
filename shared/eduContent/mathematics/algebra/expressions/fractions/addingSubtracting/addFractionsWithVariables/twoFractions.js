@@ -1,10 +1,11 @@
 const { sample, randomInteger, randomBoolean, repeat, randomIndices } = require('@step-wise/utils')
-const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
+const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
+const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // (a*x+b)/(c*x+d) +/- (e*x+f)/(g*x+h).
 const variableSet = ['x', 'y', 'z']
@@ -18,9 +19,9 @@ const metaData = {
 		sameDenominator: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && equivalent(input, correct),
 		bracketsExpanded: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && input.terms.every(term => {
 			const numerator = term.find(part => part.isFraction()).numerator
-			return onlyOrderChanges(numerator.flatten(), numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true }))
+			return onlyOrderChanges(numerator.flatten(), numerator.cancel(['expandProductsOfSums', 'groupSumTerms']))
 		}) && equivalent(input, correct),
-		ans: (input, correct) => input.flatten().isFraction() && !hasFractionWithinFraction(input) && onlyOrderChanges(input.flatten().numerator, input.flatten().numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true })) && equivalent(input, correct),
+		ans: (input, correct) => input.flatten().isFractionLike() && !hasFractionWithinFraction(input) && onlyOrderChanges(input.flatten().numerator, input.flatten().numerator.cancel(['expandProductsOfSums', 'mergeProductFactors', 'groupSumTerms'])) && equivalent(input, correct),
 	}
 }
 addSetupFromSteps(metaData)
@@ -51,17 +52,17 @@ function generateState(example) {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str).substitute(variables).removeTrivial())
+	const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str, { eAsConstant: false }).substitute(variables).removeTrivial())
 	const joinFractions = fractions => fractions[0].add(state.plus ? fractions[1] : fractions[1].negate(false)).removeTrivial()
 	const expression = joinFractions(fractions)
 
 	// Apply the various cleaning steps.
-	const fractionsWithSameDenominator = fractions.map((fraction, index) => fraction.multiplyNumDen(fractions[1 - index].denominator, index === 1))
+	const fractionsWithSameDenominator = fractions.map((fraction, index) => multiplyNumeratorAndDenominator(fraction, fractions[1 - index].denominator, index === 1))
 	const sameDenominator = joinFractions(fractionsWithSameDenominator)
-	const fractionsWithBracketsExpanded = fractionsWithSameDenominator.map(fraction => fraction.applyToNumerator(numerator => numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true })))
+	const fractionsWithBracketsExpanded = fractionsWithSameDenominator.map(fraction => fraction.mapNumerator(numerator => numerator.cancel(['expandProductsOfSums', 'mergeProductFactors', 'groupSumTerms'])))
 	const bracketsExpanded = joinFractions(fractionsWithBracketsExpanded)
-	const ans = bracketsExpanded.cancel({ mergeFractionSums: true, sortProducts: true }).applyToNumerator(numerator => numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true, sortSums: true }))
-	const ansCleaned = ans.combine()
+	const ans = bracketsExpanded.cancel(['mergeFractionSums', 'mergeFractionProducts', 'sortProducts']).mapNumerator(numerator => numerator.cancel(['expandProductsOfSums', 'groupSumTerms', 'sortSums']))
+	const ansCleaned = ans.normalize([], ['applyPolynomialCancellation', 'expandProductsOfSums'])
 	const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, fractions, expression, sameDenominator, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 }

@@ -1,10 +1,11 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
-const { asExpression, expressionComparisons, expressionChecks, simplifyOptions } = require('@step-wise/cas')
+const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks
+const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // (a/w + b/x)/(c/y + d/z).
 const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p', 'q', 'r', 's']]
@@ -45,10 +46,10 @@ function getSolution(state) {
 
 	// Simplify the expression.
 	const gcdValue = gcd(...constants.map(constant => state[constant]))
-	const fraction1Intermediate = fraction1.multiplyNumDen(variables.x).flatten(['sortProducts'])
-	const fraction2Intermediate = fraction2.multiplyNumDen(variables.w).flatten(['sortProducts'])
-	const fraction3Intermediate = fraction3.multiplyNumDen(variables.z).flatten(['sortProducts'])
-	const fraction4Intermediate = fraction4.multiplyNumDen(variables.y).flatten(['sortProducts'])
+	const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, variables.x).flatten(['sortProducts'])
+	const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, variables.w).flatten(['sortProducts'])
+	const fraction3Intermediate = multiplyNumeratorAndDenominator(fraction3, variables.z).flatten(['sortProducts'])
+	const fraction4Intermediate = multiplyNumeratorAndDenominator(fraction4, variables.y).flatten(['sortProducts'])
 	const numeratorSplit = fraction1Intermediate[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate)
 	const denominatorSplit = fraction3Intermediate[state.plus2 ? 'add' : 'subtract'](fraction4Intermediate)
 	const numeratorIntermediate = fraction1Intermediate.numerator[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator)

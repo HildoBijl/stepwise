@@ -23,8 +23,8 @@ const metaData = {
 		D: {},
 		numSolutions: {},
 		// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
-		ans1: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine({ mergeFractionSums: false, splitFractions: true })),
-		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine({ mergeFractionSums: false, splitFractions: true })),
+		ans1: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
+		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
 	}
 }
 addSetupFromSteps(metaData)
@@ -53,7 +53,7 @@ function getSolution(state) {
 	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.radicand
 	const D = DFull.combine()
-	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial({ reduceRootsWithZeroRadicand: false })
+	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
 	const solution = solutionFull.combine()
 	const solutionsSplit = solution.getSingular().map(s => s.removeTrivial())
 	const solutions = solutionsSplit.map(s => s.combine())

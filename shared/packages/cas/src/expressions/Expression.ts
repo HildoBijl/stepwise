@@ -1,7 +1,7 @@
 import { isReadonlyArray, deepEquals } from '@step-wise/utils'
 
 import {
-	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, // Construction
+	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, number, // Construction
 	isConstant, isInteger, isFloat, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isRootLike, isLn, isLog, isLogLike, isSin, isCos, isTan, isArcsin, isArccos, isArctan, isTrigonometricFunction, isInverseTrigonometricFunction, isSingleArgumentFunctionNode, // Type checks
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
@@ -148,6 +148,7 @@ export class Expression {
 	isProduct(): boolean { return isProduct(this.node) }
 
 	isFraction(): boolean { return isFraction(this.node) }
+	isFractionLike(): boolean { return isFraction(this.node) || (isSignNode(this.node) && isFraction(this.node.node)) }
 	isPower(): boolean { return isPower(this.node) }
 
 	isRoot(): boolean { return isRoot(this.node) }
@@ -204,16 +205,18 @@ export class Expression {
 	// Fractions
 	get numerator(): Expression {
 		if (isFraction(this.node)) return this.recreateWith(this.node.numerator)
+		if (isMinus(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.numerator)
 		throw new Error(`Invalid request: cannot get "numerator" of an Expression of type "${this.subtype}".`)
 	}
 	get denominator(): Expression {
 		if (isFraction(this.node)) return this.recreateWith(this.node.denominator)
+		if (isMinus(this.node) && isFraction(this.node.node)) return this.recreateWith(this.node.node.denominator)
 		throw new Error(`Invalid request: cannot get "denominator" of an Expression of type "${this.subtype}".`)
 	}
 
 	// Functions (power, root, and everything else)
 	get base(): Expression {
-		if (isPower(this.node) || isLog(this.node)) return this.recreateWith(this.node.base)
+		if (isPower(this.node) || isLogLike(this.node)) return this.recreateWith(this.node.base)
 		throw new Error(`Invalid request: cannot get "base" of an Expression of type "${this.subtype}".`)
 	}
 	get exponent(): Expression {
@@ -221,16 +224,16 @@ export class Expression {
 		throw new Error(`Invalid request: cannot get "exponent" of an Expression of type "${this.subtype}".`)
 	}
 	get degree(): Expression {
-		if (isRoot(this.node)) return this.recreateWith(this.node.degree)
+		if (isRootLike(this.node)) return this.recreateWith(this.node.degree)
 		throw new Error(`Invalid request: cannot get "degree" of an Expression of type "${this.subtype}".`)
 	}
 	get radicand(): Expression {
-		if (isRoot(this.node)) return this.recreateWith(this.node.radicand)
+		if (isRootLike(this.node)) return this.recreateWith(this.node.radicand)
 		throw new Error(`Invalid request: cannot get "radicand" of an Expression of type "${this.subtype}".`)
 	}
 	get argument(): Expression {
 		if (isMinus(this.node)) return this.recreateWith(this.node.node)
-		if (isLog(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
+		if (isLogLike(this.node) || isSingleArgumentFunctionNode(this.node)) return this.recreateWith(this.node.argument)
 		throw new Error(`Invalid request: cannot get "argument" of an Expression of type "${this.subtype}".`)
 	}
 
@@ -268,6 +271,63 @@ export class Expression {
 	getSingular(): Expression[] { return expandToSingulars(this.node).map(node => this.recreateWith(node)) }
 
 	/*
+	 * Argument mappers
+	 */
+
+	mapTerms(transform: (term: Expression, index: number) => Expression): Expression {
+		if (this.isSum()) {
+			const mappedTerms = this.terms.map((term, index) => transform(term, index))
+			return mappedTerms[0].add(...mappedTerms.slice(1))
+		}
+		throw new Error(`Invalid mapTerms call: expression is of type "${this.subtype}", not "Sum".`)
+	}
+	mapFactors(transform: (factor: Expression, index: number) => Expression): Expression {
+		if (this.isProduct()) {
+			const mappedFactors = this.factors.map((factor, index) => transform(factor, index))
+			return mappedFactors[0].multiply(...mappedFactors.slice(1))
+		}
+		throw new Error(`Invalid mapFactors call: expression is of type "${this.subtype}", not "Product".`)
+	}
+
+	mapNumerator(transform: (numerator: Expression) => Expression): Expression {
+		if (this.isFraction()) return transform(this.numerator).divide(this.denominator)
+		if (this.isFractionLike()) return this.mapArgument(argument => argument.mapNumerator(transform))
+		throw new Error(`Invalid mapNumerator call: expression is of type "${this.subtype}", not "Fraction".`)
+	}
+	mapDenominator(transform: (denominator: Expression) => Expression): Expression {
+		if (this.isFraction()) return this.numerator.divide(transform(this.denominator))
+		if (this.isFractionLike()) return this.mapArgument(argument => argument.mapDenominator(transform))
+		throw new Error(`Invalid mapDenominator call: expression is of type "${this.subtype}", not "Fraction".`)
+	}
+
+	mapBase(transform: (base: Expression) => Expression): Expression {
+		if (this.isPower()) return transform(this.base).toPower(this.exponent)
+		if (this.isLogFunction()) return this.argument.log(transform(this.base))
+		throw new Error(`Invalid mapBase call: expression is of type "${this.subtype}", not "Power", "Log" or "Ln".`)
+	}
+	mapExponent(transform: (exponent: Expression) => Expression): Expression {
+		if (this.isPower()) return this.base.toPower(transform(this.exponent))
+		throw new Error(`Invalid mapExponent call: expression is of type "${this.subtype}", not "Power".`)
+	}
+
+	mapDegree(transform: (degree: Expression) => Expression): Expression {
+		if (this.isRootFunction()) return this.radicand.root(transform(this.degree))
+		throw new Error(`Invalid mapDegree call: expression is of type "${this.subtype}", not "Root" or "Sqrt".`)
+	}
+	mapRadicand(transform: (radicand: Expression) => Expression): Expression {
+		if (this.isRoot()) return transform(this.radicand).root(this.degree)
+		if (this.isSqrt()) return transform(this.radicand).sqrt()
+		throw new Error(`Invalid mapRadicand call: expression is of type "${this.subtype}", not "Root" or "Sqrt".`)
+	}
+
+	mapArgument(transform: (argument: Expression) => Expression): Expression {
+		if (this.isMinus()) return transform(this.argument).negate()
+		if (this.isLog()) return transform(this.argument).log(this.base)
+		if (this.isLn() || this.isTrigonometricFunction() || this.isInverseTrigonometricFunction()) return this.recreateWith(this.node.recreateWithChildren([transform(this.argument).node]))
+		throw new Error(`Invalid mapArgument call: expression is of type "${this.subtype}", which has no argument.`)
+	}
+
+	/*
 	 * Algebraic operations
 	 */
 
@@ -296,16 +356,6 @@ export class Expression {
 	arccos(): Expression { return this.recreateWith(arccos(this.node)) }
 	arctan(): Expression { return this.recreateWith(arctan(this.node)) }
 
-	mapTerms(transform: (term: Expression, index: number) => Expression): Expression {
-		if (!this.isSum()) throw new Error(`Invalid mapTerms call: expression is of type "${this.subtype}", not "Sum".`)
-		const mappedTerms = this.terms.map((term, index) => transform(term, index))
-		return mappedTerms[0].add(...mappedTerms.slice(1))
-	}
-	mapFactors(transform: (factor: Expression, index: number) => Expression): Expression {
-		if (!this.isProduct()) throw new Error(`Invalid mapFactors call: expression is of type "${this.subtype}", not "Product".`)
-		const mappedFactors = this.factors.map((factor, index) => transform(factor, index))
-		return mappedFactors[0].multiply(...mappedFactors.slice(1))
-	}
 	factorOut(factor: ExpressionLike): Expression {
 		const factorToPull = this.coerceExpression(factor)
 		const inner = this.isSum() ? this.mapTerms(term => term.divide(factorToPull)) : this.divide(factorToPull)

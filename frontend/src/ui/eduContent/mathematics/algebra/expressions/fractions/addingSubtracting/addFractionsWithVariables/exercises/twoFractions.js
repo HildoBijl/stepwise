@@ -86,7 +86,7 @@ function getFeedback(exerciseData) {
 
 	const unsimplifiedNumerator = (input, correct, solution, isCorrect, { translateCrossExercise }) => !isCorrect && !input.terms.every(term => {
 		const numerator = term.find(part => part.isFraction()).numerator
-		return onlyOrderChanges(numerator.elementaryClean(), numerator.cancel({ expandProductsOfSums: true, groupSumTerms: true }))
+		return onlyOrderChanges(numerator.elementaryClean(), numerator.cancel(['expandProductsOfSums', 'groupSumTerms']))
 	}) && translateCrossExercise(<>You can still further simplify the numerators.</>, 'unsimplifiedNumerator')
 
 	// Merge all checks in the right order.

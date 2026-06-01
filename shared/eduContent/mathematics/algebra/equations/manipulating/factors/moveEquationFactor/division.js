@@ -11,7 +11,7 @@ const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
 const constants = ['a', 'b', 'c']
 
-const ansEqualsOptions = ({ switchSides }) => ({ preprocessSide: side => side.cancel({ flattenFractions: false }), compareLeft: switchSides ? equivalent : onlyOrderChanges, compareRight: switchSides ? onlyOrderChanges : equivalent })
+const ansEqualsOptions = ({ switchSides }) => ({ preprocessSide: side => side.cancel(), compareLeft: switchSides ? equivalent : onlyOrderChanges, compareRight: switchSides ? onlyOrderChanges : equivalent })
 
 const metaData = {
 	skill: 'moveEquationFactor',
@@ -42,9 +42,9 @@ function getSolution(state) {
 	const factor = [variables.a, variables.x, variables.a.multiply(variables.x)][state.type]
 	const equation = asEquation('a*x=b/c')[state.switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const bothSidesChanged = equation.divide(factor)
-	const fractionFactorsCanceled = bothSidesChanged[state.switchSides ? 'mapRight' : 'mapLeft'](side => side.cancel({ mergeFractionNumbers: true, cancelFractionFactors: true, flattenFractions: false }))
-	const ans = fractionFactorsCanceled.removeTrivial({ flattenFractions: true })
-	const ansCleaned = ans.cancel({ mergeFractionNumbers: true })
+	const fractionFactorsCanceled = bothSidesChanged[state.switchSides ? 'mapRight' : 'mapLeft'](side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions']))
+	const ans = fractionFactorsCanceled.removeTrivial(['flattenFractions'])
+	const ansCleaned = ans.cancel(['mergeFractionNumbers'])
 	const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
 	return { ...state, variables, factor, equation, bothSidesChanged, fractionFactorsCanceled, ans, ansCleaned, isFurtherSimplificationPossible }
 }

@@ -43,7 +43,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const equation = asEquation('(x+a)/(x+b)=(x+c)/(x+d)').substitute(variables).removeTrivial()
 	const factorMoved = asEquation('(x+a)(x+d)=(x+c)(x+b)').substitute(variables).removeTrivial()
-	const expanded = factorMoved.combine({ expandProductsOfSums: true })
+	const expanded = factorMoved.combine(['expandProductsOfSums'])
 	const termMoved = asEquation(`(${a + d})*x - (${b + c})*x = ${c * b}-(${a * d})`).substitute(variables).removeTrivial()
 	const cleaned = termMoved.combine()
 	const factor = asExpression(a + d - b - c)

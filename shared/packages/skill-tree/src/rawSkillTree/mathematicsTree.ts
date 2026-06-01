@@ -123,8 +123,7 @@ export const mathematicsTree: RawSkillGroup = {
 					simplifyFractionOfFractionsWithVariables: {
 						name: 'Simplify fraction of fractions with variables',
 						setup: and(part('rewriteNegativePower', 0.5), 'multiplyDivideFractions', 'simplifyFractionWithVariables'),
-						// examples: ['basicForm'],
-						examples: ['multipleFactorsNegativePowers'],
+						examples: ['basicForm'],
 						exercises: ['higherPowers', 'multipleFactors', 'multipleFactorsNegativePowers'],
 					},
 				},

@@ -1,8 +1,9 @@
 const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
-const { asExpression, expressionComparisons } = require('@step-wise/cas')
+const { asExpression, expressionComparisons, expressionOperations } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges } = expressionComparisons
+const { multiplyNumeratorAndDenominator } = expressionOperations
 
 // ay/x + bz/y = (ay^2 + bxz)/(xy).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -38,8 +39,8 @@ function getSolution(state) {
 
 	// Set up the solution.
 	const denominator = asExpression('xy').substitute(variables).flatten(['sortProducts'])
-	const leftAns = leftExpression.multiplyNumDen(y).removeTrivial({ mergeProductNumbers: true, mergeProductFactors: true, mergeSumNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDen(x).removeTrivial({ mergeProductNumbers: true, mergeProductFactors: true, mergeSumNumbers: true, sortProducts: true })
+	const leftAns = multiplyNumeratorAndDenominator(leftExpression, y).removeTrivial(['mergeProductNumbers', 'mergeProductFactors', 'mergeSumNumbers', 'sortProducts'])
+	const rightAns = multiplyNumeratorAndDenominator(rightExpression, x).removeTrivial(['mergeProductNumbers', 'mergeProductFactors', 'mergeSumNumbers', 'sortProducts'])
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)
 
 	return { ...state, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }

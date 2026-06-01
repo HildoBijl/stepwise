@@ -20,7 +20,7 @@ function generateState() {
 	const c1 = randomInteger(-12, 12, [0])
 	const c2 = randomInteger(-12, 12, [0])
 	const c3 = randomInteger(-12, 12, [0])
-	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).add(f3.multiply(c3, true)).substitute('x', x).cancel({ mergeProductFactors: false }) // Do not turn 10 * 10^x into 10^(x+1).
+const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).add(f3.multiply(c3, true)).substitute('x', x).cancel() // Do not turn 10 * 10^x into 10^(x+1).
 	return {
 		x,
 		f: sample(functionSet),

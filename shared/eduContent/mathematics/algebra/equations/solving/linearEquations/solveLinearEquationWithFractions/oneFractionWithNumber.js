@@ -43,7 +43,7 @@ function getSolution(state) {
 	const equation = asEquation('a/(x+b)+c=d')[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const termMoved = asEquation(`a/(x+b)=${d - c}`)[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
 	const factorMoved = asEquation(`a=${d - c}(x+b)`)[switchSides ? 'switch' : 'self']().substitute(variables).removeTrivial()
-	const expanded = factorMoved.combine({ expandProductsOfSums: true })
+	const expanded = factorMoved.combine(['expandProductsOfSums'])
 	const cleaned = asEquation(`a-(${(d - c) * b})=${d - c}x`)[switchSides ? 'switch' : 'self']().substitute(variables).combine()
 	const factor = asExpression(d - c)
 	const solution = asExpression(`${a - (d - c) * b}/${d - c}`)

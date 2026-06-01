@@ -55,9 +55,9 @@ function getSolution(state) {
 
 	// Manipulate the equation.
 	const form = equation.multiply(factor, true)
-	const expandedIntermediate = form.removeTrivial({ mergeFractionProducts: false, expandProductsOfSums: true })
-	const expanded = expandedIntermediate.cancel({ expandProductsOfSums: true, mergeFractionProducts: true })
-	const ans = expanded.cancel({ mergeFractionNumbers: true, cancelFractionFactors: true })
+	const expandedIntermediate = form.removeTrivial(['expandProductsOfSums'])
+	const expanded = expandedIntermediate.cancel(['expandProductsOfSums', 'mergeFractionProducts'])
+	const ans = expanded.cancel(['mergeFractionNumbers', 'cancelFractionFactors'])
 	return { ...state, variables, equation, factor, form, expandedIntermediate, expanded, ans }
 }
 

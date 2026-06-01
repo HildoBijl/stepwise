@@ -33,9 +33,9 @@ function getSolution(state) {
 
 	// Set up the original expression.
 	const sign = plus ? '+' : '-'
-	const expression = asExpression(`(ay^2${sign}bxz)/(xy)`).substitute(variables).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
-	const leftExpression = asExpression(`(ay^2)/(xy)`).substitute(variables).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
-	const rightExpression = asExpression(`(bxz)/(xy)`).substitute(variables).removeTrivial({ mergeProductNumbers: true, sortProducts: true })
+	const expression = asExpression(`(ay^2${sign}bxz)/(xy)`).substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
+	const leftExpression = asExpression(`(ay^2)/(xy)`).substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
+	const rightExpression = asExpression(`(bxz)/(xy)`).substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
 	const split = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.

@@ -53,6 +53,7 @@ export const mergeNumbers = new Set<SimplificationOption>([
 export const cancel = new Set<SimplificationOption>([
 	...mergeNumbers,
 	'expandMinusSums',
+	'mergeFractionSumMinuses',
 	'cancelSumTerms',
 	'cancelFractionFactors',
 	'reduceCanceledRoots',

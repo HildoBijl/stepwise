@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { expressionOperations } from '@step-wise/cas'
+
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -9,6 +11,7 @@ import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equ
 import { rightSideChanged } from './util'
 
 const { hasX, hasFractionWithinFraction, incorrectFraction, hasPower, nonEquivalentExpression, equivalentExpression } = expressionChecks
+const { multiplyNumeratorAndDenominator } = expressionOperations
 const { originalEquation, correctEquation, incorrectEquation, hasFraction } = equationChecks
 
 export default function Exercise() {
@@ -43,7 +46,7 @@ const steps = [
 		Solution: (state) => {
 			const { b } = state
 			const { variables, equation, simplified } = useSolution()
-			return <Par><Translation>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by <M>{variables.y}</M> and subsequently dividing them by <M>{variables.x}</M>. <Check value={b > 0}><Check.True>Through this,</Check.True><Check.False>Through this, and through the cancellation of minus signs,</Check.False></Check> the fraction reduces to <BM>{equation.left} = {equation.left.multiplyNumDen(variables.y.divide(variables.x))} = {simplified.left}.</BM> By inserting this into the equation, we can write it as <BM>{simplified}.</BM></Translation></Par>
+			return <Par><Translation>The short-cut towards simplifying the fraction of fractions is multiplying the numerator and the denominator by <M>{variables.y}</M> and subsequently dividing them by <M>{variables.x}</M>. <Check value={b > 0}><Check.True>Through this,</Check.True><Check.False>Through this, and through the cancellation of minus signs,</Check.False></Check> the fraction reduces to <BM>{equation.left} = {multiplyNumeratorAndDenominator(equation.left, variables.y.divide(variables.x))} = {simplified.left}.</BM> By inserting this into the equation, we can write it as <BM>{simplified}.</BM></Translation></Par>
 		},
 	},
 	{

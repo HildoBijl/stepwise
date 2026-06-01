@@ -5,10 +5,10 @@ const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performCom
 const { hasNegativeExponent, hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
-// (a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+f)^s*(x+c)^t).
+// (a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+e)^s*(x+c)^t).
 const variableSet = ['x', 'y', 'z']
 const usedVariables = 'x'
-const constants = ['a', 'b', 'c', 'd', 'f', 'p', 'q', 'r', 's', 't']
+const constants = ['a', 'b', 'c', 'd', 'e', 'p', 'q', 'r', 's', 't']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
@@ -29,10 +29,10 @@ function generateState() {
 	// Generate factor constants.
 	const c = randomInteger(-4, 4)
 	const d = randomInteger(-4, 4, [c])
-	const f = randomInteger(-4, 4, [c, d])
+	const e = randomInteger(-4, 4, [c, d])
 
 	// If there is no zero addition (no pure x term) then restart generation.
-	if (c !== 0 && d !== 0 && f !== 0)
+	if (c !== 0 && d !== 0 && e !== 0)
 		return generateState()
 
 	// Generate exponents.
@@ -53,7 +53,7 @@ function generateState() {
 	return {
 		x: sample(variableSet),
 		a, b,
-		c, d, f,
+		c, d, e,
 		p, q, r, s, t,
 		flip: randomBoolean(), // Flip the numerator and the denominator?
 	}
@@ -62,8 +62,8 @@ function generateState() {
 function getSolution(state) {
 	// Set up the expression.
 	const variables = filterVariables(state, usedVariables, constants)
-	const part1 = asExpression('a*(x+c)^p*(x+d)^q').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-	const part2 = asExpression('b*(x+d)^r*(x+f)^s*(x+c)^t').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+	const part1 = asExpression('a*(x+c)^p*(x+d)^q', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+	const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 	const expression = (state.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial([], ['mergeFractionMinuses'])
 
 	// Apply cleaning.

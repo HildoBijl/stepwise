@@ -68,16 +68,16 @@ function getSolution(state) {
 
 	// Rewrite the equation in various ways.
 	const multiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)').substitute(variables).removeTrivial()[flip ? 'switch' : 'self']()
-	const expanded = multiplied.cancel({ expandProductsOfSums: true, expandPowersOfSums: true, mergeSumNumbers: false, groupSumTerms: false }).applyToEvery(term => (term.isPower() ? term.combine() : term)).cancel({ mergeSumNumbers: false, groupSumTerms: false }) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
-	const merged = expanded.combine({ sortSums: true })
-	const moved = merged.subtract(merged.right).combine({ sortSums: true })
+	const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums'], ['mergeSumNumbers', 'groupSumTerms']).applyToEvery(term => (term.isPower() ? term.combine() : term)).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
+	const merged = expanded.combine(['sortSums'])
+	const moved = merged.subtract(merged.right).combine(['sortSums'])
 
 	// Find out how to adjust the equation in the end.
 	const coefficients = getCoefficients([a, b, c, d, e], flip)
 	let divisor = normalize ? coefficients[0] : gcd(...coefficients)
 	if (Math.sign(divisor) !== Math.sign(coefficients[0]))
 		divisor *= -1
-	const ans = moved.divide(divisor).combine({ splitFractions: true, mergeFractionSums: false }).removeTrivial({ pullConstantPartOutOfFractions: true, mergeFractionProducts: false })
+	const ans = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullConstantPartOutOfFractions'])
 
 	// Return all calculated parameters.
 	return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }

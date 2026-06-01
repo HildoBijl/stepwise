@@ -11,6 +11,7 @@ import { flattenFractions } from './flattenFractions'
 import { mergeFractionSums } from './mergeFractionSums'
 import { splitFractions } from './splitFractions'
 import { mergeFractionMinuses } from './mergeFractionMinuses'
+import { mergeFractionSumMinuses } from './mergeFractionSumMinuses'
 import { normalizeFractionMinuses } from './normalizeFractionMinuses'
 import { mergeFractionNumbers } from './mergeFractionNumbers'
 import { cancelFractionFactors } from './cancelFractionFactors'
@@ -26,6 +27,7 @@ export function simplifyFractions(node: ExpressionNode, context: SimplificationC
 	if (isSum(node) && options.has('mergeFractionSums')) node = mergeFractionSums(node)
 	if (isFraction(node) && options.has('splitFractions')) node = splitFractions(node)
 	if (isFraction(node) && options.has('mergeFractionMinuses')) node = mergeFractionMinuses(node)
+	if (isFraction(node) && options.has('mergeFractionSumMinuses')) node = mergeFractionSumMinuses(node)
 	if (isFraction(node) && options.has('mergeFractionNumbers')) node = mergeFractionNumbers(node)
 	if (isFraction(node) && options.has('cancelFractionFactors')) node = cancelFractionFactors(node)
 	if (isFraction(node) && options.has('mergeFractionFactors')) node = mergeFractionFactors(node)

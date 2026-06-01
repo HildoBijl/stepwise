@@ -50,7 +50,7 @@ function getSolution(state) {
 	const rootFull = solutionFull.find(term => term.isSqrt())
 	const DFull = rootFull.radicand
 	const D = DFull.combine()
-	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial({ reduceRootsWithZeroRadicand: false })
+	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
 	const solution = solutionFull.combine()
 	const solutionsSplit = solution.getSingular().map(s => s.removeTrivial())
 	const solutions = solutionsSplit.map(s => s.combine())
