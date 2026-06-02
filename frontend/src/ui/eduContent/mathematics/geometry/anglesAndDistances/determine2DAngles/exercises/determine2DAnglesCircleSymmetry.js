@@ -146,7 +146,7 @@ function getPoints(solution) {
 	const topLeft = new Vector(-1, 0) // Present for positioning.
 	const bottomLeft = new Vector(-1, 2) // Present for positioning.
 	const right = new Vector(l, 0)
-	const bottom = new Vector(0, l * Math.tan((beta + gamma) * Math.PI / 180))
+	const bottom = new Vector(0, l * Math.tan((beta.toNumber() + gamma.toNumber()) * Math.PI / 180))
 
 	// Return everything together.
 	return { top, center, topLeft, bottomLeft, right, bottom }

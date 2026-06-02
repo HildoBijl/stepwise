@@ -105,8 +105,8 @@ function ExerciseFigure({ state, solution }) {
 function getPoints(solution) {
 	const { a, b } = solution
 	return [
-		new Vector(a.number, 0),
+		new Vector(a.toNumber(), 0),
 		new Vector(0, 0),
-		new Vector(0, b.number),
+		new Vector(0, b.toNumber()),
 	]
 }

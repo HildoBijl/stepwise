@@ -127,20 +127,20 @@ function ExerciseFigure() {
 }
 
 function getPoints(solution) {
-	const { a, b } = solution
+	const { La, Lb } = solution
 	const shiftFactor = 0.7
 	const sizeFactor = 0.3
-	const triangle2Start = new Vector(a.number * shiftFactor, b.number * shiftFactor)
+	const triangle2Start = new Vector(La.toNumber() * shiftFactor, Lb.toNumber() * shiftFactor)
 	return {
 		triangle1: [
-			new Vector(a.number, 0),
+			new Vector(La.toNumber(), 0),
 			new Vector(0, 0),
-			new Vector(0, b.number),
+			new Vector(0, Lb.toNumber()),
 		],
 		triangle2: [
-			triangle2Start.add(new Vector(a.number * sizeFactor, 0)),
+			triangle2Start.add(new Vector(La.toNumber() * sizeFactor, 0)),
 			triangle2Start,
-			triangle2Start.add(new Vector(0, b.number * sizeFactor)),
+			triangle2Start.add(new Vector(0, Lb.toNumber() * sizeFactor)),
 		],
 	}
 }

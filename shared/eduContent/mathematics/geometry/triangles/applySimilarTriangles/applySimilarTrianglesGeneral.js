@@ -38,8 +38,8 @@ function generateState() {
 function getSolution(state) {
 	// Extract all the variables.
 	let { a, b, c, La, Lb } = state
-	const Lc = asExpression('sqrt(L_a^2 + L_b^2)').substitute({ La, Lb }).combine()
-	const variables = { a, b, c, La, Lb, Lc }
+	const Lc = asExpression('sqrt(L_a^2 + L_b^2)').substitute({ 'L_a': La, 'L_b': Lb }).combine()
+	const variables = { a, b, c, 'L_a': La, 'L_b': Lb, 'L_c': Lc }
 
 	// Determine the solution.
 	let given, equation1, equation2, ans1Raw, ans2Raw

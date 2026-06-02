@@ -1,4 +1,5 @@
 const { randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { asExpression } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
@@ -26,9 +27,9 @@ function generateState() {
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const { a, b } = state
-	const alpha = 90 - a
-	const beta = alpha
-	const gamma = 180 - b - beta
+	const alpha = asExpression(90 - a)
+	const beta = asExpression(alpha)
+	const gamma = asExpression(180 - b - beta.toNumber())
 	return { ...state, variables, alpha, beta, gamma }
 }
 

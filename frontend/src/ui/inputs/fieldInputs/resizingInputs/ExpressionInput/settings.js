@@ -57,7 +57,7 @@ export const basicTrigonometry = {
 
 export const basicTrigonometryInDegrees = {
 	...basicTrigonometry,
-	useDegrees: true,
+	degrees: true,
 }
 
 export const allMathSimpleVariables = {

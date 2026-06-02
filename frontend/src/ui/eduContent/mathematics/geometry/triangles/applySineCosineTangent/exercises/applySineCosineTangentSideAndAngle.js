@@ -137,8 +137,8 @@ function ExerciseFigure() {
 function getPoints(solution) {
 	const { a, b } = solution
 	return [
-		new Vector(a.number, 0), // Point B.
+		new Vector(a.toNumber(), 0), // Point B.
 		new Vector(0, 0), // Point C.
-		new Vector(0, b.number), // Point A.
+		new Vector(0, b.toNumber()), // Point A.
 	]
 }

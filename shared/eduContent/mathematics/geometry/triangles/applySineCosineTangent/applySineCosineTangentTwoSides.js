@@ -31,7 +31,7 @@ function generateState() {
 	// Gather all data into a state.
 	return {
 		...mapValues(sides, side => asExpression(side)),
-		beta: new Variable(sample(variableSet)),
+		beta: asExpression(sample(variableSet)),
 		rotation: randomNumber(0, 2 * Math.PI),
 		reflection: randomBoolean(),
 	}
