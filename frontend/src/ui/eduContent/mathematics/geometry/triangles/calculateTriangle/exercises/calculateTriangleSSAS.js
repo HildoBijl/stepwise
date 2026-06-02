@@ -101,7 +101,7 @@ const steps = [
 					<BMPart>{variables.b}_1 = {b1},</BMPart>
 					<BMPart>{variables.b}_2 = {b2}.</BMPart>
 				</BMList>
-					Eventueel kunnen we deze oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.b}_1 \approx {new Float(roundToDigits(b1.number, 3))}</M> en <M>{variables.b}_2 \approx {new Float(roundToDigits(b2.number, 3))}.</M> Beide getallen zijn positief, en dus geldige afstanden.</Par>
+					Eventueel kunnen we deze oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.b}_1 \approx {new Float(roundToDigits(b1.toNumber(), 3))}</M> en <M>{variables.b}_2 \approx {new Float(roundToDigits(b2.toNumber(), 3))}.</M> Beide getallen zijn positief, en dus geldige afstanden.</Par>
 				<Par>Overigens is de bij de vraag getekende figuur gebaseerd op <M>{variables.b}_2.</M> We kunnen met <M>{variables.b}_1</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
 				<ExerciseFigure useAlternative={true} />
 			</>
@@ -163,10 +163,10 @@ function ExerciseFigure({ useAlternative }) {
 function getPoints(solution, useAlternative = false) {
 	const { b1, b2, c, α } = solution
 	const b = useAlternative ? b2 : b1
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }

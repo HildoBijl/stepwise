@@ -95,7 +95,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, α, aRaw }) => {
-			return <Par>Om <M>{variables.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{variables.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.toNumber(), 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -150,10 +150,10 @@ function ExerciseFigure() {
 
 function getPoints(solution) {
 	const { b, c, α } = solution
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }

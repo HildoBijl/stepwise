@@ -85,7 +85,7 @@ const steps = [
 		},
 		Solution: ({ a, β, variables }) => {
 			return <>
-				<Par>We vervangen <M>{variables.a}</M> letterlijk voor <M>{a}.</M> Zo krijgen we (licht vereenvoudigd) de uitkomst <BM>{variables.β} = {β}.</BM> Dit komt overeen met een hoek van <M>{variables.β} \approx {new Float(roundToDigits(β.number, 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+				<Par>We vervangen <M>{variables.a}</M> letterlijk voor <M>{a}.</M> Zo krijgen we (licht vereenvoudigd) de uitkomst <BM>{variables.β} = {β}.</BM> Dit komt overeen met een hoek van <M>{variables.β} \approx {new Float(roundToDigits(β.toNumber(), 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
 			</>
 		},
 	},
@@ -136,10 +136,10 @@ function ExerciseFigure({ showa, showβ }) {
 
 function getPoints(solution) {
 	const { b, c, α } = solution
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }

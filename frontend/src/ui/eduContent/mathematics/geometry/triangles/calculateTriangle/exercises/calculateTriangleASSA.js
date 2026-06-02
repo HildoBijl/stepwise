@@ -75,7 +75,7 @@ const steps = [
 						<BMPart>{β}_1 = 180 - {α} - {γ}_1 = 180 - {α} - {γ1} = {asExpression(180, undefined, { degrees: true }).subtract(α).combine()} - {γ1},</BMPart>
 						<BMPart>{β}_2 = 180 - {α} - {γ}_2 = 180 - {α} - \left({γ2}\right) = {γ1} - {α}.</BMPart>
 					</BMList>
-					Eventueel kunnen we deze twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{β}_1 \approx {new Float(roundToDigits(β1.number, 3))}^\circ</M> en <M>{β}_2 \approx {new Float(roundToDigits(β2.number, 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{β}_1.</M> We kunnen met <M>{β}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
+					Eventueel kunnen we deze twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{β}_1 \approx {new Float(roundToDigits(β1.toNumber(), 3))}^\circ</M> en <M>{β}_2 \approx {new Float(roundToDigits(β2.toNumber(), 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{β}_1.</M> We kunnen met <M>{β}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
 				<ExerciseFigure useAlternative={true} />
 			</>
 		},
@@ -131,10 +131,10 @@ function ExerciseFigure({ useAlternative, showγ }) {
 function getPoints(solution, useAlternative = false) {
 	const { b1, b2, c, α } = solution
 	const b = useAlternative ? b2 : b1
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }

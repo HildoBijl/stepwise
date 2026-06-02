@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Product, product } from '../../../../construction'
 
-import { isConstantNode, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
+import { isInteger, isFloat, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
 
 import { compareVariableNodes } from '../utils'
 
@@ -12,7 +12,7 @@ export function sortProducts(node: Product): ExpressionNode {
 // Sorting function that determines which of two expressions should come first.
 function orderProductFactors(a: ExpressionNode, b: ExpressionNode): number {
 	// First sort by type.
-	const tests = [(node: ExpressionNode) => isNumeric(node) && !someDescendant(node, isConstantNode), isNumeric, (node: ExpressionNode) => isVariable(node) || isPower(node), isSum, () => true]
+	const tests = [(node: ExpressionNode) => isInteger(node) || isFloat(node), isNumeric, (node: ExpressionNode) => isVariable(node) || isPower(node), isSum, () => true]
 	const index = tests.findIndex(test => test(a) || test(b))
 	const test = tests[index]
 	if (!test(a)) return 1

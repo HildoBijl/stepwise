@@ -109,7 +109,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ aRaw, equation, variables }) => {
-			return <Par>Om <M>{variables.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{variables.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.toNumber(), 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -165,10 +165,10 @@ function ExerciseFigure({ showGamma }) {
 
 function getPoints(solution) {
 	const { b, c, α } = solution
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }

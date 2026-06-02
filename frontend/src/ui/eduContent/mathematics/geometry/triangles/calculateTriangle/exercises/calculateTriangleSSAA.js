@@ -98,7 +98,7 @@ const steps = [
 		Solution: ({ intermediateEquation, variables, γ1, γ2 }) => {
 			return <>
 				<Par>Om <M>{variables.γ}</M> te vinden lossen we eerst <M>{intermediateEquation.left}</M> op. Zo vinden we <BM>{intermediateEquation}.</BM> Als we de omgekeerde sinus op beide kanten toepassen, dan vinden we de eerste oplossing <BM>{variables.γ}_1 = {γ1}.</BM> Dit is echter niet de enige oplossing. Bij het omkeren van een sinus moeten we ook altijd nog de tweede oplossing meenemen, zijnde <BM>{variables.γ}_2 = 180^\circ - {variables.γ}_1 = 180^\circ - {γ1}.</BM> Hiermee zijn de twee oplossingen bekend.</Par>
-				<Par>Eventueel kunnen we de twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.γ}_1 \approx {new Float(roundToDigits(γ1.number, 3))}^\circ</M> en <M>{variables.γ}_2 \approx {new Float(roundToDigits(γ2.number, 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{variables.γ}_1.</M> We kunnen met <M>{variables.γ}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
+				<Par>Eventueel kunnen we de twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.γ}_1 \approx {new Float(roundToDigits(γ1.toNumber(), 3))}^\circ</M> en <M>{variables.γ}_2 \approx {new Float(roundToDigits(γ2.toNumber(), 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{variables.γ}_1.</M> We kunnen met <M>{variables.γ}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
 				<ExerciseFigure useAlternative={true} />
 			</>
 		},
@@ -159,10 +159,10 @@ function ExerciseFigure({ useAlternative }) {
 function getPoints(solution, useAlternative = false) {
 	const { b1, b2, c, α } = solution
 	const b = useAlternative ? b2 : b1
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }

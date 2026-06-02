@@ -95,7 +95,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, intermediateEquation, α }) => {
-			return <Par>Om <M>{variables.α}</M> te vinden isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Vervolgens nemen we van beide kanten de omgekeerde cosinus. Het resultaat is <BM>{variables.α} = {α}.</BM> Hiermee is de gevraagde hoek berekend. Het zou overeen komen met een waarde van <M>{variables.α} \approx {new Float(roundToDigits(α.number, 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{variables.α}</M> te vinden isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Vervolgens nemen we van beide kanten de omgekeerde cosinus. Het resultaat is <BM>{variables.α} = {α}.</BM> Hiermee is de gevraagde hoek berekend. Het zou overeen komen met een waarde van <M>{variables.α} \approx {new Float(roundToDigits(α.toNumber(), 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -150,10 +150,10 @@ function ExerciseFigure() {
 
 function getPoints(solution) {
 	const { b, c, α } = solution
-	const αRad = deg2rad(α.number)
+	const αRad = deg2rad(α.toNumber())
 	return [
 		new Vector(0, 0),
-		new Vector(c.number, 0),
-		new Vector(b.number * Math.cos(αRad), b.number * Math.sin(αRad)),
+		new Vector(c.toNumber(), 0),
+		new Vector(b.toNumber() * Math.cos(αRad), b.toNumber() * Math.sin(αRad)),
 	]
 }
