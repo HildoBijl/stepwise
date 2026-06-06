@@ -9,7 +9,7 @@ import { reducePowersWithZeroBase } from './reducePowersWithZeroBase'
 import { removeOneExponentsFromPowers } from './removeOneExponentsFromPowers'
 import { reducePowersWithOneBase } from './reducePowersWithOneBase'
 import { mergePowerMinuses } from './mergePowerMinuses'
-import { mergePowerNumbers } from './mergePowerNumbers'
+import { reduceNumberPowers } from './reduceNumberPowers'
 import { removePowersWithinPowers } from './removePowersWithinPowers'
 import { convertNegativePowers } from './convertNegativePowers'
 import { expandPowers } from './expandPowers'
@@ -24,7 +24,7 @@ export function simplifyPowers(node: ExpressionNode, context: SimplificationCont
 	if (isPower(node) && options.has('removeOneExponentsFromPowers')) node = removeOneExponentsFromPowers(node)
 	if (isPower(node) && options.has('reducePowersWithOneBase')) node = reducePowersWithOneBase(node)
 	if (isPower(node) && options.has('mergePowerMinuses')) node = mergePowerMinuses(node)
-	if (isPower(node) && options.has('mergePowerNumbers')) node = mergePowerNumbers(node)
+	if (isPower(node) && options.has('reduceNumberPowers')) node = reduceNumberPowers(node)
 	if (isPower(node) && options.has('removePowersWithinPowers')) node = removePowersWithinPowers(node)
 	if (isPower(node) && options.has('convertNegativePowers')) node = convertNegativePowers(node)
 	if (isPower(node) && options.has('expandPowers')) node = expandPowers(node)

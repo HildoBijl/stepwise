@@ -18,10 +18,10 @@ describe('root simplification', () => {
 	})
 
 	test('reduces integer roots', () => {
-		expectSimplifyToGive(sqrt(25), 5, ['reduceIntegerRoots'])
-		expectSimplifyToGive(sqrt(24), sqrt(24), ['reduceIntegerRoots'])
-		expectSimplifyToGive(root(27, 3), 3, ['reduceIntegerRoots'])
-		expectSimplifyToGive(root(28, 3), root(28, 3), ['reduceIntegerRoots'])
+		expectSimplifyToGive(sqrt(25), 5, ['reduceNumberRoots'])
+		expectSimplifyToGive(sqrt(24), sqrt(24), ['reduceNumberRoots'])
+		expectSimplifyToGive(root(27, 3), 3, ['reduceNumberRoots'])
+		expectSimplifyToGive(root(28, 3), root(28, 3), ['reduceNumberRoots'])
 	})
 
 	test('reduces canceled roots', () => {

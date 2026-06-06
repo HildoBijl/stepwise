@@ -1,6 +1,6 @@
 import { splitArray } from '@step-wise/utils'
 
-import { type ExpressionNode, type Fraction, Integer, product, fraction } from '../../../../construction'
+import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
 import { isSignNode, isSum, isProduct, isFraction, isPower, isNumeric, isOne, isRootLike } from '../../../structural'
 
@@ -11,14 +11,25 @@ export function getSumTerms(node: ExpressionNode): readonly ExpressionNode[] {
 
 // Get all factors of a product, or turn it into a list if not a product. Remove ones.
 export function getProductFactors(node: ExpressionNode): readonly ExpressionNode[] {
+	if (isSignNode(node)) return getProductFactors(node.node)
 	return (isProduct(node) ? node.factors : [node]).filter(factor => !isOne(factor))
 }
 
-// Get the base and exponent of a power, or turn it into this if not a power.
+// Get the base and exponent of a power/root, or turn it into this if not a power.
 export type BaseAndExponent = { base: ExpressionNode, exponent: ExpressionNode }
 export function getBaseAndExponent(node: ExpressionNode): BaseAndExponent {
-	if (isPower(node)) return { base: node.base, exponent: node.exponent }
-	if (isRootLike(node)) return { base: node.radicand, exponent: fraction(1, node.degree) }
+	if (isSignNode(node)) {
+		const internal = getBaseAndExponent(node.node)
+		return { base: recreateSignNode(node, internal.base), exponent: internal.exponent }
+	}
+	if (isPower(node)) {
+		const internal = getBaseAndExponent(node.base)
+		return { base: internal.base, exponent: isOne(internal.exponent) ? node.exponent : product(internal.exponent, node.exponent) }
+	}
+	if (isRootLike(node)) {
+		const internal = getBaseAndExponent(node.radicand)
+		return { base: internal.base, exponent: isOne(internal.exponent) ? fraction(1, node.degree) : fraction(internal.exponent, node.degree) }
+	}
 	return { base: node, exponent: Integer.one }
 }
 

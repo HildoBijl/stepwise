@@ -3,7 +3,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 
 	// Constant options.
 	turnFloatsIntoIntegers: false, // Turns floats into integers whenever they are floats. So when 4.5/1.5 is reduced to 3.0 it becomes 3.
-	factorizeIntegers: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
+	factorizeIntegers: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and reduceNumberPowers.
 	
 	// Sum options.
 	flattenSums: false, // Turn x+(y+z) into x+y+z.
@@ -47,7 +47,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	reducePowersWithZeroBase: false, // Turn 0^x into 0.
 	removeOneExponentsFromPowers: false, // Turn x^1 into x.
 	reducePowersWithOneBase: false, // Turn 1^x into 1.
-	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
+	reduceNumberPowers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 	convertNegativePowers: false, // Turns x^-2 into 1/x^2.
 	expandPowers: false, // Turns a^3 into a*a*a. Opposite of mergeProductFactors.
@@ -58,7 +58,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Root options.
 	reduceRootsWithZeroRadicand: false, // Turn sqrt(0) and root(0) into 0.
 	reduceRootsWithOneRadicand: false, // Turn sqrt(1) and root(1) into 1.
-	reduceIntegerRoots: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
+	reduceNumberRoots: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
 	reduceCanceledRoots: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	turnRootsIntoFractionExponents: false, // Reduces root[3](x) to x^(1/3).
 	turnFractionExponentsIntoRoots: false, // Reduces x^(1/3) to root[3](x).
@@ -135,11 +135,11 @@ const basicClean = {
 	...removeUseless,
 	mergeSumNumbers: true,
 	mergeProductNumbers: true,
-	mergePowerNumbers: true,
+	reduceNumberPowers: true,
 	cancelSumTerms: true,
 	mergeProductFactors: true,
 	flattenFractions: true,
-	reduceIntegerRoots: true,
+	reduceNumberRoots: true,
 }
 module.exports.basicClean = { ...noSimplify, ...basicClean }
 
@@ -176,7 +176,7 @@ const advancedClean = [
 		...advancedCleanMain, // First run it, trying to pull out terms before expanding brackets.
 		factorizeIntegers: true,
 		mergeProductNumbers: false,
-		mergePowerNumbers: false,
+		reduceNumberPowers: false,
 		pullFactorsOutOfRoots: true,
 		pullOutCommonSumNumbers: true,
 		pullOutCommonSumFactors: true,
@@ -206,7 +206,7 @@ const forAnalysis = [
 		...forAnalysisMain, // First run it, trying to cancel out terms in fractions before expanding brackets. Also turn integers into their factors.
 		factorizeIntegers: true,
 		mergeProductNumbers: false,
-		mergePowerNumbers: false,
+		reduceNumberPowers: false,
 		mergeInitialMinusOne: false, // To allow -6*2^x to become -1*2*3*2^x after which the 2 can be pulled into the factor.
 	},
 	{

@@ -1,4 +1,4 @@
-import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, stringToNode } from '../construction'
+import { type ExpressionNode, namedConstants, integer, negative, plusMinus, variable, sum, product, fraction, power, sqrt, root, ln, log, sin, stringToNode } from '../construction'
 import { nodeToString, getNodeInterpretationSettingsInput } from '../export'
 
 import { expectNodeToEqual } from './testUtils'
@@ -109,6 +109,19 @@ const parserTestCases: ParserTestCase[] = [
 	{ str: 'log[x+y](z+2)', node: log(sum('z', 2), sum('x', 'y')) },
 	{ str: 'x*ln(y)', node: product('x', ln('y')) },
 	{ str: 'log[2](x)^3', node: power(log('x', 2), 3) },
+
+	// Functions
+	{ str: 'sin(x)', node: sin('x') },
+	{ str: '2sin(x)', node: product(2, sin('x')) },
+	{ str: 'x*sin(x)', node: product('x', sin('x')) },
+	{ str: 'sin(x)*2', node: product(sin('x'), 2) },
+	{ str: 'sin(x)x', node: product(sin('x'), 'x') },
+	{ str: 'sin(x)*y/z', node: product(sin('x'), fraction('y', 'z')) },
+	{ str: 'sin(x)y/z', node: fraction(product(sin('x'), 'y'), 'z'), oneWay: true },
+	{ str: '(sin(x)y)/z', node: fraction(product(sin('x'), 'y'), 'z') },
+	{ str: 'y/z*sin(x)', node: product(fraction('y', 'z'), sin('x')) },
+	{ str: 'y/sin(x)', node: product(fraction('y', sin('x'))) },
+	{ str: 'sin(x)/y', node: product(fraction(sin('x'), 'y')) },
 ]
 
 // Test the printing: does the node give the string?

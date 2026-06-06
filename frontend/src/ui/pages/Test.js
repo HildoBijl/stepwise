@@ -10,6 +10,8 @@ import CAS from 'step-wise/CAS'
 
 window.c = c
 window.m = m
+window.asExpression = c.asExpression
+window.asEquation = c.asEquation
 
 window.CAS = CAS
 

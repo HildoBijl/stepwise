@@ -36,7 +36,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const expression = asExpression('a*x^b*(c*x)^d').substitute(variables).removeTrivial()
 	const bracketsExpanded = expression.removeTrivial(['expandPowersOfProducts', 'mergePowerMinuses'])
-	const numbersSimplified = bracketsExpanded.removeTrivial(['mergeProductNumbers', 'mergePowerNumbers'])
+	const numbersSimplified = bracketsExpanded.removeTrivial(['mergeProductNumbers', 'reduceNumberPowers'])
 	const powersMerged = numbersSimplified.removeTrivial(['mergeProductFactors'])
 	const ans = powersMerged.combine()
 	return { ...state, variables, expression, bracketsExpanded, numbersSimplified, powersMerged, ans }

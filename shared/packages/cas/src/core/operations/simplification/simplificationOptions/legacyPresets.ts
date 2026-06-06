@@ -51,9 +51,9 @@ export const basicCleanSet = new Set<SimplificationOption>([
 	...removeUselessSet,
 	'mergeSumNumbers',
 	'mergeProductNumbers',
-	'mergePowerNumbers',
+	'reduceNumberPowers',
 	'mergePowerMinuses',
-	'reduceIntegerRoots',
+	'reduceNumberRoots',
 	'cancelSumTerms',
 	'mergeProductFactors',
 	'flattenFractions',
@@ -87,7 +87,7 @@ export const advancedCleanSets = [
 			advancedCleanMainSet,
 			new Set<SimplificationOption>(['factorizeIntegers', 'pullFactorsOutOfRoots', 'pullOutCommonSumNumbers', 'pullOutCommonSumFactors']),
 		),
-		new Set<SimplificationOption>(['mergeProductNumbers', 'mergePowerNumbers', 'expandProductsOfSums', 'expandProductsOfSumsWithinSums']),
+		new Set<SimplificationOption>(['mergeProductNumbers', 'reduceNumberPowers', 'expandProductsOfSums', 'expandProductsOfSumsWithinSums']),
 	),
 	// Then try to cancel polynomial factors.
 	union(
@@ -100,7 +100,7 @@ export const advancedCleanSets = [
 			advancedCleanMainSet,
 			new Set<SimplificationOption>(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'])
 		),
-		new Set<SimplificationOption>(['mergeProductNumbers', 'mergePowerNumbers', 'expandProductsOfSums', 'expandProductsOfSumsWithinSums']),
+		new Set<SimplificationOption>(['mergeProductNumbers', 'reduceNumberPowers', 'expandProductsOfSums', 'expandProductsOfSumsWithinSums']),
 	),
 ]
 export const advancedCleanOptions = advancedCleanSets.map(set => getSimplificationOptionsObjectFromSet(set))
@@ -114,7 +114,7 @@ export const forAnalysisSets = [
 			forAnalysisMainSet,
 			new Set<SimplificationOption>(['factorizeIntegers']),
 		),
-		new Set<SimplificationOption>(['mergeProductNumbers', 'mergePowerNumbers']),
+		new Set<SimplificationOption>(['mergeProductNumbers', 'reduceNumberPowers']),
 	),
 	// Then expand it all again.
 	union(

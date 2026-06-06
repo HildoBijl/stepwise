@@ -27,13 +27,13 @@ const Solution = ({ f, x, func, derivative }) => {
 
 	// Check the various cases that we may have.
 	if (func.isPower() && func.exponent.isNumeric()) { // x^n
-		const n = func.exponent.number
+		const n = func.exponent.toNumber()
 		return <>
 			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func}</M> kunnen schrijven als <M>{x}^n,</M> waarbij bij ons <M>n = {n}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = n{x}^(n-1) = {n}{x}^({n}-1).</BM> Of in woorden: we halen de macht <M>{n}</M> naar voren (als vermenigvuldiging) waarna we de macht zelf verlagen met één. Het bovenstaande kan eventueel nog gesimplificeerd worden tot <BM>{f}'\left({x}\right) = {derivative}.</BM></Par>
 		</>
 	}
-	if (func.isFraction() && (func.denominator.equals(x) || (func.denominator.isPower() && func.denominator.exponent.isNumeric()))) { // 1/x^n
-		const n = func.denominator.equals(x) ? 1 : func.denominator.exponent.number
+	if (func.isFraction() && (func.denominator.equalStructure(x) || (func.denominator.isPower() && func.denominator.exponent.isNumeric()))) { // 1/x^n
+		const n = func.denominator.equalStructure(x) ? 1 : func.denominator.exponent.toNumber()
 		return <>
 			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func} = {x}^(-{n})</M> kunnen schrijven als <M>{x}^n,</M> waarbij bij ons <M>n = -{n}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = n{x}^(n-1) = \left(-{n}\right){x}^(-{n}-1).</BM> Of in woorden: we halen de macht <M>-{n}</M> naar voren (als vermenigvuldiging) waarna we de macht zelf verlagen met één. Het bovenstaande kan eventueel nog gesimplificeerd worden tot <BM>{f}'\left({x}\right) = -{n}{x}^(-{n + 1}) = -\frac({n})({x}^({n + 1})).</BM></Par>
 		</>
@@ -45,24 +45,24 @@ const Solution = ({ f, x, func, derivative }) => {
 		</>
 	}
 	if (func.isRoot()) {
-		const n = func.base.number
+		const n = func.degree.toNumber()
 		return <>
-			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func}</M> kunnen schrijven als <M>\sqrt[n]({x}),</M> waarbij bij ons <M>n = {n}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = \frac(1)(n\sqrt[n]({x}^(n-1))) = \frac(1)({n}\sqrt[{n}]({x}^({n - 1}))).</BM> Hiermee is de opgave klaar.</Par>
-			<Par>Een andere manier om het bovenstaande in te zien is door de wortel eerst als macht te schrijven, volgens <BM>{f}\left({x}\right) = {func} = {x}^(\frac(1)({n})).</BM> We kunnen nu de standaard regel voor de afgeleide van <M>{x}^n</M> toepassen, waarbij <M>n = \frac(1)({n}).</M> We halen de macht naar voren (als vermenigvuldiging) waarna we de macht zelf verlagen met één. Oftewel, <BM>{f}'\left({x}\right) = \frac(1)({n}) {x}^(\frac(1)({n})-1) = \frac(1)({n}) {x}^(-\frac({n - 1})({n})).</BM> Een negatieve macht betekent 'delen door het getal met positieve macht' waardoor we dit ook kunnen schrijven als<BM>{f}'\left({x}\right) = \frac(1)({n}{x}^(\frac({n - 1})({n}))) = \frac(1)({n}\sqrt[{n}]({x}^({n - 1}))).</BM> En dit is hetzelfde als wat we eerder opgezocht hebben.</Par>
+			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func}</M> kunnen schrijven als <M>\sqrt[n]({x}),</M> waarbij bij ons <M>n = {n}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = \frac(1)(n\sqrt[n]({x}^(n-1))) = \frac(1)({n}\sqrt[{n}]({x}^({n === 2 ? `` : (n - 1)}))).</BM> Hiermee is de opgave klaar.</Par>
+			<Par>Een andere manier om het bovenstaande in te zien is door de wortel eerst als macht te schrijven, volgens <BM>{f}\left({x}\right) = {func} = {x}^(\frac(1)({n})).</BM> We kunnen nu de standaard regel voor de afgeleide van <M>{x}^n</M> toepassen, waarbij <M>n = \frac(1)({n}).</M> We halen de macht naar voren (als vermenigvuldiging) waarna we de macht zelf verlagen met één. Oftewel, <BM>{f}'\left({x}\right) = \frac(1)({n}) {x}^(\frac(1)({n})-1) = \frac(1)({n}) {x}^(-\frac({n - 1})({n})).</BM> Een negatieve macht betekent 'delen door het getal met positieve macht' waardoor we dit ook kunnen schrijven als<BM>{f}'\left({x}\right) = \frac(1)({n}{x}^(\frac({n - 1})({n}))) = \frac(1)({n}\sqrt[{n}]({x}^({n === 2 ? `` : (n - 1)}))).</BM> En dit is hetzelfde als wat we eerder opgezocht hebben.</Par>
 		</>
 	}
-	if (func.isPower() && !func.base.equals(constants.e)) {
-		const g = func.base.number
+	if (func.isPower() && !func.base.equalStructure(constants.e)) {
+		const g = func.base.toNumber()
 		return <>
 			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func}</M> kunnen schrijven als <M>g^{x},</M> waar wij een grondgetal hebben van <M>g = {g}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = \ln\left(g\right) g^{x} = {derivative}.</BM> Hiermee is de opgave klaar.</Par>
 			<Par>Een andere manier om het bovenstaande in te zien is door de macht eerst om te schrijven naar een macht met grondgetal <M>e,</M> volgens <BM>{f}\left({x}\right) = {func} = \left(e^(\ln\,\left({g}\right))\right)^{x} = e^(\ln\,\left({g}\right){x}).</BM> Via de kettingregel (die pas later geleerd wordt, dus deze ken je waarschijnlijk nog niet) kunnen we de afgeleide hiervan vinden als <BM>{f}'\left({x}\right) = \ln\left({g}\right) e^(\ln\,\left({g}\right){x}) = \ln\left({g}\right) {g}^{x}.</BM> En dit is hetzelfde als wat we eerder opgezocht hebben.</Par>
 		</>
 	}
 	if (func.isLog()) {
-		const g = func.base.number
+		const g = func.base.toNumber()
 		return <>
 			<Par>Merk op dat we de gegeven functie <M>{f}\left({x}\right) = {func}</M> kunnen schrijven als <M>^g \! \log({x}),</M> waar wij een grondgetal hebben van <M>g = {g}.</M> De afgeleide kunnen we hiermee opzoeken als <BM>{f}'\left({x}\right) = \frac(1)(\ln\left(g\right) {x}) = {derivative}.</BM> Hiermee is de opgave klaar.</Par>
-			<Par>Een andere manier om het bovenstaande in te zien is door het logaritme eerst om te schrijven naar het natuurlijke logaritme, volgens <BM>{f}\left({x}\right) = {func} = \frac(\ln\left({x}\right))(\ln\left({g}\right)) = \frac(1)(\ln\left({g}\right)) \cdot \ln\left({x}\right).</BM> We kunnen nu de standaard regel voor de afgeleide van <M>\ln\left({x}\right)</M> toepassen, samen met de constanteregel. (Deze regel leer je mogelijk binnenkort pas.) Zo vinden we <BM>{f}'\left({x}\right) = \frac(1)(\ln\left({g}\right)) \cdot \frac(1)({x}) = {derivative}.</BM> En dit is hetzelfde als wat we eerder opgezocht hebben.</Par>
+			<Par>Een andere manier om het bovenstaande in te zien is door het logaritme eerst om te schrijven naar het natuurlijke logaritme, volgens <BM>{f}\left({x}\right) = {func} = \frac(\ln\left({x}\right))(\ln\left({g}\right)) = \frac(1)(\ln\left({g}\right)) \ln\left({x}\right).</BM> We kunnen nu de standaard regel voor de afgeleide van <M>\ln\left({x}\right)</M> toepassen, samen met de constanteregel. (Deze regel leer je mogelijk binnenkort pas.) Zo vinden we <BM>{f}'\left({x}\right) = \frac(1)(\ln\left({g}\right)) \cdot \frac(1)({x}) = {derivative}.</BM> En dit is hetzelfde als wat we eerder opgezocht hebben.</Par>
 		</>
 	}
 	if (func.isInteger()) {
@@ -79,7 +79,7 @@ function getFeedback(exerciseData) {
 	// Determine which feedback check to run.
 	let check
 	if (func.isPower() && func.exponent.isNumeric()) { // x^n
-		const n = func.exponent.number
+		const n = func.exponent.toNumber()
 		check = (input, correct, { x, func, derivative }, isCorrect) => {
 			if (isCorrect)
 				return
@@ -90,7 +90,7 @@ function getFeedback(exerciseData) {
 			const constantMultiplication = input.terms.find(term => term.isInteger())
 			if (!constantMultiplication)
 				return <>Er werd een constante vermenigvuldiging verwacht. Heb je de macht wel naar voren gehaald als constante vermenigvuldiging?</>
-			if (constantMultiplication.number !== n)
+			if (constantMultiplication.toNumber() !== n)
 				return <>Je hebt niet met het juiste getal vermenigvuldigd. Je moet de macht naar voren halen als constante vermenigvuldiging.</>
 			const otherTerm = input.terms.find(term => !term.isInteger())
 			if (!otherTerm)
@@ -102,7 +102,7 @@ function getFeedback(exerciseData) {
 					return <>Binnen de vermenigvulding werd ook iets als een macht verwacht, zoals <M>{x}^(\rm iets).</M> Dit is nu niet aanwezig.</>
 				if (!otherTerm.exponent.isInteger())
 					return <>Als macht boven <M>{x}</M> werd een geheel getal verwacht. Dit is nu niet het geval.</>
-				if (otherTerm.exponent.number !== n - 1)
+				if (otherTerm.exponent.toNumber() !== n - 1)
 					return <>Het getal in de macht klopt niet. Heb je de macht wel met één verlaagd?</>
 			}
 		}
@@ -111,10 +111,10 @@ function getFeedback(exerciseData) {
 	} else if (func.isRoot()) {
 		check = (input, correct, { x }, isCorrect) => !isCorrect && <>Tip: schrijf de functie eerst als <M>{x}^(\rm iets)</M> waarbij de macht mogelijk een breuk is.</>
 	} else if (func.isPower() && !func.base.equals(constants.e)) {
-		const g = func.base.number
+		const g = func.base.toNumber()
 		check = (input, correct, { x }, isCorrect) => !isCorrect && <>Dit is niet het juiste antwoord. Heb je wel <M>g = {g}</M> als grondgetal gebruikt?</>
 	} else if (func.isLog()) {
-		const g = func.base.number
+		const g = func.base.toNumber()
 		check = (input, correct, { x }, isCorrect) => !isCorrect && <>Dit is niet het juiste antwoord. Heb je wel <M>g = {g}</M> als grondgetal gebruikt?</>
 	} else if (func.isInteger()) {
 		check = (input, correct, { f, x, func }, isCorrect) => {

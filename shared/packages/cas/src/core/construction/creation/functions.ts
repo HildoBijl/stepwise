@@ -5,8 +5,8 @@ import { type ExpressionNodeInput, asExpressionNode } from './asExpressionNode'
 // Fundamental functions.
 export const fraction = (numerator: ExpressionNodeInput, denominator: ExpressionNodeInput) => new Fraction(asExpressionNode(numerator), asExpressionNode(denominator))
 export const power = (base: ExpressionNodeInput, exponent: ExpressionNodeInput) => new Power(asExpressionNode(base), asExpressionNode(exponent))
-export const sqrt = (argument: ExpressionNodeInput) => new Sqrt(asExpressionNode(argument))
-export const root = (argument: ExpressionNodeInput, base: ExpressionNodeInput) => new Root(asExpressionNode(argument), asExpressionNode(base))
+export const sqrt = (radicand: ExpressionNodeInput) => new Sqrt(asExpressionNode(radicand))
+export const root = (radicand: ExpressionNodeInput, degree: ExpressionNodeInput) => new Root(asExpressionNode(radicand), asExpressionNode(degree))
 export const ln = (argument: ExpressionNodeInput) => new Ln(asExpressionNode(argument))
 export const log = (argument: ExpressionNodeInput, base: ExpressionNodeInput) => new Log(asExpressionNode(argument), asExpressionNode(base))
 

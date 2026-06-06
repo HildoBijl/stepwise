@@ -31,7 +31,7 @@ const steps = [
 		Problem: () => {
 			const { f, x, c1, c2 } = useSolution()
 			return <>
-				<Par>De functie <M>{f}\left({x}\right)</M> kan ook geschreven worden als <BM>{f}\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2\left({x}\right)</BM> voor bepaalde basisfuncties <M>{f}_1\left({x}\right)</M> en <M>{f}_2\left({x}\right).</M> Bepaal deze basisfuncties.</Par>
+				<Par>De functie <M>{f}\left({x}\right)</M> kan ook geschreven worden als <BM>{f}\left({x}\right) = {c1.toNumber() === 1 ? '' : c1.toNumber() === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.toNumber() > 0 ? '+' : ''} {c2.toNumber() === 1 ? '' : c2.toNumber() === -1 ? '-' : c2} {f}_2\left({x}\right)</BM> voor bepaalde basisfuncties <M>{f}_1\left({x}\right)</M> en <M>{f}_2\left({x}\right).</M> Bepaal deze basisfuncties.</Par>
 				<InputSpace>
 					<Par>
 						<Substep ss={1}><ExpressionInput id="f1" prelabel={<M>{f}_1\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
@@ -41,7 +41,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ f, x, func, c1, c2, f1, f2 }) => {
-			return <Par>Voor de functies <M>{f}_1\left({x}\right) = {f1}</M> en <M>{f}_2\left({x}\right) = {f2}</M> geldt dat <BM>{f}\left({x}\right) = {func} = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2\left({x}\right).</BM></Par>
+			return <Par>Voor de functies <M>{f}_1\left({x}\right) = {f1}</M> en <M>{f}_2\left({x}\right) = {f2}</M> geldt dat <BM>{f}\left({x}\right) = {func} = {c1.toNumber() === 1 ? '' : c1.toNumber() === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.toNumber() > 0 ? '+' : ''} {c2.toNumber() === 1 ? '' : c2.toNumber() === -1 ? '-' : c2} {f}_2\left({x}\right).</BM></Par>
 		},
 	},
 	{
@@ -71,7 +71,7 @@ const steps = [
 		Problem: () => {
 			const { f, x, c1, c2 } = useSolution()
 			return <>
-				<Par>Stel de afgeleide <M>{f}'\left({x}\right)</M> samen, gebruik makend van de somregel en de constanteregel via <BM>{f}'\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1'\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2'\left({x}\right).</BM></Par>
+				<Par>Stel de afgeleide <M>{f}'\left({x}\right)</M> samen, gebruik makend van de somregel en de constanteregel via <BM>{f}'\left({x}\right) = {c1.toNumber() === 1 ? '' : c1.toNumber() === -1 ? '-' : c1} {f}_1'\left({x}\right) {c2.toNumber() > 0 ? '+' : ''} {c2.toNumber() === 1 ? '' : c2.toNumber() === -1 ? '-' : c2} {f}_2'\left({x}\right).</BM></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} />
@@ -80,7 +80,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ f, x, c1, c2, f1Derivative, f2Derivative, derivative }) => {
-			return <Par>Het letterlijk toepassen van de regel geeft <BM>{f}'\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} \left({f1Derivative}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} \left({f2Derivative}\right).</BM> Dit kan eventueel nog herschreven worden tot <BM>{f}'\left({x}\right) = {derivative}.</BM></Par>
+			return <Par>Het letterlijk toepassen van de regel geeft <BM>{f}'\left({x}\right) = {c1.toNumber() === 1 ? '' : c1.toNumber() === -1 ? '-' : c1} \left({f1Derivative}\right) {c2.toNumber() > 0 ? '+' : ''} {c2.toNumber() === 1 ? '' : c2.toNumber() === -1 ? '-' : c2} \left({f2Derivative}\right).</BM> Dit kan eventueel nog herschreven worden tot <BM>{f}'\left({x}\right) = {derivative}.</BM></Par>
 		},
 	},
 ]

@@ -1,5 +1,5 @@
 import { ExpressionNode } from '../../construction'
-import { isSignNode, isSum, isProduct, isFraction, isPower } from '../../operations'
+import { isSignNode, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
 
 // Define the various levels of operation urgency, to check if brackets are needed.
 export const bracketLevels = {
@@ -18,5 +18,6 @@ export function requiresBracketsFor(node: ExpressionNode, level: BracketLevel, i
 	if (isProduct(node)) return level === bracketLevels.multiplication || level === bracketLevels.division || level === bracketLevels.powers
 	if (isFraction(node)) return (level === bracketLevels.division && index === 1) || level === bracketLevels.powers
 	if (isPower(node)) return level === bracketLevels.powers
+	if (isFunctionNode(node)) return level === bracketLevels.powers && index === 1
 	return false
 }

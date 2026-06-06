@@ -57,6 +57,12 @@ module.exports.getRandomElementaryFunction = getRandomElementaryFunction
 function getElementaryFunctionFromTerm(func) {
 	let constant = constants.one
 
+	// For a minus, take the argument and apply the minus to the constant.
+	if (func.isMinus()) {
+		const result = getElementaryFunctionFromTerm(func.argument)
+		return { func: result.func, constant: result.constant.negate() }
+	}
+
 	// The function should not be a sum.
 	if (func.isSum())
 		throw new Error(`Invalid case: cannot process sums. Only a single term is expected.`)
@@ -67,10 +73,10 @@ function getElementaryFunctionFromTerm(func) {
 
 	// For products, pull out the constant.
 	if (func.isProduct()) {
-		if (func.terms.length > 2)
+		if (func.factors.length > 2)
 			throw new Error(`Invalid case: cannot process products with more than two terms.`)
-		const constantTerm = func.terms.find(factor => factor.isNumeric())
-		const nonConstantTerm = func.terms.find(factor => !factor.isNumeric())
+		const constantTerm = func.factors.find(factor => factor.isNumeric())
+		const nonConstantTerm = func.factors.find(factor => !factor.isNumeric())
 		if (!constantTerm || !nonConstantTerm)
 			throw new Error(`Invalid case: cannot process products not consisting of a constant times a non-constant term.`)
 		constant = constant.multiply(constantTerm)

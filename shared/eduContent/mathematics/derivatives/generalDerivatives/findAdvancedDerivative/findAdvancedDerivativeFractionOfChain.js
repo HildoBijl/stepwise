@@ -29,7 +29,7 @@ function getSolution(state) {
 	const fDerivative = f.getDerivative().combine()
 	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
+	const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 	return { ...state, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

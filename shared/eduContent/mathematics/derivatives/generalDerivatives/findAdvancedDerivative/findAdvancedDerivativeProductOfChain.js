@@ -44,7 +44,7 @@ function getDynamicSolution(switched, solution) {
 	const fDerivative = f.getDerivative().combine()
 	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).add(f.multiply(gDerivative))
-	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
+	const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 	return { ...solution, switched, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

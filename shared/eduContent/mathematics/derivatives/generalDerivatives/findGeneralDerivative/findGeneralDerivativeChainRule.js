@@ -24,13 +24,13 @@ function generateState() {
 function getSolution(state) {
 	const { c, fRaw, g } = state
 	const method = 2
-	const f = fRaw.multiply(c, true).cancel()
+	const f = fRaw.multiplyLeft(c).cancel()
 	const x = f.getVariables()[0]
 	const h = f.substitute(x, g).flatten()
 	const fDerivative = f.getDerivative().combine()
 	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative)
-	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
+	const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 	return { ...state, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

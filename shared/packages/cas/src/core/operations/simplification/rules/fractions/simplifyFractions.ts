@@ -8,6 +8,7 @@ import { reduceFractionsWithZeroNumerator } from './reduceFractionsWithZeroNumer
 import { reduceFractionsWithOneDenominator } from './reduceFractionsWithOneDenominator'
 import { mergeFractionProducts } from './mergeFractionProducts'
 import { flattenFractions } from './flattenFractions'
+import { mergeNumericFractionSums } from './mergeNumericFractionSums'
 import { mergeFractionSums } from './mergeFractionSums'
 import { splitFractions } from './splitFractions'
 import { mergeFractionMinuses } from './mergeFractionMinuses'
@@ -24,6 +25,7 @@ export function simplifyFractions(node: ExpressionNode, context: SimplificationC
 	if (isFraction(node) && options.has('reduceFractionsWithOneDenominator')) node = reduceFractionsWithOneDenominator(node)
 	if (isProduct(node) && options.has('mergeFractionProducts')) node = mergeFractionProducts(node)
 	if (isFraction(node) && options.has('flattenFractions')) node = flattenFractions(node)
+	if (isSum(node) && options.has('mergeNumericFractionSums') && !options.has('mergeFractionSums')) node = mergeNumericFractionSums(node)
 	if (isSum(node) && options.has('mergeFractionSums')) node = mergeFractionSums(node)
 	if (isFraction(node) && options.has('splitFractions')) node = splitFractions(node)
 	if (isFraction(node) && options.has('mergeFractionMinuses')) node = mergeFractionMinuses(node)

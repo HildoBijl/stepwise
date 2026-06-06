@@ -79,8 +79,13 @@ export function findNextClosingBracket(value: InputValuePart[], cursor: InputCur
 }
 
 export function findEndOfFactor(value: InputValuePart[], cursor: InputCursorEnd, toRight = true, atLeastOneCharacter = false): InputCursorEnd {
-	const endOfTermCharacters = ['=', '+', '-', '±', '*', '/', toRight ? ')' : '(']
-	return findCharacterAtZeroBracketCount(value, cursor, endOfTermCharacters, toRight, atLeastOneCharacter)
+	const endOfFactorCharacters = ['=', '+', '-', '±', '*', '/', toRight ? ')' : '(']
+	return findCharacterAtZeroBracketCount(value, cursor, endOfFactorCharacters, toRight, atLeastOneCharacter)
+}
+
+export function findEndOfExponent(value: InputValuePart[], cursor: InputCursorEnd): InputCursorEnd {
+	const endOfExponentCharacters = ['=', '+', '-', '±', '*', '/', ')', '^']
+	return findCharacterAtZeroBracketCount(value, cursor, endOfExponentCharacters, true, true)
 }
 
 // Return top-level matching brackets; nested brackets are assumed to match.

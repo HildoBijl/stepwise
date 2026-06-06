@@ -1,3 +1,5 @@
+import { difference } from '@step-wise/utils'
+
 import { type SimplificationOption } from './types'
 import { adjustSimplificationOptions } from './utils'
 
@@ -30,6 +32,7 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'reducePowersWithZeroExponent',
 	'reducePowersWithZeroBase',
 	'reduceRootsWithZeroRadicand',
+	'reduceLogarithmsWithOneArgument',
 
 	// Excess ones
 	'removeOnesFromProducts',
@@ -37,6 +40,8 @@ export const removeTrivial = new Set<SimplificationOption>([
 	'removeOneExponentsFromPowers',
 	'reducePowersWithOneBase',
 	'reduceRootsWithOneRadicand',
+	'reduceRootsWithOneDegree',
+	'reduceLogarithmsWithBaseArgument',
 ])
 
 export const mergeNumbers = new Set<SimplificationOption>([
@@ -47,8 +52,8 @@ export const mergeNumbers = new Set<SimplificationOption>([
 	'mergeFractionNumbers',
 	'reduceFractionsWithOneDenominator',
 	'mergePowerMinuses',
-	'mergePowerNumbers',
-	'reduceIntegerRoots',
+	'reduceNumberPowers',
+	'reduceNumberRoots',
 ])
 
 export const cancel = new Set<SimplificationOption>([
@@ -67,9 +72,12 @@ export const combine = new Set<SimplificationOption>([
 	'mergeFractionProducts',
 	'flattenFractions',
 	'mergeFractionFactors',
+	'mergeNumericFractionSums',
 	'convertNegativePowers',
+	'removePowersWithinPowers',
 	'mergeProductsOfRoots',
 	'pullExponentsIntoRoots',
+	'reducePowersInRoots',
 ])
 
 export const expand = new Set<SimplificationOption>([
@@ -77,10 +85,10 @@ export const expand = new Set<SimplificationOption>([
 	'expandPlusMinusSums',
 	'expandProductsOfSums',
 	'mergeFractionSums',
-	'removePowersWithinPowers',
 	'expandPowersOfProducts',
 	'expandPowersOfFractions',
 	'expandPowersOfSums',
+	'mergeProductsWithRoots',
 ])
 
 // Adjust the expansions set by adding and removing various options
@@ -122,13 +130,15 @@ export const factorize = new Set<SimplificationOption>([
 	'pullFactorsOutOfRoots',
 ])
 
-export const format = new Set<SimplificationOption>([
-	...removeTrivial,
-	...mergeNumbers,
+export const format = difference(new Set<SimplificationOption>([
+	...combine,
 	...sort,
+	'expandMinusSums',
+	'mergeProductFactors',
+	'cancelSumTerms',
 	'pullOutCommonSumNumbers',
 	'pullOutCommonSumFactors',
 	'turnFractionExponentsIntoRoots',
 	'pullFactorsOutOfRoots',
-	'preventRootDenominators',
-])
+	// 'preventRootDenominators',
+]), new Set<SimplificationOption>(['expandProductsOfSums', 'mergeFractionFactors', 'mergeProductFactors', 'mergeProductsOfRoots', 'mergeProductsWithRoots', 'reducePowersInRoots']))

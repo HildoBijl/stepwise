@@ -923,7 +923,7 @@ class Integer extends Constant {
 
 	simplifyBasic(options = {}) {
 		// Split up the Integer into its factors.
-		if (options.factorizeIntegers && !options.mergeProductNumbers && !options.mergePowerNumbers) {
+		if (options.factorizeIntegers && !options.mergeProductNumbers && !options.reduceNumberPowers) {
 			if (Math.abs(this.number) > 3) {
 				const negative = this.number < 0
 				const primeFactors = getPrimeFactorization(Math.abs(this.number))
@@ -2581,7 +2581,7 @@ class Power extends Function {
 		}
 
 		// Check for numbers that can be simplified. Reduce 2^3 to 8.
-		if (options.mergePowerNumbers) {
+		if (options.reduceNumberPowers) {
 			if (base.isNumeric() && exponent.isNumeric()) {
 				if (base.hasFloat() || exponent.hasFloat())
 					return new Float(base.number ** exponent.number)
@@ -2704,7 +2704,7 @@ class Sqrt extends SingleArgumentFunction {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
-		if (options.reduceIntegerRoots) {
+		if (options.reduceNumberRoots) {
 			if (argument.isSubtype(Integer) && isSquare(argument.number))
 				return new Integer(Math.round(Math.sqrt(argument.number))) // Round to prevent numerical inaccuracies from causing problems.
 		}
@@ -2769,7 +2769,7 @@ class Root extends Function {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
-		if (options.reduceIntegerRoots) {
+		if (options.reduceNumberRoots) {
 			if (argument.isSubtype(Integer) && base.isSubtype(Integer) && isPerfectPower(argument.number, base.number))
 				return new Integer(Math.round(Math.pow(argument.number, 1 / base.number))) // Round to prevent numerical inaccuracies from causing problems.
 		}

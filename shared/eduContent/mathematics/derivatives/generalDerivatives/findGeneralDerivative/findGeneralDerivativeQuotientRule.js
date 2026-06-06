@@ -26,7 +26,7 @@ function generateState() {
 function getStaticSolution(state) {
 	const { c, fRaw, g } = state
 	const method = 1
-	const f = fRaw.multiply(c, true).cancel()
+	const f = fRaw.multiplyLeft(c).cancel()
 	const h = f.divide(g).flatten()
 	const x = h.getVariables()[0]
 	return { ...state, method, x, f, h }
@@ -52,7 +52,7 @@ function getDynamicSolution(inputDependency, solution) {
 	const fDerivative = f.getDerivative().combine()
 	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-	const derivative = derivativeRaw.normalize()
+	const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 	return { ...solutionMerged, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

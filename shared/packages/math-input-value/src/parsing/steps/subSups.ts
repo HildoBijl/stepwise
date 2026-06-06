@@ -1,4 +1,4 @@
-import { findNextOf } from '@step-wise/utils'
+import { findNextOf, InterpretationError } from '@step-wise/utils'
 
 import { InterpretationSettings } from '../../settings'
 import type { ExpressionInputValue, SubSupInputValue, InputValuePart, SubscriptTextInputValue } from '../../types'
@@ -42,6 +42,7 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 				power = processExpressionString(match[0], settings)
 				position += 1 + match[0].length
 			} else { // No number power: x^abc. Use one symbol: x^a.
+				if (position + 1 >= str.length) throw new InterpretationError('Could not interpret the expression due to a superscript with no character after it.', 'EmptySuperscript', position)
 				power = processExpressionString(str[position + 1], settings)
 				position += 2
 			}

@@ -29,11 +29,11 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 	requireOption('mergeProductPlusMinuses', 'mergeProductMinuses')
 
 	// Factorization requirements.
-	requireOption('pullOutCommonSumFactors', ['mergeProductFactors', 'expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers'])
+	requireOption('pullOutCommonSumFactors', ['expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
 
 	// Fraction requirements.
 	requireOption('mergeFractionSumMinuses', ['mergeFractionMinuses', 'removeDoubleNegatives'])
-	requireOption('mergeFractionFactors', 'mergeProductFactors')
+	requireOption('mergeFractionFactors', ['mergeProductFactors', 'cancelSumTerms', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
 	requireOption('mergeFractionSums', 'mergeFractionProducts')
 	requireOption('cancelFractionFactors', ['mergeProductMinuses', 'removeDoubleNegatives'])
 	requireOption('normalizeFractionMinuses', ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'])
@@ -46,13 +46,14 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 	conflict('expandPowers', 'mergeProductFactors')
 
 	// Expansion/factorization conflicts.
-	conflict('factorizeIntegers', ['mergeProductNumbers', 'mergePowerNumbers'])
+	conflict('factorizeIntegers', ['mergeProductNumbers', 'reduceNumberPowers'])
 	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSumsWithinSums'])
 
 	// Root conflicts/dependencies.
 	conflict('turnDegreeTwoRootsIntoSqrts', 'turnSqrtsIntoDegreeTwoRoots')
-	conflict('expandRootsOfProducts', 'mergeProductsOfRoots')
-	conflict('preventRootDenominators', 'cancelFractionFactors')
+	conflict(['expandRootsOfProducts','pullFactorsOutOfRoots'], ['mergeProductsOfRoots', 'mergeProductsWithRoots', 'mergeFractionFactors'])
+	conflict('preventRootDenominators', 'mergeFractionFactors')
+	requireOption('reducePowersInRoots', 'mergeFractionFactors')
 
 	// Expand only within sums conflicts.
 	conflict('expandProductsOfSumsWithinSums', 'expandProductsOfSums')

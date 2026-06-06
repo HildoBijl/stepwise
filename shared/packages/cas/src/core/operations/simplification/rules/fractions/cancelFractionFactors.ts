@@ -2,7 +2,7 @@ import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, pro
 
 import { isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
 
-import { getSumTerms, getProductFactors } from '../utils'
+import { getProductFactors } from '../utils'
 
 export function cancelFractionFactors(node: Fraction): ExpressionNode {
 	// Try to find common factors in the numerator and denominator as a whole.

@@ -18,7 +18,7 @@ function generateState() {
 	const x = sample(variableSet)
 	const [fRaw, g] = getRandomElementaryFunctions(2, false, false, false, false).map(func => func.substitute('x', x))
 	const c = randomInteger(-12, 12, [0])
-	const f = fRaw.multiply(c, true).cancel()
+	const f = fRaw.multiplyLeft(c).cancel()
 	return { f, g }
 }
 
@@ -29,7 +29,7 @@ function getSolution(state) {
 	const fDerivative = f.getDerivative().combine()
 	const gDerivative = g.getDerivative().combine()
 	const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative).flatten()
-	const derivative = derivativeRaw.normalize([], ['expandPowersOfSums'])
+	const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
 	return { ...state, x, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 

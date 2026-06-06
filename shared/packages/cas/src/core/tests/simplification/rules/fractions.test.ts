@@ -66,9 +66,11 @@ describe('fraction simplification', () => {
 	})
 
 	test('merges fraction factors', () => {
-		expectSimplifyToGive(fraction(power(x, 5), power(x, 2)), fraction(power(x, sum(5, -2)), 1), ['mergeProductFactors', 'mergeFractionFactors'])
-		expectSimplifyToGive(fraction(product(power(x, 2), y), product(power(x, 5), z)), fraction(product(power(x, sum(2, -5)), y), z), ['mergeProductFactors', 'mergeFractionFactors'])
-		expectSimplifyToGive(fraction(product(x, power(y, 4)), product(power(x, 3), y)), fraction(product(power(x, sum(1, -3)), power(y, sum(4, -1))), 1), ['mergeProductFactors', 'mergeFractionFactors'])
+		expectSimplifyToGive(fraction(power(x, 5), power(x, 2)), fraction(power(x, sum(5, -2)), power(x, 0)), ['mergeFractionFactors', 'mergeProductFactors', 'cancelSumTerms', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(fraction(product(power(x, 2), y), product(power(x, 5), z)), fraction(product(power(x, 0), y), product(power(x, sum(5, -2)), z)), ['mergeFractionFactors', 'mergeProductFactors','cancelSumTerms', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(fraction(product(x, power(y, 4)), product(power(x, 3), y)), fraction(product(power(x, 0), power(y, sum(4, -1))), product(power(x, sum(3, -1)), power(y, 0))), ['mergeFractionFactors', 'mergeProductFactors','cancelSumTerms', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(fraction(sum(power(x, 3), power(x, 5)), sum(power(x, 4), power(x, 6))), fraction(sum(power(x, 0), power(x, sum(5, -3))), sum(power(x, sum(4, -3)), power(x, sum(6, -3)))), ['mergeFractionFactors', 'mergeProductFactors','cancelSumTerms', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
+		expectSimplifyToGive(fraction(sum(x, 2), product(x, power(sum(x, 2), 3))), fraction(power(sum(x, 2), 0), product(x, power(sum(x, 2), sum(3, -1)))), ['mergeFractionFactors', 'mergeProductFactors', 'cancelSumTerms', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'])
 	})
 
 	test('normalizes fraction minuses', () => {

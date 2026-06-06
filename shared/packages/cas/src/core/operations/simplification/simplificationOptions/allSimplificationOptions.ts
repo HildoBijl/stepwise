@@ -6,7 +6,7 @@ export const allSimplificationOptionsList = [
 
 	// Constant options.
 	'turnFloatsIntoIntegers', // Turn floats into integers whenever possible. So when 4.5/1.5 reduces to 3.0, it becomes 3.
-	'factorizeIntegers', // Turn integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
+	'factorizeIntegers', // Turn integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and reduceNumberPowers.
 
 	// Sum options.
 	'flattenSums', // Turn x+(y+z) into x+y+z.
@@ -37,13 +37,14 @@ export const allSimplificationOptionsList = [
 	'reduceFractionsWithOneDenominator', // Turn x/1 into x and x/(-1) into -x.
 	'mergeFractionProducts', // Turn products of fractions into one fraction. So a*(b/c) becomes ab/c.
 	'flattenFractions', // Flatten nested fractions. So (a/b)/(c/d) becomes ad/bc.
+	'mergeNumericFractionSums', // Turn sums of fractions into one fraction, but only if they are numeric. So "1/2 + x + 1/3" becomes "(3+2)/(2*3) + x".
 	'mergeFractionSums', // Turn sums of fractions into one fraction. So a/b+c/d becomes (ad+bc)/(bd).
 	'splitFractions', // Split fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums.
 	'mergeFractionMinuses', // Turn -x/-y into x/y, (-x)/y into -(x/y) and x/(-y) into -(x/y).
 	'mergeFractionSumMinuses', // Pull out minuses from numerator/denominator sums whose terms are all negative. So turn 1/(-2-3x) into -(1/(2+3x)).
 	'mergeFractionNumbers', // Reduce numbers in fractions by GCD. So 18/12 becomes 3/2 and (18x+24y)/(12z) becomes (3x+4y)/(2z). Only considers leading numbers.
-	'cancelFractionFactors', // Cancel factors in fractions. So (xy)/(yz) becomes x/z. Only works on exact matches: x^3/x^2 remains as is.
-	'mergeFractionFactors', // Merge factors in fractions. So x^a/x^b becomes x^(a-b). Requires mergeProductFactors.
+	'cancelFractionFactors', // Cancel factors in fractions. So (xy)/(yz) becomes x/z. Only works on exact matches: x^3/x^2 remains as is. Also works on sums: (ax+bx)/cx reduces to (a+b)/c.
+	'mergeFractionFactors', // Merge factors in fractions. So x^a/x^b becomes x^(a-b). Also works on sums: (ax^3+bx^5)/(cx^4) reduces to (a+bx^2)/(cx). Requires mergeProductFactors.
 	'normalizeFractionMinuses', // Makes sure the first term in the numerator/denominator does not have a minus sign. Requires mergeProductMinuses, removeDoubleNegatives and sortSums.
 	'applyPolynomialCancellation', // Cancel polynomial terms between numerator and denominator. Only univariate for now.
 
@@ -53,7 +54,7 @@ export const allSimplificationOptionsList = [
 	'removeOneExponentsFromPowers', // Turn x^1 into x.
 	'reducePowersWithOneBase', // Turn 1^x into 1.
 	'mergePowerMinuses', // Reduce (-x)^n for integer n to either x^n or -x^n.
-	'mergePowerNumbers', // Reduce powers containing only numbers into a number.
+	'reduceNumberPowers', // Reduce powers containing only numbers into a number: 3^2 becomes 9. Also includes fractions with number numerators: 3^(2/x) becomes 9^(1/x).
 	'removePowersWithinPowers', // Turn (a^b)^c into a^(b*c).
 	'convertNegativePowers', // Turn x^-2 into 1/x^2.
 	'expandPowers', // Turn a^3 into a*a*a. Conflicts with mergeProductFactors.
@@ -65,16 +66,23 @@ export const allSimplificationOptionsList = [
 	// Root options.
 	'reduceRootsWithZeroRadicand', // Turn sqrt(0) and root(0) into 0.
 	'reduceRootsWithOneRadicand', // Turn sqrt(1) and root(1) into 1.
-	'reduceIntegerRoots', // Turn integer roots into integers. So sqrt(25) becomes 5, but sqrt(24) stays.
+	'reduceRootsWithOneDegree', // Turn root[1](x) into x.
+	'reduceNumberRoots', // Turn number roots into numbers. So sqrt(25) becomes 5, but sqrt(24) stays. Floats are also updated: sqrt(1.96) becomes sqrt(1.4).
 	'reduceCanceledRoots', // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	'turnRootsIntoFractionExponents', // Turn root[3](x) into x^(1/3).
 	'turnFractionExponentsIntoRoots', // Turn x^(1/3) into root[3](x).
 	'turnDegreeTwoRootsIntoSqrts', // Turn root[2](x) into sqrt(x).
 	'turnSqrtsIntoDegreeTwoRoots', // Turn sqrt(x) into root[2](x). Conflicts with turnDegreeTwoRootsIntoSqrts.
 	'expandRootsOfProducts', // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
-	'mergeProductsOfRoots', // Turn sqrt(x)*sqrt(y) into sqrt(x*y). Conflicts with expandRootsOfProducts.
+	'mergeProductsOfRoots', // Turn sqrt(x)*sqrt(y) into sqrt(x*y). Only merges equal-degree roots. Conflicts with expandRootsOfProducts.
+	'mergeProductsWithRoots', // Turn x*sqrt(y) into sqrt(x^2*y). Merges all factors into a single root. Conflicts with expandRootsOfProducts.
 	'pullExponentsIntoRoots', // Turn sqrt(4)^3 into sqrt(4^3).
-	'pullFactorsOutOfRoots', // Turn sqrt(20) into 2*sqrt(5), and sqrt(a^3b^4c^5) into ab^2c^2*sqrt(ac).
-	'preventRootDenominators', // Turn 1/sqrt(2) into sqrt(2)/2. Conficts with cancelFractionFactors.
+	'reducePowersInRoots', // Turn root[xy](z^x) into root[y](z). Requires mergeFractionFactors.
+	'pullFactorsOutOfRoots', // Turn sqrt(20) into 2*sqrt(5), and sqrt(a^3b^4c^5) into ab^2c^2*sqrt(ac). Conflicts with mergeProductsWithRoots.
+	'preventRootDenominators', // Turn 1/sqrt(2) into sqrt(2)/2. Conficts with mergeFractionFactors.
+
+	// Logarithm options.
+	'reduceLogarithmsWithOneArgument', // Turn log(1) into 0.
+	'reduceLogarithmsWithBaseArgument', // Turn log[b](b) into 1.
 ]
 export const allSimplificationOptions: ReadonlySet<typeof allSimplificationOptionsList[number]> = new Set(allSimplificationOptionsList)

@@ -9,6 +9,7 @@ import { simplifyProducts } from './products'
 import { simplifyFractions } from './fractions'
 import { simplifyPowers } from './powers'
 import { simplifyRoots } from './roots'
+import { simplifyLogarithms } from './logarithms/simplifyLogarithms'
 
 export function applySimplificationRules(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
 	node = simplifySigns(node, context)
@@ -18,5 +19,6 @@ export function applySimplificationRules(node: ExpressionNode, context: Simplifi
 	node = simplifyFractions(node, context)
 	node = simplifyPowers(node, context)
 	node = simplifyRoots(node, context)
+	node = simplifyLogarithms(node, context)
 	return node
 }

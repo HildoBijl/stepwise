@@ -37,10 +37,10 @@ describe('power simplification', () => {
 	})
 
 	test('merges power numbers', () => {
-		expectSimplifyToGive(power(2, 3), 8, ['mergePowerNumbers'])
-		expectSimplifyToGive(power(3, 2), 9, ['mergePowerNumbers'])
-		expectSimplifyToGive(power(5, 1), 5, ['mergePowerNumbers'])
-		expectSimplifyToGive(power(x, 2), power(x, 2), ['mergePowerNumbers'])
+		expectSimplifyToGive(power(2, 3), 8, ['reduceNumberPowers'])
+		expectSimplifyToGive(power(3, 2), 9, ['reduceNumberPowers'])
+		expectSimplifyToGive(power(5, 1), 5, ['reduceNumberPowers'])
+		expectSimplifyToGive(power(x, 2), power(x, 2), ['reduceNumberPowers'])
 	})
 
 	test('removes powers within powers', () => {

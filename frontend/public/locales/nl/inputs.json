@@ -39,6 +39,7 @@
       "multipleDecimalSeparator": "Er is een getal met meerdere komma's.",
       "misplacedSubscript": "Er is een subscript \"{subscript}\" zonder variabele ervoor.",
       "misplacedSuperscript": "Er is een macht zonder term ervoor.",
+      "emptySuperscript": "Er is een machtsymbool \"^\" zonder cijfer/letter erachter.",
       "remaining": "Het is niet gelukt de invoer te interpreteren. Er gaat iets mis met de gebruikte notatie.",
       "notANumber": "Dit is geen getal. Er werd iets zonder variabelen verwacht.",
       "unknownVariable": "Onbekende variabele <inline-math/>."
