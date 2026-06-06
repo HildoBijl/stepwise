@@ -92,6 +92,21 @@ describe('equation equality and equivalence', () => {
 		expect(asEquation('2*x=6').equivalent('2*x^2=6*x')).toBe(false)
 		expect(asEquation('2*x=6').equivalent('4*x*y-12*y=0')).toBe(false)
 	})
+	test('detects constant multiples of equations', () => {
+		expect(asEquation('4*x=12').isConstantMultiple('2*x=6')).toBe(true)
+		expect(asEquation('π*x=3*π').isConstantMultiple('2*x=6')).toBe(true)
+		expect(asEquation('6=2*x').isConstantMultiple('2*x=6')).toBe(true)
+	})
+	test('detects integer multiples of equations', () => {
+		expect(asEquation('4*x=12').isIntegerMultiple('2*x=6')).toBe(true)
+		expect(asEquation('-2*x=-6').isIntegerMultiple('2*x=6')).toBe(true)
+		expect(asEquation('3*x=9').isIntegerMultiple('2*x=6')).toBe(false)
+	})
+	test('detects non-multiples of equations', () => {
+		expect(asEquation('2*x=8').isConstantMultiple('2*x=6')).toBe(false)
+		expect(asEquation('4*x=10').isIntegerMultiple('2*x=6')).toBe(false)
+		expect(asEquation('4*x*y=12*y').isConstantMultiple('2*x=6')).toBe(false)
+	})
 })
 
 describe('equation input value conversion', () => {

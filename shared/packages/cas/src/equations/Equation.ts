@@ -316,4 +316,20 @@ export class Equation {
 	equivalent(other: EquationLike): boolean {
 		return this.normalizeToZero().left.isConstantMultiple(this.coerceEquation(other).normalizeToZero().left)
 	}
+
+	isConstantMultiple(other: EquationLike, allowSwitch = true): boolean {
+		const equation = this.coerceEquation(other)
+		if (this.hasSameSideMultiple(equation, (a, b) => a.isConstantMultiple(b))) return true
+		return allowSwitch && this.isConstantMultiple(equation.switch(), false)
+	}
+
+	isIntegerMultiple(other: EquationLike, allowSwitch = true): boolean {
+		const equation = this.coerceEquation(other)
+		if (this.hasSameSideMultiple(equation, (a, b) => a.isIntegerMultiple(b))) return true
+		return allowSwitch && this.isIntegerMultiple(equation.switch(), false)
+	}
+
+	private hasSameSideMultiple(equation: Equation, isMultiple: (a: Expression, b: Expression) => boolean): boolean {
+		return isMultiple(this.left, equation.left) && isMultiple(this.right, equation.right) && this.left.multiply(equation.right).equivalent(equation.left.multiply(this.right))
+	}
 }

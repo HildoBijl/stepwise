@@ -26,8 +26,8 @@ The `Expression` and `Equation` objects support `InterpretationSettings` and `Ex
 You could for instance write
 
 ```
-const ex = asExpression('f(2x)') // Gives f*(2*x).
-const ex = asExpression('f(2x)', { customFunctions: true }) // Gives the function f with argument 2*x.
+const ex = asExpression('2e') // Gives the number "2e" which is roughly 5.44.
+const ex = asExpression('2e', { eAsConstant: false }) // Gives the expression "2*e" with e as a variable.
 const ex = asExpression('sin(180)') // Will evaluate as -0.80115...
 const ex = asExpression('sin(180)', undefined, { degrees: true }) // Will evaluate as 0.
 ```
