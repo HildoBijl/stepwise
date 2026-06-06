@@ -43,8 +43,8 @@ export function usePlotTransformationSettings(points, options = {}) {
 		return { ticks, bounds }
 	}, [points, includeOrigin, desiredNumTicks, extendBoundsToTicks])
 
-	// For the ticks, set up a start and end point and use these 
-	const boundsPoints = useMemo(() => [bounds.start, bounds.end], [bounds])
+	// For the ticks, set up a start and end point and use these.
+	const boundsPoints = useMemo(() => [bounds.min, bounds.max], [bounds])
 	const optionsFiltered = useMemo(() => ({
 		...pickFromDefaults(options, defaultBoundsBasedTransformationOptions), // Select options suitable here.
 		pretransformation: Transformation.verticalFlip, // Make sure plots have upwards positive.

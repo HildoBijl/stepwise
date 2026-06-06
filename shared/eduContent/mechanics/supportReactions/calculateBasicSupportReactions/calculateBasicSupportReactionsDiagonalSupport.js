@@ -50,8 +50,8 @@ function getStaticSolution(state) {
 		getDefaultForce(C, -Math.PI / 2 - angleRad, reaction),
 	]
 	const loadNames = ['P', 'FAx', 'FAy', 'FC']
-	const loadVariables = loadNames.map(asExpression)
-	const prenamedLoads = [{ load: loads[0], variable: loadVariables[0] }]
+	const loadVariables = ['P', 'F_(Ax)', 'F_(Ay)', 'F_C'].map(str => asExpression(str))
+	const prenamedLoads = [{ load: loads[0], name: loadVariables[0], variable: loadVariables[0] }]
 	const loadsToCheck = loadNames.slice(1, 4)
 
 	// Calculate solution values.

@@ -77,26 +77,26 @@ module.exports.getLoadNamesForPoint = getLoadNamesForPoint
 function getForceNamesForPoint(forces, point, pointName) {
 	// On a single force just name it F_A.
 	if (forces.length === 1)
-		return [{ load: forces[0], variable: asExpression(pointName ? `F_(${pointName})` : `F`), point: point || forces[0].force.start }]
+		return [{ load: forces[0], name: `F${pointName}`, variable: asExpression(pointName ? `F_(${pointName})` : `F`), point: point || forces[0].force.start }]
 
 	// On two forces that are horizontal and vertical, use F_{Ax} and F_{Ay}.
 	if (forces.length === 2 && pointName) {
 		if (forces[0].force.vector.isEqualDirection(Vector.i, true) && forces[1].force.vector.isEqualDirection(Vector.j, true)) {
 			return [
-				{ load: forces[0], variable: asExpression(`F_(${pointName}x)`), point: point || forces[0].force.start },
-				{ load: forces[1], variable: asExpression(`F_(${pointName}y)`), point: point || forces[1].force.start },
+				{ load: forces[0], name: `F${pointName}x`, variable: asExpression(`F_(${pointName}x)`), point: point || forces[0].force.start },
+				{ load: forces[1], name: `F${pointName}y`, variable: asExpression(`F_(${pointName}y)`), point: point || forces[1].force.start },
 			]
 		} else if (forces[0].force.vector.isEqualDirection(Vector.j, true) && forces[1].force.vector.isEqualDirection(Vector.i, true)) {
 			return [
-				{ load: forces[1], variable: asExpression(`F_(${pointName}x)`), point: point || forces[1].force.start },
-				{ load: forces[0], variable: asExpression(`F_(${pointName}y)`), point: point || forces[0].force.start },
+				{ load: forces[1], name: `F${pointName}x`, variable: asExpression(`F_(${pointName}x)`), point: point || forces[1].force.start },
+				{ load: forces[0], name: `F${pointName}y`, variable: asExpression(`F_(${pointName}y)`), point: point || forces[0].force.start },
 			]
 		}
 	}
 
 	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth. Make sure a vector pointing upwards gets the first number, and clockwise afterwards.
 	forces = sortBy(forces, forces.map(force => mod(force.force.vector.argument + Math.PI / 2, 2 * Math.PI)))
-	return forces.map((force, index) => ({ load: force, variable: asExpression(pointName ? `F_(${pointName}${index + 1})` : `F_(${index + 1})`), point: point || force.force.start }))
+	return forces.map((force, index) => ({ load: force, name: pointName ? `F${pointName}${index + 1}` : `F${index + 1}`, variable: asExpression(pointName ? `F_(${pointName}${index + 1})` : `F_(${index + 1})`), point: point || force.force.start }))
 }
 module.exports.getForceNamesForPoint = getForceNamesForPoint
 
@@ -104,12 +104,12 @@ module.exports.getForceNamesForPoint = getForceNamesForPoint
 function getMomentNamesForPoint(moments, point, pointName) {
 	// On a single moment just name it M_A.
 	if (moments.length === 1)
-		return [{ load: moments[0], variable: asExpression(pointName ? `M_(${pointName})` : `M`), point: point || moments[0].position }]
+		return [{ load: moments[0], name: pointName ? `M${pointName}` : `M`, variable: asExpression(pointName ? `M_(${pointName})` : `M`), point: point || moments[0].position }]
 
 	// Otherwise sort them, first by whether they're clockwise or counter-clockwise, and then by opening angle.
 	const momentsByDirection = [moments.filter(moment => moment.clockwise),
 	moments.filter(moment => !moment.clockwise)]
 	moments = momentsByDirection.map(momentsList => sortBy(momentsList, momentsList.map(moment => mod(moment.opening, 2 * Math.PI)))).flat()
-	return moments.map((moment, index) => ({ load: moment, variable: asExpression(pointName ? `M_(${pointName}${index + 1})` : `M_(${index + 1})`), point: point || moment.position }))
+	return moments.map((moment, index) => ({ load: moment, name: pointName ? `M${pointName}${index + 1}` : `M${index + 1}`, variable: asExpression(pointName ? `M_(${pointName}${index + 1})` : `M_(${index + 1})`), point: point || moment.position }))
 }
 module.exports.getMomentNamesForPoint = getMomentNamesForPoint

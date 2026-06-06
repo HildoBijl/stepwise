@@ -32,7 +32,7 @@ const Problem = () => {
 			<Par>Calculate the unknown support reactions.</Par>
 		</Translation>
 		<InputSpace>
-			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
+			{loadNames.map(loadName => <FloatUnitInput key={loadName.name} id={loadName.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
 		</InputSpace>
 	</>
 }

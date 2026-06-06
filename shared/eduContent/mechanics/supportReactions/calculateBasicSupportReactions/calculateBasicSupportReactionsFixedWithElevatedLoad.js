@@ -47,8 +47,8 @@ function getStaticSolution(state) {
 		getDefaultMoment(A, false, 0, reaction),
 	]
 	const loadNames = ['P', 'FAx', 'FAy', 'MA']
-	const loadVariables = loadNames.map(asExpression)
-	const prenamedLoads = [{ load: loads[0], variable: loadVariables[0] }]
+	const loadVariables = ['P', 'F_(Ax)', 'F_(Ay)', 'M_A'].map(str => asExpression(str))
+	const prenamedLoads = [{ load: loads[0], name: loadVariables[0], variable: loadVariables[0] }]
 	const loadsToCheck = loadNames.slice(1, 4)
 
 	// Calculate solution values.
