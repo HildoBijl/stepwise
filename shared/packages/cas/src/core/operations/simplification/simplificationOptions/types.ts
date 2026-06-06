@@ -15,7 +15,3 @@ export type SimplificationContext = {
 	parents: readonly ExpressionNode[]
 	simplify: Simplify
 }
-
-// Legacy Simplification Presets: use objects to represent simplification options.
-export type SimplificationOptionsObject = Record<SimplificationOption, boolean>
-export type SimplificationPreset = SimplificationOptionsObject | readonly SimplificationOptionsObject[]

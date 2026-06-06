@@ -1,11 +1,11 @@
-import { mergeDefaults, setToString } from '@step-wise/utils'
+import { setToString } from '@step-wise/utils'
 import { type ExpressionSettingsInput, asExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
 import { mapDescendants } from '../structural'
 
-import { type SimplificationOptionsInput, type SimplificationPreset, type SimplificationContext, type SimplificationOptionsObject, asSimplificationOptionsSet, validateSimplificationOptions, getActiveSimplificationOptions } from './simplificationOptions'
+import { type SimplificationOptionsInput, type SimplificationContext, asSimplificationOptionsSet, validateSimplificationOptions } from './simplificationOptions'
 import { applySimplificationRules } from './rules'
 
 // Take some form of simplification option input, process it, and apply it to the node.
@@ -19,25 +19,6 @@ export function simplify(node: ExpressionNode, settings: ExpressionSettingsInput
 		simplify: (node, options = simplificationOptions) => simplify(node, expressionSettings, options),
 	}
 	return simplifyUntilStable(node, context)
-}
-
-// Legacy Simplification Presets: Run through the (possibly array of) simplification options and apply each set of simplifications.
-export function legacySimplify(node: ExpressionNode, settings: ExpressionSettingsInput = {}, options: Partial<SimplificationPreset> = {}, adjustments: SimplificationOptionsObject = {}): ExpressionNode {
-	const expressionSettings = asExpressionSettings(settings)
-	const optionSequence = Array.isArray(options) ? options : [options]
-	let current = node
-	for (const options of optionSequence) {
-		const optionsSet = getActiveSimplificationOptions(mergeDefaults(adjustments, options))
-		const simplificationOptions = validateSimplificationOptions(optionsSet)
-		const context: SimplificationContext = {
-			simplificationOptions,
-			expressionSettings,
-			parents: [],
-			simplify: (node, options) => simplify(node, expressionSettings, options),
-		}
-		current = simplifyUntilStable(current, context)
-	}
-	return current
 }
 
 // Repeat the simplification options until there are no more changes. Simplifications should stabilize.

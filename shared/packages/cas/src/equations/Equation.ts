@@ -2,7 +2,6 @@ import { compareNumbers, deepEquals, identity } from '@step-wise/utils'
 import { type ExpressionSettings, type EquationInputValue, asExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
-import { type SimplificationOptionsObject } from '../expressions' // Legacy Simplification Presets
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
 import { type EquationEqualityOptionsInput, asEquationEqualityOptions } from './equalityOptions'
@@ -274,20 +273,6 @@ export class Equation {
 	// Equation-wide simplification
 	moveAllToLeft(): Equation { return this.right.isZero() ? this : this.recreateWith(this.left.subtract(this.right), asExpression(0, undefined, this.settings)) }
 	normalizeToZero(): Equation { return this.moveAllToLeft().normalize() }
-
-	/*
-	 * Legacy Simplification Presets simplification functions
-	 */
-
-	cleanStructureOnly(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanStructureOnly(adjustments)) }
-	elementaryClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.elementaryClean(adjustments)) }
-	removeUseless(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.removeUseless(adjustments)) }
-	basicClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.basicClean(adjustments)) }
-	regularClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.regularClean(adjustments)) }
-	advancedClean(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.advancedClean(adjustments)) }
-	cleanForAnalysis(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanForAnalysis(adjustments)) }
-	cleanForDerivatives(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanForDerivatives(adjustments)) }
-	cleanForDisplay(adjustments: SimplificationOptionsObject = {}): Equation { return this.mapSides(side => side.cleanForDisplay(adjustments)) }
 
 	/*
 	 * Comparisons

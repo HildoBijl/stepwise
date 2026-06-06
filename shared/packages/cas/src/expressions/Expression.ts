@@ -6,10 +6,9 @@ import {
 	isZero, isOne, isMinusOne, isPositiveInteger, isNonNegativeInteger, isNegativeInteger, isNonPositiveInteger, // Value checks
 	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
 	add, subtract, multiply, divide, negative, abs, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
-	type SimplificationOptionsInput, type SimplificationPreset, adjustSimplificationOptions, simplify, // Simplification operations
+	type SimplificationOptionsInput, adjustSimplificationOptions, simplify, // Simplification operations
 	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
-	type SimplificationOptionsObject, legacySimplify, structureOnlyOptions, elementaryCleanOptions, removeUselessOptions, basicCleanOptions, regularCleanOptions, advancedCleanOptions, forAnalysisOptions, forDerivativesOptions, forDisplayOptions, // Legacy simplification presets
 	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
@@ -491,25 +490,6 @@ export class Expression {
 	normalize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(normalize, addOptions, removeOptions) }
 	factorize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(factorize, addOptions, removeOptions) }
 	format(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(format, addOptions, removeOptions) }
-
-	/*
-	 * Legacy Simplification Presets simplification functions
-	 */
-
-	private legacyClean(preset: SimplificationPreset, adjustments: SimplificationOptionsObject = {}): Expression {
-		console.warn('Legacy clean called for' + this.str)
-		return this.recreateWith(legacySimplify(this.node, this.settings, preset, adjustments))
-	}
-
-	cleanStructureOnly(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(structureOnlyOptions, adjustments) }
-	elementaryClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(elementaryCleanOptions, adjustments) }
-	removeUseless(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(removeUselessOptions, adjustments) }
-	basicClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(basicCleanOptions, adjustments) }
-	regularClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(regularCleanOptions, adjustments) }
-	advancedClean(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(advancedCleanOptions, adjustments) }
-	cleanForAnalysis(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forAnalysisOptions, adjustments) }
-	cleanForDerivatives(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDerivativesOptions, adjustments) }
-	cleanForDisplay(adjustments: SimplificationOptionsObject = {}): Expression { return this.legacyClean(forDisplayOptions, adjustments) }
 
 	/*
 	 * Comparisons
