@@ -91,13 +91,6 @@ export const expand = new Set<SimplificationOption>([
 	'mergeProductsWithRoots',
 ])
 
-// Adjust the expansions set by adding and removing various options
-export const expandOnlyWithinSums = adjustSimplificationOptions(
-	expand,
-	['expandProductsOfSumsWithinSums', 'expandPowersOfSumsWithinSums'], // To add
-	['expandProductsOfSums', 'expandPowersOfSums'], // To remove
-)
-
 export const sort = new Set<SimplificationOption>([
 	'sortSums',
 	'sortProducts',

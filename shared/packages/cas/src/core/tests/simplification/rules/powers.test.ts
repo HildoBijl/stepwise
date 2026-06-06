@@ -76,9 +76,4 @@ describe('power simplification', () => {
 		expectSimplifyToGive(power(sum(x, y), 3), sum(product(1, power(x, 3), power(y, 0)), product(3, power(x, 2), power(y, 1)), product(3, power(x, 1), power(y, 2)), product(1, power(x, 0), power(y, 3))), ['expandPowersOfSums'])
 		expectSimplifyToGive(power(sum(x, y, z), 2), sum(power(x, 2), product(2, x, y), product(2, x, z), power(y, 2), product(2, y, z), power(z, 2)), ['flattenSums', 'flattenProducts', 'removeOnesFromProducts', 'reducePowersWithZeroExponent', 'removeOneExponentsFromPowers', 'expandProductsOfSums', 'expandPowersOfSums'])
 	})
-
-	test('expands powers of sums within sums', () => {
-		expectSimplifyToGive(power(sum(x, y), 2), power(sum(x, y), 2), ['expandPowersOfSumsWithinSums'])
-		expectSimplifyToGive(sum(power(sum(x, y), 2), z), sum(sum(product(1, power(x, 2), power(y, 0)), product(2, power(x, 1), power(y, 1)), product(1, power(x, 0), power(y, 2))), z), ['expandPowersOfSumsWithinSums'])
-	})
 })

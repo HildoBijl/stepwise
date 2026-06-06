@@ -29,7 +29,6 @@ export const allSimplificationOptionsList = [
 	'mergeProductNumbers', // Group numbers in products. So 2*x*3*y*4*z becomes 24*x*y*z. Puts numbers in products at the start.
 	'mergeProductFactors', // Merge product factors into powers. So x*x^2 becomes x^3.
 	'expandProductsOfSums', // Turn a*(b+c) into a*b+a*c.
-	'expandProductsOfSumsWithinSums', // Expand products of sums only inside sums. Conflicts with expandProductsOfSums.
 	'sortProducts', // Sort factors in products, putting simpler terms first.
 
 	// Fraction options.
@@ -61,7 +60,6 @@ export const allSimplificationOptionsList = [
 	'expandPowersOfProducts', // Turn (a*b)^n into a^n*b^n.
 	'expandPowersOfFractions', // Turn (a/b)^n into a^n/b^n.
 	'expandPowersOfSums', // Turn (a+b)^3 into a^3+3*a^2*b+3*a*b^2+b^3. Integer powers only.
-	'expandPowersOfSumsWithinSums', // Expand powers of sums only inside sums. Conflicts with expandPowersOfSums.
 
 	// Root options.
 	'reduceRootsWithZeroRadicand', // Turn sqrt(0) and root(0) into 0.

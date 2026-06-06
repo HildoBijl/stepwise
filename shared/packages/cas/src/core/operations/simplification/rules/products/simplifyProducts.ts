@@ -23,7 +23,7 @@ export function simplifyProducts(node: ExpressionNode, context: SimplificationCo
 	if (isProduct(node) && options.has('removeOnesFromProducts')) node = removeOnesFromProducts(node)
 	if (isProduct(node) && options.has('mergeProductNumbers')) node = mergeProductNumbers(node)
 	if (isProduct(node) && options.has('mergeProductFactors')) node = mergeProductFactors(node)
-	if (isProduct(node) && (options.has('expandProductsOfSums') || (options.has('expandProductsOfSumsWithinSums') && context.parents.some(isSum)))) node = expandProductsOfSums(node)
+	if (isProduct(node) && (options.has('expandProductsOfSums'))) node = expandProductsOfSums(node)
 	if (isProduct(node) && options.has('sortProducts')) node = sortProducts(node)
 	return node
 }

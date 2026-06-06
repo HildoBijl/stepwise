@@ -9,7 +9,7 @@ export { type ExpressionInputValue } from '@step-wise/math-input-value'
 
 // Simplification
 export { type SimplificationOption, SimplificationOptions, SimplificationOptionsInput, allSimplificationOptions } from '../core'
-export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, expandOnlyWithinSums, sort, normalize, factorize, format } from '../core'
+export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format } from '../core'
 
 // Printing
 export type { TexDisplayOptions, TexDisplayOptionsInput, defaultTexDisplayOptions, asTexDisplayOptions } from '../core'

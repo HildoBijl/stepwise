@@ -47,17 +47,14 @@ export function validateSimplificationOptions(options: SimplificationOptions): S
 
 	// Expansion/factorization conflicts.
 	conflict('factorizeIntegers', ['mergeProductNumbers', 'reduceNumberPowers'])
-	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums', 'expandProductsOfSumsWithinSums'])
+	conflict(['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'], ['expandProductsOfSums'])
 
 	// Root conflicts/dependencies.
 	conflict('turnDegreeTwoRootsIntoSqrts', 'turnSqrtsIntoDegreeTwoRoots')
-	conflict(['expandRootsOfProducts','pullFactorsOutOfRoots'], ['mergeProductsOfRoots', 'mergeProductsWithRoots', 'mergeFractionFactors'])
+	conflict(['expandRootsOfProducts', 'pullFactorsOutOfRoots'], ['mergeProductsOfRoots', 'mergeProductsWithRoots', 'mergeFractionFactors'])
 	conflict('preventRootDenominators', 'mergeFractionFactors')
 	requireOption('reducePowersInRoots', 'mergeFractionFactors')
 
-	// Expand only within sums conflicts.
-	conflict('expandProductsOfSumsWithinSums', 'expandProductsOfSums')
-	conflict('expandPowersOfSumsWithinSums', 'expandPowersOfSums')
 
 	// Throw any encountered errors.
 	if (errors.length > 0) throw new Error(errors.join('\n'))

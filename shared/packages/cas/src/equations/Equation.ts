@@ -264,7 +264,6 @@ export class Equation {
 	cancel(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.cancel(addOptions, removeOptions)) }
 	combine(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.combine(addOptions, removeOptions)) }
 	expand(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.expand(addOptions, removeOptions)) }
-	expandOnlyWithinSums(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.expandOnlyWithinSums(addOptions, removeOptions)) }
 	sort(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.sort(addOptions, removeOptions)) }
 	normalize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.normalize(addOptions, removeOptions)) }
 	factorize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Equation { return this.mapSides(side => side.factorize(addOptions, removeOptions)) }

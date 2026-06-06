@@ -30,6 +30,6 @@ export function simplifyPowers(node: ExpressionNode, context: SimplificationCont
 	if (isPower(node) && options.has('expandPowers')) node = expandPowers(node)
 	if (isPower(node) && options.has('expandPowersOfProducts')) node = expandPowersOfProducts(node)
 	if (isPower(node) && options.has('expandPowersOfFractions')) node = expandPowersOfFractions(node)
-	if (isPower(node) && (options.has('expandPowersOfSums') || (options.has('expandPowersOfSumsWithinSums') && context.parents.some(isSum)))) node = expandPowersOfSums(node)
+	if (isPower(node) && (options.has('expandPowersOfSums'))) node = expandPowersOfSums(node)
 	return node
 }

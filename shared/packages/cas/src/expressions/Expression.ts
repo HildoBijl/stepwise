@@ -7,7 +7,7 @@ import {
 	isNumeric, hasFloat, dependsOn, isPolynomial, isRational, isSingular, isPlural, // Property checks
 	add, subtract, multiply, divide, negative, abs, power, sqrt, root, ln, log, sin, cos, tan, arcsin, arccos, arctan, substitute, numericNodeToNumber, getVariables, expandToSingulars, equalNodes, // Structural operations
 	type SimplificationOptionsInput, adjustSimplificationOptions, simplify, // Simplification operations
-	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, expandOnlyWithinSums, format, // Simplification presets
+	flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format, // Simplification presets
 	convertExpressionSettings, equivalent, isConstantMultiple, isIntegerMultiple, getDerivative, // Semantic operations
 	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
@@ -485,7 +485,6 @@ export class Expression {
 	cancel(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(cancel, addOptions, removeOptions) }
 	combine(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(combine, addOptions, removeOptions) }
 	expand(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(expand, addOptions, removeOptions) }
-	expandOnlyWithinSums(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(expandOnlyWithinSums, addOptions, removeOptions) }
 	sort(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(sort, addOptions, removeOptions) }
 	normalize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(normalize, addOptions, removeOptions) }
 	factorize(addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): Expression { return this.simplifyWithPreset(factorize, addOptions, removeOptions) }
