@@ -19,11 +19,12 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)
+	const a = randomInteger(-12, 12, [0])
+	const b = randomInteger(-12, 12, [0, a, -a])
+	const c = randomInteger(-12, 12, [0, a, -a, b, -b])
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
-		a: randomInteger(-12, 12, [0]),
-		b: randomInteger(-12, 12, [0]),
-		c: randomInteger(-12, 12, [0]),
+		a, b, c,
 	}
 }
 

@@ -159,21 +159,21 @@ Other simplification options have conflicts: they may not be present together wi
 
 ### Using simplification presets
 
-Usually, you just want to simplify an expression, applying a large amount of simplification options at the same time. To accomplish this, we have various presets of simplification options defined.
+Usually, you just want to simplify an expression, applying a large amount of simplification options at the same time. To accomplish this, we have various presets of simplification options defined. Most of them build on from the previous one, adding options as we get into more advanced simplifications.
 
 - `exp.flatten()`: flattens sums and products. (So doesn't do much at all, really.)
 - `exp.removeTrivial()`: includes `flatten` and also removes all trivial things like adding 0, multiplying by 1, turning x^0 into 1, etcetera.
 - `exp.mergeNumbers()`: includes `removeTrivial` and also reduces all numbers as much as possible. So it adds numbers in sums together, multiplies numbers in products, turns `2^3` into `8`, and turns `16/10` into `8/5`.
-- `exp.cancel()`: includes `mergeNumbers` and also cancels terms/factors where possible. This only includes direct cancellations. So `2x+5-2x` is turned into `5`, but `2x+5-3x` is left unchanged. Similarly, `(ax+bx)/(cx)` is turned into `(a+b)/c` and `root[n](x^n)` is turned into `n`.
+- `exp.cancel()`: includes `mergeNumbers` and also cancels terms/factors where possible. This only includes direct cancellations. So `2x+5-2x` is turned into `5`, but `2x+5-3x` is left unchanged. Similarly, `(ax+bx)/(cx)` is turned into `(a+b)/c` and `root[n](x^n)` is turned into `x`.
 - `exp.combine()`: includes `cancel` and also combines terms/factors where possible. This changes `2x+5-3x` into `5-x` and turns `x^5/x^2` into `x^3`.
 - `exp.expand()`: includes `combine` and also expands brackets where possible. So it turns `2(x+5)` into `2x+10`, it turns `(3x)^2` into `9x^2` and it turns `(x+2)^3` into `x^3+6x^2+12x+8`.
 - `exp.sort()`: does nothing else, other than sorting sums and products in a certain way. So `2+x` becomes `x+2` and `y*2*x` becomes `2*x*y`.
 - `exp.normalize()`: includes `expand` and `sort` and takes various extra steps, like normalizing minus signs in fractions, turning roots into powers, etcetera. Ideally, two expressions that are equivalent always normalize to exactly the same outcome.
 
-Then there are two special presets, sometimes used for post-processing.
+Then there are two special-purpose presets that are often used for post-processing.
 
-- `exp.factorize()`: contrary to `expand`, this preset tries to pull as much as possible within brackets. It turns `2x+2y` into `2(x+y)`.
-- `exp.format()`: tries to make the expression cleaner to display. For this, it does a bit of factorizing, turning `2x+2y` into `2(x+y)` and `sqrt(4x)` into `2sqrt(x)`. It also turns fractional powers back into roots.
+- `exp.factorize()`: contrary to `expand`, this preset tries to pull as much as possible within brackets. It turns `2x+2y` into `2(x+y)`. It also factorizes numbers into their prime factorization, turning `12` into `2^2*3`. Includes `removeTrivial` but not `mergeNumbers`.
+- `exp.format()`: tries to make the expression cleaner to display. For this, it does a bit of factorizing, turning `2x+2y` into `2(x+y)` and `sqrt(4x)` into `2sqrt(x)`. It also turns fractional powers back into roots. Includes `combine` and `sort`.
 
 It often happens that a preset is almost what you want, but not quite. In that case, you can adapt it, for instance by adding options or removing them.
 
