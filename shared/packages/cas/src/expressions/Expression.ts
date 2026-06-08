@@ -13,7 +13,7 @@ import {
 } from '../core'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, asExpressionSettings } from './settingsReexport'
-import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions, defaultExpressionEqualityOptions } from './equalityOptions'
+import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
 

@@ -1,8 +1,6 @@
-import { first } from '@step-wise/utils'
-
 import { ExpressionNode, SignNode, ConstantNode, Integer, Float } from '../../../construction'
 
-import { isIntegerNode, isFloatNode, isConstantNode, isMinus, isSum, isProduct, isFraction } from '../fundamentals'
+import { isIntegerNode, isFloatNode, isConstantNode, isMinus } from '../fundamentals'
 
 // Specific values
 export function isZero(node: ExpressionNode): node is ConstantNode { return isConstantNode(node) && node.value === 0 }
@@ -30,12 +28,3 @@ export function isNonNegativeFloat(node: ExpressionNode): node is Float { return
 export function isPositiveFloat(node: ExpressionNode): node is Float { return isFloatNode(node) && node.value > 0 }
 export function isNonPositiveFloat(node: ExpressionNode): node is Float | SignNode { return (isFloatNode(node) && isZero(node)) || (isMinus(node) && isNonNegativeFloat(node.node)) }
 export function isNegativeFloat(node: ExpressionNode): node is SignNode { return isMinus(node) && isPositiveFloat(node.node) }
-
-// Signs
-export function isNegativeLiteral(node: ExpressionNode): boolean {
-	if (isMinus(node)) return true
-	if (isSum(node)) return node.terms.every(term => isNegativeLiteral(term))
-	if (isProduct(node)) return isNegativeLiteral(first(node.factors))
-	if (isFraction(node)) return isNegativeLiteral(node.numerator)
-	return false
-}
