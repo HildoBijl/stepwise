@@ -4,7 +4,7 @@ import { allSimplificationOptions } from './allSimplificationOptions'
 import type { SimplificationOption, SimplificationOptions, SimplificationOptionsInput } from './types'
 
 // Turn a SimplificationOptionsInput parameter into a set of simplification options. Also checks its format.
-export function asSimplificationOptionsSet(options: SimplificationOptionsInput): SimplificationOptions {
+export function resolveSimplificationOptions(options: SimplificationOptionsInput = []): SimplificationOptions {
 	if (isReadonlySet(options)) return ensureSimplificationOptionSet(options)
 	if (isReadonlyArray(options)) return ensureSimplificationOptionSet(new Set(options))
 	throw new Error(`Invalid simplification options: could not interpret "${JSON.stringify(options)}".`)
@@ -23,9 +23,9 @@ export function ensureSimplificationOptionSet(value: unknown): ReadonlySet<Simpl
 }
 
 // Adjust existing simplification options. This can be done either through an adjustment object or through addition/removal sets/lists.
-export function adjustSimplificationOptions(options: SimplificationOptionsInput, addOptions: SimplificationOptionsInput = [], removeOptions: SimplificationOptionsInput = []): SimplificationOptions {
-	const optionsSet = asSimplificationOptionsSet(options)
-	const addOptionsSet = asSimplificationOptionsSet(addOptions)
-	const removeOptionsSet = asSimplificationOptionsSet(removeOptions)
+export function adjustSimplificationOptions(options?: SimplificationOptionsInput, addOptions?: SimplificationOptionsInput, removeOptions?: SimplificationOptionsInput): SimplificationOptions {
+	const optionsSet = resolveSimplificationOptions(options)
+	const addOptionsSet = resolveSimplificationOptions(addOptions)
+	const removeOptionsSet = resolveSimplificationOptions(removeOptions)
 	return difference(union(optionsSet, addOptionsSet), removeOptionsSet)
 }

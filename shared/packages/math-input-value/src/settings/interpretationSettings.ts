@@ -14,6 +14,6 @@ export const defaultInterpretationSettings = {
 export type InterpretationSettings = typeof defaultInterpretationSettings
 export type InterpretationSettingsInput = Partial<InterpretationSettings>
 
-export function asInterpretationSettings(settings: InterpretationSettingsInput): InterpretationSettings {
-	return mergeDefaults(settings, defaultInterpretationSettings)
+export function resolveInterpretationSettings(settings?: InterpretationSettingsInput): InterpretationSettings {
+	return mergeDefaults(settings ?? {}, defaultInterpretationSettings)
 }

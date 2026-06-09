@@ -1,2 +1,1 @@
-export const decimalSeparator = ','
-export const decimalSeparatorTex = '{,}'
+export const defaultDecimalSeparator = ','

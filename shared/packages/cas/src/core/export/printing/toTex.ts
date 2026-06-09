@@ -1,16 +1,16 @@
-import { type InterpretationSettings, type InterpretationSettingsInput, asInterpretationSettings } from '@step-wise/math-input-value'
+import { type InterpretationSettings, type InterpretationSettingsInput, resolveInterpretationSettings } from '@step-wise/math-input-value'
 
 import type { ExpressionNode, ConstantNode, NamedConstant, SignNode, Variable, Sum, Product, Fraction, Power, Sqrt, Root, Log, SingleArgumentFunctionNode } from '../../construction'
 import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isSqrt, isRoot, isLog, isSingleArgumentFunctionNode } from '../../operations'
 
-import { type TexDisplayOptions, type TexDisplayOptionsInput, asTexDisplayOptions } from './texDisplayOptions'
+import { type TexDisplayOptions, type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
 import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusBetweenNodesTex, requiresTimesBetweenFactorsTex } from './listSupport'
 
 // Set up the main nodeToTex function.
-export function nodeToTex(node: ExpressionNode, interpretationSettings: InterpretationSettingsInput, displayOptions: TexDisplayOptionsInput = {}) {
-	const settings = asInterpretationSettings(interpretationSettings)
-	const options = asTexDisplayOptions(displayOptions)
+export function nodeToTex(node: ExpressionNode, interpretationSettings?: InterpretationSettingsInput, displayOptions?: TexDisplayOptionsInput) {
+	const settings = resolveInterpretationSettings(interpretationSettings)
+	const options = resolveTexDisplayOptions(displayOptions)
 	if (isConstantNode(node)) return constantToTex(node, settings, options)
 	if (isSignNode(node)) return signToTex(node, settings, options)
 	if (isVariable(node)) return variableToTex(node, settings, options)

@@ -1,17 +1,17 @@
 import { setToString } from '@step-wise/utils'
-import { type ExpressionSettingsInput, asExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
 import { mapDescendants } from '../structural'
 
-import { type SimplificationOptionsInput, type SimplificationContext, asSimplificationOptionsSet, validateSimplificationOptions } from './simplificationOptions'
+import { type SimplificationOptionsInput, type SimplificationContext, resolveSimplificationOptions, validateSimplificationOptions } from './simplificationOptions'
 import { applySimplificationRules } from './rules'
 
 // Take some form of simplification option input, process it, and apply it to the node.
-export function simplify(node: ExpressionNode, settings: ExpressionSettingsInput = {}, options: SimplificationOptionsInput = []): ExpressionNode {
-	const expressionSettings = asExpressionSettings(settings)
-	const simplificationOptions = validateSimplificationOptions(asSimplificationOptionsSet(options))
+export function simplify(node: ExpressionNode, settings?: ExpressionSettingsInput, options?: SimplificationOptionsInput): ExpressionNode {
+	const expressionSettings = resolveExpressionSettings(settings)
+	const simplificationOptions = validateSimplificationOptions(resolveSimplificationOptions(options))
 	const context: SimplificationContext = {
 		simplificationOptions,
 		expressionSettings,

@@ -12,7 +12,7 @@ import {
 	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, asExpressionSettings } from './settingsReexport'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settingsReexport'
 import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
@@ -45,8 +45,8 @@ export class Expression {
 	 * Creation methods
 	 */
 
-	constructor(private readonly node: ExpressionNode, settings: ExpressionSettingsInput = {}) {
-		this.settings = asExpressionSettings(settings)
+	constructor(private readonly node: ExpressionNode, settings?: ExpressionSettingsInput) {
+		this.settings = resolveExpressionSettings(settings)
 	}
 	get subtype() { return this.node.subtype }
 
@@ -98,8 +98,8 @@ export class Expression {
 
 	toStorageValue(): ExpressionNodeStorageValue { return nodeToStorageValue(this.node) }
 	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings: ExpressionSettingsInput = {}): Expression {
-		return new Expression(storageValueToNode(nodeStorageValue), asExpressionSettings(settings))
+	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings?: ExpressionSettingsInput): Expression {
+		return new Expression(storageValueToNode(nodeStorageValue), resolveExpressionSettings(settings))
 	}
 
 	getInterpretationSettings(): InterpretationSettingsInput {

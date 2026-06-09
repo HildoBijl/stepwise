@@ -2,6 +2,7 @@ import { ensureInt, isInt, roundToDigits } from '@step-wise/utils'
 
 import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, getSignificantDigits } from './interpreting'
 import { type FloatEqualityOptionsInput, type FloatEqualityResult, getNumberDirection, getRelativeDifference, resolveFloatEqualityOptions } from './comparison'
+import { type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
 
 export class Float {
 	readonly number: number
@@ -68,10 +69,10 @@ export class Float {
 		return this.toTex()
 	}
 
-	toTex(): string {
+	toTex(texDisplayOptions?: TexDisplayOptionsInput): string {
 		if (this.significantDigits === 0) return this.number === 0 ? '0' : '?'
 		const power = this.getDisplayPower()
-		let str = this.getDisplayNumber(power)
+		let str = this.getTexDisplayNumber(power, texDisplayOptions)
 		if (str === '1' && power !== 0 && this.significantDigits === Infinity) return `10^{${power}}`
 		if (power !== 0) str += ` \\cdot 10^{${power}}`
 		return str
@@ -95,13 +96,23 @@ export class Float {
 		if (digitsToAdd > 0 && digitsToAdd < Infinity) str += `${str.includes('.') ? '' : '.'}${'0'.repeat(digitsToAdd)}`
 		return str
 	}
+	getTexDisplayNumber(power = this.getDisplayPower(), texDisplayOptions?: TexDisplayOptionsInput): string {
+		const { decimalSeparator } = resolveTexDisplayOptions(texDisplayOptions)
+		return this.getDisplayNumber(power).replace('.', decimalSeparator === ',' ? '{,}' : decimalSeparator)
+	}
 
 	get texWithPM(): string {
-		return `${this.number < 0 ? '' : '+'}${this.tex}`
+		return this.toTexWithPM()
+	}
+	toTexWithPM(texDisplayOptions?: TexDisplayOptionsInput): string {
+		return `${this.number < 0 ? '' : '+'}${this.toTex(texDisplayOptions)}`
 	}
 
 	get texWithBrackets(): string {
-		return this.number < 0 || this.hasVisiblePower() ? `\\left(${this.tex}\\right)` : this.tex
+		return this.toTexWithBrackets()
+	}
+	toTexWithBrackets(texDisplayOptions?: TexDisplayOptionsInput): string {
+		return this.number < 0 || this.hasVisiblePower() ? `\\left(${this.toTex(texDisplayOptions)}\\right)` : this.toTex(texDisplayOptions)
 	}
 
 	hasVisiblePower(): boolean {

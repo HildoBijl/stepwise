@@ -7,6 +7,6 @@ export const defaultExpressionSettings = {
 export type ExpressionSettings = typeof defaultExpressionSettings
 export type ExpressionSettingsInput = Partial<ExpressionSettings>
 
-export function asExpressionSettings(settings: ExpressionSettingsInput): ExpressionSettings {
-	return mergeDefaults(settings, defaultExpressionSettings)
+export function resolveExpressionSettings(settings?: ExpressionSettingsInput): ExpressionSettings {
+	return mergeDefaults(settings ?? {}, defaultExpressionSettings)
 }

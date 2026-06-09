@@ -1,5 +1,5 @@
 import { compareNumbers, deepEquals, identity } from '@step-wise/utils'
-import { type ExpressionSettings, type EquationInputValue, asExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
+import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
 
@@ -31,7 +31,7 @@ export class Equation {
 
 	constructor(left: ExpressionLike, right: ExpressionLike, settings?: ExpressionSettingsInput) {
 		// Determine the expression settings used.
-		if (settings) this.settings = asExpressionSettings(settings)
+		if (settings) this.settings = resolveExpressionSettings(settings)
 		else if (left instanceof Expression) this.settings = left.settings
 		else if (right instanceof Expression) this.settings = right.settings
 		else this.settings = defaultExpressionSettings
