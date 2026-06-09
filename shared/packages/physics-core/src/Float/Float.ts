@@ -123,12 +123,58 @@ export class Float {
 	}
 
 	/*
+	 * Arithmetics
+	 */
+
+	negate(): Float {
+		return new Float({ number: -this.number, significantDigits: this.significantDigits, power: this.power })
+	}
+
+	abs(): Float {
+		return this.number < 0 ? new Float({ number: Math.abs(this.number), significantDigits: this.significantDigits, power: this.power }) : this
+	}
+
+	add(input: Float | FloatInput, keepDecimals = false): Float {
+		const x = asFloat(input)
+		const minDecimals = (keepDecimals ? Math.max : Math.min)(this.decimals, x.decimals)
+		const number = this.number + x.number
+		const significantDigits = number === 0 ? minDecimals + 1 : Math.max(Math.floor(Math.log10(Math.abs(number))) + minDecimals + 1, 1)
+		return new Float({ number, significantDigits, power: this.power === x.power ? this.power : undefined })
+	}
+
+	subtract(input: Float | FloatInput, keepDecimals?: boolean): Float {
+		return this.add(asFloat(input).negate(), keepDecimals)
+	}
+
+	multiply(input: Float | FloatInput, keepDigits = false): Float {
+		const x = asFloat(input)
+		return new Float({ number: this.number * x.number, significantDigits: (keepDigits ? Math.max : Math.min)(this.significantDigits, x.significantDigits) })
+	}
+
+	divide(input: Float | FloatInput, keepDigits?: boolean): Float {
+		return this.multiply(asFloat(input).invert(), keepDigits)
+	}
+
+	invert(): Float {
+		if (this.number === 0) throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero is not allowed.`)
+		return new Float({ number: 1 / this.number, significantDigits: this.significantDigits })
+	}
+
+	toPower(power: number | Float): Float {
+		if (power instanceof Float) power = power.number
+		if (this.number < 0 && !isInt(power)) throw new Error(`Invalid toPower call: cannot take a fractional power of a negative number.`)
+		if (power === 0) return new Float({ number: 1, significantDigits: Infinity })
+		if (power < 0) return this.invert().toPower(-power)
+		return new Float({ number: Math.pow(this.number, power), significantDigits: this.significantDigits })
+	}
+
+	/*
 	 * Precision operations
 	 */
 
 	setSignificantDigits(significantDigits: number): Float {
 		significantDigits = ensureInt(significantDigits, true, false, true)
-		return new Float({ number: this.number, significantDigits, power: this.power })
+		return significantDigits === this.significantDigits ? this : new Float({ number: this.number, significantDigits, power: this.power })
 	}
 
 	// Set infinite significant digits.
@@ -162,57 +208,11 @@ export class Float {
 	}
 
 	// Set the format of this number to the default format: x.xxxx * 10^yy with only one non-zero digit prior to the comma. The number of significant digits is kept the same.
-	simplify(): Float {
+	clearDisplayPower(): Float {
 		return new Float({
 			number: this.number,
 			significantDigits: this.significantDigits,
 		})
-	}
-
-	/*
-	 * Arithmetics
-	 */
-
-	negate(): Float {
-		return new Float({ number: -this.number, significantDigits: this.significantDigits, power: this.power })
-	}
-
-	abs(): Float {
-		return new Float({ number: Math.abs(this.number), significantDigits: this.significantDigits, power: this.power })
-	}
-
-	add(input: Float | FloatInput, keepDecimals = false): Float {
-		const x = asFloat(input)
-		const minDecimals = (keepDecimals ? Math.max : Math.min)(this.decimals, x.decimals)
-		const number = this.number + x.number
-		const significantDigits = number === 0 ? minDecimals + 1 : Math.max(Math.floor(Math.log10(Math.abs(number))) + minDecimals + 1, 1)
-		return new Float({ number, significantDigits, power: this.power === x.power ? this.power : undefined })
-	}
-
-	subtract(input: Float | FloatInput, keepDecimals?: boolean): Float {
-		return this.add(asFloat(input).negate(), keepDecimals)
-	}
-
-	invert(): Float {
-		if (this.number === 0) throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero is not allowed.`)
-		return new Float({ number: 1 / this.number, significantDigits: this.significantDigits })
-	}
-
-	multiply(input: Float | FloatInput, keepDigits = false): Float {
-		const x = asFloat(input)
-		return new Float({ number: this.number * x.number, significantDigits: (keepDigits ? Math.max : Math.min)(this.significantDigits, x.significantDigits) })
-	}
-
-	divide(input: Float | FloatInput, keepDigits?: boolean): Float {
-		return this.multiply(asFloat(input).invert(), keepDigits)
-	}
-
-	toPower(power: number | Float): Float {
-		if (power instanceof Float) power = power.number
-		if (this.number < 0 && !isInt(power)) throw new Error(`Invalid toPower call: cannot take a fractional power of a negative number.`)
-		if (power === 0) return new Float({ number: 1, significantDigits: Infinity })
-		if (power < 0) return this.invert().toPower(-power)
-		return new Float({ number: Math.pow(this.number, power), significantDigits: this.significantDigits })
 	}
 
 	/*
