@@ -93,3 +93,8 @@ asFloat('3.14').equals('317 * 10^(-2)', { absoluteMargin: 0.02, relativeMargin: 
 ```
 
 Note that the `equals` and `checkEquality` function accept `Float` objects, but also inputs that can be interpreted as `Float` objects.
+
+
+## Serialization
+
+See the [serialization](./serialization.ts) and [inputValue](./inputValue.ts) files to learn more about how `Float` objects are serialized and/or created as input.

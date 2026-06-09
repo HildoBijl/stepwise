@@ -52,3 +52,8 @@ export function ensureBoolean(x: unknown): boolean {
 export function getParentClass(subject: Function | object): any {
 	return Object.getPrototypeOf(subject)
 }
+
+// Check if an object only has the given keys (possibly only some of them) and not any other.
+export function onlyHasKeys(obj: Record<string, unknown>, keys: string[]): boolean {
+	return Object.keys(obj).every(key => keys.includes(key))
+}
