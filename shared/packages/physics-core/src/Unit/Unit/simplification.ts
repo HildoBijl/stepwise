@@ -7,8 +7,8 @@ import { type UnitElement } from '../UnitElement'
  */
 
 export const unitSimplificationTargetRanks = {
-	none: 0,
-	withoutPrefixes: 1,
+	unchanged: 0,
+	noPrefixes: 1,
 	standard: 2,
 	base: 3,
 } as const

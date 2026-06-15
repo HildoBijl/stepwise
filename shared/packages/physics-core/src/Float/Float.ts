@@ -146,6 +146,11 @@ export class Float {
 		return this.add(asFloat(input).negate(), keepDecimals)
 	}
 
+	invert(): Float {
+		if (this.number === 0) throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero is not allowed.`)
+		return new Float({ number: 1 / this.number, significantDigits: this.significantDigits })
+	}
+
 	multiply(input: Float | FloatInput, keepDigits = false): Float {
 		const x = asFloat(input)
 		return new Float({ number: this.number * x.number, significantDigits: (keepDigits ? Math.max : Math.min)(this.significantDigits, x.significantDigits) })
@@ -155,9 +160,9 @@ export class Float {
 		return this.multiply(asFloat(input).invert(), keepDigits)
 	}
 
-	invert(): Float {
-		if (this.number === 0) throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero is not allowed.`)
-		return new Float({ number: 1 / this.number, significantDigits: this.significantDigits })
+	adjustPower(delta: number): Float {
+		delta = ensureInt(delta)
+		return new Float({ number: this.number * Math.pow(10, delta), power: this.power === undefined ? undefined : this.power + delta, significantDigits: this.significantDigits })
 	}
 
 	toPower(power: number | Float): Float {
@@ -246,7 +251,7 @@ export class Float {
 		// Assemble the result.
 		const result: FloatEqualityResult = {
 			equal: numericEqual && significantDigitsEqual,
-			numeric: {
+			number: {
 				equal: numericEqual,
 				direction: getNumberDirection(x.number, this.number),
 				absoluteDifference,

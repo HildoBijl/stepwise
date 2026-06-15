@@ -1,7 +1,5 @@
 import { isInt, isNumber } from '@step-wise/utils'
 
-import { isNumberString, floatRegex } from './formats'
-
 export const FloatType = 'Float'
 export type FloatType = typeof FloatType
 
@@ -16,6 +14,18 @@ export type FloatInput = string | number | FloatStorageValue
 export const defaultFloatStorageValue: FloatStorageValue = {
 	number: 0,
 	significantDigits: Infinity,
+}
+
+export const numberPattern = '(-?((\\d+[.,]?\\d*)|(\\d*[.,]?\\d+)))'
+export const timesPattern = '(\\s*\\*\\s*)'
+export const tenPowerPattern = '(10\\^((\\((-?\\d+)\\))|(-?\\d+)))'
+export const floatPattern = `(${numberPattern}${timesPattern}${tenPowerPattern}|${tenPowerPattern}|${numberPattern})`
+
+export const numberRegex = new RegExp(`^${numberPattern}$`)
+export const floatRegex = new RegExp(`^${floatPattern}$`)
+
+export function isNumberString(str: string): boolean {
+	return numberRegex.test(str)
 }
 
 // Turn any Float constructor input into a complete FloatStorageValue.

@@ -1,10 +1,26 @@
 import { type Prefix, prefixes } from '../Prefix'
 import { type BaseUnit, findBaseUnit, specialUnitSymbols } from '../BaseUnit'
 
-import { type UnitElementParameters } from './types'
+export const UnitElementType = 'UnitElement'
+export type UnitElementType = typeof UnitElementType
 
-export const unitElementPattern = `[a-zA-Z${specialUnitSymbols.join('')}]+`
-export const unitElementRegex = new RegExp(`^(${unitElementPattern})(\\^(\\d+))?$`)
+export type UnitElementStorageValue = {
+	prefix?: string
+	unit: string
+	power?: number
+}
+
+export type UnitElementParameters = {
+	prefix?: Prefix
+	unit: BaseUnit
+	power: number
+}
+
+export type UnitElementInput = string | UnitElementStorageValue | UnitElementParameters
+
+export const unitElementBasePattern = `[a-zA-Z${specialUnitSymbols.join('')}]+`
+export const unitElementPattern = `(${unitElementBasePattern})(\\^(\\d+))?`
+export const unitElementRegex = new RegExp(`^${unitElementPattern}$`)
 
 // Turn a string like 'muPa^3' into a UnitElementParameters object.
 export function parseUnitElementString(str: string): UnitElementParameters {

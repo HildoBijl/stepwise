@@ -2,7 +2,7 @@ import { isPlainObject, onlyHasKeys, InterpretationError } from '@step-wise/util
 
 import { type UnitElementStorageValue, interpretPrefixAndBaseUnitString } from '../UnitElement'
 
-import { type UnitStorageValue } from './types'
+import { type UnitStorageValue } from './interpreting'
 import { Unit } from './Unit'
 
 /*

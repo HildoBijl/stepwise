@@ -2,7 +2,7 @@ import { type UnitLike, asUnit } from './Unit'
 
 // Same written units, allowing only reordering/combining like 'm * s' = 's * m'.
 export function unitsEqual(a: UnitLike, b: UnitLike): boolean {
-	return asUnit(a).equals(b, { target: 'none', checkSize: true })
+	return asUnit(a).equals(b, { target: 'unchanged', checkSize: true })
 }
 
 // Same physical unit including scale, like 'N' = 'kg * m / s^2', but 'km' ≠ 'm'.

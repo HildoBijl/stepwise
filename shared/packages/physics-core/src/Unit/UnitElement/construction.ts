@@ -3,8 +3,7 @@ import { isInt, ensureInt, isPlainObject, onlyHasKeys } from '@step-wise/utils'
 import { Prefix, findPrefix } from '../Prefix'
 import { BaseUnit, findBaseUnit } from '../BaseUnit'
 
-import { type UnitElementParameters, type UnitElementStorageValue, type UnitElementInput } from './types'
-import { parseUnitElementString } from './parsing'
+import { type UnitElementParameters, type UnitElementStorageValue, type UnitElementInput, parseUnitElementString } from './interpreting'
 
 export function unitElementStorageValueToParameters(value: UnitElementStorageValue): UnitElementParameters {
 	const prefix = value.prefix === undefined ? undefined : findPrefix(value.prefix)

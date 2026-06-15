@@ -17,7 +17,7 @@ export const defaultFloatEqualityOptions: FloatEqualityOptions = {
 
 export type FloatEqualityResult = {
 	equal: boolean
-	numeric: {
+	number: {
 		equal: boolean
 		direction: -1 | 0 | 1
 		absoluteDifference: number

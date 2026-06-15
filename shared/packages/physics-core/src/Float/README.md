@@ -8,7 +8,7 @@ The `Float` class represents a numerical quantity having a specific accuracy. It
 Setting up a new `Float` object can be done in various ways.
 
 ```
-import { asFloat, Float } 
+import { asFloat, Float } from '@step-wise/physics-core'
 const c = new Float('2.99792458 * 10^8') // String, constructor
 const h = asFloat('6.62607015 * 10^-34') // String, function
 const k = new Float({ number: 1.380649, significantDigits: 7, power: -23 }) // Object, constructor
@@ -21,7 +21,7 @@ The resulting `Float` object has a variety of properties and methods.
 
 ## Display
 
-Common ways to display a Float are:
+Common ways to display a `Float` are:
 
 ```
 console.log(c.str) // String representation
@@ -65,7 +65,7 @@ It is possible to adjust the precision with which the number is stored; its sign
 
 ## Comparison
 
-Comparing float objects can be done through their absolute difference or relative difference.
+Comparing `Float` objects can be done through their absolute difference or relative difference.
 
 - The absolute difference is defined through `abs(a - b)`.
 - The relative difference is defined through `abs(a - b)/max(abs(a), abs(b))`. So if you for example compare numbers `18` and `20` then the relative difference is `0.1` (being `10%` of the largest of the two).
@@ -93,6 +93,22 @@ asFloat('3.14').equals('317 * 10^(-2)', { absoluteMargin: 0.02, relativeMargin: 
 ```
 
 Note that the `equals` and `checkEquality` function accept `Float` objects, but also inputs that can be interpreted as `Float` objects.
+
+
+## Random generation
+
+To randomly generate `Float` objects, there are two functions.
+
+- `getRandomFloat(options)` gives a float according to a uniform distribution. Use for instance `getRandomFloat({ min: 3, max: 6 })`.
+- `getRandomExponentialFloat(options)` gives a float where `log(x)` satisfies a uniform distribution. Use for instance `getRandomExponentialFloat({ min: 1000, max: 10 ** 6 })`. The minimum and maximum must be positive.
+
+Other options the can be included are:
+
+- `significantDigits`: how many significant digits the `Float` should have.
+- `decimals`: how many decimals the `Float` should have. Cannot be combined with `significantDigits`.
+- `round`: should the `Float` be rounded to its precision? Default `true`: this ensures that a random value of `3.4` is not behind the scenes actually `3.34499999`.
+- `negative`: only for `getRandomExponentialFloat`, makes the outcome negative.
+- `randomSign`: only for `getRandomExponentialFloat`, makes the outcome have a random sign. Cannot be combined with `negative`.
 
 
 ## Serialization

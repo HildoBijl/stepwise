@@ -1,12 +1,5 @@
 import { type Prefix } from '../Prefix'
 
-export type BaseUnitToStandard = {
-	unit: string
-	factor?: number
-	exponent?: number
-	difference?: number
-}
-
 export type BaseUnitInput = {
 	letter: string
 	name: string
@@ -18,6 +11,13 @@ export type BaseUnitInput = {
 	base?: boolean
 	toBase?: string
 	order?: number // For sorting. The default order is 0 for base units, 1 for standard (but non-base) units and 2 for non-base units. You can make the order 3 to put the unit at the end of every unit string.
+}
+
+export type BaseUnitToStandard = {
+	unit: string
+	factor?: number
+	exponent?: number
+	difference?: number
 }
 
 export class BaseUnit {

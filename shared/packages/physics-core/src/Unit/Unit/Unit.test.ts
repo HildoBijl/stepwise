@@ -101,8 +101,8 @@ describe('Unit', () => {
 			expect(new Unit('Hz').toBaseUnits().toString()).toBe('1 / s')
 		})
 		test('simplifies according to target', () => {
-			expect(new Unit('km').simplifyWithData({ target: 'withoutPrefixes' })).toEqual({ unit: new Unit('m'), exponent: 3, factor: 1, difference: 0 })
-			expect(new Unit('bar').simplifyWithData({ target: 'withoutPrefixes' })).toEqual({ unit: new Unit('bar'), exponent: 0, factor: 1, difference: 0 })
+			expect(new Unit('km').simplifyWithData({ target: 'noPrefixes' })).toEqual({ unit: new Unit('m'), exponent: 3, factor: 1, difference: 0 })
+			expect(new Unit('bar').simplifyWithData({ target: 'noPrefixes' })).toEqual({ unit: new Unit('bar'), exponent: 0, factor: 1, difference: 0 })
 			expect(new Unit('bar').simplifyWithData({ target: 'standard' })).toEqual({ unit: new Unit('Pa'), exponent: 5, factor: 1, difference: 0 })
 			expect(new Unit('N').simplifyWithData({ target: 'standard' }).unit.toString()).toBe('N')
 			expect(new Unit('N').simplifyWithData({ target: 'base' }).unit.toString()).toBe('kg * m / s^2')
@@ -111,17 +111,17 @@ describe('Unit', () => {
 
 	describe('comparison', () => {
 		test('checks exact equality', () => {
-			expect(new Unit('m * s').equals('m * s', { target: 'none' })).toBe(true)
-			expect(new Unit('m * s').equals('s * m', { target: 'none' })).toBe(true)
-			expect(new Unit('m^2 / m').equals('m', { target: 'none' })).toBe(true)
-			expect(new Unit('km * ms').equals('ks * mm', { target: 'none' })).toBe(false)
+			expect(new Unit('m * s').equals('m * s', { target: 'unchanged' })).toBe(true)
+			expect(new Unit('m * s').equals('s * m', { target: 'unchanged' })).toBe(true)
+			expect(new Unit('m^2 / m').equals('m', { target: 'unchanged' })).toBe(true)
+			expect(new Unit('km * ms').equals('ks * mm', { target: 'unchanged' })).toBe(false)
 			expect(unitsEqual('m * s', 's * m')).toBe(true)
 			expect(unitsEqual('km * ms', 'ks * mm')).toBe(false)
 		})
 		test('checks equality without prefixes', () => {
-			expect(new Unit('km * ms').equals('ks * mm', { target: 'withoutPrefixes', checkSize: true })).toBe(true)
-			expect(new Unit('km').equals('m', { target: 'withoutPrefixes', checkSize: false })).toBe(true)
-			expect(new Unit('km').equals('m', { target: 'withoutPrefixes', checkSize: true })).toBe(false)
+			expect(new Unit('km * ms').equals('ks * mm', { target: 'noPrefixes', checkSize: true })).toBe(true)
+			expect(new Unit('km').equals('m', { target: 'noPrefixes', checkSize: false })).toBe(true)
+			expect(new Unit('km').equals('m', { target: 'noPrefixes', checkSize: true })).toBe(false)
 		})
 		test('checks equality in standard units', () => {
 			expect(new Unit('bar').equals('Pa', { target: 'standard', checkSize: false })).toBe(true)
@@ -138,8 +138,8 @@ describe('Unit', () => {
 			expect(unitsSimilar('m', 's')).toBe(false)
 		})
 		test('returns structured equality results', () => {
-			const result = new Unit('m').checkEquality('km', { target: 'withoutPrefixes' })
-			expect(result.unit.equal).toBe(true)
+			const result = new Unit('m').checkEquality('km', { target: 'noPrefixes' })
+			expect(result.form.equal).toBe(true)
 			expect(result.size.equal).toBe(false)
 			expect(result.size.exponentDifference).toBe(3)
 			expect(result.equal).toBe(false)

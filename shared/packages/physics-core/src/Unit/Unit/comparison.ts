@@ -19,7 +19,7 @@ export function resolveUnitEqualityOptions(options: UnitEqualityOptionsInput = {
 
 export type UnitEqualityResult<TUnit> = {
 	equal: boolean
-	unit: {
+	form: {
 		equal: boolean
 		input: TUnit
 		reference: TUnit

@@ -105,8 +105,8 @@ describe('Float', () => {
 			expect(result.power).toEqual({ equal: false, difference: -1 })
 		})
 		test('reports numeric direction as input relative to reference', () => {
-			expect(new Float('10').checkEquality('9').numeric.direction).toBe(-1)
-			expect(new Float('10').checkEquality('11').numeric.direction).toBe(1)
+			expect(new Float('10').checkEquality('9').number.direction).toBe(-1)
+			expect(new Float('10').checkEquality('11').number.direction).toBe(1)
 		})
 	})
 

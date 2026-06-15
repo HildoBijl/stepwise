@@ -13,7 +13,7 @@ A `Unit` effectively consists of two `UnitArray` entries (`numerator` and `denom
 Setting up a new `Unit` object can be done in various ways.
 
 ```
-import { asUnit, Unit }
+import { asUnit, Unit } from '@step-wise/physics-core'
 const u1 = new Unit('m / s') // String, constructor
 const u2 = asUnit('kg * m / s^2') // String, function
 const u3 = new Unit({ numerator: [{ unit: 'm', power: 3 }] }) // Object, constructor, for "m^3"
@@ -75,7 +75,7 @@ You can also combine the above functions into one function: the `simplify` funct
 
 ```
 const simplificationOptions = {
-	target: 'standard', // Is the target to which we reduce unit. Can be 'none', 'withoutPrefixes', 'standard' and 'base'. Default is 'standard'.
+	target: 'standard', // Is the target to which we reduce unit. Can be 'unchanged', 'noPrefixes', 'standard' and 'base'. Default is 'standard'.
 	combine: true,
 	sort: true,
 }

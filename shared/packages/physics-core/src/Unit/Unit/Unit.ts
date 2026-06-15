@@ -2,8 +2,7 @@ import { ensureInt, shallowEqual } from '@step-wise/utils'
 
 import { type UnitElement, type UnitElementStorageValue } from '../UnitElement'
 
-import { type UnitElementArray, type UnitStorageValue, type UnitInput, UnitType } from './types'
-import { splitUnitString, asUnitElementArray } from './parsing'
+import { type UnitElementArray, type UnitStorageValue, type UnitInput, UnitType, splitUnitString, asUnitElementArray } from './interpreting'
 import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, getUnitSimplificationTargetRank, compareUnitElements } from './simplification'
 import { type UnitEqualityOptionsInput, type UnitEqualityResult, compareUnitTransformationSize, resolveUnitEqualityOptions } from './comparison'
 
@@ -290,7 +289,7 @@ export class Unit {
 		// Generate an output report.
 		return {
 			equal: unitEqual && (!equalityOptions.checkSize || size.equal),
-			unit: {
+			form: {
 				equal: unitEqual,
 				input: inputData.unit,
 				reference: referenceData.unit,

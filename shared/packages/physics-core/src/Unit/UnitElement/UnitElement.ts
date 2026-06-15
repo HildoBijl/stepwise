@@ -3,7 +3,7 @@ import { ensureInt } from '@step-wise/utils'
 import { Prefix } from '../Prefix'
 import { type BaseUnit } from '../BaseUnit'
 
-import { type UnitElementInput, type UnitElementStorageValue, UnitElementType } from './types'
+import { type UnitElementInput, type UnitElementStorageValue, UnitElementType } from './interpreting'
 import { unitElementInputToParameters } from './construction'
 
 export type UnitElementLike = UnitElementInput | UnitElement
@@ -74,7 +74,7 @@ export class UnitElement {
 
 	isInBaseForm(): boolean {
 		return this.isInBaseUnits() && this.hasStandardPrefix()
-		
+
 	}
 
 	/*
