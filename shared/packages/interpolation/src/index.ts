@@ -1,5 +1,6 @@
-export { getInterpolationPart, getClosestIndices } from './support'
+export * from './types'
+export * from './checks'
+export * from './support'
 export * from './rangeInterpolation'
 export * from './gridInterpolation'
 export * from './tableInterpolation'
-export * from './columnTableInterpolation'

@@ -1,9 +1,9 @@
 import { isNumber } from '@step-wise/utils'
 
-import type { NumberLike, InterpolationValue, InterpolationInputSeries, InterpolationGrid, InterpolationTable } from './types'
+import type { NumberLike, InterpolationValue as InputValue, InterpolationInputSeries, InterpolationGrid, InterpolationTable } from './types'
 
 // Check if a value is a number-like object.
-export function isNumberLike(x: unknown): x is NumberLike {
+export function isNumberLike<T>(x: unknown): x is NumberLike<T> {
 	if (typeof x !== 'object' || x === null) return false
 
 	const obj = x as Record<string, unknown>
@@ -14,13 +14,13 @@ export function isNumberLike(x: unknown): x is NumberLike {
 }
 
 // Check if a value is valid for interpolation.
-export function isInterpolationValue(x: unknown): x is InterpolationValue {
-	return isNumber(x) || isNumberLike(x)
+export function isInterpolationValue<T>(x: unknown): x is InputValue<T> {
+	return isNumber(x) || isNumberLike<T>(x)
 }
 
 // Ensure the given value is a number or number-like object.
-export function ensureInterpolationValue(x: unknown): InterpolationValue {
-	if (!isInterpolationValue(x)) throw new TypeError(`Invalid parameter: expected a number or number-like object (with add/subtract/multiply/divide functions). Instead received "${JSON.stringify(x)}".`)
+export function ensureInterpolationValue<T>(x: unknown): InputValue<T> {
+	if (!isInterpolationValue<T>(x)) throw new TypeError(`Invalid parameter: expected a number or number-like object (with add/subtract/multiply/divide functions). Instead received "${JSON.stringify(x)}".`)
 	return x
 }
 
@@ -30,19 +30,19 @@ export function isValidInterpolationPart(part: number): boolean {
 }
 
 // Check if a value is an array of interpolation values.
-export function isInterpolationInputSeries(x: unknown): x is InterpolationInputSeries<InterpolationValue> {
-	return Array.isArray(x) && x.every(value => isInterpolationValue(value))
+export function isInterpolationInputSeries<InputType>(x: unknown): x is InterpolationInputSeries<InputType> {
+	return Array.isArray(x) && x.every(value => isInterpolationValue<InputType>(value))
 }
 
-// Check that a grid matches the header dimensions.
-export function doesGridMatchHeaders(grid: InterpolationGrid<InterpolationValue>, headers: readonly InterpolationInputSeries<InterpolationValue>[]): boolean {
+// Check that a grid matches the input dimensions.
+export function doesGridMatchinputValues<InputType, OutputType>(grid: InterpolationGrid<OutputType>, inputValues: readonly InterpolationInputSeries<InputType>[]): boolean {
 	const checkLevel = (node: unknown, depth: number): boolean => {
 		// Final level: must be a leaf interpolation value.
-		if (depth === headers.length) return isInterpolationValue(node)
+		if (depth === inputValues.length) return node === undefined || isInterpolationValue<OutputType>(node)
 
 		// Intermediate level: must be an array with matching length.
 		if (!Array.isArray(node)) return false
-		if (node.length !== headers[depth].length) return false
+		if (node.length !== inputValues[depth].length) return false
 
 		// Check children.
 		return node.every(child => checkLevel(child, depth + 1))
@@ -51,24 +51,31 @@ export function doesGridMatchHeaders(grid: InterpolationGrid<InterpolationValue>
 }
 
 // Check if a value is a valid interpolation table.
-export function isInterpolationTable(x: unknown): x is InterpolationTable<InterpolationValue, InterpolationValue> {
+export function isInterpolationTable<InputType extends InputValue<InputType>, OutputType extends InputValue<OutputType>>(x: unknown): x is InterpolationTable<InputType, OutputType> {
 	if (typeof x !== 'object' || x === null) return false
-
 	const obj = x as Record<string, unknown>
-	if (!Array.isArray(obj.headers)) return false
 
-	const headers = obj.headers as InterpolationInputSeries<InterpolationValue>[]
-	if (!headers.every(header => isInterpolationInputSeries(header))) return false
+	if (!Array.isArray(obj.inputValues)) return false
+	const inputValues = obj.inputValues as InterpolationInputSeries<InputType>[]
+	if (!inputValues.every(inputValueSeries => isInterpolationInputSeries<InputType>(inputValueSeries))) return false
 
-	if (!('grid' in obj)) return false
-	if (!Array.isArray(obj.grid)) return false
-	const grid = obj.grid as InterpolationGrid<InterpolationValue>
+	if (!Array.isArray(obj.inputLabels) || !obj.inputLabels.every(label => typeof label === 'string')) return false
+	if (obj.inputLabels.length !== inputValues.length) return false
 
-	return doesGridMatchHeaders(grid, headers)
+	if (!('grids' in obj)) return false
+	if (!Array.isArray(obj.grids)) return false
+	const grids = obj.grids as InterpolationGrid<OutputType>[]
+	if (grids.length === 0) return false
+	if (!grids.every(grid => doesGridMatchinputValues(grid, inputValues))) return false
+
+	if (!Array.isArray(obj.outputLabels) || !obj.outputLabels.every(label => typeof label === 'string')) return false
+	if (obj.outputLabels.length !== grids.length) return false
+
+	return true
 }
 
 // Ensure a value is a valid interpolation table.
-export function ensureInterpolationTable(table: unknown): InterpolationTable<InterpolationValue, InterpolationValue> {
-	if (!isInterpolationTable(table)) throw new TypeError(`Interpolation error: invalid table received.`)
+export function ensureInterpolationTable<InputType extends InputValue<InputType>, OutputType extends InputValue<OutputType>>(table: unknown): InterpolationTable<InputType, OutputType> {
+	if (!isInterpolationTable<InputType, OutputType>(table)) throw new TypeError(`Interpolation error: invalid table received.`)
 	return table
 }

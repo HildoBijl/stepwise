@@ -1,33 +1,93 @@
-import type { InterpolationValue, InterpolationInputSeries, InterpolationTable } from './types'
-import { ensureInterpolationTable } from './checks'
+import { isNumber, isPlainObject, fromKeys } from '@step-wise/utils'
+
+import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput } from './types'
+import { isNumberLike } from './checks'
 import { gridInterpolate } from './gridInterpolation'
 
-// Interpolate within a table. A table is an object of the form { grid: [ ... ], headers: [ ... ], ... }. Here, if the headers parameter has n sub-arrays (ranges), then the grid must be an n-dimensional array to match. Identically, the input must be an array with values for these n parameters. (If n = 1, a single input value may be given instead of an array.)
-export function tableInterpolate<InputType extends InterpolationValue, OutputType extends InterpolationValue>(
+// Find a single value in a table, either because the table only has one output, or because an output label is indicated.
+export function tableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: InputType,
-	table: InterpolationTable<InputType, OutputType>
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabel?: string,
 ): OutputType | undefined
-export function tableInterpolate<InputType extends InterpolationValue, OutputType extends InterpolationValue>(
+export function tableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: readonly InputType[],
-	table: InterpolationTable<InputType, OutputType>
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabel?: string,
 ): OutputType | undefined
-export function tableInterpolate<InputType extends InterpolationValue, OutputType extends InterpolationValue>(
-	input: InputType | readonly InputType[],
-	table: InterpolationTable<InputType, OutputType>
+export function tableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: Record<string, InputType>,
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabel?: string,
+): OutputType | undefined
+export function tableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: TableInterpolationInput<InputType>,
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabel?: string,
 ): OutputType | undefined {
-	return gridInterpolate<InputType, OutputType>(input as any, table.grid, ...table.headers)
+	const normalizedInput = normalizeTableInterpolationInput(input, table)
+	const outputIndex = getOutputIndex(table, outputLabel)
+	return gridInterpolate(normalizedInput, table.grids[outputIndex], ...table.inputValues)
 }
 
-// Inverse interpolation in a 1D table.
-export function inverseTableInterpolate<InputType extends InterpolationValue, OutputType extends InterpolationValue>(
-	output: OutputType,
-	table: InterpolationTable<InputType, OutputType>
-): InputType | undefined {
-	// Check the input.
-	ensureInterpolationTable(table)
-	if (table.headers.length !== 1) throw new RangeError(`Interpolation error: can only apply inverse table interpolation on a table with one input parameter. However, the given table has ${table.headers.length}.`)
-	if (table.grid.some(v => v === undefined)) throw new Error(`Interpolation error: cannot run inverse table interpolation on tables with undefined values.`)
+// Find multiple output values in a table.
+export function multiOutputTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: InputType,
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabels?: readonly string[],
+): TableInterpolationOutput<OutputType>
+export function multiOutputTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: readonly InputType[],
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabels?: readonly string[],
+): TableInterpolationOutput<OutputType>
+export function multiOutputTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: Record<string, InputType>,
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabels?: readonly string[],
+): TableInterpolationOutput<OutputType>
+export function multiOutputTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: TableInterpolationInput<InputType>,
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabels?: readonly string[],
+): TableInterpolationOutput<OutputType> {
+	const normalizedInput = normalizeTableInterpolationInput(input, table)
+	return fromKeys(outputLabels ?? table.outputLabels, label => gridInterpolate(normalizedInput, table.grids[getOutputIndex(table, label)], ...table.inputValues))
+}
 
-	// Run an interpolation flipping the headers and the grid.
-	return gridInterpolate<OutputType, InputType>(output, table.headers[0], table.grid as InterpolationInputSeries<OutputType>)
+function normalizeTableInterpolationInput<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(input: TableInterpolationInput<InputType>, table: InterpolationTable<InputType, OutputType>): readonly InputType[] {
+	// On an array, check the length and return it.
+	if (Array.isArray(input)) {
+		if (input.length !== table.inputValues.length) throw new RangeError(`Table interpolate error: expected ${table.inputValues.length} input values, but received ${input.length}.`)
+		return [...input]
+	}
+
+	// On an object, turn into an array with values in the right order.
+	if (isPlainObject(input)) {
+		return table.inputLabels.map(label => {
+			if (!(label in input)) throw new Error(`Table interpolate error: missing input value for label "${label}".`)
+			return input[label]
+		})
+	}
+
+	// On a single value, check if this matches the table.
+	if (isNumber(input) || isNumberLike(input)) {
+		if (table.inputValues.length !== 1) throw new RangeError(`Table interpolate error: single input values are only allowed for single-input tables.`)
+		return [input as InputType]
+	}
+
+	throw new Error(`Table interpolate error: unexpected input type "${typeof input}".`)
+}
+
+function getOutputIndex<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(table: InterpolationTable<InputType, OutputType>, outputLabel?: string): number {
+	// On no output label, the table must have only one output.
+	if (outputLabel === undefined) {
+		if (table.outputLabels.length !== 1) throw new Error(`Table interpolate error: table has ${table.outputLabels.length} outputs. Please specify an output label.`)
+		return 0
+	}
+
+	// Find the corresponding output label in the table output labels.
+	const index = table.outputLabels.indexOf(outputLabel)
+	if (index === -1) throw new Error(`Table interpolate error: unknown output label "${outputLabel}".`)
+	return index
 }
