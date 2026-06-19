@@ -1,6 +1,7 @@
 import { Float, asFloat } from './Float'
 import { deserializeFloat, serializeFloat } from './serialization'
 import { floatToInputValue, interpretFloatInputValue, isFloatInputValue } from './inputValue'
+	import { getRandomExponentialFloat, getRandomFloat } from './random'
 
 describe('Float', () => {
 	describe('construction', () => {
@@ -142,6 +143,23 @@ describe('Float', () => {
 			expect(() => interpretFloatInputValue({ number: '-' })).toThrow()
 			expect(() => interpretFloatInputValue({ number: '.' })).toThrow()
 			expect(() => interpretFloatInputValue({ number: '3.14', power: '-' })).toThrow()
+		})
+	})
+
+	describe('random floats', () => {
+		test('generates floats within bounds', () => {
+			for (let i = 0; i < 10; i++) {
+				const x = getRandomFloat({ min: 2, max: 5 })
+				expect(x.number).toBeGreaterThanOrEqual(2)
+				expect(x.number).toBeLessThanOrEqual(5)
+			}
+		})
+		test('generates exponential floats within bounds', () => {
+			for (let i = 0; i < 10; i++) {
+				const x = getRandomExponentialFloat({ min: 0.01, max: 100 })
+				expect(x.number).toBeGreaterThanOrEqual(0.01)
+				expect(x.number).toBeLessThanOrEqual(100)
+			}
 		})
 	})
 })

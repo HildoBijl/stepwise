@@ -23,7 +23,7 @@ export function getInterpolationPart<InputType extends NumberLike<InputType>>(in
 	throw new Error(`Invalid getInterpolationPart case: received an input that is neither a number nor number-like.`)
 }
 
-// Find the two closest indices in an ascending series using binary search.
+// Find the two closest indices in an ascending series using binary search. If the value is out of range, it will still give the two closest indices (being the first two or last two).
 export function getClosestIndices<InputType extends InterpolationValue<InputType>>(value: InputType, getSeriesValue: (index: number) => InputType, seriesLength: number): [number, number] {
 	let min = 0
 	let max = seriesLength - 1

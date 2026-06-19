@@ -1,0 +1,21 @@
+{
+	"name": "@step-wise/physics-data",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -b",
+		"watch": "tsc -b --watch",
+		"test": "jest",
+		"test:watch": "jest --watch"
+	},
+	"dependencies": {
+		"@step-wise/interpolation": "file:../interpolation",
+		"@step-wise/physics-core": "file:../physics-core",
+		"@step-wise/utils": "file:../utils"
+	},
+	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"typescript": "^6.0.2"
+	}
+}

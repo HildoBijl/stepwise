@@ -4,6 +4,7 @@ import { Unit } from '../Unit'
 import { FloatUnit, asFloatUnit } from './FloatUnit'
 import { deserializeFloatUnit, serializeFloatUnit } from './serialization'
 import { floatUnitToInputValue, interpretFloatUnitInputValue, isFloatUnitInputValue } from './inputValue'
+import { getRandomExponentialFloatUnit, getRandomFloatUnit } from './random'
 
 describe('FloatUnit', () => {
 	describe('construction', () => {
@@ -169,6 +170,25 @@ describe('FloatUnit', () => {
 					denominator: [{ text: 's', power: '2' }],
 				},
 			})
+		})
+	})
+
+	describe('random FloatUnits', () => {
+		test('generates FloatUnits within bounds and with unit', () => {
+			for (let i = 0; i < 10; i++) {
+				const x = getRandomFloatUnit({ min: 2, max: 5, unit: 'm' })
+				expect(x.number).toBeGreaterThanOrEqual(2)
+				expect(x.number).toBeLessThanOrEqual(5)
+				expect(x.unit.equals('m')).toBe(true)
+			}
+		})
+		test('generates exponential FloatUnits within bounds and with unit', () => {
+			for (let i = 0; i < 10; i++) {
+				const x = getRandomExponentialFloatUnit({ min: 0.01, max: 100, unit: 'Pa' })
+				expect(x.number).toBeGreaterThanOrEqual(0.01)
+				expect(x.number).toBeLessThanOrEqual(100)
+				expect(x.unit.equals('Pa')).toBe(true)
+			}
 		})
 	})
 })
