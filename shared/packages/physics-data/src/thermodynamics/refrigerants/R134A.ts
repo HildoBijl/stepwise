@@ -2,7 +2,7 @@ import { FloatUnit } from '@step-wise/physics-core'
 
 import { createTable, floatUnitGrid, exactFloatUnits } from '../../utils'
 
-import { type CriticalPoint, type RefrigerantPressureTable, createRefrigerantTable } from './utils'
+import { type CriticalPoint, type RefrigerantPressureTable, createRefrigerantTable } from './types'
 
 /*
  * Critical point
