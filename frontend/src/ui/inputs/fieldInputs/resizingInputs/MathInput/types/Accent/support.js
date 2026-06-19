@@ -1,5 +1,6 @@
 import { isLetter } from '@step-wise/utils'
-import { alphabet as greekAlphabet } from 'step-wise/data/greek'
+
+import { greekAlphabet } from 'ui/form'
 
 export function isAcceptableChar(key) {
 	return isLetter(key) || greekAlphabet[key] !== undefined

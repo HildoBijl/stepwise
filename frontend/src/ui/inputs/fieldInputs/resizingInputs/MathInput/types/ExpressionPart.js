@@ -1,10 +1,10 @@
 import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/utils'
 import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
 import { accents, constructs, textFunctions } from '@step-wise/cas'
-import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { getClickSide } from 'util'
 import { latexMinus } from 'ui/components'
+import { greekAlphabet } from 'ui/form'
 
 import { emptyElementChar, emptyElementCharLatex } from '../settings'
 import { isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../support'

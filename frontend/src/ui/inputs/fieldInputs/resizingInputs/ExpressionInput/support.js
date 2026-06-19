@@ -1,7 +1,5 @@
-import { alphabet as greekAlphabet } from 'step-wise/data/greek'
-
 import { Translation, Check } from 'i18n'
-import { simplifyKey, keyboards } from 'ui/form'
+import { simplifyKey, keyboards, greekAlphabet } from 'ui/form'
 
 import { expressionFunctions } from '../MathInput'
 
