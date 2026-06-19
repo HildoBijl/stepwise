@@ -24,6 +24,7 @@ A few things to note here are:
 
 - It is easily possible to define tables with single input and/or single outputs. Do keep the same array format though.
 - Within the grids, within the final arrays, the first-mentioned input value will vary across its range. A layer higher, it's the second-mentioned input value. This can continue for further input values, creating a multi-dimensional table.
+- It is assumed that all input values are in ascending order. No value may be smaller than the one before it.
 
 
 ## Step 2: use a table
@@ -47,6 +48,17 @@ multiOutputTableInterpolate([1.5, 2.5], exampleTable, ['z', 'x']) // Provide out
 ```
 
 Tables may also have `undefined` in them, for instance when the output value there is unknown or not applicable. Whenever an interpolation function encounters `undefined` anywhere, the output is always directly `undefined` too, as the output cannot be computed.
+
+In special cases, you may want to use inverse interpolation on a table: based on an output value find the input value. This is only possible when two conditions are met:
+
+- The given output series is monotonically increasing or decreasing and has no undefineds. If not, there would be multiple relevant input values.
+- There is only a single input value. Otherwise calculations may be come too complex.
+
+If these conditions are met, we can run an inverse table interpolation.
+
+```
+inverseTableInterpolate(7, exampleTable, 'x') // Finds the input value for which the output x equals 7. In this example case it will throw, since it's not a single-input table.
+```
 
 
 ## Interpolation with non-number values

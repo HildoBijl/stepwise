@@ -1,6 +1,6 @@
 import { isNumber } from '@step-wise/utils'
 
-import type { NumberLike, InterpolationValue, InterpolationPair } from './types'
+import type { NumberLike, InterpolationValue, InterpolationPair, InterpolationInputSeries } from './types'
 import { isNumberLike } from './checks'
 
 // Get the interpolation part of an input within a range.
@@ -44,4 +44,23 @@ export function interpolateNumberFromPart(outputRange: InterpolationPair<number>
 export function interpolateNumberLikeFromPart<OutputType extends NumberLike<OutputType>>(outputRange: InterpolationPair<OutputType>, part: number): OutputType {
 	const [a, b] = outputRange
 	return a.add(b.subtract(a).multiply(part))
+}
+
+export function compareInterpolationValues<T extends InterpolationValue<T>>(a: T, b: T): number {
+	if (typeof a === 'number' && typeof b === 'number') return a - b
+	if (isNumberLike<T>(a) && isNumberLike<T>(b)) return a.compare(b)
+	throw new Error(`Inverse table interpolate error: output series contains mixed interpolation value types.`)
+}
+
+export function ensureMonotonicSeries<T extends InterpolationValue<T>>(series: InterpolationInputSeries<T>): InterpolationInputSeries<T> {
+	if (series.length < 2) throw new Error(`Inverse table interpolate error: expected at least two output values.`)
+	let direction: -1 | 1 | undefined
+	for (let i = 1; i < series.length; i++) {
+		const comparison = compareInterpolationValues(series[i], series[i - 1])
+		if (comparison === 0) throw new Error(`Inverse table interpolate error: output series must be strictly monotonic, but equal neighboring values were found at indices ${i - 1} and ${i}.`)
+		const currDirection = comparison > 0 ? 1 : -1
+		direction ??= currDirection
+		if (currDirection !== direction) throw new Error(`Inverse table interpolate error: output series must be monotonic, but direction changes near index ${i}.`)
+	}
+	return series
 }

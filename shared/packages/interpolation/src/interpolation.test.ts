@@ -1,11 +1,25 @@
 import { gridInterpolate } from './gridInterpolation'
-import { tableInterpolate, multiOutputTableInterpolate } from './tableInterpolation'
+import { tableInterpolate, multiOutputTableInterpolate, inverseTableInterpolate } from './tableInterpolation'
 
 const singleInputTable = {
 	inputLabels: ['a'],
 	inputValues: [[0, 1, 2, 3]],
 	outputLabels: ['x'],
 	grids: [[2, 4, 6, 8]],
+}
+
+const decreasingTable = {
+	inputLabels: ['a'],
+	inputValues: [[0, 1, 2, 3]],
+	outputLabels: ['x'],
+	grids: [[8, 6, 4, 2]],
+}
+
+const nonMonotonicTable = {
+	inputLabels: ['a'],
+	inputValues: [[0, 1, 2, 3]],
+	outputLabels: ['x'],
+	grids: [[0, 2, 1, 3]],
 }
 
 const tableWithUndefined = {
@@ -32,15 +46,19 @@ describe('interpolation', () => {
 			expect(tableInterpolate(1.5, singleInputTable)).toBe(5)
 			expect(tableInterpolate([1.5], singleInputTable)).toBe(5)
 			expect(tableInterpolate({ a: 1.5 }, singleInputTable)).toBe(5)
-		})
-		test('returns undefined when interpolating outside the grid', () => {
-			expect(tableInterpolate([3, 2.5], multiDimensionalTable, 'x')).toBeUndefined()
-			expect(tableInterpolate([-1, 2.5], multiDimensionalTable, 'x')).toBeUndefined()
+			expect(tableInterpolate(0.5, decreasingTable)).toBe(7)
+			expect(tableInterpolate(2.5, decreasingTable)).toBe(3)
+			expect(tableInterpolate(0.5, nonMonotonicTable)).toBe(1)
+			expect(tableInterpolate(2.5, nonMonotonicTable)).toBe(2)
 		})
 		test('returns undefined when interpolation touches an undefined grid value', () => {
 			expect(tableInterpolate(0.5, tableWithUndefined)).toBeUndefined()
 			expect(tableInterpolate(1.5, tableWithUndefined)).toBeUndefined()
 			expect(tableInterpolate(2.5, tableWithUndefined)).toBe(5)
+		})
+		test('returns undefined when interpolating outside the grid', () => {
+			expect(tableInterpolate([3, 2.5], multiDimensionalTable, 'x')).toBeUndefined()
+			expect(tableInterpolate([-1, 2.5], multiDimensionalTable, 'x')).toBeUndefined()
 		})
 		test('interpolates a single output from a table using array input', () => {
 			expect(tableInterpolate([1.5, 2.5], multiDimensionalTable, 'x')).toBe(10.5)
@@ -69,10 +87,34 @@ describe('interpolation', () => {
 		})
 	})
 
+	describe('inverse table interpolation', () => {
+		test('inverts a single-output one-dimensional table', () => {
+			expect(inverseTableInterpolate(5, singleInputTable)).toBe(1.5)
+			expect(inverseTableInterpolate(2, singleInputTable)).toBe(0)
+			expect(inverseTableInterpolate(8, singleInputTable)).toBe(3)
+		})
+		test('returns undefined outside the inverse range', () => {
+			expect(inverseTableInterpolate(1, singleInputTable)).toBeUndefined()
+			expect(inverseTableInterpolate(9, singleInputTable)).toBeUndefined()
+		})
+		test('throws on multi-dimensional tables', () => {
+			expect(() => inverseTableInterpolate(5, multiDimensionalTable, 'x')).toThrow()
+		})
+		test('throws when the selected output contains undefined values', () => {
+			expect(() => inverseTableInterpolate(3, tableWithUndefined)).toThrow()
+		})
+		test('throws when the selected output is not strictly monotonic', () => {
+			expect(() => inverseTableInterpolate(1.5, nonMonotonicTable)).toThrow()
+		})
+		test('works for strictly decreasing output series', () => {
+			expect(inverseTableInterpolate(5, decreasingTable)).toBe(1.5)
+		})
+	})
+
 	describe('gridInterpolate', () => {
 		test('interpolates directly on grids', () => {
-			expect(gridInterpolate([1.5, 2.5], multiDimensionalTable.grids[0], ...multiDimensionalTable.inputValues)).toBe(10.5)
 			expect(gridInterpolate(1.5, [2, 4, 6, 8], [0, 1, 2, 3])).toBe(5)
+			expect(gridInterpolate([1.5, 2.5], multiDimensionalTable.grids[0], ...multiDimensionalTable.inputValues)).toBe(10.5)
 		})
 	})
 })

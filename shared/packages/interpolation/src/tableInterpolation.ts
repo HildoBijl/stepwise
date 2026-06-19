@@ -1,7 +1,8 @@
 import { isNumber, isPlainObject, fromKeys } from '@step-wise/utils'
 
-import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput } from './types'
+import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput, InterpolationInputSeries, InterpolationOutputSeries } from './types'
 import { isNumberLike } from './checks'
+import { compareInterpolationValues, ensureMonotonicSeries } from './support'
 import { gridInterpolate } from './gridInterpolation'
 
 // Find a single value in a table, either because the table only has one output, or because an output label is indicated.
@@ -55,6 +56,31 @@ export function multiOutputTableInterpolate<InputType extends InterpolationValue
 	return fromKeys(outputLabels ?? table.outputLabels, label => gridInterpolate(normalizedInput, table.grids[getOutputIndex(table, label)], ...table.inputValues))
 }
 
+export function inverseTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	output: OutputType,
+	table: InterpolationTable<InputType, OutputType>,
+	outputLabel?: string,
+): InputType | undefined {
+	// Check that the table is one-dimensional.
+	if (table.inputValues.length !== 1) throw new Error(`Inverse table interpolate error: expected a table with one input parameter, but received ${table.inputValues.length}.`)
+
+	// Find the output grid.
+	const outputIndex = getOutputIndex(table, outputLabel)
+	const outputSeries = table.grids[outputIndex] as InterpolationOutputSeries<OutputType>
+	const inputSeries = table.inputValues[0]
+
+	// Check that the selected output grid is one-dimensional.
+	if (!Array.isArray(outputSeries)) throw new Error(`Inverse table interpolate error: expected a one-dimensional output grid.`)
+	if (outputSeries.some(value => Array.isArray(value))) throw new Error(`Inverse table interpolate error: can only invert one-dimensional output grids.`)
+	if (outputSeries.length !== inputSeries.length) throw new Error(`Inverse table interpolate error: input and output series length mismatch.`)
+	if (outputSeries.some(value => value === undefined)) throw new Error(`Inverse table interpolate error: cannot invert an output series containing undefined values.`)
+
+	// Check monotonicity, then interpolate with input and output swapped.
+	const definedOutputSeries = ensureMonotonicSeries(outputSeries as InterpolationInputSeries<OutputType>)
+	const [interpolationInputSeries, interpolationOutputSeries] = isDescendingSeries(definedOutputSeries) ? [[...definedOutputSeries].reverse(), [...inputSeries].reverse()] : [definedOutputSeries, inputSeries]
+	return gridInterpolate(output, interpolationOutputSeries, interpolationInputSeries)
+}
+
 function normalizeTableInterpolationInput<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(input: TableInterpolationInput<InputType>, table: InterpolationTable<InputType, OutputType>): readonly InputType[] {
 	// On an array, check the length and return it.
 	if (Array.isArray(input)) {
@@ -90,4 +116,8 @@ function getOutputIndex<InputType extends InterpolationValue<InputType>, OutputT
 	const index = table.outputLabels.indexOf(outputLabel)
 	if (index === -1) throw new Error(`Table interpolate error: unknown output label "${outputLabel}".`)
 	return index
+}
+
+function isDescendingSeries<T extends InterpolationValue<T>>(series: InterpolationInputSeries<T>): boolean {
+	return compareInterpolationValues(series[1], series[0]) < 0
 }
