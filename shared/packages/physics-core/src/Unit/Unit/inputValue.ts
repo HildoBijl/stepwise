@@ -1,18 +1,9 @@
 import { isPlainObject, onlyHasKeys, InterpretationError } from '@step-wise/utils'
 
-import { type UnitElementStorageValue, interpretPrefixAndBaseUnitString } from '../UnitElement'
+import { type UnitElementStorageValue, type UnitElementInputValue, interpretPrefixAndBaseUnitString, isUnitElementInputValue, unitElementToInputValue } from '../UnitElement'
 
 import { type UnitStorageValue } from './interpreting'
 import { Unit } from './Unit'
-
-/*
- * Types
- */
-
-export type UnitElementInputValue = {
-	text: string
-	power?: string
-}
 
 export type UnitInputValue = {
 	numerator?: UnitElementInputValue[]
@@ -23,13 +14,7 @@ export type UnitInputValue = {
  * Type checks
  */
 
-function isUnitElementInputValue(value: unknown): value is UnitElementInputValue {
-	if (!isPlainObject(value) || !onlyHasKeys(value, ['text', 'power'])) return false
-	const { text, power } = value as UnitElementInputValue
-	return (typeof text === 'string') && (power === undefined || typeof power === 'string')
-}
-
-function isUnitElementArrayInputValue(value: unknown): value is UnitElementInputValue[] {
+export function isUnitElementArrayInputValue(value: unknown): value is UnitElementInputValue[] {
 	return Array.isArray(value) && value.every(isUnitElementInputValue)
 }
 
@@ -89,12 +74,5 @@ export function unitToInputValue(unit: Unit): UnitInputValue {
 	return {
 		...(unit.numerator.length === 0 ? {} : { numerator: unit.numerator.map(unitElementToInputValue) }),
 		...(unit.denominator.length === 0 ? {} : { denominator: unit.denominator.map(unitElementToInputValue) }),
-	}
-}
-
-function unitElementToInputValue(unitElement: Unit['numerator'][number]): UnitElementInputValue {
-	return {
-		text: unitElement.getStringWithoutPower(),
-		...(unitElement.power === 1 ? {} : { power: unitElement.power.toString() }),
 	}
 }

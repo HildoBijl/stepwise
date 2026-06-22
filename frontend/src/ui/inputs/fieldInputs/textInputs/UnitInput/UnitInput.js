@@ -32,10 +32,10 @@ export const defaultUnitInputOptions = {
 		},
 		'& .fraction': {
 			textAlign: 'center',
-			'& .num, .den, .divider': {
+			'& .numerator, .denominator, .divider': {
 				display: 'block',
 			},
-			'& .num, .den': {
+			'& .numerator, .denominator': {
 				fontSize: '0.85em',
 				height: '50%',
 				padding: '0 3px', // Add padding to make the divider line wider horizontally.
@@ -50,7 +50,7 @@ export const defaultUnitInputOptions = {
 				},
 			},
 
-			'& .num': {
+			'& .numerator': {
 				'& .char': { lineHeight: 1.8 },
 				'& .cursorContainer': {
 					'& span.cursor': { top: '25%' },
@@ -62,7 +62,7 @@ export const defaultUnitInputOptions = {
 					},
 				},
 			},
-			'& .den': {
+			'& .denominator': {
 				'& .char': { lineHeight: 1.6 },
 				'& .cursorContainer': {
 					'& span.cursor': { top: '20%' },

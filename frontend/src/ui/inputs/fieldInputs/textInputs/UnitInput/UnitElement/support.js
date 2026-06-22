@@ -1,5 +1,5 @@
-import { isNumber, removeAt, insertAt, isLetter, fromKeys } from '@step-wise/utils'
-import { units, prefixes, interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes'
+import { isNumber, removeAt, insertAt, isLetter } from '@step-wise/utils'
+import { baseUnits, prefixes, interpretPrefixAndBaseUnitString } from '@step-wise/physics-core'
 
 import { getClickPosition } from '../../TextInput'
 
@@ -14,8 +14,8 @@ export const getEndCursor = (FI, cursor) => hasPowerVisible(FI, cursor) ? { part
 export const isCursorAtStart = (_, cursor) => cursor?.part === 'text' && cursor.cursor === 0
 export const isCursorAtEnd = ({ prefix, unit, power }, cursor) => (cursor?.part === 'power' && cursor.cursor === power.length) || (power === '' && cursor?.cursor === prefix.length + unit.length)
 export const isValid = value => value.unitObj && (value.prefix === '' || !!value.prefixObj)
-export const clean = value => isEmpty(value) ? undefined : fromKeys(parts, part => value[part] || undefined)
-export const functionalize = ({ prefix = '', unit = '', power = '' }) => processUnitElement({ text: prefix + unit, power }).value
+export const clean = value => isEmpty(value) ? undefined : { text: (value.prefix ?? '') + (value.unit ?? ''), ...(value.power ? { power: value.power } : {}) }
+export const functionalize = ({ text = '', power = '' }) => processUnitElement({ text, power }).value
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
 export function keyPressToFI(keyInfo, FI, contentsElement) {
@@ -76,7 +76,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	}
 
 	// For letters and base units add them to the unit.
-	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
+	if (isLetter(key) || Object.keys(baseUnits).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
 		return { ...FI, ...processUnitElement({ text: insertAt(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
@@ -122,7 +122,7 @@ export function mouseClickToCursor(evt, FI, unitElementElement) {
 // processUnitElement takes a simple unit element value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2', prefixObj: {obj}, unitObj: {obj} }, cursor: { part: 'text', cursor: 2 } }. If found, the references to the prefix and unit objects are also added.
 export function processUnitElement(value, cursor) {
 	const { text, power } = value
-	const { prefix, unit } = interpretPrefixAndBaseUnitStr(text)
+	const { prefix, unit } = interpretPrefixAndBaseUnitString(text)
 
 	// Determine if the cursor needs to shift.
 	if (cursor?.part === 'text') {

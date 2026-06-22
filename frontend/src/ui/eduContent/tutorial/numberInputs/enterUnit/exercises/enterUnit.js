@@ -39,8 +39,8 @@ function getFeedback(exerciseData) {
 	const { translate } = exerciseData
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, solution, _, correct) => !correct && solution.equals(input, { type: Unit.equalityTypes.sameUnits }) && translate(<>Technically correct, but you must enter the unit <strong>as shown</strong>, including its order.</>, 'reorderedUnit'),
-			(input, solution, _, correct) => !correct && solution.equals(input, { type: Unit.equalityTypes.free }) && translate(<>Technically correct, but this is a whole different notation. Enter the unit <strong>as shown</strong>.</>, 'equivalentUnit'),
+			(input, solution, _, correct) => !correct && solution.equals(input, { target: 'standard' }) && translate(<>Technically correct, but you must enter the unit <strong>as shown</strong>, including its order.</>, 'reorderedUnit'),
+			(input, solution, _, correct) => !correct && solution.equals(input, { target: 'base' }) && translate(<>Technically correct, but this is a whole different notation. Enter the unit <strong>as shown</strong>.</>, 'equivalentUnit'),
 		],
 	})
 }

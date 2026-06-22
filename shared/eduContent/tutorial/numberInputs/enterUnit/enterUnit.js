@@ -4,7 +4,7 @@ const { getSimpleExerciseProcessor, performComparison } = require('../../../../e
 
 const metaData = {
 	skill: 'enterUnit',
-	comparison: { ans: { type: Unit.equalityTypes.exact } },
+	comparison: { ans: { target: 'unchanged' } },
 }
 
 function generateState() {

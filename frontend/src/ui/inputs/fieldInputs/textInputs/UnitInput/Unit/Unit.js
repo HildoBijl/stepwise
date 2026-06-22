@@ -13,24 +13,24 @@ export function Unit({ value, cursor }) {
 	// If there is no denominator, only show the numerator without a fraction.
 	if (!isDenominatorVisible(value, cursor)) {
 		return (
-			<span className="num">
-				<Part {...{ part: 'num', value, cursor }} />
+			<span className="numerator">
+				<Part {...{ part: 'numerator', value, cursor }} />
 			</span>
 		)
 	}
 
 	// If there is a denominator, show a fraction.
 	return <span className="fraction">
-		<span className="num">
+		<span className="numerator">
 			{
-				!isUnitArrayEmpty(value.num) || (cursor?.part === 'num') ?
-					<Part {...{ part: 'num', value, cursor }} /> :
+				!isUnitArrayEmpty(value.numerator) || (cursor?.part === 'numerator') ?
+					<Part {...{ part: 'numerator', value, cursor }} /> :
 					<span className="char filler filler-1">1</span>
 			}
 		</span>
 		<span className="dividerContainer"><span className="divider" /></span>
-		<span className="den">
-			<Part {...{ part: 'den', value, cursor }} />
+		<span className="denominator">
+			<Part {...{ part: 'denominator', value, cursor }} />
 		</span>
 	</span>
 }
