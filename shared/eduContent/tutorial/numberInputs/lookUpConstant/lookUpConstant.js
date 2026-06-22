@@ -1,10 +1,12 @@
 const { sample } = require('@step-wise/utils')
-const constants = require('../../../../data/constants')
+const { c, g, R, e, k, G } = require('@step-wise/physics-data')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
+
+const constants = { c, g, R, e, k, G }
 
 const metaData = {
 	skill: 'lookUpConstant',
-	comparison: { ans: { relativeMargin: 0.0001 } },
+	comparison: { ans: { float: { relativeTolerance: 0.0001 } } },
 }
 
 function generateState(example) {

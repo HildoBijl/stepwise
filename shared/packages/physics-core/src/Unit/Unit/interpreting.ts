@@ -18,7 +18,7 @@ export type UnitInput = string | {
 }
 
 export const unitElementArrayPattern = `(1|${unitElementPattern}(\\s*\\*\\s*${unitElementPattern})*)`
-export const unitPattern = `${unitElementArrayPattern}(\\s*/\\s*${unitElementArrayPattern})?`
+export const unitPattern = `(${unitElementArrayPattern}(\\s*/\\s*${unitElementArrayPattern})?|/\\s*${unitElementArrayPattern})`
 
 export const unitElementArrayRegex = new RegExp(`^${unitElementArrayPattern}$`)
 export const unitRegex = new RegExp(`^${unitPattern}$`)
@@ -29,8 +29,8 @@ export function splitUnitString(str: string): { numerator: string, denominator: 
 	if (str === '' || str === '1') return { numerator: '', denominator: '' }
 	if (str.includes('(') || str.includes(')')) throw new Error(`Invalid unit input: brackets are not necessary in units. Enter them like "N * m^2 / kg * K". Received "${str}".`)
 	if (!unitRegex.test(str)) throw new Error(`Invalid unit input: could not parse "${str}".`)
-	const strSplit = str.split('/')
-	return { numerator: strSplit[0].trim(), denominator: strSplit[1]?.trim() ?? '' }
+	const [numerator, denominator] = str.split('/').map(part => (part ?? '').trim())
+	return { numerator, denominator }
 }
 
 // Turn a unit string like 'kg * m^2 * s' (without slashes) or an array of unit element inputs into an array of UnitElements.

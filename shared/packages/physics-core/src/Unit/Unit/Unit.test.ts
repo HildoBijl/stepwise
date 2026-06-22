@@ -7,6 +7,7 @@ describe('Unit', () => {
 			expect(new Unit('kg * m / s^2').toString()).toBe('kg * m / s^2')
 			expect(new Unit('m').toStorageValue()).toEqual({ numerator: [{ unit: 'm' }] })
 			expect(new Unit('m / s^2').toStorageValue()).toEqual({ numerator: [{ unit: 'm' }], denominator: [{ unit: 's', power: 2 }] })
+			expect(new Unit('/m').toStorageValue()).toEqual({ denominator: [{ unit: 'm' }] })
 		})
 		test('constructs from storage values', () => {
 			const unit = new Unit({ numerator: [{ prefix: 'k', unit: 'g' }, { unit: 'm' }], denominator: [{ unit: 's', power: 2 }] })
