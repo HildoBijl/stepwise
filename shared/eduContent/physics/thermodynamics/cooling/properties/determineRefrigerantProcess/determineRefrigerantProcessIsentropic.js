@@ -1,4 +1,4 @@
-const { sample, randomBoolean } = require('@step-wise/utils')
+const { sample, getRandomBoolean } = require('@step-wise/utils')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
@@ -31,7 +31,7 @@ function generateState() {
 	points[0] = refrigerantProperties.getProperties(pressures[0], points[1].entropy, refrigerantData)
 
 	// Possibly switch points.
-	const switchPoints = randomBoolean()
+	const switchPoints = getRandomBoolean()
 	if (switchPoints)
 		points = points.reverse()
 

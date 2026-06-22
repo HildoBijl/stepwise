@@ -1,4 +1,4 @@
-import { ensureInt, shallowEqual } from '@step-wise/utils'
+import { ensureInteger, shallowEqual } from '@step-wise/utils'
 
 import { type UnitElement, type UnitElementStorageValue } from '../UnitElement'
 
@@ -133,7 +133,7 @@ export class Unit {
 
 	toPower(power: number): Unit {
 		// Handle edge cases.
-		power = ensureInt(power)
+		power = ensureInteger(power)
 		if (power === 0) return new Unit()
 		if (power === 1) return this
 		if (power < 0) return this.invert().toPower(-power)

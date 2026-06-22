@@ -1,4 +1,4 @@
-const { randomInteger } = require('@step-wise/utils')
+const { getRandomInteger } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -10,8 +10,8 @@ const metaData = {
 
 function generateState(example) {
 	return {
-		a: randomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
-		b: randomInteger(2, example ? 5 : 8),
+		a: getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
+		b: getRandomInteger(2, example ? 5 : 8),
 	}
 }
 

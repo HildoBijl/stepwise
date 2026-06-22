@@ -1,4 +1,4 @@
-import { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/utils'
+import { ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/utils'
 
 import { PolynomialMatrix, VariableList, PolynomialExpression } from './types'
 import { restructurePolynomial } from './restructuring'
@@ -93,7 +93,7 @@ export function multiplyPolynomials(expressions: PolynomialExpression[], destina
 
 // Raise a polynomial matrix to a given power.
 function polynomialMatrixToPower(matrix: PolynomialMatrix, exponent: number): PolynomialMatrix {
-	const ensuredExponent = ensureInt(exponent, true)
+	const ensuredExponent = ensureInteger(exponent, true)
 	const dimensions = getDimensions(matrix)
 	if (ensuredExponent === 0) return repeatMultidimensional(dimensions.map(() => 1), () => 1) as PolynomialMatrix
 	if (ensuredExponent === 1) return matrix
@@ -105,7 +105,7 @@ export function polynomialToPower(expression: PolynomialExpression, exponent: nu
 
 // Return all powers of a matrix up to (and including) the given maximum exponent. So it gives [1, f(x), f(x)^2, ..., f(x)^n].
 function getPolynomialMatrixPowerList(matrix: PolynomialMatrix, maxExponent: number): PolynomialMatrix[] {
-	const ensuredMaxExponent = ensureInt(maxExponent, true)
+	const ensuredMaxExponent = ensureInteger(maxExponent, true)
 	let matrixPower = matrix
 	return repeat(ensuredMaxExponent + 1, exponent => {
 		if (exponent === 0) return polynomialMatrixToPower(matrix, 0)

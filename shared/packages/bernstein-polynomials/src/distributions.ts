@@ -1,4 +1,4 @@
-import { ensureInt, sum, cumulative } from '@step-wise/utils'
+import { ensureInteger, sum, cumulative } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
@@ -49,7 +49,7 @@ function getBernsteinCDFCoefficients(coefficients: BernsteinCoefficients): Berns
 
 // Get the inverse CDF by applying a binary search to the CDF for every call.
 export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numIterations = 20): (F: number) => number {
-	const ensuredNumIterations = ensureInt(numIterations, true, true)
+	const ensuredNumIterations = ensureInteger(numIterations, true, true)
 	const cdf = getBernsteinCDF(coefficients)
 
 	return F => {
@@ -71,7 +71,7 @@ export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numI
 
 // Get the maximum value of the PDF. Returns { x, f } with x the input and f the output.
 export function getBernsteinPDFMaximum(coefficients: BernsteinCoefficients, numIterations = 20): { x: number, f: number } {
-	const ensuredNumIterations = ensureInt(numIterations, true, true)
+	const ensuredNumIterations = ensureInteger(numIterations, true, true)
 
 	let left = 0, right = 1
 	const pdf = getBernsteinPDF(coefficients)

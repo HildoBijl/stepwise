@@ -1,4 +1,4 @@
-const { deg2rad, fromEntries, randomInteger } = require('@step-wise/utils')
+const { deg2rad, fromEntries, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
@@ -26,7 +26,7 @@ function generateState() {
 		l1: getRandomFloatUnit({ min: 4, max: 8, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 4, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
-		angle: randomInteger(6, 16) * 5,
+		angle: getRandomInteger(6, 16) * 5,
 	}
 }
 

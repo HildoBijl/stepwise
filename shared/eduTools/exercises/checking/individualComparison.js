@@ -1,7 +1,5 @@
-const { isPlainObject } = require('@step-wise/utils')
+const { isPlainObject, numbersEqual } = require('@step-wise/utils')
 const { Expression } = require('@step-wise/cas')
-
-const { areNumbersEqual } = require('../../../inputTypes')
 
 const { getCurrentInputSolutionAndComparison, processParameterComparison } = require('./util')
 
@@ -50,7 +48,7 @@ function performIndividualComparison(currInput, currSolution, currComparison, so
 				return false
 			currInput = currInput.toNumber()
 		}
-		return areNumbersEqual(currInput, currSolution, currComparison)
+		return numbersEqual(currInput, currSolution, currComparison)
 	}
 
 	// We have an object-based parameter. Use the built-in equals function of the solution.

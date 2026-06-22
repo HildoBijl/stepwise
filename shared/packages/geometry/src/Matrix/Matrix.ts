@@ -1,4 +1,4 @@
-import { ensureInt, ensureNumber, compareNumbers, count } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, compareNumbers, count } from '@step-wise/utils'
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
@@ -87,14 +87,14 @@ export class Matrix {
 	 */
 
 	private ensureValidRowIndex(index: number): number {
-		index = ensureInt(index)
+		index = ensureInteger(index)
 		if (index < 0) throw new Error(`Invalid matrix row index: the index cannot be negative. However, ${index} was received.`)
 		if (index >= this.height) throw new Error(`Invalid matrix row index: the index cannot be larger than the number of rows. However, ${index} was received for a matrix with ${this.height} rows.`)
 		return index
 	}
 
 	private ensureValidColumnIndex(index: number): number {
-		index = ensureInt(index)
+		index = ensureInteger(index)
 		if (index < 0) throw new Error(`Invalid matrix column index: the index cannot be negative. However, ${index} was received.`)
 		if (index >= this.width) throw new Error(`Invalid matrix column index: the index cannot be larger than the number of columns. However, ${index} was received for a matrix with ${this.width} columns.`)
 		return index
@@ -277,8 +277,8 @@ export class Matrix {
 	 */
 
 	static getZero(rowCount: number, columnCount = rowCount): Matrix {
-		rowCount = ensureInt(rowCount, true)
-		columnCount = ensureInt(columnCount, true)
+		rowCount = ensureInteger(rowCount, true)
+		columnCount = ensureInteger(columnCount, true)
 		return new Matrix(new Array(rowCount).fill(0).map(() => new Array(columnCount).fill(0)))
 	}
 
@@ -288,7 +288,7 @@ export class Matrix {
 	}
 
 	static getIdentity(size: number): Matrix {
-		size = ensureInt(size, true)
+		size = ensureInteger(size, true)
 		return Matrix.fromDiagonal(new Array(size).fill(1))
 	}
 

@@ -1,4 +1,4 @@
-const { sample, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 
@@ -32,9 +32,9 @@ addSetupFromSteps(metaData)
 function generateState(example) {
 	let a, b, c
 	while (a === undefined || b ** 2 - 4 * a * c <= 0) {
-		a = randomInteger(-6, 6, [0])
-		b = randomInteger(-12, 12)
-		c = randomInteger(-40, 40)
+		a = getRandomInteger(-6, 6, [0])
+		b = getRandomInteger(-12, 12)
+		c = getRandomInteger(-40, 40)
 	}
 
 	return {

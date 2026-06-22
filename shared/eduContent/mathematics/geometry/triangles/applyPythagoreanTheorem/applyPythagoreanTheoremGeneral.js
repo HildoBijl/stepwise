@@ -1,4 +1,4 @@
-const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -16,12 +16,12 @@ const metaData = {
 
 function generateState() {
 	// Generate random data.
-	const toFind = randomInteger(0, 2) // Find a, b or c?
-	const usePythagoreanTriplet = randomBoolean() // Use a predefined triplet?
+	const toFind = getRandomInteger(0, 2) // Find a, b or c?
+	const usePythagoreanTriplet = getRandomBoolean() // Use a predefined triplet?
 	const triplet = usePythagoreanTriplet ? sample(pythagoreanTriplets) : [
-		randomInteger(1, 10), // a
-		randomInteger(1, 10), // b
-		randomInteger(1, 12), // c
+		getRandomInteger(1, 10), // a
+		getRandomInteger(1, 10), // b
+		getRandomInteger(1, 12), // c
 	]
 	const x = asExpression(sample(variableSet))
 
@@ -33,8 +33,8 @@ function generateState() {
 		a: toFind === 0 ? x : asExpression(triplet[0]),
 		b: toFind === 1 ? x : asExpression(triplet[1]),
 		c: toFind === 2 ? x : asExpression(triplet[2]),
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

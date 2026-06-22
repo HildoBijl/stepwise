@@ -1,14 +1,14 @@
 const { ensureInt } = require('../numbers')
 const { ensureArray, cumulative, last, integerRange, shuffle, sum } = require('../arrays')
 
-const { randomInteger } = require('./numbers')
+const { getRandomInteger } = require('./numbers')
 
 // sample takes an array and returns a random element from it.
 function sample(arr, weights) {
 	// If there are no weights, just pick one uniformly randomly.
 	arr = ensureArray(arr)
 	if (weights === undefined)
-		return arr[randomInteger(0, arr.length - 1)]
+		return arr[getRandomInteger(0, arr.length - 1)]
 
 	// If there are weights, apply them.
 	const cumulativeWeights = cumulative(weights)

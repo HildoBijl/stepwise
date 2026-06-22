@@ -1,3 +1,3 @@
-const { randomInteger } = require('@step-wise/utils')
+const { getRandomInteger } = require('@step-wise/utils')
 
-module.exports.randomInteger = randomInteger // Export this function here too, for uniformity's sake.
+module.exports.getRandomInteger = getRandomInteger // Export this function here too, for uniformity's sake.

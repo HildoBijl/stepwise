@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
+const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { and } = require('@step-wise/skill-setup')
 const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('@step-wise/cas')
@@ -28,8 +28,8 @@ addSetupFromSteps(metaData)
 function generateState(example) {
 	// Set up general state parameters.
 	const x = sample(variableSet)
-	const normalize = example ? false : randomBoolean()
-	const flip = example ? false : randomBoolean()
+	const normalize = example ? false : getRandomBoolean()
+	const flip = example ? false : getRandomBoolean()
 
 	// Set up parameters for the equation. Ensure that (on a non-normalize exercise) there is a factor to divide by.
 	let parameters = getParameters(example)
@@ -42,11 +42,11 @@ function generateState(example) {
 }
 
 function getParameters(example) {
-	const a = randomInteger(example ? 2 : -8, 8, [-1, 0, 1])
-	const b = randomInteger(-8, 8, [-1, 0, 1])
-	const c = randomInteger(-8, 8, [-1, 0, 1])
-	const d = randomInteger(-8, 8, [-1, 0, 1])
-	const e = randomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
+	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+	const b = getRandomInteger(-8, 8, [-1, 0, 1])
+	const c = getRandomInteger(-8, 8, [-1, 0, 1])
+	const d = getRandomInteger(-8, 8, [-1, 0, 1])
+	const e = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
 	return [a, b, c, d, e]
 }
 

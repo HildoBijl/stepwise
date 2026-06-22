@@ -1,4 +1,4 @@
-const { randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
@@ -14,15 +14,15 @@ const metaData = {
 
 function generateState() {
 	const limit = 30
-	const alpha = randomInteger(limit / 5, 80 / 5) * 5 // This is the angle in the Z.
-	const a = randomInteger(limit / 5, (180 - limit - alpha) / 5) * 5
+	const alpha = getRandomInteger(limit / 5, 80 / 5) * 5 // This is the angle in the Z.
+	const a = getRandomInteger(limit / 5, (180 - limit - alpha) / 5) * 5
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
 		a,
 		b: 180 - alpha - a,
-		c: randomInteger(limit / 5, (180 - limit - alpha) / 5) * 5,
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		c: getRandomInteger(limit / 5, (180 - limit - alpha) / 5) * 5,
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

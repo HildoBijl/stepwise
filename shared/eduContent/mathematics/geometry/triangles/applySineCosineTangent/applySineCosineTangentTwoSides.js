@@ -1,4 +1,4 @@
-const { mapValues, sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { mapValues, sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -15,25 +15,25 @@ const metaData = {
 
 function generateState() {
 	// Determine the sides.
-	const notGiven = randomInteger(0, 2) // Is a, b or c not given?
+	const notGiven = getRandomInteger(0, 2) // Is a, b or c not given?
 	const sides = {}
 	if (notGiven === 0) {
-		sides.b = randomInteger(2, 10)
-		sides.c = randomInteger(sides.b + 1, 12)
+		sides.b = getRandomInteger(2, 10)
+		sides.c = getRandomInteger(sides.b + 1, 12)
 	} else if (notGiven === 1) {
-		sides.a = randomInteger(2, 10)
-		sides.c = randomInteger(sides.a + 1, 12)
+		sides.a = getRandomInteger(2, 10)
+		sides.c = getRandomInteger(sides.a + 1, 12)
 	} else {
-		sides.a = randomInteger(2, 10)
-		sides.b = randomInteger(2, 10)
+		sides.a = getRandomInteger(2, 10)
+		sides.b = getRandomInteger(2, 10)
 	}
 
 	// Gather all data into a state.
 	return {
 		...mapValues(sides, side => asExpression(side)),
 		beta: asExpression(sample(variableSet)),
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

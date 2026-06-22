@@ -1,4 +1,4 @@
-import { ensureInt, integerRange } from '@step-wise/utils'
+import { ensureInteger, integerRange } from '@step-wise/utils'
 
 // Memoized factorial values.
 const factorialMemoization: Record<number, Record<number, number>> = {}
@@ -6,8 +6,8 @@ const factorialMemoization: Record<number, Record<number, number>> = {}
 // Calculate n!. If nEnd is given, calculate n! / nEnd!.
 export function factorial(n: number, nEnd: number = 0): number {
 	// Check input.
-	n = ensureInt(n, true)
-	nEnd = ensureInt(nEnd, true)
+	n = ensureInteger(n, true)
+	nEnd = ensureInteger(nEnd, true)
 	if (n < nEnd) throw new RangeError(`Invalid input: factorial requires n >= ${nEnd} but received ${n}.`)
 
 	// Extend memoization if needed.
@@ -27,8 +27,8 @@ const binomialMemoization: Record<number, Record<number, number>> = {}
 // Calculate the binomial coefficient a choose b.
 export function binomial(a: number, b: number): number {
 	// Check input.
-	a = ensureInt(a, true)
-	b = ensureInt(b, true)
+	a = ensureInteger(a, true)
+	b = ensureInteger(b, true)
 	if (a < b) throw new RangeError(`Invalid input: binomial requires a >= b but received a=${a} and b=${b}.`)
 
 	// Extend memoization if needed.

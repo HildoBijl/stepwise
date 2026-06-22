@@ -1,4 +1,4 @@
-const { sample, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, expressionComparisons, expressionChecks, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -23,14 +23,14 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)
-	const a = randomInteger(-6, 6, [0, 1])
-	const b = randomInteger(-6, 6, [0, 1])
-	const c = randomInteger(-6, 6, [0, 1])
-	const d = randomInteger(-16, 16)
-	const e = randomInteger(-6, 6, [0, 1])
-	const f = randomInteger(-6, 6, [0, 1])
-	const g = randomInteger(-6, 6, [0, 1])
-	const h = randomInteger(-16, 16)
+	const a = getRandomInteger(-6, 6, [0, 1])
+	const b = getRandomInteger(-6, 6, [0, 1])
+	const c = getRandomInteger(-6, 6, [0, 1])
+	const d = getRandomInteger(-16, 16)
+	const e = getRandomInteger(-6, 6, [0, 1])
+	const f = getRandomInteger(-6, 6, [0, 1])
+	const g = getRandomInteger(-6, 6, [0, 1])
+	const h = getRandomInteger(-16, 16)
 
 	// On a non-invertible system, redo the generation.
 	if (a * f - b * e === 0)

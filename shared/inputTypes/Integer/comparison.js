@@ -2,12 +2,11 @@ const { isNumber, epsilon, mergeDefaults } = require('@step-wise/utils')
 
 // The below default comparison options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
 const defaultComparison = {
-	absoluteMargin: epsilon,
-	relativeMargin: epsilon,
-	accuracyFactor: 1,
+	absoluteTolerance: epsilon,
+	relativeTolerance: epsilon,
 }
 
-// areNumbersEqual does a more thorough number equality check where various options are possible. Note that the numbers may not even need to be integers. If the correct answer is 23.4, then you can give an absoluteMargin of 1 to ensure both 23 and 24 are considered equal.
+// areNumbersEqual does a more thorough number equality check where various options are possible. Note that the numbers may not even need to be integers. If the correct answer is 23.4, then you can give an absoluteTolerance of 1 to ensure both 23 and 24 are considered equal.
 function areNumbersEqual(a, b, options = {}) {
 	return checkNumberEquality(a, b, options).result
 }

@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
+const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
 
@@ -22,14 +22,14 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const b = randomInteger(-8, 8, [-1, 0, 1])
+	const b = getRandomInteger(-8, 8, [-1, 0, 1])
 	return {
 		x: sample(variableSet),
-		a: randomInteger(b < 0 ? 2 : -8, 8, [-1, 0, 1]), // Don't allow a and b to both be negative.
+		a: getRandomInteger(b < 0 ? 2 : -8, 8, [-1, 0, 1]), // Don't allow a and b to both be negative.
 		b,
-		c: randomInteger(-8, 8, [-1, 0, 1, -b, b]),
-		d: randomInteger(-8, 8, [-1, 0, 1, -b, b]),
-		descending: randomBoolean(), // Do we use bx+c or c+bx?
+		c: getRandomInteger(-8, 8, [-1, 0, 1, -b, b]),
+		d: getRandomInteger(-8, 8, [-1, 0, 1, -b, b]),
+		descending: getRandomBoolean(), // Do we use bx+c or c+bx?
 	}
 }
 

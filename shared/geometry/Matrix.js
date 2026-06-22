@@ -1,6 +1,6 @@
 // A Matrix is an array of number arrays, like [[1,2],[3,4],[5,6]]. It can be manipulated, multiplied, etcetera in a multitude of ways.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers, integerRange, ensureNumberArray, mergeDefaults, ensureFunction } = require('@step-wise/utils')
+const { ensureInteger, ensureNumber, isNumber, compareNumbers, integerRange, ensureNumberArray, mergeDefaults, ensureFunction } = require('@step-wise/utils')
 
 const { Vector } = require('./Vector')
 
@@ -88,14 +88,14 @@ class Matrix {
 	 */
 
 	ensureValidRowIndex(rowIndex) {
-		rowIndex = ensureInt(rowIndex)
+		rowIndex = ensureInteger(rowIndex)
 		if (rowIndex < 0 || rowIndex >= this.numRows)
 			throw new Error(`Invalid row index: a row index of ${rowIndex} was given, but the matrix only has ${this.numRows} rows.`)
 		return rowIndex
 	}
 
 	ensureValidColIndex(colIndex) {
-		colIndex = ensureInt(colIndex)
+		colIndex = ensureInteger(colIndex)
 		if (colIndex < 0 || colIndex >= this.numCols)
 			throw new Error(`Invalid column index: a column index of ${colIndex} was given, but the matrix only has ${this.numCols} column.`)
 		return colIndex
@@ -324,8 +324,8 @@ class Matrix {
 
 	// getZero returns the zero matrix for the given dimensions.
 	static getZero(height, width = height) {
-		height = ensureInt(height, true)
-		width = ensureInt(width, true)
+		height = ensureInteger(height, true)
+		width = ensureInteger(width, true)
 		return new Matrix(new Array(height).fill(new Array(width).fill(0)))
 	}
 
@@ -350,8 +350,8 @@ function ensureMatrix(matrix, requirements = {}) {
 
 	// If the matrix is undefined and this is allowed, return the identity matrix.
 	if (!requirements.defined && matrix === undefined) {
-		height = ensureInt(height, true)
-		width = (width === undefined ? height : ensureInt(width, true))
+		height = ensureInteger(height, true)
+		width = (width === undefined ? height : ensureInteger(width, true))
 		return Matrix.getIdentity(height, width)
 	}
 
@@ -360,12 +360,12 @@ function ensureMatrix(matrix, requirements = {}) {
 
 	// If dimensions are given, check that they are present.
 	if (height !== undefined) {
-		height = ensureInt(height, true)
+		height = ensureInteger(height, true)
 		if (matrix.height !== height)
 			throw new Error(`Invalid Matrix height: expected a matrix of height ${height} but received a matrix of dimensions ${matrix.height} by ${matrix.width}.`)
 	}
 	if (width !== undefined) {
-		width = ensureInt(width, true)
+		width = ensureInteger(width, true)
 		if (matrix.width !== width)
 			throw new Error(`Invalid Matrix width: expected a matrix of width ${width} but received a matrix of dimensions ${matrix.height} by ${matrix.width}.`)
 	}

@@ -1,4 +1,4 @@
-const { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } = require('@step-wise/utils')
+const { ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } = require('@step-wise/utils')
 
 const { restructure } = require('./restructureAndSubstitute')
 
@@ -129,7 +129,7 @@ module.exports.multiply = multiply
 
 // toPower takes a polynomial matrix and applies the given power. For instance, if we have "2 + 3a", represented by [2,3], then toPower([2,3], 3) will result in [8, 54, 36, 27] representing "(2+3a)^3 = 8 + 54a + 36a^2 + 27a^3".
 function toPower(matrix, exponent) {
-	exponent = ensureInt(exponent, true, false)
+	exponent = ensureInteger(exponent, true, false)
 	const dimensions = getDimensions(matrix)
 
 	// Check special cases.
@@ -145,7 +145,7 @@ module.exports.toPower = toPower
 
 // getPowerList takes a matrix and returns all the powers of the given matrix, up to the given limit (inclusive). So getPowerList(matrix, 4) returns [matrix^0, matrix^1, matrix^2, matrix^3, matrix^4]. It does this as efficiently as possible, reusing matrix multiplications where possible.
 function getPowerList(matrix, maxExponent) {
-	maxExponent = ensureInt(maxExponent, true)
+	maxExponent = ensureInteger(maxExponent, true)
 	let matrixPower = matrix
 	return repeat(maxExponent + 1, exponent => {
 		if (exponent === 0)

@@ -1,4 +1,4 @@
-import { isInt, ensureInt, isPlainObject, onlyHasKeys } from '@step-wise/utils'
+import { isInteger, ensureInteger, isPlainObject, onlyHasKeys } from '@step-wise/utils'
 
 import { Prefix, findPrefix } from '../Prefix'
 import { BaseUnit, findBaseUnit } from '../BaseUnit'
@@ -12,7 +12,7 @@ export function unitElementStorageValueToParameters(value: UnitElementStorageVal
 	const unit = findBaseUnit(value.unit)
 	if (!unit) throw new Error(`Unknown unit given: did not recognize unit "${value.unit}".`)
 
-	const power = ensureInt(value.power ?? 1, true, true)
+	const power = ensureInteger(value.power ?? 1, true, true)
 	return { prefix, unit, power }
 }
 
@@ -20,7 +20,7 @@ export function isUnitElementParameters(input: unknown): input is UnitElementPar
 	if (!isPlainObject(input)) return false
 	if (input.prefix !== undefined && !(input.prefix instanceof Prefix)) return false
 	if (!(input.unit instanceof BaseUnit)) return false
-	if (typeof input.power !== 'number' || !isInt(input.power) || input.power <= 0) return false
+	if (typeof input.power !== 'number' || !isInteger(input.power) || input.power <= 0) return false
 	if (!onlyHasKeys(input, ['prefix', 'unit', 'power'])) return false
 	return true
 }

@@ -1,7 +1,6 @@
-import { ensureInt, ensureNumber, compareNumbers } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/utils'
 
 import { Vector, type VectorLike, ensureVector } from '../Vector'
-import { type TransformationLike, ensureTransformation } from '../Transformation'
 
 import type { LineData, LineInput } from './types'
 import { isLineObject } from './support'
@@ -194,7 +193,7 @@ export class Line {
 
 	// Find the factor of the point p on the line satisfying p[axis] = value.
 	getFactorOfPointWithCoordinate(axis: number, value = 0): number {
-		axis = ensureInt(axis, true)
+		axis = ensureInteger(axis, true)
 		value = ensureNumber(value)
 		if (axis >= this.dimension) throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
 		const directionCoordinate = this._direction.getCoordinate(axis)
@@ -276,7 +275,7 @@ export class Line {
 
 	static getAxisLineThrough(point: VectorLike, axis: number): Line {
 		const start = ensureVector(point)
-		axis = ensureInt(axis)
+		axis = ensureInteger(axis)
 		if (axis < 0 || axis >= start.dimension) throw new Error(`Invalid axis: expected a number between 0 (inclusive) and the point dimension ${start.dimension} (exclusive) but received ${axis}.`)
 		return new Line(start, Vector.getUnitVector(axis, start.dimension))
 	}

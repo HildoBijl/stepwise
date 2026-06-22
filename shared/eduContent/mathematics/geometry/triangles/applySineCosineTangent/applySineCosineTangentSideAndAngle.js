@@ -1,4 +1,4 @@
-const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -15,18 +15,18 @@ const metaData = {
 
 function generateState() {
 	// Determine what is known and what is requested.
-	const known = randomInteger(0, 2) // Is a, b or c known?
-	const requested = randomInteger(0, 2, [known]) // Is a, b or c requested?
+	const known = getRandomInteger(0, 2) // Is a, b or c known?
+	const requested = getRandomInteger(0, 2, [known]) // Is a, b or c requested?
 
 	// Gather all data into a state.
 	return {
 		known,
-		x: asExpression(randomInteger(2, known === 2 ? 12 : 10)),
-		beta: asExpression(randomInteger(5, 13) * 5),
+		x: asExpression(getRandomInteger(2, known === 2 ? 12 : 10)),
+		beta: asExpression(getRandomInteger(5, 13) * 5),
 		requested,
 		y: asExpression(sample(variableSet)),
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

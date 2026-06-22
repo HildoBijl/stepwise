@@ -1,4 +1,4 @@
-const { sample, randomBoolean } = require('@step-wise/utils')
+const { sample, getRandomBoolean } = require('@step-wise/utils')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../../../../inputTypes')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
@@ -28,7 +28,7 @@ function generateState() {
 		getRandomFloatUnit({ min: 150, max: 300, unit: 'kJ/kg' }),
 		getRandomFloatUnit({ min: 350, max: 500, unit: 'kJ/kg' }),
 	]
-	const switchPoints = randomBoolean()
+	const switchPoints = getRandomBoolean()
 	if (switchPoints)
 		enthalpies = enthalpies.reverse()
 	const points = enthalpies.map(enthalpy => refrigerantProperties.getProperties(pressure, enthalpy, refrigerantData))

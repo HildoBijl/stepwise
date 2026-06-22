@@ -1,75 +1,77 @@
 {
-  "name": "step-wise-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@apollo/client": "^3.6.9",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.2",
-    "@mui/lab": "^7.0.0-beta.17",
-    "@mui/material": "^7.3.2",
-    "@mui/styled-engine": "^7.3.2",
-    "@mui/system": "^7.3.2",
-    "@mui/x-data-grid": "^8.11.2",
-    "@react-hook/previous": "^1.0.1",
-    "@react-hook/resize-observer": "^1.2.6",
-    "@react-hook/size": "^2.1.2",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "clsx": "^1.1.1",
-    "country-flag-icons": "^1.5.7",
-    "fontfaceobserver": "^2.3.0",
-    "graphql": "^15.5.1",
-    "katex": "^0.12.0",
-    "node-sass": "^7.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
-    "react-resize-detector": "^7.1.2",
-    "react-router-dom": "^6.4.1",
-    "react-scripts": "^5.0.1",
-    "step-wise": "file:../shared",
-    "@step-wise/bernstein-polynomials": "file:../shared/packages/bernstein-polynomials",
+	"name": "step-wise-frontend",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@apollo/client": "^3.6.9",
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.1",
+		"@mui/icons-material": "^7.3.2",
+		"@mui/lab": "^7.0.0-beta.17",
+		"@mui/material": "^7.3.2",
+		"@mui/styled-engine": "^7.3.2",
+		"@mui/system": "^7.3.2",
+		"@mui/x-data-grid": "^8.11.2",
+		"@react-hook/previous": "^1.0.1",
+		"@react-hook/resize-observer": "^1.2.6",
+		"@react-hook/size": "^2.1.2",
+		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/react": "^13.4.0",
+		"@testing-library/user-event": "^14.4.3",
+		"clsx": "^1.1.1",
+		"country-flag-icons": "^1.5.7",
+		"fontfaceobserver": "^2.3.0",
+		"graphql": "^15.5.1",
+		"katex": "^0.12.0",
+		"node-sass": "^7.0.3",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-helmet": "^6.1.0",
+		"react-resize-detector": "^7.1.2",
+		"react-router-dom": "^6.4.1",
+		"react-scripts": "^5.0.1",
+		"step-wise": "file:../shared",
+		"@step-wise/bernstein-polynomials": "file:../shared/packages/bernstein-polynomials",
 		"@step-wise/cas": "file:../shared/packages/cas",
-    "@step-wise/geometry": "file:../shared/packages/geometry",
-    "@step-wise/interpolation": "file:../shared/packages/interpolation",
-    "@step-wise/math-input-value": "file:../shared/packages/math-input-value",
-    "@step-wise/math-tools": "file:../shared/packages/math-tools",
-    "@step-wise/polynomials": "file:../shared/packages/polynomials",
-    "@step-wise/settings": "file:../shared/packages/settings",
-    "@step-wise/skill-definition": "file:../shared/packages/skill-definition",
-    "@step-wise/skill-setup": "file:../shared/packages/skill-setup",
-    "@step-wise/skill-tracking": "file:../shared/packages/skill-tracking",
-    "@step-wise/skill-tree": "file:../shared/packages/skill-tree",
-    "@step-wise/utils": "file:../shared/packages/utils",
-    "subscriptions-transport-ws": "^0.9.19",
-    "swiper": "^9.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "react-app-rewired": "^2.1.8",
-    "resize-observer-polyfill": "^1.5.1"
-  }
+		"@step-wise/geometry": "file:../shared/packages/geometry",
+		"@step-wise/physics-core": "file:../shared/packages/physics-core",
+		"@step-wise/physics-data": "file:../shared/packages/physics-data",
+		"@step-wise/interpolation": "file:../shared/packages/interpolation",
+		"@step-wise/math-input-value": "file:../shared/packages/math-input-value",
+		"@step-wise/math-tools": "file:../shared/packages/math-tools",
+		"@step-wise/polynomials": "file:../shared/packages/polynomials",
+		"@step-wise/settings": "file:../shared/packages/settings",
+		"@step-wise/skill-definition": "file:../shared/packages/skill-definition",
+		"@step-wise/skill-setup": "file:../shared/packages/skill-setup",
+		"@step-wise/skill-tracking": "file:../shared/packages/skill-tracking",
+		"@step-wise/skill-tree": "file:../shared/packages/skill-tree",
+		"@step-wise/utils": "file:../shared/packages/utils",
+		"subscriptions-transport-ws": "^0.9.19",
+		"swiper": "^9.3.2"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"react-app-rewired": "^2.1.8",
+		"resize-observer-polyfill": "^1.5.1"
+	}
 }

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 import { getStep } from 'step-wise/eduTools'
 
 import { FormPart, useFormPartSettings } from 'ui/form'
@@ -16,7 +16,7 @@ export function Substep({ ss, children }) {
 	const { progress, example } = useExerciseData()
 
 	// Check input.
-	ss = ensureInt(ss)
+	ss = ensureInteger(ss)
 
 	// If the step is not read-only yet, check if the substep has to be read-only. The same applies for showing hints.
 	if (!settings.readOnly && !example) {

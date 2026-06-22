@@ -1,4 +1,4 @@
-const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -17,9 +17,9 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine sides and check the triangle inequality.
-	const a = randomInteger(2, 12)
-	const b = randomInteger(2, 12)
-	const c = randomInteger(2, 12)
+	const a = getRandomInteger(2, 12)
+	const b = getRandomInteger(2, 12)
+	const c = getRandomInteger(2, 12)
 	if (a + b <= c || a + c <= b || b + c <= a)
 		return generateState()
 
@@ -29,8 +29,8 @@ function generateState() {
 		a: asExpression(a),
 		b: asExpression(b),
 		c: asExpression(c),
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

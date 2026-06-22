@@ -1,4 +1,4 @@
-import { ensureInt, sum, repeat } from '@step-wise/utils'
+import { ensureInteger, sum, repeat } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
@@ -10,7 +10,7 @@ export const maxBernsteinSmoothingOrder = 120 // The maximum order for smoothing
 
 // Smooth the distribution described by the coefficients using a smoothing order. If the smoothing order is too high, no smoothing is done.
 export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoefficients, newOrder: number): BernsteinCoefficients {
-	const ensuredNewOrder = ensureInt(newOrder, true)
+	const ensuredNewOrder = ensureInteger(newOrder, true)
 
 	// Check boundary cases.
 	if (coefficients.length <= 1) return [1]

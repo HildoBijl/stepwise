@@ -217,7 +217,7 @@ export class FloatUnit {
 
 	checkEquality(input: FloatUnitLike, options?: FloatUnitEqualityOptionsInput): FloatUnitEqualityResult {
 		const x = asFloatUnit(input)
-		const equalityOptions = resolveFloatUnitEqualityOptions(options)
+		const equalityOptions = resolveFloatUnitEqualityOptions(options, this.float.getMinimumAbsoluteTolerance())
 
 		// Check the unit.
 		const unitResult = this.unit.checkEquality(x.unit, equalityOptions.unit)

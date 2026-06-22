@@ -1,4 +1,4 @@
-import { last, repeat, ensureInt } from '@step-wise/utils'
+import { last, repeat, ensureInteger } from '@step-wise/utils'
 
 import { type ExpressionNode, type Variable, Integer, power, product, sum } from '../../../../construction'
 
@@ -139,7 +139,7 @@ function divideCoefficients(coefficients: ExpressionNode[], factor: ExpressionNo
 
 // Shift a polynomial by a given number of coefficients.
 function shiftCoefficients(coefficients: ExpressionNode[], shift: number): ExpressionNode[] {
-	return [...Array(ensureInt(shift, true)).fill(Integer.zero), ...coefficients]
+	return [...Array(ensureInteger(shift, true)).fill(Integer.zero), ...coefficients]
 }
 
 // Run a simplification to all coefficients.

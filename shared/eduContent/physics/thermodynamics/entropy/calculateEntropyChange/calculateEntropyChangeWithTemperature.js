@@ -1,4 +1,4 @@
-const { randomInteger, sample } = require('@step-wise/utils')
+const { getRandomInteger, sample } = require('@step-wise/utils')
 const { Unit, FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
@@ -32,7 +32,7 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState() {
-	const type = randomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic
+	const type = getRandomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic
 	const medium = sample(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const T1o = getRandomFloatUnit({
 		min: 200,

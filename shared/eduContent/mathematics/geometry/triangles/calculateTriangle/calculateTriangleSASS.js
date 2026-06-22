@@ -1,4 +1,4 @@
-const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -16,12 +16,12 @@ const metaData = {
 
 function generateState() {
 	return {
-		α: asExpression(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+		α: asExpression(getRandomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
 		a: asExpression(sample(variableSet)),
-		b: asExpression(randomInteger(2, 12)),
-		c: asExpression(randomInteger(2, 12)),
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		b: asExpression(getRandomInteger(2, 12)),
+		c: asExpression(getRandomInteger(2, 12)),
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

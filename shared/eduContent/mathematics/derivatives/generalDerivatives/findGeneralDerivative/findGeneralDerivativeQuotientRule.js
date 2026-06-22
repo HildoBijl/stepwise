@@ -1,4 +1,4 @@
-const { pickKeys, sample, randomInteger } = require('@step-wise/utils')
+const { pickKeys, sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -19,7 +19,7 @@ const metaData = {
 function generateState() {
 	const x = sample(variableSet)
 	const [fRaw, g] = getRandomElementaryFunctions(2, false, false).map(func => func.substitute('x', x))
-	const c = randomInteger(-12, 12, [0])
+	const c = getRandomInteger(-12, 12, [0])
 	return { c, fRaw, g }
 }
 

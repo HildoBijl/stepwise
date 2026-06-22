@@ -1,9 +1,10 @@
-const { randomInteger, getRandomExponentialFloat } = require('../../../../inputTypes')
+const { getRandomInteger } = require('@step-wise/utils')
+const { getRandomExponentialFloat } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const metaData = {
 	skill: 'enterFloat',
-	comparison: { ans: { significantDigitMargin: 0 } },
+	comparison: { ans: { significantDigitTolerance: 0, checkPower: true } },
 }
 
 function generateState(example) {
@@ -11,7 +12,7 @@ function generateState(example) {
 		min: example ? 1e-4 : 1e-8,
 		max: example ? 1e5 : 1e9,
 		randomSign: true,
-		significantDigits: randomInteger(2, example ? 2 : 4),
+		significantDigits: getRandomInteger(2, example ? 2 : 4),
 	})
 	if (x.getDisplayPower() === 0)
 		return generateState(example)

@@ -1,4 +1,4 @@
-import { ensureInt, ensureNumber, compareNumbers } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/utils'
 
 import type { CoordinateList, VectorData, VectorInput } from './types'
 import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'
@@ -98,7 +98,7 @@ export class Vector {
 	 */
 
 	private ensureValidIndex(index: number): number {
-		index = ensureInt(index)
+		index = ensureInteger(index)
 		if (index < 0) throw new Error(`Invalid vector index: the index cannot be negative. However, ${index} was received.`)
 		if (index >= this.dimension) throw new Error(`Invalid vector index: the index cannot be larger than the vector dimension. However, ${index} was received for a vector of dimension ${this.dimension}.`)
 		return index
@@ -309,15 +309,15 @@ export class Vector {
 
 	// Get the zero vector, in the given dimension.
 	static getZero(dimension: number): Vector {
-		dimension = ensureInt(dimension, true)
+		dimension = ensureInteger(dimension, true)
 		return new Vector(new Array(dimension).fill(0))
 	}
 
 	// Get the unit vector along the given axis, in the given dimension.
 	static getUnitVector(axis: number, dimension: number): Vector {
 		// Check input.
-		axis = ensureInt(axis, true)
-		dimension = ensureInt(dimension, true)
+		axis = ensureInteger(axis, true)
+		dimension = ensureInteger(dimension, true)
 		if (axis >= dimension) throw new Error(`Invalid axis: cannot have an axis (${axis}) equal to or larger than the dimension (${dimension}).`)
 
 		// Generate the vector.

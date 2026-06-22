@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
+const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { asEquation, expressionComparisons } = require('@step-wise/cas')
 
@@ -24,14 +24,14 @@ const metaData = {
 addSetupFromSteps(metaData)
 
 function generateState(example) {
-	const a = randomInteger(-8, 8, [-1, 0, 1])
-	const b = example ? 1 : randomInteger(-8, 8, [-1, 0, 1, a, -a])
-	const c = randomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
-	const d = randomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b, c, -c])
+	const a = getRandomInteger(-8, 8, [-1, 0, 1])
+	const b = example ? 1 : getRandomInteger(-8, 8, [-1, 0, 1, a, -a])
+	const c = getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
+	const d = getRandomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b, c, -c])
 	return {
 		x: sample(variableSet),
 		a, b, c, d,
-		switchSides: randomBoolean(), // Do we switch equation sides?
+		switchSides: getRandomBoolean(), // Do we switch equation sides?
 	}
 }
 

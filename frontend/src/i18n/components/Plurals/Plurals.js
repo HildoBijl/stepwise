@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 import { Check } from '../Check'
 
@@ -11,7 +11,7 @@ export function Plurals({ children, value }) {
 	// Check the input. Manually check for a common occurrence that requires its own error.
 	if (value === undefined)
 		throw new Error(`Plurals error: no value has been passed to the plural. A plural always requires a value.`)
-	value = ensureInt(value, true)
+	value = ensureInteger(value, true)
 
 	// Set up the provider to provide the count to child components.
 	return <Check value={value}>{children}</Check>

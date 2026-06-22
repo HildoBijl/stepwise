@@ -1,4 +1,4 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 import { ConstantNode } from './ConstantNode'
 
@@ -6,7 +6,7 @@ export class Integer extends ConstantNode {
 	readonly subtype = 'Integer'
 
 	constructor(value: number) {
-		super(ensureInt(value))
+		super(ensureInteger(value))
 	}
 
 	static readonly zero = new Integer(0)

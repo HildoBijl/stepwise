@@ -40,7 +40,7 @@ export function ensureNumber(number: unknown, requirePositive = false, requireNo
 }
 
 // Checks whether a value is an integer or a string representation of an integer.
-export function isInt(number: unknown): number is number | string {
+export function isInteger(number: unknown): number is number | string {
 	// Check that the value is a number.
 	if (!isNumber(number)) return false
 
@@ -53,7 +53,7 @@ export function isInt(number: unknown): number is number | string {
 }
 
 // Ensures the given value is an integer; converts numeric strings to integers.
-export function ensureInt(number: unknown, requirePositive = false, requireNonZero = false, allowInfinite = false): number {
+export function ensureInteger(number: unknown, requirePositive = false, requireNonZero = false, allowInfinite = false): number {
 	// First convert/validate as a number and run positivity/non-zero checks.
 	const x = ensureNumber(number, requirePositive, requireNonZero, allowInfinite)
 

@@ -1,4 +1,4 @@
-const { randomBoolean, randomInteger } = require('@step-wise/utils')
+const { getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
@@ -18,24 +18,24 @@ addSetupFromSteps(metaData)
 function generateState() {
 	// Determine the beam size.
 	const distances = [
-		randomBoolean() ? 0 : randomInteger(2, 4),
-		randomInteger(4, 8),
-		randomBoolean() ? 0 : randomInteger(2, 4),
+		getRandomBoolean() ? 0 : getRandomInteger(2, 4),
+		getRandomInteger(4, 8),
+		getRandomBoolean() ? 0 : getRandomInteger(2, 4),
 	]
 
 	// Determine the support types.
-	const support1 = randomInteger(0, 3)
-	const support2 = randomInteger(0, 3, [support1]) // Ensure they're different.
+	const support1 = getRandomInteger(0, 3)
+	const support2 = getRandomInteger(0, 3, [support1]) // Ensure they're different.
 	const supportTypes = [support1, support2]
 
 	// Determine the load properties.
-	const loadPositionIndex = randomInteger(distances[0] === 0 ? 1 : 0, distances[2] === 0 ? 1 : 2) // 0 is left, 1 is middle, 2 is right.
+	const loadPositionIndex = getRandomInteger(distances[0] === 0 ? 1 : 0, distances[2] === 0 ? 1 : 2) // 0 is left, 1 is middle, 2 is right.
 	const loadProperties = {
-		isForce: randomBoolean(),
-		isPositiveDirection: randomBoolean(),
+		isForce: getRandomBoolean(),
+		isPositiveDirection: getRandomBoolean(),
 		position: [
 			0,
-			distances[0] + randomInteger(2, distances[1] - 2),
+			distances[0] + getRandomInteger(2, distances[1] - 2),
 			distances[0] + distances[1] + distances[2],
 		][loadPositionIndex]
 	}

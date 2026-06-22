@@ -1,4 +1,4 @@
-const { ensureInt, ensureArray, hasDuplicates } = require('@step-wise/utils')
+const { ensureInteger, ensureArray, hasDuplicates } = require('@step-wise/utils')
 const { deserializeSetup } = require('@step-wise/skill-setup')
 const { ensureSkillIds } = require('@step-wise/skill-definition')
 const { skillTree } = require('@step-wise/skill-tree')
@@ -30,7 +30,7 @@ function ensureValidCourseEndpoints(goals, startingPoints, goalWeights) {
 	// Process the goal weights.
 	if (goalWeights) {
 		goalWeights = ensureArray(goalWeights)
-		goalWeights.forEach(weight => ensureInt(weight, true))
+		goalWeights.forEach(weight => ensureInteger(weight, true))
 		if (goalWeights.length !== goals.length)
 			throw new Error(`Invalid goal weights: there are currently ${goals.length} goals, but ${goalWeights.length} goal weights. Make sure the sizes of these two lists match.`)
 	}

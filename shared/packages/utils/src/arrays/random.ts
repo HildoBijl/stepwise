@@ -1,12 +1,15 @@
-import { ensureInt, ensureNumber, randomInteger } from '../numbers'
-import { cumulative, last, integerRange, sum } from '../arrays'
+import { ensureInteger, ensureNumber, getRandomInteger } from '../numbers'
+
+import { last } from './reading'
+import { cumulative, sum } from './iteration'
+import { integerRange } from './creation'
 
 // Return a random element from an array.
 export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
 	if (array.length === 0) throw new RangeError('Input error: expected a non-empty array.')
 
 	// On no weights, randomly select uniformly.
-	if (weights === undefined) return array[randomInteger(0, array.length - 1)]
+	if (weights === undefined) return array[getRandomInteger(0, array.length - 1)]
 
 	// Process weights.
 	if (weights.length !== array.length) throw new RangeError(`Invalid weights given: expected an array of length ${array.length} but received length ${weights.length}.`)
@@ -35,8 +38,8 @@ export function shuffle<T>(array: readonly T[]): T[] {
 
 // Return a number of randomly chosen indices from 0 up to arrayLength - 1.
 export function randomIndices(arrayLength: number, num: number = arrayLength, randomOrder: boolean = true, weights?: readonly number[]): number[] {
-	arrayLength = ensureInt(arrayLength, true)
-	num = ensureInt(num, true)
+	arrayLength = ensureInteger(arrayLength, true)
+	num = ensureInteger(num, true)
 
 	// Handle edge/error cases.
 	if (num === 0) return []

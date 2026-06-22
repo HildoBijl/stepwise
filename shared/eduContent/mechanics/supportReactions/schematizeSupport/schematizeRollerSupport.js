@@ -1,4 +1,4 @@
-const { deg2rad, randomInteger } = require('@step-wise/utils')
+const { deg2rad, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { getStepExerciseProcessor, performComparison } = require('../../../../eduTools')
 
@@ -17,8 +17,8 @@ const metaData = {
 
 function generateState() {
 	return {
-		wallRotation: randomInteger(0, 11) * 30,
-		beamRotation: randomInteger(-1, 1) * 30,
+		wallRotation: getRandomInteger(0, 11) * 30,
+		beamRotation: getRandomInteger(-1, 1) * 30,
 	}
 }
 

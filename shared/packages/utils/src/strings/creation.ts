@@ -1,11 +1,11 @@
-import { ensureInt } from '../numbers'
+import { ensureInteger } from '../numbers'
 
 // The English alphabet.
 export const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
 // Convert a positive integer to an alphabet string (1 -> 'a', 26 -> 'z', 27 -> 'aa').
 export function toExcelColumn(n: number): string {
-	n = ensureInt(n, true) // Require positive integer or zero.
+	n = ensureInteger(n, true) // Require positive integer or zero.
 
 	// Boundary case.
 	if (n === 0) return ''

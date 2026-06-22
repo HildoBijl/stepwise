@@ -1,4 +1,4 @@
-import { isInt, isNumber } from '@step-wise/utils'
+import { isInteger, isNumber } from '@step-wise/utils'
 
 export const FloatType = 'Float'
 export type FloatType = typeof FloatType
@@ -67,7 +67,7 @@ export function numberToFloatStorageValue(number: number): FloatStorageValue {
 // Check if a FloatStorageValue has valid parameter values.
 export function validateFloatStorageValue(value: FloatStorageValue): FloatStorageValue {
 	if (!isNumber(value.number)) throw new Error(`Invalid FloatStorageValue: expected "number" to be a number, but received "${value.number}".`)
-	if (!isInt(value.significantDigits) || value.significantDigits < 0) throw new Error(`Invalid FloatStorageValue: expected "significantDigits" to be a non-negative integer, but received "${value.significantDigits}".`)
-	if (value.power !== undefined && !isInt(value.power)) throw new Error(`Invalid FloatStorageValue: expected "power" to be an integer or undefined, but received "${value.power}".`)
+	if (!isInteger(value.significantDigits) || value.significantDigits < 0) throw new Error(`Invalid FloatStorageValue: expected "significantDigits" to be a non-negative integer, but received "${value.significantDigits}".`)
+	if (value.power !== undefined && !isInteger(value.power)) throw new Error(`Invalid FloatStorageValue: expected "power" to be an integer or undefined, but received "${value.power}".`)
 	return value
 }

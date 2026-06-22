@@ -1,4 +1,4 @@
-const { randomInteger, getRandomExponentialFloatUnit, Unit } = require('../../../../../inputTypes')
+const { getRandomInteger, getRandomExponentialFloatUnit, Unit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // Type 0: from Pa to bar.
@@ -18,11 +18,11 @@ const metaData = {
 }
 
 function generateState() {
-	const type = randomInteger(0, 3)
+	const type = getRandomInteger(0, 3)
 	let p = getRandomExponentialFloatUnit({
 		min: 1e3,
 		max: 2e7,
-		significantDigits: randomInteger(2, 3),
+		significantDigits: getRandomInteger(2, 3),
 		unit: 'Pa',
 	})
 	if (type >= 2)

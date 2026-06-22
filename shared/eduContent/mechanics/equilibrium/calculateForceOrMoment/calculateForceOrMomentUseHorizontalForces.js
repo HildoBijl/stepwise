@@ -1,4 +1,4 @@
-const { deg2rad, integerRange, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { deg2rad, integerRange, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('../../../../inputTypes')
@@ -23,11 +23,11 @@ const metaData = {
 
 function generateState() {
 	// Generate state.
-	const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
-	const angle = randomInteger(5, 13) * 5
-	const up = randomBoolean()
-	const right = randomBoolean()
-	const clockwise = randomBoolean()
+	const points = integerRange(0, 3).map(() => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4)))
+	const angle = getRandomInteger(5, 13) * 5
+	const up = getRandomBoolean()
+	const right = getRandomBoolean()
+	const clockwise = getRandomBoolean()
 	const FD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
 
 	// Run checks.

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureInt, ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/utils'
 import { Vector } from '@step-wise/geometry'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'
@@ -26,7 +26,7 @@ export const RollerHalfHingeSupport = forwardRef((props, ref) => {
 	groundOptions = ensureObject(groundOptions)
 	width = ensureNumber(width)
 	height = ensureNumber(height)
-	numWheels = ensureInt(numWheels, true, true)
+	numWheels = ensureInteger(numWheels, true, true)
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelsOptions = ensureObject(wheelsOptions)
 	shift = ensureNumber(shift)

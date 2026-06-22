@@ -1,8 +1,8 @@
-import { ensureInt } from './checks'
+import { ensureInteger } from './checks'
 
 // Round a number to the given number of decimals.
 export function roundTo(x: number, decimals = 0): number {
-	decimals = ensureInt(decimals)
+	decimals = ensureInteger(decimals)
 
 	// Check boundary cases.
 	if (!Number.isFinite(x)) return x
@@ -14,7 +14,7 @@ export function roundTo(x: number, decimals = 0): number {
 
 // Round a number to the given number of significant digits.
 export function roundToDigits(x: number, digits: number): number {
-	digits = ensureInt(digits, true, false, true)
+	digits = ensureInteger(digits, true, false, true)
 
 	// Boundary cases.
 	if (x === 0) return 0

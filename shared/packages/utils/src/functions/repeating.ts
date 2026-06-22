@@ -1,9 +1,9 @@
-import { ensureInt } from '../numbers'
+import { ensureInteger } from '../numbers'
 import { type NestedArray } from '../arrays'
 
 // Repeat the given function the given number of times and return the outcomes.
 export function repeat<T>(times: number, fn: (index: number) => T): T[] {
-	times = ensureInt(times, true)
+	times = ensureInteger(times, true)
 	return repeatFromTo(0, times - 1, fn)
 }
 
@@ -11,8 +11,8 @@ export function repeat<T>(times: number, fn: (index: number) => T): T[] {
 export function repeatFromTo<T>(min: number, max: number, fn: (index: number) => T): T[]
 export function repeatFromTo<T>(min: number, max: number, value: T): T[]
 export function repeatFromTo<T>(min: number, max: number, fnOrValue: ((index: number) => T) | T): T[] {
-	min = ensureInt(min)
-	max = ensureInt(max)
+	min = ensureInteger(min)
+	max = ensureInteger(max)
 
 	const times = max - min + 1
 	if (times < 0) throw new RangeError(`Repeat error: needed to repeat a function a number of ${times} times, but this is impossible.`)
@@ -23,7 +23,7 @@ export function repeatFromTo<T>(min: number, max: number, fnOrValue: ((index: nu
 
 // Repeat the given function over a multidimensional index range starting at zero.
 export function repeatMultidimensional<T>(times: readonly number[], fn: (...indices: number[]) => T): NestedArray<T> | T {
-	times = times.map(v => ensureInt(v, true))
+	times = times.map(v => ensureInteger(v, true))
 	return repeatMultidimensionalFromTo(times.map(() => 0), times.map(num => num - 1), fn)
 }
 

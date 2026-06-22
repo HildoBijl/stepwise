@@ -1,4 +1,4 @@
-import { ensureInt, sum } from '@step-wise/utils'
+import { ensureInteger, sum } from '@step-wise/utils'
 import { factorial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
@@ -6,7 +6,7 @@ import { getBernsteinOrder } from './fundamentals'
 
 // Get the expected value of x^i, given the PDF f(x) and an integer i. Effectively "∫₀¹ x^i·f(x) dx".
 export function getBernsteinMoment(coefficients: BernsteinCoefficients, i: number): number {
-	const ensuredI = ensureInt(i, true)
+	const ensuredI = ensureInteger(i, true)
 	const n = getBernsteinOrder(coefficients)
 	return sum(coefficients.map((c, j) => c * factorial(ensuredI + j, j))) / factorial(n + ensuredI + 1, n + 1)
 }

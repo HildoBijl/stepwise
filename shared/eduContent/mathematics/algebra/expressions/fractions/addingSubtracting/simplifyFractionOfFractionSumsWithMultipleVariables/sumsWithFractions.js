@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean } = require('@step-wise/utils')
+const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -23,12 +23,12 @@ function generateState() {
 	const variableSet = sample(availableVariableSets)
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
-		a: randomInteger(2, 12),
-		b: randomInteger(2, 12),
-		c: randomInteger(2, 12),
-		d: randomInteger(2, 12),
-		plus1: randomBoolean(),
-		plus2: randomBoolean(),
+		a: getRandomInteger(2, 12),
+		b: getRandomInteger(2, 12),
+		c: getRandomInteger(2, 12),
+		d: getRandomInteger(2, 12),
+		plus1: getRandomBoolean(),
+		plus2: getRandomBoolean(),
 	}
 }
 

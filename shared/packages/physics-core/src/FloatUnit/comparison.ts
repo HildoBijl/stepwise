@@ -1,6 +1,6 @@
 import { mergeDefaults } from '@step-wise/utils'
 
-import { type FloatEqualityOptions, type FloatEqualityOptionsInput, type FloatEqualityResult, defaultFloatEqualityOptions, resolveFloatEqualityOptions } from '../Float'
+import { type FloatEqualityOptions, type FloatEqualityOptionsInput, type FloatEqualityResult, defaultFloatEqualityOptions, resolveFloatEqualityOptions, adjustFloatTolerances } from '../Float'
 import { type Unit, type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, resolveUnitEqualityOptions } from '../Unit'
 
 export type FloatUnitEqualityOptions = {
@@ -18,12 +18,17 @@ export const defaultFloatUnitEqualityOptions = {
 	unit: { ...defaultUnitEqualityOptions, checkSize: false }, // Don't check unit size, since this is now done through the float.
 } satisfies FloatUnitEqualityOptions
 
-export function resolveFloatUnitEqualityOptions(options: FloatUnitEqualityOptionsInput = {}): FloatUnitEqualityOptions {
+export function resolveFloatUnitEqualityOptions(options: FloatUnitEqualityOptionsInput = {}, minimumAbsoluteTolerance: number): FloatUnitEqualityOptions {
 	const settings = mergeDefaults(options, defaultFloatUnitEqualityOptions)
 	return {
-		float: resolveFloatEqualityOptions(settings.float),
-		unit: resolveUnitEqualityOptions(settings.unit),
+		float: resolveFloatEqualityOptions(settings.float, minimumAbsoluteTolerance),
+		unit: mergeDefaults(settings.unit, defaultFloatUnitEqualityOptions.unit),
 	}
+}
+
+export function adjustFloatUnitTolerances(options: FloatUnitEqualityOptionsInput, factor: number, minimumAbsoluteTolerance: number) {
+	const equalityOptions = resolveFloatUnitEqualityOptions(options, minimumAbsoluteTolerance)
+	return { ...equalityOptions, float: adjustFloatTolerances(equalityOptions.float, factor, minimumAbsoluteTolerance) }
 }
 
 export type FloatUnitEqualityResult = {

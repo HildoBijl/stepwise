@@ -1,4 +1,4 @@
-import { ensureInt, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/utils'
+import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/utils'
 import { type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
 import { type SerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
@@ -14,7 +14,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 	constructor(skills: SkillSetupLike[], number = 1, weights?: number[]) {
 		super(...skills.map(ensureSetup))
 
-		this.number = ensureInt(number, true, true)
+		this.number = ensureInteger(number, true, true)
 		if (this.number >= this.skills.length) throw new Error(`Invalid Pick number: expected a number of picked skills smaller than the given number of skills (${this.skills.length}) but a number "${this.number}" was given.`)
 
 		this.weights = ensureNumberArray(weights ?? this.skills.map(() => 1), true, true)

@@ -1,4 +1,4 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 export type PrefixInput = {
 	letter: string
@@ -16,7 +16,7 @@ export class Prefix {
 	constructor(input: PrefixInput) {
 		this.letter = input.letter
 		this.name = input.name
-		this.exponent = ensureInt(input.exponent)
+		this.exponent = ensureInteger(input.exponent)
 		this.alternatives = input.alternatives === undefined ? [] : Array.isArray(input.alternatives) ? input.alternatives : [input.alternatives]
 	}
 

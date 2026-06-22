@@ -1,6 +1,6 @@
 // A Line is a line inside a (possibly multi-dimensional) space. It is like a Span, but then it has no magnitude. It's all about the position and the direction.
 
-const { ensureInt, ensureNumber, compareNumbers, mergeDefaults } = require('@step-wise/utils')
+const { ensureInteger, ensureNumber, compareNumbers, mergeDefaults } = require('@step-wise/utils')
 const { Vector, ensureVector } = require('./Vector')
 
 const defaultLine = {
@@ -161,7 +161,7 @@ class Line {
 
 	// getFactorOfPointWithCoordinate is the same as getPointWithCoordinates, but then it only returns the factor of the given point.
 	getFactorOfPointWithCoordinate(axis, value) {
-		axis = ensureInt(axis, true)
+		axis = ensureInteger(axis, true)
 		value = ensureNumber(value)
 		if (axis >= this.dimension)
 			throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
@@ -261,7 +261,7 @@ class Line {
 	// getAxisLineThrough takes a Vector (a point in space) and an axis (0 for x-axis, 1 for y-axis, etcetera) and gets the line through the given point along the given axis.
 	static getAxisLineThrough(point, axis) {
 		point = ensureVector(point)
-		axis = ensureInt(axis)
+		axis = ensureInteger(axis)
 		if (axis < 0 || axis >= point.dimension)
 			throw new Error(`Invalid axis: expected a number between 0 (inclusive) and the point dimension ${point.dimension} (exclusive) but received ${axis}.`)
 

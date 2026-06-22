@@ -1,4 +1,4 @@
-const { randomInteger } = require('../../../../inputTypes')
+const { getRandomInteger } = require('../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const metaData = {
@@ -10,10 +10,10 @@ addSetupFromSteps(metaData)
 
 function generateState(example) {
 	return {
-		a: randomInteger(2, example ? 6 : 10),
-		b: randomInteger(2, example ? 6 : 10),
-		c: randomInteger(2, example ? 6 : 10),
-		d: randomInteger(2, example ? 6 : 10),
+		a: getRandomInteger(2, example ? 6 : 10),
+		b: getRandomInteger(2, example ? 6 : 10),
+		c: getRandomInteger(2, example ? 6 : 10),
+		d: getRandomInteger(2, example ? 6 : 10),
 	}
 }
 

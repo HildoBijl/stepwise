@@ -10,7 +10,7 @@ import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equ
 
 import { rightSideChanged } from './util'
 
-const { hasX, hasFractionWithinFraction, incorrectFraction, hasPower, nonEquivalentExpression, equivalentExpression } = expressionChecks
+const { hasX, hasFractionWithinFraction, incorrectFraction, nonEquivalentExpression, equivalentExpression } = expressionChecks
 const { multiplyNumeratorAndDenominator } = expressionOperations
 const { originalEquation, correctEquation, incorrectEquation, hasFraction } = equationChecks
 

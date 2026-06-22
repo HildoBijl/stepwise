@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { isNumber } from '@step-wise/utils'
-import { decimalSeparator } from '@step-wise/settings'
+import { defaultDecimalSeparator } from '@step-wise/settings'
 
 import { latexMinus } from 'ui/components'
 
@@ -17,7 +17,7 @@ export function CharString({ str, cursor = undefined }) {
 
 	// Preprocess the string.
 	str = str.replace('-', latexMinus) // Replace a minus sign by a special minus sign.
-	str = str.replace('.', decimalSeparator) // Replace a period by a decimal separator.
+	str = str.replace('.', defaultDecimalSeparator) // Replace a period by a decimal separator.
 
 	// Set up the digits array with JSX elements, add a potential cursor and return it all.
 	const chars = str.split('').map((char, ind) => <span className="char" key={ind}>{char}</span>)

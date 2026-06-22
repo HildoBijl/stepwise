@@ -1,4 +1,4 @@
-import { prefixes } from '../Prefix'
+import { prefixes } from '../Prefix/index'
 
 import { BaseUnit } from './BaseUnit'
 

@@ -1,8 +1,8 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 // Return the greatest common divisor of integer numbers.
 export function gcd(...numbers: number[]): number {
-	numbers = numbers.map(n => ensureInt(n))
+	numbers = numbers.map(n => ensureInteger(n))
 
 	// Check edge cases.
 	if (numbers.length === 0) throw new RangeError('gcd requires at least one number.')
@@ -25,7 +25,7 @@ export function gcd(...numbers: number[]): number {
 
 // Return the least common multiple of integer numbers.
 export function lcm(...numbers: number[]): number {
-	numbers = numbers.map(n => Math.abs(ensureInt(n)))
+	numbers = numbers.map(n => Math.abs(ensureInteger(n)))
 
 	if (numbers.length === 0) throw new RangeError('lcm requires at least one number.')
 	if (numbers.length === 1) return numbers[0]

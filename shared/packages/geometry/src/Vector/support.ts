@@ -1,4 +1,4 @@
-import { ensureInt, ensureNumber, isNumber, compareNumbers, isNumberArray, isPlainObject, fromKeys } from '@step-wise/utils'
+import { isNumber, isPlainObject } from '@step-wise/utils'
 
 import { type CoordinateKey, type CoordinateList, type CoordinateObject, type VectorInput, coordinateKeys } from './types'
 

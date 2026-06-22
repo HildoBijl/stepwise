@@ -1,4 +1,4 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 import { type PolynomialMatrix, polynomialToPower } from '@step-wise/polynomials'
 
 import { type SerializedSkillSetup, type SkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
@@ -12,7 +12,7 @@ export class Repeat extends SkillItemSetup<RepeatStorageValue> {
 
 	constructor(skill: SkillSetupLike, repeat: number) {
 		super(ensureSetup(skill))
-		this.repeat = ensureInt(repeat, true, true)
+		this.repeat = ensureInteger(repeat, true, true)
 	}
 
 	override toStorageValue(): RepeatStorageValue {

@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber, sum, cumulative } = require('@step-wise/utils')
+const { ensureInteger, ensureNumber, sum, cumulative } = require('@step-wise/utils')
 const { binomial } = require('@step-wise/math-tools')
 
 const { ensureCoefficients, getOrder } = require('./fundamentals')
@@ -103,7 +103,7 @@ module.exports.getInverseCDF = getInverseCDF
 function getMaximumLikelihood(coef, numIterations = 20) {
 	// Check input.
 	coef = ensureCoefficients(coef)
-	numIterations = ensureInt(numIterations, true, true)
+	numIterations = ensureInteger(numIterations, true, true)
 
 	// Perform a binary search on the gradient.
 	let left = 0, right = 1

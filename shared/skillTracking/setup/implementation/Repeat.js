@@ -1,6 +1,6 @@
 // Repeat is the set-up requiring the user to do a skill successful multiple times in a row. Repeat("X", 3) is short for And("X", "X", "X") and similar for other repeat values.
 
-const { ensureInt } = require('@step-wise/utils')
+const { ensureInteger } = require('@step-wise/utils')
 
 const { multiply } = require('../../polynomials')
 
@@ -9,7 +9,7 @@ const { SkillItemSetup } = require('../fundamentals')
 class Repeat extends SkillItemSetup {
 	constructor(skill, repeat) {
 		super(skill)
-		this.repeat = ensureInt(repeat, true, true)
+		this.repeat = ensureInteger(repeat, true, true)
 	}
 
 	get SO() {

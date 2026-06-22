@@ -1,4 +1,4 @@
-const { integerRange, sample, randomInteger } = require('@step-wise/utils')
+const { integerRange, sample, getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../../inputTypes')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
@@ -6,11 +6,11 @@ const { withPressure, enthalpy, entropy } = require('../../../../../../data/stea
 function getCycle() {
 	// Pressure in the condensor and evaporator.
 	const pressureRangeTable1 = withPressure.boilingTemperature.headers[0]
-	const condenserIndex = randomInteger(3, 8) // Index in the pressure tables.
+	const condenserIndex = getRandomInteger(3, 8) // Index in the pressure tables.
 	const pc = pressureRangeTable1[condenserIndex] // 0.1 to 1 bar
 	const Tc = withPressure.boilingTemperature.grid[condenserIndex]
 	const pressureRangeTable2 = enthalpy.headers[0]
-	const evaporatorIndex = randomInteger(13, 19) // Index in the enthalpy tables.
+	const evaporatorIndex = getRandomInteger(13, 19) // Index in the enthalpy tables.
 	const pe = pressureRangeTable2[evaporatorIndex] // 50 to 120 bar
 	const Te = tableInterpolate(pe, withPressure.boilingTemperature)
 

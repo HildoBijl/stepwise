@@ -1,4 +1,4 @@
-const { sample, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
@@ -21,12 +21,12 @@ addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const variableSet = sample(availableVariableSets)
-	const x = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-	const y = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-	const a = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-	const b = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-	const d = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-	const e = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+	const x = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+	const y = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+	const a = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+	const b = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+	const d = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+	const e = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
 
 	// On a non-invertible system, redo the generation.
 	if (a * e - b * d === 0)

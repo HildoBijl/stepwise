@@ -23,7 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../packages/settings/dist')
 
-const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefinedWith, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo } = require('@step-wise/utils')
+const { isInteger, isNumber, compareNumbers, mod, ensureString, isObject, isPlainObject, isEmptyObject, deepEquals, mergeDefaults, pickFromDefaults, omitKeys, fromKeys, getParentClass, first, last, repeat, count, sum, product, fillUndefinedWith, findWithValue, hasOneToOneMatching, cartesianProduct, union, repeatFromTo } = require('@step-wise/utils')
 const { gcd, getPrime, getPrimeFactorization, isSquare, isPerfectPower, largestPowerDivisor, binomial } = require('@step-wise/math-tools')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
@@ -898,7 +898,7 @@ class Constant extends Expression {
 	static interpret(number) {
 		if (!isNumber(number))
 			throw new Error(`Constant interpretation error: tried to interpret the number (Constant) "${number}" but this was not a number.`)
-		return isInt(number) ? new Integer(number) : new Float(number)
+		return isInteger(number) ? new Integer(number) : new Float(number)
 	}
 }
 Constant.type = 'Constant'
@@ -912,11 +912,11 @@ module.exports.Constant = Constant
 class Integer extends Constant {
 	constructor(SO) {
 		if (typeof SO === 'string' || typeof SO === 'number') {
-			if (!isInt(SO))
+			if (!isInteger(SO))
 				throw new Error(`Invalid integer: tried to create an Integer with value "${SO}" but this is not a valid integer number.`)
 			SO = { value: parseInt(SO) }
 		}
-		if (!isInt(SO.value))
+		if (!isInteger(SO.value))
 			throw new Error(`Invalid integer: tried to create an Integer but only a parameter of type "${typeof SO}/${SO.constructor.name}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
 	}
@@ -2867,7 +2867,7 @@ function ensureExpression(expression) {
 	// Check if this is easy to interpret.
 	if (expression instanceof Expression)
 		return expression // All good already!
-	if (isInt(expression))
+	if (isInteger(expression))
 		return new Integer(expression)
 	if (isNumber(expression))
 		return new Float(expression)

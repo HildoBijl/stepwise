@@ -1,4 +1,4 @@
-const { ensureInt, sum } = require('@step-wise/utils')
+const { ensureInteger, sum } = require('@step-wise/utils')
 const { factorial } = require('@step-wise/math-tools')
 
 const { ensureCoefficients, getOrder } = require('./fundamentals')
@@ -13,7 +13,7 @@ module.exports.getExpectedValue = getExpectedValue
 function getMoment(coef, i) {
 	// Check input.
 	coef = ensureCoefficients(coef)
-	i = ensureInt(i, true)
+	i = ensureInteger(i, true)
 
 	// Calculate the moment.
 	const n = getOrder(coef)

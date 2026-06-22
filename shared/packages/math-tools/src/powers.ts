@@ -1,11 +1,11 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 import { getPrime, getPrimeFactorization } from './primes'
 
 // Check if a number is a perfect power.
 export function isPerfectPower(num: number, exponent: number): boolean {
-	num = ensureInt(num)
-	exponent = ensureInt(exponent, true)
+	num = ensureInteger(num)
+	exponent = ensureInteger(exponent, true)
 
 	// Basic cases.
 	if (exponent === 0) return num === 1
@@ -25,8 +25,8 @@ export function isSquare(num: number): boolean {
 
 // Return the largest factor whose given power still divides the number.
 export function largestPowerDivisor(num: number, power: number): number {
-	num = ensureInt(num, true, true)
-	power = ensureInt(power, true, true)
+	num = ensureInteger(num, true, true)
+	power = ensureInteger(power, true, true)
 
 	const primeFactors = getPrimeFactorization(num)
 	const filtered = primeFactors.map(p => p - (p % power))

@@ -1,6 +1,6 @@
 // Pick is the set-up in which a user has to do a number of skill randomly selected from a larger set of skills.
 
-const { ensureInt, ensureNumberArray, sum, product, getMatrixElement, repeatMultidimensional } = require('@step-wise/utils')
+const { ensureInteger, ensureNumberArray, sum, product, getMatrixElement, repeatMultidimensional } = require('@step-wise/utils')
 
 const { multiplyByConstant, addWithEqualDimension, multiply } = require('../../polynomials')
 
@@ -12,7 +12,7 @@ class Pick extends SkillListSetup {
 		super(skills)
 
 		// Check and store the number.
-		this.number = ensureInt(number, true, true)
+		this.number = ensureInteger(number, true, true)
 		if (number >= skills.length)
 			throw new Error(`Invalid Pick number: expected a number of picked skills smaller than the given number of skills (${skills.length}) but a number "${number}" was given.`)
 

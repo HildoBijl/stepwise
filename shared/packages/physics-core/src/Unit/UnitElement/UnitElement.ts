@@ -1,4 +1,4 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 import { Prefix } from '../Prefix'
 import { type BaseUnit } from '../BaseUnit'
@@ -130,11 +130,11 @@ export class UnitElement {
 	}
 
 	setPower(power: number): UnitElement {
-		power = ensureInt(power, true, true)
+		power = ensureInteger(power, true, true)
 		return power === this.power ? this : new UnitElement({ prefix: this.prefix, unit: this.unit, power })
 	}
 
 	toPower(power: number): UnitElement {
-		return this.setPower(this.power * ensureInt(power, true, true))
+		return this.setPower(this.power * ensureInteger(power, true, true))
 	}
 }

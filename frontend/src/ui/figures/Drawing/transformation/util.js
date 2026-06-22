@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureInt, mapValues } from '@step-wise/utils'
+import { ensureNumber, ensureInteger, mapValues } from '@step-wise/utils'
 import { isTransformable, Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -25,7 +25,7 @@ export function getBoundingRectangle(points) {
 // ensureScale takes a possible scale definition (could be a number or an array of two numbers) and ensures it's the proper shape of [scaleX, scaleY]. Also works for higher dimensions when indicated.
 export function ensureScale(scale, dimension = 2) {
 	// Make sure it's an array.
-	dimension = ensureInt(dimension, true)
+	dimension = ensureInteger(dimension, true)
 	if (!Array.isArray(scale))
 		scale = new Array(dimension).fill(scale)
 	if (scale.length !== dimension)
@@ -38,7 +38,7 @@ export function ensureScale(scale, dimension = 2) {
 // ensureMargin takes a possible margin definition (could be a number, an array, or an array of arrays) and ensures it's the proper shape of [[left, right], [top, bottom]] for two dimensions. Also works for higher dimensions when indicated.
 export function ensureMargin(margin, dimension = 2) {
 	// Make sure it's an array.
-	dimension = ensureInt(dimension, true)
+	dimension = ensureInteger(dimension, true)
 	if (!Array.isArray(margin))
 		margin = new Array(dimension).fill(margin)
 	if (margin.length !== dimension)

@@ -1,4 +1,4 @@
-const { floatFormat } = require('../Float/util')
+const { floatFormat } = require('../FloatOld/util')
 
 // const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
 const inputFormat = new RegExp(`^(${floatFormat}(.*))$`)

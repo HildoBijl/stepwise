@@ -1,5 +1,5 @@
 const { sample } = require('@step-wise/utils')
-const { randomInteger, getRandomExponentialFloatUnit, Unit } = require('../../../../../inputTypes')
+const { getRandomInteger, getRandomExponentialFloatUnit, Unit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // Type 0: from (mu/m/./M)g to kg.
@@ -18,13 +18,13 @@ const metaData = {
 }
 
 function generateState() {
-	const type = randomInteger(0, 2)
+	const type = getRandomInteger(0, 2)
 	const prefix = sample(['mu', 'm', '', 'M'])
 
 	let m = getRandomExponentialFloatUnit({
 		min: 1e-1,
 		max: 1e3,
-		significantDigits: randomInteger(2, 3),
+		significantDigits: getRandomInteger(2, 3),
 		unit: `${prefix}g`,
 	})
 

@@ -1,4 +1,4 @@
-const { sample, randomNumber, randomBoolean, randomInteger } = require('@step-wise/utils')
+const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -16,8 +16,8 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the angles and check if they match the conditions.
-	const α = randomInteger(5, 12) * 5
-	const β = randomInteger(5, 24, [18, 18 - α / 5]) * 5 // Ensure there is no 90 degree angle.
+	const α = getRandomInteger(5, 12) * 5
+	const β = getRandomInteger(5, 24, [18, 18 - α / 5]) * 5 // Ensure there is no 90 degree angle.
 	if (α + β > 155)
 		return generateState()
 
@@ -26,9 +26,9 @@ function generateState() {
 		α: asExpression(α),
 		β: asExpression(β),
 		a: asExpression(sample(variableSet)),
-		c: asExpression(randomInteger(2, 12)),
-		rotation: randomNumber(0, 2 * Math.PI),
-		reflection: randomBoolean(),
+		c: asExpression(getRandomInteger(2, 12)),
+		rotation: getRandomNumber(0, 2 * Math.PI),
+		reflection: getRandomBoolean(),
 	}
 }
 

@@ -1,8 +1,8 @@
 import { isValidElement } from 'react'
 
-import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues } from '@step-wise/utils'
-import { Equation } from '@step-wise/cas'
-import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
+import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/utils'
+import { Expression, Equation } from '@step-wise/cas'
+import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
 import { performIndividualComparison } from 'step-wise/eduTools'
 
 import { Translation } from 'i18n'
@@ -18,8 +18,8 @@ const defaultOptions = {
 	dependency: undefined, // The names of parameters which the feedback of this parameter may depend on. The feedback of a parameter is only updated when it changes, or any of its dependencies changes.
 }
 
-const accuracyFactorForNearHits = 4
-const accuracyFactorForMarginWarnings = 1 / 3
+const closenessFactor = 4 // If we expand the margins by this factor, we consider it "close".
+const strictnessFactor = 1 / 3 // If we narrow the margins by this factor, we consider it "correct but inaccurate".
 
 // getAllFieldInputsFeedback is a getFeedback function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
 export function getAllFieldInputsFeedback(exerciseData) {
@@ -158,24 +158,30 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	let { comparison, previousFeedback } = mergeDefaults(currOptions, defaultOptions)
 
 	// How to get equality data and equality depends on whether this is object-based (like with a Float) or number-based (like with regular numbers).
-	const equalityData = objectBased ?
+	const equalityResult = objectBased ?
 		currSolution.checkEquality(currInput, comparison) :
 		checkNumberEquality(currInput, currSolution, comparison)
-	const correct = equalityData.result
-	const isEqual = (currInput, currSolution, accuracyFactorAdjustment) => objectBased ?
-		currSolution.equals(currInput, { ...comparison, accuracyFactor: (comparison.accuracyFactor || 1) * accuracyFactorAdjustment }) :
-		areNumbersEqual(currInput, currSolution, { ...comparison, accuracyFactor: (comparison.accuracyFactor || 1) * accuracyFactorAdjustment })
+	const correct = equalityResult.equal
+	const isEqual = (currInput, currSolution, accuracyFactorAdjustment) => {
+		if (currSolution instanceof Float)
+			comparison = adjustFloatTolerances(comparison, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
+		if (currSolution instanceof FloatUnit)
+			comparison = adjustFloatUnitTolerances(comparison, accuracyFactorAdjustment, currSolution.float.getMinimumAbsoluteTolerance())
+		return objectBased ?
+			currSolution.equals(currInput, comparison) :
+			numbersEqual(currInput, currSolution, comparison)
+	}
 
 	// On a correct answer, check if a margin warning is needed. Otherwise give the default message.
 	if (correct) {
-		if (!isEqual(currInput, currSolution, accuracyFactorForMarginWarnings))
+		if (!isEqual(currInput, currSolution, strictnessFactor))
 			return <Translation path="eduTools/feedback" entry="numeric.withinMargin">You're still within the margin, but this could be more accurate.</Translation>
 		return (previousFeedback && previousFeedback.correct && previousFeedback.text) || selectRandomCorrect()
 	}
 
 	// Check the unit (when needed).
-	if (equalityData.unitOK !== undefined && !equalityData.unitOK) {
-		return getUnitComparisonFeedback(currInput.unit, currSolution.unit, { type: comparison?.unitCheck, checkSize: comparison?.checkUnitSize })
+	if (currSolution instanceof FloatUnit && equalityResult.unit.equal === false) {
+		return getUnitComparisonFeedback(currInput.unit, currSolution.unit, comparison.unit)
 	}
 
 	// Something is incorrect. Check the signs.
@@ -185,23 +191,24 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 		return <Translation path="eduTools/feedback" entry="numeric.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
 
 	// Check for a near-hit.
-	if (isEqual(currInput, currSolution, accuracyFactorForNearHits))
+	if (isEqual(currInput, currSolution, closenessFactor))
 		return <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
-	if (equalityData.magnitude !== undefined && equalityData.magnitude !== 'OK') {
+	const direction = equalityResult.direction ?? equalityResult.number?.direction ?? equalityResult.float?.number?.direction
+	if (direction !== undefined && direction !== 0) {
 		if (inputSign === 0) {
 			if (solutionSign === -1)
 				return <Translation path="eduTools/feedback" entry="numeric.notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>
 			else
 				return <Translation path="eduTools/feedback" entry="numeric.notZeroPositive">Zero is sadly wrong. We do expect a number here.</Translation>
 		} else if (inputSign === -1) {
-			if (equalityData.magnitude === 'TooLarge')
+			if (direction === 1)
 				return <Translation path="eduTools/feedback" entry="numeric.negativeTooLarge">Your answer is (magnitude-based) too small. We expected something even more negative.</Translation>
 			else
 				return <Translation path="eduTools/feedback" entry="numeric.negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
 		} else {
-			if (equalityData.magnitude === 'TooLarge')
+			if (direction === 1)
 				return <Translation path="eduTools/feedback" entry="numeric.positiveTooLarge">Your answer is too large.</Translation>
 			else
 				return <Translation path="eduTools/feedback" entry="numeric.positiveTooSmall">Your answer is too small.</Translation>
@@ -209,16 +216,18 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	}
 
 	// Check the number of significant digits.
-	if (equalityData.numSignificantDigits !== undefined && equalityData.numSignificantDigits !== 'OK') {
-		if (equalityData.numSignificantDigits === 'TooLarge')
+	const significantDigitsResult = equalityResult.significantDigits ?? equalityResult.float?.significantDigits
+	if (significantDigitsResult !== undefined && significantDigitsResult.equal === false) {
+		if (significantDigitsResult.difference > 0)
 			return <Translation path="eduTools/feedback" entry="numeric.tooManySignificantDigits">You used too many significant digits.</Translation>
 		else
 			return <Translation path="eduTools/feedback" entry="numeric.tooFewSignificantDigits">You used too few significant digits.</Translation>
 	}
 
 	// Check the power. (In case it was examined.)
-	if (equalityData.power !== undefined && equalityData.power !== 'OK') {
-		if (equalityData.power === 'TooLarge')
+	const powerResult = equalityResult.power ?? equalityResult.float?.power
+	if (powerResult !== undefined && powerResult.equal === false) {
+		if (powerResult.difference > 0)
 			return <Translation path="eduTools/feedback" entry="numeric.tooLargePower">The exponent you used is too large.</Translation>
 		else
 			return <Translation path="eduTools/feedback" entry="numeric.tooSmallPower">The exponent you used is too small.</Translation>

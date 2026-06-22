@@ -1,10 +1,10 @@
-import { randomInteger } from '@step-wise/utils'
+import { getRandomInteger } from '@step-wise/utils'
 
 import { Translation } from 'i18n'
 
 // getRandomTranslatedFeedback is a support wrapper function that wraps a feedback string in a Translation component so it can be translated.
 export function getRandomTranslatedFeedback(feedbackList, entryType) {
-	const index = randomInteger(0, feedbackList.length - 1)
+	const index = getRandomInteger(0, feedbackList.length - 1)
 	return <Translation path="eduTools/feedback" entry={`${entryType}.${index}`}>{feedbackList[index]}</Translation>
 }
 

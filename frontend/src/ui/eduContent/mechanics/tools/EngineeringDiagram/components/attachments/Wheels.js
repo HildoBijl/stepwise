@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureInt, ensureNumber, ensureString, ensureObject, mergeDefaults, integerRange } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, ensureString, ensureObject, mergeDefaults, integerRange } from '@step-wise/utils'
 import { Vector } from '@step-wise/geometry'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'
@@ -23,7 +23,7 @@ export const Wheels = forwardRef((props, ref) => {
 	// Check input.
 	let { position, graphicalPosition, color, numWheels, wheelRadius, wheelStyle, className, style } = mergeDefaults(props, defaultWheels)
 	color = ensureString(color)
-	numWheels = ensureInt(numWheels, true, true)
+	numWheels = ensureInteger(numWheels, true, true)
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelStyle = ensureObject(wheelStyle)
 	ref = useRefWithEventHandlers(props, ref)

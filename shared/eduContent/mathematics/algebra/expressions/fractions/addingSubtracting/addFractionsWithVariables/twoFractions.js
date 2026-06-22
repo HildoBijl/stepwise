@@ -1,4 +1,4 @@
-const { sample, randomInteger, randomBoolean, repeat, randomIndices } = require('@step-wise/utils')
+const { sample, getRandomInteger, getRandomBoolean, repeat, randomIndices } = require('@step-wise/utils')
 const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 
 const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
@@ -29,7 +29,7 @@ addSetupFromSteps(metaData)
 function generateState(example) {
 	example = false
 	// Define parameters for the exercise.
-	const parameters = repeat(8, index => randomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1])) // Ensure even-indexed numbers are positive.
+	const parameters = repeat(8, index => getRandomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1])) // Ensure even-indexed numbers are positive.
 	if (example) {
 		parameters[0] = 1
 		parameters[6] = 1
@@ -45,7 +45,7 @@ function generateState(example) {
 	return {
 		x: sample(variableSet),
 		a, b, c, d, e, f, g, h,
-		plus: randomBoolean(),
+		plus: getRandomBoolean(),
 	}
 }
 

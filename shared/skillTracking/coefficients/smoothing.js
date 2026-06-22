@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber, mergeDefaults, sum, repeat } = require('@step-wise/utils')
+const { ensureInteger, ensureNumber, mergeDefaults, sum, repeat } = require('@step-wise/utils')
 const { binomial } = require('@step-wise/math-tools')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
@@ -81,7 +81,7 @@ module.exports.smoothenWithFactor = smoothenWithFactor
 // smoothenWithOrder smoothens the distribution described by the coefficients, using a smoothing order. If the smoothing order is too high, no smoothing is done.
 function smoothenWithOrder(coef, newOrder) {
 	// Check input.
-	newOrder = ensureInt(newOrder, true)
+	newOrder = ensureInteger(newOrder, true)
 
 	// Check boundary cases.
 	if (coef.length <= 1)

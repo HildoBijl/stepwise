@@ -1,7 +1,7 @@
-import { ensureInt, isInt, roundToDigits } from '@step-wise/utils'
+import { ensureInteger, isInteger, getNumberDirection, roundToDigits, checkNumberEquality } from '@step-wise/utils'
 
 import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, getSignificantDigits } from './interpreting'
-import { type FloatEqualityOptionsInput, type FloatEqualityResult, getNumberDirection, getRelativeDifference, resolveFloatEqualityOptions } from './comparison'
+import { type FloatEqualityOptionsInput, type FloatEqualityResult, resolveFloatEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'
 import { type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
 
 export class Float {
@@ -161,13 +161,13 @@ export class Float {
 	}
 
 	adjustPower(delta: number): Float {
-		delta = ensureInt(delta)
+		delta = ensureInteger(delta)
 		return new Float({ number: this.number * Math.pow(10, delta), power: this.power === undefined ? undefined : this.power + delta, significantDigits: this.significantDigits })
 	}
 
 	toPower(power: number | Float): Float {
 		if (power instanceof Float) power = power.number
-		if (this.number < 0 && !isInt(power)) throw new Error(`Invalid toPower call: cannot take a fractional power of a negative number.`)
+		if (this.number < 0 && !isInteger(power)) throw new Error(`Invalid toPower call: cannot take a fractional power of a negative number.`)
 		if (power === 0) return new Float({ number: 1, significantDigits: Infinity })
 		if (power < 0) return this.invert().toPower(-power)
 		return new Float({ number: Math.pow(this.number, power), significantDigits: this.significantDigits })
@@ -178,7 +178,7 @@ export class Float {
 	 */
 
 	setSignificantDigits(significantDigits: number): Float {
-		significantDigits = ensureInt(significantDigits, true, false, true)
+		significantDigits = ensureInteger(significantDigits, true, false, true)
 		return significantDigits === this.significantDigits ? this : new Float({ number: this.number, significantDigits, power: this.power })
 	}
 
@@ -189,7 +189,7 @@ export class Float {
 
 	// Shift significant digits up/down.
 	adjustSignificantDigits(delta: number): Float {
-		delta = ensureInt(delta)
+		delta = ensureInteger(delta)
 		return this.setSignificantDigits(Math.max(this.significantDigits + delta, 0))
 	}
 
@@ -198,7 +198,7 @@ export class Float {
 	}
 
 	setDecimals(decimals: number): Float {
-		decimals = ensureInt(decimals)
+		decimals = ensureInteger(decimals)
 		const significantDigits = Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals)
 		return this.setSignificantDigits(Math.max(significantDigits, 1))
 	}
@@ -234,41 +234,29 @@ export class Float {
 
 	checkEquality(input: Float | FloatInput, options?: FloatEqualityOptionsInput): FloatEqualityResult {
 		const x = asFloat(input)
-		const settings = resolveFloatEqualityOptions(options)
+		const { absoluteTolerance, relativeTolerance, significantDigitTolerance, checkPower } = resolveFloatEqualityOptions(options, this.getMinimumAbsoluteTolerance())
 
 		// Check the number.
-		const absoluteTolerance = Math.max(settings.absoluteTolerance, this.getMinAbsoluteTolerance())
-		const absoluteDifference = Math.abs(x.number - this.number)
-		const absoluteMatch = absoluteDifference <= absoluteTolerance
-		const relativeDifference = getRelativeDifference(x.number, this.number)
-		const relativeMatch = Math.sign(this.number) === Math.sign(x.number) && relativeDifference <= settings.relativeTolerance
-		const numericEqual = absoluteMatch || relativeMatch
+		const number = checkNumberEquality(x.number, this.number, { absoluteTolerance, relativeTolerance })
 
 		// Check the significant digits.
 		const significantDigitDifference = x.significantDigits - this.significantDigits
-		const significantDigitsEqual = Math.abs(significantDigitDifference) <= settings.significantDigitTolerance
+		const significantDigitsEqual = Math.abs(significantDigitDifference) <= significantDigitTolerance
 
 		// Assemble the result.
 		const result: FloatEqualityResult = {
-			equal: numericEqual && significantDigitsEqual,
-			number: {
-				equal: numericEqual,
-				direction: getNumberDirection(x.number, this.number),
-				absoluteDifference,
-				absoluteTolerance,
-				relativeDifference,
-				relativeTolerance: settings.relativeTolerance,
-			},
+			equal: number.equal && significantDigitsEqual,
+			number,
 			significantDigits: {
 				equal: significantDigitsEqual,
 				difference: significantDigitDifference,
-				tolerance: settings.significantDigitTolerance,
+				tolerance: significantDigitTolerance,
 			},
 		}
 
 		// If needed, check the power.
-		if (settings.checkPower) {
-			const powerDifference = (x.power ?? 0) - (this.power ?? 0)
+		if (checkPower) {
+			const powerDifference = x.getDisplayPower() - this.getDisplayPower()
 			const powerEqual = powerDifference === 0
 			result.power = { equal: powerEqual, difference: powerDifference }
 			if (!powerEqual) result.equal = false
@@ -277,7 +265,7 @@ export class Float {
 		return result
 	}
 
-	getMinAbsoluteTolerance() {
+	getMinimumAbsoluteTolerance() {
 		return Math.pow(10, -this.decimals) / 2
 	}
 }

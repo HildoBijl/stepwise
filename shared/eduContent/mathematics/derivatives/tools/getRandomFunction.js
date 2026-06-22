@@ -1,4 +1,4 @@
-const { randomInteger, sample, randomIndices } = require('@step-wise/utils')
+const { getRandomInteger, sample, randomIndices } = require('@step-wise/utils')
 const { asExpression, constants } = require('@step-wise/cas')
 
 function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true) {
@@ -18,7 +18,7 @@ function getRandomElementaryFunctions(num = 1, includeConstant = false, includeD
 	return indices.map(index => {
 		switch (index) {
 			case 0: // c
-				return asExpression(randomInteger(-12, 12, [0]))
+				return asExpression(getRandomInteger(-12, 12, [0]))
 			case 1: // x^n
 				const powerAbove = sample(includeX ? [1, 2, 3, 4] : [2, 3, 4])
 				return asExpression(powerAbove === 1 ? 'x' : `x^${powerAbove}`)

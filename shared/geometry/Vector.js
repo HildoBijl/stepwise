@@ -1,6 +1,6 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers, isNumberArray, isPlainObject } = require('@step-wise/utils')
+const { ensureInteger, ensureNumber, isNumber, compareNumbers, isNumberArray, isPlainObject } = require('@step-wise/utils')
 
 class Vector {
 	/*
@@ -337,14 +337,14 @@ class Vector {
 
 	// getZero returns the zero vector for the given dimension.
 	static getZero(dimension) {
-		dimension = ensureInt(dimension, true)
+		dimension = ensureInteger(dimension, true)
 		return new Vector(new Array(dimension).fill(0))
 	}
 
 	// getUnitVector returns the unit vector along the given axis (0 for x, 1 for y, etcetera) for the given dimension.
 	static getUnitVector(axis, dimension) {
-		axis = ensureInt(axis, true)
-		dimension = ensureInt(dimension, true)
+		axis = ensureInteger(axis, true)
+		dimension = ensureInteger(dimension, true)
 		if (axis >= dimension)
 			throw new Error(`Invalid axis: cannot have an axis (${axis}) equal to or larger than the dimension (${dimension}).`)
 

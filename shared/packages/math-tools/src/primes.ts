@@ -1,11 +1,11 @@
-import { ensureInt } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/utils'
 
 // Cached prime numbers.
 const primes = [2, 3, 5, 7, 11]
 
 // Return the prime number with the given index.
 export function getPrime(index: number): number {
-	index = ensureInt(index, true)
+	index = ensureInteger(index, true)
 	while (index >= primes.length) {
 		let candidate = primes[primes.length - 1] + 2
 		while (!isPrime(candidate))
@@ -17,7 +17,7 @@ export function getPrime(index: number): number {
 
 // Check if a number is prime.
 export function isPrime(num: number): boolean {
-	num = ensureInt(num, true, true)
+	num = ensureInteger(num, true, true)
 	if (num === 1) return false
 
 	for (let i = 0; true; i++) {
@@ -31,7 +31,7 @@ export function isPrime(num: number): boolean {
 
 // Return the prime factorization as exponents of consecutive primes.
 export function getPrimeFactorization(num: number): number[] {
-	num = ensureInt(num, true, true)
+	num = ensureInteger(num, true, true)
 	const result: number[] = []
 	for (let i = 0; num > 1; i++) {
 		result[i] = 0
