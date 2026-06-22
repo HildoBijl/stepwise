@@ -105,16 +105,16 @@ export class FloatUnit {
 		return new FloatUnit({ float: this.float.invert(), unit: this.unit.invert() })
 	}
 
-	multiply(input: FloatUnitLike, keepDigits?: boolean): FloatUnit {
+	multiply(input: FloatUnitLike, keepDigits?: boolean, combineUnit = true): FloatUnit {
 		const x = asFloatUnit(input)
-		return new FloatUnit({
-			float: this.float.multiply(x.float, keepDigits),
-			unit: this.unit.multiply(x.unit),
-		})
+		const float = this.float.multiply(x.float, keepDigits)
+		let unit = this.unit.multiply(x.unit)
+		if (combineUnit) unit = unit.combine()
+		return new FloatUnit({ float, unit })
 	}
 
-	divide(input: FloatUnitLike, keepDigits?: boolean): FloatUnit {
-		return this.multiply(asFloatUnit(input).invert(), keepDigits)
+	divide(input: FloatUnitLike, keepDigits?: boolean, combineUnit?: boolean): FloatUnit {
+		return this.multiply(asFloatUnit(input).invert(), keepDigits, combineUnit)
 	}
 
 	toPower(power: number | Float | FloatUnit): FloatUnit {

@@ -8,8 +8,8 @@ const metaData = {
 	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 	},

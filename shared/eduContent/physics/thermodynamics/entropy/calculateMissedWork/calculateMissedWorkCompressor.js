@@ -7,8 +7,8 @@ const metaData = {
 	steps: ['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', null, 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 	},

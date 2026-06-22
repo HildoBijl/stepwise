@@ -1,16 +1,16 @@
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { air: { Rs, k } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const comparison = {
 	default: {
-		relativeMargin: 0.01,
-		significantDigitMargin: 1,
+		relativeTolerance: 0.01,
+		significantDigitTolerance: 1,
 	},
 	T: {
-		absoluteMargin: 0.7,
-		relativeMargin: 0.01,
-		significantDigitMargin: 1,
+		absoluteTolerance: 0.7,
+		relativeTolerance: 0.01,
+		significantDigitTolerance: 1,
 	},
 }
 

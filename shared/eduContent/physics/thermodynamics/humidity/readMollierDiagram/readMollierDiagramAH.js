@@ -1,6 +1,6 @@
 const { first, last } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
@@ -8,7 +8,7 @@ const metaData = {
 	skill: 'readMollierDiagram',
 	comparison: {
 		default: {
-			absoluteMargin: 0.0005, // In standard units: kg/kg.
+			absoluteTolerance: 0.0005, // In standard units: kg/kg.
 		},
 	},
 }

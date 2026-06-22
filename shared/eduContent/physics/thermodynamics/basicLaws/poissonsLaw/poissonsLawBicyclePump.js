@@ -7,21 +7,21 @@ const metaData = {
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
 	comparison: {
 		V1s: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 		},
 		V2s: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 		},
 		T1s: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 2,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 2,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		T2: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 		},
 	},
 }

@@ -4,12 +4,12 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const comparison = {
 	default: {
-		relativeMargin: 0.015,
-		significantDigitMargin: 1,
+		relativeTolerance: 0.015,
+		significantDigitTolerance: 1,
 	},
 	T: {
-		absoluteMargin: 0.7,
-		significantDigitMargin: 1,
+		absoluteTolerance: 0.7,
+		significantDigitTolerance: 1,
 	},
 }
 

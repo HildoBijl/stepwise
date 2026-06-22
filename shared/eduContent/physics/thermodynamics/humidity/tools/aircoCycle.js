@@ -1,5 +1,5 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 
 function getCycle() {

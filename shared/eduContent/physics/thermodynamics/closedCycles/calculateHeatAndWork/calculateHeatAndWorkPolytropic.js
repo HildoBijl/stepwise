@@ -8,38 +8,38 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], null],
 	comparison: {
 		ms: {
-			relativeMargin: 0.001,
+			relativeTolerance: 0.001,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		T1s: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 2,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 2,
 		},
 		T2s: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 2,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 2,
 		},
 		Rs: {
-			relativeMargin: 0.01,
+			relativeTolerance: 0.01,
 			accuracyFactor: 2,
 		},
 		cv: {
-			relativeMargin: 0.01,
+			relativeTolerance: 0.01,
 			accuracyFactor: 2,
 		},
 		c: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 2,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 2,
 			accuracyFactor: 3,
 		},
 		Q: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 2,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 2,
 			accuracyFactor: 3,
 		},
 		W: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 2,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 2,
 			accuracyFactor: 3,
 		},
 	},

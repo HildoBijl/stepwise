@@ -9,12 +9,12 @@ const metaData = {
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', null],
 	comparison: {
 		default: { // AH
-			absoluteMargin: .001, // In standard units, so kg/kg.
-			significantDigitMargin: 1,
+			absoluteTolerance: .001, // In standard units, so kg/kg.
+			significantDigitTolerance: 1,
 		},
 		T3: {
-			absoluteMargin: 1,
-			significantDigitMargin: 1,
+			absoluteTolerance: 1,
+			significantDigitTolerance: 1,
 		},
 	},
 }

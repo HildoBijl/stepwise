@@ -1,7 +1,7 @@
 const { deg2rad, integerRange, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
-const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, getDefaultMoment, decomposeForce } = require('../../tools')
@@ -13,8 +13,10 @@ const metaData = {
 	steps: [null, null, null], // ToDo later: add steps, once they have been implemented.
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		method: {},
 	},

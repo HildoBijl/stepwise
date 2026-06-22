@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes'
-import { pressure as pConversion } from 'step-wise/data/conversions'
+import { Unit } from '@step-wise/physics-core'
+import { pressureBar as pConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

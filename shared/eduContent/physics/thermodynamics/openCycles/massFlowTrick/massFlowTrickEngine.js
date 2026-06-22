@@ -1,13 +1,13 @@
 const { and } = require('@step-wise/skill-setup')
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	setup: and('calculateWithSpecificQuantities', 'massFlowTrick'),
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 		},
 	},
 }

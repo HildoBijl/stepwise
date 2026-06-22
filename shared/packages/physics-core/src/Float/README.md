@@ -86,10 +86,10 @@ There are three important notes with the above options.
 Once you have set up your equality options, you can do the comparison. There are two useful methods here.
 
 ```
-asFloat('3.14').equals('3.14159') // Returns true. Though the default margins are zero, the minimum absolute margin (here 0.005) is always applied, and the number falls within it.
-asFloat('3.14159').equals('3.14') // Returns false. The default absolute margin is now 0.000005 which is not wide enough.
+asFloat('3.14').equals('3.14159') // Returns true. Though the default tolerances are zero, the minimum absolute tolerance (here 0.005) is always applied, and the number falls within it.
+asFloat('3.14159').equals('3.14') // Returns false. The default (minimum) absolute tolerance is now 0.000005 which is not wide enough.
 asFloat('3.14').checkEquality('3.14159') // Returns an object functioning as a full comparison report. If the numbers are not true, you an see which checks it failed and why. This can be useful for giving feedback.
-asFloat('3.14').equals('317 * 10^(-2)', { absoluteMargin: 0.02, relativeMargin: 0.01 }) // Returns true: the absolute margin is too narrow for equality, but the relative margin is wide enough, so the numbers are considered equal. By default, the `significantDigitTolerance` is zero, but that's OK here since the numbers are equally accurate. We also (by default) don't care about powers.
+asFloat('3.14').equals('317 * 10^(-2)', { absoluteTolerance: 0.02, relativeTolerance: 0.01 }) // Returns true: the absolute tolerance is too narrow for equality, but the relative tolerance is wide enough, so the numbers are considered equal. By default, the `significantDigitTolerance` is zero, but that's OK here since the numbers are equally accurate. We also (by default) don't care about powers.
 ```
 
 Note that the `equals` and `checkEquality` function accept `Float` objects, but also inputs that can be interpreted as `Float` objects.

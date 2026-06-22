@@ -7,15 +7,15 @@ const metaData = {
 	steps: ['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 		Rs: {
-			relativeMargin: 0.02,
+			relativeTolerance: 0.02,
 		},
 		cp: {
-			relativeMargin: 0.02,
+			relativeTolerance: 0.02,
 		},
 	},
 }

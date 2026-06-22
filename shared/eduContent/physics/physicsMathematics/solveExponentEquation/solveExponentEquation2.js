@@ -1,11 +1,11 @@
-const { getRandomFloat, getRandomExponentialFloat } = require('../../../../inputTypes')
+const { getRandomFloat, getRandomExponentialFloat } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 // a + b*x^p = c
 
 const metaData = {
 	skill: 'solveExponentEquation',
-	comparison: { default: { significantDigitMargin: 2 } },
+	comparison: { default: { significantDigitTolerance: 2 } },
 }
 
 function generateState() {
@@ -41,7 +41,7 @@ function generateState() {
 function getSolution({ a, b, p, c }) {
 	const cMinusA = c.subtract(a, true)
 	const cMinusADivB = cMinusA.divide(b, true)
-	const ans = c.subtract(a).divide(b).toPower(p.invert())
+	const ans = cMinusADivB.toPower(p.invert())
 	return { cMinusA, cMinusADivB, ans }
 }
 

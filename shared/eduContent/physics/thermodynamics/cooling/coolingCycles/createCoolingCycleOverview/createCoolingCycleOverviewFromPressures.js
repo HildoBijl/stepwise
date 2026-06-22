@@ -8,8 +8,8 @@ const metaData = {
 	steps: ['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
 	comparison: {
 		default: {
-			absoluteMargin: 4000, // J/kg*K.
-			significantDigitMargin: 2,
+			absoluteTolerance: 4000, // J/kg*K.
+			significantDigitTolerance: 2,
 		},
 	},
 }

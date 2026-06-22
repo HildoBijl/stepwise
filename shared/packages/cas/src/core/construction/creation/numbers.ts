@@ -1,4 +1,4 @@
-import { isInt } from '@step-wise/utils'
+import { isInteger } from '@step-wise/utils'
 
 import { type ExpressionNode, Integer, Float, type NamedConstant, getNamedConstant, Minus } from '../nodes'
 
@@ -14,5 +14,5 @@ export function namedConstant(symbol: string): NamedConstant {
 }
 export function number(value: number | string): ExpressionNode {
 	if (typeof value === 'string') return namedConstant(value)
-	return isInt(value) ? integer(value) : float(value)
+	return isInteger(value) ? integer(value) : float(value)
 }

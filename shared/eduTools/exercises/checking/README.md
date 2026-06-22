@@ -39,7 +39,7 @@ metaData = {
 	skill: 'someSkillId',
 	comparison: {
 		someExpression: (input, solution) => equivalent(input, solution),
-		someFloatUnit: { relativeMargin: 0.2 },
+		someFloatUnit: { relativeTolerance: 0.2 },
 		default: {}, // Empty object uses default options.
 	}
 }

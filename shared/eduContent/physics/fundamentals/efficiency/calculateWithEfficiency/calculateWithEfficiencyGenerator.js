@@ -1,9 +1,9 @@
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateWithEfficiency',
-	comparison: { default: { significantDigitMargin: 1 } },
+	comparison: { default: { float: { significantDigitTolerance: 1 } } },
 }
 
 function generateState() {

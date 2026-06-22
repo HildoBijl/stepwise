@@ -7,8 +7,8 @@ const metaData = {
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
 	comparison: {
 		default: {
-			relativeMargin: 0.015,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.015,
+			significantDigitTolerance: 1,
 		},
 	},
 }

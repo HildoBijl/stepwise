@@ -7,8 +7,8 @@ const metaData = {
 	skill: 'determineRefrigerantProcess',
 	comparison: {
 		default: {
-			absoluteMargin: 4000, // J/kg*K.
-			significantDigitMargin: 2,
+			absoluteTolerance: 4000, // J/kg*K.
+			significantDigitTolerance: 2,
 		},
 	},
 }

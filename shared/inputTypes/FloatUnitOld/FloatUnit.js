@@ -184,10 +184,10 @@ class FloatUnit {
 	}
 
 	/* checkEquality compares two FloatUnit objects. Options include:
-	 * - absoluteMargin: same as with Float.
-	 * - relativeMargin: same as with Float.
+	 * - absoluteTolerance: same as with Float.
+	 * - relativeTolerance: same as with Float.
 	 * - accuracyFactor: same as with Float.
-	 * - significantDigitMargin: same as with Float.
+	 * - significantDigitTolerance: same as with Float.
 	 * - unitCheck: same as the Unit type parameter.
 	 * - checkUnitSize (default false): same as the Unit type parameter, the size of the unit must be the same. (Note: the default value is different here than for the Unit type.) A potential inequality will be communicated through the UnitOK parameter. This is useful if you want "2 J" to be equal to "2 N*m" to be equal, but not to "2 * 10^3 mJ".
 	 * Note that the following options are not supported.
@@ -361,10 +361,10 @@ module.exports.FloatUnit = FloatUnit
 
 // Define comparison options.
 FloatUnit.defaultComparison = {
-	absoluteMargin: Float.defaultComparison.absoluteMargin,
-	relativeMargin: Float.defaultComparison.relativeMargin,
+	absoluteTolerance: Float.defaultComparison.absoluteMargin,
+	relativeTolerance: Float.defaultComparison.relativeMargin,
 	accuracyFactor: Float.defaultComparison.accuracyFactor,
-	significantDigitMargin: Float.defaultComparison.significantDigitMargin,
+	significantDigitTolerance: Float.defaultComparison.significantDigitMargin,
 	unitCheck: Unit.defaultComparison.type,
 	checkUnitSize: false,
 }

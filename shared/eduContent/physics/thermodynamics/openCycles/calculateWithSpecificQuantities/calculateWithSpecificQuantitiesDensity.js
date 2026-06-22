@@ -1,12 +1,12 @@
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateWithSpecificQuantities',
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 		},
 	},
 }

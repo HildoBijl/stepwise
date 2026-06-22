@@ -1,4 +1,4 @@
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('../calculateOpenCycle/calculateOpenCycleNspsp')
@@ -9,18 +9,18 @@ const metaData = {
 	steps: ['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 		epsilon: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 		COP: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 	},

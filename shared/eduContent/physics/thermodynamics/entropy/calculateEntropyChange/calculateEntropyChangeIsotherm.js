@@ -6,18 +6,18 @@ const metaData = {
 	steps: ['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', null],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 		Tw: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 1,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		Tc: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 1,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 	},

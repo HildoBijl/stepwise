@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { roundTo } from '@step-wise/utils'
-import { Float } from 'step-wise/inputTypes'
+import { Float } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

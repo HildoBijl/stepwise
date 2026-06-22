@@ -1,5 +1,5 @@
-const { sample } = require('@step-wise/utils')
-const { getRandomInteger, getRandomExponentialFloatUnit, Unit } = require('../../../../../inputTypes')
+const { sample, getRandomInteger } = require('@step-wise/utils')
+const { Unit, getRandomExponentialFloatUnit } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // Type 0: from (mu/m/./M)g to kg.
@@ -10,9 +10,13 @@ const metaData = {
 	skill: 'calculateWithMass',
 	comparison: {
 		default: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 0,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 0,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 	},
 }

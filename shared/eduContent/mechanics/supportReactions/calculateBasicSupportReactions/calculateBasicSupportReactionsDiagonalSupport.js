@@ -1,7 +1,7 @@
 const { deg2rad, fromEntries, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
-const { getRandomFloatUnit } = require('../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')
@@ -13,8 +13,10 @@ const metaData = {
 	steps: ['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', null],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		loads: FBDComparison,
 	},

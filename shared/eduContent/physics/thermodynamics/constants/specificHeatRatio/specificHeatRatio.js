@@ -1,12 +1,14 @@
 const { sample } = require('@step-wise/utils')
-const gasProperties = require('../../../../../data/gasProperties')
+const { gasProperties } = require('@step-wise/physics-data')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'specificHeatRatio',
 	comparison: {
 		default: {
-			relativeMargin: 0.015,
+			float: {
+				relativeTolerance: 0.015,
+			},
 		},
 	}
 }

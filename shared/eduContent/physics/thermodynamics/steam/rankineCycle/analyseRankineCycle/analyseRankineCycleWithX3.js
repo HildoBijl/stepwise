@@ -10,8 +10,8 @@ const metaData = {
 	steps: ['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 2,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 2,
 		},
 	},
 }

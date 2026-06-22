@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 
 import { spread, last } from '@step-wise/utils'
 import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
-import { FloatUnit } from 'step-wise/inputTypes'
+import { FloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Curve, Label, defaultAxesOptions } from 'ui/figures'

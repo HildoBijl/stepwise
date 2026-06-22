@@ -8,35 +8,35 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], 'calculateWithSpecificQuantities'],
 	comparison: {
 		k: {
-			relativeMargin: 0.015,
+			relativeTolerance: 0.015,
 		},
 		v1: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 			checkUnitSize: true,
 		},
 		v2: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 			checkUnitSize: true,
 		},
 		p1: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 			checkUnitSize: true,
 		},
 		p2: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 			checkUnitSize: true,
 		},
 		q: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 		},
 		wt: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 		},
 	},
 }

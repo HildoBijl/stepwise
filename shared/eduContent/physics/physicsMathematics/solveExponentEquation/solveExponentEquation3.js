@@ -1,11 +1,11 @@
-const { getRandomFloat, getRandomExponentialFloat } = require('../../../../inputTypes')
+const { getRandomFloat, getRandomExponentialFloat } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 // a*x^c = b*x^d
 
 const metaData = {
 	skill: 'solveExponentEquation',
-	comparison: { default: { significantDigitMargin: 2 } },
+	comparison: { default: { significantDigitTolerance: 2 } },
 }
 
 function generateState() {

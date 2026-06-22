@@ -8,16 +8,16 @@ const metaData = {
 	steps: ['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
 	comparison: {
 		TEvap: {
-			absoluteMargin: 1, // K
-			significantDigitMargin: 1,
+			absoluteTolerance: 1, // K
+			significantDigitTolerance: 1,
 		},
 		TCond: {
-			absoluteMargin: 1, // K
-			significantDigitMargin: 1,
+			absoluteTolerance: 1, // K
+			significantDigitTolerance: 1,
 		},
 		default: {
-			absoluteMargin: 4000, // J/kg*K.
-			significantDigitMargin: 2,
+			absoluteTolerance: 4000, // J/kg*K.
+			significantDigitTolerance: 2,
 		},
 	},
 }

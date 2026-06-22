@@ -1,4 +1,5 @@
-const { getRandomInteger, getRandomFloatUnit, Unit } = require('../../../../../inputTypes')
+const { getRandomInteger } = require('@step-wise/utils')
+const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 // Type 0: from K to °C.
@@ -10,9 +11,13 @@ const metaData = {
 	skill: 'calculateWithTemperature',
 	comparison: {
 		default: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 1,
-			unitCheck: Unit.equalityTypes.sameUnits,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				target: 'unchanged',
+			}
 		},
 	},
 }

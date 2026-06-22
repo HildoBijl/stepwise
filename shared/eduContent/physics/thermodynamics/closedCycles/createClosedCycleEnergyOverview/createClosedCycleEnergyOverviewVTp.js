@@ -1,6 +1,6 @@
 const { or } = require('@step-wise/skill-setup')
 const { FloatUnit } = require('../../../../../inputTypes')
-const gasProperties = require('../../../../../data/gasProperties')
+const { gasProperties } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { generateState, getSolution: getCycleParametersRaw } = require('../calculateClosedCycle/calculateClosedCycleVTp')
@@ -10,8 +10,8 @@ const metaData = {
 	steps: ['calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')],
 	comparison: {
 		default: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 		},
 	},
 }

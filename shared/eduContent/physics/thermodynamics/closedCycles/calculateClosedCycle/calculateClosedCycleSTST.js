@@ -1,6 +1,6 @@
 const { sample } = require('@step-wise/utils')
-const { getRandomFloatUnit } = require('../../../../../inputTypes')
-const gasProperties = require('../../../../../data/gasProperties')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
+const { gasProperties } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -8,8 +8,8 @@ const metaData = {
 	steps: ['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep'],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 	},

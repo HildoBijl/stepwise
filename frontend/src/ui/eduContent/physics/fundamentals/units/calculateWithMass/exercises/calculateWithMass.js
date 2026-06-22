@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FloatUnit, Unit, getPrefixName, getPrefixPower } from 'step-wise/inputTypes'
+import { FloatUnit, getPrefixName, getPrefixExponent } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -31,8 +31,8 @@ function Solution({ m, type, prefix, ans }) {
 	const toPrefix = (type === 2 ? prefix : 'k')
 	const fromName = getPrefixName(fromPrefix)
 	const toName = getPrefixName(toPrefix)
-	const fromPower = getPrefixPower(fromPrefix)
-	const toPower = getPrefixPower(toPrefix)
+	const fromPower = getPrefixExponent(fromPrefix)
+	const toPower = getPrefixExponent(toPrefix)
 
 	const conversion = (fromPower > toPower ?
 		new FloatUnit(`10^${fromPower - toPower} ${toPrefix}g/${fromPrefix}g`) :
@@ -48,7 +48,7 @@ function Solution({ m, type, prefix, ans }) {
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, answer, { type, prefix }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type, prefix)}</>,
+			(input, answer, { type, prefix }, correct) => !correct && !answer.unit.equals(input.unit, { target: 'unchanged' }) && <>{getUnitMessage(type, prefix)}</>,
 		],
 	})
 }

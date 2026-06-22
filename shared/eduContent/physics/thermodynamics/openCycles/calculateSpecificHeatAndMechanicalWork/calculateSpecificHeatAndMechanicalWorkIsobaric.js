@@ -7,23 +7,23 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, 'specificHeats', 'calculateWithTemperature', 'calculateWithSpecificQuantities'],
 	comparison: {
 		cp: {
-			relativeMargin: 0.02,
+			relativeTolerance: 0.02,
 		},
 		T1: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 2,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 2,
 		},
 		T2: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 2,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 2,
 		},
 		q: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 		},
 		wt: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 		},
 	},
 }

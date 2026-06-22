@@ -1,4 +1,5 @@
-const { getRandomInteger, getRandomFloat, getRandomFloatUnit } = require('../../../../inputTypes')
+const { getRandomInteger } = require('@step-wise/utils')
+const { getRandomFloat, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const metaData = {
@@ -7,12 +8,14 @@ const metaData = {
 
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		x: {
-			absoluteMargin: 0.005,
-			significantDigitMargin: 1,
+			absoluteTolerance: 0.005,
+			significantDigitTolerance: 1,
 		},
 	},
 }

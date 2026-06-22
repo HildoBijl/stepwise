@@ -8,13 +8,13 @@ const metaData = {
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithCOP'],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 		eta: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 			accuracyFactor: 2,
 		},
 	},

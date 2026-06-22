@@ -11,15 +11,15 @@ const metaData = {
 	steps: ['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation'],
 	comparison: {
 		default: {
-			relativeMargin: 0.001,
+			relativeTolerance: 0.001,
 		},
 		x: {
-			relativeMargin: 0.002,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.002,
+			significantDigitTolerance: 1,
 		},
 		h: {
-			relativeMargin: 0.002,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.002,
+			significantDigitTolerance: 1,
 		},
 	},
 }

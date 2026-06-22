@@ -474,9 +474,9 @@ class Float {
 module.exports.Float = Float
 
 Float.defaultComparison = {
-	absoluteMargin: 'auto',
-	relativeMargin: 0.000001,
+	absoluteTolerance: 'auto',
+	relativeTolerance: 0.000001,
 	accuracyFactor: 1,
-	significantDigitMargin: Infinity,
+	significantDigitTolerance: Infinity,
 	checkPower: false,
 }

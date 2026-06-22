@@ -2,7 +2,7 @@ import React from 'react'
 
 import { integerRange } from '@step-wise/utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
-import { FloatUnit } from 'step-wise/inputTypes'
+import { FloatUnit } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'

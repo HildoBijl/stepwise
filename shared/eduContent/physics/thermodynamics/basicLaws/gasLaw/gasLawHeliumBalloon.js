@@ -7,27 +7,27 @@ const metaData = {
 	steps: [['calculateWithMass', 'calculateWithTemperature', 'calculateWithPressure'], 'specificGasConstant', 'solveLinearEquation'],
 	comparison: {
 		ms: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		Ts: {
-			absoluteMargin: 0.7,
-			significantDigitMargin: 1,
+			absoluteTolerance: 0.7,
+			significantDigitTolerance: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		ps: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.001,
+			significantDigitTolerance: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		Rs: {
-			relativeMargin: 0.01,
+			relativeTolerance: 0.01,
 			unitCheck: Unit.equalityTypes.sameUnitsAndPrefixes,
 		},
 		V: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 		},
 	},
 }

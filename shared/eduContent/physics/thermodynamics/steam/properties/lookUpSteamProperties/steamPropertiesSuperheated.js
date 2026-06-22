@@ -8,7 +8,7 @@ const metaData = {
 	weight: 2,
 	comparison: {
 		default: {
-			relativeMargin: 0.001,
+			relativeTolerance: 0.001,
 		},
 	},
 }

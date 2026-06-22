@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes'
-import { temperature as TConversion } from 'step-wise/data/conversions'
+import { temperatureCelsius as TConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -42,7 +41,7 @@ function Solution({ T, type, ans }) {
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type)}</>,
+			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { target: 'unchanged' }) && <>{getUnitMessage(type)}</>,
 		],
 	})
 }

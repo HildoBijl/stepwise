@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FloatUnit } from 'step-wise/inputTypes'
+import { FloatUnit } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

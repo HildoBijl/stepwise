@@ -9,13 +9,13 @@ const metaData = {
 	steps: ['calculateOpenCycle', 'useIsentropicEfficiency', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 			accuracyFactor: 1.5,
 		},
 		eta: {
-			relativeMargin: 0.02,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.02,
+			significantDigitTolerance: 1,
 			accuracyFactor: 1.5,
 		},
 	},

@@ -6,8 +6,8 @@ const metaData = {
 	steps: ['gasLaw', 'gasLaw'],
 	comparison: {
 		default: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeTolerance: 0.01,
+			significantDigitTolerance: 1,
 		},
 	},
 }

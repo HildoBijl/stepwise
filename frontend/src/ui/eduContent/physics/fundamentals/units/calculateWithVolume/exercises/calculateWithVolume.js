@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FloatUnit, Unit } from 'step-wise/inputTypes'
+import { FloatUnit } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -28,7 +28,7 @@ function Problem({ V, type }) {
 }
 
 function Solution({ V, type, ans }) {
-	const prefix = V.unit.num[0].prefix
+	const prefix = V.unit.numerator[0].prefix
 	let conversion
 	switch (type) {
 		case 0:
@@ -53,8 +53,8 @@ function Solution({ V, type, ans }) {
 				return <Par>Dit is een strikvraag. Het volume staat al in standaard eenheden (kubieke meters). Het antwoord is dus gewoon <M>V = {ans}.</M></Par>
 
 			const word = prefix.letter === 'c' ? 'centimeter' : 'decimeter'
-			conversion = new FloatUnit(`10^${-3 * prefix.power} ${prefix.letter}m^3/m^3`)
-			return <Par>De standaard eenheid van volume is kubieke meters. We weten dat een meter gelijk is aan <M>{prefix.power === -1 ? '10' : '10^2'}</M> {word}. Een kubieke meter is dus gelijk aan <M>{conversion.float}</M> kubieke {word}. Het volume is daarmee te vinden als <BM>V = \frac{V}{conversion} = {ans}.</BM></Par>
+			conversion = new FloatUnit(`10^${-3 * prefix.exponent} ${prefix.letter}m^3/m^3`)
+			return <Par>De standaard eenheid van volume is kubieke meters. We weten dat een meter gelijk is aan <M>{prefix.exponent === -1 ? '10' : '10^2'}</M> {word}. Een kubieke meter is dus gelijk aan <M>{conversion.float}</M> kubieke {word}. Het volume is daarmee te vinden als <BM>V = \frac{V}{conversion} = {ans}.</BM></Par>
 
 		case 2:
 		case 3:
@@ -70,7 +70,7 @@ function Solution({ V, type, ans }) {
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type)}</>,
+			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { target: 'unchanged' }) && <>{getUnitMessage(type)}</>,
 		],
 	})
 }

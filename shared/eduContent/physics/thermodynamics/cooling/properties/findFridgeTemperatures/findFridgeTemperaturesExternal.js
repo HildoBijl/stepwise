@@ -6,7 +6,7 @@ const metaData = {
 	skill: 'findFridgeTemperatures',
 	comparison: {
 		default: {
-			significantDigitMargin: 1,
+			significantDigitTolerance: 1,
 		},
 	}
 }

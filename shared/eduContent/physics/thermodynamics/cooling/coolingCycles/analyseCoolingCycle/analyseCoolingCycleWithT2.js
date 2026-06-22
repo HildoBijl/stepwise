@@ -4,13 +4,13 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 const { getCycle } = require('../tools')
 
 const hComparison = {
-	absoluteMargin: 4000, // J/kg*K.
-	significantDigitMargin: 2,
+	absoluteTolerance: 4000, // J/kg*K.
+	significantDigitTolerance: 2,
 }
 const factorComparison = {
-	absoluteMargin: 0.4,
-	relativeMargin: 0.05,
-	significantDigitMargin: 2,
+	absoluteTolerance: 0.4,
+	relativeTolerance: 0.05,
+	significantDigitTolerance: 2,
 }
 const metaData = {
 	skill: 'analyseCoolingCycle',
@@ -22,14 +22,14 @@ const metaData = {
 		h3: hComparison,
 		h4: hComparison,
 		etai: {
-			absoluteMargin: 0.04,
-			significantDigitMargin: 2,
+			absoluteTolerance: 0.04,
+			significantDigitTolerance: 2,
 		},
 		epsilon: factorComparison,
 		COP: factorComparison,
 		P: {
-			relativeMargin: 0.1,
-			significantDigitMargin: 2,
+			relativeTolerance: 0.1,
+			significantDigitTolerance: 2,
 		},
 	},
 }

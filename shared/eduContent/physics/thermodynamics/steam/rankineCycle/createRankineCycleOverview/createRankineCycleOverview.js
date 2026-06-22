@@ -9,8 +9,8 @@ const metaData = {
 	steps: ['lookUpSteamProperties', null, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction'],
 	comparison: {
 		default: {
-			relativeMargin: 0.002,
-			significantDigitMargin: 2,
+			relativeTolerance: 0.002,
+			significantDigitTolerance: 2,
 		},
 	},
 }

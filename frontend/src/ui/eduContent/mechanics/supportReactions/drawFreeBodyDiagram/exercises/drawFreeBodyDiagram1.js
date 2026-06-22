@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 
 import { ensureNumber, ensureString } from '@step-wise/utils'
 import { Vector } from '@step-wise/geometry'
-import { FloatUnit } from 'step-wise/inputTypes'
+import { FloatUnit } from '@step-wise/physics-core'
 
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FloatUnit } from 'step-wise/inputTypes'
+import { FloatUnit } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, Term, Emp, Info } from 'ui/components'
 
