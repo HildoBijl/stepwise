@@ -1,4 +1,4 @@
-import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, isInteger, isNumber, ensureNumber, defaultNumberEqualityOptions } from '@step-wise/utils'
+import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, isInteger, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances } from '@step-wise/utils'
 
 export type FloatEqualityOptions = NumberEqualityOptions & {
 	significantDigitTolerance: number
@@ -44,10 +44,8 @@ export function applyMinimumAbsoluteTolerance(options: FloatEqualityOptions, min
 
 export function adjustFloatTolerances(options: FloatEqualityOptionsInput, factor: number, minimumAbsoluteTolerance: number) {
 	const equalityOptions = resolveFloatEqualityOptions(options, minimumAbsoluteTolerance)
-	factor = ensureNumber(factor, true, true)
 	return applyMinimumAbsoluteTolerance({
 		...equalityOptions,
-		absoluteTolerance: factor * equalityOptions.absoluteTolerance,
-		relativeTolerance: factor * equalityOptions.relativeTolerance,
+		...adjustNumberTolerances(pickFromDefaults(equalityOptions, defaultNumberEqualityOptions), factor),
 	}, minimumAbsoluteTolerance)
 }

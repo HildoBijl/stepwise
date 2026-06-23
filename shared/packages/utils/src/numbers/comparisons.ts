@@ -1,6 +1,6 @@
 import { mergeDefaults } from '../objects'
 
-import { isNumber } from './checks'
+import { isNumber, ensureNumber } from './checks'
 
 /*
  * Script-wise comparisons
@@ -12,15 +12,15 @@ export const epsilon = 1e-9
 // Compare two numbers for approximate equality.
 export function compareNumbers(input: number, reference: number): boolean {
 	// Check if the absolute difference is within bounds.
-  const diff = Math.abs(input - reference)
-  if (diff < epsilon) return true
+	const diff = Math.abs(input - reference)
+	if (diff < epsilon) return true
 
 	// Check if the relative difference is within bounds.
-  const absB = Math.abs(reference)
-  if (absB > epsilon && diff / absB < epsilon) return true
+	const absB = Math.abs(reference)
+	if (absB > epsilon && diff / absB < epsilon) return true
 
 	// No reason to consider equality found.
-  return false
+	return false
 }
 
 export function getNumberDirection(input: number, reference: number): -1 | 0 | 1 {
@@ -83,6 +83,15 @@ export function validateNumberEqualityOptions(options: NumberEqualityOptions): N
 	if (!isNumber(absoluteTolerance) || absoluteTolerance < 0) throw new Error(`Invalid NumberEqualityOptions: absoluteTolerance must be a non-negative number, but received "${absoluteTolerance}".`)
 	if (!isNumber(relativeTolerance) || relativeTolerance < 0) throw new Error(`Invalid NumberEqualityOptions: relativeTolerance must be a non-negative number, but received "${relativeTolerance}".`)
 	return options
+}
+
+export function adjustNumberTolerances(options: NumberEqualityOptionsInput, factor: number) {
+	const equalityOptions = resolveNumberEqualityOptions(options)
+	factor = ensureNumber(factor, true, true)
+	return {
+		absoluteTolerance: factor * equalityOptions.absoluteTolerance,
+		relativeTolerance: factor * equalityOptions.relativeTolerance,
+	}
 }
 
 export function getAbsoluteDifference(input: number, reference: number): number {
