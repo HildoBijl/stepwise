@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { pressure as pConversion } from 'step-wise/data/conversions'
+import { pressureBar as pConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM, InputTable } from 'ui/components'
 import { useInput, AntiInputSpace, InputSpace } from 'ui/form'

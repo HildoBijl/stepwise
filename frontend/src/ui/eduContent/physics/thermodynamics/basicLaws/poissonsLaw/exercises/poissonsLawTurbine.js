@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes'
-
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
@@ -82,7 +80,7 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	// Set up an extra feedbackCheck for the parameter that should have equal units.
-	const feedbackCheck = (input, answer, solution, correct, { input: { p1s, p2s } }) => p1s && p2s && !p1s.unit.equals(p2s.unit, { type: Unit.equalityTypes.exact }) && { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
+	const feedbackCheck = (input, answer, solution, correct, { input: { p1s, p2s } }) => p1s && p2s && !p1s.unit.equals(p2s.unit, { target: 'unchanged' }) && { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
 
 	return {
 		...getFieldInputFeedback(exerciseData, ['T1s', 'k', 'T2']),

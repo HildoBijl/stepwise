@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-let { helium: { k } } = require('../../../../../data/gasProperties')
+const { gasProperties: { helium: { k } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -8,8 +8,10 @@ const metaData = {
 	steps: ['calculateHeatAndWork', 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

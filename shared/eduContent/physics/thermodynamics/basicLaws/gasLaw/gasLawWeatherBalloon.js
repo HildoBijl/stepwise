@@ -1,13 +1,15 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { helium: { Rs } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { gasProperties: { helium: { Rs } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	steps: ['gasLaw', 'gasLaw'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

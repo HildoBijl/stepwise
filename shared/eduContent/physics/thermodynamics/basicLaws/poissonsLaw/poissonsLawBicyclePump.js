@@ -1,5 +1,5 @@
 const { getRandomNumber } = require('@step-wise/utils')
-const { getRandomFloat, Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloat, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -7,21 +7,31 @@ const metaData = {
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
 	comparison: {
 		V1s: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
 		},
 		V2s: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
 		},
 		T1s: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		T2: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }
@@ -71,9 +81,9 @@ function checkInput(exerciseData, step, substep) {
 				case 1:
 					return performComparison(exerciseData, 'T1s')
 				case 2:
-					return performComparison(exerciseData, 'V1s') && V1s.unit.equals(V2s.unit, { type: Unit.equalityTypes.exact })
+					return performComparison(exerciseData, 'V1s') && V1s.unit.equals(V2s.unit, { target: 'unchanged' })
 				case 3:
-					return performComparison(exerciseData, 'V2s') && V1s.unit.equals(V2s.unit, { type: Unit.equalityTypes.exact })
+					return performComparison(exerciseData, 'V2s') && V1s.unit.equals(V2s.unit, { target: 'unchanged' })
 			}
 		case 2:
 			return performComparison(exerciseData, 'eq')

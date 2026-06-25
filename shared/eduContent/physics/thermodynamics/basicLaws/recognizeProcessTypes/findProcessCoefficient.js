@@ -1,4 +1,4 @@
-const { getRandomInteger } = require('../../../../../inputTypes')
+const { getRandomInteger } = require('@step-wise/utils')
 const { getSimpleExerciseProcessor, getMultipleChoiceMapping, performComparison } = require('../../../../../eduTools')
 
 const metaData = {

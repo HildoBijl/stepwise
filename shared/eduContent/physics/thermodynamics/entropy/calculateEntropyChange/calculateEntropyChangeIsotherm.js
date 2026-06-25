@@ -1,4 +1,4 @@
-const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
+const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -6,19 +6,28 @@ const metaData = {
 	steps: ['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', null],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		Tw: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 1,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		Tc: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 1,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 	},
 }

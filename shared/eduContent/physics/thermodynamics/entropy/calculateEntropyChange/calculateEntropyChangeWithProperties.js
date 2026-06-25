@@ -1,5 +1,5 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { air: { cv, cp, Rs } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { air: { cv, cp, Rs } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -7,9 +7,10 @@ const metaData = {
 	steps: ['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		Rs: {
 			relativeTolerance: 0.02,

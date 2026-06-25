@@ -1,4 +1,4 @@
-const { air: { k, cp } } = require('../../../../../data/gasProperties')
+const { air: { k, cp } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('../../gasTurbines')
@@ -8,8 +8,10 @@ const metaData = {
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

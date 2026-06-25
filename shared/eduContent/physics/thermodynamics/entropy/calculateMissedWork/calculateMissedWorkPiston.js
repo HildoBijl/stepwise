@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { air: { k, Rs, cv } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { air: { k, Rs, cv } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -8,9 +8,10 @@ const metaData = {
 	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

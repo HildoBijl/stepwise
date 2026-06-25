@@ -1,5 +1,5 @@
-const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { argon: { Rs } } = require('../../../../../data/gasProperties')
+const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { gasProperties: { argon: { Rs } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -7,27 +7,45 @@ const metaData = {
 	steps: [['calculateWithVolume', 'calculateWithPressure', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 	comparison: {
 		Vs: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		ps: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		Ts: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 1,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		Rs: {
-			relativeTolerance: 0.01,
-			unitCheck: Unit.equalityTypes.sameUnitsAndPrefixes,
+			float: {
+				relativeTolerance: 0.01,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		m: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

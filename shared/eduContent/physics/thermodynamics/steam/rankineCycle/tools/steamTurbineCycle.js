@@ -1,6 +1,6 @@
 const { integerRange, sample, getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../../inputTypes')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
 
 function getCycle() {

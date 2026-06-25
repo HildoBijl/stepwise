@@ -9,19 +9,22 @@ const metaData = {
 	steps: ['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		epsilon: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 		COP: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

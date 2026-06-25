@@ -1,5 +1,5 @@
-const { FloatUnit } = require('../../../../../inputTypes')
-const { air: { k, cp } } = require('../../../../../data/gasProperties')
+const { FloatUnit } = require('@step-wise/physics-core')
+const { air: { k, cp } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('..')

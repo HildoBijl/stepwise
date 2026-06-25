@@ -1,5 +1,5 @@
 const { getRandomInteger, sample } = require('@step-wise/utils')
-const { Unit, FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
+const { Unit, FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -18,14 +18,22 @@ const metaData = {
 			accuracyFactor: 2,
 		},
 		T1: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		T2: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 	},
 }

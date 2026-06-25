@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { temperature as TConversion, pressure as pConversion } from 'step-wise/data/conversions'
+import { temperatureCelsius as TConversion, pressureBar as pConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'

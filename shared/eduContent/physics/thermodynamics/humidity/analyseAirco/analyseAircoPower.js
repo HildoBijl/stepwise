@@ -1,6 +1,6 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { air: { cp } } = require('../../../../../data/gasProperties')
+const { air: { cp } } = require('@step-wise/physics-data')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 

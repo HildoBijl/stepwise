@@ -1,7 +1,7 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { and } = require('@step-wise/skill-setup')
-const { getRandomFloatUnit } = require('../../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { withTemperature, withPressure } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 

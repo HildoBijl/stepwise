@@ -1,5 +1,5 @@
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { air: { Rs, k } } = require('../../../../../data/gasProperties')
+const { air: { Rs, k } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const comparison = {

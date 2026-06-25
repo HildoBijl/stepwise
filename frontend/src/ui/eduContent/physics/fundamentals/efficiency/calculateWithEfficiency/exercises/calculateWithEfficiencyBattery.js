@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes'
+import { Unit } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

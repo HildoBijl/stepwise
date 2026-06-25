@@ -18,7 +18,7 @@ const defaultOptions = {
 	dependency: undefined, // The names of parameters which the feedback of this parameter may depend on. The feedback of a parameter is only updated when it changes, or any of its dependencies changes.
 }
 
-const closenessFactor = 4 // If we expand the margins by this factor, we consider it "close".
+const closenessFactor = 3 // If we expand the margins by this factor, we consider it "close".
 const strictnessFactor = 1 / 3 // If we narrow the margins by this factor, we consider it "correct but inaccurate".
 
 // getAllFieldInputsFeedback is a getFeedback function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
@@ -195,8 +195,9 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 		return <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
-	const direction = equalityResult.direction ?? equalityResult.number?.direction ?? equalityResult.float?.number?.direction
-	if (direction !== undefined && direction !== 0) {
+	const numberEqualityResult = (currSolution instanceof FloatUnit ? equalityResult.float.number : currSolution instanceof Float ? equalityResult.number : equalityResult)
+	const direction = numberEqualityResult?.direction
+	if (numberEqualityResult?.equal === false && direction !== undefined && direction !== 0) {
 		if (inputSign === 0) {
 			if (solutionSign === -1)
 				return <Translation path="eduTools/feedback" entry="numeric.notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>

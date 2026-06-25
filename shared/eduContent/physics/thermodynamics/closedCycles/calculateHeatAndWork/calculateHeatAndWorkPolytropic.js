@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
-const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
-let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
+const { gasProperties: { air: { Rs, cv } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -8,40 +8,55 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], null],
 	comparison: {
 		ms: {
-			relativeTolerance: 0.001,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				relativeTolerance: 0.001,
+			},
+			unit: {
+				target: 'unchanged',
+			}
 		},
 		T1s: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
 		},
 		T2s: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
 		},
 		Rs: {
-			relativeTolerance: 0.01,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+			},
 		},
 		cv: {
-			relativeTolerance: 0.01,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+			},
 		},
 		c: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 2,
-			accuracyFactor: 3,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 2,
+			},
 		},
 		Q: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 2,
-			accuracyFactor: 3,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 2,
+			},
 		},
 		W: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 2,
-			accuracyFactor: 3,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 2,
+			},
 		},
+		process: {},
+		eq: {},
 	},
 }
 addSetupFromSteps(metaData)
@@ -75,12 +90,12 @@ function getSolution({ m, T1, T2, n }) {
 	const ms = m.simplify()
 	const T1s = T1
 	const T2s = T2
-	cv = cv.simplify()
-	const c = cv.subtract(Rs.divide(n.number - 1))
+	cvSimplified = cv.simplify()
+	const c = cvSimplified.subtract(Rs.divide(n.number - 1))
 	const mdT = m.multiply(T2s.subtract(T1s))
 	const Q = mdT.multiply(c).setUnit('J')
 	const W = mdT.multiply(Rs).divide(1 - n.number).setUnit('J')
-	return { process: 4, eq: 9, Rs, cv, n, ms, c, T1s, T2s, Q, W }
+	return { process: 4, eq: 9, Rs, cv: cvSimplified, n, ms, c, T1s, T2s, Q, W }
 }
 
 function checkInput(exerciseData, step, substep) {

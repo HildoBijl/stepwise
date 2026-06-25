@@ -5,8 +5,10 @@ const metaData = {
 	skill: 'calculateWithSpecificQuantities',
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

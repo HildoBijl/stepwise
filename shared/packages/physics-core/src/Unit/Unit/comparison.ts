@@ -4,12 +4,16 @@ import { type UnitTransformationData, type UnitSimplificationTarget } from './si
 
 export type UnitEqualityOptions = {
 	target: UnitSimplificationTarget
+	combine: boolean
+	sort: boolean
 	checkSize: boolean
 }
 export type UnitEqualityOptionsInput = Partial<UnitEqualityOptions>
 
 export const defaultUnitEqualityOptions = {
 	target: 'base',
+	combine: true,
+	sort: true,
 	checkSize: true,
 } satisfies UnitEqualityOptions
 

@@ -8,15 +8,18 @@ const metaData = {
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithCOP'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		eta: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
+		choice: {},
 	},
 }
 addSetupFromSteps(metaData)

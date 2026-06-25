@@ -1,5 +1,5 @@
 const { sample } = require('@step-wise/utils')
-const { getRandomFloatUnit } = require('../../../../../../inputTypes')
+const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 
 function getTemperatures() {

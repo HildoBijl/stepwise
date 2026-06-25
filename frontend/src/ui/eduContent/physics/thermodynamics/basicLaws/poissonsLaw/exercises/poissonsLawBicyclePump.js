@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes'
-import { temperature as TConversion } from 'step-wise/data/conversions'
+import { temperatureCelsius as TConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -73,7 +72,7 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	// Set up an extra feedbackCheck for the parameter that should have equal units.
-	const feedbackCheck = (input, answer, solution, correct, { input: { V1s, V2s } }) => V1s && V2s && !V1s.unit.equals(V2s.unit, { type: Unit.equalityTypes.exact }) && { correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> }
+	const feedbackCheck = (input, answer, solution, correct, { input: { V1s, V2s } }) => V1s && V2s && !V1s.unit.equals(V2s.unit, { target: 'unchanged' }) && { correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> }
 
 	return {
 		...getFieldInputFeedback(exerciseData, ['T1s', 'T2']),

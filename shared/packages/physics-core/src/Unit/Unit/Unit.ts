@@ -278,7 +278,7 @@ export class Unit {
 		const equalityOptions = resolveUnitEqualityOptions(options)
 
 		// Simplify both units according to the given target.
-		const simplificationOptions = { target: equalityOptions.target, combine: true, sort: true }
+		const simplificationOptions = { target: equalityOptions.target, combine: equalityOptions.combine, sort: equalityOptions.sort }
 		const inputData = x.simplifyWithData(simplificationOptions)
 		const referenceData = this.simplifyWithData(simplificationOptions)
 

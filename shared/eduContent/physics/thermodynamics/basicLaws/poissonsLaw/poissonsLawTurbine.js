@@ -1,5 +1,5 @@
-const { Unit, FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { air: { k } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { gasProperties: { air: { k } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -8,24 +8,36 @@ const metaData = {
 
 	comparison: {
 		T1s: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
+			unit: {
+				target: 'unchanged',
+			},
 		},
 		p1s: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
 		},
 		p2s: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
 		},
 		k: {
-			relativeTolerance: 0.015,
+			float: {
+				relativeTolerance: 0.015,
+			},
 		},
 		T2: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }
@@ -68,9 +80,9 @@ function checkInput(exerciseData, step, substep) {
 				case 1:
 					return performComparison(exerciseData, 'T1s')
 				case 2:
-					return performComparison(exerciseData, 'p1s') && p1s.unit.equals(p2s.unit, { type: Unit.equalityTypes.exact })
+					return performComparison(exerciseData, 'p1s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' })
 				case 3:
-					return performComparison(exerciseData, 'p2s') && p1s.unit.equals(p2s.unit, { type: Unit.equalityTypes.exact })
+					return performComparison(exerciseData, 'p2s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' })
 			}
 		case 2:
 			return performComparison(exerciseData, 'k')

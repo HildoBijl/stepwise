@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
+const { gasProperties: { air: { Rs, cv } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -8,11 +8,15 @@ const metaData = {
 	steps: ['gasLaw', 'specificHeats', 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		cv: {
-			relativeTolerance: 0.02,
+			float: {
+				relativeTolerance: 0.02,
+			},
 		},
 	},
 }
@@ -48,10 +52,10 @@ function getSolution({ T1, p2, V2, T2 }) {
 	const p2s = p2.simplify()
 	const V2s = V2.simplify()
 	const T2s = T2.simplify()
-	cv = cv.simplify()
+	cvSimplified = cv.simplify()
 	const m = p2s.multiply(V2s).divide(Rs.multiply(T2s)).setUnit('kg')
-	const dU = m.multiply(cv).multiply(T2s.subtract(T1s)).setUnit('J')
-	return { cv, Rs, T1s, p2s, V2s, T2s, m, dU }
+	const dU = m.multiply(cvSimplified).multiply(T2s.subtract(T1s)).setUnit('J')
+	return { cv: cvSimplified, Rs, T1s, p2s, V2s, T2s, m, dU }
 }
 
 function checkInput(exerciseData, step) {

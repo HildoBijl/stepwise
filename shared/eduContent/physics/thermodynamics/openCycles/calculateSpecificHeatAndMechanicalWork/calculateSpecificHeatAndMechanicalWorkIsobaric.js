@@ -1,5 +1,5 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-let { air: { cp } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+let { air: { cp } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -10,20 +10,28 @@ const metaData = {
 			relativeTolerance: 0.02,
 		},
 		T1: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
 		},
 		T2: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
 		},
 		q: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 		wt: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

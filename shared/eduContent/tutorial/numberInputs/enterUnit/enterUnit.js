@@ -1,5 +1,5 @@
 const { sample } = require('@step-wise/utils')
-const { Unit } = require('../../../../inputTypes')
+const { Unit } = require('@step-wise/physics-core')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 const metaData = {

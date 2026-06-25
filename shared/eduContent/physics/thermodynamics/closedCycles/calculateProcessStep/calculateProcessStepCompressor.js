@@ -8,9 +8,12 @@ const metaData = {
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.015,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.015,
+				significantDigitTolerance: 1,
+			},
 		},
+		process: {},
 	},
 }
 addSetupFromSteps(metaData)

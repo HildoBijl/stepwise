@@ -1,4 +1,4 @@
-const { FloatUnit } = require('../../../../../inputTypes')
+const { FloatUnit } = require('@step-wise/physics-core')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { generateState } = require('../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler')
@@ -8,8 +8,10 @@ const metaData = {
 	steps: ['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

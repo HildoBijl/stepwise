@@ -139,6 +139,6 @@ const getFeedback = (exerciseData) => {
 				],
 			}
 		}),
-		eta: (exerciseData.input.eta ? { correct: false, text: 'Aangezien we geen positief kringproces hebben, is het zinloos om het redenement te berekenen.' } : undefined),
+		eta: (exerciseData.input.eta ? { correct: false, text: 'Aangezien we geen positief kringproces hebben, is het zinloos om het rendement te berekenen.' } : undefined),
 	}
 }

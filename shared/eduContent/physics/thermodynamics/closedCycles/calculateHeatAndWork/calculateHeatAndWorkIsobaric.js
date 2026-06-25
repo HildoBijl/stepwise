@@ -1,5 +1,5 @@
 const { sample } = require('@step-wise/utils')
-const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
+const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
@@ -8,22 +8,33 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, ['specificHeats', 'specificGasConstant'], ['calculateWithMass', 'calculateWithTemperature'], null],
 	comparison: {
 		default: {
-			relativeTolerance: 0.015,
-			significantDigitTolerance: 2,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.015,
+				significantDigitTolerance: 2,
+			},
 		},
 		ms: {
-			relativeTolerance: 0.001,
-			unitCheck: Unit.equalityTypes.exact,
+			float: {
+				relativeTolerance: 0.001,
+			},
+			unit: {
+				target: 'unchanged',
+			}
 		},
 		T1s: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
 		},
 		T2s: {
-			absoluteTolerance: 0.7,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.7,
+				significantDigitTolerance: 2,
+			},
 		},
+		process: {},
+		eq: {},
 	},
 }
 addSetupFromSteps(metaData)

@@ -1,5 +1,5 @@
 const { sample, getRandomBoolean } = require('@step-wise/utils')
-const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../../../../inputTypes')
+const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('@step-wise/physics-core')
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 

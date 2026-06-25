@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { air: { k } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { gasProperties: { air: { k } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -11,32 +11,52 @@ const metaData = {
 			relativeTolerance: 0.015,
 		},
 		v1: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
-			checkUnitSize: true,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				checkSize: true,
+			},
 		},
 		v2: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
-			checkUnitSize: true,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				checkSize: true,
+			},
 		},
 		p1: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
-			checkUnitSize: true,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				checkSize: true,
+			},
 		},
 		p2: {
-			relativeTolerance: 0.001,
-			significantDigitTolerance: 1,
-			checkUnitSize: true,
+			float: {
+				relativeTolerance: 0.001,
+				significantDigitTolerance: 1,
+			},
+			unit: {
+				checkSize: true,
+			},
 		},
 		q: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 		wt: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

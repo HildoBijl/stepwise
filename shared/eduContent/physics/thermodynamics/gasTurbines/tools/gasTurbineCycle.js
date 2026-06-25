@@ -1,5 +1,5 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { air: { k, cp } } = require('../../../../../data/gasProperties')
+const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
+const { air: { k, cp } } = require('@step-wise/physics-data')
 
 function getCycle() {
 	// Pressure.
