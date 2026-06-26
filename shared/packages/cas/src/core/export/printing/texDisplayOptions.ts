@@ -5,7 +5,7 @@ export type TexDisplayOptions = { decimalSeparator: DecimalSeparator }
 export type TexDisplayOptionsInput = Partial<TexDisplayOptions>
 
 export const defaultTexDisplayOptions = {
-	decimalSeparator: '.'
+	decimalSeparator: ','
 } satisfies TexDisplayOptions
 
 export function resolveTexDisplayOptions(options?: TexDisplayOptionsInput): TexDisplayOptions {
