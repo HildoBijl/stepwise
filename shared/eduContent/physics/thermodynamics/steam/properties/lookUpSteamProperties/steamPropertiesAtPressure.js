@@ -13,7 +13,7 @@ const metaData = {
 }
 
 function generateState() {
-	const pressureRange = withPressure.boilingTemperature.headers[0]
+	const pressureRange = withPressure.boilingTemperature.inputValues[0]
 	const p = pressureRange[getRandomInteger(0, Math.min(25, pressureRange.length))] // Limit to a certain part of the table.
 	const type = getRandomInteger(1, 2) // Type 1: liquid line. Type 2: vapor line.
 	return { p, type }

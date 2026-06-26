@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { upperFirst } from '@step-wise/utils'
-import gasProperties from 'step-wise/data/gasProperties'
+import { gasProperties } from '@step-wise/physics-data'
 
 import { Dutch } from 'ui/lang/gases'
 import { Head, Par, Table, M } from 'ui/components'

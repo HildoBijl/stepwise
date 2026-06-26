@@ -1,7 +1,5 @@
 import React from 'react'
 
-import * as constants from 'step-wise/data/constants'
-
 import { Translation, useGetTranslation } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -25,5 +23,5 @@ function Problem({ constant }) {
 }
 
 function Solution({ constant }) {
-	return <Par><Translation>As can be looked up in the attachment, the value of <M>{tableValues[constant].symbol}</M> is <M>{constants[constant]}</M>.</Translation></Par>
+	return <Par><Translation>As can be looked up in the attachment, the value of <M>{tableValues[constant].symbol}</M> is <M>{tableValues[constant].value}</M>.</Translation></Par>
 }

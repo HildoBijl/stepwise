@@ -29,14 +29,14 @@ function generateState() {
 	const type = getRandomInteger(1, 2) // 1 is temperature given, 2 is pressure given.
 	const x = getRandomFloatUnit({ min: 0.1, max: 0.9, unit: '' })
 	if (type === 1) {
-		const temperatureRange = withTemperature.entropyLiquid.headers[0]
+		const temperatureRange = withTemperature.entropyLiquid.inputValues[0]
 		const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
 		const sx0 = tableInterpolate(T, withTemperature.entropyLiquid)
 		const sx1 = tableInterpolate(T, withTemperature.entropyVapor)
 		const s = sx0.add(x.multiply(sx1.subtract(sx0))).setDecimals(3).roundToPrecision()
 		return { type, T, s }
 	} else {
-		const pressureRange = withPressure.entropyLiquid.headers[0]
+		const pressureRange = withPressure.entropyLiquid.inputValues[0]
 		const p = pressureRange[getRandomInteger(0, Math.min(25, pressureRange.length))] // Limit to a certain part of the table.
 		const sx0 = tableInterpolate(p, withPressure.entropyLiquid)
 		const sx1 = tableInterpolate(p, withPressure.entropyVapor)

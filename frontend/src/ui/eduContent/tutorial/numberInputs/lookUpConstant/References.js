@@ -1,18 +1,18 @@
 import React from 'react'
 
 import { upperFirst } from '@step-wise/utils'
-import * as constants from 'step-wise/data/constants'
+import { c, g, R, e, k, G } from '@step-wise/physics-data'
 
 import { Translation, useTextTranslator } from 'i18n'
 import { Par, Table, M } from 'ui/components'
 
 export const tableValues = {
-	c: { symbol: 'c', name: 'the speed of light' },
-	g: { symbol: 'g', name: 'the gravitational acceleration on Earth' },
-	R: { symbol: 'R', name: 'the universal gas constant' },
-	e: { symbol: 'e', name: 'the (elementary) charge of an electron' },
-	k: { symbol: 'k', name: 'the Boltzmann constant' },
-	G: { symbol: 'G', name: 'the universal gravitational constant' },
+	c: { symbol: 'c', value: c, name: 'the speed of light' },
+	g: { symbol: 'g', value: g, name: 'the gravitational acceleration on Earth' },
+	R: { symbol: 'R', value: R, name: 'the universal gas constant' },
+	e: { symbol: 'e', value: e, name: 'the (elementary) charge of an electron' },
+	k: { symbol: 'k', value: k, name: 'the Boltzmann constant' },
+	G: { symbol: 'G', value: G, name: 'the universal gravitational constant' },
 }
 
 export function References() {
@@ -31,7 +31,7 @@ export function References() {
 			fields={Object.keys(tableValues).map(key => [
 				upperFirst(translate(tableValues[key].name, `constants.${key}`)),
 				<M>{tableValues[key].symbol}</M>,
-				<M>{constants[key]}</M>,
+				<M>{tableValues[key].value}</M>,
 			])}
 		/>
 	</>

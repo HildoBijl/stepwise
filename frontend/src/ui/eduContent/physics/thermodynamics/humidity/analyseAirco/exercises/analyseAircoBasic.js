@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { FloatUnit } from '@step-wise/physics-core'
-import { maximumHumidity } from 'step-wise/data/moistureProperties'
+import { maximumHumidity } from '@step-wise/physics-data'
 
 import { Par, M } from 'ui/components'
 import { useColor } from 'ui/theme'
@@ -26,7 +26,7 @@ const Problem = ({ T1, T3, T4, startRH }) => <>
 	</InputSpace>
 </>
 
-const linePoints = maximumHumidity.headers[0].map((T, index) => [maximumHumidity.grid[index].number, T.number])
+const linePoints = maximumHumidity.inputValues[0].map((T, index) => [maximumHumidity.grids[0][index].number, T.number])
 
 const steps = [
 	{

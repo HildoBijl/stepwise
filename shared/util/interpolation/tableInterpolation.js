@@ -16,7 +16,7 @@ function inverseTableInterpolate(output, table) {
 		throw new Error(`Interpolation error: invalid table received.`)
 	if (table.headers.length > 1)
 		throw new Error(`Interpolation error: can only apply inverse table interpolation on a table with one input parameter. However, the given table has ${table.headers.length}.`)
-	return gridInterpolate(output, table.headers[0], table.grid)
+	return gridInterpolate(output, table.inputValues[0], table.grid)
 }
 module.exports.inverseTableInterpolate = inverseTableInterpolate
 

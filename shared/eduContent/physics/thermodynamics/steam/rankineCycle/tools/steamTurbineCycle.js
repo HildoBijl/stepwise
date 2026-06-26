@@ -5,11 +5,11 @@ const { withPressure, enthalpy, entropy } = require('../../../../../../data/stea
 
 function getCycle() {
 	// Pressure in the condensor and evaporator.
-	const pressureRangeTable1 = withPressure.boilingTemperature.headers[0]
+	const pressureRangeTable1 = withPressure.boilingTemperature.inputValues[0]
 	const condenserIndex = getRandomInteger(3, 8) // Index in the pressure tables.
 	const pc = pressureRangeTable1[condenserIndex] // 0.1 to 1 bar
 	const Tc = withPressure.boilingTemperature.grid[condenserIndex]
-	const pressureRangeTable2 = enthalpy.headers[0]
+	const pressureRangeTable2 = enthalpy.inputValues[0]
 	const evaporatorIndex = getRandomInteger(13, 19) // Index in the enthalpy tables.
 	const pe = pressureRangeTable2[evaporatorIndex] // 50 to 120 bar
 	const Te = tableInterpolate(pe, withPressure.boilingTemperature)
@@ -24,7 +24,7 @@ function getCycle() {
 	// Check which row (that is, temperature) from the enthalpy table is suitable. Pick one randomly from it.
 	const temperatureIndexOptions = integerRange(3, 25).filter(temperatureIndex => {
 		// Check that the temperature is above the evaporator temperature.
-		const T = enthalpy.headers[1][temperatureIndex]
+		const T = enthalpy.inputValues[1][temperatureIndex]
 		if (T < Te)
 			return false
 
@@ -37,7 +37,7 @@ function getCycle() {
 		return true
 	})
 	const temperatureIndex = sample(temperatureIndexOptions)
-	const T2 = enthalpy.headers[1][temperatureIndex]
+	const T2 = enthalpy.inputValues[1][temperatureIndex]
 
 	// Find all remaining properties.
 	const { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, h3, etai } = getCycleProperties(condenserIndex, evaporatorIndex, temperatureIndex, x3)

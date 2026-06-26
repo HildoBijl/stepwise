@@ -2,7 +2,7 @@ import React from 'react'
 
 import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
 import { FloatUnit } from '@step-wise/physics-core'
-import { maximumHumidity } from 'step-wise/data/moistureProperties'
+import { maximumHumidity } from '@step-wise/physics-data'
 
 import { useColor } from 'ui/theme'
 import { Head, Par, List, M, Term, Emp } from 'ui/components'
@@ -64,7 +64,7 @@ function AircoProcess() {
 	const point3 = [endAH.number, T3.number]
 	const point4 = [endAH.number, T4.number]
 
-	const linePoints = maximumHumidity.headers[0].map((T, index) => [maximumHumidity.grid[index].number, T.number])
+	const linePoints = maximumHumidity.inputValues[0].map((T, index) => [maximumHumidity.grids[0][index].number, T.number])
 	const points = [point2, ...linePoints.filter(point => point[1] < T2.number && point[1] > T3.number).reverse(), point3]
 
 	return <MollierDiagram maxWidth="500">
