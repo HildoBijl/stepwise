@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
-const { air: { k, Rs, cv } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { k, Rs, cv } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {

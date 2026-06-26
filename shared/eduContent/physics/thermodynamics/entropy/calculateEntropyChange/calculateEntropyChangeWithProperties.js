@@ -1,5 +1,5 @@
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
-const { air: { cv, cp, Rs } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { cv, cp, Rs } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -13,10 +13,14 @@ const metaData = {
 			},
 		},
 		Rs: {
-			relativeTolerance: 0.02,
+			float: {
+				relativeTolerance: 0.02,
+			},
 		},
 		cp: {
-			relativeTolerance: 0.02,
+			float: {
+				relativeTolerance: 0.02,
+			},
 		},
 	},
 }

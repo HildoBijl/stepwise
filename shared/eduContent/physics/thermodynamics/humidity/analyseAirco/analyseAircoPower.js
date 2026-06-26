@@ -1,7 +1,6 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { air: { cp } } = require('@step-wise/physics-data')
-const { maximumHumidity } = require('../../../../../data/moistureProperties')
+const { gasProperties: { air: { cp } }, maximumHumidity } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('../tools')
@@ -10,12 +9,16 @@ const metaData = {
 	steps: ['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.05,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.05,
+				significantDigitTolerance: 1,
+			},
 		},
 		T3: {
-			absoluteTolerance: 1,
-			significantDigitTolerance: 1,
+			float: {
+				absoluteTolerance: 1,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

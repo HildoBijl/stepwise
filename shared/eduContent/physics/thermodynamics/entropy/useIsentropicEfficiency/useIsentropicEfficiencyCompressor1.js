@@ -1,4 +1,4 @@
-const { air: { k, cp } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { k, cp } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('../../gasTurbines')

@@ -1,6 +1,6 @@
 const { or } = require('@step-wise/skill-setup')
 const { FloatUnit } = require('@step-wise/physics-core')
-const { air } = require('@step-wise/physics-data')
+const { gasProperties: { air: { cv, cp } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { generateState, getSolution: getCycleParametersRaw } = require('../calculateOpenCycle/calculateOpenCycleNspsp')
@@ -39,20 +39,19 @@ function getCycleParameters(state) {
 function getSolution(state) {
 	const cycleParameters = getCycleParameters(state)
 	const { T1, T2, T3, T4 } = cycleParameters
-	let { cv, cp } = air
-	cv = cv.simplify()
-	cp = cp.simplify()
+	const cvSimplified = cv.simplify()
+	const cpSimplified = cp.simplify()
 	const q12 = new FloatUnit('0 J/kg')
-	const wt12 = cp.multiply(T1.subtract(T2)).setUnit('J/kg')
-	const q23 = cp.multiply(T3.subtract(T2)).setUnit('J/kg')
+	const wt12 = cpSimplified.multiply(T1.subtract(T2)).setUnit('J/kg')
+	const q23 = cpSimplified.multiply(T3.subtract(T2)).setUnit('J/kg')
 	const wt23 = new FloatUnit('0 J/kg')
 	const q34 = new FloatUnit('0 J/kg')
-	const wt34 = cp.multiply(T3.subtract(T4)).setUnit('J/kg')
-	const q41 = cp.multiply(T1.subtract(T4)).setUnit('J/kg')
+	const wt34 = cpSimplified.multiply(T3.subtract(T4)).setUnit('J/kg')
+	const q41 = cpSimplified.multiply(T1.subtract(T4)).setUnit('J/kg')
 	const wt41 = new FloatUnit('0 J/kg')
 	const qn = q12.add(q23).add(q34).add(q41).setMinimumSignificantDigits(2)
 	const wn = wt12.add(wt23).add(wt34).add(wt41).setMinimumSignificantDigits(2)
-	return { ...cycleParameters, cv, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }
+	return { ...cycleParameters, cv: cvSimplified, cp: cpSimplified, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }
 }
 
 function checkInput(exerciseData, step) {

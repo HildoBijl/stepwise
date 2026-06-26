@@ -1,5 +1,5 @@
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
-let { air: { cp } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { cp } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -7,7 +7,9 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, 'specificHeats', 'calculateWithTemperature', 'calculateWithSpecificQuantities'],
 	comparison: {
 		cp: {
-			relativeTolerance: 0.02,
+			float: {
+				relativeTolerance: 0.02,
+			},
 		},
 		T1: {
 			float: {
@@ -55,13 +57,13 @@ function generateState() {
 }
 
 function getSolution({ T1o, T2o }) {
-	cp = cp.simplify()
+	const cpSimplified = cp.simplify()
 	const T1 = T1o
 	const T2 = T2o
 	const dT = T2.subtract(T1)
-	const q = cp.multiply(dT).setUnit('J/kg')
+	const q = cpSimplified.multiply(dT).setUnit('J/kg')
 	const wt = new FloatUnit('0 J/kg')
-	return { process: 0, eq: 1, T1, T2, cp, q, wt }
+	return { process: 0, eq: 1, T1, T2, cp: cpSimplified, q, wt }
 }
 
 function checkInput(exerciseData, step) {

@@ -1,5 +1,5 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
-const { maximumHumidity } = require('../../../../../data/moistureProperties')
+const { maximumHumidity } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('../tools')
@@ -9,12 +9,16 @@ const metaData = {
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram'],
 	comparison: {
 		default: { // AH
-			absoluteTolerance: .001, // In standard units, so kg/kg.
-			significantDigitTolerance: 1,
+			float: {
+				absoluteTolerance: .001, // In standard units, so kg/kg.
+				significantDigitTolerance: 1,
+			},
 		},
 		endRH: {
-			absoluteTolerance: .04, // In standard units, so without percentage.
-			significantDigitTolerance: 1,
+			float: {
+				absoluteTolerance: .04, // In standard units, so without percentage.
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

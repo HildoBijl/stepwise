@@ -1,5 +1,5 @@
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
-const { air: { k, cp } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { k, cp } } } = require('@step-wise/physics-data')
 
 function getCycle() {
 	// Pressure.

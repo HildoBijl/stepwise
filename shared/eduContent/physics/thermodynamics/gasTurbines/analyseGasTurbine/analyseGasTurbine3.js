@@ -1,5 +1,5 @@
 const { FloatUnit } = require('@step-wise/physics-core')
-const { air: { k, cp } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { k, cp } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('..')
@@ -9,14 +9,16 @@ const metaData = {
 	steps: ['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']],
 	comparison: {
 		default: {
-			relativeTolerance: 0.01,
-			significantDigitTolerance: 1,
-			accuracyFactor: 1.5,
+			float: {
+				relativeTolerance: 0.01,
+				significantDigitTolerance: 1,
+			},
 		},
 		eta: {
-			relativeTolerance: 0.02,
-			significantDigitTolerance: 1,
-			accuracyFactor: 1.5,
+			float: {
+				relativeTolerance: 0.02,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }

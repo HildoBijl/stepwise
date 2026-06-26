@@ -36,18 +36,18 @@ function getCycleParameters(state) {
 function getSolution(state) {
 	const cycleParameters = getCycleParameters(state)
 	const { p1, v1, T1, v2, T2, T3 } = cycleParameters
-	let { cv, cp } = gasProperties[state.medium]
-	cv = cv.simplify()
-	cp = cp.simplify()
+	const { cv, cp } = gasProperties[state.medium]
+	const cvSimplified = cv.simplify()
+	const cpSimplified = cp.simplify()
 	const q12 = p1.multiply(v1).multiply(Math.log(v2.number / v1.number)).setUnit('J/kg').setMinimumSignificantDigits(2)
 	const wt12 = q12
 	const q23 = new FloatUnit('0 J/kg')
-	const wt23 = cp.multiply(T2.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
-	const q31 = cp.multiply(T1.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
+	const wt23 = cpSimplified.multiply(T2.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
+	const q31 = cpSimplified.multiply(T1.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
 	const wt31 = new FloatUnit('0 J/kg')
 	const qn = q12.add(q23).add(q31).setMinimumSignificantDigits(2)
 	const wn = wt12.add(wt23).add(wt31).setMinimumSignificantDigits(2)
-	return { ...cycleParameters, cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn }
+	return { ...cycleParameters, cv: cvSimplified, cp: cpSimplified, q12, wt12, q23, wt23, q31, wt31, qn, wn }
 }
 
 function checkInput(exerciseData, step) {

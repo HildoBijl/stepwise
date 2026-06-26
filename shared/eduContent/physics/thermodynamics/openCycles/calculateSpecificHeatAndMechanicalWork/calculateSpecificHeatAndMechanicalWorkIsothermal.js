@@ -8,10 +8,14 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities'],
 	comparison: {
 		Rs: {
-			relativeTolerance: 0.015,
+			float: {
+				relativeTolerance: 0.015,
+			},
 		},
 		ratio: {
-			relativeTolerance: 0.01,
+			float: {
+				relativeTolerance: 0.01,
+			},
 		},
 		T: {
 			float: {
@@ -23,14 +27,16 @@ const metaData = {
 			},
 		},
 		q: {
-			relativeTolerance: 0.015,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.015,
+				significantDigitTolerance: 1,
+			},
 		},
 		wt: {
-			relativeTolerance: 0.015,
-			significantDigitTolerance: 1,
-			accuracyFactor: 2,
+			float: {
+				relativeTolerance: 0.015,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }
@@ -61,7 +67,7 @@ function generateState() {
 }
 
 function getSolution({ gas, To, p1o, p2o }) {
-	let { Rs } = gasProperties[gas]
+	const { Rs } = gasProperties[gas]
 	const T = To.simplify()
 	const p1 = p1o
 	const p2 = p2o

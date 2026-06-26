@@ -1,6 +1,6 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { maximumHumidity } = require('../../../../../data/moistureProperties')
+const { maximumHumidity } = require('@step-wise/physics-data')
 
 function getCycle() {
 	// Determine starting and ending temperatures.

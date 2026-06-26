@@ -1,6 +1,6 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-let { air: { Rs, k, cp } } = require('@step-wise/physics-data')
+const { gasProperties: { air: { Rs, k, cp } } } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
@@ -34,10 +34,10 @@ function generateState() {
 
 function getSolution({ T1, T2, wt }) {
 	const wts = wt.simplify()
-	cp = cp.simplify()
-	const dh = cp.multiply(T2.subtract(T1)).setUnit('J/kg')
+	const cpSimplified = cp.simplify()
+	const dh = cpSimplified.multiply(T2.subtract(T1)).setUnit('J/kg')
 	const q = dh.add(wts)
-	return { cp, wts, dh, q }
+	return { cp: cpSimplified, wts, dh, q }
 }
 
 function checkInput(exerciseData, step) {

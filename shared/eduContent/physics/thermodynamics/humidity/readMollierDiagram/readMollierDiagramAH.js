@@ -1,20 +1,22 @@
 const { first, last } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { maximumHumidity } = require('../../../../../data/moistureProperties')
+const { maximumHumidity } = require('@step-wise/physics-data')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'readMollierDiagram',
 	comparison: {
 		default: {
-			absoluteTolerance: 0.0005, // In standard units: kg/kg.
+			float: {
+				absoluteTolerance: 0.0005, // In standard units: kg/kg.
+			},
 		},
 	},
 }
 
 function generateState() {
-	const temperatureRange = maximumHumidity.headers[0]
+	const temperatureRange = maximumHumidity.inputValues[0]
 	const T = getRandomFloatUnit({
 		min: 5, // Limit to higher temperatures to have some resolution in the plot.
 		max: last(temperatureRange).number,

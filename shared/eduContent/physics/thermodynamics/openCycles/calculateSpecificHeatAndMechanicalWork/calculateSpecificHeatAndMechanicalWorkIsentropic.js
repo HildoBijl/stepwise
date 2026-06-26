@@ -8,7 +8,9 @@ const metaData = {
 	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], 'calculateWithSpecificQuantities'],
 	comparison: {
 		k: {
-			relativeTolerance: 0.015,
+			float: {
+				relativeTolerance: 0.015,
+			},
 		},
 		v1: {
 			float: {
@@ -64,7 +66,7 @@ addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine volumes, ensuring they are nice round numbers.
-	let v2o = getRandomFloatUnit({
+	const v2o = getRandomFloatUnit({
 		min: 1.5,
 		max: 1.8,
 		decimals: 1,
