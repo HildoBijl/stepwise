@@ -10,7 +10,7 @@ export type RefrigerantProperties = {
 	enthalpy: FloatUnit
 	entropy: FloatUnit
 	phase: RefrigerantPhase
-	vaporFraction?: number
+	vaporFraction?: FloatUnit
 }
 
 type SubTables = { tables: [RefrigerantPressureTable, RefrigerantPressureTable], part: number }
@@ -29,22 +29,45 @@ export function getBoilingTemperature(data: RefrigerantData, pressure: FloatUnit
 	return inverseTableInterpolate(pressure, data.boilingData, 'pressure')
 }
 
-// From temperature/pressure and enthalpy, get the phase ('liquid', 'vapor' or 'gas').
-export function getPhaseFromTemperature(data: RefrigerantData, temperature: FloatUnit, enthalpy: FloatUnit): RefrigerantPhase | undefined {
-	const boiling = multiOutputTableInterpolate(temperature, data.boilingData, ['enthalpyLiquid', 'enthalpyVapor'])
-	if (boiling.enthalpyLiquid === undefined || boiling.enthalpyVapor === undefined) return undefined
-	if (enthalpy.compare(boiling.enthalpyLiquid) <= 0) return 'liquid'
-	if (enthalpy.compare(boiling.enthalpyVapor) >= 0) return 'gas'
-	return 'vapor'
+// From temperature/pressure and enthalpy/entropy, get the vapor fraction.
+export function getVaporFractionFromTemperatureAndEnthalpy(data: RefrigerantData, temperature: FloatUnit, enthalpy: FloatUnit): FloatUnit | undefined {
+	const { enthalpyLiquid, enthalpyVapor } = multiOutputTableInterpolate(temperature, data.boilingData, ['enthalpyLiquid', 'enthalpyVapor'])
+	if (enthalpyLiquid === undefined || enthalpyVapor === undefined) return undefined
+	return enthalpy.subtract(enthalpyLiquid).divide(enthalpyVapor.subtract(enthalpyLiquid))
 }
-export function getPhaseFromPressure(data: RefrigerantData, pressure: FloatUnit, enthalpy: FloatUnit): RefrigerantPhase | undefined {
+export function getVaporFractionFromPressureAndEnthalpy(data: RefrigerantData, pressure: FloatUnit, enthalpy: FloatUnit): FloatUnit | undefined {
 	const temperature = getBoilingTemperature(data, pressure)
-	return temperature && getPhaseFromTemperature(data, temperature, enthalpy)
+	return temperature && getVaporFractionFromTemperatureAndEnthalpy(data, temperature, enthalpy)
+}
+export function getVaporFractionFromTemperatureAndEntropy(data: RefrigerantData, temperature: FloatUnit, entropy: FloatUnit): FloatUnit | undefined {
+	const { entropyLiquid, entropyVapor } = multiOutputTableInterpolate(temperature, data.boilingData, ['entropyLiquid', 'entropyVapor'])
+	if (entropyLiquid === undefined || entropyVapor === undefined) return undefined
+	return entropy.subtract(entropyLiquid).divide(entropyVapor.subtract(entropyLiquid))
+}
+export function getVaporFractionFromPressureAndEntropy(data: RefrigerantData, pressure: FloatUnit, entropy: FloatUnit): FloatUnit | undefined {
+	const temperature = getBoilingTemperature(data, pressure)
+	return temperature && getVaporFractionFromTemperatureAndEntropy(data, temperature, entropy)
 }
 
-// From temperature and enthalpy, check if the point is in the boiling region.
-export function isBoiling(data: RefrigerantData, temperature: FloatUnit, enthalpy: FloatUnit): boolean {
-	return getPhaseFromTemperature(data, temperature, enthalpy) === 'vapor'
+// From temperature/pressure and enthalpy/entropy, get the phase ('liquid', 'vapor' or 'gas').
+export function getPhaseFromTemperatureAndEnthalpy(data: RefrigerantData, temperature: FloatUnit, enthalpy: FloatUnit): RefrigerantPhase | undefined {
+	return vaporFractionToPhase(getVaporFractionFromTemperatureAndEnthalpy(data, temperature, enthalpy))
+}
+export function getPhaseFromPressureAndEnthalpy(data: RefrigerantData, pressure: FloatUnit, enthalpy: FloatUnit): RefrigerantPhase | undefined {
+	return vaporFractionToPhase(getVaporFractionFromPressureAndEnthalpy(data, pressure, enthalpy))
+}
+export function getPhaseFromTemperatureAndEntropy(data: RefrigerantData, temperature: FloatUnit, entropy: FloatUnit): RefrigerantPhase | undefined {
+	return vaporFractionToPhase(getVaporFractionFromTemperatureAndEntropy(data, temperature, entropy))
+}
+export function getPhaseFromPressureAndEntropy(data: RefrigerantData, pressure: FloatUnit, entropy: FloatUnit): RefrigerantPhase | undefined {
+	return vaporFractionToPhase(getVaporFractionFromPressureAndEntropy(data, pressure, entropy))
+}
+
+// Support function to turn a vapor fraction into a phase.
+function vaporFractionToPhase(vaporFraction: FloatUnit | undefined): RefrigerantPhase | undefined {
+	if (vaporFraction === undefined) return undefined
+	const x = vaporFraction.setUnit('').number
+	return x < 0 ? 'liquid' : x > 1 ? 'gas' : 'vapor'
 }
 
 /*
@@ -89,20 +112,22 @@ export function getVaporLinePropertiesFromPressure(data: RefrigerantData, pressu
 }
 
 // From temperature and vapor fraction, get all properties.
-export function getVaporPropertiesFromTemperature(data: RefrigerantData, temperature: FloatUnit, vaporFraction: number): RefrigerantProperties | undefined {
-	if (vaporFraction < 0 || vaporFraction > 1) throw new Error(`Invalid vapor fraction: it has to be a number between 0 and 1, and not ${vaporFraction}.`)
+export function getVaporPropertiesFromTemperature(data: RefrigerantData, temperature: FloatUnit, vaporFraction: FloatUnit): RefrigerantProperties | undefined {
+	vaporFraction = vaporFraction.setUnit('')
+	const vaporFractionNumber = vaporFraction.number
+	if (vaporFractionNumber < 0 || vaporFractionNumber > 1) throw new Error(`Invalid vapor fraction: it has to be a number between 0 and 1, and not ${vaporFraction}.`)
 	const { pressure, enthalpyLiquid, enthalpyVapor, entropyLiquid, entropyVapor } = multiOutputTableInterpolate(temperature, data.boilingData, ['pressure', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'])
 	if (pressure === undefined || enthalpyLiquid === undefined || enthalpyVapor === undefined || entropyLiquid === undefined || entropyVapor === undefined) return undefined
 
-	const enthalpy = rangeInterpolate(vaporFraction, [enthalpyLiquid, enthalpyVapor], [0, 1])
-	const entropy = rangeInterpolate(vaporFraction, [entropyLiquid, entropyVapor], [0, 1])
+	const enthalpy = rangeInterpolate(vaporFraction, [enthalpyLiquid, enthalpyVapor], [new FloatUnit(0), new FloatUnit(1)])
+	const entropy = rangeInterpolate(vaporFraction, [entropyLiquid, entropyVapor], [new FloatUnit(0), new FloatUnit(1)])
 	if (enthalpy === undefined || entropy === undefined) return undefined
 
-	return { temperature, vaporFraction, pressure, enthalpy, entropy, phase: 'vapor' }
+	return { temperature, pressure, enthalpy, entropy, phase: 'vapor', vaporFraction }
 }
 
 // From pressure and vapor fraction, get all properties.
-export function getVaporPropertiesFromPressure(data: RefrigerantData, pressure: FloatUnit, vaporFraction: number): RefrigerantProperties | undefined {
+export function getVaporPropertiesFromPressure(data: RefrigerantData, pressure: FloatUnit, vaporFraction: FloatUnit): RefrigerantProperties | undefined {
 	const temperature = getBoilingTemperature(data, pressure)
 	return temperature && getVaporPropertiesFromTemperature(data, temperature, vaporFraction)
 }
@@ -112,7 +137,7 @@ export function getVaporPropertiesFromPressure(data: RefrigerantData, pressure: 
  */
 
 // Find a substance's properties based on the input values: pressure and temperature.
-export function getRefrigerantProperties(data: RefrigerantData, pressure: FloatUnit, temperature: FloatUnit): RefrigerantProperties | undefined {
+export function getRefrigerantPropertiesFromTemperature(data: RefrigerantData, pressure: FloatUnit, temperature: FloatUnit): RefrigerantProperties | undefined {
 	const subTables = getRefrigerantSubTables(data, pressure)
 	if (subTables === undefined) return undefined
 
@@ -120,26 +145,39 @@ export function getRefrigerantProperties(data: RefrigerantData, pressure: FloatU
 	const entropy = getRefrigerantPropertyFromSubTables(subTables, temperature, 'entropy')
 	if (enthalpy === undefined || entropy === undefined) return undefined
 
-	const phase = getPhaseFromTemperature(data, temperature, enthalpy)
+	const phase = getPhaseFromTemperatureAndEnthalpy(data, temperature, enthalpy)
 	if (phase === undefined) return undefined
-
-	return { pressure, temperature, enthalpy, entropy, phase }
+	const properties: RefrigerantProperties = { pressure, temperature, enthalpy, entropy, phase }
+	if (phase === 'vapor') properties.vaporFraction = getVaporFractionFromTemperatureAndEnthalpy(data, temperature, enthalpy)
+	return properties
 }
 
-// Find a substance's properties based on pressure and another property.
-export function getRefrigerantPropertiesFromParameter(data: RefrigerantData, pressure: FloatUnit, parameter: FloatUnit, parameterLabel: string): RefrigerantProperties | undefined {
-	const label = ensureValidParameterLabel(parameterLabel)
-	const temperature = label === data.tablesByPressure[0].table.inputLabels[0] ? parameter : getRefrigerantTemperatureFromParameter(data, pressure, parameter, label)
-	return temperature && getRefrigerantProperties(data, pressure, temperature)
+// Find a substance's properties based on pressure and enthalpy/entropy.
+export function getRefrigerantPropertiesFromEnthalpy(data: RefrigerantData, pressure: FloatUnit, enthalpy: FloatUnit): RefrigerantProperties | undefined {
+	const vaporFraction = getVaporFractionFromPressureAndEnthalpy(data, pressure, enthalpy)
+	if (vaporFraction === undefined) return undefined
+	if (vaporFractionToPhase(vaporFraction) === 'vapor') return getVaporPropertiesFromPressure(data, pressure, vaporFraction)
+
+	const temperature = getRefrigerantTemperatureFromParameter(data, pressure, enthalpy, 'enthalpy')
+	return temperature && getRefrigerantPropertiesFromTemperature(data, pressure, temperature)
+}
+export function getRefrigerantPropertiesFromEntropy(data: RefrigerantData, pressure: FloatUnit, entropy: FloatUnit): RefrigerantProperties | undefined {
+	const vaporFraction = getVaporFractionFromPressureAndEntropy(data, pressure, entropy)
+	if (vaporFraction === undefined) return undefined
+	if (vaporFractionToPhase(vaporFraction) === 'vapor') return getVaporPropertiesFromPressure(data, pressure, vaporFraction)
+		
+	const temperature = getRefrigerantTemperatureFromParameter(data, pressure, entropy, 'entropy')
+	return temperature && getRefrigerantPropertiesFromTemperature(data, pressure, temperature)
 }
 
 // Given a parameter like enthalpy/entropy, find the corresponding temperature at the given pressure.
 function getRefrigerantTemperatureFromParameter(data: RefrigerantData, pressure: FloatUnit, parameter: FloatUnit, parameterLabel: string): FloatUnit | undefined {
-	const label = ensureValidParameterLabel(parameterLabel)
 	const subTables = getRefrigerantSubTables(data, pressure)
 	if (subTables === undefined) return undefined
-	const temperatures = subTables.tables.map(table => inverseTableInterpolate(parameter, table.table, label))
+
+	const temperatures = subTables.tables.map(table => inverseTableInterpolate(parameter, table.table, parameterLabel))
 	if (temperatures[0] === undefined || temperatures[1] === undefined) return undefined
+
 	return rangeInterpolate(subTables.part, [temperatures[0], temperatures[1]], [0, 1])
 }
 
@@ -155,9 +193,4 @@ function getRefrigerantPropertyFromSubTables(subTables: SubTables, temperature: 
 	const values = subTables.tables.map(table => tableInterpolate(temperature, table.table, outputLabel))
 	if (values[0] === undefined || values[1] === undefined) return undefined
 	return rangeInterpolate(subTables.part, [values[0], values[1]], [0, 1])
-}
-
-function ensureValidParameterLabel(parameterLabel: string): string {
-	if (!['temperature', 'enthalpy', 'entropy'].includes(parameterLabel)) throw new Error(`Interpolate error: invalid parameter label "${parameterLabel}" given. Expected temperature, enthalpy or entropy.`)
-	return parameterLabel
 }

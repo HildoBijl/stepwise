@@ -200,14 +200,17 @@ export class Float {
 	setDecimals(decimals: number): Float {
 		decimals = ensureInteger(decimals)
 		const significantDigits = Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals)
-		return this.setSignificantDigits(Math.max(significantDigits, 1))
+		return this.setSignificantDigits(Math.max(significantDigits, 0))
 	}
 
 	// Round the number to equal the precision of its significant digits.
 	roundToPrecision(): Float {
+		const number = this.significantDigits === Infinity ? this.number : roundToDigits(this.number, this.significantDigits)
+		const digitsIncreased = number > this.number && Math.floor(Math.log10(number)) > Math.floor(Math.log10(this.number))
+		const significantDigits = this.significantDigits + (digitsIncreased ? 1 : 0)
 		return new Float({
-			number: this.significantDigits === Infinity ? this.number : roundToDigits(this.number, this.significantDigits),
-			significantDigits: this.significantDigits,
+			number,
+			significantDigits,
 			power: this.power,
 		})
 	}
@@ -217,6 +220,16 @@ export class Float {
 		return new Float({
 			number: this.number,
 			significantDigits: this.significantDigits,
+		})
+	}
+
+	// Set the display power to a specific value.
+	setDisplayPower(power: number): Float {
+		power = ensureInteger(power)
+		return new Float({
+			number: this.number,
+			significantDigits: this.significantDigits,
+			power,
 		})
 	}
 

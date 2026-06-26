@@ -1,16 +1,20 @@
-const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
+const { refrigerants, getBoilingTemperature, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
 const { getCycle } = require('../tools')
 
 const hComparison = {
-	absoluteTolerance: 4000, // J/kg*K.
-	significantDigitTolerance: 2,
+	float: {
+		absoluteTolerance: 4000, // J/kg*K.
+		significantDigitTolerance: 2,
+	},
 }
 const factorComparison = {
-	absoluteTolerance: 0.4,
-	relativeTolerance: 0.05,
-	significantDigitTolerance: 2,
+	float: {
+		absoluteTolerance: 0.4,
+		relativeTolerance: 0.05,
+		significantDigitTolerance: 2,
+	},
 }
 const metaData = {
 	skill: 'analyseCoolingCycle',
@@ -22,14 +26,18 @@ const metaData = {
 		h3: hComparison,
 		h4: hComparison,
 		etai: {
-			absoluteTolerance: 0.04,
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 0.04,
+				significantDigitTolerance: 2,
+			},
 		},
 		epsilon: factorComparison,
 		COP: factorComparison,
 		P: {
-			relativeTolerance: 0.1,
-			significantDigitTolerance: 2,
+			float: {
+				relativeTolerance: 0.1,
+				significantDigitTolerance: 2,
+			},
 		},
 	},
 }
@@ -48,17 +56,17 @@ function generateState() {
 
 function getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }) {
 	// Get temperatures.
-	const refrigerantData = refrigerantProperties[refrigerant]
-	const TEvap = refrigerantProperties.getBoilingTemperature(pEvap, refrigerantData).setDecimals(0)
-	const TCond = refrigerantProperties.getBoilingTemperature(pCond, refrigerantData).setDecimals(0)
+	const refrigerantData = refrigerants[refrigerant]
+	const TEvap = getBoilingTemperature(refrigerantData, pEvap).setDecimals(0)
+	const TCond = getBoilingTemperature(refrigerantData, pCond).setDecimals(0)
 	const T1 = TEvap.add(dTSuperheating)
 	const T3 = TCond.subtract(dTSubcooling)
 
 	// Get points.
-	const point1 = refrigerantProperties.getProperties(pEvap, T1, refrigerantData)
-	const point2p = refrigerantProperties.getProperties(pCond, point1.entropy, refrigerantData)
-	const point2 = refrigerantProperties.getProperties(pCond, T2, refrigerantData)
-	const point3 = refrigerantProperties.getProperties(pCond, T3, refrigerantData)
+	const point1 = getRefrigerantPropertiesFromTemperature(refrigerantData, pEvap, T1)
+	const point2p = getRefrigerantPropertiesFromEntropy(refrigerantData, pCond, point1.entropy)
+	const point2 = getRefrigerantPropertiesFromTemperature(refrigerantData, pCond, T2)
+	const point3 = getRefrigerantPropertiesFromTemperature(refrigerantData, pCond, T3)
 
 	// Extract enthalpies.
 	const h1 = point1.enthalpy.setUnit('kJ/kg').setDecimals(0)

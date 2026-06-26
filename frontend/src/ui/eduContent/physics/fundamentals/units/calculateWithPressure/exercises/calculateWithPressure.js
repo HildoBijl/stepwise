@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Unit } from '@step-wise/physics-core'
 import { pressureBar as pConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
@@ -50,7 +49,7 @@ function Solution({ p, type, ans }) {
 function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, {
 		ans: [
-			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type)}</>,
+			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { target: 'unchanged' }) && <>{getUnitMessage(type)}</>,
 		],
 	})
 }

@@ -1,27 +1,24 @@
 import React from 'react'
 
-import { getHexColor } from 'ui/theme'
+// import { getHexColor } from 'ui/theme'
 import { Par, Head, M, BM } from 'ui/components'
 
 import * as c from '@step-wise/cas'
 import * as m from '@step-wise/math-input-value'
-
-import CAS from 'step-wise/CAS'
+import { Unit, Float, FloatUnit } from '@step-wise/physics-core'
 
 window.c = c
 window.m = m
 window.asExpression = c.asExpression
 window.asEquation = c.asEquation
 
-window.CAS = CAS
+window.Unit = Unit
+window.Float = Float
+window.FloatUnit = FloatUnit
 
 export function Test() {
-	const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])
-	const eq = CAS.asEquation('E=mc^2')
-	eq.left.color = primary
-	eq.right.color = info
-	eq.color = warning
-	window.eq = eq
+	// const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])
+	const eq = c.asEquation('E=mc^2')
 
 	return (
 		<>

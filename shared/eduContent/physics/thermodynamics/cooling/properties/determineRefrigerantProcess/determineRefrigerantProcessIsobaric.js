@@ -1,26 +1,28 @@
 const { sample, getRandomBoolean } = require('@step-wise/utils')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('@step-wise/physics-core')
-const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
+const { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getVaporPropertiesFromTemperature, getVaporPropertiesFromPressure } = require('@step-wise/physics-data')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
 	skill: 'determineRefrigerantProcess',
 	comparison: {
 		default: {
-			absoluteTolerance: 4000, // J/kg*K.
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 4000, // J/kg*K.
+				significantDigitTolerance: 2,
+			},
 		},
 	},
 }
 
 function generateState() {
 	// Determine the refrigerant.
-	const refrigerant = sample(refrigerantProperties.types)
-	const refrigerantData = refrigerantProperties[refrigerant]
+	const refrigerant = sample(Object.keys(refrigerants))
+	const refrigerantData = refrigerants[refrigerant]
 
 	// Determine two points.
 	const pressure = getRandomExponentialFloatUnit({
-		min: refrigerantData.dataByPressure[0].pressure.setUnit('bar').number,
+		min: refrigerantData.tablesByPressure[0].pressure.setUnit('bar').number,
 		max: refrigerantData.criticalPoint.pressure.setUnit('bar').number * 0.8,
 		unit: 'bar',
 	})
@@ -31,28 +33,29 @@ function generateState() {
 	const switchPoints = getRandomBoolean()
 	if (switchPoints)
 		enthalpies = enthalpies.reverse()
-	const points = enthalpies.map(enthalpy => refrigerantProperties.getProperties(pressure, enthalpy, refrigerantData))
+	const points = enthalpies.map(enthalpy => getRefrigerantPropertiesFromEnthalpy(refrigerantData, pressure, enthalpy))
+	if (!points[0] || !points[1]) return generateState()
 
 	// Assemble the state of the exercise, first for point 1.
 	const state = { refrigerant }
 	state.phase1 = points[0].phase
 	state.T1 = points[0].temperature.setDecimals(0).roundToPrecision()
 	if (points[0].phase === 'vapor')
-		state.x1 = points[0].vaporFraction.setDecimals(2).roundToPrecision()
+		state.x1 = points[0].vaporFraction.setDecimals(2).roundToPrecision().setDisplayPower(0)
 	else
 		state.p1 = points[0].pressure.setSignificantDigits(2).roundToPrecision()
 
 	// Continue with point 2.
 	state.phase2 = points[1].phase
 	if (points[1].phase === 'vapor')
-		state.x2 = points[1].vaporFraction.setDecimals(2).roundToPrecision()
+		state.x2 = points[1].vaporFraction.setDecimals(2).roundToPrecision().setDisplayPower(0)
 	else
 		state.T2 = points[1].temperature.setDecimals(0).roundToPrecision()
 
 	// Check if a solution can be generated. If not, redo.
 	try {
 		getSolution(state)
-	} catch(e) {
+	} catch (e) {
 		return generateState()
 	}
 
@@ -61,17 +64,17 @@ function generateState() {
 }
 
 function getSolution({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {
-	const refrigerantData = refrigerantProperties[refrigerant]
+	const refrigerantData = refrigerants[refrigerant]
 
 	// Determine point 1.
 	const point1 = phase1 === 'vapor' ?
-		refrigerantProperties.getVaporProperties(T1, x1, refrigerantData) :
-		refrigerantProperties.getProperties(p1, T1, refrigerantData)
+		getVaporPropertiesFromTemperature(refrigerantData, T1, x1) :
+		getRefrigerantPropertiesFromTemperature(refrigerantData, p1, T1)
 
 	// Determine point 2.
 	const point2 = phase2 === 'vapor' ?
-		refrigerantProperties.getVaporProperties(point1.pressure, x2, refrigerantData) :
-		refrigerantProperties.getProperties(point1.pressure, T2, refrigerantData)
+		getVaporPropertiesFromPressure(refrigerantData, point1.pressure, x2) :
+		getRefrigerantPropertiesFromTemperature(refrigerantData, point1.pressure, T2)
 
 	return {
 		refrigerant,

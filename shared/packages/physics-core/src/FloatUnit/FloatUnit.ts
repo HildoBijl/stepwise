@@ -159,6 +159,10 @@ export class FloatUnit {
 		return this.mapFloat(float => float.clearDisplayPower())
 	}
 
+	setDisplayPower(power: number) {
+		return this.mapFloat(float => float.setDisplayPower(power))
+	}
+
 	/*
 	 * Unit adjustments
 	 */

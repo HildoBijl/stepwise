@@ -1,4 +1,4 @@
-const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
+const { refrigerants, getBoilingTemperature, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
 const { getBasicCycle } = require('../tools')
@@ -8,8 +8,10 @@ const metaData = {
 	steps: ['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
 	comparison: {
 		default: {
-			absoluteTolerance: 4000, // J/kg*K.
-			significantDigitTolerance: 2,
+			float: {
+				absoluteTolerance: 4000, // J/kg*K.
+				significantDigitTolerance: 2,
+			},
 		},
 	},
 }
@@ -26,17 +28,17 @@ function generateState() {
 
 function getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }) {
 	// Get temperatures.
-	const refrigerantData = refrigerantProperties[refrigerant]
-	const TEvap = refrigerantProperties.getBoilingTemperature(pEvap, refrigerantData).setDecimals(0)
-	const TCond = refrigerantProperties.getBoilingTemperature(pCond, refrigerantData).setDecimals(0)
+	const refrigerantData = refrigerants[refrigerant]
+	const TEvap = getBoilingTemperature(refrigerantData, pEvap).setDecimals(0)
+	const TCond = getBoilingTemperature(refrigerantData, pCond).setDecimals(0)
 	const T1 = TEvap.add(dTSuperheating)
 	const T3 = TCond.subtract(dTSubcooling)
 
 	// Get points.
-	const point1 = refrigerantProperties.getProperties(pEvap, T1, refrigerantData)
-	const point2 = refrigerantProperties.getProperties(pCond, point1.entropy, refrigerantData)
-	const point3 = refrigerantProperties.getProperties(pCond, T3, refrigerantData)
-	const point4 = refrigerantProperties.getProperties(pEvap, point3.enthalpy, refrigerantData)
+	const point1 = getRefrigerantPropertiesFromTemperature(refrigerantData, pEvap, T1)
+	const point2 = getRefrigerantPropertiesFromEntropy(refrigerantData, pCond, point1.entropy)
+	const point3 = getRefrigerantPropertiesFromTemperature(refrigerantData, pCond, T3)
+	const point4 = getRefrigerantPropertiesFromEnthalpy(refrigerantData, pEvap, point3.enthalpy)
 
 	// Extract enthalpies.
 	const h1 = point1.enthalpy.setUnit('kJ/kg').setDecimals(0)
