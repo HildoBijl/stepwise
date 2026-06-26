@@ -1,6 +1,6 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
-const { enthalpy, entropy } = require('../../../../../../data/steamProperties')
+const { superheatedSteam } = require('@step-wise/physics-data')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
@@ -8,26 +8,28 @@ const metaData = {
 	weight: 2,
 	comparison: {
 		default: {
-			relativeTolerance: 0.001,
+			float: {
+				relativeTolerance: 0.001,
+			},
 		},
 	},
 }
 
 function generateState() {
 	// Extract pressure column.
-	const pressureRange = enthalpy.inputValues[0]
+	const pressureRange = superheatedSteam.inputValues[0]
 	const p = pressureRange[getRandomInteger(3, Math.min(20, pressureRange.length))] // Limit to a certain part of the table.
 
 	// Extract temperature row.
-	const temperatureRange = enthalpy.inputValues[1]
+	const temperatureRange = superheatedSteam.inputValues[1]
 	const T = temperatureRange[getRandomInteger(6, Math.min(24, temperatureRange.length))] // Limit to a certain part of the table.
 
 	return { p, T }
 }
 
 function getSolution({ p, T }) {
-	const h = tableInterpolate([p, T], enthalpy)
-	const s = tableInterpolate([p, T], entropy)
+	const h = tableInterpolate([p, T], superheatedSteam, 'enthalpy')
+	const s = tableInterpolate([p, T], superheatedSteam, 'entropy')
 	return { p, T, h, s }
 }
 

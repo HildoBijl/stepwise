@@ -1,18 +1,18 @@
 const { integerRange, sample, getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
-const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
+const { saturatedSteamByPressure, superheatedSteam } = require('@step-wise/physics-data')
 
 function getCycle() {
 	// Pressure in the condensor and evaporator.
-	const pressureRangeTable1 = withPressure.boilingTemperature.inputValues[0]
+	const pressureRangeTable1 = saturatedSteamByPressure.inputValues[0]
 	const condenserIndex = getRandomInteger(3, 8) // Index in the pressure tables.
 	const pc = pressureRangeTable1[condenserIndex] // 0.1 to 1 bar
-	const Tc = withPressure.boilingTemperature.grid[condenserIndex]
-	const pressureRangeTable2 = enthalpy.inputValues[0]
+	const Tc = saturatedSteamByPressure.grids[saturatedSteamByPressure.outputLabels.indexOf('boilingTemperature')][condenserIndex]
+	const pressureRangeTable2 = superheatedSteam.inputValues[superheatedSteam.inputLabels.indexOf('pressure')]
 	const evaporatorIndex = getRandomInteger(13, 19) // Index in the enthalpy tables.
 	const pe = pressureRangeTable2[evaporatorIndex] // 50 to 120 bar
-	const Te = tableInterpolate(pe, withPressure.boilingTemperature)
+	const Te = tableInterpolate(pe, saturatedSteamByPressure, 'boilingTemperature')
 
 	// Turbine output state.
 	const x3 = getRandomFloatUnit({
@@ -24,7 +24,7 @@ function getCycle() {
 	// Check which row (that is, temperature) from the enthalpy table is suitable. Pick one randomly from it.
 	const temperatureIndexOptions = integerRange(3, 25).filter(temperatureIndex => {
 		// Check that the temperature is above the evaporator temperature.
-		const T = enthalpy.inputValues[1][temperatureIndex]
+		const T = superheatedSteam.inputValues[superheatedSteam.inputLabels.indexOf('temperature')][temperatureIndex]
 		if (T < Te)
 			return false
 
@@ -37,7 +37,7 @@ function getCycle() {
 		return true
 	})
 	const temperatureIndex = sample(temperatureIndexOptions)
-	const T2 = enthalpy.inputValues[1][temperatureIndex]
+	const T2 = superheatedSteam.inputValues[superheatedSteam.inputLabels.indexOf('temperature')][temperatureIndex]
 
 	// Find all remaining properties.
 	const { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, h3, etai } = getCycleProperties(condenserIndex, evaporatorIndex, temperatureIndex, x3)
@@ -79,14 +79,14 @@ module.exports.getCycle = getCycle
 
 function getCycleProperties(condenserIndex, evaporatorIndex, temperatureIndex, x3) {
 	// Find liquid and vapor points.
-	const hx0 = withPressure.enthalpyLiquid.grid[condenserIndex]
-	const hx1 = withPressure.enthalpyVapor.grid[condenserIndex]
-	const sx0 = withPressure.entropyLiquid.grid[condenserIndex]
-	const sx1 = withPressure.entropyVapor.grid[condenserIndex]
+	const hx0 = saturatedSteamByPressure.grids[saturatedSteamByPressure.outputLabels.indexOf('enthalpyLiquid')][condenserIndex]
+	const hx1 = saturatedSteamByPressure.grids[saturatedSteamByPressure.outputLabels.indexOf('enthalpyVapor')][condenserIndex]
+	const sx0 = saturatedSteamByPressure.grids[saturatedSteamByPressure.outputLabels.indexOf('entropyLiquid')][condenserIndex]
+	const sx1 = saturatedSteamByPressure.grids[saturatedSteamByPressure.outputLabels.indexOf('entropyVapor')][condenserIndex]
 
 	// Find properties of point 2.
-	const h2 = enthalpy.grid[temperatureIndex][evaporatorIndex]
-	const s2 = entropy.grid[temperatureIndex][evaporatorIndex]
+	const h2 = superheatedSteam.grids[superheatedSteam.outputLabels.indexOf('enthalpy')][temperatureIndex][evaporatorIndex]
+	const s2 = superheatedSteam.grids[superheatedSteam.outputLabels.indexOf('entropy')][temperatureIndex][evaporatorIndex]
 
 	// Find properties of point 3p.
 	const s3p = s2

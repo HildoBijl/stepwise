@@ -1,19 +1,21 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
-const { withTemperature } = require('../../../../../../data/steamProperties')
+const { saturatedSteamByTemperature } = require('@step-wise/physics-data')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
 	skill: 'lookUpSteamProperties',
 	comparison: {
 		default: {
-			relativeTolerance: 0.001,
+			float: {
+				relativeTolerance: 0.001,
+			},
 		},
 	},
 }
 
 function generateState() {
-	const temperatureRange = withTemperature.boilingPressure.inputValues[0]
+	const temperatureRange = saturatedSteamByTemperature.inputValues[0]
 	const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
 	const type = getRandomInteger(1, 2) // Type 1: liquid line. Type 2: vapor line.
 	return { T, type }
@@ -21,13 +23,13 @@ function generateState() {
 
 function getSolution({ T, type }) {
 	// Get pressure.
-	const p = tableInterpolate(T, withTemperature.boilingPressure)
+	const p = tableInterpolate(T, saturatedSteamByTemperature, 'boilingPressure')
 
 	// Get enthalpy.
-	const h = tableInterpolate(T, type === 1 ? withTemperature.enthalpyLiquid : withTemperature.enthalpyVapor)
+	const h = tableInterpolate(T, saturatedSteamByTemperature, type === 1 ? 'enthalpyLiquid' : 'enthalpyVapor')
 
 	// Get entropy.
-	const s = tableInterpolate(T, type === 1 ? withTemperature.entropyLiquid : withTemperature.entropyVapor)
+	const s = tableInterpolate(T, saturatedSteamByTemperature, type === 1 ? 'entropyLiquid' : 'entropyVapor')
 
 	return { T, type, p, h, s }
 }

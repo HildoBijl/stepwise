@@ -1,5 +1,5 @@
-const { tableInterpolate } = require('@step-wise/interpolation')
-const { withPressure, enthalpy, entropy } = require('../../../../../../data/steamProperties')
+const { multiOutputTableInterpolate } = require('@step-wise/interpolation')
+const { saturatedSteamByPressure, superheatedSteam } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
 const { getCycle } = require('../tools')
@@ -9,8 +9,10 @@ const metaData = {
 	steps: ['lookUpSteamProperties', null, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.002,
-			significantDigitTolerance: 2,
+			float: {
+				relativeTolerance: 0.002,
+				significantDigitTolerance: 2,
+			},
 		},
 	},
 }
@@ -26,10 +28,7 @@ function generateState() {
 
 function getSolution({ pc, pe, T2 }) {
 	// Get liquid and vapor points.
-	const hx0 = tableInterpolate(pc, withPressure.enthalpyLiquid)
-	const hx1 = tableInterpolate(pc, withPressure.enthalpyVapor)
-	const sx0 = tableInterpolate(pc, withPressure.entropyLiquid)
-	const sx1 = tableInterpolate(pc, withPressure.entropyVapor)
+	const { enthalpyLiquid: hx0, enthalpyVapor: hx1, entropyLiquid: sx0, entropyVapor: sx1 } = multiOutputTableInterpolate(pc, saturatedSteamByPressure)
 
 	// Find points 1 and 4.
 	const h1 = hx0
@@ -38,8 +37,7 @@ function getSolution({ pc, pe, T2 }) {
 	const s4 = s1
 
 	// Find point 2.
-	const h2 = tableInterpolate([pe, T2], enthalpy)
-	const s2 = tableInterpolate([pe, T2], entropy)
+	const { enthalpy: h2, entropy: s2 } = multiOutputTableInterpolate([pe, T2], superheatedSteam)
 
 	// Find point 3.
 	const s3 = s2

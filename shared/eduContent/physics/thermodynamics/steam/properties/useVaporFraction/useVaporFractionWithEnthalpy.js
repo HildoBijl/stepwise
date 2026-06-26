@@ -2,7 +2,7 @@ const { getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { and } = require('@step-wise/skill-setup')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { withTemperature, withPressure } = require('../../../../../../data/steamProperties')
+const { saturatedSteamByTemperature, saturatedSteamByPressure } = require('@step-wise/physics-data')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
@@ -11,15 +11,21 @@ const metaData = {
 	steps: ['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation'],
 	comparison: {
 		default: {
-			relativeTolerance: 0.001,
+			float: {
+				relativeTolerance: 0.001,
+			},
 		},
 		x: {
-			relativeTolerance: 0.002,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.002,
+				significantDigitTolerance: 1,
+			},
 		},
 		s: {
-			relativeTolerance: 0.002,
-			significantDigitTolerance: 1,
+			float: {
+				relativeTolerance: 0.002,
+				significantDigitTolerance: 1,
+			},
 		},
 	},
 }
@@ -29,17 +35,17 @@ function generateState() {
 	const type = getRandomInteger(1, 2) // 1 is temperature given, 2 is pressure given.
 	const x = getRandomFloatUnit({ min: 0.1, max: 0.9, unit: '' })
 	if (type === 1) {
-		const temperatureRange = withTemperature.enthalpyLiquid.inputValues[0]
+		const temperatureRange = saturatedSteamByTemperature.inputValues[0]
 		const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
-		const hx0 = tableInterpolate(T, withTemperature.enthalpyLiquid)
-		const hx1 = tableInterpolate(T, withTemperature.enthalpyVapor)
+		const hx0 = tableInterpolate(T, saturatedSteamByTemperature, 'enthalpyLiquid')
+		const hx1 = tableInterpolate(T, saturatedSteamByTemperature, 'enthalpyVapor')
 		const h = hx0.add(x.multiply(hx1.subtract(hx0))).setDecimals(0).roundToPrecision()
 		return { type, T, h }
 	} else {
-		const pressureRange = withPressure.enthalpyLiquid.inputValues[0]
+		const pressureRange = saturatedSteamByPressure.inputValues[0]
 		const p = pressureRange[getRandomInteger(0, Math.min(25, pressureRange.length))] // Limit to a certain part of the table.
-		const hx0 = tableInterpolate(p, withPressure.enthalpyLiquid)
-		const hx1 = tableInterpolate(p, withPressure.enthalpyVapor)
+		const hx0 = tableInterpolate(p, saturatedSteamByPressure, 'enthalpyLiquid')
+		const hx1 = tableInterpolate(p, saturatedSteamByPressure, 'enthalpyVapor')
 		const h = hx0.add(x.multiply(hx1.subtract(hx0))).setDecimals(0).roundToPrecision()
 		return { type, p, h }
 	}
@@ -48,11 +54,11 @@ function generateState() {
 function getSolution({ type, T, p, h }) {
 	// Use the right value to look up the enthalpy/entropy in the right table.
 	const value = (type === 1 ? T : p)
-	const table = (type === 1 ? withTemperature : withPressure)
-	const hx0 = tableInterpolate(value, table.enthalpyLiquid)
-	const hx1 = tableInterpolate(value, table.enthalpyVapor)
-	const sx0 = tableInterpolate(value, table.entropyLiquid)
-	const sx1 = tableInterpolate(value, table.entropyVapor)
+	const table = (type === 1 ? saturatedSteamByTemperature : saturatedSteamByPressure)
+	const hx0 = tableInterpolate(value, table, 'enthalpyLiquid')
+	const hx1 = tableInterpolate(value, table, 'enthalpyVapor')
+	const sx0 = tableInterpolate(value, table, 'entropyLiquid')
+	const sx1 = tableInterpolate(value, table, 'entropyVapor')
 
 	// Find the vapor fraction and the outcome.
 	const x = h.subtract(hx0).divide(hx1.subtract(hx0)).setUnit('')
