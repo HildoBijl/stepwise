@@ -8,8 +8,11 @@ import { isEmpty } from './support'
 
 export function UnitArray({ value, cursor }) {
 	// Check if anything should be shown.
-	if (isEmpty(value) && !cursor)
-		return null
+	if (isEmpty(value)) {
+		if (!cursor)
+			return null
+		return <UnitElement {...{ type: 'UnitElement', value: { prefix: '', unit: '', power: '' }, cursor: cursor.cursor }} />
+	}
 
 	// Iterate over all the unit elements, putting times-signs in-between them.
 	return value.map((unitElement, index) => (

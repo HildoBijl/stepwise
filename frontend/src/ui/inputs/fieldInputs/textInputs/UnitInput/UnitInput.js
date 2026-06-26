@@ -36,8 +36,8 @@ export const defaultUnitInputOptions = {
 				display: 'block',
 			},
 			'& .numerator, .denominator': {
-				fontSize: '0.85em',
-				height: '50%',
+				fontSize: '0.9em',
+				height: '1.6em',
 				padding: '0 3px', // Add padding to make the divider line wider horizontally.
 				position: 'relative', // Needed for cursor positioning.
 				'& .cursorContainer': {
