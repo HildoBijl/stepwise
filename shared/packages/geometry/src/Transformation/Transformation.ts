@@ -92,10 +92,6 @@ export class Transformation {
 		}
 	}
 
-	get SO(): TransformationData { // SO legacy
-		return this.toStorageValue()
-	}
-
 	static fromStorageValue(value: TransformationData): Transformation {
 		return new Transformation(value)
 	}

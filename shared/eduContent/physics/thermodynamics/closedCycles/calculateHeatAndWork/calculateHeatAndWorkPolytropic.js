@@ -90,7 +90,7 @@ function getSolution({ m, T1, T2, n }) {
 	const ms = m.simplify()
 	const T1s = T1
 	const T2s = T2
-	cvSimplified = cv.simplify()
+	const cvSimplified = cv.simplify()
 	const c = cvSimplified.subtract(Rs.divide(n.number - 1))
 	const mdT = m.multiply(T2s.subtract(T1s))
 	const Q = mdT.multiply(c).setUnit('J')

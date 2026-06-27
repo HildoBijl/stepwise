@@ -90,10 +90,6 @@ export class Line {
 		}
 	}
 
-	get SO(): LineData { // SO legacy
-		return this.toStorageValue()
-	}
-
 	static fromStorageValue(value: LineData): Line {
 		return new Line(value)
 	}

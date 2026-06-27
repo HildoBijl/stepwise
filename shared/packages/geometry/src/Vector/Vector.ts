@@ -85,10 +85,6 @@ export class Vector {
 		return this.coordinates
 	}
 
-	get SO(): VectorData { // SO legacy
-		return this.toStorageValue()
-	}
-
 	static fromStorageValue(coordinates: VectorData): Vector {
 		return new Vector(coordinates)
 	}

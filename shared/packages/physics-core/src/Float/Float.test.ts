@@ -34,8 +34,8 @@ describe('Float', () => {
 			expect(new Float('10^3').toString()).toBe('10^3')
 		})
 		test('converts to tex', () => {
-			expect(new Float('3.140').toTex()).toBe('3.140')
-			expect(new Float('3.14 * 10^2').toTex()).toBe('3.14 \\cdot 10^{2}')
+			expect(new Float('3.140').toTex()).toBe('3{,}140')
+			expect(new Float('3.14 * 10^2').toTex()).toBe('3{,}14 \\cdot 10^{2}')
 			expect(new Float('10^(-3)').toTex()).toBe('10^{-3}')
 		})
 		test('detects visible powers', () => {

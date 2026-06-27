@@ -52,7 +52,7 @@ function getSolution({ T1, p2, V2, T2 }) {
 	const p2s = p2.simplify()
 	const V2s = V2.simplify()
 	const T2s = T2.simplify()
-	cvSimplified = cv.simplify()
+	const cvSimplified = cv.simplify()
 	const m = p2s.multiply(V2s).divide(Rs.multiply(T2s)).setUnit('kg')
 	const dU = m.multiply(cvSimplified).multiply(T2s.subtract(T1s)).setUnit('J')
 	return { cv: cvSimplified, Rs, T1s, p2s, V2s, T2s, m, dU }

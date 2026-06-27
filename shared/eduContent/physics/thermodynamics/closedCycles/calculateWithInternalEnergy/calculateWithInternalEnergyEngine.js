@@ -47,7 +47,7 @@ function getSolution({ p1, V1, V2, n }) {
 	const p1s = p1.simplify()
 	const V1s = V1.simplify()
 	const V2s = V2.simplify()
-	cvSimplified = cv.simplify()
+	const cvSimplified = cv.simplify()
 	const p2 = p1s.multiply(Math.pow(V1s.number / V2s.number, n.number))
 	const p2s = p2.simplify()
 	const diff = p2s.multiply(V2s).subtract(p1s.multiply(V1s)).setUnit('J')

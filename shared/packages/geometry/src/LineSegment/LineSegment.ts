@@ -106,10 +106,6 @@ export class LineSegment {
 		}
 	}
 
-	get SO(): LineSegmentData { // SO legacy
-		return this.toStorageValue()
-	}
-
 	static fromStorageValue(value: LineSegmentData): LineSegment {
 		return new LineSegment(value)
 	}

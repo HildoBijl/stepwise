@@ -74,10 +74,6 @@ export class Matrix {
 		return this.rows
 	}
 
-	get SO(): MatrixArray { // SO legacy
-		return this.toStorageValue()
-	}
-
 	static fromStorageValue(rows: MatrixArray): Matrix {
 		return new Matrix(rows)
 	}

@@ -62,10 +62,10 @@ describe('FloatUnit', () => {
 			expect(new FloatUnit('3.14').toString()).toBe('3.14')
 		})
 		test('converts to tex', () => {
-			expect(new FloatUnit('3.14 m').toTex()).toBe('3.14\\ {\\color{#044488} {\\rm m}}')
-			expect(new FloatUnit('3.14').toTex()).toBe('3.14')
-			expect(new FloatUnit('-3.14 m').toTexWithPM()).toBe('-3.14\\ {\\color{#044488} {\\rm m}}')
-			expect(new FloatUnit('3.14 m').toTexWithPM()).toBe('+3.14\\ {\\color{#044488} {\\rm m}}')
+			expect(new FloatUnit('3.14 m').toTex()).toBe('3{,}14\\ {\\color{#044488} {\\rm m}}')
+			expect(new FloatUnit('3.14').toTex()).toBe('3{,}14')
+			expect(new FloatUnit('-3.14 m').toTexWithPM()).toBe('-3{,}14\\ {\\color{#044488} {\\rm m}}')
+			expect(new FloatUnit('3.14 m').toTexWithPM()).toBe('+3{,}14\\ {\\color{#044488} {\\rm m}}')
 		})
 	})
 

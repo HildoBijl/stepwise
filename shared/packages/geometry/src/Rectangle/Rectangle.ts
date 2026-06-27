@@ -104,10 +104,6 @@ export class Rectangle {
 		}
 	}
 
-	get SO(): RectangleData { // SO legacy
-		return this.toStorageValue()
-	}
-
 	static fromStorageValue(value: RectangleData): Rectangle {
 		return new Rectangle(value)
 	}
