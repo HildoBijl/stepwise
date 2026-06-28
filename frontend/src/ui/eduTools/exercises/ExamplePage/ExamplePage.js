@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
 import { skillTree } from '@step-wise/skill-tree'
-import { toFO, toSO } from 'step-wise/inputTypes'
+import { serializeAll, deserializeAll } from '@step-wise/serialization'
 import { getNewRandomExample } from 'step-wise/eduTools'
 
 import { useGetTranslation } from 'i18n'
@@ -24,7 +24,7 @@ export function ExamplePage({ skillId }) {
 			const newExercise = await getNewRandomExample(skillId)
 			const exercise = { // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: newExercise.exerciseId,
-				state: toSO(newExercise.state), // The state should be in storage format, as if it came from the database.
+				state: serializeAll(newExercise.state), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
 				progress: {},
@@ -47,7 +47,7 @@ export function ExamplePage({ skillId }) {
 		if (action?.type === 'setProgress') // An override only used by example exercises.
 			progress = action.newProgress
 		else
-			progress = processAction({ action, state: toFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
+			progress = processAction({ action, state: deserializeAll(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({

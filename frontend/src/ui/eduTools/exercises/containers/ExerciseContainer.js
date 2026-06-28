@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
-import { toFO } from 'step-wise/inputTypes'
+import { deserializeAll } from '@step-wise/serialization'
 import { exercises, getLastProgress, getExerciseName } from 'step-wise/eduTools'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -38,7 +38,7 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 	useEffect(reload, [setLoading, exerciseId])
 
 	// Assemble the state as Functional Object.
-	const stateFO = useMemo(() => toFO(state), [state])
+	const stateFO = useMemo(() => deserializeAll(state), [state])
 
 	// Ensure that the progress has a consistent reference.
 	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(exercise.history))

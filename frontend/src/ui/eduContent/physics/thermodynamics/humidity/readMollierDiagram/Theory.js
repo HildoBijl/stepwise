@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Unit, FloatUnit } from 'step-wise/inputTypes'
+import { Unit, FloatUnit } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, BM, Term } from 'ui/components'
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'

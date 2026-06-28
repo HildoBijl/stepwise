@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Float } from 'step-wise/inputTypes'
+import { Float } from '@step-wise/physics-core'
 
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, M } from 'ui/components'

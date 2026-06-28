@@ -1,5 +1,5 @@
 const { stringifyJS } = require('@step-wise/utils')
-const { toFO } = require('step-wise/inputTypes')
+const { deserializeAll } = require('@step-wise/serialization')
 
 const surfConextMockData = require('../../../../surfConextMockData.json')
 const { createClient } = require('../../../client')
@@ -52,7 +52,7 @@ describe('submitExerciseAction', () => {
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const state = toFO(exercise.state)
+		const state = deserializeAll(exercise.state)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
 
 		// Submit a wrong solution.
@@ -80,7 +80,7 @@ describe('submitExerciseAction', () => {
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const state = toFO(exercise.state)
+		const state = deserializeAll(exercise.state)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
 
 		// Submit a right solution.

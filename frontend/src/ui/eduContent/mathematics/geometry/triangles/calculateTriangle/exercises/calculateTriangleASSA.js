@@ -3,7 +3,7 @@ import React from 'react'
 import { deg2rad, roundToDigits, integerRange } from '@step-wise/utils'
 import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
-import { Float } from 'step-wise/inputTypes'
+import { Float } from '@step-wise/physics-core'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'

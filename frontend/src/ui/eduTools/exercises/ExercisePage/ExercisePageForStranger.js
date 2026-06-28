@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
 import { skillTree } from '@step-wise/skill-tree'
-import { toFO, toSO } from 'step-wise/inputTypes'
+import { serializeAll, deserializeAll } from '@step-wise/serialization'
 import { getNewRandomExercise } from 'step-wise/eduTools'
 
 import { useGetTranslation } from 'i18n'
@@ -23,7 +23,7 @@ export function ExercisePageForStranger({ skillId }) {
 			const newExercise = await getNewRandomExercise(skillId)
 			const exercise = { // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: newExercise.exerciseId,
-				state: toSO(newExercise.state), // The state should be in storage format, as if it came from the database.
+				state: serializeAll(newExercise.state), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
 				progress: {},
@@ -41,7 +41,7 @@ export function ExercisePageForStranger({ skillId }) {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: toFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
+		const progress = processAction({ action, state: deserializeAll(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

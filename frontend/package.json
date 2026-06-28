@@ -40,6 +40,7 @@
 		"@step-wise/math-input-value": "file:../shared/packages/math-input-value",
 		"@step-wise/math-tools": "file:../shared/packages/math-tools",
 		"@step-wise/polynomials": "file:../shared/packages/polynomials",
+		"@step-wise/serialization": "file:../shared/packages/serialization",
 		"@step-wise/settings": "file:../shared/packages/settings",
 		"@step-wise/skill-definition": "file:../shared/packages/skill-definition",
 		"@step-wise/skill-setup": "file:../shared/packages/skill-setup",

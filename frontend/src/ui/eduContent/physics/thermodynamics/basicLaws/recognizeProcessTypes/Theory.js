@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Float } from 'step-wise/inputTypes'
+import { Float } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, BM, Term, Emp, Warning } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'

@@ -1,7 +1,7 @@
 const { UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('@step-wise/utils')
-const { toFO, toSO } = require('step-wise/inputTypes')
+const { serializeAll, deserializeAll } = require('@step-wise/serialization')
 const { exercises, getNewRandomExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
@@ -46,7 +46,7 @@ const resolvers = {
 
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
 			const newExercise = await getNewRandomExercise(skillId)
-			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
+			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: serializeAll(newExercise.state), active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
 			activeEvent.submissions = []
 			exercise.events = [activeEvent]
@@ -139,7 +139,7 @@ const resolvers = {
 			}
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
-			const state = toFO(exercise.state)
+			const state = deserializeAll(exercise.state)
 			const previousProgress = getGroupExerciseProgress(exercise)
 			const exerciseId = fixExerciseId(exercise.exerciseId, skillId)
 			const { processAction } = require(`step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)

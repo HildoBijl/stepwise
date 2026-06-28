@@ -1,6 +1,6 @@
 
 const { ensureSkillId } = require('@step-wise/skill-tree')
-const { toFO, toSO } = require('step-wise/inputTypes')
+const { serialize, serializeAll, deserialize } = require('@step-wise/serialization')
 const { exercises: allExercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
 
 const { events: skillEvents, getUserSkill } = require('../util/Skill')
@@ -37,7 +37,7 @@ const resolvers = {
 			// Select a new exercise, store it and return the result.
 			const getSkillLevelSet = (skillIds) => getUserSkillLevelSet(db, userId, skillIds)
 			const newExercise = await getNewExercise(skillId, getSkillLevelSet, exercises)
-			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
+			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: deserializeAll(newExercise.state), active: true })
 		},
 
 		submitExerciseAction: async (_source, { skillId, action }, { db, pubsub, ensureLoggedIn, userId }) => {
@@ -57,7 +57,7 @@ const resolvers = {
 			const previousProgress = getExerciseProgress(activeExercise)
 			const exerciseId = fixExerciseId(activeExercise.exerciseId, skillId)
 			const { processAction } = require(`step-wise/eduContent/${allExercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
-			const progress = processAction({ action, state: toFO(activeExercise.state), progress: previousProgress, history: activeExercise.events, updateSkills })
+			const progress = processAction({ action, state: serializeAll(activeExercise.state), progress: previousProgress, history: activeExercise.events, updateSkills })
 			if (!progress)
 				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)
 
