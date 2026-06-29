@@ -1,6 +1,6 @@
 
 const { ensureSkillId } = require('@step-wise/skill-tree')
-const { serialize, serializeAll, deserialize } = require('@step-wise/serialization')
+const { serializeAll, deserializeAll } = require('@step-wise/serialization')
 const { exercises: allExercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
 
 const { events: skillEvents, getUserSkill } = require('../util/Skill')
