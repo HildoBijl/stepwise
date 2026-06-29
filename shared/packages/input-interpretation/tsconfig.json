@@ -13,6 +13,7 @@
     { "path": "../cas" },
     { "path": "../geometry" },
     { "path": "../physics-core" },
+    { "path": "../serialization" },
     { "path": "../utils" }
   ],
   "include": ["src"]

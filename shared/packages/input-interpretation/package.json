@@ -13,6 +13,7 @@
 		"@step-wise/cas": "file:../cas",
 		"@step-wise/geometry": "file:../geometry",
 		"@step-wise/physics-core": "file:../physics-core",
+		"@step-wise/serialization": "file:../serialization",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

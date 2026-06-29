@@ -3,7 +3,7 @@ import { Box, FormControl, Select, MenuItem } from '@mui/material'
 import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/utils'
-import { toSO } from 'step-wise/inputTypes'
+import { toInputValue } from '@step-wise/input-interpretation'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -98,7 +98,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		const newInput = fromKeys(getFieldIds(), (key) => {
 			if (solution[key] === undefined)
 				return oldInput[key]
-			let currNewInput = toSO(solution[key], true, oldInput[key]?.type)
+			let currNewInput = toInputValue(solution[key], oldInput[key]?.type)
 			if (isPlainObject(currNewInput))
 				currNewInput = { ...oldInput[key], ...currNewInput } // Keep other parameters like input field settings for expressions.
 			return currNewInput

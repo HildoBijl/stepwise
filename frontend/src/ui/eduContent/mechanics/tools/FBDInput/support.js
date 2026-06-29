@@ -1,18 +1,18 @@
 import { mod, omitKeys } from '@step-wise/utils'
 import { LineSegment } from '@step-wise/geometry'
-import { toFO, toSO } from 'step-wise/inputTypes'
+import { serializeAll, deserializeAll } from '@step-wise/serialization'
 import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/eduContent/mechanics'
 
 export function clean(FI) {
-	return toSO(FI.map(load => omitKeys(load, ['selected', 'hovering'])))
+	return serializeAll(FI.map(load => omitKeys(load, ['selected', 'hovering'])))
 }
 
 export function functionalize(SI) {
-	return toFO(SI).map(load => ({ ...load, selected: false }))
+	return deserializeAll(SI).map(load => ({ ...load, selected: false }))
 }
 
 export function equals(a, b) {
-	return areLoadsMatching(toFO(a), toFO(b), defaultComparison)
+	return areLoadsMatching(deserializeAll(a), deserializeAll(b), defaultComparison)
 }
 
 export function applySnapping(FI) {

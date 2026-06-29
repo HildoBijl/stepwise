@@ -23,6 +23,7 @@
 		"@step-wise/physics-core": "file:packages/physics-core",
 		"@step-wise/physics-data": "file:packages/physics-data",
 		"@step-wise/polynomials": "file:packages/polynomials",
+		"@step-wise/serialization": "file:packages/serialization",
 		"@step-wise/settings": "file:packages/settings",
 		"@step-wise/skill-definition": "file:packages/skill-definition",
 		"@step-wise/skill-setup": "file:packages/skill-setup",

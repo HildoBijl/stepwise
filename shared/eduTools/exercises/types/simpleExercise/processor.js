@@ -1,5 +1,5 @@
 const { isPlainObject } = require('@step-wise/utils')
-const { toFO } = require('../../../../inputTypes')
+const { interpretAllInputValues } = require('@step-wise/input-interpretation')
 
 const { hasPreviousInput } = require('../stepExercise')
 
@@ -44,7 +44,7 @@ function processGroupActions({ checkInput, metaData, getSolution, submissions, s
 	const correct = submissions.map(submission => {
 		if (submission.action.type !== 'input')
 			return false
-		const input = toFO(submission.action.input, true)
+		const input = interpretAllInputValues(submission.action.input)
 		let currSolution = solution
 		if (!currSolution && getSolution)
 			currSolution = assembleSolution(getSolution, state, input)

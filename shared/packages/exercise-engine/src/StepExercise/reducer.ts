@@ -1,6 +1,5 @@
 // import type { SkillSetupLike } from '@step-wise/skill-setup'
-
-// import { toFO } from '../../../../inputTypes'
+// import { interpretAllInputValues } from '@step-wise/input-interpretation'
 
 // import type { ExerciseReducer, ExerciseReducerInput, ExerciseReducerUserInput, ExerciseReducerGroupInput, ExerciseState, GroupExerciseSubmission } from '../Exercise'
 // import { type InputExerciseAction, type InputExerciseInput, type Solution, assembleSolution } from '../InputExercise'
@@ -43,7 +42,7 @@
 // 	// Check all input actions.
 // 	const correct = submissions.map(submission => {
 // 		if (submission.action.type !== 'input') return false
-// 		const exerciseInput = toFO(submission.action.input, true) as InputExerciseInput
+// 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 // 		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
 // 		return checkInput({ state, input: exerciseInput, solution, metaData }, 0, 0)
 // 	})
@@ -95,7 +94,7 @@
 // 	// Check all input actions.
 // 	const correct = submissions.map(submission => {
 // 		if (submission.action.type !== 'input') return false
-// 		const exerciseInput = toFO(submission.action.input, true) as InputExerciseInput
+// 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 // 		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
 // 		return checkInput({ state, input: exerciseInput, solution, metaData }, step, 0)
 // 	})
@@ -145,7 +144,7 @@
 // 		// Check all input actions.
 // 		const correct = submissions.map(submission => {
 // 			if (submission.action.type !== 'input') return false
-// 			const exerciseInput = toFO(submission.action.input, true) as InputExerciseInput
+// 			const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 // 			const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
 // 			return checkInput({ state, input: exerciseInput, solution, metaData }, step, substep)
 // 		})

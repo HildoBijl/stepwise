@@ -1,5 +1,5 @@
 const { isPlainObject } = require('@step-wise/utils')
-const { toFO } = require('../../../../inputTypes')
+const { interpretAllInputValues } = require('@step-wise/input-interpretation')
 
 const { hasPreviousInput, getStep } = require('./util')
 const { assembleSolution } = require('./solution')
@@ -51,7 +51,7 @@ function processMainProblemActions({ checkInput, metaData, getSolution, progress
 	const correct = submissions.map(submission => {
 		if (submission.action.type !== 'input')
 			return false
-		const input = toFO(submission.action.input, true)
+		const input = interpretAllInputValues(submission.action.input)
 		let currSolution = solution
 		if (!currSolution && getSolution)
 			currSolution = assembleSolution(getSolution, state, input)
@@ -106,7 +106,7 @@ function processStepWithoutSubstepsActions({ checkInput, metaData, getSolution, 
 	const correct = submissions.map(submission => {
 		if (submission.action.type !== 'input')
 			return false
-		const input = toFO(submission.action.input, true)
+		const input = interpretAllInputValues(submission.action.input)
 		let currSolution = solution
 		if (!currSolution && getSolution)
 			currSolution = assembleSolution(getSolution, state, input)
@@ -159,7 +159,7 @@ function processStepWithSubstepsActions({ checkInput, metaData, getSolution, pro
 		const correct = submissions.map(submission => {
 			if (submission.action.type !== 'input')
 				return false
-			const input = toFO(submission.action.input, true)
+			const input = interpretAllInputValues(submission.action.input)
 			let currSolution = solution
 			if (!currSolution && getSolution)
 				currSolution = assembleSolution(getSolution, state, input)

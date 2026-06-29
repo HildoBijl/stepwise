@@ -1,4 +1,4 @@
-// import { toFO } from '../../../../inputTypes'
+// import { interpretAllInputValues } from '@step-wise/input-interpretation'
 
 // import type { ExerciseReducer, ExerciseReducerUserInput, ExerciseReducerGroupInput, ExerciseReducerInput, ExerciseState, GroupExerciseSubmission } from '../Exercise'
 // import { type InputExerciseAction, type InputExerciseInput, type InputExercise, type Solution, assembleSolution, hasPreviousInput } from '../InputExercise'
@@ -34,7 +34,7 @@
 // 	// Check all input actions.
 // 	const correct = submissions.map(submission => {
 // 		if (submission.action.type !== 'input') return false
-// 		const exerciseInput = toFO(submission.action.input, true) as InputExerciseInput
+// 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 // 		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
 // 		return checkInput({ state, input: exerciseInput, solution, metaData })
 // 	})

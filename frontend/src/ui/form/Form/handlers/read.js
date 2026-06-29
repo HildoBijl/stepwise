@@ -1,5 +1,5 @@
 import { pickKeys, preserveRefs, fromKeys } from '@step-wise/utils'
-import { toFO } from 'step-wise/inputTypes'
+import { interpretAllInputValues } from '@step-wise/input-interpretation'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -59,7 +59,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 			try {
 				delete fieldData.FO // Make sure there is no FO in case interpretation fails.
 				delete fieldData.error // Remove a potential previous error.
-				fieldData.FO = toFO(SI, true)
+				fieldData.FO = interpretAllInputValues(SI)
 				fieldData.recentFO = true
 			} catch (error) {
 				fieldData.error = error

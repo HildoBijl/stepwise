@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { isPlainObject, mapValues, pickKeys, deepEquals } from '@step-wise/utils'
-import { toFO } from 'step-wise/inputTypes'
+import { interpretAllInputValues } from '@step-wise/input-interpretation'
 import { getExerciseName } from 'step-wise/eduTools'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -51,8 +51,8 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO. Then process and store the resulting feedback.
 		if (getFeedback) {
-			const inputFO = toFO(input, true)
-			const previousInputFO = toFO(previousInput, true)
+			const inputFO = interpretAllInputValues(input)
+			const previousInputFO = interpretAllInputValues(previousInput)
 			let result = getFeedback({
 				...pickKeys(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state', 'example']),
 				input: inputFO,
