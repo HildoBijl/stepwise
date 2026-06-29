@@ -1,10 +1,12 @@
 import { type SkillSetup, type SkillSetupLike, ensureSetup, and } from '@step-wise/skill-setup'
 
-import type { StepExerciseMetaData, StepExerciseSteps } from './types'
+import type { StepExerciseSteps } from './types'
 
-export function addSetupFromSteps<TMetaData extends StepExerciseMetaData>(metaData: TMetaData, overwrite = false): TMetaData {
-	if ('setup' in metaData && !overwrite) return metaData
-	return { ...metaData, setup: getSetupFromSteps(metaData.steps) }
+export function stepsToSetup(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup: SkillSetup } {
+	return {
+		steps,
+		setup: getSetupFromSteps(steps),
+	}
 }
 
 function getSetupFromSteps(steps: StepExerciseSteps): SkillSetup {

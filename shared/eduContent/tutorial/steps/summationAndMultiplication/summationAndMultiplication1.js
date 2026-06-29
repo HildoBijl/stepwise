@@ -1,12 +1,11 @@
 const { getRandomInteger } = require('@step-wise/utils')
-const { buildStepExercise, addSetupFromSteps } = require('@step-wise/input-exercises')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
 const { performComparison } = require('../../../../eduTools')
 
 const metaData = {
 	skill: 'summationAndMultiplication',
-	steps: [null, 'multiplication', 'summation'],
+	...stepsToSetup([undefined, 'multiplication', 'summation']),
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	return {

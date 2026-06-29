@@ -4,7 +4,7 @@ import type { ExerciseState } from '@step-wise/exercise-definition'
 import type { CheckInputData, InputExerciseAction, InputExerciseMetaData, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
 
 // Add exercise steps and substeps to meta data.
-export type StepExerciseStep = SkillSetupLike | null
+export type StepExerciseStep = SkillSetupLike | undefined
 export type StepExerciseSubSteps = StepExerciseStep[]
 export type StepExerciseSteps = (StepExerciseStep | StepExerciseSubSteps)[]
 export type StepExerciseMetaData = InputExerciseMetaData & { steps: StepExerciseSteps }
