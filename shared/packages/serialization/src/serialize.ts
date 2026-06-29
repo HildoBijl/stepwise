@@ -5,12 +5,12 @@ import * as objects from './objects'
 
 export type SerializedData = null | undefined | string | number | boolean | SerializedObject | SerializedData[] | { [key: string]: SerializedData }
 
-export function serialize(value: SerializableObject): SerializedObject {
+export function serialize<Serialized extends SerializedObject = SerializedObject, DomainValue extends SerializableObject = SerializableObject>(value: DomainValue): Serialized {
 	if (typeof value !== 'object' || value === null) throw new Error(`Invalid serialize call: expected an object with a type.`)
 	if (typeof value.type !== 'string') throw new Error(`Invalid serialize call: expected an object with a string type.`)
 	const entry = objects[value.type as keyof typeof objects]
 	if (entry === undefined) throw new Error(`Invalid serialize call: unknown type "${value.type}".`)
-	return entry.serialize(value as never)
+	return entry.serialize(value as never) as Serialized
 }
 
 export function serializeAll(value: unknown): SerializedData {

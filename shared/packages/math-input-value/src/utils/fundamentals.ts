@@ -1,6 +1,6 @@
-import { first, isPlainObject } from '@step-wise/utils'
+import { first, isPlainObject, isEmptyObject, omitDefaults } from '@step-wise/utils'
 
-import type { InterpretationSettingsInput, ExpressionSettingsInput } from '../settings'
+import { type InterpretationSettingsInput, type ExpressionSettingsInput, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
 import type { ExpressionInputValue, EquationInputValue, InputValue, ExpressionPartInputValue, InputValuePart } from '../types'
 
 // Checks.
@@ -56,7 +56,13 @@ export function addEquationWrapper(value: InputValuePart[], interpretationSettin
 	return addPotentialSettings(result, interpretationSettings, expressionSettings)
 }
 function addPotentialSettings<T extends InputValue>(value: T, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): T {
-	if (interpretationSettings) value.interpretationSettings = interpretationSettings
-	if (expressionSettings) value.expressionSettings = expressionSettings
+	if (interpretationSettings !== undefined) {
+		interpretationSettings = omitDefaults(interpretationSettings, defaultInterpretationSettings)
+		if (!isEmptyObject(interpretationSettings)) value.interpretationSettings = interpretationSettings
+	}
+	if (expressionSettings !== undefined) {
+		expressionSettings = omitDefaults(expressionSettings, defaultExpressionSettings)
+		if (!isEmptyObject(expressionSettings)) value.expressionSettings = expressionSettings
+	}
 	return value
 }

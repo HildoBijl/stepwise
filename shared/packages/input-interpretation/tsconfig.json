@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "types": ["jest"]
+  },
+  "references": [
+    { "path": "../cas" },
+    { "path": "../geometry" },
+    { "path": "../physics-core" },
+    { "path": "../utils" }
+  ],
+  "include": ["src"]
+}

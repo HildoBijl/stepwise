@@ -8,6 +8,6 @@ export type SerializedObject<Type extends string = string, SerializedValue = unk
 }
 
 export type SerializerEntry<DomainValue extends SerializableObject, Serialized extends SerializedObject> = {
-	serialize: (value: DomainValue) => Serialized
+	serialize: (domainValue: DomainValue) => Serialized
 	deserialize: (serialized: Serialized) => DomainValue
 }
