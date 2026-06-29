@@ -1,4 +1,8 @@
-import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseState } from '@step-wise/exercise-definition'
+import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseSpec, ExerciseState } from '@step-wise/exercise-definition'
+
+/*
+ * Fundamentals
+ */
 
 // Meta data: extend with comparison options.
 export type InputExerciseMetaData = ExerciseMetaData & { comparison?: unknown }
@@ -7,6 +11,10 @@ export type InputExerciseMetaData = ExerciseMetaData & { comparison?: unknown }
 export type InputExerciseInput = Record<string, unknown>
 export type InputExerciseAction = { type: 'input', input: InputExerciseInput } | { type: 'giveUp' }
 export type InputExerciseActionType = InputExerciseAction['type']
+
+/*
+ * Solution definition
+ */
 
 // Solution function: to generate a solution object from the state.
 export type Solution = Record<string, unknown>
@@ -27,17 +35,25 @@ export type GetSolutionObject<TState extends ExerciseState = ExerciseState, TSol
 // Solution: joining the solution function and the solution object.
 export type GetSolution<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = GetSolutionFunction<TState, TSolution> | GetSolutionObject<TState, TSolution, TInputDependency>
 
-// Input checking: verify whether the given input solves the exercise.
-export type CheckInputData<TState extends ExerciseState = ExerciseState, TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TSolution extends Solution = Solution> = {
+/*
+ * Full exercise definition
+ */
+
+// Input exercise spec: what authors define before a concrete exercise builder adds processAction.
+export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = ExerciseSpec<TMetaData, TState> & {
+	getSolution?: GetSolution<TState, TSolution>
+}
+
+// Input exercise: runtime object after a concrete builder adds processAction.
+export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TProgress, TState> & InputExerciseSpec<TMetaData, TState, TSolution>
+
+/*
+ * Input for the CheckInput function to be implemented by child components
+ */
+
+export type CheckInputData<TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = {
+	metaData: TMetaData
 	state: TState
 	input: InputExerciseInput
 	solution?: TSolution
-	metaData: TMetaData
-}
-export type CheckInput<TState extends ExerciseState = ExerciseState, TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TSolution extends Solution = Solution> = (data: CheckInputData<TState, TMetaData, TSolution>) => boolean
-
-// Input exercise: extend the general exercise with a getSolution function and checkInput function.
-export type InputExercise<TMetaData extends InputExerciseMetaData, TExerciseAction extends InputExerciseAction, TExerciseProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = Exercise<TMetaData, TExerciseAction, TExerciseProgress, TState> & {
-	checkInput: CheckInput<TState, TMetaData, TSolution>
-	getSolution?: GetSolution<TState, TSolution>
 }

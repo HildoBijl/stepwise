@@ -1,5 +1,6 @@
 const { getRandomInteger } = require('@step-wise/utils')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../eduTools')
 
 const metaData = {
 	skill: 'test',
@@ -17,8 +18,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, 'ans') // Basically returns whether state.x === input.ans, but then through a convoluted generalized way.
 }
 
-const exercise = { metaData, generateState, getSolution, checkInput }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

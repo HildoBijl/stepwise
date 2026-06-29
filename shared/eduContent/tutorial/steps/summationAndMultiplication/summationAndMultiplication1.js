@@ -1,5 +1,6 @@
 const { getRandomInteger } = require('@step-wise/utils')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { buildStepExercise, addSetupFromSteps } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../eduTools')
 
 const metaData = {
 	skill: 'summationAndMultiplication',
@@ -34,8 +35,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, getSolution, checkInput }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

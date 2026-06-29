@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/exercise-definition",
+	"name": "@step-wise/input-exercises",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"@step-wise/exercise-definition": "file:../exercise-definition",
+		"@step-wise/input-interpretation": "file:../input-interpretation",
 		"@step-wise/skill-setup": "file:../skill-setup",
 		"@step-wise/utils": "file:../utils"
 	},

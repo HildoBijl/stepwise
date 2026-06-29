@@ -36,6 +36,7 @@
 		"@step-wise/geometry": "file:../shared/packages/geometry",
 		"@step-wise/physics-core": "file:../shared/packages/physics-core",
 		"@step-wise/physics-data": "file:../shared/packages/physics-data",
+		"@step-wise/input-exercises": "file:../shared/packages/input-exercises",
 		"@step-wise/input-interpretation": "file:../shared/packages/input-interpretation",
 		"@step-wise/interpolation": "file:../shared/packages/interpolation",
 		"@step-wise/math-input-value": "file:../shared/packages/math-input-value",
