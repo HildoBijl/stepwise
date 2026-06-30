@@ -44,7 +44,7 @@ function getSolution(state) {
 	const factor1 = asExpression(state.switch ? 'a*x^p+b*x^q' : 'b*x^q+a*x^p').substitute(variables).removeTrivial()
 	const factor2 = asExpression(state.switch ? 'c*x^r+d*x^s' : 'd*x^s+c*x^r').substitute(variables).removeTrivial()
 	const expression = factor1.multiply(factor2).flatten()
-	const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten(['mergeProductMinuses'])
+	const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
 	const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
 	const jointFactor = asExpression('x^(q+r)').substitute(variables).normalize()
 	const ans = allExpanded.combine()

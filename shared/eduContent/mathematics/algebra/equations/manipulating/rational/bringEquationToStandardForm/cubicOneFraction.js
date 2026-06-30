@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { gcd } = require('@step-wise/math-tools')
 const { and } = require('@step-wise/skill-setup')
 const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons

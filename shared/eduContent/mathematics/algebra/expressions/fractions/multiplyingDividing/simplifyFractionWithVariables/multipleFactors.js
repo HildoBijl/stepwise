@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { gcd } = require('@step-wise/math-tools')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
@@ -13,14 +14,13 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'p', 'q']
 
 const metaData = {
 	skill: 'simplifyFractionWithVariables',
-	steps: ['simplifyFraction', and('rewritePower', 'cancelFractionFactors')],
+	...stepsToSetup(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
 	comparison: {
 		// Input is equivalent and cannot be simplified further.
 		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
 		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const factor = getRandomInteger(2, 8)

@@ -14,9 +14,9 @@ const metaData = {
 	skill: 'pullFactorOutOfBrackets',
 	...stepsToSetup([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
 	comparison: {
-		startingForm: (input, correct) => onlyOrderChanges(input.flatten(['mergeProductMinuses']), correct),
+		startingForm: (input, correct) => onlyOrderChanges(input.flatten(), correct),
 		splitUp: (input, correct, { expression, factor }) => {
-			input = input.flatten(['mergeProductMinuses'])
+			input = input.flatten()
 			if (correct.isMinus()) {
 				if (!input.isMinus()) return false
 				input = input.argument
@@ -47,8 +47,8 @@ function getSolution(state) {
 	const sum = asExpression(state.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeTrivial()
 	const ans = factor.multiply(sum).combine()
 	const expression = ans.combine(['expandProductsOfSums'])
-	const startingForm = factor.multiply(expression.divide(factor)).flatten(['mergeProductMinuses'])
-	const splitUp = factor.multiply(expression.divide(factor).removeTrivial(['splitFractions'])).flatten(['mergeProductMinuses'])
+	const startingForm = factor.multiply(expression.divide(factor)).flatten()
+	const splitUp = factor.multiply(expression.divide(factor).removeTrivial(['splitFractions'])).flatten()
 	const check = expression
 	return { ...state, variables, factor, sum, expression, startingForm, splitUp, ans, check }
 }

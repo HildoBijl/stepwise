@@ -38,7 +38,7 @@ function getSolution(state) {
 	const factor = asExpression('a*x^p+b*x^q').substitute(variables).removeTrivial()
 	const expression = factor.toPower(2)
 	const multiplication = factor.multiply(factor).flatten()
-	const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor)).flatten(['mergeProductMinuses'])
+	const firstExpanded = factor.terms[0].multiply(factor).add(factor.terms[1].multiply(factor)).flatten()
 	const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
 	const jointFactor = asExpression('x^(p+q)').substitute(variables).normalize()
 	const ans = allExpanded.combine()

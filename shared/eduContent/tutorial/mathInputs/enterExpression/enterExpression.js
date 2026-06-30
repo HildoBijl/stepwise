@@ -8,7 +8,7 @@ const usedVariables = ['x', 'y']
 
 const metaData = {
 	skill: 'enterExpression',
-	comparison: { ans: (input, correct) => expressionComparisons.exactEqual(input.flatten(['mergeProductMinuses']), correct.flatten(['mergeProductMinuses'])) },
+	comparison: { ans: (input, correct) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
 }
 
 function generateState() {

@@ -1,6 +1,7 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -12,13 +13,12 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'p', 'q', 'r', 's']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
-	steps: ['multiplyDivideFractions', 'simplifyFractionWithVariables'],
+	...stepsToSetup(['multiplyDivideFractions', 'simplifyFractionWithVariables']),
 	comparison: {
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
 		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct), // No further basic simplifications possible.
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-12, 12, [-1, 0, 1])
@@ -47,7 +47,7 @@ function getSolution(state) {
 	const expression = fraction1.divide(fraction2)[state.flip ? 'invert' : 'self']().removeTrivial([], ['mergeFractionMinuses'])
 
 	// Apply cleaning.
-	const singleFraction = expression.simplify(['mergeFractionProducts', 'flattenFractions'])
+	const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
 	const inBetween = singleFraction.cancel()
 	const ans = expression.combine()
 	return { ...state, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }

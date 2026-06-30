@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { asExpression, expressionComparisons, expressionOperations } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
@@ -13,10 +14,9 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
-	steps: ['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'],
+	...stepsToSetup(['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
 	comparison: onlyOrderChanges,
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)
@@ -40,7 +40,7 @@ function getSolution(state) {
 	const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, state.b / gcdValue).flatten(['mergeProductNumbers'])
 	const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, state.a / gcdValue).flatten(['mergeProductNumbers'])
 	const intermediateSplit = fraction1Intermediate[state.plus ? 'add' : 'subtract'](fraction2Intermediate)
-	const intermediate = fraction1Intermediate.numerator[state.plus ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator)
+	const intermediate = fraction1Intermediate.numerator[state.plus ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator).combine()
 	const expressionWithIntermediate = intermediate.divide(denominator)
 	const simplifiedExpressionWithIntermediate = intermediate.numerator.divide(intermediate.denominator.multiply(denominator)).flatten()
 	const ans = asExpression(`(${state.b / gcdValue}x ${state.plus ? '+' : '-'} ${state.a / gcdValue}y)/(${state.a * state.b * state.c / gcdValue}z)`).substitute(variables).combine()

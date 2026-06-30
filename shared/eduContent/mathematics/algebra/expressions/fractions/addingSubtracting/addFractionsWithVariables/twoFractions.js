@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean, repeat, randomIndices } = require('@step-wise/utils')
 const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 const metaData = {
 	skill: 'addFractionsWithVariables',
-	steps: ['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables'],
+	...stepsToSetup(['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables']),
 	comparison: {
 		sameDenominator: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && equivalent(input, correct),
 		bracketsExpanded: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && input.terms.every(term => {
@@ -24,7 +25,6 @@ const metaData = {
 		ans: (input, correct) => input.flatten().isFractionLike() && !hasFractionWithinFraction(input) && onlyOrderChanges(input.flatten().numerator, input.flatten().numerator.cancel(['expandProductsOfSums', 'mergeProductFactors', 'groupSumTerms'])) && equivalent(input, correct),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	example = false

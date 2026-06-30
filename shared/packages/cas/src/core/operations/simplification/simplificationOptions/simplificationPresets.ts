@@ -7,6 +7,9 @@ export const flatten = new Set<SimplificationOption>([
 	// Excess brackets
 	'flattenSums',
 	'flattenProducts',
+
+	// Resolve minus confusion
+	'mergeProductMinuses',
 ])
 
 export const removeTrivial = new Set<SimplificationOption>([
@@ -19,7 +22,6 @@ export const removeTrivial = new Set<SimplificationOption>([
 	// Excess minuses
 	'removeSignsFromZeros',
 	'removeDoubleNegatives',
-	'mergeProductMinuses',
 
 	// Excess plus-minuses.
 	'removeDoubleSigns',

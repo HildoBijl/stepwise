@@ -34,7 +34,7 @@ const steps = [
 				<Par><Translation>Write the expression without any negative exponents.</Translation></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="noNegativeExponents" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
+						<ExpressionInput id="withoutNegativeExponents" prelabel={<M>{expression}=</M>} size="l" settings={ExpressionInput.settings.rational} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

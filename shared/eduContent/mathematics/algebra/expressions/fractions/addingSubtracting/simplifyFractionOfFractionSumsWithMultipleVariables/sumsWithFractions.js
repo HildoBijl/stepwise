@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
 
 const { equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks
@@ -14,10 +15,9 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
-	steps: ['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'],
+	...stepsToSetup(['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
 	comparison: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)
@@ -52,8 +52,8 @@ function getSolution(state) {
 	const fraction4Intermediate = multiplyNumeratorAndDenominator(fraction4, variables.y).flatten(['sortProducts'])
 	const numeratorSplit = fraction1Intermediate[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate)
 	const denominatorSplit = fraction3Intermediate[state.plus2 ? 'add' : 'subtract'](fraction4Intermediate)
-	const numeratorIntermediate = fraction1Intermediate.numerator[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator)
-	const denominatorIntermediate = fraction3Intermediate.numerator[state.plus2 ? 'add' : 'subtract'](fraction4Intermediate.numerator).divide(fraction3Intermediate.denominator)
+	const numeratorIntermediate = fraction1Intermediate.numerator[state.plus1 ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator).combine()
+	const denominatorIntermediate = fraction3Intermediate.numerator[state.plus2 ? 'add' : 'subtract'](fraction4Intermediate.numerator).divide(fraction3Intermediate.denominator).combine()
 
 	const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
 	const intermediateFlipped = intermediate.numerator.multiply(intermediate.denominator.invert())
