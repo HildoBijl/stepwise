@@ -1,6 +1,7 @@
 const { sample, getRandomInteger, count } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct, hasSumWithinPowerBase } = expressionChecks
@@ -12,7 +13,7 @@ const constants = ['a', 'b', 'p', 'q']
 
 const metaData = {
 	skill: 'expandDoubleBrackets',
-	steps: ['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms'],
+	...stepsToSetup(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 	comparison: {
 		multiplication: (input, correct) => !input.some(factor => factor.isPower() && factor.base.isSum()) && equivalent(input, correct),
 		firstExpanded: (input, correct) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && equivalent(input, correct), // No product with two (or more) sums. (And equivalent.)
@@ -20,7 +21,6 @@ const metaData = {
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const p = getRandomInteger(0, 3)
@@ -62,8 +62,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

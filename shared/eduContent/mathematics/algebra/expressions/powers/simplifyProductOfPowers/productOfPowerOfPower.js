@@ -1,6 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasPowerWithinPowerBase } = expressionChecks
@@ -12,13 +13,12 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'simplifyProductOfPowers',
-	steps: ['rewritePower', 'rewritePower'],
+	...stepsToSetup(['rewritePower', 'rewritePower']),
 	comparison: {
 		powersReduced: (input, correct) => !hasPowerWithinPowerBase(input) && equivalent(input, correct),
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
@@ -50,8 +50,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

@@ -1,6 +1,7 @@
 const { sample, getRandomInteger, count } = require('@step-wise/utils')
 const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasProductWithinPowerBase } = expressionChecks
@@ -12,14 +13,13 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'simplifyProductOfPowers',
-	steps: ['rewritePower', 'simplifyNumberProduct', 'rewritePower'],
+	...stepsToSetup(['rewritePower', 'simplifyNumberProduct', 'rewritePower']),
 	comparison: {
 		bracketsExpanded: (input, correct) => !hasProductWithinPowerBase(input) && equivalent(input, correct),
-		numbersSimplified: (input, correct) => !hasProductWithinPowerBase(input) && !input.recursiveSome(term => term.isProduct() && count(term.terms, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
+		numbersSimplified: (input, correct) => !hasProductWithinPowerBase(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const c = getRandomInteger(example ? 2 : -6, 6, [-1, 0, 1])
@@ -53,8 +53,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

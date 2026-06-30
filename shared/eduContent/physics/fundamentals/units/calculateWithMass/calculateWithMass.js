@@ -1,6 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { Unit, getRandomExponentialFloatUnit } = require('@step-wise/physics-core')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
@@ -46,8 +47,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, 'ans')
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

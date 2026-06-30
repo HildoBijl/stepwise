@@ -1,6 +1,7 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -11,15 +12,22 @@ const constants = ['a', 'b', 'c', 'n']
 
 const metaData = {
 	skill: 'pullFactorOutOfBrackets',
-	steps: [null, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets'],
+	...stepsToSetup([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
 	comparison: {
-		startingForm: (input, correct) => onlyOrderChanges(input, correct),
-		splitUp: (input, correct, { expression, factor }) => input.isProduct() && input.factors.length === 3 && factor.factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && equivalent(input, correct),
+		startingForm: (input, correct) => onlyOrderChanges(input.flatten(['mergeProductMinuses']), correct),
+		splitUp: (input, correct, { expression, factor }) => {
+			input = input.flatten(['mergeProductMinuses'])
+			if (correct.isMinus()) {
+				if (!input.isMinus()) return false
+				input = input.argument
+				correct = correct.argument
+			}
+			return input.isProduct() && input.factors.length === 3 && (factor.isMinus() ? factor.argument : factor).factors.every(subFactor => input.factors.some(inputFactor => onlyOrderChanges(inputFactor, subFactor))) && input.factors.some(inputFactor => inputFactor.isSum() && inputFactor.terms.length === expression.terms.length) && equivalent(input, correct)
+		},
 		ans: (input, correct) => onlyOrderChanges(input.cancel(), correct),
 		check: (input, correct) => onlyOrderChanges(input.cancel(), correct),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const b = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
@@ -39,8 +47,8 @@ function getSolution(state) {
 	const sum = asExpression(state.descending ? 'b*x+c' : 'c+b*x').substitute(variables).removeTrivial()
 	const ans = factor.multiply(sum).combine()
 	const expression = ans.combine(['expandProductsOfSums'])
-	const startingForm = factor.multiply(expression.divide(factor)).flatten()
-	const splitUp = factor.multiply(expression.divide(factor).removeTrivial(['splitFractions']))
+	const startingForm = factor.multiply(expression.divide(factor)).flatten(['mergeProductMinuses'])
+	const splitUp = factor.multiply(expression.divide(factor).removeTrivial(['splitFractions'])).flatten(['mergeProductMinuses'])
 	const check = expression
 	return { ...state, variables, factor, sum, expression, startingForm, splitUp, ans, check }
 }
@@ -58,8 +66,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

@@ -1,5 +1,6 @@
 const { sample } = require('@step-wise/utils')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../../eduTools')
 const { getTemperatures } = require('../../coolingCycles')
 
 const metaData = {
@@ -29,8 +30,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, ['TCold', 'TWarm'])
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

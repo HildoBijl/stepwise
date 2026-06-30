@@ -1,7 +1,8 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { superheatedSteam } = require('@step-wise/physics-data')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
 	skill: 'lookUpSteamProperties',
@@ -37,8 +38,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, ['h', 's'])
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

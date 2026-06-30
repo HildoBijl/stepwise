@@ -1,6 +1,7 @@
 const { sample, getRandomInteger, getRandomBoolean, count } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { hasSumWithinProduct } = expressionChecks
 const { onlyOrderChanges, equivalent } = expressionComparisons
@@ -12,14 +13,13 @@ const constants = ['a', 'b', 'c', 'n']
 
 const metaData = {
 	skill: 'expandBrackets',
-	steps: [null, 'simplifyNumberProduct', 'rewritePower'],
+	...stepsToSetup([null, 'simplifyNumberProduct', 'rewritePower']),
 	comparison: {
 		expanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
-		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.recursiveSome(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
+		numbersMerged: (input, correct) => !hasSumWithinProduct(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	return {
@@ -54,8 +54,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

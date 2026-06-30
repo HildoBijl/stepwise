@@ -1,6 +1,7 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
@@ -12,14 +13,13 @@ const constants = ['a', 'b', 'c', 'd', 'f']
 
 const metaData = {
 	skill: 'expandDoubleBrackets',
-	steps: ['expandBrackets', 'expandBrackets', 'mergeSimilarTerms'],
+	...stepsToSetup(['expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 	comparison: {
 		firstExpanded: (input, correct, { factor2 }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !equivalent(factor, factor2))) && equivalent(input, correct), // No sum within product, except for factor2. (And equivalent.)
 		allExpanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	return {
@@ -59,8 +59,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

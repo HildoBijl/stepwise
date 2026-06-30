@@ -2,7 +2,8 @@ const { sample, getRandomInteger, count, repeat, fromEntries } = require('@step-
 const { binomial } = require('@step-wise/math-tools')
 const { repeat: skillRepeat } = require('@step-wise/skill-setup')
 const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasProductWithinPowerBase } = expressionChecks
@@ -14,12 +15,11 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 
 const metaData = {
 	skill: 'expandPowerOfSum',
-	steps: [skillRepeat('simplifyProductOfPowers', 2), null, 'simplifyNumberProduct'],
+	...stepsToSetup([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
 	comparison: {
 		default: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(example ? 2 : -4, 4, [-1, 0, 1])
@@ -41,8 +41,8 @@ function getSolution(state) {
 	const expression = t1.add(t2).toPower(e)
 	const terms = repeat(e + 1, n => t1.toPower(e - n).multiply(t2.toPower(n)))
 	const termsSimplified = terms.map(term => term.normalize())
-	const coefficients = repeat(e + 1, n => asExpression(binomial(e, n)))
-	const termsMultiplied = coefficients.map((c, i) => c.multiply(termsSimplified[i]))
+	const coefficients = repeat(e + 1, n => binomial(e, n))
+	const termsMultiplied = coefficients.map((c, i) => asExpression(c).multiply(termsSimplified[i]))
 	const sum = termsMultiplied[0].add(...termsMultiplied.slice(1))
 	const ans = sum.combine()
 	const termsNames = repeat(e + 1, i => `term${i}`)
@@ -61,8 +61,4 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })

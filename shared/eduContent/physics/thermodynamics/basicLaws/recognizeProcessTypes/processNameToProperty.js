@@ -22,8 +22,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, 'ans')
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

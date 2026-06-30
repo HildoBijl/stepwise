@@ -2,7 +2,8 @@ const { first, last } = require('@step-wise/utils')
 const { tableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { maximumHumidity } = require('@step-wise/physics-data')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'readMollierDiagram',
@@ -43,8 +44,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, 'AH')
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

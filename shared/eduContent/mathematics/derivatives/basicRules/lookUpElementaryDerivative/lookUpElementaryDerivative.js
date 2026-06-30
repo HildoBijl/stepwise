@@ -1,6 +1,7 @@
 const { sample } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
-const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunction } = require('../../tools')
 
@@ -30,8 +31,4 @@ function checkInput(exerciseData) {
 	return performComparison(exerciseData, 'derivative')
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getSimpleExerciseProcessor(exercise),
-}
+module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })
