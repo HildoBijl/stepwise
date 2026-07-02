@@ -1,13 +1,14 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
 const variableSet = ['x', 'y', 'z']
 
 const metaData = {
 	skill: 'applyPythagoreanTheorem',
-	steps: [null, null, null],
+	...stepsToSetup([undefined, undefined, undefined]),
 	comparison: {
 		default: {},
 		equation: equationComparisons.equivalent,

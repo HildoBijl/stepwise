@@ -1,6 +1,7 @@
 const { deg2rad, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
-const { getStepExerciseProcessor, performComparison } = require('../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, isLoadAtPoint } = require('../../tools')
 
@@ -8,7 +9,7 @@ const { reaction } = loadSources
 
 const metaData = {
 	skill: 'schematizeSupport',
-	steps: [null, null, null, null],
+	...stepsToSetup([undefined, undefined, undefined, undefined]),
 	comparison: {
 		loads: checkHingeSupport,
 		default: {},

@@ -1,13 +1,14 @@
 const { or } = require('@step-wise/skill-setup')
 const { FloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { generateState, getSolution: getCycleParametersRaw } = require('../calculateClosedCycle/calculateClosedCycleSVSV')
 
 const metaData = {
 	skill: 'createClosedCycleEnergyOverview',
-	steps: ['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')],
+	...stepsToSetup(['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
 	comparison: {
 		default: {
 			float: {
@@ -17,7 +18,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function getCycleParameters(state) {
 	let { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCycleParametersRaw(state)

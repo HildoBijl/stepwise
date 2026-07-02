@@ -1,10 +1,11 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { getRandomFloat, getRandomFloatUnit } = require('@step-wise/physics-core')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'poissonsLaw',
-	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
+	...stepsToSetup([['calculateWithTemperature', undefined, 'calculateWithVolume'], undefined, 'solveLinearEquation']),
 	comparison: {
 		V1s: {
 			float: {
@@ -35,7 +36,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const n = getRandomFloat({

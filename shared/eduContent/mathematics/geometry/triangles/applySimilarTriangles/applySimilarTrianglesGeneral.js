@@ -1,6 +1,7 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { selectRandomVariables, performComparison } = require('../../../../../eduTools')
 
 const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)'], [3, 4, 5], [5, 12, 13]]
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -8,7 +9,7 @@ const usedVariables = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'applySimilarTriangles',
-	steps: [null, null, null, null],
+	...stepsToSetup([undefined, undefined, undefined, undefined]),
 	comparison: {
 		default: {},
 		equation1: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),

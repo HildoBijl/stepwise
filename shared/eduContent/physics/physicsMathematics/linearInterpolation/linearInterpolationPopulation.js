@@ -1,10 +1,11 @@
 const { getRandomNumber, getRandomInteger } = require('@step-wise/utils')
 const { Float } = require('@step-wise/physics-core')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../eduTools')
 
 const metaData = {
 	skill: 'linearInterpolation',
-	steps: ['solveLinearEquation', 'solveLinearEquation'],
+	...stepsToSetup(['solveLinearEquation', 'solveLinearEquation']),
 
 	comparison: {
 		default: {
@@ -16,7 +17,6 @@ const metaData = {
 		}
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.

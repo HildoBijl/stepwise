@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 const metaData = {
 	weight: 2,
 	skill: 'solveLinearEquation',
-	steps: ['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
+	...stepsToSetup(['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
 	comparison: {
 		expanded: (input, correct) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
 		moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
@@ -22,7 +22,6 @@ const metaData = {
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

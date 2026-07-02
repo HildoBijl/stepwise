@@ -3,12 +3,13 @@ const { tableInterpolate } = require('@step-wise/interpolation')
 const { and } = require('@step-wise/skill-setup')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { saturatedSteamByTemperature, saturatedSteamByPressure } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
 	skill: 'useVaporFraction',
 	setup: and('lookUpSteamProperties', 'linearInterpolation'),
-	steps: ['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation'],
+	...stepsToSetup(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
 	comparison: {
 		default: {
 			float: {
@@ -29,7 +30,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 is temperature given, 2 is pressure given.

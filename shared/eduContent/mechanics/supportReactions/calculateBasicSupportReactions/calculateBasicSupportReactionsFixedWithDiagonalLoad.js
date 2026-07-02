@@ -2,7 +2,8 @@ const { deg2rad, fromEntries, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../eduTools')
 
 const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')
 
@@ -10,7 +11,7 @@ const { reaction, external } = loadSources
 
 const metaData = {
 	skill: 'calculateBasicSupportReactions',
-	steps: ['drawFreeBodyDiagram', 'calculateForceOrMoment', null, 'calculateForceOrMoment'],
+	...stepsToSetup(['drawFreeBodyDiagram', 'calculateForceOrMoment', undefined, 'calculateForceOrMoment']),
 	comparison: {
 		default: {
 			float: {
@@ -21,7 +22,6 @@ const metaData = {
 		loads: FBDComparison,
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	return {

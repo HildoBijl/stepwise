@@ -1,19 +1,19 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
 
 const metaData = {
 	skill: 'calculateTriangle',
-	steps: [null, null, null, and('solveLinearEquation', 'applySineCosineTangent')],
+	...stepsToSetup([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine sides and check the triangle inequality.

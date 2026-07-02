@@ -6,6 +6,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
+import { checkF } from 'step-wise/eduContent/mathematics/derivatives/generalDerivatives/findGeneralDerivative/findGeneralDerivativeQuotientRule'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -90,7 +91,7 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { solution, input, shared } = exerciseData
+	const { solution, input } = exerciseData
 	const { x } = solution
 
 	// Define h derivative checks.
@@ -101,8 +102,8 @@ function getFeedback(exerciseData) {
 	// Define f and g checks.
 	const funcFeedback = {}
 	if (input.f && input.g) {
-		const isFCorrect = shared.checkF(input.f, solution.f)
-		const isGCorrect = shared.checkF(input.g, solution.g)
+		const isFCorrect = checkF(input.f, solution.f)
+		const isGCorrect = checkF(input.g, solution.g)
 		const isEquivalent = input.f && input.g && equivalent(input.f.divide(input.g), solution.h)
 		const areFAndGCorrect = isFCorrect && isGCorrect && isEquivalent
 		funcFeedback.f = { correct: areFAndGCorrect }

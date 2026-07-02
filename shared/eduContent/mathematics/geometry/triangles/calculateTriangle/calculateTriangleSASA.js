@@ -1,18 +1,18 @@
 const { compareNumbers, sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']
 
 const metaData = {
-	steps: ['calculateTriangle', 'calculateTriangle', null],
+	...stepsToSetup(['calculateTriangle', 'calculateTriangle', undefined]),
 	comparison: {
 		default: {},
 		βRaw: (input, correct, { variables, a }) => compareNumbers(...[input, correct].map(value => value.substitute(variables.a, a).number)), // Plug in the value of a and compare numbers. This is the easiest way to allow for alternate solutions.
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const b = getRandomInteger(3, 12)

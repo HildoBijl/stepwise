@@ -10,14 +10,13 @@ const constants = ['a', 'b']
 
 const metaData = {
 	skill: 'solveMultiVariableLinearEquationWithFractions',
-	steps: ['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation'],
+	...stepsToSetup(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 	comparison: {
 		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.equivalent(input.left, correct.left),
 		multiplied: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions.
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)

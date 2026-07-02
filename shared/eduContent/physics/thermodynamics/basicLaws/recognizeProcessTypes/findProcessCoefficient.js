@@ -1,5 +1,6 @@
 const { getRandomInteger } = require('@step-wise/utils')
-const { getSimpleExerciseProcessor, getMultipleChoiceMapping, performComparison } = require('../../../../../eduTools')
+const { buildSimpleExercise } = require('@step-wise/input-exercises')
+const { getMultipleChoiceMapping, performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'recognizeProcessTypes',

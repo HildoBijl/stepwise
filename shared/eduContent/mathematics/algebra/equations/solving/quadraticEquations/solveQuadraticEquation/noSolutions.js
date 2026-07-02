@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 1,
-	steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null],
+	...stepsToSetup(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined]),
 	comparison: {
 		a: {},
 		b: {},
@@ -24,7 +24,6 @@ const metaData = {
 		numSolutions: {},
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	let a, b, c

@@ -16,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 
 const metaData = {
 	skill: 'bringEquationToStandardForm',
-	steps: ['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms'],
+	...stepsToSetup(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
 	comparison: {
 		multiplied: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct)),
 		expanded: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct)),
@@ -24,7 +24,6 @@ const metaData = {
 		ans: (input, correct, { normalize }) => (exactEqual(input.left, correct.left) || (!normalize && exactEqual(input.left, correct.left.negate()))) && exactEqual(input.right, correct.right),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	// Set up general state parameters.

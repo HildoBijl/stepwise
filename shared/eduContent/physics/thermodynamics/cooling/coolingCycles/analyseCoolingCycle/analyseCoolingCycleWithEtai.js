@@ -1,5 +1,6 @@
 const { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../../eduTools')
 
 const { getCycle } = require('../tools')
 
@@ -18,7 +19,7 @@ const factorComparison = {
 }
 const metaData = {
 	skill: 'analyseCoolingCycle',
-	steps: ['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']],
+	...stepsToSetup(['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']]),
 	comparison: {
 		h1: hComparison,
 		h2p: hComparison,
@@ -35,7 +36,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	let { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling, etai, P } = getCycle()

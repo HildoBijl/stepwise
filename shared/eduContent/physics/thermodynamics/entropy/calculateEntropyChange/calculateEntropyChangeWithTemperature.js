@@ -1,11 +1,12 @@
 const { getRandomInteger, sample } = require('@step-wise/utils')
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateEntropyChange',
-	steps: ['calculateWithTemperature', 'specificHeats', 'solveLinearEquation'],
+	...stepsToSetup(['calculateWithTemperature', 'specificHeats', 'solveLinearEquation']),
 	weight: 2,
 	comparison: {
 		default: {
@@ -39,7 +40,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic

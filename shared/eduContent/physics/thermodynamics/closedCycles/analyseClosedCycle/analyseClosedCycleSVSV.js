@@ -1,11 +1,12 @@
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { generateState, getSolution: getCycleParameters } = require('../calculateClosedCycle/calculateClosedCycleSVSV')
 const { getSolution: getEnergyParameters } = require('../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV')
 
 const metaData = {
 	skill: 'analyseClosedCycle',
-	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithEfficiency'],
+	...stepsToSetup(['calculateClosedCycle', 'createClosedCycleEnergyOverview', undefined, 'calculateWithEfficiency']),
 	comparison: {
 		default: {
 			float: {
@@ -22,7 +23,6 @@ const metaData = {
 		choice: {},
 	},
 }
-addSetupFromSteps(metaData)
 
 function getSolution(state) {
 	const cycleParameters = getCycleParameters(state)

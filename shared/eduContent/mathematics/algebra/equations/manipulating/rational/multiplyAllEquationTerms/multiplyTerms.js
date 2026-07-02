@@ -14,14 +14,13 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'n']
 
 const metaData = {
 	skill: 'multiplyAllEquationTerms',
-	steps: ['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables'],
+	...stepsToSetup(['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables']),
 	comparison: {
 		form: { compareSide: equivalent },
 		expanded: { compareSide: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct) },
 		ans: { compareSide: onlyOrderChanges },
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	return {

@@ -1,12 +1,13 @@
 const { FloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { k, cp } } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('..')
 
 const metaData = {
 	skill: 'analyseGasTurbine',
-	steps: ['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']],
+	...stepsToSetup(['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']]),
 	comparison: {
 		default: {
 			float: {
@@ -22,7 +23,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	let { p1, T1, p2, q23, etai: etaio, mdot } = getCycle()

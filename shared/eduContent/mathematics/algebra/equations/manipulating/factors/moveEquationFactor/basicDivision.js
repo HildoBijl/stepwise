@@ -16,14 +16,13 @@ const ansEqualsOptions = ({ switchSides }) => ({ preprocessSide: side => side.ca
 
 const metaData = {
 	skill: 'moveEquationFactor',
-	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
+	...stepsToSetup(['multiplyBothEquationSides', 'cancelFractionFactors']),
 	ansEqualsOptions,
 	comparison: {
 		bothSidesChanged: { compareSide: equivalent },
 		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

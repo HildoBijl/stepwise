@@ -1,12 +1,13 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['x', 'y', 'z']
 
 const metaData = {
 	skill: 'applySineCosineTangent',
-	steps: [null, null, null],
+	...stepsToSetup([undefined, undefined, undefined]),
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),

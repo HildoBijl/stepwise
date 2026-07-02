@@ -11,14 +11,13 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveMultiVariableLinearEquation',
-	steps: [repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms'],
+	...stepsToSetup([repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
 	comparison: {
 		default: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
 		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)

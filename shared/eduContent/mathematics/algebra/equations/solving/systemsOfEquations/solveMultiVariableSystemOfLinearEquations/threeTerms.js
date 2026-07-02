@@ -12,7 +12,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 const metaData = {
 	skill: 'solveMultiVariableSystemOfLinearEquations',
-	steps: ['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', and('substituteAnExpression', 'simplifyFractionOfFractionSumsWithMultipleVariables')],
+	...stepsToSetup(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', and('substituteAnExpression', 'simplifyFractionOfFractionSumsWithMultipleVariables')]),
 	comparison: {
 		eq1Solution: expressionComparisons.equivalent,
 		eq2Substituted: equationComparisons.equivalent,
@@ -20,7 +20,6 @@ const metaData = {
 		y: (input, correct) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = sample(availableVariableSets)

@@ -1,6 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunctions } = require('../../tools')
 
@@ -8,8 +9,7 @@ const variableSet = ['x', 'y', 't']
 
 const metaData = {
 	skill: 'findGeneralDerivative',
-	setup: 'applyChainRule',
-	steps: [null, null, 'applyChainRule'],
+	...stepsToSetup([undefined, undefined, 'applyChainRule']),
 	weight: 4,
 	comparison: { method: {}, default: expressionComparisons.equivalent },
 }

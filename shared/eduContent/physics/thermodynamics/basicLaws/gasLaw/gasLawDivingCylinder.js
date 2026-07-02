@@ -1,11 +1,12 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { oxygen: { Rs } } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'gasLaw',
-	steps: [['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
+	...stepsToSetup([['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation']),
 	comparison: {
 		Vs: {
 			float: {
@@ -50,7 +51,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const p = getRandomFloatUnit({ // Note: this is the final input.wer. It won't be part of the state.

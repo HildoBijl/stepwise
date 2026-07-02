@@ -2,14 +2,17 @@ import { type SkillSetup, type SkillSetupLike, ensureSetup, and } from '@step-wi
 
 import type { StepExerciseSteps } from './types'
 
-export function stepsToSetup(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup: SkillSetup } {
+export function stepsToSetup(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup?: SkillSetup } {
+	const setup = getSetupFromSteps(steps)
 	return {
 		steps,
-		setup: getSetupFromSteps(steps),
+		...(setup === undefined ? {} : { setup }),
 	}
 }
 
-function getSetupFromSteps(steps: StepExerciseSteps): SkillSetup {
+function getSetupFromSteps(steps: StepExerciseSteps): SkillSetup | undefined {
 	if (!Array.isArray(steps)) throw new Error(`Invalid getSetupFromSteps call: expected a steps array, but received "${steps}".`)
-	return and(...steps.flat().filter(step => !!step).map(step => ensureSetup(step as SkillSetupLike)))
+	steps = steps.flat().filter(step => !!step)
+	if (steps.length === 0) return undefined
+	return and(...steps.map(step => ensureSetup(step as SkillSetupLike)))
 }

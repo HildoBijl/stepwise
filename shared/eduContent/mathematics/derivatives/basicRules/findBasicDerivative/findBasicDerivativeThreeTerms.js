@@ -1,6 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunctions, getElementaryFunctionFromTerm } = require('../../tools')
 
@@ -9,10 +10,9 @@ const functionSet = ['f', 'g', 'h']
 
 const metaData = {
 	skill: 'findBasicDerivative',
-	steps: [[null, null, null], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
+	...stepsToSetup([[undefined, undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
 	comparison: expressionComparisons.equivalent,
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const [f1, f2, f3] = getRandomElementaryFunctions(3, false)

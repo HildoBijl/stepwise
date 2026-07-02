@@ -13,13 +13,12 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'moveEquationTerm',
-	steps: ['addToBothEquationSides', 'cancelSumTerms'],
+	...stepsToSetup(['addToBothEquationSides', 'cancelSumTerms']),
 	comparison: {
 		bothSidesChanged: { compareSide: equivalent },
 		ans: { compareSide: onlyOrderChanges },
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(-8, 8, [0])

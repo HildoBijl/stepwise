@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'solveProductEquation',
-	steps: ['moveEquationFactor', 'simplifyFraction', 'checkEquationSolution'],
+	...stepsToSetup(['moveEquationFactor', 'simplifyFraction', 'checkEquationSolution']),
 	comparison: {
 		isolated: { compareSide: equivalent, allowSwitch: true },
 		ans: onlyOrderChanges,
@@ -22,7 +22,6 @@ const metaData = {
 		checkRight: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

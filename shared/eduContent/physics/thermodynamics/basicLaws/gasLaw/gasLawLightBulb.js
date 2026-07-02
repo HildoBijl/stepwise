@@ -1,10 +1,11 @@
 const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { argon: { Rs } } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'gasLaw',
-	steps: [['calculateWithVolume', 'calculateWithPressure', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
+	...stepsToSetup([['calculateWithVolume', 'calculateWithPressure', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation']),
 	comparison: {
 		Vs: {
 			float: {
@@ -49,7 +50,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const V = getRandomFloatUnit({

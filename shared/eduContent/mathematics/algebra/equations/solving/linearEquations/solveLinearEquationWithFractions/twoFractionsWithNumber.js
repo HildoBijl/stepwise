@@ -16,14 +16,13 @@ const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
 
 const metaData = {
 	skill: 'solveLinearEquationWithFractions',
-	steps: ['moveEquationFactor', 'solveLinearEquation'],
+	...stepsToSetup(['moveEquationFactor', 'solveLinearEquation']),
 	factorMovedComparison,
 	comparison: {
 		factorMoved: (input, correct, { variables }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

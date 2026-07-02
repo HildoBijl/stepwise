@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'solveMultiVariableProductEquation',
-	steps: ['moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution'],
+	...stepsToSetup(['moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution']),
 	comparison: {
 		isolated: { compareSide: equivalent, allowSwitch: true },
 		ans: onlyOrderChanges,
@@ -22,7 +22,6 @@ const metaData = {
 		checkRight: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const variableSet = sample(availableVariableSets)

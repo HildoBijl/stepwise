@@ -1,10 +1,11 @@
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('../../steam/rankineCycle')
 
 const metaData = {
 	skill: 'useIsentropicEfficiency',
-	steps: ['calculateWithEnthalpy', 'solveLinearEquation'],
+	...stepsToSetup(['calculateWithEnthalpy', 'solveLinearEquation']),
 	comparison: {
 		default: {
 			float: {
@@ -14,7 +15,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	let { h2: h1, h3p: h2p, h3: h2 } = getCycle() // Cycle indices.

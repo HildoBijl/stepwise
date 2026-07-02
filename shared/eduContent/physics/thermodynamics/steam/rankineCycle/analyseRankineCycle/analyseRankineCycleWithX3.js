@@ -1,13 +1,14 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { multiOutputTableInterpolate } = require('@step-wise/interpolation')
 const { saturatedSteamByPressure, superheatedSteam } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../../eduTools')
 
 const { getCycle } = require('../tools')
 
 const metaData = {
 	skill: 'analyseRankineCycle',
-	steps: ['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']],
+	...stepsToSetup(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
 	comparison: {
 		default: {
 			float: {
@@ -17,7 +18,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	let { pc, pe, T2, x3, mdot, P } = getCycle()

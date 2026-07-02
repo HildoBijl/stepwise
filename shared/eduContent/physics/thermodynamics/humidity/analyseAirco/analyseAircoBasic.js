@@ -1,12 +1,13 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
 const { maximumHumidity } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getCycle } = require('../tools')
 
 const metaData = {
 	skill: 'analyseAirco',
-	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram'],
+	...stepsToSetup(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram']),
 	comparison: {
 		default: { // AH
 			float: {
@@ -22,7 +23,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	let { T1, T3, T4, startRH } = getCycle()

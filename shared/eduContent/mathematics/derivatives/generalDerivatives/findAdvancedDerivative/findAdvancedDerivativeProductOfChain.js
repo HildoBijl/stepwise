@@ -1,6 +1,7 @@
 const { sample } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunctions } = require('../../tools')
 
@@ -10,11 +11,10 @@ const variableSet = ['x', 'y', 't']
 
 const metaData = {
 	skill: 'findAdvancedDerivative',
-	steps: [null, null, ['applyChainRule', 'lookUpElementaryDerivative'], null],
+	...stepsToSetup([undefined, undefined, ['applyChainRule', 'lookUpElementaryDerivative'], undefined]),
 	weight: 3,
 	comparison: { method: {}, default: equivalent },
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const x = sample(variableSet)

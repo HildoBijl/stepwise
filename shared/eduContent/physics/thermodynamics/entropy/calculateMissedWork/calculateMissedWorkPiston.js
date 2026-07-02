@@ -1,11 +1,12 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { k, Rs, cv } } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateMissedWork',
-	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
+	...stepsToSetup(['calculateEntropyChange', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
 	comparison: {
 		default: {
 			float: {
@@ -15,7 +16,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// State before compression.

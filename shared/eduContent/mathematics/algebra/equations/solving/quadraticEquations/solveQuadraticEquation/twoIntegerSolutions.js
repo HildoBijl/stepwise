@@ -1,7 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
-
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -13,7 +13,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 2,
-	steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null, 'simplifyFraction'],
+	...stepsToSetup(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, 'simplifyFraction']),
 	comparison: {
 		a: {},
 		b: {},
@@ -25,7 +25,6 @@ const metaData = {
 		ans2: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(example ? 2 : -6, 6, [0])

@@ -1,18 +1,18 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['x', 'y', 'z']
 
 const metaData = {
 	skill: 'calculateTriangle',
-	steps: ['determine2DAngles', null, null, null, 'solveLinearEquation'],
+	...stepsToSetup(['determine2DAngles', undefined, undefined, undefined, 'solveLinearEquation']),
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the angles and check if they match the conditions.

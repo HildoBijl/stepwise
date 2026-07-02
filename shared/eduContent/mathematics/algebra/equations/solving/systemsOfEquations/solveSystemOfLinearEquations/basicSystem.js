@@ -11,14 +11,13 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 
 const metaData = {
 	skill: 'solveSystemOfLinearEquations',
-	steps: ['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber'],
+	...stepsToSetup(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
 	comparison: {
 		default: expressionComparisons.onlyOrderChanges,
 		eq1Solution: expressionComparisons.equivalent,
 		eq2Substituted: equationComparisons.equivalent,
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const variableSet = sample(availableVariableSets)

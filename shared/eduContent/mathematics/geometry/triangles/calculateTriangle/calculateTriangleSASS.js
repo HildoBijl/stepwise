@@ -1,13 +1,13 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['x', 'y', 'z']
 
 const metaData = {
 	skill: 'calculateTriangle',
-	setup: 'solveQuadraticEquation',
-	steps: [null, null, null, 'solveQuadraticEquation'],
+	...stepsToSetup([undefined, undefined, undefined, 'solveQuadraticEquation']),
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),

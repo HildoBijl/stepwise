@@ -2,7 +2,8 @@ const { sample, getRandomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 3,
-	steps: ['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', null, and('simplifyFraction', 'simplifyRoot')],
+	...stepsToSetup(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
 	comparison: {
 		a: {},
 		b: {},
@@ -27,7 +28,6 @@ const metaData = {
 		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	let a, b, c

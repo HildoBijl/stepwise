@@ -1,13 +1,14 @@
 const { or } = require('@step-wise/skill-setup')
 const { FloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { cv, cp } } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { generateState, getSolution: getCycleParametersRaw } = require('../calculateOpenCycle/calculateOpenCycleNspsp')
 
 const metaData = {
 	skill: 'createOpenCycleEnergyOverview',
-	steps: ['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')],
+	...stepsToSetup(['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')]),
 	comparison: {
 		default: {
 			float: {
@@ -17,7 +18,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function getCycleParameters(state) {
 	let { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = getCycleParametersRaw(state)

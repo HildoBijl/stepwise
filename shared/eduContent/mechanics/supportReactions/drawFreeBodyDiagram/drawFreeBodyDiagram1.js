@@ -1,6 +1,7 @@
 const { getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../eduTools')
 
 const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../..')
 
@@ -8,12 +9,11 @@ const { reaction, external } = loadSources
 
 const metaData = {
 	skill: 'drawFreeBodyDiagram',
-	steps: ['schematizeSupport', 'schematizeSupport', null],
+	...stepsToSetup(['schematizeSupport', 'schematizeSupport', undefined]),
 	comparison: {
 		default: (input, correct) => areLoadsMatching(input, correct, FBDComparison)
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the beam size.

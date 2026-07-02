@@ -1,6 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunctions } = require('../../tools')
 
@@ -8,10 +9,9 @@ const variableSet = ['x', 'y', 't']
 
 const metaData = {
 	skill: 'applyQuotientRule',
-	steps: [['lookUpElementaryDerivative', 'findBasicDerivative'], null],
+	...stepsToSetup([['lookUpElementaryDerivative', 'findBasicDerivative'], undefined]),
 	comparison: expressionComparisons.equivalent,
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const x = sample(variableSet)

@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { gcd } = require('@step-wise/math-tools')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
 
@@ -12,7 +13,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'solveRewrittenQuadraticEquation',
-	steps: ['bringEquationToStandardForm', 'solveQuadraticEquation'],
+	...stepsToSetup(['bringEquationToStandardForm', 'solveQuadraticEquation']),
 	comparison: {
 		standardForm: {
 			compareLeft: (input, correct) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
@@ -31,7 +32,6 @@ const metaData = {
 		ans2: (input, correct) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	// Set up general state parameters.

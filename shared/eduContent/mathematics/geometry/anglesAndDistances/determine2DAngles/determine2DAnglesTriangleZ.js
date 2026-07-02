@@ -1,6 +1,7 @@
 const { getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
 const usedVariables = ['alpha', 'beta', 'gamma']
@@ -8,7 +9,7 @@ const constants = ['a', 'b', 'c']
 
 const metaData = {
 	skill: 'determine2DAngles',
-	steps: [null, null, null],
+	...stepsToSetup([undefined, undefined, undefined]),
 	comparison: { default: {} },
 }
 

@@ -1,10 +1,11 @@
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { generateState, getSolution: getSolutionPrevious } = require('../calculateEntropyChange/calculateEntropyChangeWithProperties')
 
 const metaData = {
 	skill: 'calculateMissedWork',
-	steps: ['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', null, 'solveLinearEquation'],
+	...stepsToSetup(['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
 	comparison: {
 		default: {
 			float: {
@@ -14,7 +15,6 @@ const metaData = {
 		},
 	},
 }
-addSetupFromSteps(metaData)
 
 function getSolution(state) {
 	const solution = getSolutionPrevious(state)

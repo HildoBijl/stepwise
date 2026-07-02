@@ -11,13 +11,12 @@ const constants = ['a', 'b']
 
 const metaData = {
 	skill: 'moveEquationFactor',
-	steps: ['multiplyBothEquationSides', 'cancelFractionFactors'],
+	...stepsToSetup(['multiplyBothEquationSides', 'cancelFractionFactors']),
 	comparison: {
 		bothSidesChanged: { compareSide: expressionComparisons.equivalent },
 		ans: {},
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

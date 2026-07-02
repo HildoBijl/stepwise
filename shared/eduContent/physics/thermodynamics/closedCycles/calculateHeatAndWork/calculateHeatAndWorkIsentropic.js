@@ -1,11 +1,12 @@
 const { getRandomNumber } = require('@step-wise/utils')
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { k } } } = require('@step-wise/physics-data')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateHeatAndWork',
-	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], null],
+	...stepsToSetup(['recognizeProcessTypes', undefined, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], undefined]),
 	comparison: {
 		default: {
 			float: {
@@ -53,7 +54,6 @@ const metaData = {
 		eq: {},
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine volumes, ensuring they are nice round numbers.

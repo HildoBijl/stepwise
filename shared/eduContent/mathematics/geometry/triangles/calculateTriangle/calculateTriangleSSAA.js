@@ -1,19 +1,19 @@
 const { epsilon, deg2rad, sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison, performListComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison, performListComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
 
 const metaData = {
 	skill: 'calculateTriangle',
-	steps: [null, null, null, and('solveLinearEquation', 'applySineCosineTangent')],
+	...stepsToSetup([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate numbers and ensure that there are two solutions.

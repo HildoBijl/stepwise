@@ -17,7 +17,7 @@ const expandedComparison = { compareSide: equivalent, allowSwitch: true }
 
 const metaData = {
 	skill: 'solveLinearEquationWithFractions',
-	steps: ['moveEquationFactor', 'expandDoubleBrackets', 'solveLinearEquation'],
+	...stepsToSetup(['moveEquationFactor', 'expandDoubleBrackets', 'solveLinearEquation']),
 	factorMovedComparison,
 	expandedComparison,
 	comparison: {
@@ -26,7 +26,6 @@ const metaData = {
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [0])

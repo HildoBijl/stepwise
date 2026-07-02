@@ -2,7 +2,8 @@ const { integerRange, getRandomBoolean, getRandomInteger } = require('@step-wise
 const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
-const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, decomposeForce } = require('../../tools')
 
@@ -10,7 +11,7 @@ const { reaction, external, input } = loadSources
 
 const metaData = {
 	skill: 'calculateForceOrMoment',
-	steps: [null, null, null], // ToDo later: add steps, once they have been implemented.
+	...stepsToSetup([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
 	comparison: {
 		default: {
 			float: {
@@ -21,7 +22,6 @@ const metaData = {
 		method: {},
 	},
 }
-// addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate state.

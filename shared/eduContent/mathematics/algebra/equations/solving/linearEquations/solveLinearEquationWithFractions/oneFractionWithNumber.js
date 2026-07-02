@@ -16,7 +16,7 @@ const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
 
 const metaData = {
 	skill: 'solveLinearEquationWithFractions',
-	steps: ['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation'],
+	...stepsToSetup(['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation']),
 	factorMovedComparison,
 	comparison: {
 		termMoved: { compareSide: onlyOrderChanges, allowSwitch: true },
@@ -24,7 +24,6 @@ const metaData = {
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState() {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])

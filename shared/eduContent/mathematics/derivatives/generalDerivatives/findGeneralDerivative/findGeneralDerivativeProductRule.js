@@ -1,6 +1,7 @@
 const { pickKeys, sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
-const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
+const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { performComparison } = require('../../../../../eduTools')
 
 const { getRandomElementaryFunctions } = require('../../tools')
 
@@ -10,8 +11,7 @@ const variableSet = ['x', 'y', 't']
 
 const metaData = {
 	skill: 'findGeneralDerivative',
-	setup: 'applyProductRule',
-	steps: [null, null, 'applyProductRule'],
+	...stepsToSetup([undefined, undefined, 'applyProductRule']),
 	weight: 3,
 	comparison: { method: {}, default: equivalent },
 }
@@ -69,10 +69,6 @@ function checkInput(exerciseData, step) {
 	}
 }
 
-const exercise = { metaData, generateState, checkInput, getSolution }
-module.exports = {
-	...exercise,
-	processAction: getStepExerciseProcessor(exercise),
-	checkF,
-	checkFAndG,
-}
+module.exports = buildStepExercise({ metaData, generateState, getSolution, checkInput })
+module.exports.checkF = checkF
+module.exports.checkFAndG = checkFAndG

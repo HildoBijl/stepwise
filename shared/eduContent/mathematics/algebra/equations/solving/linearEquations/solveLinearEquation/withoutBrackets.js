@@ -13,14 +13,13 @@ const constants = ['a', 'b', 'c', 'd']
 
 const metaData = {
 	skill: 'solveLinearEquation',
-	steps: ['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation'],
+	...stepsToSetup(['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
 	comparison: {
 		moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
 		cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
 		ans: onlyOrderChanges,
 	}
 }
-addSetupFromSteps(metaData)
 
 function generateState(example) {
 	const a = getRandomInteger(-8, 8, [-1, 0, 1])
