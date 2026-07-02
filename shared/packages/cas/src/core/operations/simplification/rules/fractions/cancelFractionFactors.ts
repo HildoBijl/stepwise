@@ -33,12 +33,19 @@ export function cancelFractionFactors(node: Fraction): ExpressionNode {
 
 // Find all common factors of a set of nodes, requiring exact matches. (x^3 only matches x^3 and not x^2.)
 function getExactCommonFactors(...nodes: ExpressionNode[]): readonly ExpressionNode[] {
-	let exactCommonFactors = getProductFactors(abs(nodes[0])).filter(factor => !isOne(factor))
+	let commonFactors = getProductFactors(abs(nodes[0])).filter(factor => !isOne(factor))
 	for (const node of nodes.slice(1)) {
 		const factors = getProductFactors(abs(node))
-		exactCommonFactors = exactCommonFactors.filter(commonFactor => factors.some(factor => equalNodes(factor, commonFactor)))
+		const used = factors.map(() => false)
+		commonFactors = commonFactors.filter(commonFactor => {
+			const index = factors.findIndex((factor, index) => !used[index] && equalNodes(factor, commonFactor))
+			if (index === -1) return false
+			used[index] = true
+			return true
+		})
+		commonFactors = commonFactors.filter(commonFactor => factors.some(factor => equalNodes(factor, commonFactor)))
 	}
-	return exactCommonFactors
+	return commonFactors
 }
 
 // Remove multiple factors from a given expression.

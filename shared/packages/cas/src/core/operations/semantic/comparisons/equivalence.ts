@@ -1,7 +1,7 @@
 import { hasOneToOneMatching } from '@step-wise/utils'
 import { type ExpressionSettingsInput } from '@step-wise/math-input-value'
 
-import { type ExpressionNode, nodeToTree } from '../../../construction'
+import { type ExpressionNode } from '../../../construction'
 
 import { subtract, isZero, expandToSingulars } from '../../structural'
 import { simplify, normalize } from '../../simplification'
