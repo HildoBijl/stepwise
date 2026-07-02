@@ -13,7 +13,7 @@ import { Option } from './Option'
 export const defaultMultipleChoiceInnerOptions = {
 	choices: [],
 	multiple: false,
-	mapping: undefined, // Ideally, we provide the MultipleChoice with a mapping setting, given by the getMultipleChoiceMapping suppor function.
+	mapping: undefined, // Ideally, we provide the MultipleChoice with a mapping setting, given by the getMultipleChoiceMapping support function.
 	pick: undefined, // If no mapping is present, we can also generate one on the fly using pick, include and randomOrder.
 	include: [],
 	randomOrder: false,

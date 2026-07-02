@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react'
 
-import { getMultipleChoiceMapping } from 'step-wise/eduTools'
+import { getMultipleChoiceMapping } from '@step-wise/input-exercises'
 
 import { useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
