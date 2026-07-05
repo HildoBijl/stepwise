@@ -8,17 +8,11 @@ import { getBernsteinOrder, normalizeBernsteinCoefficients } from './fundamental
 export const maxBernsteinOrder = 150 // If we encounter a higher order coefficient array than this, then we will always do smoothing to keep it manageable.
 export const maxBernsteinSmoothingOrder = 120 // The maximum order for smoothing. This needs a cap, for numerical reasons. For higher values the binomials start failing.
 
-// Smooth the distribution described by the coefficients using a smoothing order. If the smoothing order is too high, no smoothing is done.
-export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoefficients, newOrder: number): BernsteinCoefficients {
-	const ensuredNewOrder = ensureInteger(newOrder, true)
-
-	// Check boundary cases.
-	if (coefficients.length <= 1) return [1]
-	if (ensuredNewOrder > maxBernsteinSmoothingOrder) return coefficients
-
-	// Apply smoothing.
+// Smooth the distribution described by the coefficients using a smoothing order.
+export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoefficients, order: number): BernsteinCoefficients {
+	const newOrder = Math.min(ensureInteger(order, true), maxBernsteinSmoothingOrder)
 	const oldOrder = getBernsteinOrder(coefficients)
-	return normalizeBernsteinCoefficients(repeat(ensuredNewOrder + 1, i => sum(coefficients.map((c, j) => c * binomial(i + j, i) * binomial(ensuredNewOrder + oldOrder - i - j, oldOrder - j)))))
+	return normalizeBernsteinCoefficients(repeat(newOrder + 1, i => sum(coefficients.map((c, j) => c * binomial(i + j, i) * binomial(newOrder + oldOrder - i - j, oldOrder - j)))))
 }
 
 // Smooth the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is 0.5 + (mu_old - 0.5) * factor. If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.

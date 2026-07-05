@@ -2,7 +2,7 @@ import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
 import { type PolynomialExpression, oneMinusPolynomial, substituteIndividualMomentsIntoPolynomial } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'
-import { type SkillSetup, type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
+import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 
 import type { RawSkillLevel, RawSkillLevelSet, SkillLevelOutput, SkillObservation, SkillLevelUpdate, SkillLevelUpdateSet } from './types'
@@ -16,6 +16,7 @@ export class SkillLevelSet {
 	private listeners = new Set<() => void>()
 
 	constructor(private readonly skillTree: SkillTree, rawSkillLevelSet: RawSkillLevelSet = {}) {
+		console.log(skillTree, rawSkillLevelSet)
 		if (!isPlainObject(skillTree)) throw new Error(`Invalid skill tree: expected a plain object but received something of type "${typeof skillTree}".`)
 		if (!isPlainObject(rawSkillLevelSet)) throw new Error(`Invalid raw skill level set: expected a plain object but received something of type "${typeof rawSkillLevelSet}".`)
 

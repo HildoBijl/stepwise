@@ -51,6 +51,7 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 function getLinkCoefficients(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients[] {
 	return (skill.links ?? []).map(link => {
 		const smoothedCoefficients = link.skills.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithOrder(coefficients, link.order))
+		console.log(smoothedCoefficients)
 		return mergeBernsteinCoefficientsElementwise(...smoothedCoefficients)
 	})
 }

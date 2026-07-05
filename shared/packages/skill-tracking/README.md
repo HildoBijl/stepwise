@@ -45,22 +45,22 @@ skillLevelSet.update(rawSkillLevelUpdateData)
 The coefficients in the raw data is only based on observations for each individual skill. However, skills are linked. Given these links, we can find *inferred coefficients* for each skill too. If we ask the `SkillLevelSet` for coefficients, it will give us these *inferred* coefficients. This is done through
 
 ```
-const expectedValue = skillLevelData.getExpectedValue('someSkillId')
-const coefficients = skillLevelData.getCoefficients('someSkillId')
+const expectedValue = skillLevelSet.getExpectedValue('someSkillId')
+const coefficients = skillLevelSet.getCoefficients('someSkillId')
 ```
 
 We also track the highest (inferred) coefficients ever obtained. The API here is similar.
 
 ```
-const highestExpectedValue = skillLevelData.getHighestExpectedValue('someSkillId')
-const highestCefficients = skillLevelData.getHighestCoefficients('someSkillId')
+const highestExpectedValue = skillLevelSet.getHighestExpectedValue('someSkillId')
+const highestCefficients = skillLevelSet.getHighestCoefficients('someSkillId')
 ```
 
 It may happen that you have some exercise with a given skill set-up, and you want to find the distribution of the success rate for this exercise.
 
 ```
-const setupExpectedValue = skillLevelData.getSetupExpectedValue(setup)
-const setupCoefficients = skillLevelData.getSetupCoefficients(setup)
+const setupExpectedValue = skillLevelSet.getSetupExpectedValue(setup)
+const setupCoefficients = skillLevelSet.getSetupCoefficients(setup)
 ```
 
 
