@@ -1,4 +1,4 @@
-FROM node:16.13.0-alpine AS frontend-build
+FROM node:22-alpine AS frontend-build
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY --from=shared-build:latest /app /shared
