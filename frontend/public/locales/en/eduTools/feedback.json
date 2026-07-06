@@ -47,7 +47,7 @@
   "missingUnit": {
     "0": "You didn't fill in a unit.",
     "1": "There should be a unit here.",
-    "2": "Don't forget to enter a unit!",
+    "2": "Don't forget to enter a unit.",
     "3": "Where is the unit?",
     "4": "Oops, there's a unit missing here."
   },
