@@ -3,7 +3,7 @@ const { Op } = require('sequelize')
 
 const { includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
 
-const { processCourse } = require('step-wise/eduTools')
+const { dbCourseToCourseObject } = require('../util/Course')
 
 module.exports = ({ db }, { coursesWithStudent }) => ({
 	// permittedSkillsForStudent takes a studentId and loads a list of skills that the given user is allowed to load for that student. It returns an object { withExercises: [...], withoutExercises: [...] }.
@@ -22,7 +22,8 @@ module.exports = ({ db }, { coursesWithStudent }) => ({
 			courses.forEach(course => {
 				// Find the skills that are part of the course.
 				if (!courseSkills[course.id]) {
-					courseSkills[course.id] = processCourse(course).all // Contents and prerequisites.
+					const courseObject = dbCourseToCourseObject(course)
+					courseSkills[course.id] = courseObject.allSkills // Contents and prerequisites.
 					courseSkillsWithLinks[course.id] = includeDirectPrerequisitesAndLinks(courseSkills[course.id]) // Everything linked to contents/prerequisites as well.
 				}
 

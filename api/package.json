@@ -33,6 +33,7 @@
 		"sequelize": "^6.28.0",
 		"step-wise": "file:../shared",
 		"@step-wise/bernstein-polynomials": "file:../shared/packages/bernstein-polynomials",
+		"@step-wise/course-definition": "file:../shared/packages/course-definition",
 		"@step-wise/input-interpretation": "file:../shared/packages/input-interpretation",
 		"@step-wise/serialization": "file:../shared/packages/serialization",
 		"@step-wise/settings": "file:../shared/packages/settings",

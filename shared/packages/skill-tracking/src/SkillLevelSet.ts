@@ -16,7 +16,6 @@ export class SkillLevelSet {
 	private listeners = new Set<() => void>()
 
 	constructor(private readonly skillTree: SkillTree, rawSkillLevelSet: RawSkillLevelSet = {}) {
-		console.log(skillTree, rawSkillLevelSet)
 		if (!isPlainObject(skillTree)) throw new Error(`Invalid skill tree: expected a plain object but received something of type "${typeof skillTree}".`)
 		if (!isPlainObject(rawSkillLevelSet)) throw new Error(`Invalid raw skill level set: expected a plain object but received something of type "${typeof rawSkillLevelSet}".`)
 

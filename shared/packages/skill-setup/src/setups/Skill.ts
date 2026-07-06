@@ -1,10 +1,10 @@
 import { type PolynomialMatrix } from '@step-wise/polynomials'
 
-import { SkillSetup } from '../abstracts/SkillSetup'
+import { type GenericSerializedSkillSetup, SkillSetup } from '../abstracts'
 
 export type SkillId = string
 export type SkillStorageValue = SkillId
-export type SkillSetupLike = SkillSetup | SkillStorageValue
+export type SerializedSkill = GenericSerializedSkillSetup<SkillStorageValue, 'Skill'>
 
 export class Skill extends SkillSetup<SkillStorageValue> {
 	readonly skill
@@ -40,7 +40,9 @@ export class Skill extends SkillSetup<SkillStorageValue> {
 
 export const skill = (skill: SkillStorageValue): Skill => new Skill(skill)
 
-export function ensureSetup(setup: SkillSetupLike): SkillSetup {
+// Add an ensure method that can turn strings into Skill objects.
+export type SkillSetupLike = SkillSetup<unknown> | string
+export function ensureSetup(setup: SkillSetupLike): SkillSetup<unknown> {
 	if (setup instanceof SkillSetup) return setup
 	if (typeof setup === 'string') return new Skill(setup)
 	throw new Error(`Invalid skill: expected a skill or skill set-up, but received "${JSON.stringify(setup)}".`)

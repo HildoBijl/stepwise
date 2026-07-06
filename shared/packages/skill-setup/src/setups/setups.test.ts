@@ -1,13 +1,13 @@
 import { compareNumberArrays } from '@step-wise/utils'
 
-import { Skill, and, or, repeat, pick, part } from './index'
+import { skill, and, or, repeat, pick, part } from './index'
 
 /*
  * Check Skill setup.
  */
 
 describe('Check Skill setup:', () => {
-	const setup = new Skill('a')
+	const setup = skill('a')
 
 	describe('skill lists', () => {
 		it('work correctly', () => {

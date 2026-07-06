@@ -1,3 +1,7 @@
+const { deserializeSetup } = require('@step-wise/skill-setup')
+const { Course } = require('@step-wise/course-definition')
+const { skillTree } = require('@step-wise/skill-tree')
+
 const { getUser } = require('./User')
 
 // getCourses extracts a list of courses. If a userId is given, it also adds subscription info. If the onlyOwnCourses flag is set to true, only the user's own courses are given.
@@ -59,6 +63,18 @@ function addParticipantAssociation(userId, required = false) {
 	}] : []
 }
 
+// dbCourseToCourseObject takes a course from the database and turns it into a Course object from the course-definition package.
+function dbCourseToCourseObject(course) {
+	const courseData = {
+		startingPoints: course.startingPoints,
+		learningGoals: course.goals,
+		goalWeights: course.goalWeights ?? undefined,
+		blockGoals: (course.blocks ?? undefined) && course.blocks.map(block => block.goals),
+		setup: (course.setup ?? undefined) && deserializeSetup(course.setup),
+	}
+	return new Course(skillTree, courseData)
+}
+module.exports.dbCourseToCourseObject = dbCourseToCourseObject
 
 
 

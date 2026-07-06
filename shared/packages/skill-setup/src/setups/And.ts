@@ -1,10 +1,11 @@
 import { type PolynomialMatrix, multiplyPolynomials } from '@step-wise/polynomials'
 
-import { type SkillListStorageValue, type SerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
+import { type SkillListStorageValue, type GenericSerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
 export type AndStorageValue = SkillListStorageValue
+export type SerializedAnd = GenericSerializedSkillSetup<AndStorageValue, 'And'>
 
 export class And extends SkillListSetup<AndStorageValue> {
 	constructor(...skills: SkillSetupLike[]) {
@@ -14,7 +15,7 @@ export class And extends SkillListSetup<AndStorageValue> {
 	override toStorageValue(): AndStorageValue {
 		return super.getSkillListStorageValue()
 	}
-	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: SerializedSkillSetup) => SkillSetup): And {
+	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup<AndStorageValue>): And {
 		return new And(...storageValue.skills.map(skill => deserialize(skill)))
 	}
 

@@ -37,7 +37,7 @@ function SkillNotification() {
 		return null
 
 	// First check if the skill is part of the course.
-	if (skillId && !overview.all.includes(skillId)) {
+	if (skillId && !overview.allSkills.includes(skillId)) {
 		if (recommendation === undefined)
 			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.noRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseCode })}>{{ course: translate(course.name, `${course.organization}.${course.code}.name`, 'eduContent/courseInfo') }}</Link>.</Translation></NotificationBar>
 		if (recommendation === strFreePractice)
@@ -189,7 +189,7 @@ export function useSkillAdvice() {
 	// If there is no skillId, then we are in free practice mode.
 	if (!skillId) {
 		// If there is a skill with practiceNeeded === 2 then this should be practiced first.
-		const recommendation = overview.all.find(skillId => analysis.practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
+		const recommendation = overview.allSkills.find(skillId => analysis.practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
 		if (recommendation)
 			return { type: 2, recommendation } // A skill with significant work needed was found.
 		return { type: 1, recommendation: strFreePractice } // All good: recommend free practice. Give advice 1 since free practice can always need some work.
@@ -201,13 +201,13 @@ export function useSkillAdvice() {
 			return { recommendation: analysis.recommendation }
 
 		case 0: // This skill is already mastered. Show a recommendation, ideally based on the current skill, but otherwise the general course recommendation.
-			return { type: 0, recommendation: findNextSkillToPractice(skillId, overview.all, analysis.practiceNeeded) || analysis.recommendation }
+			return { type: 0, recommendation: findNextSkillToPractice(skillId, overview.allSkills, analysis.practiceNeeded) || analysis.recommendation }
 
 		case 1: // This skill is reasonable to practice. Don't show a warning.
 			return { type: 1 }
 
 		case 2: // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
-			const recommendation = findPriorSkillToPractice(skillId, overview.all, analysis.practiceNeeded)
+			const recommendation = findPriorSkillToPractice(skillId, overview.allSkills, analysis.practiceNeeded)
 			if (recommendation === skillId)
 				return { type: 1 }
 			return { type: 2, recommendation }

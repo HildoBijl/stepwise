@@ -12,7 +12,7 @@ export function getAnalysis(overview, skillLevelSet) {
 	const practiceNeeded = getPracticeNeeded(overview, skillLevelSet)
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
-	if (overview.all.some(skillId => practiceNeeded[skillId] === undefined))
+	if (overview.allSkills.some(skillId => practiceNeeded[skillId] === undefined))
 		return undefined
 
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills. Also ensure that this recommendation has exercises that can be practiced.
@@ -36,7 +36,7 @@ export function getAnalysis(overview, skillLevelSet) {
 // getPracticeNeeded takes a course set-up and walks through it to determine which skills require practice. It returns an object { skill1: 2, skill2: 0, skill3: 1, ... } which indicates the practice-needed-index for each skill in the course (including prior knowledge skills). It also takes into account the skill hierarchy: if a main skill X has an index (for instance "1") then all subskills have AT MOST that index, possibly lower.
 function getPracticeNeeded(overview, skillLevelSet) {
 	const result = {}
-	overview.goals.forEach(goalId => checkPracticeNeeded(goalId, skillLevelSet, overview.priorKnowledge, result))
+	overview.learningGoals.forEach(goalId => checkPracticeNeeded(goalId, skillLevelSet, overview.priorKnowledge, result))
 	return result
 }
 
@@ -69,7 +69,7 @@ export function processStudent(student, overview) {
 	const skillsAsObject = fromEntries(skillsProcessed.map(skill => skill.skillId), skillsProcessed)
 
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-	const allSkillIds = includeDirectPrerequisitesAndLinks(overview.all)
+	const allSkillIds = includeDirectPrerequisitesAndLinks(overview.allSkills)
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillLevel(skillId))
 	const skillLevelSet = new SkillLevelSet(skillTree, skills)
 
@@ -80,7 +80,7 @@ export function processStudent(student, overview) {
 	const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
 
 	// Determine the last activity for the student. (Use the original skills and not the newly added skills, that have more recent dates.)
-	const activityPerSkill = skillsProcessed.filter(skill => overview.all.includes(skill.skillId)).map(skill => skill.updatedAt)
+	const activityPerSkill = skillsProcessed.filter(skill => overview.allSkills.includes(skill.skillId)).map(skill => skill.updatedAt)
 	const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
 
 	// Return all data.

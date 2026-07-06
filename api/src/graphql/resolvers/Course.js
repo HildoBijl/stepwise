@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express')
 
-const { ensureValidCourseEndpoints, ensureValidCourseSetup, ensureValidCourseBlocks } = require('step-wise/eduTools')
+const { Course, ensureValidCourseDiagnostics } = require('@step-wise/course-definition')
+const { skillTree } = require('@step-wise/skill-tree')
 
 const { getCourses, getCourseByCode, getCourseById } = require('../util/Course')
 
@@ -54,9 +55,15 @@ const resolvers = {
 
 			// Check that the goals and starting points are valid for a course.
 			const { goals, goalWeights, startingPoints, setup, blocks } = input
-			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints, goalWeights)
-			ensureValidCourseSetup(processedCourse, setup, true)
-			ensureValidCourseBlocks(processedCourse, blocks)
+			const courseData = {
+				startingPoints,
+				learningGoals: goals,
+				goalWeights,
+				blockGoals: blocks && blocks.map(block => block.goals),
+				setup,
+			}
+			const courseObject = new Course(skillTree, courseData)
+			ensureValidCourseDiagnostics(courseObject.diagnostics)
 
 			// Set up the course.
 			return await db.transaction(async (transaction) => {
@@ -84,14 +91,15 @@ const resolvers = {
 				throw new AuthenticationError(`Invalid updateCourse call: user does not have the rights to edit the course with courseId "${courseId}".`)
 
 			// Check that the goals and starting points are valid for a course.
-			const goals = input.goals ?? course.goals
-			const goalWeights = input.goalWeights ?? course.goalWeights
-			const startingPoints = input.startingPoints ?? course.startingPoints
-			const setup = input.setup ?? course.setup
-			const blocks = input.blocks ?? course.blocks
-			const processedCourse = ensureValidCourseEndpoints(goals, startingPoints, goalWeights)
-			ensureValidCourseSetup(processedCourse, setup, true)
-			ensureValidCourseBlocks(processedCourse, blocks)
+			const courseData = {
+				startingPoints: input.startingPoints ?? course.startingPoints,
+				learningGoals: input.goals ?? course.goals,
+				goalWeights: input.goalWeights ?? course.goalWeights,
+				blockGoals: input.blocks ?? course.blocks,
+				setup: input.setup ?? course.setup,
+			}
+			const courseObject = new Course(skillTree, courseData)
+			ensureValidCourseDiagnostics(courseObject.diagnostics)
 
 			// If a course has been found matching the ID and that can be changed, adjust it.
 			return await db.transaction(async (transaction) => {

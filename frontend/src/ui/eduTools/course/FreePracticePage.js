@@ -22,8 +22,8 @@ export function FreePracticePage() {
 			return
 
 		// Get the skillIds and weights. Turn the weights of skills without exercises to zero.
-		const skillIds = overview.goals
-		const weights = overview.goalWeights || overview.goals.map(() => 1)
+		const skillIds = overview.learningGoals
+		const weights = overview.learningGoalWeights
 		skillIds.forEach((skillId, index) => {
 			if (!Array.isArray(skillTree[skillId].exercises) || skillTree[skillId].exercises.length === 0)
 				weights[index] = 0

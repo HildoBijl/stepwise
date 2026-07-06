@@ -1,11 +1,12 @@
 import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/utils'
 import { type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
-import { type SerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
 export type PickStorageValue = SkillListStorageValue & { number?: number, weights?: number[] }
+export type SerializedPick = GenericSerializedSkillSetup<PickStorageValue, 'Pick'>
 
 export class Pick extends SkillListSetup<PickStorageValue> {
 	readonly number: number
@@ -28,7 +29,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 			...(!this.weights.every(weight => weight === 1) ? { weights: this.weights } : {}),
 		}
 	}
-	static fromStorageValue(storageValue: PickStorageValue, deserialize: (setup: SerializedSkillSetup) => SkillSetup): Pick {
+	static fromStorageValue(storageValue: PickStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup): Pick {
 		return new Pick(storageValue.skills.map(skill => deserialize(skill)), storageValue.number, storageValue.weights)
 	}
 

@@ -1,3 +1,5 @@
+import { type SkillSetup, type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
+
 import type { SkillId, SkillTree } from '../creation'
 
 // Check whether a skill ID exists, in a case-insensitive way. Return the actual ID of the skill.
@@ -16,4 +18,11 @@ export function ensureSkillId(skillTree: SkillTree, skillId: SkillId): SkillId {
 export function ensureSkillIds(skillTree: SkillTree, skillIds: SkillId | readonly SkillId[]): SkillId[] {
 	const list = Array.isArray(skillIds) ? [...skillIds] : [skillIds]
 	return list.map(id => ensureSkillId(skillTree, id))
+}
+
+// Make sure the set-up is valid for the Skill Tree.
+export function ensureValidSetup(skillTree: SkillTree, setup: SkillSetupLike): SkillSetup {
+	const checkedSetup = ensureSetup(setup)
+	ensureSkillIds(skillTree, checkedSetup.getSkillList())
+	return checkedSetup
 }

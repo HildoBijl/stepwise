@@ -33,6 +33,7 @@
 		"step-wise": "file:../shared",
 		"@step-wise/bernstein-polynomials": "file:../shared/packages/bernstein-polynomials",
 		"@step-wise/cas": "file:../shared/packages/cas",
+		"@step-wise/course-definition": "file:../shared/packages/course-definition",
 		"@step-wise/geometry": "file:../shared/packages/geometry",
 		"@step-wise/physics-core": "file:../shared/packages/physics-core",
 		"@step-wise/physics-data": "file:../shared/packages/physics-data",

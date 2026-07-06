@@ -1,8 +1,6 @@
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { getCourseOverview } from 'step-wise/eduTools'
-
 import { useSkillLevel, useUserQuery } from 'api'
 
 import { useCourseData } from '../../course'
@@ -29,16 +27,15 @@ function SkillIndicatorForSelf() {
 
 // We only inspect a user as part of a course. So load the course data as well. This is probably cached already anyway.
 function SkillIndicatorForUser({ userId }) {
-	const { course, loading: courseLoading, error: courseError } = useCourseData()
+	const { overview, loading: courseLoading, error: courseError } = useCourseData()
 	const { data, loading: userLoading, error: userError } = useUserQuery(userId)
 	if (userLoading || courseLoading || userError || courseError)
 		return null
 	const { user } = data
-	return <SkillIndicatorForLoadedUser course={course} user={user} />
+	return <SkillIndicatorForLoadedUser overview={overview} user={user} />
 }
 
-function SkillIndicatorForLoadedUser({ course, user }) {
-	const overview = useMemo(() => getCourseOverview(course), [course])
+function SkillIndicatorForLoadedUser({ overview, user }) {
 	const { skillId } = useParams()
 	const processedStudent = useMemo(() => processStudent(user, overview), [user, overview])
 	return <SkillIndicatorGraphics skill={processedStudent.skillsData[skillId]} />

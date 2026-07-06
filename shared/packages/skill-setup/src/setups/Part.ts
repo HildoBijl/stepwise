@@ -1,6 +1,6 @@
 import { type PolynomialMatrix, oneMinusPolynomial, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
-import { type SerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
@@ -8,6 +8,7 @@ import { And } from './And'
 import { Or } from './Or'
 
 export type PartStorageValue = SkillItemStorageValue & { part?: number }
+export type SerializedPart = GenericSerializedSkillSetup<PartStorageValue, 'Part'>
 
 export class Part extends SkillItemSetup<PartStorageValue> {
 	readonly part: number
@@ -21,7 +22,7 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 	override toStorageValue(): PartStorageValue {
 		return { ...super.getSkillItemStorageValue(), ...(this.part !== 0.5 ? { part: this.part } : {}) }
 	}
-	static fromStorageValue(storageValue: PartStorageValue, deserialize: (setup: SerializedSkillSetup) => SkillSetup): Part {
+	static fromStorageValue(storageValue: PartStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup): Part {
 		return new Part(deserialize(storageValue.skill), storageValue.part)
 	}
 

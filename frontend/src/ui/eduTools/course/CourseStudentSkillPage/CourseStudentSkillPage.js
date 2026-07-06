@@ -1,8 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { getCourseOverview } from 'step-wise/eduTools'
-
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { Info, LoadingIndicator, ErrorNote } from 'ui/components'
@@ -21,7 +19,7 @@ const translationPath = `eduTools/pages/courseStudentSkillPage`
 export function CourseStudentSkillPage() {
 	// Load in required data.
 	const { studentId } = useParams()
-	const { course, loading: courseLoading, error: courseError } = useCourseData()
+	const { overview, loading: courseLoading, error: courseError } = useCourseData()
 	const { data, loading: userLoading, error: userError } = useUserQuery(studentId)
 
 	// Check if the data is already present.
@@ -29,13 +27,12 @@ export function CourseStudentSkillPage() {
 		return <LoadingIndicator />
 	if (userError || courseError)
 		return <ErrorNote error={userError} />
-	return <CourseStudentSkillPageForUser course={course} user={data.user} />
+	return <CourseStudentSkillPageForUser overview={overview} user={data.user} />
 }
 
-export function CourseStudentSkillPageForUser({ course, user }) {
+export function CourseStudentSkillPageForUser({ overview, user }) {
 	// Load in relevant data.
 	const skillId = useSkillId()
-	const overview = useMemo(() => getCourseOverview(course), [course])
 	const student = useMemo(() => processStudent(user, overview), [user, overview])
 	const skillData = student.skillsData[skillId]
 

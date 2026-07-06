@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Tooltip, Box, alpha } from '@mui/material'
 
+import { Course } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
-import { processCourse } from 'step-wise/eduTools'
 
+import { courseRecordToCourseData } from 'api'
 import { useTranslator, Translation, Plurals } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
@@ -106,7 +107,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 
 export function TeacherTile({ course }) {
 	// Process the course.
-	const processedCourse = useMemo(() => processCourse(course), [course])
+	const overview = useMemo(() => new Course(skillTree, courseRecordToCourseData(course)), [course])
 
 	// Define styles.
 	const containerStyle = { textAlign: 'center' }
@@ -126,10 +127,10 @@ export function TeacherTile({ course }) {
 	// Render the tile part.
 	return <Tile course={course}>
 		<Box sx={containerStyle}>
-			<Box sx={numberStyle}>{processedCourse.contents.length}</Box>
+			<Box sx={numberStyle}>{overview.contents.length}</Box>
 			<Box sx={labelStyle}>
 				<Translation entry="tiles.skills">
-					<Plurals value={processedCourse.contents.length}>
+					<Plurals value={overview.contents.length}>
 						<Plurals.One>Skill</Plurals.One>
 						<Plurals.NotOne>Skills</Plurals.NotOne>
 					</Plurals>

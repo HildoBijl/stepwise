@@ -31,3 +31,23 @@ export function includeDirectPrerequisitesAndLinks(skillTree: SkillTree, skillId
 	}
 	return [...result]
 }
+
+// Return all skills between the given goals and prior knowledge. The goals are included; the prior knowledge is excluded.
+export function getRequiredSkills(skillTree: SkillTree, goals: SkillId[], priorKnowledge: SkillId[]): SkillId[] {
+	goals = ensureSkillIds(skillTree, goals)
+	priorKnowledge = ensureSkillIds(skillTree, priorKnowledge)
+	const contents: SkillId[] = []
+	const processSkill = (skillId: SkillId) => {
+		if (priorKnowledge.includes(skillId) || contents.includes(skillId)) return
+		contents.push(skillId)
+		skillTree[skillId].prerequisites.forEach(skillId => processSkill(skillId))
+	}
+	goals.forEach(goalId => processSkill(goalId))
+	return contents
+}
+
+// Sort a given list of skills by the order defined by the Skill Tree.
+export function sortBySkillTreeOrder(skillTree: SkillTree, skillIds: SkillId[]): SkillId[] {
+	const allSkillIds = Object.keys(skillTree)
+	return [...skillIds].sort((a, b) => allSkillIds.indexOf(a) - allSkillIds.indexOf(b))
+}

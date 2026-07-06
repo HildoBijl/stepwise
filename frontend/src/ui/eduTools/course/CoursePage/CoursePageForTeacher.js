@@ -4,7 +4,6 @@ import { Box, Paper, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/m
 import { DataGrid } from '@mui/x-data-grid'
 
 import { fromEntries } from '@step-wise/utils'
-import { getCourseOverview } from 'step-wise/eduTools'
 
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
@@ -20,7 +19,7 @@ const translationPath = 'eduTools/pages/coursePage'
 const translationSection = 'teachers'
 
 export function CoursePageForTeacher() {
-	const { course } = useCourseData()
+	const { course, overview } = useCourseData()
 	const paths = usePaths()
 
 	// When there are no students, show a note.
@@ -36,17 +35,16 @@ export function CoursePageForTeacher() {
 		</TranslationFile >
 
 	// On students, show the overview.
-	return <StudentOverview course={course} students={students} />
+	return <StudentOverview course={course} overview={overview} students={students} />
 }
 
-function StudentOverview({ course, students }) {
+function StudentOverview({ course, overview, students }) {
 	const translate = useTranslator()
 	const [filterInactive, setFilterInactive] = useLocalStorageState(false)
 	const navigate = useNavigate()
 	const paths = usePaths()
 
 	// Check out the course and define columns based on it.
-	const overview = useMemo(() => getCourseOverview(course), [course])
 	const { blocks } = overview
 	const renderHeader = cell => <Box component="span" sx={{ fontWeight: 500, ...notSelectable }}>{cell.colDef.headerName}</Box>
 	const dgColumns = useMemo(() => [
@@ -86,14 +84,14 @@ function StudentOverview({ course, students }) {
 			renderHeader,
 			renderCell: cell => <CenteredProgressIndicator total={overview.contents.length} done={cell.value} sx={{ fontWeight: 600 }} />,
 		},
-		...overview.blocks.map((block, index) => ({
+		...overview.blocks.map((_, index) => ({
 			field: `block${index}`,
 			headerName: `${index + 1}`,
 			minWidth: 60,
 			flex: 1,
 			align: 'center',
 			headerAlign: 'center',
-			renderHeader: cell => <Tooltip title={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
+			renderHeader: cell => <Tooltip title={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
 				{renderHeader(cell)}
 			</Tooltip>,
 			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contents.length} done={cell.value} />,

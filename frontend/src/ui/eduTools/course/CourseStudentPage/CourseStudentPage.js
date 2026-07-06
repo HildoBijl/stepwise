@@ -4,7 +4,6 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 
 import { last, repeat, count } from '@step-wise/utils'
 import { skillTree } from '@step-wise/skill-tree'
-import { getCourseOverview } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
@@ -22,7 +21,7 @@ const translationPath = `eduTools/pages/courseStudentPage`
 export function CourseStudentPage() {
 	// Load in required data.
 	const { studentId } = useParams()
-	const { course, loading: courseLoading, error: courseError } = useCourseData()
+	const { course, overview, loading: courseLoading, error: courseError } = useCourseData()
 	const { data, loading: userLoading, error: userError } = useUserQuery(studentId)
 
 	// Check if the data is already present.
@@ -30,12 +29,11 @@ export function CourseStudentPage() {
 		return <LoadingIndicator />
 	if (userError || courseError)
 		return <ErrorNote error={userError} />
-	return <CourseStudentPageForStudent course={course} student={data.user} />
+	return <CourseStudentPageForStudent course={course} overview={overview} student={data.user} />
 }
 
-export function CourseStudentPageForStudent({ course, student }) {
+export function CourseStudentPageForStudent({ course, overview, student }) {
 	// Process the given data.
-	const overview = useMemo(() => getCourseOverview(course), [course])
 	const processedStudent = useMemo(() => processStudent(student, overview), [student, overview])
 
 	// Render the various page parts.
@@ -56,7 +54,7 @@ function LastActivity({ processedStudent, course, overview }) {
 		const lastEvent = last(lastExercise.history, true)
 		return new Date(lastEvent?.performedAt || lastExercise.startedOn)
 	}
-	let skills = processedStudent.skills.filter(skill => skill.exercises.length > 0 && overview.all.includes(skill.skillId))
+	let skills = processedStudent.skills.filter(skill => skill.exercises.length > 0 && overview.allSkills.includes(skill.skillId))
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
 
 	// Render the skills.
@@ -115,7 +113,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 							{index + 1}
 						</TableCell>
 						<TableCell sx={{}}>
-							{translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
+							{translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 						</TableCell>
 						<TableCell align="center">
 							<CenteredProgressIndicator size={50} total={block.contents.length} done={processedStudent.numCompletedPerBlock[index]} />

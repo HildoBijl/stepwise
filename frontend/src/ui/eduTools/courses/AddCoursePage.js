@@ -4,9 +4,10 @@ import { Tooltip, Alert, AlertTitle, Box, alpha } from '@mui/material'
 import { HowToReg as SubscribeIcon } from '@mui/icons-material'
 import clsx from 'clsx'
 
-import { getCourseOverview } from 'step-wise/eduTools'
+import { skillTree } from '@step-wise/skill-tree'
+import { Course } from '@step-wise/course-definition'
 
-import { useAllCoursesQuery } from 'api'
+import { useAllCoursesQuery, courseRecordToCourseData } from 'api'
 import { TranslationFile, Translation } from 'i18n'
 import { Head } from 'ui/components'
 import { usePaths } from 'ui/routingTools'
@@ -108,7 +109,7 @@ function CourseEntry({ course }) {
 	const navigate = useNavigate()
 
 	// Analyze the course to see what's in it.
-	const overview = useMemo(() => getCourseOverview(course), [course])
+	const overview = useMemo(() => new Course(skillTree, courseRecordToCourseData(course)), [course])
 
 	// Set up handlers for events.
 	const [hover, setHover] = useState(false)

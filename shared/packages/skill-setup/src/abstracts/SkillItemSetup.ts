@@ -1,6 +1,6 @@
-import { type SerializedSkillSetup, SkillSetup } from './SkillSetup'
+import { type GenericSerializedSkillSetup, SkillSetup } from './SkillSetup'
 
-export type SkillItemStorageValue<TChild = SerializedSkillSetup> = { skill: TChild }
+export type SkillItemStorageValue<TChild = GenericSerializedSkillSetup> = { skill: TChild }
 
 export abstract class SkillItemSetup<TStorageValue extends SkillItemStorageValue = SkillItemStorageValue> extends SkillSetup<TStorageValue> {
 	readonly skill: SkillSetup
