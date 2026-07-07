@@ -51,7 +51,8 @@
 		"sass": "^1.101.0",
 		"step-wise": "file:../shared",
 		"subscriptions-transport-ws": "^0.9.19",
-		"swiper": "^9.3.2"
+		"swiper": "^9.3.2",
+		"uuid": "^14.0.1"
 	},
 	"scripts": {
 		"start": "react-scripts start",
