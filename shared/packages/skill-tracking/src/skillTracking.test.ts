@@ -1,6 +1,6 @@
 import { compareNumbers, compareNumberArrays } from '@step-wise/utils'
 import { type BernsteinCoefficients, getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
-import { Skill, and, or, repeat, pick, part } from '@step-wise/skill-setup'
+import { skill, and, or, repeat, pick, part } from '@step-wise/skill-setup'
 import { processSkillTree } from '@step-wise/skill-definition'
 
 import type { RawSkillLevel } from './types'
@@ -147,7 +147,7 @@ describe('Skill inference for set-ups:', () => {
 // Run tests for the updating of skills.
 describe('Skill updates:', () => {
 	describe('A skill-observation is properly updated', () => {
-		const setup = new Skill('a')
+		const setup = skill('a')
 		it('on a correct observation', () => {
 			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
 			const result = skillLevelSet.processObservation({ setup, correct: true })
@@ -226,13 +226,13 @@ describe('Skill updates:', () => {
 	describe('Updates are automatically stored', () => {
 		it('In case of no smoothing afterwards', () => {
 			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], twoMonthsAgo, Infinity) })
-			skillLevelSet.processObservation({ setup: new Skill('a'), correct: true })
+			skillLevelSet.processObservation({ setup: skill('a'), correct: true })
 			const coefficients = skillLevelSet.getCoefficients('a')
 			expect(compareNumberArrays(coefficients, [0, 1])).toBe(true)
 		})
 		it('In case of smoothing afterwards', () => {
 			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1]) })
-			skillLevelSet.processObservation({ setup: new Skill('a'), correct: true })
+			skillLevelSet.processObservation({ setup: skill('a'), correct: true })
 			const expectedValue = skillLevelSet.getExpectedValue('a')
 			expect(expectedValue).toBeGreaterThan(1 / 2)
 			expect(expectedValue).toBeLessThan(2 / 3)
