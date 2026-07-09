@@ -3,12 +3,15 @@ import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/utils'
 import type { CoordinateList, VectorData, VectorInput } from './types'
 import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'
 
+export const VectorType = 'Vector'
+export type VectorType = typeof VectorType
+
 export type { VectorData }
 export type VectorLike = Vector | VectorInput
 
 export class Vector {
 	private _coordinates: CoordinateList
-	
+
 	/*
 	 * Common vectors.
 	 */
@@ -26,39 +29,39 @@ export class Vector {
 	/*
 	 * Constructor.
 	 */
-	
+
 	constructor(input: VectorLike)
 	constructor(...coordinates: CoordinateList)
 	constructor(...args: [VectorLike] | CoordinateList) {
 		// Check for empty input.
 		if (args.length === 0) throw new Error(`Invalid Vector: the Vector constructor was called without input. For the zero vector, use Vector.zero or Vector['3D'].zero.`)
-			
+
 		// Handle constructor(VectorLike).
 		if (args.length === 1) {
 			const value = args[0]
-			
+
 			// On a Vector, become it.
 			if (value instanceof Vector) {
 				this._coordinates = value.coordinates
 				return
 			}
-			
+
 			// On a coordinate list, apply it.
 			if (isCoordinateList(value)) {
 				this._coordinates = value.map(coordinate => ensureNumber(coordinate))
 				return
 			}
-			
+
 			// On a coordinate object, get the coordinates.
 			if (isCoordinateObject(value)) {
 				this._coordinates = coordinatesFromObject(value)
 				return
 			}
-			
+
 			// Unexpected case.
 			throw new Error(`Invalid Vector: expected an array of coordinates or some other Vector-like object but received something of type "${typeof value}".`)
 		}
-		
+
 		// Handle constructor(...coordinates).
 		this._coordinates = args.map(coordinate => ensureNumber(coordinate))
 	}
@@ -66,8 +69,8 @@ export class Vector {
 	/*
 	 * Fundamentals.
 	 */
-	
-	static readonly type = 'Vector'
+
+	static readonly type = VectorType
 
 	get type(): string {
 		return (this.constructor as typeof Vector).type

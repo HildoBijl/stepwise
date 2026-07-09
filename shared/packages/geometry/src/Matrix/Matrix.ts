@@ -2,8 +2,11 @@ import { ensureInteger, ensureNumber, compareNumbers, count } from '@step-wise/u
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
-import type { MatrixRow, MatrixArray, MatrixInput } from './types'
+import type { MatrixArray, MatrixInput } from './types'
 import { isMatrixArray } from './support'
+
+export const MatrixType = 'Matrix'
+export type MatrixType = typeof MatrixType
 
 export type { MatrixArray as MatrixData }
 export type MatrixLike = Matrix | MatrixInput
@@ -56,7 +59,7 @@ export class Matrix {
 	 * Fundamentals.
 	 */
 
-	static readonly type = 'Matrix'
+	static readonly type = MatrixType
 
 	get type(): string {
 		return (this.constructor as typeof Matrix).type

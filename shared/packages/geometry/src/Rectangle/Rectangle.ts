@@ -7,6 +7,9 @@ import { type LineSegmentLike, LineSegment, ensureLineSegment } from '../LineSeg
 import type { RectangleData, RectangleInput } from './types'
 import { isRectangleObject, getMinAndMax } from './support'
 
+export const RectangleType = 'Rectangle'
+export type RectangleType = typeof RectangleType
+
 export type { RectangleData }
 export type RectangleLike = Rectangle | RectangleInput
 
@@ -75,7 +78,7 @@ export class Rectangle {
 	 * Fundamentals.
 	 */
 
-	static readonly type = 'Rectangle'
+	static readonly type = RectangleType
 
 	get type(): string {
 		return (this.constructor as typeof Rectangle).type

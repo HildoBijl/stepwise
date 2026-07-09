@@ -19,8 +19,10 @@ export function asEquation(value: EquationLike | EquationInput, interpretationSe
 }
 
 // Set up the Equation class.
+export const EquationType = 'Equation'
+export type EquationType = typeof EquationType
 export class Equation {
-	readonly type = 'Equation'
+	readonly type = EquationType
 	readonly left: Expression
 	readonly right: Expression
 	readonly settings: ExpressionSettings

@@ -1,3 +1,4 @@
+import { type InputValue } from '@step-wise/input-interpretation'
 import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseSpec, ExerciseState } from '@step-wise/exercise-definition'
 
 /*
@@ -5,12 +6,15 @@ import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseSpec, ExerciseSta
  */
 
 // Meta data: extend with comparison options.
-export type InputExerciseMetaData = ExerciseMetaData & { comparison?: unknown }
+export type InputExerciseMetaData<TCompare = unknown> = ExerciseMetaData & { compare?: Record<string, TCompare> }
 
 // Actions: only allow input and giveUp actions.
-export type InputExerciseInput = Record<string, unknown>
-export type InputExerciseAction = { type: 'input', input: InputExerciseInput } | { type: 'giveUp' }
+export type InputExerciseInputValue = Record<string, InputValue>
+export type InputExerciseAction = { type: 'input', input: InputExerciseInputValue } | { type: 'giveUp' }
 export type InputExerciseActionType = InputExerciseAction['type']
+
+// Input: the interpreted input that is fed to various functions.
+export type InputExerciseInput = Record<string, unknown>
 
 /*
  * Solution definition
@@ -54,6 +58,7 @@ export type InputExercise<TMetaData extends InputExerciseMetaData, TAction exten
 export type CheckInputData<TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = {
 	metaData: TMetaData
 	state: TState
+	rawInput: InputExerciseInputValue
 	input: InputExerciseInput
 	solution?: TSolution
 }

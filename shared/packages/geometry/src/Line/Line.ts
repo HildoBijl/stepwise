@@ -5,6 +5,9 @@ import { Vector, type VectorLike, ensureVector } from '../Vector'
 import type { LineData, LineInput } from './types'
 import { isLineObject } from './support'
 
+export const LineType = 'Line'
+export type LineType = typeof LineType
+
 export type { LineData }
 export type LineLike = Line | LineInput
 
@@ -65,7 +68,7 @@ export class Line {
 	 * Fundamentals.
 	 */
 
-	static readonly type = 'Line'
+	static readonly type = LineType
 
 	get type(): string {
 		return (this.constructor as typeof Line).type

@@ -1,18 +1,23 @@
 import {
-	type Expression as ExpressionType, type ExpressionInputValue, interpretExpressionInputValue, expressionToInputValue,
-	type Equation as EquationType, type EquationInputValue, interpretEquationInputValue, equationToInputValue,
+	type Expression, type ExpressionInputValue, ExpressionType, interpretExpressionInputValue, expressionToInputValue,
+	type Equation, type EquationInputValue, EquationType, interpretEquationInputValue, equationToInputValue,
 } from '@step-wise/cas'
 
 import type { InterpreterEntry } from '../types'
 
-export { ExpressionInputValue, EquationInputValue } from '@step-wise/cas'
+export { type ExpressionInputValue, type EquationInputValue, ExpressionType, EquationType }
 
-export const Expression = {
+export const ExpressionInterpreter = {
 	interpret: interpretExpressionInputValue,
 	toInputValue: expressionToInputValue,
-} satisfies InterpreterEntry<ExpressionInputValue, ExpressionType>
+} satisfies InterpreterEntry<ExpressionInputValue, Expression>
 
-export const Equation = {
+export const EquationInterpreter = {
 	interpret: interpretEquationInputValue,
 	toInputValue: equationToInputValue,
-} satisfies InterpreterEntry<EquationInputValue, EquationType>
+} satisfies InterpreterEntry<EquationInputValue, Equation>
+
+export const casInterpreters = {
+	[ExpressionType]: ExpressionInterpreter,
+	[EquationType]: EquationInterpreter,
+}

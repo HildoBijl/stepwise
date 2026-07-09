@@ -37,8 +37,10 @@ export function asExpression(value: ExpressionLike, interpretationSettings?: Int
 }
 
 // Set up the Expression wrapper.
+export const ExpressionType = 'Expression'
+export type ExpressionType = typeof ExpressionType
 export class Expression {
-	readonly type = 'Expression'
+	readonly type = ExpressionType
 	readonly settings: ExpressionSettings
 
 	/*

@@ -4,6 +4,9 @@ import { Line, type LineLike, ensureLine } from '../Line'
 import type { LineSegmentData, LineSegmentInput } from './types'
 import { isLineSegmentObject } from './support'
 
+export const LineSegmentType = 'LineSegment'
+export type LineSegmentType = typeof LineSegmentType
+
 export type { LineSegmentData }
 export type LineSegmentLike = LineSegment | LineSegmentInput
 
@@ -77,7 +80,7 @@ export class LineSegment {
 	 * Fundamentals.
 	 */
 
-	static readonly type = 'LineSegment'
+	static readonly type = LineSegmentType
 
 	get type(): string {
 		return (this.constructor as typeof LineSegment).type

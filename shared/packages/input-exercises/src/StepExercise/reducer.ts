@@ -51,7 +51,7 @@ function reduceMainProblemActions<TState extends ExerciseState = ExerciseState, 
 		if (submission.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
-		return checkInput({ state, input: exerciseInput, solution, metaData }, 0, 0)
+		return checkInput({ metaData, state, rawInput: submission.action.input, input: exerciseInput, solution }, 0, 0)
 	})
 
 	// If any submission is correct, or if all gave up, the exercise is done.
@@ -105,7 +105,7 @@ function reduceStepWithoutSubstepsActions<TState extends ExerciseState = Exercis
 		if (submission.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
-		return checkInput({ state, input: exerciseInput, solution, metaData }, step, 0)
+		return checkInput({ metaData, state, rawInput: submission.action.input, input: exerciseInput, solution }, step, 0)
 	})
 
 	// If any submission is correct, or if all gave up, the step is done.
@@ -157,7 +157,7 @@ function reduceStepWithSubstepsActions<TState extends ExerciseState = ExerciseSt
 			if (submission.action.type !== 'input') return false
 			const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 			const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
-			return checkInput({ state, input: exerciseInput, solution, metaData }, step, substep)
+			return checkInput({ metaData, state, rawInput: submission.action.input, input: exerciseInput, solution }, step, substep)
 		})
 		const someCorrect = correct.some(isCorrect => isCorrect)
 		const isDone = someCorrect || allGaveUp

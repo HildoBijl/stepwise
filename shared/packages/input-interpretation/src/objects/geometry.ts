@@ -1,32 +1,41 @@
 import {
-	type Vector as VectorType, type SerializedVector, serializeVector, deserializeVector,
-	type Line as LineType, type SerializedLine, serializeLine, deserializeLine,
-	type LineSegment as LineSegmentType, type SerializedLineSegment, serializeLineSegment, deserializeLineSegment,
-	type Rectangle as RectangleType, type SerializedRectangle, serializeRectangle, deserializeRectangle,
+	type Vector, type SerializedVector, VectorType, serializeVector, deserializeVector,
+	type Line, type SerializedLine, LineType, serializeLine, deserializeLine,
+	type LineSegment, type SerializedLineSegment, LineSegmentType, serializeLineSegment, deserializeLineSegment,
+	type Rectangle, type SerializedRectangle, RectangleType, serializeRectangle, deserializeRectangle,
 } from '@step-wise/geometry'
 
 import type { InterpreterEntry } from '../types'
 
+export { VectorType, LineType, LineSegmentType, RectangleType }
+
 export type VectorInputValue = SerializedVector
-export const Vector = {
+export const VectorInterpreter = {
 	interpret: deserializeVector,
 	toInputValue: serializeVector,
-} satisfies InterpreterEntry<SerializedVector, VectorType>
+} satisfies InterpreterEntry<SerializedVector, Vector>
 
 export type LineInputValue = SerializedLine
-export const Line = {
+export const LineInterpreter = {
 	interpret: deserializeLine,
 	toInputValue: serializeLine,
-} satisfies InterpreterEntry<SerializedLine, LineType>
+} satisfies InterpreterEntry<SerializedLine, Line>
 
 export type LineSegmentInputValue = SerializedLineSegment
-export const LineSegment = {
+export const LineSegmentInterpreter = {
 	interpret: deserializeLineSegment,
 	toInputValue: serializeLineSegment,
-} satisfies InterpreterEntry<SerializedLineSegment, LineSegmentType>
+} satisfies InterpreterEntry<SerializedLineSegment, LineSegment>
 
 export type RectangleInputValue = SerializedRectangle
-export const Rectangle = {
+export const RectangleInterpreter = {
 	interpret: deserializeRectangle,
 	toInputValue: serializeRectangle,
-} satisfies InterpreterEntry<SerializedRectangle, RectangleType>
+} satisfies InterpreterEntry<SerializedRectangle, Rectangle>
+
+export const geometryInterpreters = {
+	[VectorType]: VectorInterpreter,
+	[LineType]: LineInterpreter,
+	[LineSegmentType]: LineSegmentInterpreter,
+	[RectangleType]: RectangleInterpreter,
+}

@@ -42,7 +42,7 @@ function reduceGroupActions<TState extends ExerciseState = ExerciseState, TSolut
 		if (submission.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
-		return checkInput({ metaData, state, input: exerciseInput, solution })
+		return checkInput({ metaData, state, rawInput: submission.action.input, input: exerciseInput, solution })
 	})
 
 	const someCorrect = correct.some(isCorrect => isCorrect)

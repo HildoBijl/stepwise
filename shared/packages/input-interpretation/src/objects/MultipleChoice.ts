@@ -3,10 +3,10 @@ import { isInteger, ensureInteger, InterpretationError } from '@step-wise/utils'
 import type { InputValue, InterpreterEntry } from '../types'
 import { makeInputValue } from '../support'
 
-const MultipleChoiceType = 'MultipleChoice'
+export const MultipleChoiceType = 'MultipleChoice'
 export type MultipleChoiceType = typeof MultipleChoiceType
 
-type MultipleChoiceValue = number | number[]
+export type MultipleChoiceValue = number | number[]
 export type MultipleChoiceInputValue = InputValue<MultipleChoiceType, MultipleChoiceValue>
 
 function interpretMultipleChoice(inputValue: MultipleChoiceInputValue): MultipleChoiceValue {
@@ -23,7 +23,7 @@ function validateOption(value: number): number {
 	return ensureInteger(value, true)
 }
 
-export const MultipleChoice = {
+export const MultipleChoiceInterpreter = {
 	interpret: interpretMultipleChoice,
 	toInputValue: multipleChoiceToInputValue,
 } satisfies InterpreterEntry<MultipleChoiceInputValue, MultipleChoiceValue>

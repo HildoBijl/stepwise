@@ -9,6 +9,9 @@ import { type MatrixLike, Matrix, ensureSquareMatrix } from '../Matrix'
 import type { TransformationInput, TransformationData, TransformableLike } from './types'
 import { isTransformationObject } from './support'
 
+export const TransformationType = 'Transformation'
+export type TransformationType = typeof TransformationType
+
 export type { TransformationData }
 export type TransformationLike = Transformation | TransformationInput
 
@@ -67,7 +70,7 @@ export class Transformation {
 	 * Fundamentals.
 	 */
 
-	static readonly type = 'Transformation'
+	static readonly type = TransformationType
 
 	get type(): string {
 		return (this.constructor as typeof Transformation).type

@@ -3,7 +3,7 @@ import { isInteger, ensureInteger, InterpretationError } from '@step-wise/utils'
 import type { InputValue, InterpreterEntry } from '../types'
 import { makeInputValue } from '../support'
 
-const IntegerType = 'Integer'
+export const IntegerType = 'Integer'
 export type IntegerType = typeof IntegerType
 export type IntegerInputValue = InputValue<IntegerType, string>
 
@@ -20,7 +20,7 @@ function integerToInputValue(integer: number): IntegerInputValue {
 	return makeInputValue(IntegerType, ensureInteger(integer).toString())
 }
 
-export const Integer = {
+export const IntegerInterpreter = {
 	interpret: interpretInteger,
 	toInputValue: integerToInputValue,
 } satisfies InterpreterEntry<IntegerInputValue, number>
