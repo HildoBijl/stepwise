@@ -7,7 +7,7 @@ import { isNumber, ensureNumber } from './checks'
  */
 
 // Comparison tolerance used by compareNumbers.
-export const epsilon = 1e-9
+export const epsilon = 1e-10
 
 // Compare two numbers for approximate equality.
 export function compareNumbers(input: number, reference: number): boolean {
@@ -60,8 +60,8 @@ export function checkNumberEquality(input: number, reference: number, options: N
 	const absoluteDifference = getAbsoluteDifference(input, reference)
 	const relativeDifference = getRelativeDifference(input, reference)
 
-	const absoluteEqual = absoluteDifference <= equalityOptions.absoluteTolerance
-	const relativeEqual = relativeDifference <= equalityOptions.relativeTolerance
+	const absoluteEqual = absoluteDifference <= equalityOptions.absoluteTolerance + epsilon
+	const relativeEqual = relativeDifference <= equalityOptions.relativeTolerance + epsilon
 	const equal = absoluteEqual || relativeEqual
 
 	return {
