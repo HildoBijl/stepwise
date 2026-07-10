@@ -1,3 +1,8 @@
+// Check if an element is in a list. Includes type narrowing.
+export function isIn<const T extends readonly unknown[]>(value: unknown, options: T): value is T[number] {
+	return options.includes(value)
+}
+
 // Find the first element for which fn returns a non-undefined value, and return the index, the corresponding element, and the returned value.
 export function findWithValue<T, V>(array: readonly T[], fn: (element: T, index: number, array: readonly T[]) => V | undefined): { index: number; element: T; value: V } | undefined {
 	for (let index = 0; index < array.length; index++) {
