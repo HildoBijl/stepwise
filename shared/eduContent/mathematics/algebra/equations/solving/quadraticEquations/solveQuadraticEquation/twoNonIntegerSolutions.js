@@ -3,7 +3,8 @@ const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { compare, compareList } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -56,7 +57,7 @@ function getSolution(state) {
 	const solutionHalfSimplified = asExpression('(-b±sqrt(D))/(2a)').substitute({ ...variables, D }).removeTrivial([], ['reduceRootsWithZeroRadicand'])
 	const solution = solutionFull.combine()
 	const solutionsSplit = solution.getSingular().map(s => s.removeTrivial())
-	const solutions = solutionsSplit.map(s => s.combine())
+	const solutions = solutionsSplit.map(s => s.normalize().format())
 	const numSolutions = solutions.length
 	const equationsSubstituted = solutions.map(s => equation.substitute({ [variables.x]: s }))
 	const [ans1, ans2] = solutions
@@ -74,9 +75,9 @@ function checkInput(data, step) {
 		case 4:
 			return compare('numSolutions', data)
 		case 5:
-			return performListComparison(exerciseData, ['ans1', 'ans2'])
+			return compareList(['ans1', 'ans2'], data)
 		default:
-			return compare('numSolutions', data) && performListComparison(exerciseData, ['ans1', 'ans2'])
+			return compare('numSolutions', data) && compareList(['ans1', 'ans2'], data)
 	}
 }
 

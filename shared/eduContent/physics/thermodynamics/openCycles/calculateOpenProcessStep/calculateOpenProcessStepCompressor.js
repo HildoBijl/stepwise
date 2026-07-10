@@ -73,7 +73,7 @@ function checkInput(data, step) {
 		case 1:
 			return compare(['p1', 'v1', 'T1'], data)
 		case 2:
-			return compare(exerciseData.input.choice === 1 ? 'T2' : 'v2', data)
+			return compare(data.input.choice === 1 ? 'T2' : 'v2', data)
 		case 3:
 			return compare(['p2', 'v2', 'T2'], data)
 		default:

@@ -1,6 +1,6 @@
 const { sample } = require('@step-wise/utils')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 const { getTemperatures } = require('../../coolingCycles')
 
 const metaData = {

@@ -55,7 +55,7 @@ function checkInput(data, step) {
 		case 1:
 			return compare('x', data)
 		default:
-			return compare(exerciseData.state.type === 1 ? 'pop' : 'year', data)
+			return compare(data.state.type === 1 ? 'pop' : 'year', data)
 	}
 }
 

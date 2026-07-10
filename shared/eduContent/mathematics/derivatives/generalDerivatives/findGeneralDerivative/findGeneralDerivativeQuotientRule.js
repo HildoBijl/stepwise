@@ -63,7 +63,7 @@ function checkInput(data, step) {
 		case 1:
 			return compare('method', data)
 		case 2:
-			return checkFAndG(exerciseData.input, exerciseData.solution)
+			return checkFAndG(data.input, data.solution)
 		default:
 			return compare('derivative', data)
 	}

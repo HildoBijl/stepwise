@@ -2,7 +2,7 @@ const { getRandomInteger } = require('@step-wise/utils')
 const { multiOutputTableInterpolate } = require('@step-wise/interpolation')
 const { saturatedSteamByPressure, superheatedSteam } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('../tools')
 
@@ -75,7 +75,7 @@ function getSolution({ type, pc, pe, T2, x3, mdot, P }) {
 }
 
 function checkInput(data, step, substep) {
-	const toCheck = exerciseData.state.type === 1 ? 'P' : 'mdot'
+	const toCheck = data.state.type === 1 ? 'P' : 'mdot'
 	switch (step) {
 		case 1:
 			return compare(['h1', 'h2', 'h3p', 'h4'], data)

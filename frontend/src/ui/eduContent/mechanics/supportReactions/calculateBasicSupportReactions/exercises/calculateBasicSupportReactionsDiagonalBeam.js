@@ -186,17 +186,17 @@ function Schematics({ l1, l2, l3, clockwise, angle, points, Bx, Cx, loads, getLo
 	</>
 }
 
-function getFeedback(exerciseData) {
-	const { input, progress, solution } = exerciseData
+function getFeedback(data) {
+	const { input, progress, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(exerciseData, 'loads')
-	if (getStep(progress) === 0 && !performLoadsComparison(exerciseData, 'loads'))
+	const loadsFeedback = input.loads && getFBDFeedback(data, 'loads')
+	if (getStep(progress) === 0 && !performLoadsComparison(data, 'loads'))
 		return loadsFeedback
 
 	// Give full feedback.
 	return {
 		...loadsFeedback,
-		...getFieldInputFeedback(exerciseData, solution.loadsToCheck)
+		...getFieldInputFeedback(data, solution.loadsToCheck)
 	}
 }

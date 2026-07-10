@@ -100,7 +100,7 @@ const steps = [
 	},
 ]
 
-function getFeedback(exerciseData) {
+function getFeedback(data) {
 	// Determine MC feedback text in various cases.
 	const forcePerpendicularText = [
 		<></>,
@@ -137,12 +137,12 @@ function getFeedback(exerciseData) {
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments]
 
 	return {
-		...getMCFeedback(exerciseData, {
+		...getMCFeedback(data, {
 			forcePerpendicular: { step: 1, incorrectText: forcePerpendicularText },
 			forceParallel: { step: 2, incorrectText: forceParallelText },
 			moment: { step: 3, incorrectText: momentText },
 		}),
-		...getFBDFeedback(exerciseData, { loads: { compare: FBDComparison, feedbackChecks: loadsChecks } }),
+		...getFBDFeedback(data, { loads: { compare: FBDComparison, feedbackChecks: loadsChecks } }),
 	}
 }
 

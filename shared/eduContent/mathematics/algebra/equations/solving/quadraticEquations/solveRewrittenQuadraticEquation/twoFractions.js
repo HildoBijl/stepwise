@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { gcd } = require('@step-wise/math-tools')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison, performListComparison } = require('../../../../../../../eduTools')
+const { compare, compareList } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
 
@@ -100,7 +101,7 @@ function getSolution(state) {
 	const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial(['mergeProductNumbers'], ['reduceRootsWithZeroRadicand'])
 	const solution = solutionFull.combine()
 	const solutionsSplit = solution.getSingular().map(s => s.removeTrivial())
-	const solutions = solutionsSplit.map(s => s.combine())
+	const solutions = solutionsSplit.map(s => s.normalize().format())
 	const numSolutions = D.number < 0 ? 0 : solutions.length
 	const equationsSubstituted = solutions.map(s => equation.substitute({ [variables.x]: s }))
 	const [ans1, ans2] = solutions
@@ -110,14 +111,12 @@ function getSolution(state) {
 }
 
 function checkInput(data, step) {
-	const { solution } = exerciseData
-	const { numSolutions } = solution
-
+	const { solution: { numSolutions } } = data
 	switch (step) {
 		case 1:
 			return compare('standardForm', data)
 		default:
-			return compare('numSolutions', data) && (numSolutions !== 1 || compare('ans1', data)) && (numSolutions !== 2 || performListComparison(exerciseData, ['ans1', 'ans2']))
+			return compare('numSolutions', data) && (numSolutions !== 1 || compare('ans1', data)) && (numSolutions !== 2 || compareList(['ans1', 'ans2'], data))
 	}
 }
 

@@ -194,9 +194,9 @@ function getDirectionIndicators(solution, matching) {
 module.exports.getDirectionIndicators = getDirectionIndicators
 
 // performLoadsComparison is very similar to the performComparison function, but then for loads.
-function performLoadsComparison(exerciseData, parameterComparison) {
+function performLoadsComparison(data, parameterComparison) {
 	// Get the parameters out of the given objects.
-	const { input, solution, metaData } = exerciseData
+	const { input, solution, metaData } = data
 	const { comparison } = metaData
 
 	// Ensure the parameterComparison is an object.

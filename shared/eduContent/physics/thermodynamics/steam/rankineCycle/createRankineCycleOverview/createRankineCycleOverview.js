@@ -1,7 +1,7 @@
 const { multiOutputTableInterpolate } = require('@step-wise/interpolation')
 const { saturatedSteamByPressure, superheatedSteam } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('../tools')
 

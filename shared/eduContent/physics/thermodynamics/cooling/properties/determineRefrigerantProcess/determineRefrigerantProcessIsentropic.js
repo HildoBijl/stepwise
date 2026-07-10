@@ -2,7 +2,7 @@ const { sample, getRandomBoolean } = require('@step-wise/utils')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('@step-wise/physics-core')
 const { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy, getVaporPropertiesFromTemperature, getVaporPropertiesFromPressure } = require('@step-wise/physics-data')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'determineRefrigerantProcess',

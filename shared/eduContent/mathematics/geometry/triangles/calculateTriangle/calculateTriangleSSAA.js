@@ -2,7 +2,7 @@ const { epsilon, deg2rad, sample, getRandomNumber, getRandomBoolean, getRandomIn
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison, performListComparison } = require('../../../../../eduTools')
+const { compare, compareList } = require('@step-wise/exercise-grading')
 
 const variableSet = ['α', 'β', 'γ']
 
@@ -61,9 +61,9 @@ function checkInput(data, step) {
 		case 3:
 			return compare('numSolutions', data)
 		case 4:
-			return performListComparison(exerciseData, ['γ1', 'γ2'])
+			return compareList(['γ1', 'γ2'], data)
 		default:
-			return compare('numSolutions', data) && performListComparison(exerciseData, ['γ1', 'γ2'])
+			return compare('numSolutions', data) && compareList(['γ1', 'γ2'], data)
 	}
 }
 

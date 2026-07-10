@@ -4,7 +4,7 @@ const { and } = require('@step-wise/skill-setup')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { saturatedSteamByTemperature, saturatedSteamByPressure } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'useVaporFraction',

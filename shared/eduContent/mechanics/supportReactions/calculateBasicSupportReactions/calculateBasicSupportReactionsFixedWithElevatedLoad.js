@@ -91,7 +91,7 @@ const getSolution = { dependentFields: ['loads'], getStaticSolution, getInputDep
 function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performLoadsComparison(exerciseData, 'loads')
+			return performLoadsComparison(data, 'loads')
 		case 2:
 			return compare('FAx', data)
 		case 3:
@@ -99,7 +99,7 @@ function checkInput(data, step) {
 		case 4:
 			return compare('MA', data)
 		default:
-			return performLoadsComparison(exerciseData, 'loads') && compare(exerciseData.solution.loadsToCheck, data)
+			return performLoadsComparison(data, 'loads') && compare(data.solution.loadsToCheck, data)
 	}
 }
 

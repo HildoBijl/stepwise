@@ -91,13 +91,13 @@ const steps = [
 	},
 ]
 
-function getFeedback(exerciseData) {
-	const { input, solution } = exerciseData
+function getFeedback(data) {
+	const { input, solution } = data
 
 	const feedbackFunction = (input, solution) => getFBDFeedback(input, solution, FBDComparison)
 	return {
 		loads: input.loads && getCustomFBDFeedback(input.loads, solution.loads, FBDComparison, solution.A, solution.B),
-		...getFieldInputFeedback(exerciseData, { loadsLeft: { feedbackFunction: feedbackFunction }, loadsRight: { feedbackFunction: feedbackFunction } }),
+		...getFieldInputFeedback(data, { loadsLeft: { feedbackFunction: feedbackFunction }, loadsRight: { feedbackFunction: feedbackFunction } }),
 	}
 }
 

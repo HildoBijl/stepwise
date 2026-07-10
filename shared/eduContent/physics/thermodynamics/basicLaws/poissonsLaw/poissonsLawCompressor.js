@@ -75,15 +75,14 @@ function getSolution({ gas, p1, p2, V2 }) {
 }
 
 function checkInput(data, step, substep) {
-	const { input } = exerciseData
-	const { p1s, p2s } = input
+	const { input: { p1s, p2s } } = data
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return compare('p1s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' }, data)
+					return compare('p1s', data) && p1s.unit.equals(p2s.unit, { target: 'unchanged' })
 				case 2:
-					return compare('p2s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' }, data)
+					return compare('p2s', data) && p1s.unit.equals(p2s.unit, { target: 'unchanged' })
 				case 3:
 					return compare('V2s', data)
 			}

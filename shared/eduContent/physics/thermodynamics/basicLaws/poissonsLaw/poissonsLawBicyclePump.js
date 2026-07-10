@@ -73,17 +73,16 @@ function getSolution({ n, T1, V1, V2 }) {
 }
 
 function checkInput(data, step, substep) {
-	const { input } = exerciseData
-	const { V1s, V2s } = input
+	const { input: { V1s, V2s } } = data
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
 					return compare('T1s', data)
 				case 2:
-					return compare('V1s') && V1s.unit.equals(V2s.unit, { target: 'unchanged' }, data)
+					return compare('V1s', data) && V1s.unit.equals(V2s.unit, { target: 'unchanged' })
 				case 3:
-					return compare('V2s') && V1s.unit.equals(V2s.unit, { target: 'unchanged' }, data)
+					return compare('V2s', data) && V1s.unit.equals(V2s.unit, { target: 'unchanged' })
 			}
 		case 2:
 			return compare('eq', data)
