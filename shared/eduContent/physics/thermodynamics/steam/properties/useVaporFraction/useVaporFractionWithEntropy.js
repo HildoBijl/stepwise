@@ -10,8 +10,8 @@ const metaData = {
 	skill: 'useVaporFraction',
 	setup: and('lookUpSteamProperties', 'linearInterpolation'),
 	...stepsToSetup(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.001,
 			},
@@ -66,14 +66,14 @@ function getSolution({ type, T, p, s }) {
 	return { sx0, sx1, x, hx0, hx1, h }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['hx0', 'hx1', 'sx0', 'sx1'])
+			return compare(['hx0', 'hx1', 'sx0', 'sx1'], data)
 		case 2:
-			return performComparison(exerciseData, 'x')
+			return compare('x', data)
 		default:
-			return performComparison(exerciseData, 'h')
+			return compare('h', data)
 	}
 }
 

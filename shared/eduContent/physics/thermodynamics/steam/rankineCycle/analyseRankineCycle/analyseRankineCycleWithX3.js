@@ -9,8 +9,8 @@ const { getCycle } = require('../tools')
 const metaData = {
 	skill: 'analyseRankineCycle',
 	...stepsToSetup(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 2,
@@ -74,24 +74,24 @@ function getSolution({ type, pc, pe, T2, x3, mdot, P }) {
 	return { hx0, hx1, sx0, sx1, h1, s1, h2, s2, h3p, s3p, x3p, h3, h4, s4, etai, wt, q, eta, mdot, P }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	const toCheck = exerciseData.state.type === 1 ? 'P' : 'mdot'
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['h1', 'h2', 'h3p', 'h4'])
+			return compare(['h1', 'h2', 'h3p', 'h4'], data)
 		case 2:
-			return performComparison(exerciseData, 'h3')
+			return compare('h3', data)
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'etai')
+					return compare('etai', data)
 				case 2:
-					return performComparison(exerciseData, 'eta')
+					return compare('eta', data)
 				case 2:
-					return performComparison(exerciseData, toCheck)
+					return compare(toCheck, data)
 			}
 		default:
-			return performComparison(exerciseData, ['etai', 'eta', toCheck])
+			return compare(['etai', 'eta', toCheck], data)
 	}
 }
 

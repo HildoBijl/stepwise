@@ -14,8 +14,9 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 		if (inputRef.current[id] !== undefined)
 			return inputRef.current[id]
 		const fieldData = getFieldData(id)
-		if (fieldData)
-			return fieldData.functionalize(fieldData.initialSI)
+		if (!fieldData)
+			return undefined
+		return fieldData.functionalize(fieldData.initialSI)
 	})
 
 	// getAllInputFI gives the FI values of all input fields. When 'true' is passed on, this also includes unsubscribed but persistent fields.
@@ -28,9 +29,9 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 		if (Array.isArray(id))
 			return id.map(id => getInputSI(id))
 		const FI = getInputFI(id)
-		if (FI === undefined)
-			return undefined
 		const fieldData = getFieldData(id)
+		if (!fieldData)
+			return undefined
 		if (!fieldData.recentSI) {
 			const newSI = preserveRefs(fieldData.clean(FI), fieldData.SI)
 			if (!fieldData.equals(newSI, fieldData.SI))
@@ -55,6 +56,8 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 		if (SI === undefined)
 			return undefined
 		const fieldData = getFieldData(id)
+		if (!fieldData)
+			return undefined
 		if (!fieldData.recentFO) {
 			try {
 				delete fieldData.FO // Make sure there is no FO in case interpretation fails.

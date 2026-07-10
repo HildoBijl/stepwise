@@ -16,7 +16,7 @@ const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 3,
 	...stepsToSetup(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
-	comparison: {
+	compare: {
 		a: {},
 		b: {},
 		c: {},
@@ -63,20 +63,20 @@ function getSolution(state) {
 	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['a', 'b', 'c'])
+			return compare(['a', 'b', 'c'], data)
 		case 2:
-			return performComparison(exerciseData, 'solutionFull')
+			return compare('solutionFull', data)
 		case 3:
-			return performComparison(exerciseData, 'D')
+			return compare('D', data)
 		case 4:
-			return performComparison(exerciseData, 'numSolutions')
+			return compare('numSolutions', data)
 		case 5:
 			return performListComparison(exerciseData, ['ans1', 'ans2'])
 		default:
-			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['ans1', 'ans2'])
+			return compare('numSolutions', data) && performListComparison(exerciseData, ['ans1', 'ans2'])
 	}
 }
 

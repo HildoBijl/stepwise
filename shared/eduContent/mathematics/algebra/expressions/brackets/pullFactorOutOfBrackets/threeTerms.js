@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -13,7 +14,7 @@ const constants = ['a', 'b', 'c', 'd', 'n']
 const metaData = {
 	skill: 'pullFactorOutOfBrackets',
 	...stepsToSetup([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
-	comparison: {
+	compare: {
 		startingForm: (input, correct) => onlyOrderChanges(input.flatten(), correct),
 		splitUp: (input, correct, { expression, factor }) => {
 			input = input.flatten()
@@ -53,16 +54,16 @@ function getSolution(state) {
 	return { ...state, variables, factor, sum, expression, startingForm, splitUp, ans, check }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'startingForm')
+			return compare('startingForm', data)
 		case 2:
-			return performComparison(exerciseData, 'splitUp')
+			return compare('splitUp', data)
 		case 4:
-			return performComparison(exerciseData, 'check')
+			return compare('check', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

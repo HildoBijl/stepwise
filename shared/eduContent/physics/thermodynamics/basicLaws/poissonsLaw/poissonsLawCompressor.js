@@ -2,12 +2,12 @@ const { sample } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'poissonsLaw',
 	...stepsToSetup([[undefined, 'calculateWithPressure', undefined], 'specificHeatRatio', undefined, 'solveExponentEquation']),
-	comparison: {
+	compare: {
 		V2s: {
 			float: {
 				absoluteTolerance: 0.001, // Standard units, in m^3.
@@ -74,25 +74,25 @@ function getSolution({ gas, p1, p2, V2 }) {
 	return { k, p1s, p2s, V2s, eq, V1 }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	const { input } = exerciseData
 	const { p1s, p2s } = input
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'p1s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' })
+					return compare('p1s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' }, data)
 				case 2:
-					return performComparison(exerciseData, 'p2s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' })
+					return compare('p2s') && p1s.unit.equals(p2s.unit, { target: 'unchanged' }, data)
 				case 3:
-					return performComparison(exerciseData, 'V2s')
+					return compare('V2s', data)
 			}
 		case 2:
-			return performComparison(exerciseData, 'k')
+			return compare('k', data)
 		case 3:
-			return performComparison(exerciseData, 'eq')
+			return compare('eq', data)
 		default:
-			return performComparison(exerciseData, 'V1')
+			return compare('V1', data)
 	}
 }
 

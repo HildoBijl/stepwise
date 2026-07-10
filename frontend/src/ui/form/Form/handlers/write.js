@@ -15,7 +15,7 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 
 			// Allow for functions in the new FI that take into account the old FI.
 			FI = resolveFunctions(FI, oldFI)
-			
+
 			// On a non-change, keep the old input.
 			FI = preserveRefs(FI, oldFI)
 			if (FI === oldFI)

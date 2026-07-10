@@ -1,7 +1,8 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 // ax + by = c.
 // dx + ey = f.
@@ -12,10 +13,10 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 const metaData = {
 	skill: 'solveSystemOfLinearEquations',
 	...stepsToSetup(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
-	comparison: {
-		default: expressionComparisons.onlyOrderChanges,
+	compare: {
 		eq1Solution: expressionComparisons.equivalent,
 		eq2Substituted: equationComparisons.equivalent,
+		Expression: expressionComparisons.onlyOrderChanges,
 	},
 }
 
@@ -62,18 +63,18 @@ function getSolution(state) {
 	return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'eq1Solution')
+			return compare('eq1Solution', data)
 		case 2:
-			return performComparison(exerciseData, 'eq2Substituted')
+			return compare('eq2Substituted', data)
 		case 3:
-			return performComparison(exerciseData, 'y')
+			return compare('y', data)
 		case 4:
-			return performComparison(exerciseData, 'x')
+			return compare('x', data)
 		default:
-			return performComparison(exerciseData, ['x', 'y'])
+			return compare(['x', 'y'], data)
 	}
 }
 

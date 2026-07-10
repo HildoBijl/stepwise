@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { lcm } = require('@step-wise/math-tools')
 const { asExpression, expressionComparisons, expressionOperations } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
@@ -15,7 +16,7 @@ const constants = ['a', 'b']
 const metaData = {
 	skill: 'addFractionsWithMultipleVariables',
 	...stepsToSetup([undefined, ['simplifyFractionWithVariables', 'simplifyFractionWithVariables'], 'addLikeFractionsWithVariables']),
-	comparison: onlyOrderChanges,
+	compare: { Expression: onlyOrderChanges },
 }
 
 function generateState() {
@@ -48,14 +49,14 @@ function getSolution(state) {
 	return { ...state, variables, leftExpression, rightExpression, expression, lcmValue, denominator, leftAns, rightAns, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'denominator')
+			return compare('denominator', data)
 		case 2:
-			return performComparison(exerciseData, ['leftAns', 'rightAns'])
+			return compare(['leftAns', 'rightAns'], data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

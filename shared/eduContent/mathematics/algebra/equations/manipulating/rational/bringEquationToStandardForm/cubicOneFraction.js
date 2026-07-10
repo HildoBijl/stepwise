@@ -3,7 +3,8 @@ const { gcd } = require('@step-wise/math-tools')
 const { and } = require('@step-wise/skill-setup')
 const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons
@@ -17,7 +18,7 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 const metaData = {
 	skill: 'bringEquationToStandardForm',
 	...stepsToSetup(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
-	comparison: {
+	compare: {
 		multiplied: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct)),
 		expanded: (input, correct, solution) => (!hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct)),
 		moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
@@ -84,16 +85,16 @@ function getSolution(state) {
 	return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'multiplied')
+			return compare('multiplied', data)
 		case 2:
-			return performComparison(exerciseData, 'expanded')
+			return compare('expanded', data)
 		case 3:
-			return performComparison(exerciseData, 'moved')
+			return compare('moved', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { serializeAll } from '@step-wise/serialization'
-import { performComparison } from 'step-wise/eduTools'
+import { compare } from '@step-wise/exercise-grading'
 
 import { Par, M } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
@@ -28,12 +28,12 @@ function Solution({ x }) {
 }
 
 
-function getFeedback(exerciseData) {
-	const correct = performComparison(exerciseData, 'ans')
+function getFeedback(data) {
+	const correct = compare('ans', data)
 	return {
-		...getFieldInputFeedback(exerciseData, {
+		...getFieldInputFeedback(data, {
 			ans: [
-				(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? exerciseData.translate('You forgot the minus sign.', 'noMinusSign') : exerciseData.translate('Try removing the minus sign.', 'unnecessaryMinusSign'))
+				(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? data.translate('You forgot the minus sign.', 'noMinusSign') : data.translate('Try removing the minus sign.', 'unnecessaryMinusSign'))
 			]
 		}),
 		testDI: correct,

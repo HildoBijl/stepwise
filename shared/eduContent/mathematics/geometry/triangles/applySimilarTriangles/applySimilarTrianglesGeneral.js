@@ -10,8 +10,7 @@ const usedVariables = ['a', 'b', 'c']
 const metaData = {
 	skill: 'applySimilarTriangles',
 	...stepsToSetup([undefined, undefined, undefined, undefined]),
-	comparison: {
-		default: {},
+	compare: {
 		equation1: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 		equation2: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
@@ -91,18 +90,18 @@ function getSolution(state) {
 	return { ...state, ...given, a, b, c, La, Lb, Lc, x, y, z, equation1, equation2, ans1Raw, ans2Raw, ans1, ans2 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'equation1')
+			return compare('equation1', data)
 		case 2:
-			return performComparison(exerciseData, 'ans1')
+			return compare('ans1', data)
 		case 3:
-			return performComparison(exerciseData, 'equation2')
+			return compare('equation2', data)
 		case 4:
-			return performComparison(exerciseData, 'ans2')
+			return compare('ans2', data)
 		default:
-			return performComparison(exerciseData, ['ans1', 'ans2'])
+			return compare(['ans1', 'ans2'], data)
 	}
 }
 

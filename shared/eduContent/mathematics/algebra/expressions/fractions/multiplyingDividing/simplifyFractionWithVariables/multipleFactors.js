@@ -3,7 +3,8 @@ const { gcd } = require('@step-wise/math-tools')
 const { and } = require('@step-wise/skill-setup')
 const { asExpression, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
@@ -15,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'p', 'q']
 const metaData = {
 	skill: 'simplifyFractionWithVariables',
 	...stepsToSetup(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
-	comparison: {
+	compare: {
 		// Input is equivalent and cannot be simplified further.
 		numericSimplified: (input, correct) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
 		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
@@ -57,12 +58,12 @@ function getSolution(state) {
 	return { ...state, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'numericSimplified')
+			return compare('numericSimplified', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -1,15 +1,15 @@
 const { FloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { k, cp } } } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('..')
 
 const metaData = {
 	skill: 'analyseGasTurbine',
 	...stepsToSetup(['calculateOpenCycle', 'useIsentropicEfficiency', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -68,25 +68,25 @@ function getSolution({ p1, T1, p2, T2, T3, mdot }) {
 	return { k, cp, p1, T1, p2, T2, T2p, p3, T3, p4, T4, T4p, etai, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn, qin, eta, mdot, P }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'])
+			return compare(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'], data)
 		case 2:
-			return performComparison(exerciseData, 'etai')
+			return compare('etai', data)
 		case 3:
-			return performComparison(exerciseData, 'T4')
+			return compare('T4', data)
 		case 4:
-			return performComparison(exerciseData, ['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'])
+			return compare(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], data)
 		case 5:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'eta')
+					return compare('eta', data)
 				case 2:
-					return performComparison(exerciseData, 'P')
+					return compare('P', data)
 			}
 		default:
-			return performComparison(exerciseData, ['eta', 'P'])
+			return compare(['eta', 'P'], data)
 	}
 }
 

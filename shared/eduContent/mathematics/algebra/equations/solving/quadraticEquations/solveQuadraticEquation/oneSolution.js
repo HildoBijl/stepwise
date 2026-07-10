@@ -2,7 +2,8 @@ const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -15,7 +16,7 @@ const metaData = {
 	skill: 'solveQuadraticEquation',
 	weight: 1,
 	...stepsToSetup(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, 'simplifyFraction']),
-	comparison: {
+	compare: {
 		a: {},
 		b: {},
 		c: {},
@@ -63,20 +64,20 @@ function getSolution(state) {
 	return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationsSubstituted, ans1 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['a', 'b', 'c'])
+			return compare(['a', 'b', 'c'], data)
 		case 2:
-			return performComparison(exerciseData, 'solutionFull')
+			return compare('solutionFull', data)
 		case 3:
-			return performComparison(exerciseData, 'D')
+			return compare('D', data)
 		case 4:
-			return performComparison(exerciseData, 'numSolutions')
+			return compare('numSolutions', data)
 		case 5:
-			return performComparison(exerciseData, 'ans1')
+			return compare('ans1', data)
 		default:
-			return performComparison(exerciseData, ['numSolutions', 'ans1'])
+			return compare(['numSolutions', 'ans1'], data)
 	}
 }
 

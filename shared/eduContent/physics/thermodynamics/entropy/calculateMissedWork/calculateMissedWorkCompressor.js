@@ -1,13 +1,13 @@
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { generateState, getSolution: getSolutionPrevious } = require('../calculateEntropyChange/calculateEntropyChangeWithProperties')
 
 const metaData = {
 	skill: 'calculateMissedWork',
 	...stepsToSetup(['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -27,20 +27,20 @@ function getSolution(state) {
 	return { ...solution, q, dsIn, dsOut, ds, wm }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'T2')
+			return compare('T2', data)
 		case 2:
-			return performComparison(exerciseData, 'dsIn')
+			return compare('dsIn', data)
 		case 3:
-			return performComparison(exerciseData, 'q')
+			return compare('q', data)
 		case 4:
-			return performComparison(exerciseData, 'dsOut')
+			return compare('dsOut', data)
 		case 5:
-			return performComparison(exerciseData, 'ds')
+			return compare('ds', data)
 		default:
-			return performComparison(exerciseData, 'wm')
+			return compare('wm', data)
 	}
 }
 

@@ -19,7 +19,7 @@ const getFeedback = (exerciseData) => {
 }
 ```
 
-Note that the format is identical! The `getFieldInputFeedback` then tries to get feedback about the given parameters in an intelligent way. It gets the comparison options from the `metaData`, grades them once more, tries grading them in alternative ways to see if this changes the results, and then returns a message like "Well done! It's correct, but if the margins were a bit smaller, it wouldn't be. Try to be a bit more accurate." Of course the result is in the required object format `{ param1: { correct: true, ... } }`.
+Note that the format is identical! The `getFieldInputFeedback` then tries to get feedback about the given parameters in an intelligent way. It gets the compare options from the `metaData`, grades them once more, tries grading them in alternative ways to see if this changes the results, and then returns a message like "Well done! It's correct, but if the margins were a bit smaller, it wouldn't be. Try to be a bit more accurate." Of course the result is in the required object format `{ param1: { correct: true, ... } }`.
 
 ### Adding feedbackChecks
 
@@ -40,7 +40,7 @@ Note that feedback checks get five parameters.
 - `input`: the given input for the parameter.
 - `solution`: the solution connected to the parameter.
 - `solutionObject`: the full solution objected given by the `getSolution` function, in case other calculated parameters are needed.
-- `correct`: the result of `performComparison(exerciseData, 'param')` that determines whether the field is graded as correct.
+- `correct`: the result of `compare('param', data)` that determines whether the field is graded as correct.
 - `exerciseData`: all exercise data, in case it's needed. (Usually it's not.)
 
 Based on this, the check either returns something falsy, in which case it's ignored, or it returns a message, in which case that message is used as feedback. In this way it's easy to check for common errors.
@@ -49,7 +49,7 @@ Based on this, the check either returns something falsy, in which case it's igno
 
 Sometimes it is needed to add extra options to the feedback checks. In this case the given options value is also an object. Extra options include:
 
-- `comparison`: a different comparison object/function that overrides what is in the `metaData`. (Not recommended.)
+- `compare`: a different compare object/function that overrides what is in the `metaData`. (Not recommended.)
 - `feedbackFunction`: a specific feedback function to be called instead of the regular intelligent way of determining feedback.
 - `dependency`: an array of field IDs. If any of these input fields changes, then the feedback is recalculated. This is useful if the correctness of a field depends on the value of another field. (For instance, one multiple choice field decides on the positive direction, and the `height` input field then gives the height value. In this case the `height` may suddenly turn from incorrect to correct based on a change in another field.)
 - `feedbackChecks`: as mentioned before, the feedbackChecks can also be defined as options.
@@ -75,9 +75,9 @@ Of course it's also possible to use multiple parameters in this call, each with 
 
 ## Field input list feedback
 
-Suppose that you need a list of answers `x1, x2, ...` and the order doesn't matter. For instance, you may ask the user to solve `x*(x-2) = 0` and the user might say `x1 = 0, x2 = 2` or he/she might say `x1 = 2, x2 = 0`. Both answers are correct. In this case we have a list comparison.
+Suppose that you need a list of answers `x1, x2, ...` and the order doesn't matter. For instance, you may ask the user to solve `x*(x-2) = 0` and the user might say `x1 = 0, x2 = 2` or he/she might say `x1 = 2, x2 = 0`. Both answers are correct. In this case we have a list compare.
 
-The comparison is done in the `shared` folder through `performListComparison(exerciseData, ['x1', 'x2'])`. Getting the feedback works similarly. This is done through
+The compare is done in the `shared` folder through `performListComparison(exerciseData, ['x1', 'x2'])`. Getting the feedback works similarly. This is done through
 
 ```
 const getFeedback = (exerciseData) => {

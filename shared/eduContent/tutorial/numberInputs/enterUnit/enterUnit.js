@@ -1,11 +1,11 @@
 const { sample } = require('@step-wise/utils')
 const { Unit } = require('@step-wise/physics-core')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'enterUnit',
-	comparison: { ans: { target: 'unchanged' } },
+	compare: { ans: { target: 'unchanged' } },
 }
 
 function generateState() {
@@ -26,8 +26,8 @@ function getSolution({ unit }) {
 	return { ans: unit }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

@@ -133,7 +133,7 @@ The `getFeedback` function can be manually defined! If you want to set up your o
 
 After you defined your `getFeedback` function, make sure to include it into the exercise, for instance through `Exercise = () => <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />`.
 
-If you do not specify a `getFeedback` function yourself, the `SimpleExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the comparison options provided in the `metaData`. 
+If you do not specify a `getFeedback` function yourself, the `SimpleExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the compare options provided in the `metaData`. 
 
 Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getFieldInputFeedback(exerciseData, ['param1', 'param2'])` function comes in very handy! You might see it at various example exercises. Read more about how this works in the [feedback folder](./feedback/).
 

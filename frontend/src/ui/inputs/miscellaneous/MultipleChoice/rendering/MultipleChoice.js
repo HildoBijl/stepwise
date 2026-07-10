@@ -15,6 +15,8 @@ export const defaultMultipleChoiceOptions = {
 	// General Input field options.
 	...defaultInputOptions,
 	validate: validation.nonEmpty,
+	clean: FI => ({ type: 'MultipleChoice', value: FI }),
+	functionalize: SI => SI.value,
 
 	// Specific Multiple Choice options.
 	...defaultMultipleChoiceInnerOptions,

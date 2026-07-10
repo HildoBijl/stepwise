@@ -2,15 +2,15 @@ const { or } = require('@step-wise/skill-setup')
 const { FloatUnit } = require('@step-wise/physics-core')
 const { gasProperties } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { generateState, getSolution: getCycleParametersRaw } = require('../calculateClosedCycle/calculateClosedCycleVTp')
 
 const metaData = {
 	skill: 'createClosedCycleEnergyOverview',
 	...stepsToSetup(['calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.02,
 				significantDigitTolerance: 1,
@@ -50,16 +50,16 @@ function getSolution(state) {
 	return { ...cycleParameters, cv, cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['Q12', 'W12'])
+			return compare(['Q12', 'W12'], data)
 		case 2:
-			return performComparison(exerciseData, ['Q23', 'W23'])
+			return compare(['Q23', 'W23'], data)
 		case 3:
-			return performComparison(exerciseData, ['Q31', 'W31'])
+			return compare(['Q31', 'W31'], data)
 		default:
-			return performComparison(exerciseData, ['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'])
+			return compare(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], data)
 	}
 }
 

@@ -1,15 +1,15 @@
 const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interpolation')
 const { maximumHumidity } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('../tools')
 
 const metaData = {
 	skill: 'analyseAirco',
 	...stepsToSetup(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', undefined]),
-	comparison: {
-		default: { // AH
+	compare: {
+		FloatUnit: { // AH
 			float: {
 				absoluteTolerance: .001, // In standard units, so kg/kg.
 				significantDigitTolerance: 1,
@@ -54,18 +54,18 @@ function getSolution({ T1, startRH, T4, endRH }) {
 	return { T2, T3, startAH, startAHmax, endAH, endAHmax, dAH }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'startAH')
+			return compare('startAH', data)
 		case 2:
-			return performComparison(exerciseData, 'endAH')
+			return compare('endAH', data)
 		case 3:
-			return performComparison(exerciseData, 'T3')
+			return compare('T3', data)
 		case 4:
-			return performComparison(exerciseData, 'dAH')
+			return compare('dAH', data)
 		default:
-			return performComparison(exerciseData, ['T3', 'dAH'])
+			return compare(['T3', 'dAH'], data)
 	}
 }
 

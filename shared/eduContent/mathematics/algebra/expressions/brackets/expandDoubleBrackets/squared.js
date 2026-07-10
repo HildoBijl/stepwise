@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, count } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct, hasSumWithinPowerBase } = expressionChecks
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'p', 'q']
 const metaData = {
 	skill: 'expandDoubleBrackets',
 	...stepsToSetup(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
-	comparison: {
+	compare: {
 		multiplication: (input, correct) => !input.some(factor => factor.isPower() && factor.base.isSum()) && equivalent(input, correct),
 		firstExpanded: (input, correct) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && equivalent(input, correct), // No product with two (or more) sums. (And equivalent.)
 		allExpanded: (input, correct) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input, correct) && equivalent(input, correct),
@@ -49,16 +50,16 @@ function getSolution(state) {
 	return { ...state, variables, factor, expression, multiplication, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'multiplication')
+			return compare('multiplication', data)
 		case 2:
-			return performComparison(exerciseData, 'firstExpanded')
+			return compare('firstExpanded', data)
 		case 3:
-			return performComparison(exerciseData, 'allExpanded')
+			return compare('allExpanded', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

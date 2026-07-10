@@ -292,7 +292,7 @@ export class Equation {
 
 	equals(other: EquationLike, equalityOptions: EquationEqualityOptionsInput): boolean {
 		// Verify the given options.
-		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(equalityOptions)
+		const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch, allowMinus } = asEquationEqualityOptions(equalityOptions)
 		if (preprocessSide && (preprocessLeft || preprocessRight)) throw new Error(`Invalid equation equality options: cannot define both preprocessSide and preprocessLeft/preprocessRight. Either use preprocessSide to preprocess both sides in the same way, or use preprocessLeft and preprocessRight to define different preprocessing for the two sides.`)
 		if (compareSide && (compareLeft || compareRight)) throw new Error(`Invalid equation equality options: cannot define both compareSide and compareLeft/compareRight. Either use compareSide to compare both sides in the same way, or use compareLeft and compareRight to define different comparisons for the two sides.`)
 
@@ -311,6 +311,7 @@ export class Equation {
 		// Run comparisons.
 		if (compLeft(prepLeft(otherEq.left), prepLeft(thisEq.left)) && compRight(prepRight(otherEq.right), prepRight(thisEq.right))) return true
 		if (allowSwitch && this.equals(otherEquation.switch(), { ...equalityOptions, allowSwitch: false })) return true
+		if (allowMinus && this.equals(otherEquation.negate(), { ...equalityOptions, allowMinus: false })) return true
 		return false
 	}
 

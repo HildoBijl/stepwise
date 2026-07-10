@@ -6,8 +6,8 @@ const { performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
 	skill: 'determineRefrigerantProcess',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				absoluteTolerance: 4000, // J/kg*K.
 				significantDigitTolerance: 2,
@@ -91,8 +91,8 @@ function getSolution({ refrigerant, phase1, T1, x1, p1, p2 }) {
 	}
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, ['h1', 'h2'])
+function checkInput(data) {
+	return compare(['h1', 'h2'], data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

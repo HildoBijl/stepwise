@@ -32,7 +32,7 @@ export function getTicks(min, max, desiredNumTicks = 7, extendBoundsToTicks = tr
 		return (maxIndex - minIndex) + 1
 	})
 
-	// Evaluate which of the two step sizes is better. Use the ratio of num steps to ideal number of steps for comparison.
+	// Evaluate which of the two step sizes is better. Use the ratio of num steps to ideal number of steps for reference.
 	const index = (numTicksNeeded[0] / desiredNumTicks) < (desiredNumTicks / numTicksNeeded[1]) ? 0 : 1
 	const stepSize = stepSizes[index]
 	const { minIndex, maxIndex } = getMinMaxIndex(stepSize)

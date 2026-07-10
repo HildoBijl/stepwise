@@ -67,17 +67,17 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	</>
 }
 
-function simpleExerciseGetFeedback(exerciseData) {
-	const { shared } = exerciseData
+function simpleExerciseGetFeedback(data) {
+	const { shared } = data
 	const { getSolution, checkInput } = shared || {}
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
 	if (getSolution)
-		return getAllFieldInputsFeedback(exerciseData)
+		return getAllFieldInputsFeedback(data)
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (checkInput)
-		return { main: checkInput(exerciseData) }
+		return { main: checkInput(data) }
 
 	// There is nothing to give feedback based on. (Should never happen.)
 	return {}

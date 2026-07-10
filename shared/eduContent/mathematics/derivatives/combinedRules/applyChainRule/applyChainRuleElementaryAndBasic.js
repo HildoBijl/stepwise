@@ -1,7 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getRandomElementaryFunctions } = require('../../tools')
 
@@ -10,7 +10,7 @@ const variableSet = ['x', 'y', 't']
 const metaData = {
 	skill: 'applyChainRule',
 	...stepsToSetup([['lookUpElementaryDerivative', 'findBasicDerivative'], undefined]),
-	comparison: expressionComparisons.equivalent,
+	compare: { Expression: expressionComparisons.equivalent },
 }
 
 function generateState() {
@@ -32,17 +32,17 @@ function getSolution(state) {
 	return { ...state, x, g, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'fDerivative')
+					return compare('fDerivative', data)
 				case 2:
-					return performComparison(exerciseData, 'gDerivative')
+					return compare('gDerivative', data)
 			}
 		default:
-			return performComparison(exerciseData, 'derivative')
+			return compare('derivative', data)
 	}
 }
 

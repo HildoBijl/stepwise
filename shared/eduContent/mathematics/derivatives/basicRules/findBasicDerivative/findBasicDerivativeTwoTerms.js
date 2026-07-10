@@ -1,7 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getRandomElementaryFunctions, getElementaryFunctionFromTerm } = require('../../tools')
 
@@ -11,7 +11,7 @@ const functionSet = ['f', 'g', 'h']
 const metaData = {
 	skill: 'findBasicDerivative',
 	...stepsToSetup([[undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
-	comparison: expressionComparisons.equivalent,
+	compare: { Expression: expressionComparisons.equivalent },
 }
 
 function generateState() {
@@ -37,24 +37,24 @@ function getSolution(state) {
 	return { ...state, c1, c2, f1, f2, f1Derivative, f2Derivative, derivative }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'f1')
+					return compare('f1', data)
 				case 2:
-					return performComparison(exerciseData, 'f2')
+					return compare('f2', data)
 			}
 		case 2:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'f1Derivative')
+					return compare('f1Derivative', data)
 				case 2:
-					return performComparison(exerciseData, 'f2Derivative')
+					return compare('f2Derivative', data)
 			}
 		default:
-			return performComparison(exerciseData, 'derivative')
+			return compare('derivative', data)
 	}
 }
 

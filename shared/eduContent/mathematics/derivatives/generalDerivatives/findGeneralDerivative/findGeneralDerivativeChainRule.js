@@ -1,7 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getRandomElementaryFunctions } = require('../../tools')
 
@@ -11,7 +11,7 @@ const metaData = {
 	skill: 'findGeneralDerivative',
 	...stepsToSetup([undefined, undefined, 'applyChainRule']),
 	weight: 4,
-	comparison: { method: {}, default: expressionComparisons.equivalent },
+	compare: { method: {}, Expression: expressionComparisons.equivalent },
 }
 
 function generateState() {
@@ -34,14 +34,14 @@ function getSolution(state) {
 	return { ...state, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'method')
+			return compare('method', data)
 		case 2:
-			return performComparison(exerciseData, ['f', 'g'])
+			return compare(['f', 'g'], data)
 		default:
-			return performComparison(exerciseData, 'derivative')
+			return compare('derivative', data)
 	}
 }
 

@@ -8,6 +8,7 @@ export type EquationComparison = (input: Equation, correct: Equation) => boolean
 export type EquationEqualityOptions = {
 	allowOrderChanges: boolean // In expression lists, is x+y the same as y+x and is x*y the same as y*x?
 	allowSwitch: boolean // Is x=2 the same as 2=x?
+	allowMinus: boolean // Is x=2 the same as -x=-2x?
 
 	preprocess: EquationPreprocess // What do we do with the equation before comparing?
 	preprocessSide?: ExpressionPreprocess // What do we do with both sides before comparing?
@@ -23,6 +24,7 @@ export type EquationEqualityOptionsInput = Partial<EquationEqualityOptions>
 export const defaultEquationEqualityOptions: EquationEqualityOptions = {
 	allowOrderChanges: true,
 	allowSwitch: true,
+	allowMinus: false,
 
 	preprocess: identity,
 	preprocessSide: undefined,
@@ -38,7 +40,7 @@ export function asEquationEqualityOptions(options: EquationEqualityOptionsInput 
 }
 
 export function getEquationPreprocessor(options: EquationEqualityOptionsInput): (equation: Equation) => Equation {
-	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(options)
+	const { preprocess, preprocessSide, preprocessLeft, preprocessRight } = asEquationEqualityOptions(options)
 	return (equation: Equation) => {
 		equation = preprocess(equation)
 		if (preprocessSide && (preprocessLeft || preprocessRight)) throw new Error(`Invalid equation equality options: cannot define both preprocessSide and preprocessLeft/preprocessRight. Either use preprocessSide to preprocess both sides equally, or use preprocessLeft and preprocessRight to define different preprocessing for the two sides.`)

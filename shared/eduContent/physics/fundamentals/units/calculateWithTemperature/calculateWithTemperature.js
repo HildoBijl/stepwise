@@ -1,7 +1,7 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { Unit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).
@@ -10,8 +10,8 @@ const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateWithTemperature',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				absoluteTolerance: 0.7,
 				significantDigitTolerance: 1,
@@ -41,8 +41,8 @@ function getSolution(state) {
 	return { ...state, ans: (state.type === 0 ? T.setUnit('dC') : T) }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

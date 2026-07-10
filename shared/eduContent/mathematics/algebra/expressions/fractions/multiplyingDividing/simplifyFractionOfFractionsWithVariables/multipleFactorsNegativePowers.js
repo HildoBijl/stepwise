@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { hasNegativeExponent, hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'p', 'q', 'r', 's', 't']
 const metaData = {
 	skill: 'simplifyFractionOfFractionsWithVariables',
 	...stepsToSetup(['rewriteNegativePower', 'multiplyDivideFractions', 'simplifyFractionWithVariables']),
-	comparison: {
+	compare: {
 		withoutNegativeExponents: (input, correct) => !hasNegativeExponent(input) && equivalent(input, correct),
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct), // A fraction without further subfractions.
 		ans: (input, correct) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct), // No further basic simplifications possible.
@@ -76,14 +77,14 @@ function getSolution(state) {
 	return { ...state, variables, part1, part2, part1WithoutNegativeExponents, part2WithoutNegativeExponents, expression, withoutNegativeExponents, singleFraction, inBetween, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'withoutNegativeExponents')
+			return compare('withoutNegativeExponents', data)
 		case 2:
-			return performComparison(exerciseData, 'singleFraction')
+			return compare('singleFraction', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

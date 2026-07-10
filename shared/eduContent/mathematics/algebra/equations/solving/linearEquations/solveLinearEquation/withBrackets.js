@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asExpression, asEquation, expressionComparisons, equationChecks, equationComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -15,7 +16,7 @@ const metaData = {
 	weight: 2,
 	skill: 'solveLinearEquation',
 	...stepsToSetup(['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
-	comparison: {
+	compare: {
 		expanded: (input, correct) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
 		moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
 		cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
@@ -53,16 +54,16 @@ function getSolution(state) {
 	return { ...state, variables, equation, expanded, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'expanded')
+			return compare('expanded', data)
 		case 2:
-			return performComparison(exerciseData, 'moved')
+			return compare('moved', data)
 		case 3:
-			return performComparison(exerciseData, 'cleaned')
+			return compare('cleaned', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -1,12 +1,12 @@
 const { sample } = require('@step-wise/utils')
 const { gasProperties } = require('@step-wise/physics-data')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'specificGasConstant',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.015,
 			},
@@ -22,8 +22,8 @@ function getSolution({ medium }) {
 	return { Rs: gasProperties[medium].Rs }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'Rs')
+function checkInput(data) {
+	return compare('Rs', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

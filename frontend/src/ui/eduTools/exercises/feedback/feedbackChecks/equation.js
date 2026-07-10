@@ -14,17 +14,17 @@ const translationPath = 'eduTools/feedback'
  * Full equation feedback functions: the standard function whenever feedback options are given.
  */
 
-export const fullEquationFeedback = (input, correct, solution, isCorrect, comparison = {}) => {
+export const fullEquationFeedback = (input, correct, solution, isCorrect, compare = {}) => {
 	// On a correct entry, give a standard feedback message.
 	if (isCorrect)
 		return selectRandomCorrect()
 
 	// Find the right processing and checking functions.
-	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionsShallow(comparison, solution))
+	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionsShallow(compare, solution))
 	input = preprocess(input)
 	correct = preprocess(correct)
 
-	// Determine the right preprocessing and comparison functions.
+	// Determine the right preprocessing and compare functions.
 	const prepLeft = preprocessLeft || preprocessSide || identity
 	const prepRight = preprocessRight || preprocessSide || identity
 	const defaultCompare = (a, b) => a.equalStructure(b, allowOrderChanges)

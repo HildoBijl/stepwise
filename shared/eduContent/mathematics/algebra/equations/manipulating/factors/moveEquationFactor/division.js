@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asEquation, expressionComparisons, equationChecks, equationComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = equationChecks
@@ -18,7 +19,7 @@ const metaData = {
 	skill: 'moveEquationFactor',
 	...stepsToSetup(['multiplyBothEquationSides', 'cancelFractionFactors', 'multiplyDivideFractions']),
 	ansEqualsOptions,
-	comparison: {
+	compare: {
 		bothSidesChanged: { compareSide: equivalent },
 		fractionFactorsCanceled: (input, correct, solution) => correct.equals(input, ansEqualsOptions(solution)),
 		ans: (input, correct, solution) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),
@@ -49,14 +50,14 @@ function getSolution(state) {
 	return { ...state, variables, factor, equation, bothSidesChanged, fractionFactorsCanceled, ans, ansCleaned, isFurtherSimplificationPossible }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'bothSidesChanged')
+			return compare('bothSidesChanged', data)
 		case 2:
-			return performComparison(exerciseData, 'fractionFactorsCanceled')
+			return compare('fractionFactorsCanceled', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

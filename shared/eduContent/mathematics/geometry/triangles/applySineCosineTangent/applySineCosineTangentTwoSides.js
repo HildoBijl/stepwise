@@ -1,15 +1,14 @@
 const { mapValues, sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const variableSet = ['α', 'β', 'γ']
 
 const metaData = {
 	skill: 'applySineCosineTangent',
 	...stepsToSetup([undefined, undefined, undefined]),
-	comparison: {
-		default: {},
+	compare: {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
@@ -78,14 +77,14 @@ function getSolution(state) {
 	return { ...state, a, b, c, notGiven, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'rule')
+			return compare('rule', data)
 		case 2:
-			return performComparison(exerciseData, 'equation')
+			return compare('equation', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

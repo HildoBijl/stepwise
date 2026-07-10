@@ -7,8 +7,8 @@ const { getBasicCycle } = require('../tools')
 const metaData = {
 	skill: 'createCoolingCycleOverview',
 	...stepsToSetup(['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				absoluteTolerance: 4000, // J/kg*K.
 				significantDigitTolerance: 2,
@@ -51,18 +51,18 @@ function getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }
 	return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, TEvap, TCond, T1, T3, h1, h2, h3, h4, s1 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'h1')
+			return compare('h1', data)
 		case 2:
-			return performComparison(exerciseData, 'h2')
+			return compare('h2', data)
 		case 3:
-			return performComparison(exerciseData, 'h3')
+			return compare('h3', data)
 		case 4:
-			return performComparison(exerciseData, 'h4')
+			return compare('h4', data)
 		default:
-			return performComparison(exerciseData, ['h1', 'h2', 'h3', 'h4'])
+			return compare(['h1', 'h2', 'h3', 'h4'], data)
 	}
 }
 

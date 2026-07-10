@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { hasSumWithinProduct, hasSimilarTerms, isFractionLike, hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -15,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 const metaData = {
 	skill: 'addLikeFractionsWithVariables',
 	...stepsToSetup([undefined, 'expandBrackets', 'mergeSimilarTerms']),
-	comparison: {
+	compare: {
 		singleFraction: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 		bracketsExpanded: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
 		ans: (input, correct) => isFractionLike(input) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
@@ -52,14 +53,14 @@ function getSolution(state) {
 	return { ...state, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'singleFraction')
+			return compare('singleFraction', data)
 		case 2:
-			return performComparison(exerciseData, 'bracketsExpanded')
+			return compare('bracketsExpanded', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

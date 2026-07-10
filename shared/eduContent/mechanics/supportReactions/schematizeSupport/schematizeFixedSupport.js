@@ -1,7 +1,7 @@
 const { deg2rad, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { loadSources, loadTypes, getDefaultForce, getDefaultMoment, isLoadAtPoint } = require('../../tools')
 
@@ -10,9 +10,8 @@ const { reaction } = loadSources
 const metaData = {
 	skill: 'schematizeSupport',
 	...stepsToSetup([undefined, undefined, undefined, undefined]),
-	comparison: {
+	compare: {
 		loads: checkFixedSupport,
-		default: {},
 	},
 }
 
@@ -40,16 +39,16 @@ function getSolution(state) {
 	}
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'forcePerpendicular')
+			return compare('forcePerpendicular', data)
 		case 2:
-			return performComparison(exerciseData, 'forceParallel')
+			return compare('forceParallel', data)
 		case 3:
-			return performComparison(exerciseData, 'moment')
+			return compare('moment', data)
 		default:
-			return performComparison(exerciseData, 'loads')
+			return compare('loads', data)
 	}
 }
 

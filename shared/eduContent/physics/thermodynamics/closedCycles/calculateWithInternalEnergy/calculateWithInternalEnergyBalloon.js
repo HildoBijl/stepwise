@@ -2,13 +2,13 @@ const { getRandomNumber } = require('@step-wise/utils')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { helium: { k } } } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'calculateWithInternalEnergy',
 	...stepsToSetup(['calculateHeatAndWork', 'solveLinearEquation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -45,12 +45,12 @@ function getSolution({ p, V1, V2 }) {
 	return { k, ps, V1s, V2s, Q, W, dU }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['Q', 'W'])
+			return compare(['Q', 'W'], data)
 		default:
-			return performComparison(exerciseData, 'dU')
+			return compare('dU', data)
 	}
 }
 

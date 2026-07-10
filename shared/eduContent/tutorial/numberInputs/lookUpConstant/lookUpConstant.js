@@ -1,13 +1,13 @@
 const { sample } = require('@step-wise/utils')
 const { c, g, R, e, k, G } = require('@step-wise/physics-data')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const constants = { c, g, R, e, k, G }
 
 const metaData = {
 	skill: 'lookUpConstant',
-	comparison: { ans: { float: { relativeTolerance: 0.0001 } } },
+	compare: { ans: { float: { relativeTolerance: 0.0001 } } },
 }
 
 function generateState(example) {
@@ -18,8 +18,8 @@ function getSolution({ constant }) {
 	return { ans: constants[constant] }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

@@ -3,7 +3,7 @@ const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { loadSources, loadTypes, getDefaultForce, decomposeForce } = require('../../tools')
 
@@ -12,8 +12,8 @@ const { reaction, external, input } = loadSources
 const metaData = {
 	skill: 'calculateForceOrMoment',
 	...stepsToSetup([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -73,14 +73,14 @@ function getSolution(state) {
 	return { ...state, points, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, FAy, FA }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'method')
+			return compare('method', data)
 		case 2:
-			return performComparison(exerciseData, 'FAy')
+			return compare('FAy', data)
 		default:
-			return performComparison(exerciseData, 'FA')
+			return compare('FA', data)
 	}
 }
 

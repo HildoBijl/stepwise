@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asExpression, asEquation, expressionComparisons, equationChecks } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasVariableInDenominator } = equationChecks
@@ -18,7 +19,7 @@ const metaData = {
 	skill: 'solveLinearEquationWithFractions',
 	...stepsToSetup(['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation']),
 	factorMovedComparison,
-	comparison: {
+	compare: {
 		termMoved: { compareSide: onlyOrderChanges, allowSwitch: true },
 		factorMoved: (input, correct, { variables }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 		ans: onlyOrderChanges,
@@ -54,14 +55,14 @@ function getSolution(state) {
 	return { ...state, variables, equation, termMoved, factorMoved, expanded, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'termMoved')
+			return compare('termMoved', data)
 		case 2:
-			return performComparison(exerciseData, 'factorMoved')
+			return compare('factorMoved', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

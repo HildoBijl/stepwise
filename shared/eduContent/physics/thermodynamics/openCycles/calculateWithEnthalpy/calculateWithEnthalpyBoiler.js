@@ -1,14 +1,14 @@
 const { FloatUnit } = require('@step-wise/physics-core')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { generateState } = require('../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler')
 
 const metaData = {
 	skill: 'calculateWithEnthalpy',
 	...stepsToSetup(['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -27,14 +27,14 @@ function getSolution({ Q, m }) {
 	return { Qs, q, c, dT, wt, dh }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'q')
+			return compare('q', data)
 		case 2:
-			return performComparison(exerciseData, 'wt')
+			return compare('wt', data)
 		default:
-			return performComparison(exerciseData, 'dh')
+			return compare('dh', data)
 	}
 }
 

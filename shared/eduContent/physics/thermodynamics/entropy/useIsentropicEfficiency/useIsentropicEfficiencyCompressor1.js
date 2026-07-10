@@ -1,14 +1,14 @@
 const { gasProperties: { air: { k, cp } } } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('../../gasTurbines')
 
 const metaData = {
 	skill: 'useIsentropicEfficiency',
 	...stepsToSetup(['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -36,14 +36,14 @@ function getSolution({ p1, p2, T1, T2 }) {
 	return { k, cp, T2p, wt, wti, etai }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'T2p')
+			return compare('T2p', data)
 		case 2:
-			return performComparison(exerciseData, ['wt', 'wti'])
+			return compare(['wt', 'wti'], data)
 		default:
-			return performComparison(exerciseData, 'etai')
+			return compare('etai', data)
 	}
 }
 

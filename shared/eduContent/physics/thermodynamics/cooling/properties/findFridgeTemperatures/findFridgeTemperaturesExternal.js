@@ -5,8 +5,8 @@ const { getTemperatures } = require('../../coolingCycles')
 
 const metaData = {
 	skill: 'findFridgeTemperatures',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				significantDigitTolerance: 1,
 			},
@@ -26,8 +26,8 @@ function getSolution({ TCond, TEvap, dTCold, dTWarm }) {
 	return { TCold, TWarm }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, ['TCold', 'TWarm'])
+function checkInput(data) {
+	return compare(['TCold', 'TWarm'], data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

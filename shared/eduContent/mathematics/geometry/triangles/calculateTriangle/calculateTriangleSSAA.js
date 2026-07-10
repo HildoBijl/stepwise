@@ -9,8 +9,7 @@ const variableSet = ['α', 'β', 'γ']
 const metaData = {
 	skill: 'calculateTriangle',
 	...stepsToSetup([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
-	comparison: {
-		default: {},
+	compare: {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
@@ -53,18 +52,18 @@ function getSolution(state) {
 	return { ...state, variables, rule, equation, intermediateEquation, γ1, γ2, b1, b2, numSolutions }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'rule')
+			return compare('rule', data)
 		case 2:
-			return performComparison(exerciseData, 'equation')
+			return compare('equation', data)
 		case 3:
-			return performComparison(exerciseData, 'numSolutions')
+			return compare('numSolutions', data)
 		case 4:
 			return performListComparison(exerciseData, ['γ1', 'γ2'])
 		default:
-			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['γ1', 'γ2'])
+			return compare('numSolutions', data) && performListComparison(exerciseData, ['γ1', 'γ2'])
 	}
 }
 

@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r', 's']
 const metaData = {
 	skill: 'expandDoubleBrackets',
 	...stepsToSetup(['expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
-	comparison: {
+	compare: {
 		firstExpanded: (input, correct, { factor2 }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !equivalent(factor, factor2))) && equivalent(input, correct), // No sum within product, except for factor2. (And equivalent.)
 		allExpanded: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 		ans: onlyOrderChanges,
@@ -53,14 +54,14 @@ function getSolution(state) {
 	return { ...state, variables, factor1, factor2, expression, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'firstExpanded')
+			return compare('firstExpanded', data)
 		case 2:
-			return performComparison(exerciseData, 'allExpanded')
+			return compare('allExpanded', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -1,7 +1,8 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 // (ax-x^2/y)/(bx^2) = cz.
 const availableVariableSets = [['a', 'b', 'c'], ['w', 'x', 'y'], ['p', 'q', 'r']]
@@ -11,7 +12,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveMultiVariableLinearEquationWithFractions',
 	...stepsToSetup(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
-	comparison: {
+	compare: {
 		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.equivalent(input.left, correct.left),
 		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.negate())),
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
@@ -44,14 +45,14 @@ function getSolution(state) {
 	return { ...state, variables, equation, simplified, multiplied, shifted, pulledOut, bracketFactor, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'simplified')
+			return compare('simplified', data)
 		case 2:
-			return performComparison(exerciseData, 'multiplied')
+			return compare('multiplied', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

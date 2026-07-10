@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 const { equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks
@@ -15,7 +16,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 	...stepsToSetup(['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-	comparison: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
+	compare: { Expression: (input, correct) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct) },
 }
 
 function generateState() {
@@ -62,14 +63,14 @@ function getSolution(state) {
 	return { ...state, variables, term1, fraction1, numerator, fraction2, term2, denominator, expression, term1Intermediate, numeratorSplit, numeratorIntermediate, term2Intermediate, denominatorSplit, denominatorIntermediate, intermediate, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'numeratorIntermediate')
+			return compare('numeratorIntermediate', data)
 		case 2:
-			return performComparison(exerciseData, 'denominatorIntermediate')
+			return compare('denominatorIntermediate', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

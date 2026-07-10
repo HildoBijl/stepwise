@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean, repeat, randomIndices } = re
 const { asExpression, expressionComparisons, expressionChecks, expressionOperations } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -16,7 +17,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 const metaData = {
 	skill: 'addFractionsWithVariables',
 	...stepsToSetup(['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables']),
-	comparison: {
+	compare: {
 		sameDenominator: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && equivalent(input, correct),
 		bracketsExpanded: (input, correct) => input.isSum() && input.terms.length === 2 && input.terms.every(term => term.find(part => part.isFraction())) && equivalent(...input.terms.map(term => term.find(part => part.isFraction()).denominator)) && input.terms.every(term => {
 			const numerator = term.find(part => part.isFraction()).numerator
@@ -67,14 +68,14 @@ function getSolution(state) {
 	return { ...state, variables, fractions, expression, sameDenominator, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'sameDenominator')
+			return compare('sameDenominator', data)
 		case 2:
-			return performComparison(exerciseData, 'bracketsExpanded')
+			return compare('bracketsExpanded', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -8,7 +8,7 @@ const usedVariables = ['x', 'y']
 
 const metaData = {
 	skill: 'enterExpression',
-	comparison: { ans: (input, correct) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
+	compare: { ans: (input, correct) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
 }
 
 function generateState() {
@@ -31,8 +31,8 @@ function getSolution({ expression }) {
 	return { ans: expression }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

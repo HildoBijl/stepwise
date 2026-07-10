@@ -1,7 +1,7 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { Unit, getRandomExponentialFloatUnit } = require('@step-wise/physics-core')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
@@ -9,8 +9,8 @@ const { performComparison } = require('../../../../../eduTools')
 
 const metaData = {
 	skill: 'calculateWithMass',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.001,
 				significantDigitTolerance: 0,
@@ -43,8 +43,8 @@ function getSolution(state) {
 	return { ...state, ans: (state.type === 2 ? state.m.setUnit(`${state.prefix}g`) : state.m.setUnit('kg')) }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

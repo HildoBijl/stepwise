@@ -1,6 +1,6 @@
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('../calculateOpenCycle/calculateOpenCyclespsp')
 const { getSolution: getEnergyParameters } = require('../createOpenCycleEnergyOverview/createOpenCycleEnergyOverviewspsp')
@@ -8,8 +8,8 @@ const { getSolution: getEnergyParameters } = require('../createOpenCycleEnergyOv
 const metaData = {
 	skill: 'analyseOpenCycle',
 	...stepsToSetup(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -48,21 +48,21 @@ function getSolution(state) {
 	return { ...energyParameters, ...cycleParameters, P, qin, eta, mdot }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'])
+			return compare(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], data)
 		case 2:
-			return performComparison(exerciseData, ['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'])
+			return compare(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], data)
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'eta')
+					return compare('eta', data)
 				case 2:
-					return performComparison(exerciseData, 'mdot')
+					return compare('mdot', data)
 			}
 		default:
-			return performComparison(exerciseData, ['eta', 'mdot'])
+			return compare(['eta', 'mdot'], data)
 	}
 }
 

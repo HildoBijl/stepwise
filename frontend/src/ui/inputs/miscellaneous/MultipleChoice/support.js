@@ -1,5 +1,5 @@
 export function getEmptySI(multiple) {
-	return multiple ? [] : undefined
+	return { type: 'MultipleChoice', value: multiple ? [] : undefined }
 }
 
 export function isEmpty(FO) {

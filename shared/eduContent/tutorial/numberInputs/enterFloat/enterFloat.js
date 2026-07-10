@@ -1,11 +1,11 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { getRandomExponentialFloat } = require('@step-wise/physics-core')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'enterFloat',
-	comparison: { ans: { significantDigitTolerance: 0, checkPower: true } },
+	compare: { ans: { significantDigitTolerance: 0, checkPower: true } },
 }
 
 function generateState(example) {
@@ -24,8 +24,8 @@ function getSolution({ x }) {
 	return { ans: x }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

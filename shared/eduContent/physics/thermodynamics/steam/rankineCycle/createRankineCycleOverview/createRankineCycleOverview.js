@@ -8,8 +8,8 @@ const { getCycle } = require('../tools')
 const metaData = {
 	skill: 'createRankineCycleOverview',
 	...stepsToSetup(['lookUpSteamProperties', undefined, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.002,
 				significantDigitTolerance: 2,
@@ -48,20 +48,20 @@ function getSolution({ pc, pe, T2 }) {
 	return { hx0, hx1, sx0, sx1, h1, s1, h2, s2, h3, s3, x3, h4, s4 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'h4')
+			return compare('h4', data)
 		case 2:
-			return performComparison(exerciseData, 'h1')
+			return compare('h1', data)
 		case 3:
-			return performComparison(exerciseData, ['h2', 's2'])
+			return compare(['h2', 's2'], data)
 		case 4:
-			return performComparison(exerciseData, 's3')
+			return compare('s3', data)
 		case 5:
-			return performComparison(exerciseData, 'h3')
+			return compare('h3', data)
 		default:
-			return performComparison(exerciseData, ['h1', 'h2', 'h3', 'h4'])
+			return compare(['h1', 'h2', 'h3', 'h4'], data)
 	}
 }
 

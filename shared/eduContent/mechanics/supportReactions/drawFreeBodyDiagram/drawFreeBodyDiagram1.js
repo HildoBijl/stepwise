@@ -1,7 +1,7 @@
 const { getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { Vector } = require('@step-wise/geometry')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../..')
 
@@ -10,7 +10,7 @@ const { reaction, external } = loadSources
 const metaData = {
 	skill: 'drawFreeBodyDiagram',
 	...stepsToSetup(['schematizeSupport', 'schematizeSupport', undefined]),
-	comparison: {
+	compare: {
 		default: (input, correct) => areLoadsMatching(input, correct, FBDComparison)
 	},
 }
@@ -97,14 +97,14 @@ function getReactionLoads(supportType, point = Vector.zero, rotated = false, toR
 	}
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'loadsLeft')
+			return compare('loadsLeft', data)
 		case 2:
-			return performComparison(exerciseData, 'loadsRight')
+			return compare('loadsRight', data)
 		default:
-			return performComparison(exerciseData, 'loads')
+			return compare('loads', data)
 	}
 }
 

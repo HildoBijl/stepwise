@@ -26,8 +26,8 @@ function Solution({ Pe, Pin, Pout, COP }) {
 }
 
 function getFeedback(exerciseData) {
-	const comparison = exerciseData.metaData.comparison.default
+	const compare = exerciseData.metaData.compare.default
 	return getFieldInputFeedback(exerciseData, {
-		COP: (input, answer) => answer.subtract(1).equals(input, comparison) && 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.',
+		COP: (input, answer) => answer.subtract(1).equals(input, compare) && 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.',
 	})
 }

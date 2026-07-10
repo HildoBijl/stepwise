@@ -3,7 +3,8 @@ const { gcd } = require('@step-wise/math-tools')
 const { asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -15,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd']
 const metaData = {
 	skill: 'solveProductEquation',
 	...stepsToSetup(['moveEquationFactor', 'moveEquationFactor', 'simplifyFraction', 'checkEquationSolution']),
-	comparison: {
+	compare: {
 		moved: { compareSide: equivalent, allowSwitch: true },
 		isolated: { compareSide: equivalent, allowSwitch: true },
 		ans: onlyOrderChanges,
@@ -54,16 +55,16 @@ function getSolution(state) {
 	return { ...state, variables, equation, moved, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'moved')
+			return compare('moved', data)
 		case 2:
-			return performComparison(exerciseData, 'isolated')
+			return compare('isolated', data)
 		case 4:
-			return performComparison(exerciseData, ['checkLeft', 'checkRight'])
+			return compare(['checkLeft', 'checkRight'], data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

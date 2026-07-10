@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, count } = require('@step-wise/utils')
 const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasProductWithinPowerBase } = expressionChecks
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'c', 'd']
 const metaData = {
 	skill: 'simplifyProductOfPowers',
 	...stepsToSetup(['rewritePower', 'simplifyNumberProduct', 'rewritePower']),
-	comparison: {
+	compare: {
 		bracketsExpanded: (input, correct) => !hasProductWithinPowerBase(input) && equivalent(input, correct),
 		numbersSimplified: (input, correct) => !hasProductWithinPowerBase(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
 		ans: onlyOrderChanges,
@@ -42,14 +43,14 @@ function getSolution(state) {
 	return { ...state, variables, expression, bracketsExpanded, numbersSimplified, powersMerged, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'bracketsExpanded')
+			return compare('bracketsExpanded', data)
 		case 2:
-			return performComparison(exerciseData, 'numbersSimplified')
+			return compare('numbersSimplified', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

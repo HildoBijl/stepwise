@@ -1,6 +1,6 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'summationAndMultiplication',
@@ -25,19 +25,19 @@ function getSolution({ a, b, c, d }) {
 	return { order, ab, cd, ans }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'order')
+			return compare('order', data)
 		case 2:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, 'ab')
+					return compare('ab', data)
 				case 2:
-					return performComparison(exerciseData, 'cd')
+					return compare('cd', data)
 			}
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

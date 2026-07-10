@@ -101,9 +101,9 @@ function getFeedback(exerciseData) {
 	}
 }
 
-function getCustomFBDFeedback(input, solution, comparison, A, B) {
+function getCustomFBDFeedback(input, solution, compare, A, B) {
 	// Derive feedback on the loads. This is custom feedback, so no function is called for it. It is determined straight from the matching.
-	const matching = getLoadMatching(input, solution, comparison)
+	const matching = getLoadMatching(input, solution, compare)
 
 	// Check if any input loads are not matched.
 	const unmatchedInputLoads = input.filter((_, index) => matching.input[index].length === 0)

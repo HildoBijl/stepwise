@@ -2,14 +2,14 @@ const { tableInterpolate, inverseTableInterpolate } = require('@step-wise/interp
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { cp } }, maximumHumidity } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('../tools')
 
 const metaData = {
 	...stepsToSetup(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.05,
 				significantDigitTolerance: 1,
@@ -67,14 +67,14 @@ function getSolution({ T1, startRH, T4, endRH, mdot }) {
 	return { T2, T3, startAH, startAHmax, endAH, endAHmax, cp, qcool, qheat, Pcool, Pheat }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'T3')
+			return compare('T3', data)
 		case 2:
-			return performComparison(exerciseData, ['qcool', 'qheat'])
+			return compare(['qcool', 'qheat'], data)
 		default:
-			return performComparison(exerciseData, ['Pcool', 'Pheat'])
+			return compare(['Pcool', 'Pheat'], data)
 	}
 }
 

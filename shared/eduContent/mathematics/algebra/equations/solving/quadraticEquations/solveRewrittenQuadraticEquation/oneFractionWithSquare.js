@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c', 'd']
 const metaData = {
 	skill: 'solveRewrittenQuadraticEquation',
 	...stepsToSetup(['bringEquationToStandardForm', 'solveQuadraticEquation']),
-	comparison: {
+	compare: {
 		standardForm: {
 			compareLeft: (input, correct) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
 				if (constantMultiple(input, correct))
@@ -108,15 +108,15 @@ function getSolution(state) {
 	return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, standardForm, p, q, r, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	const { solution } = exerciseData
 	const { numSolutions } = solution
 
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'standardForm')
+			return compare('standardForm', data)
 		default:
-			return performComparison(exerciseData, 'numSolutions') && (numSolutions !== 1 || performComparison(exerciseData, 'ans1')) && (numSolutions !== 2 || performListComparison(exerciseData, ['ans1', 'ans2']))
+			return compare('numSolutions', data) && (numSolutions !== 1 || compare('ans1', data)) && (numSolutions !== 2 || performListComparison(exerciseData, ['ans1', 'ans2']))
 	}
 }
 

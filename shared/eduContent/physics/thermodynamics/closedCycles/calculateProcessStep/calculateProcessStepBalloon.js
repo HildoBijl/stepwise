@@ -1,10 +1,10 @@
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { Rs } } } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const comparison = {
-	default: {
+	FloatUnit: {
 		float: {
 			relativeTolerance: 0.015,
 			significantDigitTolerance: 1,
@@ -21,8 +21,8 @@ const comparison = {
 const metaData = {
 	skill: 'calculateProcessStep',
 	...stepsToSetup(['gasLaw', 'recognizeProcessTypes', 'gasLaw']),
-	comparison: {
-		default: comparison.default,
+	compare: {
+		FloatUnit: comparison.FloatUnit,
 		T1: comparison.T,
 		T2: comparison.T,
 		process: {},
@@ -65,16 +65,16 @@ function getSolution({ m, V1, T1, T2 }) {
 	return { process: 0, m, V1, T1, T2, ms, Rs, p1, p2, V1s, V2, T1s, T2s }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['p1', 'V1', 'T1'])
+			return compare(['p1', 'V1', 'T1'], data)
 		case 2:
-			return performComparison(exerciseData, 'process')
+			return compare('process', data)
 		case 3:
-			return performComparison(exerciseData, ['p2', 'V2', 'T2'])
+			return compare(['p2', 'V2', 'T2'], data)
 		default:
-			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2'])
+			return compare(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], data)
 	}
 }
 

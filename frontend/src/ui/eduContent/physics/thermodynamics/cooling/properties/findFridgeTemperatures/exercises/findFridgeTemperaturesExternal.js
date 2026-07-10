@@ -31,7 +31,7 @@ function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, solution, metaData: { comparison } } = exerciseData
+	const { input, state, solution, metaData: { compare } } = exerciseData
 	const { type, dTCold, dTWarm, TEvap, TCond } = state
 	const { TCold, TWarm } = solution
 
@@ -42,32 +42,32 @@ function getFeedback(exerciseData) {
 	const feedback = {}
 
 	// Have the condensor/evaporator been mixed up?
-	if (TCold.equals(input.TWarm, comparison.default) && TWarm.equals(input.TCold, comparison.default))
+	if (TCold.equals(input.TWarm, compare.default) && TWarm.equals(input.TCold, compare.default))
 		return {
 			TCold: { correct: false, text: 'Oops ... je hebt de positie van de condensor en de verdamper omgewisseld.' },
 			TWarm: { correct: false, text: `Dit is dus de temperatuur van de ${type === 'heatPump' ? 'buitenlucht' : 'koelkast'}.` },
 		}
 
 	// Has at the evaporator the temperature been subtracted?
-	if (TCold.equals(input.TCold, comparison.default))
+	if (TCold.equals(input.TCold, compare.default))
 		feedback.TCold = true
 	else if (wrong.TCold.equals(input.TCold))
 		feedback.TCold = { correct: false, text: `Moet het koudemiddel in de verdamper warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'buitenlucht' : 'koelruimte'} te onttrekken?` }
-	else if (TWarm.equals(input.TCold, comparison.default))
+	else if (TWarm.equals(input.TCold, compare.default))
 		feedback.TCold = { correct: false, text: `Dit is de temperatuur in de ${type === 'heatPump' ? 'woonkamer' : 'keuken'}.` }
-	else if (wrong.TWarm.equals(input.TCold, comparison.default))
+	else if (wrong.TWarm.equals(input.TCold, compare.default))
 		feedback.TCold = { correct: false, text: 'Je haalt een hoop door elkaar. Waar zit de verdamper? En moet het temperatuursverschil erbij of juist eraf?' }
 	else
 		feedback.TCold = { correct: false, text: 'Hoe kom je hierop? Het idee is dat je het juiste temperatuursverschil bij de juiste temperatuur optelt/aftrekt. Niets meer.' }
 
 	// Has at the condensor the temperature been added?
-	if (TWarm.equals(input.TWarm, comparison.default))
+	if (TWarm.equals(input.TWarm, compare.default))
 		feedback.TWarm = true
-	else if (wrong.TWarm.equals(input.TWarm, comparison.default))
+	else if (wrong.TWarm.equals(input.TWarm, compare.default))
 		feedback.TWarm = { correct: false, text: `Moet het koudemiddel in de condensor warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'woonkamer' : 'keuken'} af te geven?` }
-	else if (TCold.equals(input.TWarm, comparison.default))
+	else if (TCold.equals(input.TWarm, compare.default))
 		feedback.TWarm = { correct: false, text: `Dit is de temperatuur in de ${type === 'heatPump' ? 'buitenlucht' : 'koelkast'}.` }
-	else if (wrong.TCold.equals(input.TWarm, comparison.default))
+	else if (wrong.TCold.equals(input.TWarm, compare.default))
 		feedback.TWarm = { correct: false, text: 'Je haalt een hoop door elkaar. Waar zit de condensor? En moet het temperatuursverschil erbij of juist eraf?' }
 	else
 		feedback.TWarm = { correct: false, text: 'Hoe kom je hierop? Het idee is dat je het juiste temperatuursverschil bij de juiste temperatuur optelt/aftrekt. Niets meer.' }

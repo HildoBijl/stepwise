@@ -1,10 +1,10 @@
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'calculateWithEfficiency',
-	comparison: { default: { float: { significantDigitTolerance: 1 } } },
+	compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 }
 
 function generateState() {
@@ -29,8 +29,8 @@ function getSolution({ E, Ein }) {
 	return { eta: E.divide(Ein).setUnit('') }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'eta')
+function checkInput(data) {
+	return compare('eta', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

@@ -1,13 +1,13 @@
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { getCycle } = require('../../steam/rankineCycle')
 
 const metaData = {
 	skill: 'useIsentropicEfficiency',
 	...stepsToSetup(['calculateWithEnthalpy', 'solveLinearEquation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -31,12 +31,12 @@ function getSolution({ h1, h2p, h2 }) {
 	return { wti, wt, etai }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['wti', 'wt'])
+			return compare(['wti', 'wt'], data)
 		default:
-			return performComparison(exerciseData, 'etai')
+			return compare('etai', data)
 	}
 }
 

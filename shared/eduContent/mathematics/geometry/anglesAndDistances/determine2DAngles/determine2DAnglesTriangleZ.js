@@ -10,7 +10,6 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'determine2DAngles',
 	...stepsToSetup([undefined, undefined, undefined]),
-	comparison: { default: {} },
 }
 
 function generateState() {
@@ -36,14 +35,14 @@ function getSolution(state) {
 	return { ...state, variables, alpha, beta, gamma }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'alpha')
+			return compare('alpha', data)
 		case 2:
-			return performComparison(exerciseData, 'beta')
+			return compare('beta', data)
 		default:
-			return performComparison(exerciseData, 'gamma')
+			return compare('gamma', data)
 	}
 }
 

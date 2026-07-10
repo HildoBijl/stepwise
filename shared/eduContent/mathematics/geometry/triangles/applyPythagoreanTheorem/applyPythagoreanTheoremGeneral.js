@@ -1,7 +1,7 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
 const variableSet = ['x', 'y', 'z']
@@ -9,8 +9,7 @@ const variableSet = ['x', 'y', 'z']
 const metaData = {
 	skill: 'applyPythagoreanTheorem',
 	...stepsToSetup([undefined, undefined, undefined]),
-	comparison: {
-		default: {},
+	compare: {
 		equation: equationComparisons.equivalent,
 	},
 }
@@ -77,14 +76,14 @@ function getSolution(state) {
 	return { ...state, toFind, a, b, c, x, equation, ansSquared, ansSquaredSimplified, ansRaw, ans, ansCanBeSimplified }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'equation')
+			return compare('equation', data)
 		case 2:
-			return performComparison(exerciseData, 'ansSquared')
+			return compare('ansSquared', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -56,6 +56,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			let result = getFeedback({
 				...pickKeys(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state', 'example']),
 				input: inputFO,
+				rawInput: input,
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,
 				translate, translateCrossExercise,

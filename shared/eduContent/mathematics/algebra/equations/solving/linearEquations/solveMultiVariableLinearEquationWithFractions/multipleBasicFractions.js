@@ -1,7 +1,8 @@
 const { sample, getRandomInteger } = require('@step-wise/utils')
 const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 // (y+b)/(x+c) + a/x = z/x.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -11,7 +12,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'solveMultiVariableLinearEquationWithFractions',
 	...stepsToSetup(['multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
-	comparison: {
+	compare: {
 		multiplied: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 	},
@@ -48,12 +49,12 @@ function getSolution(state) {
 	return { ...state, variables, equation, factor1, factor2, factor, multiplied, expanded, merged, shifted, pulledOut, bracketFactor, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'multiplied')
+			return compare('multiplied', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

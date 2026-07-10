@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asExpression, asEquation, expressionComparisons, expressionChecks } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasSumWithinFraction } = expressionChecks
@@ -15,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'n']
 const metaData = {
 	skill: 'multiplyAllEquationTerms',
 	...stepsToSetup(['multiplyBothEquationSides', 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables']),
-	comparison: {
+	compare: {
 		form: { compareSide: equivalent },
 		expanded: { compareSide: (input, correct) => !hasSumWithinFraction(input) && equivalent(input, correct) },
 		ans: { compareSide: onlyOrderChanges },
@@ -61,14 +62,14 @@ function getSolution(state) {
 	return { ...state, variables, equation, factor, form, expanded, ansIntermediate, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'form')
+			return compare('form', data)
 		case 2:
-			return performComparison(exerciseData, 'expanded')
+			return compare('expanded', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

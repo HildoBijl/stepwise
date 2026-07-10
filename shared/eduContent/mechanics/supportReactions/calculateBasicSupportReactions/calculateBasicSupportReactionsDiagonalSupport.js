@@ -3,7 +3,7 @@ const { Vector } = require('@step-wise/geometry')
 const { asExpression } = require('@step-wise/cas')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')
 
@@ -12,8 +12,8 @@ const { reaction, external } = loadSources
 const metaData = {
 	skill: 'calculateBasicSupportReactions',
 	...stepsToSetup(['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', undefined]),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -97,18 +97,18 @@ function getDynamicSolution(directionIndices, solution, state) {
 
 const getSolution = { dependentFields: ['loads'], getStaticSolution, getInputDependency, getDynamicSolution }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
 			return performLoadsComparison(exerciseData, 'loads')
 		case 2:
-			return performComparison(exerciseData, 'FC')
+			return compare('FC', data)
 		case 3:
-			return performComparison(exerciseData, 'FAy')
+			return compare('FAy', data)
 		case 4:
-			return performComparison(exerciseData, 'FAx')
+			return compare('FAx', data)
 		default:
-			return performLoadsComparison(exerciseData, 'loads') && performComparison(exerciseData, exerciseData.solution.loadsToCheck)
+			return performLoadsComparison(exerciseData, 'loads') && compare(exerciseData.solution.loadsToCheck, data)
 	}
 }
 

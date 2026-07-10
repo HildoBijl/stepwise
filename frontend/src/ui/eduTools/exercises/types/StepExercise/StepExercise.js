@@ -64,25 +64,25 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	</>
 }
 
-function stepExerciseGetFeedback(exerciseData) {
-	const { progress, history, shared } = exerciseData
+function stepExerciseGetFeedback(data) {
+	const { progress, history, shared } = data
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
 	if (shared.getSolution)
-		return getAllFieldInputsFeedback(exerciseData)
+		return getAllFieldInputsFeedback(data)
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (shared.checkInput) {
 		// If the exercise is not split, only do so for the main problem.
 		if (!progress.split)
-			return { main: shared.checkInput(exerciseData, 0) }
+			return { main: shared.checkInput(data, 0) }
 
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
 		const previousProgress = getPreviousProgress(history)
 		const step = getStep(previousProgress)
 		repeat(step, (index) => {
-			feedback[`step${index + 1}main`] = shared.checkInput(exerciseData, index + 1)
+			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)
 		})
 		return feedback
 	}

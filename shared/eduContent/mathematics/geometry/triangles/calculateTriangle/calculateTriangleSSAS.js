@@ -8,8 +8,7 @@ const variableSet = ['x', 'y', 'z']
 const metaData = {
 	skill: 'calculateTriangle',
 	...stepsToSetup([undefined, undefined, undefined, 'solveQuadraticEquation']),
-	comparison: {
-		default: {},
+	compare: {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
@@ -53,18 +52,18 @@ function getSolution(state) {
 	return { ...state, variables, rule, equationRaw, equation, equationInStandardForm, numSolutions, b1Raw, b1, b2Raw, b2 }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'rule')
+			return compare('rule', data)
 		case 2:
-			return performComparison(exerciseData, 'equation')
+			return compare('equation', data)
 		case 3:
-			return performComparison(exerciseData, 'numSolutions')
+			return compare('numSolutions', data)
 		case 4:
 			return performListComparison(exerciseData, ['b1', 'b2'])
 		default:
-			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['b1', 'b2'])
+			return compare('numSolutions', data) && performListComparison(exerciseData, ['b1', 'b2'])
 	}
 }
 

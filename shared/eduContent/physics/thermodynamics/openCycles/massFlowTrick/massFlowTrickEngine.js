@@ -1,12 +1,12 @@
 const { and } = require('@step-wise/skill-setup')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	setup: and('calculateWithSpecificQuantities', 'massFlowTrick'),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -38,8 +38,8 @@ function getSolution({ rho, mdot }) {
 	return { v, Vdot }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'Vdot')
+function checkInput(data) {
+	return compare('Vdot', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

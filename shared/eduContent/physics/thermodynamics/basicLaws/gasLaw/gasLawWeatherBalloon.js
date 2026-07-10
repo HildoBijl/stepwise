@@ -1,12 +1,12 @@
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { helium: { Rs } } } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	...stepsToSetup(['gasLaw', 'gasLaw']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -59,12 +59,12 @@ function getSolution({ p1, p2, T1, T2, V1 }) {
 	return { p1s, p2s, V1s, V2, T1s, T2s, m, Rs }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'm')
+			return compare('m', data)
 		default:
-			return performComparison(exerciseData, 'V2')
+			return compare('V2', data)
 	}
 }
 

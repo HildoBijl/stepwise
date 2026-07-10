@@ -2,13 +2,13 @@ const { getRandomNumber } = require('@step-wise/utils')
 const { FloatUnit, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { gasProperties: { air: { k, Rs, cv } } } = require('@step-wise/physics-data')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'calculateMissedWork',
 	...stepsToSetup(['calculateEntropyChange', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -66,16 +66,16 @@ function getSolution({ m, TAtm, T1, T2, T2p }) {
 	return { cv, dS12p, dS2p2, dS, Wm }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'dS12p')
+			return compare('dS12p', data)
 		case 2:
-			return performComparison(exerciseData, 'dS2p2')
+			return compare('dS2p2', data)
 		case 3:
-			return performComparison(exerciseData, 'dS')
+			return compare('dS', data)
 		default:
-			return performComparison(exerciseData, 'Wm')
+			return compare('Wm', data)
 	}
 }
 

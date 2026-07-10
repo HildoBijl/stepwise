@@ -1,12 +1,12 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { asExpression, expressionChecks, expressionComparisons } = require('@step-wise/cas')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 // 1/a^b => a^(-b)
 const metaData = {
 	skill: 'rewriteNegativePower',
-	comparison: { ans: (input, correct) => !expressionChecks.hasFraction(input) && expressionComparisons.equivalent(input, correct) }, // The input has no powers with negative exponents and is equivalent to the model solution.
+	compare: { ans: (input, correct) => !expressionChecks.hasFraction(input) && expressionComparisons.equivalent(input, correct) }, // The input has no powers with negative exponents and is equivalent to the model solution.
 }
 
 function generateState(example) {
@@ -23,8 +23,8 @@ function getSolution(state) {
 	return { ...state, expression, ans, simplified }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'ans')
+function checkInput(data) {
+	return compare('ans', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

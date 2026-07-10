@@ -1,14 +1,14 @@
 const { getRandomInteger } = require('@step-wise/utils')
 const { getRandomFloat, getRandomFloatUnit } = require('@step-wise/physics-core')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'linearInterpolation',
 	...stepsToSetup(['solveLinearEquation', 'solveLinearEquation']),
 
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.01,
 				significantDigitTolerance: 1,
@@ -70,12 +70,12 @@ function getSolution({ type, h1, h2, W1, W2, h, W }) {
 	return { type, h1, h2, W1, W2, x, h, W }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'x')
+			return compare('x', data)
 		default:
-			return performComparison(exerciseData, exerciseData.state.type === 1 ? 'W' : 'h')
+			return compare(exerciseData.state.type === 1 ? 'W' : 'h', data)
 	}
 }
 

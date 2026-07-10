@@ -1,15 +1,14 @@
 const { sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const variableSet = ['x', 'y', 'z']
 
 const metaData = {
 	skill: 'calculateTriangle',
 	...stepsToSetup([undefined, undefined, undefined, 'solveQuadraticEquation']),
-	comparison: {
-		default: {},
+	compare: {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct),
 	},
 }
@@ -42,18 +41,18 @@ function getSolution(state) {
 	return { ...state, variables, rule, equationRaw, equation, numSolutions, aRaw, a }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'rule')
+			return compare('rule', data)
 		case 2:
-			return performComparison(exerciseData, 'equation')
+			return compare('equation', data)
 		case 3:
-			return performComparison(exerciseData, 'numSolutions')
+			return compare('numSolutions', data)
 		case 4:
-			return performComparison(exerciseData, 'a')
+			return compare('a', data)
 		default:
-			return performComparison(exerciseData, ['numSolutions', 'a'])
+			return compare(['numSolutions', 'a'], data)
 	}
 }
 

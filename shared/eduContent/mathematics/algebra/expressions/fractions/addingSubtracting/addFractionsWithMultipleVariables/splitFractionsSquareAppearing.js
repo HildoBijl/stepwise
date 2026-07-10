@@ -1,7 +1,8 @@
 const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils')
 const { asExpression, expressionComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges } = expressionComparisons
 
@@ -13,7 +14,7 @@ const constants = ['a', 'b']
 const metaData = {
 	skill: 'addFractionsWithMultipleVariables',
 	...stepsToSetup(['addLikeFractionsWithVariables', ['simplifyFractionWithVariables', 'simplifyFractionWithVariables'], undefined]),
-	comparison: onlyOrderChanges,
+	compare: { Expression: onlyOrderChanges },
 }
 
 function generateState() {
@@ -46,14 +47,14 @@ function getSolution(state) {
 	return { ...state, variables, expression, leftExpression, rightExpression, split, leftAns, rightAns, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'split')
+			return compare('split', data)
 		case 2:
-			return performComparison(exerciseData, ['leftAns', 'rightAns'])
+			return compare(['leftAns', 'rightAns'], data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

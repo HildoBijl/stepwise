@@ -2,7 +2,8 @@ const { sample, getRandomInteger } = require('@step-wise/utils')
 const { repeat } = require('@step-wise/skill-setup')
 const { asEquation, expressionComparisons, equationComparisons } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { selectRandomVariables, filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { selectRandomVariables, filterVariables } = require('../../../../../../../eduTools')
 
 // (ax+bz)y = cx + d.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -12,10 +13,10 @@ const constants = ['a', 'b', 'c', 'd']
 const metaData = {
 	skill: 'solveMultiVariableLinearEquation',
 	...stepsToSetup(['expandBrackets', repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
-	comparison: {
-		default: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
+	compare: {
 		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
+		Equation: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
 	},
 }
 
@@ -50,16 +51,16 @@ function getSolution(state) {
 	return { ...state, variables, equation, termsMoved, bracketsExpanded, pulledOut, bracketTerm, ans, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'bracketsExpanded')
+			return compare('bracketsExpanded', data)
 		case 2:
-			return performComparison(exerciseData, 'termsMoved')
+			return compare('termsMoved', data)
 		case 3:
-			return performComparison(exerciseData, 'pulledOut')
+			return compare('pulledOut', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 // a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']
@@ -12,7 +13,7 @@ const constants = ['a', 'b']
 const metaData = {
 	skill: 'moveEquationFactor',
 	...stepsToSetup(['multiplyBothEquationSides', 'cancelFractionFactors']),
-	comparison: {
+	compare: {
 		bothSidesChanged: { compareSide: expressionComparisons.equivalent },
 		ans: {},
 	}
@@ -37,12 +38,12 @@ function getSolution(state) {
 	return { ...state, variables, factor, equation, bothSidesChanged, ans }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'bothSidesChanged')
+			return compare('bothSidesChanged', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

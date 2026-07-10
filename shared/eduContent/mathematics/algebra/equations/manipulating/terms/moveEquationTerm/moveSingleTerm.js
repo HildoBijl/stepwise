@@ -2,7 +2,8 @@ const { sample, getRandomInteger, getRandomBoolean } = require('@step-wise/utils
 const { asExpression, asEquation, expressionComparisons } = require('@step-wise/cas')
 
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../../eduTools')
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -14,7 +15,7 @@ const constants = ['a', 'b', 'c']
 const metaData = {
 	skill: 'moveEquationTerm',
 	...stepsToSetup(['addToBothEquationSides', 'cancelSumTerms']),
-	comparison: {
+	compare: {
 		bothSidesChanged: { compareSide: equivalent },
 		ans: { compareSide: onlyOrderChanges },
 	}
@@ -52,12 +53,12 @@ function getSolution(state) {
 	return { ...state, variables, terms, equation, termIsLeft, positive, termToMove, bothSidesChanged, ans, ansWithWrongSignUsed }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'bothSidesChanged')
+			return compare('bothSidesChanged', data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

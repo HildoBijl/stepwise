@@ -3,7 +3,8 @@ const { binomial } = require('@step-wise/math-tools')
 const { repeat: skillRepeat } = require('@step-wise/skill-setup')
 const { asExpression, expressionComparisons, expressionChecks } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { filterVariables, performComparison } = require('../../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
+const { filterVariables } = require('../../../../../../eduTools')
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasProductWithinPowerBase } = expressionChecks
@@ -16,8 +17,8 @@ const constants = ['a', 'b', 'c', 'd', 'e']
 const metaData = {
 	skill: 'expandPowerOfSum',
 	...stepsToSetup([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
-	comparison: {
-		default: onlyOrderChanges,
+	compare: {
+		Expression: onlyOrderChanges,
 	}
 }
 
@@ -50,14 +51,14 @@ function getSolution(state) {
 	return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromEntries(termsNames, termsSimplified), termsNames, ...fromEntries(coefficientsNames, coefficients), coefficientsNames }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, exerciseData.solution.termsNames)
+			return compare(data.solution.termsNames, data)
 		case 2:
-			return performComparison(exerciseData, exerciseData.solution.coefficientsNames)
+			return compare(data.solution.coefficientsNames, data)
 		default:
-			return performComparison(exerciseData, 'ans')
+			return compare('ans', data)
 	}
 }
 

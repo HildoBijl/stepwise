@@ -3,12 +3,12 @@ const { tableInterpolate } = require('@step-wise/interpolation')
 const { getRandomFloatUnit } = require('@step-wise/physics-core')
 const { maximumHumidity } = require('@step-wise/physics-data')
 const { buildSimpleExercise } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const metaData = {
 	skill: 'readMollierDiagram',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				absoluteTolerance: 0.0005, // In standard units: kg/kg.
 			},
@@ -40,8 +40,8 @@ function getSolution({ T, RH }) {
 	return { AHmax, AH }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, 'AH')
+function checkInput(data) {
+	return compare('AH', data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

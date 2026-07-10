@@ -6,8 +6,8 @@ const { performComparison } = require('../../../../../../eduTools')
 
 const metaData = {
 	skill: 'lookUpSteamProperties',
-	comparison: {
-		default: {
+	compare: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.001,
 			},
@@ -35,8 +35,8 @@ function getSolution({ p, type }) {
 	return { p, type, T, h, s }
 }
 
-function checkInput(exerciseData) {
-	return performComparison(exerciseData, ['T', 'h', 's'])
+function checkInput(data) {
+	return compare(['T', 'h', 's'], data)
 }
 
 module.exports = buildSimpleExercise({ metaData, generateState, getSolution, checkInput })

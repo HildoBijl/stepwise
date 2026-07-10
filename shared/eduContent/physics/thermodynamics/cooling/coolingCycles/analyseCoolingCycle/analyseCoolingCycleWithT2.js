@@ -20,7 +20,7 @@ const factorComparison = {
 const metaData = {
 	skill: 'analyseCoolingCycle',
 	...stepsToSetup(['createCoolingCycleOverview', ['calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick']]),
-	comparison: {
+	compare: {
 		h1: hComparison,
 		h2p: hComparison,
 		h2: hComparison,
@@ -95,21 +95,21 @@ function getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, 
 	return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, TEvap, TCond, T1, T2, T3, h1, h2, h2p, h3, h4, s1, wtp, wt, etai, qin, qout, epsilon, COP, mdot, P }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['h1', 'h2p', 'h2', 'h3', 'h4'])
+			return compare(['h1', 'h2p', 'h2', 'h3', 'h4'], data)
 		case 2:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, ['epsilon', 'COP'])
+					return compare(['epsilon', 'COP'], data)
 				case 2:
-					return performComparison(exerciseData, 'etai')
+					return compare('etai', data)
 				case 3:
-					return performComparison(exerciseData, 'P')
+					return compare('P', data)
 			}
 		default:
-			return performComparison(exerciseData, ['epsilon', 'COP', 'etai', 'P'])
+			return compare(['epsilon', 'COP', 'etai', 'P'], data)
 	}
 }
 

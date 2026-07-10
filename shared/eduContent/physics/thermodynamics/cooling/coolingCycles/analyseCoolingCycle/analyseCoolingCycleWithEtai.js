@@ -20,7 +20,7 @@ const factorComparison = {
 const metaData = {
 	skill: 'analyseCoolingCycle',
 	...stepsToSetup(['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']]),
-	comparison: {
+	compare: {
 		h1: hComparison,
 		h2p: hComparison,
 		h2: { ...hComparison, float: { ...hComparison.float, absoluteTolerance: 1.5 * hComparison.float.absoluteTolerance } },
@@ -92,21 +92,21 @@ function getSolution({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating
 	return { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling, TEvap, TCond, pEvap, pCond, T1, T3, h1, h2, h2p, h3, h4, s1, wtp, wt, etai, qin, qout, epsilon, COP, mdot, P }
 }
 
-function checkInput(exerciseData, step, substep) {
+function checkInput(data, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['h1', 'h2p', 'h3', 'h4'])
+			return compare(['h1', 'h2p', 'h3', 'h4'], data)
 		case 2:
-			return performComparison(exerciseData, 'h2')
+			return compare('h2', data)
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison(exerciseData, ['epsilon', 'COP'])
+					return compare(['epsilon', 'COP'], data)
 				case 2:
-					return performComparison(exerciseData, 'mdot')
+					return compare('mdot', data)
 			}
 		default:
-			return performComparison(exerciseData, ['epsilon', 'COP', 'mdot'])
+			return compare(['epsilon', 'COP', 'mdot'], data)
 	}
 }
 

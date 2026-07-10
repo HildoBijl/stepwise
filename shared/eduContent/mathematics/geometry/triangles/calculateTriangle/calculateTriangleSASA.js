@@ -1,15 +1,14 @@
 const { compareNumbers, sample, getRandomNumber, getRandomBoolean, getRandomInteger } = require('@step-wise/utils')
 const { asExpression, asEquation } = require('@step-wise/cas')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
-const { performComparison } = require('../../../../../eduTools')
+const { compare } = require('@step-wise/exercise-grading')
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']
 
 const metaData = {
 	...stepsToSetup(['calculateTriangle', 'calculateTriangle', undefined]),
-	comparison: {
-		default: {},
+	compare: {
 		βRaw: (input, correct, { variables, a }) => compareNumbers(...[input, correct].map(value => value.substitute(variables.a, a).number)), // Plug in the value of a and compare numbers. This is the easiest way to allow for alternate solutions.
 	},
 }
@@ -48,16 +47,16 @@ function getSolution(state) {
 	return { ...state, variables, numSolutions, equation1Raw, equation1, aRaw, a, equation2Raw, equation2, intermediateEquation, βRaw, β }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, ['numSolutions', 'a'])
+			return compare(['numSolutions', 'a'], data)
 		case 2:
-			return performComparison(exerciseData, 'βRaw')
+			return compare('βRaw', data)
 		case 3:
-			return performComparison(exerciseData, 'β')
+			return compare('β', data)
 		default:
-			return performComparison(exerciseData, ['numSolutions', 'β'])
+			return compare(['numSolutions', 'β'], data)
 	}
 }
 

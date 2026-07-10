@@ -142,7 +142,7 @@ function getFeedback(exerciseData) {
 			forceParallel: { step: 2, incorrectText: forceParallelText },
 			moment: { step: 3, incorrectText: momentText },
 		}),
-		...getFBDFeedback(exerciseData, { loads: { comparison: FBDComparison, feedbackChecks: loadsChecks } }),
+		...getFBDFeedback(exerciseData, { loads: { compare: FBDComparison, feedbackChecks: loadsChecks } }),
 	}
 }
 

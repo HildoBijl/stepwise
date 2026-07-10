@@ -7,8 +7,7 @@ const variableSet = ['α', 'β', 'γ']
 
 const metaData = {
 	...stepsToSetup(['calculateTriangle', 'determine2DAngles']),
-	comparison: {
-		default: {},
+	compare: {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
@@ -55,14 +54,14 @@ function getSolution(state) {
 	return { ...state, variables, rule, equation, intermediateEquation, γ1, γ2, β1, β2, b1, b2, numSolutions }
 }
 
-function checkInput(exerciseData, step) {
+function checkInput(data, step) {
 	switch (step) {
 		case 1:
-			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['γ1', 'γ2'])
+			return compare('numSolutions', data) && performListComparison(exerciseData, ['γ1', 'γ2'])
 		case 2:
 			return performListComparison(exerciseData, ['β1', 'β2'])
 		default:
-			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['β1', 'β2'])
+			return compare('numSolutions', data) && performListComparison(exerciseData, ['β1', 'β2'])
 	}
 }
 
