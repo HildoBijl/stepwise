@@ -202,7 +202,7 @@ export class Vector {
 
 	isEqualDirection(vector: VectorLike, allowReverse = false): boolean {
 		const other = this.coerceVector(vector)
-		if (other.isZero()) throw new Error(`Invalid isEqualDirection call: cannot compare direction with the zero vector.`)
+		if (this.isZero() || other.isZero()) throw new Error(`Invalid isEqualDirection call: cannot compare direction with the zero vector.`)
 		const dotProduct = this.dotProduct(other)
 		return compareNumbers(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * other.magnitude)
 	}

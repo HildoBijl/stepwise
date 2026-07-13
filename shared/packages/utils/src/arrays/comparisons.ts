@@ -16,14 +16,28 @@ export function compareNumberArrays(a: readonly NestedNumber[], b: readonly Nest
 	})
 }
 
-// Check if arrays have a one-to-one matching under a matcher (multiset equality under an equivalence relation). This assumes the matcher is transitive (i.e. an equivalence relation).
-export function hasOneToOneMatching<T>(a: readonly T[], b: readonly T[], matching: (x: T, y: T) => boolean = deepEquals): boolean {
-	if (a.length !== b.length) return false
-	const matched = a.map(() => false)
-	return a.every(x => {
-		const i = b.findIndex((y, j) => !matched[j] && matching(x, y))
-		if (i === -1) return false
-		matched[i] = true
-		return true
+// Get a one-to-one matching between two arrays. The result maps each index of a to its matching index in b. This assumes the matcher is transitive. Returns a partial matching if not all items can be matched.
+export type Matching = readonly (number | undefined)[]
+export function getOneToOneMatching<T>(a: readonly T[], b: readonly T[], matcher: (x: T, y: T) => boolean = deepEquals): Matching {
+	const matched = b.map(() => false)
+	return a.map(x => {
+		const index = b.findIndex((y, index) => !matched[index] && matcher(x, y))
+		if (index === -1) return undefined
+		matched[index] = true
+		return index
 	})
+}
+
+// Check if arrays have a one-to-one matching under a matcher (multiset equality under an equivalence relation). This assumes the matcher is transitive.
+export function hasOneToOneMatching<T>(a: readonly T[], b: readonly T[], matcher: (x: T, y: T) => boolean = deepEquals): boolean {
+	return a.length === b.length && getOneToOneMatching(a, b, matcher).every(matchedIndex => matchedIndex !== undefined)
+}
+
+// Reverse a matching from a → b into one from b → a.
+export function reverseMatching(matching: Matching, targetLength = matching.length): Matching {
+	const result: (number | undefined)[] = Array(targetLength).fill(undefined)
+	matching.forEach((value, index) => {
+		if (value !== undefined) result[value] = index
+	})
+	return result
 }
