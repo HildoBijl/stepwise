@@ -48,23 +48,23 @@ export const defaultLoadComparison: LoadComparisonOptions = {
 }
 
 // Set up resolving functions.
-export function resolveForceComparisonOptions(options: ForceComparisonOptionsInput = {}): ForceComparisonOptions {
-	const resolvedOptions = mergeDefaults(options, defaultForceComparison)
+export function resolveForceComparisonOptions(options: ForceComparisonOptionsInput = {}, defaults = defaultForceComparison): ForceComparisonOptions {
+	const resolvedOptions = mergeDefaults(options, defaults)
 	if (resolvedOptions.position === 'equalLine' && resolvedOptions.direction === 'ignore') throw new Error(`Invalid Force comparison options: cannot have the position require "equal line" while the direction is left ignored.`)
 	return resolvedOptions
 }
-export function resolveMomentComparisonOptions(options: MomentComparisonOptionsInput = {}): MomentComparisonOptions {
-	return mergeDefaults(options, defaultMomentComparison)
+export function resolveMomentComparisonOptions(options: MomentComparisonOptionsInput = {}, defaults = defaultMomentComparison): MomentComparisonOptions {
+	return mergeDefaults(options, defaults)
 }
-export function resolveLoadComparisonOptions(options: LoadComparisonOptionsInput = {}): LoadComparisonOptions {
+export function resolveLoadComparisonOptions(options: LoadComparisonOptionsInput = {}, defaults = defaultLoadComparison): LoadComparisonOptions {
 	return {
-		Force: resolveForceComparisonOptions(options.Force),
-		Moment: resolveMomentComparisonOptions(options.Moment),
+		Force: resolveForceComparisonOptions(options.Force, defaults.Force),
+		Moment: resolveMomentComparisonOptions(options.Moment, defaults.Moment),
 	}
 }
 
 // Set up specific FBD comparison options.
-export const freeBodyDiagramComparison = resolveLoadComparisonOptions({
+export const FBDComparison = resolveLoadComparisonOptions({
 	Force: {
 		direction: 'parallel',
 		applicationPointAt: 'ignore',

@@ -10,7 +10,9 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
+		"@step-wise/engineering-mechanics": "file:../engineering-mechanics",
 		"@step-wise/input-exercises": "file:../input-exercises",
+		"@step-wise/input-interpretation": "file:../input-interpretation",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

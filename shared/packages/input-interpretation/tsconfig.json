@@ -11,6 +11,7 @@
   },
   "references": [
     { "path": "../cas" },
+    { "path": "../engineering-mechanics" },
     { "path": "../geometry" },
     { "path": "../physics-core" },
     { "path": "../serialization" },

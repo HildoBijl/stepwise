@@ -10,7 +10,9 @@
     "types": ["jest"]
   },
   "references": [
+    { "path": "../engineering-mechanics" },
     { "path": "../input-exercises" },
+    { "path": "../input-interpretation" },
     { "path": "../utils" }
   ],
   "include": ["src"]

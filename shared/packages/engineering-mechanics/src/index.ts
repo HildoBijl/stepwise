@@ -1,1 +1,1 @@
-export const temp = 4
+export * from './loads'
