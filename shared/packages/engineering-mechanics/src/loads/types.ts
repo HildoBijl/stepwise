@@ -16,7 +16,7 @@ export type LoadType = typeof loadTypes[keyof typeof loadTypes]
 
 export type ForceLike = {
 	position: VectorLike
-	direction: VectorLike // Non-zero
+	angle: number
 	applicationPointAt?: ApplicationPointPosition
 }
 
@@ -38,7 +38,7 @@ export type ApplicationPointPosition = typeof applicationPointPositions[number]
 export type Force = {
 	type: typeof loadTypes.force
 	position: Vector
-	direction: Vector // Normalized
+	angle: number
 	applicationPointAt: ApplicationPointPosition
 }
 

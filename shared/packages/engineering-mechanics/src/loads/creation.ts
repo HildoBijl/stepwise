@@ -1,4 +1,4 @@
-import { isIn, mod } from '@step-wise/utils'
+import { isIn, normalizeAngle } from '@step-wise/utils'
 import { ensureVector } from '@step-wise/geometry'
 
 import { type Force, type ForceLike, type Load, type LoadLike, type Moment, type MomentLike, type ApplicationPointPosition, applicationPointPositions, loadTypes } from './types'
@@ -9,7 +9,7 @@ export function createForce(value: ForceLike): Force {
 	return {
 		type: loadTypes.force,
 		position: ensureVector(value.position, 2),
-		direction: ensureVector(value.direction, 2).normalize(),
+		angle: normalizeAngle(value.angle),
 		applicationPointAt: ensureApplicationPointPosition(value.applicationPointAt ?? 'start'),
 	}
 }
@@ -20,7 +20,7 @@ export function createMoment(value: MomentLike): Moment {
 		type: loadTypes.moment,
 		position: ensureVector(value.position, 2),
 		clockwise: value.clockwise,
-		openingAngle: mod(value.openingAngle ?? 0, 2 * Math.PI),
+		openingAngle: normalizeAngle(value.openingAngle ?? 0),
 	}
 }
 

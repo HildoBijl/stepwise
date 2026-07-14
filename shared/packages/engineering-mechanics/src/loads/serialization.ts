@@ -3,27 +3,22 @@ import { type VectorData, Vector } from '@step-wise/geometry'
 import { type ApplicationPointPosition, type Force, type Load, type Moment, loadTypes } from './types'
 import { createForce, createMoment } from './creation'
 
+/*
+ * Forces
+ */
+
 export type SerializedForce = {
 	type: typeof loadTypes.force
 	position: VectorData
-	direction: VectorData
+	angle: number
 	applicationPointAt: ApplicationPointPosition
 }
-
-export type SerializedMoment = {
-	type: typeof loadTypes.moment
-	position: VectorData
-	clockwise: boolean
-	openingAngle: number
-}
-
-export type SerializedLoad = SerializedForce | SerializedMoment
 
 export function serializeForce(force: Force): SerializedForce {
 	return {
 		type: loadTypes.force,
 		position: force.position.toStorageValue(),
-		direction: force.direction.toStorageValue(),
+		angle: force.angle,
 		applicationPointAt: force.applicationPointAt,
 	}
 }
@@ -31,9 +26,20 @@ export function serializeForce(force: Force): SerializedForce {
 export function deserializeForce(force: SerializedForce): Force {
 	return createForce({
 		position: Vector.fromStorageValue(force.position),
-		direction: Vector.fromStorageValue(force.direction),
+		angle: force.angle,
 		applicationPointAt: force.applicationPointAt,
 	})
+}
+
+/*
+ * Moments
+ */
+
+export type SerializedMoment = {
+	type: typeof loadTypes.moment
+	position: VectorData
+	clockwise: boolean
+	openingAngle: number
 }
 
 export function serializeMoment(moment: Moment): SerializedMoment {
@@ -52,6 +58,12 @@ export function deserializeMoment(moment: SerializedMoment): Moment {
 		openingAngle: moment.openingAngle,
 	})
 }
+
+/*
+ * Loads
+ */
+
+export type SerializedLoad = SerializedForce | SerializedMoment
 
 export function serializeLoad(load: Load): SerializedLoad {
 	switch (load.type) {

@@ -1,9 +1,11 @@
+import { normalizeAngle } from '@step-wise/utils'
+
 import { type Force, type Load, type Moment, loadTypes } from './types'
 
 export function reverseForce(force: Force): Force {
 	return {
 		...force,
-		direction: force.direction.multiply(-1),
+		angle: normalizeAngle(force.angle + Math.PI),
 	}
 }
 

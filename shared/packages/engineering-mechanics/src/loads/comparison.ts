@@ -1,3 +1,5 @@
+import { equalAngles } from '@step-wise/utils'
+
 import { type Force, type Load, type LoadType, type Moment, loadTypes } from './types'
 import { type ForceApplicationComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
 
@@ -59,15 +61,15 @@ function compareForcePositions(input: Force, solution: Force, comparison: ForceP
 		case 'equal': return solution.position.equals(input.position)
 		case 'equalLine':
 			const relativePosition = input.position.subtract(solution.position)
-			return relativePosition.isZero() || solution.direction.isEqualDirection(relativePosition, true)
+			return relativePosition.isZero() || equalAngles(solution.angle, relativePosition.argument, Math.PI)
 		case 'ignore': return true
 	}
 }
 
 function compareForceDirections(input: Force, solution: Force, comparison: ForceDirectionComparison): boolean {
 	switch (comparison) {
-		case 'equal': return solution.direction.equals(input.direction)
-		case 'parallel': return solution.direction.isEqualDirection(input.direction, true)
+		case 'equal': return equalAngles(input.angle, solution.angle)
+		case 'parallel': return equalAngles(input.angle, solution.angle, Math.PI)
 		case 'ignore': return true
 	}
 }
