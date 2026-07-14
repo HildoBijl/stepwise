@@ -102,3 +102,8 @@ export function getRelativeDifference(input: number, reference: number): number 
 	const max = Math.max(Math.abs(input), Math.abs(reference))
 	return max === 0 ? 0 : Math.abs(input - reference) / max
 }
+
+export function isMultipleOf(a: number, b: number): boolean {
+	if (b === 0) throw new Error(`Invalid divisor: expected a non-zero number.`)
+	return compareNumbers(a / b, Math.round(a / b))
+}

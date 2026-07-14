@@ -1,46 +1,44 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { ensureNumber } from '@step-wise/utils'
 import { asExpression } from '@step-wise/cas'
-import { Vector, ensureVector } from '@step-wise/geometry'
-import { loadTypes, ensureLoad } from 'step-wise/eduContent/mechanics'
+import { ensureVector } from '@step-wise/geometry'
+import { loadTypes, createLoad } from '@step-wise/engineering-mechanics'
 
 import { M } from 'ui/components'
 import { Label } from 'ui/figures'
 
-import { Moment } from './loads'
+import { defaultGraphicalForceLength, defaultGraphicalMomentRadius } from '../../support'
+
+import { defaultMoment } from './loads/Moment'
 
 const forceGraphicalDistance = 2
 const momentGraphicalDistance = 4
 const momentAngleDeviation = Math.PI / 12
 
-export default function LoadLabel({ load, variable, point }) {
+export default function LoadLabel({ load, variable, point, magnitude = 1 }) {
 	// Check the input.
-	load = ensureLoad(load)
+	load = createLoad(load)
 	variable = asExpression(variable)
 	point = ensureVector(point, 2)
+	magnitude = ensureNumber(magnitude)
 
 	// Set up the Label based on the load type.
 	switch (load.type) {
 		// For a force, either put the label at the start or at the end, depending on which point it is connected to.
 		case loadTypes.force:
-			if (load.force.end.equals(point))
-				return <Label position={load.force.start} angle={load.force.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
-			else
-				return <Label position={load.force.end} angle={load.force.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
+			if (load.applicationPointAt === 'end') {
+				return <Label position={load.position} angle={load.angle - Math.PI} {...{ graphicalDistance: magnitude*defaultGraphicalForceLength + forceGraphicalDistance }}><M>{variable}</M></Label>
+			} else {
+				return <Label position={load.position} angle={load.angle} {...{ graphicalDistance: magnitude*defaultGraphicalForceLength + forceGraphicalDistance }}><M>{variable}</M></Label>
+			}
 
 		// For a moment, put the label near the moment arrow.
 		case loadTypes.moment:
 			// Determine the angle at which the arrow ends.
-			const { position, opening, clockwise, spread, radius, graphicalRadius } = mergeDefaults(load, Moment.defaultProps, true)
-			const angle = opening + (clockwise ? -1 : 1) * ((2 * Math.PI - spread) / 2 + momentAngleDeviation)
-
-			// An important question is whether the radius is known. If so, we can determine the exact endpoint and displace the label from there.
-			if (radius !== undefined) {
-				const point = position.add(Vector.fromPolar(radius, angle))
-				return <Label position={point} {...{ angle, graphicalDistance: momentGraphicalDistance }}><M>{variable}</M></Label>
-			}
+			const { position, clockwise, openingAngle } = load
+			const angle = openingAngle + (clockwise ? -1 : 1) * ((2 * Math.PI - defaultMoment.spread) / 2 + momentAngleDeviation)
 
 			// If the radius is not known, we must fully work in graphical coordinates.
-			return <Label position={position} {...{ angle }} graphicalDistance={graphicalRadius + momentGraphicalDistance}><M>{variable}</M></Label>
+			return <Label position={position} {...{ angle }} graphicalDistance={defaultGraphicalMomentRadius + momentGraphicalDistance}><M>{variable}</M></Label>
 
 		default:
 			throw new Error(`Invalid load type: cannot display a load label for a load of type "${load.type}".`)

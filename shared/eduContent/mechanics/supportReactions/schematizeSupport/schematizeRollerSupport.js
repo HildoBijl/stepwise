@@ -1,11 +1,8 @@
 const { deg2rad, getRandomInteger } = require('@step-wise/utils')
-const { Vector } = require('@step-wise/geometry')
 const { buildStepExercise, stepsToSetup } = require('@step-wise/input-exercises')
+const { Vector } = require('@step-wise/geometry')
+const { createForce, createMoment } = require('@step-wise/engineering-mechanics')
 const { compare } = require('@step-wise/exercise-grading')
-
-const { loadSources, getDefaultForce, getDefaultMoment, areLoadsMatching, FBDComparison } = require('../../tools')
-
-const { reaction } = loadSources
 
 const metaData = {
 	skill: 'schematizeSupport',
@@ -29,8 +26,8 @@ function getSolution(state) {
 		...state,
 		points: [A],
 		loads: [
-			getDefaultForce(A, deg2rad(wallRotation), reaction),
-			getDefaultMoment(A, true, deg2rad(wallRotation + beamRotation), reaction),
+			createForce({ position: A, angle: deg2rad(wallRotation) }),
+			createMoment({ position: A, clockwise: true, openingAngle: deg2rad(wallRotation + beamRotation) }),
 		],
 		forcePerpendicular: 0,
 		forceParallel: 3,

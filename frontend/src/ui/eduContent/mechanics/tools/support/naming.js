@@ -1,0 +1,109 @@
+import { mod, sortBy } from '@step-wise/utils'
+import { Vector } from '@step-wise/geometry'
+import { asExpression } from '@step-wise/cas'
+import { isForce, isMoment, compareLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+
+/*
+ * getLoadNames takes a set of loads and points and comes up with names for the loads, based on the points. Provided are:
+ * - loads: and array [{...}] of loads.
+ * - points: an object { 'A': new Vector(...), 'C': new Vector(...) } with points and their names as keys.
+ * - prenamedLoads: an array of loads that already have a name, and should be named accordingly. Something like [{ load: {...}, variable: 'P_A', point: 'A' }].
+ * - comparison: the comparison method that determines if loads are equal. This is what is used to compare the given loads to the prenamed loads.
+ * The result of the naming is an object of the form [{ load: {...}, variable: asExpression('F_(Ax)'), point: 'A' }, ...].
+ */
+export function getLoadNames(loads, points, prenamedLoads, comparison) {
+	// If there are no loads yet, return nothing.
+	if (!loads)
+		return []
+
+	// Set up a result array and keep track of which loads have been put in.
+	let result = []
+	const named = loads.map(_ => false)
+
+	// First assign the prenamed loads. For each, check if they match any of the given loads.
+	prenamedLoads.forEach(prenamedLoad => {
+		const index = loads.findIndex(load => compareLoads(load, prenamedLoad.load, comparison))
+		if (index !== -1 && !named[index]) {
+			named[index] = true
+			result.push({
+				load: loads[index],
+				variable: asExpression(prenamedLoad.variable),
+				point: prenamedLoad.point || getLoadPoint(prenamedLoad.load, points),
+				prenamed: true,
+			})
+		}
+	})
+
+	// Then walk through the points, gathering (so far unnamed) loads connected to them.
+	Object.keys(points).forEach(pointName => {
+		// Gather loads connected to the given point and preemptively mark them as named.
+		const point = points[pointName]
+		const connectedLoadIndices = loads.map((load, index) => index).filter(index => !named[index] && isLoadAtPoint(loads[index], point))
+		connectedLoadIndices.forEach(index => {
+			named[index] = true
+		})
+
+		// Filter out forces and moments, and name them.
+		const connectedLoads = connectedLoadIndices.map(index => loads[index])
+		result = [...result, ...getLoadNamesForPoint(connectedLoads, point, pointName)]
+	})
+
+	// Finally walk through all remaining loads. Do not give them a point name to keep them nameless.
+	const unconnectedLoads = loads.filter((load, index) => !named[index])
+	result = [...result, ...getLoadNamesForPoint(unconnectedLoads)]
+
+	// All loads have been named!
+	return result
+}
+
+// getLoadPoint receives a load and an object with points { 'A': new Vector(...), 'C': new Vector(...) } and returns the point which the load is connected to, as Vector. If there is none, it returns undefined.
+function getLoadPoint(load, points) {
+	return Object.values(points).find(point => isLoadAtPoint(load, point))
+}
+
+// getLoadNamesForPoint takes a set of loads that are connected to the given point. It then determines proper names for them and returns these names with additional data as an array.
+export function getLoadNamesForPoint(loads, point, pointName) {
+	return [
+		...getForceNamesForPoint(loads.filter(load => isForce(load)), point, pointName),
+		...getMomentNamesForPoint(loads.filter(load => isMoment(load)), point, pointName),
+	]
+}
+
+// getForceNamesForPoint takes a set of forces that are connected to the given point. It then determines proper force names for them and returns them as an array.
+export function getForceNamesForPoint(forces, point, pointName) {
+	// On a single force just name it F_A.
+	if (forces.length === 1)
+		return [{ load: forces[0], name: `F${pointName}`, variable: asExpression(pointName ? `F_(${pointName})` : `F`), point: point || forces[0].force.start }]
+
+	// On two forces that are horizontal and vertical, use F_{Ax} and F_{Ay}.
+	if (forces.length === 2 && pointName) {
+		if (forces[0].force.vector.isEqualDirection(Vector.i, true) && forces[1].force.vector.isEqualDirection(Vector.j, true)) {
+			return [
+				{ load: forces[0], name: `F${pointName}x`, variable: asExpression(`F_(${pointName}x)`), point: point || forces[0].force.start },
+				{ load: forces[1], name: `F${pointName}y`, variable: asExpression(`F_(${pointName}y)`), point: point || forces[1].force.start },
+			]
+		} else if (forces[0].force.vector.isEqualDirection(Vector.j, true) && forces[1].force.vector.isEqualDirection(Vector.i, true)) {
+			return [
+				{ load: forces[1], name: `F${pointName}x`, variable: asExpression(`F_(${pointName}x)`), point: point || forces[1].force.start },
+				{ load: forces[0], name: `F${pointName}y`, variable: asExpression(`F_(${pointName}y)`), point: point || forces[0].force.start },
+			]
+		}
+	}
+
+	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth. Make sure a vector pointing upwards gets the first number, and clockwise afterwards.
+	forces = sortBy(forces, forces.map(force => mod(force.force.vector.argument + Math.PI / 2, 2 * Math.PI)))
+	return forces.map((force, index) => ({ load: force, name: pointName ? `F${pointName}${index + 1}` : `F${index + 1}`, variable: asExpression(pointName ? `F_(${pointName}${index + 1})` : `F_(${index + 1})`), point: point || force.force.start }))
+}
+
+// getMomentNamesForPoint takes a set of moments that are connected to the given point. It then determines proper moment names for them and returns them as an array.
+export function getMomentNamesForPoint(moments, point, pointName) {
+	// On a single moment just name it M_A.
+	if (moments.length === 1)
+		return [{ load: moments[0], name: pointName ? `M${pointName}` : `M`, variable: asExpression(pointName ? `M_(${pointName})` : `M`), point: point || moments[0].position }]
+
+	// Otherwise sort them, first by whether they're clockwise or counter-clockwise, and then by opening angle.
+	const momentsByDirection = [moments.filter(moment => moment.clockwise),
+	moments.filter(moment => !moment.clockwise)]
+	moments = momentsByDirection.map(momentsList => sortBy(momentsList, momentsList.map(moment => mod(moment.opening, 2 * Math.PI)))).flat()
+	return moments.map((moment, index) => ({ load: moment, name: pointName ? `M${pointName}${index + 1}` : `M${index + 1}`, variable: asExpression(pointName ? `M_(${pointName}${index + 1})` : `M_(${index + 1})`), point: point || moment.position }))
+}

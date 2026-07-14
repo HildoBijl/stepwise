@@ -1,16 +1,23 @@
 import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, mergeDefaults } from '@step-wise/utils'
-import { Vector, ensureLineSegment } from '@step-wise/geometry'
+import { Vector } from '@step-wise/geometry'
 
-import { useGraphicalObject } from 'ui/figures'
+import { useGraphicalDistance } from 'ui/figures'
 import { Group, Line } from 'ui/figures/Drawing/components/svgComponents'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
+
+import { defaultGraphicalForceLength } from '../../../support'
 
 import ArrowHead, { defaultArrowHead } from './ArrowHead'
 
 export const defaultForce = {
 	...defaultObject,
+	position: undefined,
+	angle: undefined,
+	applicationPointAt: 'end',
+	magnitude: undefined,
+	graphicalMagnitude: defaultGraphicalForceLength,
 	force: undefined,
 	graphicalForce: undefined,
 	size: defaultArrowHead.size,
@@ -21,15 +28,17 @@ export const defaultForce = {
 // Force draws a force vector. It must have a force parameter (a LineSegment object), can have a size and a color.
 export const Force = forwardRef((props, ref) => {
 	// Check input.
-	let { force, graphicalForce, size, color, className, style } = mergeDefaults(props, defaultForce)
-	const { vector, end } = ensureLineSegment(useGraphicalObject(force, graphicalForce), 2)
+	let { position, angle, applicationPointAt, magnitude, graphicalMagnitude, size, color, className, style } = mergeDefaults(props, defaultForce)
+	magnitude = ensureNumber(useGraphicalDistance(magnitude, graphicalMagnitude))
+	const otherEnd = position[applicationPointAt === 'end' ? 'subtract' : 'add'](Vector.fromPolar(magnitude, angle))
+	const end = applicationPointAt === 'end' ? position : otherEnd
 	size = ensureNumber(size)
 	color = ensureString(color)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw a horizontal force ending in (0, 0) and transform it to position it.
-	return <Group ref={ref} graphicalPosition={end} rotate={vector.argument} className={className} {...{ style }}>
-		<Line graphicalPoints={[new Vector(-vector.magnitude, 0), new Vector(-size, 0)]} className="forceLine" style={{ fill: 'none', stroke: color, strokeWidth: size }} />
+	return <Group ref={ref} position={end} rotate={angle} className={className} {...{ style }}>
+		<Line graphicalPoints={[new Vector(-magnitude, 0), new Vector(-size, 0)]} className="forceLine" style={{ fill: 'none', stroke: color, strokeWidth: size }} />
 		<ArrowHead size={size} style={{ fill: color }} />
 	</Group>
 })

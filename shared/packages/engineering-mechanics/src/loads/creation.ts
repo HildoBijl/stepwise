@@ -10,7 +10,7 @@ export function createForce(value: ForceLike): Force {
 		type: loadTypes.force,
 		position: ensureVector(value.position, 2),
 		angle: normalizeAngle(value.angle),
-		applicationPointAt: ensureApplicationPointPosition(value.applicationPointAt ?? 'start'),
+		applicationPointAt: ensureApplicationPointPosition(value.applicationPointAt ?? 'end'),
 	}
 }
 

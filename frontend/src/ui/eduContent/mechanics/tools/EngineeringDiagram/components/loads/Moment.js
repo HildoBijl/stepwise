@@ -2,11 +2,12 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber, ensureString, ensureBoolean, mergeDefaults } from '@step-wise/utils'
 import { Vector } from '@step-wise/geometry'
-import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/eduContent/mechanics'
 
 import { useGraphicalDistance } from 'ui/figures'
 import { Group, Arc } from 'ui/figures/Drawing/components/svgComponents'
 import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
+
+import { defaultGraphicalMomentRadius } from '../../../support'
 
 import ArrowHead from './ArrowHead'
 import { defaultForce } from './Force'
@@ -18,9 +19,9 @@ export const defaultMoment = {
 	clockwise: false,
 	size: defaultForce.size,
 	color: defaultForce.color,
-	radius: undefined,
+	radius: 0,
 	graphicalRadius: defaultGraphicalMomentRadius,
-	opening: defaultMomentOpening, // The position of the opening in radians, measured clockwise from right.
+	opening: 0, // The position of the opening in radians, measured clockwise from right.
 	spread: 7 / 4 * Math.PI, // Which angle (part of the circle) is drawn?
 	arrowHeadDelta: 2.5, // The angle of the arrow head is manually adjusted to make it look OK. This factor is responsible. Increase or decrease it at will.
 	className: 'moment',
@@ -33,7 +34,7 @@ export const Moment = forwardRef((props, ref) => {
 	clockwise = ensureBoolean(clockwise)
 	size = ensureNumber(size)
 	color = ensureString(color)
-	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius, defaultMomentRadius))
+	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius))
 	opening = ensureNumber(opening)
 	spread = ensureNumber(spread)
 	arrowHeadDelta = ensureNumber(arrowHeadDelta)

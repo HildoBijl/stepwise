@@ -25,3 +25,12 @@ export function reverseLoad(load: Load): Load {
 		case loadTypes.moment: return reverseMoment(load)
 	}
 }
+
+export function getAxisComponents(force: Force): [Force, Force] {
+	const xAngle = Math.round(force.angle / Math.PI) * Math.PI
+	const yAngle = (Math.round(force.angle / Math.PI - 1 / 2) + 1 / 2) * Math.PI
+	return [
+		{ ...force, angle: xAngle },
+		{ ...force, angle: yAngle },
+	]
+}

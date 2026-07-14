@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { integerRange } from '@step-wise/utils'
+import { integerRange, deg2rad } from '@step-wise/utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
 import { FloatUnit } from '@step-wise/physics-core'
 
@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/eduContent/mechanics'
+import { Distance, Element, LoadLabel, render, sumOfForces, defaultGraphicalForceLength, loadColors } from 'ui/eduContent/mechanics'
 
 const distanceShift = 60
 const rectangleMargin = 0.7
@@ -88,25 +88,34 @@ const steps = [
 ]
 
 function Diagram({ decompose = false }) {
-	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
+	const scale = 50
+	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale, margin: 70 })
 
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames, angle } = useSolution()
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ min: new Vector(-rectangleMargin, -rectangleMargin), max: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
-	const force = loads[0].force
-	const lineEndpoint = new Vector(force.end.x, force.start.y)
+	const force = loads[0]
+	const forceEndpoint = force.position.subtract(Vector.fromPolar(defaultGraphicalForceLength / scale, force.angle))
+	const lineEndpoint = new Vector(force.position.x, forceEndpoint.y)
 
 	return <Drawing transformationSettings={transformationSettings}>
 		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
 		{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}
 
 		{decompose ? null : <>
-			<CornerLabel points={[force.start, force.end, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
-			<Line points={[force.end, lineEndpoint]} style={{ stroke: '#777' }} />
+			<CornerLabel points={[forceEndpoint, force.position, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
+			<Line points={[force.position, lineEndpoint]} style={{ stroke: '#777' }} />
 		</>}
 
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
-		{render(decompose ? decomposedLoads : loads)}
+		{render(decompose ?
+			decomposedLoads.map((load, index) => ({
+				...load,
+				color: (index <= 1 ? loadColors.input : index === 4 ? loadColors.external : loadColors.reaction),
+				graphicalMagnitude: (index === 0 ? Math.abs(Math.cos(deg2rad(angle))) : index === 1 ? Math.abs(Math.sin(deg2rad(angle))) : 1) * defaultGraphicalForceLength,
+			})) :
+			loads.map((load, index) => ({ ...load, color: (index === 0 ? loadColors.input : index === 3 ? loadColors.external : loadColors.reaction) }))
+		)}
 
 		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
 		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
