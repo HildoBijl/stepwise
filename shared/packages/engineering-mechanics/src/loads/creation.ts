@@ -1,13 +1,8 @@
-import { isIn } from '@step-wise/utils'
+import { isIn, mod } from '@step-wise/utils'
 import { ensureVector } from '@step-wise/geometry'
 
 import { type Force, type ForceLike, type Load, type LoadLike, type Moment, type MomentLike, type ApplicationPointPosition, applicationPointPositions, loadTypes } from './types'
 import { isForce, isMoment, isLoad } from './validation'
-
-function ensureApplicationPointPosition(value: unknown): ApplicationPointPosition {
-	if (!isIn(value, applicationPointPositions)) throw new Error(`Invalid application point position: expected one of ${applicationPointPositions.map(value => `"${value}"`).join(', ')}, but received "${String(value)}".`)
-	return value
-}
 
 export function createForce(value: ForceLike): Force {
 	if (isForce(value)) return value
@@ -25,6 +20,7 @@ export function createMoment(value: MomentLike): Moment {
 		type: loadTypes.moment,
 		position: ensureVector(value.position, 2),
 		clockwise: value.clockwise,
+		openingAngle: mod(value.openingAngle ?? 0, 2 * Math.PI),
 	}
 }
 
@@ -34,4 +30,9 @@ export function createLoad(value: LoadLike): Load {
 		case loadTypes.force: return createForce(value)
 		case loadTypes.moment: return createMoment(value)
 	}
+}
+
+function ensureApplicationPointPosition(value: unknown): ApplicationPointPosition {
+	if (!isIn(value, applicationPointPositions)) throw new Error(`Invalid application point position: expected one of ${applicationPointPositions.map(value => `"${value}"`).join(', ')}, but received "${String(value)}".`)
+	return value
 }

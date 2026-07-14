@@ -14,6 +14,7 @@ export type SerializedMoment = {
 	type: typeof loadTypes.moment
 	position: VectorData
 	clockwise: boolean
+	openingAngle: number
 }
 
 export type SerializedLoad = SerializedForce | SerializedMoment
@@ -40,6 +41,7 @@ export function serializeMoment(moment: Moment): SerializedMoment {
 		type: loadTypes.moment,
 		position: moment.position.toStorageValue(),
 		clockwise: moment.clockwise,
+		openingAngle: moment.openingAngle,
 	}
 }
 
@@ -47,6 +49,7 @@ export function deserializeMoment(moment: SerializedMoment): Moment {
 	return createMoment({
 		position: Vector.fromStorageValue(moment.position),
 		clockwise: moment.clockwise,
+		openingAngle: moment.openingAngle,
 	})
 }
 

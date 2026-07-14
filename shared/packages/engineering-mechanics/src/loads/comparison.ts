@@ -1,5 +1,5 @@
 import { type Force, type Load, type LoadType, type Moment, loadTypes } from './types'
-import { type ApplicationPointComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
+import { type ForceApplicationComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
 
 /*
  * Types to report comparison differences.
@@ -9,7 +9,7 @@ export type LoadComparisonDifference =
 	| { type: 'loadType', input: LoadType, solution: LoadType }
 	| { type: 'position', comparison: ForcePositionComparison | MomentPositionComparison }
 	| { type: 'direction', comparison: ForceDirectionComparison | MomentDirectionComparison }
-	| { type: 'applicationPointAt', comparison: ApplicationPointComparison }
+	| { type: 'applicationPointAt', comparison: ForceApplicationComparison }
 
 export type LoadComparisonReport = {
 	equal: boolean

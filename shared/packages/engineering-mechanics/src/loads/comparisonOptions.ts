@@ -3,22 +3,24 @@ import { mergeDefaults } from '@step-wise/utils'
 // Define Force types.
 export type ForcePositionComparison = 'equal' | 'equalLine' | 'ignore'
 export type ForceDirectionComparison = 'equal' | 'parallel' | 'ignore'
-export type ApplicationPointComparison = 'equal' | 'ignore'
+export type ForceApplicationComparison = 'equal' | 'ignore'
 
 export type ForceComparisonOptions = {
 	position: ForcePositionComparison
 	direction: ForceDirectionComparison
-	applicationPointAt: ApplicationPointComparison
+	applicationPointAt: ForceApplicationComparison
 }
 export type ForceComparisonOptionsInput = Partial<ForceComparisonOptions>
 
 // Define Moment types.
 export type MomentPositionComparison = 'equal' | 'ignore'
 export type MomentDirectionComparison = 'equal' | 'ignore'
+export type MomentOpeningAngleComparison = 'equal' | 'ignore'
 
 export type MomentComparisonOptions = {
 	position: MomentPositionComparison
 	direction: MomentDirectionComparison
+	openingAngle: MomentOpeningAngleComparison
 }
 export type MomentComparisonOptionsInput = Partial<MomentComparisonOptions>
 
@@ -41,6 +43,7 @@ export const defaultForceComparison: ForceComparisonOptions = {
 export const defaultMomentComparison: MomentComparisonOptions = {
 	position: 'equal',
 	direction: 'equal',
+	openingAngle: 'equal',
 }
 export const defaultLoadComparison: LoadComparisonOptions = {
 	Force: defaultForceComparison,
@@ -71,5 +74,6 @@ export const FBDComparison = resolveLoadComparisonOptions({
 	},
 	Moment: {
 		direction: 'ignore',
+		openingAngle: 'ignore',
 	},
 })

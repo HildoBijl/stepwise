@@ -8,8 +8,25 @@ export const loadTypes = {
 	force: 'Force',
 	moment: 'Moment',
 } as const
-
 export type LoadType = typeof loadTypes[keyof typeof loadTypes]
+
+/*
+ * Load creation
+ */
+
+export type ForceLike = {
+	position: VectorLike
+	direction: VectorLike // Non-zero
+	applicationPointAt?: ApplicationPointPosition
+}
+
+export type MomentLike = {
+	position: VectorLike
+	clockwise: boolean
+	openingAngle?: number
+}
+
+export type LoadLike = (ForceLike & { type: typeof loadTypes.force }) | (MomentLike & { type: typeof loadTypes.moment })
 
 /*
  * Loads
@@ -29,23 +46,7 @@ export type Moment = {
 	type: typeof loadTypes.moment
 	position: Vector
 	clockwise: boolean
+	openingAngle: number
 }
 
 export type Load = Force | Moment
-
-/*
- * Load creation
- */
-
-export type ForceLike = {
-	position: VectorLike
-	direction: VectorLike // Non-zero
-	applicationPointAt?: ApplicationPointPosition
-}
-
-export type MomentLike = {
-	position: VectorLike
-	clockwise: boolean
-}
-
-export type LoadLike = (ForceLike & { type: typeof loadTypes.force }) | (MomentLike & { type: typeof loadTypes.moment })
