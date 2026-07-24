@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "types": ["jest"]
+  },
+  "references": [
+    { "path": "../cas" },
+    { "path": "../exercise-grading" },
+    { "path": "../input-exercises" },
+    { "path": "../physics-core" },
+    { "path": "../physics-data" },
+    { "path": "../utils" }
+  ],
+  "include": ["src"]
+}

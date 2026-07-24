@@ -6,7 +6,7 @@ import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseSpec, ExerciseSta
  */
 
 // Meta data: extend with comparison options.
-export type InputExerciseMetaData<TCompare = unknown> = ExerciseMetaData & { compare?: Record<string, TCompare> }
+export type InputExerciseMetaData = ExerciseMetaData & { compare?: Record<string, unknown> }
 
 // Actions: only allow input and giveUp actions.
 export type InputExerciseInputValue = Record<string, InputValue>

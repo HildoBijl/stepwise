@@ -19,7 +19,7 @@ export type ExerciseMetaData = {
 }
 
 // The generateState function
-export type ExerciseGenerator<TState extends ExerciseState = ExerciseState> = () => TState
+export type ExerciseGenerator<TState extends ExerciseState = ExerciseState> = (example: boolean) => TState
 
 /*
  * The exercise history (needed as part of the reducer)

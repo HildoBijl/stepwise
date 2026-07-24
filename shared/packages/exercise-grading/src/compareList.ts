@@ -1,11 +1,12 @@
 import { hasOneToOneMatching } from '@step-wise/utils'
 import type { CheckInputData } from '@step-wise/input-exercises'
 
-import type { CompareSetting, GradedExerciseMetaData, InputKey } from './types'
+import type { InputKey } from './types'
+import { getCompareSetting } from './utils'
 import { compareValues } from './compareValues'
 
-export function compareList<TData extends CheckInputData<GradedExerciseMetaData>>(keys: readonly InputKey<TData>[], data: TData): boolean {
-	const { metaData, rawInput, input, solution } = data
+export function compareList<TData extends CheckInputData>(keys: readonly InputKey<TData>[], data: TData): boolean {
+	const { rawInput, input, solution } = data
 
 	// Check the input given.
 	if (solution === undefined) throw new Error(`Invalid compareList call: cannot compare values for an exercise that has no solution defined.`)
@@ -19,7 +20,7 @@ export function compareList<TData extends CheckInputData<GradedExerciseMetaData>
 		const type = rawInput[inputKey].type
 		const currInput = input[inputKey]
 		const currCorrect = solution[solutionKey]
-		const compare = (metaData.compare?.[solutionKey] ?? metaData.compare?.[type]) as CompareSetting | undefined
+		const compare = getCompareSetting(data, solutionKey, type)
 		return compareValues(currInput, currCorrect, { key: solutionKey, type, compare, data })
 	})
 }

@@ -1,13 +1,13 @@
 import type { CheckInputData } from '@step-wise/input-exercises'
 
-import type { CompareSetting, GradedExerciseMetaData } from './types'
+import type { CompareSetting } from './types'
 import { compareFunctions } from './objects'
 
 type CompareValuesOptions = {
 	key: string
 	type: string
 	compare?: CompareSetting
-	data: CheckInputData<GradedExerciseMetaData>
+	data: CheckInputData
 }
 
 export function compareValues(input: unknown, correct: unknown, options: CompareValuesOptions): boolean {
