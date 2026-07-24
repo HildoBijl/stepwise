@@ -81,6 +81,5 @@ export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAct
 	processAction: ExerciseReducer<TAction, TProgress, TState>
 }
 
-// A set of exercises, bundled in a container.
-export type ExerciseId = string
-export type ExerciseContainer = Record<ExerciseId, Exercise>
+// A more generic definition used within containers.
+export type ExerciseDefinition = Exercise<any, any, any, any>

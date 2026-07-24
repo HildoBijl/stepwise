@@ -115,3 +115,8 @@ export function mergeDefaults<T extends Record<string, unknown>>(givenOptions: R
 
 	return result as T
 }
+
+// Filter properties of an object, to only keep those satisfying a condition.
+export function filterProperties<T extends Record<string, unknown>>(obj: T, filter: (value: T[keyof T], key: keyof T, obj: T) => boolean): Partial<T> {
+	return Object.fromEntries(Object.entries(obj).filter(([key, value]) => filter(value as T[keyof T], key as keyof T, obj))) as Partial<T>
+}

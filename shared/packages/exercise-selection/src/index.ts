@@ -1,1 +1,1 @@
-export * from './getExercise'
+export * from './generateExercise'

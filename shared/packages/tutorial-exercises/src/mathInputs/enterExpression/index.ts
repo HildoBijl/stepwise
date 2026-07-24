@@ -1,1 +1,5 @@
-// export { default as enterExpression } from './enterExpression'
+// import { withSameExamples } from '@step-wise/exercise-definition'
+
+// import { default as enterExpression } from './enterExpression'
+
+// export default withSameExamples({ enterExpression })

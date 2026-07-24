@@ -1,6 +1,6 @@
 import { type SkillId } from '@step-wise/skill-setup'
 
-import { type ExerciseId } from './types'
+import { type ExerciseId } from './exerciseContainer'
 
 export type FullExerciseId = string
 

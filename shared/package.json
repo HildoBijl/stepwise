@@ -12,6 +12,7 @@
 		"@step-wise/cas": "file:packages/cas",
 		"@step-wise/course-definition": "file:packages/course-definition",
 		"@step-wise/engineering-mechanics": "file:packages/engineering-mechanics",
+		"@step-wise/exercises": "file:packages/exercises",
 		"@step-wise/exercise-definition": "file:packages/exercise-definition",
 		"@step-wise/exercise-grading": "file:packages/exercise-grading",
 		"@step-wise/exercise-selection": "file:packages/exercise-selection",
