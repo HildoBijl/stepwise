@@ -77,6 +77,10 @@ export type ExerciseSpec<TMetaData extends ExerciseMetaData, TState extends Exer
 }
 
 // The full definition (after the reducer is added in a build step)
-export type Exercise<TMetaData extends ExerciseMetaData, TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseSpec<TMetaData, TState> & {
+export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseSpec<TMetaData, TState> & {
 	processAction: ExerciseReducer<TAction, TProgress, TState>
 }
+
+// A set of exercises, bundled in a container.
+export type ExerciseId = string
+export type ExerciseContainer = Record<ExerciseId, Exercise>

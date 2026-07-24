@@ -1,4 +1,6 @@
-export * as fundamentalInputs from './fundamentalInputs'
+import * as fundamentalInputs from './fundamentalInputs'
 // export * as mathInputs from './mathInputs'
-export * as physicsInputs from './physicsInputs'
-export * as stepExercises from './stepExercises'
+import * as physicsInputs from './physicsInputs'
+import * as stepExercises from './stepExercises'
+
+export const exercises = { fundamentalInputs, physicsInputs, stepExercises }

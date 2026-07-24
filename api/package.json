@@ -13,6 +13,7 @@
 		"@hapi/joi": "17.1.1",
 		"@step-wise/bernstein-polynomials": "file:../shared/packages/bernstein-polynomials",
 		"@step-wise/course-definition": "file:../shared/packages/course-definition",
+		"@step-wise/exercises": "file:../shared/packages/exercises",
 		"@step-wise/input-interpretation": "file:../shared/packages/input-interpretation",
 		"@step-wise/serialization": "file:../shared/packages/serialization",
 		"@step-wise/settings": "file:../shared/packages/settings",

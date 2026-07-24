@@ -10,7 +10,11 @@
     "types": ["jest"]
   },
   "references": [
+    { "path": "../exercise-definition" },
+    { "path": "../skill-definition" },
+    { "path": "../skill-tree" },
     { "path": "../tutorial-exercises" },
+    { "path": "../utils" }
   ],
   "include": ["src"]
 }

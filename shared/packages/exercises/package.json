@@ -10,7 +10,11 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/tutorial-exercises": "file:../tutorial-exercises"
+		"@step-wise/exercise-definition": "file:../exercise-definition",
+		"@step-wise/skill-definition": "file:../skill-definition",
+		"@step-wise/skill-tree": "file:../skill-tree",
+		"@step-wise/tutorial-exercises": "file:../tutorial-exercises",
+		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

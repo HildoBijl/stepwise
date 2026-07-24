@@ -1,1 +1,2 @@
-export const temp = 42
+export * as exercises from './exerciseGatherer'
+export * from './support'
