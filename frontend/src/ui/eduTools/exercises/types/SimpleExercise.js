@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 
-import { hasPreviousInput } from 'step-wise/eduTools'
+import { hasPreviousInput } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'

@@ -4,6 +4,7 @@ import { Box, Tooltip, useTheme, alpha } from '@mui/material'
 import { Check, Info } from '@mui/icons-material'
 
 import { skillTree } from '@step-wise/skill-tree'
+import { hasExercises } from '@step-wise/exercises'
 
 import { useSkillLevel } from 'api'
 import { Translation, useTranslator } from 'i18n'
@@ -79,7 +80,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 	// Determine the tooltip to show under a "mastered" checkmark.
 	let noExercisesText = '', masteryText = ''
 	const skill = skillTree[skillId]
-	if (skill.exercises.length === 0) {
+	if (!hasExercises(skillId)) {
 		noExercisesText = translate('This skill has no exercises yet. They are probably coming soon.', 'noExercises')
 	} else if (practiceNeeded === 0) {
 		if (isPracticeNeeded(skillLevelSet, skillId, isPriorKnowledge, skill.thresholds) === 0)
@@ -93,7 +94,7 @@ function SkillItem({ courseCode, skillId, isPriorKnowledge, recommend = false, p
 		<Box sx={{ flex: '1 1 auto' }}>
 			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>
-		{skill.exercises.length === 0 ? <Tooltip title={noExercisesText} arrow>
+		{!hasExercises(skillId) ? <Tooltip title={noExercisesText} arrow>
 			<Box sx={iconContainerStyle}>
 				<Info sx={theme => ({ color: theme.palette.info.main })} />
 			</Box>

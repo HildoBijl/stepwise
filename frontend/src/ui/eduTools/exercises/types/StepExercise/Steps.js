@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getStep } from 'step-wise/eduTools'
+import { getStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'

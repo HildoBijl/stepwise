@@ -1,14 +1,16 @@
 {
   "miscellaneous": {
-    "unknownSkill": "Unknown skill"
+    "unknownSkill": "Unbekannte Kompetenz"
   },
   "test": {
     "test": "Testübung",
     "demo": "Demo-Übung"
   },
   "tutorial": {
-    "numberInputs": {
-      "enterInteger": "Eingeben einer Ganzzahl",
+		"fundamentalInputs": {
+			"enterInteger": "Eingeben einer Ganzzahl"
+		},
+    "physicsInputs": {
       "enterFloat": "Eingeben einer Kommazahl",
       "enterUnit": "Eingeben einer Einheit",
       "lookUpConstant": "Nachschlagen einer Konstante"
@@ -17,7 +19,7 @@
       "enterExpression": "Eingeben eines Ausdrucks",
       "enterEquation": "Eingeben einer Gleichung"
     },
-    "steps": {
+    "stepExercises": {
       "multiplication": "Multiplizieren",
       "summation": "Addieren",
       "summationAndMultiplication": "Addieren und Multiplizieren"

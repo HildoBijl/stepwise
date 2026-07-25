@@ -3,8 +3,9 @@ import { Box, FormControl, Select, MenuItem } from '@mui/material'
 import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/utils'
+import { getLastAction } from '@step-wise/exercise-definition'
 import { toInputValue } from '@step-wise/input-interpretation'
-import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
+import { getLastInput, getStep } from '@step-wise/input-exercises'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'

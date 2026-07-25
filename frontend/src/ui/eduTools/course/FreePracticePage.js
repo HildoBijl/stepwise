@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
 import { sample } from '@step-wise/utils'
-import { skillTree } from '@step-wise/skill-tree'
+import { hasExercises } from '@step-wise/exercises'
 
 import { TranslationFile, Translation } from 'i18n'
 
@@ -25,7 +25,7 @@ export function FreePracticePage() {
 		const skillIds = overview.learningGoals
 		const weights = overview.learningGoalWeights
 		skillIds.forEach((skillId, index) => {
-			if (!Array.isArray(skillTree[skillId].exercises) || skillTree[skillId].exercises.length === 0)
+			if (!hasExercises(skillId))
 				weights[index] = 0
 		})
 

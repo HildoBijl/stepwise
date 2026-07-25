@@ -7,7 +7,7 @@ import { mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinPDFM
 import { and, repeat } from '@step-wise/skill-setup'
 import { Skill } from '@step-wise/skill-definition'
 import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
-import { getSelectionRates } from 'step-wise/eduTools'
+import { getSelectionRates } from '@step-wise/exercise-selection'
 
 import { Par, Head, Button, M } from 'ui/components'
 import { defaultSkillThresholds, SkillFlask } from 'ui/eduTools'

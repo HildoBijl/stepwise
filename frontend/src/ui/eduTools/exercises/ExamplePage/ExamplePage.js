@@ -2,9 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
-import { skillTree } from '@step-wise/skill-tree'
 import { serializeAll, deserializeAll } from '@step-wise/serialization'
-import { getNewRandomExample } from 'step-wise/eduTools'
+import { getFullExerciseId } from '@step-wise/exercise-definition'
+import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
+import { hasExamples, getExamples } from '@step-wise/exercises'
 
 import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
@@ -14,28 +15,24 @@ import { ExerciseContainer } from '../containers'
 // The ExamplePage resembles the ExercisePageForStranger component: it selects an exercise and shows it, but then in demo mode.
 export function ExamplePage({ skillId }) {
 	const getTranslation = useGetTranslation()
-	const skill = skillTree[skillId]
-	const hasExamples = skill.examples.length > 0
 
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
-		async function startNewExerciseAsync() {
-			const newExercise = await getNewRandomExample(skillId)
-			const exercise = { // Emulate the exercise object that we otherwise get from the server.
-				exerciseId: newExercise.exerciseId,
-				state: serializeAll(newExercise.state), // The state should be in storage format, as if it came from the database.
-				id: uuidv4(), // Just generate a random one.
-				active: true,
-				progress: {},
-				history: [],
-				startedOn: new Date(),
-			}
-			setExercise(exercise)
+		if (!hasExamples(skillId))
+			throw new Error(`Invalid startNewExercise call: the skill ${skillId} has no example exercises.`)
+		const newExercise = generateRandomExerciseInstance(getExamples(skillId))
+		const exercise = { // Emulate the exercise object that we otherwise get from the server.
+			exerciseId: getFullExerciseId(skillId, newExercise.exerciseId),
+			state: serializeAll(newExercise.state), // The state should be in storage format, as if it came from the database.
+			id: uuidv4(), // Just generate a random one.
+			active: true,
+			progress: {},
+			history: [],
+			startedOn: new Date(),
 		}
-		if (hasExamples)
-			startNewExerciseAsync()
-	}, [hasExamples, skillId])
+		setExercise(exercise)
+	}, [skillId])
 
 	// Start a new exercise whenever the skillId changes.
 	useEffect(startNewExercise, [startNewExercise, skillId])
@@ -63,7 +60,7 @@ export function ExamplePage({ skillId }) {
 	}, [exercise, setExercise])
 
 	// Are there simply no exercises?
-	if (!hasExamples)
+	if (!hasExamples(skillId))
 		return <div>{getTranslation('loadingNotes.noExamples', 'eduTools/pages/skillPage')}</div>
 
 	// Is there no exercise loaded yet?

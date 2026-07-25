@@ -1,6 +1,6 @@
 import { getByPath, isPlainObject } from '@step-wise/utils'
 import { type SkillId } from '@step-wise/skill-definition'
-import { type Exercise, type ExerciseId, type FullExerciseId, type ExerciseContainer, isExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-definition'
+import { type Exercise, type ExerciseId, type FullExerciseId, type ExerciseContainer, isExerciseContainer, isEmptyExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 
 import * as allExercises from './exerciseGatherer'
@@ -17,9 +17,17 @@ export function getExercises(skillId: SkillId, examples = false): ExerciseContai
 	return exercises
 }
 
+export function hasExercises(skillId: SkillId): boolean {
+	return !isEmptyExerciseContainer(getExercises(skillId))
+}
+
 // Extract all examples defined for a certain skill.
 export function getExamples(skillId: SkillId): ExerciseContainer | undefined {
 	return getExercises(skillId, true)
+}
+
+export function hasExamples(skillId: SkillId): boolean {
+	return !isEmptyExerciseContainer(getExamples(skillId))
 }
 
 // Extract a certain exercise.

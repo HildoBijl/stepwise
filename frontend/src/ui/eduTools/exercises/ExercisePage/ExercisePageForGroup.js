@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 
-import { skillTree } from '@step-wise/skill-tree'
-import { fixExerciseIdForExercise } from 'step-wise/eduTools'
+import { hasExercises } from '@step-wise/exercises'
 
 import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api'
 import { useGetTranslation } from 'i18n'
@@ -14,8 +13,6 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Load in the skill and its exercises.
 	const group = useActiveGroup()
-	const skill = skillTree[skillId]
-	const hasExercises = skill.exercises.length > 0
 	const [requestedNextExercise, setRequestedNextExercise] = useState(false)
 
 	// Get mutation functions.
@@ -26,11 +23,11 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		if (hasExercises) {
+		if (hasExercises(skillId)) {
 			setRequestedNextExercise(true)
 			startNewExerciseOnServer()
 		}
-	}, [startNewExerciseOnServer, hasExercises])
+	}, [skillId, startNewExerciseOnServer])
 	const submitAction = useCallback((action, processAction) => {
 		// ToDo later: implement processAction, if it's given, to set up an optimistic response.
 		submitActionToServer({ variables: { action } })
@@ -38,7 +35,7 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// If there is no exercise, start one.
 	const { loading, error } = useActiveGroupExercisesResult()
-	const exercise = fixExerciseIdForExercise(useActiveGroupExerciseForSkill(skillId), skillId)
+	const exercise = useActiveGroupExerciseForSkill(skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

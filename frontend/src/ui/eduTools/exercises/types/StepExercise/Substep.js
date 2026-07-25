@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { ensureInteger } from '@step-wise/utils'
-import { getStep } from 'step-wise/eduTools'
+import { getStep } from '@step-wise/input-exercises'
 
 import { FormPart, useFormPartSettings } from 'ui/form'
 

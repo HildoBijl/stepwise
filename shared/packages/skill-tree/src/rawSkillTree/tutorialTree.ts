@@ -10,48 +10,32 @@ export const tutorialTree: RawSkillGroup = {
 	physicsInputs: {
 		enterFloat: {
 			name: 'Enter a decimal number',
-			examples: ['enterFloat'],
-			exercises: ['enterFloat'],
 		},
 		enterUnit: {
 			name: 'Enter a unit',
-			examples: ['enterUnit'],
-			exercises: ['enterUnit'],
 		},
 		lookUpConstant: {
 			name: 'Look up a constant',
-			examples: ['lookUpConstant'],
-			exercises: ['lookUpConstant'],
 		},
 	},
 	mathInputs: {
 		enterExpression: {
 			name: 'Enter an expression',
-			examples: ['enterExpression'],
-			exercises: ['enterExpression'],
 		},
 		enterEquation: {
 			name: 'Enter an equation',
-			examples: ['enterEquation'],
-			exercises: ['enterEquation'],
 		},
 	},
 	stepExercises: {
 		summation: {
 			name: 'Add numbers',
-			examples: ['summation1'],
-			exercises: ['summation1'],
 		},
 		multiplication: {
 			name: 'Multiply numbers',
-			examples: ['multiplication1'],
-			exercises: ['multiplication1'],
 		},
 		summationAndMultiplication: {
 			name: 'Add and multiply numbers',
 			setup: and(repeat('multiplication', 2), 'summation'),
-			examples: ['summationAndMultiplication1'],
-			exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 		},
 	},
 }

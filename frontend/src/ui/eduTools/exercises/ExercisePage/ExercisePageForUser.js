@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
 
-import { skillTree } from '@step-wise/skill-tree'
-import { fixExerciseIdForExercise } from 'step-wise/eduTools'
+import { hasExercises } from '@step-wise/exercises'
 
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api'
 import { useTranslator } from 'i18n'
@@ -12,10 +11,6 @@ import { ExerciseContainer } from '../containers'
 export function ExercisePageForUser({ skillId, onNewExercise }) {
 	const translate = useTranslator()
 
-	// Load in the skill and its exercises.
-	const skill = skillTree[skillId]
-	const hasExercises = Array.isArray(skill.exercises) && skill.exercises.length > 0
-
 	// Load the exercise the user has open.
 	const { loading, error, data } = useSkillQuery(skillId)
 
@@ -25,19 +20,19 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		if (hasExercises) { // Only when the skill has exercises programmed.
+		if (hasExercises(skillId)) { // Only when the skill has exercises programmed.
 			startNewExerciseOnServer()
 			if (onNewExercise)
 				onNewExercise()
 		}
-	}, [startNewExerciseOnServer, hasExercises, onNewExercise])
+	}, [skillId, startNewExerciseOnServer, onNewExercise])
 	const submitAction = useCallback((action, processAction) => {
-		// ToDo later: implement processAction, if it's given, to set up an optimistic response.
+		// ToDo later: implement processAction from the exercise, to set up an optimistic response.
 		submitActionToServer({ variables: { action } })
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
-	const exercise = fixExerciseIdForExercise(data && data.skill && data.skill.activeExercise, skillId)
+	const exercise = data?.skill?.activeExercise
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

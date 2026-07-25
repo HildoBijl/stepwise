@@ -12,3 +12,9 @@ export function isExerciseContainer(obj: unknown): obj is ExerciseContainer {
 	if (!isPlainObject(obj)) return false
 	return Object.values(obj).every(exercise => isExercise(exercise))
 }
+
+// Check if an exercise container is empty.
+export function isEmptyExerciseContainer(exerciseContainer?: ExerciseContainer) {
+	if (exerciseContainer === undefined) return true
+	return Object.values(exerciseContainer).length === 0
+}

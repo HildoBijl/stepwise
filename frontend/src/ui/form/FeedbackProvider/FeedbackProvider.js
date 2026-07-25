@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
 import { isPlainObject, mapValues, pickKeys, deepEquals } from '@step-wise/utils'
+import { splitFullExerciseId } from '@step-wise/exercise-definition'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import { getExerciseName } from 'step-wise/eduTools'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTranslator, addSection } from 'i18n'
@@ -27,7 +27,8 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 
 	// Add some useful translation handlers.
 	const rawTranslate = useTranslator()
-	const translate = addSection(rawTranslate, `practice.${getExerciseName(exerciseData.exerciseId)}.feedback`, false)
+	const { exerciseId } = splitFullExerciseId(exerciseData.exerciseId)
+	const translate = addSection(rawTranslate, `practice.${exerciseId}.feedback`, false)
 	const translateCrossExercise = addSection(rawTranslate, crossExerciseTranslationPath, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.

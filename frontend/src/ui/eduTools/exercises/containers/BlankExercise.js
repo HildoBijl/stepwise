@@ -1,12 +1,14 @@
 // This component can be given an exerciseId. It then displays a sample of this exercise without connecting to any database whatsoever. It is unconnected.
 
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
 import { serializeAll, deserializeAll } from '@step-wise/serialization'
-import { exercises, getExerciseId, getExerciseName } from 'step-wise/eduTools'
+import { getFullExerciseId } from '@step-wise/exercise-definition'
+import { getSkill } from '@step-wise/skill-tree'
+import { getExercise } from '@step-wise/exercises'
 
 import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
@@ -19,41 +21,25 @@ export function BlankExercise() {
 	const { skillId, exerciseName } = useParams()
 	if (!exerciseName)
 		return <ErrorNote text={translate('The URL has no exercise name in it.', 'loadingNotes.missingExerciseName', 'eduTools/exercises')} />
-	const exerciseId = getExerciseId(exerciseName, skillId)
-	return <TranslationFile path={`eduContent/${exercises[exerciseId].path.join('/')}`}>
+	const skill = getSkill(skillId)
+	return <TranslationFile path={`eduContent/${skill.path.join('/')}/${skill.id}/`}>
 		<TranslationSection entry="practice">
-			<BlankExerciseInner exerciseId={exerciseId} />
+			<BlankExerciseInner skillId={skillId} exerciseId={exerciseName} />
 		</TranslationSection>
 	</TranslationFile>
 }
 
-function BlankExerciseInner({ exerciseId }) {
+function BlankExerciseInner({ skillId, exerciseId }) {
 	const translate = useTranslator()
-
-	// Make sure that the exercise is loaded.
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState(false)
-	const ExerciseShared = useRef({})
-	const reload = () => {
-		setLoading(true)
-		setError(false)
-		import(/* webpackChunkName: "shared-exercises-63" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`).then(importedModule => {
-			ExerciseShared.current = importedModule.default
-			setLoading(false)
-		}).catch((err) => {
-			console.error(err) // ToDo later: properly process errors.
-			setError(true)
-		})
-	}
-	useEffect(reload, [exerciseId])
+	const exerciseDefinition = useMemo(() => getExercise(skillId, exerciseId), [skillId, exerciseId])
 
 	// Make sure there is exercise data, like a state, progress and such.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
-		if (!loading && !error) {
+		if (exerciseDefinition) {
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
-				exerciseId,
-				state: serializeAll(ExerciseShared.current.generateState()), // The state should be in storage format, as if it came from the database.
+				exerciseId: getFullExerciseId(skillId, exerciseId),
+				state: serializeAll(exerciseDefinition.generateState()), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
 				progress: {},
@@ -61,7 +47,7 @@ function BlankExerciseInner({ exerciseId }) {
 				startedOn: new Date(),
 			})
 		}
-	}, [exerciseId, loading, error])
+	}, [skillId, exerciseId, exerciseDefinition])
 	useEffect(startNewExercise, [startNewExercise])
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
@@ -80,9 +66,9 @@ function BlankExerciseInner({ exerciseId }) {
 	}, [exercise, setExercise])
 
 	// Show error/loading notes when appropriate.
-	if (error)
-		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'eduTools/exercises')} error={error} />
-	if (loading || !exercise)
+	if (!exerciseDefinition)
+		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'eduTools/exercises')} />
+	if (!exercise)
 		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'eduTools/exercises')} />
 
 	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.

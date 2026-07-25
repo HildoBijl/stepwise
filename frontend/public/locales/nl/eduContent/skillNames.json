@@ -1,14 +1,16 @@
 {
   "miscellaneous": {
-    "unknownSkill": "Unknown skill"
+    "unknownSkill": "Onbekende vaardigheid"
   },
   "test": {
     "test": "Testopgave",
     "demo": "Demo-opgave"
   },
   "tutorial": {
-    "numberInputs": {
-      "enterInteger": "Geheel getal invullen",
+		"fundamentalInputs": {
+			"enterInteger": "Geheel getal invullen"
+		},
+    "physicsInputs": {
       "enterFloat": "Kommagetal invullen",
       "enterUnit": "Eenheid invullen",
       "lookUpConstant": "Constanten opzoeken"
@@ -17,7 +19,7 @@
       "enterExpression": "Uitdrukking invullen",
       "enterEquation": "Vergelijking invullen"
     },
-    "steps": {
+    "stepExercises": {
       "multiplication": "Vermenigvuldigen",
       "summation": "Optellen",
       "summationAndMultiplication": "Optellen en vermenigvuldigen"

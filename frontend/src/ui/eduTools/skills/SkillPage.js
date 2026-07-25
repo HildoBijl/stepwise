@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 
 import { lowerFirst, mapValues } from '@step-wise/utils'
 import { skillTree } from '@step-wise/skill-tree'
+import { hasExercises, hasExamples } from '@step-wise/exercises'
 
 import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
@@ -47,33 +48,29 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 			return { meta: <MetaWrapper skillId={skillId} empty={true} /> }
 
 		// Assemble the pages, starting with the examples and exercises if present.
-		const skill = skillTree[skillId]
 		const pages = {}
-		const hasExamples = Array.isArray(skill.examples) && skill.examples.length > 0
-		const hasExercises = Array.isArray(skill.exercises) && skill.exercises.length > 0
-		if (hasExamples)
+		if (hasExamples(skillId))
 			pages.example = <ExamplePage skillId={skillId} />
-		if (hasExercises) {
+		if (hasExercises(skillId)) {
 			const PageComponent = freePracticeMode ? ExercisePageForUser : ExercisePage
 			pages.practice = <PageComponent skillId={skillId} onNewExercise={onNewExercise} />
 		}
-		let numPages = (hasExamples ? 1 : 0) + (hasExercises ? 1 : 0)
 
 		// Add in other pages that may have loaded.
 		if (loadedPages) {
 			Object.keys(loadedPages).filter(key => !!tabData[lowerFirst(key)]).forEach(key => {
 				const Component = loadedPages[key]
 				pages[lowerFirst(key)] = <Component />
-				numPages++
 			})
 		}
 
 		// Add in a wrapper for the Meta page, which adds in useful warning/info blocks when needed.
+		const numPages = Object.values(pages).length
 		if (numPages === 0) // No pages at all: show a Meta page.
 			pages.meta = <MetaWrapper skillId={skillId} empty={true} />
 		else if (numPages === 1 && pages.meta) // Only the Meta page.
 			pages.meta = <MetaWrapper skillId={skillId} empty={true}>{pages.meta}</MetaWrapper>
-		else  // Has a page, probably either Theory or Exercises.
+		else // Has a page, probably either Theory or Exercises.
 			pages.meta = <MetaWrapper skillId={skillId}>{pages.meta}</MetaWrapper>
 		return pages
 	}, [loadedForSkillId, skillId, loadedPages, freePracticeMode, onNewExercise])

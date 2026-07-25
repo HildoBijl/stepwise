@@ -7,8 +7,10 @@
     "demo": "Demo exercise"
   },
   "tutorial": {
-    "numberInputs": {
-      "enterInteger": "Enter an integer",
+		"fundamentalInputs": {
+			"enterInteger": "Enter an integer"
+		},
+    "physicsInputs": {
       "enterFloat": "Enter a decimal number",
       "enterUnit": "Enter a unit",
       "lookUpConstant": "Look up a constant"
@@ -17,7 +19,7 @@
       "enterExpression": "Enter an expression",
       "enterEquation": "Enter an equation"
     },
-    "steps": {
+    "stepExercises": {
       "multiplication": "Multiply numbers",
       "summation": "Add numbers",
       "summationAndMultiplication": "Add and multiply numbers"

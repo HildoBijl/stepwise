@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react'
 
 import { last, repeat } from '@step-wise/utils'
-import { getStep, getPreviousProgress, hasPreviousInput } from 'step-wise/eduTools'
+import { getPreviousProgress } from '@step-wise/exercise-definition'
+import { getStep, hasPreviousInput } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'

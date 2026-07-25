@@ -1,7 +1,9 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { deserializeAll } from '@step-wise/serialization'
-import { exercises, getLastProgress, getExerciseName } from 'step-wise/eduTools'
+import { getLastProgress, splitFullExerciseId } from '@step-wise/exercise-definition'
+import { getSkill } from '@step-wise/skill-tree'
+import { getExerciseByFullId } from '@step-wise/exercises'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTranslator } from 'i18n'
@@ -12,22 +14,22 @@ export { ExerciseContext } // Exported for testing purposes.
 
 export function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
 	const translate = useTranslator()
-	const { exerciseId, state } = exercise
+	const { exerciseId: fullExerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
 
 	// Whenever the exercise ID changes, reload the component.
 	const reload = () => {
-		const exerciseName = getExerciseName(exerciseId)
+		const { skillId, exerciseId } = splitFullExerciseId(fullExerciseId)
+		const skill = getSkill(skillId)
 		setLoading(true)
 		Promise.all([
-			import(/* webpackChunkName: "front-end-exercises-63" */ `ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseName}`),
-			import(/* webpackChunkName: "shared-exercises-63" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseName}`),
+			import(/* webpackChunkName: "front-end-exercises-64" */ `ui/eduContent/${skill.path.join('/')}/${skill.id}/exercises/${exerciseId}`),
 		]).then(importedModules => {
-			const [localModule, sharedModule] = importedModules
+			const [localModule] = importedModules
 			ExerciseLocal.current = localModule.default
-			ExerciseShared.current = sharedModule.default
+			ExerciseShared.current = getExerciseByFullId(fullExerciseId)
 			setLoading(false)
 		}).catch((error) => {
 			console.error('Exercise failed to load.')
@@ -35,7 +37,7 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 			throw error
 		})
 	}
-	useEffect(reload, [setLoading, exerciseId])
+	useEffect(reload, [setLoading, fullExerciseId])
 
 	// Assemble the state as Functional Object.
 	const stateFO = useMemo(() => deserializeAll(state), [state])
@@ -48,7 +50,7 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
-		exerciseId,
+		exerciseId: fullExerciseId,
 		state: stateFO,
 		example,
 		inspection,
