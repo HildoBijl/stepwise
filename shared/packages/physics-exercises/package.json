@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/tutorial-exercises",
+	"name": "@step-wise/physics-exercises",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -13,6 +13,8 @@
 		"@step-wise/exercise-definition": "file:../exercise-definition",
 		"@step-wise/exercise-grading": "file:../exercise-grading",
 		"@step-wise/input-exercises": "file:../input-exercises",
+		"@step-wise/physics-core": "file:../physics-core",
+		"@step-wise/physics-data": "file:../physics-data",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

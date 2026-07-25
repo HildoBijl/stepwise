@@ -11,11 +11,10 @@
   },
   "references": [
     { "path": "../exercise-definition" },
-    { "path": "../physics-exercises" },
-    { "path": "../skill-definition" },
-    { "path": "../skill-tree" },
-    { "path": "../test-exercises" },
-    { "path": "../tutorial-exercises" },
+    { "path": "../exercise-grading" },
+    { "path": "../input-exercises" },
+    { "path": "../physics-core" },
+    { "path": "../physics-data" },
     { "path": "../utils" }
   ],
   "include": ["src"]

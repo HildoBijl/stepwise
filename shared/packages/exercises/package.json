@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@step-wise/exercise-definition": "file:../exercise-definition",
+		"@step-wise/physics-exercises": "file:../physics-exercises",
 		"@step-wise/skill-definition": "file:../skill-definition",
 		"@step-wise/skill-tree": "file:../skill-tree",
 		"@step-wise/test-exercises": "file:../test-exercises",
