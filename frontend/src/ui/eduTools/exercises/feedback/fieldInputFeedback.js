@@ -3,7 +3,7 @@ import { isValidElement } from 'react'
 import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/utils'
 import { Expression, Equation } from '@step-wise/cas'
 import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
-import { performIndividualComparison } from 'step-wise/eduTools'
+import { compare as gradingCompare } from '@step-wise/exercise-grading'
 
 import { Translation } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomNonNumeric } from 'ui/inputs'
@@ -89,7 +89,7 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 	const { solution } = exerciseData
 
 	// Determine if the field is correct. Do this in the same way as the compare function from the shared directory.
-	const correct = performIndividualComparison(currInput, currSolution, compare, solution)
+	const correct = gradingCompare(currParameter, exerciseData)
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct)

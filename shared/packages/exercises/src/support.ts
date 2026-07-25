@@ -30,12 +30,17 @@ export function hasExamples(skillId: SkillId): boolean {
 	return !isEmptyExerciseContainer(getExamples(skillId))
 }
 
+// Extract examples and exercises combined.
+export function getAllExercises(skillId: SkillId): ExerciseContainer {
+	return {
+		...(getExamples(skillId) ?? {}),
+		...(getExercises(skillId) ?? {}),
+	}
+}
+
 // Extract a certain exercise.
 export function getExercise(skillId: SkillId, exerciseId: ExerciseId): Exercise | undefined {
-	const exercises = {
-		...(getExercises(skillId) ?? {}),
-		...(getExamples(skillId) ?? {}),
-	}
+	const exercises = getAllExercises(skillId)
 	return exercises[exerciseId]
 }
 

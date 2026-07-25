@@ -11,7 +11,7 @@ const { compare } = require('@step-wise/exercise-grading')
 const metaData = {
 	skill: 'calculateWithPressure',
 	compare: {
-		default: {
+		FloatUnit: {
 			float: {
 				relativeTolerance: 0.001,
 				significantDigitTolerance: 0,

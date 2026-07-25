@@ -15,7 +15,7 @@ export function compare<TData extends CheckInputData>(keys: InputKey<TData> | In
 		const type = rawInput[key].type
 		const currInput = input[key]
 		const currCorrect = solution[key]
-		const compareSetting = getCompareSetting(data, key, type)
+		const compareSetting = getCompareSetting(key, type, data)
 		return compareValues(currInput, currCorrect, { key, type, compare: compareSetting, data })
 	})
 }

@@ -1,5 +1,4 @@
-import { mapValues } from '@step-wise/utils'
-import { performIndividualListComparison } from 'step-wise/eduTools'
+import { compareListEntry } from '@step-wise/exercise-grading'
 
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomDuplicate } from 'ui/inputs'
 
@@ -11,7 +10,7 @@ export function getFieldInputListFeedback(exerciseData, parameterOptions, genera
 	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Define the way in which the answers are compared.
-	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, mapValues(parameterOptions, options => options?.compare), generalOptions?.compare)
+	const doValuesMatch = (inputParameter, solutionParameter) => compareListEntry(inputParameter, solutionParameter, exerciseData)
 
 	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
 	const feedback = {}

@@ -16,11 +16,16 @@ export function compareList<TData extends CheckInputData>(keys: readonly InputKe
 	}
 
 	// Check if a matching is present.
-	return hasOneToOneMatching(keys, keys, (inputKey, solutionKey) => {
-		const type = rawInput[inputKey].type
-		const currInput = input[inputKey]
-		const currCorrect = solution[solutionKey]
-		const compare = getCompareSetting(data, solutionKey, type)
-		return compareValues(currInput, currCorrect, { key: solutionKey, type, compare, data })
-	})
+	return hasOneToOneMatching(keys, keys, (inputKey, solutionKey) => compareListEntry(inputKey, solutionKey, data))
+}
+
+export function compareListEntry<TData extends CheckInputData>(inputKey: InputKey<TData>, solutionKey: InputKey<TData>, data: TData): boolean {
+	const { rawInput, input, solution } = data
+	if (solution === undefined) throw new Error(`Invalid compareList call: cannot compare values for an exercise that has no solution defined.`)
+
+	const type = rawInput[inputKey].type
+	const currInput = input[inputKey]
+	const currCorrect = solution[solutionKey]
+	const compare = getCompareSetting(solutionKey, type, data)
+	return compareValues(currInput, currCorrect, { key: solutionKey, type, compare, data })
 }
