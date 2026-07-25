@@ -22,7 +22,7 @@ export function BlankExercise() {
 	if (!exerciseName)
 		return <ErrorNote text={translate('The URL has no exercise name in it.', 'loadingNotes.missingExerciseName', 'eduTools/exercises')} />
 	const skill = getSkill(skillId)
-	return <TranslationFile path={`eduContent/${skill.path.join('/')}/${skill.id}/`}>
+	return <TranslationFile path={`eduContent/${skill.path.join('/')}/${skill.id}`}>
 		<TranslationSection entry="practice">
 			<BlankExerciseInner skillId={skillId} exerciseId={exerciseName} />
 		</TranslationSection>

@@ -1,5 +1,5 @@
 {
-	"name": "@step-wise/exercises",
+	"name": "@step-wise/tutorial-exercises",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -10,11 +10,11 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/exercise-definition": "file:../exercise-definition",
-		"@step-wise/skill-definition": "file:../skill-definition",
-		"@step-wise/skill-tree": "file:../skill-tree",
-		"@step-wise/test-exercises": "file:../test-exercises",
-		"@step-wise/tutorial-exercises": "file:../tutorial-exercises",
+		"@step-wise/cas": "file:../cas",
+		"@step-wise/exercise-grading": "file:../exercise-grading",
+		"@step-wise/input-exercises": "file:../input-exercises",
+		"@step-wise/physics-core": "file:../physics-core",
+		"@step-wise/physics-data": "file:../physics-data",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {
