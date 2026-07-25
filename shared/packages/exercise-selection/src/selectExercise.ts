@@ -21,7 +21,7 @@ export async function selectExercise(skillExercises: ExerciseContainer, getSkill
 		const exercisesSince = sortedPreviousExercises.findIndex(previousExercise => splitFullExerciseId(previousExercise.exerciseId).exerciseId === exerciseId)
 		return exercisesSince === -1 || exercisesSince >= repeatAfter
 	}) as ExerciseContainer
-	if (Object.values(suitableExercises).length > 0) suitableExercises = skillExercises
+	if (Object.values(suitableExercises).length === 0) suitableExercises = skillExercises
 
 	// Calculate selection rates and select based on them.
 	const successRates = await getExerciseSuccessRates(Object.values(suitableExercises).map(exercise => exercise.metaData), getSkillLevelSet)

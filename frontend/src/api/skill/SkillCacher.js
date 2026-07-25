@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext, useSyncExternalStore } from 'react'
 
-import { fromEntries, fromKeys, mapValues } from '@step-wise/utils'
-import { SkillLevelSet } from '@step-wise/skill-tracking'
+import { fromEntries, fromKeys } from '@step-wise/utils'
+import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
-import { processSkill, getDefaultSkillLevel } from 'step-wise/eduTools'
 
 import { useConsistentValue, useConstant } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUser } from 'api'
@@ -47,9 +46,8 @@ export default function SkillCacher({ children }) {
 			return // Oops ... something went wrong. ToDo later: properly handle this error.
 
 		// Fill up the loaded skills with default skills when missing (that is, not in the database yet), process them, and incorporate them into the data set.
-		const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
-		const rawSkillLevelSetUnprocessed = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillLevel(skillId))
-		const rawSkillLevelSet = mapValues(rawSkillLevelSetUnprocessed, skill => processSkill(skill))
+		const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills.map(skill => ensureSkillLevel(skill)))
+		const rawSkillLevelSet = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 		skillLevelSet.update(rawSkillLevelSet)
 	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, skillLevelSet])
 

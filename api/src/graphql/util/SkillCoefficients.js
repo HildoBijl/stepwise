@@ -1,9 +1,8 @@
-const { ensureBoolean, fromEntries, fromKeys, union } = require('@step-wise/utils')
+const { ensureBoolean, fromEntries, fromKeys, mapValues, union } = require('@step-wise/utils')
 const { getBernsteinExpectedValue } = require('@step-wise/bernstein-polynomials')
 const { ensureSetup } = require('@step-wise/skill-setup')
-const { skillTree, ensureSkillIds, includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
 const { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } = require('@step-wise/skill-tracking')
-const { processSkill, getDefaultSkillLevel } = require('step-wise/eduTools')
+const { skillTree, ensureSkillIds, includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
 
 const { getUserSkills } = require('./Skill')
 
@@ -12,9 +11,8 @@ async function getUserSkillLevelSet(db, userId, skillIds) {
 	// Load all required skills from the database. Process them into something functional.
 	const allSkillIds = includeDirectPrerequisitesAndLinks(skillIds) // Add links.
 	const rawSkills = await getUserSkills(db, userId, allSkillIds) // Pull all data from the database.
-	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
-	const skillsAsObject = fromEntries(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
-	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillLevel(skillId)) // Add in missing skills that are not in the database yet.
+	const skillsAsObject = fromEntries(rawSkills.map(skill => skill.skillId), rawSkills.map(skill => ensureSkillLevel(skill))) // Turn the array into an object.
+	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel()) // Add in missing skills that are not in the database yet.
 	const skillLevelSet = new SkillLevelSet(skillTree, skills) // Turn the raw data into SkillLevel objects.
 	return skillLevelSet
 }
@@ -59,7 +57,8 @@ async function applySkillUpdatesForUser(db, userId, skillUpdates, transaction) {
 	const skillsToLoad = includeDirectPrerequisitesAndLinks(skillIds)
 	const skills = await getUserSkills(db, userId, skillsToLoad)
 	const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills)
-	const rawSkillLevelSet = fromKeys(skillsToLoad, skillId => skillsAsObject[skillId] ? ensureSkillLevel(skillsAsObject[skillId]) : getInitialSkillLevel())
+	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill))
+	const rawSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
 
 	// Plug it into the SkillLevelSet object and let it run its magic.
 	const skillLevelSet = new SkillLevelSet(skillTree, rawSkillLevelSet)

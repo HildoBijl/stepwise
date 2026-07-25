@@ -1,2 +1,2 @@
-// export * as enterExpression from './enterExpression'
-// export * as enterEquation from './enterEquation'
+// export { default as enterExpression } from './enterExpression'
+// export { default as enterEquation } from './enterEquation'

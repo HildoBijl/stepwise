@@ -2,7 +2,9 @@ const { UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('@step-wise/utils')
 const { serializeAll, deserializeAll } = require('@step-wise/serialization')
-const { exercises, getNewRandomExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
+const { getFullExerciseId } = require('@step-wise/exercise-definition')
+const { generateRandomExerciseInstance } = require('@step-wise/exercise-selection')
+const { getExercises, getExerciseByFullId } = require('@step-wise/exercises')
 
 const { getSubscription } = require('../util/subscriptions')
 const { events: skillEvents } = require('../util/Skill')
@@ -45,8 +47,9 @@ const resolvers = {
 				return processGroupExercises(group).exercises[0]
 
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
-			const newExercise = await getNewRandomExercise(skillId)
-			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: serializeAll(newExercise.state), active: true })
+			const skillExercises = getExercises(skillId)
+			const newExercise = generateRandomExerciseInstance(skillExercises)
+			const exercise = await group.createExercise({ skillId, exerciseId: getFullExerciseId(skillId, newExercise.exerciseId), state: serializeAll(newExercise.state), active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
 			activeEvent.submissions = []
 			exercise.events = [activeEvent]
@@ -117,10 +120,10 @@ const resolvers = {
 			ensureLoggedIn()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
-			const exercise = group.exercises[0]
-			if (!exercise)
+			const activeExercise = group.exercises[0]
+			if (!activeExercise)
 				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
-			const activeEvent = exercise.events.find(event => event.progress === null)
+			const activeEvent = activeExercise.events.find(event => event.progress === null)
 			if (!activeEvent)
 				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
@@ -139,11 +142,14 @@ const resolvers = {
 			}
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
-			const state = deserializeAll(exercise.state)
-			const previousProgress = getGroupExerciseProgress(exercise)
-			const exerciseId = fixExerciseId(exercise.exerciseId, skillId)
-			const { processAction } = require(`step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
-			const progress = processAction({ submissions: activeEvent.submissions, state, progress: previousProgress, history: exercise.events, updateSkills })
+			const state = deserializeAll(activeExercise.state)
+			const previousProgress = getGroupExerciseProgress(activeExercise)
+			const exercise = getExerciseByFullId(activeExercise.exerciseId)
+			if (!exercise)
+				throw new Error(`Invalid exercise: could not load the exercise with ID "${activeExercise.exerciseId}".`)
+			const progress = exercise.processAction({ submissions: activeEvent.submissions, state, progress: previousProgress, history: activeExercise.events, updateSkills })
+			if (!progress)
+				throw new Error(`Invalid progress object: could not process action for exercise "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Time to store things in the database.
 			let adjustedSkillsPerUser
@@ -155,21 +161,21 @@ const resolvers = {
 				await activeEvent.update({ progress }, { transaction })
 				activeEvent.progress = progress
 				if (progress.done) {
-					await exercise.update({ active: false }, { transaction })
-					exercise.active = false
+					await activeExercise.update({ active: false }, { transaction })
+					activeExercise.active = false
 				} else {
-					const newActiveEvent = await exercise.createEvent({ progress: null }, { transaction })
+					const newActiveEvent = await activeExercise.createEvent({ progress: null }, { transaction })
 					newActiveEvent.submissions = []
-					exercise.events = [...exercise.events, newActiveEvent]
+					activeExercise.events = [...activeExercise.events, newActiveEvent]
 				}
 			})
 
 			// Resolve subscriptions where needed.
 			await Promise.all(Object.keys(adjustedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: adjustedSkillsPerUser[userId], userId })))
-			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code, action: 'resolveEvent' })
 
 			// Return the exercise as a result.
-			return exercise
+			return activeExercise
 		},
 	},
 

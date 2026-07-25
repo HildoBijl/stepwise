@@ -1,3 +1,3 @@
-export * as enterFloat from './enterFloat'
-export * as enterUnit from './enterUnit'
-export * as lookUpConstant from './lookUpConstant'
+export { default as enterFloat } from './enterFloat'
+export { default as enterUnit } from './enterUnit'
+export { default as lookUpConstant } from './lookUpConstant'

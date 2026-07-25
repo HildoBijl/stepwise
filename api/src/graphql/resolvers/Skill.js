@@ -1,7 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express')
 
 const { ensureSkillId, ensureSkillIds } = require('@step-wise/skill-tree')
-const { exercises: allExercises } = require('step-wise/eduTools')
+const { getExerciseByFullId } = require('@step-wise/exercises')
 
 const { getSubscription } = require('../util/subscriptions')
 const { getUser } = require('../util/User')
@@ -13,7 +13,7 @@ const skillWithExercisesResolvers = {
 	exercises: (skill, _args, { loaders }) => loaders.exercisesForSkill.load(skill.id),
 	activeExercise: async (skill, _args, { loaders }) => {
 		const skillExercises = await loaders.exercisesForSkill.load(skill.id)
-		return skillExercises.find(exercise => exercise.active && allExercises[exercise.exerciseId]) || null // Find the exercise that is active and whose exercise script still exists.
+		return skillExercises.find(exercise => exercise.active && !!getExerciseByFullId(exercise.exerciseId)) || null // Find the exercise that is active and whose exercise script still exists.
 	},
 }
 

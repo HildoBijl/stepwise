@@ -4,8 +4,7 @@ import { Box } from '@mui/material'
 
 import { fromEntries, fromKeys, formatDate } from '@step-wise/utils'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
-import { SkillLevelSet } from '@step-wise/skill-tracking'
-import { processSkill, getDefaultSkillLevel } from 'step-wise/eduTools'
+import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 
 import { useUserQuery } from 'api'
 import { Par, HorizontalSlider } from 'ui/components'
@@ -90,13 +89,13 @@ function getUserNameFromQueryResult(res) {
 function useSkillsLevelsList(user) {
 	return useMemo(() => {
 		// Process the skills into a raw data set. (Also filter them to remove outdated skills not in the skill tree anymore.)
-		const skillsProcessed = user.skills.filter(skill => skillTree[skill.skillId]).map(skill => processSkill(skill))
-		const skillIds = skillsProcessed.map(skill => skill.skillId)
-		const skillsAsObject = fromEntries(skillIds, skillsProcessed)
+		const existingSkills = user.skills.filter(skill => !!skillTree[skill.skillId])
+		const skillIds = existingSkills.map(skill => skill.skillId)
+		const skillsAsObject = fromEntries(skillIds, existingSkills.map(skill => ensureSkillLevel(skill)))
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 		const allSkillIds = includeDirectPrerequisitesAndLinks(skillIds)
-		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillLevel(skillId))
+		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 		const skillLevelSet = new SkillLevelSet(skillTree, skills)
 
 		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.

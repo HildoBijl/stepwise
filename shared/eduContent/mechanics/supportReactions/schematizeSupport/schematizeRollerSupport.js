@@ -36,7 +36,6 @@ function getSolution(state) {
 }
 
 function checkInput(data, step) {
-	console.log(data, step)
 	switch (step) {
 		case 1:
 			return compare('forcePerpendicular', data)

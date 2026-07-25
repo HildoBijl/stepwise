@@ -1,6 +1,6 @@
 const DataLoader = require('dataloader')
 
-const { exercises: allExercises } = require('step-wise/eduTools')
+const { getExerciseByFullId } = require('@step-wise/exercises')
 
 module.exports = ({ db }) => ({
 	// exercisesForSkill is the DataLoader that loads all exercises for a given skill of a user.
@@ -15,13 +15,13 @@ module.exports = ({ db }) => ({
 		exercisesPerUserSkill = {}
 		userSkillIds.forEach(userSkillId => { exercisesPerUserSkill[userSkillId] = [] })
 		exercises.forEach(exercise => {
-			if (!allExercises[exercise.exerciseId])
+			if (!getExerciseByFullId(exercise.exerciseId))
 				return // Only show existing exercises: filter out outdated/removed exercises.
 			exercisesPerUserSkill[exercise.userSkillId].push(exercise)
 		})
 		userSkillIds.forEach(userSkillId => { exercisesPerUserSkill[userSkillId].sort((a, b) => a.createdAt - b.createdAt) })
 
-		// Return the exercises in the same order as input skillIds
+		// Return the exercises in the same order as input skillIds.
 		return userSkillIds.map(userSkillId => exercisesPerUserSkill[userSkillId])
 	}),
 })

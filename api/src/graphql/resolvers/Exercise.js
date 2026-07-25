@@ -1,7 +1,9 @@
 
 const { ensureSkillId } = require('@step-wise/skill-tree')
 const { serializeAll, deserializeAll } = require('@step-wise/serialization')
-const { exercises: allExercises, getNewExercise, fixExerciseId, getExerciseName } = require('step-wise/eduTools')
+const { getFullExerciseId } = require('@step-wise/exercise-definition')
+const { generateSkillBasedExerciseInstance } = require('@step-wise/exercise-selection')
+const { getExercises, getExerciseByFullId } = require('@step-wise/exercises')
 
 const { events: skillEvents, getUserSkill } = require('../util/Skill')
 const { getUserSkillLevelSet, applySkillUpdatesForUser } = require('../util/SkillCoefficients')
@@ -20,7 +22,7 @@ const resolvers = {
 			return (lastEvent && lastEvent.createdAt) || null
 		},
 		history: exercise => exercise.events || [],
-		active: exercise => exercise.active && !!allExercises[exercise.exerciseId], // Only show active when the exercise also still exists.
+		active: exercise => exercise.active && !!getExerciseByFullId(exercise.exerciseId), // Only show active when the exercise also still exists.
 	},
 
 	Event: {
@@ -32,12 +34,13 @@ const resolvers = {
 			// Check input: the user must be logged in, the skillId must exist, and there must not be an active exercise.
 			ensureLoggedIn()
 			ensureSkillId(skillId)
-			const { skill, exercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
+			const { skill, exercises: previousExercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
 
 			// Select a new exercise, store it and return the result.
+			const skillExercises = getExercises(skillId)
 			const getSkillLevelSet = (skillIds) => getUserSkillLevelSet(db, userId, skillIds)
-			const newExercise = await getNewExercise(skillId, getSkillLevelSet, exercises)
-			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: serializeAll(newExercise.state), active: true })
+			const newExercise = await generateSkillBasedExerciseInstance(skillExercises, getSkillLevelSet, previousExercises)
+			return await skill.createExercise({ exerciseId: getFullExerciseId(skillId, newExercise.exerciseId), state: serializeAll(newExercise.state), active: true })
 		},
 
 		submitExerciseAction: async (_source, { skillId, action }, { db, pubsub, ensureLoggedIn, userId }) => {
@@ -55,11 +58,12 @@ const resolvers = {
 
 			// Update the progress parameter.
 			const previousProgress = getExerciseProgress(activeExercise)
-			const exerciseId = fixExerciseId(activeExercise.exerciseId, skillId)
-			const { processAction } = require(`step-wise/eduContent/${allExercises[exerciseId].path.join('/')}/${getExerciseName(exerciseId)}`)
-			const progress = processAction({ action, state: deserializeAll(activeExercise.state), progress: previousProgress, history: activeExercise.events, updateSkills })
+			const exercise = getExerciseByFullId(activeExercise.exerciseId)
+			if (!exercise)
+				throw new Error(`Invalid exercise: could not load the exercise with ID "${activeExercise.exerciseId}".`)
+			const progress = exercise.processAction({ action, state: deserializeAll(activeExercise.state), progress: previousProgress, history: activeExercise.events, updateSkills })
 			if (!progress)
-				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)
+				throw new Error(`Invalid progress object: could not process action for exercise "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Process the collected updates and save them.
 			let adjustedSkills

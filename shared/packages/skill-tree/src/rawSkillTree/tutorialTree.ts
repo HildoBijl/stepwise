@@ -2,12 +2,12 @@ import { and, repeat } from '@step-wise/skill-setup'
 import type { RawSkillGroup } from '@step-wise/skill-definition'
 
 export const tutorialTree: RawSkillGroup = {
-	numberInputs: {
+	fundamentalInputs: {
 		enterInteger: {
 			name: 'Enter an integer',
-			examples: ['enterInteger'],
-			exercises: ['enterInteger'],
 		},
+	},
+	physicsInputs: {
 		enterFloat: {
 			name: 'Enter a decimal number',
 			examples: ['enterFloat'],
@@ -36,7 +36,7 @@ export const tutorialTree: RawSkillGroup = {
 			exercises: ['enterEquation'],
 		},
 	},
-	steps: {
+	stepExercises: {
 		summation: {
 			name: 'Add numbers',
 			examples: ['summation1'],
