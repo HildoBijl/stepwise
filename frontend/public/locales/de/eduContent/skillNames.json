@@ -2,23 +2,12 @@
   "miscellaneous": {
     "unknownSkill": "Unbekannte Kompetenz"
   },
-  "test": {
+  "demo": {
     "test": "Testübung",
-    "demo": "Demo-Übung"
-  },
-  "tutorial": {
-		"fundamentalInputs": {
+    "demo": "Demo-Übung",
+		"inputs": {
 			"enterInteger": "Eingeben einer Ganzzahl"
 		},
-    "physicsInputs": {
-      "enterFloat": "Eingeben einer Kommazahl",
-      "enterUnit": "Eingeben einer Einheit",
-      "lookUpConstant": "Nachschlagen einer Konstante"
-    },
-    "mathInputs": {
-      "enterExpression": "Eingeben eines Ausdrucks",
-      "enterEquation": "Eingeben einer Gleichung"
-    },
     "stepExercises": {
       "multiplication": "Multiplizieren",
       "summation": "Addieren",
@@ -26,6 +15,10 @@
     }
   },
   "mathematics": {
+    "inputs": {
+      "enterExpression": "Eingeben eines Ausdrucks",
+      "enterEquation": "Eingeben einer Gleichung"
+    },
     "calculation": {
       "fundamentals": {
         "combinations": {
@@ -168,6 +161,13 @@
       "schematizeSupport": "Befestigung schematisieren",
       "drawFreeBodyDiagram": "Freikörperdiagramm zeichnen",
       "calculateBasicSupportReactions": "Auflagerreaktionen berechnen"
+    }
+  },
+  "physics": {
+    "inputs": {
+      "enterFloat": "Eingeben einer Kommazahl",
+      "enterUnit": "Eingeben einer Einheit",
+      "lookUpConstant": "Nachschlagen einer Konstante"
     }
   }
 }

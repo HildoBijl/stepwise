@@ -10,12 +10,11 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../demo-exercises" },
+    { "path": "../cas" },
     { "path": "../exercise-definition" },
-    { "path": "../mathematics-exercises" },
-    { "path": "../physics-exercises" },
-    { "path": "../skill-definition" },
-    { "path": "../skill-tree" },
+    { "path": "../exercise-grading" },
+    { "path": "../input-exercises" },
+    { "path": "../skill-setup" },
     { "path": "../utils" }
   ],
   "include": ["src"]

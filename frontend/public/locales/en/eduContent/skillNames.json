@@ -1,253 +1,251 @@
 {
-  "miscellaneous": {
-    "unknownSkill": "Unknown skill"
-  },
-  "test": {
+	"miscellaneous": {
+		"unknownSkill": "Unknown skill"
+	},
+  "demo": {
     "test": "Test exercise",
-    "demo": "Demo exercise"
+    "demo": "Demo exercise",
+    "inputs": {
+      "enterInteger": "Enter an integer"
+    },
+    "stepExercises": {
+			"multiplication": "Multiply numbers",
+			"summation": "Add numbers",
+			"summationAndMultiplication": "Add and multiply numbers"
+		}
   },
-  "tutorial": {
-		"fundamentalInputs": {
-			"enterInteger": "Enter an integer"
+  "mathematics": {
+    "inputs": {
+      "enterExpression": "Enter an expression",
+      "enterEquation": "Enter an equation"
+    },
+    "calculation": {
+			"fundamentals": {
+				"combinations": {
+					"calculateSumOfProducts": "Calculate sum of products"
+				}
+			},
+			"fractions": {
+				"calculating": {
+					"simplifyFraction": "Simplify fraction"
+				},
+				"basicOperations": {
+					"multiplyDivideFractions": "Multiply/divide fractions"
+				},
+				"simplification": {
+					"simplifyFractionOfFractions": "Simplify fraction of fractions",
+					"simplifyFractionSum": "Simplify fraction sum"
+				}
+			},
+			"powers": {
+				"rewritePower": "Rewrite power",
+				"rewriteNegativePower": "Rewrite negative power"
+			},
+			"roots": {
+				"simplifyRoot": "Simplify root"
+			}
 		},
-    "physicsInputs": {
+		"algebra": {
+			"expressions": {
+				"substitution": {
+					"substituteANumber": "Substitute a number",
+					"substituteAnExpression": "Substitute an expression"
+				},
+				"simplification": {
+					"simplifyNumberProduct": "Simplify number product",
+					"cancelSumTerms": "Cancel sum terms",
+					"mergeSimilarTerms": "Merge similar terms"
+				},
+				"brackets": {
+					"expandBrackets": "Expand brackets",
+					"expandDoubleBrackets": "Expand double brackets",
+					"pullFactorOutOfBrackets": "Pull factor out of brackets"
+				},
+				"powers": {
+					"simplifyProductOfPowers": "Simplify product of powers",
+					"expandPowerOfSum": "Expand power of sum"
+				},
+				"fractions": {
+					"multiplyingDividing": {
+						"cancelFractionFactors": "Cancel fraction factors",
+						"simplifyFractionWithVariables": "Simplify fraction with variables",
+						"simplifyFractionOfFractionsWithVariables": "Simplify fraction of fractions with variables"
+					},
+					"addingSubtracting": {
+						"addLikeFractionsWithVariables": "Add like fractions with variables",
+						"addFractionsWithVariables": "Add fractions with variables",
+						"simplifyFractionOfFractionSumsWithVariables": "Simplify fraction of fraction sums with variables",
+						"addFractionsWithMultipleVariables": "Add fractions with multiple variables",
+						"simplifyFractionOfFractionSumsWithMultipleVariables": "Simplify fraction of fraction sums with multiple variables"
+					}
+				}
+			},
+			"equations": {
+				"verifying": {
+					"checkEquationSolution": "Check equation solution",
+					"checkMultiVariableEquationSolution": "Check multi-variable equation solution"
+				},
+				"manipulating": {
+					"terms": {
+						"addToBothEquationSides": "Add to both equation sides",
+						"moveEquationTerm": "Move equation term"
+					},
+					"factors": {
+						"multiplyBothEquationSides": "Multiply both equation sides",
+						"moveEquationFactor": "Move equation factor"
+					},
+					"rational": {
+						"multiplyAllEquationTerms": "Multiply all equation terms",
+						"bringEquationToStandardForm": "Bring equation to standard form"
+					}
+				},
+				"solving": {
+					"elementaryEquations": {
+						"solveProductEquation": "Solve product equation",
+						"solveMultiVariableProductEquation": "Solve multi-variable product equation"
+					},
+					"linearEquations": {
+						"solveLinearEquation": "Solve linear equation",
+						"solveLinearEquationWithFractions": "Solve linear equation with fractions",
+						"solveMultiVariableLinearEquation": "Solve multi-variable linear equation",
+						"solveMultiVariableLinearEquationWithFractions": "Solve multi-variable linear equation with fractions"
+					},
+					"quadraticEquations": {
+						"solveQuadraticEquation": "Solve quadratic equation",
+						"solveRewrittenQuadraticEquation": "Solve rewritten quadratic equation"
+					},
+					"systemsOfEquations": {
+						"solveSystemOfLinearEquations": "Solve system of linear equations",
+						"solveMultiVariableSystemOfLinearEquations": "Solve multi-variable system of linear equations"
+					}
+				}
+			}
+		},
+		"geometry": {
+			"triangles": {
+				"applyPythagoreanTheorem": "Apply the Pythagorean theorem",
+				"applySineCosineTangent": "Apply the sine/cosine/tangent",
+				"applySimilarTriangles": "Apply similar triangles",
+				"calculateTriangle": "Calculate a triangle"
+			},
+			"anglesAndDistances": {
+				"determine2DAngles": "Determine 2D angles",
+				"determine2DDistances": "Determine 2D distances"
+			},
+			"areasAndVolumes": {
+				"calculate2DShape": "Calculate a 2D shape",
+				"calculate3DShape": "Calculate a 3D shape"
+			}
+		},
+		"derivatives": {
+			"basicRules": {
+				"lookUpElementaryDerivative": "Look up an elementary derivative",
+				"findBasicDerivative": "Determine a basic derivative"
+			},
+			"combinedRules": {
+				"applyProductRule": "Apply the product rule",
+				"applyQuotientRule": "Apply the quotient rule",
+				"applyChainRule": "Apply the chain rule"
+			},
+			"generalDerivatives": {
+				"findGeneralDerivative": "Determine a general derivative",
+				"findAdvancedDerivative": "Determine an advanced derivative"
+			}
+		}
+	},
+	"mechanics": {
+		"equilibrium": {
+			"calculateForceOrMoment": "Calculate a force or moment"
+		},
+		"supportReactions": {
+			"schematizeSupport": "Schematize a support",
+			"drawFreeBodyDiagram": "Draw a free body diagram",
+			"calculateBasicSupportReactions": "Calculate basic support reactions"
+		}
+  },
+  "physics": {
+    "inputs": {
       "enterFloat": "Enter a decimal number",
       "enterUnit": "Enter a unit",
       "lookUpConstant": "Look up a constant"
     },
-    "mathInputs": {
-      "enterExpression": "Enter an expression",
-      "enterEquation": "Enter an equation"
-    },
-    "stepExercises": {
-      "multiplication": "Multiply numbers",
-      "summation": "Add numbers",
-      "summationAndMultiplication": "Add and multiply numbers"
-    }
-  },
-  "mathematics": {
-    "calculation": {
-      "fundamentals": {
-        "combinations": {
-          "calculateSumOfProducts": "Calculate sum of products"
-        }
-      },
-      "fractions": {
-        "calculating": {
-          "simplifyFraction": "Simplify fraction"
-        },
-        "basicOperations": {
-          "multiplyDivideFractions": "Multiply/divide fractions"
-        },
-        "simplification": {
-          "simplifyFractionOfFractions": "Simplify fraction of fractions",
-          "simplifyFractionSum": "Simplify fraction sum"
-        }
-      },
-      "powers": {
-        "rewritePower": "Rewrite power",
-        "rewriteNegativePower": "Rewrite negative power"
-      },
-      "roots": {
-        "simplifyRoot": "Simplify root"
-      }
-    },
-    "algebra": {
-      "expressions": {
-        "substitution": {
-          "substituteANumber": "Substitute a number",
-          "substituteAnExpression": "Substitute an expression"
-        },
-        "simplification": {
-          "simplifyNumberProduct": "Simplify number product",
-          "cancelSumTerms": "Cancel sum terms",
-          "mergeSimilarTerms": "Merge similar terms"
-        },
-        "brackets": {
-          "expandBrackets": "Expand brackets",
-          "expandDoubleBrackets": "Expand double brackets",
-          "pullFactorOutOfBrackets": "Pull factor out of brackets"
-        },
-        "powers": {
-          "simplifyProductOfPowers": "Simplify product of powers",
-          "expandPowerOfSum": "Expand power of sum"
-        },
-        "fractions": {
-          "multiplyingDividing": {
-            "cancelFractionFactors": "Cancel fraction factors",
-            "simplifyFractionWithVariables": "Simplify fraction with variables",
-            "simplifyFractionOfFractionsWithVariables": "Simplify fraction of fractions with variables"
-          },
-          "addingSubtracting": {
-            "addLikeFractionsWithVariables": "Add like fractions with variables",
-            "addFractionsWithVariables": "Add fractions with variables",
-            "simplifyFractionOfFractionSumsWithVariables": "Simplify fraction of fraction sums with variables",
-            "addFractionsWithMultipleVariables": "Add fractions with multiple variables",
-            "simplifyFractionOfFractionSumsWithMultipleVariables": "Simplify fraction of fraction sums with multiple variables"
-          }
-        }
-      },
-      "equations": {
-        "verifying": {
-          "checkEquationSolution": "Check equation solution",
-          "checkMultiVariableEquationSolution": "Check multi-variable equation solution"
-        },
-        "manipulating": {
-          "terms": {
-            "addToBothEquationSides": "Add to both equation sides",
-            "moveEquationTerm": "Move equation term"
-          },
-          "factors": {
-            "multiplyBothEquationSides": "Multiply both equation sides",
-            "moveEquationFactor": "Move equation factor"
-          },
-          "rational": {
-            "multiplyAllEquationTerms": "Multiply all equation terms",
-            "bringEquationToStandardForm": "Bring equation to standard form"
-          }
-        },
-        "solving": {
-          "elementaryEquations": {
-            "solveProductEquation": "Solve product equation",
-            "solveMultiVariableProductEquation": "Solve multi-variable product equation"
-          },
-          "linearEquations": {
-            "solveLinearEquation": "Solve linear equation",
-            "solveLinearEquationWithFractions": "Solve linear equation with fractions",
-            "solveMultiVariableLinearEquation": "Solve multi-variable linear equation",
-            "solveMultiVariableLinearEquationWithFractions": "Solve multi-variable linear equation with fractions"
-          },
-          "quadraticEquations": {
-            "solveQuadraticEquation": "Solve quadratic equation",
-            "solveRewrittenQuadraticEquation": "Solve rewritten quadratic equation"
-          },
-          "systemsOfEquations": {
-            "solveSystemOfLinearEquations": "Solve system of linear equations",
-            "solveMultiVariableSystemOfLinearEquations": "Solve multi-variable system of linear equations"
-          }
-        }
-      }
-    },
-    "geometry": {
-      "triangles": {
-        "applyPythagoreanTheorem": "Apply the Pythagorean theorem",
-        "applySineCosineTangent": "Apply the sine/cosine/tangent",
-        "applySimilarTriangles": "Apply similar triangles",
-        "calculateTriangle": "Calculate a triangle"
-      },
-      "anglesAndDistances": {
-        "determine2DAngles": "Determine 2D angles",
-        "determine2DDistances": "Determine 2D distances"
-      },
-      "areasAndVolumes": {
-        "calculate2DShape": "Calculate a 2D shape",
-        "calculate3DShape": "Calculate a 3D shape"
-      }
-    },
-    "derivatives": {
-      "basicRules": {
-        "lookUpElementaryDerivative": "Look up an elementary derivative",
-        "findBasicDerivative": "Determine a basic derivative"
-      },
-      "combinedRules": {
-        "applyProductRule": "Apply the product rule",
-        "applyQuotientRule": "Apply the quotient rule",
-        "applyChainRule": "Apply the chain rule"
-      },
-      "generalDerivatives": {
-        "findGeneralDerivative": "Determine a general derivative",
-        "findAdvancedDerivative": "Determine an advanced derivative"
-      }
-    }
-  },
-  "mechanics": {
-    "equilibrium": {
-      "calculateForceOrMoment": "Calculate a force or moment"
-    },
-    "supportReactions": {
-      "schematizeSupport": "Schematize a support",
-      "drawFreeBodyDiagram": "Draw a free body diagram",
-      "calculateBasicSupportReactions": "Calculate basic support reactions"
-    }
-  },
-  "physics": {
     "physicsMathematics": {
-      "solveExponentEquation": "Solve an exponent equation",
-      "linearInterpolation": "Apply linear interpolation"
-    },
-    "fundamentals": {
-      "units": {
-        "calculateWithPressure": "Calculate with pressure",
-        "calculateWithVolume": "Calculate with volume",
-        "calculateWithMass": "Calculate with mass",
-        "calculateWithTemperature": "Calculate with temperature"
-      },
-      "efficiency": {
-        "calculateWithEfficiency": "Calculate with efficiency",
-        "calculateWithCOP": "Calculate with the COP"
-      }
-    },
-    "thermodynamics": {
-      "constants": {
-        "specificGasConstant": "Look up a specific gas constant",
-        "specificHeatRatio": "Look up a specific heat ratio",
-        "specificHeats": "Look up specific heats"
-      },
-      "basicLaws": {
-        "gasLaw": "Apply the gas law",
-        "recognizeProcessTypes": "Recognize process types",
-        "poissonsLaw": "Apply Poisson's law"
-      },
-      "closedCycles": {
-        "calculateProcessStep": "Calculate a process step",
-        "calculateClosedCycle": "Calculate a closed cycle",
-        "calculateHeatAndWork": "Calculate heat and work",
-        "calculateWithInternalEnergy": "Calculate with internal energy",
-        "createClosedCycleEnergyOverview": "Create a closed-cycle energy overview",
-        "analyseClosedCycle": "Analyse a closed cycle"
-      },
-      "openCycles": {
-        "calculateWithSpecificQuantities": "Calculate with specific quantities",
-        "massFlowTrick": "Apply the mass flow trick",
-        "calculateOpenProcessStep": "Calculate an open process step",
-        "calculateOpenCycle": "Calculate an open cycle",
-        "calculateSpecificHeatAndMechanicalWork": "Calculate specific heat and mechanical work",
-        "calculateWithEnthalpy": "Calculate with enthalpy",
-        "createOpenCycleEnergyOverview": "Create an open cycle energy overview",
-        "analyseOpenCycle": "Analyse an open cycle"
-      },
-      "entropy": {
-        "calculateEntropyChange": "Calculate an entropy change",
-        "calculateMissedWork": "Calculate the missed work",
-        "useIsentropicEfficiency": "Use the isentropic efficiency"
-      },
-      "gasTurbines": {
-        "analyseGasTurbine": "Analyse gas turbines"
-      },
-      "steam": {
-        "properties": {
-          "lookUpSteamProperties": "Look up steam properties",
-          "useVaporFraction": "Use the vapor fraction"
-        },
-        "rankineCycle": {
-          "createRankineCycleOverview": "Create a Rankine cycle overview",
-          "analyseRankineCycle": "Analyse a Rankine cycle"
-        }
-      },
-      "cooling": {
-        "properties": {
-          "findFridgeTemperatures": "Find refrigerator temperatures",
-          "determineRefrigerantProcess": "Determine a refrigerant process"
-        },
-        "coolingCycles": {
-          "createCoolingCycleOverview": "Create a cooling cycle overview",
-          "analyseCoolingCycle": "Analyse a cooling cycle"
-        }
-      },
-      "humidity": {
-        "readMollierDiagram": "Read a Mollier diagram",
-        "analyseAirco": "Analyse an air conditioner"
-      }
-    }
-  }
+			"solveExponentEquation": "Solve an exponent equation",
+			"linearInterpolation": "Apply linear interpolation"
+		},
+		"fundamentals": {
+			"units": {
+				"calculateWithPressure": "Calculate with pressure",
+				"calculateWithVolume": "Calculate with volume",
+				"calculateWithMass": "Calculate with mass",
+				"calculateWithTemperature": "Calculate with temperature"
+			},
+			"efficiency": {
+				"calculateWithEfficiency": "Calculate with efficiency",
+				"calculateWithCOP": "Calculate with the COP"
+			}
+		},
+		"thermodynamics": {
+			"constants": {
+				"specificGasConstant": "Look up a specific gas constant",
+				"specificHeatRatio": "Look up a specific heat ratio",
+				"specificHeats": "Look up specific heats"
+			},
+			"basicLaws": {
+				"gasLaw": "Apply the gas law",
+				"recognizeProcessTypes": "Recognize process types",
+				"poissonsLaw": "Apply Poisson's law"
+			},
+			"closedCycles": {
+				"calculateProcessStep": "Calculate a process step",
+				"calculateClosedCycle": "Calculate a closed cycle",
+				"calculateHeatAndWork": "Calculate heat and work",
+				"calculateWithInternalEnergy": "Calculate with internal energy",
+				"createClosedCycleEnergyOverview": "Create a closed-cycle energy overview",
+				"analyseClosedCycle": "Analyse a closed cycle"
+			},
+			"openCycles": {
+				"calculateWithSpecificQuantities": "Calculate with specific quantities",
+				"massFlowTrick": "Apply the mass flow trick",
+				"calculateOpenProcessStep": "Calculate an open process step",
+				"calculateOpenCycle": "Calculate an open cycle",
+				"calculateSpecificHeatAndMechanicalWork": "Calculate specific heat and mechanical work",
+				"calculateWithEnthalpy": "Calculate with enthalpy",
+				"createOpenCycleEnergyOverview": "Create an open cycle energy overview",
+				"analyseOpenCycle": "Analyse an open cycle"
+			},
+			"entropy": {
+				"calculateEntropyChange": "Calculate an entropy change",
+				"calculateMissedWork": "Calculate the missed work",
+				"useIsentropicEfficiency": "Use the isentropic efficiency"
+			},
+			"gasTurbines": {
+				"analyseGasTurbine": "Analyse gas turbines"
+			},
+			"steam": {
+				"properties": {
+					"lookUpSteamProperties": "Look up steam properties",
+					"useVaporFraction": "Use the vapor fraction"
+				},
+				"rankineCycle": {
+					"createRankineCycleOverview": "Create a Rankine cycle overview",
+					"analyseRankineCycle": "Analyse a Rankine cycle"
+				}
+			},
+			"cooling": {
+				"properties": {
+					"findFridgeTemperatures": "Find refrigerator temperatures",
+					"determineRefrigerantProcess": "Determine a refrigerant process"
+				},
+				"coolingCycles": {
+					"createCoolingCycleOverview": "Create a cooling cycle overview",
+					"analyseCoolingCycle": "Analyse a cooling cycle"
+				}
+			},
+			"humidity": {
+				"readMollierDiagram": "Read a Mollier diagram",
+				"analyseAirco": "Analyse an air conditioner"
+			}
+		}
+	}
 }

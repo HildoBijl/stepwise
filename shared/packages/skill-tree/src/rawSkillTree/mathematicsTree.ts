@@ -2,6 +2,15 @@ import { and, repeat, pick, part } from '@step-wise/skill-setup'
 import type { RawSkillGroup } from '@step-wise/skill-definition'
 
 export const mathematicsTree: RawSkillGroup = {
+	inputs: {
+		enterExpression: {
+			name: 'Enter an expression',
+		},
+		enterEquation: {
+			name: 'Enter an equation',
+		},
+	},
+
 	calculation: {
 		fundamentals: {
 			addition: {},

@@ -2,23 +2,12 @@
   "miscellaneous": {
     "unknownSkill": "Onbekende vaardigheid"
   },
-  "test": {
+  "demo": {
     "test": "Testopgave",
-    "demo": "Demo-opgave"
-  },
-  "tutorial": {
-		"fundamentalInputs": {
+    "demo": "Demo-opgave",
+		"inputs": {
 			"enterInteger": "Geheel getal invullen"
 		},
-    "physicsInputs": {
-      "enterFloat": "Kommagetal invullen",
-      "enterUnit": "Eenheid invullen",
-      "lookUpConstant": "Constanten opzoeken"
-    },
-    "mathInputs": {
-      "enterExpression": "Uitdrukking invullen",
-      "enterEquation": "Vergelijking invullen"
-    },
     "stepExercises": {
       "multiplication": "Vermenigvuldigen",
       "summation": "Optellen",
@@ -26,6 +15,10 @@
     }
   },
   "mathematics": {
+    "inputs": {
+      "enterExpression": "Uitdrukking invullen",
+      "enterEquation": "Vergelijking invullen"
+    },
     "calculation": {
       "fundamentals": {
         "combinations": {
@@ -171,6 +164,11 @@
     }
   },
   "physics": {
+    "inputs": {
+      "enterFloat": "Kommagetal invullen",
+      "enterUnit": "Eenheid invullen",
+      "lookUpConstant": "Constanten opzoeken"
+    },
     "physicsMathematics": {
       "solveExponentEquation": "Exponent-vergelijking oplossen",
       "linearInterpolation": "Lineair interpoleren"

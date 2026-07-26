@@ -2,6 +2,18 @@ import { and, or, repeat, pick, part } from '@step-wise/skill-setup'
 import type { RawSkillGroup } from '@step-wise/skill-definition'
 
 export const physicsTree: RawSkillGroup = {
+	inputs: {
+		enterFloat: {
+			name: 'Enter a decimal number',
+		},
+		enterUnit: {
+			name: 'Enter a unit',
+		},
+		lookUpConstant: {
+			name: 'Look up a constant',
+		},
+	},
+
 	physicsMathematics: {
 		solveExponentEquation: {
 			name: 'Solve an exponent equation',

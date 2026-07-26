@@ -1,0 +1,65 @@
+import { sample, getRandomInteger, getRandomBoolean } from '@step-wise/utils'
+import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+
+import { filterVariables } from '../../../../generationTools'
+
+const { equivalent, onlyOrderChanges } = expressionComparisons
+const { hasSumWithinProduct } = expressionChecks
+const variableSet = ['x', 'y', 'z']
+const usedVariables = ['x']
+const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r', 's']
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'expandDoubleBrackets',
+		...stepsToSetup(['expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
+		compare: {
+			firstExpanded: (input: Expression, correct: Expression, { factor2 }: { factor2: Expression }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !equivalent(factor, factor2))) && equivalent(input, correct),
+			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
+			ans: onlyOrderChanges,
+		},
+	},
+
+	generateState() {
+		while (true) {
+			const p = getRandomInteger(1, 4)
+			const q = getRandomInteger(0, 3, [p])
+			const s = getRandomInteger(0, 3, [q])
+			const r = p + s - q
+			if (r < 0 || r > 4) continue
+			return {
+				x: sample(variableSet),
+				a: getRandomInteger(-8, 8, [0]),
+				b: getRandomInteger(-8, 8, [0]),
+				c: getRandomInteger(-8, 8, [0]),
+				d: getRandomInteger(-8, 8, [0]),
+				p, q, r, s,
+				switch: getRandomBoolean(),
+			}
+		}
+	},
+
+	getSolution(state) {
+		const variables = filterVariables(state, usedVariables, constants)
+		const factor1 = asExpression(state.switch ? 'a*x^p+b*x^q' : 'b*x^q+a*x^p').substitute(variables).removeTrivial()
+		const factor2 = asExpression(state.switch ? 'c*x^r+d*x^s' : 'd*x^s+c*x^r').substitute(variables).removeTrivial()
+		const expression = factor1.multiply(factor2).flatten()
+		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
+		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
+		const jointFactor = asExpression('x^(q+r)').substitute(variables).normalize()
+		const ans = allExpanded.combine()
+		const xFactors = allExpanded.terms.filter(term => term.some(factor => variables.x.toPower(state.q + state.r).equalStructure(factor)))
+		const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()
+		return { ...state, variables, factor1, factor2, expression, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare('firstExpanded', data)
+			case 2: return compare('allExpanded', data)
+			default: return compare('ans', data)
+		}
+	},
+})

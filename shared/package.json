@@ -11,6 +11,7 @@
 		"@step-wise/bernstein-polynomials": "file:packages/bernstein-polynomials",
 		"@step-wise/cas": "file:packages/cas",
 		"@step-wise/course-definition": "file:packages/course-definition",
+		"@step-wise/demo-exercises": "file:packages/demo-exercises",
 		"@step-wise/engineering-mechanics": "file:packages/engineering-mechanics",
 		"@step-wise/exercises": "file:packages/exercises",
 		"@step-wise/exercise-definition": "file:packages/exercise-definition",
@@ -31,8 +32,6 @@
 		"@step-wise/skill-setup": "file:packages/skill-setup",
 		"@step-wise/skill-tracking": "file:packages/skill-tracking",
 		"@step-wise/skill-tree": "file:packages/skill-tree",
-		"@step-wise/test-exercises": "file:packages/test-exercises",
-		"@step-wise/tutorial-exercises": "file:packages/tutorial-exercises",
 		"@step-wise/utils": "file:packages/utils"
 	},
 	"devDependencies": {
