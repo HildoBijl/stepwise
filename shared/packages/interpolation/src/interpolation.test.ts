@@ -116,5 +116,18 @@ describe('interpolation', () => {
 			expect(gridInterpolate(1.5, [2, 4, 6, 8], [0, 1, 2, 3])).toBe(5)
 			expect(gridInterpolate([1.5, 2.5], multiDimensionalTable.grids[0], ...multiDimensionalTable.inputValues)).toBe(10.5)
 		})
+		test('returns an exact grid value without requiring defined neighboring values', () => {
+			expect(gridInterpolate(0, [2, undefined], [0, 1])).toBe(2)
+			expect(gridInterpolate(1, [undefined, 4], [0, 1])).toBe(4)
+			expect(gridInterpolate(1, [undefined, 4, undefined], [0, 1, 2])).toBe(4)
+		})
+		test('only traverses exact coordinates in multidimensional grids', () => {
+			const sparseGrid = [
+				[1, undefined, undefined],
+				[2, 3, undefined],
+				[4, 5, 6],
+			]
+			expect(gridInterpolate([1, 1], sparseGrid, [0, 1, 2], [0, 1, 2])).toBe(3)
+		})
 	})
 })

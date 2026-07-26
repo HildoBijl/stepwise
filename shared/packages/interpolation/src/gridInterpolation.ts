@@ -1,5 +1,5 @@
 import type { InterpolationValue, InterpolationInputSeries, InterpolationOutputSeries, InterpolationGrid } from './types'
-import { getClosestIndices } from './support'
+import { compareInterpolationValues, getClosestIndices } from './support'
 import { rangeInterpolate } from './rangeInterpolation'
 
 export function gridInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
@@ -39,6 +39,8 @@ export function gridInterpolate<InputType extends InterpolationValue<InputType>,
 
 	// Find the right interval and interpolate within it.
 	const [min, max] = getClosestIndices(param, index => paramInputSeries[index], paramInputSeries.length)
+	if (compareInterpolationValues(param, paramInputSeries[min]) === 0) return gridInterpolate(params, outputSeries[min] as InterpolationGrid<OutputType>, ...remainingInputSeries)
+	if (compareInterpolationValues(param, paramInputSeries[max]) === 0) return gridInterpolate(params, outputSeries[max] as InterpolationGrid<OutputType>, ...remainingInputSeries)
 	const vMin = gridInterpolate(params, outputSeries[min] as InterpolationGrid<OutputType>, ...remainingInputSeries)
 	const vMax = gridInterpolate(params, outputSeries[max] as InterpolationGrid<OutputType>, ...remainingInputSeries)
 	if (vMin === undefined || vMax === undefined) return undefined
@@ -57,6 +59,8 @@ function gridInterpolateSingleValue<InputType extends InterpolationValue<InputTy
 
 	// Find indices on the input series, and interpolate for these indices.
 	const [min, max] = getClosestIndices(input, index => inputSeries[index], inputSeries.length)
+	if (compareInterpolationValues(input, inputSeries[min]) === 0) return outputSeries[min]
+	if (compareInterpolationValues(input, inputSeries[max]) === 0) return outputSeries[max]
 	if (outputSeries[min] === undefined || outputSeries[max] === undefined) return undefined
 	return rangeInterpolate(input, [outputSeries[min], outputSeries[max]], [inputSeries[min], inputSeries[max]])
 }
