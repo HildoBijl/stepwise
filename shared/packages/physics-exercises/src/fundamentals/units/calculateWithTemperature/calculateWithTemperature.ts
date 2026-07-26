@@ -1,7 +1,7 @@
 import { getRandomInteger } from '@step-wise/utils'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
+import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).

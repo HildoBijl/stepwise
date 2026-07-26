@@ -1,0 +1,55 @@
+import { getRandomNumber } from '@step-wise/utils'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { gasProperties } from '@step-wise/physics-data'
+
+const { k } = gasProperties.air
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'calculateHeatAndWork',
+		...stepsToSetup(['recognizeProcessTypes', undefined, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], undefined]),
+		compare: {
+			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } },
+			V1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+			V2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+			p1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+			p2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+		},
+	},
+
+	generateState() {
+		let V1 = getRandomFloatUnit({ min: 150, max: 900, decimals: -1, unit: 'm^3' })
+		const pressureRatio = getRandomNumber(7, 11)
+		const V2 = V1.multiply(Math.pow(pressureRatio, 1 / k.number)).roundToPrecision()
+		V1 = V1.setDecimals(0)
+		const p2 = new FloatUnit('1.0 bar')
+		const p1 = p2.multiply(Math.pow(V2.number / V1.number, k.number)).setDecimals(1).roundToPrecision()
+		return { p1, p2, V1, V2 }
+	},
+
+	getSolution({ p1, p2, V1, V2 }) {
+		const V1s = V1
+		const V2s = V2
+		const p1s = p1.simplify()
+		const p2s = p2.simplify()
+		const Q = new FloatUnit('0 J')
+		const W = p2s.multiply(V2s).subtract(p1s.multiply(V1s)).multiply(-1 / (k.number - 1)).setUnit('J')
+		return { process: 3, eq: 6, k, p1s, p2s, V1s, V2s, Q, W }
+	},
+
+	checkInput(data, step, substep) {
+		switch (step) {
+			case 1: return compare('process', data)
+			case 2: return compare('eq', data)
+			case 3: return compare('k', data)
+			case 4:
+				switch (substep) {
+					case 1: return compare(['V1s', 'V2s'], data)
+					case 2: return compare(['p1s', 'p2s'], data)
+				}
+			default: return compare(['Q', 'W'], data)
+		}
+	},
+})

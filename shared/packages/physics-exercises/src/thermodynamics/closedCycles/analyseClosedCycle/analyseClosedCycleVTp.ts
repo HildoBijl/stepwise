@@ -1,0 +1,36 @@
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+
+import { generateState, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleVTp'
+import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewVTp'
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'analyseClosedCycle',
+		...stepsToSetup(['calculateClosedCycle', 'createClosedCycleEnergyOverview', undefined, 'calculateWithEfficiency']),
+		compare: {
+			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			eta: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
+		},
+	},
+	
+	generateState,
+
+	getSolution(state) {
+		const cycleParameters = getCycleParameters(state)
+		const energyParameters = getEnergyParameters(state)
+		const { Q12, Q23, Wn } = energyParameters
+		const Qin = Q12.add(Q23).setMinimumSignificantDigits(2)
+		const eta = Wn.divide(Qin).setUnit('')
+		return { ...energyParameters, ...cycleParameters, choice: 0, Qin, eta }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], data)
+			case 2: return compare(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], data)
+			case 3: return compare('choice', data)
+			default: return compare(['choice', 'eta'], data)
+		}
+	},
+})

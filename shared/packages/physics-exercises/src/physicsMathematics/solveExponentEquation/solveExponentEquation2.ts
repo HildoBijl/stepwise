@@ -1,6 +1,6 @@
-import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-core'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
+import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-core'
 
 // a + b*x^p = c
 

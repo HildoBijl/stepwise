@@ -1,7 +1,7 @@
 import { getRandomInteger } from '@step-wise/utils'
-import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
+import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 
 // Type 0: from Pa to bar.
 // Type 1: from Pa to SI (so Pa: which it already is in).

@@ -1,7 +1,7 @@
 import { getRandomNumber, getRandomInteger } from '@step-wise/utils'
-import { Float } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
+import { Float } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metaData: {

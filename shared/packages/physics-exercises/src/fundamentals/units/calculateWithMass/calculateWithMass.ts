@@ -1,7 +1,7 @@
 import { sample, getRandomInteger } from '@step-wise/utils'
-import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
+import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
