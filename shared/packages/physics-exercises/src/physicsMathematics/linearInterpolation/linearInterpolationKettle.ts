@@ -1,0 +1,50 @@
+import { getRandomInteger } from '@step-wise/utils'
+import { getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'linearInterpolation',
+		...stepsToSetup(['solveLinearEquation', 'solveLinearEquation']),
+		compare: {
+			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			x: { absoluteTolerance: 0.005, significantDigitTolerance: 1 },
+		},
+	},
+
+	generateState() {
+		const type = getRandomInteger(1, 2)
+		const T1 = getRandomFloatUnit({ min: 20, max: 40, unit: 'dC', decimals: 0 })
+		const T2 = getRandomFloatUnit({ min: 80, max: 100, unit: 'dC', decimals: 0 })
+		const t1 = getRandomFloatUnit({ min: 10, max: 30, unit: 's', decimals: 0 })
+		const t2 = getRandomFloatUnit({ min: 80, max: 160, unit: 's', decimals: 0 })
+		const x = getRandomFloat({ min: 0.1, max: 0.9 })
+
+		if (type === 1) {
+			const T = T1.add(T2.subtract(T1).multiply(x)).roundToPrecision()
+			return { type, T1, T2, t1, t2, T }
+		}
+		const t = t1.add(t2.subtract(t1).multiply(x)).roundToPrecision()
+		return { type, T1, T2, t1, t2, t }
+	},
+
+	getSolution({ type, T1, T2, t1, t2, T, t }) {
+		let x
+		if (type === 1) {
+			x = T!.subtract(T1).divide(T2.subtract(T1)).float
+			t = t1.add(t2.subtract(t1).multiply(x)).roundToPrecision()
+		} else {
+			x = t!.subtract(t1).divide(t2.subtract(t1)).float
+			T = T1.add(T2.subtract(T1).multiply(x)).roundToPrecision()
+		}
+		return { type, T1, T2, t1, t2, x, T, t }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare('x', data)
+			default: return compare(data.state.type === 1 ? 't' : 'T', data)
+		}
+	},
+})
