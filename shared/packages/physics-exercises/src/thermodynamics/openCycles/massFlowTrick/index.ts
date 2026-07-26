@@ -1,0 +1,10 @@
+import { type SkillExercises } from '@step-wise/exercise-definition'
+
+import massFlowTrickCompressor from './massFlowTrickCompressor'
+import massFlowTrickWater from './massFlowTrickWater'
+import massFlowTrickEngine from './massFlowTrickEngine'
+
+export default {
+	examples: { massFlowTrickCompressor },
+	exercises: { massFlowTrickCompressor, massFlowTrickWater, massFlowTrickEngine },
+} satisfies SkillExercises

@@ -1,0 +1,51 @@
+import { or } from '@step-wise/skill-setup'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+import { FloatUnit } from '@step-wise/physics-core'
+import { gasProperties } from '@step-wise/physics-data'
+
+import { generateState, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleTsp'
+
+const metaData = {
+	skill: 'createOpenCycleEnergyOverview',
+	...stepsToSetup(['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')]),
+	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+}
+
+function getCycleParameters(state: ReturnType<typeof generateState>) {
+	let { p1, v1, T1, p2, v2, T2, p3, v3, T3 } = getCycleParametersRaw(state)
+	p1 = p1.setSignificantDigits(3); v1 = v1.setSignificantDigits(3); T1 = T1.setSignificantDigits(3)
+	p2 = p2.setSignificantDigits(3); v2 = v2.setSignificantDigits(3); T2 = T2.setSignificantDigits(3)
+	p3 = p3.setSignificantDigits(3); v3 = v3.setSignificantDigits(3); T3 = T3.setSignificantDigits(3)
+	return { p1, v1, T1, p2, v2, T2, p3, v3, T3 }
+}
+
+export function getSolution(state: ReturnType<typeof generateState>) {
+	const cycleParameters = getCycleParameters(state)
+	const { p1, v1, T1, v2, T2, T3 } = cycleParameters
+	const cv = gasProperties[state.medium].cv.simplify()
+	const cp = gasProperties[state.medium].cp.simplify()
+	const q12 = p1.multiply(v1).multiply(Math.log(v2.number / v1.number)).setUnit('J/kg').setMinimumSignificantDigits(2)
+	const wt12 = q12
+	const q23 = new FloatUnit('0 J/kg')
+	const wt23 = cp.multiply(T2.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
+	const q31 = cp.multiply(T1.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
+	const wt31 = new FloatUnit('0 J/kg')
+	const qn = q12.add(q23).add(q31).setMinimumSignificantDigits(2)
+	const wn = wt12.add(wt23).add(wt31).setMinimumSignificantDigits(2)
+	return { ...cycleParameters, cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn }
+}
+
+export default buildStepExercise({
+	metaData,
+	generateState,
+	getSolution,
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare(['q12', 'wt12'], data)
+			case 2: return compare(['q23', 'wt23'], data)
+			case 3: return compare(['q31', 'wt31'], data)
+			default: return compare(['q12', 'wt12', 'q23', 'wt23', 'q31', 'wt31'], data)
+		}
+	},
+})
