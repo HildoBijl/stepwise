@@ -1,0 +1,56 @@
+import { sample, getRandomInteger } from '@step-wise/utils'
+import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+
+import { filterVariables } from '../../../../../generationTools'
+
+const { onlyOrderChanges, equivalent } = expressionComparisons
+
+// a*x+b=c*x+d.
+const variableSet = ['x', 'y', 'z']
+const usedVariables = ['x']
+const constants = ['a', 'b', 'c', 'd']
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'solveLinearEquation',
+		...stepsToSetup(['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
+		compare: {
+			moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
+			cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
+			ans: onlyOrderChanges,
+		},
+	},
+
+	generateState() {
+		const a = getRandomInteger(-8, 8, [-1, 0, 1])
+		const b = getRandomInteger(-8, 8, [0, a, -a])
+		const c = getRandomInteger(-8, 8, [-1, 0, 1, a])
+		const d = getRandomInteger(-8, 8, [0])
+		return { x: sample(variableSet), a, b, c, d }
+	},
+
+	getSolution(state) {
+		const { a, b, c, d } = state
+		const variables = filterVariables(state, usedVariables, constants)
+		const equation = asEquation('a*x+b=c*x+d').substitute(variables).removeTrivial()
+		const moved = asEquation('a*x-c*x=d-b').substitute(variables).removeTrivial()
+		const cleaned = moved.combine()
+		const factor = asExpression(a - c)
+		const solution = asExpression(`${d - b}/${a - c}`)
+		const ans = solution.normalize()
+		const canCleanSolution = !onlyOrderChanges(solution, ans)
+		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
+		const sideValue = equationInserted.left.normalize()
+		return { ...state, variables, equation, moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare('moved', data)
+			case 2: return compare('cleaned', data)
+			default: return compare('ans', data)
+		}
+	},
+})

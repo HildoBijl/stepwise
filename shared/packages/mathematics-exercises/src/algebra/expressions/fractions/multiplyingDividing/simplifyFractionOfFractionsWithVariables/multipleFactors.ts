@@ -1,0 +1,60 @@
+import { sample, getRandomInteger, getRandomBoolean } from '@step-wise/utils'
+import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+
+import { filterVariables } from '../../../../../generationTools'
+
+const { hasFractionWithinFraction } = expressionChecks
+const { equivalent, onlyOrderChanges } = expressionComparisons
+
+// ((a*(x+p)*(x+q))/(b*(x+r)*(x+s)))/((c*(x+q)*(x+s))/(d*(x+p)*(x+r))).
+const variableSet = ['x', 'y', 'z']
+const usedVariables = ['x']
+const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r', 's']
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'simplifyFractionOfFractionsWithVariables',
+		...stepsToSetup(['multiplyDivideFractions', 'simplifyFractionWithVariables']),
+		compare: {
+			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
+			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
+		},
+	},
+
+	generateState() {
+		const a = getRandomInteger(-12, 12, [-1, 0, 1])
+		const b = getRandomInteger(-12, 12, [-1, 0, 1, a])
+		const c = getRandomInteger(-12, 12, [-1, 0, 1, a, b])
+		const d = getRandomInteger(-12, 12, [-1, 0, 1, a, b, c])
+		const p = getRandomInteger(-4, 4)
+		const q = getRandomInteger(-4, 4, [p])
+		const r = getRandomInteger(-4, 4, [p, q])
+		const s = getRandomInteger(-4, 4, [p, q, r])
+		return {
+			x: sample(variableSet),
+			a, b, c, d, p, q, r, s,
+			flip: getRandomBoolean(),
+		}
+	},
+
+	getSolution(state) {
+		const variables = filterVariables(state, usedVariables, constants)
+		const fraction1 = asExpression('((a(x+p)(x+q))/(b(x+r)(x+s)))').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const fraction2 = asExpression('((c(x+q)(x+s))/(d(x+p)(x+r)))').substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const baseExpression = fraction1.divide(fraction2)
+		const expression = (state.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['mergeFractionMinuses'])
+		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
+		const inBetween = singleFraction.cancel()
+		const ans = expression.combine()
+		return { ...state, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare('singleFraction', data)
+			default: return compare('ans', data)
+		}
+	},
+})

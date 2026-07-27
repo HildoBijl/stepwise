@@ -1,6 +1,6 @@
 import type { EquationInputValue } from '@step-wise/math-input-value'
 
-import type { ExpressionInput, Expression, ExpressionAncestors, ExpressionStorageValue, ExpressionSettingsInput } from '../expressions'
+import type { ExpressionLike, Expression, ExpressionAncestors, ExpressionStorageValue, ExpressionSettingsInput } from '../expressions'
 
 // Equation attributes
 export const equationSideNames = ['left', 'right'] as const
@@ -15,7 +15,7 @@ export type ExpressionInEquationTransform = (expression: Expression, ancestors: 
 export type ExpressionInEquationFunction = (expression: Expression, ancestors: ExpressionAncestors, sideName: EquationSideName) => void
 
 // Input
-export type EquationShape = Record<EquationSideName, ExpressionInput> & { settings?: ExpressionSettingsInput }
+export type EquationShape = Record<EquationSideName, ExpressionLike> & { settings?: ExpressionSettingsInput }
 export type EquationInput = EquationInputValue | EquationShape | string
 
 // Serialization

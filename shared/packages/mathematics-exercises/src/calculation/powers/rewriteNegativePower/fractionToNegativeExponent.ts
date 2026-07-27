@@ -3,6 +3,7 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
+// 1/a^b => a^(-b)
 export default buildSimpleExercise({
 	metaData: {
 		skill: 'rewriteNegativePower',

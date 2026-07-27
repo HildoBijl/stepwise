@@ -1,0 +1,66 @@
+import { sample, getRandomInteger } from '@step-wise/utils'
+import { and } from '@step-wise/skill-setup'
+import { Expression, asExpression, asEquation, expressionComparisons, expressionChecks, equationComparisons } from '@step-wise/cas'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare } from '@step-wise/exercise-grading'
+
+import { selectRandomVariables, filterVariables } from '../../../../../generationTools'
+
+// ax + wy = b.
+// zx + cy = d.
+const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p', 'q', 'r', 's']]
+const usedVariables = ['w', 'x', 'y', 'z']
+const constants = ['a', 'b', 'c', 'd']
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'solveMultiVariableSystemOfLinearEquations',
+		...stepsToSetup(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', and('substituteAnExpression', 'simplifyFractionOfFractionSumsWithMultipleVariables')]),
+		compare: {
+			eq1Solution: expressionComparisons.equivalent,
+			eq2Substituted: equationComparisons.equivalent,
+			x: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
+			y: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),
+		},
+	},
+
+	generateState() {
+		const variableSet = sample(availableVariableSets)
+		const a = getRandomInteger(-6, 6, [0, 1])
+		const b = getRandomInteger(-16, 16)
+		const c = getRandomInteger(-6, 6, [0, 1])
+		const d = getRandomInteger(-16, 16)
+		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d }
+	},
+
+	getSolution(state) {
+		// Set up the equations.
+		const variables = filterVariables(state, usedVariables, constants)
+		const eq1 = asEquation('ax + wy = b').substitute(variables).removeTrivial()
+		const eq2 = asEquation('zx + cy = d').substitute(variables).removeTrivial()
+
+		// Solve it step by step.
+		const eq1Solution = asExpression('(b - wy)/a').substitute(variables).normalize()
+		const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
+		const eq2SubstitutedStep1 = asEquation('z*(b - wy) + acy = ad').substitute(variables).cancel()
+		const eq2SubstitutedStep2 = asEquation('bz - zwy + acy = ad').substitute(variables).cancel()
+		const eq2SubstitutedStep3 = asEquation('-zwy + acy = ad - bz').substitute(variables).cancel()
+		const eq2SubstitutedStep4 = asEquation('(-zw + ac)*y = ad - bz').substitute(variables).cancel()
+		const y = asExpression('(ad - bz)/(-zw + ac)').substitute(variables).normalize()
+		const xRaw = eq1Solution.substitute(variables.y, y)
+		const x = xRaw.normalize()
+
+		// Find the solution.
+		return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, xRaw, y }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare('eq1Solution', data)
+			case 2: return compare('eq2Substituted', data)
+			case 3: return compare('y', data)
+			case 4: return compare('x', data)
+			default: return compare(['x', 'y'], data)
+		}
+	},
+})

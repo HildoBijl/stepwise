@@ -1,0 +1,9 @@
+import { type SkillExercises } from '@step-wise/exercise-definition'
+
+import oneFractionWithSquare from './oneFractionWithSquare'
+import twoFractions from './twoFractions'
+
+export default {
+	examples: { twoFractions },
+	exercises: { twoFractions, oneFractionWithSquare },
+} satisfies SkillExercises

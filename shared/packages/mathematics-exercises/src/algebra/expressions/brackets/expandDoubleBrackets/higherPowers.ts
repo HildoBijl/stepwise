@@ -7,6 +7,8 @@ import { filterVariables } from '../../../../generationTools'
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasSumWithinProduct } = expressionChecks
+
+// (ax^p+bx^q)(cx^r+dx^s) = ...
 const variableSet = ['x', 'y', 'z']
 const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r', 's']

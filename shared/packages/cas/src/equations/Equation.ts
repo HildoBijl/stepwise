@@ -12,7 +12,7 @@ export type EquationLike = Equation | EquationInput
 export function isEquationLike(value: unknown): value is EquationLike {
 	return value instanceof Equation || isEquationInput(value)
 }
-export function asEquation(value: EquationLike | EquationInput, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Equation {
+export function asEquation(value: EquationLike, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Equation {
 	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
 	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
 	return new Equation(equationParts.left, equationParts.right, equationParts.settings)
