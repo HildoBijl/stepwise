@@ -10,8 +10,6 @@ export type RawSkill = {
 	setup?: SkillSetup<unknown>
 	prerequisites?: SkillId[]
 	links?: RawSkillLink | RawSkillLink[]
-	examples?: string | string[]
-	exercises?: string | string[]
 	thresholds?: Thresholds
 }
 export type RawSkillGroup = { [key: string]: RawSkill | RawSkillGroup }
@@ -28,8 +26,6 @@ export type Skill = {
 	continuations: SkillId[]
 	links: SkillLink[]
 	linkedSkills: SkillId[]
-	examples: string[]
-	exercises: string[]
 	thresholds?: Thresholds
 }
 

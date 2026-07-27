@@ -30,8 +30,6 @@ export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 					continuations: [],
 					links: normalizeLinks(value.links),
 					linkedSkills: [],
-					examples: value.examples ? (Array.isArray(value.examples) ? value.examples : [value.examples]) : [],
-					exercises: value.exercises ? (Array.isArray(value.exercises) ? value.exercises : [value.exercises]) : [],
 					thresholds: value.thresholds,
 				}
 			} else {
@@ -55,10 +53,3 @@ export function applyContinuations(skillTree: SkillTree): void {
 	}
 }
 
-// Exercise legacy: Adjust exercise/example IDs to also include skill IDs.
-export function processExercises(skillTree: SkillTree): void {
-	for (const skill of Object.values(skillTree)) {
-		skill.examples = skill.examples.map(exerciseName => `${skill.id}.${exerciseName}`)
-		skill.exercises = skill.exercises.map(exerciseName => `${skill.id}.${exerciseName}`)
-	}
-}
