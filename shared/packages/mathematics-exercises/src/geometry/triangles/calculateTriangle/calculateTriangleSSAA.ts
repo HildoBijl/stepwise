@@ -1,0 +1,56 @@
+import { epsilon, deg2rad, sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/utils'
+import { and } from '@step-wise/skill-setup'
+import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
+import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { compare, compareList } from '@step-wise/exercise-grading'
+
+const variableSet = ['α', 'β', 'γ']
+
+export default buildStepExercise({
+	metaData: {
+		skill: 'calculateTriangle',
+		...stepsToSetup([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
+		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },
+	},
+
+	generateState() {
+		// Generate numbers and ensure that there are two solutions.
+		let α, a, c
+		do {
+			α = getRandomInteger(5, 17) * 5
+			c = getRandomInteger(6, 12)
+			a = getRandomInteger(2, c - 1)
+		} while (a <= c * Math.sin(deg2rad(α)) + epsilon)
+
+		// Assemble the state.
+		return { α: asExpression(α), γ: asExpression(sample(variableSet)), a: asExpression(a), c: asExpression(c), rotation: getRandomNumber(0, 2 * Math.PI), reflection: getRandomBoolean() }
+	},
+
+	getSolution(state) {
+		const { α, γ, a, c } = state
+		const variables = { α, γ, a, c }
+
+		// Determine the solution.
+		const rule = 0 // Use the sine rule.
+		const equation = asEquation('a/sin(α) = c/sin(γ)', undefined, { degrees: true }).substitute(variables)
+		const intermediateEquation = asEquation('sin(γ) = c/a*sin(α)', undefined, { degrees: true }).substitute(variables).combine()
+		const γ1 = intermediateEquation.right.arcsin()
+		const γ2 = asExpression(180, undefined, { degrees: true }).subtract(γ1).combine()
+		const numSolutions = 2
+
+		// Determine corresponding b values.
+		const b1 = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
+		const b2 = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
+		return { ...state, variables, rule, equation, intermediateEquation, γ1, γ2, b1, b2, numSolutions }
+	},
+
+	checkInput(data, step) {
+		switch (step) {
+			case 1: return compare('rule', data)
+			case 2: return compare('equation', data)
+			case 3: return compare('numSolutions', data)
+			case 4: return compareList(['γ1', 'γ2'], data)
+			default: return compare('numSolutions', data) && compareList(['γ1', 'γ2'], data)
+		}
+	},
+})
