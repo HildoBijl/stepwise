@@ -3,6 +3,12 @@
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"imports": {
+		"#generationTools": {
+			"types": "./src/generationTools.ts",
+			"default": "./dist/generationTools.js"
+		}
+	},
 	"scripts": {
 		"build": "tsc -b",
 		"watch": "tsc -b --watch",

@@ -3,7 +3,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, expr
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '../../../../../generationTools'
+import { selectRandomVariables, filterVariables } from '#generationTools'
 
 // 1/(a/w+b/x) = y/z.
 const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p', 'q', 'r', 's']]

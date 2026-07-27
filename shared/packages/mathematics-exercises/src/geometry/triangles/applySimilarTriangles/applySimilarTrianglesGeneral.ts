@@ -3,7 +3,7 @@ import { type Equation, asExpression, asEquation, expressionComparisons, equatio
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables } from '../../../generationTools'
+import { selectRandomVariables } from '#generationTools'
 
 const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)'], [3, 4, 5], [5, 12, 13]]
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]

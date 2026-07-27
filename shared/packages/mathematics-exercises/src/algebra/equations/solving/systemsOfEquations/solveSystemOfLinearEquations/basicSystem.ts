@@ -3,7 +3,7 @@ import { asExpression, asEquation, expressionComparisons, equationComparisons } 
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '../../../../../generationTools'
+import { selectRandomVariables, filterVariables } from '#generationTools'
 
 // ax + by = c.
 // dx + ey = f.

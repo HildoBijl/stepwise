@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionComparisons, expressionChecks,
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '../../../../../generationTools'
+import { selectRandomVariables, filterVariables } from '#generationTools'
 
 const { equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks

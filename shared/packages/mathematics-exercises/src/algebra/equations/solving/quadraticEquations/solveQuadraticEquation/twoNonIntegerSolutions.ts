@@ -4,7 +4,7 @@ import { Expression, asExpression, asEquation, expressionComparisons } from '@st
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare, compareList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '../../../../../generationTools'
+import { filterVariables } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 

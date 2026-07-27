@@ -4,7 +4,7 @@ import { Expression, asExpression, asEquation, expressionComparisons, expression
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '../../../../../generationTools'
+import { selectRandomVariables, filterVariables } from '#generationTools'
 
 // ax + by + cz = d.
 // ex + fy + gz = h.

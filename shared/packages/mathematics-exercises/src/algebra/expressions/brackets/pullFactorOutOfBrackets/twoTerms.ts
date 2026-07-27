@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '../../../../generationTools'
+import { filterVariables } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 

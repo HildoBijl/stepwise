@@ -3,7 +3,7 @@ import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '../../../../../generationTools'
+import { filterVariables } from '#generationTools'
 
 // a = b/x => ax = b.
 const variableSet = ['x', 'y', 'z']

@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables } from '../../generationTools'
+import { selectRandomVariables } from '#generationTools'
 
 const availableVariableSets = [
 	['a', 'b', 'c'],
