@@ -1,0 +1,10 @@
+import { type SkillExercises } from '@step-wise/exercise-definition'
+
+import findGeneralDerivativeProductRule from './findGeneralDerivativeProductRule'
+import findGeneralDerivativeQuotientRule from './findGeneralDerivativeQuotientRule'
+import findGeneralDerivativeChainRule from './findGeneralDerivativeChainRule'
+
+export default {
+	examples: {},
+	exercises: { findGeneralDerivativeProductRule, findGeneralDerivativeQuotientRule, findGeneralDerivativeChainRule },
+} satisfies SkillExercises

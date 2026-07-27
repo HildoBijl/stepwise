@@ -6,7 +6,6 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
-import { checkF } from 'step-wise/eduContent/mathematics/derivatives/generalDerivatives/findGeneralDerivative/findGeneralDerivativeProductRule'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -91,7 +90,8 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { solution, input } = exerciseData
+	const { solution, input, metaData } = exerciseData
+	const { checkF } = metaData.compare
 	const { x } = solution
 
 	// Define h derivative checks.
