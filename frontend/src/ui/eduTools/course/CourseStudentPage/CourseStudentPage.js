@@ -4,6 +4,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 
 import { last, repeat, count } from '@step-wise/utils'
 import { skillTree } from '@step-wise/skill-tree'
+import { hasExercises } from '@step-wise/exercises'
 
 import { useUserQuery } from 'api'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
@@ -54,7 +55,7 @@ function LastActivity({ processedStudent, course, overview }) {
 		const lastEvent = last(lastExercise.history, true)
 		return new Date(lastEvent?.performedAt || lastExercise.startedOn)
 	}
-	let skills = processedStudent.skills.filter(skill => skill.exercises.length > 0 && overview.allSkills.includes(skill.skillId))
+	let skills = processedStudent.skills.filter(skill => hasExercises(skill.id) && overview.allSkills.includes(skill.skillId))
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
 
 	// Render the skills.

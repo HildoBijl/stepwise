@@ -41,7 +41,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, progress, lastEventId, activateFirst])
 
 	// Determine what to show.
-	const hasMainProblemSubmissions = hasPreviousInputAtStep(history, userId, 0)
+	const hasMainProblemSubmissions = hasPreviousInputAtStep(history, 0, userId)
 	const doneWithMainProblem = progress.done || progress.split
 	const readOnly = inspection ? true : (example ? progress.split : doneWithMainProblem)
 	const showInputSpace = !progress.split && (!inspection || hasMainProblemSubmissions)

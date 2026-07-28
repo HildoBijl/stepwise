@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@mui/icons-material'
 
 import { skillTree } from '@step-wise/skill-tree'
+import { hasExercises } from '@step-wise/exercises'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
 import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -189,7 +190,7 @@ export function useSkillAdvice() {
 	// If there is no skillId, then we are in free practice mode.
 	if (!skillId) {
 		// If there is a skill with practiceNeeded === 2 then this should be practiced first.
-		const recommendation = overview.allSkills.find(skillId => analysis.practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
+		const recommendation = overview.allSkills.find(skillId => analysis.practiceNeeded[skillId] === 2 && hasExercises(skillId))
 		if (recommendation)
 			return { type: 2, recommendation } // A skill with significant work needed was found.
 		return { type: 1, recommendation: strFreePractice } // All good: recommend free practice. Give advice 1 since free practice can always need some work.
@@ -220,7 +221,7 @@ export function useSkillAdvice() {
 // findPriorSkillToPractice takes a skillId, a list of courseSkills (order matters) and a practiceNeeded object, and determines which prior skill should be practiced before the current skill. For this, it walks through the prerequisites and checks if any of them require work. This is done recursively. With "require work" we mean that practiceNeeded equals 2. If the includeDoubtfulCases parameter is set to true, also practiceNeeded equaling 1 is included.
 function findPriorSkillToPractice(skillId, courseSkills, practiceNeeded, includeDoubtfulCases = false) {
 	// Find the first skill in the course that is a prerequisite, requires work and can be worked on.
-	const recommendation = courseSkills.find(prerequisiteId => skillTree[skillId].prerequisites.includes(prerequisiteId) && (practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1)) && skillTree[prerequisiteId].exercises.length > 0)
+	const recommendation = courseSkills.find(prerequisiteId => skillTree[skillId].prerequisites.includes(prerequisiteId) && (practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1)) && hasExercises(prerequisiteId))
 
 	// If no prior skill requires work, return that we best practice the current skill.
 	if (!recommendation)
@@ -234,7 +235,7 @@ function findPriorSkillToPractice(skillId, courseSkills, practiceNeeded, include
 function findNextSkillToPractice(skillId, courseSkills, practiceNeeded) {
 	// Find the first skill in the course that is a continuation, requires practice and can be worked on. If there is none, do a depth-first search on the continuations of the continuations, to see if anything suitable pops up.
 	const continuations = courseSkills.filter(continuationId => skillTree[skillId].continuations.includes(continuationId))
-	let recommendation = continuations.find(continuationId => (practiceNeeded[continuationId] === 1 || practiceNeeded[continuationId] === 2) && skillTree[continuationId].exercises.length > 0)
+	let recommendation = continuations.find(continuationId => (practiceNeeded[continuationId] === 1 || practiceNeeded[continuationId] === 2) && hasExercises(continuationId))
 	if (!recommendation)
 		return continuations.find(continuationId => findNextSkillToPractice(continuationId, courseSkills, practiceNeeded))
 
