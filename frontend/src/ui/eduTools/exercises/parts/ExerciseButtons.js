@@ -304,7 +304,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const historyRef = useLatest(history), submissionListRef = useLatest(submissionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastInput(historyRef.current, last(submissionListRef.current).userId, undefined, true) || {}) // Show feedback on the last resolved input.
+		updateFeedback(getLastInput(historyRef.current, last(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
 		setAllInputSI(last(submissionListRef.current).action.input) // Show the input of the last action.
 	}, [historyRef, submissionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {

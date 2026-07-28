@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 
 import { last, repeat } from '@step-wise/utils'
 import { getPreviousProgress } from '@step-wise/exercise-definition'
-import { getStep, hasPreviousInput } from '@step-wise/input-exercises'
+import { getStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
@@ -41,7 +41,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, progress, lastEventId, activateFirst])
 
 	// Determine what to show.
-	const hasMainProblemSubmissions = hasPreviousInput(history, userId, 0)
+	const hasMainProblemSubmissions = hasPreviousInputAtStep(history, userId, 0)
 	const doneWithMainProblem = progress.done || progress.split
 	const readOnly = inspection ? true : (example ? progress.split : doneWithMainProblem)
 	const showInputSpace = !progress.split && (!inspection || hasMainProblemSubmissions)

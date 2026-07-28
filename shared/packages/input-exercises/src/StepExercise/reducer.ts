@@ -5,7 +5,7 @@ import type { ExerciseReducer, ExerciseReducerInput, GroupExerciseSubmission } f
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerInput, type InputExerciseReducerSingleUserInput, type InputExerciseReducerGroupInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
 
 import type { StepExerciseProgress, StepExerciseStepProgress, StepExerciseSplitProgress, StepExercise, StepExerciseSpec } from './types'
-import { getStep, hasPreviousInputAtStep } from './utils'
+import { getStep, hasPreviousInputAtStep } from './support'
 
 // Build a StepExercise from its author-facing spec.
 export function buildStepExercise<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): StepExercise<TState, TSolution> {
