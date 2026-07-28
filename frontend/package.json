@@ -83,11 +83,12 @@
 	},
 	"devDependencies": {
 		"react-app-rewired": "^2.1.8",
-		"resize-observer-polyfill": "^1.5.1"
+		"resize-observer-polyfill": "^1.5.1",
+		"typescript": "4.9.5"
 	},
 	"jest": {
-    "moduleNameMapper": {
-      "^#generationTools$": "<rootDir>/../shared/packages/mathematics-exercises/dist/generationTools.js"
-    }
+		"moduleNameMapper": {
+			"^#generationTools$": "<rootDir>/../shared/packages/mathematics-exercises/dist/generationTools.js"
+		}
 	}
 }
