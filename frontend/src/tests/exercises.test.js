@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from '@step-wise/utils'
 import { skillTree } from '@step-wise/skill-tree'
-import { assembleSolution } from '@step-wise/input-exercises'
+import { deserializeInputExerciseState, assembleSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
@@ -18,7 +18,7 @@ import { ExerciseContext } from 'ui/eduTools'
 window.ResizeObserver = ResizeObserver
 
 describe('Check all exercises:', () => {
-	skillTree.forEach(skill => {
+	Object.values(skillTree).forEach(skill => {
 		describe(`Skill ${skill.id}`, () => {
 			const exercises = getAllExercises(skill.id)
 			Object.entries(exercises).forEach(([exerciseId, exercise]) => {
@@ -33,7 +33,8 @@ describe('Check all exercises:', () => {
 						const Exercise = (await import(`ui/eduContent/${skill.path.join('/')}/${skill.id}/exercises/${exerciseId}`)).default
 
 						// Emulate the ExerciseContainer.
-						const state = shared.generateState()
+						const storedState = shared.generateState()
+						const state = deserializeInputExerciseState(storedState)
 						const exerciseData = {
 							exerciseId,
 							state,
@@ -50,7 +51,7 @@ describe('Check all exercises:', () => {
 								<ThemeProvider theme={theme}>
 									<FieldController>
 										<ModalManager>
-											<TranslationFile path={`eduContent/${exercises[exerciseId].path.join('/')}`}>
+											<TranslationFile path={`eduContent/${skill.path.join('/')}/${skill.id}`}>
 												<TranslationSection entry="practice">
 													<ExerciseContext.Provider value={exerciseData}>
 														<Exercise />
