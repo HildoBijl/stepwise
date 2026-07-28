@@ -1,5 +1,4 @@
 const { ensureBoolean, fromEntries, fromKeys, mapValues, union } = require('@step-wise/utils')
-const { getBernsteinExpectedValue } = require('@step-wise/bernstein-polynomials')
 const { ensureSetup } = require('@step-wise/skill-setup')
 const { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } = require('@step-wise/skill-tracking')
 const { skillTree, ensureSkillIds, includeDirectPrerequisitesAndLinks } = require('@step-wise/skill-tree')
