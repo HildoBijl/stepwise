@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
-import { getFullExerciseId } from '@step-wise/exercise-bundling'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExercises, getExercises } from '@step-wise/exercises'
 
@@ -21,7 +20,7 @@ export function ExercisePageForStranger({ skillId }) {
 			throw new Error(`Invalid startNewExercise call: the skill ${skillId} has no exercises.`)
 		const newExercise = generateRandomExerciseInstance(getExercises(skillId))
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
-			exerciseId: getFullExerciseId(skillId, newExercise.exerciseId),
+			exerciseId: newExercise.exerciseId,
 			state: newExercise.state, // The state should be in storage format, as if it came from the database.
 			id: uuidv4(), // Just generate a random one.
 			active: true,
@@ -59,5 +58,5 @@ export function ExercisePageForStranger({ skillId }) {
 		return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
-	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer key={exercise.startedOn} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }

@@ -1,6 +1,7 @@
 import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/utils'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
+import { hasExercises } from '@step-wise/exercises'
 
 import { isPracticeNeeded } from '../skills'
 
@@ -15,11 +16,11 @@ export function getAnalysis(overview, skillLevelSet) {
 		return undefined
 
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills. Also ensure that this recommendation has exercises that can be practiced.
-	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
+	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
 	if (!recommendation)
-		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 2 && skillTree[skillId].exercises.length > 0)
+		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
 	if (!recommendation)
-		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 1 && skillTree[skillId].exercises.length > 0)
+		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 1 && hasExercises(skillId))
 
 	// If no recommendation has been found, then all skills are mastered. Recommend free practice.
 	if (!recommendation)

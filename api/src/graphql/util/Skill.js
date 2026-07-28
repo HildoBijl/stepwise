@@ -1,6 +1,6 @@
 const { UserInputError } = require('apollo-server-express')
 
-const { getExerciseByFullId } = require('@step-wise/exercises')
+const { getExercise } = require('@step-wise/exercises')
 
 const events = {
 	skillsUpdated: 'SKILLS_UPDATED',
@@ -40,7 +40,7 @@ async function getUserSkill(db, userId, skillId, { includeActiveExercise = false
 	// Obtain the active exercise. If there is an active exercise, but the corresponding exercise script is missing (deleted), then deactivate the exercise and don't return it.
 	const exercises = skill.exercises || []
 	let activeExercise = exercises.find(exercise => exercise.active)
-	if (activeExercise && !getExerciseByFullId(activeExercise.exerciseId)) {
+	if (activeExercise && !getExercise(skillId, activeExercise.exerciseId)) {
 		await activeExercise.update({ active: false })
 		activeExercise = undefined
 	}

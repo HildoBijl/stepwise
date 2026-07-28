@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
-import { getFullExerciseId } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
 
@@ -37,7 +36,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	const startNewExercise = useCallback(() => {
 		if (exerciseDefinition) {
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
-				exerciseId: getFullExerciseId(skillId, exerciseId),
+				exerciseId: exerciseId,
 				state: exerciseDefinition.generateState(), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
@@ -46,7 +45,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 				startedOn: new Date(),
 			})
 		}
-	}, [skillId, exerciseId, exerciseDefinition])
+	}, [exerciseId, exerciseDefinition])
 	useEffect(startNewExercise, [startNewExercise])
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
@@ -71,7 +70,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'eduTools/exercises')} />
 
 	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.
-	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer key={exercise.startedOn} skillId={skillId} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function ExerciseName() {

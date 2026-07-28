@@ -1,8 +1,7 @@
 
 const { ensureSkillId } = require('@step-wise/skill-tree')
-const { getFullExerciseId } = require('@step-wise/exercise-definition')
 const { generateSkillBasedExerciseInstance } = require('@step-wise/exercise-selection')
-const { getExercises, getExerciseByFullId } = require('@step-wise/exercises')
+const { getExercises, getExercise } = require('@step-wise/exercises')
 
 const { events: skillEvents, getUserSkill } = require('../util/Skill')
 const { getUserSkillLevelSet, applySkillUpdatesForUser } = require('../util/SkillCoefficients')
@@ -21,7 +20,7 @@ const resolvers = {
 			return (lastEvent && lastEvent.createdAt) || null
 		},
 		history: exercise => exercise.events || [],
-		active: exercise => exercise.active && !!getExerciseByFullId(exercise.exerciseId), // Only show active when the exercise also still exists.
+		active: exercise => exercise.active,
 	},
 
 	Event: {
@@ -39,7 +38,7 @@ const resolvers = {
 			const skillExercises = getExercises(skillId)
 			const getSkillLevelSet = (skillIds) => getUserSkillLevelSet(db, userId, skillIds)
 			const newExercise = await generateSkillBasedExerciseInstance(skillExercises, getSkillLevelSet, previousExercises)
-			return await skill.createExercise({ exerciseId: getFullExerciseId(skillId, newExercise.exerciseId), state: newExercise.state, active: true })
+			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
 		},
 
 		submitExerciseAction: async (_source, { skillId, action }, { db, pubsub, ensureLoggedIn, userId }) => {
@@ -57,12 +56,12 @@ const resolvers = {
 
 			// Update the progress parameter.
 			const previousProgress = getExerciseProgress(activeExercise)
-			const exercise = getExerciseByFullId(activeExercise.exerciseId)
+			const exercise = getExercise(skillId, activeExercise.exerciseId)
 			if (!exercise)
-				throw new Error(`Invalid exercise: could not load the exercise with ID "${activeExercise.exerciseId}".`)
+				throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			const progress = exercise.processAction({ action, state: activeExercise.state, progress: previousProgress, history: activeExercise.events, updateSkills })
 			if (!progress)
-				throw new Error(`Invalid progress object: could not process action for exercise "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
+				throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Process the collected updates and save them.
 			let adjustedSkills

@@ -1,6 +1,7 @@
 const { UserInputError, ForbiddenError } = require('apollo-server-express')
 
 const { findOptimum } = require('@step-wise/utils')
+const { getExercise } = require('@step-wise/exercises')
 
 const events = {
 	groupExerciseUpdated: 'GROUP_EXERCISE_UPDATED',
@@ -39,10 +40,18 @@ function verifyGroupAccess(group, userId) {
 }
 module.exports.verifyGroupAccess = verifyGroupAccess
 
+// Deactivate active group exercises whose exercise definition has been removed.
+async function deactivateMissingGroupExercises(group) {
+	if (!group) return group
+	await Promise.all(group.exercises.filter(exercise => exercise.active && !getExercise(exercise.skillId, exercise.exerciseId)).map(exercise => exercise.update({ active: false })))
+	return group
+}
+module.exports.deactivateMissingGroupExercises = deactivateMissingGroupExercises
+
 // getGroupWithActiveExercises takes a group code and extracts the group with all active exercises (from all skills) from the database.
 async function getGroupWithActiveExercises(code, db) {
 	code = code.toUpperCase()
-	return await db.Group.findOne({
+	const group = await db.Group.findOne({
 		where: { code },
 		include: [{
 			association: 'members',
@@ -60,13 +69,16 @@ async function getGroupWithActiveExercises(code, db) {
 			},
 		}],
 	})
+	await deactivateMissingGroupExercises(group)
+	if (group) group.exercises = group.exercises.filter(exercise => exercise.active)
+	return group
 }
 module.exports.getGroupWithActiveExercises = getGroupWithActiveExercises
 
 // getGroupWithAllExercises takes a group code and extracts the group with all its exercises (from all skills). This is usually discouraged: only use this when all are needed.
 async function getGroupWithAllExercises(code, db) {
 	code = code.toUpperCase()
-	return await db.Group.findOne({
+	const group = await db.Group.findOne({
 		where: { code },
 		include: [{
 			association: 'members',
@@ -83,13 +95,14 @@ async function getGroupWithAllExercises(code, db) {
 			},
 		}],
 	})
+	return await deactivateMissingGroupExercises(group)
 }
 module.exports.getGroupWithAllExercises = getGroupWithAllExercises
 
 // getGroupWithActiveSkillExercise takes a group code and a skillId and returns the group together with only the active exercise for that skill.
 async function getGroupWithActiveSkillExercise(code, skillId, db) {
 	code = code.toUpperCase()
-	return await db.Group.findOne({
+	const group = await db.Group.findOne({
 		where: { code },
 		include: [{
 			association: 'members',
@@ -107,6 +120,9 @@ async function getGroupWithActiveSkillExercise(code, skillId, db) {
 			},
 		}],
 	})
+	await deactivateMissingGroupExercises(group)
+	if (group) group.exercises = group.exercises.filter(exercise => exercise.active)
+	return group
 }
 module.exports.getGroupWithActiveSkillExercise = getGroupWithActiveSkillExercise
 

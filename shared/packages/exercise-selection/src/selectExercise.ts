@@ -1,8 +1,8 @@
 import { isNumber, sum, sample, filterProperties } from '@step-wise/utils'
 import { normalPDF } from '@step-wise/math-tools'
-import { type SkillId } from '@step-wise/skill-definition'
-import { type SkillLevelSet } from '@step-wise/skill-tracking'
-import { type ExerciseId, type ExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-bundling'
+import type { SkillId } from '@step-wise/skill-definition'
+import type { SkillLevelSet } from '@step-wise/skill-tracking'
+import type { ExerciseId, ExerciseContainer } from '@step-wise/exercise-bundling'
 
 import { PreviousExercise } from './types'
 import { mu, sigma, thresholdFactor } from './settings'
@@ -18,7 +18,7 @@ export async function selectExercise(skillExercises: ExerciseContainer, getSkill
 	let suitableExercises: ExerciseContainer = filterProperties(skillExercises, (exercise, exerciseId) => {
 		const { metaData } = exercise
 		const repeatAfter = isNumber(metaData.repeatAfter) ? metaData.repeatAfter : 1
-		const exercisesSince = sortedPreviousExercises.findIndex(previousExercise => splitFullExerciseId(previousExercise.exerciseId).exerciseId === exerciseId)
+		const exercisesSince = sortedPreviousExercises.findIndex(previousExercise => previousExercise.exerciseId === exerciseId)
 		return exercisesSince === -1 || exercisesSince >= repeatAfter
 	}) as ExerciseContainer
 	if (Object.values(suitableExercises).length === 0) suitableExercises = skillExercises

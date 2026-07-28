@@ -1,7 +1,7 @@
 import { getByPath, isPlainObject } from '@step-wise/utils'
 import { type SkillId } from '@step-wise/skill-definition'
 import { type Exercise } from '@step-wise/exercise-definition'
-import { type ExerciseId, type FullExerciseId, type ExerciseContainer, isExerciseContainer, isEmptyExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-bundling'
+import { type ExerciseId, type ExerciseContainer, isExerciseContainer, isEmptyExerciseContainer } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 
 import * as allExercises from './exerciseGatherer'
@@ -43,10 +43,4 @@ export function getAllExercises(skillId: SkillId): ExerciseContainer {
 export function getExercise(skillId: SkillId, exerciseId: ExerciseId): Exercise | undefined {
 	const exercises = getAllExercises(skillId)
 	return exercises[exerciseId]
-}
-
-// Extract an exercise from a FullExerciseId.
-export function getExerciseByFullId(fullExerciseId: FullExerciseId): Exercise | undefined {
-	const { skillId, exerciseId } = splitFullExerciseId(fullExerciseId)
-	return getExercise(skillId, exerciseId)
 }
