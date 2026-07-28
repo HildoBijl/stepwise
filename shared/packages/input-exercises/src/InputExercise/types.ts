@@ -1,5 +1,6 @@
-import { type InputValue } from '@step-wise/input-interpretation'
-import { ExerciseMetaData, ExerciseProgress, Exercise, ExerciseSpec, ExerciseState } from '@step-wise/exercise-definition'
+import type { InputValue } from '@step-wise/input-interpretation'
+import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseProgress, GroupExerciseSubmission, UpdateSkills } from '@step-wise/exercise-definition'
+import type { PlainDataObject } from '@step-wise/utils'
 
 /*
  * Fundamentals
@@ -13,7 +14,8 @@ export type InputExerciseInputValue = Record<string, InputValue>
 export type InputExerciseAction = { type: 'input', input: InputExerciseInputValue } | { type: 'giveUp' }
 export type InputExerciseActionType = InputExerciseAction['type']
 
-// Input: the interpreted input that is fed to various functions.
+// State and input: runtime objects obtained after deserialization and interpretation.
+export type InputExerciseState = Record<string, unknown>
 export type InputExerciseInput = Record<string, unknown>
 
 /*
@@ -22,14 +24,14 @@ export type InputExerciseInput = Record<string, unknown>
 
 // Solution function: to generate a solution object from the state.
 export type Solution = Record<string, unknown>
-export type GetSolutionFunction<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = (state: TState) => TSolution
+export type GetSolutionFunction<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = (state: TState) => TSolution
 
 // Solution object: in case the solution depends on the user input, set up a dynamic solution based on input dependencies.
-export type GetStaticSolution<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = (state: TState) => Partial<TSolution>
+export type GetStaticSolution<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = (state: TState) => Partial<TSolution>
 export type InputDependency = unknown
 export type GetInputDependency<TSolution extends Solution = Solution, TInputDependency = InputDependency> = (input: InputExerciseInput, staticSolution: Partial<TSolution>) => TInputDependency
-export type GetDynamicSolution<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = (inputDependency: TInputDependency, staticSolution: Partial<TSolution>, state: TState) => Partial<TSolution>
-export type GetSolutionObject<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = {
+export type GetDynamicSolution<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = (inputDependency: TInputDependency, staticSolution: Partial<TSolution>, state: TState) => Partial<TSolution>
+export type GetSolutionObject<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = {
 	getStaticSolution: GetStaticSolution<TState, TSolution>
 	dependentFields?: string[]
 	getInputDependency?: GetInputDependency<TSolution, TInputDependency>
@@ -37,25 +39,40 @@ export type GetSolutionObject<TState extends ExerciseState = ExerciseState, TSol
 }
 
 // Solution: joining the solution function and the solution object.
-export type GetSolution<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = GetSolutionFunction<TState, TSolution> | GetSolutionObject<TState, TSolution, TInputDependency>
+export type GetSolution<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution, TInputDependency = InputDependency> = GetSolutionFunction<TState, TSolution> | GetSolutionObject<TState, TSolution, TInputDependency>
 
 /*
  * Full exercise definition
  */
 
 // Input exercise spec: what authors define before a concrete exercise builder adds processAction.
-export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = ExerciseSpec<TMetaData, TState> & {
+export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = {
+	metaData: TMetaData
+	generateState: (example: boolean) => TState
 	getSolution?: GetSolution<TState, TSolution>
 }
 
-// Input exercise: runtime object after a concrete builder adds processAction.
-export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TProgress, TState> & InputExerciseSpec<TMetaData, TState, TSolution>
+// Internal reducer inputs use the deserialized runtime state, while actions and progress remain plain data.
+type InputExerciseReducerGeneralInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = {
+	progress: TProgress
+	state: TState
+	history: ExerciseHistory<TAction, TProgress>
+	updateSkills?: UpdateSkills
+}
+export type InputExerciseReducerSingleUserInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerGeneralInput<TAction, TProgress, TState> & { action: TAction }
+export type InputExerciseReducerGroupInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerGeneralInput<TAction, TProgress, TState> & { submissions: GroupExerciseSubmission<TAction>[] }
+export type InputExerciseReducerInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerSingleUserInput<TAction, TProgress, TState> | InputExerciseReducerGroupInput<TAction, TProgress, TState>
+
+// Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized state.
+export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TProgress> & Omit<InputExerciseSpec<TMetaData, TState, TSolution>, 'generateState'> & {
+	generateState: (example: boolean) => PlainDataObject
+}
 
 /*
  * Input for the CheckInput function to be implemented by child components
  */
 
-export type CheckInputData<TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution> = {
+export type CheckInputData<TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = {
 	metaData: TMetaData
 	state: TState
 	rawInput: InputExerciseInputValue

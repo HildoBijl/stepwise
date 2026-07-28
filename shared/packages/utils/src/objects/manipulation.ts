@@ -1,4 +1,4 @@
-import { isPlainObject } from './checks'
+import { isPlainObject } from './plainnessChecks'
 import { deepEquals } from './comparisons'
 import { fromKeys } from './creation'
 

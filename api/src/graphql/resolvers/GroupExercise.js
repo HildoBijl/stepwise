@@ -1,7 +1,6 @@
 const { UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('@step-wise/utils')
-const { serializeAll, deserializeAll } = require('@step-wise/serialization')
 const { getFullExerciseId } = require('@step-wise/exercise-definition')
 const { generateRandomExerciseInstance } = require('@step-wise/exercise-selection')
 const { getExercises, getExerciseByFullId } = require('@step-wise/exercises')
@@ -49,7 +48,7 @@ const resolvers = {
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
 			const skillExercises = getExercises(skillId)
 			const newExercise = generateRandomExerciseInstance(skillExercises)
-			const exercise = await group.createExercise({ skillId, exerciseId: getFullExerciseId(skillId, newExercise.exerciseId), state: serializeAll(newExercise.state), active: true })
+			const exercise = await group.createExercise({ skillId, exerciseId: getFullExerciseId(skillId, newExercise.exerciseId), state: newExercise.state, active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
 			activeEvent.submissions = []
 			exercise.events = [activeEvent]
@@ -142,12 +141,11 @@ const resolvers = {
 			}
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
-			const state = deserializeAll(activeExercise.state)
 			const previousProgress = getGroupExerciseProgress(activeExercise)
 			const exercise = getExerciseByFullId(activeExercise.exerciseId)
 			if (!exercise)
 				throw new Error(`Invalid exercise: could not load the exercise with ID "${activeExercise.exerciseId}".`)
-			const progress = exercise.processAction({ submissions: activeEvent.submissions, state, progress: previousProgress, history: activeExercise.events, updateSkills })
+			const progress = exercise.processAction({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: activeExercise.events, updateSkills })
 			if (!progress)
 				throw new Error(`Invalid progress object: could not process action for exercise "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 

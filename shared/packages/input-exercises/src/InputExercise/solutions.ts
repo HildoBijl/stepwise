@@ -1,10 +1,8 @@
 import { pickKeys, isPlainObject } from '@step-wise/utils'
-import type { ExerciseState } from '@step-wise/exercise-definition'
-
-import type { GetSolution, InputExerciseInput, Solution } from './types'
+import type { GetSolution, InputExerciseInput, InputExerciseState, Solution } from './types'
 
 // Assemble a solution object from a getSolution function or object.
-export function assembleSolution<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(getSolution: GetSolution<TState, TSolution>, state: TState, input: InputExerciseInput = {}): TSolution {
+export function assembleSolution<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(getSolution: GetSolution<TState, TSolution>, state: TState, input: InputExerciseInput = {}): TSolution {
 	// If getSolution is a function, just run it.
 	if (typeof getSolution === 'function') return getSolution(state)
 

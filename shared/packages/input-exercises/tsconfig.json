@@ -12,6 +12,7 @@
   "references": [
     { "path": "../exercise-definition" },
     { "path": "../input-interpretation" },
+    { "path": "../serialization" },
     { "path": "../skill-setup" },
     { "path": "../utils" }
   ],

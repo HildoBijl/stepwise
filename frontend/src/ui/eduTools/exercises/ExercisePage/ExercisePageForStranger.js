@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
-import { serializeAll, deserializeAll } from '@step-wise/serialization'
-import { getFullExerciseId } from '@step-wise/exercise-definition'
+import { getFullExerciseId } from '@step-wise/exercise-bundling'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExercises, getExercises } from '@step-wise/exercises'
 
@@ -23,7 +22,7 @@ export function ExercisePageForStranger({ skillId }) {
 		const newExercise = generateRandomExerciseInstance(getExercises(skillId))
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
 			exerciseId: getFullExerciseId(skillId, newExercise.exerciseId),
-			state: serializeAll(newExercise.state), // The state should be in storage format, as if it came from the database.
+			state: newExercise.state, // The state should be in storage format, as if it came from the database.
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
@@ -38,7 +37,7 @@ export function ExercisePageForStranger({ skillId }) {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: deserializeAll(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
+		const progress = processAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

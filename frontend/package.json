@@ -19,6 +19,7 @@
 		"@step-wise/cas": "file:../shared/packages/cas",
 		"@step-wise/course-definition": "file:../shared/packages/course-definition",
 		"@step-wise/engineering-mechanics": "file:../shared/packages/engineering-mechanics",
+		"@step-wise/exercise-bundling": "file:../shared/packages/exercise-bundling",
 		"@step-wise/exercise-definition": "file:../shared/packages/exercise-definition",
 		"@step-wise/exercise-grading": "file:../shared/packages/exercise-grading",
 		"@step-wise/exercise-selection": "file:../shared/packages/exercise-selection",

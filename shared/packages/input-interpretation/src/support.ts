@@ -1,5 +1,7 @@
+import type { PlainDataValue } from '@step-wise/utils'
+
 import type { InputValue } from './types'
 
-export function makeInputValue<Type extends string, Value>(type: Type, value: Value): InputValue<Type, Value> {
+export function makeInputValue<Type extends string, Value extends PlainDataValue>(type: Type, value: Value): InputValue<Type, Value> {
 	return { type, value }
 }

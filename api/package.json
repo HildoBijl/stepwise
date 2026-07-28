@@ -17,7 +17,6 @@
 		"@step-wise/exercise-definition": "file:../shared/packages/exercise-definition",
 		"@step-wise/exercise-selection": "file:../shared/packages/exercise-selection",
 		"@step-wise/input-interpretation": "file:../shared/packages/input-interpretation",
-		"@step-wise/serialization": "file:../shared/packages/serialization",
 		"@step-wise/settings": "file:../shared/packages/settings",
 		"@step-wise/skill-definition": "file:../shared/packages/skill-definition",
 		"@step-wise/skill-setup": "file:../shared/packages/skill-setup",
@@ -48,6 +47,7 @@
 		"umzug": "2.3.0"
 	},
 	"devDependencies": {
+		"@step-wise/serialization": "file:../shared/packages/serialization",
 		"jest": "27.5.1",
 		"nodemon": "^3.1.10",
 		"supertest": "6.2.2"

@@ -10,6 +10,7 @@
 	"dependencies": {
 		"@step-wise/exercise-definition": "file:../exercise-definition",
 		"@step-wise/input-interpretation": "file:../input-interpretation",
+		"@step-wise/serialization": "file:../serialization",
 		"@step-wise/skill-setup": "file:../skill-setup",
 		"@step-wise/utils": "file:../utils"
 	},

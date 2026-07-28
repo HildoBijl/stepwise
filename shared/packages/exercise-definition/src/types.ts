@@ -1,3 +1,4 @@
+import type { PlainDataObject } from '@step-wise/utils'
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
 /*
@@ -5,9 +6,9 @@ import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup
  */
 
 // Exercise atoms
-export type ExerciseState = Record<string, unknown>
-export type ExerciseAction = { type: string, [key: string]: unknown }
-export type ExerciseProgress = Record<string, unknown>
+export type ExerciseState = PlainDataObject
+export type ExerciseAction = PlainDataObject & { type: string }
+export type ExerciseProgress = PlainDataObject
 
 // The metaData object
 export type ExerciseMetaData = {

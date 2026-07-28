@@ -1,4 +1,4 @@
-import { ensurePlainObject } from './checks'
+import { ensurePlainObject } from './plainnessChecks'
 
 // Get a nested value through a path like ['x','y','z'] → obj.x.y.z
 export function getByPath(obj: Record<string, any> | unknown, path: string[]): unknown {

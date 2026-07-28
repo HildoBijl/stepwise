@@ -1,4 +1,6 @@
-export type InputValue<Type extends string = string, Value = unknown> = { type: Type, value: Value }
+import type { PlainDataValue } from '@step-wise/utils'
+
+export type InputValue<Type extends string = string, Value extends PlainDataValue = PlainDataValue> = { type: Type, value: Value }
 
 export type InterpreterEntry<InputValue, DomainValue> = {
 	interpret: (inputValue: InputValue) => DomainValue

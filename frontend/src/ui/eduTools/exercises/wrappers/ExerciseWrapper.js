@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { splitFullExerciseId } from '@step-wise/exercise-definition'
+import { splitFullExerciseId } from '@step-wise/exercise-bundling'
 import { getLastInput } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'

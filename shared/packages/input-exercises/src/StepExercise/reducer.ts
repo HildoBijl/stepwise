@@ -1,45 +1,47 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import type { ExerciseReducer, ExerciseReducerInput, ExerciseReducerSingleUserInput, ExerciseReducerGroupInput, ExerciseState, GroupExerciseSubmission } from '@step-wise/exercise-definition'
+import type { ExerciseReducer, ExerciseReducerInput, GroupExerciseSubmission } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseInput, type Solution, assembleSolution } from '../InputExercise'
+import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerInput, type InputExerciseReducerSingleUserInput, type InputExerciseReducerGroupInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
 
 import type { StepExerciseProgress, StepExerciseStepProgress, StepExerciseSplitProgress, StepExercise, StepExerciseSpec } from './types'
 import { getStep, hasPreviousInputAtStep } from './utils'
 
 // Build a StepExercise from its author-facing spec.
-export function buildStepExercise<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): StepExercise<TState, TSolution> {
+export function buildStepExercise<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): StepExercise<TState, TSolution> {
 	return {
 		...spec,
 		type: 'step',
+		generateState: example => serializeInputExerciseState(spec.generateState(example)),
 		processAction: buildStepExerciseReducer(spec),
 	}
 }
 
 // Set up the reducer for a StepExercise.
-export function buildStepExerciseReducer<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): ExerciseReducer<InputExerciseAction, StepExerciseProgress, TState> {
-	return (input: ExerciseReducerInput<InputExerciseAction, StepExerciseProgress, TState>) => {
-		if ('done' in input.progress && input.progress.done) return input.progress
-		return ('submissions' in input) ? reduceGroupActions(spec, input) : reduceUserAction(spec, input)
+export function buildStepExerciseReducer<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): ExerciseReducer<InputExerciseAction, StepExerciseProgress> {
+	return (input: ExerciseReducerInput<InputExerciseAction, StepExerciseProgress>) => {
+		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state) } as InputExerciseReducerInput<InputExerciseAction, StepExerciseProgress, TState>
+		if ('done' in runtimeInput.progress && runtimeInput.progress.done) return runtimeInput.progress
+		return ('submissions' in runtimeInput) ? reduceGroupActions(spec, runtimeInput) : reduceUserAction(spec, runtimeInput)
 	}
 }
 
 // Reduce an action for a single user.
-function reduceUserAction<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: ExerciseReducerSingleUserInput<InputExerciseAction, StepExerciseProgress, TState> & { action: InputExerciseAction, submissions?: never }): StepExerciseProgress {
+function reduceUserAction<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSingleUserInput<InputExerciseAction, StepExerciseProgress, TState> & { action: InputExerciseAction, submissions?: never }): StepExerciseProgress {
 	return reduceGroupActions(spec, {
 		...input,
 		submissions: [{ action: input.action }],
 		action: undefined,
-	} as ExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>)
+	} as InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>)
 }
 
 // Reduce a set of actions for a group of users.
-function reduceGroupActions<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: ExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState> & { submissions: GroupExerciseSubmission<InputExerciseAction>[], action?: never }): StepExerciseProgress {
+function reduceGroupActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState> & { submissions: GroupExerciseSubmission<InputExerciseAction>[], action?: never }): StepExerciseProgress {
 	return ('split' in input.progress && input.progress.split) ? reduceStepActions(spec, input) : reduceMainProblemActions(spec, input)
 }
 
 // Reduce a set of actions for the main problem.
-function reduceMainProblemActions<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: ExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceMainProblemActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
 	const { progress, submissions, state, history, updateSkills } = input
 
@@ -82,7 +84,7 @@ function reduceMainProblemActions<TState extends ExerciseState = ExerciseState, 
 }
 
 // Reduce a set of actions for a step.
-function reduceStepActions<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: ExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceStepActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData } = spec
 	const { progress } = input
 	const step = getStep(progress)
@@ -91,7 +93,7 @@ function reduceStepActions<TState extends ExerciseState = ExerciseState, TSoluti
 	return reduceStepWithoutSubstepsActions(spec, input)
 }
 
-function reduceStepWithoutSubstepsActions<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: ExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
 	const { progress, submissions, state, history, updateSkills } = input
 	const step = getStep(progress)
@@ -134,7 +136,7 @@ function reduceStepWithoutSubstepsActions<TState extends ExerciseState = Exercis
 	return progress
 }
 
-function reduceStepWithSubstepsActions<TState extends ExerciseState = ExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: ExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceStepWithSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
 	const { progress, submissions, state, history, updateSkills } = input
 	const step = getStep(progress)

@@ -1,7 +1,8 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { deserializeAll } from '@step-wise/serialization'
-import { getLastProgress, splitFullExerciseId } from '@step-wise/exercise-definition'
+import { getLastProgress } from '@step-wise/exercise-definition'
+import { splitFullExerciseId } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExerciseByFullId } from '@step-wise/exercises'
 

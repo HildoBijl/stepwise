@@ -1,4 +1,4 @@
-import { splitFullExerciseId } from '@step-wise/exercise-definition'
+import { splitFullExerciseId } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 
 import { TranslationFile, TranslationSection } from 'i18n'

@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/utils'
-import { serializeAll, deserializeAll } from '@step-wise/serialization'
-import { getFullExerciseId } from '@step-wise/exercise-definition'
+import { getFullExerciseId } from '@step-wise/exercise-bundling'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExamples, getExamples } from '@step-wise/exercises'
 
@@ -24,7 +23,7 @@ export function ExamplePage({ skillId }) {
 		const newExercise = generateRandomExerciseInstance(getExamples(skillId))
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
 			exerciseId: getFullExerciseId(skillId, newExercise.exerciseId),
-			state: serializeAll(newExercise.state), // The state should be in storage format, as if it came from the database.
+			state: newExercise.state, // The state should be in storage format, as if it came from the database.
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
@@ -44,7 +43,7 @@ export function ExamplePage({ skillId }) {
 		if (action?.type === 'setProgress') // An override only used by example exercises.
 			progress = action.newProgress
 		else
-			progress = processAction({ action, state: deserializeAll(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
+			progress = processAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({
