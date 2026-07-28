@@ -21,7 +21,9 @@ export function getCycle() {
 		const temperatureIndexOptions = integerRange(3, 25).filter(temperatureIndex => {
 			const T = temperatureRange[temperatureIndex]
 			if (T.compare(Te) < 0) return false
-			const { x3p, etai } = getCycleProperties(pc, pe, T, x3)
+			const cycleProperties = getCycleProperties(pc, pe, T, x3)
+			if (cycleProperties === undefined) return false
+			const { x3p, etai } = cycleProperties
 			if (x3p.number >= x3.number) return false
 			if (etai.number < 0.8 || etai.number > 1) return false
 			return true
@@ -30,7 +32,7 @@ export function getCycle() {
 		const T2 = temperatureRange[sample(temperatureIndexOptions)]
 
 		// Find the remaining properties and check requirements.
-		const { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, h3, etai } = getCycleProperties(pc, pe, T2, x3)
+		const { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, h3, etai } = getCycleProperties(pc, pe, T2, x3)!
 		if (h2.compare(new FloatUnit('3700 kJ/kg')) > 0) continue
 
 		// Gather remaining properties.
@@ -63,12 +65,12 @@ function getCycleProperties(pc: FloatUnit, pe: FloatUnit, T2: FloatUnit, x3: Flo
 		const hx1 = tableInterpolate(pc, saturatedSteamByPressure, 'enthalpyVapor')
 		const sx0 = tableInterpolate(pc, saturatedSteamByPressure, 'entropyLiquid')
 		const sx1 = tableInterpolate(pc, saturatedSteamByPressure, 'entropyVapor')
-		if (hx0 === undefined || hx1 === undefined || sx0 === undefined || sx1 === undefined) throw new Error(`Invalid value for liquid/vapor point.`)
+		if (hx0 === undefined || hx1 === undefined || sx0 === undefined || sx1 === undefined) return undefined
 
 		// Point 2.
 		const h2 = tableInterpolate([pe, T2], superheatedSteam, 'enthalpy')
 		const s2 = tableInterpolate([pe, T2], superheatedSteam, 'entropy')
-		if (h2 === undefined || s2 === undefined) throw new Error(`Invalid value for point 2: could not determine properties.`)
+		if (h2 === undefined || s2 === undefined) return undefined
 
 		// Point 3-prime.
 		const s3p = s2
