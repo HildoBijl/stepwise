@@ -10,6 +10,7 @@
     "types": ["jest"]
   },
   "references": [
+    { "path": "../exercise-bundling" },
     { "path": "../exercise-definition" },
     { "path": "../skill-setup" },
     { "path": "../skill-tracking" },

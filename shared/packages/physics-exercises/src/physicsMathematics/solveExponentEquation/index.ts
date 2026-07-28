@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import solveExponentEquation1 from './solveExponentEquation1'
 import solveExponentEquation2 from './solveExponentEquation2'

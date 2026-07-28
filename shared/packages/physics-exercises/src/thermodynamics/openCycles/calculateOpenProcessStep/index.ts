@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import calculateOpenProcessStepWing from './calculateOpenProcessStepWing'
 import calculateOpenProcessStepCompressor from './calculateOpenProcessStepCompressor'

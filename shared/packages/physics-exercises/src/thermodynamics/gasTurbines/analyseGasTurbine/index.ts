@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import analyseGasTurbine1 from './analyseGasTurbine1'
 import analyseGasTurbine2 from './analyseGasTurbine2'

@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import quadraticTwoFractions from './quadraticTwoFractions'
 import cubicOneFraction from './cubicOneFraction'

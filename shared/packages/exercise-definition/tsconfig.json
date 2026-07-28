@@ -10,7 +10,8 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../skill-setup" }
+    { "path": "../skill-setup" },
+    { "path": "../utils" }
   ],
   "include": ["src"]
 }

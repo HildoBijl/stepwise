@@ -2,7 +2,7 @@ import { isNumber, sum, sample, filterProperties } from '@step-wise/utils'
 import { normalPDF } from '@step-wise/math-tools'
 import { type SkillId } from '@step-wise/skill-definition'
 import { type SkillLevelSet } from '@step-wise/skill-tracking'
-import { type ExerciseId, type ExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-definition'
+import { type ExerciseId, type ExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-bundling'
 
 import { PreviousExercise } from './types'
 import { mu, sigma, thresholdFactor } from './settings'

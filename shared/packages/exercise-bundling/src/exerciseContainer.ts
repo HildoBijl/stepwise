@@ -1,7 +1,5 @@
 import { isPlainObject } from '@step-wise/utils'
-
-import { type ExerciseDefinition } from './types'
-import { isExercise } from './guards'
+import { type ExerciseDefinition, isExercise } from '@step-wise/exercise-definition'
 
 // A set of exercises, bundled in a container.
 export type ExerciseId = string

@@ -1,19 +1,15 @@
 {
-	"name": "@step-wise/demo-exercises",
+	"name": "@step-wise/exercise-bundling",
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -b",
-		"watch": "tsc -b --watch",
-		"test": "jest",
-		"test:watch": "jest --watch"
+		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/exercise-bundling": "file:../exercise-bundling",
 		"@step-wise/exercise-definition": "file:../exercise-definition",
-		"@step-wise/exercise-grading": "file:../exercise-grading",
-		"@step-wise/input-exercises": "file:../input-exercises",
+		"@step-wise/skill-setup": "file:../skill-setup",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {

@@ -11,6 +11,7 @@
   },
   "references": [
     { "path": "../demo-exercises" },
+    { "path": "../exercise-bundling" },
     { "path": "../exercise-definition" },
     { "path": "../mathematics-exercises" },
     { "path": "../physics-exercises" },

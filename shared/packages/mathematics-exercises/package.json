@@ -17,6 +17,7 @@
 	},
 	"dependencies": {
 		"@step-wise/cas": "file:../cas",
+		"@step-wise/exercise-bundling": "file:../exercise-bundling",
 		"@step-wise/exercise-definition": "file:../exercise-definition",
 		"@step-wise/exercise-grading": "file:../exercise-grading",
 		"@step-wise/input-exercises": "file:../input-exercises",

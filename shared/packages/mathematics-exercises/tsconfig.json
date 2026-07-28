@@ -11,6 +11,7 @@
   },
   "references": [
     { "path": "../cas" },
+    { "path": "../exercise-bundling" },
     { "path": "../exercise-definition" },
     { "path": "../exercise-grading" },
     { "path": "../input-exercises" },

@@ -53,6 +53,9 @@
 		"supertest": "6.2.2"
 	},
 	"jest": {
-		"verbose": false
+		"verbose": false,
+    "moduleNameMapper": {
+      "^#generationTools$": "<rootDir>/../shared/packages/mathematics-exercises/dist/generationTools.js"
+    }
 	}
 }

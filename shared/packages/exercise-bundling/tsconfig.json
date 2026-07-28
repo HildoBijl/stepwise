@@ -10,10 +10,8 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../exercise-bundling" },
     { "path": "../exercise-definition" },
-    { "path": "../exercise-grading" },
-    { "path": "../input-exercises" },
+    { "path": "../skill-setup" },
     { "path": "../utils" }
   ],
   "include": ["src"]

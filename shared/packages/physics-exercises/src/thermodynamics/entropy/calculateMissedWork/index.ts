@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import calculateMissedWorkIsotherm from './calculateMissedWorkIsotherm'
 import calculateMissedWorkPiston from './calculateMissedWorkPiston'

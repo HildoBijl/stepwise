@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import createOpenCycleEnergyOverviewspsp from './createOpenCycleEnergyOverviewspsp'
 import createOpenCycleEnergyOverviewNspsp from './createOpenCycleEnergyOverviewNspsp'

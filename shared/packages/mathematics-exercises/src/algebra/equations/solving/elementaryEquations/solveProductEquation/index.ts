@@ -1,4 +1,4 @@
-import { withSameExamples } from '@step-wise/exercise-definition'
+import { withSameExamples } from '@step-wise/exercise-bundling'
 
 import inNumerator from './inNumerator'
 import inDenominator from './inDenominator'

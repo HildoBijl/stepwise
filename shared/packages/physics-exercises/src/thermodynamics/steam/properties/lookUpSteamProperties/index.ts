@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import steamPropertiesAtTemperature from './steamPropertiesAtTemperature'
 import steamPropertiesAtPressure from './steamPropertiesAtPressure'

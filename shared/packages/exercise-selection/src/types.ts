@@ -1,4 +1,5 @@
-import { type ExerciseState, type ExerciseId, type FullExerciseId } from '@step-wise/exercise-definition'
+import { type ExerciseState } from '@step-wise/exercise-definition'
+import { type ExerciseId, type FullExerciseId } from '@step-wise/exercise-bundling'
 
 export type PreviousExercise = {
 	exerciseId: FullExerciseId

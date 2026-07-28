@@ -8,6 +8,7 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
+		"@step-wise/exercise-bundling": "file:../exercise-bundling",
 		"@step-wise/exercise-definition": "file:../exercise-definition",
 		"@step-wise/skill-setup": "file:../skill-setup",
 		"@step-wise/skill-tracking": "file:../skill-tracking",

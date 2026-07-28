@@ -1,4 +1,4 @@
-import { withSameExamples } from '@step-wise/exercise-definition'
+import { withSameExamples } from '@step-wise/exercise-bundling'
 
 import multiplication1 from './multiplication1'
 

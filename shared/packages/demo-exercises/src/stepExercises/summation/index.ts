@@ -1,4 +1,4 @@
-import { withSameExamples } from '@step-wise/exercise-definition'
+import { withSameExamples } from '@step-wise/exercise-bundling'
 
 import summation1 from './summation1'
 

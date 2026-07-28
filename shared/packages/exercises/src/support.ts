@@ -1,6 +1,7 @@
 import { getByPath, isPlainObject } from '@step-wise/utils'
 import { type SkillId } from '@step-wise/skill-definition'
-import { type Exercise, type ExerciseId, type FullExerciseId, type ExerciseContainer, isExerciseContainer, isEmptyExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-definition'
+import { type Exercise } from '@step-wise/exercise-definition'
+import { type ExerciseId, type FullExerciseId, type ExerciseContainer, isExerciseContainer, isEmptyExerciseContainer, splitFullExerciseId } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 
 import * as allExercises from './exerciseGatherer'

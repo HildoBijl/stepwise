@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import useIsentropicEfficiencyCompressor1 from './useIsentropicEfficiencyCompressor1'
 import useIsentropicEfficiencyCompressor2 from './useIsentropicEfficiencyCompressor2'

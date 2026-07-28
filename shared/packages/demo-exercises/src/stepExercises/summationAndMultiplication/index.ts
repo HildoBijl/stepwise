@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-definition'
+import { type SkillExercises } from '@step-wise/exercise-bundling'
 
 import summationAndMultiplication1 from './summationAndMultiplication1'
 import summationAndMultiplication2 from './summationAndMultiplication2'

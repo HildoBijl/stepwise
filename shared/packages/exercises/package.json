@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@step-wise/demo-exercises": "file:../demo-exercises",
+		"@step-wise/exercise-bundling": "file:../exercise-bundling",
 		"@step-wise/exercise-definition": "file:../exercise-definition",
 		"@step-wise/mathematics-exercises": "file:../mathematics-exercises",
 		"@step-wise/physics-exercises": "file:../physics-exercises",

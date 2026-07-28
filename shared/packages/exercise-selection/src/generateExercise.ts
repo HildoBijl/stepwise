@@ -1,6 +1,7 @@
 import type { SkillId } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
-import { type ExerciseId, type Exercise, type ExerciseContainer } from '@step-wise/exercise-definition'
+import { type Exercise } from '@step-wise/exercise-definition'
+import { type ExerciseId, type ExerciseContainer } from '@step-wise/exercise-bundling'
 
 import { PreviousExercise, ExerciseInstance } from './types'
 import { selectExercise, selectRandomExercise } from './selectExercise'
