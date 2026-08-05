@@ -1,8 +1,8 @@
 import { isPlainObject, filterDuplicates } from '@step-wise/utils'
 
-import { defaultLinkOrder } from '../settings'
-
 import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
+
+export const defaultLinkOrder = 2 // The default order applied to inference on skills through correlation links.
 
 // Take a raw set of links and turn it into a processed SkillLink object.
 export function normalizeLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {
