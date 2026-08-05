@@ -15,7 +15,7 @@ export type RawSkill = {
 export type RawSkillGroup = { [key: string]: RawSkill | RawSkillGroup }
 
 // Processed skills.
-export type SkillLink = { skills: SkillId[]; order: number }
+export type SkillLink = { skills: SkillId[]; correlation?: number }
 export type Skill = {
 	id: SkillId
 	name: string

@@ -5,6 +5,7 @@ import { processSkillTree } from '@step-wise/skill-definition'
 
 import type { RawSkillLevel } from './types'
 import { SkillLevelSet } from './SkillLevelSet'
+import { defaultLinkCorrelation } from './settings'
 
 // Set up time parameters to be used in the code.
 const now = new Date()
@@ -66,6 +67,31 @@ describe('Skill inference for elementary skills:', () => {
 	it('Skills with unknown data will throw', () => {
 		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1]) })
 		expect(() => skillLevelSet.getCoefficients('b')).toThrow()
+	})
+})
+
+describe('Skill link correlations:', () => {
+	it('Skill definition leaves an unspecified correlation undefined', () => {
+		const linkedTree = processSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
+		expect(linkedTree.a.links[0]).toEqual({ skills: ['b'] })
+		expect(linkedTree.b.links[0]).toEqual({ skills: ['a'] })
+	})
+
+	it('Skill definition converts a link order to a correlation', () => {
+		const linkedTree = processSkillTree({ a: { name: 'A', links: { skill: 'b', order: 3 } }, b: { name: 'B' } })
+		expect(linkedTree.a.links[0].correlation).toBe(3 / 5)
+		expect(linkedTree.b.links[0].correlation).toBe(3 / 5)
+	})
+
+	it('Skill definition rejects links with both an order and a correlation', () => {
+		expect(() => processSkillTree({ a: { name: 'A', links: { skill: 'b', order: 2, correlation: 0.5 } }, b: { name: 'B' } })).toThrow('cannot both be specified')
+	})
+
+	it('Skill tracking uses the default correlation when none is specified', () => {
+		const defaultTree = processSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
+		const explicitTree = processSkillTree({ a: { name: 'A', links: { skill: 'b', correlation: defaultLinkCorrelation } }, b: { name: 'B' } })
+		const data = { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) }
+		expect(new SkillLevelSet(defaultTree, data).getCoefficients('a')).toEqual(new SkillLevelSet(explicitTree, data).getCoefficients('a'))
 	})
 })
 

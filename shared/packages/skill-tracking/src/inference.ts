@@ -3,9 +3,9 @@ import { binomial } from '@step-wise/math-tools'
 import { substituteIndividualMomentsIntoPolynomial, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowerList } from '@step-wise/polynomials'
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { Skill } from '@step-wise/skill-definition'
-import { type BernsteinCoefficients, getBernsteinMoment, normalizeBernsteinCoefficients, smoothBernsteinCoefficientsWithOrder, mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from '@step-wise/bernstein-polynomials'
+import { type BernsteinCoefficients, getBernsteinMoment, normalizeBernsteinCoefficients, smoothBernsteinCoefficientsWithFactor, mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from '@step-wise/bernstein-polynomials'
 
-import { defaultInferenceOrder } from './settings'
+import { defaultInferenceOrder, defaultLinkCorrelation } from './settings'
 
 // Find the expected value of a set-up.
 export function getSetupExpectedValue(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients): number {
@@ -50,7 +50,7 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 // Get the distributions of a skill based only on linked skills, one coefficient array per link.
 function getLinkCoefficients(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients[] {
 	return (skill.links ?? []).map(link => {
-		const smoothedCoefficients = link.skills.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithOrder(coefficients, link.order))
+		const smoothedCoefficients = link.skills.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithFactor(coefficients, link.correlation ?? defaultLinkCorrelation))
 		return mergeBernsteinCoefficientsElementwise(...smoothedCoefficients)
 	})
 }

@@ -31,7 +31,7 @@ skillId3: {
 	name: "Some example skill", // Obligatory
 	setup: and('skill1', 'skill2'), // Optional: setups imported from the skill-setup package.
 	prerequisites: ['skill1', 'skill2'], // Optional: default [], and any skills from the set-up will always be added to the prerequisites as well.
-	links: ['skill5'], // Optional
+	links: ['skill5'], // Optional. Object links may specify either correlation or the legacy order.
 },
 ```
 
@@ -65,7 +65,7 @@ skillTree.skill1 => {
 	skillsInGroup: ['skill1', 'skill2'], // Skills from the same group in the raw tree.
 	prerequisites: [], // Now with the skills from the set-up added to it.
 	continuations: ['skill3'], // The skills that have this skill as prerequisite.
-	links: [], // Links in a processed form.
+	links: [], // Links in processed form, with an optional correlation and no order.
 	linkedSkills: [], // All skills that are present in at least one link.
 }
 ```

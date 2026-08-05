@@ -5,5 +5,5 @@ export const practiceDecayHalfLife = 20 // [Problems practiced] The number of pr
 
 // Inference settings.
 export const defaultInferenceOrder = 4 // The order applied to inference on skills through their set-ups.
-export const defaultLinkOrder = 2 // The order applied to inference on skills through correlation links.
+export const defaultLinkCorrelation = 0.5 // The correlation applied to links that do not specify one.
 export const maxSkillLevelCacheTime = 60 * 60 * 1000 // [Milliseconds] The time that coefficients are cached within SkillLevel objects. After this time they are recalculated using the most recent time decay.

@@ -44,6 +44,8 @@ skillLevelSet.update(rawSkillLevelUpdateData)
 
 The coefficients in the raw data is only based on observations for each individual skill. However, skills are linked. Given these links, we can find *inferred coefficients* for each skill too. If we ask the `SkillLevelSet` for coefficients, it will give us these *inferred* coefficients. This is done through
 
+Links without an explicit correlation use `defaultLinkCorrelation`, which is exported by this package and defaults to `0.5`.
+
 ```
 const expectedValue = skillLevelSet.getExpectedValue('someSkillId')
 const coefficients = skillLevelSet.getCoefficients('someSkillId')
