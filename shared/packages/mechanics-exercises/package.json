@@ -1,0 +1,16 @@
+{
+	"name": "@step-wise/mechanics-exercises",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -b",
+		"watch": "tsc -b --watch"
+	},
+	"dependencies": {
+		"@step-wise/exercise-bundling": "file:../exercise-bundling"
+	},
+	"devDependencies": {
+		"typescript": "^6.0.2"
+	}
+}

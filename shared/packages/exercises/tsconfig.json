@@ -11,10 +11,11 @@
   },
   "references": [
     { "path": "../demo-exercises" },
-    { "path": "../exercise-bundling" },
-    { "path": "../exercise-definition" },
-    { "path": "../mathematics-exercises" },
-    { "path": "../physics-exercises" },
+		{ "path": "../exercise-bundling" },
+		{ "path": "../exercise-definition" },
+		{ "path": "../mathematics-exercises" },
+		{ "path": "../mechanics-exercises" },
+		{ "path": "../physics-exercises" },
     { "path": "../skill-definition" },
     { "path": "../skill-tree" },
     { "path": "../utils" }
