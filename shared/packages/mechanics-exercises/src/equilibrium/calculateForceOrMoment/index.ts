@@ -1,6 +1,8 @@
 import { type SkillExercises } from '@step-wise/exercise-bundling'
 
+import calculateForceOrMomentUseVerticalForces from './calculateForceOrMomentUseVerticalForces'
+
 export default {
 	examples: {},
-	exercises: {},
+	exercises: { calculateForceOrMomentUseVerticalForces },
 } satisfies SkillExercises

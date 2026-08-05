@@ -8,7 +8,14 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/exercise-bundling": "file:../exercise-bundling"
+		"@step-wise/cas": "file:../cas",
+		"@step-wise/engineering-mechanics": "file:../engineering-mechanics",
+		"@step-wise/exercise-bundling": "file:../exercise-bundling",
+		"@step-wise/exercise-grading": "file:../exercise-grading",
+		"@step-wise/geometry": "file:../geometry",
+		"@step-wise/input-exercises": "file:../input-exercises",
+		"@step-wise/physics-core": "file:../physics-core",
+		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {
 		"typescript": "^6.0.2"

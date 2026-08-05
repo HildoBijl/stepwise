@@ -9,7 +9,14 @@
 		"tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
 	},
 	"references": [
-		{ "path": "../exercise-bundling" }
+		{ "path": "../cas" },
+		{ "path": "../engineering-mechanics" },
+		{ "path": "../exercise-bundling" },
+		{ "path": "../exercise-grading" },
+		{ "path": "../geometry" },
+		{ "path": "../input-exercises" },
+		{ "path": "../physics-core" },
+		{ "path": "../utils" }
 	],
 	"include": ["src"]
 }
