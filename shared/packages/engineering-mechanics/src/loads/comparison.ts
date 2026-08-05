@@ -1,7 +1,7 @@
 import { equalAngles } from '@step-wise/utils'
 
 import { type Force, type Load, type LoadType, type Moment, loadTypes } from './types'
-import { type ForceApplicationComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
+import { type ForceApplicationComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentOpeningAngleComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
 
 /*
  * Types to report comparison differences.
@@ -12,6 +12,7 @@ export type LoadComparisonDifference =
 	| { type: 'position', comparison: ForcePositionComparison | MomentPositionComparison }
 	| { type: 'direction', comparison: ForceDirectionComparison | MomentDirectionComparison }
 	| { type: 'applicationPointAt', comparison: ForceApplicationComparison }
+	| { type: 'openingAngle', comparison: MomentOpeningAngleComparison }
 
 export type LoadComparisonReport = {
 	equal: boolean
@@ -36,6 +37,7 @@ export function compareMoments(input: Moment, solution: Moment, options: MomentC
 	const differences: LoadComparisonDifference[] = []
 	if (!compareMomentPositions(input, solution, resolvedOptions.position)) differences.push({ type: 'position', comparison: resolvedOptions.position })
 	if (!compareMomentDirections(input, solution, resolvedOptions.direction)) differences.push({ type: 'direction', comparison: resolvedOptions.direction })
+	if (!compareMomentOpeningAngles(input, solution, resolvedOptions.openingAngle)) differences.push({ type: 'openingAngle', comparison: resolvedOptions.openingAngle })
 	return { equal: differences.length === 0, differences }
 }
 
@@ -84,6 +86,13 @@ function compareMomentPositions(input: Moment, solution: Moment, comparison: Mom
 function compareMomentDirections(input: Moment, solution: Moment, comparison: MomentDirectionComparison): boolean {
 	switch (comparison) {
 		case 'equal': return input.clockwise === solution.clockwise
+		case 'ignore': return true
+	}
+}
+
+function compareMomentOpeningAngles(input: Moment, solution: Moment, comparison: MomentOpeningAngleComparison): boolean {
+	switch (comparison) {
+		case 'equal': return equalAngles(input.openingAngle, solution.openingAngle)
 		case 'ignore': return true
 	}
 }

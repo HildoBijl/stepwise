@@ -1,19 +1,18 @@
-import { normalizeAngle } from '@step-wise/utils'
-
 import { type Force, type Load, type Moment, loadTypes } from './types'
+import { createForce, createMoment } from './creation'
 
 export function reverseForce(force: Force): Force {
-	return {
+	return createForce({
 		...force,
-		angle: normalizeAngle(force.angle + Math.PI),
-	}
+		angle: force.angle + Math.PI,
+	})
 }
 
 export function reverseMoment(moment: Moment): Moment {
-	return {
+	return createMoment({
 		...moment,
 		clockwise: !moment.clockwise,
-	}
+	})
 }
 
 export function reverseLoad(load: Force): Force
@@ -30,7 +29,7 @@ export function getAxisComponents(force: Force): [Force, Force] {
 	const xAngle = Math.round(force.angle / Math.PI) * Math.PI
 	const yAngle = (Math.round(force.angle / Math.PI - 1 / 2) + 1 / 2) * Math.PI
 	return [
-		{ ...force, angle: xAngle },
-		{ ...force, angle: yAngle },
+		createForce({ ...force, angle: xAngle }),
+		createForce({ ...force, angle: yAngle }),
 	]
 }

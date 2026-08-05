@@ -5,13 +5,16 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -b",
-		"watch": "tsc -b --watch"
+		"watch": "tsc -b --watch",
+		"test": "jest",
+		"test:watch": "jest --watch"
 	},
 	"dependencies": {
 		"@step-wise/geometry": "file:../geometry",
 		"@step-wise/utils": "file:../utils"
 	},
 	"devDependencies": {
+		"@types/jest": "^30.0.0",
 		"typescript": "^6.0.2"
 	}
 }
