@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Vector, Line } from '@step-wise/geometry'
+import { FBDComparison, compareLoadSets } from '@step-wise/engineering-mechanics'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 import { Translation, Check } from 'i18n'
@@ -11,7 +12,7 @@ import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
 import { StepExercise, getStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadColors, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
-import { compareExerciseLoads, getLoadInputId, getNamedLoads, getUnknownNamedLoads } from './support'
+import { getLoadInputId, getNamedLoads, getUnknownNamedLoads } from './support'
 
 const distanceShift = 60
 
@@ -20,7 +21,8 @@ export default function Exercise() {
 }
 
 const Problem = () => {
-	const solution = useSolution(); const { M: Moment } = solution
+	const solution = useSolution()
+	const { M: Moment } = solution
 	const inputLoads = useInput('loads')
 	const loadNames = getUnknownNamedLoads(inputLoads, solution)
 	return <>
@@ -196,8 +198,9 @@ function getFeedback(data) {
 	const { input, progress, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: compareExerciseLoads } })
-	if (getStep(progress) === 0 && !compareExerciseLoads(input.loads, solution.loads))
+	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: FBDComparison } })
+	const loadsCorrect = input.loads && compareLoadSets(input.loads, solution.loads, FBDComparison).equal
+	if (getStep(progress) === 0 && !loadsCorrect)
 		return loadsFeedback
 
 	// Give full feedback.

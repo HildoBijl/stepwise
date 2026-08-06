@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Vector } from '@step-wise/geometry'
+import { FBDComparison, compareLoadSets } from '@step-wise/engineering-mechanics'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 import { Translation, Check } from 'i18n'
@@ -12,7 +13,7 @@ import { StepExercise, getStep, useSolution, getFieldInputFeedback } from 'ui/ed
 
 import { FBDInput, Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadColors, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
 
-import { compareExerciseLoads, getLoadInputId, getNamedLoads, getUnknownNamedLoads } from './support'
+import { getLoadInputId, getNamedLoads, getUnknownNamedLoads } from './support'
 
 const distanceShift = 60
 
@@ -196,8 +197,9 @@ function getFeedback(data) {
 	const { input, progress, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: compareExerciseLoads } })
-	if (getStep(progress) === 0 && !compareExerciseLoads(input.loads, solution.loads))
+	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: FBDComparison } })
+	const loadsCorrect = input.loads && compareLoadSets(input.loads, solution.loads, FBDComparison).equal
+	if (getStep(progress) === 0 && !loadsCorrect)
 		return loadsFeedback
 
 	// Give full feedback.

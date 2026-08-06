@@ -3,9 +3,8 @@ import { Vector } from '@step-wise/geometry'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
-import { createForce, createMoment } from '@step-wise/engineering-mechanics'
+import { createForce, createMoment, FBDComparison } from '@step-wise/engineering-mechanics'
 
-import { compareExerciseLoads } from './support'
 import { getDynamicSolution, getInputDependency } from './common'
 
 const metaData = {
@@ -13,7 +12,7 @@ const metaData = {
 	...stepsToSetup(['drawFreeBodyDiagram', undefined, 'calculateForceOrMoment', 'calculateForceOrMoment']),
 	compare: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-		loads: compareExerciseLoads
+		loads: FBDComparison
 	},
 }
 

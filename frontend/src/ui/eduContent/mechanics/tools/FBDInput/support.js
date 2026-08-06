@@ -1,19 +1,19 @@
 import { mod, omitKeys } from '@step-wise/utils'
-import { serializeAll, deserializeAll } from '@step-wise/serialization'
-import { createForce, createLoad, createMoment, equalLoadSets, isLoad } from '@step-wise/engineering-mechanics'
+import { FBDInterpreter } from '@step-wise/input-interpretation'
+import { createForce, createMoment, equalLoadSets, isLoad } from '@step-wise/engineering-mechanics'
 
 import { doesLoadTouchRectangle, getScaleFactor } from './selection'
 
 export function clean(FI) {
-	return serializeAll(FI.map(load => omitKeys(load, ['selected', 'hovering'])))
+	return FBDInterpreter.toInputValue(FI.map(load => omitKeys(load, ['selected', 'hovering'])))
 }
 
 export function functionalize(SI) {
-	return deserializeAll(SI).map(load => ({ ...createLoad(load), selected: false }))
+	return FBDInterpreter.interpret(SI).map(load => ({ ...load, selected: false }))
 }
 
 export function equals(a, b) {
-	return equalLoadSets(deserializeAll(a).map(createLoad), deserializeAll(b).map(createLoad))
+	return equalLoadSets(FBDInterpreter.interpret(a), FBDInterpreter.interpret(b))
 }
 
 export function applySnapping(FI) {

@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
 import { mergeDefaults, pickFromDefaults } from '@step-wise/utils'
+import { FBDType } from '@step-wise/input-interpretation'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 
@@ -15,7 +16,7 @@ export const defaultFBDInputOptions = {
 	...defaultFBDInputInnerOptions,
 
 	// Set up default properties for the Input field.
-	initialSI: [],
+	initialSI: { type: FBDType, value: [] },
 	validate: validation.nonEmptyNoDoubles,
 	clean,
 	functionalize,
