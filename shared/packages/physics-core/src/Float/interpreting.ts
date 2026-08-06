@@ -52,7 +52,7 @@ export function stringToFloatStorageValue(str: string): FloatStorageValue {
 export function getSignificantDigits(str: string): number {
 	if (!isNumberString(str)) throw new Error(`Invalid number string: could not get significant digits from "${str}".`)
 	const digits = str.replace(/[,.-]+/g, '').split('')
-	if (digits.every(digit => digit === '0')) return 0
+	if (digits.every(digit => digit === '0')) return digits.length
 	return digits.length - digits.findIndex(digit => digit !== '0')
 }
 

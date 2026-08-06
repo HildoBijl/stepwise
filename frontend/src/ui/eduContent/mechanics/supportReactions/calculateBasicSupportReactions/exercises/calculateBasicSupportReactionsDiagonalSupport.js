@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Vector, Line } from '@step-wise/geometry'
+import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -9,7 +10,8 @@ import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
 import { StepExercise, getStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
+import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadColors, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
+import { compareExerciseLoads, getLoadInputId, getNamedLoads, getUnknownNamedLoads } from './support'
 
 const distanceShift = 60
 const angleGraphicalSize = 60
@@ -19,9 +21,9 @@ export default function Exercise() {
 }
 
 const Problem = () => {
-	const { P, getLoadNames } = useSolution()
+	const solution = useSolution(); const { P } = solution
 	const inputLoads = useInput('loads')
-	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
+	const loadNames = getUnknownNamedLoads(inputLoads, solution)
 	return <>
 		<Translation>
 			<Par>A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a load of <M>P = {P}</M>.</Par>
@@ -33,7 +35,7 @@ const Problem = () => {
 			<Par>Calculate the unknown support reactions.</Par>
 		</Translation >
 		<InputSpace>
-			{loadNames.map(loadName => <FloatUnitInput key={loadName.name} id={loadName.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
+			{loadNames.map(({ name }) => { const variable = loadNameToVariable(name); const id = getLoadInputId(name); return <FloatUnitInput key={id} id={id} prelabel={<M>{variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} /> })}
 		</InputSpace>
 	</>
 }
@@ -60,14 +62,14 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			const { loadVariables } = useSolution()
+			const loadVariables = useSolution().loadNameDefinitions.map(loadNameToVariable)
 			const vFC = loadVariables[3]
 			return <>
 				<Translation>
 					<Par>Calculate the diagonal reaction force <M>{vFC}</M>.</Par>
 				</Translation>
 				<InputSpace>
-					<FloatUnitInput id={vFC.name} prelabel={<M>{vFC}=</M>} size="s" />
+					<FloatUnitInput id={getLoadInputId(vFC)} prelabel={<M>{vFC}=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -86,14 +88,14 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			const { loadVariables } = useSolution()
+			const loadVariables = useSolution().loadNameDefinitions.map(loadNameToVariable)
 			const vFAy = loadVariables[2]
 			return <>
 				<Translation>
 					<Par>Calculate the vertical reaction force <M>{vFAy}</M>.</Par>
 				</Translation>
 				<InputSpace>
-					<FloatUnitInput id={vFAy.name} prelabel={<M>{vFAy}=</M>} size="s" />
+					<FloatUnitInput id={getLoadInputId(vFAy)} prelabel={<M>{vFAy}=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -110,14 +112,14 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			const { loadVariables } = useSolution()
+			const loadVariables = useSolution().loadNameDefinitions.map(loadNameToVariable)
 			const vFAx = loadVariables[1]
 			return <>
 				<Translation>
 					<Par>Calculate the horizontal reaction force <M>{vFAx}</M>.</Par>
 				</Translation>
 				<InputSpace>
-					<FloatUnitInput id={vFAx.name} prelabel={<M>{vFAx}=</M>} size="s" />
+					<FloatUnitInput id={getLoadInputId(vFAx)} prelabel={<M>{vFAx}=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -139,27 +141,28 @@ const steps = [
 
 function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
 	const solution = useSolution()
-	const { points, loads, getLoadNames, angleRad } = solution
+	const { points, loads, angleRad } = solution
 
 	// Define the transformation.
 	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: [[100, 120], 100] })
 
 	// Get all the required components.
-	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
-	const schematics = <Schematics {...solution} loads={loadsToDisplay} showSupports={showSupports} />
+	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : [loads[0]])
+	const styledLoads = loadsToDisplay.map((load, index) => ({ ...load, color: showSolution && index > 0 ? loadColors.reaction : loadColors.external }))
+	const schematics = <Schematics {...solution} loads={styledLoads} showSupports={showSupports} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.C, -Math.PI / 2 - angleRad)]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={getLoadNames}>{schematics}</FBDInput> :
+		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)} getLoadNames={loads => getNamedLoads(loads, solution)}>{schematics}</FBDInput> :
 		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 
-function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, getLoadNames, showSupports = true }) {
+function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, externalLoad, loadNameDefinitions, showSupports = true }) {
 	const { A, B, C } = points
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
-	const loadNames = getLoadNames(loads)
+	const loadNames = getNamedLoads(loads, { points, externalLoad, loadNameDefinitions })
 
 	return <>
 		<Beam points={[A, C]} />
@@ -194,8 +197,8 @@ function getFeedback(data) {
 	const { input, progress, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(data, 'loads')
-	if (getStep(progress) === 0 && !performLoadsComparison(data, 'loads'))
+	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: compareExerciseLoads } })
+	if (getStep(progress) === 0 && !compareExerciseLoads(input.loads, solution.loads))
 		return loadsFeedback
 
 	// Give full feedback.
