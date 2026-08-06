@@ -1,17 +1,11 @@
 import { deg2rad, getRandomBoolean, getRandomInteger, integerRange, isMultipleOf } from '@step-wise/utils'
-import { type Expression, asExpression } from '@step-wise/cas'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
-import { Vector } from '@step-wise/geometry'
-import { type Load, createForce, getAxisComponents } from '@step-wise/engineering-mechanics'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
+import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { Vector } from '@step-wise/geometry'
+import { type Load, createForce, deriveLoadNames, getAxisComponents } from '@step-wise/engineering-mechanics'
 
-type LoadName = {
-	load: Load
-	variable: Expression
-	point: Vector
-	magnitude?: number
-}
+import { loadNameToVariable } from '#tools'
 
 export default buildStepExercise({
 	metaData: {
@@ -38,6 +32,7 @@ export default buildStepExercise({
 		const angleRad = deg2rad(angle)
 		const method = 1
 
+		// Set up loads and their names.
 		const loads = [
 			createForce({ position: A, angle: (up ? 1 : -1) * Math.PI / 2 - angleRad }),
 			createForce({ position: B, angle: 0 }),
@@ -45,30 +40,41 @@ export default buildStepExercise({
 			createForce({ position: D, angle: (up ? -1 : 1) * Math.PI / 2 }),
 		]
 		const pointNames = ['A', 'B', 'C', 'D']
-		const loadNames: LoadName[] = loads.map((load, index) => ({
+		const namedPoints = points.map((position, index) => ({ name: pointNames[index], position }))
+		const loadNames = deriveLoadNames(loads, namedPoints).map(({ load, name }) => ({
 			load,
-			variable: asExpression(`F_(${pointNames[index]})`),
-			point: points[index],
+			name,
+			variable: loadNameToVariable(name),
+			point: load.position,
 		}))
 
+		// Decompose diagonal loads and add names.
 		const decomposedLoads: Load[] = []
-		const decomposedLoadNames: LoadName[] = []
-		loads.forEach((load, index) => {
+		const componentMagnitudes = new Map<Load, number>()
+		loads.forEach(load => {
 			if (!isMultipleOf(load.angle, Math.PI / 2)) {
 				const components = getAxisComponents(load)
 				const magnitudes = [Math.abs(Math.cos(load.angle)), Math.abs(Math.sin(load.angle))]
 				decomposedLoads.push(...components)
-				decomposedLoadNames.push({ load: components[0], variable: asExpression(`F_(${pointNames[index]}x)`), point: points[index], magnitude: magnitudes[0] })
-				decomposedLoadNames.push({ load: components[1], variable: asExpression(`F_(${pointNames[index]}y)`), point: points[index], magnitude: magnitudes[1] })
+				componentMagnitudes.set(components[0], magnitudes[0])
+				componentMagnitudes.set(components[1], magnitudes[1])
 			} else {
 				decomposedLoads.push(load)
-				decomposedLoadNames.push({ load, variable: asExpression(`F_(${pointNames[index]})`), point: points[index] })
+			}
+		})
+		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints).map(({ load, name }) => {
+			const magnitude = componentMagnitudes.get(load)
+			return {
+				load,
+				name,
+				variable: loadNameToVariable(name),
+				point: load.position,
+				...(magnitude === undefined ? {} : { magnitude }),
 			}
 		})
 
 		const FAy = FD
 		const FA = FAy.divide(Math.cos(angleRad))
-
 		return { ...state, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, FAy, FA }
 	},
 
