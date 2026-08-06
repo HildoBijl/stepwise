@@ -18,6 +18,7 @@ export type ForceLike = {
 	position: VectorLike
 	angle: number
 	applicationPointAt?: ApplicationPointPosition
+	magnitudeFactor?: number
 }
 
 export type MomentLike = {
@@ -40,6 +41,7 @@ export type Force = {
 	position: Vector
 	angle: number
 	applicationPointAt: ApplicationPointPosition
+	magnitudeFactor: number
 }
 
 export type Moment = {

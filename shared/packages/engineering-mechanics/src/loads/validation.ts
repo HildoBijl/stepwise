@@ -8,6 +8,7 @@ export function isForce(value: unknown): value is Force {
 	if (!(value.position instanceof Vector) || value.position.dimension !== 2) return false
 	if (!(typeof value.angle === 'number') || value.angle < 0 || value.angle >= 2 * Math.PI) return false
 	if (!isIn(value.applicationPointAt, applicationPointPositions)) return false
+	if (typeof value.magnitudeFactor !== 'number' || !Number.isFinite(value.magnitudeFactor) || value.magnitudeFactor <= 0) return false
 	return true
 }
 

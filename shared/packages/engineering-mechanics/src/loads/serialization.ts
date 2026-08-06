@@ -12,6 +12,7 @@ export type SerializedForce = {
 	position: VectorData
 	angle: number
 	applicationPointAt: ApplicationPointPosition
+	magnitudeFactor: number
 }
 
 export function serializeForce(force: Force): SerializedForce {
@@ -20,6 +21,7 @@ export function serializeForce(force: Force): SerializedForce {
 		position: force.position.toStorageValue(),
 		angle: force.angle,
 		applicationPointAt: force.applicationPointAt,
+		magnitudeFactor: force.magnitudeFactor,
 	}
 }
 
@@ -28,6 +30,7 @@ export function deserializeForce(force: SerializedForce): Force {
 		position: Vector.fromStorageValue(force.position),
 		angle: force.angle,
 		applicationPointAt: force.applicationPointAt,
+		magnitudeFactor: force.magnitudeFactor,
 	})
 }
 

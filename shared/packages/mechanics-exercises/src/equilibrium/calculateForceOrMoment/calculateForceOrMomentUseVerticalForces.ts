@@ -5,8 +5,6 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, createForce, deriveLoadNames, getAxisComponents } from '@step-wise/engineering-mechanics'
 
-import { loadNameToVariable } from '#tools'
-
 export default buildStepExercise({
 	metaData: {
 		skill: 'calculateForceOrMoment',
@@ -41,38 +39,13 @@ export default buildStepExercise({
 		]
 		const pointNames = ['A', 'B', 'C', 'D']
 		const namedPoints = points.map((position, index) => ({ name: pointNames[index], position }))
-		const loadNames = deriveLoadNames(loads, namedPoints).map(({ load, name }) => ({
-			load,
-			name,
-			variable: loadNameToVariable(name),
-			point: load.position,
-		}))
+		const loadNames = deriveLoadNames(loads, namedPoints)
 
 		// Decompose diagonal loads and add names.
-		const decomposedLoads: Load[] = []
-		const componentMagnitudes = new Map<Load, number>()
-		loads.forEach(load => {
-			if (!isMultipleOf(load.angle, Math.PI / 2)) {
-				const components = getAxisComponents(load)
-				const magnitudes = [Math.abs(Math.cos(load.angle)), Math.abs(Math.sin(load.angle))]
-				decomposedLoads.push(...components)
-				componentMagnitudes.set(components[0], magnitudes[0])
-				componentMagnitudes.set(components[1], magnitudes[1])
-			} else {
-				decomposedLoads.push(load)
-			}
-		})
-		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints).map(({ load, name }) => {
-			const magnitude = componentMagnitudes.get(load)
-			return {
-				load,
-				name,
-				variable: loadNameToVariable(name),
-				point: load.position,
-				...(magnitude === undefined ? {} : { magnitude }),
-			}
-		})
+		const decomposedLoads = loads.map(load => (isMultipleOf(load.angle, Math.PI / 2) ? load : getAxisComponents(load))).flat()
+		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints)
 
+		// Calculate the respective load.
 		const FAy = FD
 		const FA = FAy.divide(Math.cos(angleRad))
 		return { ...state, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, FAy, FA }

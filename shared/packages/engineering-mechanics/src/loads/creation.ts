@@ -1,4 +1,4 @@
-import { isIn, normalizeAngle } from '@step-wise/utils'
+import { ensureNumber, isIn, normalizeAngle } from '@step-wise/utils'
 import { ensureVector } from '@step-wise/geometry'
 
 import { type Force, type ForceLike, type Load, type LoadLike, type Moment, type MomentLike, type ApplicationPointPosition, applicationPointPositions, loadTypes } from './types'
@@ -11,6 +11,7 @@ export function createForce(value: ForceLike): Force {
 		position: ensureVector(value.position, 2),
 		angle: normalizeAngle(value.angle),
 		applicationPointAt: ensureApplicationPointPosition(value.applicationPointAt ?? 'end'),
+		magnitudeFactor: ensureNumber(value.magnitudeFactor ?? 1, true, true),
 	}
 }
 

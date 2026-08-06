@@ -16,6 +16,7 @@ describe('loads', () => {
 			expect(force.position).toEqual(new Vector(1, 2))
 			expect(force.angle).toBe(3 * Math.PI / 2)
 			expect(force.applicationPointAt).toBe('end')
+			expect(force.magnitudeFactor).toBe(1)
 		})
 
 		test('creates canonical moments', () => {
@@ -38,17 +39,21 @@ describe('loads', () => {
 		})
 
 		test('returns valid axis components', () => {
-			const force = createForce({ position: Vector.zero, angle: 7 * Math.PI / 4 })
+			const force = createForce({ position: Vector.zero, angle: 7 * Math.PI / 4, magnitudeFactor: 2 })
 			const components = getAxisComponents(force)
 			expect(components.every(isForce)).toBe(true)
 			expect(components.map(component => component.angle)).toEqual([0, 3 * Math.PI / 2])
+			expect(components.map(component => component.magnitudeFactor)).toEqual([
+				2 * Math.abs(Math.cos(force.angle)),
+				2 * Math.abs(Math.sin(force.angle)),
+			])
 		})
 	})
 
 	describe('comparison', () => {
 		test('compares force directions and lines', () => {
 			const input = createForce({ position: [1, 0], angle: Math.PI })
-			const solution = createForce({ position: [0, 0], angle: 0 })
+			const solution = createForce({ position: [0, 0], angle: 0, magnitudeFactor: 2 })
 			expect(equalLoads(input, solution)).toBe(false)
 			expect(equalLoads(input, solution, { Force: { position: 'equalLine', direction: 'parallel', applicationPointAt: 'ignore' } })).toBe(true)
 		})

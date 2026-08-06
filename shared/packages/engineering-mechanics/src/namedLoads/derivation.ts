@@ -31,9 +31,9 @@ export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPo
 
 	// Walk through points, find associated loads, and name them.
 	namedPoints.forEach(point => {
-		const loadsAtPoint = loads.filter((load, index) => !named[index] && isLoadAtPoint(load, point.position))
-		loadsAtPoint.forEach((_, index) => { named[index] = true })
-		result.push(...deriveNamesAtPoint(loadsAtPoint, point.name, forceSymbol, momentSymbol))
+		const loadIndicesAtPoint = loads.map((_, index) => index).filter(index => !named[index] && isLoadAtPoint(loads[index], point.position))
+		loadIndicesAtPoint.forEach(index => { named[index] = true })
+		result.push(...deriveNamesAtPoint(loadIndicesAtPoint.map(index => loads[index]), point.name, forceSymbol, momentSymbol))
 	})
 
 	// Name remaining loads not connected to a point.

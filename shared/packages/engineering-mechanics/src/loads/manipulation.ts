@@ -29,7 +29,7 @@ export function getAxisComponents(force: Force): [Force, Force] {
 	const xAngle = Math.round(force.angle / Math.PI) * Math.PI
 	const yAngle = (Math.round(force.angle / Math.PI - 1 / 2) + 1 / 2) * Math.PI
 	return [
-		createForce({ ...force, angle: xAngle }),
-		createForce({ ...force, angle: yAngle }),
+		createForce({ ...force, angle: xAngle, magnitudeFactor: force.magnitudeFactor * Math.abs(Math.cos(force.angle)) }),
+		createForce({ ...force, angle: yAngle, magnitudeFactor: force.magnitudeFactor * Math.abs(Math.sin(force.angle)) }),
 	]
 }
