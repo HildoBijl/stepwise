@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { loadTypes } from 'step-wise/eduContent/mechanics'
+import { isLoad } from '@step-wise/engineering-mechanics'
 
 import { useInputValue, useDrawingInputData } from 'ui/inputs'
 
@@ -19,7 +19,7 @@ export function LoadLabels({ options }) {
 
 	// Add the drag object as well.
 	const dragObjectData = getDragObjectData(mouseDownData, mouseData, options)
-	if (dragObjectData && Object.values(loadTypes).includes(dragObjectData.type))
+	if (isLoad(dragObjectData))
 		loads = [...loads, dragObjectData]
 
 	// Obtain the names and render them.

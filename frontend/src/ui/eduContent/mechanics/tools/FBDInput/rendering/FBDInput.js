@@ -5,7 +5,7 @@ import { mergeDefaults, pickFromDefaults } from '@step-wise/utils'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 
-import { clean, functionalize, equals, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, endSelect, applyDeletion, showDeleteButton } from '../support'
+import { clean, functionalize, equals, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, getEndSelectFunction, applyDeletion, showDeleteButton } from '../support'
 import * as validation from '../validation'
 
 import FBDInputInner, { defaultFBDInputInnerOptions } from './FBDInputInner'
@@ -27,16 +27,17 @@ export const defaultFBDInputOptions = {
 	deselectAll,
 	startDrag,
 	// endDrag, // This function will be defined based on the given options.
-	endSelect,
+	// endSelect is defined from the transformation settings below.
 	applyDeletion,
 	showDeleteButton,
 }
 
 export const FBDInput = forwardRef((options, drawingRef) => {
-	let { endDrag, className } = options = mergeDefaults(options, defaultFBDInputOptions)
+	let { endDrag, endSelect, className } = options = mergeDefaults(options, defaultFBDInputOptions)
 
 	// Set up remaining DrawingInput functions based on the options.
 	endDrag = endDrag || getEndDragFunction(options)
+	endSelect = endSelect || getEndSelectFunction(options)
 
 	// Put everything into the DrawingInput.
 	return <DrawingInput
@@ -44,6 +45,7 @@ export const FBDInput = forwardRef((options, drawingRef) => {
 		{...pickFromDefaults(options, defaultDrawingInputOptions)}
 		className={clsx('FBDInput', className)}
 		endDrag={endDrag}
+		endSelect={endSelect}
 	>
 		<FBDInputInner {...pickFromDefaults(options, defaultFBDInputInnerOptions)} />
 	</DrawingInput >

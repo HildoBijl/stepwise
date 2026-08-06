@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { mergeDefaults } from '@step-wise/utils'
-import { defaultForceLength, reverseLoad } from 'step-wise/eduContent/mechanics'
+import { reverseLoad } from '@step-wise/engineering-mechanics'
 
 import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useInputData } from 'ui/inputs'
@@ -13,7 +13,6 @@ import { GlowDefs } from './GlowDefs'
 export const defaultFBDInputInnerOptions = {
 	children: null,
 	minimumDragDistance: 12, // The distance (in pixels) that needs to be dragged before something is shown.
-	forceLength: defaultForceLength, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
 	allowMoments: true,
 	maximumMomentDistance: 60,
 	getLoadNames: undefined,
@@ -46,5 +45,5 @@ export default function FBDInputInner(options) {
 function handleKeyPress(event, setFI) {
 	// On a flip/reverse, reverse all selected arrows.
 	if (event.key === 'f' || event.key === 'r')
-		return setFI(FI => FI.map(load => load.selected ? reverseLoad(load) : load))
+		return setFI(FI => FI.map(load => load.selected ? { ...reverseLoad(load), selected: load.selected, hovering: load.hovering } : load))
 }

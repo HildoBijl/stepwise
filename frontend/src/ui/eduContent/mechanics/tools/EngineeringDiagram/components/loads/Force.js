@@ -32,14 +32,13 @@ export const Force = forwardRef((props, ref) => {
 	let { position, angle, applicationPointAt, magnitudeFactor, magnitude, graphicalMagnitude, size, color, className, style } = mergeDefaults(props, defaultForce)
 	magnitudeFactor = ensureNumber(magnitudeFactor, true, true)
 	magnitude = magnitudeFactor * ensureNumber(useGraphicalDistance(magnitude, graphicalMagnitude))
-	const otherEnd = position[applicationPointAt === 'end' ? 'subtract' : 'add'](Vector.fromPolar(magnitude, angle))
-	const end = applicationPointAt === 'end' ? position : otherEnd
+	const graphicalPosition = applicationPointAt === 'end' ? Vector.zero : Vector.fromPolar(magnitude, angle)
 	size = ensureNumber(size)
 	color = ensureString(color)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw a horizontal force ending in (0, 0) and transform it to position it.
-	return <Group ref={ref} position={end} rotate={angle} className={className} {...{ style }}>
+	return <Group ref={ref} rotate={angle} className={className} {...{ position, graphicalPosition, style }}>
 		<Line graphicalPoints={[new Vector(-magnitude, 0), new Vector(-size, 0)]} className="forceLine" style={{ fill: 'none', stroke: color, strokeWidth: size }} />
 		<ArrowHead size={size} style={{ fill: color }} />
 	</Group>

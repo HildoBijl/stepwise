@@ -1,18 +1,19 @@
 import { mod, omitKeys } from '@step-wise/utils'
-import { LineSegment } from '@step-wise/geometry'
 import { serializeAll, deserializeAll } from '@step-wise/serialization'
-import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/eduContent/mechanics'
+import { createForce, createLoad, createMoment, equalLoadSets, isLoad } from '@step-wise/engineering-mechanics'
+
+import { doesLoadTouchRectangle, getScaleFactor } from './selection'
 
 export function clean(FI) {
 	return serializeAll(FI.map(load => omitKeys(load, ['selected', 'hovering'])))
 }
 
 export function functionalize(SI) {
-	return deserializeAll(SI).map(load => ({ ...load, selected: false }))
+	return deserializeAll(SI).map(load => ({ ...createLoad(load), selected: false }))
 }
 
 export function equals(a, b) {
-	return areLoadsMatching(deserializeAll(a), deserializeAll(b), defaultComparison)
+	return equalLoadSets(deserializeAll(a).map(createLoad), deserializeAll(b).map(createLoad))
 }
 
 export function applySnapping(FI) {
@@ -39,8 +40,9 @@ export function getEndDragFunction(options) {
 	}
 }
 
-export function endSelect(FI, rectangle, keys) {
-	return applySelectionRectangle(FI, rectangle, keys)
+export function getEndSelectFunction(options) {
+	const scale = getScaleFactor(options.transformationSettings)
+	return (FI, rectangle, keys) => applySelectionRectangle(FI, rectangle, keys, scale)
 }
 
 export function applyDeletion(FI) {
@@ -52,10 +54,10 @@ export function showDeleteButton(FI) {
 }
 
 // applySelectionRectangle takes a selection rectangle and corresponding keys pressed (like the shift) and implements this selection into the FI.
-export function applySelectionRectangle(FI, rectangle, keys) {
+export function applySelectionRectangle(FI, rectangle, keys, scale) {
 	return FI.map(load => ({
 		...load,
-		selected: (keys.shift && load.selected) || doesLoadTouchRectangle(load, rectangle),
+		selected: (keys.shift && load.selected) || doesLoadTouchRectangle(load, rectangle, scale),
 	}))
 }
 
@@ -66,7 +68,7 @@ export function getDragObjectData(downData, upData, options) {
 		return undefined
 
 	// Extract options.
-	const { minimumDragDistance, maximumMomentDistance, allowMoments, forceLength } = options
+	const { minimumDragDistance, maximumMomentDistance, allowMoments } = options
 
 	// Calculate the resulting drag vector in various forms.
 	const vector = upData.position.subtract(downData.snappedPosition)
@@ -75,9 +77,7 @@ export function getDragObjectData(downData, upData, options) {
 
 	// On a double snap, always give a Force ending at the snapped mouse position.
 	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
-		if (forceLength)
-			snappedVector = snappedVector.setMagnitude(forceLength)
-		return { type: loadTypes.force, force: new LineSegment({ vector: snappedVector, end: upData.snappedPosition }) }
+		return createForce({ position: upData.snappedPosition, angle: snappedVector.argument, applicationPointAt: 'end' })
 	}
 
 	// On a very short vector show a Drag Marker.
@@ -87,14 +87,12 @@ export function getDragObjectData(downData, upData, options) {
 	// On a short distance return a Moment.
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.argument
-		const opening = snappedVector.argument
-		return { type: loadTypes.moment, position: downData.snappedPosition, opening, clockwise: mod(angle - opening, 2 * Math.PI) > Math.PI }
+		const openingAngle = snappedVector.argument
+		return createMoment({ position: downData.snappedPosition, openingAngle, clockwise: mod(angle - openingAngle, 2 * Math.PI) > Math.PI })
 	}
 
-	// Otherwise return a Force. How to do this depends on if a fixed length has been set.
-	if (forceLength)
-		snappedVector = snappedVector.setMagnitude(forceLength)
-	return { type: loadTypes.force, force: new LineSegment({ start: downData.snappedPosition, vector: snappedVector }) }
+	// Otherwise return a force connected to the point where the drag started.
+	return createForce({ position: downData.snappedPosition, angle: snappedVector.argument, applicationPointAt: 'start' })
 }
 
 // removeHovering takes an FI and makes sure that no load in it has hovering set to true.

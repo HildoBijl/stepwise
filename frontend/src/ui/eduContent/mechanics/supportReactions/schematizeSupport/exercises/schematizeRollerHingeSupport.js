@@ -2,6 +2,7 @@ import React from 'react'
 
 import { deg2rad } from '@step-wise/utils'
 import { Vector, Line } from '@step-wise/geometry'
+import { equalLoads, FBDComparison, isForce, isMoment } from '@step-wise/engineering-mechanics'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
@@ -9,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { StepExercise, useSolution, getMCFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, RollerHingeSupport, render, loadTypes, areLoadsEqual, FBDComparison, getFBDFeedback } from 'ui/eduContent/mechanics'
+import { FBDInput, Group, Beam, RollerHingeSupport, render, getFBDFeedback, loadColors } from 'ui/eduContent/mechanics'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -123,15 +124,16 @@ function getFeedback(data) {
 
 	// Set up feedback checks for the loads field.
 	const wrongNumberOfForces = input => {
-		const forces = input.filter(load => load.type === loadTypes.force)
+		const forces = input.filter(isForce)
 		return forces.length !== 1 && (forces.length > 1 ? <>Je hebt meer krachten getekend dan hier gepast is.</> : <>Je hebt helemaal geen reactiekrachten getekend.</>)
 	}
 	const forcesAlongSameLine = (input, correct) => {
-		const forces = input.filter(load => load.type === loadTypes.force)
-		return !areLoadsEqual(forces[0], correct[0], FBDComparison) && { text: <>De getekende reactiekracht heeft niet de juiste richting.</>, affectedLoads: forces }
+		const forces = input.filter(isForce)
+		const correctForce = correct.find(isForce)
+		return forces.length === 1 && !equalLoads(forces[0], correctForce, FBDComparison) && { text: <>De getekende reactiekracht heeft niet de juiste richting.</>, affectedLoads: forces }
 	}
 	const wrongNumberOfMoments = input => {
-		const moments = input.filter(load => load.type === loadTypes.moment)
+		const moments = input.filter(isMoment)
 		return moments.length !== 0 && { text: (moments.length > 1 ? <>Zijn de getekende momenten wel nodig?</> : <>Is het getekende moment wel nodig?</>), affectedLoads: moments }
 	}
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments]
@@ -174,6 +176,6 @@ function Schematics({ loads, showSupports = true }) {
 
 		<RollerHingeSupport position={points[0]} angle={deg2rad(wallRotation + 180)} style={{ opacity: showSupports ? 1 : 0.1 }} />
 
-		<Group>{render(loads)}</Group>
+		<Group>{render(loads.map(load => ({ ...load, color: loadColors.reaction })))}</Group>
 	</>
 }

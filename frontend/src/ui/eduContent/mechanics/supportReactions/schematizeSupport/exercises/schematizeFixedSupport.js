@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { deg2rad } from '@step-wise/utils'
+import { deg2rad, equalAngles } from '@step-wise/utils'
 import { Vector, Line } from '@step-wise/geometry'
+import { isForce, isMoment } from '@step-wise/engineering-mechanics'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
@@ -9,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, FixedSupport, render, loadTypes } from 'ui/eduContent/mechanics'
+import { FBDInput, Group, Beam, FixedSupport, render, loadColors } from 'ui/eduContent/mechanics'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -118,20 +119,20 @@ function getFeedback(data) {
 
 	// Set up feedback checks for the loads field.
 	const wrongNumberOfForces = input => {
-		const forces = input.filter(load => load.type === loadTypes.force)
+		const forces = input.filter(isForce)
 		return forces.length !== 2 && <>Je hebt wat te {forces.length > 2 ? 'veel' : 'weinig'} krachten getekend.</>
 	}
 	const forcesAlongSameLine = input => {
-		const forces = input.filter(load => load.type === loadTypes.force)
-		return forces[0].force.alongEqualLine(forces[1].force) && { text: <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>, affectedLoads: forces }
+		const forces = input.filter(isForce)
+		return forces.length === 2 && equalAngles(forces[0].angle, forces[1].angle, Math.PI) && { text: <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>, affectedLoads: forces }
 	}
 	const wrongNumberOfMoments = input => {
-		const moments = input.filter(load => load.type === loadTypes.moment)
+		const moments = input.filter(isMoment)
 		return moments.length !== 1 && (moments.length > 1 ? <>Je hebt wat te veel momenten getekend.</> : <>Is er nog een moment nodig?</>)
 	}
 	const nonPerpendicular = input => {
-		const forces = input.filter(load => load.type === loadTypes.force)
-		return !forces[0].force.isOrthogonal(forces[1].force) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
+		const forces = input.filter(isForce)
+		return forces.length === 2 && !equalAngles(forces[0].angle, forces[1].angle + Math.PI / 2, Math.PI) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
 	}
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
 
@@ -173,6 +174,6 @@ function Schematics({ loads, showSupports = true }) {
 
 		<FixedSupport position={points[0]} angle={deg2rad(wallRotation + 180)} style={{ opacity: showSupports ? 1 : 0.1 }} />
 
-		<Group>{render(loads)}</Group>
+		<Group>{render(loads.map(load => ({ ...load, color: loadColors.reaction })))}</Group>
 	</>
 }

@@ -1,18 +1,20 @@
 import React, { forwardRef, useMemo } from 'react'
 
 import { mapValues, omitKeys } from '@step-wise/utils'
-import { isLoad, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/eduContent/mechanics'
+import { equalLoads, isLoad } from '@step-wise/engineering-mechanics'
 
+import { useScaling } from 'ui/figures'
 import { useDrawingInputData, useFeedbackResult } from 'ui/inputs'
 
 import { loadColors, EngineeringDiagramElement } from '../../EngineeringDiagram'
 
 import { removeHovering, applyHovering } from '../support'
+import { doesLoadTouchRectangle } from '../selection'
 
 export const InputLoad = forwardRef(({ load, index }, ref) => {
 	// Ensure that we have received data from a load.
 	if (!isLoad(load))
-		throw new Error(`Invalid Load rendering: tried to render a load, but received something of type "${load.type}".`)
+		throw new Error(`Invalid Load rendering: tried to render an invalid load.`)
 
 	// Style the load based on all available data and render it.
 	const styledLoad = useStyledInputLoad(load, index)
@@ -25,6 +27,7 @@ export function useStyledInputLoad(load, index) {
 	const { readOnly, selectionRectangle, isDragging, isSelecting, mouseData } = useDrawingInputData()
 	const feedbackResult = useFeedbackResult()
 	const mouseHandlers = useMouseHandlers()
+	const scale = useScaling(1)
 
 	// Only style loads.
 	if (!isLoad(load))
@@ -45,7 +48,7 @@ export function useStyledInputLoad(load, index) {
 	}
 
 	// Apply style based on selection and hover status.
-	const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle)
+	const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle, scale)
 	const hoverStatus = getHoverStatus(load.selected, load.hovering, isDragging, isSelecting, inSelectionRectangle, mouseData.keys)
 	load.style = readOnly ? {} : {
 		filter: `url(#selectionFilter${hoverStatus})`,
@@ -53,7 +56,7 @@ export function useStyledInputLoad(load, index) {
 	}
 
 	// On feedback apply the specific color.
-	if (feedbackResult && feedbackResult.affectedLoads && feedbackResult.affectedLoads.some(affectedLoad => areLoadsEqual(load, affectedLoad)))
+	if (feedbackResult && feedbackResult.affectedLoads && feedbackResult.affectedLoads.some(affectedLoad => equalLoads(load, affectedLoad)))
 		load.color = feedbackResult.color
 
 	// All done. Remove selection data and return the outcome.

@@ -1,16 +1,17 @@
 import React, { Fragment } from 'react'
 
-import { ensureNumber, ensureString } from '@step-wise/utils'
+import { ensureNumber, ensureString, getOneToOneMatching, reverseMatching } from '@step-wise/utils'
 import { Vector } from '@step-wise/geometry'
 import { FloatUnit } from '@step-wise/physics-core'
+import { FBDComparison, equalLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
-import { StepExercise, useSolution, getFieldInputFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
-import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/eduContent/mechanics'
+import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, getFBDFeedback, loadColors } from 'ui/eduContent/mechanics'
 
 const distanceShift = 70
 const supportNames = ['inklemming', 'scharnierverbinding', 'schuifverbinding', 'scharnierende schuifverbinding']
@@ -93,20 +94,23 @@ const steps = [
 
 function getFeedback(data) {
 	const { input, solution } = data
+	const supportParameters = {
+		...(input.loadsLeft ? { loadsLeft: { compare: FBDComparison } } : {}),
+		...(input.loadsRight ? { loadsRight: { compare: FBDComparison } } : {}),
+	}
 
-	const feedbackFunction = (input, solution) => getFBDFeedback(input, solution, FBDComparison)
 	return {
-		loads: input.loads && getCustomFBDFeedback(input.loads, solution.loads, FBDComparison, solution.A, solution.B),
-		...getFieldInputFeedback(data, { loadsLeft: { feedbackFunction: feedbackFunction }, loadsRight: { feedbackFunction: feedbackFunction } }),
+		...getFBDFeedback(data, supportParameters),
+		loads: input.loads && getCustomFBDFeedback(input.loads, solution.loads, solution.A, solution.B),
 	}
 }
 
-function getCustomFBDFeedback(input, solution, compare, A, B) {
+function getCustomFBDFeedback(input, solution, A, B) {
 	// Derive feedback on the loads. This is custom feedback, so no function is called for it. It is determined straight from the matching.
-	const matching = getLoadMatching(input, solution, compare)
+	const matching = getLoadMatching(input, solution)
 
 	// Check if any input loads are not matched.
-	const unmatchedInputLoads = input.filter((_, index) => matching.input[index].length === 0)
+	const unmatchedInputLoads = input.filter((_, index) => matching.inputMatching[index] === undefined)
 	if (unmatchedInputLoads.length > 0) {
 		return {
 			correct: false,
@@ -115,18 +119,8 @@ function getCustomFBDFeedback(input, solution, compare, A, B) {
 		}
 	}
 
-	// Check if any solution load is matched to multiple input loads.
-	const doubleInputLoads = matching.solution.filter(matches => matches.length > 1)
-	if (doubleInputLoads.length >= 1) {
-		return {
-			correct: false,
-			text: `${doubleInputLoads.length === 1 ? `Er is een set` : `Er zijn ${getCountingWord(doubleInputLoads.length)} sets`} pijlen die op hetzelfde neerkomen. Haal overbodige pijlen weg.`,
-			affectedLoads: doubleInputLoads.flat(),
-		}
-	}
-
 	// Check if solution loads are not matched.
-	const missingLoads = solution.filter((_, index) => matching.solution[index].length === 0)
+	const missingLoads = solution.filter((_, index) => matching.solutionMatching[index] === undefined)
 	if (missingLoads.length >= 1) {
 		// Try to find a point matching a missing arrow.
 		const isAtA = isLoadAtPoint(missingLoads[0], A)
@@ -141,17 +135,37 @@ function getCustomFBDFeedback(input, solution, compare, A, B) {
 	return { correct: true, text: selectRandomCorrect() }
 }
 
+function getLoadMatching(input, solution) {
+	const externalSolutionIndex = solution.length - 1
+	const externalLoad = solution[externalSolutionIndex]
+	const externalInputIndex = input.findIndex(load => equalLoads(load, externalLoad, externalLoadComparison))
+	const reactionInputIndices = input.map((_, index) => index).filter(index => index !== externalInputIndex)
+	const reactionSolution = solution.slice(0, -1)
+	const reactionMatching = getOneToOneMatching(reactionInputIndices, reactionSolution, (inputIndex, solutionLoad) => equalLoads(input[inputIndex], solutionLoad, FBDComparison))
+	const inputMatching = input.map(() => undefined)
+	if (externalInputIndex !== -1) inputMatching[externalInputIndex] = externalSolutionIndex
+	reactionInputIndices.forEach((inputIndex, index) => { inputMatching[inputIndex] = reactionMatching[index] })
+	return { inputMatching, solutionMatching: reverseMatching(inputMatching, solution.length) }
+}
+
+const externalLoadComparison = {
+	Force: { direction: 'equal', applicationPointAt: 'ignore' },
+	Moment: { direction: 'equal', openingAngle: 'ignore' },
+}
+
 function Diagram({ isInputField = false, id, showSupports = true, showSolution = false, zoom = undefined }) {
 	const solution = useSolution()
-	const { points, loads } = solution
+	const { points, loads, externalLoad } = solution
 	if (zoom && typeof zoom === 'string')
 		zoom = solution[zoom]
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
+	const transformationSettings = useScaleBasedTransformationSettings(zoom ? [zoom] : points, { scale: 70, margin: [80, [80, 100]] })
 
 	// Get all the required components.
-	let loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
+	let loadsToDisplay = isInputField ? [] : showSolution
+		? loads.map((load, index) => ({ ...load, color: index === loads.length - 1 ? loadColors.external : loadColors.reaction }))
+		: [{ ...externalLoad, color: loadColors.external }]
 	if (zoom)
 		loadsToDisplay = loadsToDisplay.filter(load => isLoadAtPoint(load, zoom))
 	const schematics = <Schematics loads={loadsToDisplay} showSupports={showSupports} zoom={zoom} />

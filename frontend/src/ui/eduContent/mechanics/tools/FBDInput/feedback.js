@@ -1,7 +1,7 @@
 import { isValidElement } from 'react'
 
 import { isPlainObject, mapValues } from '@step-wise/utils'
-import { loadTypes, areLoadsMatching, getLoadMatching } from 'step-wise/eduContent/mechanics'
+import { compareLoadSets, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
@@ -44,7 +44,8 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 	const { compare, feedbackChecks, feedbackFunction } = currOptions
 
 	// Determine if the field is correct. Do this in the same way as the compare function from the shared directory.
-	const correct = areLoadsMatching(currInput, currSolution, compare)
+	const comparisonReport = typeof compare === 'function' ? undefined : compareLoadSets(currInput, currSolution, compare)
+	const correct = typeof compare === 'function' ? compare(currInput, currSolution, solution, exerciseData) : comparisonReport.equal
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct)
@@ -62,10 +63,8 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 		return { correct, text: (correct ? selectRandomCorrect : selectRandomIncorrect)() }
 
 	// There are compare options, so try to find detailed feedback. First set up a matching of loads, so we can give feedback on it.
-	const matching = getLoadMatching(currInput, currSolution, compare)
-
 	// Check if any input loads are not matched.
-	const unmatchedInputLoads = currInput.filter((_, index) => matching.input[index].length === 0)
+	const unmatchedInputLoads = currInput.filter((_, index) => comparisonReport.inputMatching[index] === undefined)
 	if (unmatchedInputLoads.length > 0) {
 		return {
 			correct: false,
@@ -74,18 +73,8 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 		}
 	}
 
-	// Check if any solution load is matched to multiple input loads.
-	const doubleInputLoads = matching.solution.filter(matches => matches.length > 1)
-	if (doubleInputLoads.length >= 1) {
-		return {
-			correct: false,
-			text: <Translation path={translationPath} entry="feedback.doubleInputLoads"><Plurals value={doubleInputLoads.length}><Plurals.One>There is a set</Plurals.One><Plurals.NotOne>There are <CountingWord>{doubleInputLoads.length}</CountingWord> sets</Plurals.NotOne> of duplicate arrows.</Plurals> Remove the superfluous ones.</Translation>,
-			affectedLoads: doubleInputLoads.flat(),
-		}
-	}
-
 	// Check if solution loads are not matched.
-	const missingLoads = currSolution.filter((_, index) => matching.solution[index].length === 0)
+	const missingLoads = currSolution.filter((_, index) => comparisonReport.solutionMatching[index] === undefined)
 	if (missingLoads.length >= 1) {
 		// Try to find a point matching a missing arrow.
 		const pointName = findRelatedPoint(missingLoads[0], points)
@@ -106,12 +95,5 @@ export function findRelatedPoint(load, points) {
 
 // isConnectedToPoint checks if a load is connected to a given point.
 export function isConnectedToPoint(load, point) {
-	switch (load.type) {
-		case loadTypes.force:
-			return load.force.hasPoint(point)
-		case loadTypes.moment:
-			return load.position.equals(point)
-		default:
-			throw new Error(`Invalid load type: did not recognize a load of type "${load.type}".`)
-	}
+	return isLoadAtPoint(load, point)
 }
