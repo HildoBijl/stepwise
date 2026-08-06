@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/eduContent/mechanics'
+import { Distance, Element, LoadLabel, render, sumOfForces, loadColors } from 'ui/eduContent/mechanics'
 
 const distanceShift = 60
 const rectangleMargin = 0.7
@@ -52,7 +52,7 @@ const steps = [
 	{
 		Problem: () => {
 			return <>
-				<Par>Bereken via de ontbinding in componenten de component <M>F_(Dl)</M> loodrecht op de werklijnen van <M>F_B</M> en <M>F_C.</M> (De parallelle componenten <M>F_(Dp)</M> is niet nodig.)</Par>
+				<Par>Bereken via de ontbinding in componenten de component <M>F_(Dl)</M> loodrecht op de werklijnen van <M>F_B</M> en <M>F_C.</M> (De parallelle component <M>F_(Dp)</M> is niet nodig.)</Par>
 				<Diagram decompose={true} />
 				<InputSpace>
 					<FloatUnitInput id="FDl" prelabel={<M>F_(Dl)=</M>} size="s" />
@@ -98,8 +98,13 @@ function Diagram({ decompose = false }) {
 		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
 		{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}
 
+		{render((decompose ? decomposedLoads : loads).map((load, index) => ({
+			...load,
+			color: decompose
+				? (index === 0 ? loadColors.input : index >= 3 ? loadColors.external : loadColors.reaction)
+				: (index === 0 ? loadColors.input : index === 3 ? loadColors.external : loadColors.reaction),
+		})))}
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
-		{render(decompose ? decomposedLoads : loads)}
 
 		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
 		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
