@@ -1,33 +1,38 @@
-import type { ExpressionInputValue } from '../types'
-import { getEmptyExpression, getExpressionWith } from '../utils'
+export const constructDefinitions = {
+	Fraction: {
+		aliases: ['/'],
+	},
+	SquareRoot: {
+		aliases: ['sqrt('],
+	},
+	Root: {
+		aliases: ['root('],
+		defaultDegree: '2',
+	},
+	Logarithm: {
+		aliases: ['log('],
+		defaultBase: '10',
+		bracketBehavior: 'opensExternalGroup',
+	},
+	SubSup: {
+		aliases: ['_', '^'],
+	},
+} as const
 
-// Define for all special functions - those with specific behavior in the input type - what properties they have.
-export type ConstructSettings = {
-	hasParameterAfter?: boolean
-	defaultArguments: ExpressionInputValue[]
+export type ConstructType = keyof typeof constructDefinitions
+export type ConstructDefinition = typeof constructDefinitions[ConstructType]
+export const constructs = Object.keys(constructDefinitions) as ConstructType[]
+
+export function isConstructType(type: string): type is ConstructType {
+	return type in constructDefinitions
 }
-export const constructSettings = {
-	frac: {
-		defaultArguments: [getEmptyExpression(), getEmptyExpression()],
-	},
-	subSup: {
-		defaultArguments: [getEmptyExpression(), getEmptyExpression()],
-	},
-	log: {
-		defaultArguments: [getEmptyExpression(), getExpressionWith('10')],
-		hasParameterAfter: true,
-	},
-	sqrt: {
-		defaultArguments: [getEmptyExpression()],
-	},
-	root: {
-		defaultArguments: [getEmptyExpression(), getExpressionWith('2')],
-	},
-} satisfies Record<string, ConstructSettings>
 
-// Add extra helper types and functions.
-export type ConstructName = keyof typeof constructSettings
-export const constructs = Object.keys(constructSettings) as ConstructName[]
-export function isConstructName(name: string): name is ConstructName {
-	return name in constructSettings
+export function getConstructTypeFromAlias(alias: string): ConstructType | undefined {
+	return constructs.find(type => (constructDefinitions[type].aliases as readonly string[]).includes(alias))
+}
+
+export function opensExternalGroup(type: string): boolean {
+	if (!isConstructType(type)) return false
+	const definition = constructDefinitions[type]
+	return 'bracketBehavior' in definition && definition.bracketBehavior === 'opensExternalGroup'
 }

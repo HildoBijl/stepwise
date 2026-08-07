@@ -1,33 +1,23 @@
 import { last } from '@step-wise/utils'
 
-import type { InputValuePart } from '../types'
+import type { ExpressionValue, InputValuePart } from '../types'
 
-import { isExpressionPart } from './fundamentals'
+import { isTextPart } from './fundamentals'
 import { getStartCursor, getEndCursor } from './cursors'
 
-// Take an expression and extract a part from one cursor to another.
-export function getSubExpression<TExtension = never>(value: (InputValuePart | TExtension)[], left = getStartCursor(value), right = getEndCursor(value)): (InputValuePart | TExtension)[] {
+export function getSubExpression<TAdditionalPart = never>(value: (InputValuePart | TAdditionalPart)[], left = getStartCursor(value), right = getEndCursor(value)): (InputValuePart | TAdditionalPart)[] {
 	const leftElement = value[left.part]
 	const rightElement = value[right.part]
-	if (!isExpressionPart(leftElement) || !isExpressionPart(rightElement)) throw new Error('getSubExpression cursors must point to ExpressionPart elements')
-
-	// When the cursors are in the same element, extract the respective part.
-	if (left.part === right.part) return [{ ...leftElement, value: leftElement.value.substring(left.cursor, right.cursor) }]
-
-	// Extract the respective parts from the two elements, and add everything in-between.
-	return [
-		{ type: 'ExpressionPart', value: leftElement.value.substring(left.cursor) },
-		...value.slice(left.part + 1, right.part),
-		{ type: 'ExpressionPart', value: rightElement.value.substring(0, right.cursor) },
-	]
+	if (!isTextPart(leftElement) || !isTextPart(rightElement)) throw new Error('getSubExpression cursors must point to text parts')
+	if (left.part === right.part) return [leftElement.substring(left.cursor, right.cursor)]
+	return [leftElement.substring(left.cursor), ...value.slice(left.part + 1, right.part), rightElement.substring(0, right.cursor)]
 }
 
-// Clean-up function that merges adjacent ExpressionParts within a list of InputValueParts.
-export function mergeAdjacentExpressionParts(value: InputValuePart[]): InputValuePart[] {
-	const result: InputValuePart[] = []
+export function mergeAdjacentTextParts(value: ExpressionValue): ExpressionValue {
+	const result: ExpressionValue = []
 	value.forEach(part => {
 		const previousPart = last(result, true)
-		if (isExpressionPart(part) && isExpressionPart(previousPart)) result[result.length - 1] = { ...previousPart, value: `${previousPart.value}${part.value}` }
+		if (isTextPart(part) && isTextPart(previousPart)) result[result.length - 1] = `${previousPart}${part}`
 		else result.push(part)
 	})
 	return result

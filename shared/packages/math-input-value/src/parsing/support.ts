@@ -1,8 +1,8 @@
-import { findNextOf, isObject, last, InterpretationError } from '@step-wise/utils'
+import { findNextOf, last, InterpretationError } from '@step-wise/utils'
 
-import type { FunctionInputValue, InputCursorEnd, InputValuePart } from '../types'
-import { isExpressionPart } from '../utils'
-import { constructSettings, isConstructName } from '../definitions'
+import type { InputCursorEnd, InputValuePart } from '../types'
+import { isTextPart } from '../utils'
+import { opensExternalGroup } from '../definitions'
 
 export const roundBrackets = ['(', ')'] as const
 export const squareBrackets = ['[', ']'] as const
@@ -20,17 +20,17 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 	let bracketCount = 0
 
 	// Define supporting handlers.
-	const getCurrentExpressionPart = () => {
+	const getCurrentTextPart = () => {
 		const element = value[partIterator]
-		if (element.type !== 'ExpressionPart') throw new Error('Cursor must point to an ExpressionPart.')
+		if (!isTextPart(element)) throw new Error('Cursor must point to a text part.')
 		return element
 	}
 	const hasNextSymbol = () => {
-		const currentString = getCurrentExpressionPart().value
+		const currentString = getCurrentTextPart()
 		return toRight ? partIterator < value.length - 1 || cursorIterator < currentString.length : partIterator > 0 || cursorIterator > 0
 	}
 	const getNextSymbol = (): string | InputValuePart => {
-		const currentString = getCurrentExpressionPart().value
+		const currentString = getCurrentTextPart()
 		if (toRight) {
 			if (cursorIterator === currentString.length) return value[partIterator + 1]
 			return currentString[cursorIterator]
@@ -39,7 +39,7 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 		return currentString[cursorIterator - 1]
 	}
 	const shiftCursor = () => {
-		const currentString = getCurrentExpressionPart().value
+		const currentString = getCurrentTextPart()
 		if (toRight) {
 			if (cursorIterator === currentString.length) {
 				partIterator += 2
@@ -48,12 +48,12 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 		} else {
 			if (cursorIterator === 0) {
 				partIterator -= 2
-				cursorIterator = getCurrentExpressionPart().value.length
+				cursorIterator = getCurrentTextPart().length
 			} else cursorIterator--
 		}
 	}
 
-	// Walk through the expression .
+	// Walk through the expression.
 	let isFirst = true
 	while (hasNextSymbol()) {
 		const nextSymbol = getNextSymbol()
@@ -61,10 +61,10 @@ export function findCharacterAtZeroBracketCount(value: InputValuePart[], cursor:
 		// Return on a wanted character at bracket count zero.
 		if (bracketCount <= 0 && isWanted(nextSymbol) && (!skipFirst || !isFirst)) return { part: partIterator, cursor: cursorIterator }
 
-		// Adjust bracket count. Functions with a parameter after them count as a round opening bracket too.
+		// Adjust bracket count. Constructs with an external group count as a round opening bracket too.
 		if (nextSymbol === brackets[0]) bracketCount += toRight ? 1 : -1
 		else if (nextSymbol === brackets[1]) bracketCount += toRight ? -1 : 1
-		if (isFunctionWithParameterAfter(nextSymbol) && brackets[0] === '(') bracketCount += toRight ? 1 : -1
+		if (typeof nextSymbol !== 'string' && opensExternalGroup(nextSymbol.type) && brackets[0] === '(') bracketCount += toRight ? 1 : -1
 
 		// Move to the next symbol.
 		shiftCursor()
@@ -107,11 +107,11 @@ export function getMatchingBrackets(value: InputValuePart[]): MatchingBrackets[]
 	// Walk through the expression to find the bracket pairs.
 	value.forEach((element, part) => {
 		// Check for special function that counts as opening bracket.
-		if (isFunctionWithParameterAfter(element)) noteOpeningBracket({ part, cursor: 0 })
-		if (!isExpressionPart(element)) return
+		if (typeof element !== 'string' && opensExternalGroup(element.type)) noteOpeningBracket({ part, cursor: 0 })
+		if (!isTextPart(element)) return
 
-		// Walk through the ExpressionPart.
-		const str = element.value
+		// Walk through the text part.
+		const str = element
 		const getNextBracket = (fromPosition = -1) => findNextOf(str, ['(', ')', '[', ']'], fromPosition + 1)
 		for (let nextBracket = getNextBracket(); nextBracket !== -1; nextBracket = getNextBracket(nextBracket)) {
 			const bracketPosition = { part, cursor: nextBracket }
@@ -123,12 +123,4 @@ export function getMatchingBrackets(value: InputValuePart[]): MatchingBrackets[]
 	// Finalize the bracket pairing.
 	if (level > 0) throw new InterpretationError('Could not interpret the expression part due to a missing closing bracket.', 'UnmatchedOpeningBracket', last(brackets).opening)
 	return brackets as MatchingBrackets[]
-}
-
-function isFunctionWithParameterAfter(symbol: string | InputValuePart): symbol is FunctionInputValue {
-	if (!isObject(symbol) || (symbol as InputValuePart).type !== 'Function') return false
-	const name = (symbol as FunctionInputValue).name
-	if (!isConstructName(name)) return false
-	const settings = constructSettings[name]
-	return 'hasParameterAfter' in settings && settings.hasParameterAfter
 }

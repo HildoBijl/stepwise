@@ -1,66 +1,45 @@
 import { first, last } from '@step-wise/utils'
 
-import { InterpretationSettings } from '../../settings'
-import type { FunctionInputValue, InputCursorEnd, InputValuePart } from '../../types'
-import { isExpressionPart, addExpressionWrapper, getStartCursor, getEndCursor, getSubExpression, moveRight } from '../../utils'
+import { type InterpretationSettings } from '../../settings'
+import type { ExpressionValue, InputCursorEnd } from '../../types'
+import { constructDefinitions } from '../../definitions'
+import { getStartCursor, getEndCursor, getSubExpression, shiftPositionRight } from '../../utils'
 
 import { findEndOfFactor } from '../support'
 
-// Turn slashes into frac functions.
-export function processFractions(value: InputValuePart[], settings: InterpretationSettings, processExpression: (value: InputValuePart[], settings: InterpretationSettings) => InputValuePart[]): InputValuePart[] {
-	// Set up a handler that finds the next slash symbol.
+// Turn slashes into fractions.
+export function processFractions(value: ExpressionValue, settings: InterpretationSettings, processExpression: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
 	const findNextSlash = () => {
-		const part = value.findIndex(part => part.type === 'ExpressionPart' && part.value.includes('/'))
-		return part === -1 ? undefined : { part, cursor: (value[part] as { type: 'ExpressionPart', value: string }).value.indexOf('/') }
+		const part = value.findIndex(part => typeof part === 'string' && part.includes('/'))
+		return part === -1 ? undefined : { part, cursor: (value[part] as string).indexOf('/') }
 	}
-
-	// Walk through the slashes and apply them.
 	for (let nextSymbol = findNextSlash(); nextSymbol; nextSymbol = findNextSlash()) value = applyFraction(value, nextSymbol, settings, processExpression)
 	return value
 }
 
-function applyFraction(value: InputValuePart[], cursor: InputCursorEnd, settings: InterpretationSettings, processExpression: (value: InputValuePart[], settings: InterpretationSettings) => InputValuePart[]): InputValuePart[] {
-	// Define cursors.
+// Turn a fraction at a given position into a fraction construct.
+function applyFraction(value: ExpressionValue, cursor: InputCursorEnd, settings: InterpretationSettings, processExpression: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
 	const start = getStartCursor(value)
 	const beforeSymbol = cursor
-	const afterSymbol = moveRight(cursor)
+	const afterSymbol = shiftPositionRight(cursor)
 	const leftSide = findEndOfFactor(value, beforeSymbol, false, false)
 	const rightSide = findEndOfFactor(value, afterSymbol, true, true)
 	const end = getEndCursor(value)
-
-	// Set up the fraction.
-	const numerator = processExpression(getSubExpression(value, leftSide, beforeSymbol), settings)
-	const denominator = processExpression(getSubExpression(value, afterSymbol, rightSide), settings)
-	const fractionElement = {
-		type: 'Function',
-		name: 'frac',
-		value: [
-			addExpressionWrapper(removeSurroundingBrackets(numerator)),
-			addExpressionWrapper(removeSurroundingBrackets(denominator)),
-		],
-	} as FunctionInputValue
-
-	// Add parts before/after the fraction.
+	const numerator = removeSurroundingBrackets(processExpression(getSubExpression(value, leftSide, beforeSymbol) as ExpressionValue, settings))
+	const denominator = removeSurroundingBrackets(processExpression(getSubExpression(value, afterSymbol, rightSide) as ExpressionValue, settings))
 	return [
-		...getSubExpression(value, start, leftSide),
-		fractionElement,
-		...getSubExpression(value, rightSide, end),
+		...getSubExpression(value, start, leftSide) as ExpressionValue,
+		{ type: 'Fraction', alias: constructDefinitions.Fraction.aliases[0], numerator, denominator },
+		...getSubExpression(value, rightSide, end) as ExpressionValue,
 	]
 }
 
-// Helper to remove starting/ending brackets from an expression value.
-function removeSurroundingBrackets(value: InputValuePart[]): InputValuePart[] {
-	// If there are no brackets at the start/end, do nothing.
+// Remove potential brackets around a given expression value.
+function removeSurroundingBrackets(value: ExpressionValue): ExpressionValue {
 	const start = first(value)
-	if (!isExpressionPart(start) || start.value.slice(0, 1) !== '(') return value
+	if (typeof start !== 'string' || start.slice(0, 1) !== '(') return value
 	const end = last(value)
-	if (!isExpressionPart(end) || end.value.slice(-1) !== ')') return value
-
-	// Remove the brackets.
-	if (start === end) return [{ ...start, value: start.value.slice(1, -1) }]
-	return [
-		{ ...start, value: start.value.slice(1) },
-		...value.slice(1, -1),
-		{ ...end, value: end.value.slice(0, -1) },
-	]
+	if (typeof end !== 'string' || end.slice(-1) !== ')') return value
+	if (start === end) return [start.slice(1, -1)]
+	return [start.slice(1), ...value.slice(1, -1), end.slice(0, -1)]
 }
