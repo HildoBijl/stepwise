@@ -5,6 +5,8 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -b",
+		"test": "jest",
+		"test:watch": "jest --watch",
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
