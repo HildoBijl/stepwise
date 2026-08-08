@@ -1,14 +1,16 @@
+import { isSum, equalNodes, isOne } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { sum as arraySum } from '@step-wise/utils'
 
 import { type ExpressionNode, type Sum, sum, product } from '../../../../construction'
-
-import { equalNodes, isOne, isSum } from '../../../structural'
 
 import { type SimplificationContext } from '../../simplificationOptions'
 
 import { getConstantAndVariablePart } from '../utils'
 
-export function groupSumTerms(node: Sum, context: SimplificationContext): ExpressionNode {
+function transform(node: Sum, context: SimplificationContext): ExpressionNode {
 	// Group the terms into groups.
 	const groups: { variablePart: ExpressionNode, constantParts: ExpressionNode[], original: ExpressionNode }[] = []
 	for (const term of node.terms) {
@@ -27,3 +29,8 @@ export function groupSumTerms(node: Sum, context: SimplificationContext): Expres
 	// Set up the final result.
 	return sum(...groups.map((group, index) => group.constantParts.length === 1 ? group.original : product(constantParts[index], group.variablePart)))
 }
+
+export const groupSumTerms = defineRule({
+	appliesTo: isSum,
+	transform,
+})

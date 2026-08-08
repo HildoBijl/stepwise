@@ -1,10 +1,12 @@
-import { type ExpressionNode, type Product, power, product, sum } from '../../../../construction'
+import { isProduct, equalNodes } from '../../../structural'
 
-import { equalNodes } from '../../../structural'
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type ExpressionNode, type Product, power, product, sum } from '../../../../construction'
 
 import { getBaseAndExponent } from '../utils'
 
-export function mergeProductFactors(node: Product): ExpressionNode {
+function transform(node: Product): ExpressionNode {
 	const groups: { base: ExpressionNode, exponents: ExpressionNode[], original: ExpressionNode }[] = []
 	for (const factor of node.factors) {
 		const { base, exponent } = getBaseAndExponent(factor)
@@ -15,3 +17,8 @@ export function mergeProductFactors(node: Product): ExpressionNode {
 	if (groups.length === node.factors.length) return node
 	return product(...groups.map(group => group.exponents.length === 1 ? group.original : power(group.base, sum(...group.exponents))))
 }
+
+export const mergeProductFactors = defineRule({
+	appliesTo: isProduct,
+	transform,
+})

@@ -1,10 +1,12 @@
-import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
+import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
 
-import { isSignNode, isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
 
 import { compareVariableNodes } from '../utils'
 
-export function sortSums(node: Sum): Sum {
+function transform(node: Sum): Sum {
 	const terms = [...node.terms].sort(orderSumTerms)
 	return terms.every((term, index) => term === node.terms[index]) ? node : new Sum(terms)
 }
@@ -58,3 +60,8 @@ function getExponentOfVariable(variable: Variable, node: ExpressionNode): number
 	}
 	return undefined
 }
+
+export const sortSums = defineRule({
+	appliesTo: isSum,
+	transform,
+})

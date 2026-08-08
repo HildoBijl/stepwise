@@ -1,12 +1,14 @@
+import { isRootLike, isIntegerNode, isPower, isOne } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { largestPowerDivisor } from '@step-wise/math-tools'
 
 import { type ExpressionNode, type RootLike, integer, product, power } from '../../../../construction'
 
-import { isIntegerNode, isPower, isOne } from '../../../structural'
-
 import { getProductFactors } from '../utils'
 
-export function pullFactorsOutOfRoots(node: RootLike): ExpressionNode {
+function transform(node: RootLike): ExpressionNode {
 	if (!isIntegerNode(node.degree)) return node
 	const { pulledFactor, remainder } = getPulledFactor(node.radicand, node.degree.value)
 	return isOne(pulledFactor) ? node : product(...getProductFactors(pulledFactor), node.recreateWith(remainder))
@@ -46,3 +48,8 @@ function getPulledFactor(radicand: ExpressionNode, degree: number): { pulledFact
 		remainder: product(...remainderFactors),
 	}
 }
+
+export const pullFactorsOutOfRoots = defineRule({
+	appliesTo: isRootLike,
+	transform,
+})

@@ -1,10 +1,12 @@
-import { type ExpressionNode, type Product, product } from '../../../../construction'
+import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
 
-import { isInteger, isFloat, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type ExpressionNode, type Product, product } from '../../../../construction'
 
 import { compareVariableNodes } from '../utils'
 
-export function sortProducts(node: Product): ExpressionNode {
+function transform(node: Product): ExpressionNode {
 	const factors = [...node.factors].sort(orderProductFactors)
 	return factors.every((factor, index) => factor === node.factors[index]) ? node : product(...factors)
 }
@@ -35,3 +37,8 @@ function orderProductFactors(a: ExpressionNode, b: ExpressionNode): number {
 	// No reason to shift factors.
 	return 0
 }
+
+export const sortProducts = defineRule({
+	appliesTo: isProduct,
+	transform,
+})

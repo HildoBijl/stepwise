@@ -1,8 +1,10 @@
+import { isSum, isMinus, equalNodes } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type ExpressionNode, type Sum, sum } from '../../../../construction'
 
-import { isMinus, equalNodes } from '../../../structural'
-
-export function cancelSumTerms(node: Sum): ExpressionNode {
+function transform(node: Sum): ExpressionNode {
 	const skipped = node.terms.map(() => false)
 	const terms = node.terms.filter((term, index) => {
 		if (skipped[index]) return false
@@ -18,3 +20,8 @@ export function cancelSumTerms(node: Sum): ExpressionNode {
 function isOppositeTerm(a: ExpressionNode, b: ExpressionNode) {
 	return (isMinus(a) && equalNodes(a.node, b)) || (isMinus(b) && equalNodes(a, b.node))
 }
+
+export const cancelSumTerms = defineRule({
+	appliesTo: isSum,
+	transform,
+})

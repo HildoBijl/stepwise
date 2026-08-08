@@ -1,7 +1,14 @@
-import type { ExpressionNode, Minus } from '../../../../construction'
-
 import { isMinus } from '../../../structural'
 
-export function removeDoubleNegatives(node: Minus): ExpressionNode {
+import { defineRule } from '../utils/ruleDefinition'
+
+import type { ExpressionNode, Minus } from '../../../../construction'
+
+export function applyRemoveDoubleNegatives(node: Minus): ExpressionNode {
 	return isMinus(node.node) ? node.node.node : node
 }
+
+export const removeDoubleNegatives = defineRule({
+	appliesTo: isMinus,
+	transform: applyRemoveDoubleNegatives,
+})

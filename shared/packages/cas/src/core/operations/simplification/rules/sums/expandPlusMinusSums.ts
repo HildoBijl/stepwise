@@ -1,7 +1,14 @@
+import { isPlusMinus, isSum } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type PlusMinus, type Sum, plusMinus, sum } from '../../../../construction'
 
-import { isSum } from '../../../structural'
-
-export function expandPlusMinusSums(node: PlusMinus): Sum | PlusMinus {
+function transform(node: PlusMinus): Sum | PlusMinus {
 	return isSum(node.node) ? sum(...node.node.terms.map(plusMinus)) as Sum : node
 }
+
+export const expandPlusMinusSums = defineRule({
+	appliesTo: isPlusMinus,
+	transform,
+})

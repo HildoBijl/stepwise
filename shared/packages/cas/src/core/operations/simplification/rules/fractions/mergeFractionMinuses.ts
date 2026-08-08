@@ -1,8 +1,10 @@
+import { isFraction, isMinus } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type ExpressionNode, type Fraction, negative, fraction } from '../../../../construction'
 
-import { isMinus } from '../../../structural'
-
-export function mergeFractionMinuses(node: Fraction): ExpressionNode {
+export function applyMergeFractionMinuses(node: Fraction): ExpressionNode {
 	const numeratorIsNegative = isMinus(node.numerator)
 	const denominatorIsNegative = isMinus(node.denominator)
 	if (!numeratorIsNegative && !denominatorIsNegative) return node
@@ -12,3 +14,8 @@ export function mergeFractionMinuses(node: Fraction): ExpressionNode {
 	const result = fraction(numerator, denominator)
 	return numeratorIsNegative === denominatorIsNegative ? result : negative(result)
 }
+
+export const mergeFractionMinuses = defineRule({
+	appliesTo: isFraction,
+	transform: applyMergeFractionMinuses,
+})

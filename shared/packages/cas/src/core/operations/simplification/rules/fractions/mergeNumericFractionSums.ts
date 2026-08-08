@@ -1,10 +1,12 @@
+import { isSum, isMinus, isFraction, isNumeric } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type Sum, type Fraction, sum } from '../../../../construction'
 
-import { isMinus, isFraction, isNumeric } from '../../../structural'
+import { applyMergeFractionSums } from './mergeFractionSums'
 
-import { mergeFractionSums } from './mergeFractionSums'
-
-export function mergeNumericFractionSums(node: Sum): Sum | Fraction {
+function transform(node: Sum): Sum | Fraction {
 	const numericTerms = node.terms.filter(term => isNumeric(term))
 
 	// Handle basic cases.
@@ -12,7 +14,12 @@ export function mergeNumericFractionSums(node: Sum): Sum | Fraction {
 	if (!(numericTerms.some(isFraction) || numericTerms.some(node => isMinus(node) && isFraction(node.node)))) return node
 
 	// Relegate to mergeFractionSums.
-	const mergedFractionSum = mergeFractionSums(sum(...numericTerms) as Sum)
+	const mergedFractionSum = applyMergeFractionSums(sum(...numericTerms) as Sum)
 	const nonNumericTerms = node.terms.filter(term => !isNumeric(term))
 	return nonNumericTerms.length === 0 ? mergedFractionSum : sum(mergedFractionSum, ...nonNumericTerms) as Sum
 }
+
+export const mergeNumericFractionSums = defineRule({
+	appliesTo: (node, context): node is Parameters<typeof transform>[0] => isSum(node) && !context.simplificationOptions.has('mergeFractionSums'),
+	transform,
+})

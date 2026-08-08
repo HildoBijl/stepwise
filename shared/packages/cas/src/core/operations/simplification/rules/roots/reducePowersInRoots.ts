@@ -1,11 +1,13 @@
+import { isRootLike, isFraction, isPower } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type ExpressionNode, type Fraction, type RootLike, fraction, power, root } from '../../../../construction'
 
-import { isFraction, isPower } from '../../../structural'
+import { applyMergeFractionNumbers } from '../fractions/mergeFractionNumbers'
+import { applyMergeFractionFactors } from '../fractions/mergeFractionFactors'
 
-import { mergeFractionNumbers } from '../fractions/mergeFractionNumbers'
-import { mergeFractionFactors } from '../fractions/mergeFractionFactors'
-
-export function reducePowersInRoots(node: RootLike): ExpressionNode {
+function transform(node: RootLike): ExpressionNode {
 	if (!isPower(node.radicand)) return node
 	const fractionExponent = fraction(node.radicand.exponent, node.degree)
 	const fractionExponentSimplified = getSimplifiedFractionExponent(fractionExponent)
@@ -14,6 +16,11 @@ export function reducePowersInRoots(node: RootLike): ExpressionNode {
 }
 
 function getSimplifiedFractionExponent(fractionExponent: Fraction): Fraction {
-	const mergedNumbers = mergeFractionNumbers(fractionExponent)
-	return isFraction(mergedNumbers) ? mergeFractionFactors(mergedNumbers) : fraction(mergedNumbers, 1)
+	const mergedNumbers = applyMergeFractionNumbers(fractionExponent)
+	return isFraction(mergedNumbers) ? applyMergeFractionFactors(mergedNumbers) : fraction(mergedNumbers, 1)
 }
+
+export const reducePowersInRoots = defineRule({
+	appliesTo: isRootLike,
+	transform,
+})

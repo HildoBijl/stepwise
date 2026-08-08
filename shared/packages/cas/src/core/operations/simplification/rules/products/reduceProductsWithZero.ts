@@ -1,7 +1,14 @@
+import { isProduct, isZero } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type ExpressionNode, type Product, Integer } from '../../../../construction'
 
-import { isZero } from '../../../structural'
-
-export function reduceProductsWithZero(node: Product): ExpressionNode {
+function transform(node: Product): ExpressionNode {
 	return node.factors.some(isZero) ? Integer.zero : node
 }
+
+export const reduceProductsWithZero = defineRule({
+	appliesTo: isProduct,
+	transform,
+})

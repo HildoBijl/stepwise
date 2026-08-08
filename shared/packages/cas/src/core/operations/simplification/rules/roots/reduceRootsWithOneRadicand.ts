@@ -1,7 +1,14 @@
+import { isRootLike, isOne } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type ExpressionNode, type RootLike, Integer } from '../../../../construction'
 
-import { isOne } from '../../../structural'
-
-export function reduceRootsWithOneRadicand(node: RootLike): ExpressionNode {
+function transform(node: RootLike): ExpressionNode {
 	return isOne(node.radicand) ? Integer.one : node
 }
+
+export const reduceRootsWithOneRadicand = defineRule({
+	appliesTo: isRootLike,
+	transform,
+})

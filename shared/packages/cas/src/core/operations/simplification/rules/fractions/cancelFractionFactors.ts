@@ -1,10 +1,12 @@
-import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
+import { isFraction, isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
 
-import { isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
 import { getProductFactors } from '../utils'
 
-export function cancelFractionFactors(node: Fraction): ExpressionNode {
+function transform(node: Fraction): ExpressionNode {
 	// Try to find common factors in the numerator and denominator as a whole.
 	const wholeCommonFactors = getExactCommonFactors(node.numerator, node.denominator)
 	if (wholeCommonFactors.length > 0) return fraction(removeExactFactors(node.numerator, wholeCommonFactors), removeExactFactors(node.denominator, wholeCommonFactors))
@@ -63,3 +65,8 @@ export function removeExactFactors(node: ExpressionNode, factorsToRemove: readon
 	}
 	return product(...factors)
 }
+
+export const cancelFractionFactors = defineRule({
+	appliesTo: isFraction,
+	transform,
+})

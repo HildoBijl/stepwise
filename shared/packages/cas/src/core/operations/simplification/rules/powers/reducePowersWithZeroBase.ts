@@ -1,7 +1,14 @@
+import { isPower, isZero } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type Power, Integer } from '../../../../construction'
 
-import { isZero } from '../../../structural'
-
-export function reducePowersWithZeroBase(node: Power): Power | Integer {
+function transform(node: Power): Power | Integer {
 	return isZero(node.base) && !isZero(node.exponent) ? Integer.zero : node
 }
+
+export const reducePowersWithZeroBase = defineRule({
+	appliesTo: isPower,
+	transform,
+})

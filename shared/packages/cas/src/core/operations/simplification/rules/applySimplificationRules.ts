@@ -2,23 +2,11 @@ import { type ExpressionNode } from '../../../construction'
 
 import { type SimplificationContext } from '../simplificationOptions'
 
-import { simplifySigns } from './signs'
-import { simplifyConstants } from './constants'
-import { simplifySums } from './sums'
-import { simplifyProducts } from './products'
-import { simplifyFractions } from './fractions'
-import { simplifyPowers } from './powers'
-import { simplifyRoots } from './roots'
-import { simplifyLogarithms } from './logarithms/simplifyLogarithms'
+import { simplificationRuleEntries } from './simplificationRules'
 
 export function applySimplificationRules(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	node = simplifySigns(node, context)
-	node = simplifyConstants(node, context)
-	node = simplifySums(node, context)
-	node = simplifyProducts(node, context)
-	node = simplifyFractions(node, context)
-	node = simplifyPowers(node, context)
-	node = simplifyRoots(node, context)
-	node = simplifyLogarithms(node, context)
+	for (const [option, rule] of simplificationRuleEntries) {
+		if (context.simplificationOptions.has(option) && rule.appliesTo(node, context)) node = rule.transform(node, context)
+	}
 	return node
 }

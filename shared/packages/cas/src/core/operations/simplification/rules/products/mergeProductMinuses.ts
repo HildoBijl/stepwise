@@ -1,8 +1,10 @@
+import { isProduct, isMinus } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type SignNode, type Product, negative, product } from '../../../../construction'
 
-import { isMinus } from '../../../structural'
-
-export function mergeProductMinuses(node: Product): Product | SignNode {
+function transform(node: Product): Product | SignNode {
 	// Remove all minus signs from the factors. Count them.
 	let negativeCount = 0
 	const factors = node.factors.map(factor => {
@@ -16,3 +18,8 @@ export function mergeProductMinuses(node: Product): Product | SignNode {
 	const result = product(...factors) as Product
 	return negativeCount % 2 === 0 ? result : negative(result)
 }
+
+export const mergeProductMinuses = defineRule({
+	appliesTo: isProduct,
+	transform,
+})

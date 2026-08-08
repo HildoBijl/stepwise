@@ -1,8 +1,15 @@
-import { type SignNode, plusMinus } from '../../../../construction'
-
 import { isSignNode, isPlusMinus } from '../../../structural'
 
-export function removeDoubleSigns(node: SignNode): SignNode {
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type SignNode, plusMinus } from '../../../../construction'
+
+function transform(node: SignNode): SignNode {
 	if (isSignNode(node.node) && (isPlusMinus(node) || isPlusMinus(node.node))) return plusMinus(node.node.node)
 	return node
 }
+
+export const removeDoubleSigns = defineRule({
+	appliesTo: isSignNode,
+	transform,
+})

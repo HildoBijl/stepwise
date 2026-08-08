@@ -1,10 +1,12 @@
-import { type Fraction, sum, fraction } from '../../../../construction'
+import { isFraction, isSum } from '../../../structural'
 
-import { isSum } from '../../../structural'
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type Fraction, sum, fraction } from '../../../../construction'
 
 import { getCommonFactors, removeFactors } from '../utils'
 
-export function mergeFractionFactors(node: Fraction): Fraction {
+export function applyMergeFractionFactors(node: Fraction): Fraction {
 	// Try to find common factors in the numerator and denominator as a whole.
 	const wholeCommonFactors = getCommonFactors(node.numerator, node.denominator)
 	if (wholeCommonFactors.length > 0) return fraction(removeFactors(node.numerator, wholeCommonFactors), removeFactors(node.denominator, wholeCommonFactors))
@@ -30,3 +32,8 @@ export function mergeFractionFactors(node: Fraction): Fraction {
 	// Nothing found that can be simplified.
 	return node
 }
+
+export const mergeFractionFactors = defineRule({
+	appliesTo: isFraction,
+	transform: applyMergeFractionFactors,
+})

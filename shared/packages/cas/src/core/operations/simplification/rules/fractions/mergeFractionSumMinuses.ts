@@ -1,18 +1,25 @@
+import { isFraction, isMinus, isSum } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type ExpressionNode, type Fraction, negative, sum, fraction } from '../../../../construction'
 
-import { isMinus, isSum } from '../../../structural'
+import { applyRemoveDoubleNegatives } from '../signs/removeDoubleNegatives'
 
-import { removeDoubleNegatives } from '../signs/removeDoubleNegatives'
+import { applyMergeFractionMinuses } from './mergeFractionMinuses'
 
-import { mergeFractionMinuses } from './mergeFractionMinuses'
-
-export function mergeFractionSumMinuses(node: Fraction): ExpressionNode {
+function transform(node: Fraction): ExpressionNode {
 	const fixedNumerator = fixNegativeSum(node.numerator)
 	const fixedDenominator = fixNegativeSum(node.denominator)
 	if (node.numerator === fixedNumerator && node.denominator === fixedDenominator) return node
-	return mergeFractionMinuses(fraction(fixedNumerator, fixedDenominator))
+	return applyMergeFractionMinuses(fraction(fixedNumerator, fixedDenominator))
 }
 
 function fixNegativeSum(node: ExpressionNode): ExpressionNode {
-	return isSum(node) && node.terms.every(isMinus) ? removeDoubleNegatives(negative(sum(...node.terms.map(term => removeDoubleNegatives(negative(term)))))) : node
+	return isSum(node) && node.terms.every(isMinus) ? applyRemoveDoubleNegatives(negative(sum(...node.terms.map(term => applyRemoveDoubleNegatives(negative(term)))))) : node
 }
+
+export const mergeFractionSumMinuses = defineRule({
+	appliesTo: isFraction,
+	transform,
+})

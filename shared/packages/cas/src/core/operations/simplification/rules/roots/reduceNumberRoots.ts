@@ -1,10 +1,12 @@
+import { isPower, isRootLike, isOne, isNumberNode, isFloatNode, isIntegerNode, isFraction } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { isPerfectPower } from '@step-wise/math-tools'
 
 import { type ExpressionNode, type RootLike, type Power, integer, float } from '../../../../construction'
 
-import { isOne, isNumberNode, isFloatNode, isIntegerNode, isFraction, isPower, isRootLike } from '../../../structural'
-
-export function reduceNumberRoots(node: Power | RootLike): ExpressionNode {
+function transform(node: Power | RootLike): ExpressionNode {
 	// Get the radicand and degree, for both the Power and the Root case.
 	let radicand, degree
 	if (isPower(node)) {
@@ -24,3 +26,8 @@ export function reduceNumberRoots(node: Power | RootLike): ExpressionNode {
 	if (isIntegerNode(radicand) && isIntegerNode(degree) && isPerfectPower(radicand.value, degree.value)) return integer(Math.round(radicand.value ** (1 / degree.value)))
 	return node
 }
+
+export const reduceNumberRoots = defineRule({
+	appliesTo: (node): node is Parameters<typeof transform>[0] => isRootLike(node) || isPower(node),
+	transform,
+})

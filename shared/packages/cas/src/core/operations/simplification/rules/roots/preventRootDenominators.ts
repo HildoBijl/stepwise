@@ -1,10 +1,12 @@
-import { type ExpressionNode, type Fraction, fraction, power, product } from '../../../../construction'
+import { isFraction, isRootLike, subtract } from '../../../structural'
 
-import { isRootLike, subtract } from '../../../structural'
+import { defineRule } from '../utils/ruleDefinition'
+
+import { type ExpressionNode, type Fraction, fraction, power, product } from '../../../../construction'
 
 import { getProductFactors, getBaseAndExponent } from '../utils'
 
-export function preventRootDenominators(node: Fraction): ExpressionNode {
+function transform(node: Fraction): ExpressionNode {
 	const multiplicationFactors: ExpressionNode[] = []
 	const denominatorFactors = getProductFactors(node.denominator).map(factor => {
 		if (!isRootLike(factor)) return factor
@@ -18,3 +20,8 @@ export function preventRootDenominators(node: Fraction): ExpressionNode {
 		product(...denominatorFactors),
 	)
 }
+
+export const preventRootDenominators = defineRule({
+	appliesTo: isFraction,
+	transform,
+})

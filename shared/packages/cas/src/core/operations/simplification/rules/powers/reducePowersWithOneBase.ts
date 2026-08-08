@@ -1,7 +1,14 @@
+import { isPower, isOne } from '../../../structural'
+
+import { defineRule } from '../utils/ruleDefinition'
+
 import { type Power, Integer } from '../../../../construction'
 
-import { isOne } from '../../../structural'
-
-export function reducePowersWithOneBase(node: Power): Power | Integer {
+function transform(node: Power): Power | Integer {
 	return isOne(node.base) ? Integer.one : node
 }
+
+export const reducePowersWithOneBase = defineRule({
+	appliesTo: isPower,
+	transform,
+})
