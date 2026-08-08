@@ -1,5 +1,5 @@
 import { isPlainObject, InterpretationError } from '@step-wise/utils'
-import { type ExpressionInputValue, type EquationInputValue, type InputCursorEnd, moveRight, getSubExpression, isEquationInputValue, stringToInputValue } from '@step-wise/math-input-value'
+import { type ExpressionInputValue, type EquationInputValue, type InputCursorEnd, shiftPositionRight, getSubExpression, isEquationInputValue, isTextPart, stringToInputValue } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, isExpressionLike, Expression, asExpression } from '../expressions'
 
@@ -18,7 +18,7 @@ export function isEquationInput(value: unknown): value is EquationInput {
 function interpretInputValue(value: EquationInputValue): EquationParts {
 	const equalsPosition = findEqualsPosition(value)
 	const left: ExpressionInputValue = { ...value, value: getSubExpression(value.value, undefined, equalsPosition), type: 'Expression' }
-	const right: ExpressionInputValue = { ...value, value: getSubExpression(value.value, moveRight(equalsPosition), undefined), type: 'Expression' }
+	const right: ExpressionInputValue = { ...value, value: getSubExpression(value.value, shiftPositionRight(equalsPosition), undefined), type: 'Expression' }
 	return { left: asExpression(left), right: asExpression(right), settings: value.expressionSettings }
 }
 
@@ -43,10 +43,10 @@ export function interpretEquationInput(value: EquationInput, interpretationSetti
 function findEqualsPosition(value: EquationInputValue): InputCursorEnd {
 	let result: InputCursorEnd | undefined
 	value.value.forEach((part, partIndex) => {
-		if (part.type !== 'ExpressionPart') return
-		const cursor = part.value.indexOf('=')
+		if (!isTextPart(part)) return
+		const cursor = part.indexOf('=')
 		if (cursor === -1) return
-		if (result !== undefined || part.value.indexOf('=', cursor + 1) !== -1) throw new InterpretationError('Could not interpret the equation due to multiple equals signs being present.', 'MultipleEqualsSigns', partIndex)
+		if (result !== undefined || part.indexOf('=', cursor + 1) !== -1) throw new InterpretationError('Could not interpret the equation due to multiple equals signs being present.', 'MultipleEqualsSigns', partIndex)
 		result = { part: partIndex, cursor }
 	})
 	if (result === undefined) throw new InterpretationError('Could not interpret the equation due to no equals sign being present at the ground level of the equation.', 'MissingEqualsSign')

@@ -11,5 +11,4 @@ export type InterpreterContext = {
 	interpretSums: Interpreter
 	interpretProducts: Interpreter
 	interpretStringsAndElements: Interpreter
-	interpretConstructWithParameterAfter: (name: string, externalArgument: ExpressionNode, internalArguments: ExpressionNode[], context: InterpreterContext) => ExpressionNode
 }

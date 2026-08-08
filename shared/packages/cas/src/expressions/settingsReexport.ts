@@ -16,5 +16,5 @@ export type { TexDisplayOptions, TexDisplayOptionsInput, defaultTexDisplayOption
 
 // Accents, constructs and text functions
 export { type AccentName, accents } from '@step-wise/math-input-value'
-export { type ConstructName, constructs } from '../core'
+export { type ConstructType, constructs } from '../core'
 export { type TextFunctionName, textFunctions } from '../core'

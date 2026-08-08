@@ -7,7 +7,7 @@ The CAS interpreter turns a value from the [math-input-value](../../../../math-i
 3. **Interpret products**: Find product symbols *. Take the contents between them and throw them in the interpreter, starting from this step.
 4. **Remaining elements**: This includes both strings and elements.
   - **Strings**: Turn something like "a2.3bc" into the product of "a", 2.3, "b" and "c".
-	- **Elements**: Turn elements that were already special objects in the `ExpressionInputValue` into their `ExpressionNode` counterparts. This include:
+	- **Constructs**: Turn special objects in the `ExpressionInputValue` into their `ExpressionNode` counterparts. This includes:
 	  - **Accents**: Turn `hat(x)` into a variable.
 		- **Subscripts/superscripts**: Pull subscripts into the variable preceding it. Turn superscripts into powers.
 		- **Special functions**: Turn fractions, square roots, etcetera in the corresponding CAS equivalent.

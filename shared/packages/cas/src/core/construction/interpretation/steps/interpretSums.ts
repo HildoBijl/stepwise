@@ -1,5 +1,5 @@
 import { InterpretationError, findNextOf } from '@step-wise/utils'
-import { type InputCursorEnd, getEndCursor, getStartCursor, getSubExpression, isExpressionPart, moveRight, equalCursor } from '@step-wise/math-input-value'
+import { type InputCursorEnd, getEndCursor, getStartCursor, getSubExpression, isTextPart, shiftPositionRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
 
@@ -19,10 +19,10 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 	}
 
 	// Walk through all expression parts, find pluses and minuses, and split the expressions up there.
-	let start = getStartCursor(value)
+	let start = getStartCursor<ExpressionNode>(value)
 	value.forEach((element, part) => {
-		if (!isExpressionPart(element)) return
-		const str = element.value
+		if (!isTextPart(element)) return
+		const str = element
 		const getNextPlusMinus = (startFrom = -1) => findNextOf(str, ['+', '-', '±'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
 			let symbolAfter = str[nextPlusMinus]
@@ -46,12 +46,12 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 			// Extract the term, process it, and shift cursors.
 			addTerm(start, end, symbolBefore)
 			symbolBefore = symbolAfter
-			start = moveRight(end)
+			start = shiftPositionRight(end)
 		}
 	})
 
 	// Add the remaining part (assuming there's no plus or minus at the end).
-	const end = getEndCursor(value)
+	const end = getEndCursor<ExpressionNode>(value)
 	if (equalCursor(start, end) && symbolBefore) throw new InterpretationError(`Could not interpret the Expression due to it ending with "${symbolBefore}".`, 'PlusMinusAtEnd', symbolBefore)
 	addTerm(start, end, symbolBefore)
 

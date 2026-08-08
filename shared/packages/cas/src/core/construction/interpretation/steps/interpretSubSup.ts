@@ -7,19 +7,19 @@ import type { InterpreterContext } from '../types'
 
 // Incorporate subscript/superscript into the ALREADY EXISTING previous term.
 export function incorporateSubSup(element: SubSupInputValue, result: ExpressionNode[], context: InterpreterContext) {
-	const [sub, sup] = element.value
+	const { subscript, superscript } = element
 	const previousTerm = last(result)
 
 	// Fix the subscript.
-	if (sub) {
-		if (!(previousTerm instanceof Variable)) throw new InterpretationError(`Could not interpret the subscript "${sub.value}".`, 'MisplacedSubscript', JSON.stringify(sub.value))
-		result[result.length - 1] = new Variable(previousTerm.symbol, sub.value, previousTerm.accent)
+	if (subscript !== undefined) {
+		if (!(previousTerm instanceof Variable)) throw new InterpretationError(`Could not interpret the subscript "${subscript}".`, 'MisplacedSubscript', JSON.stringify(subscript))
+		result[result.length - 1] = new Variable(previousTerm.symbol, subscript, previousTerm.accent)
 	}
 
 	// Fix the superscript.
-	if (sup) {
+	if (superscript) {
 		const base = last(result)
 		if (!base) throw new InterpretationError('Could not interpret the superscript due to a missing term prior to it.', 'MisplacedSuperscript', '')
-		result[result.length - 1] = new Power(base, context.interpretBrackets(sup.value, context))
+		result[result.length - 1] = new Power(base, context.interpretBrackets(superscript, context))
 	}
 }

@@ -1,5 +1,5 @@
 import { compareNumbers, deepEquals, identity } from '@step-wise/utils'
-import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentExpressionParts, getExpressionPartWith } from '@step-wise/math-input-value'
+import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
 
@@ -96,7 +96,7 @@ export class Equation {
 	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): EquationInputValue {
 		const leftInputValue = this.left.toInputValue(interpretationSettings)
 		const rightInputValue = this.right.toInputValue(interpretationSettings)
-		return addEquationWrapper(mergeAdjacentExpressionParts([...leftInputValue.value, getExpressionPartWith('='), ...rightInputValue.value]), interpretationSettings, this.settings)
+		return addEquationWrapper(mergeAdjacentTextParts([...leftInputValue.value, '=', ...rightInputValue.value]), interpretationSettings, this.settings)
 	}
 
 	/*
