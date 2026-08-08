@@ -1,10 +1,8 @@
-import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Variable, Sum } from '../../../../construction'
 
-import { compareVariableNodes } from '../utils'
+import { isSum, isSignNode, isVariable, isProduct, isPower, isNumeric, isPolynomial, isRational, numericNodeToNumber, getVariables, equalVariables, dependsOn } from '../../../structural'
+
+import { defineRule, compareVariableNodes } from '../utils'
 
 function transform(node: Sum): Sum {
 	const terms = [...node.terms].sort(orderSumTerms)

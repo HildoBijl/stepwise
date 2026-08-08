@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction'
+
 import { isFraction } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Fraction): ExpressionNode {
 	const { numerator, denominator } = node

@@ -1,9 +1,8 @@
-import { isRootLike, isFraction, isPower } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Fraction, type RootLike, fraction, power, root } from '../../../../construction'
 
+import { isRootLike, isFraction, isPower } from '../../../structural'
+
+import { defineRule } from '../utils'
 import { applyMergeFractionNumbers } from '../fractions/mergeFractionNumbers'
 import { applyMergeFractionFactors } from '../fractions/mergeFractionFactors'
 
@@ -23,4 +22,5 @@ function getSimplifiedFractionExponent(fractionExponent: Fraction): Fraction {
 export const reducePowersInRoots = defineRule({
 	appliesTo: isRootLike,
 	transform,
+	requires: ['mergeFractionFactors'],
 })

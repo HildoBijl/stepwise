@@ -1,14 +1,12 @@
-import { isFraction, isOne } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { arraySplice } from '@step-wise/utils'
 
 import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction'
 
-import { type SimplificationContext } from '../../simplificationOptions'
+import { isFraction, isOne } from '../../../structural'
 
-import { getPolynomialGCD, getProductFactors } from '../utils'
+import { type SimplificationContext, normalizationRequirements } from '../../simplificationOptions'
+
+import { defineRule, getPolynomialGCD, getProductFactors } from '../utils'
 
 function transform(node: Fraction, context: SimplificationContext): ExpressionNode {
 	let numeratorFactors = getProductFactors(node.numerator)
@@ -29,4 +27,5 @@ function transform(node: Fraction, context: SimplificationContext): ExpressionNo
 export const applyPolynomialCancellation = defineRule({
 	appliesTo: isFraction,
 	transform,
+	requires: [...normalizationRequirements],
 })

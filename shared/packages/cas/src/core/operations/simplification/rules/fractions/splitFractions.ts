@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Fraction, fraction, sum } from '../../../../construction'
+
 import { isFraction, isSum } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Fraction, fraction, sum } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Fraction): ExpressionNode {
 	if (!isSum(node.numerator)) return node
@@ -12,4 +12,5 @@ function transform(node: Fraction): ExpressionNode {
 export const splitFractions = defineRule({
 	appliesTo: isFraction,
 	transform,
+	conflictsWith: ['mergeFractionSums'],
 })

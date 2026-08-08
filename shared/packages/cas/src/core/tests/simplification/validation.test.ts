@@ -1,0 +1,19 @@
+import { validateSimplificationOptions } from '../../operations/simplification/simplificationOptions'
+
+describe('simplification option validation', () => {
+	test('accepts options whose requirements are met', () => {
+		const options = new Set([
+			'removeDoubleNegatives',
+			'removeDoubleSigns',
+		] as const)
+		expect(validateSimplificationOptions(options)).toBe(options)
+	})
+
+	test('rejects a missing requirement declared by a rule', () => {
+		expect(() => validateSimplificationOptions(new Set(['removeDoubleSigns']))).toThrow('"removeDoubleSigns" requires "removeDoubleNegatives"')
+	})
+
+	test('rejects a conflict declared by the later rule', () => {
+		expect(() => validateSimplificationOptions(new Set(['mergeFractionSums', 'splitFractions']))).toThrow('"splitFractions" conflicts with "mergeFractionSums"')
+	})
+})

@@ -1,8 +1,8 @@
+import { type Sum, type Fraction, sum } from '../../../../construction'
+
 import { isSum, isMinus, isFraction, isNumeric } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type Sum, type Fraction, sum } from '../../../../construction'
+import { defineRule } from '../utils'
 
 import { applyMergeFractionSums } from './mergeFractionSums'
 

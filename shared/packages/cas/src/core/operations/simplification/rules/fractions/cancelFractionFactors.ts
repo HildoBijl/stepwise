@@ -1,10 +1,8 @@
-import { isFraction, isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
-import { getProductFactors } from '../utils'
+import { isFraction, isOne, isSignNode, isSum, equalNodes, abs } from '../../../structural'
+
+import { defineRule, getProductFactors } from '../utils'
 
 function transform(node: Fraction): ExpressionNode {
 	// Try to find common factors in the numerator and denominator as a whole.
@@ -69,4 +67,5 @@ export function removeExactFactors(node: ExpressionNode, factorsToRemove: readon
 export const cancelFractionFactors = defineRule({
 	appliesTo: isFraction,
 	transform,
+	requires: ['mergeProductMinuses', 'removeDoubleNegatives'],
 })

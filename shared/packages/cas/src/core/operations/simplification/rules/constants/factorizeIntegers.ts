@@ -1,11 +1,11 @@
-import { isIntegerNode, isPower } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
-import { sum } from '@step-wise/utils'
 import { getPrime, getPrimeFactorization } from '@step-wise/math-tools'
+import { sum } from '@step-wise/utils'
 
 import { Integer, Product, Power } from '../../../../construction'
+
+import { isIntegerNode, isPower } from '../../../structural'
+
+import { defineRule } from '../utils'
 
 function transform(node: Integer): Integer | Product | Power {
 	// Check out trivial cases.

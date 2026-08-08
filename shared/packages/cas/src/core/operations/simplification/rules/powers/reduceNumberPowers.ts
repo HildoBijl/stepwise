@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Power, integer, float, fraction, power } from '../../../../construction'
+
 import { isPower, isNumberNode, isOne, isIntegerNode, isFraction } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Power, integer, float, fraction, power } from '../../../../construction'
+import { defineRule } from '../utils'
 
 export function applyReduceNumberPowers(node: Power): ExpressionNode {
 	if (!isNumberNode(node.base)) return node
@@ -14,4 +14,5 @@ export function applyReduceNumberPowers(node: Power): ExpressionNode {
 export const reduceNumberPowers = defineRule({
 	appliesTo: isPower,
 	transform: applyReduceNumberPowers,
+	conflictsWith: ['factorizeIntegers'],
 })

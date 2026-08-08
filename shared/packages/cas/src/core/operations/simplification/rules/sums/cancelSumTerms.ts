@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Sum, sum } from '../../../../construction'
+
 import { isSum, isMinus, equalNodes } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Sum, sum } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Sum): ExpressionNode {
 	const skipped = node.terms.map(() => false)

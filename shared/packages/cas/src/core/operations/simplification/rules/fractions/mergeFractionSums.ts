@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Sum, type Fraction, negative, sum, product, fraction } from '../../../../construction'
+
 import { isSum, equalNodes, isMinus, isFraction } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Sum, type Fraction, negative, sum, product, fraction } from '../../../../construction'
+import { defineRule } from '../utils'
 
 export function applyMergeFractionSums(node: Sum): Sum | Fraction {
 	// Handle basic cases: no existing fractions, or all fractions with equal denominators.
@@ -20,4 +20,5 @@ export function applyMergeFractionSums(node: Sum): Sum | Fraction {
 export const mergeFractionSums = defineRule({
 	appliesTo: isSum,
 	transform: applyMergeFractionSums,
+	requires: ['mergeFractionProducts'],
 })

@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Product, product, sum } from '../../../../construction'
+
 import { isProduct, isSum } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Product, product, sum } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const index = node.factors.findIndex(isSum)
@@ -15,4 +15,5 @@ function transform(node: Product): ExpressionNode {
 export const expandProductsOfSums = defineRule({
 	appliesTo: isProduct,
 	transform,
+	conflictsWith: ['pullOutCommonSumNumbers', 'pullOutCommonSumFactors'],
 })

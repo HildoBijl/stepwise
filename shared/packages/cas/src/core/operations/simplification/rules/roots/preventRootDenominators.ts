@@ -1,10 +1,8 @@
-import { isFraction, isRootLike, subtract } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Fraction, fraction, power, product } from '../../../../construction'
 
-import { getProductFactors, getBaseAndExponent } from '../utils'
+import { isFraction, isRootLike, subtract } from '../../../structural'
+
+import { defineRule, getProductFactors, getBaseAndExponent } from '../utils'
 
 function transform(node: Fraction): ExpressionNode {
 	const multiplicationFactors: ExpressionNode[] = []
@@ -24,4 +22,5 @@ function transform(node: Fraction): ExpressionNode {
 export const preventRootDenominators = defineRule({
 	appliesTo: isFraction,
 	transform,
+	conflictsWith: ['mergeFractionFactors'],
 })

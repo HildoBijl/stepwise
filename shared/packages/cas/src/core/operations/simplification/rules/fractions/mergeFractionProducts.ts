@@ -1,8 +1,8 @@
+import { type Product, type Fraction, product, fraction } from '../../../../construction'
+
 import { isProduct, isFraction } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type Product, type Fraction, product, fraction } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Product): Product | Fraction {
 	if (!node.factors.some(isFraction)) return node

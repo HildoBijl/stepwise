@@ -1,8 +1,8 @@
+import { type ExpressionNode, type RootLike, Integer } from '../../../../construction'
+
 import { isRootLike, isOne } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type RootLike, Integer } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: RootLike): ExpressionNode {
 	return isOne(node.radicand) ? Integer.one : node

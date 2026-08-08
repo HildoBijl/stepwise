@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Power, fraction, power } from '../../../../construction'
+
 import { isPower, isFraction } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Power, fraction, power } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Power): ExpressionNode {
 	return isFraction(node.base) ? fraction(power(node.base.numerator, node.exponent), power(node.base.denominator, node.exponent)) : node

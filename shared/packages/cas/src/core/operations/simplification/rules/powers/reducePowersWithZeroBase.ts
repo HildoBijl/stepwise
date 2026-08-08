@@ -1,8 +1,8 @@
+import { type Power, Integer } from '../../../../construction'
+
 import { isPower, isZero } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type Power, Integer } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Power): Power | Integer {
 	return isZero(node.base) && !isZero(node.exponent) ? Integer.zero : node

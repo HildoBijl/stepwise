@@ -1,14 +1,12 @@
-import { isSum, equalNodes, isOne } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { sum as arraySum } from '@step-wise/utils'
 
 import { type ExpressionNode, type Sum, sum, product } from '../../../../construction'
 
+import { isSum, equalNodes, isOne } from '../../../structural'
+
 import { type SimplificationContext } from '../../simplificationOptions'
 
-import { getConstantAndVariablePart } from '../utils'
+import { defineRule, getConstantAndVariablePart } from '../utils'
 
 function transform(node: Sum, context: SimplificationContext): ExpressionNode {
 	// Group the terms into groups.

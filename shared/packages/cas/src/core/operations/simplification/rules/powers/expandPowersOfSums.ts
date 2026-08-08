@@ -1,11 +1,11 @@
-import { isPower, isIntegerNode, isSum } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
-import { repeatFromTo } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
+import { repeatFromTo } from '@step-wise/utils'
 
 import { type ExpressionNode, type Power, power, product, sum } from '../../../../construction'
+
+import { isPower, isIntegerNode, isSum } from '../../../structural'
+
+import { defineRule } from '../utils'
 
 function transform(node: Power): ExpressionNode {
 	if (!isSum(node.base) || !isIntegerNode(node.exponent)) return node

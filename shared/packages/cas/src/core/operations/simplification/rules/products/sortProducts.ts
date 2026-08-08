@@ -1,10 +1,8 @@
-import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Product, product } from '../../../../construction'
 
-import { compareVariableNodes } from '../utils'
+import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
+
+import { defineRule, compareVariableNodes } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const factors = [...node.factors].sort(orderProductFactors)

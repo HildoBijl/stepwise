@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Fraction, negative, fraction } from '../../../../construction'
+
 import { isFraction, isMinus } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Fraction, negative, fraction } from '../../../../construction'
+import { defineRule } from '../utils'
 
 export function applyMergeFractionMinuses(node: Fraction): ExpressionNode {
 	const numeratorIsNegative = isMinus(node.numerator)

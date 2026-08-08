@@ -1,10 +1,10 @@
-import { isProduct, isRootLike, equalNodes } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { splitArray } from '@step-wise/utils'
 
 import { type ExpressionNode, type Product, type RootLike, product } from '../../../../construction'
+
+import { isProduct, isRootLike, equalNodes } from '../../../structural'
+
+import { defineRule } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const [rootFactors, otherFactors] = splitArray(node.factors, isRootLike)
@@ -21,4 +21,5 @@ function transform(node: Product): ExpressionNode {
 export const mergeProductsOfRoots = defineRule({
 	appliesTo: (node, context): node is Parameters<typeof transform>[0] => isProduct(node) && !context.simplificationOptions.has('expandRootsOfProducts'),
 	transform,
+	conflictsWith: ['expandRootsOfProducts'],
 })

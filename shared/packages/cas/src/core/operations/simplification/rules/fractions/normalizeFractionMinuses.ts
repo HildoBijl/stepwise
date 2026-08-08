@@ -1,10 +1,10 @@
-import { isFraction, isMinus, isSum } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Fraction, fraction, negative, sum } from '../../../../construction'
 
+import { isFraction, isMinus, isSum } from '../../../structural'
+
+import { defineRule } from '../utils'
 import { applyRemoveDoubleNegatives } from '../signs/removeDoubleNegatives'
+
 import { applyMergeFractionMinuses } from './mergeFractionMinuses'
 
 function transform(node: Fraction): ExpressionNode {
@@ -20,4 +20,5 @@ function pullMinusOutOfSum(node: ExpressionNode): ExpressionNode {
 export const normalizeFractionMinuses = defineRule({
 	appliesTo: isFraction,
 	transform,
+	requires: ['mergeProductMinuses', 'sortSums', 'removeDoubleNegatives'],
 })

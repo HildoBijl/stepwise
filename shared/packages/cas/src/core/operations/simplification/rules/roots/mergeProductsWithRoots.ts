@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Product, Integer, product, fraction, power, root } from '../../../../construction'
+
 import { isProduct, isRootLike, equalNodes } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Product, Integer, product, fraction, power, root } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const newDegree = product(...node.factors.map(factor => isRootLike(factor) ? factor.degree : undefined).filter(value => value !== undefined))
@@ -13,4 +13,5 @@ function transform(node: Product): ExpressionNode {
 export const mergeProductsWithRoots = defineRule({
 	appliesTo: (node, context): node is Parameters<typeof transform>[0] => isProduct(node) && !context.simplificationOptions.has('expandRootsOfProducts'),
 	transform,
+	conflictsWith: ['expandRootsOfProducts'],
 })

@@ -1,7 +1,7 @@
 import { isReadonlyArray, isReadonlySet, union, difference } from '@step-wise/utils'
 
 import { allSimplificationOptions } from './allSimplificationOptions'
-import type { SimplificationOption, SimplificationOptions, SimplificationOptionsInput } from './types'
+import { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput } from './types'
 
 // Turn a SimplificationOptionsInput parameter into a set of simplification options. Also checks its format.
 export function resolveSimplificationOptions(options: SimplificationOptionsInput = []): SimplificationOptions {

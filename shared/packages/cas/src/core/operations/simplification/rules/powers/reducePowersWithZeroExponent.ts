@@ -1,9 +1,10 @@
+import { type Power, Integer } from '../../../../construction'
+
 import { isPower, isZero } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
+import { defineRule } from '../utils'
 
 // reducePowersWithZeroExponent.ts
-import { type Power, Integer } from '../../../../construction'
 
 function transform(node: Power): Power | Integer {
 	return isZero(node.exponent) && !isZero(node.base) ? Integer.one : node

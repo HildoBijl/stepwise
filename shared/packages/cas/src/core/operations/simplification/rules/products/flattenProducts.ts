@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Product, product } from '../../../../construction'
+
 import { isProduct } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Product, product } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const factors = node.factors.flatMap(factor => isProduct(factor) ? factor.factors : [factor])

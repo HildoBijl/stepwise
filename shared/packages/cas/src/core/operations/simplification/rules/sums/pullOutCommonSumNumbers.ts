@@ -1,12 +1,10 @@
-import { isSum, isIntegerNode } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { gcd } from '@step-wise/math-tools'
 
 import { type ExpressionNode, type Sum, integer, sum, product } from '../../../../construction'
 
-import { getLeadingNumber, divideLeadingNumberBy } from '../utils'
+import { isSum, isIntegerNode } from '../../../structural'
+
+import { defineRule, getLeadingNumber, divideLeadingNumberBy } from '../utils'
 
 // If all leading numbers are integers, and their GCD is not one, then pull out an integer.
 function transform(node: Sum): ExpressionNode {

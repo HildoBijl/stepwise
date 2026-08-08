@@ -1,8 +1,8 @@
+import { type Sqrt, type Root, Integer, root } from '../../../../construction'
+
 import { isSqrt } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type Sqrt, type Root, Integer, root } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Sqrt): Sqrt | Root {
 	return isSqrt(node) ? root(node.radicand, Integer.two) : node
@@ -11,4 +11,5 @@ function transform(node: Sqrt): Sqrt | Root {
 export const turnSqrtsIntoDegreeTwoRoots = defineRule({
 	appliesTo: isSqrt,
 	transform,
+	conflictsWith: ['turnDegreeTwoRootsIntoSqrts'],
 })

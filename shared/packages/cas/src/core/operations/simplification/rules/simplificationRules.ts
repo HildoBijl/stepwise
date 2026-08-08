@@ -8,7 +8,7 @@ import { fractionRules } from './fractions'
 import { powerRules } from './powers'
 import { rootRules } from './roots'
 import { logarithmRules } from './logarithms'
-import { type SimplificationRule } from './utils/ruleDefinition'
+import { type AnySimplificationRule } from './utils'
 
 export const simplificationRules = {
 	...signRules,
@@ -19,6 +19,6 @@ export const simplificationRules = {
 	...powerRules,
 	...rootRules,
 	...logarithmRules,
-} satisfies Record<SimplificationOption, SimplificationRule>
+} satisfies Record<SimplificationOption, AnySimplificationRule>
 
-export const simplificationRuleEntries = Object.entries(simplificationRules) as [SimplificationOption, SimplificationRule][]
+export const simplificationRuleEntries = Object.entries(simplificationRules) as [SimplificationOption, AnySimplificationRule][]

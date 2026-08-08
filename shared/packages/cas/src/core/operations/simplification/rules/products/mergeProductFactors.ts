@@ -1,10 +1,8 @@
-import { isProduct, equalNodes } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Product, power, product, sum } from '../../../../construction'
 
-import { getBaseAndExponent } from '../utils'
+import { isProduct, equalNodes } from '../../../structural'
+
+import { defineRule, getBaseAndExponent } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const groups: { base: ExpressionNode, exponents: ExpressionNode[], original: ExpressionNode }[] = []

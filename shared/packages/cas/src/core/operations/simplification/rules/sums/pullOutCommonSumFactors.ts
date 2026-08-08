@@ -1,10 +1,8 @@
-import { isSum } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Sum, product, sum } from '../../../../construction'
 
-import { getCommonFactors, removeFactors } from '../utils'
+import { isSum } from '../../../structural'
+
+import { defineRule, getCommonFactors, removeFactors } from '../utils'
 
 function transform(node: Sum): ExpressionNode {
 	const commonFactors = getCommonFactors(...node.terms)
@@ -15,4 +13,5 @@ function transform(node: Sum): ExpressionNode {
 export const pullOutCommonSumFactors = defineRule({
 	appliesTo: isSum,
 	transform,
+	requires: ['expandMinusSums', 'cancelSumTerms', 'reducePowersWithZeroExponent', 'removeOnesFromProducts', 'removeOneExponentsFromPowers', 'removeDoubleNegatives', 'flattenSums', 'flattenProducts'],
 })

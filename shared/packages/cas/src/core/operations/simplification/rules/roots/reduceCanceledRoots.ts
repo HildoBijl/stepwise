@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Power, type RootLike } from '../../../../construction'
+
 import { isPower, isRootLike, equalNodes } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Power, type RootLike } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: RootLike | Power): ExpressionNode {
 	if (isRootLike(node) && isPower(node.radicand) && equalNodes(node.radicand.exponent, node.degree)) return node.radicand.base

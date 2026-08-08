@@ -1,8 +1,8 @@
+import { type ExpressionNode, type LogLike, Integer } from '../../../../construction'
+
 import { isLogLike, isOne } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type LogLike, Integer } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: LogLike): ExpressionNode {
 	return isOne(node.argument) ? Integer.zero : node

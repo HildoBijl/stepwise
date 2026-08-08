@@ -1,7 +1,6 @@
 import { isFraction } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
+import { defineRule } from '../utils'
 import { reduceFractionsWithOneDenominator as transform } from '../utils/defaults'
 
 export const reduceFractionsWithOneDenominator = defineRule({

@@ -1,10 +1,10 @@
-import { isSum, isConstant, isFloat, numericNodeToNumber } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { sum as arraySum, splitArray } from '@step-wise/utils'
 
 import { type ExpressionNode, type Sum, integer, float, sum } from '../../../../construction'
+
+import { isSum, isConstant, isFloat, numericNodeToNumber } from '../../../structural'
+
+import { defineRule } from '../utils'
 
 function transform(node: Sum): ExpressionNode {
 	const [constants, nonConstants] = splitArray(node.terms, isConstant)

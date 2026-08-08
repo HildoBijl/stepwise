@@ -1,8 +1,8 @@
+import { type ExpressionNode, type Power, negative, power } from '../../../../construction'
+
 import { isPower, isIntegerNode, isMinus } from '../../../structural'
 
-import { defineRule } from '../utils/ruleDefinition'
-
-import { type ExpressionNode, type Power, negative, power } from '../../../../construction'
+import { defineRule } from '../utils'
 
 function transform(node: Power): ExpressionNode {
 	if (!isMinus(node.base) || !isIntegerNode(node.exponent)) return node

@@ -1,9 +1,8 @@
-import { isFraction, isMinus, isSum } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { type ExpressionNode, type Fraction, negative, sum, fraction } from '../../../../construction'
 
+import { isFraction, isMinus, isSum } from '../../../structural'
+
+import { defineRule } from '../utils'
 import { applyRemoveDoubleNegatives } from '../signs/removeDoubleNegatives'
 
 import { applyMergeFractionMinuses } from './mergeFractionMinuses'
@@ -22,4 +21,5 @@ function fixNegativeSum(node: ExpressionNode): ExpressionNode {
 export const mergeFractionSumMinuses = defineRule({
 	appliesTo: isFraction,
 	transform,
+	requires: ['mergeFractionMinuses', 'removeDoubleNegatives'],
 })

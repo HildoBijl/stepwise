@@ -1,5 +1,5 @@
-import { setToString } from '@step-wise/utils'
 import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
+import { setToString } from '@step-wise/utils'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 

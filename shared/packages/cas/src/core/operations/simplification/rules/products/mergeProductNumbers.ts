@@ -1,10 +1,10 @@
-import { isProduct, isNumberNode, isFloatNode } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { first, product as arrayProduct, splitArray } from '@step-wise/utils'
 
 import { type ExpressionNode, type Product, integer, float, product } from '../../../../construction'
+
+import { isProduct, isNumberNode, isFloatNode } from '../../../structural'
+
+import { defineRule } from '../utils'
 
 function transform(node: Product): ExpressionNode {
 	const [numberFactors, nonNumberFactors] = splitArray(node.factors, node => isNumberNode(node))
@@ -17,4 +17,5 @@ function transform(node: Product): ExpressionNode {
 export const mergeProductNumbers = defineRule({
 	appliesTo: isProduct,
 	transform,
+	conflictsWith: ['factorizeIntegers'],
 })

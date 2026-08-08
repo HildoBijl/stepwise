@@ -1,10 +1,10 @@
-import { isFloatNode } from '../../../structural'
-
-import { defineRule } from '../utils/ruleDefinition'
-
 import { compareNumbers } from '@step-wise/utils'
 
 import { Integer, Float } from '../../../../construction'
+
+import { isFloatNode } from '../../../structural'
+
+import { defineRule } from '../utils'
 
 function transform(node: Float): Integer | Float {
 	const rounded = Math.round(node.value)
