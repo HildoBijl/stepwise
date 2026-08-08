@@ -79,7 +79,11 @@ function StudentCourseList({ courses, showAddButton }) {
 	const courseOverviews = useMemo(() => sortedCourses.map(rawCourse => new Course(skillTree, courseRecordToCourseData(rawCourse))), [sortedCourses])
 	const allSkills = [...new Set(courseOverviews.map(overview => overview.allSkills).flat())] // A list of all relevant skills for all courses.
 	const skillLevelSet = useSkillLevels(allSkills) // The SkillLevelSet objects for all skills.
-	const analyses = useMemo(() => courseOverviews.map(overview => getAnalysis(overview, skillLevelSet)), [courseOverviews, skillLevelSet])
+	const skillLevelSnapshot = skillLevelSet.getSnapshot()
+	const analyses = useMemo(() => {
+		void skillLevelSnapshot // The snapshot is the invalidation token for the mutable skillLevelSet.
+		return courseOverviews.map(overview => getAnalysis(overview, skillLevelSet))
+	}, [courseOverviews, skillLevelSet, skillLevelSnapshot])
 
 	// Render all the tiles with corresponding data.
 	return <TranslationFile path={translationPath}>

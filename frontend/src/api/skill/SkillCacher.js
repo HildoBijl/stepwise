@@ -15,7 +15,6 @@ const SkillCacherContext = createContext()
 export default function SkillCacher({ children }) {
 	const [skillsToLoad, setSkillsToLoad] = useState([])
 	const skillLevelSet = useConstant(() => new SkillLevelSet(skillTree))
-	useSyncExternalStore(listener => skillLevelSet.subscribe(listener), () => skillLevelSet.getSnapshot())
 
 	// Set up handlers to track which skills to load.
 	const addSkillsToLoad = useCallback(additionSkillIds => {
@@ -92,7 +91,11 @@ export function useSkillLevels(skillIds) {
 	// Ensure the requested skills are being loaded.
 	skillIds = useConsistentValue(skillIds)
 	useSkillLoading(skillIds)
-	return useSkillLevelSet()
+
+	// Subscribe this consumer to updates in the skill level set.
+	const skillLevelSet = useSkillLevelSet()
+	useSyncExternalStore(listener => skillLevelSet.subscribe(listener), () => skillLevelSet.getSnapshot())
+	return skillLevelSet
 }
 
 // useSkillLevel takes a single skill ID and ensures it's loaded from the database. It returns the skillLevelSet object.
