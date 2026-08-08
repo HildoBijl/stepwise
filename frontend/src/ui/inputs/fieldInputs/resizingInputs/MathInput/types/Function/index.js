@@ -5,16 +5,16 @@ import { allFunctions as sqrt } from './sqrt'
 import { allFunctions as root } from './root'
 
 export const functions = {
-	frac,
-	subSup,
-	log,
-	sqrt,
-	root,
+	Fraction: frac,
+	SubSup: subSup,
+	Logarithm: log,
+	SquareRoot: sqrt,
+	Root: root,
 }
 
 // getFuncs takes an FI object and returns an object with all the functions for that FI type.
 export function getFuncs(FI) {
-	return getFuncsOf(FI.name)
+	return getFuncsOf(FI.type)
 }
 
 // getFuncsOf takes a function name and returns the functions for said function.

@@ -1,9 +1,8 @@
 // This is the template for functions like sqrt(...) which have a parameter after their term and have no other parameters.
 
-import { last } from '@step-wise/utils'
 import { getSubExpression, findNextClosingBracket } from '@step-wise/math-input-value'
 
-import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty, createConstruct } from '../..'
 import { mergeWithRight, splitToRight } from '../../support'
 
 import { allFunctions as defaultFunctions } from './default'
@@ -33,7 +32,7 @@ function create(expressionFI, part, position, name, alias) {
 
 	// Check if there is a bracket at the end of the term. If not, put everything in the function.
 	let endOfTermAfterBracket = endOfTerm
-	if (endOfTerm.cursor > 0 && value[endOfTerm.part].value[endOfTerm.cursor] === ')')
+	if (endOfTerm.cursor > 0 && value[endOfTerm.part][endOfTerm.cursor] === ')')
 		endOfTermAfterBracket = { ...endOfTerm, cursor: endOfTerm.cursor + 1 }
 
 	// Set up the new function element. 
@@ -41,13 +40,9 @@ function create(expressionFI, part, position, name, alias) {
 		type: 'Expression',
 		value: getSubExpression(value, afterAlias, endOfTerm),
 	}
-	const functionElement = {
-		type: 'Function',
-		name,
-		alias,
-	}
+	const parameters = name === 'Root' ? [{ type: 'Expression', value: [''] }, parameter] : [parameter]
+	const functionElement = createConstruct(name, alias, parameters)
 	const funcs = getFIFuncs(functionElement)
-	functionElement.value = funcs.getInitial(alias, parameter)
 
 	// Build the new Expression around it.
 	value = [
@@ -66,7 +61,7 @@ function create(expressionFI, part, position, name, alias) {
 }
 
 function getInitial(alias, parameter) {
-	return [parameter]
+	return { radicand: parameter.value }
 }
 
 function getInitialCursor(element) {
@@ -94,28 +89,23 @@ function split(FI) {
 }
 
 function removeElement(FI, withBackspace) {
-	const { alias, value } = FI
-	const parameter = last(value) // Use last to allow inheritance for multi-parameter functions.
+	const { alias } = FI
+	const part = FI.type === 'Root' ? 'radicand' : 'radicand'
+	const parameter = { type: 'Expression', value: FI[part] }
 
 	// Figure out what remains of the alias and wrap it around the parameter.
-	const leftInsertion = {
-		type: 'ExpressionPart',
-		value: withBackspace ? alias.slice(0, -1) : alias.slice(1),
-	}
-	const rightInsertion = {
-		type: 'ExpressionPart',
-		value: isFIEmpty(parameter) ? '' : ')', // When not empty, add a closing bracket.
-	}
+	const leftInsertion = withBackspace ? alias.slice(0, -1) : alias.slice(1)
+	const rightInsertion = isFIEmpty(parameter) ? '' : ')' // When not empty, add a closing bracket.
 	return {
 		type: 'Expression',
 		value: [
 			leftInsertion,
-			parameter,
+			...parameter.value,
 			rightInsertion,
 		],
 		cursor: {
 			part: 0,
-			cursor: (withBackspace ? getFIEndCursor : getFIStartCursor)(leftInsertion),
+			cursor: withBackspace ? leftInsertion.length : 0,
 		},
 	}
 }

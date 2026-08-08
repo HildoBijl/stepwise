@@ -1,4 +1,5 @@
 export * from './zooming'
+export * from './constructs'
 export * from './acceptsKey'
 export * from './merging'
 export * from './splitting'

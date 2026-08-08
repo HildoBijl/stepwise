@@ -4,7 +4,7 @@ import { getSubExpression, findEndOfFactor, addExpressionWrapper } from '@step-w
 
 import { charElementsToBounds, getClosestElement } from '../../..'
 
-import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, zoomIn } from '../..'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, zoomIn, createConstruct, getConstructPart, getFirstConstructPart } from '../..'
 import { mergeWithLeft, mergeWithRight, splitToLeft, splitToRight } from '../../support'
 
 import { allFunctions as defaultFunctions } from './with1In0After'
@@ -43,12 +43,8 @@ function create(expressionFI, part, position, name, alias) {
 	]
 
 	// Set up the element.
-	const functionElement = {
-		type: 'Function',
-		name,
-	}
+	const functionElement = createConstruct(name, alias, parameters)
 	const funcs = getFIFuncs(functionElement)
-	functionElement.value = funcs.getInitial(alias, parameters)
 
 	// Build the new Expression around it.
 	value = [
@@ -72,8 +68,8 @@ function getInitial(alias, parameters) {
 
 function getInitialCursor(element) {
 	// Find the first part that exists.
-	const part = element.value.findIndex(elementPart => !!elementPart)
-	return { part, cursor: getFIStartCursor(element.value[part]) }
+	const part = getFirstConstructPart(element)
+	return { part, cursor: getFIStartCursor(getConstructPart(element, part)) }
 }
 
 function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
@@ -92,8 +88,9 @@ function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contents
 		if (canMoveCursorVertically && !canChildMoveCursorVertically) {
 			// Use the current cursor coordinates to get the appropriate cursor position.
 			const upFirst = funcs.isUpFirst()
-			const part = up === upFirst ? 0 : 1
-			const element = FI.value[part]
+			const parts = FI.type === 'Fraction' ? ['numerator', 'denominator'] : ['subscript', 'superscript']
+			const part = parts[up === upFirst ? 0 : 1]
+			const element = getConstructPart(FI, part)
 			const partCharElements = charElements[funcs.valuePartToCharPart(part)]
 			const boundsData = charElementsToBounds(partCharElements)
 			const cursorRect = cursorElement.getBoundingClientRect()
@@ -115,8 +112,9 @@ function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contents
 function canMoveCursorVertically(FI, up) {
 	// Check if we can move vertically in this part.
 	const upFirst = getFIFuncs(FI).isUpFirst()
-	const { value, cursor } = FI
-	if ((cursor.part === 0 && up !== upFirst && value[1]) || (cursor.part === 1 && up === upFirst && value[0]))
+	const { cursor } = FI
+	const parts = FI.type === 'Fraction' ? ['numerator', 'denominator'] : ['subscript', 'superscript']
+	if ((cursor.part === parts[0] && up !== upFirst && FI[parts[1]] !== undefined) || (cursor.part === parts[1] && up === upFirst && FI[parts[0]] !== undefined))
 		return true
 
 	// Check if the child allows us to move vertically.
@@ -130,7 +128,7 @@ function canMoveCursorOutside(FI, toRight) {
 function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const charPart = getClosestElement(coordinates, boundsData, false)
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
-	const element = FI.value[part]
+	const element = getConstructPart(FI, part)
 	const newCursor = getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
 	return newCursor === undefined ? undefined : {
 		part,
@@ -144,18 +142,20 @@ function merge(FI, partIndex, mergeWithNext, fromOutside) {
 
 function split(FI) {
 	const { cursor } = FI
-	return cursor.part === 0 ? splitToLeft(FI) : splitToRight(FI)
+	const firstPart = FI.type === 'Fraction' ? 'numerator' : 'subscript'
+	return cursor.part === firstPart ? splitToLeft(FI) : splitToRight(FI)
 }
 
 function shouldRemove(FI) {
-	return FI.value.every(element => !element || isFIEmpty(element))
+	return (FI.type === 'Fraction' ? ['numerator', 'denominator'] : ['subscript', 'superscript']).every(part => FI[part] === undefined || isFIEmpty(getConstructPart(FI, part)))
 }
 
 function removeElement(FI) {
-	const [num, den] = FI.value
+	const num = { type: 'Expression', value: FI.numerator }
+	const den = { type: 'Expression', value: FI.denominator }
 	return {
 		type: 'Expression',
-		value: [num, den],
-		cursor: { part: 1, cursor: getFIStartCursor(den) },
+		value: [...num.value, ...den.value],
+		cursor: { part: num.value.length, cursor: getFIStartCursor(den).cursor },
 	}
 }

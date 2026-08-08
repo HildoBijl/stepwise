@@ -1,12 +1,12 @@
-import { first, last } from '@step-wise/utils'
 import { getSubExpression, findEndOfFactor } from '@step-wise/math-input-value'
 
-import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'
+import { expressionFunctions, getFIStartCursor, getFIEndCursor, getConstructPart, getFirstConstructPart } from '..'
 
 export function mergeWithLeft(FI, partIndex, fromOutside) {
 	const { value } = FI
 	const element = value[partIndex]
-	const parameter = first(element.value)
+	const parameterPart = getFirstConstructPart(element)
+	const parameter = getConstructPart(element, parameterPart)
 	
 	// Get the part that needs to be pulled in.
 	const { toPullIn, toLeaveBehind, cursorAtBreak } = getMergeParts(value, partIndex, false, true)
@@ -32,10 +32,7 @@ export function mergeWithLeft(FI, partIndex, fromOutside) {
 	// Set up the adjusted element.
 	const newElement = {
 		...element,
-		value: [
-			newParameter,
-			...element.value.slice(1),
-		],
+		[parameterPart]: newParameter.value,
 	}
 
 	// Set up the complete expression.
@@ -49,7 +46,7 @@ export function mergeWithLeft(FI, partIndex, fromOutside) {
 		cursor: {
 			part: toLeaveBehind.length,
 			cursor: {
-				part: 0,
+				part: parameterPart,
 				cursor: expressionFunctions.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
 			},
 		},
@@ -59,7 +56,8 @@ export function mergeWithLeft(FI, partIndex, fromOutside) {
 export function mergeWithRight(FI, partIndex) {
 	const { value } = FI
 	const element = value[partIndex]
-	const parameter = last(element.value)
+	const parameterPart = getFirstConstructPart(element, true)
+	const parameter = getConstructPart(element, parameterPart)
 
 	// Get the part that needs to be pulled in.
 	const { toPullIn, toLeaveBehind } = getMergeParts(value, partIndex, true, true)
@@ -76,10 +74,7 @@ export function mergeWithRight(FI, partIndex) {
 	// Set up the adjusted element.
 	const newElement = {
 		...element,
-		value: [
-			...element.value.slice(0,-1),
-			newParameter,
-		],
+		[parameterPart]: newParameter.value,
 	}
 
 	// Set up the complete expression.
@@ -93,7 +88,7 @@ export function mergeWithRight(FI, partIndex) {
 		cursor: {
 			part: partIndex,
 			cursor: {
-				part: element.value.length - 1,
+				part: parameterPart,
 				cursor: getFIEndCursor(parameter), // Put the cursor at the end of the previous parameter.
 			},
 		},

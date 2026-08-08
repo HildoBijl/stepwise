@@ -11,7 +11,7 @@ import { allFunctions as expressionPartFunctions } from '../ExpressionPart'
 import { functions } from '../Function'
 import { accents } from '../Accent'
 
-import { zoomIn, zoomInAt } from './zooming'
+import { asFI, zoomIn, zoomInAt, fromFI } from './zooming'
 
 export function cleanUp(FI, settings) {
 	const hasCursor = !!FI.cursor
@@ -19,16 +19,13 @@ export function cleanUp(FI, settings) {
 	// Step 1 is to clean up all the elements individually.
 	FI = cleanUpElements(FI, settings)
 
-	// Step 2 is to flatten all expressions inside of the expression array.
-	FI = flattenExpressionArray(FI)
-
-	// Step 3 is to remove all unnecessary elements.
+	// Step 2 is to remove all unnecessary elements.
 	FI = removeUnnecessaryElements(FI)
 
-	// Step 4 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
+	// Step 3 is to ensure that the expression consists of alternating text parts (even indices) and constructs/accents (odd indices).
 	FI = alternateExpressionParts(FI, settings)
 
-	// Step 5 is to auto-replace functions. The auto-replace on ExpressionPart level for symbols (Greek alphabet, plus/minus, ...) was already done by cleaning them (and running an extra cleaning upon merging) but this concerns expression-wide auto-replace like functions (root, log, ...) and accents (dot, hat, ...).
+	// Step 4 is to auto-replace constructs and accents. Symbol replacement within text parts was already applied while cleaning the individual elements.
 	FI = applyAutoReplace(FI, settings)
 
 	// Return the result with or without a cursor.
@@ -45,7 +42,7 @@ function cleanUpElements(FI, settings) {
 		const newElement = cleanUp ? cleanUp(newElementUncleaned, settings) : newElementUncleaned
 		if (cursor?.part === part)
 			newCursor = { part, cursor: newElement.cursor }
-		return removeCursor(newElement)
+		return fromFI(newElement)
 	})
 	return {
 		...FI,
@@ -54,54 +51,17 @@ function cleanUpElements(FI, settings) {
 	}
 }
 
-// flattenExpressionArray will take an expression FI object and walk through the array. If there is an expression as an element, this expression is expanded. So an expression like ['a*', ['b','c'], '+d'] will be flattened to a single array. Flattening is done recursively. The cursor will be kept on the same place in the respective element.
-function flattenExpressionArray(FI) {
-	const { value, cursor } = FI
-
-	// If there is no cursor, just flatten the arrays.
-	if (!cursor)
-		return { ...FI, value: flattenExpressionArraysFromValue(value) }
-
-	// There is a cursor. Find the element the cursor is in, so we can track it later on.
-	let valueIterator = value
-	let cursorIterator = cursor
-	while (valueIterator[cursorIterator.part].type === 'Expression') {
-		valueIterator = valueIterator[cursorIterator.part].value
-		cursorIterator = cursorIterator.cursor
-	}
-	const cursorElement = valueIterator[cursorIterator.part]
-	const cursorElementCursor = cursorIterator.cursor
-
-	// Flatten the expression array.
-	let newValue = flattenExpressionArraysFromValue(value)
-
-	// Retrace the position of the cursor.
-	let newCursor = {
-		part: newValue.indexOf(cursorElement),
-		cursor: cursorElementCursor,
-	}
-
-	return {
-		...FI,
-		value: newValue,
-		cursor: newCursor,
-	}
-}
-
-function flattenExpressionArraysFromValue(value) {
-	return value.map(element => element.type === 'Expression' ? flattenExpressionArraysFromValue(element.value) : element).flat()
-}
-
 function removeUnnecessaryElements(FI) {
 	const { value, cursor } = FI
 	const activeElement = cursor && value[cursor.part]
 	const filteredValue = value.filter((element, index) => { // Remove pointless object.
 		if (cursor?.part === index)
 			return true // The cursor is in here. Keep it.
-		const funcs = getFIFuncs(element)
+		const elementFI = asFI(element)
+		const funcs = getFIFuncs(elementFI)
 		if (!funcs.shouldRemove)
 			return true // No removal function specified. Keep it.
-		return !funcs.shouldRemove(element) // Let the object decide.
+		return !funcs.shouldRemove(elementFI) // Let the object decide.
 	})
 	return {
 		...FI,
@@ -125,30 +85,30 @@ function alternateExpressionParts(FI, settings) {
 	let newCursor = undefined // Will be assigned once we get to the element the cursor points to.
 
 	// Ensure an expression part at the start.
-	newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
+	newValue.push(expressionPartFunctions.getEmpty())
 
 	// Walk through all elements and add them one by one in the appropriate way.
 	value.forEach((element, index) => {
 		const lastAddedElement = last(newValue)
-		if (element.type === 'ExpressionPart' && lastAddedElement.type === 'ExpressionPart') {
+		if (typeof element === 'string' && typeof lastAddedElement === 'string') {
 			// Two ExpressionParts in a row. Merge them. And if the cursor is in this merged ExpressionPart, position it appropriately. Also run a clean-up, in case this merging creates auto-replace options.
 			let jointCursor = undefined
 			if (cursor?.part === index)
-				jointCursor = lastAddedElement.value.length + cursor.cursor
+				jointCursor = lastAddedElement.length + cursor.cursor
 			if (newCursor && newCursor.part === newValue.length - 1)
 				jointCursor = newCursor.cursor
 			const newExpressionPart = expressionPartFunctions.cleanUp({
-				...lastAddedElement,
-				value: lastAddedElement.value + element.value,
+				type: 'ExpressionPart',
+				value: lastAddedElement + element,
 				cursor: jointCursor,
 			}, settings)
 			if (jointCursor !== undefined)
 				newCursor = { part: newValue.length - 1, cursor: newExpressionPart.cursor }
-			newValue[newValue.length - 1] = removeCursor(newExpressionPart)
+			newValue[newValue.length - 1] = newExpressionPart.value
 		} else {
 			// If there are two special parts in a row, add an empty ExpressionPart in-between.
-			if (element.type !== 'ExpressionPart' && lastAddedElement.type !== 'ExpressionPart')
-				newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
+			if (typeof element !== 'string' && typeof lastAddedElement !== 'string')
+				newValue.push(expressionPartFunctions.getEmpty())
 
 			// Add the new part and keep the cursor on it if needed.
 			newValue.push(element)
@@ -158,8 +118,8 @@ function alternateExpressionParts(FI, settings) {
 	})
 
 	// Ensure an expression part at the end.
-	if (last(newValue).type !== 'ExpressionPart')
-		newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
+	if (typeof last(newValue) !== 'string')
+		newValue.push(expressionPartFunctions.getEmpty())
 
 	return {
 		...FI,

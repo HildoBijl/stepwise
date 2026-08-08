@@ -1,6 +1,6 @@
 // This is the template for functions like root(...) which have a parameter after their term but also have a parameter earlier, like root[3](8).
 
-import { getFIFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd, zoomIn } from '../..'
+import { getFIFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd, zoomIn, getConstructPart } from '../..'
 import { mergeWithLeft, mergeWithRight, splitToLeft, splitToRight } from '../../support'
 
 import { allFunctions as defaultFunctions } from './with1In0After'
@@ -16,20 +16,11 @@ export const allFunctions = {
 }
 
 function getInitial(alias, parameter) {
-	return [
-		{
-			type: 'Expression',
-			value: [{
-				type: 'ExpressionPart',
-				value: '',
-			}]
-		},
-		parameter,
-	]
+	return { degree: [''], radicand: parameter.value }
 }
 
 function getInitialCursor(element) {
-	return { part: 1, cursor: getFIStartCursor(element.value[1]) }
+	return { part: 'radicand', cursor: getFIStartCursor(getConstructPart(element, 'radicand')) }
 }
 
 function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
@@ -52,5 +43,5 @@ function merge(FI, partIndex, mergeWithNext, fromOutside) {
 
 function split(FI) {
 	const { cursor } = FI
-	return cursor.part === 0 ? splitToLeft(FI) : splitToRight(FI)
+	return cursor.part === 'degree' ? splitToLeft(FI) : splitToRight(FI)
 }

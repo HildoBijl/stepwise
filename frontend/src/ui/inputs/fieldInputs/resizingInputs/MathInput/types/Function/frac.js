@@ -14,8 +14,10 @@ export const allFunctions = {
 }
 
 function toLatex(FI, options) {
-	const { value } = FI
-	const [numLatex, denLatex] = value.map(element => getFIFuncs(element).toLatex(element, options))
+	const numerator = { type: 'Expression', value: FI.numerator }
+	const denominator = { type: 'Expression', value: FI.denominator }
+	const numLatex = getFIFuncs(numerator).toLatex(numerator, options)
+	const denLatex = getFIFuncs(denominator).toLatex(denominator, options)
 
 	return {
 		latex: `\\frac{${numLatex.latex}}{${denLatex.latex}}`,
@@ -24,11 +26,11 @@ function toLatex(FI, options) {
 }
 
 function charPartToValuePart(part) {
-	return 1 - part
+	return part === 0 ? 'denominator' : 'numerator'
 }
 
 function valuePartToCharPart(part) {
-	return 1 - part
+	return part === 'numerator' ? 1 : 0
 }
 
 function isUpFirst() {
@@ -36,8 +38,7 @@ function isUpFirst() {
 }
 
 function getInitialCursor(element) {
-	const part = 1
-	return { part, cursor: getFIStartCursor(element.value[part]) }
+	return { part: 'denominator', cursor: getFIStartCursor({ type: 'Expression', value: element.denominator }) }
 }
 
 function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {

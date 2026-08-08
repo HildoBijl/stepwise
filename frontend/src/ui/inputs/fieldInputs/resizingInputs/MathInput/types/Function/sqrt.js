@@ -6,11 +6,12 @@ export const allFunctions = {
 	...defaultFunctions,
 	aliases: ['sqrt('],
 	toLatex,
+	charPartToValuePart: () => 'radicand',
+	valuePartToCharPart: () => 0,
 }
 
 function toLatex(FI, options) {
-	const { value } = FI
-	const [parameter] = value
+	const parameter = { type: 'Expression', value: FI.radicand }
 	const parameterLatex = getFIFuncs(parameter).toLatex(parameter, options)
 	return {
 		latex: `\\sqrt{${parameterLatex.latex}\\,}`,

@@ -7,11 +7,12 @@ export const allFunctions = {
 	aliases: ['log('],
 	toLatex,
 	getInitial,
+	charPartToValuePart: () => 'base',
+	valuePartToCharPart: () => 0,
 }
 
 function toLatex(FI, options) {
-	const { value } = FI
-	const [parameter] = value
+	const parameter = { type: 'Expression', value: FI.base }
 	const parameterLatex = getFIFuncs(parameter).toLatex(parameter, options)
 	const nameCharsArray = 'log'.split('')
 	nameCharsArray.include = false // Make sure that the name cannot be clicked on for cursor positioning.
@@ -29,13 +30,5 @@ function toLatex(FI, options) {
 }
 
 function getInitial() {
-	return [{
-		type: 'Expression',
-		value: [
-			{
-				type: 'ExpressionPart',
-				value: '10',
-			},
-		],
-	}]
+	return { base: ['10'] }
 }

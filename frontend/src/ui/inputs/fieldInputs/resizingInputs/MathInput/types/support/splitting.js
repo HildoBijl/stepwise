@@ -2,28 +2,19 @@ import { first } from '@step-wise/utils'
 
 import { removeCursor } from '../../../../FieldInput'
 
-import { getFIStartCursor } from '..'
+import { getFIStartCursor, getFirstConstructPart } from '..'
 
 import { zoomIn } from './zooming'
 
 // splitToLeft takes an element data object and splits it at the cursor position. It returns an expression representing the resulting split.
 export function splitToLeft(FI) {
-	const { value } = FI
 	const split = splitAtCursor(zoomIn(FI))
-
-	// Set up the new parameter.
-	const newParameter = {
-		type: 'Expression',
-		value: split.right, // Keep the right part of the parameter.
-	}
+	const parameterPart = getFirstConstructPart(FI)
 
 	// Set up the new element.
 	const newElement = {
 		...removeCursor(FI),
-		value: [
-			newParameter,
-			...value.slice(1),
-		],
+		[parameterPart]: split.right, // Keep the right part of the parameter.
 	}
 
 	// Set up an expression for the final split result.
@@ -42,22 +33,13 @@ export function splitToLeft(FI) {
 
 // splitToRight is identical to splitToLeft, but then the split is performed to the right.
 export function splitToRight(FI) {
-	const { value } = FI
 	const split = splitAtCursor(zoomIn(FI))
-
-	// Set up the new parameter.
-	const newParameter = {
-		type: 'Expression',
-		value: split.left, // Keep the left part of the parameter.
-	}
+	const parameterPart = getFirstConstructPart(FI, true)
 
 	// Set up the new element.
 	const newElement = {
 		...removeCursor(FI),
-		value: [
-			...value.slice(0, -1),
-			newParameter,
-		],
+		[parameterPart]: split.left, // Keep the left part of the parameter.
 	}
 
 	// Set up an expression for the final split result.
@@ -84,16 +66,10 @@ export function splitAtCursor(FI) {
 	return {
 		left: [
 			...value.slice(0, cursor.part),
-			{
-				...removeCursor(activeElementData),
-				value: activeElementData.value.substring(0, activeElementData.cursor),
-			},
+			activeElementData.value.substring(0, activeElementData.cursor),
 		],
 		right: [
-			{
-				...removeCursor(activeElementData),
-				value: activeElementData.value.substring(activeElementData.cursor),
-			},
+			activeElementData.value.substring(activeElementData.cursor),
 			...value.slice(cursor.part + 1),
 		],
 	}

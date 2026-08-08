@@ -38,8 +38,8 @@ export function create(expressionFI, part, position, name, alias) {
 	// Check if there is a bracket after the alias. If not, leave the accent empty.
 	let parameter = ''
 	let continueFrom = afterAlias
-	if (endOfTerm.cursor > 0 && value[endOfTerm.part].value[endOfTerm.cursor] === ')') {
-		parameter = expressionPart.value.substring(positionAfter, endOfTerm.cursor)
+	if (endOfTerm.cursor > 0 && value[endOfTerm.part][endOfTerm.cursor] === ')') {
+		parameter = expressionPart.substring(positionAfter, endOfTerm.cursor)
 		continueFrom = { ...endOfTerm, cursor: endOfTerm.cursor + 1 }
 	}
 

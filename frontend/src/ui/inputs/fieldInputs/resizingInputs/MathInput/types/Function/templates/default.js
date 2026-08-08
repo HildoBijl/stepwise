@@ -3,17 +3,13 @@
 import { first } from '@step-wise/utils'
 import { getSubExpression } from '@step-wise/math-input-value'
 
-import { removeCursor } from '../../../../../FieldInput'
-
 import { getClosestElement } from '../../../support'
 
-import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, FIAcceptsKey, zoomIn, zoomInAt } from '../..'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, FIAcceptsKey, zoomIn, zoomInAt, fromFI, getConstructPart, getConstructPartNames, getFirstConstructPart } from '../..'
 import { getKeyPressHandlers, isCursorKey } from '../../support'
-import { allFunctions as expressionFunctions } from '../../Expression'
 
 export const allFunctions = {
 	create,
-	getInitial,
 	getInitialCursor,
 	toLatex,
 	charPartToValuePart,
@@ -28,7 +24,6 @@ export const allFunctions = {
 	getEndCursor,
 	isCursorAtStart,
 	isCursorAtEnd,
-	getEmpty,
 	isEmpty,
 	cleanUp,
 	removeElementFromExpression,
@@ -37,9 +32,9 @@ export const allFunctions = {
 
 export function create(expressionFI, part, position, name, alias) {
 	// Set up the new function element.
-	const functionElement = { type: 'Function', name, alias }
+	const functionElement = { type: name, alias }
 	const funcs = getFIFuncs(functionElement)
-	functionElement.value = funcs.getInitial(alias)
+	Object.assign(functionElement, funcs.getInitial(alias))
 
 	// Define cursors.
 	const start = getFIStartCursor(expressionFI)
@@ -66,16 +61,12 @@ export function create(expressionFI, part, position, name, alias) {
 	}
 }
 
-export function getInitial(alias) {
-	return getEmpty()
-}
-
 export function getInitialCursor(element) {
-	return getFIFuncs(element).getStartCursor(element.value)
+	return getFIFuncs(element).getStartCursor(element)
 }
 
 export function toLatex(FI) {
-	throw new Error(`Missing function error: the function component "${FI && FI.name}" has not implemented the toLatex function.`)
+	throw new Error(`Missing construct error: the construct component "${FI?.type}" has not implemented the toLatex function.`)
 }
 
 export function charPartToValuePart(part) {
@@ -102,7 +93,8 @@ export function acceptsKey(keyInfo, FI, settings) {
 
 export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const { value, cursor } = FI
+	const { cursor } = FI
+	const parts = getConstructPartNames(FI)
 	const activeElementFI = zoomIn(FI)
 
 	// Verify the key.
@@ -112,15 +104,15 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	const { identity, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtFIStart(activeElementFI))
+	if (key === 'ArrowLeft' && parts.indexOf(cursor.part) > 0 && isCursorAtFIStart(activeElementFI))
 		return moveLeft()
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && isCursorAtFIEnd(activeElementFI))
+	if (key === 'ArrowRight' && parts.indexOf(cursor.part) < parts.length - 1 && isCursorAtFIEnd(activeElementFI))
 		return moveRight()
 
 	// When the cursor is at the start of an element and a backspace is pressed, or at the end of an element and a delete is pressed, move the cursor too.
-	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtStart(value, cursor))
+	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtStart(FI, cursor))
 		return moveLeft()
-	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtEnd(value, cursor))
+	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtEnd(FI, cursor))
 		return moveRight()
 
 	// Pass on to the appropriate child element.
@@ -136,7 +128,7 @@ export function canMoveCursorVertically(FI, up) {
 export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
 	const charPart = first(trace)
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
-	const element = FI.value[part]
+	const element = getConstructPart(FI, part)
 
 	// If no element can be traced, then most likely the user clicked on the function name. Return undefined to indicate we cannot use the element to trace the cursor position.
 	if (!element)
@@ -153,7 +145,7 @@ export function charElementClickToCursor(evt, FI, trace, charElements, equationE
 export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const charPart = getClosestElement(coordinates, boundsData)
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
-	const element = FI.value[part]
+	const element = getConstructPart(FI, part)
 	const newCursor = getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
 	return newCursor === undefined ? undefined : {
 		part,
@@ -161,52 +153,42 @@ export function coordinatesToCursor(coordinates, boundsData, FI, charElements, c
 	}
 }
 
-export function getFirstParameterIndex(value, backwards) {
-	if (backwards)
-		return value.length - 1 - getFirstParameterIndex([...value].reverse(), false)
-	return value.findIndex(element => !!element)
+export function getStartCursor(element) {
+	const part = getFirstConstructPart(element)
+	return { part, cursor: getFIStartCursor(getConstructPart(element, part)) }
 }
 
-export function getStartCursor(value) {
-	const part = getFirstParameterIndex(value)
-	return { part, cursor: getFIStartCursor(value[part]) }
+export function getEndCursor(element) {
+	const part = getFirstConstructPart(element, true)
+	return { part, cursor: getFIEndCursor(getConstructPart(element, part)) }
 }
 
-export function getEndCursor(value) {
-	const part = getFirstParameterIndex(value, true)
-	return { part, cursor: getFIEndCursor(value[part]) }
+export function isCursorAtStart(element, cursor) {
+	const part = getFirstConstructPart(element)
+	return cursor.part === part && isCursorAtFIStart(zoomIn({ ...element, cursor }))
 }
 
-export function isCursorAtStart(value, cursor) {
-	const part = getFirstParameterIndex(value)
-	const FI = { type: 'Function', value, cursor }
-	return cursor.part === part && isCursorAtFIStart(zoomIn(FI))
-}
-
-export function isCursorAtEnd(value, cursor) {
-	const part = getFirstParameterIndex(value, true)
-	const FI = { type: 'Function', value, cursor }
-	return cursor.part === part && isCursorAtFIEnd(zoomIn(FI))
-}
-
-export function getEmpty(numParameters = 1) {
-	return (new Array(numParameters)).fill(0).map(() => ({ type: 'Expression', value: expressionFunctions.getEmpty() }))
+export function isCursorAtEnd(element, cursor) {
+	const part = getFirstConstructPart(element, true)
+	return cursor.part === part && isCursorAtFIEnd(zoomIn({ ...element, cursor }))
 }
 
 export function isEmpty(value) {
-	return value.every(element => isFIEmpty(element))
+	return getConstructPartNames(value).every(part => isFIEmpty(getConstructPart(value, part)))
 }
 
 export function cleanUp(FI, settings) {
-	const { value, cursor } = FI
+	const { cursor } = FI
+	const parts = getConstructPartNames(FI)
 
 	// Clean up the parts individually, keeping track of the cursor.
 	let newCursor = undefined
-	const newValue = value.map((_, part) => {
+	const newValues = {}
+	parts.forEach(part => {
 		// Extract the element.
 		const element = zoomInAt(FI, part)
 		if (!element)
-			return element
+			return
 
 		// Clean up the element if we can.
 		const cleanUp = getFIFuncs(element).cleanUp
@@ -215,13 +197,13 @@ export function cleanUp(FI, settings) {
 		// Extract the possibly adjusted cursor positions.
 		if (cursor?.part === part)
 			newCursor = { part, cursor: cleanedElement.cursor }
-		return removeCursor(cleanedElement)
+		newValues[part] = fromFI(cleanedElement).value ?? fromFI(cleanedElement)
 	})
 
 	// Assemble everything.
 	return {
 		...FI,
-		value: newValue,
+		...newValues,
 		cursor: newCursor,
 	}
 }
@@ -230,14 +212,13 @@ export function removeElementFromExpression(expressionValue, partIndex, withBack
 	// Find what we replace the element by.
 	const element = expressionValue[partIndex]
 	const removedElement = getFIFuncs(element).removeElement(element, withBackspace)
+	const replacementValue = removedElement.type === 'Expression' ? removedElement.value : [fromFI(removedElement)]
+	const replacementCursor = removedElement.type === 'Expression' ? removedElement.cursor : { part: 0, cursor: removedElement.cursor }
 
 	// Check if the expression part after this function started with a closing bracket. So effectively, the function was empty. In that case, remove the closing bracket too.
 	let expressionPartAfter = expressionValue[partIndex + 1]
-	if (expressionPartAfter.value[0] === ')') {
-		expressionPartAfter = {
-			...expressionPartAfter,
-			value: expressionPartAfter.value.slice(1),
-		}
+	if (expressionPartAfter[0] === ')') {
+		expressionPartAfter = expressionPartAfter.slice(1)
 	}
 
 	// Merge it all into a new expression.
@@ -245,13 +226,13 @@ export function removeElementFromExpression(expressionValue, partIndex, withBack
 		type: 'Expression',
 		value: [
 			...expressionValue.slice(0, partIndex),
-			removeCursor(removedElement),
+			...replacementValue,
 			expressionPartAfter,
 			...expressionValue.slice(partIndex + 2),
 		],
 		cursor: {
-			part: partIndex,
-			cursor: removedElement.cursor,
+			part: partIndex + replacementCursor.part,
+			cursor: replacementCursor.cursor,
 		},
 	}
 }

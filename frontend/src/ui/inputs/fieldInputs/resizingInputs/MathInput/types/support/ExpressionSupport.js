@@ -1,14 +1,13 @@
 import { arraySplice } from '@step-wise/utils'
 
-import { removeCursor } from '../../../../FieldInput'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor } from '..'
 
-import { getFIFuncs } from '..'
-
-import { zoomIn } from './zooming'
+import { zoomIn, fromFI } from './zooming'
+import { getConstructPart, getConstructPartNames } from './constructs'
 
 // getKeyPressHandlers returns a couple of handlers useful for key presses. It returns { identity, moveLeft, moveRight } where identity passes on the call to the active child element, moveLeft moves the cursor an element to the left and moveRight moves the cursor an element to the right.
 export function getKeyPressHandlers(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
-	const { value, cursor } = FI
+	const { cursor } = FI
 	const funcs = getFIFuncs(FI)
 	const activeElementFI = zoomIn(FI)
 	const activeElementFuncs = getFIFuncs(activeElementFI)
@@ -16,23 +15,39 @@ export function getKeyPressHandlers(keyInfo, FI, settings, charElements, topPare
 	const identity = () => {
 		const charPart = (funcs.valuePartToCharPart ? funcs.valuePartToCharPart(cursor.part) : cursor.part)
 		const adjustedElement = activeElementFuncs.keyPressToFI(keyInfo, activeElementFI, settings, charElements && charElements[charPart], topParentFI, contentsElement, cursorElement)
-		return {
-			...FI,
-			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),
-			cursor: { ...cursor, cursor: adjustedElement.cursor },
+		if (FI.type === 'Expression' || FI.type === 'Equation') {
+			if (adjustedElement.type === 'Expression') {
+				return {
+					...FI,
+					value: arraySplice(FI.value, cursor.part, 1, ...adjustedElement.value),
+					cursor: { part: cursor.part + adjustedElement.cursor.part, cursor: adjustedElement.cursor.cursor },
+				}
+			}
+			return { ...FI, value: arraySplice(FI.value, cursor.part, 1, fromFI(adjustedElement)), cursor: { ...cursor, cursor: adjustedElement.cursor } }
 		}
+		return { ...FI, [cursor.part]: adjustedElement.value, cursor: { ...cursor, cursor: adjustedElement.cursor } }
 	}
 
 	const moveLeft = () => {
-		const part = cursor.part - 1
-		const prevElement = value[part]
-		return { ...FI, cursor: { part, cursor: getFIFuncs(prevElement).getEndCursor(prevElement.value) } } // Move to the end of the previous element.
+		if (FI.type === 'Expression' || FI.type === 'Equation') {
+			const part = cursor.part - 1
+			const previousElement = FI.value[part]
+			return { ...FI, cursor: { part, cursor: getFIEndCursor(previousElement) } } // Move to the end of the previous element.
+		}
+		const parts = getConstructPartNames(FI)
+		const part = parts[parts.indexOf(cursor.part) - 1]
+		return { ...FI, cursor: { part, cursor: getFIEndCursor(getConstructPart(FI, part)) } }
 	}
 
 	const moveRight = () => {
-		const part = cursor.part + 1
-		const nextElement = value[part]
-		return { ...FI, cursor: { part, cursor: getFIFuncs(nextElement).getStartCursor(nextElement.value) } } // Move to the start of the next element.
+		if (FI.type === 'Expression' || FI.type === 'Equation') {
+			const part = cursor.part + 1
+			const nextElement = FI.value[part]
+			return { ...FI, cursor: { part, cursor: getFIStartCursor(nextElement) } } // Move to the start of the next element.
+		}
+		const parts = getConstructPartNames(FI)
+		const part = parts[parts.indexOf(cursor.part) + 1]
+		return { ...FI, cursor: { part, cursor: getFIStartCursor(getConstructPart(FI, part)) } }
 	}
 
 	return { identity, moveLeft, moveRight }

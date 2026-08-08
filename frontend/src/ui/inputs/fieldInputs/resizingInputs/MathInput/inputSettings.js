@@ -34,15 +34,15 @@ export const defaultFieldSettings = { ...defaultInputSettings, ...defaultInterpr
 
 // isFunctionAllowed takes a function name (like "log") and an InputSettings object, and checks if the function is allowed, given the settings.
 export function isFunctionAllowed(functionName, settings) {
-	if (functionName === 'frac')
+	if (functionName === 'Fraction')
 		return settings.divide
-	if (functionName === 'subSup')
+	if (functionName === 'SubSup')
 		return settings.power || settings.subscript
 	if (functionName === 'sin' || functionName === 'cos' || functionName === 'tan' || functionName === 'asin' || functionName === 'acos' || functionName === 'atan' || functionName === 'arcsin' || functionName === 'arccos' || functionName === 'arctan')
 		return settings.trigonometry
-	if (functionName === 'sqrt' || functionName === 'root')
+	if (functionName === 'SquareRoot' || functionName === 'Root')
 		return settings.root
-	if (functionName === 'ln' || functionName === 'log')
+	if (functionName === 'Logarithm' || functionName === 'ln')
 		return settings.logarithms
 	return false
 }

@@ -10,16 +10,11 @@ Effectively, an expression while it's being inputed (before interpretation) is a
 {
 	type: 'Expression',
 	value: [
-		{ type: 'ExpressionPart', value: '2x*' },
-		{ type: 'Function', name: 'frac', value: [
-			{ type: 'Expression', value: [
-				{ type: 'ExpressionPart', value: '3' },
-				{ type: 'ExpressionPart', value: '4+y' },
-			] },
-		]	},
-		{ type: 'ExpressionPart', value: '+5' },
+		'2x*',
+		{ type: 'Fraction', alias: '/', numerator: ['3'], denominator: ['4+y'] },
+		'+5',
 	],
-	cursor: { part: 1, cursor: { part: 0, cursor: { part: 1, cursor: 2 } } },
+	cursor: { part: 1, cursor: { part: 'denominator', cursor: { part: 0, cursor: 2 } } },
 	settings: {},
 }
 ```
@@ -33,13 +28,13 @@ Whenever a key is pressed, a mouse button is clicked, or anything similar, then 
 There are several object types that are used when inputing expressions. 
 
 - `Expression`: this is the default for any maths stuff. It's always an array containing various of the below elements.
-- `ExpressionPart`: anything that's a string. So `a+b` can be an expression part, or `2*sin(3)+5`. (It transforms stars into latex `\cdot` upon rendering.)
-- `Function`: there is a large variety of functions that can be used. Some examples include:
-  x `frac`: has two arguments and puts a divide stripe between them.
-  x `subSup`: a subscript and superscript. Can have one of them or both.
-  x `sqrt`: the square root.
-  x `root`: the root with a power added to it.
-  x `log`: a logarithm with certain base.
+- Text parts are stored directly as strings. So `a+b` can be a text part, or `2*sin(3)+5`. (Stars are transformed into LaTeX `\cdot` upon rendering.)
+- Constructs have their own semantic types and named arguments:
+  - `Fraction`: has a `numerator` and `denominator`.
+  - `SubSup`: has an optional `subscript` and `superscript`.
+  - `SquareRoot`: has a `radicand`.
+  - `Root`: has a `degree` and `radicand`.
+  - `Logarithm`: has a `base`; its argument follows in the parent expression.
 - `Accent`: there is also a large variety of accents that can be used, like `dot(m)`.
 
 ## Functionalities

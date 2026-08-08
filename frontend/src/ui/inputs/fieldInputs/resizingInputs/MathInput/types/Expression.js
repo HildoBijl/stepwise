@@ -1,11 +1,11 @@
 import { insertAt, first, last, sum } from '@step-wise/utils'
-import { isEmptyExpressionValue, getEmptyExpressionValue, getStartCursor, getEndCursor } from '@step-wise/math-input-value'
+import { isEmptyExpressionValue, getEmptyExpressionValue, getStartCursor, getEndCursor, opensExternalGroup } from '@step-wise/math-input-value'
 
-import { addCursor, removeCursor } from '../../../FieldInput'
+import { addCursor } from '../../../FieldInput'
 
 import { getClosestElement } from '../support'
 
-import { cleanUp, zoomIn, getKeyPressHandlers, isCursorKey } from './support'
+import { asFI, cleanUp, zoomIn, getKeyPressHandlers, isCursorKey } from './support'
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './main.js'
 import { allFunctions as ExpressionPartFunctions } from './ExpressionPart'
 
@@ -44,15 +44,16 @@ export function toLatex(FI) {
 
 		// Check if we have a set-up like f_1(x): a SubSup followed by a bracket.
 		let beforeSubSupWithBrackets = false
-		if (element.type === 'ExpressionPart' && nextElement && nextElement.type === 'SubSup' && value[index + 2].value[0] === '(') {
+		if (typeof element === 'string' && nextElement?.type === 'SubSup' && value[index + 2]?.[0] === '(') {
 			// The superscript must also be empty or be "-1" for an inverse.
-			const sup = nextElement.value.sup
-			if (!sup || getFIFuncs(sup).isEmpty(sup) || (sup.value.length === 1 && sup.value[0].value === '-1'))
+			const sup = nextElement.superscript
+			if (!sup || isEmptyExpressionValue(sup) || (sup.length === 1 && sup[0] === '-1'))
 				beforeSubSupWithBrackets = true
 		}
 
 		// Make the call with the right options.
-		return getFIFuncs(element).toLatex(element, { index, beforeSubSupWithBrackets })
+		const elementFI = typeof element === 'string' ? { type: 'ExpressionPart', value: element } : element
+		return getFIFuncs(elementFI).toLatex(elementFI, { index, beforeSubSupWithBrackets })
 	})
 
 	// We now have an array with latex and chars mixed. Let's extract the latex and the chars.
@@ -218,12 +219,12 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 						...FI,
 						value: [
 							...value.slice(0, cursor.part),
-							removeCursor(split),
+							...split.value,
 							...value.slice(cursor.part + 1),
 						],
 						cursor: {
-							part: cursor.part,
-							cursor: split.cursor,
+							part: cursor.part + split.cursor.part,
+							cursor: split.cursor.cursor,
 						},
 					}
 				}
@@ -276,7 +277,8 @@ export function charElementClickToCursor(evt, FI, trace, charElements, equationE
 	// Pass it on to the respective element.
 	const { value } = FI
 	const part = first(trace)
-	const newCursor = getFIFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
+	const element = asFI(value[part])
+	const newCursor = getFIFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[part], equationElement)
 	return newCursor === undefined ? undefined : {
 		part,
 		cursor: newCursor,
@@ -285,7 +287,7 @@ export function charElementClickToCursor(evt, FI, trace, charElements, equationE
 
 export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const part = getClosestElement(coordinates, boundsData)
-	const element = FI.value[part]
+	const element = asFI(FI.value[part])
 	return {
 		part,
 		cursor: getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
@@ -293,11 +295,11 @@ export function coordinatesToCursor(coordinates, boundsData, FI, charElements, c
 }
 
 export function isCursorAtStart(value, cursor) {
-	return cursor.part === 0 && isCursorAtFIStart(addCursor(first(value), cursor.cursor))
+	return cursor.part === 0 && isCursorAtFIStart(typeof first(value) === 'string' ? { type: 'ExpressionPart', value: first(value), cursor: cursor.cursor } : addCursor(first(value), cursor.cursor))
 }
 
 export function isCursorAtEnd(value, cursor) {
-	return cursor.part === value.length - 1 && isCursorAtFIEnd(addCursor(last(value), cursor.cursor))
+	return cursor.part === value.length - 1 && isCursorAtFIEnd(typeof last(value) === 'string' ? { type: 'ExpressionPart', value: last(value), cursor: cursor.cursor } : addCursor(last(value), cursor.cursor))
 }
 
 // countNetBrackets counts the net number of opening minus closing brackets in a certain part of the expression. If relativeToCursor is 0, it's for the full expression. For -1 it's prior to the cursor and for 1 it's after the cursor. When the cursor is used, we assume it's in an ExpressionPart element.
@@ -307,21 +309,25 @@ export function countNetBrackets(FI, relativeToCursor = 0) {
 	// When we don't care about the cursor, we just sum everything up.
 	if (relativeToCursor === 0) {
 		return sum(value.map(element => {
-			const funcs = getFIFuncs(element)
+			if (typeof element !== 'string' && opensExternalGroup(element.type)) return 1
+			const elementFI = asFI(element)
+			const funcs = getFIFuncs(elementFI)
 			const countNetBrackets = funcs.countNetBrackets
-			return countNetBrackets ? countNetBrackets(element, relativeToCursor) : 0
+			return countNetBrackets ? countNetBrackets(elementFI, relativeToCursor) : 0
 		}))
 	}
 
 	// We care about the cursor. Check that the cursor is in an ExpressionPart element.
-	if (value[cursor.part].type !== 'ExpressionPart')
+	if (typeof value[cursor.part] !== 'string')
 		throw new Error(`Invalid equation function call: called countNetBrackets for an Expression while the cursor was not in an ExpressionPart of that expression.`)
 
 	// Find the right range and add up for that range, also taking into account the element itself.
 	const arrayPart = (relativeToCursor === -1 ? value.slice(0, cursor.part) : value.slice(cursor.part + 1))
 	const netBracketsInPreviousParts = sum(arrayPart.map(element => {
-		const countNetBrackets = getFIFuncs(element).countNetBrackets
-		return countNetBrackets ? countNetBrackets(element, 0) : 0
+		if (typeof element !== 'string' && opensExternalGroup(element.type)) return 1
+		const elementFI = asFI(element)
+		const countNetBrackets = getFIFuncs(elementFI).countNetBrackets
+		return countNetBrackets ? countNetBrackets(elementFI, 0) : 0
 	}))
 	const netBracketsInCurrentPart = ExpressionPartFunctions.countNetBrackets(zoomIn(FI), relativeToCursor)
 	return netBracketsInPreviousParts + netBracketsInCurrentPart
