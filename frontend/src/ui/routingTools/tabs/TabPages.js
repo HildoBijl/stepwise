@@ -81,12 +81,25 @@ function SwipePageWrapper({ children, id }) {
 	const { tab } = useTabContext()
 
 	// On a resize of the child, update the swiper properties.
-	useResizeObserver(swipePageRef, () => swiper.update())
+	useResizeObserver(swipePageRef, () => {
+		swiper.update()
+		swiper.updateAutoHeight(0)
+	})
 
 	// On a swipe move, throw a swipe event, so other components (for instance useBoundingClientRect) know about it.
-	swiper.on('transitionStart', () => dispatchEvent(new Event('swipeStart')))
-	swiper.on('setTranslate', () => dispatchEvent(new Event('swipe')))
-	swiper.on('transitionEnd', () => dispatchEvent(new Event('swipeEnd')))
+	useEffect(() => {
+		const onTransitionStart = () => dispatchEvent(new Event('swipeStart'))
+		const onSetTranslate = () => dispatchEvent(new Event('swipe'))
+		const onTransitionEnd = () => dispatchEvent(new Event('swipeEnd'))
+		swiper.on('transitionStart', onTransitionStart)
+		swiper.on('setTranslate', onSetTranslate)
+		swiper.on('transitionEnd', onTransitionEnd)
+		return () => {
+			swiper.off('transitionStart', onTransitionStart)
+			swiper.off('setTranslate', onSetTranslate)
+			swiper.off('transitionEnd', onTransitionEnd)
+		}
+	}, [swiper])
 
 	// Wrap the page in a provider indicating whether it's visible. This is then used by for instance input fields to determine whether they should react to anything.
 	const visible = tab === id
