@@ -12,7 +12,7 @@ describe('input interpretation', () => {
 			expect(interpretInputValue({ type: 'MultipleChoice', value: [2, 4, 1] })).toEqual([2, 4, 1])
 			expect(interpretInputValue({ type: 'Float', value: { number: '3.140' } })).toEqual(new Float('3.140'))
 			expect(interpretInputValue({ type: 'Vector', value: [1, 2] })).toEqual(new Vector(1, 2))
-			expect(interpretInputValue({ type: 'Expression', value: [{ type: 'ExpressionPart', value: 'x+2' }] })).toEqual(asExpression('x+2'))
+			expect(interpretInputValue({ type: 'Expression', value: ['x+2'] })).toEqual(asExpression('x+2'))
 		})
 		test('throws on unknown individual types', () => {
 			expect(() => interpretInputValue({ type: 'Unknown', value: 3 })).toThrow()
@@ -25,7 +25,7 @@ describe('input interpretation', () => {
 			expect(toInputValue([2, 4, 1], 'MultipleChoice')).toEqual({ type: 'MultipleChoice', value: [2, 4, 1] })
 			expect(toInputValue(new Vector(1, 2), 'Vector')).toEqual({ type: 'Vector', value: [1, 2] })
 			expect(toInputValue(new Float('3.140'), 'Float')).toEqual({ type: 'Float', value: { number: '3.140' } })
-			expect(toInputValue(asExpression('x+2'), 'Expression')).toEqual({ type: 'Expression', value: [{ type: 'ExpressionPart', value: 'x+2' }] })
+			expect(toInputValue(asExpression('x+2'), 'Expression')).toEqual({ type: 'Expression', value: ['x+2'] })
 		})
 		test('throws on unknown types', () => {
 			expect(() => toInputValue(3, 'Unknown')).toThrow()
@@ -37,7 +37,7 @@ describe('input interpretation', () => {
 			const data = {
 				a: { type: 'Vector', value: [1, 2] },
 				b: [
-					{ type: 'Expression', value: [{ type: 'ExpressionPart', value: 'x+2' }] },
+					{ type: 'Expression', value: ['x+2'] },
 					{ type: 'Float', value: { number: '2.50' } },
 				],
 				c: { type: 'Integer', value: '3' },

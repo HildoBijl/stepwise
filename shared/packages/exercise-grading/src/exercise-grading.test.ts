@@ -97,23 +97,23 @@ describe('compare', () => {
 	describe('compares CAS', () => {
 		describe('Expression objects', () => {
 			it('with default options', () => {
-				expect(compare('x', makeData({ x: { type: 'Expression', value: [{ type: 'ExpressionPart', value: '2*x' }] } }, { x: asExpression('2x') }))).toBe(true)
-				expect(compare('x', makeData({ x: { type: 'Expression', value: [{ type: 'ExpressionPart', value: '2*x' }] } }, { x: asExpression('x*2') }))).toBe(true)
-				expect(compare('x', makeData({ x: { type: 'Expression', value: [{ type: 'ExpressionPart', value: '2*x' }] } }, { x: asExpression('3x') }))).toBe(false)
+				expect(compare('x', makeData({ x: { type: 'Expression', value: ['2*x'] } }, { x: asExpression('2x') }))).toBe(true)
+				expect(compare('x', makeData({ x: { type: 'Expression', value: ['2*x'] } }, { x: asExpression('x*2') }))).toBe(true)
+				expect(compare('x', makeData({ x: { type: 'Expression', value: ['2*x'] } }, { x: asExpression('3x') }))).toBe(false)
 			})
 			it('with custom options', () => {
-				expect(compare('x', makeData({ x: { type: 'Expression', value: [{ type: 'ExpressionPart', value: '2*x' }] } }, { x: asExpression('x*2') }, { x: { allowOrderChanges: false } }))).toBe(false)
-				expect(compare('x', makeData({ x: { type: 'Expression', value: [{ type: 'ExpressionPart', value: '2*x' }] } }, { x: asExpression('x*2') }, { x: { allowOrderChanges: true } }))).toBe(true)
+				expect(compare('x', makeData({ x: { type: 'Expression', value: ['2*x'] } }, { x: asExpression('x*2') }, { x: { allowOrderChanges: false } }))).toBe(false)
+				expect(compare('x', makeData({ x: { type: 'Expression', value: ['2*x'] } }, { x: asExpression('x*2') }, { x: { allowOrderChanges: true } }))).toBe(true)
 			})
 		})
 		describe('Equation objects', () => {
 			it('with default options', () => {
-				expect(compare('eq', makeData({ eq: { type: 'Equation', value: [{ type: 'ExpressionPart', value: '2=x' }] } }, { eq: asEquation('2=x') }))).toBe(true)
-				expect(compare('eq', makeData({ eq: { type: 'Equation', value: [{ type: 'ExpressionPart', value: '2=x' }] } }, { eq: asEquation('3=x') }))).toBe(false)
+				expect(compare('eq', makeData({ eq: { type: 'Equation', value: ['2=x'] } }, { eq: asEquation('2=x') }))).toBe(true)
+				expect(compare('eq', makeData({ eq: { type: 'Equation', value: ['2=x'] } }, { eq: asEquation('3=x') }))).toBe(false)
 			})
 			it('with custom options', () => {
-				expect(compare('eq', makeData({ eq: { type: 'Equation', value: [{ type: 'ExpressionPart', value: '2=x' }] } }, { eq: asEquation('x=2') }, { eq: { allowSwitch: true } }))).toBe(true)
-				expect(compare('eq', makeData({ eq: { type: 'Equation', value: [{ type: 'ExpressionPart', value: '2=x' }] } }, { eq: asEquation('x=2') }, { eq: { allowSwitch: false } }))).toBe(false)
+				expect(compare('eq', makeData({ eq: { type: 'Equation', value: ['2=x'] } }, { eq: asEquation('x=2') }, { eq: { allowSwitch: true } }))).toBe(true)
+				expect(compare('eq', makeData({ eq: { type: 'Equation', value: ['2=x'] } }, { eq: asEquation('x=2') }, { eq: { allowSwitch: false } }))).toBe(false)
 			})
 		})
 	})
