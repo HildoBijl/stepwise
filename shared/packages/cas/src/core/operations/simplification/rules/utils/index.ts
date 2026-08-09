@@ -1,6 +1,6 @@
 export * from './defaults'
 export * from './leadingNumbers'
 export * from './factors'
+export * from './fractionFactors'
 export * from './polynomials'
 export * from './sorting'
-export * from './ruleDefinition'

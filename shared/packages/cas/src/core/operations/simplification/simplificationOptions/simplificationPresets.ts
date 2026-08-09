@@ -1,7 +1,9 @@
 import { difference } from '@step-wise/utils'
 
+import { normalizationRequirementRules } from '../rules/normalization'
+
 import { type SimplificationOption } from './types'
-import { adjustSimplificationOptions } from './utils'
+import { adjustSimplificationOptions, isSimplificationOption } from './utils'
 
 export const flatten = new Set<SimplificationOption>([
 	// Excess brackets
@@ -98,10 +100,7 @@ export const sort = new Set<SimplificationOption>([
 	'sortProducts',
 ])
 
-export const normalizationRequirements = new Set<SimplificationOption>([
-	...expand,
-	...sort,
-])
+export const normalizationRequirements = new Set<SimplificationOption>(normalizationRequirementRules.map(rule => rule.name).filter(isSimplificationOption))
 
 export const normalize = new Set<SimplificationOption>([
 	...normalizationRequirements,

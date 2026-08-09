@@ -1,24 +1,20 @@
-import { type SimplificationOption } from '../simplificationOptions'
+import { mergeRuleRegistries } from './ruleDefinition'
+import { structuralRules } from './structural'
+import { numericRules } from './numeric'
+import { cancellationRules } from './cancellation'
+import { rewritingRules } from './rewriting'
+import { combinationRules } from './combination'
+import { expansionRules } from './expansion'
+import { factorizationRules } from './factorization'
+import { normalizationRules } from './normalization'
 
-import { signRules } from './signs'
-import { constantRules } from './constants'
-import { sumRules } from './sums'
-import { productRules } from './products'
-import { fractionRules } from './fractions'
-import { powerRules } from './powers'
-import { rootRules } from './roots'
-import { logarithmRules } from './logarithms'
-import { type AnySimplificationRule } from './utils'
-
-export const simplificationRules = {
-	...signRules,
-	...constantRules,
-	...sumRules,
-	...productRules,
-	...fractionRules,
-	...powerRules,
-	...rootRules,
-	...logarithmRules,
-} satisfies Record<SimplificationOption, AnySimplificationRule>
-
-export const simplificationRuleEntries = Object.entries(simplificationRules) as [SimplificationOption, AnySimplificationRule][]
+export const simplificationRules = mergeRuleRegistries(
+	structuralRules,
+	numericRules,
+	cancellationRules,
+	rewritingRules,
+	combinationRules,
+	expansionRules,
+	factorizationRules,
+	normalizationRules,
+)

@@ -4,15 +4,13 @@ import { type ExpressionNode, type Variable, Integer, power, product, sum } from
 
 import { subtract, multiply, divide, equalVariables, getVariables, isNumeric, isZero, isPolynomial, isPower, isVariable, numericNodeToNumber } from '../../../structural'
 
-import { type Simplify, normalizationRequirements } from '../../simplificationOptions'
-
 import { getSumTerms, getConstantAndVariablePart } from './defaults'
 
 type PolynomialGCDResult = { gcd: ExpressionNode, factors: [ExpressionNode, ExpressionNode] }
-const coefficientSimplificationOptions = normalizationRequirements
+type SimplifyPolynomial = (node: ExpressionNode) => ExpressionNode
 
 // Try to find a polynomial GCD. On unsupported input, safely return gcd 1.
-export function getPolynomialGCD(a: ExpressionNode, b: ExpressionNode, simplify: Simplify): PolynomialGCDResult {
+export function getPolynomialGCD(a: ExpressionNode, b: ExpressionNode, simplify: SimplifyPolynomial): PolynomialGCDResult {
 	// Get the variable to run this on. If not valid, return defaults.
 	const variable = getSinglePolynomialVariable(a, b)
 	if (!variable) return { gcd: Integer.one, factors: [a, b] }
@@ -67,8 +65,8 @@ function polynomialToCoefficients(node: ExpressionNode, variable: Variable): Exp
 }
 
 // Reassemble a polynomial from coefficients.
-function coefficientsToPolynomial(coefficients: ExpressionNode[], variable: Variable, simplify: Simplify): ExpressionNode {
-	return simplify(sum(...coefficients.map((coefficient, index) => product(coefficient, power(variable, index)))), coefficientSimplificationOptions)
+function coefficientsToPolynomial(coefficients: ExpressionNode[], variable: Variable, simplify: SimplifyPolynomial): ExpressionNode {
+	return simplify(sum(...coefficients.map((coefficient, index) => product(coefficient, power(variable, index)))))
 }
 
 // Find the order of a polynomial term with respect to a given variable. So 8*x^3 gives 3.
@@ -83,7 +81,7 @@ function getTermOrder(variablePart: ExpressionNode, variable: Variable): number 
 }
 
 // Use the Euclidian algorithm to find the polynomial GCD. Returns a coefficient array.
-function getPolynomialGCDFromCoefficients(a: ExpressionNode[], b: ExpressionNode[], simplify: Simplify): ExpressionNode[] {
+function getPolynomialGCDFromCoefficients(a: ExpressionNode[], b: ExpressionNode[], simplify: SimplifyPolynomial): ExpressionNode[] {
 	// Ensure a is longer.
 	if (a.length < b.length) [a, b] = [b, a]
 
@@ -102,7 +100,7 @@ function getPolynomialGCDFromCoefficients(a: ExpressionNode[], b: ExpressionNode
 }
 
 // Divide two polynomials.
-function dividePolynomials(original: ExpressionNode[], divisor: ExpressionNode[], simplify: Simplify): { quotient: ExpressionNode[], remainder: ExpressionNode[] } {
+function dividePolynomials(original: ExpressionNode[], divisor: ExpressionNode[], simplify: SimplifyPolynomial): { quotient: ExpressionNode[], remainder: ExpressionNode[] } {
 	let remainder = [...original]
 	const quotient: ExpressionNode[] = []
 	while (remainder.length >= divisor.length) {
@@ -143,6 +141,6 @@ function shiftCoefficients(coefficients: ExpressionNode[], shift: number): Expre
 }
 
 // Run a simplification to all coefficients.
-function simplifyCoefficients(coefficients: ExpressionNode[], simplify: Simplify): ExpressionNode[] {
-	return coefficients.map(coefficient => simplify(coefficient, coefficientSimplificationOptions))
+function simplifyCoefficients(coefficients: ExpressionNode[], simplify: SimplifyPolynomial): ExpressionNode[] {
+	return coefficients.map(coefficient => simplify(coefficient))
 }

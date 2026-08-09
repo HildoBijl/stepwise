@@ -1,3 +1,4 @@
-export * from './applySimplificationRules'
+export * from './types'
+export * from './ruleDefinition'
 export * from './simplificationRules'
-export * from './utils'
+export * from './applySimplificationRules'

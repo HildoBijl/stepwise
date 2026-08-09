@@ -1,7 +1,10 @@
 import { isReadonlyArray, isReadonlySet, union, difference } from '@step-wise/utils'
 
-import { allSimplificationOptions } from './allSimplificationOptions'
+import { simplificationRules, type SimplificationRules } from '../rules'
+
 import { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput } from './types'
+
+export const allSimplificationOptions: ReadonlySet<SimplificationOption> = new Set(Object.keys(simplificationRules) as SimplificationOption[])
 
 // Turn a SimplificationOptionsInput parameter into a set of simplification options. Also checks its format.
 export function resolveSimplificationOptions(options: SimplificationOptionsInput = []): SimplificationOptions {
@@ -28,4 +31,9 @@ export function adjustSimplificationOptions(options?: SimplificationOptionsInput
 	const addOptionsSet = resolveSimplificationOptions(addOptions)
 	const removeOptionsSet = resolveSimplificationOptions(removeOptions)
 	return difference(union(optionsSet, addOptionsSet), removeOptionsSet)
+}
+
+// Turn a set of options into a set of rule objects.
+export function resolveSimplificationRules(options: SimplificationOptions): SimplificationRules {
+	return new Set(Object.values(simplificationRules).filter(rule => isSimplificationOption(rule.name) && options.has(rule.name)))
 }

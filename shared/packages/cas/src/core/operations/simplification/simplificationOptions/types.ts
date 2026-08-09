@@ -1,17 +1,5 @@
-import { type ExpressionSettings } from '@step-wise/math-input-value'
+import { simplificationRules } from '../rules'
 
-import { type ExpressionNode } from '../../../construction'
-
-import { allSimplificationOptionsList } from './allSimplificationOptions'
-
-export type SimplificationOption = typeof allSimplificationOptionsList[number]
+export type SimplificationOption = keyof typeof simplificationRules
 export type SimplificationOptions = ReadonlySet<SimplificationOption>
 export type SimplificationOptionsInput = SimplificationOptions | readonly SimplificationOption[]
-
-export type Simplify = (node: ExpressionNode, options?: SimplificationOptionsInput) => ExpressionNode
-export type SimplificationContext = {
-	simplificationOptions: SimplificationOptions
-	expressionSettings: ExpressionSettings
-	parents: readonly ExpressionNode[]
-	simplify: Simplify
-}
