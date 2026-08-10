@@ -49,7 +49,7 @@ function LastActivity({ processedStudent, course, overview }) {
 	const paths = usePaths()
 	const navigate = useNavigate()
 
-	// Use only skills within the course that have any type of activity. Sort them by the activity date.
+	// Use only skills within the course that have exercises and have any type of activity. Sort them by the activity date.
 	const getLastSkillActivity = skill => {
 		if (skill.exercises.length === 0) return undefined
 		const lastExercise = last(skill.exercises)
@@ -58,6 +58,7 @@ function LastActivity({ processedStudent, course, overview }) {
 		return new Date(lastEvent.performedAt)
 	}
 	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkills.includes(skill.skillId))
+	skills = skills.filter(skill => getLastSkillActivity(skill) !== undefined)
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
 
 	// Render the skills.

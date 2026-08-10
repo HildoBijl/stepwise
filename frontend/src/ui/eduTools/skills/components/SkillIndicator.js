@@ -36,7 +36,6 @@ function SkillIndicatorForUser({ userId }) {
 }
 
 function SkillIndicatorForLoadedUser({ overview, user }) {
-	console.log(overview, user)
 	const { skillId } = useParams()
 	const processedStudent = useMemo(() => processStudent(user, overview), [user, overview])
 	const skillLevel = processedStudent.skillLevelSet.getSkillLevel(skillId)
