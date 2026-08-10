@@ -53,9 +53,9 @@ function LastActivity({ processedStudent, course, overview }) {
 	const getLastSkillActivity = skill => {
 		if (skill.exercises.length === 0) return undefined
 		const lastExercise = last(skill.exercises)
-		if (lastExercise.history.length === 0) return undefined
+		if (lastExercise.history.length === 0) return new Date(lastExercise.startedOn)
 		const lastEvent = last(lastExercise.history)
-		return new Date(lastEvent?.performedAt || lastExercise.startedOn)
+		return new Date(lastEvent.performedAt)
 	}
 	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkills.includes(skill.skillId))
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
@@ -150,7 +150,6 @@ function SkillIndicator({ skillId, student, overview }) {
 
 function SkillFlaskWithNumbers({ skillId, student, overview }) {
 	// Extract data for the skill.
-	console.log(skillId, student, overview)
 	const skillLevelSet = student.skillLevelSet
 	const skill = student.skills.find(skill => skill.skillId === skillId)
 	const isPriorKnowledge = overview.priorKnowledge.includes(skillId)

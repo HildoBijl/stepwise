@@ -22,7 +22,7 @@ function SkillIndicatorForSelf() {
 	if (!skillLevelSet.hasDataOn(skillId))
 		return null
 	const skillLevel = skillLevelSet.getSkillLevel(skillId)
-	return <SkillIndicatorGraphics skill={skillLevel} />
+	return <SkillIndicatorGraphics skillLevel={skillLevel} />
 }
 
 // We only inspect a user as part of a course. So load the course data as well. This is probably cached already anyway.
@@ -36,15 +36,17 @@ function SkillIndicatorForUser({ userId }) {
 }
 
 function SkillIndicatorForLoadedUser({ overview, user }) {
+	console.log(overview, user)
 	const { skillId } = useParams()
 	const processedStudent = useMemo(() => processStudent(user, overview), [user, overview])
-	return <SkillIndicatorGraphics skill={processedStudent.skillsData[skillId]} />
+	const skillLevel = processedStudent.skillLevelSet.getSkillLevel(skillId)
+	return <SkillIndicatorGraphics skillLevel={skillLevel} />
 }
 
-function SkillIndicatorGraphics({ skill }) {
-	if (!skill)
+function SkillIndicatorGraphics({ skillLevel }) {
+	if (!skillLevel)
 		return null
-	return <SkillFlask skillId={skill.skillId} coef={skill.coefficients} strongShadow={true} sx={theme => ({
+	return <SkillFlask skillId={skillLevel.skillId} coef={skillLevel.coefficients} strongShadow={true} sx={theme => ({
 		height: '34px',
 		ml: 2,
 		width: '34px',

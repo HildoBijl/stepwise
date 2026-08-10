@@ -34,7 +34,7 @@ export function CourseStudentSkillPageForUser({ overview, user }) {
 	// Load in relevant data.
 	const skillId = useSkillId()
 	const student = useMemo(() => processStudent(user, overview), [user, overview])
-	const skillData = student.skillsData[skillId]
+	const userSkill = student.skills.find(skill => skill.skillId === skillId)
 
 	// Set up controllers for the buttons.
 	let [exerciseIndex, setExerciseIndexRaw] = useState()
@@ -46,7 +46,7 @@ export function CourseStudentSkillPageForUser({ overview, user }) {
 	const [showLabels, setShowLabels] = useState(true)
 
 	// If there are no exercises, show this.
-	const exercises = skillData.exercises
+	const exercises = userSkill.exercises
 	if (exercises.length === 0)
 		return <Info><Translation path={translationPath} entry="noExercises">The student has not opened this skill yet. There are no exercises to show.</Translation></Info>
 
@@ -61,8 +61,8 @@ export function CourseStudentSkillPageForUser({ overview, user }) {
 	// Render the parts of the page.
 	return <TranslationFile path={translationPath}>
 		<TranslationSection entry="buttons">
-			<ExerciseButtons {...{ exerciseIndex, setExerciseIndex, skillData, showLabels, setShowLabels }} />
-			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, skillData, showLabels }} />
+			<ExerciseButtons {...{ exerciseIndex, setExerciseIndex, userSkill, showLabels, setShowLabels }} />
+			<SubmissionButtons {...{ exerciseIndex, submissionIndex, setSubmissionIndex, userSkill, showLabels }} />
 		</TranslationSection>
 		<SubmissionDate {...{ exercise, submissionIndex, events, event }} />
 		<CurrentExercise {...{ skillId, exercise, submissionIndex }} />

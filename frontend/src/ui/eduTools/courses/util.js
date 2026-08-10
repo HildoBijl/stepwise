@@ -62,7 +62,7 @@ function checkPracticeNeeded(skillId, skillLevelSet, priorKnowledge, result, bes
 		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillLevelSet, priorKnowledge, result, practiceNeeded))
 }
 
-// processStudent takes a student (as given by the database API) and a course overview, and processes the student's skill data. It gives a complete set of skillsData objects for all the course's skills, it has an analysis on what to practice, and checks how many skills the student has completed.
+// processStudent takes a student (as given by the database API) and a course overview, and processes the student's skill data. It gives a skillLevelSet containing data of all the course's skills, it has an analysis on what to practice, and checks how many skills the student has completed.
 export function processStudent(student, overview) {
 	// Filter out outdated none-existing skills, process the remaining skills, and turn them into an ID-keyed object (a raw dataset).
 	const existingSkills = student.skills.filter(skill => !!skillTree[skill.skillId])

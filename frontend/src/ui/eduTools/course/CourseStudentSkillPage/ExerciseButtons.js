@@ -8,9 +8,9 @@ import { Translation } from 'i18n'
 import { getExerciseOutcome, getOutcomeColor } from '../util'
 
 const labelWidth = 100
-export function ExerciseButtons({ exerciseIndex, setExerciseIndex, skillData, showLabels, setShowLabels }) {
+export function ExerciseButtons({ exerciseIndex, setExerciseIndex, userSkill, showLabels, setShowLabels }) {
 	// Extract the exercises.
-	const exercises = skillData.exercises
+	const exercises = userSkill.exercises
 	exerciseIndex = exerciseIndex ?? exercises.length - 1
 
 	// Update whether or not labels have to be shown.
@@ -37,8 +37,8 @@ export function ExerciseButtons({ exerciseIndex, setExerciseIndex, skillData, sh
 	</Box>
 }
 
-export function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissionIndex, skillData, showLabels }) {
-	const exercises = skillData.exercises
+export function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissionIndex, userSkill, showLabels }) {
+	const exercises = userSkill.exercises
 	const exercise = exercises[exerciseIndex]
 	const events = exercise.history
 
