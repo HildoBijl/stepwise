@@ -1,6 +1,6 @@
 import { compareNumbers, compareNumberArrays } from '@step-wise/utils'
 
-import { getBernsteinOrder, normalizeBernsteinCoefficients } from './fundamentals'
+import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
 import { ensureBernsteinCoefficients } from './checks'
 import { getBernsteinExpectedValue, getBernsteinVariance, getBernsteinMoment } from './moments'
 import { getBernsteinPDF } from './distributions'
@@ -16,6 +16,27 @@ describe('Check fundamental functions:', () => {
 	describe('normalizeBernsteinCoefficients', () => {
 		it('properly normalizes an array', () => {
 			expect(compareNumberArrays(normalizeBernsteinCoefficients([1, 2, 3, 4]), [0.1, 0.2, 0.3, 0.4])).toBe(true)
+		})
+	})
+	describe('increaseBernsteinCoefficientsOrder', () => {
+		it('throws when lowering the order', () => {
+			expect(() => increaseBernsteinCoefficientsOrder([0.2, 0.8], 0)).toThrow()
+		})
+		it('returns the original coefficients when the order is unchanged', () => {
+			const coefficients = [0.2, 0.8]
+			expect(increaseBernsteinCoefficientsOrder(coefficients, 1)).toBe(coefficients)
+		})
+		it('increases the order and keeps the coefficients normalized', () => {
+			const increasedCoefficients = increaseBernsteinCoefficientsOrder([0, 1], 2)
+			expect(compareNumberArrays(increasedCoefficients, [0, 1 / 3, 2 / 3])).toBe(true)
+			expect(compareNumbers(increasedCoefficients.reduce((sum, coefficient) => sum + coefficient, 0), 1)).toBe(true)
+		})
+		it('preserves the PDF', () => {
+			const coefficients = [0.1, 0.2, 0.7]
+			const increasedCoefficients = increaseBernsteinCoefficientsOrder(coefficients, 6)
+			const pdf = getBernsteinPDF(coefficients)
+			const increasedPdf = getBernsteinPDF(increasedCoefficients)
+			;[0, 0.1, 0.25, 0.5, 0.9, 1].forEach(x => expect(compareNumbers(increasedPdf(x), pdf(x))).toBe(true))
 		})
 	})
 })
@@ -92,8 +113,11 @@ describe('Check merging functions:', () => {
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([0.2, 0.8], [0.8, 0.2]), [0.5, 0.5])).toBe(true)
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([3 / 7, 4 / 7], [3 / 7, 4 / 7]), [9 / 25, 16 / 25])).toBe(true)
 		})
-		it('throws on coefficient lists of unequal size', () => {
-			expect(() => mergeBernsteinCoefficientsElementwise([0, 1], [1])).toThrow()
+		it('increases unequal orders before merging element-wise', () => {
+			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([1, 0], [0.2, 0.3, 0.5]), [4 / 7, 3 / 7, 0])).toBe(true)
+		})
+		it('merges default coefficients with higher-order coefficients', () => {
+			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([1], [0.2, 0.3, 0.5]), [0.2, 0.3, 0.5])).toBe(true)
 		})
 	})
 })

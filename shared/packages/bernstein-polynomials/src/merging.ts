@@ -2,7 +2,7 @@ import { product, repeat } from '@step-wise/utils'
 import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
-import { getBernsteinOrder, normalizeBernsteinCoefficients } from './fundamentals'
+import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
 
 // Merge a list of coefficient arrays.
 export function mergeBernsteinCoefficients(...coefficientsList: BernsteinCoefficients[]): BernsteinCoefficients {
@@ -31,11 +31,10 @@ function mergeTwo(coefficients1: BernsteinCoefficients, coefficients2: Bernstein
 	return normalizeBernsteinCoefficients(coefficients.map((value, i) => value / binomial(order, i)))
 }
 
-// Multiply coefficient arrays element-wise. All coefficient arrays must have the same length.
+// Multiply coefficient arrays element-wise. Coefficient arrays of lower orders are first increased to the highest given order.
 export function mergeBernsteinCoefficientsElementwise(...coefficientsList: BernsteinCoefficients[]): BernsteinCoefficients {
 	if (coefficientsList.length === 0) return [1]
-	if (coefficientsList.some(coefficients => coefficients.length !== coefficientsList[0].length)) throw new Error(`Invalid coefficient list: when merging coefficient lists element-wise, all coefficient lists must have the same number of coefficients.`)
-
-	const numCoefficients = coefficientsList[0].length
-	return normalizeBernsteinCoefficients(repeat(numCoefficients, index => product(coefficientsList.map(coefficients => coefficients[index]))))
+	const order = Math.max(...coefficientsList.map(getBernsteinOrder))
+	const increasedCoefficientsList = coefficientsList.map(coefficients => increaseBernsteinCoefficientsOrder(coefficients, order))
+	return normalizeBernsteinCoefficients(repeat(order + 1, index => product(increasedCoefficientsList.map(coefficients => coefficients[index]))))
 }

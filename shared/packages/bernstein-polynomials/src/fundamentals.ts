@@ -1,10 +1,31 @@
-import { compareNumbers, sum } from '@step-wise/utils'
+import { compareNumbers, ensureInteger, sum } from '@step-wise/utils'
+import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
 
 // Get the order of a coefficient array, equal to its length minus one.
 export function getBernsteinOrder(coefficients: BernsteinCoefficients): number {
 	return coefficients.length - 1
+}
+
+// Increase the order of a coefficient array without changing its PDF.
+export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoefficients, newOrder: number): BernsteinCoefficients {
+	newOrder = ensureInteger(newOrder, true)
+	const oldOrder = getBernsteinOrder(coefficients)
+	if (newOrder < oldOrder) throw new Error(`Invalid Bernstein order: cannot increase coefficients of order ${oldOrder} to the lower order ${newOrder}.`)
+	if (newOrder === oldOrder) return coefficients
+
+	const orderIncrease = newOrder - oldOrder
+	const orderFactor = 1 / binomial(newOrder + 1, oldOrder + 1)
+	return Array.from({ length: newOrder + 1 }, (_, newIndex) => {
+		const minOldIndex = Math.max(0, newIndex - orderIncrease)
+		const maxOldIndex = Math.min(oldOrder, newIndex)
+		const elevatedCoefficient = sum(coefficients.slice(minOldIndex, maxOldIndex + 1).map((coefficient, offset) => {
+			const oldIndex = minOldIndex + offset
+			return coefficient * binomial(newIndex, oldIndex) * binomial(newOrder - newIndex, oldOrder - oldIndex)
+		}))
+		return elevatedCoefficient * orderFactor
+	})
 }
 
 // Normalize coefficients so their sum equals one. Negative coefficients are clipped to zero first to guard against numerical noise. Only used internally.
