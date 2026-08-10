@@ -71,7 +71,7 @@ Operating system: Linux Debian 11
    - Note: make sure that the external firewall is set up correctly, and (only) allows connections on ports 80 and 443.
 2. Adjust your local SSH config (see above)
 3. If the Postgres DB has IP allow-listing, unblock the machine’s IP address in Postgres (so that it accepts incoming connection from the machine)
-4. Execute the bootstrap script via `ssh -t step-wise.com 'bash <(curl -Ls https://raw.githubusercontent.com/HildoBijl/stepwise/master/ops/bootstrap-server.sh)'`
+4. Execute the bootstrap script via `ssh -t step-wise.com 'bash <(curl -Ls https://raw.githubusercontent.com/HildoBijl/stepwise/main/ops/bootstrap-server.sh)'`
    - Note: you can only run this bootstrapping procedure one single time for any given server.
 5. Provide configuration (via command).
    - Note: the command will fail to restart the `app` systemd service, since the app is not set up yet; that’s expected.

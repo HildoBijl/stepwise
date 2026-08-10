@@ -30,7 +30,7 @@ When the `diff` of `fc` command produces empty output, it means that the structu
 
 ## Applying in production
 
-Once the migration is in master, the release script will check for pending migrations and run them automatically when releasing.
+Once the migration is in main, the release script will check for pending migrations and run them automatically when releasing.
 
 Note that you cannot run `down` migrations in production.
 In order to “undo” a migration there, copy the migration you want to revert and flip the `up` and `down` procedures.

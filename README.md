@@ -49,5 +49,5 @@ Contributions are always welcome! These could range from minor bug fixes in exer
 
 Before you start programming your own extensions, it may be worth while to get in touch through <info@step-wise.com> to see if they match our [design philosophy](philosophy.md). It would be sad if your contributions didn't match our other plans.
 
-Got your fix/update ready? Just send in a pull request! Hopefully your work will be merged into the master branch and deployed right away.
+Got your fix/update ready? Just send in a pull request! Hopefully your work will be merged into the main branch and deployed right away.
 
