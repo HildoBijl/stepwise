@@ -51,11 +51,13 @@ function LastActivity({ processedStudent, course, overview }) {
 
 	// Use only skills within the course that have any type of activity. Sort them by the activity date.
 	const getLastSkillActivity = skill => {
+		if (skill.exercises.length === 0) return undefined
 		const lastExercise = last(skill.exercises)
-		const lastEvent = last(lastExercise.history, true)
+		if (lastExercise.history.length === 0) return undefined
+		const lastEvent = last(lastExercise.history)
 		return new Date(lastEvent?.performedAt || lastExercise.startedOn)
 	}
-	let skills = processedStudent.skills.filter(skill => hasExercises(skill.id) && overview.allSkills.includes(skill.skillId))
+	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkills.includes(skill.skillId))
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
 
 	// Render the skills.
@@ -148,11 +150,13 @@ function SkillIndicator({ skillId, student, overview }) {
 
 function SkillFlaskWithNumbers({ skillId, student, overview }) {
 	// Extract data for the skill.
-	const skillData = student.skillsData[skillId]
+	console.log(skillId, student, overview)
+	const skillLevelSet = student.skillLevelSet
+	const skill = student.skills.find(skill => skill.skillId === skillId)
 	const isPriorKnowledge = overview.priorKnowledge.includes(skillId)
 
 	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".)
-	const exercises = skillData.exercises
+	const exercises = skill?.exercises ?? []
 	const numCorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'correct')
 	const numPartiallyCorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'partiallyCorrect')
 	const numIncorrect = count(exercises, exercise => getExerciseOutcome(exercise) === 'incorrect')
@@ -160,7 +164,7 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 
 	// Render the flask with the numbers.
 	return <Box sx={{ position: 'relative', display: 'inline-block' }}>
-		<SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} tooltip={false} />
+		<SkillFlask skillId={skillId} coef={skillLevelSet.getCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} tooltip={false} />
 		<Box sx={{ position: 'absolute', right: -12, top: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', fontSize: 10, fontWeight: 700, lineHeight: 1 }}>
 			{numCorrect === 0 ? null : <Box component="span" sx={{ color: 'success.main' }}>{numCorrect}</Box>}
 			{numPartiallyCorrect === 0 ? null : <Box component="span" sx={{ color: 'warning.main' }}>{numPartiallyCorrect}</Box>}
