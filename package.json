@@ -4,17 +4,21 @@
 	"private": true,
 	"workspaces": [
 		"api",
+		"frontend",
 		"shared/packages/*"
 	],
 	"scripts": {
-		"build": "npm run build:packages",
+		"build": "npm run build:packages && npm run build:frontend",
 		"build:packages": "tsc -b tsconfig.json",
 		"clean:packages": "rimraf --glob \"shared/packages/*/dist\"",
 		"dev:api": "npm run dev --workspace=@step-wise/api",
+		"dev:frontend": "npm start --workspace=@step-wise/frontend",
+		"build:frontend": "npm run build --workspace=@step-wise/frontend",
 		"rebuild:packages": "npm run clean:packages && npm run build:packages",
 		"start:api": "npm start --workspace=@step-wise/api",
 		"test": "npm run test:packages",
 		"test:api": "npm test --workspace=@step-wise/api",
+		"test:frontend": "npm test --workspace=@step-wise/frontend",
 		"test:packages": "jest --config shared/jest.config.js",
 		"test:packages:watch": "jest --config shared/jest.config.js --watch",
 		"watch:packages": "npm run clean:packages && tsc -b tsconfig.json --watch"
