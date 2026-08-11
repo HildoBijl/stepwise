@@ -8,8 +8,8 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/skill-setup": "file:../skill-setup",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/skill-setup": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

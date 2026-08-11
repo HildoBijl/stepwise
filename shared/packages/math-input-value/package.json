@@ -10,7 +10,7 @@
 		"watch": "tsc -b --watch"
 	},
 	"dependencies": {
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

@@ -10,8 +10,8 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/polynomials": "file:../polynomials",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/polynomials": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

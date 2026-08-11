@@ -10,10 +10,10 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/engineering-mechanics": "file:../engineering-mechanics",
-		"@step-wise/input-exercises": "file:../input-exercises",
-		"@step-wise/input-interpretation": "file:../input-interpretation",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/engineering-mechanics": "1.0.0",
+		"@step-wise/input-exercises": "1.0.0",
+		"@step-wise/input-interpretation": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

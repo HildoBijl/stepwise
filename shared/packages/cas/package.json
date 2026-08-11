@@ -10,9 +10,9 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/math-input-value": "file:../math-input-value",
-		"@step-wise/math-tools": "file:../math-tools",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/math-input-value": "1.0.0",
+		"@step-wise/math-tools": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

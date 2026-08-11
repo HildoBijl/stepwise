@@ -10,11 +10,11 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/exercise-bundling": "file:../exercise-bundling",
-		"@step-wise/exercise-definition": "file:../exercise-definition",
-		"@step-wise/exercise-grading": "file:../exercise-grading",
-		"@step-wise/input-exercises": "file:../input-exercises",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/exercise-bundling": "1.0.0",
+		"@step-wise/exercise-definition": "1.0.0",
+		"@step-wise/exercise-grading": "1.0.0",
+		"@step-wise/input-exercises": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

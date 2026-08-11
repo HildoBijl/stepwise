@@ -10,7 +10,6 @@
     "types": ["jest"]
   },
   "references": [
-    { "path": "../polynomials" },
     { "path": "../skill-setup" },
     { "path": "../utils" }
   ],

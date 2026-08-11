@@ -10,10 +10,10 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/cas": "file:../cas",
-		"@step-wise/geometry": "file:../geometry",
-		"@step-wise/physics-core": "file:../physics-core",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/cas": "1.0.0",
+		"@step-wise/geometry": "1.0.0",
+		"@step-wise/physics-core": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

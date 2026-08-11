@@ -10,15 +10,15 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@step-wise/demo-exercises": "file:../demo-exercises",
-		"@step-wise/exercise-bundling": "file:../exercise-bundling",
-		"@step-wise/exercise-definition": "file:../exercise-definition",
-		"@step-wise/mathematics-exercises": "file:../mathematics-exercises",
-		"@step-wise/mechanics-exercises": "file:../mechanics-exercises",
-		"@step-wise/physics-exercises": "file:../physics-exercises",
-		"@step-wise/skill-definition": "file:../skill-definition",
-		"@step-wise/skill-tree": "file:../skill-tree",
-		"@step-wise/utils": "file:../utils"
+		"@step-wise/demo-exercises": "1.0.0",
+		"@step-wise/exercise-bundling": "1.0.0",
+		"@step-wise/exercise-definition": "1.0.0",
+		"@step-wise/mathematics-exercises": "1.0.0",
+		"@step-wise/mechanics-exercises": "1.0.0",
+		"@step-wise/physics-exercises": "1.0.0",
+		"@step-wise/skill-definition": "1.0.0",
+		"@step-wise/skill-tree": "1.0.0",
+		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",
