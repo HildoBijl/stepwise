@@ -1,9 +1,13 @@
-FROM node:22-alpine AS frontend-build
+FROM node:22-alpine AS workspace-build
 WORKDIR /app
+
 COPY package.json package-lock.json ./
-COPY --from=shared-build:latest /app /shared
-RUN npm ci --quiet
 COPY . .
+RUN npm ci --quiet --no-audit --no-fund
+RUN npm run build:packages
+
+FROM workspace-build AS frontend-build
+WORKDIR /app/frontend
 
 # Declare build args
 ARG REACT_APP_API_ADDRESS

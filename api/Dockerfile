@@ -1,8 +1,12 @@
-FROM node:22-alpine AS api-build
+FROM node:22-alpine AS workspace-build
 WORKDIR /app
+
 COPY package.json package-lock.json ./
-RUN npm ci --quiet
 COPY . .
-COPY --from=shared-build:latest /app /shared
+RUN npm ci --quiet --no-audit --no-fund
+RUN npm run build:packages
+
+FROM workspace-build AS api-build
+WORKDIR /app/api
 USER node
 CMD ["npm", "start"]

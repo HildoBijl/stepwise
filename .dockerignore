@@ -1,0 +1,17 @@
+.git
+.github
+.idea
+.vscode
+
+**/node_modules
+**/build
+**/coverage
+**/dist
+
+**/.env
+**/.env.*
+!**/.env-template
+
+**/*.log
+lastSessionData
+
