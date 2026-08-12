@@ -54,7 +54,6 @@
 		"react-helmet": "^6.1.0",
 		"react-resize-detector": "^7.1.2",
 		"react-router-dom": "^6.4.1",
-		"react-scripts": "^5.0.1",
 		"sass": "^1.101.0",
 		"subscriptions-transport-ws": "^0.9.19",
 		"swiper": "^9.3.2",
@@ -64,11 +63,8 @@
 		"start": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
-		"test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom",
-		"test:cra": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"browserslist": {
 		"production": [
@@ -84,15 +80,11 @@
 	},
 	"devDependencies": {
 		"@vitejs/plugin-react": "^5.0.0",
-		"react-app-rewired": "^2.1.8",
+		"jsdom": "^26.0.0",
 		"resize-observer-polyfill": "^1.5.1",
 		"typescript": "4.9.5",
 		"vite": "^7.0.0",
-		"vite-plugin-pwa": "^1.0.0"
-	},
-	"jest": {
-		"moduleNameMapper": {
-			"^#generationTools$": "<rootDir>/../packages/mathematics-exercises/dist/generationTools.js"
-		}
+		"vite-plugin-pwa": "^1.0.0",
+		"vitest": "^3.0.0"
 	}
 }
