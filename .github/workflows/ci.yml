@@ -44,10 +44,10 @@ jobs:
       - name: Build frontend
         run: |
           docker build \
-            --build-arg REACT_APP_API_ADDRESS="https://api.step-wise.com" \
-            --build-arg REACT_APP_API_WEBSOCKET_ENDPOINT="graphql-ws" \
-            --build-arg REACT_APP_GOOGLE_CLIENT_ID="212013243072-slab3pojp2u1pirqfr5g7p78280l2b8q.apps.googleusercontent.com" \
-            --build-arg REACT_APP_GOOGLE_REDIRECT_ADDRESS="https://step-wise.com" \
+            --build-arg VITE_API_ADDRESS="https://api.step-wise.com" \
+            --build-arg VITE_API_WEBSOCKET_ENDPOINT="graphql-ws" \
+            --build-arg VITE_GOOGLE_CLIENT_ID="212013243072-slab3pojp2u1pirqfr5g7p78280l2b8q.apps.googleusercontent.com" \
+            --build-arg VITE_GOOGLE_REDIRECT_ADDRESS="https://step-wise.com" \
             -t frontend-build:latest \
             -f frontend/Dockerfile .
       - name: Build API
