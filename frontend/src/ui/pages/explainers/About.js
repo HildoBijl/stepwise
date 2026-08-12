@@ -51,7 +51,7 @@ export function About() {
 				<><strong>Need to know:</strong> You only get access to the data that you need to do what you want to do. Nothing more, nothing less.</>,
 				<><strong>Ask when needed:</strong> When you engage in an action that allows others to access some of your data (like registering for a course) we will note this and ask for your permission at that exact moment. Not before, and certainly not after.</>
 			]} /></Translation>
-			<Par><Translation entry="par2">This gives you a fluent user experience, while at the same time keeping your data secure. Want to know more about how we treat your data? Then check out our full <a href={`${process.env.PUBLIC_URL}/PrivacyPolicy.pdf`} target="_blank" rel="noreferrer">Privacy Policy</a>. This is also the policy you approve of when first logging in.</Translation></Par>
+			<Par><Translation entry="par2">This gives you a fluent user experience, while at the same time keeping your data secure. Want to know more about how we treat your data? Then check out our full <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a>. This is also the policy you approve of when first logging in.</Translation></Par>
 		</TranslationSection>
 	</PageTranslationFile>
 }

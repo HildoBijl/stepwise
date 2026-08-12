@@ -87,7 +87,7 @@ export function ApprovePrivacyPolicy({ firstTime }) {
 function FirstTimeContent() {
 	return <TranslationSection entry="firstTime">
 		<h1><Translation entry="title">Privacy Policy</Translation></h1>
-		<p style={{ fontSize: '1.3em' }}><Translation entry="intro">To use Step-Wise, you must approve of the <a href={`${process.env.PUBLIC_URL}/PrivacyPolicy.pdf`} target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
+		<p style={{ fontSize: '1.3em' }}><Translation entry="intro">To use Step-Wise, you must approve of the <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a>. In short:</Translation></p>
 		<Translation entry="list">
 			<Box component="ul" sx={{ marginTop: '0.2rem', marginBottom: '0.2rem', textAlign: 'left', '& li': { margin: '0.2rem' } }}>
 				<li>We use cookies only for sign-in and site settings purposes. No tracking/ads.</li>
@@ -101,6 +101,6 @@ function FirstTimeContent() {
 function UpdateContent() {
 	return <TranslationSection entry="update">
 		<h1><Translation entry="title">Privacy Policy Update</Translation></h1>
-		<p className="intro"><Translation entry="intro">Our <a href={`${process.env.PUBLIC_URL}/PrivacyPolicy.pdf`} target="_blank" rel="noreferrer">Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version.</Translation></p>
+		<p className="intro"><Translation entry="intro">Our <a href="/PrivacyPolicy.pdf" target="_blank" rel="noreferrer">Privacy Policy</a> has been updated. To continue using Step-Wise, you must approve of this version.</Translation></p>
 	</TranslationSection>
 }

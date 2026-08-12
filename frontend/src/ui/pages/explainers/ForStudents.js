@@ -4,7 +4,8 @@ import { Box } from '@mui/material'
 import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@mui/icons-material'
 
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
-import { Skill, smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
+import { skill } from '@step-wise/skill-setup'
+import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
@@ -196,7 +197,7 @@ function SingleSkillTrial() {
 			numProblemsPracticed: numPracticed,
 		}
 		const coefficientSet = { [label]: smoothBernsteinCoefficients(coef, options) }
-		const setup = new Skill(label)
+		const setup = skill(label)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[label])
 		setNumPracticed(numPracticed + 1)

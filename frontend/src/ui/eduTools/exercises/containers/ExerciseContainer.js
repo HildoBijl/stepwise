@@ -9,6 +9,8 @@ import { useConsistentValue } from 'util/index' // Unit test import issue: shoul
 import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 
+const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
+
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
@@ -23,8 +25,9 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const reload = () => {
 		const skill = getSkill(skillId)
 		setLoading(true)
+		const loadExercise = exerciseModules[`/src/ui/eduContent/${skill.path.join('/')}/${skill.id}/exercises/${exerciseId}.js`]
 		Promise.all([
-			import(/* webpackChunkName: "front-end-exercises-64" */ `ui/eduContent/${skill.path.join('/')}/${skill.id}/exercises/${exerciseId}`),
+			loadExercise ? loadExercise() : Promise.reject(new Error(`No front-end exercise module found for exercise "${exerciseId}" in skill "${skillId}".`)),
 		]).then(importedModules => {
 			const [localModule] = importedModules
 			ExerciseLocal.current = localModule.default

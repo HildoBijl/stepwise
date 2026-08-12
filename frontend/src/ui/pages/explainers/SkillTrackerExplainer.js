@@ -4,8 +4,7 @@ import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/utils'
 import { mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
-import { and, repeat } from '@step-wise/skill-setup'
-import { Skill } from '@step-wise/skill-definition'
+import { and, repeat, skill } from '@step-wise/skill-setup'
 import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
 import { getSelectionRates } from '@step-wise/exercise-selection'
 
@@ -137,7 +136,7 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 			numProblemsPracticed: numPracticed,
 		}
 		const coefficientSet = { [lastLabel]: smoothBernsteinCoefficients(coef, options) }
-		const setup = new Skill(lastLabel)
+		const setup = skill(lastLabel)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[lastLabel])
 		setNumPracticed(numPracticed + 1)
@@ -200,7 +199,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 			}
 
 		// Then apply the relevant updates.
-		newCoefficientSet = { ...newCoefficientSet, ...(new Skill(label).processObservation(newCoefficientSet, correct)) }
+		newCoefficientSet = { ...newCoefficientSet, ...(skill(label).processObservation(newCoefficientSet, correct)) }
 		if (label === lastLabel)
 			newCoefficientSet = { ...newCoefficientSet, ...setup.processObservation(newCoefficientSet, correct) }
 		const newNumsPracticed = { ...numsPracticed }

@@ -1,5 +1,5 @@
 import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/utils'
-import { decimalSeparator, decimalSeparatorTex } from '@step-wise/settings'
+import { defaultDecimalSeparator as decimalSeparator } from '@step-wise/settings'
 import { accents, constructs, textFunctions } from '@step-wise/cas'
 
 import { getClickSide } from 'util'
@@ -12,6 +12,8 @@ import { isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement 
 import { allFunctions as ExpressionFunctions } from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
+
+const decimalSeparatorTex = decimalSeparator === ',' ? '{,}' : decimalSeparator
 
 const pmSymbols = [
 	{ name: 'pm', symbol: '±' },

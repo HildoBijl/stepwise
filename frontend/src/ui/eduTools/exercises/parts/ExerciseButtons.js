@@ -15,7 +15,7 @@ import { Button, useModal, PictureConfirmation, QuickPractice, MemberList } from
 import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
 import { useTestContext } from 'ui/admin'
 
-import { useCourseData } from '../../course'
+import { useCourseData } from '../../course/components/CourseProvider'
 
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from '../util'
 import { useExerciseData } from '../containers'

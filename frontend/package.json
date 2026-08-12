@@ -61,10 +61,11 @@
 		"uuid": "^14.0.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"start": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
 		"test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom",
-		"eject": "react-scripts eject"
+		"test:cra": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -82,9 +83,12 @@
 		]
 	},
 	"devDependencies": {
+		"@vitejs/plugin-react": "^5.0.0",
 		"react-app-rewired": "^2.1.8",
 		"resize-observer-polyfill": "^1.5.1",
-		"typescript": "4.9.5"
+		"typescript": "4.9.5",
+		"vite": "^7.0.0",
+		"vite-plugin-pwa": "^1.0.0"
 	},
 	"jest": {
 		"moduleNameMapper": {

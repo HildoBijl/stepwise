@@ -26,7 +26,7 @@ export function Test() {
 			<Head>Tests</Head>
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
-			<Par>This note shows the CI scripts are using the main branch. Currently we're also using workspaces.</Par>
+			<Par>This note shows the CI scripts are using the main branch. Currently we're also using workspaces. And Vite is used as a bundler.</Par>
 		</>
 	)
 }

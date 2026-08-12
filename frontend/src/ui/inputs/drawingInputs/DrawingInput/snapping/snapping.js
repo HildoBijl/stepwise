@@ -2,7 +2,7 @@ import { integerRange, sortBy, mergeDefaults, resolveFunctions } from '@step-wis
 
 import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings } from 'ui/figures'
-import { useInputData } from 'ui/inputs'
+import { useInputData } from '../../../Input'
 
 import { useDrawingRef } from '../context/hooks'
 

@@ -6,7 +6,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { Par, M } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { DrawingInput, useInputValue, useDrawingInputData, DragMarker, IntegerInput } from 'ui/inputs'
+import { DrawingInput, DragMarker, useInputValue, useDrawingInputData, IntegerInput } from 'ui/inputs'
 import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {

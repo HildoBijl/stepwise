@@ -13,6 +13,8 @@ import { ExamplePage, ExercisePage, ExercisePageForUser } from '../exercises'
 import { useSkillId } from './util'
 import { MetaWrapper } from './MetaWrapper'
 
+const skillPageModules = import.meta.glob('/src/ui/eduContent/**/index.js')
+
 export function SkillPage() {
 	const skillId = useSkillId()
 	return <SkillPageForSkill skillId={skillId} />
@@ -27,7 +29,11 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 	const reload = () => {
 		const { path } = skillTree[skillId]
 		setLoadedForSkillId(undefined)
-		import(/* webpackChunkName: "skill-pages-7" */ `ui/eduContent/${path.join('/')}/${skillId}`).then(pages => {
+		const loadPages = skillPageModules[`/src/ui/eduContent/${path.join('/')}/${skillId}/index.js`]
+		const pagesPromise = loadPages
+			? loadPages()
+			: Promise.reject(new Error(`No skill page module found for skill "${skillId}".`))
+		pagesPromise.then(pages => {
 			if (pages === null)
 				throw new Error(`Invalid skill path: tried to find skill pages at "skills/contents/${path}/${skillId}" but no files were found there. Could not render skill pages.`)
 			Pages.current = pages

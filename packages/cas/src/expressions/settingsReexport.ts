@@ -8,11 +8,11 @@ export { type ExpressionSettings, type ExpressionSettingsInput, defaultExpressio
 export { type ExpressionInputValue } from '@step-wise/math-input-value'
 
 // Simplification
-export { type SimplificationOption, SimplificationOptions, SimplificationOptionsInput, allSimplificationOptions } from '../core'
+export { type SimplificationOption, type SimplificationOptions, type SimplificationOptionsInput, allSimplificationOptions } from '../core'
 export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, normalize, factorize, format } from '../core'
 
 // Printing
-export type { TexDisplayOptions, TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions as asTexDisplayOptions } from '../core'
+export { type TexDisplayOptions, type TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions as asTexDisplayOptions } from '../core'
 
 // Accents, constructs and text functions
 export { type AccentName, accents } from '@step-wise/math-input-value'
