@@ -18,7 +18,7 @@ export function getLastInputAtStep(history: ExerciseHistory<InputExerciseAction,
 		const event = history[index]
 		let userAction: InputExerciseAction | undefined
 		if ('action' in event) userAction = event.action
-		else if (userId && 'submissions' in event) userAction = (!requireResolved || 'progress' in event) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
+		else if (userId && 'submissions' in event) userAction = (!requireResolved || ('progress' in event && event.progress != null)) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
 		else throw new Error(`Invalid getLastInputAtStep case. Cannot determine if it is for a user or for a group.`)
 
 		// If there is no valid input action, or it was made at the wrong step, keep looking. Otherwise give the input.

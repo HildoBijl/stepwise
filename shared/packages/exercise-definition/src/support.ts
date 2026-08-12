@@ -22,12 +22,12 @@ export function getLastProgress<TProgress extends ExerciseProgress = ExercisePro
 
 	// On a single-user exercise, return the last progress.
 	const lastEvent = history[history.length - 1]
-	if ('progress' in lastEvent) return lastEvent.progress!
+	if ('progress' in lastEvent && lastEvent.progress != null) return lastEvent.progress
 
 	// On a group exercise, return the last resolved progress.
 	if (history.length === 1) return {}
 	const lastResolvedEvent = history[history.length - 2]
-	if ('progress' in lastResolvedEvent) return lastResolvedEvent.progress!
+	if ('progress' in lastResolvedEvent && lastResolvedEvent.progress != null) return lastResolvedEvent.progress
 
 	// Should never happen.
 	throw new Error(`Invalid exercise history: encountered two consecutive history events without a progress object.`)
@@ -41,12 +41,12 @@ export function getPreviousProgress<TProgress extends ExerciseProgress = Exercis
 	// On a single-user exercise, return the second-to-last progress.
 	const lastEvent1 = history[history.length - 1]
 	const lastEvent2 = history[history.length - 2]
-	if ('progress' in lastEvent1 && 'progress' in lastEvent2) return lastEvent2.progress!
+	if ('progress' in lastEvent1 && lastEvent1.progress != null && 'progress' in lastEvent2 && lastEvent2.progress != null) return lastEvent2.progress
 
 	// On a group exercise, return the progress of the third-last event, if it exists.
-	if ('progress' in lastEvent2 && history.length <= 2) return {}
+	if ('progress' in lastEvent2 && lastEvent2.progress != null && history.length <= 2) return {}
 	const lastEvent3 = history[history.length - 3]
-	if ('progress' in lastEvent2 && 'progress' in lastEvent3) return lastEvent3.progress!
+	if ('progress' in lastEvent2 && lastEvent2.progress != null && 'progress' in lastEvent3 && lastEvent3.progress != null) return lastEvent3.progress
 
 	// Should never happen.
 	throw new Error(`Invalid exercise history: encountered two consecutive history events without a progress object.`)
