@@ -1,13 +1,13 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 
 import { App } from './'
 
 describe('The website', () => {
 	it('renders the title', () => {
 		const apolloClient = new ApolloClient({
-			uri: 'localhost',
+			link: new HttpLink({ uri: 'http://localhost' }),
 			cache: new InMemoryCache(),
 		})
 		const { getAllByText } = render(<App apolloClient={apolloClient} />)
