@@ -88,7 +88,7 @@
 	},
 	"jest": {
 		"moduleNameMapper": {
-			"^#generationTools$": "<rootDir>/../shared/packages/mathematics-exercises/dist/generationTools.js"
+			"^#generationTools$": "<rootDir>/../packages/mathematics-exercises/dist/generationTools.js"
 		}
 	}
 }

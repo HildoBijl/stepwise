@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"start": "node scripts/startWebserver.js",
-		"dev": "nodemon --watch ./ --watch ../shared scripts/startWebserver.js",
+		"dev": "nodemon --watch ./ --watch ../packages scripts/startWebserver.js",
 		"test": "cross-env POSTGRES_DB=\"testing\" jest --runInBand tests/.*\\.test\\.js",
 		"test:watch": "cross-env POSTGRES_DB=\"testing\" jest --watch --runInBand tests/server/api/.*\\.test\\.js",
 		"db:seed": "node scripts/seedDb.js",
@@ -57,7 +57,7 @@
 	"jest": {
 		"verbose": false,
     "moduleNameMapper": {
-      "^#generationTools$": "<rootDir>/../shared/packages/mathematics-exercises/dist/generationTools.js"
+      "^#generationTools$": "<rootDir>/../packages/mathematics-exercises/dist/generationTools.js"
     }
 	}
 }
