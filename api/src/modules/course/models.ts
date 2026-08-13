@@ -71,8 +71,8 @@ export const createCourseSubscriptionModel = (sequelize: Sequelize): CourseSubsc
 		userId: { type: DataTypes.UUID, primaryKey: true },
 		courseId: { type: DataTypes.UUID, primaryKey: true },
 		role: { type: DataTypes.ENUM('student', 'teacher'), defaultValue: 'student', allowNull: false },
-		createdAt: { type: DataTypes.DATE, allowNull: false },
-		updatedAt: { type: DataTypes.DATE, allowNull: false },
+		createdAt: { type: DataTypes.DATE },
+		updatedAt: { type: DataTypes.DATE },
 	}, { sequelize, modelName: 'courseSubscription' })
 	return CourseSubscription
 }

@@ -1,11 +1,12 @@
 const { Op, UniqueConstraintError } = require('sequelize')
 const { ForbiddenError, UserInputError } = require('apollo-server-express')
 
-const { getSubscription } = require('../util/subscriptions')
-const { events: groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } = require('../util/Group')
-const { events: groupExerciseEvents, getGroupWithAllExercises } = require('../util/GroupExercise')
+const { getSubscription } = require('../../graphql/util/subscriptions')
+const { GROUP_EVENTS: groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } = require('./service')
+const { GROUP_EXERCISE_EVENTS: groupExerciseEvents, getGroupWithAllExercises } = require('../groupExercise')
 
-const resolvers = {
+type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
+const resolvers: ResolverTree = {
 	Group: {
 		members: group => group.getMembers(),
 	},
@@ -36,7 +37,7 @@ const resolvers = {
 			// Load all groups and find the active one. (Yes, a bit inefficient, but the number of groups is always small.)
 			ensureLoggedIn()
 			const groups = await getUserGroups(db, userId)
-			return groups.find(group => group.groupMembership.active)
+		return groups.find((group: any) => group.groupMembership.active)
 		},
 
 		group: async (_source, { code }, { db, ensureLoggedIn, userId }) => {
@@ -46,7 +47,7 @@ const resolvers = {
 
 			// Check that the user is allowed to see the group.
 			const members = await group.getMembers()
-			const member = members.find(member => member.id === userId)
+			const member = members.find((member: any) => member.id === userId)
 			if (!member)
 				throw new ForbiddenError('Failed to load group data: only members have access.')
 
@@ -92,8 +93,8 @@ const resolvers = {
 			const groups = user.groups
 
 			// If the user is already a member of the group, simply activate the membership.
-			const existingGroup = groups.find(group => group.code === code)
-			const existingMembership = existingGroup && existingGroup.members && existingGroup.members.find(member => member.id === userId).groupMembership
+			const existingGroup = groups.find((group: any) => group.code === code)
+			const existingMembership = existingGroup && existingGroup.members && existingGroup.members.find((member: any) => member.id === userId).groupMembership
 			if (existingMembership) {
 				if (!existingMembership.active) {
 					await existingMembership.update({ active: true })
@@ -116,7 +117,7 @@ const resolvers = {
 			// Load the group and check how many users are left.
 			ensureLoggedIn()
 			const group = await getGroup(db, code)
-			group.members = group.members.filter(member => member.id !== userId)
+			group.members = group.members.filter((member: any) => member.id !== userId)
 
 			// When the group is left empty, remove it entirely. Otherwise remove all traces from the user.
 			if (group.members.length === 0) {
@@ -125,22 +126,22 @@ const resolvers = {
 			} else {
 				// Get all submission IDs that have to be removed.
 				const groupWithExercises = await getGroupWithAllExercises(code, db)
-				const exerciseList = []
-				const exerciseSubmissionIdList = []
-				groupWithExercises.exercises.forEach(exercise => {
+				const exerciseList: any[] = []
+				const exerciseSubmissionIdList: string[] = []
+				groupWithExercises.exercises.forEach((exercise: any) => {
 					// If the user never did anything in this exercise, ignore it.
-					if (!exercise.events.some(event => event.submissions.some(submission => submission.userId === userId)))
+					if (!exercise.events.some((event: any) => event.submissions.some((submission: any) => submission.userId === userId)))
 						return
 
 					// Remember the exercise and all submissions that the user did in it.
 					exerciseList.push(exercise)
-					exercise.events.forEach(event => {
-						event.submissions.forEach(submission => {
+					exercise.events.forEach((event: any) => {
+						event.submissions.forEach((submission: any) => {
 							if (submission.userId === userId)
 								exerciseSubmissionIdList.push(submission.id)
 						})
 						// Already remove the submission from the submission list.
-						event.submissions = event.submissions.filter(submission => submission.userId !== userId)
+						event.submissions = event.submissions.filter((submission: any) => submission.userId !== userId)
 					})
 				})
 
@@ -156,7 +157,7 @@ const resolvers = {
 				})
 
 				// Publish events about each of the active exercises and on the updated group.
-				const activeExercises = exerciseList.filter(exercise => exercise.active)
+				const activeExercises = exerciseList.filter((exercise: any) => exercise.active)
 				await Promise.all(activeExercises.map(async exercise => await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })))
 				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'leave' })
 			}
@@ -172,12 +173,12 @@ const resolvers = {
 			const groups = user.groups
 
 			// Extract the given group.
-			const group = groups.find(group => group.code === code)
+			const group = groups.find((group: any) => group.code === code)
 			if (!group)
 				throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
 			// Activate the given group.
-			const member = group.members.find(member => member.id === userId)
+			const member = group.members.find((member: any) => member.id === userId)
 			const membership = member.groupMembership
 			if (membership && !membership.active) {
 				member.groupMembership = await membership.update({ active: true })
@@ -193,7 +194,7 @@ const resolvers = {
 			const groups = user.groups
 
 			// Find a group where the user is active, so that we may return it in the end as the deactivated group.
-			const activeGroup = groups.find(group => group.members.some(member => member.id === userId && member.groupMembership.active))
+			const activeGroup = groups.find((group: any) => group.members.some((member: any) => member.id === userId && member.groupMembership.active))
 
 			// Deactivate all groups.
 			await deactivateUserGroups(pubsub, user)
@@ -204,27 +205,27 @@ const resolvers = {
 	},
 
 	Subscription: {
-		...getSubscription('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }, { code }) => {
+		...getSubscription('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }: any, { code }: any) => {
 			// Only pass on when the code matches.
 			if (updatedGroup.code === code)
 				return updatedGroup
 		}),
-		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }, _args, { ensureLoggedIn, userId }) => {
+		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: any, _args: any, { ensureLoggedIn, userId }: any) => {
 			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
 			if (userId === eventUserId && action === 'deactivate')
 				return updatedGroup
 
 			// Pass the group on when the group is the user's active group.
-			const member = updatedGroup.members && updatedGroup.members.find(member => member.id === userId)
+			const member = updatedGroup.members && updatedGroup.members.find((member: any) => member.id === userId)
 			if (member && member.groupMembership.active)
 				return updatedGroup // If the user is active in the group, send an update on this group.
 		}),
-		...getSubscription('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }, _args, { userId }) => {
+		...getSubscription('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: any, _args: any, { userId }: any) => {
 			// Only pass on the updated group when the user caused this event (like deactivated) or when the user is a member.
-			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some(member => member.id === userId)))
+			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some((member: any) => member.id === userId)))
 				return updatedGroup
 		}),
 	},
 }
 
-module.exports = resolvers
+export = resolvers

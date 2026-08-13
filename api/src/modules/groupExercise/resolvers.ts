@@ -4,19 +4,20 @@ const { findOptimum } = require('@step-wise/utils')
 const { generateRandomExerciseInstance } = require('@step-wise/exercise-selection')
 const { getExercises, getExercise } = require('@step-wise/exercises')
 
-const { getSubscription } = require('../util/subscriptions')
-const { SKILL_EVENTS: skillEvents, applySkillUpdates } = require('../../modules/skill')
-const { events: groupExerciseEvents, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
+const { getSubscription } = require('../../graphql/util/subscriptions')
+const { SKILL_EVENTS: skillEvents, applySkillUpdates } = require('../skill')
+const { GROUP_EXERCISE_EVENTS: groupExerciseEvents, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('./service')
 
-const resolvers = {
+type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
+const resolvers: ResolverTree = {
 	GroupExercise: {
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getGroupExerciseProgress(exercise),
-		history: exercise => exercise.events.sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.
+		history: exercise => exercise.events.sort((a: any, b: any) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.
 	},
 
 	GroupEvent: {
-		performedAt: event => findOptimum(event.submissions.map(submission => submission.updatedAt), (a, b) => a > b) || event.updatedAt, // Get the time of the last submission.
+		performedAt: event => findOptimum(event.submissions.map((submission: any) => submission.updatedAt), (a: any, b: any) => a > b) || event.updatedAt, // Get the time of the last submission.
 	},
 
 	GroupSubmission: {
@@ -66,7 +67,7 @@ const resolvers = {
 				throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
 
 			// If there is no active event (should never happen) then add one.
-			let activeEvent = activeExercise.events.find(event => event.progress === null)
+			let activeEvent = activeExercise.events.find((event: any) => event.progress === null)
 			if (!activeEvent) {
 				activeEvent = await activeExercise.createEvent({ progress: null })
 				activeEvent.submissions = []
@@ -74,10 +75,10 @@ const resolvers = {
 			}
 
 			// If there is already a submission for the user, overwrite it. Otherwise add it.
-			const userSubmission = activeEvent.submissions.find(submission => submission.userId === userId)
+			const userSubmission = activeEvent.submissions.find((submission: any) => submission.userId === userId)
 			if (userSubmission) {
 				const newSubmission = await userSubmission.update({ action })
-				activeEvent.submissions = activeEvent.submissions.map(submission => submission.id === newSubmission.id ? newSubmission : submission)
+				activeEvent.submissions = activeEvent.submissions.map((submission: any) => submission.id === newSubmission.id ? newSubmission : submission)
 			} else {
 				const newSubmission = await activeEvent.createSubmission({ userId, action })
 				activeEvent.submissions = [...activeEvent.submissions, newSubmission]
@@ -96,15 +97,15 @@ const resolvers = {
 			const activeExercise = group.exercises[0]
 			if (!activeExercise)
 				throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
-			const activeEvent = activeExercise.events.find(event => event.progress === null)
+			const activeEvent = activeExercise.events.find((event: any) => event.progress === null)
 			if (!activeEvent)
 				throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
 
 			// Load in the user submission and delete it if it exists.
-			const userSubmission = activeEvent.submissions && activeEvent.submissions.find(submission => submission.userId === userId)
+			const userSubmission = activeEvent.submissions && activeEvent.submissions.find((submission: any) => submission.userId === userId)
 			if (userSubmission) {
 				await userSubmission.destroy()
-				activeEvent.submissions = activeEvent.submissions.filter(submission => submission.id !== userSubmission.id)
+				activeEvent.submissions = activeEvent.submissions.filter((submission: any) => submission.id !== userSubmission.id)
 				await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code, action: 'cancelAction' })
 			}
 
@@ -120,20 +121,20 @@ const resolvers = {
 			const activeExercise = group.exercises[0]
 			if (!activeExercise)
 				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
-			const activeEvent = activeExercise.events.find(event => event.progress === null)
+			const activeEvent = activeExercise.events.find((event: any) => event.progress === null)
 			if (!activeEvent)
 				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
 			// Check if it can be submitted. This is only when at least two active members are present and all active members have submitted.
-			const activeMembers = group.members.filter(member => member.groupMembership.active)
+			const activeMembers = group.members.filter((member: any) => member.groupMembership.active)
 			if (activeMembers.length < 2)
 				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
-			if (activeMembers.some(member => !activeEvent.submissions.some(submission => submission.userId === member.id)))
+			if (activeMembers.some((member: any) => !activeEvent.submissions.some((submission: any) => submission.userId === member.id)))
 				throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
 
 			// Set up an updateSkills handler that only collects calls.
-			const skillUpdates = []
-			const updateSkills = (setup, correct, givenUserId) => {
+			const skillUpdates: any[] = []
+			const updateSkills = (setup: any, correct: boolean, givenUserId?: string) => {
 				if (setup)
 					skillUpdates.push({ setup, correct, userId: givenUserId || userId })
 			}
@@ -148,8 +149,8 @@ const resolvers = {
 				throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Time to store things in the database.
-			let adjustedSkillsPerUser
-			await db.transaction(async (transaction) => {
+			let adjustedSkillsPerUser: Record<string, any[]> = {}
+			await db.transaction(async (transaction: any) => {
 				// Apply all the skill updates that were collected so far.
 				adjustedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)
 
@@ -176,11 +177,11 @@ const resolvers = {
 	},
 
 	Subscription: {
-		...getSubscription('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }, { code: codeOfFollowedGroup }) => {
+		...getSubscription('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: any, { code: codeOfFollowedGroup }: any) => {
 			// Only pass on when the code matches.
 			if (codeOfEvent === codeOfFollowedGroup)
 				return updatedGroupExercise
 		}),
 	},
 }
-module.exports = resolvers
+export = resolvers
