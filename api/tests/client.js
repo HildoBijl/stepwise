@@ -1,10 +1,12 @@
 const request = require('supertest')
-const { createServer } = require('../src/server')
-const { createSequelize, createUmzug } = require('../scripts')
+
 const SurfConextMock = require('../src/modules/authentication/surfConext/devmock')
 const GoogleMock = require('../src/modules/authentication/google/devmock')
+const { createServer } = require('../src/server')
 const { Database } = require('../src/database')
-const { clearDatabaseSchema } = require('./testutil')
+const { createSequelize } = require('../scripts')
+
+const { clearDatabaseData } = require('./testutil')
 
 function noop() {
 }
@@ -31,6 +33,10 @@ class PubSubMock {
 			this.eventCount[eventId] = 0
 		}
 		this.eventCount[eventId] += 1
+	}
+
+	reset() {
+		this.eventCount = {}
 	}
 }
 
@@ -109,24 +115,30 @@ class Client {
 }
 
 async function createClient(seedingProcedure = noop) {
-	await clearDatabaseSchema(sequelize)
-	const umzug = createUmzug(sequelize)
-	await umzug.up()
+	await clearDatabaseData(sequelize)
 	await seedingProcedure(database)
-	const pubsub = new PubSubMock()
-	const server = await createServer({
-		database: database,
+	pubsub.reset()
+	return new Client(server, pubsub)
+}
+
+const pubsub = new PubSubMock()
+let server
+
+beforeAll(async () => {
+	await sequelize.authenticate()
+	server = await createServer({
+		database,
 		config: defaultConfig,
 		sessionStore: undefined,
 		surfConextClient: new SurfConextMock.MockClient(),
 		googleClient: new GoogleMock.MockClient(),
-		pubsub: pubsub,
+		pubsub,
 	})
-	return new Client(server, pubsub)
-}
+})
 
 // Teardown Jest
 afterAll(async () => {
+	if (server) await server.stop()
 	await sequelize.close()
 })
 

@@ -1,4 +1,4 @@
-import http, { type Server as HttpServer } from 'node:http'
+import http from 'node:http'
 import express from 'express'
 import session from 'express-session'
 import cors from 'cors'
@@ -12,12 +12,12 @@ import { createAuthRouter } from '../modules/authentication'
 import { createI18nRouter } from '../modules/i18n'
 import { typeDefs, resolvers } from '../graphql'
 
-import type { CreateServerOptions, SessionRequest } from './types'
+import type { ApiServer, CreateServerOptions, SessionRequest } from './types'
 import { createApolloContext } from './apolloContext'
 import { validateServerConfig } from './config'
 import { getIdFromRequest } from './support'
 
-export async function createServer({ config, database, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<HttpServer> {
+export async function createServer({ config, database, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
 	validateServerConfig(config)
 
 	const corsOptions = { origin: config.corsUrls, credentials: true }
@@ -94,6 +94,8 @@ export async function createServer({ config, database, sessionStore, surfConextC
 	})
 	await apolloServer.start()
 	apolloServer.applyMiddleware({ app, cors: corsOptions, path: '/graphql' })
+	const apiServer = httpServer as ApiServer
+	apiServer.stop = () => apolloServer.stop()
 
-	return httpServer
+	return apiServer
 }

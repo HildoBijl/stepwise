@@ -37,7 +37,8 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(BOB_SURFSUB)
 
-		expect(() => client.graphql({ query: `{skill {id skillId}}` }, 400)).rejects.toThrow('Bad Request')
+		const { errors } = await client.graphql({ query: `{skill {id skillId}}` }, 400)
+		expect(errors).not.toBeUndefined()
 	})
 
 	it('gives an error when a non-existing skill is given (bad request)', async () => {

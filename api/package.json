@@ -65,6 +65,7 @@
 	},
 	"jest": {
 		"verbose": false,
+		"globalSetup": "<rootDir>/tests/globalSetup.js",
 		"transform": {
 			"^.+\\.tsx?$": [
 				"@swc/jest",

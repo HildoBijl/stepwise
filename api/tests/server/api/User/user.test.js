@@ -46,7 +46,8 @@ describe('user', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		expect(() => client.graphql({ query: `{user {id}}` }, 400)).rejects.toThrow('Bad Request')
+		const { errors } = await client.graphql({ query: `{user {id}}` }, 400)
+		expect(errors).not.toBeUndefined()
 	})
 
 	it('gives an error when a non-existing user is given (bad request)', async () => {

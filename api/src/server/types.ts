@@ -1,4 +1,4 @@
-import type { IncomingMessage } from 'node:http'
+import type { IncomingMessage, Server as HttpServer } from 'node:http'
 import type { Request, RequestHandler } from 'express'
 import type { SessionData, Store } from 'express-session'
 import type { PubSubEngine } from 'graphql-subscriptions'
@@ -9,6 +9,7 @@ import type { SurfConextClient } from '../modules/authentication/surfConext'
 
 export type RequestWithSession = Pick<Request, 'session'>
 export type SessionRequest = IncomingMessage & { session: SessionData }
+export type ApiServer = HttpServer & { stop(): Promise<void> }
 
 export type ServerConfig = Readonly<{
 	sslEnabled: boolean
