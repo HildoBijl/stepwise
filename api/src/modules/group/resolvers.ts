@@ -1,9 +1,8 @@
-const { Op, UniqueConstraintError } = require('sequelize')
+const { UniqueConstraintError } = require('sequelize')
 const { ForbiddenError, UserInputError } = require('apollo-server-express')
 
-const { getSubscription } = require('../../graphql/util/subscriptions')
+const { getSubscription } = require('../subscriptions')
 const { GROUP_EVENTS: groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } = require('./service')
-const { GROUP_EXERCISE_EVENTS: groupExerciseEvents, getGroupWithAllExercises } = require('../groupExercise')
 
 type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
 const resolvers: ResolverTree = {
@@ -111,59 +110,6 @@ const resolvers: ResolverTree = {
 			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'join' })
 
 			return group
-		},
-
-		leaveGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {
-			// Load the group and check how many users are left.
-			ensureLoggedIn()
-			const group = await getGroup(db, code)
-			group.members = group.members.filter((member: any) => member.id !== userId)
-
-			// When the group is left empty, remove it entirely. Otherwise remove all traces from the user.
-			if (group.members.length === 0) {
-				await group.destroy()
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'destroy' })
-			} else {
-				// Get all submission IDs that have to be removed.
-				const groupWithExercises = await getGroupWithAllExercises(code, db)
-				const exerciseList: any[] = []
-				const exerciseSubmissionIdList: string[] = []
-				groupWithExercises.exercises.forEach((exercise: any) => {
-					// If the user never did anything in this exercise, ignore it.
-					if (!exercise.events.some((event: any) => event.submissions.some((submission: any) => submission.userId === userId)))
-						return
-
-					// Remember the exercise and all submissions that the user did in it.
-					exerciseList.push(exercise)
-					exercise.events.forEach((event: any) => {
-						event.submissions.forEach((submission: any) => {
-							if (submission.userId === userId)
-								exerciseSubmissionIdList.push(submission.id)
-						})
-						// Already remove the submission from the submission list.
-						event.submissions = event.submissions.filter((submission: any) => submission.userId !== userId)
-					})
-				})
-
-				// Remove the user and all its submissions.
-				await group.removeMember(userId)
-				await db.GroupExerciseSubmission.destroy({
-					where: {
-						userId, // Technically not needed, but for added safety.
-						id: {
-							[Op.in]: exerciseSubmissionIdList,
-						},
-					},
-				})
-
-				// Publish events about each of the active exercises and on the updated group.
-				const activeExercises = exerciseList.filter((exercise: any) => exercise.active)
-				await Promise.all(activeExercises.map(async exercise => await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })))
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'leave' })
-			}
-
-			// All done!
-			return true
 		},
 
 		activateGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {

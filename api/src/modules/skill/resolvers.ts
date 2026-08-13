@@ -1,7 +1,7 @@
 import { AuthenticationError } from 'apollo-server-express'
 import { ensureSkillId, ensureSkillIds } from '@step-wise/skill-tree'
 
-import { getSubscription } from '../../graphql/util/subscriptions'
+import { getSubscription } from '../subscriptions'
 import { getUser, type UserRecord } from '../user'
 import { getUserSkill, getUserSkills, SKILL_EVENTS, type SkillDatabase } from './service'
 import type { UserSkillRecord } from './model'

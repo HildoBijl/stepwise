@@ -10,5 +10,4 @@ import { userModule } from './user'
 // Modules are registered in dependency order. Foundational modules come first.
 export const apiModules: ApiModule[] = [userModule, authenticationModule, courseModule, skillModule, exerciseModule, groupModule, groupExerciseModule]
 
-export * from './compose'
 export * from './types'
