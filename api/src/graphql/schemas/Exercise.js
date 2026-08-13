@@ -1,6 +1,21 @@
 const { gql } = require('apollo-server-express')
 
 const schema = gql`
+	type SkillWithExercises implements Skill {
+		id: ID!
+		userId: ID!
+		skillId: String!
+		numPracticed: Int!
+		coefficients: [Float]!
+		coefficientsOn: DateTime!
+		highest: [Float]!
+		highestOn: DateTime!
+		createdAt: DateTime!
+		updatedAt: DateTime!
+		exercises: [Exercise]!
+		activeExercise: Exercise
+	}
+
 	extend type Mutation {
 		startExercise(skillId: String!): Exercise!
 		submitExerciseAction(skillId: String!, action: JSON!): ExerciseActionResult!

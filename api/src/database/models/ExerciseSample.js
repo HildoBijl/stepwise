@@ -25,6 +25,7 @@ module.exports = (sequelize) => {
 
 	ExerciseSample.associate = models => {
 		ExerciseSample.belongsTo(models.UserSkill, { onDelete: 'CASCADE' })
+		models.UserSkill.hasMany(ExerciseSample, { as: 'exercises', onDelete: 'CASCADE' })
 		ExerciseSample.hasMany(models.ExerciseEvent, { as: 'events', onDelete: 'CASCADE' })
 	}
 

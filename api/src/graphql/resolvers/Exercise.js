@@ -3,11 +3,19 @@ const { ensureSkillId } = require('@step-wise/skill-tree')
 const { generateSkillBasedExerciseInstance } = require('@step-wise/exercise-selection')
 const { getExercises, getExercise } = require('@step-wise/exercises')
 
-const { events: skillEvents, getUserSkill } = require('../util/Skill')
-const { getUserSkillLevelSet, applySkillUpdatesForUser } = require('../util/SkillCoefficients')
+const { SKILL_EVENTS: skillEvents, getUserSkillLevelSet, applySkillUpdatesForUser } = require('../../modules/skill')
+const { getUserSkillWithExercises } = require('../util/ExerciseSkill')
 const { getLastEvent, getExerciseProgress } = require('../util/Exercise')
 
 const resolvers = {
+	Skill: { __resolveType: skill => skill.allowExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
+	SkillWithExercises: {
+		exercises: (skill, _args, { loaders }) => loaders.exercisesForSkill.load(skill.id),
+		activeExercise: async (skill, _args, { loaders }) => {
+			const exercises = await loaders.exercisesForSkill.load(skill.id)
+			return exercises.find(exercise => exercise.active && !!getExercise(skill.skillId, exercise.exerciseId)) ?? null
+		},
+	},
 	Exercise: {
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getExerciseProgress(exercise),
@@ -32,7 +40,7 @@ const resolvers = {
 			// Check input: the user must be logged in, the skillId must exist, and there must not be an active exercise.
 			ensureLoggedIn()
 			ensureSkillId(skillId)
-			const { skill, exercises: previousExercises } = await getUserSkill(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
+			const { skill, exercises: previousExercises } = await getUserSkillWithExercises(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true })
 
 			// Select a new exercise, store it and return the result.
 			const skillExercises = getExercises(skillId)
@@ -45,7 +53,7 @@ const resolvers = {
 			ensureLoggedIn()
 
 			// Get the currently active exercise.
-			const { activeExercise } = await getUserSkill(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true })
+			const { activeExercise } = await getUserSkillWithExercises(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true })
 
 			// Set up an updateSkills handler that collects the updates that need to be done.
 			const skillUpdates = []

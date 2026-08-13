@@ -1,7 +1,6 @@
 module.exports = {
 	SurfConextProfile: require('./SurfConextProfile'),
 
-	UserSkill: require('./UserSkill'),
 	ExerciseSample: require('./ExerciseSample'),
 	ExerciseEvent: require('./ExerciseEvent'),
 

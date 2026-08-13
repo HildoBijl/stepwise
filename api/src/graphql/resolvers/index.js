@@ -1,7 +1,6 @@
 const { EmailAddressResolver, DateTimeResolver, JSONResolver } = require('graphql-scalars')
 
 const resolverKeys = [
-	'Skill',
 	'Exercise',
 	'Course',
 	'Group',

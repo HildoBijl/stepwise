@@ -5,8 +5,7 @@ const { generateRandomExerciseInstance } = require('@step-wise/exercise-selectio
 const { getExercises, getExercise } = require('@step-wise/exercises')
 
 const { getSubscription } = require('../util/subscriptions')
-const { events: skillEvents } = require('../util/Skill')
-const { applySkillUpdates } = require('../util/SkillCoefficients')
+const { SKILL_EVENTS: skillEvents, applySkillUpdates } = require('../../modules/skill')
 const { events: groupExerciseEvents, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
 
 const resolvers = {
