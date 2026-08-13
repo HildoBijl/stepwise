@@ -9,6 +9,7 @@
 	],
 	"scripts": {
 		"build": "npm run build:packages && npm run build:frontend",
+		"build:api": "npm run build:packages && npm run build --workspace=@step-wise/api",
 		"build:packages": "tsc -b tsconfig.json",
 		"clean:packages": "rimraf --glob \"packages/*/dist\"",
 		"dev": "npm run rebuild:packages && concurrently --kill-others-on-fail --names packages,api,frontend --prefix-colors cyan,yellow,magenta \"npm:watch:packages:incremental\" \"npm:dev:api\" \"npm:dev:frontend\"",
@@ -23,6 +24,7 @@
 		"test:frontend:watch": "npm run test:watch --workspace=@step-wise/frontend",
 		"test:packages": "jest --config jest.config.js",
 		"test:packages:watch": "jest --config jest.config.js --watch",
+		"typecheck:api": "npm run build:packages && npm run typecheck --workspace=@step-wise/api",
 		"watch:packages": "npm run clean:packages && npm run watch:packages:incremental",
 		"watch:packages:incremental": "tsc -b tsconfig.json --watch"
 	},

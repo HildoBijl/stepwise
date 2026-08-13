@@ -29,6 +29,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Build packages
         run: npm run build:packages
+      - name: Type-check API
+        run: npm run typecheck:api
       - name: Run package tests
         run: npm run test:packages
       - name: Setup test environment

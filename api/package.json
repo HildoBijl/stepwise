@@ -4,7 +4,10 @@
 	"private": true,
 	"scripts": {
 		"start": "node scripts/startWebserver.js",
-		"dev": "nodemon --watch ./ --watch ../packages scripts/startWebserver.js",
+		"dev": "tsx watch --clear-screen=false scripts/startWebserver.js",
+		"build": "npm run clean && tsc -p tsconfig.json",
+		"clean": "rimraf dist",
+		"typecheck": "tsc -p tsconfig.json --noEmit",
 		"test": "cross-env POSTGRES_DB=\"testing\" jest --runInBand tests/.*\\.test\\.js",
 		"test:watch": "cross-env POSTGRES_DB=\"testing\" jest --watch --runInBand tests/server/api/.*\\.test\\.js",
 		"db:seed": "node scripts/seedDb.js",
@@ -50,9 +53,12 @@
 	"devDependencies": {
 		"@step-wise/input-interpretation": "1.0.0",
 		"@step-wise/serialization": "1.0.0",
+		"@types/node": "^24.0.0",
 		"jest": "27.5.1",
-		"nodemon": "^3.1.10",
-		"supertest": "6.2.2"
+		"rimraf": "^6.1.3",
+		"supertest": "6.2.2",
+		"tsx": "^4.20.0",
+		"typescript": "^6.0.2"
 	},
 	"jest": {
 		"verbose": false,
