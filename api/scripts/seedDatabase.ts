@@ -1,13 +1,11 @@
-const { Database } = require('../src/database')
-const { createSequelize } = require('./init')
-const surfConextMockData = require('../src/modules/authentication/surfConext/mockData.json')
+import { Database } from '../src/database'
+import { SURF_CONEXT_MOCK_USERS } from '../src/modules/authentication/surfConext/devmock'
+import { createSequelize } from './database'
 
 if (process.env.NODE_ENV !== 'development') process.exit(1)
 
-/**
- * The main procedure for populating test data into the DB
- */
-async function seedTestData(db) {
+// The main procedure for populating test data into the DB.
+async function seedTestData(db: Database): Promise<void> {
 	// Find a date two minutes ago to start adding elements.
 	const date = new Date()
 	date.setSeconds(date.getSeconds() - 120)
@@ -22,7 +20,7 @@ async function seedTestData(db) {
 		email: 'step@wise.com',
 		createdAt: date.setSeconds(date.getSeconds() + 1)
 	})
-	const surfConextMockUser = surfConextMockData.find(u => u.email === user.email)
+	const surfConextMockUser = SURF_CONEXT_MOCK_USERS.find(candidate => candidate.email === user.email)
 	if (surfConextMockUser) {
 		await user.createSurfConextProfile({
 			id: surfConextMockUser.sub,
@@ -32,9 +30,9 @@ async function seedTestData(db) {
 
 	// Create skills for the user.
 	const skills = await Promise.all([
-		user.createSkill({ skillId: 'summation', coefficients: [0,0,1], highest: [0,0,1], numPracticed: 3, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		user.createSkill({ skillId: 'multiplication', coefficients: [0,1], highest: [0,0.2,0.8], numPracticed: 2, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		user.createSkill({ skillId: 'summationAndMultiplication', coefficients: [1,0], highest: [1], numPracticed: 1, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'summation', coefficients: [0, 0, 1], highest: [0, 0, 1], numPracticed: 3, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'multiplication', coefficients: [0, 1], highest: [0, 0.2, 0.8], numPracticed: 2, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'summationAndMultiplication', coefficients: [1, 0], highest: [1], numPracticed: 1, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 
 	// Create exercises related to the example skill.
@@ -54,9 +52,7 @@ async function seedTestData(db) {
 	])
 }
 
-/**
- * Wipe database and apply seeds freshly
- */
+// Wipe database and apply seeds freshly.
 const sequelize = createSequelize()
 sequelize.authenticate()
 	.then(async () => {

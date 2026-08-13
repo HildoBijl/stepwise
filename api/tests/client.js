@@ -1,6 +1,6 @@
 const request = require('supertest')
 const { createServer } = require('../src/server')
-const { createSequelize, createUmzug } = require('../scripts/init')
+const { createSequelize, createUmzug } = require('../scripts')
 const SurfConextMock = require('../src/modules/authentication/surfConext/devmock')
 const GoogleMock = require('../src/modules/authentication/google/devmock')
 const { Database } = require('../src/database')

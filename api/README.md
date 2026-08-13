@@ -23,7 +23,7 @@ See the `script` section in the respective `package.json` files for the calls, a
 
 ## Database structure, API structure and migrations
 
-The current [database structure](src/database/README.md) is defined in the `database` folder. This contains various Sequelize models defining tables.
+Database models live in their respective feature modules and are assembled by `src/database.ts`.
 
 The GraphQL server is defined in the `graphql` folder. First there are various `schemas` that determine what kind of calls the API accepts. Once such a call takes place, the `resolvers` deal with it, gathering data from the database in the appropriate way. Use the GraphQL tool to determine what kind of data they have.
 

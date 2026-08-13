@@ -6,7 +6,7 @@
 2. Export a `up` and a `down` function from that module.
    These functions are async and receive a [`queryInterface`](https://sequelize.org/master/class/lib/dialects/abstract/query-interface.js~QueryInterface.html) as parameter.
    `up` is the procedure for applying the migration, `down` is for reverting it.
-3. Adjust the [database models](../src/database/models) and all dependent code to reflect the structural changes.
+3. Adjust the database models in the respective feature modules and all dependent code to reflect the structural changes.
    Keep in mind that the models are an independent representation of the database structure, they don’t adjust automatically.
 
 ## Testing
