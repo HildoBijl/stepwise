@@ -1,33 +1,27 @@
-const { gql } = require('apollo-server-express')
+import { gql } from 'apollo-server-express'
 
-const CourseForExternal = `
-		id: ID!
-		code: String!
-		name: String!
-		description: String
-		goals: [String]!
-		goalWeights: [Int]
-		startingPoints: [String]!
-		setup: JSON
-		organization: String!
-		blocks: [CourseBlock]!
-		createdAt: DateTime!
-		updatedAt: DateTime!
+const courseExternal = `
+	id: ID!
+	code: String!
+	name: String!
+	description: String
+	goals: [String]!
+	goalWeights: [Int]
+	startingPoints: [String]!
+	setup: JSON
+	organization: String!
+	blocks: [CourseBlock]!
+	createdAt: DateTime!
+	updatedAt: DateTime!
 `
 
-const CourseForStudent = `
-		${CourseForExternal}
-		role: String
-		subscribedOn: DateTime
-		teachers: [User]!
+const courseStudent = `${courseExternal}
+	role: String
+	subscribedOn: DateTime
+	teachers: [User]!
 `
 
-const CourseForTeacher = `
-		${CourseForStudent}
-		students: [User]!
-`
-
-const schema = gql`
+export const courseTypeDefs = gql`
 	extend type Query {
 		allCourses: [Course]!
 		myCourses: [Course]!
@@ -43,24 +37,13 @@ const schema = gql`
 		promoteToTeacher(courseId: ID!, userId: ID!): Course!
 	}
 
-	interface Course {
-		${CourseForExternal}
-	}
-
-	type CourseForExternal implements Course {
-		${CourseForExternal}
-	}
-
-	interface CourseForUser implements Course {
-		${CourseForStudent}
-	}
-
-	type CourseForStudent implements CourseForUser & Course {
-		${CourseForStudent}
-	}
-
+	interface Course { ${courseExternal} }
+	type CourseForExternal implements Course { ${courseExternal} }
+	interface CourseForUser implements Course { ${courseStudent} }
+	type CourseForStudent implements CourseForUser & Course { ${courseStudent} }
 	type CourseForTeacher implements CourseForUser & Course {
-		${CourseForTeacher}
+		${courseStudent}
+		students: [User]!
 	}
 
 	input CreateCourseInput {
@@ -72,7 +55,7 @@ const schema = gql`
 		startingPoints: [String]!
 		setup: JSON
 		organization: String
-  	blocks: [CourseBlockInput]
+		blocks: [CourseBlockInput]
 	}
 
 	input UpdateCourseInput {
@@ -84,7 +67,7 @@ const schema = gql`
 		startingPoints: [String]
 		setup: JSON
 		organization: String
-  	blocks: [CourseBlockInput]
+		blocks: [CourseBlockInput]
 	}
 
 	type CourseBlock {
@@ -97,5 +80,3 @@ const schema = gql`
 		goals: [String]!
 	}
 `
-
-module.exports = schema

@@ -2,7 +2,6 @@ const { EmailAddressResolver, DateTimeResolver, JSONResolver } = require('graphq
 
 const resolverKeys = [
 	'Exercise',
-	'Course',
 	'Group',
 	'GroupExercise',
 ]

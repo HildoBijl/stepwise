@@ -2,7 +2,7 @@ import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 import { includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
-import { dbCourseToCourseObject } from '../../graphql/util/Course'
+import { dbCourseToCourseObject } from '../course'
 import type { ApiContext, ApiLoaders, LoaderFactory } from '../types'
 import type { SkillDatabase, UserSkillRecord } from '.'
 
