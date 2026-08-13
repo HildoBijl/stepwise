@@ -1,5 +1,5 @@
-const { createClient, defaultConfig } = require('../client')
-const { DIRECTORY_PATH } = require('../../src/modules/authentication/surfConext/devmock')
+import { SurfConext } from '../../src/modules/authentication'
+import { createClient, defaultConfig } from '../support/client'
 
 const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
 const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'
@@ -269,7 +269,7 @@ describe('Authentication: Redirects', () => {
 
 		await expect(
 			client.initiate(customRedirectPath)
-		).resolves.toEqual(DIRECTORY_PATH)
+		).resolves.toEqual(SurfConext.directoryPath)
 
 		await expect(
 			client.loginSurfConext('1111111111111111111111111111111111111111')
@@ -282,7 +282,7 @@ describe('Authentication: Redirects', () => {
 
 		await expect(
 			client.initiate(evilRedirectPath)
-		).resolves.toEqual(DIRECTORY_PATH)
+		).resolves.toEqual(SurfConext.directoryPath)
 
 		await expect(
 			client.loginSurfConext('1111111111111111111111111111111111111111')

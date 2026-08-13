@@ -1,6 +1,6 @@
 import type { GoogleAuthData, GoogleClient, GoogleIdentity } from './types'
 
-export const GOOGLE_MOCK_USERS: Record<string, GoogleIdentity> = {
+export const mockUsers: Record<string, GoogleIdentity> = {
 	'00112233445566778899': {
 		iss: 'https://accounts.google.com',
 		nbf: 100000000,
@@ -38,6 +38,6 @@ export const GOOGLE_MOCK_USERS: Record<string, GoogleIdentity> = {
 // The mock client is used by API tests; local development uses Google itself.
 export class MockClient implements GoogleClient {
 	async getData(authData: GoogleAuthData): Promise<GoogleIdentity | null> {
-		return GOOGLE_MOCK_USERS[authData.credential] ?? null
+		return mockUsers[authData.credential] ?? null
 	}
 }

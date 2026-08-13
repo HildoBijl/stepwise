@@ -54,7 +54,7 @@ async function updateLanguageFiles(request: Request, response: Response, next: N
 				const logEntry = {
 					formerText,
 					firstUpdate: now,
-					...(getByPath(log, [language, path, entry]) || {}),
+					...((getByPath(log, [language, path, entry]) || {}) as JsonObject),
 					latestUpdate: now,
 					latestText: text,
 				}

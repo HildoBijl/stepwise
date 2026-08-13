@@ -1,8 +1,7 @@
-const { stringifyJS } = require('@step-wise/utils')
-const { deserializeAll } = require('@step-wise/serialization')
-
-const surfConextMockData = require('../../../../src/modules/authentication/surfConext/mockData.json')
-const { createClient } = require('../../../client')
+import { stringifyJS } from '@step-wise/utils'
+import { deserializeAll } from '@step-wise/serialization'
+import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json'
+import { createClient } from '../../../support/client'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
@@ -63,7 +62,7 @@ describe('resolve group exercise:', () => {
 		await client.loginSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {state}}` })
-		const state = deserializeAll(exercise.state)
+		const state = deserializeAll(exercise.state) as any
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyJS(inputAction(state.x + 1))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
 		await client.logout()

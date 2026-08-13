@@ -1,7 +1,7 @@
-const { createSequelize, createUmzug } = require('../scripts')
-const { clearDatabaseSchema } = require('./testutil')
+import { createSequelize, createUmzug } from '../scripts'
+import { clearDatabaseSchema } from './support/database'
 
-module.exports = async function setupTestDatabase() {
+export default async function setupTestDatabase(): Promise<void> {
 	const sequelize = createSequelize(true)
 	try {
 		await sequelize.authenticate()

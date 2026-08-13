@@ -1,5 +1,6 @@
 import { Database } from '../src/database'
-import { SURF_CONEXT_MOCK_USERS } from '../src/modules/authentication/surfConext/devmock'
+import { SurfConext } from '../src/modules/authentication'
+
 import { createSequelize } from './database'
 
 if (process.env.NODE_ENV !== 'development') process.exit(1)
@@ -20,7 +21,7 @@ async function seedTestData(db: Database): Promise<void> {
 		email: 'step@wise.com',
 		createdAt: date.setSeconds(date.getSeconds() + 1)
 	})
-	const surfConextMockUser = SURF_CONEXT_MOCK_USERS.find(candidate => candidate.email === user.email)
+	const surfConextMockUser = SurfConext.mockUsers.find(candidate => candidate.email === user.email)
 	if (surfConextMockUser) {
 		await user.createSurfConextProfile({
 			id: surfConextMockUser.sub,

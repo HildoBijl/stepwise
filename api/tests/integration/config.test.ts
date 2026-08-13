@@ -1,5 +1,9 @@
-const { createServer } = require('../../src/server/index')
-const { defaultConfig } = require('../client')
+import { validateServerConfig } from '../../src/server'
+import { defaultConfig } from '../support/client'
+
+async function createServer({ config }: { config: unknown }): Promise<void> {
+	validateServerConfig(config)
+}
 
 describe('config', () => {
 	it('accepts well-formed configuration', async () => {

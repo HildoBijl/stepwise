@@ -4,14 +4,14 @@ import { PubSub } from 'graphql-subscriptions'
 
 import { Database } from '../src/database'
 import { createServer, loadConfig } from '../src/server'
-import * as SurfConextMock from '../src/modules/authentication/surfConext/devmock'
+import { SurfConext } from '../src/modules/authentication'
 
 import { createGoogleClient, createRedisStore, createSequelize, createSurfConext } from '.'
 
 const config = loadConfig(process.env)
-const surfConextClient = config.isProduction ? createSurfConext() : new SurfConextMock.MockClient()
+const surfConextClient = config.isProduction ? createSurfConext() : new SurfConext.MockClient()
 const googleClient = createGoogleClient()
-const sessionStore = config.isProduction ? createRedisStore() : SurfConextMock.createPrefilledMemoryStore()
+const sessionStore = config.isProduction ? createRedisStore() : SurfConext.createPrefilledMemoryStore()
 const sequelize = createSequelize()
 
 sequelize.authenticate()
@@ -25,7 +25,7 @@ sequelize.authenticate()
 			googleClient,
 			pubsub: new PubSub(),
 			useI18n: config.isDevelopment,
-			devAuthPortal: config.isDevelopment ? { path: SurfConextMock.DIRECTORY_PATH, directory: SurfConextMock.userDirectory } : null,
+			devAuthPortal: config.isDevelopment ? { path: SurfConext.directoryPath, directory: SurfConext.userDirectory } : null,
 		})
 
 		server.listen(config.port, () => {
