@@ -1,6 +1,6 @@
 const { stringifyJS } = require('@step-wise/utils')
 
-const surfConextMockData = require('../../../../surfConextMockData.json')
+const surfConextMockData = require('../../../../src/server/surfConext/mockData.json')
 const { createClient } = require('../../../client')
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'

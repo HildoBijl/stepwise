@@ -55,6 +55,7 @@
 		"@step-wise/serialization": "1.0.0",
 		"@swc/core": "^1.13.0",
 		"@swc/jest": "^0.2.39",
+		"@types/express-session": "^1.19.0",
 		"@types/node": "^24.0.0",
 		"jest": "27.5.1",
 		"rimraf": "^6.1.3",
