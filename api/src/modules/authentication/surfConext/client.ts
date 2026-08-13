@@ -3,7 +3,9 @@ import { Client as OpenIdClient, Issuer } from 'openid-client'
 
 import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types'
 
-const hash = (text: string): string => crypto.createHash('sha256').update(text).digest('hex')
+function hash(text: string): string {
+	return crypto.createHash('sha256').update(text).digest('hex')
+}
 
 export class Client implements SurfConextClient {
 	private readonly _issuerUrl: string

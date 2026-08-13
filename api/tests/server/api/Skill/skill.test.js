@@ -15,7 +15,7 @@ const SAMPLE_SKILL = 'enterInteger'
 const NONEXISTING_SKILL = 'abcdefghijklmnopqrstuvwxyz'
 
 // Alex is an admin, Bob is a student.
-const seed = async db => {
+async function seed(db) {
 	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email, role: 'admin' })
 	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 

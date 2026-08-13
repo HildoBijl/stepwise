@@ -2,11 +2,11 @@ import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 
 import type { UserRecord } from '../user'
-import type { ApiContext, LoaderFactory } from '../types'
+import type { ApiContext, ApiLoaders } from '../types'
 import type { CourseDatabase } from './service'
 import type { CourseRecord } from './models'
 
-export const createCourseLoaders: LoaderFactory = (context: ApiContext) => {
+export function createCourseLoaders(context: ApiContext): ApiLoaders {
 	const { db, userId } = context as { db: CourseDatabase; userId?: string }
 	const usersByCourse = (role: 'teacher' | 'student') => new DataLoader<string, UserRecord[]>(async courseIds => {
 		const subscriptions = await db.CourseSubscription.findAll({

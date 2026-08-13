@@ -10,20 +10,22 @@ const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)
 
 const SAMPLE_SKILL = 'enterInteger'
 
-const seed = async db => {
+async function seed(db) {
 	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email })
 	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 }
 
-const inputAction = (ans) => ({
-	type: "input",
-	input: {
-		ans: {
-			type: "Integer",
-			value: ans.toString(),
+function inputAction(ans) {
+	return {
+		type: "input",
+		input: {
+			ans: {
+				type: "Integer",
+				value: ans.toString(),
+			}
 		}
 	}
-})
+}
 
 describe('submitExerciseAction', () => {
 	it('gives an error when no user is logged in', async () => {

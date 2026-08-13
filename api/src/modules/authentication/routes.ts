@@ -11,7 +11,7 @@ const INTERNAL_ERROR = 'INTERNAL_ERROR'
 interface AuthConfig { homepageUrl: string }
 interface AuthenticatedUser { id: string }
 
-export const createAuthRouter = (config: AuthConfig, database: any, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }) => {
+export function createAuthRouter(config: AuthConfig, database: any, clients: { surfConextClient: SurfConextClient; googleClient: GoogleClient }) {
 	const router = express.Router()
 	router.use(cookieParser())
 	router.use(bodyParser.urlencoded({ extended: true }))
@@ -64,5 +64,10 @@ export const createAuthRouter = (config: AuthConfig, database: any, clients: { s
 	return router
 }
 
-const getValidRedirect = (redirect: unknown): string | null => typeof redirect === 'string' && redirect.startsWith('/') ? redirect : null
-const regenerateSession = (request: Request): Promise<void> => new Promise((resolve, reject) => request.session.regenerate(error => error ? reject(error) : resolve()))
+function getValidRedirect(redirect: unknown): string | null {
+	return typeof redirect === 'string' && redirect.startsWith('/') ? redirect : null
+}
+
+function regenerateSession(request: Request): Promise<void> {
+	return new Promise((resolve, reject) => request.session.regenerate(error => error ? reject(error) : resolve()))
+}

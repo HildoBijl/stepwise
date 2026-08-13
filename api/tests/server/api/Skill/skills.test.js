@@ -9,7 +9,7 @@ const SAMPLE_SKILL = 'enterInteger'
 const BACKUP_SKILL = 'enterFloat'
 const NONEXISTING_SKILL = 'abcdefghijklmnopqrstuvwxyz'
 
-const seed = async db => {
+async function seed(db) {
 	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email })
 	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 	await alex.createSkill({ skillId: SAMPLE_SKILL })

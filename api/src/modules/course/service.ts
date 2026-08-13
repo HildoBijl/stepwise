@@ -12,9 +12,11 @@ export interface CourseDatabase {
 	User: any
 }
 
-const participantAssociation = (userId?: string, required = false) => userId ? [{ association: 'participants', where: { id: userId }, required }] : []
+function participantAssociation(userId?: string, required = false) {
+	return userId ? [{ association: 'participants', where: { id: userId }, required }] : []
+}
 
-export const getCourses = async (database: CourseDatabase, userId?: string, onlyOwnCourses = false): Promise<CourseRecord[]> => {
+export async function getCourses(database: CourseDatabase, userId?: string, onlyOwnCourses = false): Promise<CourseRecord[]> {
 	const courses = await database.Course.findAll({
 		include: [...participantAssociation(userId, onlyOwnCourses), { association: 'blocks' }],
 		order: [[{ model: database.CourseBlock, as: 'blocks' }, 'index', 'ASC']],
@@ -23,7 +25,7 @@ export const getCourses = async (database: CourseDatabase, userId?: string, only
 	return courses
 }
 
-const getCourse = async (database: CourseDatabase, where: Record<string, unknown>, userId?: string): Promise<CourseRecord> => {
+async function getCourse(database: CourseDatabase, where: Record<string, unknown>, userId?: string): Promise<CourseRecord> {
 	const course = await database.Course.findOne({
 		where,
 		include: [...participantAssociation(userId), { association: 'blocks' }],
@@ -34,18 +36,24 @@ const getCourse = async (database: CourseDatabase, where: Record<string, unknown
 	return course
 }
 
-export const getCourseByCode = (database: CourseDatabase, code: string, userId?: string) => getCourse(database, { code }, userId)
-export const getCourseById = (database: CourseDatabase, courseId: string, userId?: string) => getCourse(database, { id: courseId }, userId)
+export function getCourseByCode(database: CourseDatabase, code: string, userId?: string) {
+	return getCourse(database, { code }, userId)
+}
+export function getCourseById(database: CourseDatabase, courseId: string, userId?: string) {
+	return getCourse(database, { id: courseId }, userId)
+}
 
-export const dbCourseToCourseObject = (course: CourseRecord): CourseDefinition => new CourseDefinition(skillTree, {
-	startingPoints: course.startingPoints,
-	learningGoals: course.goals,
-	goalWeights: course.goalWeights ?? undefined,
-	blockGoals: course.blocks?.map(block => block.goals),
-	setup: course.setup ? deserializeSetup(course.setup as any) : undefined,
-})
+export function dbCourseToCourseObject(course: CourseRecord): CourseDefinition {
+	return new CourseDefinition(skillTree, {
+		startingPoints: course.startingPoints,
+		learningGoals: course.goals,
+		goalWeights: course.goalWeights ?? undefined,
+		blockGoals: course.blocks?.map(block => block.goals),
+		setup: course.setup ? deserializeSetup(course.setup as any) : undefined,
+	})
+}
 
-const getCourseForUser = async (database: CourseDatabase, conditions: Record<string, unknown>, userId: string, requireTeacherRole = false, addStudents = requireTeacherRole) => {
+async function getCourseForUser(database: CourseDatabase, conditions: Record<string, unknown>, userId: string, requireTeacherRole = false, addStudents = requireTeacherRole) {
 	if (addStudents) requireTeacherRole = true
 	const isAdmin = requireTeacherRole && (await getUser(database, userId)).role === 'admin'
 	const participationRequirements = requireTeacherRole && !isAdmin ? [{
@@ -69,8 +77,10 @@ const getCourseForUser = async (database: CourseDatabase, conditions: Record<str
 	return course
 }
 
-export const getCourseByCodeForUser = (database: CourseDatabase, code: string, userId: string, requireTeacherRole = false, addStudents = requireTeacherRole) =>
-	getCourseForUser(database, { code }, userId, requireTeacherRole, addStudents)
+export function getCourseByCodeForUser(database: CourseDatabase, code: string, userId: string, requireTeacherRole = false, addStudents = requireTeacherRole) {
+	return getCourseForUser(database, { code }, userId, requireTeacherRole, addStudents)
+}
 
-export const getCourseByIdForUser = (database: CourseDatabase, courseId: string, userId: string, requireTeacherRole = false, addStudents = requireTeacherRole) =>
-	getCourseForUser(database, { id: courseId }, userId, requireTeacherRole, addStudents)
+export function getCourseByIdForUser(database: CourseDatabase, courseId: string, userId: string, requireTeacherRole = false, addStudents = requireTeacherRole) {
+	return getCourseForUser(database, { id: courseId }, userId, requireTeacherRole, addStudents)
+}

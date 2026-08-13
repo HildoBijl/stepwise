@@ -2,14 +2,16 @@ import { UserInputError } from 'apollo-server-express'
 import { getExercise } from '@step-wise/exercises'
 import { last } from '@step-wise/utils'
 
-export const getLastEvent = (exercise: any): any => {
+export function getLastEvent(exercise: any): any {
 	const events = (exercise.events || []).filter((event: any) => event.progress !== null)
 	return events.length > 0 ? last(events) : null
 }
 
-export const getExerciseProgress = (exercise: any) => getLastEvent(exercise)?.progress ?? {}
+export function getExerciseProgress(exercise: any) {
+	return getLastEvent(exercise)?.progress ?? {}
+}
 
-export const getUserSkillWithExercises = async (db: any, userId: string, skillId: string, options: any = {}) => {
+export async function getUserSkillWithExercises(db: any, userId: string, skillId: string, options: any = {}) {
 	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false } = options
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
 	let skill = await db.UserSkill.findOne({

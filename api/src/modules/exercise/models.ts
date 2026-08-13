@@ -21,7 +21,7 @@ export class ExerciseSampleRecord extends Model<InferAttributes<ExerciseSampleRe
 	declare createEvent: NonAttribute<(values: any, options?: any) => Promise<ExerciseEventRecord>>
 }
 
-export const createExerciseSampleModel = (sequelize: Sequelize) => {
+export function createExerciseSampleModel(sequelize: Sequelize) {
 	class ExerciseSample extends ExerciseSampleRecord {}
 	ExerciseSample.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
@@ -34,7 +34,7 @@ export const createExerciseSampleModel = (sequelize: Sequelize) => {
 	return ExerciseSample
 }
 
-export const createExerciseEventModel = (sequelize: Sequelize) => {
+export function createExerciseEventModel(sequelize: Sequelize) {
 	class ExerciseEvent extends ExerciseEventRecord {}
 	ExerciseEvent.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },

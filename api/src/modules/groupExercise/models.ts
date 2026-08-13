@@ -32,7 +32,7 @@ export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerci
 	declare createEvent: NonAttribute<(values: any, options?: any) => Promise<GroupExerciseEventRecord>>
 }
 
-export const createGroupExerciseSampleModel = (sequelize: Sequelize) => {
+export function createGroupExerciseSampleModel(sequelize: Sequelize) {
 	class GroupExerciseSample extends GroupExerciseSampleRecord {}
 	GroupExerciseSample.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true }, groupId: { type: DataTypes.UUID, allowNull: false },
@@ -43,7 +43,7 @@ export const createGroupExerciseSampleModel = (sequelize: Sequelize) => {
 	return GroupExerciseSample
 }
 
-export const createGroupExerciseEventModel = (sequelize: Sequelize) => {
+export function createGroupExerciseEventModel(sequelize: Sequelize) {
 	class GroupExerciseEvent extends GroupExerciseEventRecord {}
 	GroupExerciseEvent.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true }, groupExerciseSampleId: { type: DataTypes.UUID, allowNull: false },
@@ -52,7 +52,7 @@ export const createGroupExerciseEventModel = (sequelize: Sequelize) => {
 	return GroupExerciseEvent
 }
 
-export const createGroupExerciseSubmissionModel = (sequelize: Sequelize) => {
+export function createGroupExerciseSubmissionModel(sequelize: Sequelize) {
 	class GroupExerciseSubmission extends GroupExerciseSubmissionRecord {}
 	GroupExerciseSubmission.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true }, userId: { type: DataTypes.UUID, allowNull: false },

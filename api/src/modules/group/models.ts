@@ -21,7 +21,7 @@ export class GroupRecord extends Model<InferAttributes<GroupRecord>, InferCreati
 	declare createExercise: NonAttribute<(values: any, options?: any) => Promise<any>>
 }
 
-export const createGroupModel = (sequelize: Sequelize) => {
+export function createGroupModel(sequelize: Sequelize) {
 	class Group extends GroupRecord {}
 	Group.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
@@ -31,7 +31,7 @@ export const createGroupModel = (sequelize: Sequelize) => {
 	return Group
 }
 
-export const createGroupMembershipModel = (sequelize: Sequelize) => {
+export function createGroupMembershipModel(sequelize: Sequelize) {
 	class GroupMembership extends GroupMembershipRecord {}
 	GroupMembership.init({
 		userId: { type: DataTypes.UUID, primaryKey: true }, groupId: { type: DataTypes.UUID, primaryKey: true },

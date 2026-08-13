@@ -13,7 +13,7 @@ const SAMPLE_SKILL = 'enterInteger'
 const GROUP_CODE = 'PHYS'
 const OTHER_GROUP_CODE = 'MATH'
 
-const seed = async db => {
+async function seed(db) {
 	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email })
 	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 

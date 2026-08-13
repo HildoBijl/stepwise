@@ -16,7 +16,6 @@
 	},
 	"dependencies": {
 		"@graphql-tools/schema": "8.3.3",
-		"@hapi/joi": "17.1.1",
 		"@step-wise/course-definition": "1.0.0",
 		"@step-wise/exercise-definition": "1.0.0",
 		"@step-wise/exercise-selection": "1.0.0",

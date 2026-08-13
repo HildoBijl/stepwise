@@ -24,7 +24,7 @@ export class MockClient implements SurfConextClient {
 	}
 }
 
-export const createPrefilledMemoryStore = (): MemoryStore => {
+export function createPrefilledMemoryStore(): MemoryStore {
 	const memoryStore = new MemoryStore()
 	if (fs.existsSync(LAST_SESSION_DATA_PATH)) {
 		const [lastSessionId, userSub] = fs.readFileSync(LAST_SESSION_DATA_PATH, 'utf8').split('\n')
@@ -38,7 +38,7 @@ interface HtmlResponse {
 	send(body: string): unknown
 }
 
-export const userDirectory = (_request: unknown, response: HtmlResponse): void => {
+export function userDirectory(_request: unknown, response: HtmlResponse): void {
 	const list = SURF_CONEXT_MOCK_USERS.map(user => `<li><a href="/auth/surfconext/login?sub=${user.sub}">${user.name} &lt;${user.email}&gt;</a></li>`)
 	response.send(`<!doctype html><html><body><h1>SurfConext Mock Users</h1><ul>${list.join('')}</ul>`)
 }

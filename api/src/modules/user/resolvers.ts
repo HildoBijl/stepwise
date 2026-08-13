@@ -13,11 +13,13 @@ interface UserContext {
 	ensureAdmin(): void
 }
 
-const privacyPolicyConsent = (user: UserRecord) => ({
-	version: user.privacyPolicyAcceptedVersion,
-	acceptedAt: user.privacyPolicyAcceptedAt,
-	isLatestVersion: user.privacyPolicyAcceptedVersion === currentPrivacyPolicyVersion,
-})
+function privacyPolicyConsent(user: UserRecord) {
+	return {
+		version: user.privacyPolicyAcceptedVersion,
+		acceptedAt: user.privacyPolicyAcceptedAt,
+		isLatestVersion: user.privacyPolicyAcceptedVersion === currentPrivacyPolicyVersion,
+	}
+}
 
 export const userResolvers = {
 	UserPublic: {},

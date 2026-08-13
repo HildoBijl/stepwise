@@ -10,7 +10,7 @@ const courseForStudent = {
 	teachers: (course: any, _args: unknown, { loaders }: any) => loaders.courseTeachers.load(course.id),
 }
 
-const validateCourse = (input: any, current?: any) => {
+function validateCourse(input: any, current?: any) {
 	const data = {
 		startingPoints: input.startingPoints ?? current?.startingPoints,
 		learningGoals: input.goals ?? current?.goals,

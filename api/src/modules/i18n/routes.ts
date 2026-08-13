@@ -9,13 +9,19 @@ type JsonObject = Record<string, any>
 type I18nUpdates = Record<string, Record<string, Record<string, unknown>>>
 
 const pathToPublicFolder = '../frontend/public'
-const filePath = (language: Language, path: string) => `${pathToPublicFolder}${i18nLoadPath(language, path)}`
+function filePath(language: Language, path: string) {
+	return `${pathToPublicFolder}${i18nLoadPath(language, path)}`
+}
 const logPath = `${pathToPublicFolder}${i18nUpdateLogPath}`
 
-const parseJson = (contents: string): JsonObject => JSON.parse(contents) as JsonObject
-const formatJson = (data: JsonObject): string => JSON.stringify(data, null, 2).replace(/\n/g, '\r\n')
+function parseJson(contents: string): JsonObject {
+	return JSON.parse(contents) as JsonObject
+}
+function formatJson(data: JsonObject): string {
+	return JSON.stringify(data, null, 2).replace(/\n/g, '\r\n')
+}
 
-export const createI18nRouter = () => {
+export function createI18nRouter() {
 	const router = express.Router()
 	router.use(cors())
 	router.use(bodyParser.json())
@@ -24,7 +30,7 @@ export const createI18nRouter = () => {
 	return router
 }
 
-const updateLanguageFiles = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+async function updateLanguageFiles(request: Request, response: Response, next: NextFunction): Promise<void> {
 	try {
 		const updates = request.body as I18nUpdates
 		const files = Object.entries(updates).flatMap(([language, paths]) =>

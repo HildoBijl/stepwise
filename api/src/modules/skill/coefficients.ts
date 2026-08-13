@@ -12,7 +12,7 @@ interface SkillUpdate {
 	userId?: string
 }
 
-export const getUserSkillLevelSet = async (database: SkillDatabase, userId: string, skillIds: string[]) => {
+export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: string[]) {
 	const allSkillIds = [...includeDirectPrerequisitesAndLinks(skillIds)]
 	const rawSkills = await getUserSkills(database, userId, allSkillIds)
 	const skillsAsObject = fromEntries(rawSkills.map(skill => skill.skillId), rawSkills.map(skill => ensureSkillLevel(skill)))
@@ -20,7 +20,7 @@ export const getUserSkillLevelSet = async (database: SkillDatabase, userId: stri
 	return new SkillLevelSet(skillTree, skills)
 }
 
-export const applySkillUpdates = async (database: SkillDatabase, skillUpdates: SkillUpdate[], transaction: Transaction) => {
+export async function applySkillUpdates(database: SkillDatabase, skillUpdates: SkillUpdate[], transaction: Transaction) {
 	const updatesPerUser: Record<string, SkillUpdate[]> = {}
 	skillUpdates.forEach(update => {
 		if (!update.userId) throw new Error('Cannot apply a skill update without a user ID.')
@@ -32,7 +32,7 @@ export const applySkillUpdates = async (database: SkillDatabase, skillUpdates: S
 	return fromEntries(userIds, result)
 }
 
-export const applySkillUpdatesForUser = async (database: SkillDatabase, userId: string, skillUpdates: SkillUpdate[], transaction: Transaction) => {
+export async function applySkillUpdatesForUser(database: SkillDatabase, userId: string, skillUpdates: SkillUpdate[], transaction: Transaction) {
 	const observations = skillUpdates.map(({ setup, correct }) => ({ setup: ensureSetup(setup), correct: ensureBoolean(correct) }))
 	const skillSets = observations.map(({ setup }) => setup.getSkillSet())
 	const skillIds = ensureSkillIds([...union(...skillSets)])

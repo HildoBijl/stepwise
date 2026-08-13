@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader'
-import type { ApiContext, LoaderFactory } from '../types'
+import type { ApiContext, ApiLoaders } from '../types'
 
-export const createExerciseLoaders: LoaderFactory = (context: ApiContext) => {
+export function createExerciseLoaders(context: ApiContext): ApiLoaders {
 	const db = context.db as any
 	return { exercisesForSkill: new DataLoader<string, any[]>(async userSkillIds => {
 		const exercises = await db.ExerciseSample.findAll({ where: { userSkillId: userSkillIds }, include: [{ association: 'events', order: [['createdAt', 'ASC']], separate: true }] })

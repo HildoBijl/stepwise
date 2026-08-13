@@ -3,7 +3,7 @@ import { Op } from 'sequelize'
 import { includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
 import { dbCourseToCourseObject } from '../course'
-import type { ApiContext, ApiLoaders, LoaderFactory } from '../types'
+import type { ApiContext, ApiLoaders } from '../types'
 import type { SkillDatabase, UserSkillRecord } from '.'
 
 interface SkillPermission {
@@ -11,7 +11,7 @@ interface SkillPermission {
 	withoutExercises: string[]
 }
 
-export const createSkillLoaders: LoaderFactory = (context: ApiContext, { coursesWithStudent }: ApiLoaders) => {
+export function createSkillLoaders(context: ApiContext, { coursesWithStudent }: ApiLoaders): ApiLoaders {
 	const db = context.db as SkillDatabase
 	return {
 	permittedSkillsForStudent: new DataLoader<string, SkillPermission>(async studentIds => {

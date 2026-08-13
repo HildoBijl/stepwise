@@ -4,7 +4,7 @@ const { DIRECTORY_PATH } = require('../../src/modules/authentication/surfConext/
 const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
 const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'
 
-const seed = async db => {
+async function seed(db) {
 	const user = await db.User.create({
 		id: SPECIAL_USER_ID,
 		name: 'Step Wise',

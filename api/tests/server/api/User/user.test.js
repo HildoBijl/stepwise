@@ -11,7 +11,7 @@ const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)
 const NONEXISTING_ID = '12345678-1234-1234-1234-1234567890ab'
 
 // Alex is an admin, Bob is a student.
-const seed = async db => {
+async function seed(db) {
 	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email, role: 'admin' })
 	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 

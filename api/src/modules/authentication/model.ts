@@ -12,7 +12,7 @@ export class SurfConextProfileRecord extends Model<InferAttributes<SurfConextPro
 	declare user?: NonAttribute<UserRecord>
 }
 
-export const createSurfConextProfileModel = (sequelize: Sequelize) => {
+export function createSurfConextProfileModel(sequelize: Sequelize) {
 	class SurfConextProfile extends SurfConextProfileRecord {}
 	SurfConextProfile.init({
 		id: { type: DataTypes.TEXT, allowNull: false, primaryKey: true },

@@ -6,7 +6,8 @@ const GoogleMock = require('../src/modules/authentication/google/devmock')
 const { Database } = require('../src/database')
 const { clearDatabaseSchema } = require('./testutil')
 
-const noop = () => {}
+function noop() {
+}
 
 const defaultConfig = Object.freeze({
 	sslEnabled: false,
@@ -107,7 +108,7 @@ class Client {
 	}
 }
 
-const createClient = async (seedingProcedure = noop) => {
+async function createClient(seedingProcedure = noop) {
 	await clearDatabaseSchema(sequelize)
 	const umzug = createUmzug(sequelize)
 	await umzug.up()

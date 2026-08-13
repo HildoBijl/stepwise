@@ -8,8 +8,10 @@ export interface SkillDatabase {
 
 export const SKILL_EVENTS = { skillsUpdated: 'SKILLS_UPDATED' } as const
 
-export const getUserSkill = (database: SkillDatabase, userId: string, skillId: string): Promise<UserSkillRecord | null> =>
-	database.UserSkill.findOne({ where: { userId, skillId } })
+export function getUserSkill(database: SkillDatabase, userId: string, skillId: string): Promise<UserSkillRecord | null> {
+	return database.UserSkill.findOne({ where: { userId, skillId } })
+}
 
-export const getUserSkills = (database: SkillDatabase, userId: string, skillIds?: string[]): Promise<UserSkillRecord[]> =>
-	database.UserSkill.findAll({ where: { userId, ...(skillIds ? { skillId: { [Op.in]: skillIds } } : {}) } })
+export function getUserSkills(database: SkillDatabase, userId: string, skillIds?: string[]): Promise<UserSkillRecord[]> {
+	return database.UserSkill.findAll({ where: { userId, ...(skillIds ? { skillId: { [Op.in]: skillIds } } : {}) } })
+}

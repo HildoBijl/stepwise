@@ -47,7 +47,7 @@ export type CourseModel = ModelStatic<CourseRecord>
 export type CourseSubscriptionModel = ModelStatic<CourseSubscriptionRecord>
 export type CourseBlockModel = ModelStatic<CourseBlockRecord>
 
-export const createCourseModel = (sequelize: Sequelize): CourseModel => {
+export function createCourseModel(sequelize: Sequelize): CourseModel {
 	class Course extends CourseRecord {}
 	Course.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
@@ -65,7 +65,7 @@ export const createCourseModel = (sequelize: Sequelize): CourseModel => {
 	return Course
 }
 
-export const createCourseSubscriptionModel = (sequelize: Sequelize): CourseSubscriptionModel => {
+export function createCourseSubscriptionModel(sequelize: Sequelize): CourseSubscriptionModel {
 	class CourseSubscription extends CourseSubscriptionRecord {}
 	CourseSubscription.init({
 		userId: { type: DataTypes.UUID, primaryKey: true },
@@ -77,7 +77,7 @@ export const createCourseSubscriptionModel = (sequelize: Sequelize): CourseSubsc
 	return CourseSubscription
 }
 
-export const createCourseBlockModel = (sequelize: Sequelize): CourseBlockModel => {
+export function createCourseBlockModel(sequelize: Sequelize): CourseBlockModel {
 	class CourseBlock extends CourseBlockRecord {}
 	CourseBlock.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },

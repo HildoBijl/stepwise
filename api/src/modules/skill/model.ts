@@ -16,7 +16,7 @@ export class UserSkillRecord extends Model<InferAttributes<UserSkillRecord>, Inf
 
 export type UserSkillModel = ModelStatic<UserSkillRecord>
 
-export const createUserSkillModel = (sequelize: Sequelize): UserSkillModel => {
+export function createUserSkillModel(sequelize: Sequelize): UserSkillModel {
 	class UserSkill extends UserSkillRecord {}
 
 	UserSkill.init({

@@ -19,7 +19,7 @@ export class UserRecord extends Model<InferAttributes<UserRecord>, InferCreation
 
 export type UserModel = ModelStatic<UserRecord>
 
-export const createUserModel = (sequelize: Sequelize): UserModel => {
+export function createUserModel(sequelize: Sequelize): UserModel {
 	class User extends UserRecord {}
 
 	User.init({

@@ -16,4 +16,6 @@ export interface ApiModule {
 	createLoaders?: LoaderFactory
 }
 
-export const defineApiModule = <Module extends ApiModule>(module: Module): Module => module
+export function defineApiModule<Module extends ApiModule>(module: Module): Module {
+	return module
+}

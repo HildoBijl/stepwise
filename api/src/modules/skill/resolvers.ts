@@ -14,7 +14,7 @@ interface SkillContext {
 	ensureLoggedIn(): void
 }
 
-const userSkills = async (user: UserRecord, { ids: skillIds }: { ids?: string[] }, { loaders, userId, isAdmin }: SkillContext) => {
+async function userSkills(user: UserRecord, { ids: skillIds }: { ids?: string[] }, { loaders, userId, isAdmin }: SkillContext) {
 	if (skillIds) skillIds = ensureSkillIds(skillIds)
 	const mayLoadAll = user.id === userId || isAdmin
 

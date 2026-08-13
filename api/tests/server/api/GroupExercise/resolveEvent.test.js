@@ -15,7 +15,7 @@ const SAMPLE_SKILL = 'enterInteger'
 
 const GROUP_CODE = 'PHYS'
 
-const seed = async db => {
+async function seed(db) {
 	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email })
 	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 
@@ -27,15 +27,17 @@ const seed = async db => {
 	await physicsGroup.addMember(bob.id)
 }
 
-const inputAction = (ans) => ({
-	type: "input",
-	input: {
-		ans: {
-			type: "Integer",
-			value: ans.toString(),
+function inputAction(ans) {
+	return {
+		type: "input",
+		input: {
+			ans: {
+				type: "Integer",
+				value: ans.toString(),
+			}
 		}
 	}
-})
+}
 
 describe('resolve group exercise:', () => {
 	it('throws an error when not everyone submitted', async () => {
