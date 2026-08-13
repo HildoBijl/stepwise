@@ -2,9 +2,8 @@ import 'dotenv/config'
 
 import { PubSub } from 'graphql-subscriptions'
 
-import { loadConfig } from '../src/config'
 import { Database } from '../src/database'
-import { createServer } from '../src/server'
+import { createServer, loadConfig } from '../src/server'
 import * as SurfConextMock from '../src/modules/authentication/surfConext/devmock'
 
 import { createGoogleClient, createRedisStore, createSequelize, createSurfConext } from './init'

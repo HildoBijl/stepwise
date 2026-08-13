@@ -1,6 +1,6 @@
-import http, { type IncomingMessage, type Server as HttpServer } from 'node:http'
+import http, { type Server as HttpServer } from 'node:http'
 import express from 'express'
-import session, { type SessionData } from 'express-session'
+import session from 'express-session'
 import cors from 'cors'
 import { ApolloServer, AuthenticationError } from 'apollo-server-express'
 import { makeExecutableSchema } from '@graphql-tools/schema'
@@ -12,14 +12,13 @@ import { createAuthRouter } from '../modules/authentication'
 import { createI18nRouter } from '../modules/i18n'
 import { typeDefs, resolvers } from '../graphql'
 
-import type { CreateServerOptions } from './types'
-import { getIdFromRequest, validateConfig } from './support'
+import type { CreateServerOptions, SessionRequest } from './types'
 import { createApolloContext } from './apolloContext'
-
-type SessionRequest = IncomingMessage & { session: SessionData }
+import { validateServerConfig } from './config'
+import { getIdFromRequest } from './support'
 
 export async function createServer({ config, database, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<HttpServer> {
-	validateConfig(config)
+	validateServerConfig(config)
 
 	const corsOptions = { origin: config.corsUrls, credentials: true }
 
