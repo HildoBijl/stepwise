@@ -1,6 +1,6 @@
 const { Database } = require('../src/database')
 const { createSequelize } = require('./init')
-const surfConextMockData = require('../src/server/surfConext/mockData.json')
+const surfConextMockData = require('../src/modules/authentication/surfConext/mockData.json')
 
 if (process.env.NODE_ENV !== 'development') process.exit(1)
 

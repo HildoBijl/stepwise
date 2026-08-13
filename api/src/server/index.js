@@ -12,8 +12,8 @@ const { SubscriptionServer } = require('subscriptions-transport-ws')
 const { typeDefs, resolvers } = require('../graphql')
 
 const { createApolloContext, getIdFromRequest } = require('./apollo')
-const { createAuthRouter } = require('./auth')
-const { createI18nRouter } = require('./i18n')
+const { createAuthRouter } = require('../modules/authentication')
+const { createI18nRouter } = require('../modules/i18n')
 
 const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),

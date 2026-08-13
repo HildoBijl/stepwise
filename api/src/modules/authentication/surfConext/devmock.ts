@@ -7,7 +7,7 @@ import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } f
 import rawUserInfo from './mockData.json'
 
 export const SURF_CONEXT_MOCK_USERS = rawUserInfo as SurfConextIdentity[]
-const LAST_SESSION_DATA_PATH = path.join(__dirname, '../../../lastSessionData')
+const LAST_SESSION_DATA_PATH = path.join(__dirname, '../../../../lastSessionData')
 
 export const DIRECTORY_PATH = '/_dev/surfconextportal'
 

@@ -55,6 +55,7 @@
 		"@step-wise/serialization": "1.0.0",
 		"@swc/core": "^1.13.0",
 		"@swc/jest": "^0.2.39",
+		"@types/cookie-parser": "^1.4.10",
 		"@types/express-session": "^1.19.0",
 		"@types/node": "^24.0.0",
 		"jest": "27.5.1",
@@ -70,14 +71,18 @@
 				"@swc/jest",
 				{
 					"jsc": {
-						"parser": { "syntax": "typescript" },
+						"parser": {
+							"syntax": "typescript"
+						},
 						"target": "es2020"
 					},
-					"module": { "type": "commonjs" }
+					"module": {
+						"type": "commonjs"
+					}
 				}
 			]
 		},
-    "moduleNameMapper": {
+		"moduleNameMapper": {
 			"^#generationTools$": "<rootDir>/../packages/mathematics-exercises/dist/generationTools.js"
 		}
 	}
