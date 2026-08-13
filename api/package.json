@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node scripts/startWebserver.js",
-		"dev": "tsx watch --clear-screen=false scripts/startWebserver.js",
+		"start": "tsx scripts/startWebserver.ts",
+		"dev": "tsx watch --clear-screen=false scripts/startWebserver.ts",
 		"build": "npm run clean && tsc -p tsconfig.json",
 		"clean": "rimraf dist",
 		"typecheck": "tsc -p tsconfig.json --noEmit",
