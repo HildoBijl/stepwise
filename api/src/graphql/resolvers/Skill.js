@@ -4,7 +4,7 @@ const { ensureSkillId, ensureSkillIds } = require('@step-wise/skill-tree')
 const { getExercise } = require('@step-wise/exercises')
 
 const { getSubscription } = require('../util/subscriptions')
-const { getUser } = require('../util/User')
+const { getUser } = require('../../modules/user')
 const { events, getUserSkill, getUserSkills } = require('../util/Skill')
 
 const skillWithoutExercisesResolvers = {}
@@ -17,7 +17,35 @@ const skillWithExercisesResolvers = {
 	},
 }
 
+const userSkills = async (user, { ids: skillIds }, { loaders, userId, isAdmin }) => {
+	if (skillIds)
+		skillIds = ensureSkillIds(skillIds)
+
+	const mayLoadAll = user.id === userId || isAdmin
+	if (!skillIds && mayLoadAll) {
+		const skills = await loaders.allSkillsForUser.load(user.id)
+		skills.forEach(skill => { skill.allowExercises = true })
+		return skills
+	}
+
+	if (mayLoadAll) {
+		let skills = await loaders.skillForUser.loadMany(skillIds.map(skillId => ({ userId: user.id, skillId })))
+		skills = skills.filter(Boolean)
+		skills.forEach(skill => { skill.allowExercises = true })
+		return skills
+	}
+
+	const { withExercises, withoutExercises } = await loaders.permittedSkillsForStudent.load(user.id)
+	skillIds = skillIds ? skillIds.filter(skillId => withoutExercises.includes(skillId)) : withoutExercises
+	let skills = await loaders.skillForUser.loadMany(skillIds.map(skillId => ({ userId: user.id, skillId })))
+	skills = skills.filter(Boolean)
+	skills.forEach(skill => { skill.allowExercises = withExercises.includes(skill.skillId) })
+	return skills
+}
+
 const resolvers = {
+	UserPrivate: { skills: userSkills },
+	UserFull: { skills: userSkills },
 	SkillWithoutExercises: skillWithoutExercisesResolvers,
 	SkillWithExercises: skillWithExercisesResolvers,
 	Skill: {

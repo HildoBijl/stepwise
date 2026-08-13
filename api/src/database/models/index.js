@@ -1,5 +1,4 @@
 module.exports = {
-	User: require('./User'),
 	SurfConextProfile: require('./SurfConextProfile'),
 
 	UserSkill: require('./UserSkill'),

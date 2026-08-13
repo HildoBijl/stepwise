@@ -41,6 +41,7 @@ module.exports = (sequelize) => {
 
 	UserSkill.associate = models => {
 		UserSkill.belongsTo(models.User, { onDelete: 'CASCADE' })
+		models.User.hasMany(UserSkill, { as: 'skills', onDelete: 'CASCADE' })
 		UserSkill.hasMany(models.ExerciseSample, { as: 'exercises', onDelete: 'CASCADE' })
 	}
 

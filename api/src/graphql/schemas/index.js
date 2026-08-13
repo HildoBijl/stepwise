@@ -1,7 +1,6 @@
 const { gql } = require('apollo-server-express')
 
 const schemaKeys = [
-	'User',
 	'Skill',
 	'Exercise',
 	'Course',

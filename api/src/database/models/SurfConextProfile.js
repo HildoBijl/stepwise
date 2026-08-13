@@ -21,6 +21,7 @@ module.exports = (sequelize) => {
 
 	SurfConextProfile.associate = models => {
 		SurfConextProfile.belongsTo(models.User, { onDelete: 'CASCADE' })
+		models.User.hasMany(SurfConextProfile, { onDelete: 'CASCADE' })
 	}
 
 	return SurfConextProfile

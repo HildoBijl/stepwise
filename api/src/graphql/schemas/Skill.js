@@ -22,6 +22,18 @@ const SkillWithExercises = `
 `
 
 const schema = gql`
+	extend interface UserSemiPrivate {
+		skills(ids: [String]): [Skill]!
+	}
+
+	extend type UserPrivate {
+		skills(ids: [String]): [Skill]!
+	}
+
+	extend type UserFull {
+		skills(ids: [String]): [Skill]!
+	}
+
   extend type Query {
 		skill(skillId: String!, userId: ID): Skill
 		skills(skillIds: [String]): [Skill]!

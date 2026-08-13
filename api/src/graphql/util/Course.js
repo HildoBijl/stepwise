@@ -2,7 +2,7 @@ const { deserializeSetup } = require('@step-wise/skill-setup')
 const { Course } = require('@step-wise/course-definition')
 const { skillTree } = require('@step-wise/skill-tree')
 
-const { getUser } = require('./User')
+const { getUser } = require('../../modules/user')
 
 // getCourses extracts a list of courses. If a userId is given, it also adds subscription info. If the onlyOwnCourses flag is set to true, only the user's own courses are given.
 async function getCourses(db, userId, onlyOwnCourses = false) {

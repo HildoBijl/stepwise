@@ -57,6 +57,7 @@ module.exports = (sequelize) => {
 		Course.belongsToMany(models.User, { as: 'students', through: { model: CourseSubscription(sequelize), scope: { role: 'student' } }, onDelete: 'CASCADE' })
 		Course.belongsToMany(models.User, { as: 'teachers', through: { model: CourseSubscription(sequelize), scope: { role: 'teacher' } }, onDelete: 'CASCADE' })
 		Course.hasMany(models.CourseBlock, { as: 'blocks', onDelete: 'CASCADE' })
+		models.User.belongsToMany(Course, { as: 'courses', through: CourseSubscription(sequelize), onDelete: 'CASCADE', hooks: true })
 	}
 
 	return Course
