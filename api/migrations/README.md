@@ -2,7 +2,7 @@
 
 ## Setup a new migration
 
-1. Create a new .js-file prefixed with the next consecutive number, e.g. `014_my-next-migration.js`.
+1. Create a new `.ts` file prefixed with the next consecutive number, e.g. `019_my-next-migration.ts`.
 2. Export a `up` and a `down` function from that module.
    These functions are async and receive a [`queryInterface`](https://sequelize.org/master/class/lib/dialects/abstract/query-interface.js~QueryInterface.html) as parameter.
    `up` is the procedure for applying the migration, `down` is for reverting it.

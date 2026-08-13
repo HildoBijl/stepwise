@@ -23,7 +23,6 @@
 		"src/**/*.ts",
 		"scripts/**/*.js",
 		"scripts/**/*.ts",
-		"migrations/**/*.js",
 		"migrations/**/*.ts"
 	],
 	"exclude": [
