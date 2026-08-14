@@ -2,12 +2,16 @@ import http from 'node:http'
 import express from 'express'
 import session from 'express-session'
 import cors from 'cors'
-import { ApolloServer, AuthenticationError } from 'apollo-server-express'
+import { ApolloServer } from '@apollo/server'
+import { expressMiddleware } from '@as-integrations/express5'
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { makeExecutableSchema } from '@graphql-tools/schema'
-import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import { execute, subscribe } from 'graphql'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 
+import { AuthenticationError } from '../errors.ts'
 import { createAuthRouter } from '../modules/authentication/index.ts'
 import { createI18nRouter } from '../modules/i18n/index.ts'
 import { typeDefs, resolvers } from '../graphql/index.ts'
@@ -76,7 +80,6 @@ export async function createServer({ config, database, sessionStore, surfConextC
 
 	const apolloServer = new ApolloServer({
 		schema,
-		context: contextProvider,
 		plugins: [
 			// Shutdown HTTP server
 			ApolloServerPluginDrainHttpServer({ httpServer }),
@@ -88,12 +91,12 @@ export async function createServer({ config, database, sessionStore, surfConextC
 				},
 			},
 
-			// Playground (only in development)
-			devAuthPortal ? ApolloServerPluginLandingPageGraphQLPlayground({ settings: { 'request.credentials': 'same-origin' } }) : ApolloServerPluginLandingPageDisabled(),
+			// Apollo Sandbox (only in development)
+			devAuthPortal ? ApolloServerPluginLandingPageLocalDefault({ includeCookies: true }) : ApolloServerPluginLandingPageDisabled(),
 		],
 	})
 	await apolloServer.start()
-	apolloServer.applyMiddleware({ app, cors: corsOptions, path: '/graphql' })
+	app.use('/graphql', express.json(), expressMiddleware(apolloServer, { context: contextProvider }))
 	const apiServer = httpServer as ApiServer
 	apiServer.stop = () => apolloServer.stop()
 

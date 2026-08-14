@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server-express'
+import { AuthenticationError } from '../../errors.ts'
 
 import type { UserSkillRecord } from './model.ts'
 

@@ -1,4 +1,4 @@
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError } from '../../errors.ts'
 
 import type { UserModel, UserRecord } from './model.ts'
 

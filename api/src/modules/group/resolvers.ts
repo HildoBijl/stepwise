@@ -1,5 +1,5 @@
 import { UniqueConstraintError } from 'sequelize'
-import { ForbiddenError, UserInputError } from 'apollo-server-express'
+import { ForbiddenError, UserInputError } from '../../errors.ts'
 
 import { getSubscription } from '../subscriptions.ts'
 

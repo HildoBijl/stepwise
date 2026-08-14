@@ -1,4 +1,4 @@
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError } from '../../errors.ts'
 import { last } from '@step-wise/utils'
 import { getExercise } from '@step-wise/exercises'
 

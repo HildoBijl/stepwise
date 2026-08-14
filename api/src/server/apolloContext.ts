@@ -1,7 +1,7 @@
 import type { Request } from 'express'
-import { AuthenticationError } from 'apollo-server-express'
 import type { PubSubEngine } from 'graphql-subscriptions'
 
+import { AuthenticationError } from '../errors.ts'
 import type { ApiContext, ApiLoaders } from '../modules/index.ts'
 import type { UserRecord } from '../modules/user/index.ts'
 import type { Database } from '../database.ts'

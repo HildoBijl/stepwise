@@ -1,4 +1,4 @@
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError } from '../../errors.ts'
 import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
 
 import type { UserRecord } from './model.ts'
