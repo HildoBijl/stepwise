@@ -4,7 +4,7 @@ import { ensureSetup, type SkillSetupLike } from '@step-wise/skill-setup'
 import { ensureSkillIds, includeDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 import { ensureBoolean, fromEntries, fromKeys, mapValues, union } from '@step-wise/utils'
 
-import { getUserSkills, type SkillDatabase } from './service'
+import { getUserSkills, type SkillDatabase } from './service.js'
 
 interface SkillUpdate {
 	setup: SkillSetupLike

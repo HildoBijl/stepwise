@@ -1,5 +1,5 @@
-import { createSequelize, createUmzug } from '../scripts'
-import { clearDatabaseSchema } from './support/database'
+import { createSequelize, createUmzug } from '../scripts/index.js'
+import { clearDatabaseSchema } from './support/database.js'
 
 export default async function setupTestDatabase(): Promise<void> {
 	const sequelize = createSequelize(true)

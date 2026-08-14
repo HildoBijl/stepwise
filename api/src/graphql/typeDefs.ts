@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express'
 import type { DocumentNode } from 'graphql'
 
-import { apiModules } from '../modules'
+import { apiModules } from '../modules/index.js'
 
 const rootTypeDefs = gql`
 	scalar EmailAddress

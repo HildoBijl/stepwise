@@ -1,6 +1,6 @@
 import { UserInputError } from 'apollo-server-express'
 
-import type { UserModel, UserRecord } from './model'
+import type { UserModel, UserRecord } from './model.js'
 
 export interface UserDatabase {
 	User: UserModel

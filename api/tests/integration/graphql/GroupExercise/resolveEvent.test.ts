@@ -1,7 +1,7 @@
 import { stringifyJS } from '@step-wise/utils'
 import { deserializeAll } from '@step-wise/serialization'
-import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json'
-import { createClient } from '../../../support/client'
+import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
+import { createClient } from '../../../support/client.js'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'

@@ -1,11 +1,11 @@
-import type { ApiModule } from './types'
-import { createUserModule } from './user'
-import { authenticationModule } from './authentication'
-import { canViewStudentPrivateData, courseModule } from './course'
-import { skillModule } from './skill'
-import { exerciseModule } from './exercise'
-import { groupModule } from './group'
-import { groupExerciseModule } from './groupExercise'
+import type { ApiModule } from './types.js'
+import { createUserModule } from './user/index.js'
+import { authenticationModule } from './authentication/index.js'
+import { canViewStudentPrivateData, courseModule } from './course/index.js'
+import { skillModule } from './skill/index.js'
+import { exerciseModule } from './exercise/index.js'
+import { groupModule } from './group/index.js'
+import { groupExerciseModule } from './groupExercise/index.js'
 
 // Modules are registered in dependency order. Foundational modules come first.
 export const apiModules: ApiModule[] = [
@@ -18,4 +18,4 @@ export const apiModules: ApiModule[] = [
 	groupExerciseModule,
 ]
 
-export * from './types'
+export * from './types.js'

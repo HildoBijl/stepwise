@@ -3,9 +3,9 @@ import type { Request, RequestHandler } from 'express'
 import type { SessionData, Store } from 'express-session'
 import type { PubSubEngine } from 'graphql-subscriptions'
 
-import type { Database } from '../database'
-import type { GoogleClient } from '../modules/authentication/google'
-import type { SurfConextClient } from '../modules/authentication/surfConext'
+import type { Database } from '../database.js'
+import type { GoogleClient } from '../modules/authentication/google/index.js'
+import type { SurfConextClient } from '../modules/authentication/surfConext/index.js'
 
 export type RequestWithSession = Pick<Request, 'session'>
 export type SessionRequest = IncomingMessage & { session: SessionData }

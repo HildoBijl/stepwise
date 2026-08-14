@@ -2,6 +2,7 @@
 	"name": "@step-wise/api",
 	"version": "1.0.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"start": "tsx scripts/startWebserver.ts",
 		"dev": "tsx watch --clear-screen=false scripts/startWebserver.ts",

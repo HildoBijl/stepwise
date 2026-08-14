@@ -2,9 +2,9 @@ import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selectio
 import { getExercise, getExercises } from '@step-wise/exercises'
 import { ensureSkillId } from '@step-wise/skill-tree'
 
-import { applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill'
+import { applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.js'
 
-import { getExerciseProgress, getLastEvent, getUserSkillWithExercises } from './service'
+import { getExerciseProgress, getLastEvent, getUserSkillWithExercises } from './service.js'
 
 export const exerciseResolvers: Record<string, any> = {
 	Skill: { __resolveType: (skill: any) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },

@@ -1,3 +1,3 @@
-export * from './loaders'
-export * from './resolvers'
-export * from './typeDefs'
+export * from './loaders.js'
+export * from './resolvers.js'
+export * from './typeDefs.js'

@@ -1,7 +1,7 @@
 import path from 'node:path'
 import type { Sequelize } from 'sequelize'
 import Umzug from 'umzug'
-import SequelizeStorage from 'umzug/lib/storages/SequelizeStorage'
+import SequelizeStorage from 'umzug/lib/storages/SequelizeStorage.js'
 
 interface MigrationStorage {
 	executed(): Promise<string[]>
@@ -10,7 +10,7 @@ interface MigrationStorage {
 }
 
 export function createUmzug(sequelize: Sequelize): any {
-	const migrationExtension = path.extname(__filename)
+	const migrationExtension = path.extname(import.meta.filename)
 	const sequelizeStorage: MigrationStorage = new SequelizeStorage({ sequelize })
 	const storage = {
 		executed: async () => (await sequelizeStorage.executed()).map(name => name.replace(/\.js$/, migrationExtension)),
@@ -19,7 +19,7 @@ export function createUmzug(sequelize: Sequelize): any {
 	}
 	return new Umzug({
 		migrations: {
-			path: path.join(__dirname, '../migrations'),
+			path: path.join(import.meta.dirname, '../migrations'),
 			params: [sequelize.getQueryInterface()],
 			pattern: new RegExp(`^\\d+[\\w-]+\\${migrationExtension}$`),
 		},

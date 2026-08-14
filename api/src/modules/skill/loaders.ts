@@ -2,11 +2,11 @@ import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 import { includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
-import type { ApiContext, ApiLoaders } from '../types'
-import { dbCourseToCourseDefinition } from '../course'
+import type { ApiContext, ApiLoaders } from '../types.js'
+import { dbCourseToCourseDefinition } from '../course/index.js'
 
-import type { UserSkillRecord } from './model'
-import type { SkillDatabase } from './service'
+import type { UserSkillRecord } from './model.js'
+import type { SkillDatabase } from './service.js'
 
 interface SkillPermission {
 	withExercises: string[]

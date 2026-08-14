@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import { Client as OpenIdClient, Issuer } from 'openid-client'
 
-import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types'
+import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.js'
 
 function hash(text: string): string {
 	return crypto.createHash('sha256').update(text).digest('hex')

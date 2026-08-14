@@ -1,4 +1,4 @@
-import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types'
+import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.js'
 
 interface UserRecord {
 	id: string

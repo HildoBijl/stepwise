@@ -2,12 +2,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { MemoryStore, type SessionData } from 'express-session'
 
-import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types'
+import type { SurfConextCallbackParams, SurfConextClient, SurfConextIdentity } from './types.js'
 
-import rawUserInfo from './mockData.json'
+import rawUserInfo from './mockData.json' with { type: 'json' }
 
 export const mockUsers = rawUserInfo as SurfConextIdentity[]
-const LAST_SESSION_DATA_PATH = path.join(__dirname, '../../../../lastSessionData')
+const LAST_SESSION_DATA_PATH = path.join(import.meta.dirname, '../../../../lastSessionData')
 
 export const directoryPath = '/_dev/surfconextportal'
 

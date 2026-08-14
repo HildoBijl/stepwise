@@ -2,8 +2,8 @@ import { deserializeSetup } from '@step-wise/skill-setup'
 import { Course as CourseDefinition } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
-import type { UserDatabase } from '../user'
-import type { CourseBlockModel, CourseModel, CourseRecord, CourseSubscriptionModel } from './models'
+import type { UserDatabase } from '../user/index.js'
+import type { CourseBlockModel, CourseModel, CourseRecord, CourseSubscriptionModel } from './models.js'
 
 export interface CourseDatabase extends UserDatabase {
 	Course: CourseModel

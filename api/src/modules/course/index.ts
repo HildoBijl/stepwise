@@ -1,9 +1,9 @@
-import { defineApiModule } from '../types'
+import { defineApiModule } from '../types.js'
 
-import { courseTypeDefs } from './schema'
-import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models'
-import { createCourseLoaders } from './loaders'
-import { courseResolvers } from './resolvers'
+import { courseTypeDefs } from './schema.js'
+import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models.js'
+import { createCourseLoaders } from './loaders.js'
+import { courseResolvers } from './resolvers.js'
 
 export const courseModule = defineApiModule({
 	models: {
@@ -26,6 +26,6 @@ export const courseModule = defineApiModule({
 	createLoaders: createCourseLoaders,
 })
 
-export * from './models'
-export * from './service'
-export * from './userAccess'
+export * from './models.js'
+export * from './service.js'
+export * from './userAccess.js'

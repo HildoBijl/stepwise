@@ -1,8 +1,8 @@
 import { Op } from 'sequelize'
 
-import type { UserDatabase } from '../user'
+import type { UserDatabase } from '../user/index.js'
 
-import type { UserSkillModel, UserSkillRecord } from './model'
+import type { UserSkillModel, UserSkillRecord } from './model.js'
 
 export interface SkillDatabase extends UserDatabase {
 	UserSkill: UserSkillModel

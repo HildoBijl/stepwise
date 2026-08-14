@@ -1,11 +1,11 @@
 import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 
-import type { ApiContext, ApiLoaders } from '../types'
-import type { UserRecord } from '../user'
+import type { ApiContext, ApiLoaders } from '../types.js'
+import type { UserRecord } from '../user/index.js'
 
-import type { CourseDatabase } from './service'
-import type { CourseRecord } from './models'
+import type { CourseDatabase } from './service.js'
+import type { CourseRecord } from './models.js'
 
 export function createCourseLoaders(context: ApiContext): ApiLoaders {
 	const { db, userId } = context as { db: CourseDatabase; userId?: string }

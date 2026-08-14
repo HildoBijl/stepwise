@@ -5,10 +5,10 @@ import { findOptimum } from '@step-wise/utils'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { getExercises, getExercise } from '@step-wise/exercises'
 
-import { getSubscription } from '../subscriptions'
-import { groupEvents, getGroup, verifyGroupAccess } from '../group'
-import { skillEvents, applySkillUpdates } from '../skill'
-import { groupExerciseEvents, getGroupExerciseProgress, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service'
+import { getSubscription } from '../subscriptions.js'
+import { groupEvents, getGroup, verifyGroupAccess } from '../group/index.js'
+import { skillEvents, applySkillUpdates } from '../skill/index.js'
+import { groupExerciseEvents, getGroupExerciseProgress, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service.js'
 
 type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
 export const groupExerciseResolvers: ResolverTree = {

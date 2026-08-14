@@ -1,6 +1,6 @@
 import { OAuth2Client } from 'google-auth-library'
 
-import type { GoogleAuthData, GoogleClient, GoogleIdentity } from './types'
+import type { GoogleAuthData, GoogleClient, GoogleIdentity } from './types.js'
 
 export class Client implements GoogleClient {
 	private readonly clientId: string

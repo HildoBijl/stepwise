@@ -1,7 +1,7 @@
-import { defineApiModule } from '../types'
-import { groupResolvers } from './resolvers'
-import { createGroupMembershipModel, createGroupModel } from './models'
-import { groupTypeDefs } from './schema'
+import { defineApiModule } from '../types.js'
+import { groupResolvers } from './resolvers.js'
+import { createGroupMembershipModel, createGroupModel } from './models.js'
+import { groupTypeDefs } from './schema.js'
 
 export const groupModule = defineApiModule({
 	models: { Group: createGroupModel, GroupMembership: createGroupMembershipModel },
@@ -14,5 +14,5 @@ export const groupModule = defineApiModule({
 	typeDefs: groupTypeDefs, resolvers: groupResolvers,
 })
 
-export * from './models'
-export * from './service'
+export * from './models.js'
+export * from './service.js'

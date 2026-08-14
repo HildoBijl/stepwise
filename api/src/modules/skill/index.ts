@@ -1,9 +1,9 @@
-import { defineApiModule } from '../types'
+import { defineApiModule } from '../types.js'
 
-import { skillTypeDefs } from './schema'
-import { createUserSkillModel } from './model'
-import { createSkillLoaders } from './loaders'
-import { skillResolvers } from './resolvers'
+import { skillTypeDefs } from './schema.js'
+import { createUserSkillModel } from './model.js'
+import { createSkillLoaders } from './loaders.js'
+import { skillResolvers } from './resolvers.js'
 
 export const skillModule = defineApiModule({
 	models: { UserSkill: createUserSkillModel },
@@ -16,7 +16,7 @@ export const skillModule = defineApiModule({
 	createLoaders: createSkillLoaders,
 })
 
-export * from './skillLevels'
-export * from './model'
-export * from './service'
-export { skillFields } from './schema'
+export * from './skillLevels.js'
+export * from './model.js'
+export * from './service.js'
+export { skillFields } from './schema.js'

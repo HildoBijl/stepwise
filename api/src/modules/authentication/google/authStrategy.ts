@@ -1,4 +1,4 @@
-import type { GoogleAuthDatabase, GoogleAuthRequest, GoogleClient, AuthenticatedUser } from './types'
+import type { GoogleAuthDatabase, GoogleAuthRequest, GoogleClient, AuthenticatedUser } from './types.js'
 
 export class AuthStrategy {
 	constructor(private readonly database: GoogleAuthDatabase, private readonly googleClient: GoogleClient) { }

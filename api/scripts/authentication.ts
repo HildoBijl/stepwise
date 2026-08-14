@@ -1,4 +1,4 @@
-import { Google, SurfConext } from '../src/modules/authentication'
+import { Google, SurfConext } from '../src/modules/authentication/index.js'
 
 export function createGoogleClient(): Google.Client {
 	return new Google.Client(process.env.GOOGLE_CLIENT_ID as string)

@@ -2,8 +2,8 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express, { type Request, type RequestHandler } from 'express'
 
-import { AuthStrategy as GoogleAuthStrategy, type GoogleClient } from './google'
-import { AuthStrategy as SurfConextAuthStrategy, type SurfConextClient } from './surfConext'
+import { AuthStrategy as GoogleAuthStrategy, type GoogleClient } from './google/index.js'
+import { AuthStrategy as SurfConextAuthStrategy, type SurfConextClient } from './surfConext/index.js'
 
 const INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 const INTERNAL_ERROR = 'INTERNAL_ERROR'

@@ -1,8 +1,8 @@
-import { defineApiModule } from '../types'
+import { defineApiModule } from '../types.js'
 
-import { userTypeDefs } from './schema'
-import { createUserModel } from './model'
-import { createUserResolvers, type UserPrivateAccessRule } from './resolvers'
+import { userTypeDefs } from './schema.js'
+import { createUserModel } from './model.js'
+import { createUserResolvers, type UserPrivateAccessRule } from './resolvers.js'
 
 interface UserModuleOptions {
 	privateAccessRules?: UserPrivateAccessRule[]
@@ -16,6 +16,6 @@ export function createUserModule({ privateAccessRules = [] }: UserModuleOptions 
 	})
 }
 
-export * from './model'
-export * from './service'
-export * from './resolvers'
+export * from './model.js'
+export * from './service.js'
+export * from './resolvers.js'

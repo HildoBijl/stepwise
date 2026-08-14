@@ -1,4 +1,4 @@
-import { createSequelize } from './sequelize'
+import { createSequelize } from './sequelize.js'
 
 const sequelize = createSequelize(true)
 
