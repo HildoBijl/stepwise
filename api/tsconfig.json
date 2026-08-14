@@ -2,9 +2,7 @@
 	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
 		"paths": {
-			"@step-wise/*": ["../packages/*/dist"],
-			"@graphql-tools/schema": ["../node_modules/@graphql-tools/schema/index.d.ts"],
-			"graphql-scalars": ["../node_modules/graphql-scalars/index.d.ts"]
+			"@step-wise/*": ["../packages/*/dist"]
 		},
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
