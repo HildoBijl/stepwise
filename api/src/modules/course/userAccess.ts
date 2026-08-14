@@ -1,4 +1,4 @@
-import type { UserContext, UserRecord } from '../user/index.js'
+import type { UserContext, UserRecord } from '../user/index.ts'
 
 export async function canViewStudentPrivateData(user: UserRecord, context: UserContext): Promise<boolean> {
 	const coursesWithStudent = await context.loaders.coursesWithStudent.load(user.id)

@@ -1,4 +1,4 @@
-import type { ApiConfig, ServerConfig } from './types.js'
+import type { ApiConfig, ServerConfig } from './types.ts'
 
 export function loadConfig(environment: NodeJS.ProcessEnv): ApiConfig {
 	const isProduction = environment.NODE_ENV === 'production'

@@ -2,13 +2,13 @@ import 'dotenv/config'
 
 import { PubSub } from 'graphql-subscriptions'
 
-import { Database } from '../src/database.js'
-import { createServer, loadConfig } from '../src/server/index.js'
-import { SurfConext } from '../src/modules/authentication/index.js'
+import { Database } from '../src/database.ts'
+import { createServer, loadConfig } from '../src/server/index.ts'
+import { SurfConext } from '../src/modules/authentication/index.ts'
 
-import { createGoogleClient, createSurfConext } from './authentication.js'
-import { createSequelize } from './sequelize.js'
-import { createRedisStore } from './sessions.js'
+import { createGoogleClient, createSurfConext } from './authentication.ts'
+import { createSequelize } from './sequelize.ts'
+import { createRedisStore } from './sessions.ts'
 
 const config = loadConfig(process.env)
 const surfConextClient = config.isProduction ? createSurfConext() : new SurfConext.MockClient()

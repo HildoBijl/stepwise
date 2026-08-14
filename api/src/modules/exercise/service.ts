@@ -2,9 +2,9 @@ import { UserInputError } from 'apollo-server-express'
 import { last } from '@step-wise/utils'
 import { getExercise } from '@step-wise/exercises'
 
-import type { SkillDatabase } from '../skill/index.js'
+import type { SkillDatabase } from '../skill/index.ts'
 
-import type { ExerciseEventModel, ExerciseSampleModel } from './models.js'
+import type { ExerciseEventModel, ExerciseSampleModel } from './models.ts'
 
 export interface ExerciseDatabase extends SkillDatabase {
 	ExerciseEvent: ExerciseEventModel

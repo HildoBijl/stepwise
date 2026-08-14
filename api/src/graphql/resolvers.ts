@@ -1,6 +1,6 @@
 import { DateTimeResolver, EmailAddressResolver, JSONResolver } from 'graphql-scalars'
 
-import { apiModules } from '../modules/index.js'
+import { apiModules } from '../modules/index.ts'
 
 const scalarResolvers = {
 	EmailAddress: EmailAddressResolver,

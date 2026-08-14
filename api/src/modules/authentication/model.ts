@@ -1,6 +1,6 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute, Sequelize } from 'sequelize'
 
-import type { UserRecord } from '../user/index.js'
+import type { UserRecord } from '../user/index.ts'
 
 export class SurfConextProfileRecord extends Model<InferAttributes<SurfConextProfileRecord>, InferCreationAttributes<SurfConextProfileRecord>> {
 	declare id: string

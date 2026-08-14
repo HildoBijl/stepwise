@@ -1,5 +1,5 @@
-import { SurfConext } from '../../src/modules/authentication/index.js'
-import { createClient, defaultConfig } from '../support/client.js'
+import { SurfConext } from '../../src/modules/authentication/index.ts'
+import { createClient, defaultConfig } from '../support/client.ts'
 
 const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
 const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'

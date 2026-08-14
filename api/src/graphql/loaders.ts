@@ -1,4 +1,4 @@
-import { type ApiContext, type ApiLoaders, apiModules } from '../modules/index.js'
+import { type ApiContext, type ApiLoaders, apiModules } from '../modules/index.ts'
 
 export function createLoaders(context: ApiContext): ApiLoaders {
 	let loaders: ApiLoaders = {}

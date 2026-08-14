@@ -1,9 +1,9 @@
-import { defineApiModule } from '../types.js'
+import { defineApiModule } from '../types.ts'
 
-import { courseTypeDefs } from './schema.js'
-import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models.js'
-import { createCourseLoaders } from './loaders.js'
-import { courseResolvers } from './resolvers.js'
+import { courseTypeDefs } from './schema.ts'
+import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models.ts'
+import { createCourseLoaders } from './loaders.ts'
+import { courseResolvers } from './resolvers.ts'
 
 export const courseModule = defineApiModule({
 	models: {
@@ -26,6 +26,6 @@ export const courseModule = defineApiModule({
 	createLoaders: createCourseLoaders,
 })
 
-export * from './models.js'
-export * from './service.js'
-export * from './userAccess.js'
+export * from './models.ts'
+export * from './service.ts'
+export * from './userAccess.ts'

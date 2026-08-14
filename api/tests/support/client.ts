@@ -1,12 +1,12 @@
 import request, { type Response } from 'supertest'
 import type { PubSubEngine } from 'graphql-subscriptions'
 
-import { Google, SurfConext } from '../../src/modules/authentication/index.js'
-import { createServer, type ApiServer, type ServerConfig } from '../../src/server/index.js'
-import { Database } from '../../src/database.js'
-import { createSequelize } from '../../scripts/index.js'
+import { Google, SurfConext } from '../../src/modules/authentication/index.ts'
+import { createServer, type ApiServer, type ServerConfig } from '../../src/server/index.ts'
+import { Database } from '../../src/database.ts'
+import { createSequelize } from '../../scripts/index.ts'
 
-import { clearDatabaseData } from './database.js'
+import { clearDatabaseData } from './database.ts'
 
 export const defaultConfig: ServerConfig = Object.freeze({
 	sslEnabled: false,

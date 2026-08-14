@@ -1,6 +1,6 @@
-import { defineApiModule } from '../types.js'
+import { defineApiModule } from '../types.ts'
 
-import { createSurfConextProfileModel } from './model.js'
+import { createSurfConextProfileModel } from './model.ts'
 
 export const authenticationModule = defineApiModule({
 	models: { SurfConextProfile: createSurfConextProfileModel },
@@ -10,7 +10,7 @@ export const authenticationModule = defineApiModule({
 	},
 })
 
-export * as Google from './google/index.js'
-export * as SurfConext from './surfConext/index.js'
-export * from './model.js'
-export * from './routes.js'
+export * as Google from './google/index.ts'
+export * as SurfConext from './surfConext/index.ts'
+export * from './model.ts'
+export * from './routes.ts'

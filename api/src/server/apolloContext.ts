@@ -2,12 +2,12 @@ import type { Request } from 'express'
 import { AuthenticationError } from 'apollo-server-express'
 import type { PubSubEngine } from 'graphql-subscriptions'
 
-import type { ApiContext, ApiLoaders } from '../modules/index.js'
-import type { UserRecord } from '../modules/user/index.js'
-import type { Database } from '../database.js'
-import { createLoaders } from '../graphql/index.js'
+import type { ApiContext, ApiLoaders } from '../modules/index.ts'
+import type { UserRecord } from '../modules/user/index.ts'
+import type { Database } from '../database.ts'
+import { createLoaders } from '../graphql/index.ts'
 
-import { getIdFromRequest } from './support.js'
+import { getIdFromRequest } from './support.ts'
 
 export interface ApolloContext extends ApiContext {
 	db: Database

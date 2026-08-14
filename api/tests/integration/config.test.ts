@@ -1,5 +1,5 @@
-import { validateServerConfig } from '../../src/server/index.js'
-import { defaultConfig } from '../support/client.js'
+import { validateServerConfig } from '../../src/server/index.ts'
+import { defaultConfig } from '../support/client.ts'
 
 async function createServer({ config }: { config: unknown }): Promise<void> {
 	validateServerConfig(config)

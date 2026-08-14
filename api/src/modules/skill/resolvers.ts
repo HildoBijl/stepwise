@@ -1,10 +1,10 @@
 import { ensureSkillId, ensureSkillIds } from '@step-wise/skill-tree'
 
-import { getSubscription } from '../subscriptions.js'
-import { type UserRecord, getUser } from '../user/index.js'
+import { getSubscription } from '../subscriptions.ts'
+import { type UserRecord, getUser } from '../user/index.ts'
 
-import { type SkillDatabase, skillEvents } from './service.js'
-import { loadVisibleSkills, type SkillAccessContext } from './skillAccess.js'
+import { type SkillDatabase, skillEvents } from './service.ts'
+import { loadVisibleSkills, type SkillAccessContext } from './skillAccess.ts'
 
 interface SkillContext extends SkillAccessContext {
 	db: SkillDatabase

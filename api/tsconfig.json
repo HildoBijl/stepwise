@@ -8,6 +8,7 @@
 		},
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
+		"rewriteRelativeImportExtensions": true,
 		"target": "ES2022",
 		"rootDir": ".",
 		"outDir": "dist",

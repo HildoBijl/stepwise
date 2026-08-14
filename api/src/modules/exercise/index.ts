@@ -1,9 +1,9 @@
-import { defineApiModule } from '../types.js'
+import { defineApiModule } from '../types.ts'
 
-import { exerciseTypeDefs } from './schema.js'
-import { createExerciseEventModel, createExerciseSampleModel } from './models.js'
-import { createExerciseLoaders } from './loaders.js'
-import { exerciseResolvers } from './resolvers.js'
+import { exerciseTypeDefs } from './schema.ts'
+import { createExerciseEventModel, createExerciseSampleModel } from './models.ts'
+import { createExerciseLoaders } from './loaders.ts'
+import { exerciseResolvers } from './resolvers.ts'
 
 export const exerciseModule = defineApiModule({
 	models: { ExerciseSample: createExerciseSampleModel, ExerciseEvent: createExerciseEventModel },
@@ -18,5 +18,5 @@ export const exerciseModule = defineApiModule({
 	createLoaders: createExerciseLoaders,
 })
 
-export * from './models.js'
-export * from './service.js'
+export * from './models.ts'
+export * from './service.ts'

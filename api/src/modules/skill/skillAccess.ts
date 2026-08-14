@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server-express'
 
-import type { UserSkillRecord } from './model.js'
+import type { UserSkillRecord } from './model.ts'
 
 export interface SkillAccessContext {
 	loaders: any

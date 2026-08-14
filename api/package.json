@@ -68,9 +68,6 @@
 	"jest": {
 		"verbose": false,
 		"globalSetup": "<rootDir>/tests/globalSetup.ts",
-		"moduleNameMapper": {
-			"^(\\.{1,2}/.*)\\.js$": "$1"
-		},
 		"transform": {
 			"^.+\\.tsx?$": [
 				"@swc/jest",

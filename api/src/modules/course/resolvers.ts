@@ -2,7 +2,7 @@ import { AuthenticationError } from 'apollo-server-express'
 import { Course, ensureValidCourseDiagnostics } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { getCourseByCode, getCourseById, getCourses } from './service.js'
+import { getCourseByCode, getCourseById, getCourses } from './service.ts'
 
 const courseForStudent = {
 	role: (course: any) => course.courseSubscription?.role,

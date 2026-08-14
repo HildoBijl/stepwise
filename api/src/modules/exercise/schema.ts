@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
 
-import { skillFields } from '../skill/index.js'
+import { skillFields } from '../skill/index.ts'
 
 export const exerciseTypeDefs = gql`
 	type SkillWithExercises implements Skill {

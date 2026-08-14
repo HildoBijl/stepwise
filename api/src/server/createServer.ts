@@ -8,14 +8,14 @@ import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQL
 import { execute, subscribe } from 'graphql'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 
-import { createAuthRouter } from '../modules/authentication/index.js'
-import { createI18nRouter } from '../modules/i18n/index.js'
-import { typeDefs, resolvers } from '../graphql/index.js'
+import { createAuthRouter } from '../modules/authentication/index.ts'
+import { createI18nRouter } from '../modules/i18n/index.ts'
+import { typeDefs, resolvers } from '../graphql/index.ts'
 
-import type { ApiServer, CreateServerOptions, SessionRequest } from './types.js'
-import { getIdFromRequest } from './support.js'
-import { validateServerConfig } from './config.js'
-import { createApolloContext } from './apolloContext.js'
+import type { ApiServer, CreateServerOptions, SessionRequest } from './types.ts'
+import { getIdFromRequest } from './support.ts'
+import { validateServerConfig } from './config.ts'
+import { createApolloContext } from './apolloContext.ts'
 
 export async function createServer({ config, database, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
 	validateServerConfig(config)

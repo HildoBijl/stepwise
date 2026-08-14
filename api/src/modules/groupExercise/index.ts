@@ -1,7 +1,7 @@
-import { defineApiModule } from '../types.js'
-import { groupExerciseResolvers } from './resolvers.js'
-import { createGroupExerciseEventModel, createGroupExerciseSampleModel, createGroupExerciseSubmissionModel } from './models.js'
-import { groupExerciseTypeDefs } from './schema.js'
+import { defineApiModule } from '../types.ts'
+import { groupExerciseResolvers } from './resolvers.ts'
+import { createGroupExerciseEventModel, createGroupExerciseSampleModel, createGroupExerciseSubmissionModel } from './models.ts'
+import { groupExerciseTypeDefs } from './schema.ts'
 
 export const groupExerciseModule = defineApiModule({
 	models: {
@@ -21,5 +21,5 @@ export const groupExerciseModule = defineApiModule({
 	typeDefs: groupExerciseTypeDefs, resolvers: groupExerciseResolvers,
 })
 
-export * from './models.js'
-export * from './service.js'
+export * from './models.ts'
+export * from './service.ts'

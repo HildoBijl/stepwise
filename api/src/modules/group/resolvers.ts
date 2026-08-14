@@ -1,9 +1,9 @@
 import { UniqueConstraintError } from 'sequelize'
 import { ForbiddenError, UserInputError } from 'apollo-server-express'
 
-import { getSubscription } from '../subscriptions.js'
+import { getSubscription } from '../subscriptions.ts'
 
-import { groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } from './service.js'
+import { groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } from './service.ts'
 
 type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
 export const groupResolvers: ResolverTree = {

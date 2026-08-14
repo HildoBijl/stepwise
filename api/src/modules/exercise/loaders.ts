@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import { fromKeys } from '@step-wise/utils'
 
-import type { ApiContext, ApiLoaders } from '../types.js'
+import type { ApiContext, ApiLoaders } from '../types.ts'
 
-import type { ExerciseSampleRecord } from './models.js'
-import type { ExerciseDatabase } from './service.js'
+import type { ExerciseSampleRecord } from './models.ts'
+import type { ExerciseDatabase } from './service.ts'
 
 export function createExerciseLoaders(context: ApiContext): ApiLoaders {
 	const db = context.db as ExerciseDatabase

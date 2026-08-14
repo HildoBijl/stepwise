@@ -1,8 +1,8 @@
 import { UserInputError } from 'apollo-server-express'
 import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
 
-import type { UserRecord } from './model.js'
-import { type UserDatabase, getAllUsers, getUser } from './service.js'
+import type { UserRecord } from './model.ts'
+import { type UserDatabase, getAllUsers, getUser } from './service.ts'
 
 export interface UserContext {
 	db: UserDatabase

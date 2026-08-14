@@ -1,6 +1,6 @@
 import type { Sequelize, Transaction } from 'sequelize'
 
-import { type ApiModel, type ApiModels, type ModelFactory, apiModules } from './modules/index.js'
+import { type ApiModel, type ApiModels, type ModelFactory, apiModules } from './modules/index.ts'
 
 const modelFactories: Record<string, ModelFactory> = Object.assign({}, ...apiModules.map(module => module.models ?? {}))
 

@@ -1,4 +1,4 @@
-import type { GoogleAuthData, GoogleClient, GoogleIdentity } from './types.js'
+import type { GoogleAuthData, GoogleClient, GoogleIdentity } from './types.ts'
 
 export const mockUsers: Record<string, GoogleIdentity> = {
 	'00112233445566778899': {
