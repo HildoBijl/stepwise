@@ -6,7 +6,9 @@ import { Database } from '../src/database'
 import { createServer, loadConfig } from '../src/server'
 import { SurfConext } from '../src/modules/authentication'
 
-import { createGoogleClient, createRedisStore, createSequelize, createSurfConext } from '.'
+import { createGoogleClient, createSurfConext } from './authentication'
+import { createSequelize } from './database'
+import { createRedisStore } from './sessions'
 
 const config = loadConfig(process.env)
 const surfConextClient = config.isProduction ? createSurfConext() : new SurfConext.MockClient()

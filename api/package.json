@@ -58,7 +58,7 @@
 		"@types/express-session": "^1.19.0",
 		"@types/node": "^24.0.0",
 		"@types/supertest": "^7.2.1",
-		"jest": "27.5.1",
+		"jest": "^30.4.2",
 		"rimraf": "^6.1.3",
 		"supertest": "6.2.2",
 		"tsx": "^4.20.0",
@@ -82,9 +82,6 @@
 					}
 				}
 			]
-		},
-		"moduleNameMapper": {
-			"^#generationTools$": "<rootDir>/../packages/mathematics-exercises/dist/generationTools.js"
 		}
 	}
 }
