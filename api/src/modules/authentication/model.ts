@@ -1,4 +1,5 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute, Sequelize } from 'sequelize'
+
 import type { UserRecord } from '../user'
 
 export class SurfConextProfileRecord extends Model<InferAttributes<SurfConextProfileRecord>, InferCreationAttributes<SurfConextProfileRecord>> {
@@ -20,7 +21,8 @@ export function createSurfConextProfileModel(sequelize: Sequelize) {
 		schacHomeOrganization: { type: DataTypes.TEXT },
 		schacPersonalUniqueCode: { type: DataTypes.ARRAY(DataTypes.TEXT) },
 		locale: { type: DataTypes.TEXT },
-		createdAt: { type: DataTypes.DATE, allowNull: false }, updatedAt: { type: DataTypes.DATE, allowNull: false },
+		createdAt: { type: DataTypes.DATE, allowNull: false },
+		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'surfConextProfile' })
 	return SurfConextProfile
 }

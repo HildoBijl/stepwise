@@ -1,3 +1,4 @@
 export * from './authentication'
-export * from './database'
+export * from './migrations'
+export * from './sequelize'
 export * from './sessions'

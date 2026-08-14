@@ -1,4 +1,5 @@
 import { defineApiModule } from '../types'
+
 import { createSurfConextProfileModel } from './model'
 
 export const authenticationModule = defineApiModule({

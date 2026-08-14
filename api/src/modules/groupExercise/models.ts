@@ -33,31 +33,41 @@ export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerci
 }
 
 export function createGroupExerciseSampleModel(sequelize: Sequelize) {
-	class GroupExerciseSample extends GroupExerciseSampleRecord {}
+	class GroupExerciseSample extends GroupExerciseSampleRecord { }
 	GroupExerciseSample.init({
-		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true }, groupId: { type: DataTypes.UUID, allowNull: false },
-		skillId: { type: DataTypes.TEXT, allowNull: false }, exerciseId: { type: DataTypes.TEXT, allowNull: false },
-		state: { type: DataTypes.JSON, allowNull: false }, active: { type: DataTypes.BOOLEAN, defaultValue: true, allowNull: false },
-		createdAt: { type: DataTypes.DATE, allowNull: false }, updatedAt: { type: DataTypes.DATE, allowNull: false },
+		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
+		groupId: { type: DataTypes.UUID, allowNull: false },
+		skillId: { type: DataTypes.TEXT, allowNull: false },
+		exerciseId: { type: DataTypes.TEXT, allowNull: false },
+		state: { type: DataTypes.JSON, allowNull: false },
+		active: { type: DataTypes.BOOLEAN, defaultValue: true, allowNull: false },
+		createdAt: { type: DataTypes.DATE, allowNull: false },
+		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'groupExerciseSample' })
 	return GroupExerciseSample
 }
 
 export function createGroupExerciseEventModel(sequelize: Sequelize) {
-	class GroupExerciseEvent extends GroupExerciseEventRecord {}
+	class GroupExerciseEvent extends GroupExerciseEventRecord { }
 	GroupExerciseEvent.init({
-		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true }, groupExerciseSampleId: { type: DataTypes.UUID, allowNull: false },
-		progress: { type: DataTypes.JSON, allowNull: true }, createdAt: { type: DataTypes.DATE, allowNull: false }, updatedAt: { type: DataTypes.DATE, allowNull: false },
+		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
+		groupExerciseSampleId: { type: DataTypes.UUID, allowNull: false },
+		progress: { type: DataTypes.JSON, allowNull: true },
+		createdAt: { type: DataTypes.DATE, allowNull: false },
+		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'groupExerciseEvent' })
 	return GroupExerciseEvent
 }
 
 export function createGroupExerciseSubmissionModel(sequelize: Sequelize) {
-	class GroupExerciseSubmission extends GroupExerciseSubmissionRecord {}
+	class GroupExerciseSubmission extends GroupExerciseSubmissionRecord { }
 	GroupExerciseSubmission.init({
-		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true }, userId: { type: DataTypes.UUID, allowNull: false },
-		groupExerciseEventId: { type: DataTypes.UUID, allowNull: false }, action: { type: DataTypes.JSON, allowNull: false },
-		createdAt: { type: DataTypes.DATE, allowNull: false }, updatedAt: { type: DataTypes.DATE, allowNull: false },
+		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
+		userId: { type: DataTypes.UUID, allowNull: false },
+		groupExerciseEventId: { type: DataTypes.UUID, allowNull: false },
+		action: { type: DataTypes.JSON, allowNull: false },
+		createdAt: { type: DataTypes.DATE, allowNull: false },
+		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'groupExerciseSubmission', indexes: [{ fields: ['userId', 'groupExerciseEventId'], unique: true }] })
 	return GroupExerciseSubmission
 }

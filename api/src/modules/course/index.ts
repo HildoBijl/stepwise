@@ -1,11 +1,16 @@
 import { defineApiModule } from '../types'
-import { createCourseLoaders } from './loaders'
-import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models'
-import { courseResolvers } from './resolvers'
+
 import { courseTypeDefs } from './schema'
+import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models'
+import { createCourseLoaders } from './loaders'
+import { courseResolvers } from './resolvers'
 
 export const courseModule = defineApiModule({
-	models: { Course: createCourseModel, CourseSubscription: createCourseSubscriptionModel, CourseBlock: createCourseBlockModel },
+	models: {
+		Course: createCourseModel,
+		CourseSubscription: createCourseSubscriptionModel,
+		CourseBlock: createCourseBlockModel,
+	},
 	associate: models => {
 		models.Course.belongsToMany(models.User, { as: 'participants', through: models.CourseSubscription, onDelete: 'CASCADE' })
 		models.Course.belongsToMany(models.User, { as: 'students', through: { model: models.CourseSubscription, scope: { role: 'student' } }, onDelete: 'CASCADE' })
@@ -23,3 +28,4 @@ export const courseModule = defineApiModule({
 
 export * from './models'
 export * from './service'
+export * from './userAccess'

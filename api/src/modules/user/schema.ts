@@ -1,19 +1,19 @@
 import { gql } from 'apollo-server-express'
 
-const userPublic = `
+const userPublicFields = `
 	id: ID!
 	name: String
 	givenName: String
 	familyName: String
 `
 
-const userPrivate = `
-	${userPublic}
+const userPrivateFields = `
+	${userPublicFields}
 	email: EmailAddress
 `
 
-const userFull = `
-	${userPrivate}
+const userFullFields = `
+	${userPrivateFields}
 	role: String!
 	language: String
 	createdAt: DateTime!
@@ -41,22 +41,22 @@ export const userTypeDefs = gql`
 	}
 
 	interface User {
-		${userPublic}
+		${userPublicFields}
 	}
 
 	type UserPublic implements User {
-		${userPublic}
+		${userPublicFields}
 	}
 
 	interface UserSemiPrivate implements User {
-		${userPrivate}
+		${userPrivateFields}
 	}
 
 	type UserPrivate implements UserSemiPrivate & User {
-		${userPrivate}
+		${userPrivateFields}
 	}
 
 	type UserFull implements UserSemiPrivate & User {
-		${userFull}
+		${userFullFields}
 	}
 `

@@ -1,7 +1,7 @@
 import { Database } from '../src/database'
 import { SurfConext } from '../src/modules/authentication'
 
-import { createSequelize } from './database'
+import { createSequelize } from './sequelize'
 
 if (process.env.NODE_ENV !== 'development') process.exit(1)
 

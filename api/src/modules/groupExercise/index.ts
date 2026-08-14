@@ -1,5 +1,5 @@
 import { defineApiModule } from '../types'
-import groupExerciseResolvers = require('./resolvers')
+import { groupExerciseResolvers } from './resolvers'
 import { createGroupExerciseEventModel, createGroupExerciseSampleModel, createGroupExerciseSubmissionModel } from './models'
 import { groupExerciseTypeDefs } from './schema'
 

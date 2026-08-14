@@ -1,6 +1,15 @@
 import { UserInputError } from 'apollo-server-express'
-import { getExercise } from '@step-wise/exercises'
 import { last } from '@step-wise/utils'
+import { getExercise } from '@step-wise/exercises'
+
+import type { SkillDatabase } from '../skill'
+
+import type { ExerciseEventModel, ExerciseSampleModel } from './models'
+
+export interface ExerciseDatabase extends SkillDatabase {
+	ExerciseEvent: ExerciseEventModel
+	ExerciseSample: ExerciseSampleModel
+}
 
 export function getLastEvent(exercise: any): any {
 	const events = (exercise.events || []).filter((event: any) => event.progress !== null)
@@ -14,6 +23,8 @@ export function getExerciseProgress(exercise: any) {
 export async function getUserSkillWithExercises(db: any, userId: string, skillId: string, options: any = {}) {
 	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false } = options
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
+
+	// Load in the skill.
 	let skill = await db.UserSkill.findOne({
 		where: { userId, skillId },
 		include: loadExercises ? {
@@ -27,6 +38,8 @@ export async function getUserSkillWithExercises(db: any, userId: string, skillId
 		if (!createIfNoneExists) return null
 		skill = await db.UserSkill.create({ userId, skillId })
 	}
+
+	// Extract the active exercise and run a check on it.
 	const exercises = skill.exercises || []
 	let activeExercise = exercises.find((exercise: any) => exercise.active)
 	if (activeExercise && !getExercise(skillId, activeExercise.exerciseId)) {

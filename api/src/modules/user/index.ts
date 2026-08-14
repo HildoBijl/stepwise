@@ -1,13 +1,21 @@
 import { defineApiModule } from '../types'
-import { createUserModel } from './model'
-import { userResolvers } from './resolvers'
-import { userTypeDefs } from './schema'
 
-export const userModule = defineApiModule({
-	models: { User: createUserModel },
-	typeDefs: userTypeDefs,
-	resolvers: userResolvers,
-})
+import { userTypeDefs } from './schema'
+import { createUserModel } from './model'
+import { createUserResolvers, type UserPrivateAccessRule } from './resolvers'
+
+interface UserModuleOptions {
+	privateAccessRules?: UserPrivateAccessRule[]
+}
+
+export function createUserModule({ privateAccessRules = [] }: UserModuleOptions = {}) {
+	return defineApiModule({
+		typeDefs: userTypeDefs,
+		models: { User: createUserModel },
+		resolvers: createUserResolvers(privateAccessRules),
+	})
+}
 
 export * from './model'
 export * from './service'
+export * from './resolvers'

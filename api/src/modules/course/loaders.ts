@@ -1,8 +1,9 @@
 import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
 
-import type { UserRecord } from '../user'
 import type { ApiContext, ApiLoaders } from '../types'
+import type { UserRecord } from '../user'
+
 import type { CourseDatabase } from './service'
 import type { CourseRecord } from './models'
 

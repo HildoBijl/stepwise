@@ -1,15 +1,43 @@
 import { gql } from 'apollo-server-express'
 
 export const groupExerciseTypeDefs = gql`
-	extend type Query { activeGroupExercises(code: String!): [GroupExercise]! }
+	extend type Query {
+		activeGroupExercises(code: String!): [GroupExercise]!
+	}
+
 	extend type Mutation {
 		startGroupExercise(code: String!, skillId: String!): GroupExercise!
 		submitGroupAction(code: String!, skillId: String!, action: JSON!): GroupExercise!
 		cancelGroupAction(code: String!, skillId: String!): GroupExercise!
 		resolveGroupEvent(code: String!, skillId: String!): GroupExercise!
 	}
-	extend type Subscription { activeGroupExercisesUpdate(code: String!): GroupExercise! }
-	type GroupExercise { id: ID! skillId: String! exerciseId: String! state: JSON! active: Boolean! startedOn: DateTime! progress: JSON history: [GroupEvent]! }
-	type GroupEvent { id: ID! progress: JSON performedAt: DateTime! submissions: [GroupSubmission]! }
-	type GroupSubmission { id: ID! userId: ID! action: JSON! performedAt: DateTime! }
+
+	extend type Subscription {
+		activeGroupExercisesUpdate(code: String!): GroupExercise!
+	}
+
+	type GroupExercise {
+		id: ID!
+		skillId: String!
+		exerciseId: String!
+		state: JSON!
+		active: Boolean!
+		startedOn: DateTime!
+		progress: JSON
+		history: [GroupEvent]!
+	}
+
+	type GroupEvent {
+		id: ID!
+		progress: JSON
+		performedAt: DateTime!
+		submissions: [GroupSubmission]!
+	}
+
+	type GroupSubmission {
+		id: ID!
+		userId: ID!
+		action: JSON!
+		performedAt: DateTime!
+	}
 `

@@ -1,13 +1,14 @@
-const { UniqueConstraintError } = require('sequelize')
-const { ForbiddenError, UserInputError } = require('apollo-server-express')
+import { UniqueConstraintError } from 'sequelize'
+import { ForbiddenError, UserInputError } from 'apollo-server-express'
 
-const { getSubscription } = require('../subscriptions')
-const { GROUP_EVENTS: groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } = require('./service')
+import { getSubscription } from '../subscriptions'
+
+import { groupEvents, getUserWithGroups, getUserGroups, getUserWithDeactivatedGroups, deactivateUserGroups, getGroup, createRandomCode } from './service'
 
 type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
-const resolvers: ResolverTree = {
+export const groupResolvers: ResolverTree = {
 	Group: {
-		members: group => group.getMembers(),
+		members: group => group.members ?? group.getMembers(),
 	},
 
 	Member: {
@@ -33,23 +34,15 @@ const resolvers: ResolverTree = {
 		},
 
 		myActiveGroup: async (_source, _args, { db, ensureLoggedIn, userId }) => {
-			// Load all groups and find the active one. (Yes, a bit inefficient, but the number of groups is always small.)
 			ensureLoggedIn()
-			const groups = await getUserGroups(db, userId)
-		return groups.find((group: any) => group.groupMembership.active)
+			return (await getUserGroups(db, userId, true))[0]
 		},
 
 		group: async (_source, { code }, { db, ensureLoggedIn, userId }) => {
-			// Load the group with the given code.
 			ensureLoggedIn()
-			const group = await getGroup(db, code)
-
-			// Check that the user is allowed to see the group.
-			const members = await group.getMembers()
-			const member = members.find((member: any) => member.id === userId)
-			if (!member)
-				throw new ForbiddenError('Failed to load group data: only members have access.')
-
+			const group = await getGroup(db, code, true)
+			const member = group.members.find((member: any) => member.id === userId)
+			if (!member) throw new ForbiddenError('Failed to load group data: only members have access.')
 			return group
 		},
 	},
@@ -62,12 +55,9 @@ const resolvers: ResolverTree = {
 			const group = await (async () => {
 				for (let i = 10; i > 0; --i) {
 					try {
-						return await db.Group.create({
-							code: createRandomCode(),
-						})
+						return await db.Group.create({ code: createRandomCode() })
 					} catch (e) {
-						if (e instanceof UniqueConstraintError)
-							continue // Try again...
+						if (e instanceof UniqueConstraintError) continue // Try again...
 						throw e
 					}
 				}
@@ -81,7 +71,6 @@ const resolvers: ResolverTree = {
 			await group.addMember(userId, { through: { active: true } })
 			group.members = await group.getMembers()
 			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'create' })
-
 			return group
 		},
 
@@ -108,7 +97,6 @@ const resolvers: ResolverTree = {
 			await group.addMember(userId, { through: { active: true } })
 			group.members = await group.getMembers()
 			await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: group, userId, action: 'join' })
-
 			return group
 		},
 
@@ -120,8 +108,7 @@ const resolvers: ResolverTree = {
 
 			// Extract the given group.
 			const group = groups.find((group: any) => group.code === code)
-			if (!group)
-				throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
+			if (!group) throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
 			// Activate the given group.
 			const member = group.members.find((member: any) => member.id === userId)
@@ -134,18 +121,12 @@ const resolvers: ResolverTree = {
 		},
 
 		deactivateGroup: async (_source, _args, { db, pubsub, ensureLoggedIn, userId }) => {
-			// Load all groups and ensure that they are all inactive.
+			// Load all groups, find one where the user is active (so it may be returned as the deactivated group) and then deactivate all groups.
 			ensureLoggedIn()
 			const user = await getUserWithGroups(db, userId)
 			const groups = user.groups
-
-			// Find a group where the user is active, so that we may return it in the end as the deactivated group.
 			const activeGroup = groups.find((group: any) => group.members.some((member: any) => member.id === userId && member.groupMembership.active))
-
-			// Deactivate all groups.
 			await deactivateUserGroups(pubsub, user)
-
-			// Return the active group (if it exists) that was found earlier.
 			return activeGroup
 		},
 	},
@@ -153,25 +134,21 @@ const resolvers: ResolverTree = {
 	Subscription: {
 		...getSubscription('groupUpdate', [groupEvents.groupUpdated], ({ updatedGroup }: any, { code }: any) => {
 			// Only pass on when the code matches.
-			if (updatedGroup.code === code)
-				return updatedGroup
+			if (updatedGroup.code === code) return updatedGroup
 		}),
-		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: any, _args: any, { ensureLoggedIn, userId }: any) => {
-			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
-			if (userId === eventUserId && action === 'deactivate')
-				return updatedGroup
 
-			// Pass the group on when the group is the user's active group.
+		...getSubscription('myActiveGroupUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId, action }: any, _args: any, { userId }: any) => {
+			// If the user caused this update, always pass the group on. The client can incorporate the data appropriately.
+			if (userId === eventUserId && action === 'deactivate') return updatedGroup
+
+			// If this is the user's active group, also pass it on.
 			const member = updatedGroup.members && updatedGroup.members.find((member: any) => member.id === userId)
-			if (member && member.groupMembership.active)
-				return updatedGroup // If the user is active in the group, send an update on this group.
+			if (member && member.groupMembership.active) return updatedGroup
 		}),
+
 		...getSubscription('myGroupsUpdate', [groupEvents.groupUpdated], ({ updatedGroup, userId: eventUserId }: any, _args: any, { userId }: any) => {
 			// Only pass on the updated group when the user caused this event (like deactivated) or when the user is a member.
-			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some((member: any) => member.id === userId)))
-				return updatedGroup
+			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some((member: any) => member.id === userId))) return updatedGroup
 		}),
 	},
 }
-
-export = resolvers

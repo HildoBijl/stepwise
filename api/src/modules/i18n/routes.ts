@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { type NextFunction, type Request, type Response } from 'express'
-import { i18nLoadPath, i18nUpdateLogPath, type Language } from '@step-wise/settings'
+import { type Language, i18nLoadPath, i18nUpdateLogPath } from '@step-wise/settings'
 import { getByPath, setByPath } from '@step-wise/utils'
 
 type JsonObject = Record<string, any>

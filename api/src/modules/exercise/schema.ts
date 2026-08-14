@@ -1,19 +1,40 @@
 import { gql } from 'apollo-server-express'
 
+import { skillFields } from '../skill'
+
 export const exerciseTypeDefs = gql`
 	type SkillWithExercises implements Skill {
-		id: ID! userId: ID! skillId: String! numPracticed: Int!
-		coefficients: [Float]! coefficientsOn: DateTime! highest: [Float]! highestOn: DateTime!
-		createdAt: DateTime! updatedAt: DateTime! exercises: [Exercise]! activeExercise: Exercise
+		${skillFields}
+		exercises: [Exercise]!
+		activeExercise: Exercise
 	}
+
 	extend type Mutation {
 		startExercise(skillId: String!): Exercise!
 		submitExerciseAction(skillId: String!, action: JSON!): ExerciseActionResult!
 	}
+
 	type Exercise {
-		id: ID! exerciseId: String! state: JSON! active: Boolean! startedOn: DateTime!
-		progress: JSON! lastAction: JSON lastActionAt: DateTime history: [Event]!
+		id: ID!
+		exerciseId: String!
+		state: JSON!
+		active: Boolean!
+		startedOn: DateTime!
+		progress: JSON!
+		lastAction: JSON
+		lastActionAt: DateTime
+		history: [Event]!
 	}
-	type ExerciseActionResult { updatedExercise: Exercise! adjustedSkills: [Skill]! }
-	type Event { id: ID! action: JSON! progress: JSON! performedAt: DateTime! }
+
+	type ExerciseActionResult {
+		updatedExercise: Exercise!
+		updatedSkills: [Skill]!
+	}
+
+	type Event {
+		id: ID!
+		action: JSON!
+		progress: JSON!
+		performedAt: DateTime!
+	}
 `

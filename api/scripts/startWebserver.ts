@@ -7,7 +7,7 @@ import { createServer, loadConfig } from '../src/server'
 import { SurfConext } from '../src/modules/authentication'
 
 import { createGoogleClient, createSurfConext } from './authentication'
-import { createSequelize } from './database'
+import { createSequelize } from './sequelize'
 import { createRedisStore } from './sessions'
 
 const config = loadConfig(process.env)

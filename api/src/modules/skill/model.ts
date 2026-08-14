@@ -11,7 +11,7 @@ export class UserSkillRecord extends Model<InferAttributes<UserSkillRecord>, Inf
 	declare highestOn: CreationOptional<Date>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
-	declare allowExercises?: NonAttribute<boolean>
+	declare mayViewExercises?: NonAttribute<boolean>
 }
 
 export type UserSkillModel = ModelStatic<UserSkillRecord>

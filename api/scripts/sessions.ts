@@ -1,8 +1,8 @@
 import session, { type Store } from 'express-session'
+import Redis from 'redis'
+import connectRedis from 'connect-redis'
 
-// connect-redis 6 and redis 3 do not provide TypeScript declarations.
-const Redis = require('redis')
-const RedisStore = require('connect-redis')(session)
+const RedisStore = connectRedis(session)
 
 export function createRedisStore(): Store {
 	return new RedisStore({

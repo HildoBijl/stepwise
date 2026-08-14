@@ -13,9 +13,9 @@ import { createI18nRouter } from '../modules/i18n'
 import { typeDefs, resolvers } from '../graphql'
 
 import type { ApiServer, CreateServerOptions, SessionRequest } from './types'
-import { createApolloContext } from './apolloContext'
-import { validateServerConfig } from './config'
 import { getIdFromRequest } from './support'
+import { validateServerConfig } from './config'
+import { createApolloContext } from './apolloContext'
 
 export async function createServer({ config, database, sessionStore, surfConextClient, googleClient, pubsub, useI18n, devAuthPortal }: CreateServerOptions): Promise<ApiServer> {
 	validateServerConfig(config)

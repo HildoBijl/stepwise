@@ -26,7 +26,8 @@ export function createGroupModel(sequelize: Sequelize) {
 	Group.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
 		code: { type: DataTypes.STRING, allowNull: false },
-		createdAt: { type: DataTypes.DATE, allowNull: false }, updatedAt: { type: DataTypes.DATE, allowNull: false },
+		createdAt: { type: DataTypes.DATE, allowNull: false },
+		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'group' })
 	return Group
 }
@@ -34,9 +35,11 @@ export function createGroupModel(sequelize: Sequelize) {
 export function createGroupMembershipModel(sequelize: Sequelize) {
 	class GroupMembership extends GroupMembershipRecord {}
 	GroupMembership.init({
-		userId: { type: DataTypes.UUID, primaryKey: true }, groupId: { type: DataTypes.UUID, primaryKey: true },
+		userId: { type: DataTypes.UUID, primaryKey: true },
+		groupId: { type: DataTypes.UUID, primaryKey: true },
 		active: { type: DataTypes.BOOLEAN, defaultValue: false },
-		createdAt: { type: DataTypes.DATE }, updatedAt: { type: DataTypes.DATE },
+		createdAt: { type: DataTypes.DATE },
+		updatedAt: { type: DataTypes.DATE },
 	}, { sequelize, modelName: 'groupMembership' })
 	return GroupMembership
 }

@@ -1,4 +1,5 @@
-import { createSequelize, createUmzug } from './database'
+import { createUmzug } from './migrations'
+import { createSequelize } from './sequelize'
 
 const sequelize = createSequelize(true)
 const umzug = createUmzug(sequelize)

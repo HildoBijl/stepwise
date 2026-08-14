@@ -1,8 +1,9 @@
 import { defineApiModule } from '../types'
-import { createSkillLoaders } from './loaders'
-import { createUserSkillModel } from './model'
-import { skillResolvers } from './resolvers'
+
 import { skillTypeDefs } from './schema'
+import { createUserSkillModel } from './model'
+import { createSkillLoaders } from './loaders'
+import { skillResolvers } from './resolvers'
 
 export const skillModule = defineApiModule({
 	models: { UserSkill: createUserSkillModel },
@@ -15,6 +16,7 @@ export const skillModule = defineApiModule({
 	createLoaders: createSkillLoaders,
 })
 
-export * from './coefficients'
+export * from './skillLevels'
 export * from './model'
 export * from './service'
+export { skillFields } from './schema'

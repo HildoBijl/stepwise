@@ -13,17 +13,14 @@ export class Client implements GoogleClient {
 
 	// Verifies the callback request from Google after the user has logged in. Returns Google's identity payload when verification succeeds, or null when authentication fails.
 	async getData(authData: GoogleAuthData, csrfToken?: string): Promise<GoogleIdentity | null> {
-		// Google puts the same CSRF token in a cookie and callback form field.
-		if (authData.g_csrf_token !== csrfToken)
-			return null
+		// Google puts the same CSRF token in a cookie and callback form field. Check if it matches.
+		if (authData.g_csrf_token !== csrfToken) return null
 
-		const ticket = await this.client.verifyIdToken({
-			idToken: authData.credential,
-			audience: this.clientId,
-		})
+		// Obtain the payload.
+		const ticket = await this.client.verifyIdToken({ idToken: authData.credential, audience: this.clientId })
 		const payload = ticket.getPayload()
 
-		// A missing payload is not an authenticated identity. Only accept email addresses that Google has verified.
+		// A payload is not an authenticated identity. Only accept email addresses that Google has verified.
 		if (!payload?.email_verified) return null
 		return payload
 	}

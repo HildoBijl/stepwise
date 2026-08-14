@@ -1,17 +1,17 @@
-const { UserInputError } = require('apollo-server-express')
-const { Op } = require('sequelize')
+import { UserInputError } from 'apollo-server-express'
+import { Op } from 'sequelize'
 
-const { findOptimum } = require('@step-wise/utils')
-const { generateRandomExerciseInstance } = require('@step-wise/exercise-selection')
-const { getExercises, getExercise } = require('@step-wise/exercises')
+import { findOptimum } from '@step-wise/utils'
+import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
+import { getExercises, getExercise } from '@step-wise/exercises'
 
-const { getSubscription } = require('../subscriptions')
-const { GROUP_EVENTS: groupEvents, getGroup } = require('../group')
-const { SKILL_EVENTS: skillEvents, applySkillUpdates } = require('../skill')
-const { GROUP_EXERCISE_EVENTS: groupExerciseEvents, verifyGroupAccess, getGroupExerciseProgress, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('./service')
+import { getSubscription } from '../subscriptions'
+import { groupEvents, getGroup, verifyGroupAccess } from '../group'
+import { skillEvents, applySkillUpdates } from '../skill'
+import { groupExerciseEvents, getGroupExerciseProgress, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service'
 
 type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
-const resolvers: ResolverTree = {
+export const groupExerciseResolvers: ResolverTree = {
 	GroupExercise: {
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getGroupExerciseProgress(exercise),
@@ -39,7 +39,7 @@ const resolvers: ResolverTree = {
 		leaveGroup: async (_source, { code }, { db, pubsub, ensureLoggedIn, userId }) => {
 			// Load the group and check how many users are left.
 			ensureLoggedIn()
-			const group = await getGroup(db, code)
+			const group = await getGroup(db, code, true)
 			group.members = group.members.filter((member: any) => member.id !== userId)
 
 			// When the group is left empty, remove it entirely. Otherwise remove all traces from the user.
@@ -65,14 +65,9 @@ const resolvers: ResolverTree = {
 					})
 				})
 
-				// Remove the user and all its submissions.
+				// Remove the user and all its submissions. (Including the userId is technically not needed, but still wise for security reasons.)
 				await group.removeMember(userId)
-				await db.GroupExerciseSubmission.destroy({
-					where: {
-						userId, // Technically not needed, but for added safety.
-						id: { [Op.in]: exerciseSubmissionIdList },
-					},
-				})
+				await db.GroupExerciseSubmission.destroy({ where: { userId, id: { [Op.in]: exerciseSubmissionIdList } } })
 
 				// Publish events about each of the active exercises and on the updated group.
 				const activeExercises = exerciseList.filter((exercise: any) => exercise.active)
@@ -89,12 +84,11 @@ const resolvers: ResolverTree = {
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 
-			// If an active group exercise already exists, return this. (If two users start one at the same time, then at least no error is thrown.)
-			if (group.exercises.length > 0)
-				return processGroupExercises(group).exercises[0]
+			// If an active group exercise already exists, return this. (So if two users start an exercise at the same time, this prevents an error.)
+			if (group.exercises.length > 0) return group.exercises[0]
 
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
-			const skillExercises = getExercises(skillId)
+			const skillExercises = getExercises(skillId)!
 			const newExercise = generateRandomExerciseInstance(skillExercises)
 			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
@@ -112,8 +106,7 @@ const resolvers: ResolverTree = {
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 			const activeExercise = group.exercises[0]
-			if (!activeExercise)
-				throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
+			if (!activeExercise) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
 
 			// If there is no active event (should never happen) then add one.
 			let activeEvent = activeExercise.events.find((event: any) => event.progress === null)
@@ -144,11 +137,9 @@ const resolvers: ResolverTree = {
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 			const activeExercise = group.exercises[0]
-			if (!activeExercise)
-				throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
+			if (!activeExercise) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
 			const activeEvent = activeExercise.events.find((event: any) => event.progress === null)
-			if (!activeEvent)
-				throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
+			if (!activeEvent) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
 
 			// Load in the user submission and delete it if it exists.
 			const userSubmission = activeEvent.submissions && activeEvent.submissions.find((submission: any) => submission.userId === userId)
@@ -168,40 +159,33 @@ const resolvers: ResolverTree = {
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, userId)
 			const activeExercise = group.exercises[0]
-			if (!activeExercise)
-				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
+			if (!activeExercise) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
 			const activeEvent = activeExercise.events.find((event: any) => event.progress === null)
-			if (!activeEvent)
-				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
+			if (!activeEvent) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
 			// Check if it can be submitted. This is only when at least two active members are present and all active members have submitted.
 			const activeMembers = group.members.filter((member: any) => member.groupMembership.active)
-			if (activeMembers.length < 2)
-				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
-			if (activeMembers.some((member: any) => !activeEvent.submissions.some((submission: any) => submission.userId === member.id)))
-				throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
+			if (activeMembers.length < 2) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
+			if (activeMembers.some((member: any) => !activeEvent.submissions.some((submission: any) => submission.userId === member.id))) throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
 
 			// Set up an updateSkills handler that only collects calls.
 			const skillUpdates: any[] = []
 			const updateSkills = (setup: any, correct: boolean, givenUserId?: string) => {
-				if (setup)
-					skillUpdates.push({ setup, correct, userId: givenUserId || userId })
+				if (setup) skillUpdates.push({ setup, correct, userId: givenUserId || userId })
 			}
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
 			const previousProgress = getGroupExerciseProgress(activeExercise)
 			const exercise = getExercise(skillId, activeExercise.exerciseId)
-			if (!exercise)
-				throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
+			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			const progress = exercise.processAction({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: activeExercise.events, updateSkills })
-			if (!progress)
-				throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
+			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Time to store things in the database.
-			let adjustedSkillsPerUser: Record<string, any[]> = {}
+			let updatedSkillsPerUser: Record<string, any[]> = {}
 			await db.transaction(async (transaction: any) => {
 				// Apply all the skill updates that were collected so far.
-				adjustedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)
+				updatedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)
 
 				// Store the progress in the active event. If the exercise is done, note this. If not, prepare for future submissions.
 				await activeEvent.update({ progress }, { transaction })
@@ -217,7 +201,7 @@ const resolvers: ResolverTree = {
 			})
 
 			// Resolve subscriptions where needed.
-			await Promise.all(Object.keys(adjustedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: adjustedSkillsPerUser[userId], userId })))
+			await Promise.all(Object.keys(updatedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: updatedSkillsPerUser[userId], userId })))
 			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: activeExercise, code, action: 'resolveEvent' })
 
 			// Return the exercise as a result.
@@ -228,9 +212,7 @@ const resolvers: ResolverTree = {
 	Subscription: {
 		...getSubscription('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }: any, { code: codeOfFollowedGroup }: any) => {
 			// Only pass on when the code matches.
-			if (codeOfEvent === codeOfFollowedGroup)
-				return updatedGroupExercise
+			if (codeOfEvent === codeOfFollowedGroup) return updatedGroupExercise
 		}),
 	},
 }
-export = resolvers

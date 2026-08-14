@@ -31,6 +31,7 @@ export const courseResolvers = {
 			return course.courseSubscription?.role === 'teacher' || user.role === 'admin' ? 'CourseForTeacher' : 'CourseForStudent'
 		},
 	},
+
 	Query: {
 		allCourses: (_source: unknown, _args: unknown, { db, userId }: any) => getCourses(db, userId),
 		myCourses: (_source: unknown, _args: unknown, { db, ensureLoggedIn, userId }: any) => {
@@ -39,6 +40,7 @@ export const courseResolvers = {
 		},
 		course: (_source: unknown, { code }: { code: string }, { db, userId }: any) => getCourseByCode(db, code, userId),
 	},
+
 	Mutation: {
 		createCourse: async (_source: unknown, { input }: any, { db, ensureLoggedIn, user }: any) => {
 			ensureLoggedIn()
@@ -75,6 +77,7 @@ export const courseResolvers = {
 			await course.destroy()
 			return true
 		},
+		
 		subscribeToCourse: async (_source: unknown, { courseId }: any, { db, ensureLoggedIn, userId }: any) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, userId)

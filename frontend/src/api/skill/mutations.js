@@ -74,8 +74,8 @@ export function useSubmitExerciseActionMutation(skillId) {
 			skillId, // Put the skillId first, so it can still be overwritten.
 			...parameters.variables,
 		},
-		update: (cache, { data: { submitExerciseAction: { adjustedSkills, updatedExercise } } }) => {
-			// The adjusted skills are not implemented into the cache, since this is done through a subscription already.
+		update: (cache, { data: { submitExerciseAction: { updatedSkills, updatedExercise } } }) => {
+			// The updated skills are not implemented into the cache, since this is done through a subscription already.
 
 			// Implement the updated exercise within the skill for the cache.
 			const skillRef = cache.identify({
@@ -102,7 +102,7 @@ export const SUBMIT_EXERCISE_ACTION = gql`
 			updatedExercise {
 				${exerciseFields}
 			}
-			adjustedSkills {
+			updatedSkills {
 				${skillFields(false)}
 			}
 		}

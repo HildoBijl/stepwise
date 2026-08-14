@@ -1,5 +1,5 @@
 import { defineApiModule } from '../types'
-import groupResolvers = require('./resolvers')
+import { groupResolvers } from './resolvers'
 import { createGroupMembershipModel, createGroupModel } from './models'
 import { groupTypeDefs } from './schema'
 

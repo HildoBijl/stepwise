@@ -1,8 +1,9 @@
 import { defineApiModule } from '../types'
-import { createExerciseLoaders } from './loaders'
-import { createExerciseEventModel, createExerciseSampleModel } from './models'
-import { exerciseResolvers } from './resolvers'
+
 import { exerciseTypeDefs } from './schema'
+import { createExerciseEventModel, createExerciseSampleModel } from './models'
+import { createExerciseLoaders } from './loaders'
+import { exerciseResolvers } from './resolvers'
 
 export const exerciseModule = defineApiModule({
 	models: { ExerciseSample: createExerciseSampleModel, ExerciseEvent: createExerciseEventModel },
@@ -12,7 +13,9 @@ export const exerciseModule = defineApiModule({
 		models.ExerciseSample.hasMany(models.ExerciseEvent, { as: 'events', onDelete: 'CASCADE' })
 		models.ExerciseEvent.belongsTo(models.ExerciseSample, { onDelete: 'CASCADE' })
 	},
-	typeDefs: exerciseTypeDefs, resolvers: exerciseResolvers, createLoaders: createExerciseLoaders,
+	typeDefs: exerciseTypeDefs,
+	resolvers: exerciseResolvers,
+	createLoaders: createExerciseLoaders,
 })
 
 export * from './models'
