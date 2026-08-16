@@ -41,10 +41,23 @@ echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
 docker compose -f ops/docker-compose.yml -p app pull
 
 echo -e '\033[46m [STEP 3/4] \033[0m Restart application, run migrations'
-systemctl stop app
-docker compose -f ops/docker-compose.yml -p app run --rm api \
+
+# Stop the old containers without removing them, so they can be restarted if
+# the migration fails.
+docker compose -f ops/docker-compose.yml -p app stop
+
+if ! docker compose -f ops/docker-compose.yml -p app run --rm api \
 	/bin/sh -c "npm run db:migrate -- up"
-systemctl start app
+then
+	echo 'Migration failed; restarting previous application'
+	docker compose -f ops/docker-compose.yml -p app start
+	health
+	error_message
+fi
+
+# The migration succeeded. Replace the retained containers with containers
+# based on the newly pulled images.
+systemctl restart app
 
 echo -e '\033[46m [STEP 4/4] \033[0m Cleanup'
 docker image rm $(docker image ls -f "dangling=true" -q) || true
