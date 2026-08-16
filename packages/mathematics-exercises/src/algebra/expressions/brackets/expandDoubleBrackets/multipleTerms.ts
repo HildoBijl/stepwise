@@ -44,8 +44,9 @@ export default buildStepExercise({
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
 		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
 		const ans = allExpanded.combine()
-		const xFactors1 = allExpanded.terms.filter(term => variables.x.equalStructure(term) || term.some(exp => exp.isProduct() && exp.factors.some(factor => variables.x.equalStructure(factor))))
-		const xFactors2 = allExpanded.terms.filter(term => term.some(factor => variables.x.toPower(2).equalStructure(factor)))
+		const hasFactor = (term: Expression, factor: Expression): boolean => term.equalStructure(factor) || (term.isProduct() && term.factors.some(termFactor => termFactor.equalStructure(factor))) || (term.isMinus() && hasFactor(term.argument, factor))
+		const xFactors1 = allExpanded.terms.filter(term => hasFactor(term, variables.x))
+		const xFactors2 = allExpanded.terms.filter(term => hasFactor(term, variables.x.toPower(2)))
 		const xFactors1Merged = xFactors1[0].add(xFactors1[1]).normalize()
 		const xFactors2Merged = xFactors2[0].add(xFactors2[1]).normalize()
 		return { ...state, variables, factor1, factor2, expression, firstExpanded, allExpanded, ans, xFactors1, xFactors2, xFactors1Merged, xFactors2Merged }
