@@ -1,4 +1,3 @@
-import type { Request } from 'express'
 import type { PubSubEngine } from 'graphql-subscriptions'
 
 import { AuthenticationError } from '../errors.ts'
@@ -7,6 +6,7 @@ import type { UserRecord } from '../modules/user/index.ts'
 import type { Database } from '../database.ts'
 import { createLoaders } from '../graphql/index.ts'
 
+import type { RequestWithSession } from './types.ts'
 import { getIdFromRequest } from './support.ts'
 
 export interface ApolloContext extends ApiContext {
@@ -22,7 +22,7 @@ export interface ApolloContext extends ApiContext {
 }
 
 export function createApolloContext(database: Database, pubsub: PubSubEngine) {
-	return async ({ req }: { req: Request }): Promise<ApolloContext> => {
+	return async ({ req }: { req: RequestWithSession }): Promise<ApolloContext> => {
 		// Determine whether there is a user.
 		const userId = getIdFromRequest(req)
 		const user = userId ? await database.User.findByPk(userId) as UserRecord | null : null

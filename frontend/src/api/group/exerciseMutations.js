@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 import { groupExerciseParameters } from './util'
 import { ACTIVE_GROUP_EXERCISES } from './exerciseQueries'

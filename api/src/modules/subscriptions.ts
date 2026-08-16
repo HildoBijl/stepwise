@@ -7,7 +7,7 @@ export function getSubscription(name: string, events: string[], process: Subscri
 		[name]: {
 			...extraOptions,
 			subscribe: withFilter(
-				(_source: unknown, _args: unknown, { pubsub }: any) => pubsub.asyncIterator(events),
+				(_source: unknown, _args: unknown, { pubsub }: any) => pubsub.asyncIterableIterator(events),
 				(payload: unknown, args: unknown, context: unknown) => !!process(payload, args, context),
 			),
 			resolve: process,

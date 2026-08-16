@@ -1,6 +1,6 @@
 import React from 'react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
-import { ApolloProvider } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client/react'
 
 import { UserWrapper, ActiveGroupProvider, SkillCacher } from 'api'
 import { I18nProvider } from 'i18n'

@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
-import { useMutation, gql } from '@apollo/client'
+import { gql } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 import { useUserId } from '../user'
 

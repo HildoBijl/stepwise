@@ -2,21 +2,19 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client'
 import { getMainDefinition } from '@apollo/client/utilities'
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'
-import { WebSocketLink } from '@apollo/client/link/ws'
-import { SubscriptionClient } from 'subscriptions-transport-ws'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { graphqlAddress, graphqlWebsocketAddress } from './settings'
 import { App } from './ui/layout'
 
 // The websocket link, for subscriptions.
-const wsClient = new SubscriptionClient(
-	graphqlWebsocketAddress,
-	{
-		reconnect: true,
-	},
-)
-const wsLink = new WebSocketLink(wsClient)
+const wsLink = new GraphQLWsLink(createClient({
+	url: graphqlWebsocketAddress,
+	retryAttempts: Infinity,
+	shouldRetry: () => true,
+}))
 
 // The HTTP link, for regular queries/mutations.
 const httpLink = createHttpLink({

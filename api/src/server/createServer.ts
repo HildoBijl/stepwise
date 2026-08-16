@@ -8,10 +8,9 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { makeExecutableSchema } from '@graphql-tools/schema'
-import { execute, subscribe } from 'graphql'
-import { SubscriptionServer } from 'subscriptions-transport-ws'
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/use/ws'
 
-import { AuthenticationError } from '../errors.ts'
 import { createAuthRouter } from '../modules/authentication/index.ts'
 import { createI18nRouter } from '../modules/i18n/index.ts'
 import { typeDefs, resolvers } from '../graphql/index.ts'
@@ -62,21 +61,20 @@ export async function createServer({ config, database, sessionStore, surfConextC
 	// Apollo / GraphQL
 	const contextProvider = createApolloContext(database, pubsub)
 	const schema = makeExecutableSchema({ typeDefs, resolvers })
-	const subscriptionServer = SubscriptionServer.create({
+	const webSocketServer = new WebSocketServer({ server: httpServer, path: '/graphql' })
+	const webSocketCleanup = useServer({
 		schema,
-		execute,
-		subscribe,
-		async onConnect(_connectionParams: unknown, webSocket: any) {
+		async onConnect(context) {
 			// Attach session object to upgrade request.
+			const upgradeRequest = context.extra.request
 			const request = await new Promise<SessionRequest>((resolve, reject) => {
-				processSession(webSocket.upgradeReq, {} as any, error => error ? reject(error) : resolve(webSocket.upgradeReq))
+				processSession(upgradeRequest as any, {} as any, error => error ? reject(error) : resolve(upgradeRequest as SessionRequest))
 			})
 			// Ensure that only logged-in users can connect to the socket.
-			if (!getIdFromRequest(request as any)) throw new AuthenticationError('No user is logged in. Web socket not allowed.')
-			// Return the context at connection time to the socket.
-			return contextProvider({ req: request as any })
+			if (!getIdFromRequest(request)) return false
 		},
-	}, { server: httpServer, path: '/graphql' })
+		context: context => contextProvider({ req: context.extra.request as SessionRequest }),
+	}, webSocketServer)
 
 	const apolloServer = new ApolloServer({
 		schema,
@@ -87,7 +85,7 @@ export async function createServer({ config, database, sessionStore, surfConextC
 			// Shutdown the WebSocket server
 			{
 				async serverWillStart() {
-					return { async drainServer() { subscriptionServer.close() } }
+					return { async drainServer() { await webSocketCleanup.dispose() } }
 				},
 			},
 

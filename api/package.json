@@ -40,15 +40,16 @@
 		"google-auth-library": "^7.14.0",
 		"graphql": "^16.14.2",
 		"graphql-scalars": "^1.26.0",
-		"graphql-subscriptions": "^2.0.0",
+		"graphql-subscriptions": "^3.0.0",
 		"graphql-tag": "^2.12.7",
+		"graphql-ws": "^6.2.1",
 		"openid-client": "^4.9.1",
 		"pg": "^8.7.3",
 		"pg-hstore": "^2.3.4",
 		"redis": "^3.1.2",
 		"sequelize": "^6.28.0",
-		"subscriptions-transport-ws": "^0.11.0",
-		"umzug": "^2.3.0"
+		"umzug": "^2.3.0",
+		"ws": "^8.18.3"
 	},
 	"devDependencies": {
 		"@step-wise/input-interpretation": "1.0.0",
@@ -61,6 +62,7 @@
 		"@types/express-session": "^1.19.0",
 		"@types/node": "^24.0.0",
 		"@types/supertest": "^7.2.1",
+		"@types/ws": "^8.18.1",
 		"cross-env": "^10.1.0",
 		"jest": "^30.4.2",
 		"rimraf": "^6.1.3",
