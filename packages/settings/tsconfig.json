@@ -8,8 +8,5 @@
     "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
-  "references": [
-    { "path": "../utils" }
-  ],
   "include": ["src"]
 }

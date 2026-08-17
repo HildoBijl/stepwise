@@ -5,13 +5,11 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -b",
-		"watch": "tsc -b --watch"
-	},
-	"dependencies": {
-		"@step-wise/utils": "1.0.0"
+		"watch": "tsc -b --watch",
+		"test": "vitest run --root ../.. --config vitest.config.ts packages/settings/src",
+		"test:watch": "vitest --root ../.. --config vitest.config.ts packages/settings/src"
 	},
 	"devDependencies": {
-		"@types/jest": "^30.0.0",
 		"typescript": "^6.0.2"
 	}
 }

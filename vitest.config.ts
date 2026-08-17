@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config'
 
 // Packages are added here one by one as their tests move off Jest.
-const migratedPackages: string[] = []
+const migratedPackages = ['settings']
 
 export default defineConfig({
 	test: {
