@@ -1,4 +1,5 @@
 FROM node:24-alpine AS workspace-build
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 WORKDIR /app
 
 COPY package.json package-lock.json ./
