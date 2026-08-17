@@ -12,7 +12,7 @@ export function applyMergeFractionNumbers(node: Fraction): ExpressionNode {
 	const leadingNumbers = terms.map(getLeadingNumber)
 	if (!leadingNumbers.every(isIntegerNode)) return node
 	const divisor = gcd(...leadingNumbers.map(node => node.value))
-	if (divisor === 1) return node
+	if (divisor === 0 || divisor === 1) return node
 	return fraction(divideLeadingNumberBy(node.numerator, divisor), divideLeadingNumberBy(node.denominator, divisor))
 }
 

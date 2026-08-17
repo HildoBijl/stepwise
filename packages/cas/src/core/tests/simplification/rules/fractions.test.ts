@@ -54,6 +54,7 @@ describe('fraction simplification', () => {
 		expectSimplifyToGive(fraction(6, 9), fraction(2, 3), ['mergeFractionNumbers'])
 		expectSimplifyToGive(fraction(product(6, x), product(9, y)), fraction(product(2, x), product(3, y)), ['mergeFractionNumbers'])
 		expectSimplifyToGive(fraction(sum(product(6, x), product(9, y)), 3), fraction(sum(product(2, x), product(3, y)), 1), ['mergeFractionNumbers'])
+		expectSimplifyToGive(fraction(0, 0), fraction(0, 0), ['mergeFractionNumbers'])
 	})
 
 	test('cancels fraction factors', () => {
