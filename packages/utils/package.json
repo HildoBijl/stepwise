@@ -8,8 +8,8 @@
 		"watch": "tsc -b --watch"
 	},
 	"devDependencies": {
-		"@types/node": "^25.6.0",
 		"@types/jest": "^30.0.0",
+		"@types/node": "^24.13.3",
 		"typescript": "^6.0.2"
 	}
 }
