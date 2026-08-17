@@ -1,4 +1,4 @@
-import { getRandomNumber } from '@step-wise/utils'
+import { getRandomNumber } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'

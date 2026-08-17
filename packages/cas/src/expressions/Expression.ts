@@ -1,4 +1,4 @@
-import { isReadonlyArray, deepEquals } from '@step-wise/utils'
+import { isReadonlyArray, deepEquals } from '@step-wise/js-utils'
 
 import {
 	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, number, // Construction

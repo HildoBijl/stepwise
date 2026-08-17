@@ -1,4 +1,4 @@
-import { first, product as arrayProduct, splitArray } from '@step-wise/utils'
+import { first, product as arrayProduct, splitArray } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Product, integer, float, product } from '../../../../construction'
 

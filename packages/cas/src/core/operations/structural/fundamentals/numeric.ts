@@ -1,4 +1,4 @@
-import { compareNumbers } from '@step-wise/utils'
+import { compareNumbers } from '@step-wise/js-utils'
 import { type ExpressionSettingsInput, type ExpressionSettings, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, variableToString } from '../../../construction'

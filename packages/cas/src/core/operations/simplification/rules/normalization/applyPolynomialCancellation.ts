@@ -1,4 +1,4 @@
-import { arraySplice } from '@step-wise/utils'
+import { arraySplice } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction'
 

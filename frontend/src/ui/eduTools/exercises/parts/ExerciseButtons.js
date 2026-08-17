@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { Box, FormControl, Select, MenuItem } from '@mui/material'
 import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 
-import { last, fromKeys, isPlainObject, repeat } from '@step-wise/utils'
+import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
 import { toInputValue } from '@step-wise/input-interpretation'
 import { getLastInput, getStep } from '@step-wise/input-exercises'

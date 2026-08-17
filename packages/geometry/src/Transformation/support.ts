@@ -1,4 +1,4 @@
-import { isPlainObject } from '@step-wise/utils'
+import { isPlainObject } from '@step-wise/js-utils'
 
 import { isMatrixLike } from '../Matrix'
 import { isVectorLike } from '../Vector'

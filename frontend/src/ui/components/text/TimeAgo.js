@@ -1,4 +1,4 @@
-import { isDate } from '@step-wise/utils'
+import { isDate } from '@step-wise/js-utils'
 
 import { Translation, Plurals } from 'i18n'
 

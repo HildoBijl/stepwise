@@ -1,4 +1,4 @@
-import { isPlainObject, onlyHasKeys, InterpretationError } from '@step-wise/utils'
+import { isPlainObject, onlyHasKeys, InterpretationError } from '@step-wise/js-utils'
 
 import { type UnitElementStorageValue, type UnitElementInputValue, interpretPrefixAndBaseUnitString, isUnitElementInputValue, unitElementToInputValue } from '../UnitElement'
 

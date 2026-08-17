@@ -9,7 +9,7 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "references": [
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

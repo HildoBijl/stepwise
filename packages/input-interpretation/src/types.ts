@@ -1,4 +1,4 @@
-import type { PlainDataValue } from '@step-wise/utils'
+import type { PlainDataValue } from '@step-wise/js-utils'
 
 export type InputValue<Type extends string = string, Value extends PlainDataValue = PlainDataValue> = { type: Type, value: Value }
 

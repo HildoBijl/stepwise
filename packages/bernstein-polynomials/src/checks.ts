@@ -1,4 +1,4 @@
-import { compareNumbers, ensureNumberArray, sum, isPlainObject, fromKeys } from '@step-wise/utils'
+import { compareNumbers, ensureNumberArray, sum, isPlainObject, fromKeys } from '@step-wise/js-utils'
 
 import { BernsteinCoefficients, BernsteinCoefficientSet } from './types'
 

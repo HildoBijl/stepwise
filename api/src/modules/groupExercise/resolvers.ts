@@ -1,7 +1,7 @@
 import { UserInputError } from '../../errors.ts'
 import { Op } from 'sequelize'
 
-import { findOptimum } from '@step-wise/utils'
+import { findOptimum } from '@step-wise/js-utils'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { getExercises, getExercise } from '@step-wise/exercises'
 

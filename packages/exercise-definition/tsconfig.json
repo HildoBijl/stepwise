@@ -10,7 +10,7 @@
   },
   "references": [
     { "path": "../skill-setup" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

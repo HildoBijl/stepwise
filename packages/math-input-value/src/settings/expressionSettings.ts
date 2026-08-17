@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 
 export const defaultExpressionSettings = {
 	degrees: false, // Affects for instance how trigonometric functions like sine can be reduced to numbers.

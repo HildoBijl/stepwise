@@ -1,4 +1,4 @@
-import { deg2rad, getRandomInteger } from '@step-wise/utils'
+import { deg2rad, getRandomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'

@@ -11,7 +11,7 @@
   "references": [
     { "path": "../exercise-definition" },
     { "path": "../skill-setup" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

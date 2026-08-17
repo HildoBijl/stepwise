@@ -2,7 +2,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { resolveFunctions } from '@step-wise/utils'
+import { resolveFunctions } from '@step-wise/js-utils'
 
 import { useTranslator } from 'i18n'
 

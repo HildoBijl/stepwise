@@ -1,4 +1,4 @@
-import { ensureInteger, integerRange, randomSubset, shuffle } from '@step-wise/utils'
+import { ensureInteger, integerRange, randomSubset, shuffle } from '@step-wise/js-utils'
 
 export type MultipleChoiceMappingOptionsInput = {
 	numChoices: number // How many choices are there?

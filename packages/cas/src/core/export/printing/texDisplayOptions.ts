@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 
 export type DecimalSeparator = '.' | ','
 export type TexDisplayOptions = { decimalSeparator: DecimalSeparator }

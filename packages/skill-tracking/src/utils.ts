@@ -1,4 +1,4 @@
-import { ensureObject, ensureNumber, ensureDate } from '@step-wise/utils'
+import { ensureObject, ensureNumber, ensureDate } from '@step-wise/js-utils'
 import { ensureBernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 
 import { RawSkillLevel } from './types'

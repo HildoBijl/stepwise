@@ -1,4 +1,4 @@
-import { isReadonlyArray, isReadonlySet, union, difference } from '@step-wise/utils'
+import { isReadonlyArray, isReadonlySet, union, difference } from '@step-wise/js-utils'
 
 import { simplificationRules, type SimplificationRules } from '../rules'
 

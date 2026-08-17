@@ -1,4 +1,4 @@
-import { removeWhitespace } from '@step-wise/utils'
+import { removeWhitespace } from '@step-wise/js-utils'
 
 import { type InterpretationSettingsInput, type InterpretationSettings, type ExpressionSettingsInput, resolveInterpretationSettings } from '../settings'
 import type { InputValue, ExpressionInputValue, EquationInputValue, ExpressionValue } from '../types'

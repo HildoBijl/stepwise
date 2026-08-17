@@ -1,4 +1,4 @@
-import { ensureString, equalAngles, normalizeAngle } from '@step-wise/utils'
+import { ensureString, equalAngles, normalizeAngle } from '@step-wise/js-utils'
 
 import { type Load, type LoadComparisonOptionsInput, equalLoads, isForce, isLoadAtPoint, isMoment } from '../loads'
 

@@ -1,6 +1,6 @@
 // This is the most general template for settings up accents.
 
-import { removeAt } from '@step-wise/utils'
+import { removeAt } from '@step-wise/js-utils'
 import { getSubExpression, findNextClosingBracket } from '@step-wise/math-input-value'
 
 import { getFIStartCursor, getFIEndCursor } from '../..'

@@ -1,4 +1,4 @@
-import { stringifyJS } from '@step-wise/utils'
+import { stringifyJS } from '@step-wise/js-utils'
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 import { createClient } from '../../../support/client.ts'
 

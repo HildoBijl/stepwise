@@ -1,4 +1,4 @@
-import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/utils'
+import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/js-utils'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { hasExercises } from '@step-wise/exercises'

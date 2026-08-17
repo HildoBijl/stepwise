@@ -11,7 +11,7 @@
   "references": [
     { "path": "../math-input-value" },
     { "path": "../math-tools" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

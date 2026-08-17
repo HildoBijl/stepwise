@@ -1,5 +1,5 @@
 import { ForbiddenError, UserInputError } from '../../errors.ts'
-import { integerRange, sample } from '@step-wise/utils'
+import { integerRange, sample } from '@step-wise/js-utils'
 
 export const groupEvents = { groupUpdated: 'GROUP_UPDATED' } as const
 

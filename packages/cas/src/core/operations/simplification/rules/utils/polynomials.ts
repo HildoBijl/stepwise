@@ -1,4 +1,4 @@
-import { last, repeat, ensureInteger } from '@step-wise/utils'
+import { last, repeat, ensureInteger } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Variable, Integer, power, product, sum } from '../../../../construction'
 

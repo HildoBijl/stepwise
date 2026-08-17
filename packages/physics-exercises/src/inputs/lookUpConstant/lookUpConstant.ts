@@ -1,4 +1,4 @@
-import { sample } from '@step-wise/utils'
+import { sample } from '@step-wise/js-utils'
 import { c, g, R, e, k, G } from '@step-wise/physics-data'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'

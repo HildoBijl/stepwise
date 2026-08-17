@@ -1,4 +1,4 @@
-import { ensureNumber, isIn, normalizeAngle } from '@step-wise/utils'
+import { ensureNumber, isIn, normalizeAngle } from '@step-wise/js-utils'
 import { ensureVector } from '@step-wise/geometry'
 
 import { type Force, type ForceLike, type Load, type LoadLike, type Moment, type MomentLike, type ApplicationPointPosition, applicationPointPositions, loadTypes } from './types'

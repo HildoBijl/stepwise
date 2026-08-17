@@ -1,4 +1,4 @@
-import { pickKeys, isPlainObject } from '@step-wise/utils'
+import { pickKeys, isPlainObject } from '@step-wise/js-utils'
 import type { GetSolution, InputExerciseInput, InputExerciseState, Solution } from './types'
 
 // Assemble a solution object from a getSolution function or object.

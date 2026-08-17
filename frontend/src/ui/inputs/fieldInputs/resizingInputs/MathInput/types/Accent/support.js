@@ -1,4 +1,4 @@
-import { isLetter } from '@step-wise/utils'
+import { isLetter } from '@step-wise/js-utils'
 
 import { greekAlphabet } from 'ui/form'
 

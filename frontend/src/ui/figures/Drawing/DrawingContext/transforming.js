@@ -1,4 +1,4 @@
-import { isNumber, hasIterableParameters, mapValues } from '@step-wise/utils'
+import { isNumber, hasIterableParameters, mapValues } from '@step-wise/js-utils'
 import { isVectorLike, Transformation } from '@step-wise/geometry'
 
 import { applyTransformation } from '../transformation'

@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/js-utils'
 
 import type { CoordinateList, VectorData, VectorInput } from './types'
 import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'

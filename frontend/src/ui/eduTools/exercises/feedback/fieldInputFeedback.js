@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/utils'
+import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
 import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
 import { compare as gradingCompare } from '@step-wise/exercise-grading'

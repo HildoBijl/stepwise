@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/utils'
+import { getRandomInteger } from '@step-wise/js-utils'
 import { multiOutputTableInterpolate } from '@step-wise/interpolation'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'

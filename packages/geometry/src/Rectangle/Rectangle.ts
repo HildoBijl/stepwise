@@ -1,4 +1,4 @@
-import { ensureNumber, compareNumbers, clamp, fallsBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/utils'
+import { ensureNumber, compareNumbers, clamp, fallsBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
 
 import { type VectorLike, Vector, ensureVector } from '../Vector'
 import { type LineLike, ensureLine } from '../Line'

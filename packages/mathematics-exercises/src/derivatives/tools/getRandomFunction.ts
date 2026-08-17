@@ -1,4 +1,4 @@
-import { getRandomInteger, sample, randomIndices } from '@step-wise/utils'
+import { getRandomInteger, sample, randomIndices } from '@step-wise/js-utils'
 import { type Expression, asExpression, constants } from '@step-wise/cas'
 
 export function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true): Expression[] {

@@ -1,4 +1,4 @@
-import { mapValues } from '@step-wise/utils'
+import { mapValues } from '@step-wise/js-utils'
 import { FloatUnit } from '@step-wise/physics-core'
 
 export type GasProperties = {

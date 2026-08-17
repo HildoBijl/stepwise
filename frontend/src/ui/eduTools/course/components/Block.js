@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Collapse, alpha } from '@mui/material'
 import { ChevronRight as Arrow } from '@mui/icons-material'
 
-import { count } from '@step-wise/utils'
+import { count } from '@step-wise/js-utils'
 
 import { notSelectable } from 'ui/theme'
 import { ProgressIndicator } from 'ui/components'

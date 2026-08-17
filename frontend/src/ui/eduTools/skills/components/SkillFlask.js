@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat } from '@step-wise/utils'
+import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat } from '@step-wise/js-utils'
 import { gridInterpolate } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'

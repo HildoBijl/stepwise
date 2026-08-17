@@ -1,4 +1,4 @@
-import { type NestedArray } from '@step-wise/utils'
+import { type NestedArray } from '@step-wise/js-utils'
 
 export type PolynomialMatrix = NestedArray<number>
 export type VariableList = string[]

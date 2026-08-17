@@ -1,4 +1,4 @@
-import { compareNumbers, compareNumberArrays } from '@step-wise/utils'
+import { compareNumbers, compareNumberArrays } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
 
 import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'

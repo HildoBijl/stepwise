@@ -1,4 +1,4 @@
-import { ensureInteger, filterDuplicates } from '@step-wise/utils'
+import { ensureInteger, filterDuplicates } from '@step-wise/js-utils'
 
 // Return the greatest common divisor of integer numbers.
 export function gcd(...numbers: number[]): number {

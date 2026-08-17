@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo } from 'react'
 
-import { mapValues, omitKeys } from '@step-wise/utils'
+import { mapValues, omitKeys } from '@step-wise/js-utils'
 import { equalLoads, isLoad } from '@step-wise/engineering-mechanics'
 
 import { useScaling } from 'ui/figures'

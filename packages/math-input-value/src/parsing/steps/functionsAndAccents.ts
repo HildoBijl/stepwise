@@ -1,4 +1,4 @@
-import { isLetter } from '@step-wise/utils'
+import { isLetter } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
 import type { ExpressionValue, InputCursorEnd } from '../../types'

@@ -1,4 +1,4 @@
-import { ensureInteger, isInteger, getNumberDirection, roundToDigits, checkNumberEquality } from '@step-wise/utils'
+import { ensureInteger, isInteger, getNumberDirection, roundToDigits, checkNumberEquality } from '@step-wise/js-utils'
 
 import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, getSignificantDigits } from './interpreting'
 import { type FloatEqualityOptionsInput, type FloatEqualityResult, resolveFloatEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'

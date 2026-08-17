@@ -1,4 +1,4 @@
-import { ensureString } from '@step-wise/utils'
+import { ensureString } from '@step-wise/js-utils'
 import { languages } from '@step-wise/settings'
 
 import { localStorageKey, countryToLanguage } from './settings'

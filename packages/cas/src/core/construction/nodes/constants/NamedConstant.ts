@@ -1,4 +1,4 @@
-import { fromEntries, mapValues } from '@step-wise/utils'
+import { fromEntries, mapValues } from '@step-wise/js-utils'
 
 import { ConstantNode } from './ConstantNode'
 

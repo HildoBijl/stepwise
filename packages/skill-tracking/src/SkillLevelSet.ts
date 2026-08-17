@@ -1,4 +1,4 @@
-import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/utils'
+import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 import { type PolynomialExpression, oneMinusPolynomial, substituteIndividualMomentsIntoPolynomial } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'

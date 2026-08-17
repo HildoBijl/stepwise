@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions } from '@step-wise/utils'
+import { mergeDefaults, resolveFunctions } from '@step-wise/js-utils'
 
 export const defaultImageOptions = {
 	src: undefined, // The path to the image.

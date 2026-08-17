@@ -13,7 +13,7 @@
     { "path": "../exercise-definition" },
     { "path": "../exercise-grading" },
     { "path": "../input-exercises" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

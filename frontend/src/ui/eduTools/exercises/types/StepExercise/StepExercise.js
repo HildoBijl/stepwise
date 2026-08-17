@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { last, repeat } from '@step-wise/utils'
+import { last, repeat } from '@step-wise/js-utils'
 import { getPreviousProgress } from '@step-wise/exercise-definition'
 import { getStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
 

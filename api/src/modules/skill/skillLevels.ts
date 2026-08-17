@@ -2,7 +2,7 @@ import type { Transaction } from 'sequelize'
 import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
 import { ensureSetup, type SkillSetupLike } from '@step-wise/skill-setup'
 import { ensureSkillIds, includeDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
-import { ensureBoolean, fromEntries, fromKeys, mapValues, union } from '@step-wise/utils'
+import { ensureBoolean, fromEntries, fromKeys, mapValues, union } from '@step-wise/js-utils'
 
 import { getUserSkills, type SkillDatabase } from './service.ts'
 

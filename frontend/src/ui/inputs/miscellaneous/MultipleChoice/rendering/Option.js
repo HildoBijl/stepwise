@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { resolveFunctions } from '@step-wise/utils'
+import { resolveFunctions } from '@step-wise/js-utils'
 
 import { notSelectable } from 'ui/theme'
 

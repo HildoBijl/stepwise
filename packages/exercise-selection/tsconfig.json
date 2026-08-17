@@ -13,7 +13,7 @@
     { "path": "../exercise-definition" },
     { "path": "../skill-setup" },
     { "path": "../skill-tracking" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

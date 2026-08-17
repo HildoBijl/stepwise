@@ -1,4 +1,4 @@
-import { compareNumbers, ensureInteger, sum } from '@step-wise/utils'
+import { compareNumbers, ensureInteger, sum } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'

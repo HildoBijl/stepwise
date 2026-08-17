@@ -1,4 +1,4 @@
-import { isInteger } from '@step-wise/utils'
+import { isInteger } from '@step-wise/js-utils'
 
 import { type ExpressionNode, Integer, Float, type NamedConstant, getNamedConstant, Minus } from '../nodes'
 

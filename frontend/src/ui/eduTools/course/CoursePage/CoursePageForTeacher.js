@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Paper, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-import { fromEntries } from '@step-wise/utils'
+import { fromEntries } from '@step-wise/js-utils'
 
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'

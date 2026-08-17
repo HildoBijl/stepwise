@@ -1,4 +1,4 @@
-import { isInteger, isNumber } from '@step-wise/utils'
+import { isInteger, isNumber } from '@step-wise/js-utils'
 
 export const FloatType = 'Float'
 export type FloatType = typeof FloatType

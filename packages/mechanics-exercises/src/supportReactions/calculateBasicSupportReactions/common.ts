@@ -1,4 +1,4 @@
-import { fromEntries } from '@step-wise/utils'
+import { fromEntries } from '@step-wise/js-utils'
 import { reverseLoad } from '@step-wise/engineering-mechanics'
 
 import { getLoadDirectionIndices } from './support'

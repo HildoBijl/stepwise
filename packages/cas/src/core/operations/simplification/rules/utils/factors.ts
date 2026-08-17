@@ -1,4 +1,4 @@
-import { splitArray } from '@step-wise/utils'
+import { splitArray } from '@step-wise/js-utils'
 
 import { type ExpressionNode, negative, recreateSignNode, sum, product, power } from '../../../../construction'
 

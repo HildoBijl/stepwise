@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 import { type BernsteinCoefficients, smoothBernsteinCoefficientsWithFactor } from '@step-wise/bernstein-polynomials'
 
 import { decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } from './settings'

@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@step-wise/exercise-definition": "1.0.0",
 		"@step-wise/skill-setup": "1.0.0",
-		"@step-wise/utils": "1.0.0"
+		"@step-wise/js-utils": "1.0.0"
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",

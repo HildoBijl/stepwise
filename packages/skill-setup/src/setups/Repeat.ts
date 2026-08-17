@@ -1,4 +1,4 @@
-import { ensureInteger } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/js-utils'
 import { type PolynomialMatrix, polynomialToPower } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'

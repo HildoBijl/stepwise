@@ -1,4 +1,4 @@
-import { sample } from '@step-wise/utils'
+import { sample } from '@step-wise/js-utils'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 

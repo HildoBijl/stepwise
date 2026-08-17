@@ -1,4 +1,4 @@
-import { deg2rad, getRandomBoolean, getRandomInteger, integerRange, isMultipleOf } from '@step-wise/utils'
+import { deg2rad, getRandomBoolean, getRandomInteger, integerRange, isMultipleOf } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'

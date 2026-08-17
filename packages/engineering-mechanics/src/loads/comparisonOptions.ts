@@ -1,4 +1,4 @@
-import { isIn, mergeDefaults } from '@step-wise/utils'
+import { isIn, mergeDefaults } from '@step-wise/js-utils'
 
 // Define Force types.
 export const forcePositionComparisons = ['equal', 'equalLine', 'ignore'] as const

@@ -1,4 +1,4 @@
-import { sum as arraySum, splitArray } from '@step-wise/utils'
+import { sum as arraySum, splitArray } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Sum, integer, float, sum } from '../../../../construction'
 

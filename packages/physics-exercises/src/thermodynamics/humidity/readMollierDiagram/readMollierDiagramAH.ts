@@ -1,4 +1,4 @@
-import { first, last } from '@step-wise/utils'
+import { first, last } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'

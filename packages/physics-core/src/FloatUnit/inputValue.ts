@@ -1,4 +1,4 @@
-import { isPlainObject, onlyHasKeys } from '@step-wise/utils'
+import { isPlainObject, onlyHasKeys } from '@step-wise/js-utils'
 
 import { type FloatInputValue, isFloatInputValue, interpretFloatInputValue, floatToInputValue } from '../Float'
 import { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToInputValue } from '../Unit'

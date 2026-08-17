@@ -1,4 +1,4 @@
-import { deg2rad, equalAngles, getRandomInteger } from '@step-wise/utils'
+import { deg2rad, equalAngles, getRandomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'

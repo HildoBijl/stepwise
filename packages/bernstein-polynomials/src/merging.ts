@@ -1,4 +1,4 @@
-import { product, repeat } from '@step-wise/utils'
+import { product, repeat } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'

@@ -1,4 +1,4 @@
-import { parseTagTree } from '@step-wise/utils'
+import { parseTagTree } from '@step-wise/js-utils'
 
 import { isLocalhost } from 'util'
 

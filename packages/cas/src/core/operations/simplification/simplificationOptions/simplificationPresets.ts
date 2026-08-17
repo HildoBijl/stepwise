@@ -1,4 +1,4 @@
-import { difference } from '@step-wise/utils'
+import { difference } from '@step-wise/js-utils'
 
 import { normalizationRequirementRules } from '../rules/normalization'
 

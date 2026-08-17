@@ -1,4 +1,4 @@
-import { type NumberEqualityOptionsInput, numbersEqual, resolveNumberEqualityOptions } from '@step-wise/utils'
+import { type NumberEqualityOptionsInput, numbersEqual, resolveNumberEqualityOptions } from '@step-wise/js-utils'
 
 export function compareInteger(input: number, correct: number, options: NumberEqualityOptionsInput = {}): boolean {
 	const { absoluteTolerance, relativeTolerance } = resolveNumberEqualityOptions(options)

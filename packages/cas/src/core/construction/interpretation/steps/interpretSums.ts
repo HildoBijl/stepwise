@@ -1,4 +1,4 @@
-import { InterpretationError, findNextOf } from '@step-wise/utils'
+import { InterpretationError, findNextOf } from '@step-wise/js-utils'
 import { type InputCursorEnd, getEndCursor, getStartCursor, getSubExpression, isTextPart, shiftPositionRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'

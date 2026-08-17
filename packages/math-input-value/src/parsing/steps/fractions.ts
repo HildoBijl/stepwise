@@ -1,4 +1,4 @@
-import { first, last } from '@step-wise/utils'
+import { first, last } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
 import type { ExpressionValue, InputCursorEnd } from '../../types'

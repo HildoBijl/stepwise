@@ -1,4 +1,4 @@
-import { InterpretationError, isLetter } from '@step-wise/utils'
+import { InterpretationError, isLetter } from '@step-wise/js-utils'
 import { type InputValuePart, getEndCursor, getMatchingBrackets, getStartCursor, getSubExpression, isEmptyExpressionValue, isTextPart, shiftPositionRight } from '@step-wise/math-input-value'
 
 import { ExpressionNode } from '../../nodes'

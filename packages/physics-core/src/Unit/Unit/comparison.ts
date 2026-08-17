@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 
 import { type UnitTransformationData, type UnitSimplificationTarget } from './simplification'
 

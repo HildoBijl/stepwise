@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 
 export const defaultInterpretationSettings = {
 	eAsConstant: true, // Should e be interpreted as the named constant (Euler's number)? Or as regular variable e?

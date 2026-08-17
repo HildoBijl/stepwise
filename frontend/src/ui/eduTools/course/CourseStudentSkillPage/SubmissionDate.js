@@ -1,4 +1,4 @@
-import { last } from '@step-wise/utils'
+import { last } from '@step-wise/js-utils'
 
 import { TranslationSection, Translation } from 'i18n'
 import { Par, TimeAgo } from 'ui/components'

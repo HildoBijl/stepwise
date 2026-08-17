@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { findWithValue, resolveFunctions, resolveFunctionsShallow, identity } from '@step-wise/utils'
+import { findWithValue, resolveFunctions, resolveFunctionsShallow, identity } from '@step-wise/js-utils'
 import { asEquationEqualityOptions, expressionComparisons, equationComparisons } from '@step-wise/cas'
 
 import { Translation, Check, CountingWord } from 'i18n'

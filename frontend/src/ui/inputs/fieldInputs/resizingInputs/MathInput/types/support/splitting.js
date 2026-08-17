@@ -1,4 +1,4 @@
-import { first } from '@step-wise/utils'
+import { first } from '@step-wise/js-utils'
 
 import { removeCursor } from '../../../../FieldInput'
 

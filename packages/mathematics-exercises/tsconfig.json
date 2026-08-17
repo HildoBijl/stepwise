@@ -15,7 +15,7 @@
     { "path": "../exercise-grading" },
     { "path": "../input-exercises" },
     { "path": "../skill-setup" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

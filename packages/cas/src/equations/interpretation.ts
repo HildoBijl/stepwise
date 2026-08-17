@@ -1,4 +1,4 @@
-import { isPlainObject, InterpretationError } from '@step-wise/utils'
+import { isPlainObject, InterpretationError } from '@step-wise/js-utils'
 import { type ExpressionInputValue, type EquationInputValue, type InputCursorEnd, shiftPositionRight, getSubExpression, isEquationInputValue, isTextPart, stringToInputValue } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, isExpressionLike, Expression, asExpression } from '../expressions'

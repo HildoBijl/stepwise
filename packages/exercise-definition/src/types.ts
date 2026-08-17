@@ -1,4 +1,4 @@
-import type { PlainDataObject } from '@step-wise/utils'
+import type { PlainDataObject } from '@step-wise/js-utils'
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
 /*

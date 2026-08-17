@@ -1,4 +1,4 @@
-import type { PlainDataValue } from '@step-wise/utils'
+import type { PlainDataValue } from '@step-wise/js-utils'
 
 import type { InputValue } from './types'
 

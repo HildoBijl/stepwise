@@ -17,7 +17,7 @@
 		{ "path": "../physics-exercises" },
     { "path": "../skill-definition" },
     { "path": "../skill-tree" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

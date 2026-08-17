@@ -1,4 +1,4 @@
-import { cartesianProduct } from '@step-wise/utils'
+import { cartesianProduct } from '@step-wise/js-utils'
 
 import { type ExpressionNode, negative } from '../../../construction'
 

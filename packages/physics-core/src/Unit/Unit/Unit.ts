@@ -1,4 +1,4 @@
-import { ensureInteger, shallowEqual } from '@step-wise/utils'
+import { ensureInteger, shallowEqual } from '@step-wise/js-utils'
 
 import { type UnitElement, type UnitElementStorageValue } from '../UnitElement'
 

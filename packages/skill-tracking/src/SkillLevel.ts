@@ -1,4 +1,4 @@
-import { isPlainObject } from '@step-wise/utils'
+import { isPlainObject } from '@step-wise/js-utils'
 import type { BernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 import type { Skill } from '@step-wise/skill-definition'
 

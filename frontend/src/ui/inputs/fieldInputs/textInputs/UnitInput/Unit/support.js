@@ -1,4 +1,4 @@
-import { last, arraySplice, mapValues, fromKeys, repeat } from '@step-wise/utils'
+import { last, arraySplice, mapValues, fromKeys, repeat } from '@step-wise/js-utils'
 
 import { selectRandomInvalidUnit } from '../../../../util'
 

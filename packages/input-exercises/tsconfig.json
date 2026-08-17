@@ -13,7 +13,7 @@
     { "path": "../input-interpretation" },
     { "path": "../serialization" },
     { "path": "../skill-setup" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, repeat, fromEntries } from '@step-wise/utils'
+import { sample, getRandomInteger, repeat, fromEntries } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 import { repeat as skillRepeat } from '@step-wise/skill-setup'
 import { asExpression, expressionComparisons } from '@step-wise/cas'

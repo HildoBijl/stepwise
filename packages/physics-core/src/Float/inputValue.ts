@@ -1,4 +1,4 @@
-import { isPlainObject, InterpretationError, onlyHasKeys } from '@step-wise/utils'
+import { isPlainObject, InterpretationError, onlyHasKeys } from '@step-wise/js-utils'
 
 import { Float } from './Float'
 import { getSignificantDigits } from './interpreting'

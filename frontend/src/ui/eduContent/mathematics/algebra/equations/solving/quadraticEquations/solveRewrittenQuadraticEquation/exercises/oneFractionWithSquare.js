@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { integerRange } from '@step-wise/utils'
+import { integerRange } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 
 import { Translation, Check, Plurals } from 'i18n'

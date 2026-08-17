@@ -1,4 +1,4 @@
-import { isIn, isPlainObject } from '@step-wise/utils'
+import { isIn, isPlainObject } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
 import { type Force, type Load, type Moment, applicationPointPositions, loadTypes } from './types'

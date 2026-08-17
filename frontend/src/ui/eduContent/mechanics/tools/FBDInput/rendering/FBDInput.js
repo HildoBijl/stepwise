@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
-import { mergeDefaults, pickFromDefaults } from '@step-wise/utils'
+import { mergeDefaults, pickFromDefaults } from '@step-wise/js-utils'
 import { FBDType } from '@step-wise/input-interpretation'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'

@@ -13,7 +13,7 @@
     { "path": "../math-tools" },
     { "path": "../polynomials" },
     { "path": "../skill-definition" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

@@ -1,4 +1,4 @@
-import { lowerFirst } from '@step-wise/utils'
+import { lowerFirst } from '@step-wise/js-utils'
 
 export abstract class ExpressionNode {
 	abstract readonly subtype: string

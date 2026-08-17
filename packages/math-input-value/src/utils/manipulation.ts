@@ -1,4 +1,4 @@
-import { last } from '@step-wise/utils'
+import { last } from '@step-wise/js-utils'
 
 import type { ExpressionValue, InputValuePart } from '../types'
 

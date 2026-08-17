@@ -1,4 +1,4 @@
-import { isNumber } from '@step-wise/utils'
+import { isNumber } from '@step-wise/js-utils'
 
 import type { MatrixArray, MatrixInput } from './types'
 

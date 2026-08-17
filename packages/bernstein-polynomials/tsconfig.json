@@ -10,7 +10,7 @@
   },
   "references": [
     { "path": "../math-tools" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

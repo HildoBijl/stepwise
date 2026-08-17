@@ -1,4 +1,4 @@
-import { isNumber, isPlainObject, fromKeys } from '@step-wise/utils'
+import { isNumber, isPlainObject, fromKeys } from '@step-wise/js-utils'
 
 import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput, InterpolationInputSeries, InterpolationOutputSeries } from './types'
 import { isNumberLike } from './checks'

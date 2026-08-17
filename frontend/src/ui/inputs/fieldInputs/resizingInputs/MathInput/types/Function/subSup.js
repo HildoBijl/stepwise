@@ -1,4 +1,4 @@
-import { arraySplice } from '@step-wise/utils'
+import { arraySplice } from '@step-wise/js-utils'
 import { getSubExpression } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'

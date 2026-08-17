@@ -1,4 +1,4 @@
-import { isPlainObject, mapValues } from '@step-wise/utils'
+import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
 import type { SerializableObject, SerializedObject } from './types'
 import * as objects from './objects'

@@ -1,4 +1,4 @@
-import { findNextOf, InterpretationError } from '@step-wise/utils'
+import { findNextOf, InterpretationError } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
 import type { ExpressionValue, InputValuePart, SubSupInputValue } from '../../types'

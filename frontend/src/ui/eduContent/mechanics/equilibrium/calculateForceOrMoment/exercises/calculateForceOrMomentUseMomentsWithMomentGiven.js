@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { integerRange } from '@step-wise/utils'
+import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
 import { FloatUnit } from '@step-wise/physics-core'
 

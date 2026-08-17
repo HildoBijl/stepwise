@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/utils'
+import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'

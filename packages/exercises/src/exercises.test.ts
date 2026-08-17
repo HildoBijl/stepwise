@@ -1,4 +1,4 @@
-import { isObject, isPlainObject } from '@step-wise/utils'
+import { isObject, isPlainObject } from '@step-wise/js-utils'
 import type { Skill } from '@step-wise/skill-definition'
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseContainer } from '@step-wise/exercise-bundling'

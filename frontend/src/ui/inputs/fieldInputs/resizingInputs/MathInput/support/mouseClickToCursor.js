@@ -1,4 +1,4 @@
-import { findOptimum, findOptimumIndex, findIndexPath } from '@step-wise/utils'
+import { findOptimum, findOptimumIndex, findIndexPath } from '@step-wise/js-utils'
 
 import { getCoordinatesOf } from 'util'
 

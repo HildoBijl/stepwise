@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/utils'
+import { getRandomInteger } from '@step-wise/js-utils'
 
 import { Translation } from 'i18n'
 

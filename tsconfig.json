@@ -29,6 +29,6 @@
 		{ "path": "./packages/skill-setup" },
 		{ "path": "./packages/skill-tracking" },
 		{ "path": "./packages/skill-tree" },
-		{ "path": "./packages/utils" }
+		{ "path": "./packages/js-utils" }
 	]
 }

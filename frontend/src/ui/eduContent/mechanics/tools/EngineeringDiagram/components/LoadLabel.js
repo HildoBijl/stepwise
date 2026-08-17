@@ -1,4 +1,4 @@
-import { ensureNumber } from '@step-wise/utils'
+import { ensureNumber } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
 import { loadTypes, createLoad } from '@step-wise/engineering-mechanics'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'

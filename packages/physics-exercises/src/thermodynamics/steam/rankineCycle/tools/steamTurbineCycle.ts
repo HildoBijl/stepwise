@@ -1,4 +1,4 @@
-import { integerRange, sample, getRandomInteger } from '@step-wise/utils'
+import { integerRange, sample, getRandomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'

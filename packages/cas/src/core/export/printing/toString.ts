@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 import { type InterpretationSettings, type InterpretationSettingsInput, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, type ConstantNode, type SignNode, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'

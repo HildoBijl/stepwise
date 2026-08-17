@@ -1,4 +1,4 @@
-import { first, isPlainObject, isEmptyObject, omitDefaults } from '@step-wise/utils'
+import { first, isPlainObject, isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
 import type { ExpressionInputValue, EquationInputValue, InputValue, ExpressionValue } from '../types'

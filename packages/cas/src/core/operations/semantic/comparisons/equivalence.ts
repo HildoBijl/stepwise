@@ -1,4 +1,4 @@
-import { hasOneToOneMatching } from '@step-wise/utils'
+import { hasOneToOneMatching } from '@step-wise/js-utils'
 import { type ExpressionSettingsInput } from '@step-wise/math-input-value'
 
 import { type ExpressionNode } from '../../../construction'

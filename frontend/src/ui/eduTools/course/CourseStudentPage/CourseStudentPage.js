@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
-import { last, repeat, count } from '@step-wise/utils'
+import { last, repeat, count } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 import { hasExercises } from '@step-wise/exercises'
 

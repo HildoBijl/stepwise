@@ -1,5 +1,5 @@
 import { UserInputError } from '../../errors.ts'
-import { last } from '@step-wise/utils'
+import { last } from '@step-wise/js-utils'
 import { getExercise } from '@step-wise/exercises'
 
 import type { SkillDatabase } from '../skill/index.ts'

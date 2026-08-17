@@ -17,7 +17,7 @@
     { "path": "../physics-core" },
     { "path": "../physics-data" },
     { "path": "../skill-setup" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

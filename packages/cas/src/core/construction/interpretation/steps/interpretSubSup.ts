@@ -1,4 +1,4 @@
-import { InterpretationError, last } from '@step-wise/utils'
+import { InterpretationError, last } from '@step-wise/js-utils'
 import { type SubSupInputValue } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Power, Variable } from '../../nodes'

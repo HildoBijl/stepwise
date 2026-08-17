@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/utils'
+import { getRandomInteger } from '@step-wise/js-utils'
 import { buildSimpleExercise, getMultipleChoiceMapping } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 

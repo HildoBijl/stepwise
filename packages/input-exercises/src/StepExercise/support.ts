@@ -1,4 +1,4 @@
-import { ensureNumber } from '@step-wise/utils'
+import { ensureNumber } from '@step-wise/js-utils'
 import type { ExerciseHistory } from '@step-wise/exercise-definition'
 
 import type { InputExerciseAction, InputExerciseInput } from '../InputExercise'

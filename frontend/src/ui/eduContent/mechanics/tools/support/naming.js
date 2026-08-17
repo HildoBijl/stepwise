@@ -1,4 +1,4 @@
-import { mod, sortBy } from '@step-wise/utils'
+import { mod, sortBy } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { asExpression } from '@step-wise/cas'
 import { isForce, isMoment, compareLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'

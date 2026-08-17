@@ -1,4 +1,4 @@
-import { compareNumbers, compareNumberArrays } from '@step-wise/utils'
+import { compareNumbers, compareNumberArrays } from '@step-wise/js-utils'
 import { type BernsteinCoefficients, getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 import { skill, and, or, repeat, pick, part } from '@step-wise/skill-setup'
 import { processSkillTree } from '@step-wise/skill-definition'

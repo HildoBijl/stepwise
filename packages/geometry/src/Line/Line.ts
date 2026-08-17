@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/utils'
+import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/js-utils'
 
 import { Vector, type VectorLike, ensureVector } from '../Vector'
 

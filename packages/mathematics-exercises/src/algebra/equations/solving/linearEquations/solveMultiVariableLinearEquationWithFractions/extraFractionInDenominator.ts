@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/utils'
+import { sample, getRandomInteger } from '@step-wise/js-utils'
 import { type Equation, type Expression, asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'

@@ -1,4 +1,4 @@
-import { findOptimum } from '@step-wise/utils'
+import { findOptimum } from '@step-wise/js-utils'
 import { getExercise } from '@step-wise/exercises'
 
 export const groupExerciseEvents = { groupExerciseUpdated: 'GROUP_EXERCISE_UPDATED' } as const

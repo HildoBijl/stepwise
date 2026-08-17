@@ -1,4 +1,4 @@
-import { sample } from '@step-wise/utils'
+import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup, getInput } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'

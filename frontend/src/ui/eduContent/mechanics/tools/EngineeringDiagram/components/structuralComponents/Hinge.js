@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/utils'
+import { ensureNumber, ensureString, ensureObject, mergeDefaults } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
 import { Circle } from 'ui/figures/Drawing/components/svgComponents'

@@ -1,4 +1,4 @@
-import { isPlainObject } from '@step-wise/utils'
+import { isPlainObject } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
 
 import { Translation } from 'i18n'

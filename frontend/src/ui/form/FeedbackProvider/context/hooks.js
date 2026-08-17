@@ -1,7 +1,7 @@
 import { isValidElement } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isPlainObject } from '@step-wise/utils'
+import { isPlainObject } from '@step-wise/js-utils'
 
 import { useFormData, useFieldValidation } from '../../Form'
 

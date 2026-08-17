@@ -1,4 +1,4 @@
-import { ensureString, isPlainObject } from '@step-wise/utils'
+import { ensureString, isPlainObject } from '@step-wise/js-utils'
 import { ensureVector } from '@step-wise/geometry'
 
 import { createLoad } from '../loads'

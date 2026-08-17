@@ -1,4 +1,4 @@
-import { mapValues } from '@step-wise/utils'
+import { mapValues } from '@step-wise/js-utils'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'

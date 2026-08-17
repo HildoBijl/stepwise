@@ -1,6 +1,6 @@
 import type { InputValue } from '@step-wise/input-interpretation'
 import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseProgress, GroupExerciseSubmission, UpdateSkills } from '@step-wise/exercise-definition'
-import type { PlainDataObject } from '@step-wise/utils'
+import type { PlainDataObject } from '@step-wise/js-utils'
 
 /*
  * Fundamentals

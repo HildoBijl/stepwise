@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Alert, AlertTitle, Box } from '@mui/material'
 
-import { count } from '@step-wise/utils'
+import { count } from '@step-wise/js-utils'
 import { Course } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 

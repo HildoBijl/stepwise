@@ -12,7 +12,7 @@
     { "path": "../engineering-mechanics" },
     { "path": "../input-exercises" },
     { "path": "../input-interpretation" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

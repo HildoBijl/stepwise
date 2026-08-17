@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
-import { sample } from '@step-wise/utils'
+import { sample } from '@step-wise/js-utils'
 import { hasExercises } from '@step-wise/exercises'
 
 import { TranslationFile, Translation } from 'i18n'

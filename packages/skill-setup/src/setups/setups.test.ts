@@ -1,4 +1,4 @@
-import { compareNumberArrays } from '@step-wise/utils'
+import { compareNumberArrays } from '@step-wise/js-utils'
 
 import { skill, and, or, repeat, pick, part } from './index'
 

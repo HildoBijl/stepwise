@@ -1,4 +1,4 @@
-import { InterpretationError, isLetter } from '@step-wise/utils'
+import { InterpretationError, isLetter } from '@step-wise/js-utils'
 
 import { type ExpressionNode } from '../../nodes'
 import { asExpressionNode } from '../../creation'

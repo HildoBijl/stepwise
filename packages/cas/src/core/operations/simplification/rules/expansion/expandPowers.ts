@@ -1,4 +1,4 @@
-import { repeat } from '@step-wise/utils'
+import { repeat } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Power, product } from '../../../../construction'
 

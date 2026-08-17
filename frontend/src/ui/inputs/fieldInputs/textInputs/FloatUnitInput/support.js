@@ -1,4 +1,4 @@
-import { isNumber, isLetter, mapValues, identity } from '@step-wise/utils'
+import { isNumber, isLetter, mapValues, identity } from '@step-wise/js-utils'
 import { baseUnits, prefixes } from '@step-wise/physics-core'
 
 import { getClickSide } from 'util'

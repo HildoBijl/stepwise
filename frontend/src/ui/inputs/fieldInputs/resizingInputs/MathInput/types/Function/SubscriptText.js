@@ -1,5 +1,5 @@
 
-import { isNumber, isLetter, removeAt } from '@step-wise/utils'
+import { isNumber, isLetter, removeAt } from '@step-wise/js-utils'
 
 import { latexMinus } from 'ui/components'
 import { greekAlphabet } from 'ui/form'

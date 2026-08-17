@@ -1,4 +1,4 @@
-import { arraySplice } from '@step-wise/utils'
+import { arraySplice } from '@step-wise/js-utils'
 
 import { getFIFuncs, getFIStartCursor, getFIEndCursor } from '..'
 

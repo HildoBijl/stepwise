@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/utils'
+import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/js-utils'
 import { type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'

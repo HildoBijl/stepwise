@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 import { getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 
 const defaultSkillThresholds = {

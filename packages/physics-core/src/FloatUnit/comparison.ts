@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 
 import { type FloatEqualityOptions, type FloatEqualityOptionsInput, type FloatEqualityResult, defaultFloatEqualityOptions, resolveFloatEqualityOptions, adjustFloatTolerances } from '../Float'
 import { type Unit, type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, resolveUnitEqualityOptions } from '../Unit'

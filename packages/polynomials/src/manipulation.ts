@@ -1,4 +1,4 @@
-import { ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/utils'
+import { ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/js-utils'
 
 import { PolynomialMatrix, VariableList, PolynomialExpression } from './types'
 import { restructurePolynomial } from './restructuring'

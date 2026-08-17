@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ensureInteger } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/js-utils'
 
 import { Check } from '../Check'
 

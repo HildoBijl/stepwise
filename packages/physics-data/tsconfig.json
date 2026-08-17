@@ -11,7 +11,7 @@
   "references": [
     { "path": "../interpolation" },
     { "path": "../physics-core" },
-    { "path": "../utils" }
+    { "path": "../js-utils" }
   ],
   "include": ["src"]
 }

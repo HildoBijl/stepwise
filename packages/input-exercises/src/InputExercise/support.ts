@@ -1,5 +1,5 @@
 
-import { isPlainDataObject, type PlainDataObject } from '@step-wise/utils'
+import { isPlainDataObject, type PlainDataObject } from '@step-wise/js-utils'
 import { deserializeAll, serializeAll } from '@step-wise/serialization'
 import type { ExerciseHistory } from '@step-wise/exercise-definition'
 

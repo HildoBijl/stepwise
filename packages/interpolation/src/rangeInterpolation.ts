@@ -1,4 +1,4 @@
-import { isNumber } from '@step-wise/utils'
+import { isNumber } from '@step-wise/js-utils'
 
 import type { InterpolationValue, InterpolationPair, InterpolationOutputTree } from './types'
 import { isNumberLike, isValidInterpolationPart } from './checks'

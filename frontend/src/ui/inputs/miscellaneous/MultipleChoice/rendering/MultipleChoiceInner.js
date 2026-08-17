@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Radio, Checkbox } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions } from '@step-wise/utils'
+import { mergeDefaults, resolveFunctions } from '@step-wise/js-utils'
 
 import { FeedbackBlock } from 'ui/components'
 

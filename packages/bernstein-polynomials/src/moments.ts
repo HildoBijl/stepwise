@@ -1,4 +1,4 @@
-import { ensureInteger, sum } from '@step-wise/utils'
+import { ensureInteger, sum } from '@step-wise/js-utils'
 import { factorial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'

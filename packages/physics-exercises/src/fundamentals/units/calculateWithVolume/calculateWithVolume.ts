@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/utils'
+import { sample, getRandomInteger } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'

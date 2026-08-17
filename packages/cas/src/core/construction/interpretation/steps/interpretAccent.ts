@@ -1,4 +1,4 @@
-import { InterpretationError } from '@step-wise/utils'
+import { InterpretationError } from '@step-wise/js-utils'
 import { type AccentName, type AccentInputValue, isAccent } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Variable } from '../../nodes'

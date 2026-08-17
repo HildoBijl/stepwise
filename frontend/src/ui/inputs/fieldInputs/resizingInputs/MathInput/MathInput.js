@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
-import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEquals } from '@step-wise/utils'
+import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEquals } from '@step-wise/js-utils'
 import { getEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

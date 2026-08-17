@@ -1,6 +1,6 @@
 import React, { Fragment, forwardRef } from 'react'
 
-import { ensureNumber, ensureBoolean, ensurePlainObject, mergeDefaults, first, last, ensureFunction } from '@step-wise/utils'
+import { ensureNumber, ensureBoolean, ensurePlainObject, mergeDefaults, first, last, ensureFunction } from '@step-wise/js-utils'
 
 import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 

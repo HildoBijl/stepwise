@@ -1,4 +1,4 @@
-import { count } from '@step-wise/utils'
+import { count } from '@step-wise/js-utils'
 
 import { type VariableLike, type ExpressionLike, type ExpressionCheck, asExpression } from './Expression'
 

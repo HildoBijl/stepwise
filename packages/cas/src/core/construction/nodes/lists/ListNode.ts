@@ -1,4 +1,4 @@
-import { shallowEqual } from '@step-wise/utils'
+import { shallowEqual } from '@step-wise/js-utils'
 
 import { ExpressionNode } from '../ExpressionNode'
 

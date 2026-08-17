@@ -1,4 +1,4 @@
-import { splitArray } from '@step-wise/utils'
+import { splitArray } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, isSkillRequiredFor, sortBySkillTreeOrder } from '@step-wise/skill-definition'
 

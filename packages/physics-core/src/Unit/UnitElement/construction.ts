@@ -1,4 +1,4 @@
-import { isInteger, ensureInteger, isPlainObject, onlyHasKeys } from '@step-wise/utils'
+import { isInteger, ensureInteger, isPlainObject, onlyHasKeys } from '@step-wise/js-utils'
 
 import { Prefix, findPrefix } from '../Prefix'
 import { BaseUnit, findBaseUnit } from '../BaseUnit'

@@ -1,4 +1,4 @@
-import { omitDefaults } from '@step-wise/utils'
+import { omitDefaults } from '@step-wise/js-utils'
 import { type InterpretationSettings, type InterpretationSettingsInput, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, namedConstants, variable } from '../../construction'

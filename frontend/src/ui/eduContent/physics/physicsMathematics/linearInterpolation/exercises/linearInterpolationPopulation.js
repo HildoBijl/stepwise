@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { roundTo } from '@step-wise/utils'
+import { roundTo } from '@step-wise/js-utils'
 import { Float } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'

@@ -1,4 +1,4 @@
-import { union } from '@step-wise/utils'
+import { union } from '@step-wise/js-utils'
 
 import { type GenericSerializedSkillSetup, SkillSetup } from './SkillSetup'
 

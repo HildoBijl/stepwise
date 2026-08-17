@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import ResizeObserver from 'resize-observer-polyfill'
 import { ThemeProvider } from '@mui/material/styles'
 
-import { noop } from '@step-wise/utils'
+import { noop } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 import { deserializeInputExerciseState, assembleSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'

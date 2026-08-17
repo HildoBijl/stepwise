@@ -1,4 +1,4 @@
-import { product, getDimensions, getMatrixElement, repeat, repeatMultidimensional } from '@step-wise/utils'
+import { product, getDimensions, getMatrixElement, repeat, repeatMultidimensional } from '@step-wise/js-utils'
 
 import { PolynomialMatrix, VariableList, SubstitutionValues, PolynomialExpression } from './types'
 

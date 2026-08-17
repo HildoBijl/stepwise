@@ -1,4 +1,4 @@
-import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/utils'
+import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/js-utils'
 import { defaultDecimalSeparator as decimalSeparator } from '@step-wise/settings'
 import { accents, constructs, textFunctions } from '@step-wise/cas'
 

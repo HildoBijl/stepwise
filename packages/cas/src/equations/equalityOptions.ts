@@ -1,4 +1,4 @@
-import { mergeDefaults, identity } from '@step-wise/utils'
+import { mergeDefaults, identity } from '@step-wise/js-utils'
 
 import { type ExpressionPreprocess, type ExpressionComparison } from '../expressions'
 import { type Equation } from './Equation'

@@ -1,4 +1,4 @@
-import { ensureInteger } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/js-utils'
 
 // Cached prime numbers.
 const primes = [2, 3, 5, 7, 11]

@@ -1,4 +1,4 @@
-import { findNextOf, last, InterpretationError } from '@step-wise/utils'
+import { findNextOf, last, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputCursorEnd, InputValuePart } from '../types'
 import { isTextPart } from '../utils'

@@ -1,4 +1,4 @@
-import { isNumber, isPlainObject } from '@step-wise/utils'
+import { isNumber, isPlainObject } from '@step-wise/js-utils'
 
 import { type CoordinateKey, type CoordinateList, type CoordinateObject, type VectorInput, coordinateKeys } from './types'
 

@@ -1,5 +1,5 @@
 import DataLoader from 'dataloader'
-import { fromKeys } from '@step-wise/utils'
+import { fromKeys } from '@step-wise/js-utils'
 
 import type { ApiContext, ApiLoaders } from '../types.ts'
 

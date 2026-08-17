@@ -1,4 +1,4 @@
-import { deepEquals } from '@step-wise/utils'
+import { deepEquals } from '@step-wise/js-utils'
 
 import updateLogContents from '../../public/locales/updateLog.json?raw'
 

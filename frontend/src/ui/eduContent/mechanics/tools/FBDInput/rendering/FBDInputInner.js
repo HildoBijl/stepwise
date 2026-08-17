@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 import { reverseLoad } from '@step-wise/engineering-mechanics'
 
 import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

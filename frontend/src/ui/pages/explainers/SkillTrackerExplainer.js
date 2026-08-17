@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
-import { fromKeys, mapValues } from '@step-wise/utils'
+import { fromKeys, mapValues } from '@step-wise/js-utils'
 import { mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { and, repeat, skill } from '@step-wise/skill-setup'
 import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'

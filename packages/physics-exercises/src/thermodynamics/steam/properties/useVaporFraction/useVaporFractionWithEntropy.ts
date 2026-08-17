@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/utils'
+import { getRandomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { and } from '@step-wise/skill-setup'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'

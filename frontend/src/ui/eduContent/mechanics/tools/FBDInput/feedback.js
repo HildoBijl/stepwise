@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isPlainObject, mapValues } from '@step-wise/utils'
+import { isPlainObject, mapValues } from '@step-wise/js-utils'
 import { compareLoadSets, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'

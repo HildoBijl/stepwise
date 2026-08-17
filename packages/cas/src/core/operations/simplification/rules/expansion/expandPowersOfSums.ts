@@ -1,5 +1,5 @@
 import { binomial } from '@step-wise/math-tools'
-import { repeatFromTo } from '@step-wise/utils'
+import { repeatFromTo } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Power, power, product, sum } from '../../../../construction'
 

@@ -1,4 +1,4 @@
-import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, isInteger, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances } from '@step-wise/utils'
+import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, isInteger, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances } from '@step-wise/js-utils'
 
 export type FloatEqualityOptions = NumberEqualityOptions & {
 	significantDigitTolerance: number

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isPlainObject, mapValues, pickKeys, deepEquals } from '@step-wise/utils'
+import { isPlainObject, mapValues, pickKeys, deepEquals } from '@step-wise/js-utils'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

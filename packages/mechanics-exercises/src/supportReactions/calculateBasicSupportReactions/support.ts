@@ -1,4 +1,4 @@
-import { equalAngles, getOneToOneMatching } from '@step-wise/utils'
+import { equalAngles, getOneToOneMatching } from '@step-wise/js-utils'
 import { type Load, FBDComparison, equalLoads, isForce, isLoad, isMoment } from '@step-wise/engineering-mechanics'
 
 export function getLoadDirectionIndices(input: unknown, solution: readonly Load[]): boolean[] {

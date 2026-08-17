@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { mergeDefaults, deepEquals, noop } from '@step-wise/utils'
+import { mergeDefaults, deepEquals, noop } from '@step-wise/js-utils'
 import { serializeAll, deserializeAll } from '@step-wise/serialization'
 
 import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.

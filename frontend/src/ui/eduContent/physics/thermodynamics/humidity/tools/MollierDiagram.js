@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { spread, last } from '@step-wise/utils'
+import { spread, last } from '@step-wise/js-utils'
 import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
 import { FloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'

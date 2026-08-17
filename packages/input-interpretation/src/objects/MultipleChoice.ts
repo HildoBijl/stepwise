@@ -1,4 +1,4 @@
-import { isInteger, ensureInteger, InterpretationError } from '@step-wise/utils'
+import { isInteger, ensureInteger, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputValue, InterpreterEntry } from '../types'
 import { makeInputValue } from '../support'

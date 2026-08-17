@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-import { lowerFirst, mapValues } from '@step-wise/utils'
+import { lowerFirst, mapValues } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
 import { hasExercises, hasExamples } from '@step-wise/exercises'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { upperFirst } from '@step-wise/utils'
+import { upperFirst } from '@step-wise/js-utils'
 import { c, g, R, e, k, G } from '@step-wise/physics-data'
 
 import { Translation, useTextTranslator } from 'i18n'

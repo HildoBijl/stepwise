@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, isLetter } from '@step-wise/utils'
+import { isNumber, removeAt, insertAt, isLetter } from '@step-wise/js-utils'
 import { baseUnits, prefixes, interpretPrefixAndBaseUnitString } from '@step-wise/physics-core'
 
 import { getClickPosition } from '../../TextInput'

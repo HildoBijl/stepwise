@@ -1,4 +1,4 @@
-import { ensureNumber, getRandomNumber, roundTo } from '@step-wise/utils'
+import { ensureNumber, getRandomNumber, roundTo } from '@step-wise/js-utils'
 
 import { Float } from './Float'
 

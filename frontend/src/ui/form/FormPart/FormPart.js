@@ -7,7 +7,7 @@
 
 import React, { createContext, useContext } from 'react'
 
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 
 const defaultFormPartParameters = {
 	children: null,

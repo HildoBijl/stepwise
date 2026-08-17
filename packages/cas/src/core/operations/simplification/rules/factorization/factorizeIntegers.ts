@@ -1,5 +1,5 @@
 import { getPrime, getPrimeFactorization } from '@step-wise/math-tools'
-import { sum } from '@step-wise/utils'
+import { sum } from '@step-wise/js-utils'
 
 import { Integer, Product, Power } from '../../../../construction'
 

@@ -1,4 +1,4 @@
-import { mod, omitKeys } from '@step-wise/utils'
+import { mod, omitKeys } from '@step-wise/js-utils'
 import { FBDInterpreter } from '@step-wise/input-interpretation'
 import { createForce, createMoment, equalLoadSets, isLoad } from '@step-wise/engineering-mechanics'
 

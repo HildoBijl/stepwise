@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad } from '@step-wise/utils'
+import { deg2rad } from '@step-wise/js-utils'
 import { Vector, Line } from '@step-wise/geometry'
 import { equalLoads, FBDComparison, isForce, isMoment } from '@step-wise/engineering-mechanics'
 

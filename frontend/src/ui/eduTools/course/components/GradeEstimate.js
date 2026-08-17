@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { fromKeys } from '@step-wise/utils'
+import { fromKeys } from '@step-wise/js-utils'
 import { getInverseCDF } from '@step-wise/skill-tracking'
 
 import { Translation } from 'i18n'

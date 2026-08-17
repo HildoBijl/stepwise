@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { ensureNumber, ensureString, getOneToOneMatching, reverseMatching } from '@step-wise/utils'
+import { ensureNumber, ensureString, getOneToOneMatching, reverseMatching } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { FloatUnit } from '@step-wise/physics-core'
 import { FBDComparison, equalLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'

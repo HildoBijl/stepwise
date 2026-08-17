@@ -1,4 +1,4 @@
-import { getByPath, isPlainObject } from '@step-wise/utils'
+import { getByPath, isPlainObject } from '@step-wise/js-utils'
 import { type SkillId } from '@step-wise/skill-definition'
 import { type Exercise } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseContainer, isExerciseContainer, isEmptyExerciseContainer } from '@step-wise/exercise-bundling'

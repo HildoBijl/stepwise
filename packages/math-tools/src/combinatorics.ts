@@ -1,4 +1,4 @@
-import { ensureInteger, integerRange } from '@step-wise/utils'
+import { ensureInteger, integerRange } from '@step-wise/js-utils'
 
 // Memoized factorial values.
 const factorialMemoization: Record<number, Record<number, number>> = {}

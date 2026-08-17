@@ -1,4 +1,4 @@
-import { ensureInteger } from '@step-wise/utils'
+import { ensureInteger } from '@step-wise/js-utils'
 
 import { Prefix } from '../Prefix'
 import { type BaseUnit } from '../BaseUnit'

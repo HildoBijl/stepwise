@@ -1,4 +1,4 @@
-import { hasOneToOneMatching } from '@step-wise/utils'
+import { hasOneToOneMatching } from '@step-wise/js-utils'
 import type { CheckInputData } from '@step-wise/input-exercises'
 
 import type { InputKey } from './types'

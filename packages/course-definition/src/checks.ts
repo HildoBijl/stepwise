@@ -1,4 +1,4 @@
-import { ensureArray, ensureNumberArray, ensureString, hasDuplicates } from '@step-wise/utils'
+import { ensureArray, ensureNumberArray, ensureString, hasDuplicates } from '@step-wise/js-utils'
 import { ensureSetup } from '@step-wise/skill-setup'
 
 import type { CourseData } from './types'

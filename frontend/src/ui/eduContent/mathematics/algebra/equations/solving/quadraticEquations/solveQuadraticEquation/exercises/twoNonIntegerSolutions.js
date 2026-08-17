@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { integerRange } from '@step-wise/utils'
+import { integerRange } from '@step-wise/js-utils'
 
 import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'

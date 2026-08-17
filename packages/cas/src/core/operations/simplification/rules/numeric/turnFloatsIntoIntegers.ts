@@ -1,4 +1,4 @@
-import { compareNumbers } from '@step-wise/utils'
+import { compareNumbers } from '@step-wise/js-utils'
 
 import { Integer, Float } from '../../../../construction'
 

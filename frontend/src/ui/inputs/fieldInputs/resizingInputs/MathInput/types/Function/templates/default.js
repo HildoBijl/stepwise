@@ -1,6 +1,6 @@
 // This is the most general template for settings up equation function objects, like sqrt, log, etcetera. It has default functionalities for most basic cases.
 
-import { first } from '@step-wise/utils'
+import { first } from '@step-wise/js-utils'
 import { getSubExpression } from '@step-wise/math-input-value'
 
 import { getClosestElement } from '../../../support'

@@ -16,7 +16,7 @@
 		{ "path": "../geometry" },
 		{ "path": "../input-exercises" },
 		{ "path": "../physics-core" },
-		{ "path": "../utils" }
+		{ "path": "../js-utils" }
 	],
 	"include": ["src"]
 }

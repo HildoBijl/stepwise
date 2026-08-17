@@ -1,4 +1,4 @@
-import { insertAt, first, last, sum } from '@step-wise/utils'
+import { insertAt, first, last, sum } from '@step-wise/js-utils'
 import { isEmptyExpressionValue, getEmptyExpressionValue, getStartCursor, getEndCursor, opensExternalGroup } from '@step-wise/math-input-value'
 
 import { addCursor } from '../../../FieldInput'

@@ -1,4 +1,4 @@
-import { isPlainObject } from '@step-wise/utils'
+import { isPlainObject } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
 import { isLoad } from '../loads'

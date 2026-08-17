@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext, useSyncExternalStore } from 'react'
 
-import { fromEntries, fromKeys } from '@step-wise/utils'
+import { fromEntries, fromKeys } from '@step-wise/js-utils'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 

@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/utils'
+import { mergeDefaults } from '@step-wise/js-utils'
 import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode } from '../../../construction'

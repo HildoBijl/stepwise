@@ -1,4 +1,4 @@
-import { isPlainObject, filterDuplicates } from '@step-wise/utils'
+import { isPlainObject, filterDuplicates } from '@step-wise/js-utils'
 
 import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 

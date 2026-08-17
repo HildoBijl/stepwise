@@ -1,4 +1,4 @@
-import { filterDuplicates } from '@step-wise/utils'
+import { filterDuplicates } from '@step-wise/js-utils'
 
 import { normalizeLinks } from './links'
 import type { SkillId, RawSkill, RawSkillGroup, SkillTree } from './types'

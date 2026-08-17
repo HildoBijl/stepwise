@@ -1,4 +1,4 @@
-import { mapValues } from '@step-wise/utils'
+import { mapValues } from '@step-wise/js-utils'
 import { type InputValue, interpretInputValue, IntegerType } from '@step-wise/input-interpretation'
 
 import { Float, Unit, FloatUnit } from '@step-wise/physics-core'

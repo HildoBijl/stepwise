@@ -1,4 +1,4 @@
-import { removeUndefined } from '@step-wise/utils'
+import { removeUndefined } from '@step-wise/js-utils'
 
 import { type ExpressionNode, Integer, Sum, Product } from '../nodes'
 

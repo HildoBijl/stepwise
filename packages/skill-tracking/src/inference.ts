@@ -1,4 +1,4 @@
-import { repeat, getDimensions } from '@step-wise/utils'
+import { repeat, getDimensions } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 import { substituteIndividualMomentsIntoPolynomial, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowerList } from '@step-wise/polynomials'
 import type { SkillSetup } from '@step-wise/skill-setup'

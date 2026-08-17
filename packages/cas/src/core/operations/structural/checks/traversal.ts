@@ -1,4 +1,4 @@
-import { count } from '@step-wise/utils'
+import { count } from '@step-wise/js-utils'
 
 import { ExpressionNode } from '../../../construction'
 

@@ -1,4 +1,4 @@
-import { type Matching, getOneToOneMatching, reverseMatching } from '@step-wise/utils'
+import { type Matching, getOneToOneMatching, reverseMatching } from '@step-wise/js-utils'
 
 import type { Load } from './types'
 import type { LoadComparisonOptionsInput } from './comparisonOptions'

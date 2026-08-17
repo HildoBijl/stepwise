@@ -1,4 +1,4 @@
-import { isPlainObject, onlyHasKeys } from '@step-wise/utils'
+import { isPlainObject, onlyHasKeys } from '@step-wise/js-utils'
 
 import { type UnitElement } from './UnitElement'
 

@@ -1,4 +1,4 @@
-import { fromKeys } from '@step-wise/utils'
+import { fromKeys } from '@step-wise/js-utils'
 
 import type { ExpressionNode, ConstantNode, SignNode, Variable, ListNode, FunctionNode } from '../../construction'
 import { isConstantNode, isSignNode, isVariable, isListNode, isSum, isProduct, isFunctionNode, isIntegerNode, isFloatNode, isNamedConstant } from '../../operations'

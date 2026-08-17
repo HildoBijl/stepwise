@@ -1,4 +1,4 @@
-import { last } from '@step-wise/utils'
+import { last } from '@step-wise/js-utils'
 import { getEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'

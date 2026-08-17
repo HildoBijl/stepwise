@@ -1,4 +1,4 @@
-import { compareNumbers, deepEquals, identity } from '@step-wise/utils'
+import { compareNumbers, deepEquals, identity } from '@step-wise/js-utils'
 import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'

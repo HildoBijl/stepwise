@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { type NextFunction, type Request, type Response } from 'express'
 import { type Language, i18nLoadPath, i18nUpdateLogPath } from '@step-wise/settings'
-import { getByPath, setByPath } from '@step-wise/utils'
+import { getByPath, setByPath } from '@step-wise/js-utils'
 
 type JsonObject = Record<string, any>
 type I18nUpdates = Record<string, Record<string, Record<string, unknown>>>

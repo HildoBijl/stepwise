@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
-import { noop } from '@step-wise/utils'
+import { noop } from '@step-wise/js-utils'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
 

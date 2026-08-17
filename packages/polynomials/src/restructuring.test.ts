@@ -1,4 +1,4 @@
-import { compareNumberArrays } from '@step-wise/utils'
+import { compareNumberArrays } from '@step-wise/js-utils'
 
 import { PolynomialExpression } from './types'
 import { restructurePolynomial, substituteIntoPolynomial } from './restructuring'
