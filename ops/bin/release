@@ -35,7 +35,7 @@ echo -e '\033[46m [STEP 1/4] \033[0m Get latest git revision'
 cd /app
 git clean -fxd
 git checkout main
-git pull
+git pull --ff-only
 
 echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
 docker compose -f ops/docker-compose.yml -p app pull
