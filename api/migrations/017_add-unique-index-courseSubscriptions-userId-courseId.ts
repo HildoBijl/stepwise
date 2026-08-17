@@ -1,6 +1,6 @@
-import type { QueryInterface } from 'sequelize'
+import type { MigrationParameters } from './types.ts'
 
-export async function up(queryInterface: QueryInterface): Promise<void> {
+export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.addIndex('courseSubscriptions', {
 		fields: ['userId', 'courseId'],
 		name: 'courseSubscriptions_userId_courseId_unique',
@@ -9,7 +9,7 @@ export async function up(queryInterface: QueryInterface): Promise<void> {
 	await queryInterface.removeIndex('courseSubscriptions', 'course_subscriptions_user_id')
 }
 
-export async function down(queryInterface: QueryInterface): Promise<void> {
+export async function down({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.addIndex('courseSubscriptions', {
 		fields: ['userId'],
 		name: 'course_subscriptions_user_id',

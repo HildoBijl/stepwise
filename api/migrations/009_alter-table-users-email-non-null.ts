@@ -1,6 +1,7 @@
-import { DataTypes, type QueryInterface } from 'sequelize'
+import { DataTypes } from 'sequelize'
+import type { MigrationParameters } from './types.ts'
 
-export async function up(queryInterface: QueryInterface): Promise<void> {
+export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {
 	// We better let Sequelize take care of introducing a unique constraint with an index via the `unique: true` property, instead of creating the index manually. So we remove the index created in migration 008 and re-introduce it below via the property.
 	await queryInterface.removeIndex('users', 'users_email')
 
@@ -12,7 +13,7 @@ export async function up(queryInterface: QueryInterface): Promise<void> {
 	})
 }
 
-export async function down(queryInterface: QueryInterface): Promise<void> {
+export async function down({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.changeColumn('users', 'email', {
 		type: DataTypes.TEXT,
 		allowNull: true,

@@ -1,6 +1,7 @@
-import { DataTypes, type QueryInterface } from 'sequelize'
+import { DataTypes } from 'sequelize'
+import type { MigrationParameters } from './types.ts'
 
-export async function up(queryInterface: QueryInterface): Promise<void> {
+export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.createTable('courses', {
 		id: {
 			type: DataTypes.UUID,
@@ -99,7 +100,7 @@ export async function up(queryInterface: QueryInterface): Promise<void> {
 	})
 }
 
-export async function down(queryInterface: QueryInterface): Promise<void> {
+export async function down({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.dropTable('courseSubscriptions')
 	await queryInterface.dropTable('courses')
 }

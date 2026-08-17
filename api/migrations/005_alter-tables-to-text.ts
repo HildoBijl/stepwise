@@ -1,4 +1,5 @@
-import { DataTypes, type QueryInterface } from 'sequelize'
+import { DataTypes } from 'sequelize'
+import type { MigrationParameters } from './types.ts'
 
 const TABLE_COLUMN: [string, string, boolean][] = [
 	// [tableName, columnName, allowNull]
@@ -10,7 +11,7 @@ const TABLE_COLUMN: [string, string, boolean][] = [
 	['exerciseSamples', 'exerciseId', false],
 ]
 
-export async function up(queryInterface: QueryInterface): Promise<void> {
+export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {
 	for await (const p of TABLE_COLUMN) {
 		await queryInterface.changeColumn(p[0], p[1], {
 			type: DataTypes.TEXT,
@@ -19,7 +20,7 @@ export async function up(queryInterface: QueryInterface): Promise<void> {
 	}
 }
 
-export async function down(queryInterface: QueryInterface): Promise<void> {
+export async function down({ context: queryInterface }: MigrationParameters): Promise<void> {
 	for await (const p of TABLE_COLUMN) {
 		await queryInterface.changeColumn(p[0], p[1], {
 			type: DataTypes.STRING,

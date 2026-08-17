@@ -1,31 +1,21 @@
 import path from 'node:path'
-import type { Sequelize } from 'sequelize'
-import Umzug from 'umzug'
-import SequelizeStorageImport from 'umzug/lib/storages/SequelizeStorage.js'
+import type { QueryInterface, Sequelize } from 'sequelize'
+import { SequelizeStorage, Umzug } from 'umzug'
 
-interface MigrationStorage {
-	executed(): Promise<string[]>
-	logMigration(name: string): Promise<unknown>
-	unlogMigration(name: string): Promise<unknown>
-}
-
-const sequelizeStorageImport = SequelizeStorageImport as unknown as { default?: typeof SequelizeStorageImport }
-const SequelizeStorage = sequelizeStorageImport.default ?? SequelizeStorageImport
-
-export function createUmzug(sequelize: Sequelize): any {
+export function createUmzug(sequelize: Sequelize): Umzug<QueryInterface> {
 	const migrationExtension = path.extname(import.meta.filename)
-	const sequelizeStorage: MigrationStorage = new SequelizeStorage({ sequelize })
-	const storage = {
-		executed: async () => (await sequelizeStorage.executed()).map(name => name.replace(/\.js$/, migrationExtension)),
-		logMigration: (name: string) => sequelizeStorage.logMigration(name.replace(/\.ts$/, '.js')),
-		unlogMigration: (name: string) => sequelizeStorage.unlogMigration(name.replace(/\.ts$/, '.js')),
-	}
-	return new Umzug({
+	return new Umzug<QueryInterface>({
+		context: sequelize.getQueryInterface(),
+		storage: new SequelizeStorage({ sequelize }),
 		migrations: {
-			path: path.join(import.meta.dirname, '../migrations'),
-			params: [sequelize.getQueryInterface()],
-			pattern: new RegExp(`^\\d+[\\w-]+\\${migrationExtension}$`),
+			glob: [`[0-9]*${migrationExtension}`, { cwd: path.join(import.meta.dirname, '../migrations') }],
+			resolve(parameters) {
+				return {
+					...Umzug.defaultResolver(parameters),
+					name: parameters.name.replace(/\.ts$/, '.js'),
+				}
+			},
 		},
-		storage,
+		logger: console,
 	})
 }
