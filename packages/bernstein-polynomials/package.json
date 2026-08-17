@@ -6,15 +6,15 @@
 	"scripts": {
 		"build": "tsc -b",
 		"watch": "tsc -b --watch",
-		"test": "jest",
-		"test:watch": "jest --watch"
+		"test": "vitest run --root ../.. --config vitest.config.ts",
+		"test:watch": "vitest --root ../.. --config vitest.config.ts"
 	},
 	"dependencies": {
 		"@step-wise/math-tools": "1.0.0",
 		"@step-wise/utils": "1.0.0"
 	},
 	"devDependencies": {
-		"@types/jest": "^30.0.0",
-		"typescript": "^6.0.2"
+		"typescript": "^6.0.2",
+		"vitest": "^3.0.0"
 	}
 }
