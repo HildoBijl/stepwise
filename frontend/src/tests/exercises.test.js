@@ -24,7 +24,7 @@ function loadExercise(skill, exerciseId) {
 	return load()
 }
 
-// Polyfill the react-resize-detector.
+// Polyfill ResizeObserver for components that measure their layout.
 window.ResizeObserver = ResizeObserver
 
 describe('Check all exercises:', () => {
