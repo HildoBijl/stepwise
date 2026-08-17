@@ -8,7 +8,7 @@ export class Client implements GoogleClient {
 
 	constructor(clientId: string) {
 		this.clientId = clientId
-		this.client = new OAuth2Client(clientId)
+		this.client = new OAuth2Client({ clientId })
 	}
 
 	// Verifies the callback request from Google after the user has logged in. Returns Google's identity payload when verification succeeds, or null when authentication fails.
