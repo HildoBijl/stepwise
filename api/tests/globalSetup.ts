@@ -7,7 +7,7 @@ export default async function setupTestDatabase(): Promise<void> {
 	try {
 		await sequelize.authenticate()
 		await clearDatabaseSchema(sequelize)
-		await createUmzug(sequelize).up()
+		await createUmzug(sequelize, { logging: false }).up()
 	} finally {
 		await sequelize.close()
 	}

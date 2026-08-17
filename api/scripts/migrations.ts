@@ -2,7 +2,11 @@ import path from 'node:path'
 import type { QueryInterface, Sequelize } from 'sequelize'
 import { SequelizeStorage, Umzug } from 'umzug'
 
-export function createUmzug(sequelize: Sequelize): Umzug<QueryInterface> {
+interface UmzugOptions {
+	logging?: boolean
+}
+
+export function createUmzug(sequelize: Sequelize, { logging = true }: UmzugOptions = {}): Umzug<QueryInterface> {
 	const migrationExtension = path.extname(import.meta.filename)
 	return new Umzug<QueryInterface>({
 		context: sequelize.getQueryInterface(),
@@ -16,6 +20,6 @@ export function createUmzug(sequelize: Sequelize): Umzug<QueryInterface> {
 				}
 			},
 		},
-		logger: console,
+		logger: logging ? console : undefined,
 	})
 }
