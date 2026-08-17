@@ -13,6 +13,7 @@
 		"build:packages": "tsc -b tsconfig.json",
 		"clean:packages": "rimraf --glob \"packages/*/dist\"",
 		"dev": "npm run rebuild:packages && concurrently --kill-others-on-fail --names packages,api,frontend --prefix-colors cyan,yellow,magenta \"npm:watch:packages:incremental\" \"npm:dev:api\" \"npm:dev:frontend\"",
+		"dev:fast": "concurrently --kill-others-on-fail --names packages,api,frontend --prefix-colors cyan,yellow,magenta \"npm:watch:packages:incremental\" \"npm:dev:api\" \"npm:dev:frontend\"",
 		"dev:api": "npm run dev --workspace=@step-wise/api",
 		"dev:frontend": "npm start --workspace=@step-wise/frontend",
 		"build:frontend": "npm run build --workspace=@step-wise/frontend",
