@@ -6,8 +6,7 @@
     "declaration": true,
     "declarationMap": true,
     "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
-    "types": ["jest"]
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "references": [
     { "path": "../skill-definition" },

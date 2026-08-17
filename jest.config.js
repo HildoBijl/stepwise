@@ -1,7 +1,7 @@
 const { createBaseConfig } = require('./jest.base.config')
 
 module.exports = {
-	...createBaseConfig('<rootDir>/tsconfig.base.json'),
+	...createBaseConfig(),
 	testMatch: ['<rootDir>/packages/**/*.test.ts'],
 	moduleNameMapper: {
 		'^@step-wise/([^/]+)$': '<rootDir>/packages/$1/src',
