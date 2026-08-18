@@ -8,9 +8,6 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 	// Fundamentals.
 
 	abstract toStorageValue(): TStorageValue
-	get SO(): TStorageValue { // SO legacy
-		return this.toStorageValue()
-	}
 
 	serialize(): GenericSerializedSkillSetup<TStorageValue> {
 		return { type: this.type, value: this.toStorageValue() }
@@ -19,9 +16,6 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 	// Display functions.
 
 	abstract toString(): string
-	get str(): string {
-		return this.toString()
-	}
 
 	// Properties.
 

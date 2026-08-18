@@ -27,7 +27,7 @@ export abstract class SkillListSetup<TStorageValue extends SkillListStorageValue
 	}
 
 	override toString(): string {
-		return `${this.type.toLowerCase()}(${this.skills.map(skill => skill.str).join(', ')})`
+		return `${this.type.toLowerCase()}(${this.skills.map(skill => skill.toString()).join(', ')})`
 	}
 
 	override getSkillSet(): Set<string> {
