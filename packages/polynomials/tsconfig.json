@@ -1,15 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "composite": true,
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
-  },
-  "references": [
-    { "path": "../js-utils" }
-  ],
-  "include": ["src"]
+  "extends": "../../tsconfig.test.vitest.json",
+  "include": ["src/**/*.ts"]
 }

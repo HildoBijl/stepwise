@@ -10,8 +10,8 @@
 		}
 	},
 	"scripts": {
-		"build": "tsc -b",
-		"watch": "tsc -b --watch"
+		"build": "tsc -b tsconfig.build.json",
+		"watch": "tsc -b tsconfig.build.json --watch"
 	},
 	"dependencies": {
 		"@step-wise/cas": "1.0.0",
