@@ -12,7 +12,9 @@ export function getSetupExpectedValue(setup: SkillSetup, getCoefficients: (skill
 	const polynomial = setup.getPolynomialExpression()
 	const coefficients = polynomial.list.map(skillId => getCoefficients(skillId))
 	const getIndividualMoment = (index: number, exponent: number) => getBernsteinMoment(coefficients[index], exponent)
-	return substituteIndividualMomentsIntoPolynomial(polynomial, getIndividualMoment, polynomial.list) as number
+	const expectedValuePolynomial = substituteIndividualMomentsIntoPolynomial(polynomial, getIndividualMoment, polynomial.list)
+	if (typeof expectedValuePolynomial.matrix !== 'number') throw new TypeError('Expected substitution of all variables to produce a constant polynomial.')
+	return expectedValuePolynomial.matrix
 }
 
 // Find the distribution of a set-up.

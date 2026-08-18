@@ -1,7 +1,7 @@
 const { createBaseConfig } = require('../../jest.base.config')
 
 module.exports = {
-	...createBaseConfig('<rootDir>/../../tsconfig.base.json'),
+	...createBaseConfig('<rootDir>/../../tsconfig.test.jest.json'),
 	rootDir: '.',
 	testMatch: ['<rootDir>/src/**/*.test.ts'],
 	testPathIgnorePatterns: ['/node_modules/', '/dist/'],

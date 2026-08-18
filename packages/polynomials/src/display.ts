@@ -2,18 +2,19 @@ import { PolynomialExpression, PolynomialMatrix, VariableList } from './types'
 
 // Convert a polynome expression to a readable string representation.
 export function polynomialToString(expression: PolynomialExpression): string {
-	return polynomialMatrixToString(expression.matrix, expression.list)
+	const result = polynomialMatrixToString(expression.matrix, expression.list)
+	return result[0] === '+' ? result.slice(1) : result
 }
 
 // Convert a polynomial matrix to a readable string representation.
-function polynomialMatrixToString(matrix: PolynomialMatrix | number, list: VariableList, indexList: number[] = []): string {
+function polynomialMatrixToString(matrix: PolynomialMatrix, list: VariableList, indexList: number[] = []): string {
 	// Turn a number into the respective string.
 	if (!Array.isArray(matrix)) {
 		if (matrix === 0) return '0'
 		const termString = getPolynomialTermString(indexList, list)
 		if (matrix === 1) return `+${termString === '' ? '1' : termString}`
 		if (matrix === -1) return `-${termString === '' ? '1' : termString}`
-		if (matrix as number > 0) return `+${matrix}${termString === '' ? '' : '*'}${termString}`
+		if (matrix > 0) return `+${matrix}${termString === '' ? '' : '*'}${termString}`
 		return `${matrix}${termString === '' ? '' : '*'}${termString}`
 	}
 

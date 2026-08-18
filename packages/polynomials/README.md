@@ -21,7 +21,7 @@ To easily inspect a polynomial expression, you can use the `polynomialToString(e
 
 To manipulate/restructure polynomials, there are two functions.
 - `restructurePolynomial(expression, ['b','a'])` adjusts the order of variables used in an expression. It would give `{ matrix: [[2,3],[4,5]], list: ['a','b'] }`. It throws when an existing variable is not contained in the desired variable list.
-- `substituteIntoPolynomial(expression, { a: 3 })` substitutes variables by values. When only some of the variables are given, a new `PolynomialExpression` is given. For the example, this is `{ matrix: [14, 18], list: ['b'] }`. If _all_ variables are given, the result is a number.
+- `substituteIntoPolynomial(expression, { a: 3 })` substitutes variables by values and returns a new `PolynomialExpression`. For the example, this is `{ matrix: [14, 18], list: ['b'] }`. If _all_ variables are substituted, the result is a constant polynomial such as `{ matrix: 50, list: [] }`.
 
 ## Manipulation through maths
 
