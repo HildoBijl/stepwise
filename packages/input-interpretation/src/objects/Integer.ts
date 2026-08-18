@@ -1,4 +1,4 @@
-import { isNumericInteger, ensureInteger, InterpretationError } from '@step-wise/js-utils'
+import { isNumericInteger, ensureInteger, ensureNumericInteger, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputValue, InterpreterEntry } from '../types'
 import { makeInputValue } from '../support'
@@ -12,7 +12,7 @@ function interpretInteger(inputValue: IntegerInputValue): number {
 	if (value === '') throw new InterpretationError('Could not interpret an empty string into an integer.', 'Empty')
 	if (value === '-') throw new InterpretationError('Could not interpret a number consisting only of a minus sign.', 'MinusSign')
 	if (!isNumericInteger(value)) throw new InterpretationError(`Could not interpret "${value}" as an integer.`, 'InvalidInteger')
-	return ensureInteger(value)
+	return ensureNumericInteger(value)
 }
 
 function integerToInputValue(integer: number): IntegerInputValue {

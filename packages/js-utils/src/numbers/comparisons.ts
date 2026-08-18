@@ -1,6 +1,6 @@
 import { mergeDefaults } from '../objects'
 
-import { isNumber, ensureNumber } from './checks'
+import { ensureNumber } from './checks'
 
 /*
  * Script-wise comparisons
@@ -11,7 +11,8 @@ export const epsilon = 1e-10
 
 // Compare two numbers for approximate equality.
 export function approximatelyEqual(input: number, reference: number): boolean {
-	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	input = ensureNumber(input, { allowInfinity: true })
+	reference = ensureNumber(reference, { allowInfinity: true })
 	if (Object.is(input, reference)) return true
 	if (!Number.isFinite(input) || !Number.isFinite(reference)) return false
 
@@ -28,7 +29,8 @@ export function approximatelyEqual(input: number, reference: number): boolean {
 }
 
 export function compareNumbers(input: number, reference: number): -1 | 0 | 1 {
-	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	input = ensureNumber(input, { allowInfinity: true })
+	reference = ensureNumber(reference, { allowInfinity: true })
 	return input > reference ? 1 : input < reference ? -1 : 0
 }
 
@@ -85,8 +87,8 @@ export function resolveNumberEqualityOptions(options: NumberEqualityOptionsInput
 
 export function validateNumberEqualityOptions(options: NumberEqualityOptions): NumberEqualityOptions {
 	const { absoluteTolerance, relativeTolerance } = options
-	if (!isNumber(absoluteTolerance) || absoluteTolerance < 0) throw new Error(`Invalid NumberEqualityOptions: absoluteTolerance must be a non-negative number, but received "${absoluteTolerance}".`)
-	if (!isNumber(relativeTolerance) || relativeTolerance < 0) throw new Error(`Invalid NumberEqualityOptions: relativeTolerance must be a non-negative number, but received "${relativeTolerance}".`)
+	ensureNumber(absoluteTolerance, { nonNegative: true, allowInfinity: true })
+	ensureNumber(relativeTolerance, { nonNegative: true, allowInfinity: true })
 	return options
 }
 
@@ -100,13 +102,15 @@ export function adjustNumberTolerances(options: NumberEqualityOptionsInput, fact
 }
 
 export function getAbsoluteDifference(input: number, reference: number): number {
-	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	input = ensureNumber(input, { allowInfinity: true })
+	reference = ensureNumber(reference, { allowInfinity: true })
 	if (Object.is(input, reference)) return 0
 	return Math.abs(input - reference)
 }
 
 export function getRelativeDifference(input: number, reference: number): number {
-	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	input = ensureNumber(input, { allowInfinity: true })
+	reference = ensureNumber(reference, { allowInfinity: true })
 	if (Object.is(input, reference)) return 0
 	if (!Number.isFinite(input) || !Number.isFinite(reference)) return Infinity
 	const max = Math.max(Math.abs(input), Math.abs(reference))
@@ -114,7 +118,8 @@ export function getRelativeDifference(input: number, reference: number): number 
 }
 
 export function isMultipleOf(a: number, b: number): boolean {
-	if (!Number.isFinite(a) || !Number.isFinite(b)) throw new TypeError('Invalid inputs: expected finite numbers.')
+	a = ensureNumber(a)
+	b = ensureNumber(b)
 	if (b === 0) throw new RangeError(`Invalid divisor: expected a non-zero number.`)
 	return approximatelyEqual(a / b, Math.round(a / b))
 }
