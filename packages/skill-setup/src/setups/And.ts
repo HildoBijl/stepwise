@@ -8,6 +8,8 @@ export type AndStorageValue = SkillListStorageValue
 export type SerializedAnd = GenericSerializedSkillSetup<AndStorageValue, 'And'>
 
 export class And extends SkillListSetup<AndStorageValue> {
+	readonly type = 'And'
+
 	constructor(...skills: SkillSetupLike[]) {
 		super(...skills.map(ensureSetup))
 	}

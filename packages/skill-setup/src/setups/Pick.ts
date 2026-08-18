@@ -9,6 +9,7 @@ export type PickStorageValue = SkillListStorageValue & { number?: number, weight
 export type SerializedPick = GenericSerializedSkillSetup<PickStorageValue, 'Pick'>
 
 export class Pick extends SkillListSetup<PickStorageValue> {
+	readonly type = 'Pick'
 	readonly number: number
 	readonly weights: number[]
 

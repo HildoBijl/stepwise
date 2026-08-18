@@ -1,3 +1,4 @@
+import { ensureNumber } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, oneMinusPolynomial, scalePolynomial } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
@@ -11,12 +12,13 @@ export type PartStorageValue = SkillItemStorageValue & { part?: number }
 export type SerializedPart = GenericSerializedSkillSetup<PartStorageValue, 'Part'>
 
 export class Part extends SkillItemSetup<PartStorageValue> {
+	readonly type = 'Part'
 	readonly part: number
 
 	constructor(skill: SkillSetupLike, part = 0.5) {
 		super(ensureSetup(skill))
-		this.part = part
-		if (this.part < 0 || this.part > 1) throw new Error(`Invalid skill part: the "part" parameter of the skill set-up must be a number between 0 and 1. This is not the case: a value of "${this.part}" was given.`)
+		this.part = ensureNumber(part, { nonNegative: true })
+		if (this.part > 1) throw new RangeError(`Invalid skill part: expected a number between 0 and 1, but received "${this.part}".`)
 	}
 
 	override toStorageValue(): PartStorageValue {

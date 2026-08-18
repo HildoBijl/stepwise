@@ -2,6 +2,17 @@ import { compareNumberArrays } from '@step-wise/js-utils'
 
 import { skill, and, or, repeat, pick, part } from './index'
 
+describe('serialization types', () => {
+	it('use stable explicit identifiers', () => {
+		expect(skill('a').serialize()).toEqual({ type: 'Skill', value: 'a' })
+		expect(and('a').type).toBe('And')
+		expect(or('a').type).toBe('Or')
+		expect(repeat('a', 2).type).toBe('Repeat')
+		expect(pick(['a', 'b']).type).toBe('Pick')
+		expect(part('a', 0.5).type).toBe('Part')
+	})
+})
+
 /*
  * Check Skill setup.
  */
@@ -119,6 +130,20 @@ describe('Check pick setup:', () => {
 describe('Check part setup:', () => {
 	const setupAnd = and('a', part('b', 3 / 4))
 	const setupOr = or('a', part('b', 3 / 4))
+
+	describe('validation', () => {
+		it('accepts the boundary values', () => {
+			expect(part('a', 0).part).toBe(0)
+			expect(part('a', 1).part).toBe(1)
+		})
+
+		it('rejects invalid values', () => {
+			expect(() => part('a', -0.1)).toThrow(RangeError)
+			expect(() => part('a', 1.1)).toThrow(RangeError)
+			expect(() => part('a', NaN)).toThrow(TypeError)
+			expect(() => part('a', Infinity)).toThrow(TypeError)
+		})
+	})
 
 	describe('skill lists', () => {
 		it('work correctly', () => {
