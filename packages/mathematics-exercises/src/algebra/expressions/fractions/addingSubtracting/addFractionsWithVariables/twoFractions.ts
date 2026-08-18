@@ -38,7 +38,7 @@ export default buildStepExercise({
 
 	generateState() {
 		const parameters = repeat(8, index => randomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1]))
-		const deactivate = randomIndices(3, 2).map(index => [0, 1, 3][index])
+		const deactivate = randomIndices(3, { count: 2 }).map(index => [0, 1, 3][index])
 		parameters[deactivate[0]] = 0
 		parameters[deactivate[1] + 4] = 0
 		const [a, b, c, d, e, f, g, h] = parameters

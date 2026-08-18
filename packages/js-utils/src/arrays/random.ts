@@ -24,7 +24,7 @@ export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
 	return array[index]
 }
 
-// Shuffle the elements in an array using the Fisher–Yates algorithm.
+// Shuffle the elements in an array using the Fisher-Yates algorithm.
 export function shuffle<T>(array: readonly T[]): T[] {
 	const result = [...array]
 	for (let currIndex = result.length - 1; currIndex > 0; currIndex--) {
@@ -36,14 +36,28 @@ export function shuffle<T>(array: readonly T[]): T[] {
 	return result
 }
 
-// Return a number of randomly chosen indices from 0 up to arrayLength - 1.
-export function randomIndices(arrayLength: number, num: number = arrayLength, randomOrder: boolean = true, weights?: readonly number[]): number[] {
+export type RandomSelectionOptions = {
+	randomOrder?: boolean
+	weights?: readonly number[]
+}
+
+export type RandomIndicesOptions = RandomSelectionOptions & {
+	count?: number
+}
+
+export type RandomSubsetOptions = RandomSelectionOptions & {
+	count: number
+}
+
+// Return randomly chosen indices from 0 up to arrayLength - 1.
+export function randomIndices(arrayLength: number, options: RandomIndicesOptions = {}): number[] {
+	let { count: selectionCount = arrayLength, randomOrder = true, weights } = options
 	arrayLength = ensureInteger(arrayLength, { nonNegative: true })
-	num = ensureInteger(num, { nonNegative: true })
+	selectionCount = ensureInteger(selectionCount, { nonNegative: true })
 
 	// Handle edge/error cases.
-	if (num === 0) return []
-	if (num > arrayLength) throw new RangeError(`Invalid input: cannot select ${num} unique indices from an array of length ${arrayLength}.`)
+	if (selectionCount === 0) return []
+	if (selectionCount > arrayLength) throw new RangeError(`Invalid input: cannot select ${selectionCount} unique indices from an array of length ${arrayLength}.`)
 
 	// Determine the indices.
 	let indices: number[]
@@ -52,14 +66,13 @@ export function randomIndices(arrayLength: number, num: number = arrayLength, ra
 		if (weights.length !== arrayLength) throw new RangeError(`Invalid weights given: expected an array of length ${arrayLength} but received length ${weights.length}.`)
 		weights = weights.map(w => ensureNumber(w, { nonNegative: true }))
 		const selectableCount = count(weights, weight => weight > 0)
-		if (selectableCount < num) throw new RangeError(`Invalid weights given: insufficient positive-weight indices (required ${num}, available ${selectableCount}).`)
+		if (selectableCount < selectionCount) throw new RangeError(`Invalid weights given: insufficient positive-weight indices (required ${selectionCount}, available ${selectableCount}).`)
 
 		// Pick one item and exclude it afterwards.
 		const index = sample(integerRange(0, arrayLength - 1), weights)
-		indices = [index, ...randomIndices(arrayLength, num - 1, randomOrder, weights.map((weight, weightIndex) => weightIndex === index ? 0 : weight)),
-		]
+		indices = [index, ...randomIndices(arrayLength, { count: selectionCount - 1, randomOrder, weights: weights.map((weight, weightIndex) => weightIndex === index ? 0 : weight) })]
 	} else {
-		indices = shuffle(integerRange(0, arrayLength - 1)).slice(0, num)
+		indices = shuffle(integerRange(0, arrayLength - 1)).slice(0, selectionCount)
 	}
 
 	// If required, sort the indices.
@@ -67,7 +80,7 @@ export function randomIndices(arrayLength: number, num: number = arrayLength, ra
 }
 
 // Return a random subset of an array.
-export function randomSubset<T>(array: readonly T[], num: number, randomOrder: boolean = true, weights?: readonly number[]): T[] {
-	const mapping = randomIndices(array.length, num, randomOrder, weights)
+export function randomSubset<T>(array: readonly T[], options: RandomSubsetOptions): T[] {
+	const mapping = randomIndices(array.length, options)
 	return mapping.map(index => array[index])
 }

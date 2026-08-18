@@ -30,7 +30,7 @@ export default buildStepExercise({
 		return {
 			x: sample(variableSet),
 			a, b, c, d,
-			termsLeft: randomIndices(4, 2),
+			termsLeft: randomIndices(4, { count: 2 }),
 			toLeft: randomBoolean(),
 		}
 	},

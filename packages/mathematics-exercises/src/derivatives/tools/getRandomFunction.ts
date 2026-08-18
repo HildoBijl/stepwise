@@ -10,7 +10,7 @@ export function getRandomElementaryFunctions(num = 1, includeConstant = false, i
 		weights[3] = 0
 		weights[4] = 0
 	}
-	const indices = randomIndices(weights.length, num, true, weights)
+	const indices = randomIndices(weights.length, { count: num, weights })
 
 	// Set up the respective elementary functions.
 	return indices.map(index => {
