@@ -1,4 +1,4 @@
-import { getRandomBoolean } from '@step-wise/js-utils'
+import { randomBoolean } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -53,7 +53,7 @@ export default buildStepExercise({
 		l2: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l3: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		M: getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'kN*m' }).setSignificantDigits(2),
-		clockwise: getRandomBoolean(),
+		clockwise: randomBoolean(),
 	}),
 	getSolution: {
 		dependentFields: ['loads'],

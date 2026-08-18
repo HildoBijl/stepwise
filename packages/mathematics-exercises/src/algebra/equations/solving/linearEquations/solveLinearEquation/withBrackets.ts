@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, getRandomBoolean } from '@step-wise/js-utils'
+import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, expressionComparisons, equationChecks, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -26,12 +26,12 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const a = getRandomInteger(-8, 8, [-1, 0, 1])
-		const b = getRandomInteger(-8, 8, [0, a, -a])
-		const c = getRandomInteger(-8, 8, [-1, 0, 1, a])
-		const d = getRandomInteger(-8, 8, [0])
-		const e = getRandomInteger(-8, 8, [0])
-		return { x: sample(variableSet), a, b, c, d, e, switchSides: getRandomBoolean(), bracketsRight: getRandomBoolean() }
+		const a = randomInteger(-8, 8, [-1, 0, 1])
+		const b = randomInteger(-8, 8, [0, a, -a])
+		const c = randomInteger(-8, 8, [-1, 0, 1, a])
+		const d = randomInteger(-8, 8, [0])
+		const e = randomInteger(-8, 8, [0])
+		return { x: sample(variableSet), a, b, c, d, e, switchSides: randomBoolean(), bracketsRight: randomBoolean() }
 	},
 
 	getSolution(state) {

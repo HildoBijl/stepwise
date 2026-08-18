@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -14,12 +14,12 @@ export default buildStepExercise({
 
 	generateState() {
 		return {
-			α: asExpression(getRandomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+			α: asExpression(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
 			a: asExpression(sample(variableSet)),
-			b: asExpression(getRandomInteger(2, 12)),
-			c: asExpression(getRandomInteger(2, 12)),
-			rotation: getRandomNumber(0, 2 * Math.PI),
-			reflection: getRandomBoolean(),
+			b: asExpression(randomInteger(2, 12)),
+			c: asExpression(randomInteger(2, 12)),
+			rotation: randomNumber(0, 2 * Math.PI),
+			reflection: randomBoolean(),
 		}
 	},
 

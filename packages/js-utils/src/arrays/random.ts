@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, getRandomInteger } from '../numbers'
+import { ensureInteger, ensureNumber, randomInteger } from '../numbers'
 
 import { last } from './reading'
 import { count, cumulative } from './iteration'
@@ -9,7 +9,7 @@ export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
 	if (array.length === 0) throw new RangeError('Input error: expected a non-empty array.')
 
 	// On no weights, randomly select uniformly.
-	if (weights === undefined) return array[getRandomInteger(0, array.length - 1)]
+	if (weights === undefined) return array[randomInteger(0, array.length - 1)]
 
 	// Process weights.
 	if (weights.length !== array.length) throw new RangeError(`Invalid weights given: expected an array of length ${array.length} but received length ${weights.length}.`)

@@ -1,4 +1,4 @@
-import { getRandomInteger, sample, randomIndices } from '@step-wise/js-utils'
+import { randomInteger, sample, randomIndices } from '@step-wise/js-utils'
 import { type Expression, asExpression, constants } from '@step-wise/cas'
 
 export function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true, includeRoots = true): Expression[] {
@@ -16,7 +16,7 @@ export function getRandomElementaryFunctions(num = 1, includeConstant = false, i
 	return indices.map(index => {
 		switch (index) {
 			case 0: // c
-				return asExpression(getRandomInteger(-12, 12, [0]))
+				return asExpression(randomInteger(-12, 12, [0]))
 			case 1: { // x^n
 				const powerAbove = sample(includeX ? [1, 2, 3, 4] : [2, 3, 4])
 				return asExpression(powerAbove === 1 ? 'x' : `x^${powerAbove}`)

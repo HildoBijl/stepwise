@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
@@ -11,10 +11,10 @@ export default buildStepExercise({
 
 	generateState(example) {
 		return {
-			a: getRandomInteger(2, example ? 6 : 10),
-			b: getRandomInteger(2, example ? 6 : 10),
-			c: getRandomInteger(2, example ? 6 : 10),
-			d: getRandomInteger(2, example ? 6 : 10),
+			a: randomInteger(2, example ? 6 : 10),
+			b: randomInteger(2, example ? 6 : 10),
+			c: randomInteger(2, example ? 6 : 10),
+			d: randomInteger(2, example ? 6 : 10),
 		}
 	},
 

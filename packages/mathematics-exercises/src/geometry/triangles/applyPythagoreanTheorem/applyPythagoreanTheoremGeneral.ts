@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -15,16 +15,16 @@ export default buildStepExercise({
 
 	generateState() {
 		// Generate random data.
-		const toFind = getRandomInteger(0, 2) // Find a, b or c?
-		const usePythagoreanTriplet = getRandomBoolean() // Use a predefined triplet?
+		const toFind = randomInteger(0, 2) // Find a, b or c?
+		const usePythagoreanTriplet = randomBoolean() // Use a predefined triplet?
 		let triplet: number[]
 
 		// Check if it is valid.
 		do {
 			triplet = usePythagoreanTriplet ? sample(pythagoreanTriplets) : [
-				getRandomInteger(1, 10), // a
-				getRandomInteger(1, 10), // b
-				getRandomInteger(1, 12), // c
+				randomInteger(1, 10), // a
+				randomInteger(1, 10), // b
+				randomInteger(1, 12), // c
 			]
 		} while ((toFind === 0 && triplet[1] >= triplet[2]) || (toFind === 1 && triplet[0] >= triplet[2]))
 
@@ -33,8 +33,8 @@ export default buildStepExercise({
 			a: toFind === 0 ? x : asExpression(triplet[0]),
 			b: toFind === 1 ? x : asExpression(triplet[1]),
 			c: toFind === 2 ? x : asExpression(triplet[2]),
-			rotation: getRandomNumber(0, 2 * Math.PI),
-			reflection: getRandomBoolean(),
+			rotation: randomNumber(0, 2 * Math.PI),
+			reflection: randomBoolean(),
 		}
 	},
 

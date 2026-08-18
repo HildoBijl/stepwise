@@ -1,4 +1,4 @@
-import { sample, getRandomNumber } from '@step-wise/js-utils'
+import { sample, randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -17,7 +17,7 @@ export function generateState() {
 	const V1o = getRandomFloatUnit({ min: 20, max: 80, significantDigits: 2, unit: 'l' })
 	const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
 	const p1o = getRandomFloatUnit({ min: 2, max: 3, significantDigits: 2, unit: 'bar' })
-	const scale = getRandomNumber(2, 4)
+	const scale = randomNumber(2, 4)
 	const V3o = V1o.multiply(scale).roundToPrecision()
 	const { Rs } = gasProperties[medium]
 	const mo = p1o.setUnit('Pa').multiply(V1o.setUnit('m^3')).divide(Rs.multiply(T1o.setUnit('K'))).setUnit('g').roundToPrecision()

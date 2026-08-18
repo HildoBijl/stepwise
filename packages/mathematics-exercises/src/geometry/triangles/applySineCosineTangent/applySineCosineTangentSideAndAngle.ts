@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -14,18 +14,18 @@ export default buildStepExercise({
 
 	generateState() {
 		// Determine what is known and what is requested.
-		const known = getRandomInteger(0, 2) // Is a, b or c known?
-		const requested = getRandomInteger(0, 2, [known]) // Is a, b or c requested?
+		const known = randomInteger(0, 2) // Is a, b or c known?
+		const requested = randomInteger(0, 2, [known]) // Is a, b or c requested?
 
 		// Gather all data into a state.
 		return {
 			known,
-			x: asExpression(getRandomInteger(2, known === 2 ? 12 : 10)),
-			beta: asExpression(getRandomInteger(5, 13) * 5),
+			x: asExpression(randomInteger(2, known === 2 ? 12 : 10)),
+			beta: asExpression(randomInteger(5, 13) * 5),
 			requested,
 			y: asExpression(sample(variableSet)),
-			rotation: getRandomNumber(0, 2 * Math.PI),
-			reflection: getRandomBoolean(),
+			rotation: randomNumber(0, 2 * Math.PI),
+			reflection: randomBoolean(),
 		}
 	},
 

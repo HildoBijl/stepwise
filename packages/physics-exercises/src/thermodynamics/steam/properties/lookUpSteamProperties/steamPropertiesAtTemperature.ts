@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -12,8 +12,8 @@ export default buildSimpleExercise({
 
 	generateState() {
 		const temperatureRange = saturatedSteamByTemperature.inputValues[0]
-		const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))]
-		const type = getRandomInteger(1, 2)
+		const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]
+		const type = randomInteger(1, 2)
 		return { T, type }
 	},
 

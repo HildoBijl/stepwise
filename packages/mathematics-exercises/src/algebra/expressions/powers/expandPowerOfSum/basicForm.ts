@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, repeat, fromKeysAndValues } from '@step-wise/js-utils'
+import { sample, randomInteger, repeat, fromKeysAndValues } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 import { repeat as skillRepeat } from '@step-wise/skill-setup'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
@@ -24,11 +24,11 @@ export default buildStepExercise({
 	},
 
 	generateState(example) {
-		const a = getRandomInteger(example ? 2 : -4, 4, [-1, 0, 1])
-		const b = getRandomInteger(1, example ? 1 : 2)
-		const c = getRandomInteger(example ? 2 : -6, 6, [-1, 0, 1, -a, a])
-		const d = getRandomInteger(0, example ? 0 : 1, [b])
-		const e = getRandomInteger(example ? 2 : 3, example || Math.max(Math.abs(a), Math.abs(c)) >= 5 ? 4 : 5)
+		const a = randomInteger(example ? 2 : -4, 4, [-1, 0, 1])
+		const b = randomInteger(1, example ? 1 : 2)
+		const c = randomInteger(example ? 2 : -6, 6, [-1, 0, 1, -a, a])
+		const d = randomInteger(0, example ? 0 : 1, [b])
+		const e = randomInteger(example ? 2 : 3, example || Math.max(Math.abs(a), Math.abs(c)) >= 5 ? 4 : 5)
 		return {
 			x: sample(variableSet),
 			a, b, c, d, e,

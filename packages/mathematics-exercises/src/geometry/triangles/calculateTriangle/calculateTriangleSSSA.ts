@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -17,13 +17,13 @@ export default buildStepExercise({
 		// Determine sides and check the triangle inequality.
 		let a, b, c
 		do {
-			a = getRandomInteger(2, 12)
-			b = getRandomInteger(2, 12)
-			c = getRandomInteger(2, 12)
+			a = randomInteger(2, 12)
+			b = randomInteger(2, 12)
+			c = randomInteger(2, 12)
 		} while (a + b <= c || a + c <= b || b + c <= a)
 
 		// Assemble the state.
-		return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: getRandomNumber(0, 2 * Math.PI), reflection: getRandomBoolean() }
+		return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
 	getSolution(state) {

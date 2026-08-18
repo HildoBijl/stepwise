@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { and } from '@step-wise/skill-setup'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -19,18 +19,18 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const type = getRandomInteger(1, 2)
+		const type = randomInteger(1, 2)
 		const x = getRandomFloatUnit({ min: 0.1, max: 0.9, unit: '' })
 		if (type === 1) {
 			const temperatureRange = saturatedSteamByTemperature.inputValues[0]
-			const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))]
+			const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]
 			const sx0 = tableInterpolate(T, saturatedSteamByTemperature, 'entropyLiquid')!
 			const sx1 = tableInterpolate(T, saturatedSteamByTemperature, 'entropyVapor')!
 			const s = sx0.add(x.multiply(sx1.subtract(sx0))).setDecimals(3).roundToPrecision()
 			return { type, T, s }
 		}
 		const pressureRange = saturatedSteamByPressure.inputValues[0]
-		const p = pressureRange[getRandomInteger(0, Math.min(25, pressureRange.length))]
+		const p = pressureRange[randomInteger(0, Math.min(25, pressureRange.length))]
 		const sx0 = tableInterpolate(p, saturatedSteamByPressure, 'entropyLiquid')!
 		const sx1 = tableInterpolate(p, saturatedSteamByPressure, 'entropyVapor')!
 		const s = sx0.add(x.multiply(sx1.subtract(sx0))).setDecimals(3).roundToPrecision()

@@ -1,4 +1,4 @@
-import { degreesToRadians, fromKeysAndValues, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, fromKeysAndValues, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -61,7 +61,7 @@ export default buildStepExercise({
 		l1: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
-		angle: getRandomInteger(4, 14) * 5,
+		angle: randomInteger(4, 14) * 5,
 	}),
 	getSolution: {
 		dependentFields: ['loads'],

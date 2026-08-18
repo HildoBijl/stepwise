@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
@@ -25,11 +25,11 @@ export default buildSimpleExercise({
 	},
 
 	generateState() {
-		const type = getRandomInteger(0, 3)
+		const type = randomInteger(0, 3)
 		let p = getRandomExponentialFloatUnit({
 			min: 1e3,
 			max: 2e7,
-			significantDigits: getRandomInteger(2, 3),
+			significantDigits: randomInteger(2, 3),
 			unit: 'Pa',
 		})
 		if (type >= 2) p = p.setUnit('bar')

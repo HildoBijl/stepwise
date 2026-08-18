@@ -1,4 +1,4 @@
-import { sample, getRandomBoolean } from '@step-wise/js-utils'
+import { sample, randomBoolean } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit, getRandomExponentialFloatUnit } from '@step-wise/physics-core'
@@ -22,7 +22,7 @@ export default buildSimpleExercise({
 			let point1 = getRefrigerantPropertiesFromEnthalpy(refrigerantData, pressure, getRandomFloatUnit({ min: 150, max: 300, unit: 'kJ/kg' }))
 			let point2 = getRefrigerantPropertiesFromEnthalpy(refrigerantData, pressure, getRandomFloatUnit({ min: 350, max: 500, unit: 'kJ/kg' }))
 			if (!point1 || !point2) continue
-			if (getRandomBoolean()) [point1, point2] = [point2, point1]
+			if (randomBoolean()) [point1, point2] = [point2, point1]
 
 			const state = {
 				refrigerant,

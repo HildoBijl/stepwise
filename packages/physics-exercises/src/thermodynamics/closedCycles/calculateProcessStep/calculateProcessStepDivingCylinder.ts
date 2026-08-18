@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -20,7 +20,7 @@ export default buildStepExercise({
 
 	generateState() {
 		const p1 = getRandomFloatUnit({ min: 180, max: 300, significantDigits: 2, unit: 'bar' })
-		const V1 = getRandomFloatUnit({ min: 3, max: 18, significantDigits: getRandomInteger(2, 3), unit: 'l' })
+		const V1 = getRandomFloatUnit({ min: 3, max: 18, significantDigits: randomInteger(2, 3), unit: 'l' })
 		const T1 = getRandomFloatUnit({ min: 20, max: 35, significantDigits: 2, unit: 'dC' })
 		const T2 = getRandomFloatUnit({ min: 5, max: 15, significantDigits: 2, unit: 'dC' })
 		const m = p1.multiply(V1).divide(Rs.multiply(T1.setUnit('K'))).setUnit('kg').roundToPrecision()

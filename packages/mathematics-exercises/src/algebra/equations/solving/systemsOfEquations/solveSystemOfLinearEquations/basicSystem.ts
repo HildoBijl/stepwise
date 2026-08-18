@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomInteger } from '@step-wise/js-utils'
 import { asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -20,16 +20,16 @@ export default buildStepExercise({
 
 	generateState(example) {
 		const variableSet = sample(availableVariableSets)
-		const x = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-		const y = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
 		let a, b, d, e
 
 		// On a non-invertible system, redo the generation.
 		do {
-			a = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-			b = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-			d = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-			e = getRandomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+			a = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+			b = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+			d = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+			e = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
 		} while (a * e - b * d === 0)
 
 		// Set up state.

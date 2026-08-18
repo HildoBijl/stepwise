@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, getRandomBoolean, repeat, randomIndices } from '@step-wise/js-utils'
+import { sample, randomInteger, randomBoolean, repeat, randomIndices } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons, expressionChecks, expressionOperations } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -37,7 +37,7 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const parameters = repeat(8, index => getRandomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1]))
+		const parameters = repeat(8, index => randomInteger(index % 2 === 0 ? 2 : -8, 8, [-1, 0, 1]))
 		const deactivate = randomIndices(3, 2).map(index => [0, 1, 3][index])
 		parameters[deactivate[0]] = 0
 		parameters[deactivate[1] + 4] = 0
@@ -45,7 +45,7 @@ export default buildStepExercise({
 		return {
 			x: sample(variableSet),
 			a, b, c, d, e, f, g, h,
-			plus: getRandomBoolean(),
+			plus: randomBoolean(),
 		}
 	},
 

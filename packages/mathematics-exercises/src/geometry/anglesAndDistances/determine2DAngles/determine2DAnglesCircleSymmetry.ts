@@ -1,4 +1,4 @@
-import { getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -17,7 +17,7 @@ export default buildStepExercise({
 
 	generateState() {
 		const limit = 30
-		const twoAlpha = getRandomInteger(Math.ceil(limit / 4), Math.floor((90 - limit) / 4)) * 4 // This is the angle between the lines.
+		const twoAlpha = randomInteger(Math.ceil(limit / 4), Math.floor((90 - limit) / 4)) * 4 // This is the angle between the lines.
 		const variables = selectRandomVariables(variableSet, usedVariables)
 		return {
 			alpha: variables.alpha,
@@ -25,8 +25,8 @@ export default buildStepExercise({
 			gamma: variables.gamma,
 			delta: variables.delta,
 			a: 90 - twoAlpha / 2,
-			rotation: getRandomNumber(0, 2 * Math.PI),
-			reflection: getRandomBoolean(),
+			rotation: randomNumber(0, 2 * Math.PI),
+			reflection: randomBoolean(),
 		}
 	},
 

@@ -1,4 +1,4 @@
-import { getRandomNumber } from '@step-wise/js-utils'
+import { randomNumber } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -16,7 +16,7 @@ export default buildSimpleExercise({
 			significantDigits: 2,
 			unit: 'MJ',
 		})
-		const epsilon = getRandomNumber(2, 4)
+		const epsilon = randomNumber(2, 4)
 		const Eout = Ee.multiply(epsilon + 1).roundToPrecision()
 
 		return { Ee, Eout }

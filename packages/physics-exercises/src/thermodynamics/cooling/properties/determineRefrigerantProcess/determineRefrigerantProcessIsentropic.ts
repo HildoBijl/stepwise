@@ -1,4 +1,4 @@
-import { sample, getRandomBoolean } from '@step-wise/js-utils'
+import { sample, randomBoolean } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit, getRandomExponentialFloatUnit } from '@step-wise/physics-core'
@@ -22,7 +22,7 @@ export default buildSimpleExercise({
 			if (!point2) continue
 			let point1 = getRefrigerantPropertiesFromEntropy(refrigerantData, pressure1, point2.entropy)
 			if (!point1) continue
-			if (getRandomBoolean()) [point1, point2] = [point2, point1]
+			if (randomBoolean()) [point1, point2] = [point2, point1]
 
 			const state = {
 				refrigerant,

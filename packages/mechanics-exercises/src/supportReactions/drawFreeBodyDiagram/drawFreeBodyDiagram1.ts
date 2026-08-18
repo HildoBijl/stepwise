@@ -1,4 +1,4 @@
-import { getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -17,17 +17,17 @@ export default buildStepExercise({
 
 	generateState() {
 		const distances = [
-			getRandomBoolean() ? 0 : getRandomInteger(2, 4),
-			getRandomInteger(4, 8),
-			getRandomBoolean() ? 0 : getRandomInteger(2, 4),
+			randomBoolean() ? 0 : randomInteger(2, 4),
+			randomInteger(4, 8),
+			randomBoolean() ? 0 : randomInteger(2, 4),
 		]
-		const support1 = getRandomInteger(0, 3)
-		const supportTypes = [support1, getRandomInteger(0, 3, [support1])]
-		const loadPositionIndex = getRandomInteger(distances[0] === 0 ? 1 : 0, distances[2] === 0 ? 1 : 2)
+		const support1 = randomInteger(0, 3)
+		const supportTypes = [support1, randomInteger(0, 3, [support1])]
+		const loadPositionIndex = randomInteger(distances[0] === 0 ? 1 : 0, distances[2] === 0 ? 1 : 2)
 		const loadProperties = {
-			isForce: getRandomBoolean(),
-			isPositiveDirection: getRandomBoolean(),
-			position: [0, distances[0] + getRandomInteger(2, distances[1] - 2), distances[0] + distances[1] + distances[2]][loadPositionIndex],
+			isForce: randomBoolean(),
+			isPositiveDirection: randomBoolean(),
+			position: [0, distances[0] + randomInteger(2, distances[1] - 2), distances[0] + distances[1] + distances[2]][loadPositionIndex],
 		}
 		return { distances, supportTypes, loadProperties }
 	},

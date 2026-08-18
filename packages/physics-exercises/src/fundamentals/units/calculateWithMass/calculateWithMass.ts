@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomInteger } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
@@ -24,13 +24,13 @@ export default buildSimpleExercise({
 	},
 
 	generateState() {
-		const type = getRandomInteger(0, 2)
+		const type = randomInteger(0, 2)
 		const prefix = sample(['mu', 'm', '', 'M'])
 
 		let m = getRandomExponentialFloatUnit({
 			min: 1e-1,
 			max: 1e3,
-			significantDigits: getRandomInteger(2, 3),
+			significantDigits: randomInteger(2, 3),
 			unit: `${prefix}g`,
 		})
 

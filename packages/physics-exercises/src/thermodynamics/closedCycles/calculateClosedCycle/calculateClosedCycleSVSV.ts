@@ -1,4 +1,4 @@
-import { getRandomNumber } from '@step-wise/js-utils'
+import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -16,9 +16,9 @@ export function generateState() {
 		const p1o = getRandomFloatUnit({ min: 0.9, max: 1.0, decimals: 2, unit: 'bar' })
 		const V1o = getRandomFloatUnit({ min: 300, max: 600, significantDigits: 2, unit: 'cm^3' }).setDecimals(0)
 		const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
-		const volumeFactor = getRandomNumber(15, 25)
+		const volumeFactor = randomNumber(15, 25)
 		const p2o = p1o.multiply(Math.pow(volumeFactor, air.k.number)).setDecimals(0).roundToPrecision()
-		const pressureFactor = getRandomNumber(1.3, 1.6)
+		const pressureFactor = randomNumber(1.3, 1.6)
 		const p3o = p2o.multiply(pressureFactor).setDecimals(0).roundToPrecision()
 		return { p1o, V1o, T1o, p2o, p3o }
 }
