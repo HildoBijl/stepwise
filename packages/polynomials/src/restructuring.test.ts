@@ -1,12 +1,7 @@
-import { compareNumberArrays } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
 
-import { PolynomialExpression, PolynomialMatrix } from './types'
+import { comparePolynomialMatrices } from './comparison'
 import { restructurePolynomial, substituteIntoPolynomial } from './restructuring'
-
-function comparePolynomialArrays(actual: PolynomialMatrix, expected: PolynomialMatrix): boolean {
-	return Array.isArray(actual) && Array.isArray(expected) && compareNumberArrays(actual, expected)
-}
 
 describe('Check restructure/substitute functions:', () => {
 	describe('restructurePolynomial', () => {
@@ -15,7 +10,7 @@ describe('Check restructure/substitute functions:', () => {
 			const newList = ['b', 'a']
 			const applied = restructurePolynomial(expression, newList)
 			const result = [[2, 4], [3, 5]]
-			expect(comparePolynomialArrays(applied.matrix, result)).toBe(true)
+			expect(comparePolynomialMatrices(applied.matrix, result)).toBe(true)
 			expect(applied.list).toEqual(newList)
 		})
 
@@ -24,7 +19,7 @@ describe('Check restructure/substitute functions:', () => {
 			const newList = ['c', 'b', 'a']
 			const applied = restructurePolynomial(expression, newList)
 			const result = [[[2, 4], [3, 5]]]
-			expect(comparePolynomialArrays(applied.matrix, result)).toBe(true)
+			expect(comparePolynomialMatrices(applied.matrix, result)).toBe(true)
 			expect(applied.list).toEqual(newList)
 		})
 
@@ -46,13 +41,13 @@ describe('Check restructure/substitute functions:', () => {
 			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
 			const applied = substituteIntoPolynomial(expression, { a: 3 })
 			expect(applied.list).toEqual(['b'])
-			expect(comparePolynomialArrays(applied.matrix, [14, 18])).toBe(true)
+			expect(comparePolynomialMatrices(applied.matrix, [14, 18])).toBe(true)
 			const applied2 = substituteIntoPolynomial(expression, { b: 3 })
 			expect(applied2.list).toEqual(['a'])
-			expect(comparePolynomialArrays(applied2.matrix, [11, 19])).toBe(true)
+			expect(comparePolynomialMatrices(applied2.matrix, [11, 19])).toBe(true)
 			const applied3 = substituteIntoPolynomial(expression, { unused: 2, b: 3 })
 			expect(applied3.list).toEqual(['a'])
-			expect(comparePolynomialArrays(applied3.matrix, [11, 19])).toBe(true)
+			expect(comparePolynomialMatrices(applied3.matrix, [11, 19])).toBe(true)
 		})
 
 		it('works correctly when substituting all variables', () => {
