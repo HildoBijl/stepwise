@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { comparePolynomialCoefficients } from './comparison'
-import { alignPolynomialVariables, evaluatePolynomial, substitutePolynomialIndividualMoments, substitutePolynomial, substitutePolynomialMoments } from './restructuring'
+import { alignPolynomialVariables, evaluatePolynomial, substitutePolynomial, substitutePolynomialMoments } from './restructuring'
 
 describe('Check restructure/substitute functions:', () => {
 	describe('alignPolynomialVariables', () => {
@@ -84,23 +84,16 @@ describe('Check restructure/substitute functions:', () => {
 		it('uses variablesToSubstitute order for individual moments', () => {
 			const values: Record<string, number> = { b: 2, a: 3 }
 			const getIndividualMoment = (variable: string, exponent: number) => values[variable] ** exponent
-			expect(substitutePolynomialIndividualMoments(expression, getIndividualMoment, ['b', 'a'])).toEqual({ coefficients: 50, variables: [] })
-			expect(substitutePolynomialIndividualMoments(expression, getIndividualMoment, ['b'])).toEqual({ coefficients: [8, 14], variables: ['a'] })
-		})
-
-		it('uses variablesToSubstitute order for joint moments', () => {
-			const getMoment = ([bExponent, aExponent]: readonly number[]) => 2 ** bExponent * 3 ** aExponent
-			expect(substitutePolynomialMoments(expression, getMoment, ['b', 'a'])).toEqual({ coefficients: 50, variables: [] })
+			expect(substitutePolynomialMoments(expression, getIndividualMoment, ['b', 'a'])).toEqual({ coefficients: 50, variables: [] })
+			expect(substitutePolynomialMoments(expression, getIndividualMoment, ['b'])).toEqual({ coefficients: [8, 14], variables: ['a'] })
 		})
 
 		it('rejects duplicate substitution variables', () => {
-			expect(() => substitutePolynomialIndividualMoments(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
 			expect(() => substitutePolynomialMoments(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
 		})
 
 		it('rejects invalid moments', () => {
-			expect(() => substitutePolynomialIndividualMoments(expression, () => Number.NaN, ['a'])).toThrow()
-			expect(() => substitutePolynomialMoments(expression, () => Number.POSITIVE_INFINITY, ['a'])).toThrow()
+			expect(() => substitutePolynomialMoments(expression, () => Number.NaN, ['a'])).toThrow()
 		})
 	})
 })

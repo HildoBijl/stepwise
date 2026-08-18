@@ -1,6 +1,6 @@
 import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
-import { oneMinusPolynomial, substitutePolynomialIndividualMoments } from '@step-wise/polynomials'
+import { oneMinusPolynomial, substitutePolynomialMoments } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
@@ -247,7 +247,7 @@ export class SkillLevelSet {
 			// Find the expected value of the skill polynomial with as only remaining parameter the current skill.
 			const skillIdsWithoutCurrent = skillIds.filter(currSkillId => currSkillId !== skillId)
 			const getIndividualMoment = (variable: string, exponent: number) => getBernsteinMoment(inferredCoefficients[variable], exponent)
-			const skillPolynomial = substitutePolynomialIndividualMoments(polynomial, getIndividualMoment, skillIdsWithoutCurrent)
+			const skillPolynomial = substitutePolynomialMoments(polynomial, getIndividualMoment, skillIdsWithoutCurrent)
 			const polynomialCoefficients = skillPolynomial.coefficients as number[]
 
 			// Shift the coefficients of the polynomial to the Bernstein basis.
