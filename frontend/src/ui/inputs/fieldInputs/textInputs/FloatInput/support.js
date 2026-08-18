@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, mapValues, fromKeys } from '@step-wise/js-utils'
+import { isNumeric, removeAt, insertAt, mapValues, fromKeys } from '@step-wise/js-utils'
 
 import { Translation } from 'i18n'
 
@@ -105,7 +105,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive = false, all
 	}
 
 	// Check for additions.
-	if (isNumber(key)) // Numbers.
+	if (isNumeric(key)) // Numbers.
 		return addStrToFI(key, FI)
 
 	if (key === '.' || key === ',') { // Period.
@@ -123,7 +123,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive = false, all
 	}
 
 	// Check for additions. Only numbers allowed here.
-	if (isNumber(key)) // Numbers.
+	if (isNumeric(key)) // Numbers.
 		return { ...FI, value: insertAt(value, cursor, key), cursor: cursor + 1 }
 
 	// Unknown key. Ignore, do nothing.

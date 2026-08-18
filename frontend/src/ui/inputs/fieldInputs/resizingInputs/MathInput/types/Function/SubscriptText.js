@@ -1,5 +1,5 @@
 
-import { isNumber, isLetter, removeAt } from '@step-wise/js-utils'
+import { isNumeric, isLetter, removeAt } from '@step-wise/js-utils'
 
 import { latexMinus } from 'ui/components'
 import { greekAlphabet } from 'ui/form'
@@ -49,7 +49,7 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return true
 
 	const { key } = keyInfo
-	if (isLetter(key) || isNumber(key))
+	if (isLetter(key) || isNumeric(key))
 		return true
 	if (key === '.' || key === ',')
 		return true
@@ -102,7 +102,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	}
 
 	// Check for additions.
-	if (isLetter(key) || isNumber(key)) // Letters and numbers.
+	if (isLetter(key) || isNumeric(key)) // Letters and numbers.
 		return addStrToFI(key, FI)
 	if (key === '.' || key === ',') // Basic symbols.
 		return addStrToFI(key, FI)

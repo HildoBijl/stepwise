@@ -1,4 +1,4 @@
-import { isNumber, isLetter, first, last, arraySplice } from '@step-wise/js-utils'
+import { isNumeric, isLetter, first, last, arraySplice } from '@step-wise/js-utils'
 
 import { getClickSide } from 'util'
 
@@ -112,12 +112,12 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	}
 
 	// For numbers or power symbols, if the cursor is in the text, split the unit element.
-	if (isNumber(key) || key === '^' || key === 'Power') {
+	if (isNumeric(key) || key === '^' || key === 'Power') {
 		if (unitElementCursor.part === 'text') {
 			if (unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0) // If the cursor is at the start of a unit element with text, do nothing. Don't pass on.
 				return { ...FI }
 			if (unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) {
-				const toAdd = isNumber(key) ? key : ''
+				const toAdd = isNumeric(key) ? key : ''
 				return {
 					...FI,
 					value: splitElement(value, cursor, toAdd),

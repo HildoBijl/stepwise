@@ -1,4 +1,4 @@
-import { isNumber, removeAt, insertAt, isLetter } from '@step-wise/js-utils'
+import { isNumeric, removeAt, insertAt, isLetter } from '@step-wise/js-utils'
 import { baseUnits, prefixes, interpretPrefixAndBaseUnitString } from '@step-wise/physics-core'
 
 import { getClickPosition } from '../../TextInput'
@@ -82,7 +82,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	}
 
 	// For numbers add them to the power.
-	if (isNumber(key)) {
+	if (isNumeric(key)) {
 		const addAt = cursor.part === 'power' ? cursor.cursor : 0
 		return { ...FI, value: { ...value, power: insertAt(power, addAt, key) }, cursor: { part: 'power', cursor: addAt + 1 } }
 	}
