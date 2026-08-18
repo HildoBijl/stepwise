@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { range } from '@step-wise/js-utils'
+import { subdivideRange } from '@step-wise/js-utils'
 
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, Emp, M, BM, Info } from 'ui/components'
@@ -116,7 +116,7 @@ function QuadraticPlot({ a = 1, b = 0, c = 0, minX = -3, maxX = 3, minY = 2, max
 	// Calculate points.
 	const f = x => a * x ** 2 + b * x + c
 	const [curveMinX, curveMinY] = [(-b - Math.sqrt(b ** 2 - 4 * a * (c - maxY))) / (2 * a), (-b + Math.sqrt(b ** 2 - 4 * a * (c - maxY))) / (2 * a)]
-	const points = range(curveMinX, curveMinY, 100).map(x => ({ x, y: f(x) }))
+	const points = subdivideRange(curveMinX, curveMinY, 100).map(x => ({ x, y: f(x) }))
 
 	// Set up plot.
 	const transformationSettings = usePlotTransformationSettings([[minX, minY], [maxX, maxY]], { maxHeight: 200, maxWidth: 400, extendBoundsToTicks: true, margin: [20, 4] })

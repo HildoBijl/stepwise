@@ -19,28 +19,24 @@ export function integerRange(start: number, end?: number): number[] {
 	return [...Array(start - end + 1).keys()].map(x => start - x)
 }
 
-// Create points start + i*step for i=0..numPoints-1.
-export function rangeByStep(start: number, step: number, numPoints: number): number[] {
-	numPoints = ensureInteger(numPoints, { nonNegative: true, nonZero: true })
-	return integerRange(0, numPoints - 1).map(i => start + i * step)
+// Create an arithmetic sequence start + i * step for i = 0 through length - 1.
+export function arithmeticSequence(start: number, step: number, length: number): number[] {
+	length = ensureInteger(length, { nonNegative: true, nonZero: true })
+	return integerRange(0, length - 1).map(i => start + i * step)
 }
 
-// Create an array from start to end with numSteps steps (n steps → n+1 points).
-export function range(start: number, end: number, numSteps: number): number[] {
-	numSteps = ensureInteger(numSteps, { nonNegative: true, nonZero: true })
-	const step = (end - start) / numSteps
-	return rangeByStep(start, step, numSteps + 1)
+// Subdivide the range from start to end into equal subdivisions, including both endpoints.
+export function subdivideRange(start: number, end: number, subdivisions: number): number[] {
+	subdivisions = ensureInteger(subdivisions, { nonNegative: true, nonZero: true })
+	const step = (end - start) / subdivisions
+	return arithmeticSequence(start, step, subdivisions + 1)
 }
 
 // Create an array from start to end with the given step.
-export function spread(start: number, end: number, step: number = 1): number[] {
+export function rangeByStep(start: number, end: number, step: number = 1): number[] {
 	step = ensureNumber(step, { nonZero: true })
 	if (start === end) return [start]
-	if (Math.sign(end - start) !== Math.sign(step)) {
-		const temp = end
-		end = start
-		start = temp
-	}
+	if (Math.sign(end - start) !== Math.sign(step)) throw new RangeError(`Invalid range: step ${step} does not move from ${start} toward ${end}.`)
 	const numPoints = Math.floor((end - start) / step) + 1
-	return rangeByStep(start, step, numPoints)
+	return arithmeticSequence(start, step, numPoints)
 }
