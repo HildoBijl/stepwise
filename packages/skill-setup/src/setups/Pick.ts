@@ -1,7 +1,7 @@
 import { ensureInteger, ensureNumberArray, forEachCombination, product } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, ensureSkillListStorageValue, SkillListSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
@@ -31,7 +31,8 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 		}
 	}
 	static fromStorageValue(storageValue: PickStorageValue, deserialize: (setup: unknown) => SkillSetup): Pick {
-		return new Pick(storageValue.skills.map(skill => deserialize(skill)), storageValue.number, storageValue.weights)
+		const { skills } = ensureSkillListStorageValue(storageValue)
+		return new Pick(skills.map(skill => deserialize(skill)), storageValue.number, storageValue.weights)
 	}
 
 	override isDeterministic(): boolean {

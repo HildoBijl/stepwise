@@ -1,7 +1,7 @@
 import { ensureNumber } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, oneMinusPolynomial, scalePolynomial } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, SkillItemSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
@@ -25,7 +25,8 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 		return { ...super.getSkillItemStorageValue(), ...(this.part !== 0.5 ? { part: this.part } : {}) }
 	}
 	static fromStorageValue(storageValue: PartStorageValue, deserialize: (setup: unknown) => SkillSetup): Part {
-		return new Part(deserialize(storageValue.skill), storageValue.part)
+		const { skill } = ensureSkillItemStorageValue(storageValue)
+		return new Part(deserialize(skill), storageValue.part)
 	}
 
 	override toString(): string {

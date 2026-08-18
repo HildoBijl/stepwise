@@ -26,6 +26,11 @@ describe('serialization types', () => {
 		expect(() => deserializeSetup({ type: 'Skill' })).toThrow(TypeError)
 		expect(() => deserializeSetup({ type: 'Unknown', value: 'a' })).toThrow(TypeError)
 		expect(() => deserializeSetup({ type: 'Skill', value: 3 })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'And', value: null })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Or', value: { skills: 'a' } })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Repeat', value: {} })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Pick', value: {} })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Part', value: {} })).toThrow(TypeError)
 	})
 })
 

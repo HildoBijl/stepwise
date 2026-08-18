@@ -1,8 +1,13 @@
-import { union } from '@step-wise/js-utils'
+import { ensureArray, ensurePlainObject, union } from '@step-wise/js-utils'
 
 import { type GenericSerializedSkillSetup, SkillSetup } from './SkillSetup'
 
 export type SkillListStorageValue<TChild = GenericSerializedSkillSetup> = { skills: readonly TChild[] }
+
+export function ensureSkillListStorageValue(value: unknown): SkillListStorageValue<unknown> {
+	const storageValue = ensurePlainObject(value)
+	return { skills: ensureArray(storageValue.skills) }
+}
 
 export abstract class SkillListSetup<TStorageValue extends SkillListStorageValue> extends SkillSetup<TStorageValue> {
 	readonly skills: readonly SkillSetup[]
