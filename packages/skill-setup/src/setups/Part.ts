@@ -41,7 +41,7 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 		const expression = this.skill.getPolynomial(this)
 		if (parent instanceof And) return oneMinusPolynomial(scalePolynomial(oneMinusPolynomial(expression), this.part)).coefficients
 		if (parent instanceof Or) return scalePolynomial(expression, this.part).coefficients
-		throw new Error(`Invalid polynomial matrix request: cannot determine the polynomial matrix of a Part set-up inside a set-up of type "${parent?.constructor?.name}". Either an "And" or "Or" set-up is expected around it.`)
+		throw new Error(`Invalid polynomial request: cannot determine the polynomial coefficients of a Part set-up with parent type "${parent?.type ?? 'none'}". An "And" or "Or" parent is required.`)
 	}
 }
 

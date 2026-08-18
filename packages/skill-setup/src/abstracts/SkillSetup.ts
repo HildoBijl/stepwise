@@ -37,18 +37,18 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 		return [...this.getSkillSet()]
 	}
 
-	// Functions revolving around the polynomial matrix.
+	// Polynomial functions.
 
-	// Get the polynomial related to this set-up, in multi-dimensional matrix format.
-	abstract getPolynomialCoefficients(parent?: SkillSetup<TStorageValue>): PolynomialCoefficients
+	// Get the polynomial coefficients related to this set-up.
+	abstract getPolynomialCoefficients(parent?: SkillSetup): PolynomialCoefficients
 
 	// Get the polynomial related to this set-up in string form.
 	getPolynomialString(): string {
 		return polynomialToString(this.getPolynomial())
 	}
 
-	// Get both the matrix and the skill list.
-	getPolynomial(parent?: SkillSetup<TStorageValue>): Polynomial {
+	// Get the polynomial coefficients and their variables.
+	getPolynomial(parent?: SkillSetup): Polynomial {
 		return {
 			coefficients: this.getPolynomialCoefficients(parent),
 			variables: this.getSkillList(),
