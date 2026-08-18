@@ -1,5 +1,7 @@
 import { compareNumberArrays } from '@step-wise/js-utils'
 
+import { deserializeSetup, serializeSetup } from '../serialization'
+
 import { skill, and, or, repeat, pick, part } from './index'
 
 describe('serialization types', () => {
@@ -10,6 +12,19 @@ describe('serialization types', () => {
 		expect(repeat('a', 2).type).toBe('Repeat')
 		expect(pick(['a', 'b']).type).toBe('Pick')
 		expect(part('a', 0.5).type).toBe('Part')
+	})
+
+	it('round-trips nested setups', () => {
+		const setup = and('a', repeat(or('b', 'c'), 2))
+		expect(serializeSetup(deserializeSetup(serializeSetup(setup)))).toEqual(serializeSetup(setup))
+	})
+
+	it('rejects malformed serialized setups', () => {
+		expect(() => deserializeSetup(null)).toThrow(TypeError)
+		expect(() => deserializeSetup([])).toThrow(TypeError)
+		expect(() => deserializeSetup({ value: 'a' })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Skill' })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Unknown', value: 'a' })).toThrow(TypeError)
 	})
 })
 
