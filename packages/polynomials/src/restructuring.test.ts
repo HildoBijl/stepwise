@@ -45,15 +45,21 @@ describe('Check restructure/substitute functions:', () => {
 		it('works correctly when substituting part of the variables', () => {
 			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
 			const applied = substituteIntoPolynomial(expression, { a: 3 })
-			const result = [14, 18]
 			expect(applied.list).toEqual(['b'])
-			expect(comparePolynomialArrays(applied.matrix, result)).toBe(true)
+			expect(comparePolynomialArrays(applied.matrix, [14, 18])).toBe(true)
+			const applied2 = substituteIntoPolynomial(expression, { b: 3 })
+			expect(applied2.list).toEqual(['a'])
+			expect(comparePolynomialArrays(applied2.matrix, [11, 19])).toBe(true)
+			const applied3 = substituteIntoPolynomial(expression, { unused: 2, b: 3 })
+			expect(applied3.list).toEqual(['a'])
+			expect(comparePolynomialArrays(applied3.matrix, [11, 19])).toBe(true)
 		})
 
 		it('works correctly when substituting all variables', () => {
 			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
-			const applied = substituteIntoPolynomial(expression, { a: 3, b: 2 })
-			expect(applied).toEqual({ matrix: 50, list: [] })
+			expect(substituteIntoPolynomial(expression, { a: 3, b: 2 })).toEqual({ matrix: 50, list: [] })
+			expect(substituteIntoPolynomial(expression, { b: 2, a: 3 })).toEqual({ matrix: 50, list: [] })
+			expect(substituteIntoPolynomial(expression, { a: 2, b: 3 })).toEqual({ matrix: 49, list: [] })
 		})
 	})
 })

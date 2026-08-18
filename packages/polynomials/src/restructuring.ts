@@ -25,9 +25,8 @@ export function restructurePolynomial(expression: PolynomialExpression, destinat
 
 // Substitute known variable values, returning a polynomial over the remaining variables.
 export function substituteIntoPolynomial(expression: PolynomialExpression, values: SubstitutionValues): PolynomialExpression {
-	const variablesToSubstitute = Object.keys(values)
-	const valueList = variablesToSubstitute.map(variable => values[variable])
-	const getIndividualMoment = (index: number, exponent: number) => valueList[index] ** exponent
+	const variablesToSubstitute = expression.list.filter(variable => Object.hasOwn(values, variable))
+	const getIndividualMoment = (index: number, exponent: number) => values[variablesToSubstitute[index]] ** exponent
 	return substituteIndividualMomentsIntoPolynomial(expression, getIndividualMoment, variablesToSubstitute)
 }
 
