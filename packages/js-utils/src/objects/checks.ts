@@ -22,12 +22,7 @@ export function ensureBoolean(x: unknown): boolean {
 	return x
 }
 
-// Get the parent (prototype) of a class or object. For classes, pass the class itself (constructor function). For objects, pass the object Returns the prototype (or parent constructor) or null if none.
-export function getParentClass(subject: Function | object): any {
-	return Object.getPrototypeOf(subject)
-}
-
-// Check if an object only has the given keys (possibly only some of them) and not any other.
-export function onlyHasKeys(obj: Record<string, unknown>, keys: string[]): boolean {
-	return Object.keys(obj).every(key => keys.includes(key))
+// Check whether every enumerable own string key on an object is included in the allowed keys. Not every allowed key needs to be present.
+export function hasOnlyKeys(obj: Record<string, unknown>, allowedKeys: readonly string[]): boolean {
+	return Object.keys(obj).every(key => allowedKeys.includes(key))
 }

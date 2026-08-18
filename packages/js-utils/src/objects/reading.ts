@@ -1,5 +1,3 @@
-import { ensurePlainObject } from './plainnessChecks'
-
 export type PropertyPath = readonly (string | number)[]
 
 // Get a nested value through a path like ['x','y','z'] → obj.x.y.z
@@ -14,22 +12,4 @@ export function getByPath(obj: Record<string, any> | unknown, path: PropertyPath
 		result = (result as any)[key]
 	}
 	return result
-}
-
-// JSON-like stringify without quotes around property names. It only handles primitives, arrays and plain objects: it throws on functions and functional objects.
-export function stringifyJS(value: unknown): string {
-	// Don't allow functions.
-	if (typeof value === 'function') throw new TypeError('stringifyJS: value may not be/contain a function.')
-
-	// Deal with standard cases.
-	if (value === null) return 'null'
-	if (value === undefined) return 'undefined'
-	if (typeof value !== 'object') return JSON.stringify(value as any)
-
-	// Iterate through arrays.
-	if (Array.isArray(value)) return `[${value.map(v => stringifyJS(v)).join(',')}]`
-
-	// For objects, only allow plain objects.
-	const obj = ensurePlainObject(value)
-	return `{${Object.keys(obj).map(key => `${key}:${stringifyJS(obj[key])}`).join(',')}}`
 }
