@@ -7,6 +7,7 @@ module.exports = {
 		'<rootDir>/packages/bernstein-polynomials/',
 		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/settings/',
+		'<rootDir>/packages/skill-setup/',
 	],
 	moduleNameMapper: {
 		'^@step-wise/([^/]+)$': '<rootDir>/packages/$1/src',

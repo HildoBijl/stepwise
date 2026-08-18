@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { compareNumberArrays } from '@step-wise/js-utils'
 
 import { deserializeSetup, serializeSetup } from '../serialization'
