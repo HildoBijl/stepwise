@@ -1,6 +1,16 @@
-# Polynomials
+# @step-wise/polynomials
 
-Utilities for representing and manipulating multivariable polynomials. A polynomial stores its coefficients in a nested array whose dimensions follow the variable order.
+Utilities for representing and manipulating multivariable polynomials like `2+4*b+3*a+5*a*b`.
+
+
+## Installation
+
+```bash
+npm install @step-wise/polynomials
+```
+
+
+## Quick start
 
 ```ts
 import { createPolynomial, polynomialToString } from '@step-wise/polynomials'
@@ -19,11 +29,13 @@ A constant polynomial has scalar coefficients and no variables:
 const constant = { coefficients: 5, variables: [] }
 ```
 
+
 ## Creation and validation
 
 - `createPolynomial(coefficients, variables)` creates and validates a polynomial.
 - `createConstantPolynomial(value)` creates a constant polynomial.
 - `ensurePolynomial(value)` validates an existing value and returns it unchanged.
+
 
 ## Manipulation
 
@@ -39,12 +51,14 @@ const constant = { coefficients: 5, variables: [] }
 
 Addition, subtraction, and multiplication accept an optional final variable order.
 
+
 ## Variables and substitution
 
 - `alignPolynomialVariables(polynomial, variables)` reorders coefficients and can add or remove inactive variables.
 - `substitutePolynomial(polynomial, values)` substitutes any provided variables and always returns a polynomial.
 - `evaluatePolynomial(polynomial, values)` requires every variable and returns a number.
 - `substitutePolynomialMoments(polynomial, callback, variables)` calls `callback(variable, exponent)` for each required per-variable moment.
+
 
 ## Comparison and display
 

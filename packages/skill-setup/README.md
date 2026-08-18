@@ -1,49 +1,195 @@
-# Describing the set-up of skills and exercises
+# @step-wise/skill-setup
 
-To correctly perform/complete a skill or exercise, various steps are often required. If we know the probability of completion of each step, we can also find the probability of completion of the total skill/exercise. To describe this dependency, we have the set-up.
+Describe which skills a learner needs to apply to complete an exercise or perform a larger skill. Setups can be combined, inspected, serialized, and converted into success-probability polynomials.
 
-## Deterministic set-ups
 
-Exercises are always described through a deterministic set-up. There are three operators that are important here.
+## Installation
 
-- **and**: if `setup = and('addition', 'multiplication')` then the exercise requires the user to perform both addition and multiplcation successfully. The `and`-operator is the most common in set-ups.
-- **or**: if `setup = or('addition', 'multiplication')` then the exercise requires the user to perform either addition or multiplcation successfully. This is often used when both skills could solve the exercise. You may argue that `setup = max('addition', 'multiplication')` might be more appropriate here. However, the user can also solve the exercise in both ways and compare the results, which argues that the `or` operator is more appropriate for this case.
-- **repeat**: if `setup = repeat('addition', 3)` then the exercise requires the user to perform addition three times in a row correctly. This is short for `and('addition', 'addition', 'addition')`.
-
-Using these operators, any desired exercise set-up can be described.
-
-## Stochastic set-ups
-
-Contrary to exercises, skills may also have a stochastic set-up. In this case there are two extra operators: `pick` and `part`.
-
-- **pick**: if `setup = pick(['addition', 'subtraction', 'multiplication'], 2, [1,1,2])` then applying the skill requires the user to correctly perform two out of the three skills (through an `and` between those skills). Which two is random. However, the weights array at the end does indicate that multiplication is more likely to be selected, compared to addition and subtraction.
-- **part**: if `setup = and('addition', part('multiplication', 0.6))` then in 60% of the cases the user needs to perform `and('addition', 'multiplication')` and in the remaining 40% of the cases the user needs to perform only `'addition'`. Similarly, if `setup = or('addition', part('multiplication', 0.6))` then in 60% of the cases the user needs to perform `or('addition', 'multiplication')` and in the remaining 40% of the cases the user needs to perform `'addition'`. The `part` operator must always be surrounded by either an `and` or `or` operator, and its functionality depends on the surrounding operator.
-
-Using these extra operators, any desired skill set-up can be described.
-
-## Usage
-
-There are two ways to set up a set-up, albeit for an exercise or skill. The most common way is through functions. You could import `and` and `or` (or any other operator) and subsequently use
-
-```
-setup = and('addition', or('multiplication', 'powers'))
+```bash
+npm install @step-wise/skill-setup
 ```
 
-Another option is to important the class constructors `And` and `Or` (or any other operator) and use
 
+## Quick start
+
+```ts
+import { and, or, part, repeat } from '@step-wise/skill-setup'
+
+const setup = and(
+	'addition',
+	or('multiplication', 'division'),
+	part('subtraction', 0.75),
+	repeat('checkAnswer', 2),
+)
+
+setup.getSkillList()
+// ['addition', 'multiplication', 'division', 'subtraction', 'checkAnswer']
+
+setup.toString()
+// 'and("addition", or("multiplication", "division"), part("subtraction", 0.75), repeat("checkAnswer", 2))'
+
+setup.isDeterministic()
+// false
 ```
-setup = new And('addition', new Or('multiplication, 'powers'))
+
+
+## Deterministic and stochastic setups
+
+A setup describes which underlying skills are required to accomplish a task.
+
+A **deterministic setup** (as used for exercises) always requires the same skills. For example, `and('addition', 'multiplication')` always requires both skills. Its eventual outcome may still be correct or incorrect, but the structure of the task is fixed.
+
+A **stochastic setup** (as commonly used for skills) randomly determines part of that structure. For example, `pick(['addition', 'subtraction'])` chooses one of the two skills, while `part('checkAnswer', 0.5)` includes a check in half of the generated cases.
+
+Call `setup.isDeterministic()` to distinguish the two.
+
+
+## Building setups
+
+### `skill(id)`
+
+Creates a setup for one skill. Most APIs accept the identifier directly, so this factory is mainly useful when a standalone setup object is needed.
+
+```ts
+import { skill } from '@step-wise/skill-setup'
+
+const setup = skill('addition')
 ```
 
-Although the first method internally runs the second method, it is used more often because it is shorter.
+Identifiers must be non-empty strings and may not consist only of whitespace.
 
-## Methods
+### `and(...setups)`
 
-The result of a set-up is always a `SkillSetup` object, because it describes how the skill is set up from various subskills. This set-up object has various useful methods. The most important ones are the following.
+Requires every child setup to succeed.
 
-- `getSkillList` returns all the subskills used in the set-up, as an array. It may return `['addition', 'subtraction', 'multiplication']`.
-- `getSkillSet` is the same as `getSkillList` but then returns a set instead of an array.
-- `getPolynomialString` returns the polynomial that could calculate the success rate of the combined skill. For instance, `and('addition', 'multiplication', 'multiplication')` has as polynomial `addition * multiplication^2`.
-- `getPolynomial` returns the polynomial in the form `{ coefficients: [[0, 0], [0, 1]], variables: ['a', 'b'] }`. Each coefficient-array index denotes the power of the corresponding variable.
+```ts
+const setup = and('addition', 'multiplication')
+```
 
-Through these methods, and given student performance data on each respective skill, the success rate for the set-up can be evaluated.
+If the success probabilities are `a` and `m`, the combined probability is `a * m`.
+
+### `or(...setups)`
+
+Succeeds when at least one child setup succeeds.
+
+```ts
+const setup = or('factorization', 'quadraticFormula')
+```
+
+For child probabilities `a` and `b`, the combined probability is `1 - (1 - a) * (1 - b)`.
+
+Both `and` and `or` require at least one child.
+
+### `repeat(setup, count)`
+
+Requires the same setup repeatedly. The count must be a positive integer.
+
+```ts
+const setup = repeat('addition', 3)
+// Equivalent probability model to and('addition', 'addition', 'addition')
+```
+
+### `pick(setups, count?, weights?)`
+
+Selects a subset and requires every selected setup. The count defaults to `1` and may range from `1` through the number of supplied setups.
+
+```ts
+const setup = pick(
+	['addition', 'subtraction', 'multiplication'],
+	2,
+	[1, 1, 2],
+)
+```
+
+Weights must be positive finite numbers. A subset's probability is proportional to the product of the weights of its selected items. In the example, subsets containing `multiplication` have twice the weight of the subset containing only `addition` and `subtraction`.
+
+When every supplied setup is selected, `pick` is equivalent to `and` and is deterministic if all its children are deterministic.
+
+### `part(setup, probability?)`
+
+Includes a setup with the given probability, which defaults to `0.5`. The probability must be between `0` and `1`, inclusive.
+
+`part` must be used as a direct child of `and` or `or`, because its meaning depends on its parent:
+
+```ts
+and('addition', part('multiplication', 0.6))
+// 60% require both skills; 40% require only addition.
+
+or('addition', part('multiplication', 0.6))
+// Multiplication is offered as an alternative in 60% of cases.
+```
+
+Calling `getPolynomial()` directly on an unparented `part` setup throws an error.
+
+
+## Inspecting a setup
+
+Every factory returns a `SkillSetup` with the following public methods:
+
+- `getSkillList()` returns unique skill identifiers in encounter order.
+- `getSkillSet()` returns the same identifiers as a `Set`.
+- `isDeterministic()` reports whether the required structure contains randomness.
+- `toString()` returns a readable expression using the public factory syntax.
+- `getPolynomial()` returns `{ coefficients, variables }` for calculating the combined success probability. See the [@step-wise/polynomials](https://www.npmjs.com/package/@step-wise/polynomials) package for further polynomial functions.
+- `getPolynomialCoefficients()` returns only the coefficient structure.
+- `getPolynomialString()` returns a readable form of the probability polynomial.
+- `serialize()` returns the setup's plain-data representation.
+
+For example:
+
+```ts
+const setup = and('addition', repeat('multiplication', 2))
+
+setup.getPolynomialString()
+// 'addition*multiplication^2'
+
+setup.getPolynomial()
+// {
+//   coefficients: [
+//     [0, 0, 0],
+//     [0, 0, 1],
+//   ],
+//   variables: ['addition', 'multiplication'],
+// }
+```
+
+The coefficient axes follow the order in `variables`; an index along an axis is the exponent of that variable. Consumers that need to evaluate or manipulate the result can use `@step-wise/polynomials`.
+
+
+## Serialization
+
+Use `serializeSetup` and `deserializeSetup` at storage or network boundaries:
+
+```ts
+import {
+	and,
+	deserializeSetup,
+	repeat,
+	serializeSetup,
+} from '@step-wise/skill-setup'
+
+const setup = and('addition', repeat('multiplication', 2))
+const stored = serializeSetup(setup)
+
+// Store as JSON if desired.
+const json = JSON.stringify(stored)
+const restored = deserializeSetup(JSON.parse(json))
+
+restored.toString()
+// 'and("addition", repeat("multiplication", 2))'
+```
+
+Serialized setups use stable type identifiers. Default `pick` and `part` options are omitted to keep the result compact. `deserializeSetup('addition')` is also supported as shorthand for a serialized single skill. Invalid serialized structures throw rather than creating partially valid setups.
+
+TypeScript users can import types `SerializedSkillSetup` and `SkillSetupStorageValue` when defining storage interfaces.
+
+
+## Factory object
+
+All factories are also available through `setupFactories`. This is useful when passing the complete factory collection to another module:
+
+```ts
+import { setupFactories } from '@step-wise/skill-setup'
+
+const setup = setupFactories.and('addition', setupFactories.repeat('multiplication', 2))
+```
