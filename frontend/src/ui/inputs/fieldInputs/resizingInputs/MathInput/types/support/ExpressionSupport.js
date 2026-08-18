@@ -1,4 +1,3 @@
-import { arraySplice } from '@step-wise/js-utils'
 
 import { getFIFuncs, getFIStartCursor, getFIEndCursor } from '..'
 
@@ -19,11 +18,11 @@ export function getKeyPressHandlers(keyInfo, FI, settings, charElements, topPare
 			if (adjustedElement.type === 'Expression') {
 				return {
 					...FI,
-					value: arraySplice(FI.value, cursor.part, 1, ...adjustedElement.value),
+					value: FI.value.toSpliced(cursor.part, 1, ...adjustedElement.value),
 					cursor: { part: cursor.part + adjustedElement.cursor.part, cursor: adjustedElement.cursor.cursor },
 				}
 			}
-			return { ...FI, value: arraySplice(FI.value, cursor.part, 1, fromFI(adjustedElement)), cursor: { ...cursor, cursor: adjustedElement.cursor } }
+			return { ...FI, value: FI.value.toSpliced(cursor.part, 1, fromFI(adjustedElement)), cursor: { ...cursor, cursor: adjustedElement.cursor } }
 		}
 		return { ...FI, [cursor.part]: adjustedElement.value, cursor: { ...cursor, cursor: adjustedElement.cursor } }
 	}

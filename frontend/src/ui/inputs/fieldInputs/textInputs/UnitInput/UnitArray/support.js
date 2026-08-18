@@ -1,4 +1,4 @@
-import { isNumeric, isLetter, first, last, arraySplice } from '@step-wise/js-utils'
+import { isNumeric, isLetter, first, last } from '@step-wise/js-utils'
 
 import { getClickSide } from 'util'
 
@@ -36,7 +36,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 		const newUnitElementFI = unitElementKeyPressToFI(keyInfo, oldUnitElementFI, contentsElement)
 		return {
 			...FI,
-			value: arraySplice(value, cursor.part, 1, newUnitElementFI.value),
+			value: value.toSpliced(cursor.part, 1, newUnitElementFI.value),
 			cursor: {
 				part: cursor.part,
 				cursor: newUnitElementFI.cursor,
@@ -86,7 +86,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 					}
 				return { // Add a new empty element and move the cursor to it.
 					...FI,
-					value: arraySplice(value, cursor.part + 1, 0, functionalizeUnitElement(initialUnitElementValue)),
+					value: value.toSpliced(cursor.part + 1, 0, functionalizeUnitElement(initialUnitElementValue)),
 					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() },
 				}
 			}
@@ -105,7 +105,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 			const element2 = processUnitElement({ text: key, power: unitElement.power.slice(unitElementCursor.cursor) }).value
 			return {
 				...FI,
-				value: arraySplice(value, cursor.part, 1, element1, element2),
+				value: value.toSpliced(cursor.part, 1, element1, element2),
 				cursor: { part: cursor.part + 1, cursor: { part: 'text', cursor: element2.prefix.length + element2.unit.length } },
 			}
 		}
@@ -176,7 +176,7 @@ export function mergeElements(unitArray, index, cutRight = false) {
 		const unitElement = { ...a, power: a.power + b.power }
 		const unitElementCursor = a.power === '' ? { part: 'text', cursor: a.prefix.length + a.unit.length } : { part: 'power', cursor: a.power.length }
 		return {
-			value: arraySplice(unitArray, index, 2, unitElement),
+			value: unitArray.toSpliced(index, 2, unitElement),
 			cursor: { part: index, cursor: unitElementCursor },
 		}
 	}
@@ -184,7 +184,7 @@ export function mergeElements(unitArray, index, cutRight = false) {
 	// Cut away the power of the left element.
 	const { value: unitElement, cursor: unitElementCursor } = processUnitElement({ text: a.prefix + a.unit + b.prefix + b.unit, power: b.power }, { part: 'text', cursor: a.prefix.length + a.unit.length })
 	return {
-		value: arraySplice(unitArray, index, 2, unitElement),
+		value: unitArray.toSpliced(index, 2, unitElement),
 		cursor: { part: index, cursor: unitElementCursor },
 	}
 }
@@ -193,7 +193,7 @@ export function mergeElements(unitArray, index, cutRight = false) {
 export function splitElement(unitArray, cursor, newPower = '') {
 	const unitElement = unitArray[cursor.part]
 	const unitElementCursor = cursor.cursor
-	return arraySplice(unitArray, cursor.part, 1,
+	return unitArray.toSpliced(cursor.part, 1,
 		processUnitElement({ text: (unitElement.prefix + unitElement.unit).slice(0, unitElementCursor.cursor), power: newPower }).value,
 		processUnitElement({ text: (unitElement.prefix + unitElement.unit).slice(unitElementCursor.cursor), power: unitElement.power }).value,
 	)

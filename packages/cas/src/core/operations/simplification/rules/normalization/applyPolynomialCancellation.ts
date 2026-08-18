@@ -1,4 +1,3 @@
-import { arraySplice } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Fraction, fraction, product } from '../../../../construction'
 
@@ -20,8 +19,8 @@ function transform(node: Fraction, context: SimplificationContext): ExpressionNo
 		for (let denominatorIndex = 0; denominatorIndex < denominatorFactors.length; denominatorIndex++) {
 			const result = getPolynomialGCD(numeratorFactors[numeratorIndex], denominatorFactors[denominatorIndex], node => context.simplify(node, normalizationRequirementRuleSet ??= new Set(normalizationRequirementRules)))
 			if (isOne(result.gcd)) continue
-			numeratorFactors = arraySplice(numeratorFactors, numeratorIndex, 1, result.factors[0])
-			denominatorFactors = arraySplice(denominatorFactors, denominatorIndex, 1, result.factors[1])
+			numeratorFactors = numeratorFactors.toSpliced(numeratorIndex, 1, result.factors[0])
+			denominatorFactors = denominatorFactors.toSpliced(denominatorIndex, 1, result.factors[1])
 			changed = true
 		}
 	}

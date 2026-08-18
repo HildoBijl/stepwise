@@ -1,4 +1,4 @@
-import { last, arraySplice, mapValues, fromKeys, repeat } from '@step-wise/js-utils'
+import { last, mapValues, fromKeys, repeat } from '@step-wise/js-utils'
 
 import { selectRandomInvalidUnit } from '../../../../util'
 
@@ -150,7 +150,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	if ((key === '-' || key === 'Minus') && unitElementCursor.part === 'power') {
 		const partA = cursor.part
 		const partB = partA === 'numerator' ? 'denominator' : 'numerator'
-		const unitArrayA = unitArray.length === 1 ? functionalizeUnitArray(initialUnitArrayValue) : arraySplice(unitArray, unitArrayCursor.part, 1)
+		const unitArrayA = unitArray.length === 1 ? functionalizeUnitArray(initialUnitArrayValue) : unitArray.toSpliced(unitArrayCursor.part, 1)
 		const unitArrayB = isUnitArrayEmpty(value[partB]) ? [unitElement] : [...value[partB], unitElement]
 		return {
 			...FI,

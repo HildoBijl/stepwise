@@ -1,4 +1,3 @@
-import { arraySplice } from '@step-wise/js-utils'
 import { getSubExpression } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'
@@ -42,7 +41,7 @@ function create(expressionFI, part, position, name, alias) {
 	if (subSupPart) {
 		const expressionWithoutAlias = {
 			...removeCursor(expressionFI),
-			value: arraySplice(value, part, 1, element.replace(alias, '')),
+			value: value.toSpliced(part, 1, element.replace(alias, '')),
 		}
 		return moveCursorToSubSup(expressionWithoutAlias, subSupPart, applySubscript, subSupPart > part)
 	}
@@ -87,7 +86,7 @@ function moveCursorToSubSup(expressionFI, part, toSubscript, atStart) {
 			...element,
 			[elementPart]: toSubscript ? '' : expressionFunctions.getEmpty(),
 		}
-		value = arraySplice(value, part, 1, element)
+		value = value.toSpliced(part, 1, element)
 	}
 
 	// Then check the position of the cursor.
