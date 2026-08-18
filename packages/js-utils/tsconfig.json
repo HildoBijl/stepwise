@@ -1,13 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["node"],
-    "composite": true,
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
-  },
-  "include": ["src"]
+  "extends": "../../tsconfig.editor.json",
+  "include": ["src/**/*.ts"]
 }

@@ -4,10 +4,10 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc -b",
+		"build": "tsc -b tsconfig.build.json",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"watch": "tsc -b --watch"
+		"watch": "tsc -b tsconfig.build.json --watch"
 	},
 	"dependencies": {
 		"@step-wise/js-utils": "1.0.0"

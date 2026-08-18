@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "references": [
+    { "path": "../interpolation/tsconfig.build.json" },
+    { "path": "../physics-core/tsconfig.build.json" },
+    { "path": "../js-utils/tsconfig.build.json" }
+  ],
+  "include": ["src"]
+}
