@@ -37,42 +37,36 @@ export function substituteIntoPolynomial(expression: PolynomialExpression, value
 export function substituteIndividualMomentsIntoPolynomial(expression: PolynomialExpression, getIndividualMoment: (index: number, exponent: number) => number, variablesToSubstitute: VariableList = expression.list): PolynomialExpression {
 	ensurePolynomialExpression(expression)
 	// Determine the individual moments for each of the given variables.
-	const knownVariableIndices = expression.list.map((variable, index) => (variablesToSubstitute.includes(variable) ? index : undefined)).filter((index) => index !== undefined)
+	const knownVariables = variablesToSubstitute.filter(variable => expression.list.includes(variable))
 	const dimensions = getDimensions(expression.matrix, isNumber)
-	const knownVariableDimensions = knownVariableIndices.map(index => dimensions[index])
-	const moments = knownVariableDimensions.map((dimension, index) => repeat(dimension, exponent => getIndividualMoment(index, exponent)))
+	const knownVariableDimensions = knownVariables.map(variable => dimensions[expression.list.indexOf(variable)])
+	const moments = knownVariableDimensions.map((dimension, index) => repeat(dimension, exponent => getIndividualMoment(variablesToSubstitute.indexOf(knownVariables[index]), exponent)))
 
 	// Set up a getMoment function for a set of exponents, and apply it to the next function.
 	const getMoment = (exponents: number[]) => product(exponents.map((exponent, index) => moments[index][exponent]))
-	return substituteMomentsIntoPolynomial(expression, getMoment, variablesToSubstitute)
+	return substituteMomentsIntoPolynomial(expression, getMoment, knownVariables)
 }
 
 // Substitute known joint moments, returning a polynomial over the remaining variables. The given getMoment function receives an array of powers like [2, 0, 3]. Indices correspond to the variablesToSubstitute. It must return the corresponding moment, like x^2*y^0*z^3.
 export function substituteMomentsIntoPolynomial(expression: PolynomialExpression, getMoment: (exponents: number[]) => number, variablesToSubstitute: VariableList = expression.list): PolynomialExpression {
 	ensurePolynomialExpression(expression)
 	// Define helpful lists.
-	const isVariableKnown = expression.list.map(variable => variablesToSubstitute.includes(variable))
-	const unknownVariables = expression.list.filter(variable => !variablesToSubstitute.includes(variable))
-	const knownVariables = expression.list.filter(variable => variablesToSubstitute.includes(variable))
+	const knownVariables = variablesToSubstitute.filter(variable => expression.list.includes(variable))
+	const unknownVariables = expression.list.filter(variable => !knownVariables.includes(variable))
 
 	// On no substitution, return the old data.
 	if (knownVariables.length === 0) return expression
 
-	// Define some mapping lists.
-	const knownVariableIndices = expression.list.map((variable, index) => (variablesToSubstitute.includes(variable) ? index : undefined)).filter((index) => index !== undefined)
-	const unknownVariableIndices = expression.list.map((variable, index) => (variablesToSubstitute.includes(variable) ? undefined : index)).filter((index) => index !== undefined)
-	const inverseMapping = isVariableKnown.map((isKnown, index) => (isKnown ? knownVariableIndices.indexOf(index) : unknownVariableIndices.indexOf(index)))
-
 	// Determine the dimensions of the old matrix, the new one, and what was removed.
 	const dimensions = getDimensions(expression.matrix, isNumber)
-	const newDimensions = unknownVariableIndices.map(index => dimensions[index])
-	const removedDimensions = knownVariableIndices.map(index => dimensions[index])
+	const newDimensions = unknownVariables.map(variable => dimensions[expression.list.indexOf(variable)])
+	const removedDimensions = knownVariables.map(variable => dimensions[expression.list.indexOf(variable)])
 
 	// Set up the resulting matrix.
 	const result = repeatMultidimensional(newDimensions, (...newIndices) => {
 		let total = 0
 		repeatMultidimensional(removedDimensions, (...removalIndices) => {
-			const oldIndices = inverseMapping.map((mappingIndex, index) => (isVariableKnown[index] ? removalIndices : newIndices)[mappingIndex])
+			const oldIndices = expression.list.map(variable => knownVariables.includes(variable) ? removalIndices[knownVariables.indexOf(variable)] : newIndices[unknownVariables.indexOf(variable)])
 			const coefficient = getMatrixElement(expression.matrix, oldIndices, isNumber)
 			total += coefficient * getMoment(removalIndices)
 		})

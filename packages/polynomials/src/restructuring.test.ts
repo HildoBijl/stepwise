@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { comparePolynomialMatrices } from './comparison'
-import { restructurePolynomial, substituteIntoPolynomial } from './restructuring'
+import { restructurePolynomial, substituteIndividualMomentsIntoPolynomial, substituteIntoPolynomial, substituteMomentsIntoPolynomial } from './restructuring'
 
 describe('Check restructure/substitute functions:', () => {
 	describe('restructurePolynomial', () => {
@@ -55,6 +55,22 @@ describe('Check restructure/substitute functions:', () => {
 			expect(substituteIntoPolynomial(expression, { a: 3, b: 2 })).toEqual({ matrix: 50, list: [] })
 			expect(substituteIntoPolynomial(expression, { b: 2, a: 3 })).toEqual({ matrix: 50, list: [] })
 			expect(substituteIntoPolynomial(expression, { a: 2, b: 3 })).toEqual({ matrix: 49, list: [] })
+		})
+	})
+
+	describe('moment substitution', () => {
+		const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
+
+		it('uses variablesToSubstitute order for individual moments', () => {
+			const values = [2, 3]
+			const getIndividualMoment = (index: number, exponent: number) => values[index] ** exponent
+			expect(substituteIndividualMomentsIntoPolynomial(expression, getIndividualMoment, ['b', 'a'])).toEqual({ matrix: 50, list: [] })
+			expect(substituteIndividualMomentsIntoPolynomial(expression, getIndividualMoment, ['b'])).toEqual({ matrix: [8, 14], list: ['a'] })
+		})
+
+		it('uses variablesToSubstitute order for joint moments', () => {
+			const getMoment = ([bExponent, aExponent]: number[]) => 2 ** bExponent * 3 ** aExponent
+			expect(substituteMomentsIntoPolynomial(expression, getMoment, ['b', 'a'])).toEqual({ matrix: 50, list: [] })
 		})
 	})
 })
