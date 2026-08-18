@@ -1,11 +1,11 @@
-import { product, getDimensions, getMatrixElement, repeat, repeatMultidimensional } from '@step-wise/js-utils'
+import { isNumber, product, getDimensions, getMatrixElement, repeat, repeatMultidimensional } from '@step-wise/js-utils'
 
 import { PolynomialMatrix, VariableList, SubstitutionValues, PolynomialExpression } from './types'
 
 // Restructure a polynomial matrix from an origin variable list to a destination variable list.
 export function restructurePolynomial(expression: PolynomialExpression, destinationList: VariableList): PolynomialExpression {
 	// Check the input.
-	const oldDimensions = getDimensions(expression.matrix)
+	const oldDimensions = getDimensions(expression.matrix, isNumber)
 	expression.list.forEach((originVariable, originIndex) => {
 		if (destinationList.indexOf(originVariable) === -1 && oldDimensions[originIndex] !== 1) throw new Error(`Cannot restructure matrix: the variable "${originVariable}" is not in the destination list, and the variable does exist in the polynomial.`)
 	})
@@ -18,7 +18,7 @@ export function restructurePolynomial(expression: PolynomialExpression, destinat
 	// Apply the transformation.
 	const matrix = repeatMultidimensional(newDimensions, (...newIndices) => {
 		const oldIndices = mappingOldToNew.map(mappingIndex => (mappingIndex === -1 ? 0 : newIndices[mappingIndex]))
-		return getMatrixElement(expression.matrix, oldIndices)
+		return getMatrixElement(expression.matrix, oldIndices, isNumber)
 	}) as PolynomialMatrix
 	return { matrix, list: destinationList }
 }
@@ -35,7 +35,7 @@ export function substituteIntoPolynomial(expression: PolynomialExpression, value
 export function substituteIndividualMomentsIntoPolynomial(expression: PolynomialExpression, getIndividualMoment: (index: number, exponent: number) => number, variablesToSubstitute: VariableList = expression.list): PolynomialExpression | number {
 	// Determine the individual moments for each of the given variables.
 	const knownVariableIndices = expression.list.map((variable, index) => (variablesToSubstitute.includes(variable) ? index : undefined)).filter((index) => index !== undefined)
-	const dimensions = getDimensions(expression.matrix)
+	const dimensions = getDimensions(expression.matrix, isNumber)
 	const knownVariableDimensions = knownVariableIndices.map(index => dimensions[index])
 	const moments = knownVariableDimensions.map((dimension, index) => repeat(dimension, exponent => getIndividualMoment(index, exponent)))
 
@@ -60,7 +60,7 @@ export function substituteMomentsIntoPolynomial(expression: PolynomialExpression
 	const inverseMapping = isVariableKnown.map((isKnown, index) => (isKnown ? knownVariableIndices.indexOf(index) : unknownVariableIndices.indexOf(index)))
 
 	// Determine the dimensions of the old matrix, the new one, and what was removed.
-	const dimensions = getDimensions(expression.matrix)
+	const dimensions = getDimensions(expression.matrix, isNumber)
 	const newDimensions = unknownVariableIndices.map(index => dimensions[index])
 	const removedDimensions = knownVariableIndices.map(index => dimensions[index])
 
@@ -69,7 +69,7 @@ export function substituteMomentsIntoPolynomial(expression: PolynomialExpression
 		let total = 0
 		repeatMultidimensional(removedDimensions, (...removalIndices) => {
 			const oldIndices = inverseMapping.map((mappingIndex, index) => (isVariableKnown[index] ? removalIndices : newIndices)[mappingIndex])
-			const coefficient = getMatrixElement(expression.matrix, oldIndices)
+			const coefficient = getMatrixElement(expression.matrix, oldIndices, isNumber)
 			total += coefficient * getMoment(removalIndices)
 		})
 		return total

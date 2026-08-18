@@ -1,3 +1,5 @@
+export type TypeGuard<T> = (value: unknown) => value is T
+
 // Check whether a value is an object (and not null).
 export function isObject(x: unknown): x is object {
 	return typeof x === 'object' && x !== null
