@@ -1,13 +1,14 @@
-// Find the earliest occurrence of any symbol in "symbols" at or after "startFrom". Return -1 when none are found.
-export function findNextOf(str: string, symbols: string[], startFrom = 0): number {
-	// Check edge cases.
-	if (startFrom < 0) startFrom = 0
-	if (startFrom >= str.length || symbols.length === 0) return -1
+// Find the earliest occurrence of any character at or after startIndex. Return -1 when none are found.
+export function indexOfAnyCharacter(value: string, characters: readonly string[], startIndex = 0): number {
+	if (characters.some(character => Array.from(character).length !== 1)) throw new TypeError('indexOfAnyCharacter: every search value must contain exactly one character.')
 
-	// Return the first symbol that is found.
-	const symbolSet = new Set(symbols)
-	for (let i = startFrom; i < str.length; i++) {
-		if (symbolSet.has(str[i])) return i
+	// Check edge cases.
+	if (startIndex < 0) startIndex = 0
+	if (startIndex >= value.length || characters.length === 0) return -1
+
+	// Return the index of the first matching character.
+	for (let index = startIndex; index < value.length; index++) {
+		if (characters.some(character => value.startsWith(character, index))) return index
 	}
 
 	// No symbol is found.
