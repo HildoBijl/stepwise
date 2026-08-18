@@ -1,4 +1,4 @@
-import { pickFromDefaults, resolveFunctionsShallow } from '@step-wise/js-utils'
+import { pickFromDefaults, resolveFunctionValue } from '@step-wise/js-utils'
 
 import { getHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -23,7 +23,7 @@ export function useFieldControlRegistration(options, FI, setFI) {
 	const [active, activateField, deactivateField] = useFieldRegistration({
 		...pickFromDefaults(options, defaultFieldRegistrationOptions),
 		apply: allowFocus && !readOnly && !!getHTMLElement(element), // Only apply when the element has loaded.
-		keyboard: resolveFunctionsShallow(keyboard, FI, setFI), // The keyboard set-up may depend on the input field value, and the keyFunction may use the setFI function.
+		keyboard: resolveFunctionValue(keyboard, FI, setFI), // The keyboard set-up may depend on the input field value, and the keyFunction may use the setFI function.
 	})
 	return { active, activateField, deactivateField }
 }

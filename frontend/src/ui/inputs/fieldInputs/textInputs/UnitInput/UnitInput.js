@@ -3,7 +3,7 @@ import { alpha } from '@mui/material'
 
 import { Translation } from 'i18n'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
@@ -15,7 +15,7 @@ export const defaultUnitInputOptions = {
 	...defaultTextInputOptions,
 
 	contentsStyle: theme => ({
-		...resolveFunctions(defaultTextInputOptions.contentsStyle, theme),
+		...resolveFunctionValuesDeep(defaultTextInputOptions.contentsStyle, theme),
 		'&.filler-1': {
 			pointerEvents: 'none', // To prevent it being clicked on. When the cursor is already in the numerator, the filler disappears as soon as it's clicked on, which messes up the click processing.
 		},

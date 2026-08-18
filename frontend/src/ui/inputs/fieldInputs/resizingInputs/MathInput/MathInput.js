@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
-import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEqual } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionValue, deepEqual } from '@step-wise/js-utils'
 import { getEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -43,7 +43,7 @@ export function MathInput(options) {
 
 	// Make sure that, when deriving the keyboard settings, the given field settings are known.
 	const settings = mergeDefaults(options.settings || {}, defaultFieldSettings)
-	options.keyboardSettings = useStableCallback(FI => resolveFunctionsShallow(keyboardSettings, FI, settings))
+	options.keyboardSettings = useStableCallback(FI => resolveFunctionValue(keyboardSettings, FI, settings))
 
 	// Store the interpretation and expression settings in the SI to have them available upon interpretation.
 	const interpretationExpressionSettings = useMemo(() => omitDefaults(pickFromDefaults(settings, defaultInterpretationExpressionSettings), defaultInterpretationExpressionSettings), [settings])

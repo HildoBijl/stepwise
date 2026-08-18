@@ -4,7 +4,7 @@
 
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 import { Vector, ensureVector } from '@step-wise/geometry'
 
 import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -46,7 +46,7 @@ export const Drawing = forwardRef((options, ref) => {
 	const { graphicalBounds } = transformationSettings
 	const { width, height } = graphicalBounds
 	options.aspectRatio = height / width // This must be passed on to the Figure object.
-	options.maxWidth = options.maxWidth === 'fill' ? undefined : resolveFunctions(options.maxWidth, graphicalBounds)
+	options.maxWidth = options.maxWidth === 'fill' ? undefined : resolveFunctionValuesDeep(options.maxWidth, graphicalBounds)
 
 	// Set up refs and make them accessible to any implementing component.
 	useImperativeHandle(ref, () => ({

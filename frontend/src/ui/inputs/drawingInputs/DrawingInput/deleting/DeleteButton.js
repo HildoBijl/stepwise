@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { Box } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
-import { resolveFunctions } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { Element, useGraphicalBounds } from 'ui/figures'
@@ -25,7 +25,7 @@ export function DeleteButton() {
 	useEventListener(['mousedown', 'touchstart'], deletionHandler, buttonRef)
 
 	// Check if the button has to be shown. When it's not shown, note that the mouse cannot be over a button. (If this is not done, the mouse still seems to be over a button even after removing the button.)
-	const showButton = applyDeletion && resolveFunctions(showDeleteButton, FI) && active && !isDragging && !isSelecting
+	const showButton = applyDeletion && resolveFunctionValuesDeep(showDeleteButton, FI) && active && !isDragging && !isSelecting
 	useEffect(() => {
 		if (!showButton)
 			setIsMouseOverButton(false)

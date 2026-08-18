@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { Breadcrumbs } from '@mui/material'
 import { ArrowRight as Arrow } from '@mui/icons-material'
 
-import { last, resolveFunctions } from '@step-wise/js-utils'
+import { last, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { useStaggeredFunction, useResizeListener, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { websiteName } from 'settings'
@@ -108,10 +108,10 @@ export function Title({ setTitleCollapsed, sx }) {
 			<TitleItems routes={routes} />
 		</TitleContext.Provider>
 		<Helmet><title>{tabTitle}</title></Helmet>
-		<Breadcrumbs ref={fullTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctions(sx, theme) })}>
+		<Breadcrumbs ref={fullTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctionValuesDeep(sx, theme) })}>
 			{getBreadcrumbs(routes, pageNames)}
 		</Breadcrumbs>
-		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctions(sx, theme) })}>
+		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow sx={arrowStyle} />} sx={theme => ({ ...breadcrumbsStyle(theme), ...resolveFunctionValuesDeep(sx, theme) })}>
 			<Breadcrumb key={route.id} route={route} name={pageName} last />
 		</Breadcrumbs>
 	</TranslationSection>

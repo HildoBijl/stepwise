@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { notSelectable } from 'ui/theme'
@@ -124,7 +124,7 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 			width: size === 's' ? '300px' : size === 'm' ? '100%' : '100%',
 			[theme.breakpoints.up('sm')]: { width: size === 's' ? '300px' : size === 'm' ? '540px' : '100%' },
 			[theme.breakpoints.up('md')]: { width: size === 's' ? '300px' : size === 'm' ? '540px' : '100%' },
-			...resolveFunctions(style, theme),
+			...resolveFunctionValuesDeep(style, theme),
 		})}>
 			<Box ref={prelabelRef} sx={{ // Prelabel.
 				alignItems: 'center',
@@ -181,7 +181,7 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 							<Box component="span" ref={contentsRef} className={contentsClassName} sx={theme => ({
 								margin: '0 -0.25em',
 								padding: '0 0.25em', // To make sure the cursor is visible when all the way on the edge, even for expressions starting/ending with large brackets.
-								...resolveFunctions(contentsStyle, theme),
+								...resolveFunctionValuesDeep(contentsStyle, theme),
 							})}>
 								{children}
 							</Box>

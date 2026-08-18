@@ -2,7 +2,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { resolveFunctions } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { useTranslator } from 'i18n'
 
@@ -21,7 +21,7 @@ export function TabLabel({ tab, showLabel, showIcon, sx = {} }) {
 		alignItems: 'center',
 		display: 'flex',
 		flexFlow: 'row nowrap',
-		...resolveFunctions(sx, theme),
+		...resolveFunctionValuesDeep(sx, theme),
 	})}>
 		{showIcon ? <Box sx={{
 			marginLeft: '0',

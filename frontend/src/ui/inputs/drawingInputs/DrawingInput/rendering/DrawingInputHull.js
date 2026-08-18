@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { notSelectable } from 'ui/theme'
 import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'
@@ -36,7 +36,7 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 	const feedbackResult = useFeedbackResult()
 
 	// Determine styling of the object.
-	maxWidth = resolveFunctions(maxWidth, transformationSettings?.graphicalBounds)
+	maxWidth = resolveFunctionValuesDeep(maxWidth, transformationSettings?.graphicalBounds)
 	const feedbackColor = feedbackResult && feedbackResult.color
 	const hasFeedbackText = !!(feedbackResult && feedbackResult.text)
 
@@ -45,7 +45,7 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 	drawingOptions.style = { margin: '0', ...(drawingOptions.style || {}) } // Remove figure margin, since it's contained in an outer box that also has the feedback text.
 	const previousFigureInnerSx = drawingOptions.figureInnerSx
 	drawingOptions.figureInnerSx = theme => ({
-		...resolveFunctions(previousFigureInnerSx, theme),
+		...resolveFunctionValuesDeep(previousFigureInnerSx, theme),
 		background: theme.palette.inputBackground.main,
 		border: `${border}em solid ${feedbackColor || theme.palette.text.secondary}`,
 		borderRadius: '0.5rem',

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { Translation } from 'i18n'
 
@@ -17,8 +17,8 @@ export const defaultFloatUnitInputOptions = {
 	...defaultUnitInputOptions,
 
 	contentsStyle: theme => ({
-		...resolveFunctions(defaultFloatInputOptions.contentsStyle, theme),
-		...resolveFunctions(defaultUnitInputOptions.contentsStyle, theme),
+		...resolveFunctionValuesDeep(defaultFloatInputOptions.contentsStyle, theme),
+		...resolveFunctionValuesDeep(defaultUnitInputOptions.contentsStyle, theme),
 		'& .spacer.unitSpacer': { width: '0.3em' },
 	}),
 

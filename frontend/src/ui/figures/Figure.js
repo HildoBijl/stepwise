@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 export const defaultFigureOptions = {
 	aspectRatio: 0.75, // Height divided by width. Enter a ratio.
@@ -30,7 +30,7 @@ export const Figure = forwardRef((options, ref) => {
 		maxWidth: maxWidth !== undefined ? `${maxWidth}px` : '',
 		padding: '0 1.2rem', // To make sure possible labels outside the SVG aren't cut off by the slider.
 		position: 'relative',
-		...resolveFunctions(sx, theme)
+		...resolveFunctionValuesDeep(sx, theme)
 	})}>
 		<Box ref={figureInner} sx={theme => ({
 			boxSizing: 'content-box',
@@ -38,7 +38,7 @@ export const Figure = forwardRef((options, ref) => {
 			paddingBottom: `${aspectRatio * 100}%`,
 			position: 'relative',
 			width: '100%',
-			...resolveFunctions(figureInnerSx, theme),
+			...resolveFunctionValuesDeep(figureInnerSx, theme),
 		})}>
 			{children}
 		</Box>

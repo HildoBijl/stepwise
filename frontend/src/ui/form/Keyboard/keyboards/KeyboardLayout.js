@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Box } from '@mui/material'
 import clsx from 'clsx'
 
-import { resolveFunctions } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -17,12 +17,12 @@ export function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, 
 	const [buttonClickFunction, properties] = useButtonClickFunction(keyFunction)
 
 	// Process the styles that were given.
-	styles = resolveFunctions(styles, { rowHeight, numColumns, numRows, settings })
+	styles = resolveFunctionValuesDeep(styles, { rowHeight, numColumns, numRows, settings })
 	if (!styles || typeof styles !== 'object')
 		styles = {}
 
 	// Check which keys are needed.
-	keys = resolveFunctions(keys, properties)
+	keys = resolveFunctionValuesDeep(keys, properties)
 	return (
 		<Box ref={keyboardLayoutRef} sx={{
 			display: 'grid',

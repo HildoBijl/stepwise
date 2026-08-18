@@ -1,4 +1,4 @@
-import { integerRange, sortBy, mergeDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { integerRange, sortBy, mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings } from 'ui/figures'
@@ -20,7 +20,7 @@ export function useMouseSnapping(options, { position, keys }) {
 
 	// Resolve parameters that may depend on the input.
 	const { readOnly, FI } = useInputData()
-	applySnapping = !readOnly && resolveFunctions(applySnapping, FI)
+	applySnapping = !readOnly && resolveFunctionValuesDeep(applySnapping, FI)
 
 	// Get the snapping lines in both coordinate systems and use them to set up a snapper function.
 	const { lines, graphicalLines } = useSnappingLines(snappers)

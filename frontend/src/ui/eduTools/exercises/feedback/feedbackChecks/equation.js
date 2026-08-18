@@ -1,6 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { findWithValue, resolveFunctions, resolveFunctionsShallow, identity } from '@step-wise/js-utils'
+import { findWithValue, resolveFunctionValuesDeep, resolveFunctionValue, identity } from '@step-wise/js-utils'
 import { asEquationEqualityOptions, expressionComparisons, equationComparisons } from '@step-wise/cas'
 
 import { Translation, Check, CountingWord } from 'i18n'
@@ -20,7 +20,7 @@ export const fullEquationFeedback = (input, correct, solution, isCorrect, compar
 		return selectRandomCorrect()
 
 	// Find the right processing and checking functions.
-	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionsShallow(compare, solution))
+	const { preprocess, preprocessSide, preprocessLeft, preprocessRight, compareSide, compareLeft, compareRight, allowOrderChanges, allowSwitch } = asEquationEqualityOptions(resolveFunctionValue(compare, solution))
 	input = preprocess(input)
 	correct = preprocess(correct)
 
@@ -79,7 +79,7 @@ export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !is
 export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.right, correct.right) && !expressionComparisons.equivalent(input.right, correct.left) && <Translation path={translationPath} entry="equation.incorrectRightSide">The right side of the equation is not what was expected.</Translation>
 export const hasIncorrectSide = (...args) => hasIncorrectLeftSide(...args) || hasIncorrectRightSide(...args)
 
-export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equivalent(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
+export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equivalent(input, correct) && resolveFunctionValuesDeep(message, input, correct, solution, isCorrect, exerciseData))
 
 export const correctEquation = correctEquationWithMessage(<Translation path={translationPath} entry="equation.correct">The equation is correct, but you have not done what was required.</Translation>)
 

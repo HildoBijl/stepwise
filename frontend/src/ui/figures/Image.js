@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 export const defaultImageOptions = {
 	src: undefined, // The path to the image.
@@ -23,7 +23,7 @@ export const Image = forwardRef((options, ref) => {
 		boxSizing: 'content-box',
 		display: 'block',
 		margin: '1.2rem auto',
-		...resolveFunctions(sx, theme)
+		...resolveFunctionValuesDeep(sx, theme)
 	})
 
 	// Render the component.
