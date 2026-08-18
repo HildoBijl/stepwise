@@ -1,6 +1,23 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensurePolynomialExpression } from './checks'
+import { ensurePolynomialExpression, ensureVariableList } from './checks'
+
+describe('ensureVariableList', () => {
+	it('accepts valid variable lists', () => {
+		const list = ['a', 'b']
+		expect(ensureVariableList(list)).toBe(list)
+		expect(ensureVariableList([])).toEqual([])
+	})
+
+	it.each([
+		'a',
+		['a', 2],
+		[''],
+		['a', 'a'],
+	])('rejects invalid input %#', value => {
+		expect(() => ensureVariableList(value)).toThrow()
+	})
+})
 
 describe('ensurePolynomialExpression', () => {
 	it('accepts valid constant and multivariable polynomials', () => {

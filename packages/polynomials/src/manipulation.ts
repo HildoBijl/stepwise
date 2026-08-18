@@ -1,7 +1,7 @@
 import { isNumber, ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/js-utils'
 
 import { type NonEmptyPolynomialExpressionList, type PolynomialExpression, type PolynomialMatrix, type VariableList } from './types'
-import { ensurePolynomialExpression } from './checks'
+import { ensurePolynomialExpression, ensureVariableList } from './checks'
 import { restructurePolynomial } from './restructuring'
 
 // Support function that takes an expression and applies a certain matrix operation to the matrix, while keeping the variable list intact.
@@ -54,6 +54,7 @@ export function addPolynomials(expressions: NonEmptyPolynomialExpressionList, de
 	if (expressions.length === 0) throw new RangeError('Cannot add polynomials: expected at least one polynomial expression.')
 	expressions.forEach(ensurePolynomialExpression)
 	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
+	ensureVariableList(destinationList)
 	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
 	return { matrix: addPolynomialMatricesWithEqualDimension(restructuredMatrices), list: destinationList }
 }
@@ -98,6 +99,7 @@ export function multiplyPolynomials(expressions: NonEmptyPolynomialExpressionLis
 	if (expressions.length === 0) throw new RangeError('Cannot multiply polynomials: expected at least one polynomial expression.')
 	expressions.forEach(ensurePolynomialExpression)
 	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
+	ensureVariableList(destinationList)
 	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
 	return { matrix: multiplyPolynomialMatricesWithEqualDimension(restructuredMatrices), list: destinationList }
 }

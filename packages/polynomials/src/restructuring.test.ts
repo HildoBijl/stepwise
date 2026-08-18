@@ -34,6 +34,11 @@ describe('Check restructure/substitute functions:', () => {
 			const newList = ['b', 'c']
 			expect(() => restructurePolynomial(expression, newList)).not.toThrow()
 		})
+
+		it('rejects duplicate destination variables', () => {
+			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
+			expect(() => restructurePolynomial(expression, ['a', 'a'])).toThrow(RangeError)
+		})
 	})
 
 	describe('substituteIntoPolynomial', () => {
@@ -71,6 +76,11 @@ describe('Check restructure/substitute functions:', () => {
 		it('uses variablesToSubstitute order for joint moments', () => {
 			const getMoment = ([bExponent, aExponent]: number[]) => 2 ** bExponent * 3 ** aExponent
 			expect(substituteMomentsIntoPolynomial(expression, getMoment, ['b', 'a'])).toEqual({ matrix: 50, list: [] })
+		})
+
+		it('rejects duplicate substitution variables', () => {
+			expect(() => substituteIndividualMomentsIntoPolynomial(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
+			expect(() => substituteMomentsIntoPolynomial(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
 		})
 	})
 })

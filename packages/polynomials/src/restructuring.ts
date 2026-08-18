@@ -1,11 +1,13 @@
 import { isNumber, product, getDimensions, getMatrixElement, repeat, repeatMultidimensional } from '@step-wise/js-utils'
 
-import { VariableList, SubstitutionValues, PolynomialExpression } from './types'
-import { ensurePolynomialExpression } from './checks'
+import { type PolynomialExpression, type SubstitutionValues, type VariableList } from './types'
+import { ensurePolynomialExpression, ensureVariableList } from './checks'
 
 // Restructure a polynomial matrix from an origin variable list to a destination variable list.
 export function restructurePolynomial(expression: PolynomialExpression, destinationList: VariableList): PolynomialExpression {
 	ensurePolynomialExpression(expression)
+	ensureVariableList(destinationList)
+	
 	// Check the input.
 	const oldDimensions = getDimensions(expression.matrix, isNumber)
 	expression.list.forEach((originVariable, originIndex) => {
@@ -36,6 +38,8 @@ export function substituteIntoPolynomial(expression: PolynomialExpression, value
 // Substitute known variable moments, returning a polynomial over the remaining variables. The getIndividualMoment function must return, for the given variable x (index corresponding to variablesToSubstitute) the value of x^exponent.
 export function substituteIndividualMomentsIntoPolynomial(expression: PolynomialExpression, getIndividualMoment: (index: number, exponent: number) => number, variablesToSubstitute: VariableList = expression.list): PolynomialExpression {
 	ensurePolynomialExpression(expression)
+	ensureVariableList(variablesToSubstitute)
+
 	// Determine the individual moments for each of the given variables.
 	const knownVariables = variablesToSubstitute.filter(variable => expression.list.includes(variable))
 	const dimensions = getDimensions(expression.matrix, isNumber)
@@ -50,6 +54,7 @@ export function substituteIndividualMomentsIntoPolynomial(expression: Polynomial
 // Substitute known joint moments, returning a polynomial over the remaining variables. The given getMoment function receives an array of powers like [2, 0, 3]. Indices correspond to the variablesToSubstitute. It must return the corresponding moment, like x^2*y^0*z^3.
 export function substituteMomentsIntoPolynomial(expression: PolynomialExpression, getMoment: (exponents: number[]) => number, variablesToSubstitute: VariableList = expression.list): PolynomialExpression {
 	ensurePolynomialExpression(expression)
+	ensureVariableList(variablesToSubstitute)
 	// Define helpful lists.
 	const knownVariables = variablesToSubstitute.filter(variable => expression.list.includes(variable))
 	const unknownVariables = expression.list.filter(variable => !knownVariables.includes(variable))
