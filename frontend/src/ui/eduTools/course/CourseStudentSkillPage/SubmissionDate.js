@@ -6,7 +6,7 @@ import { Par, TimeAgo } from 'ui/components'
 export function SubmissionDate({ exercise, submissionIndex, events, event }) {
 	// Determine the previous input event.
 	const earlierInputEvents = events.filter((event, index) => index < submissionIndex && event.action.type === 'input')
-	const previousInputEvent = last(earlierInputEvents, true)
+	const previousInputEvent = last(earlierInputEvents, { allowOutOfBounds: true })
 
 	// Determine some important dates.
 	const exerciseStartDate = new Date(exercise.startedOn)

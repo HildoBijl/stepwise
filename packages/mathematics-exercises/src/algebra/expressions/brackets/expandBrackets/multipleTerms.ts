@@ -28,9 +28,9 @@ export default buildStepExercise({
 		return {
 			x: sample(variableSet),
 			a: randomInteger(2, 8),
-			b: randomInteger(-8, 8, [0]),
-			c: randomInteger(-8, 8, [0]),
-			d: randomInteger(-8, 8, [0]),
+			b: randomInteger(-8, 8, { exclude: [0] }),
+			c: randomInteger(-8, 8, { exclude: [0] }),
+			d: randomInteger(-8, 8, { exclude: [0] }),
 			descending: randomBoolean(),
 		}
 	},

@@ -8,7 +8,7 @@ const TranslationFileContext = createContext()
 
 export function TranslationFile({ children, path, extend = true }) {
 	// Check the input.
-	path = ensureString(path, true)
+	path = ensureString(path, { nonEmpty: true })
 
 	// Extend by a potential parent path.
 	const parentPath = useTranslationFilePath()

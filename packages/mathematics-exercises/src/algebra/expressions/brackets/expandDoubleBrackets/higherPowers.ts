@@ -27,16 +27,16 @@ export default buildStepExercise({
 	generateState() {
 		while (true) {
 			const p = randomInteger(1, 4)
-			const q = randomInteger(0, 3, [p])
-			const s = randomInteger(0, 3, [q])
+			const q = randomInteger(0, 3, { exclude: [p] })
+			const s = randomInteger(0, 3, { exclude: [q] })
 			const r = p + s - q
 			if (r < 0 || r > 4) continue
 			return {
 				x: sample(variableSet),
-				a: randomInteger(-8, 8, [0]),
-				b: randomInteger(-8, 8, [0]),
-				c: randomInteger(-8, 8, [0]),
-				d: randomInteger(-8, 8, [0]),
+				a: randomInteger(-8, 8, { exclude: [0] }),
+				b: randomInteger(-8, 8, { exclude: [0] }),
+				c: randomInteger(-8, 8, { exclude: [0] }),
+				d: randomInteger(-8, 8, { exclude: [0] }),
 				p, q, r, s,
 				switch: randomBoolean(),
 			}

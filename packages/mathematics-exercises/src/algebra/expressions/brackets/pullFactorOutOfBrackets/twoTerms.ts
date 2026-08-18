@@ -35,12 +35,12 @@ export default buildStepExercise({
 	},
 
 	generateState(example) {
-		const b = randomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+		const b = randomInteger(example ? 2 : -8, 8, { exclude: [-1, 0, 1] })
 		return {
 			x: sample(variableSet),
-			a: randomInteger(example || b < 0 ? 2 : -8, 8, [-1, 0, 1]),
+			a: randomInteger(example || b < 0 ? 2 : -8, 8, { exclude: [-1, 0, 1] }),
 			b,
-			c: randomInteger(-8, 8, [-1, 0, 1, -b, b]),
+			c: randomInteger(-8, 8, { exclude: [-1, 0, 1, -b, b] }),
 			n: example ? 1 : randomInteger(2, 4),
 			descending: example ? true : randomBoolean(),
 		}

@@ -92,14 +92,19 @@ export function omitDefaults<T extends Record<string, unknown>>(obj: T, comparis
 	return mapValues(obj, (value, key) => value === comparison[key] ? undefined : value) as Partial<T>
 }
 
-// Normalize given options by applying defaults and optionally filtering unknown keys. givenOptions must be an object. defaultOptions must be an object describing allowed keys and defaults. When filterStrangers is false (default) then unknown keys throw; otherwise (on true) they are merely removed.
-export function mergeDefaults<T extends Record<string, unknown>>(givenOptions: Record<string, unknown>, defaultOptions: T, filterStrangers = false): T {
+export interface MergeDefaultsOptions {
+	filterUnknownKeys?: boolean
+}
+
+// Normalize given options by applying defaults. Unknown keys throw by default, or can optionally be filtered out.
+export function mergeDefaults<T extends Record<string, unknown>>(givenOptions: Record<string, unknown>, defaultOptions: T, options: MergeDefaultsOptions = {}): T {
 	// Check the input.
 	if (!isPlainObject(givenOptions)) throw new TypeError('mergeDefaults: givenOptions must be an object')
 	if (!isPlainObject(defaultOptions)) throw new TypeError('mergeDefaults: defaultOptions must be an object')
+	const { filterUnknownKeys = false } = options
 
 	// Remove unknown keys if requested.
-	if (filterStrangers) {
+	if (filterUnknownKeys) {
 		givenOptions = pickFromDefaults(givenOptions, defaultOptions)
 	} else {
 		Object.keys(givenOptions).forEach(key => {

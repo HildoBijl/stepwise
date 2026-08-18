@@ -26,9 +26,9 @@ export default buildStepExercise({
 
 	generateState() {
 		const variableSet = sample(availableVariableSets)
-		const a = randomInteger(-6, 6, [0, 1])
+		const a = randomInteger(-6, 6, { exclude: [0, 1] })
 		const b = randomInteger(-16, 16)
-		const c = randomInteger(-6, 6, [0, 1])
+		const c = randomInteger(-6, 6, { exclude: [0, 1] })
 		const d = randomInteger(-16, 16)
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d }
 	},

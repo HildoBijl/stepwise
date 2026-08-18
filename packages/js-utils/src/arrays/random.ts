@@ -4,9 +4,14 @@ import { last } from './reading'
 import { count, cumulative } from './iteration'
 import { integerRange } from './creation'
 
+export interface SampleOptions {
+	weights?: readonly number[]
+}
+
 // Return a random element from an array.
-export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
+export function sample<T>(array: readonly T[], options: SampleOptions = {}): T {
 	if (array.length === 0) throw new RangeError('Input error: expected a non-empty array.')
+	let { weights } = options
 
 	// On no weights, randomly select uniformly.
 	if (weights === undefined) return array[randomInteger(0, array.length - 1)]
@@ -38,8 +43,7 @@ export function shuffle<T>(array: readonly T[]): T[] {
 
 export type RandomSelectionOptions = {
 	randomOrder?: boolean
-	weights?: readonly number[]
-}
+} & SampleOptions
 
 export type RandomIndicesOptions = RandomSelectionOptions & {
 	count?: number
@@ -69,7 +73,7 @@ export function randomIndices(arrayLength: number, options: RandomIndicesOptions
 		if (selectableCount < selectionCount) throw new RangeError(`Invalid weights given: insufficient positive-weight indices (required ${selectionCount}, available ${selectableCount}).`)
 
 		// Pick one item and exclude it afterwards.
-		const index = sample(integerRange(0, arrayLength - 1), weights)
+		const index = sample(integerRange(0, arrayLength - 1), { weights })
 		indices = [index, ...randomIndices(arrayLength, { count: selectionCount - 1, randomOrder, weights: weights.map((weight, weightIndex) => weightIndex === index ? 0 : weight) })]
 	} else {
 		indices = shuffle(integerRange(0, arrayLength - 1)).slice(0, selectionCount)

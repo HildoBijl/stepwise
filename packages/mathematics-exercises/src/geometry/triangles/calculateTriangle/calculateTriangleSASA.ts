@@ -17,11 +17,11 @@ export default buildStepExercise({
 	generateState() {
 		const b = randomInteger(3, 12)
 		return {
-			α: asExpression(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+			α: asExpression(randomInteger(5, 24, { exclude: [18] }) * 5), // Ensure there is no 90 degree angle.
 			β: asExpression(sample(angleVariableSet)),
 			a: asExpression(sample(sideVariableSet)),
 			b: asExpression(b),
-			c: asExpression(randomInteger(3, 12, [b])), // Don't have a triangle with two equal sides; that's too easy.
+			c: asExpression(randomInteger(3, 12, { exclude: [b] })), // Don't have a triangle with two equal sides; that's too easy.
 			rotation: randomNumber(0, 2 * Math.PI),
 			reflection: randomBoolean(),
 		}

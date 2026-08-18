@@ -23,7 +23,7 @@ export default buildStepExercise({
 	generateState() {
 		let a = 0, b = 0, c = 0
 		while (a === 0 || b ** 2 - 4 * a * c >= 0) {
-			a = randomInteger(-6, 6, [0])
+			a = randomInteger(-6, 6, { exclude: [0] })
 			b = randomInteger(-12, 12)
 			c = randomInteger(-40, 40)
 		}

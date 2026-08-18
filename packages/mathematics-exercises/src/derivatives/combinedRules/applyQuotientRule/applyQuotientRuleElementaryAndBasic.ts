@@ -17,7 +17,7 @@ export default buildStepExercise({
 	generateState() {
 		const x = sample(variableSet)
 		const [f1, f2, g] = getRandomElementaryFunctions(3, false, false, true, false).map(func => func.substitute('x', x))
-		const c = randomInteger(-12, 12, [0])
+		const c = randomInteger(-12, 12, { exclude: [0] })
 		return { c, f1, f2, g }
 	},
 

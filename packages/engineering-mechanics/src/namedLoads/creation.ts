@@ -8,17 +8,17 @@ import type { LoadName, NamedLoad, NamedLoadLike, NamedPoint, NamedPointLike } f
 export function createNamedPoint(point: NamedPointLike): NamedPoint {
 	if (!isPlainObject(point)) throw new TypeError(`Invalid named point: expected a plain object.`)
 	return {
-		name: ensureString(point.name, true),
+		name: ensureString(point.name, { nonEmpty: true }),
 		position: ensureVector(point.position, 2),
 	}
 }
 
 export function createLoadName(name: LoadName): LoadName {
-	const result: LoadName = { symbol: ensureString(name.symbol, true) }
-	if (name.point !== undefined) result.point = ensureString(name.point, true)
+	const result: LoadName = { symbol: ensureString(name.symbol, { nonEmpty: true }) }
+	if (name.point !== undefined) result.point = ensureString(name.point, { nonEmpty: true })
 	if (name.suffix !== undefined) {
 		if (typeof name.suffix !== 'string' && typeof name.suffix !== 'number') throw new TypeError(`Invalid load name suffix: expected a string or number, but received "${String(name.suffix)}".`)
-		if (typeof name.suffix === 'string') ensureString(name.suffix, true)
+		if (typeof name.suffix === 'string') ensureString(name.suffix, { nonEmpty: true })
 		if (typeof name.suffix === 'number' && !Number.isFinite(name.suffix)) throw new TypeError(`Invalid load name suffix: expected a finite number, but received "${String(name.suffix)}".`)
 		result.suffix = name.suffix
 	}

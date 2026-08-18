@@ -34,7 +34,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const { activateFirst } = useFieldControllerContext()
 
 	// Upon loading, or on a change of the last event (something was submitted), focus on the first field. (Delay to ensure all fields are registered.))
-	const lastEventId = last(history, true)?.id
+	const lastEventId = last(history, { allowOutOfBounds: true })?.id
 	useEffect(() => {
 		if (!progress.done)
 			setTimeout(activateFirst, 1)

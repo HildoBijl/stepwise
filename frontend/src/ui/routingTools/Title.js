@@ -62,7 +62,7 @@ export function Title({ setTitleCollapsed, sx }) {
 			return
 
 		// First try the full set-up.
-		const title = last(pageNamesRef.current, true)
+		const title = last(pageNamesRef.current, { allowOutOfBounds: true })
 		const contents = partialTitleRef.current.getElementsByTagName('span')[0]
 		contents.innerText = title
 		fullTitleRef.current.style.display = 'block'
@@ -99,7 +99,7 @@ export function Title({ setTitleCollapsed, sx }) {
 	useLayoutEffect(() => checkUpdateTitle(), [checkUpdateTitle, pageNames]) // Also update when the pageNames changes. This might happen during loading when translations come in.
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.
-	const pageName = last(pageNames, true)
+	const pageName = last(pageNames, { allowOutOfBounds: true })
 	const tabTitle = pageName ? `${pageName} | ${websiteName}` : websiteName
 
 	// Render everything.

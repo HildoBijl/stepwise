@@ -13,8 +13,8 @@ export type LoadNamingOptions = {
 
 export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPointLike[] = [], predefinedLoads: readonly NamedLoad[] = [], options: LoadNamingOptions = {}): NamedLoad[] {
 	// Process the input.
-	const forceSymbol = ensureString(options.forceSymbol ?? 'F', true)
-	const momentSymbol = ensureString(options.momentSymbol ?? 'M', true)
+	const forceSymbol = ensureString(options.forceSymbol ?? 'F', { nonEmpty: true })
+	const momentSymbol = ensureString(options.momentSymbol ?? 'M', { nonEmpty: true })
 	const namedPoints = points.map(createNamedPoint)
 
 	// Set up iteration containers.

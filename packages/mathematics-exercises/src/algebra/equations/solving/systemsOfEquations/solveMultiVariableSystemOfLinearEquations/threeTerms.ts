@@ -30,15 +30,15 @@ export default buildStepExercise({
 
 		// On a non-invertible system, redo the generation.
 		do {
-			a = randomInteger(-6, 6, [0, 1])
-			b = randomInteger(-6, 6, [0, 1])
-			e = randomInteger(-6, 6, [0, 1])
-			f = randomInteger(-6, 6, [0, 1])
+			a = randomInteger(-6, 6, { exclude: [0, 1] })
+			b = randomInteger(-6, 6, { exclude: [0, 1] })
+			e = randomInteger(-6, 6, { exclude: [0, 1] })
+			f = randomInteger(-6, 6, { exclude: [0, 1] })
 		} while (a * f - b * e === 0)
 
-		const c = randomInteger(-6, 6, [0, 1])
+		const c = randomInteger(-6, 6, { exclude: [0, 1] })
 		const d = randomInteger(-16, 16)
-		const g = randomInteger(-6, 6, [0, 1])
+		const g = randomInteger(-6, 6, { exclude: [0, 1] })
 		const h = randomInteger(-16, 16)
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d, e, f, g, h }
 	},

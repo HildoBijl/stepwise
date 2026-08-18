@@ -17,11 +17,11 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e']
 
 function getParameters(): [number, number, number, number, number] {
-	const a = randomInteger(-8, 8, [-1, 0, 1])
-	const b = randomInteger(-8, 8, [-1, 0, 1])
-	const c = randomInteger(-8, 8, [-1, 0, 1])
-	const d = randomInteger(-8, 8, [-1, 0, 1, b / a])
-	const e = randomInteger(-8, 8, [-1, 0, 1])
+	const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+	const b = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+	const c = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+	const d = randomInteger(-8, 8, { exclude: [-1, 0, 1, b / a] })
+	const e = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 	return [a, b, c, d, e]
 }
 

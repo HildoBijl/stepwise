@@ -16,7 +16,7 @@ export function getSubExpression<TAdditionalPart = never>(value: (InputValuePart
 export function mergeAdjacentTextParts(value: ExpressionValue): ExpressionValue {
 	const result: ExpressionValue = []
 	value.forEach(part => {
-		const previousPart = last(result, true)
+		const previousPart = last(result, { allowOutOfBounds: true })
 		if (isTextPart(part) && isTextPart(previousPart)) result[result.length - 1] = `${previousPart}${part}`
 		else result.push(part)
 	})

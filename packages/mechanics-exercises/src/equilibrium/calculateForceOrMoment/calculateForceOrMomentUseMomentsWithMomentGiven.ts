@@ -19,10 +19,10 @@ export default buildStepExercise({
 			const lowerBound = Math.max(-intersection.x, -intersection.y)
 			const upperBound = Math.min(4 - intersection.x, 4 - intersection.y)
 			if (lowerBound === 0 && upperBound === 0) continue
-			const shift = randomInteger(lowerBound, upperBound, [0])
+			const shift = randomInteger(lowerBound, upperBound, { exclude: [0] })
 			const points = [
-				new Vector(randomInteger(0, 4, [intersection.x]), intersection.y),
-				new Vector(intersection.x, randomInteger(0, 4, [intersection.y])),
+				new Vector(randomInteger(0, 4, { exclude: [intersection.x] }), intersection.y),
+				new Vector(intersection.x, randomInteger(0, 4, { exclude: [intersection.y] })),
 				new Vector(intersection.x + shift, intersection.y + shift),
 				getRandomPoint(),
 			]

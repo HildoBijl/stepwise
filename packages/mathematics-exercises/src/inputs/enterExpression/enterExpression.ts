@@ -23,13 +23,13 @@ export default buildSimpleExercise({
 		const variables = selectRandomVariables(variableSet, usedVariables)
 		return {
 			expression: sample([
-				asExpression(`(${randomInteger(-12, 12, [0])}-x)/(y+${randomInteger(-12, 12, [0])})`),
-				asExpression(`${randomInteger(-12, 12, [0])}${variables.x}_${randomInteger(1, 3)}^${randomInteger(2, 4)} + ${randomInteger(-12, 12, [0])}${variables.y}_${randomInteger(2, 4)}^${randomInteger(1, 3)}`),
-				asExpression(`${randomInteger(-12, 12, [0])}*hat(${variables.x})_${randomInteger(1, 3)} + ${randomInteger(-12, 12, [0])}*dot(${variables.y})^${randomInteger(2, 4)}`),
-				asExpression(`(${randomInteger(-12, 12, [0])}-x)^(y/${randomInteger(2, 6)})`),
-				asExpression(`${sample(['sin', 'cos', 'tan'])}(${randomInteger(-4, 4, [0, 1])}*${sample(['asin', 'acos', 'atan'])}(x/y))`),
-				asExpression(`root[x](${randomInteger(-12, 12, [0])}+y)`),
-				asExpression(`log[x](${randomInteger(-12, 12, [0])}y)`),
+				asExpression(`(${randomInteger(-12, 12, { exclude: [0] })}-x)/(y+${randomInteger(-12, 12, { exclude: [0] })})`),
+				asExpression(`${randomInteger(-12, 12, { exclude: [0] })}${variables.x}_${randomInteger(1, 3)}^${randomInteger(2, 4)} + ${randomInteger(-12, 12, { exclude: [0] })}${variables.y}_${randomInteger(2, 4)}^${randomInteger(1, 3)}`),
+				asExpression(`${randomInteger(-12, 12, { exclude: [0] })}*hat(${variables.x})_${randomInteger(1, 3)} + ${randomInteger(-12, 12, { exclude: [0] })}*dot(${variables.y})^${randomInteger(2, 4)}`),
+				asExpression(`(${randomInteger(-12, 12, { exclude: [0] })}-x)^(y/${randomInteger(2, 6)})`),
+				asExpression(`${sample(['sin', 'cos', 'tan'])}(${randomInteger(-4, 4, { exclude: [0, 1] })}*${sample(['asin', 'acos', 'atan'])}(x/y))`),
+				asExpression(`root[x](${randomInteger(-12, 12, { exclude: [0] })}+y)`),
+				asExpression(`log[x](${randomInteger(-12, 12, { exclude: [0] })}y)`),
 			]).combine().substitute(variables),
 		}
 	},

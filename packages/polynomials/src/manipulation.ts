@@ -43,7 +43,7 @@ export function oneMinusPolynomial(polynomial: Polynomial): Polynomial {
 function addAlignedCoefficients(allCoefficients: readonly PolynomialCoefficients[]): PolynomialCoefficients {
 	const allDimensions = allCoefficients.map(coefficients => getDimensions(coefficients, isNumber))
 	const dimensions = repeat(allDimensions[0].length, index => Math.max(...allDimensions.map(item => item[index])))
-	return repeatMultidimensional(dimensions, (...indices) => sum(allCoefficients.map(coefficients => getMatrixElement(coefficients, indices, isNumber, true) ?? 0)))
+	return repeatMultidimensional(dimensions, (...indices) => sum(allCoefficients.map(coefficients => getMatrixElement(coefficients, indices, isNumber, { allowOutOfBounds: true }) ?? 0)))
 }
 
 export function addPolynomials(polynomials: NonEmptyPolynomialList, variables?: PolynomialVariables): Polynomial {

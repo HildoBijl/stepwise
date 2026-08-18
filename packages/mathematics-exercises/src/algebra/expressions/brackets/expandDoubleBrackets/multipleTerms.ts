@@ -27,11 +27,11 @@ export default buildStepExercise({
 	generateState() {
 		return {
 			x: sample(variableSet),
-			a: randomInteger(-8, 8, [0]),
-			b: randomInteger(-8, 8, [0]),
-			c: randomInteger(-8, 8, [0]),
-			d: randomInteger(-8, 8, [0]),
-			f: randomInteger(-8, 8, [0]),
+			a: randomInteger(-8, 8, { exclude: [0] }),
+			b: randomInteger(-8, 8, { exclude: [0] }),
+			c: randomInteger(-8, 8, { exclude: [0] }),
+			d: randomInteger(-8, 8, { exclude: [0] }),
+			f: randomInteger(-8, 8, { exclude: [0] }),
 			switch: randomBoolean(),
 		}
 	},

@@ -28,10 +28,15 @@ export function repeatMultidimensional<T>(times: readonly number[], fn: (...indi
 }
 
 // Repeat the given function over a multidimensional index range and return a nested array of outcomes.
-export function repeatMultidimensionalFromTo<T>(min: readonly number[], max: readonly number[], fn: (...indices: number[]) => T, previousValues: readonly number[] = []): NestedArray<T> | T {
+export function repeatMultidimensionalFromTo<T>(min: readonly number[], max: readonly number[], fn: (...indices: number[]) => T): NestedArray<T> | T {
 	if (min.length !== max.length) throw new RangeError(`Invalid min and max arrays: expected equal lengths, but got ${min.length} and ${max.length}.`)
-	if (min.length === 0) return fn(...previousValues)
-	return repeatFromTo(min[0], max[0], value => repeatMultidimensionalFromTo(min.slice(1), max.slice(1), fn, [...previousValues, value]))
+
+	const repeatAtDepth = (depth: number, indices: readonly number[]): NestedArray<T> | T => {
+		if (depth === min.length) return fn(...indices)
+		return repeatFromTo(min[depth], max[depth], value => repeatAtDepth(depth + 1, [...indices, value]))
+	}
+
+	return repeatAtDepth(0, [])
 }
 
 // Call a function for every ascending combination of the given size from the indices zero up to length minus one.

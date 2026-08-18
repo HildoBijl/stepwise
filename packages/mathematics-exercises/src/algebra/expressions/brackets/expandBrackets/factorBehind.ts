@@ -29,7 +29,7 @@ export default buildStepExercise({
 			x: sample(variableSet),
 			a: randomInteger(2, 8),
 			b: randomInteger(2, 8),
-			c: randomInteger(-8, 8, [0]),
+			c: randomInteger(-8, 8, { exclude: [0] }),
 			n: randomInteger(1, 3),
 			xFirst: randomBoolean(),
 		}

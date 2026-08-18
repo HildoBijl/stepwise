@@ -12,7 +12,7 @@ export default buildSimpleExercise({
 
 	generateState(example) {
 		return {
-			a: randomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
+			a: randomInteger(example ? 2 : -8, 8, { exclude: [-1, 0, 1] }),
 			b: randomInteger(2, example ? 5 : 8),
 		}
 	},
