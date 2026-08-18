@@ -17,8 +17,8 @@ export function compareNumberArrays(a: readonly NestedNumber[], b: readonly Nest
 }
 
 // Get a one-to-one matching between two arrays. The result maps each index of a to its matching index in b. This assumes the matcher is transitive. Returns a partial matching if not all items can be matched.
-export type Matching = readonly (number | undefined)[]
-export function getOneToOneMatching<T>(a: readonly T[], b: readonly T[], matcher: (x: T, y: T) => boolean = deepEqual): Matching {
+export type OneToOneMatching = readonly (number | undefined)[]
+export function getOneToOneMatching<T>(a: readonly T[], b: readonly T[], matcher: (x: T, y: T) => boolean = deepEqual): OneToOneMatching {
 	const matched = b.map(() => false)
 	return a.map(x => {
 		const index = b.findIndex((y, index) => !matched[index] && matcher(x, y))
@@ -33,9 +33,9 @@ export function hasOneToOneMatching<T>(a: readonly T[], b: readonly T[], matcher
 	return a.length === b.length && getOneToOneMatching(a, b, matcher).every(matchedIndex => matchedIndex !== undefined)
 }
 
-// Reverse a matching from a → b into one from b → a.
-export function reverseMatching(matching: Matching, targetLength = matching.length): Matching {
-	const result: (number | undefined)[] = Array(targetLength).fill(undefined)
+// Invert a matching from a to b into one from b to a.
+export function invertOneToOneMatching(matching: OneToOneMatching, invertedLength = matching.length): OneToOneMatching {
+	const result: (number | undefined)[] = Array(invertedLength).fill(undefined)
 	matching.forEach((value, index) => {
 		if (value !== undefined) result[value] = index
 	})
