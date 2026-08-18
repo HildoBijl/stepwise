@@ -6,10 +6,11 @@
 	"scripts": {
 		"build": "tsc -b",
 		"watch": "tsc -b --watch",
-		"test": "vitest run --root ../.. --config vitest.config.ts packages/settings/src",
-		"test:watch": "vitest --root ../.. --config vitest.config.ts packages/settings/src"
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"devDependencies": {
-		"typescript": "^6.0.2"
+		"typescript": "^6.0.2",
+		"vitest": "^3.0.0"
 	}
 }
