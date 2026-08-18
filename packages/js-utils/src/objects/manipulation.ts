@@ -1,5 +1,5 @@
 import { isPlainObject } from './plainnessChecks'
-import { deepEquals } from './comparisons'
+import { deepEqual } from './comparisons'
 import { fromKeys } from './creation'
 import { type PropertyPath } from './reading'
 
@@ -49,10 +49,10 @@ export function mapValues<T = unknown, U = unknown>(input: T[] | Record<string, 
 	throw new TypeError(`mapValues: expected plain object or array but received type "${typeof input}"`)
 }
 
-// Try to preserve references from oldValue where possible. If newValue deepEquals oldValue, return oldValue (keep reference). If both are arrays or plain objects, recursively attempt to preserve child references. Otherwise return newValue.
+// Try to preserve references from oldValue where possible. If newValue is deeply equal to oldValue, return oldValue (keep reference). If both are arrays or plain objects, recursively attempt to preserve child references. Otherwise return newValue.
 export function preserveRefs<T = unknown>(newValue: T, oldValue: T): T {
 	// If deeply equal, reuse old reference.
-	if (deepEquals(newValue, oldValue)) return oldValue
+	if (deepEqual(newValue, oldValue)) return oldValue
 
 	// If both are arrays or both are plain objects, recurse into children.
 	if (Array.isArray(newValue) && Array.isArray(oldValue)) return (mapValues(newValue as any[], (v, i) => preserveRefs(v, (oldValue as any[])[i])) as unknown) as T

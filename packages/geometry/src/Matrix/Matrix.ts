@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, compareNumbers, count } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, approximatelyEqual, count } from '@step-wise/js-utils'
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
@@ -167,21 +167,21 @@ export class Matrix {
 	}
 
 	isZero(): boolean {
-		return this._rows.every(row => row.every(value => compareNumbers(value, 0)))
+		return this._rows.every(row => row.every(value => approximatelyEqual(value, 0)))
 	}
 
 	isIdentity(): boolean {
-		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => compareNumbers(value, rowIndex === colIndex ? 1 : 0)))
+		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => approximatelyEqual(value, rowIndex === colIndex ? 1 : 0)))
 	}
 
 	// Check if all (and only all) diagonal entries are non-zero.
 	isDiagonal(): boolean {
-		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => (rowIndex === colIndex) !== compareNumbers(value, 0)))
+		return this.isSquare() && this._rows.every((row, rowIndex) => row.every((value, colIndex) => (rowIndex === colIndex) !== approximatelyEqual(value, 0)))
 	}
 
 	// Check if every row/column has exactly one non-zero entry.
 	isMonomial(): boolean {
-		return this.isSquare() && this._rows.every(row => count(row, value => !compareNumbers(value, 0)) === 1) && this.transpose()._rows.every(column => count(column, value => !compareNumbers(value, 0)) === 1)
+		return this.isSquare() && this._rows.every(row => count(row, value => !approximatelyEqual(value, 0)) === 1) && this.transpose()._rows.every(column => count(column, value => !approximatelyEqual(value, 0)) === 1)
 	}
 
 	/*
@@ -192,7 +192,7 @@ export class Matrix {
 		const other = this.coerceMatrix(matrix)
 		if (this.height !== other.height) return false
 		if (this.width !== other.width) return false
-		return this._rows.every((row, rowIndex) => row.every((value, columnIndex) => compareNumbers(value, other.getEntry(rowIndex, columnIndex))))
+		return this._rows.every((row, rowIndex) => row.every((value, columnIndex) => approximatelyEqual(value, other.getEntry(rowIndex, columnIndex))))
 	}
 
 	/*
@@ -257,7 +257,7 @@ export class Matrix {
 	}
 
 	isInvertible(): boolean {
-		return !compareNumbers(this.determinant, 0)
+		return !approximatelyEqual(this.determinant, 0)
 	}
 
 	get adjugate(): Matrix {

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext, useSyncExternalStore } from 'react'
 
-import { fromEntries, fromKeys } from '@step-wise/js-utils'
+import { fromKeysAndValues, fromKeys } from '@step-wise/js-utils'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
@@ -45,7 +45,7 @@ export default function SkillCacher({ children }) {
 			return // Oops ... something went wrong. ToDo later: properly handle this error.
 
 		// Fill up the loaded skills with default skills when missing (that is, not in the database yet), process them, and incorporate them into the data set.
-		const skillsAsObject = fromEntries(skills.map(skill => skill.skillId), skills.map(skill => ensureSkillLevel(skill)))
+		const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills.map(skill => ensureSkillLevel(skill)))
 		const rawSkillLevelSet = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 		skillLevelSet.update(rawSkillLevelSet)
 	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, skillLevelSet])

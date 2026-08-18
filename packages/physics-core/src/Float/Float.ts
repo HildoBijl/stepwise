@@ -1,4 +1,4 @@
-import { ensureInteger, isInteger, getNumberDirection, roundToDigits, checkNumberEquality } from '@step-wise/js-utils'
+import { ensureInteger, isInteger, compareNumbers, roundToDigits, checkNumberEquality } from '@step-wise/js-utils'
 
 import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, getSignificantDigits } from './interpreting'
 import { type FloatEqualityOptionsInput, type FloatEqualityResult, resolveFloatEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'
@@ -238,7 +238,7 @@ export class Float {
 	 */
 
 	compare(input: Float | FloatInput): -1 | 0 | 1 {
-		return getNumberDirection(this.number, asFloat(input).number)
+		return compareNumbers(this.number, asFloat(input).number)
 	}
 
 	equals(input: Float | FloatInput, options?: FloatEqualityOptionsInput): boolean {

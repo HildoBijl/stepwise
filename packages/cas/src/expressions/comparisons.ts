@@ -1,4 +1,4 @@
-import { compareNumbers } from '@step-wise/js-utils'
+import { approximatelyEqual } from '@step-wise/js-utils'
 
 import { type ExpressionLike, asExpression } from './Expression'
 
@@ -14,7 +14,7 @@ export const expressionComparisons = {
 	equalNumber(input: ExpressionLike, correct: ExpressionLike): boolean {
 		const inputExpression = asExpression(input)
 		const correctExpression = asExpression(correct)
-		return inputExpression.isNumeric() && correctExpression.isNumeric() && compareNumbers(inputExpression.toNumber(), correctExpression.toNumber())
+		return inputExpression.isNumeric() && correctExpression.isNumeric() && approximatelyEqual(inputExpression.toNumber(), correctExpression.toNumber())
 	},
 
 	equivalent(input: ExpressionLike, correct: ExpressionLike): boolean {

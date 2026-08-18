@@ -6,11 +6,11 @@ import { isNumber, ensureNumber } from './checks'
  * Script-wise comparisons
  */
 
-// Comparison tolerance used by compareNumbers.
+// Comparison tolerance used by approximatelyEqual.
 export const epsilon = 1e-10
 
 // Compare two numbers for approximate equality.
-export function compareNumbers(input: number, reference: number): boolean {
+export function approximatelyEqual(input: number, reference: number): boolean {
 	// Check if the absolute difference is within bounds.
 	const diff = Math.abs(input - reference)
 	if (diff < epsilon) return true
@@ -23,7 +23,7 @@ export function compareNumbers(input: number, reference: number): boolean {
 	return false
 }
 
-export function getNumberDirection(input: number, reference: number): -1 | 0 | 1 {
+export function compareNumbers(input: number, reference: number): -1 | 0 | 1 {
 	return input > reference ? 1 : input < reference ? -1 : 0
 }
 
@@ -66,7 +66,7 @@ export function checkNumberEquality(input: number, reference: number, options: N
 
 	return {
 		equal,
-		direction: getNumberDirection(input, reference),
+		direction: compareNumbers(input, reference),
 		absoluteDifference,
 		relativeDifference,
 		absoluteTolerance: equalityOptions.absoluteTolerance,
@@ -105,5 +105,5 @@ export function getRelativeDifference(input: number, reference: number): number 
 
 export function isMultipleOf(a: number, b: number): boolean {
 	if (b === 0) throw new Error(`Invalid divisor: expected a non-zero number.`)
-	return compareNumbers(a / b, Math.round(a / b))
+	return approximatelyEqual(a / b, Math.round(a / b))
 }

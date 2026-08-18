@@ -1,4 +1,4 @@
-import { isReadonlyArray, deepEquals } from '@step-wise/js-utils'
+import { isArray, deepEqual } from '@step-wise/js-utils'
 
 import {
 	type ExpressionNode, type ExpressionNodeStorageValue, type Variable, nodeToTree, stringToVariable, variable, number, // Construction
@@ -57,7 +57,7 @@ export class Expression {
 	}
 
 	withSettings(newSettings: ExpressionSettingsInput = {}): Expression {
-		return deepEquals(newSettings, this.settings) ? this : new Expression(convertExpressionSettings(this.node, this.settings, newSettings), newSettings)
+		return deepEqual(newSettings, this.settings) ? this : new Expression(convertExpressionSettings(this.node, this.settings, newSettings), newSettings)
 	}
 
 	/*
@@ -392,7 +392,7 @@ export class Expression {
 		}
 
 		// Single-variable substitution.
-		if (isReadonlyArray(arg2)) throw new Error('Invalid substitute call: expected one substitution.')
+		if (isArray(arg2)) throw new Error('Invalid substitute call: expected one substitution.')
 		const variableNode = this.coerceVariableNode(arg1 as VariableLike)
 		const substitution = this.coerceExpression(arg2)
 		return this.substituteVariable(variableNode, substitution.node)

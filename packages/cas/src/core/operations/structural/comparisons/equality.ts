@@ -1,4 +1,4 @@
-import { compareNumbers } from '@step-wise/js-utils'
+import { approximatelyEqual } from '@step-wise/js-utils'
 
 import type { ExpressionNode, SignNode, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
@@ -16,7 +16,7 @@ export function equalNodes(a: ExpressionNode, b: ExpressionNode, allowOrderChang
 
 export function equalConstants(a: ConstantNode, b: ConstantNode): boolean {
 	if (isNamedConstant(a) && isNamedConstant(b)) return a.symbol === b.symbol
-	return a.constructor === b.constructor && compareNumbers(a.value, b.value)
+	return a.constructor === b.constructor && approximatelyEqual(a.value, b.value)
 }
 
 export function equalSignNodes(a: SignNode, b: SignNode, allowOrderChanges: boolean): boolean {

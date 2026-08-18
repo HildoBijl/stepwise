@@ -1,4 +1,4 @@
-import { fromEntries, mapValues } from '@step-wise/js-utils'
+import { fromKeysAndValues, mapValues } from '@step-wise/js-utils'
 
 import { ConstantNode } from './ConstantNode'
 
@@ -16,8 +16,8 @@ export type NamedConstantName = typeof namedConstantDefinitions[number]['name']
 export type NamedConstantReferral = NamedConstantSymbol | NamedConstantName
 
 // Extract objects.
-const namedConstantDefinitionsBySymbol: Record<NamedConstantSymbol, NamedConstantDefinition> = fromEntries(namedConstantDefinitions.map(namedConstant => namedConstant.symbol), namedConstantDefinitions)
-const namedConstantDefinitionsByName: Record<NamedConstantName, NamedConstantDefinition> = fromEntries(namedConstantDefinitions.map(namedConstant => namedConstant.name), namedConstantDefinitions)
+const namedConstantDefinitionsBySymbol: Record<NamedConstantSymbol, NamedConstantDefinition> = fromKeysAndValues(namedConstantDefinitions.map(namedConstant => namedConstant.symbol), namedConstantDefinitions)
+const namedConstantDefinitionsByName: Record<NamedConstantName, NamedConstantDefinition> = fromKeysAndValues(namedConstantDefinitions.map(namedConstant => namedConstant.name), namedConstantDefinitions)
 
 // Define the NamedConstant class.
 export class NamedConstant extends ConstantNode {

@@ -5,7 +5,7 @@ All utility functions related to objects are in this folder. These are grouped a
 ## Evaluation functions
 
 - [checks](./checks.ts) has all functionalities inspecting a single object.
-- [comparisons](./comparisons.ts) has the functionalities where objects are compared. Think of a `deepEquals`.
+- [comparisons](./comparisons.ts) has the functionalities where objects are compared. Think of a `deepEqual`.
 
 ## Usage functions
 

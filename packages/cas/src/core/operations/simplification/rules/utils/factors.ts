@@ -1,4 +1,4 @@
-import { splitArray } from '@step-wise/js-utils'
+import { partition } from '@step-wise/js-utils'
 
 import { type ExpressionNode, negative, recreateSignNode, sum, product, power } from '../../../../construction'
 
@@ -28,8 +28,8 @@ function getCommonExponent(a: ExpressionNode, b: ExpressionNode): ExpressionNode
 	if (isNumeric(a) && isNumeric(b)) return numericNodeToNumber(a) < numericNodeToNumber(b) ? a : b
 
 	// Get the smallest constant and variable part separately.
-	const [aConstantTerms, aVariableTerms] = splitArray(getSumTerms(a), isNumeric)
-	const [bConstantTerms, bVariableTerms] = splitArray(getSumTerms(b), isNumeric)
+	const [aConstantTerms, aVariableTerms] = partition(getSumTerms(a), isNumeric)
+	const [bConstantTerms, bVariableTerms] = partition(getSumTerms(b), isNumeric)
 	const constantSumPart = getCommonExponent(sum(...aConstantTerms), sum(...bConstantTerms)) // For the constant part, pick the smallest number.
 	const variableSumPart = sum(
 		...aVariableTerms.filter(aTerm => isMinus(aTerm) || bVariableTerms.some(bTerm => equalNodes(aTerm, bTerm))), // Keep negative terms. For positive terms, only keep those present in both.

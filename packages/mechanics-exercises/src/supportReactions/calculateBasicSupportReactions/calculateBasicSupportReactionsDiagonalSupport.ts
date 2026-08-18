@@ -1,4 +1,4 @@
-import { deg2rad, fromEntries, getRandomInteger } from '@step-wise/js-utils'
+import { deg2rad, fromKeysAndValues, getRandomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -52,7 +52,7 @@ function getDynamicSolution(inputDependency: unknown, solution: any) {
 	const loads = solution.loads.map((load: any, index: number) => directionIndices[index] ? load : reverseLoad(load))
 	const loadValues = solution.loadValues.map((value: any, index: number) => directionIndices[index] ? value : value.negate())
 	const [, FAx, FAy, FC] = loadValues
-	return { ...solution, directionIndices, hasAdjustedSolution: directionIndices.includes(false), loads, loadValues, ...fromEntries(solution.loadNames, loadValues), FAx, FAy, FC, FCx: FC.multiply(Math.sin(solution.angleRad)), FCy: FC.multiply(Math.cos(solution.angleRad)) }
+	return { ...solution, directionIndices, hasAdjustedSolution: directionIndices.includes(false), loads, loadValues, ...fromKeysAndValues(solution.loadNames, loadValues), FAx, FAy, FC, FCx: FC.multiply(Math.sin(solution.angleRad)), FCy: FC.multiply(Math.cos(solution.angleRad)) }
 }
 
 export default buildStepExercise({

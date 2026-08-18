@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { mergeDefaults, deepEquals, noop } from '@step-wise/js-utils'
+import { mergeDefaults, deepEqual, noop } from '@step-wise/js-utils'
 import { serializeAll, deserializeAll } from '@step-wise/serialization'
 
 import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -14,7 +14,7 @@ import { useFormData } from '../provider'
  * - functionalize: turn an SI object (without cursors and without anything functional) into an FI object (possibly with cursors or functional components).
  * - feedbackCoupling: an array of field IDs to which this field is (unidirectionally) coupled. If the value of any of those fields changes, then the feedback for this field should not be shown anymore either.
  * - persistent: should the parameter stay (true) or be cleared (false) when the last subscriber unsubscribes from listening for this parameter?
- * - equals: a function that checks if two Stored Input (SI) objects are considered equal. It is used to check if the same feedback should still be shown. By default this is deepEquals.
+ * - equals: a function that checks if two Stored Input (SI) objects are considered equal. It is used to check if the same feedback should still be shown. By default this is deepEqual.
  * - errorToMessage: a function that takes an error thrown by the interpretation (SItoFO) script and turns it into a sensible message to show to the user, preferably having as much information as possible.
  */
 export const defaultUseFormParameterOptions = {
@@ -25,7 +25,7 @@ export const defaultUseFormParameterOptions = {
 	functionalize: SI => deserializeAll(SI),
 	feedbackCoupling: [],
 	persistent: false,
-	equals: deepEquals,
+	equals: deepEqual,
 	errorToMessage: () => <>Oops ... ik begrijp niet wat je hier getypt hebt.</>,
 }
 export function useFormParameter(options = {}) {

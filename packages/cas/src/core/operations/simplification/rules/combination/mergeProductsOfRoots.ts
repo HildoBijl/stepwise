@@ -1,4 +1,4 @@
-import { splitArray } from '@step-wise/js-utils'
+import { partition } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Product, type RootLike, product } from '../../../../construction'
 
@@ -7,7 +7,7 @@ import { isProduct, isRootLike, equalNodes } from '../../../structural'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Product): ExpressionNode {
-	const [rootFactors, otherFactors] = splitArray(node.factors, isRootLike)
+	const [rootFactors, otherFactors] = partition(node.factors, isRootLike)
 	const groups: { root: RootLike, radicands: ExpressionNode[] }[] = []
 	for (const root of rootFactors) {
 		const group = groups.find(group => equalNodes(group.root.degree, root.degree) && group.root.constructor === root.constructor)

@@ -1,10 +1,10 @@
 import { ensureInteger, ensureNumber } from '../numbers'
 
-import { isReadonlyArray } from './checks'
+import { isArray } from './checks'
 
 // Make sure something is an array, or turn it into a single-value array if not.
 export function asArray<T>(value: T | readonly T[]): readonly T[] {
-	return isReadonlyArray(value) ? value : [value]
+	return isArray(value) ? value as readonly T[] : [value]
 }
 
 // Create an array with numbers from start (inclusive) to end (inclusive). If only one parameter is given, it is treated as the end and start is 0.

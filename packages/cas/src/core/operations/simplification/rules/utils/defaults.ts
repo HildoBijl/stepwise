@@ -1,4 +1,4 @@
-import { splitArray } from '@step-wise/js-utils'
+import { partition } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Fraction, Integer, recreateSignNode, sum, product, fraction } from '../../../../construction'
 
@@ -51,7 +51,7 @@ export function getConstantAndVariablePart(node: ExpressionNode): { constantPart
 		}
 	}
 	if (isProduct(node)) {
-		const [constantFactors, variableFactors] = splitArray(node.factors, isNumeric)
+		const [constantFactors, variableFactors] = partition(node.factors, isNumeric)
 		return { constantPart: product(...constantFactors), variablePart: product(...variableFactors) }
 	}
 	return { constantPart: Integer.one, variablePart: node }

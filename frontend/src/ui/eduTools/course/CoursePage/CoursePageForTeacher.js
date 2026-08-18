@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Paper, Tooltip, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-import { fromEntries } from '@step-wise/js-utils'
+import { fromKeysAndValues } from '@step-wise/js-utils'
 
 import { useLocalStorageState } from 'util'
 import { TranslationFile, TranslationSection, Translation, useTranslator } from 'i18n'
@@ -113,7 +113,7 @@ function StudentOverview({ course, overview, students }) {
 			name: student.name,
 			lastActive: student.lastActive && (new Date() - student.lastActive),
 			all: student.numCompleted,
-			...fromEntries(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
+			...fromKeysAndValues(blocks.map((_, index) => `block${index}`), blocks.map((block, index) => student.numCompletedPerBlock[index])),
 		}
 	}), [processedStudents, blocks])
 

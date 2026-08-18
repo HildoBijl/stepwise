@@ -40,7 +40,7 @@ export function useCurrentOrPrevious(value) {
 	return value || previousValue
 }
 
-// useConsistentValue will check if the given value is the same as previously. If the reference changes, but a deepEquals check still results in the same object, the same reference will be maintained.
+// useConsistentValue will check if the given value is the same as previously. If the reference changes, but a deepEqual check still results in the same object, the same reference will be maintained.
 export function useConsistentValue(value) {
 	const ref = useRef()
 	ref.current = preserveRefs(value, ref.current)

@@ -1,4 +1,4 @@
-import { splitArray } from '@step-wise/js-utils'
+import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, isSkillRequiredFor, sortBySkillTreeOrder } from '@step-wise/skill-definition'
 
@@ -8,8 +8,8 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 	const { learningGoals: originalLearningGoals, startingPoints: originalStartingPoints } = data
 
 	// Filter out unknown skills.
-	const [learningGoalsFiltered, unknownLearningGoals] = splitArray(originalLearningGoals, skillId => !!skillTree[skillId])
-	const [startingPointsFiltered, unknownStartingPoints] = splitArray(originalStartingPoints, skillId => !!skillTree[skillId])
+	const [learningGoalsFiltered, unknownLearningGoals] = partition(originalLearningGoals, skillId => !!skillTree[skillId])
+	const [startingPointsFiltered, unknownStartingPoints] = partition(originalStartingPoints, skillId => !!skillTree[skillId])
 
 	// Walk back from the learning goals to derive course contents and starting points.
 	const contentsFound: SkillId[] = []
@@ -46,7 +46,7 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 
 	// Determine the starting points and the errors in them.
 	const externalStartingPoints = startingPointsFiltered.filter(skillId => !startingPointsFound.includes(skillId))
-	const [superfluousStartingPoints, neededStartingPoints] = splitArray(startingPointsFound, skillId => skillTree[skillId].prerequisites.length > 0 && skillTree[skillId].prerequisites.every(prerequisiteId => contentsFound.includes(prerequisiteId)))
+	const [superfluousStartingPoints, neededStartingPoints] = partition(startingPointsFound, skillId => skillTree[skillId].prerequisites.length > 0 && skillTree[skillId].prerequisites.every(prerequisiteId => contentsFound.includes(prerequisiteId)))
 	const startingPoints = [...neededStartingPoints, ...missingStartingPoints]
 
 	// Determine learning goals and the errors in them.

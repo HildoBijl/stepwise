@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, repeat, fromEntries } from '@step-wise/js-utils'
+import { sample, getRandomInteger, repeat, fromKeysAndValues } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 import { repeat as skillRepeat } from '@step-wise/skill-setup'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
@@ -49,7 +49,7 @@ export default buildStepExercise({
 		const ans = sum.combine()
 		const termsNames = repeat(e + 1, index => `term${index}`)
 		const coefficientsNames = repeat(e + 1, index => `c${index}`)
-		return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromEntries(termsNames, termsSimplified), termsNames, ...fromEntries(coefficientsNames, coefficients), coefficientsNames }
+		return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromKeysAndValues(termsNames, termsSimplified), termsNames, ...fromKeysAndValues(coefficientsNames, coefficients), coefficientsNames }
 	},
 
 	checkInput(data, step) {

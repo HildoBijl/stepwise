@@ -1,4 +1,4 @@
-import { filterDuplicates } from '@step-wise/js-utils'
+import { deduplicate } from '@step-wise/js-utils'
 
 import { normalizeLinks } from './links'
 import type { SkillId, RawSkill, RawSkillGroup, SkillTree } from './types'
@@ -26,7 +26,7 @@ export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 					path,
 					skillsInGroup,
 					setup: value.setup,
-					prerequisites: filterDuplicates([...(value.prerequisites ?? []), ...(value.setup?.getSkillList() ?? [])]),
+					prerequisites: deduplicate([...(value.prerequisites ?? []), ...(value.setup?.getSkillList() ?? [])]),
 					continuations: [],
 					links: normalizeLinks(value.links),
 					linkedSkills: [],

@@ -1,4 +1,4 @@
-import { compareNumbers, compareNumberArrays } from '@step-wise/js-utils'
+import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
 
 import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
@@ -30,14 +30,14 @@ describe('Check fundamental functions:', () => {
 		it('increases the order and keeps the coefficients normalized', () => {
 			const increasedCoefficients = increaseBernsteinCoefficientsOrder([0, 1], 2)
 			expect(compareNumberArrays(increasedCoefficients, [0, 1 / 3, 2 / 3])).toBe(true)
-			expect(compareNumbers(increasedCoefficients.reduce((sum, coefficient) => sum + coefficient, 0), 1)).toBe(true)
+			expect(approximatelyEqual(increasedCoefficients.reduce((sum, coefficient) => sum + coefficient, 0), 1)).toBe(true)
 		})
 		it('preserves the PDF', () => {
 			const coefficients = [0.1, 0.2, 0.7]
 			const increasedCoefficients = increaseBernsteinCoefficientsOrder(coefficients, 6)
 			const pdf = getBernsteinPDF(coefficients)
 			const increasedPdf = getBernsteinPDF(increasedCoefficients)
-			;[0, 0.1, 0.25, 0.5, 0.9, 1].forEach(x => expect(compareNumbers(increasedPdf(x), pdf(x))).toBe(true))
+			;[0, 0.1, 0.25, 0.5, 0.9, 1].forEach(x => expect(approximatelyEqual(increasedPdf(x), pdf(x))).toBe(true))
 		})
 	})
 })
@@ -74,8 +74,8 @@ describe('Check moment functions:', () => {
 	})
 	describe('getBernsteinVariance', () => {
 		it('gives correct values', () => {
-			expect(compareNumbers(getBernsteinVariance([0, 1]), 1 / 18)).toBe(true)
-			expect(compareNumbers(getBernsteinVariance([0, 0, 1, 0]), 1 / 25)).toBe(true)
+			expect(approximatelyEqual(getBernsteinVariance([0, 1]), 1 / 18)).toBe(true)
+			expect(approximatelyEqual(getBernsteinVariance([0, 0, 1, 0]), 1 / 25)).toBe(true)
 		})
 	})
 })

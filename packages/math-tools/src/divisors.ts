@@ -1,8 +1,8 @@
-import { ensureInteger, filterDuplicates } from '@step-wise/js-utils'
+import { ensureInteger, deduplicate } from '@step-wise/js-utils'
 
 // Return the greatest common divisor of integer numbers.
 export function gcd(...numbers: number[]): number {
-	numbers = filterDuplicates(numbers.map(n => ensureInteger(n)))
+	numbers = deduplicate(numbers.map(n => ensureInteger(n)))
 
 	// Check edge cases.
 	if (numbers.length === 0) throw new RangeError('gcd requires at least one number.')

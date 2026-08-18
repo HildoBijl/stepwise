@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-utils'
 
 import { Vector, type VectorLike, ensureVector } from '../Vector'
 
@@ -196,7 +196,7 @@ export class Line {
 		value = ensureNumber(value)
 		if (axis >= this.dimension) throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
 		const directionCoordinate = this._direction.getCoordinate(axis)
-		if (compareNumbers(directionCoordinate, 0)) throw new Error(`Invalid getPointWithCoordinate call: the line is parallel to the given axis (${axis}), so no intersecting point can be computed.`)
+		if (approximatelyEqual(directionCoordinate, 0)) throw new Error(`Invalid getPointWithCoordinate call: the line is parallel to the given axis (${axis}), so no intersecting point can be computed.`)
 		return (value - this._start.getCoordinate(axis)) / directionCoordinate
 	}
 
@@ -208,7 +208,7 @@ export class Line {
 		const other = this.coerceLine(line)
 		if (!this.originOffset.equals(other.originOffset)) return false
 		const dotProduct = this.normalizedDirection.dotProduct(other.normalizedDirection)
-		return compareNumbers(requireSameDirection ? dotProduct : Math.abs(dotProduct), 1)
+		return approximatelyEqual(requireSameDirection ? dotProduct : Math.abs(dotProduct), 1)
 	}
 
 	isOrthogonal(line: LineLike): boolean {
@@ -232,7 +232,7 @@ export class Line {
 		const d1 = this._direction
 		const d2 = other._direction
 		const determinant = d1.x! * d2.y! - d2.x! * d1.y!
-		if (compareNumbers(determinant, 0)) return null
+		if (approximatelyEqual(determinant, 0)) return null
 
 		// Find the intersection.
 		const delta = other._start.subtract(this._start)

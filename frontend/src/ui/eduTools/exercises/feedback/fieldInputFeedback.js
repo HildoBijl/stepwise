@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { findWithValue, isPlainObject, mergeDefaults, deepEquals, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
+import { findWithValue, isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
 import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
 import { compare as gradingCompare } from '@step-wise/exercise-grading'
@@ -74,7 +74,7 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 		if (previousInput && previousFeedback && previousFeedback[currParameter] && dependency.every(dependencyParameter => {
 			const curr = input[dependencyParameter]
 			const prev = previousInput[dependencyParameter]
-			return prev !== undefined && (curr === prev || (curr.SO !== undefined && deepEquals(curr, prev))) // Is this parameter's input equal to the previous input?
+			return prev !== undefined && (curr === prev || (curr.SO !== undefined && deepEqual(curr, prev))) // Is this parameter's input equal to the previous input?
 		}))
 			return previousFeedback[currParameter]
 

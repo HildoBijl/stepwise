@@ -1,4 +1,4 @@
-import { compareNumbers, ensureInteger, sum } from '@step-wise/js-utils'
+import { approximatelyEqual, ensureInteger, sum } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
@@ -32,7 +32,7 @@ export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoeffi
 export function normalizeBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
 	const ensuredCoefficients = coefficients.map(c => Math.max(c, 0))
 	const coefficientSum = sum(ensuredCoefficients)
-	return compareNumbers(coefficientSum, 1) ? ensuredCoefficients : ensuredCoefficients.map(c => c / coefficientSum)
+	return approximatelyEqual(coefficientSum, 1) ? ensuredCoefficients : ensuredCoefficients.map(c => c / coefficientSum)
 }
 
 // Reverse the coefficients. If the coefficients describe x, the result describes 1 - x.

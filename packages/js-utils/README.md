@@ -8,7 +8,7 @@ These are utilities related to the fundamental ways Javascript stores data.
 
 - [numbers](./src/numbers/) deals with everything around numbers, both integer and float. Think of checking if a number satisfies certain requirements, or bounding a number to a range.
 - [strings](./src/strings/) concerns everything related to strings. Think of efficiently browsing through the characters of a string, or adding/removing characters.
-- [objects](./src/objects/) adds utilities to objects. Think of comparing objects (with `deepEquals`), generating objects from a list of keys, filtering its properties, or applying a function to each object parameter.
+- [objects](./src/objects/) adds utilities to objects. Think of comparing objects (with `deepEqual`), generating objects from a list of keys, filtering its properties, or applying a function to each object parameter.
 - [arrays](./src/arrays/) adds functionalities to browsing through arrays. Think of finding the sum or product of arrays, rearranging/shuffling arrays, efficiently searching through arrays, and so forth.
 - [functions](./src/functions/) adds utilities around functions. Think of repeating a function multiple times, or calling all functions within an array/object subject to certain parameters.
 - [sets](./src/sets/) is about the Javascript sets. Think of taking their unions, intersections, difference and symmetric difference (xor).

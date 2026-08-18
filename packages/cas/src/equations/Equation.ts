@@ -1,4 +1,4 @@
-import { compareNumbers, deepEquals, identity } from '@step-wise/js-utils'
+import { approximatelyEqual, deepEqual, identity } from '@step-wise/js-utils'
 import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
@@ -48,7 +48,7 @@ export class Equation {
 	}
 
 	withSettings(newSettings: ExpressionSettingsInput = {}): Equation {
-		return deepEquals(newSettings, this.settings) ? this : new Equation(this.left, this.right, newSettings)
+		return deepEqual(newSettings, this.settings) ? this : new Equation(this.left, this.right, newSettings)
 	}
 
 	/*
@@ -170,7 +170,7 @@ export class Equation {
 	evaluateAt(arg1: ExpressionLike | VariableLike | readonly VariableLike[] | SubstitutionMap, arg2?: ExpressionLike | readonly ExpressionLike[]): boolean {
 		const substituted = this.substitute(arg1 as never, arg2 as never)
 		if (!substituted.isNumeric()) throw new Error(`Invalid evaluateAt call: even after substitution, the equation still depends on variables ${JSON.stringify(substituted.getVariables().map(variable => variable.str))}.`)
-		return compareNumbers(substituted.left.toNumber(), substituted.right.toNumber())
+		return approximatelyEqual(substituted.left.toNumber(), substituted.right.toNumber())
 	}
 
 	/*

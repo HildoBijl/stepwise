@@ -1,4 +1,4 @@
-import { isNumber, hasIterableParameters, mapValues } from '@step-wise/js-utils'
+import { isNumber, isPlainObject, mapValues } from '@step-wise/js-utils'
 import { isVectorLike, Transformation } from '@step-wise/geometry'
 
 import { applyTransformation } from '../transformation'
@@ -86,14 +86,15 @@ export function useGraphicalObject(drawingObject, graphicalObject) {
 	}
 	if (graphicalObject === undefined)
 		return transformedObject
-
+	
 	// If both are given, check if we need to apply it iteratively.
-	if (!hasIterableParameters(transformedObject)) {
-		if (!hasIterableParameters(graphicalObject))
+	const isContainer = value => Array.isArray(value) || isPlainObject(value)
+	if (!isContainer(transformedObject)) {
+		if (!isContainer(graphicalObject))
 			return transformedObject.add(graphicalObject)
 		return mapValues(graphicalObject, obj => transformedObject.add(obj))
 	}
-	if (!hasIterableParameters(graphicalObject))
+	if (!isContainer(graphicalObject))
 		return mapValues(transformedObject, obj => obj.add(graphicalObject))
 	return mapValues(transformedObject, (obj, index) => obj.add(graphicalObject[index]))
 }

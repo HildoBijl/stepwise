@@ -10,7 +10,7 @@ export function fromKeys<T>(keys: readonly string[], mapper: (key: string, index
 }
 
 // Create an object from two parallel arrays: keys and values. By default undefined values are filtered out, but you can set `filterUndefined = false` to keep them.
-export function fromEntries<T>(keys: readonly string[], entries: readonly T[], filterUndefined = true): Record<string, T> {
-	if (keys.length !== entries.length) throw new RangeError('fromEntries: keys and values must have the same length.')
-	return fromKeys(keys, (_, index) => entries[index], filterUndefined)
+export function fromKeysAndValues<T>(keys: readonly string[], values: readonly T[], filterUndefined = true): Record<string, T> {
+	if (keys.length !== values.length) throw new RangeError('fromKeysAndValues: keys and values must have the same length.')
+	return fromKeys(keys, (_, index) => values[index], filterUndefined)
 }

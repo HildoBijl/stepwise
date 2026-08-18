@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { repeat, fromEntries } from '@step-wise/js-utils'
+import { repeat, fromKeysAndValues } from '@step-wise/js-utils'
 
 import { Translation, WordList } from 'i18n'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
@@ -100,8 +100,8 @@ function getFeedback(exerciseData) {
 		equivalentExpression,
 	]
 	return getFieldInputFeedback(exerciseData, {
-		...fromEntries(exerciseData.solution.termsNames, repeat(exerciseData.state.e + 1, () => termFeedbackChecks)),
-		...fromEntries(exerciseData.solution.coefficientsNames, repeat(exerciseData.state.e + 1, () => coefficientFeedbackChecks)),
+		...fromKeysAndValues(exerciseData.solution.termsNames, repeat(exerciseData.state.e + 1, () => termFeedbackChecks)),
+		...fromKeysAndValues(exerciseData.solution.coefficientsNames, repeat(exerciseData.state.e + 1, () => coefficientFeedbackChecks)),
 		ans: ansFeedbackChecks
 	})
 }

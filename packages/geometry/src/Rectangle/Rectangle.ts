@@ -1,4 +1,4 @@
-import { ensureNumber, compareNumbers, clamp, fallsBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
+import { ensureNumber, approximatelyEqual, clamp, fallsBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
 
 import { type VectorLike, Vector, ensureVector } from '../Vector'
 import { type LineLike, ensureLine } from '../Line'
@@ -267,7 +267,7 @@ export class Rectangle {
 	// Check if a given point is exactly on the bounds of the Rectangle.
 	onBounds(vector: VectorLike): boolean {
 		const point = ensureVector(vector, this.dimension)
-		return this.contains(point) && integerRange(0, this.dimension - 1).some(axis => this.getBounds(axis).some(bound => compareNumbers(point.getCoordinate(axis), bound)))
+		return this.contains(point) && integerRange(0, this.dimension - 1).some(axis => this.getBounds(axis).some(bound => approximatelyEqual(point.getCoordinate(axis), bound)))
 	}
 
 	// Find the closest point within the Rectangle. Points within the Rectangle are kept, unless the alwaysPutOnEdge flag is set to true, in which case the closest point on the Rectangle's edge is given.
@@ -350,7 +350,7 @@ export class Rectangle {
 		let upper: number | undefined
 		repeat(this.dimension, axis => {
 			// Special case: if the Line is parallel to this axis, check if the given coordinate falls within the rectangle.
-			if (compareNumbers(ensuredLine.direction.getCoordinate(axis), 0)) {
+			if (approximatelyEqual(ensuredLine.direction.getCoordinate(axis), 0)) {
 				const coordinate = ensuredLine.start.getCoordinate(axis)
 				const bounds = this.getBounds(axis)
 				if (coordinate < bounds[0] || coordinate > bounds[1]) {

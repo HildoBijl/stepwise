@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@mui/material'
 
-import { isPlainObject, mapValues, pickKeys, deepEquals } from '@step-wise/js-utils'
+import { isPlainObject, mapValues, pickKeys, deepEqual } from '@step-wise/js-utils'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -40,7 +40,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	const updateFeedback = useStableCallback((input = {}, progress = {}) => {
 		// Compare the new input with the previous input. When they are equal, and the progress is equal too, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
-		if (isAllInputEqual(input, previousInput) && deepEquals(progress, progressRef.currect))
+		if (isAllInputEqual(input, previousInput) && deepEqual(progress, progressRef.currect))
 			return
 		progressRef.current = progress
 

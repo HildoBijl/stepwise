@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 
-import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEquals } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, omitDefaults, resolveFunctionsShallow, deepEqual } from '@step-wise/js-utils'
 import { getEmptyExpressionValue, isEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -52,12 +52,12 @@ export function MathInput(options) {
 	// Also expand the keyPressToFI and the mouseClickToFI with data about the charElements.
 	options.keyPressToFI = useStableCallback((keyInfo, FI, contentsElement, cursorElement) => {
 		const newFI = keyPressToFI(keyInfo, FI, settings, charElementsRef.current, FI, contentsElement, cursorElement)
-		return deepEquals(FI, newFI) ? FI : expressionFunctions.cleanUp(newFI, settings)
+		return deepEqual(FI, newFI) ? FI : expressionFunctions.cleanUp(newFI, settings)
 	})
 	options.mouseClickToFI = useStableCallback((event, FI, contentsElement) => {
 		const charElements = charElementsRef.current
 		const newFI = { ...FI, cursor: mouseClickToCursor(event, FI, charElements, contentsElement) }
-		return deepEquals(FI, newFI) ? FI : expressionFunctions.cleanUp(newFI, settings)
+		return deepEqual(FI, newFI) ? FI : expressionFunctions.cleanUp(newFI, settings)
 	})
 
 	// Determine the options to pass to the respective parts.

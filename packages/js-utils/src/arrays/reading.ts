@@ -17,7 +17,7 @@ export function last<T>(array: readonly T[], allowOutOfBounds = false): T | unde
 }
 
 // Return the second-last element of an array.
-export function secondLast<T>(array: readonly [T, ...T[]]): T
+export function secondLast<T>(array: readonly [T, T, ...T[]]): T
 export function secondLast<T>(array: readonly T[], allowOutOfBounds: true): T | undefined
 export function secondLast<T>(array: readonly T[], allowOutOfBounds?: false): T
 export function secondLast<T>(array: readonly T[], allowOutOfBounds = false): T | undefined {

@@ -1,6 +1,6 @@
 import { useMemo, } from 'react'
 
-import { filterDuplicates } from '@step-wise/js-utils'
+import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -56,7 +56,7 @@ function useSnappingLinesFromProcessedSnappers(snappers) {
 		})
 
 		// Ensure there are no duplicate snapping lines.
-		snappingLines = filterDuplicates(snappingLines, (a, b) => a.equals(b))
+		snappingLines = deduplicate(snappingLines, (a, b) => a.equals(b))
 
 		// Transform snapping lines to graphical coordinates.
 		const graphicalLines = applyTransformation(snappingLines, transformation)

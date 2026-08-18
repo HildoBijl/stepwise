@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumber, compareNumbers } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-utils'
 
 import type { CoordinateList, VectorData, VectorInput } from './types'
 import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'
@@ -184,7 +184,7 @@ export class Vector {
 	 */
 
 	isZero(): boolean {
-		return compareNumbers(this.squaredMagnitude, 0)
+		return approximatelyEqual(this.squaredMagnitude, 0)
 	}
 
 	/*
@@ -193,22 +193,22 @@ export class Vector {
 
 	equals(vector: VectorLike): boolean {
 		const other = this.coerceVector(vector)
-		return this.dimension === other.dimension && this._coordinates.every((value, index) => compareNumbers(value, other._coordinates[index]))
+		return this.dimension === other.dimension && this._coordinates.every((value, index) => approximatelyEqual(value, other._coordinates[index]))
 	}
 
 	isEqualMagnitude(vector: VectorLike): boolean {
-		return compareNumbers(this.squaredMagnitude, this.coerceVector(vector).squaredMagnitude)
+		return approximatelyEqual(this.squaredMagnitude, this.coerceVector(vector).squaredMagnitude)
 	}
 
 	isEqualDirection(vector: VectorLike, allowReverse = false): boolean {
 		const other = this.coerceVector(vector)
 		if (this.isZero() || other.isZero()) throw new Error(`Invalid isEqualDirection call: cannot compare direction with the zero vector.`)
 		const dotProduct = this.dotProduct(other)
-		return compareNumbers(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * other.magnitude)
+		return approximatelyEqual(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * other.magnitude)
 	}
 
 	isOrthogonal(vector: VectorLike): boolean {
-		return compareNumbers(this.dotProduct(this.coerceVector(vector)), 0)
+		return approximatelyEqual(this.dotProduct(this.coerceVector(vector)), 0)
 	}
 
 	/*

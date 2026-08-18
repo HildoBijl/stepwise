@@ -1,4 +1,4 @@
-import { count, fromEntries, fromKeys, findOptimum } from '@step-wise/js-utils'
+import { count, fromKeysAndValues, fromKeys, findOptimum } from '@step-wise/js-utils'
 import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { hasExercises } from '@step-wise/exercises'
@@ -66,7 +66,7 @@ function checkPracticeNeeded(skillId, skillLevelSet, priorKnowledge, result, bes
 export function processStudent(student, overview) {
 	// Filter out outdated none-existing skills, process the remaining skills, and turn them into an ID-keyed object (a raw dataset).
 	const existingSkills = student.skills.filter(skill => !!skillTree[skill.skillId])
-	const skillsAsObject = fromEntries(existingSkills.map(skill => skill.skillId), existingSkills.map(skill => ensureSkillLevel(skill)))
+	const skillsAsObject = fromKeysAndValues(existingSkills.map(skill => skill.skillId), existingSkills.map(skill => ensureSkillLevel(skill)))
 
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 	const allSkillIds = includeDirectPrerequisitesAndLinks(overview.allSkills)

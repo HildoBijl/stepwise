@@ -1,4 +1,4 @@
-import { isPlainObject, filterDuplicates } from '@step-wise/js-utils'
+import { isPlainObject, deduplicate } from '@step-wise/js-utils'
 
 import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 
@@ -40,5 +40,5 @@ export function applyLinks(skillTree: SkillTree): void {
 	}
 
 	// Run through all links and extract the corresponding skills.
-	for (const skill of Object.values(skillTree)) skill.linkedSkills = filterDuplicates(skill.links.flatMap(link => link.skills))
+	for (const skill of Object.values(skillTree)) skill.linkedSkills = deduplicate(skill.links.flatMap(link => link.skills))
 }
