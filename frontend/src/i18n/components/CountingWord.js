@@ -1,10 +1,10 @@
-import { isNumber } from '@step-wise/js-utils'
+import { isNumeric } from '@step-wise/js-utils'
 
 import { useGetTranslation } from '../sectioning'
 
 export function CountingWord({ children, ordinal = false, upperCase = false }) {
 	// Check input.
-	if (!isNumber(children))
+	if (!isNumeric(children))
 		throw new Error(`Invalid number: tried to set up a counting word, but received a parameter with type "${typeof children}" and value "${children}".`)
 
 	// Get the counting word.

@@ -1,28 +1,28 @@
 import { isPlainObject } from './plainnessChecks'
 import { deepEquals } from './comparisons'
 import { fromKeys } from './creation'
+import { type PropertyPath } from './reading'
 
-// Set a nested property (creates intermediate objects/arrays as needed). Return a shallow-cloned object/array with the modification; original input is not mutated.
-export function setByPath<T = unknown>(input: unknown, path: string[], value: T): unknown {
-	if (!Array.isArray(path)) throw new TypeError('setByPath: path must be an array of strings')
-	if (path.length === 0) return input
+// Set a nested property in a plain object or array, creating missing containers as needed. Return a copy with the modification; original input is not mutated.
+export function setByPath<T = unknown>(input: unknown, path: PropertyPath, value: T): unknown {
+	if (!Array.isArray(input) && !isPlainObject(input)) throw new TypeError('setByPath: input and existing values along the path must be plain objects or arrays')
+	if (!Array.isArray(path) || path.some(key => typeof key !== 'string' && typeof key !== 'number')) throw new TypeError('setByPath: path must be an array of strings and numbers')
+	if (path.length === 0) return value
 
 	// Create a shallow clone of the input so we don't mutate the original.
-	let obj: any
-	if (Array.isArray(input)) obj = [...input]
-	else if (isPlainObject(input)) obj = { ...(input as Record<string, unknown>) }
-	else obj = {}
+	const obj: any = Array.isArray(input) ? [...input] : { ...input }
 
 	// If this is the last key, assign directly.
 	const [first, ...rest] = path
 	if (rest.length === 0) {
-		obj[first] = value
+		Object.defineProperty(obj, first, { value, enumerable: true, configurable: true, writable: true })
 		return obj
 	}
 
 	// Recurse: ensure the child exists and is an object/array-ish value.
-	const child = obj[first]
-	obj[first] = setByPath(child, rest, value)
+	const hasChild = Object.prototype.hasOwnProperty.call(obj, first)
+	const child = !hasChild || obj[first] === undefined ? (typeof rest[0] === 'number' ? [] : {}) : obj[first]
+	Object.defineProperty(obj, first, { value: setByPath(child, rest, value), enumerable: true, configurable: true, writable: true })
 	return obj
 }
 
@@ -66,7 +66,9 @@ export function preserveRefs<T = unknown>(newValue: T, oldValue: T): T {
 export function pickKeys<T>(obj: Record<string, T>, allowedKeys: string[]): Record<string, T> {
 	if (!isPlainObject(obj)) throw new TypeError('pickKeys: obj must be a plain object')
 	const res: Record<string, T> = {}
-	for (const key of allowedKeys) if (obj[key] !== undefined) res[key] = obj[key]
+	for (const key of allowedKeys) {
+		if (Object.prototype.hasOwnProperty.call(obj, key)) Object.defineProperty(res, key, { value: obj[key], enumerable: true, configurable: true, writable: true })
+	}
 	return res
 }
 
