@@ -33,7 +33,7 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 	}
 
 	override isDeterministic(): boolean {
-		return false
+		return this.part === 0 || (this.part === 1 && this.skill.isDeterministic())
 	}
 
 	override getPolynomialCoefficients(parent?: SkillSetup): PolynomialCoefficients {
@@ -44,4 +44,4 @@ export class Part extends SkillItemSetup<PartStorageValue> {
 	}
 }
 
-export const part = (skill: SkillSetupLike, part: number): Part => new Part(skill, part)
+export const part = (skill: SkillSetupLike, part?: number): Part => new Part(skill, part)

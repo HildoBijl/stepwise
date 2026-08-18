@@ -1,4 +1,4 @@
-import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumberArray, forEachCombination, product } from '@step-wise/js-utils'
 import { type NonEmptyPolynomialList, type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
@@ -17,7 +17,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 		super(...skills.map(ensureSetup))
 
 		this.number = ensureInteger(number, { nonNegative: true, nonZero: true })
-		if (this.number >= this.skills.length) throw new Error(`Invalid Pick number: expected a number of picked skills smaller than the given number of skills (${this.skills.length}) but a number "${this.number}" was given.`)
+		if (this.number > this.skills.length) throw new RangeError(`Invalid Pick number: expected at most ${this.skills.length} picked skills, but received "${this.number}".`)
 
 		this.weights = ensureNumberArray(weights ?? this.skills.map(() => 1), { nonNegative: true, nonZero: true })
 		if (this.weights.length !== this.skills.length) throw new Error(`Invalid Pick weights: expected ${this.skills.length} weights but received ${this.weights.length}.`)
@@ -35,7 +35,7 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 	}
 
 	override isDeterministic(): boolean {
-		return false
+		return this.number === this.skills.length && super.isDeterministic()
 	}
 
 	override toString(): string {
@@ -49,9 +49,8 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 		const expressions: Polynomial[] = []
 		let sumOfWeights = 0
 
-		// Walk through all options of picks. For each option, calculate the polynomial matrix and the weight. Calculate the weighted average.
-		repeatMultidimensional(new Array(this.number).fill(this.skills.length), (...option) => {
-			if (option.some((value, index) => index > 0 && value <= option[index - 1])) return 0 // Only consider ascending indices.
+		// Walk through all combinations. For each combination, calculate the polynomial and its weight, and then calculate the weighted average.
+		forEachCombination(this.skills.length, this.number, (...option) => {
 			const weight = product(option.map(index => this.weights[index])) // Use a weight proportional to the product of the individual skill weights.
 			sumOfWeights += weight
 			expressions.push(scalePolynomial(multiplyPolynomials(option.map(index => this.skills[index].getPolynomial(this)) as unknown as NonEmptyPolynomialList, skillList), weight))

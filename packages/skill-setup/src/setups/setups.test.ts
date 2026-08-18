@@ -123,6 +123,23 @@ describe('Check repeat setup:', () => {
 describe('Check pick setup:', () => {
 	const setup = pick(['a', 'b'], 1, [3, 1])
 
+	describe('validation and properties', () => {
+		it('allows selecting every supplied setup', () => {
+			const selectAll = pick(['a', 'b'], 2)
+			expect(selectAll.isDeterministic()).toBe(true)
+			expect(compareNumberArrays(selectAll.getPolynomialCoefficients() as number[][], [[0, 0], [0, 1]])).toBe(true)
+		})
+
+		it('rejects selecting more than the number of supplied setups', () => {
+			expect(() => pick(['a', 'b'], 3)).toThrow(RangeError)
+		})
+
+		it('remains non-deterministic when selection or a selected child is non-deterministic', () => {
+			expect(pick(['a', 'b']).isDeterministic()).toBe(false)
+			expect(pick([pick(['a', 'b']), 'c'], 2).isDeterministic()).toBe(false)
+		})
+	})
+
 	describe('skill lists', () => {
 		it('work correctly', () => {
 			expect(setup.getSkillList()).toHaveLength(2)
@@ -134,6 +151,11 @@ describe('Check pick setup:', () => {
 		it('work correctly', () => {
 			expect(setup.getPolynomialString()).toBe('0.25*b+0.75*a')
 			expect(compareNumberArrays(setup.getPolynomialCoefficients() as number[][], [[0, 1 / 4], [3 / 4, 0]])).toBe(true)
+		})
+
+		it('combines multiple weighted picks correctly', () => {
+			const coefficients = pick(['a', 'b', 'c'], 2, [1, 2, 3]).getPolynomialCoefficients()
+			expect(compareNumberArrays(coefficients as number[][][], [[[0, 0], [0, 6 / 11]], [[0, 3 / 11], [2 / 11, 0]]])).toBe(true)
 		})
 	})
 })
@@ -147,6 +169,10 @@ describe('Check part setup:', () => {
 	const setupOr = or('a', part('b', 3 / 4))
 
 	describe('validation', () => {
+		it('uses one half by default', () => {
+			expect(part('a').part).toBe(0.5)
+		})
+
 		it('accepts the boundary values', () => {
 			expect(part('a', 0).part).toBe(0)
 			expect(part('a', 1).part).toBe(1)
@@ -157,6 +183,21 @@ describe('Check part setup:', () => {
 			expect(() => part('a', 1.1)).toThrow(RangeError)
 			expect(() => part('a', NaN)).toThrow(TypeError)
 			expect(() => part('a', Infinity)).toThrow(TypeError)
+		})
+	})
+
+	describe('properties', () => {
+		it('is deterministic when the wrapped setup is never included', () => {
+			expect(part(pick(['a', 'b']), 0).isDeterministic()).toBe(true)
+		})
+
+		it('inherits determinism when the wrapped setup is always included', () => {
+			expect(part('a', 1).isDeterministic()).toBe(true)
+			expect(part(pick(['a', 'b']), 1).isDeterministic()).toBe(false)
+		})
+
+		it('is non-deterministic for probabilities between zero and one', () => {
+			expect(part('a', 0.5).isDeterministic()).toBe(false)
 		})
 	})
 
