@@ -1,8 +1,8 @@
 import { type NestedArray } from '@step-wise/js-utils'
 
-// The nesting depth of the coefficients matches the number of variables. A polynomial without variables is therefore represented by a single number.
-export type PolynomialMatrix = number | NestedArray<number>
-export type VariableList = string[]
-export type PolynomialExpression = { matrix: PolynomialMatrix, list: VariableList }
-export type NonEmptyPolynomialExpressionList = [PolynomialExpression, ...PolynomialExpression[]]
-export type SubstitutionValues = Record<string, number>
+export type PolynomialCoefficients = number | NestedArray<number>
+export type PolynomialVariables = readonly string[]
+export type Polynomial = Readonly<{ coefficients: PolynomialCoefficients, variables: PolynomialVariables }>
+export type NonEmptyPolynomialList = readonly [Polynomial, ...Polynomial[]]
+export type PolynomialValues = Readonly<Record<string, number>>
+export type PolynomialComparisonOptions = Readonly<{ allowVariableReordering?: boolean }>

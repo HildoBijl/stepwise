@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { ensurePolynomialExpression, ensureVariableList } from './checks'
+import { ensurePolynomial, ensurePolynomialVariables } from './checks'
 
-describe('ensureVariableList', () => {
+describe('ensurePolynomialVariables', () => {
 	it('accepts valid variable lists', () => {
 		const list = ['a', 'b']
-		expect(ensureVariableList(list)).toBe(list)
-		expect(ensureVariableList([])).toEqual([])
+		expect(ensurePolynomialVariables(list)).toBe(list)
+		expect(ensurePolynomialVariables([])).toEqual([])
 	})
 
 	it.each([
@@ -15,15 +15,15 @@ describe('ensureVariableList', () => {
 		[''],
 		['a', 'a'],
 	])('rejects invalid input %#', value => {
-		expect(() => ensureVariableList(value)).toThrow()
+		expect(() => ensurePolynomialVariables(value)).toThrow()
 	})
 })
 
-describe('ensurePolynomialExpression', () => {
+describe('ensurePolynomial', () => {
 	it('accepts valid constant and multivariable polynomials', () => {
-		const constant = { matrix: 5, list: [] }
-		expect(ensurePolynomialExpression(constant)).toBe(constant)
-		expect(() => ensurePolynomialExpression({ matrix: [[2, 3], [4, 5]], list: ['a', 'b'] })).not.toThrow()
+		const constant = { coefficients: 5, variables: [] }
+		expect(ensurePolynomial(constant)).toBe(constant)
+		expect(() => ensurePolynomial({ coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] })).not.toThrow()
 	})
 
 	it.each([
@@ -32,15 +32,15 @@ describe('ensurePolynomialExpression', () => {
 		5,
 		[],
 		{},
-		{ matrix: [1, 2], list: 'x' },
-		{ matrix: [1, 2], list: [''] },
-		{ matrix: [[1]], list: ['x', 'x'] },
-		{ matrix: [1, Number.NaN], list: ['x'] },
-		{ matrix: [1, Number.POSITIVE_INFINITY], list: ['x'] },
-		{ matrix: [[1], [2, 3]], list: ['x', 'y'] },
-		{ matrix: [1, 2], list: [] },
-		{ matrix: [], list: ['x'] },
+		{ coefficients: [1, 2], variables: 'x' },
+		{ coefficients: [1, 2], variables: [''] },
+		{ coefficients: [[1]], variables: ['x', 'x'] },
+		{ coefficients: [1, Number.NaN], variables: ['x'] },
+		{ coefficients: [1, Number.POSITIVE_INFINITY], variables: ['x'] },
+		{ coefficients: [[1], [2, 3]], variables: ['x', 'y'] },
+		{ coefficients: [1, 2], variables: [] },
+		{ coefficients: [], variables: ['x'] },
 	])('rejects invalid input %#', value => {
-		expect(() => ensurePolynomialExpression(value)).toThrow()
+		expect(() => ensurePolynomial(value)).toThrow()
 	})
 })

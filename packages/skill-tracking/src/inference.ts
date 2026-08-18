@@ -1,6 +1,6 @@
 import { repeat, getDimensions } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
-import { substituteIndividualMomentsIntoPolynomial, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowerList } from '@step-wise/polynomials'
+import { substitutePolynomialIndividualMoments, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowers } from '@step-wise/polynomials'
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { Skill } from '@step-wise/skill-definition'
 import { type BernsteinCoefficients, getBernsteinMoment, normalizeBernsteinCoefficients, smoothBernsteinCoefficientsWithFactor, mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from '@step-wise/bernstein-polynomials'
@@ -9,12 +9,11 @@ import { defaultInferenceOrder, defaultLinkCorrelation } from './settings'
 
 // Find the expected value of a set-up.
 export function getSetupExpectedValue(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients): number {
-	const polynomial = setup.getPolynomialExpression()
-	const coefficients = polynomial.list.map(skillId => getCoefficients(skillId))
-	const getIndividualMoment = (index: number, exponent: number) => getBernsteinMoment(coefficients[index], exponent)
-	const expectedValuePolynomial = substituteIndividualMomentsIntoPolynomial(polynomial, getIndividualMoment, polynomial.list)
-	if (typeof expectedValuePolynomial.matrix !== 'number') throw new TypeError('Expected substitution of all variables to produce a constant polynomial.')
-	return expectedValuePolynomial.matrix
+	const polynomial = setup.getPolynomial()
+	const getIndividualMoment = (skillId: string, exponent: number) => getBernsteinMoment(getCoefficients(skillId), exponent)
+	const expectedValuePolynomial = substitutePolynomialIndividualMoments(polynomial, getIndividualMoment, polynomial.variables)
+	if (typeof expectedValuePolynomial.coefficients !== 'number') throw new TypeError('Expected substitution of all variables to produce a constant polynomial.')
+	return expectedValuePolynomial.coefficients
 }
 
 // Find the distribution of a set-up.
@@ -25,16 +24,16 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 	return normalizeBernsteinCoefficients(coefficients)
 
 	// // Find the coefficients of the skills in the polynomial.
-	// const polynomial = setup.getPolynomialExpression()
-	// const skillCoefficients = polynomial.list.map(skillId => getCoefficients(skillId))
+	// const polynomial = setup.getPolynomial()
+	// const skillCoefficients = polynomial.variables.map(skillId => getCoefficients(skillId))
 
 	// // Precalculate the powers of the polynomial that will be used.
-	// const powersOfPolynomial = getPolynomialPowerList(polynomial, inferenceOrder)
-	// const powersOfOneMinusPolynomial = getPolynomialPowerList(oneMinusPolynomial(polynomial), inferenceOrder)
+	// const powersOfPolynomial = getPolynomialPowers(polynomial, inferenceOrder)
+	// const powersOfOneMinusPolynomial = getPolynomialPowers(oneMinusPolynomial(polynomial), inferenceOrder)
 
 	// // Precalculate moments that will be needed within the calculation.
-	// const dimensions = getDimensions(polynomial.matrix)
-	// const moments = repeat(polynomial.list.length, index => {
+	// const dimensions = getDimensions(polynomial.coefficients)
+	// const moments = repeat(polynomial.variables.length, index => {
 	// 	const maxExponent = (dimensions[index] - 1) * inferenceOrder
 	// 	return repeat(maxExponent + 1, exponent => getBernsteinMoment(skillCoefficients[index], exponent))
 	// })
@@ -42,8 +41,8 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 
 	// // Calculate each of the new coefficients.
 	// const coefficients = repeat(inferenceOrder + 1, i => {
-	// 	const basisPolynomial = multiplyPolynomials([powersOfPolynomial[i], powersOfOneMinusPolynomial[inferenceOrder - i]], polynomial.list)
-	// 	const expectedBasisPolynomial = substituteIndividualMomentsIntoPolynomial(basisPolynomial, getIndividualMoment, polynomial.list) as number
+	// 	const basisPolynomial = multiplyPolynomials([powersOfPolynomial[i], powersOfOneMinusPolynomial[inferenceOrder - i]], polynomial.variables)
+	// 	const expectedBasisPolynomial = substitutePolynomialIndividualMoments(basisPolynomial, getIndividualMoment, polynomial.variables) as number
 	// 	return (inferenceOrder + 1) * binomial(inferenceOrder, i) * expectedBasisPolynomial
 	// })
 	// return normalizeBernsteinCoefficients(coefficients)

@@ -1,6 +1,6 @@
 import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
-import { type PolynomialExpression, oneMinusPolynomial, substituteIndividualMomentsIntoPolynomial } from '@step-wise/polynomials'
+import { oneMinusPolynomial, substitutePolynomialIndividualMoments } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
@@ -239,17 +239,16 @@ export class SkillLevelSet {
 
 		// Gather general data.
 		const now = new Date()
-		const polynomial = correct ? setup.getPolynomialExpression() : oneMinusPolynomial(setup.getPolynomialExpression())
+		const polynomial = correct ? setup.getPolynomial() : oneMinusPolynomial(setup.getPolynomial())
 		const inferredCoefficients = fromKeys(skillIds, skillId => this.getCoefficients(skillId))
 
 		// Walk through the skill list and perform the update.
 		const updateSet = fromKeys(skillIds, skillId => {
 			// Find the expected value of the skill polynomial with as only remaining parameter the current skill.
 			const skillIdsWithoutCurrent = skillIds.filter(currSkillId => currSkillId !== skillId)
-			const inferredCoefficientsWithoutCurrent = skillIdsWithoutCurrent.map(skillId => inferredCoefficients[skillId])
-			const getIndividualMoment = (index: number, exponent: number) => getBernsteinMoment(inferredCoefficientsWithoutCurrent[index], exponent)
-			const skillPolynomial = substituteIndividualMomentsIntoPolynomial(polynomial, getIndividualMoment, skillIdsWithoutCurrent) as PolynomialExpression
-			const polynomialCoefficients = skillPolynomial.matrix as number[]
+			const getIndividualMoment = (variable: string, exponent: number) => getBernsteinMoment(inferredCoefficients[variable], exponent)
+			const skillPolynomial = substitutePolynomialIndividualMoments(polynomial, getIndividualMoment, skillIdsWithoutCurrent)
+			const polynomialCoefficients = skillPolynomial.coefficients as number[]
 
 			// Shift the coefficients of the polynomial to the Bernstein basis.
 			const n = polynomialCoefficients.length - 1

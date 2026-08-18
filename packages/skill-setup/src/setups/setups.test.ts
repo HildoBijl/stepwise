@@ -19,7 +19,7 @@ describe('Check Skill setup:', () => {
 	describe('polynomials', () => {
 		it('work correctly', () => {
 			expect(setup.getPolynomialString()).toBe('a')
-			expect(compareNumberArrays(setup.getPolynomialMatrix() as number[], [0, 1])).toBe(true)
+			expect(compareNumberArrays(setup.getPolynomialCoefficients() as number[], [0, 1])).toBe(true)
 		})
 	})
 })
@@ -41,7 +41,7 @@ describe('Check and setup:', () => {
 	describe('polynomials', () => {
 		it('work correctly', () => {
 			expect(setup.getPolynomialString()).toBe('a*b')
-			expect(compareNumberArrays(setup.getPolynomialMatrix() as number[][], [[0, 0], [0, 1]])).toBe(true)
+			expect(compareNumberArrays(setup.getPolynomialCoefficients() as number[][], [[0, 0], [0, 1]])).toBe(true)
 		})
 	})
 })
@@ -63,7 +63,7 @@ describe('Check or setup:', () => {
 	describe('polynomials', () => {
 		it('work correctly', () => {
 			expect(setup.getPolynomialString()).toBe('b+a-a*b')
-			expect(compareNumberArrays(setup.getPolynomialMatrix() as number[][], [[0, 1], [1, -1]])).toBe(true)
+			expect(compareNumberArrays(setup.getPolynomialCoefficients() as number[][], [[0, 1], [1, -1]])).toBe(true)
 		})
 	})
 })
@@ -85,7 +85,7 @@ describe('Check repeat setup:', () => {
 	describe('polynomials', () => {
 		it('work correctly', () => {
 			expect(setup.getPolynomialString()).toBe('b^3')
-			expect(compareNumberArrays(setup.getPolynomialMatrix() as number[], [0, 0, 0, 1])).toBe(true)
+			expect(compareNumberArrays(setup.getPolynomialCoefficients() as number[], [0, 0, 0, 1])).toBe(true)
 		})
 	})
 })
@@ -107,7 +107,7 @@ describe('Check pick setup:', () => {
 	describe('polynomials', () => {
 		it('work correctly', () => {
 			expect(setup.getPolynomialString()).toBe('0.25*b+0.75*a')
-			expect(compareNumberArrays(setup.getPolynomialMatrix() as number[][], [[0, 1 / 4], [3 / 4, 0]])).toBe(true)
+			expect(compareNumberArrays(setup.getPolynomialCoefficients() as number[][], [[0, 1 / 4], [3 / 4, 0]])).toBe(true)
 		})
 	})
 })
@@ -133,8 +133,8 @@ describe('Check part setup:', () => {
 		it('work correctly', () => {
 			expect(setupAnd.getPolynomialString()).toBe('0.25*a+0.75*a*b')
 			expect(setupOr.getPolynomialString()).toBe('0.75*b+a-0.75*a*b')
-			expect(compareNumberArrays(setupAnd.getPolynomialMatrix() as number[][], [[0, 0], [1 / 4, 3 / 4]])).toBe(true)
-			expect(compareNumberArrays(setupOr.getPolynomialMatrix() as number[][], [[0, 3 / 4], [1, -3 / 4]])).toBe(true)
+			expect(compareNumberArrays(setupAnd.getPolynomialCoefficients() as number[][], [[0, 0], [1 / 4, 3 / 4]])).toBe(true)
+			expect(compareNumberArrays(setupOr.getPolynomialCoefficients() as number[][], [[0, 3 / 4], [1, -3 / 4]])).toBe(true)
 		})
 	})
 })

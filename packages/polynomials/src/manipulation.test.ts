@@ -1,50 +1,50 @@
 import { describe, expect, it } from 'vitest'
 
-import { comparePolynomialMatrices } from './comparison'
-import { applyMinusToPolynomial, addConstantToPolynomial, multiplyPolynomialByConstant, oneMinusPolynomial, addPolynomials, multiplyPolynomials, polynomialToPower } from './manipulation'
+import { comparePolynomialCoefficients } from './comparison'
+import { negatePolynomial, addConstantToPolynomial, scalePolynomial, oneMinusPolynomial, addPolynomials, subtractPolynomials, multiplyPolynomials, raisePolynomialToPower } from './manipulation'
 
 describe('Check mathematical functions:', () => {
-	describe('applyMinusToPolynomial', () => {
+	describe('negatePolynomial', () => {
 		it('works correctly', () => {
-			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
-			const applied = applyMinusToPolynomial(expression)
-			expect(comparePolynomialMatrices(applied.matrix, [[-2, -3], [-4, -5]])).toBe(true)
-			expect(applied.list).toEqual(expression.list)
+			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
+			const applied = negatePolynomial(expression)
+			expect(comparePolynomialCoefficients(applied.coefficients, [[-2, -3], [-4, -5]])).toBe(true)
+			expect(applied.variables).toEqual(expression.variables)
 		})
 	})
 
 	describe('addConstantToPolynomial', () => {
 		it('works correctly', () => {
-			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
+			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
 			const applied = addConstantToPolynomial(expression, 6)
-			expect(comparePolynomialMatrices(applied.matrix, [[8, 3], [4, 5]])).toBe(true)
-			expect(applied.list).toEqual(expression.list)
+			expect(comparePolynomialCoefficients(applied.coefficients, [[8, 3], [4, 5]])).toBe(true)
+			expect(applied.variables).toEqual(expression.variables)
 		})
 
 		it('works on a polynomial without variables', () => {
-			expect(addConstantToPolynomial({ matrix: 2, list: [] }, 3)).toEqual({ matrix: 5, list: [] })
+			expect(addConstantToPolynomial({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 5, variables: [] })
 		})
 	})
 
-	describe('multiplyPolynomialByConstant', () => {
+	describe('scalePolynomial', () => {
 		it('works correctly', () => {
-			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
-			const applied = multiplyPolynomialByConstant(expression, 3)
-			expect(comparePolynomialMatrices(applied.matrix, [[6, 9], [12, 15]])).toBe(true)
-			expect(applied.list).toEqual(expression.list)
+			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
+			const applied = scalePolynomial(expression, 3)
+			expect(comparePolynomialCoefficients(applied.coefficients, [[6, 9], [12, 15]])).toBe(true)
+			expect(applied.variables).toEqual(expression.variables)
 		})
 
 		it('works on a polynomial without variables', () => {
-			expect(multiplyPolynomialByConstant({ matrix: 2, list: [] }, 3)).toEqual({ matrix: 6, list: [] })
+			expect(scalePolynomial({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 6, variables: [] })
 		})
 	})
 
 	describe('oneMinusPolynomial', () => {
 		it('works correctly', () => {
-			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
+			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
 			const applied = oneMinusPolynomial(expression)
-			expect(comparePolynomialMatrices(applied.matrix, [[-1, -3], [-4, -5]])).toBe(true)
-			expect(applied.list).toEqual(expression.list)
+			expect(comparePolynomialCoefficients(applied.coefficients, [[-1, -3], [-4, -5]])).toBe(true)
+			expect(applied.variables).toEqual(expression.variables)
 		})
 	})
 
@@ -55,21 +55,21 @@ describe('Check mathematical functions:', () => {
 		})
 
 		it('rejects duplicate destination variables', () => {
-			expect(() => addPolynomials([{ matrix: [1, 2], list: ['a'] }], ['a', 'a'])).toThrow(RangeError)
+			expect(() => addPolynomials([{ coefficients: [1, 2], variables: ['a'] }], ['a', 'a'])).toThrow(RangeError)
 		})
 
 		it('works correctly', () => {
-			const expression1 = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
-			const expression2 = { matrix: [6, 7], list: ['a'] }
-			const expression3 = { matrix: [6, 7], list: ['b'] }
+			const expression1 = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
+			const expression2 = { coefficients: [6, 7], variables: ['a'] }
+			const expression3 = { coefficients: [6, 7], variables: ['b'] }
 
 			const applied1 = addPolynomials([expression1, expression2])
-			expect(comparePolynomialMatrices(applied1.matrix, [[8, 3], [11, 5]])).toBe(true)
-			expect(applied1.list).toEqual(expect.arrayContaining(expression1.list))
+			expect(comparePolynomialCoefficients(applied1.coefficients, [[8, 3], [11, 5]])).toBe(true)
+			expect(applied1.variables).toEqual(expect.arrayContaining(expression1.variables))
 
 			const applied2 = addPolynomials([expression1, expression3])
-			expect(comparePolynomialMatrices(applied2.matrix, [[8, 10], [4, 5]])).toBe(true)
-			expect(applied2.list).toEqual(expect.arrayContaining(expression1.list))
+			expect(comparePolynomialCoefficients(applied2.coefficients, [[8, 10], [4, 5]])).toBe(true)
+			expect(applied2.variables).toEqual(expect.arrayContaining(expression1.variables))
 		})
 	})
 
@@ -80,41 +80,49 @@ describe('Check mathematical functions:', () => {
 		})
 
 		it('rejects duplicate destination variables', () => {
-			expect(() => multiplyPolynomials([{ matrix: [1, 2], list: ['a'] }], ['a', 'a'])).toThrow(RangeError)
+			expect(() => multiplyPolynomials([{ coefficients: [1, 2], variables: ['a'] }], ['a', 'a'])).toThrow(RangeError)
 		})
 
 		it('works correctly', () => {
-			const expression1 = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
-			const expression2 = { matrix: [6, 7], list: ['a'] }
-			const expression3 = { matrix: [6, 7], list: ['b'] }
+			const expression1 = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
+			const expression2 = { coefficients: [6, 7], variables: ['a'] }
+			const expression3 = { coefficients: [6, 7], variables: ['b'] }
 
 			const applied1 = multiplyPolynomials([expression1, expression2])
-			expect(comparePolynomialMatrices(applied1.matrix, [[12, 18], [38, 51], [28, 35]])).toBe(true)
-			expect(applied1.list).toEqual(expect.arrayContaining(expression1.list))
+			expect(comparePolynomialCoefficients(applied1.coefficients, [[12, 18], [38, 51], [28, 35]])).toBe(true)
+			expect(applied1.variables).toEqual(expect.arrayContaining(expression1.variables))
 
 			const applied2 = multiplyPolynomials([expression1, expression3])
-			expect(comparePolynomialMatrices(applied2.matrix, [[12, 32, 21], [24, 58, 35]])).toBe(true)
-			expect(applied2.list).toEqual(expect.arrayContaining(expression1.list))
+			expect(comparePolynomialCoefficients(applied2.coefficients, [[12, 32, 21], [24, 58, 35]])).toBe(true)
+			expect(applied2.variables).toEqual(expect.arrayContaining(expression1.variables))
 		})
 	})
 
-	describe('polynomialToPower', () => {
+	describe('subtractPolynomials', () => {
+		it('subtracts polynomials with different variable sets', () => {
+			const result = subtractPolynomials({ coefficients: [2, 3], variables: ['a'] }, { coefficients: [1, 4], variables: ['b'] })
+			expect(result.variables).toEqual(['a', 'b'])
+			expect(comparePolynomialCoefficients(result.coefficients, [[1, -4], [3, 0]])).toBe(true)
+		})
+	})
+
+	describe('raisePolynomialToPower', () => {
 		it('works for a polynomial without variables', () => {
-			expect(polynomialToPower({ matrix: 2, list: [] }, 3)).toEqual({ matrix: 8, list: [] })
+			expect(raisePolynomialToPower({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 8, variables: [] })
 		})
 
 		it('works correctly for a single variable', () => {
-			const expression = { matrix: [6, 7], list: ['a'] }
-			const applied = polynomialToPower(expression, 3)
-			expect(comparePolynomialMatrices(applied.matrix, [6 ** 3, 3 * 6 ** 2 * 7, 3 * 6 * 7 ** 2, 7 ** 3])).toBe(true)
-			expect(applied.list).toEqual(expect.arrayContaining(expression.list))
+			const expression = { coefficients: [6, 7], variables: ['a'] }
+			const applied = raisePolynomialToPower(expression, 3)
+			expect(comparePolynomialCoefficients(applied.coefficients, [6 ** 3, 3 * 6 ** 2 * 7, 3 * 6 * 7 ** 2, 7 ** 3])).toBe(true)
+			expect(applied.variables).toEqual(expect.arrayContaining(expression.variables))
 		})
 		
 		it('works correctly for two variables', () => {
-			const expression = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
-			const applied = polynomialToPower(expression, 2)
-			expect(comparePolynomialMatrices(applied.matrix, [[2 ** 2, 2 * 2 * 3, 3 ** 2], [2 * 2 * 4, 2 * 2 * 5 + 2 * 3 * 4, 2 * 3 * 5], [4 ** 2, 2 * 4 * 5, 5 ** 2]])).toBe(true)
-			expect(applied.list).toEqual(expect.arrayContaining(expression.list))
+			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
+			const applied = raisePolynomialToPower(expression, 2)
+			expect(comparePolynomialCoefficients(applied.coefficients, [[2 ** 2, 2 * 2 * 3, 3 ** 2], [2 * 2 * 4, 2 * 2 * 5 + 2 * 3 * 4, 2 * 3 * 5], [4 ** 2, 2 * 4 * 5, 5 ** 2]])).toBe(true)
+			expect(applied.variables).toEqual(expect.arrayContaining(expression.variables))
 		})
 	})
 })

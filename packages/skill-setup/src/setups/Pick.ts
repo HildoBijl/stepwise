@@ -1,5 +1,5 @@
 import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/js-utils'
-import { type NonEmptyPolynomialExpressionList, type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
+import { type NonEmptyPolynomialList, type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
 
@@ -43,9 +43,9 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 		return `${this.type.toLowerCase()}([${this.skills.map(skill => skill.toString()).join(', ')}]${showNumber ? `, ${this.number}` : ''}${showWeights ? `, [${this.weights.join(', ')}]` : ''})`
 	}
 
-	override getPolynomialMatrix(): PolynomialMatrix {
+	override getPolynomialCoefficients(): PolynomialCoefficients {
 		const skillList = this.getSkillList()
-		const expressions: PolynomialExpression[] = []
+		const expressions: Polynomial[] = []
 		let sumOfWeights = 0
 
 		// Walk through all options of picks. For each option, calculate the polynomial matrix and the weight. Calculate the weighted average.
@@ -53,9 +53,9 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 			if (option.some((value, index) => index > 0 && value <= option[index - 1])) return 0 // Only consider ascending indices.
 			const weight = product(option.map(index => this.weights[index])) // Use a weight proportional to the product of the individual skill weights.
 			sumOfWeights += weight
-			expressions.push(multiplyPolynomialByConstant(multiplyPolynomials(option.map(index => this.skills[index].getPolynomialExpression(this)) as NonEmptyPolynomialExpressionList, skillList), weight))
+			expressions.push(scalePolynomial(multiplyPolynomials(option.map(index => this.skills[index].getPolynomial(this)) as unknown as NonEmptyPolynomialList, skillList), weight))
 		})
-		return multiplyPolynomialByConstant(addPolynomials(expressions as NonEmptyPolynomialExpressionList, skillList), 1 / sumOfWeights).matrix
+		return scalePolynomial(addPolynomials(expressions as unknown as NonEmptyPolynomialList, skillList), 1 / sumOfWeights).coefficients
 	}
 }
 

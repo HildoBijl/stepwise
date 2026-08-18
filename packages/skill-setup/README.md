@@ -44,6 +44,6 @@ The result of a set-up is always a `SkillSetup` object, because it describes how
 - `getSkillList` returns all the subskills used in the set-up, as an array. It may return `['addition', 'subtraction', 'multiplication']`.
 - `getSkillSet` is the same as `getSkillList` but then returns a set instead of an array.
 - `getPolynomialString` returns the polynomial that could calculate the success rate of the combined skill. For instance, `and('addition', 'multiplication', 'multiplication')` has as polynomial `addition * multiplication^2`.
-- `getPolynomialExpression` returns the polynomial but then in the form `{ matrix: [[0, 0], [0, 1]], list: ['a', 'b'] }`. The index in the matrix denotes the power and the value is the constant coefficient. For instance, `and('addition', 'multiplication', 'multiplication')` has as polynomial matrix `[[0,0,0],[0,0,1]]`. Note that `matrix[1][2]` corresponds to a power `1` on addition (the first skill from the skill list and hence the first index) and a power `2` on multiplication.
+- `getPolynomial` returns the polynomial in the form `{ coefficients: [[0, 0], [0, 1]], variables: ['a', 'b'] }`. Each coefficient-array index denotes the power of the corresponding variable.
 
 Through these methods, and given student performance data on each respective skill, the success rate for the set-up can be evaluated.

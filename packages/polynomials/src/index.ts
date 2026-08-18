@@ -1,5 +1,6 @@
 export * from './types'
 export * from './checks'
+export * from './creation'
 export * from './display'
 export * from './restructuring'
 export * from './comparison'
