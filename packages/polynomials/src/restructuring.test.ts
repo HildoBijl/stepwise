@@ -1,7 +1,7 @@
 import { compareNumberArrays } from '@step-wise/js-utils'
+import { describe, expect, it } from 'vitest'
 
-import { PolynomialExpression } from './types'
-import { PolynomialMatrix } from './types'
+import { PolynomialExpression, PolynomialMatrix } from './types'
 import { restructurePolynomial, substituteIntoPolynomial } from './restructuring'
 
 function comparePolynomialArrays(actual: PolynomialMatrix, expected: PolynomialMatrix): boolean {

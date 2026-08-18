@@ -5,6 +5,7 @@ module.exports = {
 	testMatch: ['<rootDir>/packages/**/*.test.ts'],
 	testPathIgnorePatterns: [
 		'<rootDir>/packages/bernstein-polynomials/',
+		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/settings/',
 	],
 	moduleNameMapper: {

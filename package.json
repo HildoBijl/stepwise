@@ -23,7 +23,7 @@
 		"test:api": "npm test --workspace=@step-wise/api",
 		"test:frontend": "npm test --workspace=@step-wise/frontend",
 		"test:frontend:watch": "npm run test:watch --workspace=@step-wise/frontend",
-		"test:packages": "jest --config jest.config.js",
+		"test:packages": "jest --config jest.config.js && vitest run --config vitest.config.ts",
 		"test:packages:watch": "jest --config jest.config.js --watch",
 		"test:packages:vitest": "vitest run --config vitest.config.ts",
 		"test:packages:vitest:watch": "vitest --config vitest.config.ts",

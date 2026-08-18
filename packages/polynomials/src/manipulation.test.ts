@@ -1,4 +1,5 @@
 import { compareNumberArrays } from '@step-wise/js-utils'
+import { describe, expect, it } from 'vitest'
 
 import { PolynomialMatrix } from './types'
 import { applyMinusToPolynomial, addConstantToPolynomial, multiplyPolynomialByConstant, oneMinusPolynomial, addPolynomials, multiplyPolynomials, polynomialToPower } from './manipulation'
