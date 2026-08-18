@@ -1,4 +1,4 @@
-import { type PolynomialMatrix, oneMinusPolynomial, multiplyPolynomials } from '@step-wise/polynomials'
+import { type NonEmptyPolynomialExpressionList, type PolynomialMatrix, oneMinusPolynomial, multiplyPolynomials } from '@step-wise/polynomials'
 
 import { type SkillListStorageValue, type GenericSerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
 
@@ -20,7 +20,7 @@ export class Or extends SkillListSetup<OrStorageValue> {
 	}
 
 	override getPolynomialMatrix(): PolynomialMatrix {
-		return oneMinusPolynomial(multiplyPolynomials(this.skills.map(skill => oneMinusPolynomial(skill.getPolynomialExpression(this))), this.getSkillList())).matrix
+		return oneMinusPolynomial(multiplyPolynomials(this.skills.map(skill => oneMinusPolynomial(skill.getPolynomialExpression(this))) as NonEmptyPolynomialExpressionList, this.getSkillList())).matrix
 	}
 }
 

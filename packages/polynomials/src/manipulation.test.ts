@@ -49,6 +49,11 @@ describe('Check mathematical functions:', () => {
 	})
 
 	describe('addPolynomials', () => {
+		it('rejects an empty expression list', () => {
+			// @ts-expect-error Verify the runtime guard for untyped JavaScript consumers.
+			expect(() => addPolynomials([])).toThrow(RangeError)
+		})
+
 		it('works correctly', () => {
 			const expression1 = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
 			const expression2 = { matrix: [6, 7], list: ['a'] }
@@ -65,6 +70,11 @@ describe('Check mathematical functions:', () => {
 	})
 
 	describe('multiplyPolynomials', () => {
+		it('rejects an empty expression list', () => {
+			// @ts-expect-error Verify the runtime guard for untyped JavaScript consumers.
+			expect(() => multiplyPolynomials([])).toThrow(RangeError)
+		})
+
 		it('works correctly', () => {
 			const expression1 = { matrix: [[2, 3], [4, 5]], list: ['a', 'b'] }
 			const expression2 = { matrix: [6, 7], list: ['a'] }

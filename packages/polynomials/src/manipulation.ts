@@ -1,6 +1,6 @@
 import { isNumber, ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/js-utils'
 
-import { PolynomialMatrix, VariableList, PolynomialExpression } from './types'
+import { type NonEmptyPolynomialExpressionList, type PolynomialExpression, type PolynomialMatrix, type VariableList } from './types'
 import { ensurePolynomialExpression } from './checks'
 import { restructurePolynomial } from './restructuring'
 
@@ -50,7 +50,8 @@ function addPolynomialMatricesWithEqualDimension(matrices: PolynomialMatrix[]): 
 }
 
 // Add matrices with variable lists. Returns { matrix, list }.
-export function addPolynomials(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
+export function addPolynomials(expressions: NonEmptyPolynomialExpressionList, destinationList?: VariableList): PolynomialExpression {
+	if (expressions.length === 0) throw new RangeError('Cannot add polynomials: expected at least one polynomial expression.')
 	expressions.forEach(ensurePolynomialExpression)
 	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
 	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
@@ -93,7 +94,8 @@ function multiplyPolynomialMatricesWithEqualDimension(matrices: PolynomialMatrix
 }
 
 // Multiply matrices with variable lists. Returns { matrix, list }.
-export function multiplyPolynomials(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
+export function multiplyPolynomials(expressions: NonEmptyPolynomialExpressionList, destinationList?: VariableList): PolynomialExpression {
+	if (expressions.length === 0) throw new RangeError('Cannot multiply polynomials: expected at least one polynomial expression.')
 	expressions.forEach(ensurePolynomialExpression)
 	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
 	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)

@@ -1,5 +1,5 @@
 import { ensureInteger, ensureNumberArray, product, repeatMultidimensional } from '@step-wise/js-utils'
-import { type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
+import { type NonEmptyPolynomialExpressionList, type PolynomialMatrix, type PolynomialExpression, addPolynomials, multiplyPolynomials, multiplyPolynomialByConstant } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
 
@@ -53,9 +53,9 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 			if (option.some((value, index) => index > 0 && value <= option[index - 1])) return 0 // Only consider ascending indices.
 			const weight = product(option.map(index => this.weights[index])) // Use a weight proportional to the product of the individual skill weights.
 			sumOfWeights += weight
-			expressions.push(multiplyPolynomialByConstant(multiplyPolynomials(option.map(index => this.skills[index].getPolynomialExpression(this)), skillList), weight))
+			expressions.push(multiplyPolynomialByConstant(multiplyPolynomials(option.map(index => this.skills[index].getPolynomialExpression(this)) as NonEmptyPolynomialExpressionList, skillList), weight))
 		})
-		return multiplyPolynomialByConstant(addPolynomials(expressions, skillList), 1 / sumOfWeights).matrix
+		return multiplyPolynomialByConstant(addPolynomials(expressions as NonEmptyPolynomialExpressionList, skillList), 1 / sumOfWeights).matrix
 	}
 }
 
