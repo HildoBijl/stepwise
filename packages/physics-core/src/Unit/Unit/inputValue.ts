@@ -1,4 +1,4 @@
-import { isPlainObject, onlyHasKeys, InterpretationError } from '@step-wise/js-utils'
+import { isPlainObject, hasOnlyKeys, InterpretationError } from '@step-wise/js-utils'
 
 import { type UnitElementStorageValue, type UnitElementInputValue, interpretPrefixAndBaseUnitString, isUnitElementInputValue, unitElementToInputValue } from '../UnitElement'
 
@@ -19,7 +19,7 @@ export function isUnitElementArrayInputValue(value: unknown): value is UnitEleme
 }
 
 export function isUnitInputValue(value: unknown): value is UnitInputValue {
-	if (!isPlainObject(value) || !onlyHasKeys(value, ['numerator', 'denominator'])) return false
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['numerator', 'denominator'])) return false
 	const { numerator, denominator } = value as UnitInputValue
 	return (numerator === undefined || isUnitElementArrayInputValue(numerator)) && (denominator === undefined || isUnitElementArrayInputValue(denominator))
 }

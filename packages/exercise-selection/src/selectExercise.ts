@@ -27,7 +27,7 @@ export async function selectExercise(skillExercises: ExerciseContainer, getSkill
 	const successRates = await getExerciseSuccessRates(Object.values(suitableExercises).map(exercise => exercise.metaData), getSkillLevelSet)
 	const weights = Object.values(suitableExercises).map(exercise => isNumber(exercise.metaData.weight) ? Math.abs(exercise.metaData.weight) : 1)
 	const selectionRates = getSelectionRates(successRates, weights)
-	return sample(Object.keys(suitableExercises), selectionRates)
+	return sample(Object.keys(suitableExercises), { weights: selectionRates })
 }
 
 // Get selection probabilities from exercise success rates.
@@ -51,5 +51,5 @@ export function getSelectionRates(successRates: number[], weights = successRates
 export function selectRandomExercise(skillExercises: ExerciseContainer): ExerciseId {
 	if (skillExercises === undefined || Object.values(skillExercises).length === 0) throw new Error(`Invalid request: cannot pick an exercise. No valid set of exercises was provided.`)
 	const weights = Object.values(skillExercises).map(exercise => isNumber(exercise.metaData.weight) ? Math.abs(exercise.metaData.weight) : 1)
-	return sample(Object.keys(skillExercises), weights)
+	return sample(Object.keys(skillExercises), { weights })
 }

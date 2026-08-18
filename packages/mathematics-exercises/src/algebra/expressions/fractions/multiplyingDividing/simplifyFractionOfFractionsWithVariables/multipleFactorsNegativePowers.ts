@@ -26,17 +26,17 @@ export default buildStepExercise({
 
 	generateState() {
 		while (true) {
-			const a = randomInteger(-12, 12, [-1, 0, 1])
-			const b = randomInteger(-12, 12, [-1, 0, 1, a])
+			const a = randomInteger(-12, 12, { exclude: [-1, 0, 1] })
+			const b = randomInteger(-12, 12, { exclude: [-1, 0, 1, a] })
 			const c = randomInteger(-4, 4)
-			const d = randomInteger(-4, 4, [c])
-			const e = randomInteger(-4, 4, [c, d])
+			const d = randomInteger(-4, 4, { exclude: [c] })
+			const e = randomInteger(-4, 4, { exclude: [c, d] })
 			if (c !== 0 && d !== 0 && e !== 0) continue
-			const p = randomInteger(-4, 4, [0])
-			const q = randomInteger(-4, 4, [0])
-			const r = randomInteger(-4, 4, [0, q])
-			const s = randomInteger(-4, 4, [0])
-			const t = randomInteger(-4, 4, [0, p])
+			const p = randomInteger(-4, 4, { exclude: [0] })
+			const q = randomInteger(-4, 4, { exclude: [0] })
+			const r = randomInteger(-4, 4, { exclude: [0, q] })
+			const s = randomInteger(-4, 4, { exclude: [0] })
+			const t = randomInteger(-4, 4, { exclude: [0, p] })
 			if (Math.sign(p) === Math.sign(q) && Math.sign(p) === Math.sign(r) && Math.sign(p) === Math.sign(s) && Math.sign(t)) continue
 			if (Math.sign(q) !== Math.sign(r) && Math.sign(p) !== Math.sign(t)) continue
 			return {

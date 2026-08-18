@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions, integerRange, clamp, repeat } from '@step-wise/js-utils'
+import { mergeDefaults, resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
 import { gridInterpolate } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
@@ -57,7 +57,7 @@ export function SkillFlask(props) {
 		'&:hover .targetLine': {
 			opacity: 0.6,
 		},
-		...resolveFunctions(sx, theme),
+		...resolveFunctionValuesDeep(sx, theme),
 	})}>
 		<defs>
 			<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">

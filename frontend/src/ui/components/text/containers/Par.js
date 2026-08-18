@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import { resolveFunctions } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { startEndMarginFix } from 'ui/theme'
 
@@ -14,7 +14,7 @@ export function Par({ children, sx, ...props }) {
 		[theme.breakpoints.up('sm')]: {
 			textAlign: 'justify',
 		},
-		...resolveFunctions(sx, theme),
+		...resolveFunctionValuesDeep(sx, theme),
 	})}	{...props}>
 		{children}
 	</Box>

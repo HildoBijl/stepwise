@@ -14,7 +14,7 @@ export default buildStepExercise({
 
 	generateState() {
 		return {
-			α: asExpression(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+			α: asExpression(randomInteger(5, 24, { exclude: [18] }) * 5), // Ensure there is no 90 degree angle.
 			a: asExpression(sample(variableSet)),
 			b: asExpression(randomInteger(2, 12)),
 			c: asExpression(randomInteger(2, 12)),

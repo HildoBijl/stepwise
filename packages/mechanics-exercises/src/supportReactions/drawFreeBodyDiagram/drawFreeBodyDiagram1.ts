@@ -22,7 +22,7 @@ export default buildStepExercise({
 			randomBoolean() ? 0 : randomInteger(2, 4),
 		]
 		const support1 = randomInteger(0, 3)
-		const supportTypes = [support1, randomInteger(0, 3, [support1])]
+		const supportTypes = [support1, randomInteger(0, 3, { exclude: [support1] })]
 		const loadPositionIndex = randomInteger(distances[0] === 0 ? 1 : 0, distances[2] === 0 ? 1 : 2)
 		const loadProperties = {
 			isForce: randomBoolean(),

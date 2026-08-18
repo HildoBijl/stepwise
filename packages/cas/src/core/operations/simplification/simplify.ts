@@ -1,5 +1,4 @@
 import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
-import { setToString } from '@step-wise/js-utils'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
@@ -38,7 +37,7 @@ export function resolveSimplificationStages(rules: SimplificationRules): Simplif
 		const availableRules = rulesList.filter(rule => !passedRules.has(rule)).filter(rule => (rule.after ?? []).filter(rule => rules.has(rule)).every(rule => passedRules.has(rule)))
 		if (availableRules.length === 0) {
 			const pendingRuleNames = new Set(rulesList.filter(rule => !passedRules.has(rule)).map(rule => rule.name))
-			throw new Error(`Could not resolve simplification stages. The following rules have cyclic "after" constraints: ${setToString(pendingRuleNames)}.`)
+			throw new Error(`Could not resolve simplification stages. The following rules have cyclic "after" constraints: ${JSON.stringify([...pendingRuleNames])}.`)
 		}
 		availableRules.forEach(rule => passedRules.add(rule))
 		stages.push(new Set(passedRules))
@@ -54,7 +53,7 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 		if (next === current) return current
 		current = next
 	}
-	throw new Error(`Simplification did not stabilize. Some of the simplification rules lock each other in an infinite loop.\nFinal expression: ${nodeToTree(current)}\nSimplifications used: ${setToString(new Set([...context.simplificationRules].map(rule => rule.name)))}`)
+	throw new Error(`Simplification did not stabilize. Some of the simplification rules lock each other in an infinite loop.\nFinal expression: ${nodeToTree(current)}\nSimplifications used: ${JSON.stringify([...new Set([...context.simplificationRules].map(rule => rule.name))])}`)
 }
 
 // Run a set of simplification operations once on all nodes.

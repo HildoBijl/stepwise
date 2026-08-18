@@ -20,16 +20,16 @@ export default buildStepExercise({
 
 	generateState(example) {
 		const variableSet = sample(availableVariableSets)
-		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
+		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		let a, b, d, e
 
 		// On a non-invertible system, redo the generation.
 		do {
-			a = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-			b = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-			d = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
-			e = randomInteger(example ? -8 : -12, example ? 8 : 12, [0])
+			a = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
+			b = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
+			d = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
+			e = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		} while (a * e - b * d === 0)
 
 		// Set up state.

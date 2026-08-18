@@ -31,7 +31,7 @@ export function Groups() {
 			return []
 		const groups = activeGroup ? myGroups.filter(group => group.code !== activeGroup.code) : myGroups
 		const lastGroupActivity = groups.map(group => Math.max(...group.members.map(member => new Date(member.lastActivity).getTime())))
-		return sortBy(groups, lastGroupActivity, false)
+		return sortBy(groups, lastGroupActivity, { order: 'descending' })
 	}, [activeGroup, myGroups])
 
 	// If a group code has been given for a group the user is a member of, join that group.

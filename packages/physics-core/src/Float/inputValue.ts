@@ -1,4 +1,4 @@
-import { isPlainObject, InterpretationError, onlyHasKeys } from '@step-wise/js-utils'
+import { isPlainObject, InterpretationError, hasOnlyKeys } from '@step-wise/js-utils'
 
 import { Float } from './Float'
 import { getSignificantDigits } from './interpreting'
@@ -9,7 +9,7 @@ export type FloatInputValue = {
 }
 
 export function isFloatInputValue(value: unknown): value is FloatInputValue {
-	if (!isPlainObject(value) || !onlyHasKeys(value, ['number', 'power'])) return false
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['number', 'power'])) return false
 	const { number, power } = value as FloatInputValue
 	return (number === undefined || typeof number === 'string') && (power === undefined || typeof power === 'string')
 }

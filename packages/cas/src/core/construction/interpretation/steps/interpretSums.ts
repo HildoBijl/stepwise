@@ -1,4 +1,4 @@
-import { InterpretationError, findNextOf } from '@step-wise/js-utils'
+import { InterpretationError, indexOfAnyCharacter } from '@step-wise/js-utils'
 import { type InputCursorEnd, getEndCursor, getStartCursor, getSubExpression, isTextPart, shiftPositionRight, equalCursor } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
@@ -23,7 +23,7 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 	value.forEach((element, part) => {
 		if (!isTextPart(element)) return
 		const str = element
-		const getNextPlusMinus = (startFrom = -1) => findNextOf(str, ['+', '-', '±'], startFrom + 1)
+		const getNextPlusMinus = (startFrom = -1) => indexOfAnyCharacter(str, ['+', '-', '±'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
 			let symbolAfter = str[nextPlusMinus]
 			let end = { part, cursor: nextPlusMinus }

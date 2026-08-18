@@ -1,4 +1,4 @@
-import { isNumber, isNumeric, ensureNumber, type EnsureNumberOptions } from '../numbers'
+import { type EnsureNumberOptions, isNumber, isNumeric, ensureNumber, ensureNumeric } from '../numbers'
 
 // Check if the given variable is an array.
 export function isArray(x: unknown): x is readonly unknown[] {
@@ -6,7 +6,7 @@ export function isArray(x: unknown): x is readonly unknown[] {
 }
 
 // Check if the given parameter is an array that's empty.
-export function isEmptyArray(x: unknown): boolean {
+export function isEmptyArray(x: unknown): x is readonly [] {
 	return Array.isArray(x) && x.length === 0
 }
 
@@ -29,10 +29,16 @@ export function isNumericArray(x: unknown): x is readonly (number | string)[] {
 	return isArray(x) && x.every(v => isNumeric(v))
 }
 
-// Check whether a variable is an array filled with numbers. This function can be given the same extra options as ensureNumber.
+// Ensure that a value is an array of numbers.
 export function ensureNumberArray(x: unknown, options: EnsureNumberOptions = {}): number[] {
 	const array = ensureArray(x)
 	return array.map(v => ensureNumber(v, options))
+}
+
+// Ensure that a value is an array of numbers or numeric strings and normalize it to a number array.
+export function ensureNumericArray(x: unknown, options: EnsureNumberOptions = {}): number[] {
+	const array = ensureArray(x)
+	return array.map(v => ensureNumeric(v, options))
 }
 
 // Check if an array has duplicates. Optionally, an equals function can be defined.

@@ -26,11 +26,11 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const a = randomInteger(-8, 8, [-1, 0, 1])
-		const b = randomInteger(-8, 8, [0, a, -a])
-		const c = randomInteger(-8, 8, [-1, 0, 1, a])
-		const d = randomInteger(-8, 8, [0])
-		const e = randomInteger(-8, 8, [0])
+		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+		const b = randomInteger(-8, 8, { exclude: [0, a, -a] })
+		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a] })
+		const d = randomInteger(-8, 8, { exclude: [0] })
+		const e = randomInteger(-8, 8, { exclude: [0] })
 		return { x: sample(variableSet), a, b, c, d, e, switchSides: randomBoolean(), bracketsRight: randomBoolean() }
 	},
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, alpha } from '@mui/material'
 
-import { resolveFunctions } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { notSelectable } from 'ui/theme'
 
@@ -33,7 +33,7 @@ export function Option({ checked, activate, deactivate, toggle, Element, feedbac
 					background: !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2),
 				}),
 			},
-			...resolveFunctions(sx, theme),
+			...resolveFunctionValuesDeep(sx, theme),
 		})}>
 			<Element color="default" checked={checked} onChange={handleChange} disabled={readOnly} sx={theme => ({
 				flex: '0 0 auto',

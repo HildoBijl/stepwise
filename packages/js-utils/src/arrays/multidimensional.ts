@@ -1,6 +1,7 @@
 import { type TypeGuard } from '../objects'
+import { type NestedArray } from './finding'
+import { type ArrayReadingOptions } from './reading'
 
-export type NestedArray<T> = (T | NestedArray<T>)[]
 export type NestedValue<T> = T | NestedArray<T>
 
 // Get the dimensions of a multi-dimensional array (matrix).
@@ -19,9 +20,10 @@ export function getDimensions<T>(matrix: NestedValue<T>, isElement: TypeGuard<T>
 
 // Get an element from a matrix using a list of indices.
 export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>): T
-export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>, allowOutOfBounds: true): T | undefined
-export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>, allowOutOfBounds?: false): T
-export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>, allowOutOfBounds = false): T | undefined {
+export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>, options: ArrayReadingOptions & { allowOutOfBounds: true }): T | undefined
+export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>, options?: ArrayReadingOptions & { allowOutOfBounds?: false }): T
+export function getMatrixElement<T>(matrix: NestedValue<T>, indices: readonly number[], isElement: TypeGuard<T>, options: ArrayReadingOptions = {}): T | undefined {
+	const { allowOutOfBounds = false } = options
 	let result: NestedValue<T> = matrix
 	for (const index of indices) {
 		if (!Number.isSafeInteger(index) || index < 0) throw new RangeError(`Invalid matrix access: index ${index} must be a non-negative safe integer.`)

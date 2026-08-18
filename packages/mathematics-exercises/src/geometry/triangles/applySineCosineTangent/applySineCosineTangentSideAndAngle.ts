@@ -15,7 +15,7 @@ export default buildStepExercise({
 	generateState() {
 		// Determine what is known and what is requested.
 		const known = randomInteger(0, 2) // Is a, b or c known?
-		const requested = randomInteger(0, 2, [known]) // Is a, b or c requested?
+		const requested = randomInteger(0, 2, { exclude: [known] }) // Is a, b or c requested?
 
 		// Gather all data into a state.
 		return {

@@ -17,7 +17,7 @@ export default buildStepExercise({
 		let α, β
 		do {
 			α = randomInteger(5, 12) * 5
-			β = randomInteger(5, 24, [18, 18 - α / 5]) * 5 // Ensure there is no 90 degree angle.
+			β = randomInteger(5, 24, { exclude: [18, 18 - α / 5] }) * 5 // Ensure there is no 90 degree angle.
 		} while (α + β > 155)
 
 		// Gather all data into a state.

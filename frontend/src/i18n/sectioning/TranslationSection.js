@@ -6,7 +6,7 @@ const TranslationSectionContext = createContext()
 
 export function TranslationSection({ children, entry, extend = true }) {
 	// Check the input.
-	entry = ensureString(entry, true)
+	entry = ensureString(entry, { nonEmpty: true })
 
 	// Extend by a potential parent entry.
 	const parentEntry = useTranslationSectionEntry()

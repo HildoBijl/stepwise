@@ -1,4 +1,4 @@
-import { ensureString, mergeDefaults, resolveFunctionsShallow } from '@step-wise/js-utils'
+import { ensureString, mergeDefaults, resolveFunctionValue } from '@step-wise/js-utils'
 
 import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from 'ui/form'
 
@@ -24,7 +24,7 @@ export function Input(options) {
 	let { id, element, children, readOnly, contextData } = options
 	id = ensureValidInputId(id)
 	readOnly = useReadOnlyValue(readOnly)
-	element = resolveFunctionsShallow(element) // The element may be a getter function.
+	element = resolveFunctionValue(element) // The element may be a getter function.
 	options = { ...options, readOnly, element }
 
 	// Use handlers to register the input field in the right places.

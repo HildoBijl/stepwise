@@ -1,4 +1,4 @@
-import { findNextOf, InterpretationError } from '@step-wise/js-utils'
+import { indexOfAnyCharacter, InterpretationError } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
 import type { ExpressionValue, InputValuePart, SubSupInputValue } from '../../types'
@@ -16,7 +16,7 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 	let previousPosition = 0
 
 	// Find the next subscript or superscript symbol from the current parsing position.
-	const findNextSymbol = () => position = findNextOf(part, ['_', '^'], position)
+	const findNextSymbol = () => position = indexOfAnyCharacter(part, ['_', '^'], position)
 
 	const getSubscript = (): string => {
 		let subscript: string
@@ -85,11 +85,11 @@ function getBracketEnd(str: string, from: number): number {
 
 	// Walk through nested brackets, returning when the opening bracket at `from` is balanced.
 	let counter = 0
-	let nextBracket = findNextOf(str, ['(', ')'], from)
+	let nextBracket = indexOfAnyCharacter(str, ['(', ')'], from)
 	while (nextBracket !== -1) {
 		counter += str[nextBracket] === '(' ? 1 : -1
 		if (counter === 0) return nextBracket
-		nextBracket = findNextOf(str, ['(', ')'], nextBracket + 1)
+		nextBracket = indexOfAnyCharacter(str, ['(', ')'], nextBracket + 1)
 	}
 	throw new Error('Invalid brackets: missing closing bracket.')
 }

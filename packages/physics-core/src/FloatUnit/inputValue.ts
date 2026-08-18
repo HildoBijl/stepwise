@@ -1,4 +1,4 @@
-import { isPlainObject, onlyHasKeys } from '@step-wise/js-utils'
+import { isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 
 import { type FloatInputValue, isFloatInputValue, interpretFloatInputValue, floatToInputValue } from '../Float'
 import { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToInputValue } from '../Unit'
@@ -11,7 +11,7 @@ export type FloatUnitInputValue = {
 }
 
 export function isFloatUnitInputValue(value: unknown): value is FloatUnitInputValue {
-	if (!isPlainObject(value) || !onlyHasKeys(value, ['float', 'unit'])) return false
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['float', 'unit'])) return false
 	const { float, unit } = value as FloatUnitInputValue
 	return isFloatInputValue(float) && (unit === undefined || isUnitInputValue(unit))
 }

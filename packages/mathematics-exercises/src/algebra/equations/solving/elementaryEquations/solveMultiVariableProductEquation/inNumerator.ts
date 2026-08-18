@@ -28,9 +28,9 @@ export default buildStepExercise({
 	generateState(example) {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
-			a: example ? 1 : randomInteger(-12, 12, [0]),
-			b: example ? 1 : randomInteger(1, 12, [0]),
-			c: randomInteger(-12, 12, [0]),
+			a: example ? 1 : randomInteger(-12, 12, { exclude: [0] }),
+			b: example ? 1 : randomInteger(1, 12, { exclude: [0] }),
+			c: randomInteger(-12, 12, { exclude: [0] }),
 			switchSides: randomBoolean(),
 		}
 	},

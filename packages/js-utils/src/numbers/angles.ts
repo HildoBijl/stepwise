@@ -1,14 +1,15 @@
+import { ensureNumber } from './checks'
 import { approximatelyEqual } from './comparisons'
 import { mod } from './limiting'
 
 // Convert degrees to radians.
 export function degreesToRadians(deg: number): number {
-	return deg * Math.PI / 180
+	return ensureNumber(deg) * Math.PI / 180
 }
 
 // Convert radians to degrees.
 export function radiansToDegrees(rad: number): number {
-	return rad * 180 / Math.PI
+	return ensureNumber(rad) * 180 / Math.PI
 }
 
 // Put an angle in a specific range.

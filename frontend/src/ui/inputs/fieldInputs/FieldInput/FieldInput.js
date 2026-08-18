@@ -1,6 +1,6 @@
 import React, { useRef, forwardRef } from 'react'
 
-import { isEmptyObject, mergeDefaults, pickFromDefaults, resolveFunctions, identity } from '@step-wise/js-utils'
+import { isEmptyObject, mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep, identity } from '@step-wise/js-utils'
 
 import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -59,7 +59,7 @@ export const FieldInput = forwardRef((options, ref) => {
 	// Define the keyboard set-up (keyFunction and settings together) to be used. This is a function that will take the FI and setFI as input.
 	options.keyboard = (FI, setFI) => FI?.cursor !== undefined && keyboardSettings ? {
 		keyFunction: (keyInfo) => setFI(FI => options.keyPressToFI(keyInfo, FI)),
-		settings: resolveFunctions(keyboardSettings, FI), // keyboardSettings may depend on the FI.
+		settings: resolveFunctionValuesDeep(keyboardSettings, FI), // keyboardSettings may depend on the FI.
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
 	// Set up the Input field settings.

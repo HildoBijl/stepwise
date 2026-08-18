@@ -18,9 +18,9 @@ export default buildStepExercise({
 	generateState() {
 		const [f1, f2, f3] = getRandomElementaryFunctions(3, false)
 		const x = sample(variableSet)
-		const c1 = randomInteger(-12, 12, [0])
-		const c2 = randomInteger(-12, 12, [0])
-		const c3 = randomInteger(-12, 12, [0])
+		const c1 = randomInteger(-12, 12, { exclude: [0] })
+		const c2 = randomInteger(-12, 12, { exclude: [0] })
+		const c3 = randomInteger(-12, 12, { exclude: [0] })
 		const func = f1.multiplyLeft(c1).add(f2.multiplyLeft(c2)).add(f3.multiplyLeft(c3)).substitute('x', x).cancel(['mergeFractionProducts']) // Do not turn 10 * 10^x into 10^(x+1).
 		return { x, f: sample(functionSet), func }
 	},

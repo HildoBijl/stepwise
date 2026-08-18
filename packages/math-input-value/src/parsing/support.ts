@@ -1,4 +1,4 @@
-import { findNextOf, last, InterpretationError } from '@step-wise/js-utils'
+import { indexOfAnyCharacter, last, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputCursorEnd, InputValuePart } from '../types'
 import { isTextPart } from '../utils'
@@ -112,7 +112,7 @@ export function getMatchingBrackets(value: InputValuePart[]): MatchingBrackets[]
 
 		// Walk through the text part.
 		const str = element
-		const getNextBracket = (fromPosition = -1) => findNextOf(str, ['(', ')', '[', ']'], fromPosition + 1)
+		const getNextBracket = (fromPosition = -1) => indexOfAnyCharacter(str, ['(', ')', '[', ']'], fromPosition + 1)
 		for (let nextBracket = getNextBracket(); nextBracket !== -1; nextBracket = getNextBracket(nextBracket)) {
 			const bracketPosition = { part, cursor: nextBracket }
 			if (str[nextBracket] === '(' || str[nextBracket] === '[') noteOpeningBracket(bracketPosition)

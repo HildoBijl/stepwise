@@ -1,6 +1,6 @@
-import { stringifyJS } from '@step-wise/js-utils'
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 import { createClient } from '../../../support/client.ts'
+import { stringifyGraphQLInput } from '../../../support/utils.ts'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
@@ -40,7 +40,7 @@ describe('submit group action:', () => {
 		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
 
 		// Submit an action.
-		const { data, errors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyJS(inputAction(42))}){skillId active}}` })
+		const { data, errors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(42))}){skillId active}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
 	})
@@ -56,7 +56,7 @@ describe('submit group action:', () => {
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
 
 		// Submit an exercise action.
-		const { data, errors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyJS(inputAction(42))}){skillId active}}` })
+		const { data, errors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(42))}){skillId active}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(1)
@@ -73,7 +73,7 @@ describe('submit group action:', () => {
 
 		// Submit a first action.
 		const action1 = inputAction(42)
-		const { data: { submitGroupAction: submitExercise }, errors: submitErrors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyJS(action1)}){skillId history{submissions{userId action}}}}` })
+		const { data: { submitGroupAction: submitExercise }, errors: submitErrors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action1)}){skillId history{submissions{userId action}}}}` })
 		expect(submitErrors).toBeUndefined()
 		expect(submitExercise.history[0].submissions.length).toStrictEqual(1)
 		expect(submitExercise.history[0].submissions[0].action).toStrictEqual(action1)
@@ -81,7 +81,7 @@ describe('submit group action:', () => {
 
 		// Submit a second action.
 		const action2 = inputAction(28)
-		const { data: { submitGroupAction: resubmitExercise }, errors: resubmitErrors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyJS(action2)}){skillId history{submissions{userId action}}}}` })
+		const { data: { submitGroupAction: resubmitExercise }, errors: resubmitErrors } = await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action2)}){skillId history{submissions{userId action}}}}` })
 		expect(resubmitErrors).toBeUndefined()
 		expect(resubmitExercise.history[0].submissions.length).toStrictEqual(1)
 		expect(resubmitExercise.history[0].submissions[0].action).toStrictEqual(action2)

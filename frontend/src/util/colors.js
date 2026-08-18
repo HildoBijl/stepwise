@@ -1,4 +1,4 @@
-import { isNumeric } from '@step-wise/js-utils'
+import { ensureNumeric } from '@step-wise/js-utils'
 
 // checkColor ensures that the given color is a color. If it's nothing sensible an error is thrown. If it's only an array of 3 it turns it into an array of 4 (adding default opacity). It returns the result, or the color itself if it's already fine. 
 export function checkColor(color) {
@@ -33,9 +33,7 @@ export function mix(c1, c2, part = 0.5) {
 	// Check input.
 	c1 = checkColor(c1)
 	c2 = checkColor(c2)
-	if (!isNumeric(part))
-		throw new Error(`Invalid input: expected the part of the color mixing to be a number but received an object of type "${typeof part}".`)
-	part = parseFloat(part)
+	part = ensureNumeric(part)
 	if (part < 0 || part > 1)
 		throw new Error(`Invalid input: expected the part of the color mixing to be a number between 0 and 1 but received ${part}.`)
 

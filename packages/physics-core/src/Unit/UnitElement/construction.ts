@@ -1,4 +1,4 @@
-import { isInteger, ensureInteger, isPlainObject, onlyHasKeys } from '@step-wise/js-utils'
+import { isInteger, ensureInteger, isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 
 import { Prefix, findPrefix } from '../Prefix'
 import { BaseUnit, findBaseUnit } from '../BaseUnit'
@@ -21,7 +21,7 @@ export function isUnitElementParameters(input: unknown): input is UnitElementPar
 	if (input.prefix !== undefined && !(input.prefix instanceof Prefix)) return false
 	if (!(input.unit instanceof BaseUnit)) return false
 	if (typeof input.power !== 'number' || !isInteger(input.power) || input.power <= 0) return false
-	if (!onlyHasKeys(input, ['prefix', 'unit', 'power'])) return false
+	if (!hasOnlyKeys(input, ['prefix', 'unit', 'power'])) return false
 	return true
 }
 

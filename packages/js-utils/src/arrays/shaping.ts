@@ -1,30 +1,15 @@
+import { type NestedArray } from './finding'
+
 // Flatten an array until it has no arrays left.
-type NestedArray<T> = T | NestedArray<T>[]
-export function flattenDeep<T>(array: readonly NestedArray<T>[]): T[] {
-	let result: unknown[] = [...array]
-	while (result.some(x => Array.isArray(x))) result = (result as any[]).flat()
-	return result as T[]
-}
-
-// Take a list and turn it into the shape given by the shape argument. Arrays inside the shape may have an optional property include=false, in which case the matching subtree is removed.
-export type ShapeTemplate = readonly ShapeTemplate[] | unknown
-export type ShapeArray = readonly ShapeTemplate[] & { include?: boolean }
-export function forceIntoShape<T>(list: readonly T[], shape: ShapeArray): unknown {
-	// Build up the shape by recursively walking through the shape, adding entries from the list as we go.
-	let counter = 0
-	const recurse = (node: ShapeArray): unknown => {
-		const result = node.map(child => {
-			if (Array.isArray(child)) return recurse(child as ShapeArray)
-			return list[counter++]
-		})
-		if (node.include === false) return undefined
-		return result.filter(x => x !== undefined)
+export function flattenDeep<T>(array: NestedArray<T>): T[] {
+	const result: T[] = []
+	const appendValues = (values: readonly unknown[]): void => {
+		for (const value of values) {
+			if (Array.isArray(value)) appendValues(value)
+			else result.push(value as T)
+		}
 	}
-	const result = recurse(shape)
-
-	// Check that the whole list has been used.
-	if (counter != list.length)
-		throw new RangeError(`Invalid list/shape combination: the list had ${list.length} elements and the shape had ${counter} elements.`)
+	appendValues(array as readonly unknown[])
 	return result
 }
 

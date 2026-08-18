@@ -14,10 +14,10 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd']
 
 const getParameters = (): [number, number, number, number] => {
-	const a = randomInteger(-8, 8, [-1, 0, 1])
-	const b = randomInteger(-8, 8, [-1, 0, 1, a])
-	const c = randomInteger(-8, 8, [-1, 0, 1])
-	const d = randomInteger(-8, 8, [-1, 0, 1, a * c, b * c])
+	const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+	const b = randomInteger(-8, 8, { exclude: [-1, 0, 1, a] })
+	const c = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+	const d = randomInteger(-8, 8, { exclude: [-1, 0, 1, a * c, b * c] })
 	return [a, b, c, d]
 }
 

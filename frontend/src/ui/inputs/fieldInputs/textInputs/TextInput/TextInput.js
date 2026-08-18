@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { mergeDefaults, pickFromDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
 
 export const defaultTextInputOptions = {
 	...defaultFieldInputOptions,
 	contentsStyle: theme => ({
-		...resolveFunctions(defaultFieldInputOptions.contentsStyle, theme),
+		...resolveFunctionValuesDeep(defaultFieldInputOptions.contentsStyle, theme),
 
 		display: 'inline-block',
 		fontFamily: 'KaTeX_Main, Times New Roman,serif',

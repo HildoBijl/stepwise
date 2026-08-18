@@ -21,9 +21,9 @@ export default buildStepExercise({
 	},
 
 	generateState(example) {
-		const a = randomInteger(example ? 2 : -6, 6, [0])
+		const a = randomInteger(example ? 2 : -6, 6, { exclude: [0] })
 		const x1 = randomInteger(example ? -8 : -12, example ? 8 : 12)
-		const x2 = randomInteger(example ? -8 : -12, example ? 8 : 12, [x1])
+		const x2 = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [x1] })
 		const b = -a * (x1 + x2)
 		const c = a * x1 * x2
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }

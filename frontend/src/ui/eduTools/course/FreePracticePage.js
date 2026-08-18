@@ -39,9 +39,9 @@ export function FreePracticePage() {
 
 		// Is there a skill with non-zero weight that's unequal to the previous skill?
 		if (weightsClone.find(weight => weight !== 0))
-			setSkillId(sample(skillIds, weightsClone))
+			setSkillId(sample(skillIds, { weights: weightsClone }))
 		else if (weights.find(weight => weight !== 0)) // Is there a skill with non-zero weight?
-			setSkillId(sample(skillIds, weights))
+			setSkillId(sample(skillIds, { weights }))
 		else
 			setSkillId(null) // Null means there's an error.
 	}, [overview, setSkillId])

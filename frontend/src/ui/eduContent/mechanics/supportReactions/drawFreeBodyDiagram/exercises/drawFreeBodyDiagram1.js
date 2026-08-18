@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { ensureNumber, ensureString, getOneToOneMatching, reverseMatching } from '@step-wise/js-utils'
+import { ensureNumber, ensureString, getOneToOneMatching, invertOneToOneMatching } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { FloatUnit } from '@step-wise/physics-core'
 import { FBDComparison, equalLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'
@@ -145,7 +145,7 @@ function getLoadMatching(input, solution) {
 	const inputMatching = input.map(() => undefined)
 	if (externalInputIndex !== -1) inputMatching[externalInputIndex] = externalSolutionIndex
 	reactionInputIndices.forEach((inputIndex, index) => { inputMatching[inputIndex] = reactionMatching[index] })
-	return { inputMatching, solutionMatching: reverseMatching(inputMatching, solution.length) }
+	return { inputMatching, solutionMatching: invertOneToOneMatching(inputMatching, solution.length) }
 }
 
 const externalLoadComparison = {

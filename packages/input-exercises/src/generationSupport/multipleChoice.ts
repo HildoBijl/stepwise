@@ -18,7 +18,7 @@ export function getMultipleChoiceMapping(options: MultipleChoiceMappingOptionsIn
 	const { numChoices, pick, include, randomOrder } = resolveMultipleChoiceMappingOptions(options)
 	const nonIncluded = integerRange(0, numChoices - 1).filter(index => !include.includes(index))
 	const numExtra = Math.max(pick - include.length, 0)
-	const mapping = [...include, ...randomSubset(nonIncluded, numExtra)] // Take the options to definitely include, and randomly add extras until the desired number.
+	const mapping = [...include, ...randomSubset(nonIncluded, { count: numExtra })] // Take the options to definitely include, and randomly add extras until the desired number.
 	return randomOrder ? shuffle(mapping) : mapping.sort((a, b) => a - b)
 }
 

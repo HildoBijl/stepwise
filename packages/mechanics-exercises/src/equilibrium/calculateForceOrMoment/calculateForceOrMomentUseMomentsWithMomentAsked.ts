@@ -15,7 +15,7 @@ export default buildStepExercise({
 	generateState() {
 		while (true) {
 			const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
-			const angle = randomInteger(5, 13, [9]) * 5
+			const angle = randomInteger(5, 13, { exclude: [9] }) * 5
 			const up = randomBoolean()
 			const right = randomBoolean()
 			const FD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })

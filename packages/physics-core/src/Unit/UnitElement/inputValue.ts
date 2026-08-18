@@ -1,4 +1,4 @@
-import { isPlainObject, onlyHasKeys } from '@step-wise/js-utils'
+import { isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 
 import { type UnitElement } from './UnitElement'
 
@@ -8,7 +8,7 @@ export type UnitElementInputValue = {
 }
 
 export function isUnitElementInputValue(value: unknown): value is UnitElementInputValue {
-	if (!isPlainObject(value) || !onlyHasKeys(value, ['text', 'power'])) return false
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['text', 'power'])) return false
 	const { text, power } = value as UnitElementInputValue
 	return (typeof text === 'string') && (power === undefined || typeof power === 'string')
 }

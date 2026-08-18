@@ -1,25 +1,20 @@
+export type EnsureStringOptions = {
+	nonEmpty?: boolean
+}
+
 // Ensure a value is a string. Optionally require it to be non-empty.
-export function ensureString(x: unknown, nonEmpty = false): string {
+export function ensureString(value: unknown, options: EnsureStringOptions = {}): string {
+	const { nonEmpty = false } = options
+
 	// Run checks.
-	if (typeof x !== 'string') throw new TypeError(`Invalid parameter: expected a string but received "${JSON.stringify(x)}".`)
-	if (nonEmpty && x === '') throw new RangeError(`Invalid parameter: expected a non-empty string but received an empty one.`)
+	if (typeof value !== 'string') throw new TypeError(`Invalid parameter: expected a string but received "${JSON.stringify(value)}".`)
+	if (nonEmpty && value === '') throw new RangeError(`Invalid parameter: expected a non-empty string but received an empty one.`)
 
 	// Return the input for potential chaining. (It's unchanged.)
-	return x
+	return value
 }
 
-// Ensure a value is an array of strings.
-export function ensureStringArray(x: unknown): string[] {
-	if (!Array.isArray(x)) throw new TypeError(`Invalid parameter: expected an array but received "${JSON.stringify(x)}".`)
-	return x.map(elem => ensureString(elem))
-}
-
-// Precompiled regexes.
-const latinLetterRegExp = /^[a-z]$/i
-const latinGreekLetterRegExp = /^[a-zα-ω]$/i
-
-// Check if a single character is a letter. Optionally (dis)allow Greek letters.
-export function isLetter(x: string, allowGreekLetter = true): x is string {
-	if (x.length !== 1) return false
-	return (allowGreekLetter ? latinGreekLetterRegExp : latinLetterRegExp).test(x)
+// Check whether a value is exactly one Unicode letter.
+export function isLetter(value: unknown): value is string {
+	return typeof value === 'string' && /^\p{L}$/u.test(value)
 }

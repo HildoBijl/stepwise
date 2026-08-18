@@ -28,9 +28,9 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const a = randomInteger(-8, 8, [-1, 0, 1])
-		const b = randomInteger(-8, 8, [-1, 0, 1, a, -a])
-		const c = randomInteger(-8, 8, [-1, 0, 1, a, -a, b, -b])
+		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+		const b = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
+		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a, b, -b] })
 		return {
 			x: sample(variableSet),
 			a, b, c,

@@ -1,3 +1,5 @@
+import { isArray } from '@step-wise/js-utils'
+
 import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
 import { ensurePolynomial } from './checks'
 
@@ -8,7 +10,7 @@ export function polynomialToString(polynomial: Polynomial): string {
 }
 
 function coefficientsToString(coefficients: PolynomialCoefficients, variables: PolynomialVariables, exponents: number[] = []): string {
-	if (!Array.isArray(coefficients)) {
+	if (!isArray(coefficients)) {
 		if (coefficients === 0) return '0'
 		const term = termToString(exponents, variables)
 		if (coefficients === 1) return `+${term === '' ? '1' : term}`

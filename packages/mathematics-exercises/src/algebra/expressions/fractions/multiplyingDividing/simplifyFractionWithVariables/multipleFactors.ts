@@ -26,11 +26,11 @@ export default buildStepExercise({
 
 	generateState() {
 		const factor = randomInteger(2, 8)
-		const a = factor * randomInteger(-8, 8, [-1, 0, 1])
-		const b = factor * randomInteger(-8, 8, [-1, 0, 1, a / factor, -a / factor])
+		const a = factor * randomInteger(-8, 8, { exclude: [-1, 0, 1] })
+		const b = factor * randomInteger(-8, 8, { exclude: [-1, 0, 1, a / factor, -a / factor] })
 		const c = randomInteger(-4, 4)
-		const d = randomInteger(-4, 4, [c])
-		const e = randomInteger(-4, 4, [c, d])
+		const d = randomInteger(-4, 4, { exclude: [c] })
+		const e = randomInteger(-4, 4, { exclude: [c, d] })
 		const p = randomInteger(2, 4)
 		const q = randomInteger(2, 4)
 		return {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Radio, Checkbox } from '@mui/material'
 
-import { mergeDefaults, resolveFunctions } from '@step-wise/js-utils'
+import { mergeDefaults, resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { FeedbackBlock } from 'ui/components'
 
@@ -42,7 +42,7 @@ export function MultipleChoiceInner(options) {
 			listStyleType: 'none',
 			margin: '2px 3px 4px 3px', // To ensure that the box shadow is visible.
 			padding: 0,
-			...resolveFunctions(sx, theme),
+			...resolveFunctionValuesDeep(sx, theme),
 		})}>
 			{mapping.map(index => <Option
 				key={index}

@@ -27,11 +27,11 @@ export default buildStepExercise({
 
 	generateState() {
 		const p = randomInteger(0, 3)
-		const q = randomInteger(0, 3, [p])
+		const q = randomInteger(0, 3, { exclude: [p] })
 		return {
 			x: sample(variableSet),
-			a: randomInteger(-8, 8, [0]),
-			b: randomInteger(-8, 8, [0]),
+			a: randomInteger(-8, 8, { exclude: [0] }),
+			b: randomInteger(-8, 8, { exclude: [0] }),
 			p, q,
 		}
 	},

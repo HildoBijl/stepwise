@@ -31,7 +31,7 @@ export default buildStepExercise({
 		return {
 			x: sample(variableSet),
 			a, b, c, d,
-			f: randomInteger(-6, 6, [0]),
+			f: randomInteger(-6, 6, { exclude: [0] }),
 			switch: randomBoolean(),
 		}
 	},

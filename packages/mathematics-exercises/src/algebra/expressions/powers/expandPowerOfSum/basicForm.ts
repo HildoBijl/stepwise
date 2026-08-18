@@ -24,10 +24,10 @@ export default buildStepExercise({
 	},
 
 	generateState(example) {
-		const a = randomInteger(example ? 2 : -4, 4, [-1, 0, 1])
+		const a = randomInteger(example ? 2 : -4, 4, { exclude: [-1, 0, 1] })
 		const b = randomInteger(1, example ? 1 : 2)
-		const c = randomInteger(example ? 2 : -6, 6, [-1, 0, 1, -a, a])
-		const d = randomInteger(0, example ? 0 : 1, [b])
+		const c = randomInteger(example ? 2 : -6, 6, { exclude: [-1, 0, 1, -a, a] })
+		const d = randomInteger(0, example ? 0 : 1, { exclude: [b] })
 		const e = randomInteger(example ? 2 : 3, example || Math.max(Math.abs(a), Math.abs(c)) >= 5 ? 4 : 5)
 		return {
 			x: sample(variableSet),

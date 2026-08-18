@@ -21,9 +21,9 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const a = randomInteger(-12, 12, [0])
-		const b = randomInteger(-12, 12, [0, a, -a])
-		const c = randomInteger(-12, 12, [0, a, -a, b, -b])
+		const a = randomInteger(-12, 12, { exclude: [0] })
+		const b = randomInteger(-12, 12, { exclude: [0, a, -a] })
+		const c = randomInteger(-12, 12, { exclude: [0, a, -a, b, -b] })
 		return { ...selectRandomVariables(sample(availableVariableSets), usedVariables), a, b, c }
 	},
 

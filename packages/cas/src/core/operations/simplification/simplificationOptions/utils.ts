@@ -1,4 +1,4 @@
-import { isArray, isReadonlySet, union, difference } from '@step-wise/js-utils'
+import { isArray, isSet, union, difference } from '@step-wise/js-utils'
 
 import { simplificationRules, type SimplificationRules } from '../rules'
 
@@ -8,7 +8,7 @@ export const allSimplificationOptions: ReadonlySet<SimplificationOption> = new S
 
 // Turn a SimplificationOptionsInput parameter into a set of simplification options. Also checks its format.
 export function resolveSimplificationOptions(options: SimplificationOptionsInput = []): SimplificationOptions {
-	if (isReadonlySet(options)) return ensureSimplificationOptionSet(options)
+	if (isSet(options)) return ensureSimplificationOptionSet(options)
 	if (isArray(options)) return ensureSimplificationOptionSet(new Set(options))
 	throw new Error(`Invalid simplification options: could not interpret "${JSON.stringify(options)}".`)
 }
