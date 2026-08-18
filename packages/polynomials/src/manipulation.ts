@@ -1,6 +1,7 @@
 import { isNumber, ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/js-utils'
 
 import { PolynomialMatrix, VariableList, PolynomialExpression } from './types'
+import { ensurePolynomialExpression } from './checks'
 import { restructurePolynomial } from './restructuring'
 
 // Support function that takes an expression and applies a certain matrix operation to the matrix, while keeping the variable list intact.
@@ -10,6 +11,7 @@ function applyOperationToMatrix<TArgs extends unknown[]>(expression: PolynomialE
 
 // Apply a minus sign to all elements of a polynomial matrix.
 export function applyMinusToPolynomial(expression: PolynomialExpression): PolynomialExpression {
+	ensurePolynomialExpression(expression)
 	return multiplyPolynomialByConstant(expression, -1)
 }
 
@@ -19,6 +21,7 @@ function addConstantToPolynomialMatrix(matrix: PolynomialMatrix, addition: numbe
 	return [addConstantToPolynomialMatrix(matrix[0], addition), ...matrix.slice(1)]
 }
 export function addConstantToPolynomial(expression: PolynomialExpression, addition: number): PolynomialExpression {
+	ensurePolynomialExpression(expression)
 	return applyOperationToMatrix(expression, addConstantToPolynomialMatrix, addition)
 }
 
@@ -28,11 +31,13 @@ function multiplyPolynomialMatrixByConstant(matrix: PolynomialMatrix, multiplica
 	return matrix.map(submatrix => multiplyPolynomialMatrixByConstant(submatrix, multiplication))
 }
 export function multiplyPolynomialByConstant(expression: PolynomialExpression, multiplication: number): PolynomialExpression {
+	ensurePolynomialExpression(expression)
 	return applyOperationToMatrix(expression, multiplyPolynomialMatrixByConstant, multiplication)
 }
 
 // Return one minus the given polynomial.
 export function oneMinusPolynomial(expression: PolynomialExpression): PolynomialExpression {
+	ensurePolynomialExpression(expression)
 	return addConstantToPolynomial(applyMinusToPolynomial(expression), 1)
 }
 
@@ -46,6 +51,7 @@ function addPolynomialMatricesWithEqualDimension(matrices: PolynomialMatrix[]): 
 
 // Add matrices with variable lists. Returns { matrix, list }.
 export function addPolynomials(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
+	expressions.forEach(ensurePolynomialExpression)
 	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
 	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
 	return { matrix: addPolynomialMatricesWithEqualDimension(restructuredMatrices), list: destinationList }
@@ -88,6 +94,7 @@ function multiplyPolynomialMatricesWithEqualDimension(matrices: PolynomialMatrix
 
 // Multiply matrices with variable lists. Returns { matrix, list }.
 export function multiplyPolynomials(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
+	expressions.forEach(ensurePolynomialExpression)
 	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
 	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
 	return { matrix: multiplyPolynomialMatricesWithEqualDimension(restructuredMatrices), list: destinationList }
@@ -102,6 +109,7 @@ function polynomialMatrixToPower(matrix: PolynomialMatrix, exponent: number): Po
 	return multiplyPolynomialMatricesWithEqualDimension(new Array(ensuredExponent).fill(matrix))
 }
 export function polynomialToPower(expression: PolynomialExpression, exponent: number): PolynomialExpression {
+	ensurePolynomialExpression(expression)
 	return applyOperationToMatrix(expression, polynomialMatrixToPower, exponent)
 }
 
@@ -117,5 +125,6 @@ function getPolynomialMatrixPowerList(matrix: PolynomialMatrix, maxExponent: num
 	})
 }
 export function getPolynomialPowerList(expression: PolynomialExpression, maxExponent: number): PolynomialExpression[] {
+	ensurePolynomialExpression(expression)
 	return getPolynomialMatrixPowerList(expression.matrix, maxExponent).map(matrix => ({ matrix, list: expression.list }))
 }

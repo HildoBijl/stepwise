@@ -1,7 +1,9 @@
 import { PolynomialExpression, PolynomialMatrix, VariableList } from './types'
+import { ensurePolynomialExpression } from './checks'
 
 // Convert a polynome expression to a readable string representation.
 export function polynomialToString(expression: PolynomialExpression): string {
+	ensurePolynomialExpression(expression)
 	const result = polynomialMatrixToString(expression.matrix, expression.list)
 	return result[0] === '+' ? result.slice(1) : result
 }
