@@ -1,38 +1,27 @@
-import { PolynomialExpression, PolynomialMatrix, VariableList } from './types'
+import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
+import { ensurePolynomial } from './checks'
 
-// Convert a polynome expression to a readable string representation.
-export function polynomialToString(expression: PolynomialExpression): string {
-	const result = polynomialMatrixToString(expression.matrix, expression.list)
+export function polynomialToString(polynomial: Polynomial): string {
+	ensurePolynomial(polynomial)
+	const result = coefficientsToString(polynomial.coefficients, polynomial.variables)
 	return result[0] === '+' ? result.slice(1) : result
 }
 
-// Convert a polynomial matrix to a readable string representation.
-function polynomialMatrixToString(matrix: PolynomialMatrix, list: VariableList, indexList: number[] = []): string {
-	// Turn a number into the respective string.
-	if (!Array.isArray(matrix)) {
-		if (matrix === 0) return '0'
-		const termString = getPolynomialTermString(indexList, list)
-		if (matrix === 1) return `+${termString === '' ? '1' : termString}`
-		if (matrix === -1) return `-${termString === '' ? '1' : termString}`
-		if (matrix > 0) return `+${matrix}${termString === '' ? '' : '*'}${termString}`
-		return `${matrix}${termString === '' ? '' : '*'}${termString}`
+function coefficientsToString(coefficients: PolynomialCoefficients, variables: PolynomialVariables, exponents: number[] = []): string {
+	if (!Array.isArray(coefficients)) {
+		if (coefficients === 0) return '0'
+		const term = termToString(exponents, variables)
+		if (coefficients === 1) return `+${term === '' ? '1' : term}`
+		if (coefficients === -1) return `-${term === '' ? '1' : term}`
+		if (coefficients > 0) return `+${coefficients}${term === '' ? '' : '*'}${term}`
+		return `${coefficients}${term === '' ? '' : '*'}${term}`
 	}
-
-	// For an array, iterate deeper.
-	let polynomialString = matrix.map((submatrix, index) => polynomialMatrixToString(submatrix, list, [...indexList, index])).filter(str => str !== '0').join('')
-
-	// Handle edge cases.
-	if (indexList.length === 0 && polynomialString[0] === '+') polynomialString = polynomialString.slice(1)
-	if (polynomialString.length === 0) polynomialString = '0'
-	return polynomialString
+	let result = coefficients.map((child, exponent) => coefficientsToString(child, variables, [...exponents, exponent])).filter(term => term !== '0').join('')
+	if (exponents.length === 0 && result[0] === '+') result = result.slice(1)
+	return result.length === 0 ? '0' : result
 }
 
-// Convert a list of exponents like [2,1,0,3] to a polynomial term string like "a^2*b*d^3".
-function getPolynomialTermString(indexList: number[], list: VariableList): string {
-	if (indexList.length > list.length) throw new Error(`Cannot display polynomial string: there are more variables (${indexList.length}) than there are variable strings provided (${list.length}).`)
-	return indexList.map((exponent, index) => {
-		if (exponent === 0) return undefined
-		if (exponent === 1) return list[index]
-		return `${list[index]}^${exponent}`
-	}).filter(term => term !== undefined).join('*')
+function termToString(exponents: number[], variables: PolynomialVariables): string {
+	if (exponents.length > variables.length) throw new Error(`Cannot display polynomial: there are more coefficient dimensions (${exponents.length}) than variables (${variables.length}).`)
+	return exponents.map((exponent, index) => exponent === 0 ? undefined : exponent === 1 ? variables[index] : `${variables[index]}^${exponent}`).filter(term => term !== undefined).join('*')
 }

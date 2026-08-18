@@ -1,4 +1,4 @@
-import { type PolynomialExpression, type PolynomialMatrix, polynomialToString } from '@step-wise/polynomials'
+import { type Polynomial, type PolynomialCoefficients, polynomialToString } from '@step-wise/polynomials'
 
 export type GenericSerializedSkillSetup<TStorageValue = unknown, TType extends string = string> = { type: TType, value: TStorageValue }
 
@@ -43,18 +43,18 @@ export abstract class SkillSetup<TStorageValue = unknown> {
 	// Functions revolving around the polynomial matrix.
 
 	// Get the polynomial related to this set-up, in multi-dimensional matrix format.
-	abstract getPolynomialMatrix(parent?: SkillSetup<TStorageValue>): PolynomialMatrix
+	abstract getPolynomialCoefficients(parent?: SkillSetup<TStorageValue>): PolynomialCoefficients
 
 	// Get the polynomial related to this set-up in string form.
 	getPolynomialString(): string {
-		return polynomialToString(this.getPolynomialExpression())
+		return polynomialToString(this.getPolynomial())
 	}
 
 	// Get both the matrix and the skill list.
-	getPolynomialExpression(parent?: SkillSetup<TStorageValue>): PolynomialExpression {
+	getPolynomial(parent?: SkillSetup<TStorageValue>): Polynomial {
 		return {
-			matrix: this.getPolynomialMatrix(parent),
-			list: this.getSkillList(),
+			coefficients: this.getPolynomialCoefficients(parent),
+			variables: this.getSkillList(),
 		}
 	}
 }

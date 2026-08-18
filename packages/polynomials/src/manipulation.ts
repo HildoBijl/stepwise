@@ -1,121 +1,110 @@
-import { isNumber, ensureInteger, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, union } from '@step-wise/js-utils'
+import { ensureInteger, getDimensions, getMatrixElement, isNumber, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, sum, union } from '@step-wise/js-utils'
 
-import { PolynomialMatrix, VariableList, PolynomialExpression } from './types'
-import { restructurePolynomial } from './restructuring'
+import { type NonEmptyPolynomialList, type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
+import { ensurePolynomial, ensurePolynomialVariables } from './checks'
+import { alignPolynomialVariables } from './restructuring'
 
-// Support function that takes an expression and applies a certain matrix operation to the matrix, while keeping the variable list intact.
-function applyOperationToMatrix<TArgs extends unknown[]>(expression: PolynomialExpression, operation: (matrix: PolynomialMatrix, ...args: TArgs) => PolynomialMatrix, ...args: TArgs) {
-	return { ...expression, matrix: operation(expression.matrix, ...args) }
+function mapPolynomialCoefficients(polynomial: Polynomial, operation: (coefficients: PolynomialCoefficients) => PolynomialCoefficients): Polynomial {
+	return { ...polynomial, coefficients: operation(polynomial.coefficients) }
 }
 
-// Apply a minus sign to all elements of a polynomial matrix.
-export function applyMinusToPolynomial(expression: PolynomialExpression): PolynomialExpression {
-	return multiplyPolynomialByConstant(expression, -1)
+export function negatePolynomial(polynomial: Polynomial): Polynomial {
+	ensurePolynomial(polynomial)
+	return scalePolynomial(polynomial, -1)
 }
 
-// Add a constant to a polynomial.
-function addConstantToPolynomialMatrix(matrix: PolynomialMatrix, addition: number): PolynomialMatrix {
-	if (!Array.isArray(matrix)) return matrix + addition
-	return [addConstantToPolynomialMatrix(matrix[0], addition), ...matrix.slice(1)]
-}
-export function addConstantToPolynomial(expression: PolynomialExpression, addition: number): PolynomialExpression {
-	return applyOperationToMatrix(expression, addConstantToPolynomialMatrix, addition)
+function addConstant(coefficients: PolynomialCoefficients, addition: number): PolynomialCoefficients {
+	if (!Array.isArray(coefficients)) return coefficients + addition
+	return [addConstant(coefficients[0], addition), ...coefficients.slice(1)]
 }
 
-// Multiply all matrix elements by a constant.
-function multiplyPolynomialMatrixByConstant(matrix: PolynomialMatrix, multiplication: number): PolynomialMatrix {
-	if (!Array.isArray(matrix)) return matrix * multiplication
-	return matrix.map(submatrix => multiplyPolynomialMatrixByConstant(submatrix, multiplication))
-}
-export function multiplyPolynomialByConstant(expression: PolynomialExpression, multiplication: number): PolynomialExpression {
-	return applyOperationToMatrix(expression, multiplyPolynomialMatrixByConstant, multiplication)
+export function addConstantToPolynomial(polynomial: Polynomial, addition: number): Polynomial {
+	ensurePolynomial(polynomial)
+	return mapPolynomialCoefficients(polynomial, coefficients => addConstant(coefficients, addition))
 }
 
-// Return one minus the given polynomial.
-export function oneMinusPolynomial(expression: PolynomialExpression): PolynomialExpression {
-	return addConstantToPolynomial(applyMinusToPolynomial(expression), 1)
+function scaleCoefficients(coefficients: PolynomialCoefficients, factor: number): PolynomialCoefficients {
+	if (!Array.isArray(coefficients)) return coefficients * factor
+	return coefficients.map(child => scaleCoefficients(child, factor))
 }
 
-// Add matrices of equal variable dimension.
-function addPolynomialMatricesWithEqualDimension(matrices: PolynomialMatrix[]): PolynomialMatrix {
-	const matrixDimensions = matrices.map(matrix => getDimensions(matrix, isNumber))
-	if (matrixDimensions.some(dimensions => dimensions.length !== matrixDimensions[0].length)) throw new Error(`Invalid polynomial matrix sizes: tried to add polynomial matrices that had different dimensions. Dimensions were [${matrixDimensions.map(dimensions => dimensions.length).join(',')}].`)
-	const dimensions = repeat(matrixDimensions[0].length, index => Math.max(...matrixDimensions.map(dimensions => dimensions[index])))
-	return repeatMultidimensional(dimensions, (...indices) => sum(matrices.map(matrix => getMatrixElement(matrix, indices, isNumber, true) ?? 0)))
+export function scalePolynomial(polynomial: Polynomial, factor: number): Polynomial {
+	ensurePolynomial(polynomial)
+	return mapPolynomialCoefficients(polynomial, coefficients => scaleCoefficients(coefficients, factor))
 }
 
-// Add matrices with variable lists. Returns { matrix, list }.
-export function addPolynomials(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
-	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
-	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
-	return { matrix: addPolynomialMatricesWithEqualDimension(restructuredMatrices), list: destinationList }
+export function oneMinusPolynomial(polynomial: Polynomial): Polynomial {
+	ensurePolynomial(polynomial)
+	return addConstantToPolynomial(negatePolynomial(polynomial), 1)
 }
 
-// Multiply two matrices with equal variable lists.
-function multiplyTwoPolynomialMatricesWithEqualDimension(matrix1: PolynomialMatrix, matrix2: PolynomialMatrix): PolynomialMatrix {
-	// Check the input.
-	const dimensions1 = getDimensions(matrix1, isNumber)
-	const dimensions2 = getDimensions(matrix2, isNumber)
-	if (dimensions1.length !== dimensions2.length) throw new Error(`Invalid multiplication matrices: they are not of equal dimension, even though they are required to be. They are of dimensions ${dimensions1.length} and ${dimensions2.length}.`)
+function addAlignedCoefficients(allCoefficients: readonly PolynomialCoefficients[]): PolynomialCoefficients {
+	const allDimensions = allCoefficients.map(coefficients => getDimensions(coefficients, isNumber))
+	const dimensions = repeat(allDimensions[0].length, index => Math.max(...allDimensions.map(item => item[index])))
+	return repeatMultidimensional(dimensions, (...indices) => sum(allCoefficients.map(coefficients => getMatrixElement(coefficients, indices, isNumber, true) ?? 0)))
+}
 
-	// Walk through the matrices to set up a new one.
-	const numVariables = dimensions1.length
-	const newDimensions = repeat(numVariables, index => dimensions1[index] + dimensions2[index] - 1)
-	return repeatMultidimensional(newDimensions, (...newIndices) => {
-		const crossTermMinMax = repeat(numVariables, index => ({
-			min: Math.max(0, newIndices[index] - dimensions2[index] + 1),
-			max: Math.min(newIndices[index], dimensions1[index] - 1),
-		}))
-		const min = crossTermMinMax.map(minMax => minMax.min)
-		const max = crossTermMinMax.map(minMax => minMax.max)
+export function addPolynomials(polynomials: NonEmptyPolynomialList, variables?: PolynomialVariables): Polynomial {
+	if (polynomials.length === 0) throw new RangeError('Cannot add polynomials: expected at least one polynomial.')
+	polynomials.forEach(ensurePolynomial)
+	variables ??= [...union(...polynomials.map(polynomial => new Set(polynomial.variables)))]
+	ensurePolynomialVariables(variables)
+	return { coefficients: addAlignedCoefficients(polynomials.map(polynomial => alignPolynomialVariables(polynomial, variables).coefficients)), variables }
+}
 
+export function subtractPolynomials(minuend: Polynomial, subtrahend: Polynomial, variables?: PolynomialVariables): Polynomial {
+	ensurePolynomial(minuend)
+	ensurePolynomial(subtrahend)
+	return addPolynomials([minuend, negatePolynomial(subtrahend)], variables)
+}
+
+function multiplyTwoAlignedCoefficients(coefficients1: PolynomialCoefficients, coefficients2: PolynomialCoefficients): PolynomialCoefficients {
+	const dimensions1 = getDimensions(coefficients1, isNumber)
+	const dimensions2 = getDimensions(coefficients2, isNumber)
+	if (dimensions1.length !== dimensions2.length) throw new Error(`Cannot multiply polynomial coefficients with depths ${dimensions1.length} and ${dimensions2.length}.`)
+	const dimensions = repeat(dimensions1.length, index => dimensions1[index] + dimensions2[index] - 1)
+	return repeatMultidimensional(dimensions, (...indices) => {
+		const ranges = repeat(dimensions.length, index => ({ min: Math.max(0, indices[index] - dimensions2[index] + 1), max: Math.min(indices[index], dimensions1[index] - 1) }))
 		let total = 0
-		repeatMultidimensionalFromTo(min, max, (...crossTermIndices) => {
-			const indices1 = crossTermIndices
-			const indices2 = repeat(numVariables, index => newIndices[index] - crossTermIndices[index])
-			total += getMatrixElement(matrix1, indices1, isNumber) * getMatrixElement(matrix2, indices2, isNumber)
+		repeatMultidimensionalFromTo(ranges.map(range => range.min), ranges.map(range => range.max), (...indices1) => {
+			const indices2 = repeat(dimensions.length, index => indices[index] - indices1[index])
+			total += getMatrixElement(coefficients1, indices1, isNumber) * getMatrixElement(coefficients2, indices2, isNumber)
 		})
 		return total
 	})
 }
 
-// Multiply multiple matrices with equal variable lists.
-function multiplyPolynomialMatricesWithEqualDimension(matrices: PolynomialMatrix[]): PolynomialMatrix {
-	const matrixDimensions = matrices.map(matrix => getDimensions(matrix, isNumber))
-	if (matrixDimensions.some(dimensions => dimensions.length !== matrixDimensions[0].length)) throw new Error(`Invalid polynomial matrix sizes: tried to multiply polynomial matrices that had different dimensions. Dimensions were [${matrixDimensions.map(dimensions => dimensions.length).join(',')}].`)
-	return matrices.slice(1).reduce((result, matrix) => multiplyTwoPolynomialMatricesWithEqualDimension(result, matrix), matrices[0])
+function multiplyAlignedCoefficients(allCoefficients: readonly PolynomialCoefficients[]): PolynomialCoefficients {
+	return allCoefficients.slice(1).reduce((result, coefficients) => multiplyTwoAlignedCoefficients(result, coefficients), allCoefficients[0])
 }
 
-// Multiply matrices with variable lists. Returns { matrix, list }.
-export function multiplyPolynomials(expressions: PolynomialExpression[], destinationList?: VariableList): PolynomialExpression {
-	destinationList ??= [...union(...expressions.map(expression => new Set(expression.list)))]
-	const restructuredMatrices = expressions.map(expression => restructurePolynomial(expression, destinationList).matrix)
-	return { matrix: multiplyPolynomialMatricesWithEqualDimension(restructuredMatrices), list: destinationList }
+export function multiplyPolynomials(polynomials: NonEmptyPolynomialList, variables?: PolynomialVariables): Polynomial {
+	if (polynomials.length === 0) throw new RangeError('Cannot multiply polynomials: expected at least one polynomial.')
+	polynomials.forEach(ensurePolynomial)
+	variables ??= [...union(...polynomials.map(polynomial => new Set(polynomial.variables)))]
+	ensurePolynomialVariables(variables)
+	return { coefficients: multiplyAlignedCoefficients(polynomials.map(polynomial => alignPolynomialVariables(polynomial, variables).coefficients)), variables }
 }
 
-// Raise a polynomial matrix to a given power.
-function polynomialMatrixToPower(matrix: PolynomialMatrix, exponent: number): PolynomialMatrix {
+function coefficientsToPower(coefficients: PolynomialCoefficients, exponent: number): PolynomialCoefficients {
 	const ensuredExponent = ensureInteger(exponent, true)
-	const dimensions = getDimensions(matrix, isNumber)
-	if (ensuredExponent === 0) return repeatMultidimensional(dimensions.map(() => 1), () => 1)
-	if (ensuredExponent === 1) return matrix
-	return multiplyPolynomialMatricesWithEqualDimension(new Array(ensuredExponent).fill(matrix))
-}
-export function polynomialToPower(expression: PolynomialExpression, exponent: number): PolynomialExpression {
-	return applyOperationToMatrix(expression, polynomialMatrixToPower, exponent)
+	if (ensuredExponent === 0) return repeatMultidimensional(getDimensions(coefficients, isNumber).map(() => 1), () => 1)
+	if (ensuredExponent === 1) return coefficients
+	return multiplyAlignedCoefficients(new Array(ensuredExponent).fill(coefficients))
 }
 
-// Return all powers of a matrix up to (and including) the given maximum exponent. So it gives [1, f(x), f(x)^2, ..., f(x)^n].
-function getPolynomialMatrixPowerList(matrix: PolynomialMatrix, maxExponent: number): PolynomialMatrix[] {
-	const ensuredMaxExponent = ensureInteger(maxExponent, true)
-	let matrixPower = matrix
-	return repeat(ensuredMaxExponent + 1, exponent => {
-		if (exponent === 0) return polynomialMatrixToPower(matrix, 0)
-		if (exponent === 1) return matrix
-		matrixPower = multiplyTwoPolynomialMatricesWithEqualDimension(matrix, matrixPower)
-		return matrixPower
-	})
+export function raisePolynomialToPower(polynomial: Polynomial, exponent: number): Polynomial {
+	ensurePolynomial(polynomial)
+	return mapPolynomialCoefficients(polynomial, coefficients => coefficientsToPower(coefficients, exponent))
 }
-export function getPolynomialPowerList(expression: PolynomialExpression, maxExponent: number): PolynomialExpression[] {
-	return getPolynomialMatrixPowerList(expression.matrix, maxExponent).map(matrix => ({ matrix, list: expression.list }))
+
+export function getPolynomialPowers(polynomial: Polynomial, maxExponent: number): Polynomial[] {
+	ensurePolynomial(polynomial)
+	const ensuredMaxExponent = ensureInteger(maxExponent, true)
+	let coefficients = polynomial.coefficients
+	return repeat(ensuredMaxExponent + 1, exponent => {
+		if (exponent === 0) return { coefficients: coefficientsToPower(polynomial.coefficients, 0), variables: polynomial.variables }
+		if (exponent > 1) coefficients = multiplyTwoAlignedCoefficients(polynomial.coefficients, coefficients)
+		return { coefficients, variables: polynomial.variables }
+	})
 }

@@ -1,5 +1,5 @@
 import { ensureInteger } from '@step-wise/js-utils'
-import { type PolynomialMatrix, polynomialToPower } from '@step-wise/polynomials'
+import { type PolynomialCoefficients, raisePolynomialToPower } from '@step-wise/polynomials'
 
 import { type GenericSerializedSkillSetup, type SkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
 
@@ -27,8 +27,8 @@ export class Repeat extends SkillItemSetup<RepeatStorageValue> {
 		return `${this.type.toLowerCase()}(${this.skill.toString()}, ${this.repeat})`
 	}
 
-	override getPolynomialMatrix(): PolynomialMatrix {
-		return polynomialToPower(this.skill.getPolynomialExpression(this), this.repeat).matrix
+	override getPolynomialCoefficients(): PolynomialCoefficients {
+		return raisePolynomialToPower(this.skill.getPolynomial(this), this.repeat).coefficients
 	}
 }
 
