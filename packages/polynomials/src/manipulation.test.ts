@@ -55,7 +55,6 @@ describe('Check mathematical functions:', () => {
 
 	describe('addPolynomials', () => {
 		it('rejects an empty expression list', () => {
-			// @ts-expect-error Verify the runtime guard for untyped JavaScript consumers.
 			expect(() => addPolynomials([])).toThrow(RangeError)
 		})
 
@@ -70,7 +69,6 @@ describe('Check mathematical functions:', () => {
 
 	describe('multiplyPolynomials', () => {
 		it('rejects an empty expression list', () => {
-			// @ts-expect-error Verify the runtime guard for untyped JavaScript consumers.
 			expect(() => multiplyPolynomials([])).toThrow(RangeError)
 		})
 

@@ -25,6 +25,7 @@ describe('serialization types', () => {
 		expect(() => deserializeSetup({ value: 'a' })).toThrow(TypeError)
 		expect(() => deserializeSetup({ type: 'Skill' })).toThrow(TypeError)
 		expect(() => deserializeSetup({ type: 'Unknown', value: 'a' })).toThrow(TypeError)
+		expect(() => deserializeSetup({ type: 'Skill', value: 3 })).toThrow(TypeError)
 	})
 })
 
@@ -34,6 +35,17 @@ describe('serialization types', () => {
 
 describe('Check Skill setup:', () => {
 	const setup = skill('a')
+
+	describe('validation', () => {
+		it('rejects empty and whitespace-only identifiers', () => {
+			expect(() => skill('')).toThrow(RangeError)
+			expect(() => skill('   ')).toThrow(RangeError)
+		})
+
+		it('preserves valid identifiers as given', () => {
+			expect(skill('skill with spaces').skill).toBe('skill with spaces')
+		})
+	})
 
 	describe('skill lists', () => {
 		it('work correctly', () => {
