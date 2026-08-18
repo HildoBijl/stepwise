@@ -33,3 +33,22 @@ export function repeatMultidimensionalFromTo<T>(min: readonly number[], max: rea
 	if (min.length === 0) return fn(...previousValues)
 	return repeatFromTo(min[0], max[0], value => repeatMultidimensionalFromTo(min.slice(1), max.slice(1), fn, [...previousValues, value]))
 }
+
+// Call a function for every ascending combination of the given size from the indices zero up to length minus one.
+export function forEachCombination(length: number, size: number, callback: (...indices: number[]) => void): void {
+	length = ensureInteger(length, { nonNegative: true })
+	size = ensureInteger(size, { nonNegative: true })
+	if (size > length) throw new RangeError(`Invalid combination size: cannot pick ${size} indices from a range with length ${length}.`)
+
+	const indices: number[] = []
+	const addIndex = (start: number): void => {
+		if (indices.length === size) return callback(...indices)
+		const remaining = size - indices.length
+		for (let index = start; index <= length - remaining; index++) {
+			indices.push(index)
+			addIndex(index + 1)
+			indices.pop()
+		}
+	}
+	addIndex(0)
+}

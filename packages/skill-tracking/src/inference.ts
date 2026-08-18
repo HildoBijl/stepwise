@@ -1,6 +1,6 @@
 import { repeat, getDimensions } from '@step-wise/js-utils'
 import { binomial } from '@step-wise/math-tools'
-import { substitutePolynomialIndividualMoments, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowers } from '@step-wise/polynomials'
+import { substitutePolynomialMoments, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowers } from '@step-wise/polynomials'
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { Skill } from '@step-wise/skill-definition'
 import { type BernsteinCoefficients, getBernsteinMoment, normalizeBernsteinCoefficients, smoothBernsteinCoefficientsWithFactor, mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from '@step-wise/bernstein-polynomials'
@@ -11,7 +11,7 @@ import { defaultInferenceOrder, defaultLinkCorrelation } from './settings'
 export function getSetupExpectedValue(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients): number {
 	const polynomial = setup.getPolynomial()
 	const getIndividualMoment = (skillId: string, exponent: number) => getBernsteinMoment(getCoefficients(skillId), exponent)
-	const expectedValuePolynomial = substitutePolynomialIndividualMoments(polynomial, getIndividualMoment, polynomial.variables)
+	const expectedValuePolynomial = substitutePolynomialMoments(polynomial, getIndividualMoment, polynomial.variables)
 	if (typeof expectedValuePolynomial.coefficients !== 'number') throw new TypeError('Expected substitution of all variables to produce a constant polynomial.')
 	return expectedValuePolynomial.coefficients
 }
@@ -42,7 +42,7 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 	// // Calculate each of the new coefficients.
 	// const coefficients = repeat(inferenceOrder + 1, i => {
 	// 	const basisPolynomial = multiplyPolynomials([powersOfPolynomial[i], powersOfOneMinusPolynomial[inferenceOrder - i]], polynomial.variables)
-	// 	const expectedBasisPolynomial = substitutePolynomialIndividualMoments(basisPolynomial, getIndividualMoment, polynomial.variables) as number
+	// 	const expectedBasisPolynomial = substitutePolynomialMoments(basisPolynomial, getIndividualMoment, polynomial.variables) as number
 	// 	return (inferenceOrder + 1) * binomial(inferenceOrder, i) * expectedBasisPolynomial
 	// })
 	// return normalizeBernsteinCoefficients(coefficients)

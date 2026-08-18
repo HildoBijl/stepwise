@@ -35,7 +35,7 @@ const constant = { coefficients: 5, variables: [] }
 - `subtractPolynomials(a, b)` returns `a-b`.
 - `multiplyPolynomials(polynomials)` multiplies one or more polynomials.
 - `raisePolynomialToPower(polynomial, exponent)` expands a non-negative integer power.
-- `getPolynomialPowers(polynomial, maxExponent)` returns powers from zero through the maximum.
+- `getPolynomialPowers(polynomial, maxExponent)` returns powers from zero through the maximum (inclusive).
 
 Addition, subtraction, and multiplication accept an optional final variable order.
 
@@ -44,8 +44,7 @@ Addition, subtraction, and multiplication accept an optional final variable orde
 - `alignPolynomialVariables(polynomial, variables)` reorders coefficients and can add or remove inactive variables.
 - `substitutePolynomial(polynomial, values)` substitutes any provided variables and always returns a polynomial.
 - `evaluatePolynomial(polynomial, values)` requires every variable and returns a number.
-- `substitutePolynomialIndividualMoments(polynomial, callback, variables)` calls `callback(variable, exponent)`.
-- `substitutePolynomialMoments(polynomial, callback, variables)` calls `callback(exponents, variables)` for joint moments.
+- `substitutePolynomialMoments(polynomial, callback, variables)` calls `callback(variable, exponent)` for each required per-variable moment.
 
 ## Comparison and display
 

@@ -9,6 +9,7 @@ export type RepeatStorageValue = SkillItemStorageValue & { repeat: number }
 export type SerializedRepeat = GenericSerializedSkillSetup<RepeatStorageValue, 'Repeat'>
 
 export class Repeat extends SkillItemSetup<RepeatStorageValue> {
+	readonly type = 'Repeat'
 	readonly repeat: number
 
 	constructor(skill: SkillSetupLike, repeat: number) {

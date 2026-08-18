@@ -3,12 +3,9 @@ import { type Polynomial, type PolynomialCoefficients, polynomialToString } from
 export type GenericSerializedSkillSetup<TStorageValue = unknown, TType extends string = string> = { type: TType, value: TStorageValue }
 
 export abstract class SkillSetup<TStorageValue = unknown> {
+	abstract readonly type: string
 
 	// Fundamentals.
-
-	get type(): string {
-		return this.constructor.name
-	}
 
 	abstract toStorageValue(): TStorageValue
 	get SO(): TStorageValue { // SO legacy

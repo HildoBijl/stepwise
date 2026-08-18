@@ -7,6 +7,7 @@ export type SkillStorageValue = SkillId
 export type SerializedSkill = GenericSerializedSkillSetup<SkillStorageValue, 'Skill'>
 
 export class Skill extends SkillSetup<SkillStorageValue> {
+	readonly type = 'Skill'
 	readonly skill
 
 	constructor(skill: SkillStorageValue) {

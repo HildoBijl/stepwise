@@ -8,6 +8,8 @@ export type OrStorageValue = SkillListStorageValue
 export type SerializedOr = GenericSerializedSkillSetup<OrStorageValue, 'Or'>
 
 export class Or extends SkillListSetup<OrStorageValue> {
+	readonly type = 'Or'
+
 	constructor(...skills: SkillSetupLike[]) {
 		super(...skills.map(ensureSetup))
 	}
