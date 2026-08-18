@@ -1,4 +1,4 @@
-import { isNumber, isLetter, removeAt, insertAt, first } from '@step-wise/js-utils'
+import { isNumber, isNumeric, isLetter, removeAt, insertAt, first } from '@step-wise/js-utils'
 import { defaultDecimalSeparator as decimalSeparator } from '@step-wise/settings'
 import { accents, constructs, textFunctions } from '@step-wise/cas'
 
@@ -114,7 +114,7 @@ export function acceptsKey(keyInfo, FI, settings) {
 		return true
 
 	const { key } = keyInfo
-	if (isLetter(key) || isNumber(key))
+	if (isLetter(key) || isNumeric(key))
 		return true
 	if (key === '.' || key === ',')
 		return settings.float
@@ -226,7 +226,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	}
 
 	// Check for additions.
-	if (isLetter(key) || isNumber(key)) // Letters and numbers.
+	if (isLetter(key) || isNumeric(key)) // Letters and numbers.
 		return addStrToFI(key, FI)
 	if (key === '+') // Plus.
 		return addStrToFI('+', FI)

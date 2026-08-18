@@ -8,7 +8,7 @@ export function findWithValue<T, V>(array: readonly T[], fn: (element: T, index:
 	for (let index = 0; index < array.length; index++) {
 		const element = array[index]
 		const value = fn(element, index, array)
-		if (value) return { index, element, value: value as V }
+		if (value !== undefined) return { index, element, value }
 	}
 	return undefined
 }

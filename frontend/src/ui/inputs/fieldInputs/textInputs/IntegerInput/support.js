@@ -1,4 +1,4 @@
-import { identity, isNumber, removeAt, insertAt } from '@step-wise/js-utils'
+import { identity, isNumeric, removeAt, insertAt } from '@step-wise/js-utils'
 
 import { Translation } from 'i18n'
 
@@ -82,7 +82,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive) {
 	}
 
 	// Check for additions. Only numbers allowed here.
-	if (isNumber(key)) // Numbers.
+	if (isNumeric(key)) // Numbers.
 		return { ...FI, value: insertAt(value, cursor, key), cursor: cursor + 1 }
 
 	// Unknown key. Ignore, do nothing.

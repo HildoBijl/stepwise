@@ -1,7 +1,7 @@
 import { ensureInteger, ensureNumber, getRandomInteger } from '../numbers'
 
 import { last } from './reading'
-import { cumulative, sum } from './iteration'
+import { count, cumulative } from './iteration'
 import { integerRange } from './creation'
 
 // Return a random element from an array.
@@ -20,7 +20,7 @@ export function sample<T>(array: readonly T[], weights?: readonly number[]): T {
 
 	// Randomly select item using weights.
 	const random = Math.random() * totalWeight
-	const index = cumulativeWeights.findIndex(cumWeight => random <= cumWeight)
+	const index = cumulativeWeights.findIndex(cumWeight => random < cumWeight)
 	return array[index]
 }
 
@@ -51,7 +51,8 @@ export function randomIndices(arrayLength: number, num: number = arrayLength, ra
 		// Check the weights.
 		if (weights.length !== arrayLength) throw new RangeError(`Invalid weights given: expected an array of length ${arrayLength} but received length ${weights.length}.`)
 		weights = weights.map(w => ensureNumber(w, true))
-		if (sum(weights) === 0) throw new RangeError(`Invalid weights given: did not have sufficient options with nonzero weight.`)
+		const selectableCount = count(weights, weight => weight > 0)
+		if (selectableCount < num) throw new RangeError(`Invalid weights given: insufficient positive-weight indices (required ${num}, available ${selectableCount}).`)
 
 		// Pick one item and exclude it afterwards.
 		const index = sample(integerRange(0, arrayLength - 1), weights)

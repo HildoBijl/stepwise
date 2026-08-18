@@ -1,4 +1,4 @@
-import { isNumber, ensureNumber } from '../numbers'
+import { isNumber, isNumeric, ensureNumber } from '../numbers'
 import { isPlainObject } from '../objects'
 
 // Check if the given variable is an array.
@@ -25,9 +25,14 @@ export function ensureArray(x: unknown): unknown[] {
 	return x
 }
 
-// Check whether a variable is an array filled with numbers.
+// Check whether a variable is an array filled with JavaScript numbers.
 export function isNumberArray(x: unknown): x is number[] {
 	return isArray(x) && x.every(v => isNumber(v))
+}
+
+// Check whether a variable is an array filled with numbers or numeric strings.
+export function isNumericArray(x: unknown): x is (number | string)[] {
+	return isArray(x) && x.every(v => isNumeric(v))
 }
 
 // Check whether a variable is an array filled with numbers. This function can be given the same extra options as ensureNumber.
