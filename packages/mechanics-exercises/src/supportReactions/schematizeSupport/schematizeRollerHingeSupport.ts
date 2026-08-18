@@ -1,4 +1,4 @@
-import { deg2rad, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, getRandomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
@@ -24,7 +24,7 @@ export default buildStepExercise({
 		return {
 			...state,
 			points: [A],
-			loads: [createForce({ position: A, angle: deg2rad(wallRotation) })],
+			loads: [createForce({ position: A, angle: degreesToRadians(wallRotation) })],
 			forcePerpendicular: 0,
 			forceParallel: 3,
 			moment: 3,

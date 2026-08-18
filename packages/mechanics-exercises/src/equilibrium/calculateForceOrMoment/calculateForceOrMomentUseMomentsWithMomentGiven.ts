@@ -1,4 +1,4 @@
-import { deg2rad, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
@@ -39,7 +39,7 @@ export default buildStepExercise({
 	getSolution(state) {
 		const { points, angle, up, right, MD } = state
 		const [A, B, C, D] = points
-		const angleRad = deg2rad(angle)
+		const angleRad = degreesToRadians(angle)
 		const method = 4
 
 		const intersection = new Vector(B.x, C.y + B.x - C.x)

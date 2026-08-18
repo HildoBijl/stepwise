@@ -1,4 +1,4 @@
-import { deg2rad, equalAngles, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, anglesEqual, getRandomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
@@ -25,9 +25,9 @@ export default buildStepExercise({
 			...state,
 			points: [A],
 			loads: [
-				createForce({ position: A, angle: deg2rad(wallRotation) }),
-				createForce({ position: A, angle: deg2rad(wallRotation + 90) }),
-				createMoment({ position: A, clockwise: true, openingAngle: deg2rad(wallRotation + beamRotation) }),
+				createForce({ position: A, angle: degreesToRadians(wallRotation) }),
+				createForce({ position: A, angle: degreesToRadians(wallRotation + 90) }),
+				createMoment({ position: A, clockwise: true, openingAngle: degreesToRadians(wallRotation + beamRotation) }),
 			],
 			forcePerpendicular: 0,
 			forceParallel: 0,
@@ -52,7 +52,7 @@ function checkFixedSupport(input: unknown, _solution: unknown, exerciseSolution:
 	if (forces.length !== 2 || moments.length !== 1) return false
 	if (!hasSingleSolutionPoint(exerciseSolution, forces[0].position)) return false
 	if (input.some(load => (!isForce(load) && !isMoment(load)) || !load.position.equals(forces[0].position))) return false
-	return !equalAngles(forces[0].angle, forces[1].angle, Math.PI)
+	return !anglesEqual(forces[0].angle, forces[1].angle, Math.PI)
 }
 
 function hasSingleSolutionPoint(solution: unknown, position: Vector): boolean {

@@ -1,4 +1,4 @@
-import { equalAngles, getOneToOneMatching } from '@step-wise/js-utils'
+import { anglesEqual, getOneToOneMatching } from '@step-wise/js-utils'
 import { type Load, FBDComparison, equalLoads, isForce, isLoad, isMoment } from '@step-wise/engineering-mechanics'
 
 export function getLoadDirectionIndices(input: unknown, solution: readonly Load[]): boolean[] {
@@ -14,7 +14,7 @@ export function getLoadDirectionIndices(input: unknown, solution: readonly Load[
 }
 
 function hasSameDirection(input: Load, solution: Load): boolean {
-	if (isForce(input) && isForce(solution)) return equalAngles(input.angle, solution.angle)
+	if (isForce(input) && isForce(solution)) return anglesEqual(input.angle, solution.angle)
 	if (isMoment(input) && isMoment(solution)) return input.clockwise === solution.clockwise
 	return false
 }

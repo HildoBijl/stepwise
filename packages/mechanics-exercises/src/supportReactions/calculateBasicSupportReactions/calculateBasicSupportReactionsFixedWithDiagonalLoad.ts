@@ -1,4 +1,4 @@
-import { deg2rad, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, getRandomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -18,7 +18,7 @@ const metaData = {
 
 function getStaticSolution(state: any) {
 	const { l1, l2, P, angle } = state
-	const angleRad = deg2rad(angle)
+	const angleRad = degreesToRadians(angle)
 	const A = Vector.zero
 	const B = new Vector(l1.number, 0)
 	const C = new Vector(l1.number + l2.number, 0)

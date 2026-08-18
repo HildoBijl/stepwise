@@ -1,4 +1,4 @@
-import { epsilon, deg2rad, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { epsilon, degreesToRadians, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare, compareList } from '@step-wise/exercise-grading'
@@ -20,7 +20,7 @@ export default buildStepExercise({
 			α = getRandomInteger(5, 17) * 5
 			c = getRandomInteger(6, 12)
 			a = getRandomInteger(2, c - 1)
-		} while (a <= c * Math.sin(deg2rad(α)) + epsilon)
+		} while (a <= c * Math.sin(degreesToRadians(α)) + epsilon)
 
 		// Assemble the state.
 		const variables = selectRandomVariables(variableSet, ['β', 'γ'])

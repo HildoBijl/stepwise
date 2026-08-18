@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad, roundToDigits, integerRange } from '@step-wise/js-utils'
+import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
 import { Float } from '@step-wise/physics-core'
@@ -131,7 +131,7 @@ function ExerciseFigure({ useAlternative, showγ }) {
 function getPoints(solution, useAlternative = false) {
 	const { b1, b2, c, α } = solution
 	const b = useAlternative ? b2 : b1
-	const αRad = deg2rad(α.toNumber())
+	const αRad = degreesToRadians(α.toNumber())
 	return [
 		new Vector(0, 0),
 		new Vector(c.toNumber(), 0),

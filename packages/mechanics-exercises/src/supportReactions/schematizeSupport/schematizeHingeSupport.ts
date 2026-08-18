@@ -1,4 +1,4 @@
-import { deg2rad, equalAngles, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, anglesEqual, getRandomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
@@ -25,8 +25,8 @@ export default buildStepExercise({
 			...state,
 			points: [A],
 			loads: [
-				createForce({ position: A, angle: deg2rad(wallRotation) }),
-				createForce({ position: A, angle: deg2rad(wallRotation + 90) }),
+				createForce({ position: A, angle: degreesToRadians(wallRotation) }),
+				createForce({ position: A, angle: degreesToRadians(wallRotation + 90) }),
 			],
 			forcePerpendicular: 0,
 			forceParallel: 0,
@@ -48,7 +48,7 @@ function checkHingeSupport(input: unknown, _solution: unknown, exerciseSolution:
 	if (!Array.isArray(input) || input.length !== 2 || !input.every(isForce)) return false
 	if (!hasSingleSolutionPoint(exerciseSolution, input[0].position)) return false
 	if (input.some(load => !load.position.equals(input[0].position))) return false
-	return !equalAngles(input[0].angle, input[1].angle, Math.PI)
+	return !anglesEqual(input[0].angle, input[1].angle, Math.PI)
 }
 
 function hasSingleSolutionPoint(solution: unknown, position: Vector): boolean {
