@@ -1,8 +1,21 @@
-import { flattenDeep, forceIntoShape } from '@step-wise/js-utils'
+import { flattenDeep } from '@step-wise/js-utils'
 
 import { zeroWidthSpaceRegExp } from 'ui/components'
 
 import { emptyElementChar } from '../settings'
+
+// Reshape a flat list of character elements to match the nested LaTeX-character structure.
+function reshapeCharacterElements(elements, characterShape) {
+	let elementIndex = 0
+	const reshape = shape => {
+		const result = shape.map(child => Array.isArray(child) ? reshape(child) : elements[elementIndex++])
+		if (shape.include === false) return undefined
+		return result.filter(value => value !== undefined)
+	}
+	const result = reshape(characterShape)
+	if (elementIndex !== elements.length) throw new RangeError(`Invalid character shape: received ${elements.length} elements but the shape contained ${elementIndex} characters.`)
+	return result
+}
 
 // matchCharElements takes an expression and finds all the DOM elements related to all characters.
 export function matchCharElements(equationElement, latexChars) {
@@ -15,7 +28,7 @@ export function matchCharElements(equationElement, latexChars) {
 	// Extract all DOM elements (leafs) with a character and match them appropriately.
 	const allElements = [...equationElement.getElementsByTagName('*')]
 	const charElementList = allElements.filter(isCharElement)
-	const charElements = forceIntoShape(charElementList, latexChars)
+	const charElements = reshapeCharacterElements(charElementList, latexChars)
 	return charElements
 }
 
