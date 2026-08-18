@@ -1,5 +1,6 @@
 import { approximatelyEqual } from '../numbers'
 import { deepEqual } from '../objects'
+import { isArray } from './checks'
 
 // Check whether two arrays are shallow-equal (element-wise ===).
 export function shallowEqual<T>(a: readonly T[], b: readonly T[]): boolean {
@@ -7,12 +8,12 @@ export function shallowEqual<T>(a: readonly T[], b: readonly T[]): boolean {
 }
 
 // Compare (possibly nested) number arrays using approximatelyEqual for numbers.
-type NestedNumber = number | NestedNumber[]
+type NestedNumber = number | readonly NestedNumber[]
 export function compareNumberArrays(a: readonly NestedNumber[], b: readonly NestedNumber[]): boolean {
 	return a.length === b.length && a.every((x, i) => {
 		const y = b[i]
-		if (Array.isArray(x)) return Array.isArray(y) && compareNumberArrays(x, y)
-		return !Array.isArray(y) && approximatelyEqual(x, y)
+		if (isArray(x)) return isArray(y) && compareNumberArrays(x, y)
+		return !isArray(y) && approximatelyEqual(x, y)
 	})
 }
 

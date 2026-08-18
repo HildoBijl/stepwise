@@ -1,4 +1,4 @@
-import { isNumber, isNumeric, ensureNumber, type EnsureNumberOptions } from '../numbers'
+import { type EnsureNumberOptions, isNumber, isNumeric, ensureNumber } from '../numbers'
 
 // Check if the given variable is an array.
 export function isArray(x: unknown): x is readonly unknown[] {
@@ -6,7 +6,7 @@ export function isArray(x: unknown): x is readonly unknown[] {
 }
 
 // Check if the given parameter is an array that's empty.
-export function isEmptyArray(x: unknown): boolean {
+export function isEmptyArray(x: unknown): x is readonly [] {
 	return Array.isArray(x) && x.length === 0
 }
 

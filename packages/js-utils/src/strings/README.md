@@ -6,4 +6,3 @@ All utility functions related to strings are in this folder. These are grouped a
 - [search](./search.ts) is about searching through strings to find something.
 - [manipulation](./manipulation.ts) concerns itself with small adjustments of strings, like removing parts, adding parts or replacing parts.
 - [creation](./creation.ts) revolves around the generation of new strings, based on various arguments.
-- [tagTrees](./tagTrees.ts) has helper functions for turning a piece of text with tags, like `hello <strong>{name}</strong>!` into a parsed tree of tags, or the other way around.

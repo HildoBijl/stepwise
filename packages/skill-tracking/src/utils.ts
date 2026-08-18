@@ -1,4 +1,4 @@
-import { ensureObject, ensureNumber, ensureDate } from '@step-wise/js-utils'
+import { ensurePlainObject, ensureNumber, ensureDate } from '@step-wise/js-utils'
 import { ensureBernsteinCoefficients } from '@step-wise/bernstein-polynomials'
 
 import { RawSkillLevel } from './types'
@@ -14,7 +14,7 @@ export function getInitialSkillLevel(date = new Date()): RawSkillLevel {
 }
 
 export function ensureSkillLevel(value: unknown): RawSkillLevel {
-	const obj = ensureObject(value)
+	const obj = ensurePlainObject(value)
 	return {
 		coefficients: ensureBernsteinCoefficients(obj.coefficients),
 		coefficientsOn: ensureDate(obj.coefficientsOn),

@@ -17,11 +17,14 @@ export function removeWhitespace(str: string): string {
 
 // Remove characters at a given index.
 export function removeAt(str: string, index: number, length = 1): string {
+	index = ensureInteger(index)
+	length = ensureInteger(length, { nonNegative: true })
 	return str.slice(0, index) + str.slice(index + length)
 }
 
 // Insert a string at a given index.
 export function insertAt(str: string, index = 0, insertion = ''): string {
+	index = ensureInteger(index)
 	return str.slice(0, index) + insertion + str.slice(index)
 }
 
@@ -30,3 +33,4 @@ export function camelToKebab(str: string): string {
 	if (str === '') return str
 	return lowerFirst(str).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 }
+import { ensureInteger } from '../numbers'

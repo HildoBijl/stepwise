@@ -6,14 +6,14 @@ export function isObject(x: unknown): x is object {
 }
 
 // Ensure the value is an object; otherwise throw.
-export function ensureObject(x: unknown): Record<string, unknown> {
+export function ensureObject(x: unknown): object {
 	if (!isObject(x)) throw new TypeError(`Invalid input: expected an object but received type "${typeof x}".`)
-	return x as Record<string, unknown>
+	return x
 }
 
 // Check whether a value is boolean. (With Typescript type cast.)
 export function isBoolean(x: unknown): x is boolean {
-  return typeof x === 'boolean'
+	return typeof x === 'boolean'
 }
 
 // Ensure a parameter is boolean; otherwise throw.

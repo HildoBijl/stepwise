@@ -1,6 +1,7 @@
+import { type NestedArray } from './finding'
+
 // Flatten an array until it has no arrays left.
-type NestedArray<T> = T | NestedArray<T>[]
-export function flattenDeep<T>(array: readonly NestedArray<T>[]): T[] {
+export function flattenDeep<T>(array: NestedArray<T>): T[] {
 	const result: T[] = []
 	const appendValues = (values: readonly unknown[]): void => {
 		for (const value of values) {

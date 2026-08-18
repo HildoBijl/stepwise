@@ -1,3 +1,5 @@
+export type NestedArray<T> = readonly (T | NestedArray<T>)[]
+
 // Check if an element is in a list. Includes type narrowing.
 export function isIn<const T extends readonly unknown[]>(value: unknown, options: T): value is T[number] {
 	return options.includes(value)
@@ -19,7 +21,6 @@ export function findValue<T, V>(array: readonly T[], fn: (element: T, index: num
 }
 
 // Find the index path of a value inside a nested array structure.
-type NestedArray<T> = readonly (T | NestedArray<T>)[]
 export function findIndexPath<T>(array: NestedArray<T>, elementToFind: T): number[] | undefined {
 	const result = findWithValue(array, (element, index) => {
 		if (element === elementToFind) return [index]

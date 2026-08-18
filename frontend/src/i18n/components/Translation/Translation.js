@@ -1,8 +1,7 @@
-import { parseTagTree } from '@step-wise/js-utils'
-
 import { isLocalhost } from 'util'
 
 import { applyNoTranslation, elementToString, applyTranslation } from '../../transformation'
+import { parseTagTree } from '../../tagTrees'
 
 import { useTextTranslation } from '../../sectioning'
 

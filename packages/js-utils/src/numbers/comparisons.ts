@@ -11,6 +11,10 @@ export const epsilon = 1e-10
 
 // Compare two numbers for approximate equality.
 export function approximatelyEqual(input: number, reference: number): boolean {
+	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	if (Object.is(input, reference)) return true
+	if (!Number.isFinite(input) || !Number.isFinite(reference)) return false
+
 	// Check if the absolute difference is within bounds.
 	const diff = Math.abs(input - reference)
 	if (diff < epsilon) return true
@@ -24,6 +28,7 @@ export function approximatelyEqual(input: number, reference: number): boolean {
 }
 
 export function compareNumbers(input: number, reference: number): -1 | 0 | 1 {
+	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
 	return input > reference ? 1 : input < reference ? -1 : 0
 }
 
@@ -95,15 +100,21 @@ export function adjustNumberTolerances(options: NumberEqualityOptionsInput, fact
 }
 
 export function getAbsoluteDifference(input: number, reference: number): number {
+	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	if (Object.is(input, reference)) return 0
 	return Math.abs(input - reference)
 }
 
 export function getRelativeDifference(input: number, reference: number): number {
+	if (!isNumber(input) || !isNumber(reference)) throw new TypeError('Input error: compared values must be numbers other than NaN.')
+	if (Object.is(input, reference)) return 0
+	if (!Number.isFinite(input) || !Number.isFinite(reference)) return Infinity
 	const max = Math.max(Math.abs(input), Math.abs(reference))
 	return max === 0 ? 0 : Math.abs(input - reference) / max
 }
 
 export function isMultipleOf(a: number, b: number): boolean {
-	if (b === 0) throw new Error(`Invalid divisor: expected a non-zero number.`)
+	if (!Number.isFinite(a) || !Number.isFinite(b)) throw new TypeError('Invalid inputs: expected finite numbers.')
+	if (b === 0) throw new RangeError(`Invalid divisor: expected a non-zero number.`)
 	return approximatelyEqual(a / b, Math.round(a / b))
 }

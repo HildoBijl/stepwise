@@ -1,12 +1,12 @@
-import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
+import { approximatelyEqual, compareNumberArrays, isArray } from '@step-wise/js-utils'
 
 import { type Polynomial, type PolynomialCoefficients, type PolynomialComparisonOptions } from './types'
 import { ensurePolynomial } from './checks'
 import { alignPolynomialVariables } from './restructuring'
 
 export function comparePolynomialCoefficients(coefficients1: PolynomialCoefficients, coefficients2: PolynomialCoefficients): boolean {
-	if (Array.isArray(coefficients1)) return Array.isArray(coefficients2) && compareNumberArrays(coefficients1, coefficients2)
-	return !Array.isArray(coefficients2) && approximatelyEqual(coefficients1, coefficients2)
+	if (isArray(coefficients1)) return isArray(coefficients2) && compareNumberArrays(coefficients1, coefficients2)
+	return !isArray(coefficients2) && approximatelyEqual(coefficients1, coefficients2)
 }
 
 export function comparePolynomials(polynomial1: Polynomial, polynomial2: Polynomial, options: PolynomialComparisonOptions = {}): boolean {

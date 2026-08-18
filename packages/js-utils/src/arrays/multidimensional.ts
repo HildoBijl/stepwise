@@ -1,7 +1,7 @@
 import { type TypeGuard } from '../objects'
+import { type NestedArray } from './finding'
 import { type ArrayReadingOptions } from './reading'
 
-export type NestedArray<T> = (T | NestedArray<T>)[]
 export type NestedValue<T> = T | NestedArray<T>
 
 // Get the dimensions of a multi-dimensional array (matrix).

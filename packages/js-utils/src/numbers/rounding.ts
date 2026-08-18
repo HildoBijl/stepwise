@@ -1,7 +1,8 @@
-import { ensureInteger } from './checks'
+import { ensureInteger, isNumber } from './checks'
 
 // Round a number to the given number of decimals.
 export function roundTo(x: number, decimals = 0): number {
+	if (!isNumber(x)) throw new TypeError('Input error: value must be a number other than NaN.')
 	decimals = ensureInteger(decimals)
 
 	// Check boundary cases.
@@ -14,6 +15,7 @@ export function roundTo(x: number, decimals = 0): number {
 
 // Round a number to the given number of significant digits.
 export function roundToDigits(x: number, digits: number): number {
+	if (!isNumber(x)) throw new TypeError('Input error: value must be a number other than NaN.')
 	digits = ensureInteger(digits, { nonNegative: true, allowInfinity: true })
 
 	// Boundary cases.
