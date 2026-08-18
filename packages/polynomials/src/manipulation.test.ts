@@ -24,6 +24,10 @@ describe('Check mathematical functions:', () => {
 		it('works on a polynomial without variables', () => {
 			expect(addConstantToPolynomial({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 5, variables: [] })
 		})
+
+		it('rejects an invalid addition', () => {
+			expect(() => addConstantToPolynomial({ coefficients: 2, variables: [] }, Number.NaN)).toThrow()
+		})
 	})
 
 	describe('scalePolynomial', () => {
@@ -36,6 +40,10 @@ describe('Check mathematical functions:', () => {
 
 		it('works on a polynomial without variables', () => {
 			expect(scalePolynomial({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 6, variables: [] })
+		})
+
+		it('rejects an invalid factor', () => {
+			expect(() => scalePolynomial({ coefficients: 2, variables: [] }, Number.POSITIVE_INFINITY)).toThrow()
 		})
 	})
 

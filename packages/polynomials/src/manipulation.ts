@@ -1,4 +1,4 @@
-import { ensureInteger, getDimensions, getMatrixElement, isNumber, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, sum, union } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, getDimensions, getMatrixElement, isNumber, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, sum, union } from '@step-wise/js-utils'
 
 import { type NonEmptyPolynomialList, type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
 import { ensurePolynomial, ensurePolynomialVariables } from './checks'
@@ -20,7 +20,8 @@ function addConstant(coefficients: PolynomialCoefficients, addition: number): Po
 
 export function addConstantToPolynomial(polynomial: Polynomial, addition: number): Polynomial {
 	ensurePolynomial(polynomial)
-	return mapPolynomialCoefficients(polynomial, coefficients => addConstant(coefficients, addition))
+	const ensuredAddition = ensureNumber(addition)
+	return mapPolynomialCoefficients(polynomial, coefficients => addConstant(coefficients, ensuredAddition))
 }
 
 function scaleCoefficients(coefficients: PolynomialCoefficients, factor: number): PolynomialCoefficients {
@@ -30,7 +31,8 @@ function scaleCoefficients(coefficients: PolynomialCoefficients, factor: number)
 
 export function scalePolynomial(polynomial: Polynomial, factor: number): Polynomial {
 	ensurePolynomial(polynomial)
-	return mapPolynomialCoefficients(polynomial, coefficients => scaleCoefficients(coefficients, factor))
+	const ensuredFactor = ensureNumber(factor)
+	return mapPolynomialCoefficients(polynomial, coefficients => scaleCoefficients(coefficients, ensuredFactor))
 }
 
 export function oneMinusPolynomial(polynomial: Polynomial): Polynomial {

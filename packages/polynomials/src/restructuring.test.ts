@@ -94,5 +94,10 @@ describe('Check restructure/substitute functions:', () => {
 			expect(() => substitutePolynomialIndividualMoments(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
 			expect(() => substitutePolynomialMoments(expression, () => 1, ['a', 'a'])).toThrow(RangeError)
 		})
+
+		it('rejects invalid moments', () => {
+			expect(() => substitutePolynomialIndividualMoments(expression, () => Number.NaN, ['a'])).toThrow()
+			expect(() => substitutePolynomialMoments(expression, () => Number.POSITIVE_INFINITY, ['a'])).toThrow()
+		})
 	})
 })

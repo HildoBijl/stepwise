@@ -1,4 +1,4 @@
-import { getDimensions, getMatrixElement, isNumber, product, repeat, repeatMultidimensional } from '@step-wise/js-utils'
+import { ensureNumber, getDimensions, getMatrixElement, isNumber, product, repeat, repeatMultidimensional } from '@step-wise/js-utils'
 
 import { type Polynomial, type PolynomialValues, type PolynomialVariables } from './types'
 import { ensurePolynomial, ensurePolynomialVariables } from './checks'
@@ -23,10 +23,8 @@ export function alignPolynomialVariables(polynomial: Polynomial, variables: Poly
 export function substitutePolynomial(polynomial: Polynomial, values: PolynomialValues): Polynomial {
 	ensurePolynomial(polynomial)
 	const variables = polynomial.variables.filter(variable => Object.hasOwn(values, variable))
-	variables.forEach(variable => {
-		if (!Number.isFinite(values[variable])) throw new TypeError(`Cannot substitute polynomial: expected a finite value for variable "${variable}".`)
-	})
-	return substitutePolynomialIndividualMoments(polynomial, (variable, exponent) => values[variable] ** exponent, variables)
+	const ensuredValues = Object.fromEntries(variables.map(variable => [variable, ensureNumber(values[variable])]))
+	return substitutePolynomialIndividualMoments(polynomial, (variable, exponent) => ensuredValues[variable] ** exponent, variables)
 }
 
 export function evaluatePolynomial(polynomial: Polynomial, values: PolynomialValues): number {
@@ -43,7 +41,7 @@ export function substitutePolynomialIndividualMoments(polynomial: Polynomial, ge
 	ensurePolynomialVariables(variables)
 	const knownVariables = variables.filter(variable => polynomial.variables.includes(variable))
 	const dimensions = getDimensions(polynomial.coefficients, isNumber)
-	const moments = knownVariables.map(variable => repeat(dimensions[polynomial.variables.indexOf(variable)], exponent => getIndividualMoment(variable, exponent)))
+	const moments = knownVariables.map(variable => repeat(dimensions[polynomial.variables.indexOf(variable)], exponent => ensureNumber(getIndividualMoment(variable, exponent))))
 	const getMoment = (exponents: readonly number[]) => product(exponents.map((exponent, index) => moments[index][exponent]))
 	return substitutePolynomialMoments(polynomial, getMoment, knownVariables)
 }
@@ -61,7 +59,7 @@ export function substitutePolynomialMoments(polynomial: Polynomial, getMoment: (
 		let total = 0
 		repeatMultidimensional(removedDimensions, (...removedIndices) => {
 			const oldIndices = polynomial.variables.map(variable => knownVariables.includes(variable) ? removedIndices[knownVariables.indexOf(variable)] : newIndices[unknownVariables.indexOf(variable)])
-			total += getMatrixElement(polynomial.coefficients, oldIndices, isNumber) * getMoment(removedIndices, knownVariables)
+			total += getMatrixElement(polynomial.coefficients, oldIndices, isNumber) * ensureNumber(getMoment(removedIndices, knownVariables))
 		})
 		return total
 	})
