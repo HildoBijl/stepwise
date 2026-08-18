@@ -1,4 +1,4 @@
-import { ensureNumber, approximatelyEqual, clamp, fallsBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
+import { ensureNumber, approximatelyEqual, clamp, isBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
 
 import { type VectorLike, Vector, ensureVector } from '../Vector'
 import { type LineLike, ensureLine } from '../Line'
@@ -261,7 +261,7 @@ export class Rectangle {
 	// Check if a given point is within (or on the bounds of) the Rectangle.
 	contains(vector: VectorLike): boolean {
 		const point = ensureVector(vector, this.dimension)
-		return integerRange(0, this.dimension - 1).every(axis => fallsBetween(point.getCoordinate(axis), ...this.getBounds(axis)))
+		return integerRange(0, this.dimension - 1).every(axis => isBetween(point.getCoordinate(axis), ...this.getBounds(axis)))
 	}
 
 	// Check if a given point is exactly on the bounds of the Rectangle.
