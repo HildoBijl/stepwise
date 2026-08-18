@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "references": [
+    { "path": "../demo-exercises/tsconfig.build.json" },
+    { "path": "../exercise-bundling/tsconfig.build.json" },
+    { "path": "../exercise-definition/tsconfig.build.json" },
+    { "path": "../mathematics-exercises/tsconfig.build.json" },
+    { "path": "../mechanics-exercises/tsconfig.build.json" },
+    { "path": "../physics-exercises/tsconfig.build.json" },
+    { "path": "../skill-definition/tsconfig.build.json" },
+    { "path": "../skill-tree/tsconfig.build.json" },
+    { "path": "../js-utils/tsconfig.build.json" }
+  ],
+  "include": ["src"]
+}
