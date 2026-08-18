@@ -61,7 +61,7 @@ function UserInspectionItem({ skillId, skillLevel }) {
 		<div className="flask"><SkillFlask skillId={skillId} coef={skillLevel.coefficients} size={40} /></div>
 		<div className="name">{skillTree[skillLevel.skillId].name}</div>
 		<div className="numPracticed">{skillLevel.numPracticed}</div>
-		<div className="lastPracticed">{formatDate(skillLevel.lastPracticed, true)}</div>
+		<div className="lastPracticed">{formatDate(skillLevel.lastPracticed, { includeTime: true })}</div>
 	</>
 }
 

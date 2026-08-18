@@ -1,7 +1,13 @@
 import { ensureDate } from './checks'
 
+export type FormatDateOptions = {
+	includeTime?: boolean
+	includeSeconds?: boolean
+}
+
 // Format a Date as "YYYY-MM-DD". Optionally include "HH:mm" or "HH:mm:ss".
-export function formatDate(date: Date, includeTime: boolean = false, includeSeconds: boolean = false): string {
+export function formatDate(date: Date, options: FormatDateOptions = {}): string {
+	const { includeTime = false, includeSeconds = false } = options
 	date = ensureDate(date)
 	const twoDigit = (x: number) => x < 10 ? `0${x}` : `${x}`
 
