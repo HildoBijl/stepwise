@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -25,11 +25,11 @@ export default buildSimpleExercise({
 	},
 
 	generateState() {
-		const type = getRandomInteger(0, 3)
+		const type = randomInteger(0, 3)
 		let T = getRandomFloatUnit({
 			min: 0,
 			max: 1000,
-			decimals: getRandomInteger(0, 1),
+			decimals: randomInteger(0, 1),
 			unit: 'K',
 		})
 		if (type >= 2) T = T.setUnit('dC').roundToPrecision()

@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomInteger } from '@step-wise/js-utils'
 import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -24,9 +24,9 @@ export default buildStepExercise({
 		// We want integer coefficients in the equation, but a possibly non-integer solution "numerator/denominator". So we set up the equation a*(x - numerator/denominator)^2 = 0, rewrite it to a*x^2 - 2*a*(numerator/denominator) + a*(numerator/denominator)^2 = 0, and check if this gives integer coefficients.
 		let a = 0, denominator = 1, numerator = 0
 		while (a === 0 || 2 * a * numerator % denominator !== 0 || a * numerator ** 2 % denominator ** 2 !== 0 || numerator === 0) {
-			a = getRandomInteger(-6, 6, [0])
-			numerator = getRandomInteger(-12, 12)
-			denominator = getRandomInteger(-6, 6, [0])
+			a = randomInteger(-6, 6, [0])
+			numerator = randomInteger(-12, 12)
+			denominator = randomInteger(-6, 6, [0])
 		}
 		const b = -2 * a * numerator / denominator
 		const c = a * (numerator / denominator) ** 2

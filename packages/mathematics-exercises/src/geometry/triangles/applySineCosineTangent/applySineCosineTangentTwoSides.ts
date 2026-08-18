@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, type Expression, asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -14,23 +14,23 @@ export default buildStepExercise({
 
 	generateState() {
 		// Determine the sides.
-		const notGiven = getRandomInteger(0, 2) // Is a, b or c not given?
+		const notGiven = randomInteger(0, 2) // Is a, b or c not given?
 		const sides: Partial<Record<'a' | 'b' | 'c', Expression>> = {}
 		if (notGiven === 0) {
-			const b = getRandomInteger(2, 10)
+			const b = randomInteger(2, 10)
 			sides.b = asExpression(b)
-			sides.c = asExpression(getRandomInteger(b + 1, 12))
+			sides.c = asExpression(randomInteger(b + 1, 12))
 		} else if (notGiven === 1) {
-			const a = getRandomInteger(2, 10)
+			const a = randomInteger(2, 10)
 			sides.a = asExpression(a)
-			sides.c = asExpression(getRandomInteger(a + 1, 12))
+			sides.c = asExpression(randomInteger(a + 1, 12))
 		} else {
-			sides.a = asExpression(getRandomInteger(2, 10))
-			sides.b = asExpression(getRandomInteger(2, 10))
+			sides.a = asExpression(randomInteger(2, 10))
+			sides.b = asExpression(randomInteger(2, 10))
 		}
 
 		// Gather all data into a state.
-		return { ...sides, beta: asExpression(sample(variableSet)), rotation: getRandomNumber(0, 2 * Math.PI), reflection: getRandomBoolean() }
+		return { ...sides, beta: asExpression(sample(variableSet)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
 	getSolution(state) {

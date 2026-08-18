@@ -178,7 +178,7 @@ export class Float {
 	 */
 
 	setSignificantDigits(significantDigits: number): Float {
-		significantDigits = ensureInteger(significantDigits, true, false, true)
+		significantDigits = ensureInteger(significantDigits, { nonNegative: true, allowInfinity: true })
 		return significantDigits === this.significantDigits ? this : new Float({ number: this.number, significantDigits, power: this.power })
 	}
 

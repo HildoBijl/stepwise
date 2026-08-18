@@ -2,12 +2,12 @@ import { approximatelyEqual } from './comparisons'
 import { mod } from './limiting'
 
 // Convert degrees to radians.
-export function deg2rad(deg: number): number {
+export function degreesToRadians(deg: number): number {
 	return deg * Math.PI / 180
 }
 
 // Convert radians to degrees.
-export function rad2deg(rad: number): number {
+export function radiansToDegrees(rad: number): number {
 	return rad * 180 / Math.PI
 }
 
@@ -17,7 +17,7 @@ export function normalizeAngle(angle: number, period = 2 * Math.PI): number {
 }
 
 // Check if angles (radians) are equal.
-export function equalAngles(angle1: number, angle2: number, period = 2 * Math.PI): boolean {
+export function anglesEqual(angle1: number, angle2: number, period = 2 * Math.PI): boolean {
 	const angleDifference = normalizeAngle(angle1 - angle2, period)
 	return approximatelyEqual(angleDifference, 0) || approximatelyEqual(angleDifference, period)
 }

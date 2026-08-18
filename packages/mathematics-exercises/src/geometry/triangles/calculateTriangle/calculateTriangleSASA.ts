@@ -1,4 +1,4 @@
-import { approximatelyEqual, sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { approximatelyEqual, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, asEquation } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -15,15 +15,15 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const b = getRandomInteger(3, 12)
+		const b = randomInteger(3, 12)
 		return {
-			α: asExpression(getRandomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
+			α: asExpression(randomInteger(5, 24, [18]) * 5), // Ensure there is no 90 degree angle.
 			β: asExpression(sample(angleVariableSet)),
 			a: asExpression(sample(sideVariableSet)),
 			b: asExpression(b),
-			c: asExpression(getRandomInteger(3, 12, [b])), // Don't have a triangle with two equal sides; that's too easy.
-			rotation: getRandomNumber(0, 2 * Math.PI),
-			reflection: getRandomBoolean(),
+			c: asExpression(randomInteger(3, 12, [b])), // Don't have a triangle with two equal sides; that's too easy.
+			rotation: randomNumber(0, 2 * Math.PI),
+			reflection: randomBoolean(),
 		}
 	},
 

@@ -1,4 +1,4 @@
-import { ensureNumber, approximatelyEqual, clamp, fallsBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
+import { ensureNumber, approximatelyEqual, clamp, isBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
 
 import { type VectorLike, Vector, ensureVector } from '../Vector'
 import { type LineLike, ensureLine } from '../Line'
@@ -261,7 +261,7 @@ export class Rectangle {
 	// Check if a given point is within (or on the bounds of) the Rectangle.
 	contains(vector: VectorLike): boolean {
 		const point = ensureVector(vector, this.dimension)
-		return integerRange(0, this.dimension - 1).every(axis => fallsBetween(point.getCoordinate(axis), ...this.getBounds(axis)))
+		return integerRange(0, this.dimension - 1).every(axis => isBetween(point.getCoordinate(axis), ...this.getBounds(axis)))
 	}
 
 	// Check if a given point is exactly on the bounds of the Rectangle.
@@ -299,12 +299,12 @@ export class Rectangle {
 	// Check if a circle is fully encompassed by the Rectangle.
 	containsCircle(center: VectorLike, radius: number): boolean {
 		const ensuredCenter = ensureVector(center, this.dimension)
-		return this.contains(ensuredCenter) && this.distanceTo(ensuredCenter, true) >= ensureNumber(radius, true)
+		return this.contains(ensuredCenter) && this.distanceTo(ensuredCenter, true) >= ensureNumber(radius, { nonNegative: true })
 	}
 
 	// Check if a circle intersects the Rectangle's bounds.
 	touchesCircle(center: VectorLike, radius: number): boolean {
-		return this.distanceTo(ensureVector(center, this.dimension)) <= ensureNumber(radius, true)
+		return this.distanceTo(ensureVector(center, this.dimension)) <= ensureNumber(radius, { nonNegative: true })
 	}
 
 	/*

@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { Expression, asExpression, asEquation, expressionComparisons, expressionChecks, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -30,16 +30,16 @@ export default buildStepExercise({
 
 		// On a non-invertible system, redo the generation.
 		do {
-			a = getRandomInteger(-6, 6, [0, 1])
-			b = getRandomInteger(-6, 6, [0, 1])
-			e = getRandomInteger(-6, 6, [0, 1])
-			f = getRandomInteger(-6, 6, [0, 1])
+			a = randomInteger(-6, 6, [0, 1])
+			b = randomInteger(-6, 6, [0, 1])
+			e = randomInteger(-6, 6, [0, 1])
+			f = randomInteger(-6, 6, [0, 1])
 		} while (a * f - b * e === 0)
 
-		const c = getRandomInteger(-6, 6, [0, 1])
-		const d = getRandomInteger(-16, 16)
-		const g = getRandomInteger(-6, 6, [0, 1])
-		const h = getRandomInteger(-16, 16)
+		const c = randomInteger(-6, 6, [0, 1])
+		const d = randomInteger(-16, 16)
+		const g = randomInteger(-6, 6, [0, 1])
+		const h = randomInteger(-16, 16)
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d, e, f, g, h }
 	},
 

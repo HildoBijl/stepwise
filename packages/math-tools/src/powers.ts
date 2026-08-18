@@ -5,7 +5,7 @@ import { getPrime, getPrimeFactorization } from './primes'
 // Check if a number is a perfect power.
 export function isPerfectPower(num: number, exponent: number): boolean {
 	num = ensureInteger(num)
-	exponent = ensureInteger(exponent, true)
+	exponent = ensureInteger(exponent, { nonNegative: true })
 
 	// Basic cases.
 	if (exponent === 0) return num === 1
@@ -25,8 +25,8 @@ export function isSquare(num: number): boolean {
 
 // Return the largest factor whose given power still divides the number.
 export function largestPowerDivisor(num: number, power: number): number {
-	num = ensureInteger(num, true, true)
-	power = ensureInteger(power, true, true)
+	num = ensureInteger(num, { nonNegative: true, nonZero: true })
+	power = ensureInteger(power, { nonNegative: true, nonZero: true })
 
 	const primeFactors = getPrimeFactorization(num)
 	const filtered = primeFactors.map(p => p - (p % power))

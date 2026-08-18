@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -12,8 +12,8 @@ export default buildSimpleExercise({
 
 	generateState(example) {
 		return {
-			a: getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
-			b: getRandomInteger(2, example ? 5 : 8),
+			a: randomInteger(example ? 2 : -8, 8, [-1, 0, 1]),
+			b: randomInteger(2, example ? 5 : 8),
 		}
 	},
 

@@ -1,4 +1,4 @@
-import { getRandomNumber } from '@step-wise/js-utils'
+import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup, getInput } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
@@ -19,7 +19,7 @@ export default buildStepExercise({
 		const n = getRandomFloat({ min: 1.1, max: 1.3, decimals: 1 })
 		const T1 = getRandomFloatUnit({ min: 5, max: 30, significantDigits: 2, unit: 'dC' })
 		const V1 = getRandomFloatUnit({ min: 0.2, max: 1.2, significantDigits: 2, unit: 'l' })
-		const pressureRatio = getRandomNumber(2, 5)
+		const pressureRatio = randomNumber(2, 5)
 		const V2 = V1.multiply(Math.pow(pressureRatio, -1 / n.number)).roundToPrecision()
 		return { n, T1, V1, V2 }
 	},

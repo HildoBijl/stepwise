@@ -32,8 +32,8 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 	let { axisLineStyle, tickLineStyle, tickSize, tickSizeOpposite, showZeroTick, tickToElement, gridLines, gridLineStyle, xLabel, yLabel, xLabelShift, yLabelShift, textScale } = mergeDefaults(options, defaultAxesOptions)
 	axisLineStyle = ensurePlainObject(axisLineStyle)
 	tickLineStyle = ensurePlainObject(tickLineStyle)
-	tickSize = ensureNumber(tickSize, true)
-	tickSizeOpposite = ensureNumber(tickSizeOpposite, true)
+	tickSize = ensureNumber(tickSize, { nonNegative: true })
+	tickSizeOpposite = ensureNumber(tickSizeOpposite, { nonNegative: true })
 	showZeroTick = ensureBoolean(showZeroTick)
 	tickToElement = ensureFunction(tickToElement)
 	gridLines = ensureBoolean(gridLines)
@@ -42,7 +42,7 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 	yLabel = yLabel && ensureReactElement(yLabel)
 	xLabelShift = ensureNumber(xLabelShift)
 	yLabelShift = ensureNumber(yLabelShift)
-	textScale = ensureNumber(textScale, true, true)
+	textScale = ensureNumber(textScale, { nonNegative: true, nonZero: true })
 
 	return <Group ref={ref}>
 		{/* Grid lines. */}

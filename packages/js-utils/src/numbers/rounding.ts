@@ -14,7 +14,7 @@ export function roundTo(x: number, decimals = 0): number {
 
 // Round a number to the given number of significant digits.
 export function roundToDigits(x: number, digits: number): number {
-	digits = ensureInteger(digits, true, false, true)
+	digits = ensureInteger(digits, { nonNegative: true, allowInfinity: true })
 
 	// Boundary cases.
 	if (x === 0) return 0

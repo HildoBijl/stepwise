@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -13,9 +13,9 @@ export default buildSimpleExercise({
 
 	generateState() {
 		const pressureRange = superheatedSteam.inputValues[0]
-		const p = pressureRange[getRandomInteger(3, Math.min(20, pressureRange.length))]
+		const p = pressureRange[randomInteger(3, Math.min(20, pressureRange.length))]
 		const temperatureRange = superheatedSteam.inputValues[1]
-		const T = temperatureRange[getRandomInteger(6, Math.min(24, temperatureRange.length))]
+		const T = temperatureRange[randomInteger(6, Math.min(24, temperatureRange.length))]
 		return { p, T }
 	},
 

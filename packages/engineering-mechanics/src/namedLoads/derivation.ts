@@ -1,4 +1,4 @@
-import { ensureString, equalAngles, normalizeAngle } from '@step-wise/js-utils'
+import { ensureString, anglesEqual, normalizeAngle } from '@step-wise/js-utils'
 
 import { type Load, type LoadComparisonOptionsInput, equalLoads, isForce, isLoadAtPoint, isMoment } from '../loads'
 
@@ -53,8 +53,8 @@ function deriveForceNames(forces: readonly Load[], point: string | undefined, sy
 	const forceLoads = forces.filter(isForce)
 	if (forceLoads.length === 1) return [{ load: forceLoads[0], name: { symbol, ...(point === undefined ? {} : { point }) } }]
 	if (forceLoads.length === 2 && point !== undefined) {
-		const horizontal = forceLoads.find(force => equalAngles(force.angle, 0, Math.PI))
-		const vertical = forceLoads.find(force => equalAngles(force.angle, Math.PI / 2, Math.PI))
+		const horizontal = forceLoads.find(force => anglesEqual(force.angle, 0, Math.PI))
+		const vertical = forceLoads.find(force => anglesEqual(force.angle, Math.PI / 2, Math.PI))
 		if (horizontal && vertical) {
 			return [
 				{ load: horizontal, name: { symbol, point, suffix: 'x' } },

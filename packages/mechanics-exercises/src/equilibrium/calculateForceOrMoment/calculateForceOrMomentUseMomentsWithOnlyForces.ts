@@ -1,4 +1,4 @@
-import { deg2rad, getRandomBoolean, getRandomInteger, integerRange, isMultipleOf } from '@step-wise/js-utils'
+import { degreesToRadians, randomBoolean, randomInteger, integerRange, isMultipleOf } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
@@ -14,11 +14,11 @@ export default buildStepExercise({
 
 	generateState() {
 		while (true) {
-			const points = integerRange(0, 3).map(() => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4)))
-			const angle = getRandomInteger(5, 13, [9]) * 5
-			const up = getRandomBoolean()
-			const right = getRandomBoolean()
-			const horizontal = getRandomBoolean()
+			const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
+			const angle = randomInteger(5, 13, [9]) * 5
+			const up = randomBoolean()
+			const right = randomBoolean()
+			const horizontal = randomBoolean()
 			const FD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
 			if (points.some((point, index) => points.some((otherPoint, otherIndex) => index < otherIndex && point.equals(otherPoint)))) continue
 			if (points[0].x === points[1].x || points[0].y === points[2].y) continue
@@ -30,7 +30,7 @@ export default buildStepExercise({
 	getSolution(state) {
 		const { points, angle, up, right, horizontal, FD } = state
 		const [A, B, C, D] = points
-		const angleRad = deg2rad(angle)
+		const angleRad = degreesToRadians(angle)
 		const method = 4
 
 		const FDx = FD.multiply(Math.sin(angleRad))

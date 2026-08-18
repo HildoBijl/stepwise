@@ -1,4 +1,4 @@
-import { sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -21,20 +21,20 @@ export default buildStepExercise({
 
 	generateState() {
 		// Generate random data.
-		const given = getRandomInteger(0, 2) // Is a, b or c already given?
+		const given = randomInteger(0, 2) // Is a, b or c already given?
 		const triangle = sample(sampleTriangles).map(expression => asExpression(expression))
 		const variableSet = sample(availableVariableSets)
 		const variables = selectRandomVariables(variableSet, usedVariables)
 
 		// Gather all data into a state.
 		return {
-			a: given === 0 ? asExpression(getRandomInteger(2, 20)) : variables.a,
-			b: given === 1 ? asExpression(getRandomInteger(2, 20)) : variables.b,
-			c: given === 2 ? asExpression(getRandomInteger(2, 30)) : variables.c,
+			a: given === 0 ? asExpression(randomInteger(2, 20)) : variables.a,
+			b: given === 1 ? asExpression(randomInteger(2, 20)) : variables.b,
+			c: given === 2 ? asExpression(randomInteger(2, 30)) : variables.c,
 			La: triangle[0],
 			Lb: triangle[1],
-			rotation: getRandomNumber(0, 2 * Math.PI),
-			reflection: getRandomBoolean(),
+			rotation: randomNumber(0, 2 * Math.PI),
+			reflection: randomBoolean(),
 		}
 	},
 

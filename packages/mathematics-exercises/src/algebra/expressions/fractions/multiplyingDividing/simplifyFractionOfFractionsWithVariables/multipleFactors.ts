@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, getRandomBoolean } from '@step-wise/js-utils'
+import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -24,18 +24,18 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const a = getRandomInteger(-12, 12, [-1, 0, 1])
-		const b = getRandomInteger(-12, 12, [-1, 0, 1, a])
-		const c = getRandomInteger(-12, 12, [-1, 0, 1, a, b])
-		const d = getRandomInteger(-12, 12, [-1, 0, 1, a, b, c])
-		const p = getRandomInteger(-4, 4)
-		const q = getRandomInteger(-4, 4, [p])
-		const r = getRandomInteger(-4, 4, [p, q])
-		const s = getRandomInteger(-4, 4, [p, q, r])
+		const a = randomInteger(-12, 12, [-1, 0, 1])
+		const b = randomInteger(-12, 12, [-1, 0, 1, a])
+		const c = randomInteger(-12, 12, [-1, 0, 1, a, b])
+		const d = randomInteger(-12, 12, [-1, 0, 1, a, b, c])
+		const p = randomInteger(-4, 4)
+		const q = randomInteger(-4, 4, [p])
+		const r = randomInteger(-4, 4, [p, q])
+		const s = randomInteger(-4, 4, [p, q, r])
 		return {
 			x: sample(variableSet),
 			a, b, c, d, p, q, r, s,
-			flip: getRandomBoolean(),
+			flip: randomBoolean(),
 		}
 	},
 

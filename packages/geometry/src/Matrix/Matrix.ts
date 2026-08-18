@@ -276,8 +276,8 @@ export class Matrix {
 	 */
 
 	static getZero(rowCount: number, columnCount = rowCount): Matrix {
-		rowCount = ensureInteger(rowCount, true)
-		columnCount = ensureInteger(columnCount, true)
+		rowCount = ensureInteger(rowCount, { nonNegative: true })
+		columnCount = ensureInteger(columnCount, { nonNegative: true })
 		return new Matrix(new Array(rowCount).fill(0).map(() => new Array(columnCount).fill(0)))
 	}
 
@@ -287,7 +287,7 @@ export class Matrix {
 	}
 
 	static getIdentity(size: number): Matrix {
-		size = ensureInteger(size, true)
+		size = ensureInteger(size, { nonNegative: true })
 		return Matrix.fromDiagonal(new Array(size).fill(1))
 	}
 

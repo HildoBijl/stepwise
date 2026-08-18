@@ -1,4 +1,4 @@
-import { integerRange, sample, getRandomInteger } from '@step-wise/js-utils'
+import { integerRange, sample, randomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
@@ -7,11 +7,11 @@ export function getCycle() {
 	while (true) {
 		// Get pressure in condensor and evaporator.
 		const pressureRangeTable1 = saturatedSteamByPressure.inputValues[0]
-		const condenserIndex = getRandomInteger(3, 8)
+		const condenserIndex = randomInteger(3, 8)
 		const pc = pressureRangeTable1[condenserIndex]
 		const Tc = tableInterpolate(pc, saturatedSteamByPressure, 'boilingTemperature')!
 		const pressureRangeTable2 = superheatedSteam.inputValues[superheatedSteam.inputLabels.indexOf('pressure')]
-		const evaporatorIndex = getRandomInteger(13, 19)
+		const evaporatorIndex = randomInteger(13, 19)
 		const pe = pressureRangeTable2[evaporatorIndex]
 		const Te = tableInterpolate(pe, saturatedSteamByPressure, 'boilingTemperature')!
 		const x3 = getRandomFloatUnit({ min: 0.95, max: 1, unit: '' })

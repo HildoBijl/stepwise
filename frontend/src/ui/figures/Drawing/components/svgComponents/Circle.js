@@ -20,7 +20,7 @@ export const Circle = forwardRef((props, ref) => {
 	// Process the input.
 	let { center, graphicalCenter, radius, graphicalRadius, className, style } = mergeDefaults(props, defaultCircle)
 	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
-	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius), true)
+	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius), { nonNegative: true })
 	className = ensureString(className)
 	style = { ...defaultCircle.style, ...ensureObject(style) }
 	ref = useRefWithEventHandlers(props, ref)

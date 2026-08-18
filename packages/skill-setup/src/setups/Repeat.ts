@@ -13,7 +13,7 @@ export class Repeat extends SkillItemSetup<RepeatStorageValue> {
 
 	constructor(skill: SkillSetupLike, repeat: number) {
 		super(ensureSetup(skill))
-		this.repeat = ensureInteger(repeat, true, true)
+		this.repeat = ensureInteger(repeat, { nonNegative: true, nonZero: true })
 	}
 
 	override toStorageValue(): RepeatStorageValue {

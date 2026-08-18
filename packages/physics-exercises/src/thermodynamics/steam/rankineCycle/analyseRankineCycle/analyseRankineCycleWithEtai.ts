@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { multiOutputTableInterpolate } from '@step-wise/interpolation'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -19,7 +19,7 @@ export default buildStepExercise({
 		pe = pe.setDecimals(0).roundToPrecision()
 		T2 = T2.setDecimals(0).roundToPrecision()
 		etai = etai.setUnit('%').setDecimals(0).roundToPrecision().setDecimals(1)
-		const type = getRandomInteger(1, 2)
+		const type = randomInteger(1, 2)
 		if (type === 1) {
 			mdot = mdot.setSignificantDigits(2).roundToPrecision()
 			return { type, pc, pe, T2, etai, mdot }

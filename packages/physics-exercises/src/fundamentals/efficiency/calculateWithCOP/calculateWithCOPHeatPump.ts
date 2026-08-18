@@ -1,4 +1,4 @@
-import { getRandomNumber } from '@step-wise/js-utils'
+import { randomNumber } from '@step-wise/js-utils'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -16,7 +16,7 @@ export default buildSimpleExercise({
 			significantDigits: 2,
 			unit: 'kW',
 		})
-		const COP = getRandomNumber(3, 5)
+		const COP = randomNumber(3, 5)
 		const Pin = Pe.multiply(COP - 1).roundToPrecision()
 
 		return { Pe, Pin }

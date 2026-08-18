@@ -10,7 +10,7 @@ export const maxBernsteinSmoothingOrder = 120 // The maximum order for smoothing
 
 // Smooth the distribution described by the coefficients using a smoothing order.
 export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoefficients, order: number): BernsteinCoefficients {
-	const newOrder = Math.min(ensureInteger(order, true), maxBernsteinSmoothingOrder)
+	const newOrder = Math.min(ensureInteger(order, { nonNegative: true }), maxBernsteinSmoothingOrder)
 	const oldOrder = getBernsteinOrder(coefficients)
 	return normalizeBernsteinCoefficients(repeat(newOrder + 1, i => sum(coefficients.map((c, j) => c * binomial(i + j, i) * binomial(newOrder + oldOrder - i - j, oldOrder - j)))))
 }

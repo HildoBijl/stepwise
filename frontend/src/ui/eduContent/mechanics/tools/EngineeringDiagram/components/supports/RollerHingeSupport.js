@@ -28,7 +28,7 @@ export const RollerHingeSupport = forwardRef((props, ref) => {
 	groundOptions = ensureObject(groundOptions)
 	width = ensureNumber(width)
 	height = ensureNumber(height)
-	numWheels = ensureInteger(numWheels, true, true)
+	numWheels = ensureInteger(numWheels, { nonNegative: true, nonZero: true })
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelsOptions = ensureObject(wheelsOptions)
 	ref = useRefWithEventHandlers(props, ref)

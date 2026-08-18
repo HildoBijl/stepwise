@@ -214,7 +214,7 @@ function getCountingWord(num, upperCase = false) {
 		return wordToUpperCase(getCountingWord(num, false))
 
 	// Walk through all options.
-	num = ensureNumber(num, true)
+	num = ensureNumber(num, { nonNegative: true })
 	switch (num) {
 		case 0:
 			return 'nul'

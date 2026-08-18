@@ -1,4 +1,4 @@
-import { getRandomInteger } from '@step-wise/js-utils'
+import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
@@ -14,7 +14,7 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const type = getRandomInteger(1, 2)
+		const type = randomInteger(1, 2)
 		const h1 = getRandomFloatUnit({ min: 80, max: 110, unit: 'cm', decimals: 0 })
 		const h2 = getRandomFloatUnit({ min: 130, max: 160, unit: 'cm', decimals: 0 })
 		const BMI1 = getRandomFloatUnit({ min: 15, max: 18, unit: 'kg/m^2' })

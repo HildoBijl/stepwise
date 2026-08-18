@@ -1,4 +1,4 @@
-import { sample, getRandomInteger } from '@step-wise/js-utils'
+import { sample, randomInteger } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	generateState() {
 		const x = sample(variableSet)
 		const [f1, f2, g] = getRandomElementaryFunctions(3, false, false, true, false).map(func => func.substitute('x', x))
-		const c = getRandomInteger(-12, 12, [0])
+		const c = randomInteger(-12, 12, [0])
 		return { c, f1, f2, g }
 	},
 

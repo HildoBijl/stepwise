@@ -1,4 +1,4 @@
-import { getRandomNumber } from '@step-wise/js-utils'
+import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -14,8 +14,8 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const n = getRandomNumber(1.2, 1.38)
-		const pressureRatio = getRandomNumber(6, 9)
+		const n = randomNumber(1.2, 1.38)
+		const pressureRatio = randomNumber(6, 9)
 		const T1 = getRandomFloatUnit({ min: 5, max: 25, decimals: 0, unit: 'dC' })
 		const T2 = T1.simplify().multiply(Math.pow(pressureRatio, 1 - 1 / k.number)).setUnit('dC').roundToPrecision()
 		const wt = Rs.multiply(-n / (n - 1)).multiply(T2.subtract(T1)).setUnit('kJ/kg')

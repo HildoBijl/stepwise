@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, getRandomBoolean } from '@step-wise/js-utils'
+import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -28,10 +28,10 @@ export default buildStepExercise({
 	generateState(example) {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
-			a: example ? 1 : getRandomInteger(-12, 12, [0]),
-			b: example ? 1 : getRandomInteger(1, 12, [0]),
-			c: getRandomInteger(-12, 12, [0]),
-			switchSides: getRandomBoolean(),
+			a: example ? 1 : randomInteger(-12, 12, [0]),
+			b: example ? 1 : randomInteger(1, 12, [0]),
+			c: randomInteger(-12, 12, [0]),
+			switchSides: randomBoolean(),
 		}
 	},
 

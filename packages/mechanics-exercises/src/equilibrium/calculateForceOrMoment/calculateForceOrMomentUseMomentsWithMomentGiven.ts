@@ -1,4 +1,4 @@
-import { deg2rad, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { degreesToRadians, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
@@ -14,21 +14,21 @@ export default buildStepExercise({
 
 	generateState() {
 		while (true) {
-			const getRandomPoint = () => new Vector(getRandomInteger(0, 4), getRandomInteger(0, 4))
+			const getRandomPoint = () => new Vector(randomInteger(0, 4), randomInteger(0, 4))
 			const intersection = getRandomPoint()
 			const lowerBound = Math.max(-intersection.x, -intersection.y)
 			const upperBound = Math.min(4 - intersection.x, 4 - intersection.y)
 			if (lowerBound === 0 && upperBound === 0) continue
-			const shift = getRandomInteger(lowerBound, upperBound, [0])
+			const shift = randomInteger(lowerBound, upperBound, [0])
 			const points = [
-				new Vector(getRandomInteger(0, 4, [intersection.x]), intersection.y),
-				new Vector(intersection.x, getRandomInteger(0, 4, [intersection.y])),
+				new Vector(randomInteger(0, 4, [intersection.x]), intersection.y),
+				new Vector(intersection.x, randomInteger(0, 4, [intersection.y])),
 				new Vector(intersection.x + shift, intersection.y + shift),
 				getRandomPoint(),
 			]
-			const angle = getRandomInteger(5, 13) * 5
-			const up = getRandomBoolean()
-			const right = getRandomBoolean()
+			const angle = randomInteger(5, 13) * 5
+			const up = randomBoolean()
+			const right = randomBoolean()
 			const MD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN*m' })
 			if (points.some((point, index) => points.some((otherPoint, otherIndex) => index < otherIndex && point.equals(otherPoint)))) continue
 			if (intersection.equals(points[0])) continue
@@ -39,7 +39,7 @@ export default buildStepExercise({
 	getSolution(state) {
 		const { points, angle, up, right, MD } = state
 		const [A, B, C, D] = points
-		const angleRad = deg2rad(angle)
+		const angleRad = degreesToRadians(angle)
 		const method = 4
 
 		const intersection = new Vector(B.x, C.y + B.x - C.x)

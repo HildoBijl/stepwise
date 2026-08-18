@@ -1,4 +1,4 @@
-import { epsilon, deg2rad, sample, getRandomNumber, getRandomBoolean, getRandomInteger } from '@step-wise/js-utils'
+import { epsilon, degreesToRadians, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -17,13 +17,13 @@ export default buildStepExercise({
 		// Generate numbers and ensure that there are two solutions.
 		let α, a, c
 		do {
-			α = getRandomInteger(5, 17) * 5
-			c = getRandomInteger(6, 12)
-			a = getRandomInteger(2, c - 1)
-		} while (a <= c * Math.sin(deg2rad(α)) + epsilon)
+			α = randomInteger(5, 17) * 5
+			c = randomInteger(6, 12)
+			a = randomInteger(2, c - 1)
+		} while (a <= c * Math.sin(degreesToRadians(α)) + epsilon)
 
 		// Assemble the state.
-		return { α: asExpression(α), γ: asExpression(sample(variableSet)), a: asExpression(a), c: asExpression(c), rotation: getRandomNumber(0, 2 * Math.PI), reflection: getRandomBoolean() }
+		return { α: asExpression(α), γ: asExpression(sample(variableSet)), a: asExpression(a), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
 	getSolution(state) {

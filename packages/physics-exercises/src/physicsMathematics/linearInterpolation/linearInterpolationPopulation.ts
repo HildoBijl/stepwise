@@ -1,4 +1,4 @@
-import { getRandomNumber, getRandomInteger } from '@step-wise/js-utils'
+import { randomNumber, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { Float } from '@step-wise/physics-core'
@@ -14,12 +14,12 @@ export default buildStepExercise({
 	},
 
 	generateState() {
-		const type = getRandomInteger(1, 2)
-		const year1 = getRandomInteger(1950, 1970)
-		const year2 = getRandomInteger(1980, 2000)
-		const pop1 = getRandomInteger(1500, 2500)
-		const pop2 = getRandomInteger(3500, 5500)
-		const x = getRandomNumber(0.1, 0.9)
+		const type = randomInteger(1, 2)
+		const year1 = randomInteger(1950, 1970)
+		const year2 = randomInteger(1980, 2000)
+		const pop1 = randomInteger(1500, 2500)
+		const pop2 = randomInteger(3500, 5500)
+		const x = randomNumber(0.1, 0.9)
 
 		if (type === 1) {
 			const year = Math.floor(year1 + x * (year2 - year1))

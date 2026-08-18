@@ -1,4 +1,4 @@
-import { ensureNumber, getRandomNumber, roundTo } from '@step-wise/js-utils'
+import { ensureNumber, randomNumber, roundTo } from '@step-wise/js-utils'
 
 import { Float } from './Float'
 
@@ -20,16 +20,16 @@ export function getRandomFloat(options: RandomFloatOptions): Float {
 	let { min, max } = options
 	min = ensureNumber(min)
 	max = ensureNumber(max)
-	const number = getRandomNumber(min, max)
+	const number = randomNumber(min, max)
 	const result = processFloat(number, options)
 	return isPrevented(result.number, options.prevent) ? getRandomFloat(options) : result
 }
 
 export function getRandomExponentialFloat(options: RandomExponentialFloatOptions): Float {
 	let { min, max, negative, randomSign } = options
-	min = ensureNumber(min, true, true)
-	max = ensureNumber(max, true, true)
-	const randomExponent = getRandomNumber(Math.log10(min), Math.log10(max))
+	min = ensureNumber(min, { nonNegative: true, nonZero: true })
+	max = ensureNumber(max, { nonNegative: true, nonZero: true })
+	const randomExponent = randomNumber(Math.log10(min), Math.log10(max))
 	if (negative && randomSign) throw new Error(`Invalid input: cannot have both a negative float and a float with random sign.`)
 	const sign = negative || (randomSign && Math.random() < 0.5) ? -1 : 1
 	const number = sign * Math.pow(10, randomExponent)

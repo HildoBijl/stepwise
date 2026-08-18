@@ -12,7 +12,7 @@ export function unitElementStorageValueToParameters(value: UnitElementStorageVal
 	const unit = findBaseUnit(value.unit)
 	if (!unit) throw new Error(`Unknown unit given: did not recognize unit "${value.unit}".`)
 
-	const power = ensureInteger(value.power ?? 1, true, true)
+	const power = ensureInteger(value.power ?? 1, { nonNegative: true, nonZero: true })
 	return { prefix, unit, power }
 }
 

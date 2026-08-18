@@ -130,11 +130,11 @@ export class UnitElement {
 	}
 
 	setPower(power: number): UnitElement {
-		power = ensureInteger(power, true, true)
+		power = ensureInteger(power, { nonNegative: true, nonZero: true })
 		return power === this.power ? this : new UnitElement({ prefix: this.prefix, unit: this.unit, power })
 	}
 
 	toPower(power: number): UnitElement {
-		return this.setPower(this.power * ensureInteger(power, true, true))
+		return this.setPower(this.power * ensureInteger(power, { nonNegative: true, nonZero: true }))
 	}
 }

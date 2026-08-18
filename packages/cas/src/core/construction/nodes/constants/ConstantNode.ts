@@ -5,7 +5,7 @@ import { ExpressionNode } from '../ExpressionNode'
 export abstract class ConstantNode extends ExpressionNode {
 	constructor(readonly value: number) {
 		super()
-		ensureNumber(value, true, false, true)
+		ensureNumber(value, { nonNegative: true, allowInfinity: true })
 	}
 	
 	recreateWith(value: number): ConstantNode {

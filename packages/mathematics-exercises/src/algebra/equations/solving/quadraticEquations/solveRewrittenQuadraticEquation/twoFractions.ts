@@ -1,4 +1,4 @@
-import { sample, getRandomInteger, getRandomBoolean } from '@step-wise/js-utils'
+import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { Expression, asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -14,11 +14,11 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e']
 
 const getParameters = (example: boolean): [number, number, number, number, number] => {
-	const a = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1])
-	const b = getRandomInteger(-8, 8, [-1, 0, 1])
-	const c = getRandomInteger(-8, 8, [-1, 0, 1])
-	const d = getRandomInteger(-8, 8, [-1, 0, 1])
-	const e = getRandomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
+	const a = randomInteger(example ? 2 : -8, 8, [-1, 0, 1])
+	const b = randomInteger(-8, 8, [-1, 0, 1])
+	const c = randomInteger(-8, 8, [-1, 0, 1])
+	const d = randomInteger(-8, 8, [-1, 0, 1])
+	const e = randomInteger(example ? 2 : -8, 8, [-1, 0, 1, b])
 	return [a, b, c, d, e]
 }
 
@@ -55,7 +55,7 @@ export default buildStepExercise({
 		// Set up general state parameters.
 		const x = sample(variableSet)
 		const zeroSolutions = sample([true, false, false, false, false]) // Only have zero solutions in a small part of the cases.
-		const flip = example ? false : getRandomBoolean()
+		const flip = example ? false : randomBoolean()
 
 		// Set up parameters for the equation. Ensure that the number of solutions (zero or non-zero) matches the desired setting.
 		let parameters = getParameters(example)

@@ -1,13 +1,13 @@
 import React, { forwardRef } from 'react'
 
-import { spread, last } from '@step-wise/js-utils'
+import { rangeByStep, last } from '@step-wise/js-utils'
 import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
 import { FloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Curve, Label, defaultAxesOptions } from 'ui/figures'
 
-const factors = spread(0.1, 1, 0.1)
+const factors = rangeByStep(0.1, 1, 0.1)
 const pointsList = factors.map(factor => maximumHumidity.inputValues[0].map((temperature, index) => [maximumHumidity.grids[0][index].number * factor, temperature.number]))
 const finalPoint = [35, inverseTableInterpolate(new FloatUnit('35 g/kg'), maximumHumidity).number]
 pointsList[pointsList.length - 1] = [...pointsList[pointsList.length - 1].filter(point => point[0] <= 35), finalPoint]

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad } from '@step-wise/js-utils'
+import { degreesToRadians } from '@step-wise/js-utils'
 import { Vector, Line } from '@step-wise/geometry'
 import { equalLoads, FBDComparison, isForce, isMoment } from '@step-wise/engineering-mechanics'
 
@@ -160,7 +160,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 
 	// Set up either a diagram or an input field with said diagram.
 	const A = points[0]
-	const snappers = [A, Line.fromPointAndAngle(A, deg2rad(wallRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + 90)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation + 90))]
+	const snappers = [A, Line.fromPointAndAngle(A, degreesToRadians(wallRotation)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + 90)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + beamRotation)), Line.fromPointAndAngle(A, degreesToRadians(wallRotation + beamRotation + 90))]
 	return isInputField ?
 		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
 		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
@@ -171,10 +171,10 @@ function Schematics({ loads, showSupports = true }) {
 
 	return <>
 		<Group overflow={false}>
-			<Beam points={[Vector.zero, Vector.fromPolar(3, deg2rad(wallRotation + beamRotation))]} />
+			<Beam points={[Vector.zero, Vector.fromPolar(3, degreesToRadians(wallRotation + beamRotation))]} />
 		</Group>
 
-		<RollerSupport position={points[0]} angle={deg2rad(wallRotation + 180)} style={{ opacity: showSupports ? 1 : 0.1 }} />
+		<RollerSupport position={points[0]} angle={degreesToRadians(wallRotation + 180)} style={{ opacity: showSupports ? 1 : 0.1 }} />
 
 		<Group>{render(loads.map(load => ({ ...load, color: loadColors.reaction })))}</Group>
 	</>

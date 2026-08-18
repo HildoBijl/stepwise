@@ -49,7 +49,7 @@ function getBernsteinCDFCoefficients(coefficients: BernsteinCoefficients): Berns
 
 // Get the inverse CDF by applying a binary search to the CDF for every call.
 export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numIterations = 20): (F: number) => number {
-	const ensuredNumIterations = ensureInteger(numIterations, true, true)
+	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true })
 	const cdf = getBernsteinCDF(coefficients)
 
 	return F => {
@@ -71,7 +71,7 @@ export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numI
 
 // Get the maximum value of the PDF. Returns { x, f } with x the input and f the output.
 export function getBernsteinPDFMaximum(coefficients: BernsteinCoefficients, numIterations = 20): { x: number, f: number } {
-	const ensuredNumIterations = ensureInteger(numIterations, true, true)
+	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true })
 
 	let left = 0, right = 1
 	const pdf = getBernsteinPDF(coefficients)

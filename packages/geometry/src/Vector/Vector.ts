@@ -308,15 +308,15 @@ export class Vector {
 
 	// Get the zero vector, in the given dimension.
 	static getZero(dimension: number): Vector {
-		dimension = ensureInteger(dimension, true)
+		dimension = ensureInteger(dimension, { nonNegative: true })
 		return new Vector(new Array(dimension).fill(0))
 	}
 
 	// Get the unit vector along the given axis, in the given dimension.
 	static getUnitVector(axis: number, dimension: number): Vector {
 		// Check input.
-		axis = ensureInteger(axis, true)
-		dimension = ensureInteger(dimension, true)
+		axis = ensureInteger(axis, { nonNegative: true })
+		dimension = ensureInteger(dimension, { nonNegative: true })
 		if (axis >= dimension) throw new Error(`Invalid axis: cannot have an axis (${axis}) equal to or larger than the dimension (${dimension}).`)
 
 		// Generate the vector.

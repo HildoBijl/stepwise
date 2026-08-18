@@ -10,7 +10,12 @@ export function clamp(x: number, min = 0, max = 1): number {
 	return Math.max(Math.min(x, max), min)
 }
 
-// Check if the given number falls within a bound.
-export function fallsBetween(x: number, min = 0, max = 1, includeBounds = true): boolean {
-	return includeBounds ? (x >= min && x <= max) : (x > min && x < max)
+export type IsBetweenOptions = {
+	inclusive?: boolean
+}
+
+// Check whether the given number is between the minimum and maximum.
+export function isBetween(value: number, min = 0, max = 1, options: IsBetweenOptions = {}): boolean {
+	const { inclusive = true } = options
+	return inclusive ? (value >= min && value <= max) : (value > min && value < max)
 }
