@@ -90,9 +90,19 @@ export function multiplyPolynomials(polynomials: NonEmptyPolynomialList, variabl
 
 function coefficientsToPower(coefficients: PolynomialCoefficients, exponent: number): PolynomialCoefficients {
 	const ensuredExponent = ensureInteger(exponent, true)
-	if (ensuredExponent === 0) return repeatMultidimensional(getDimensions(coefficients, isNumber).map(() => 1), () => 1)
 	if (ensuredExponent === 1) return coefficients
-	return multiplyAlignedCoefficients(new Array(ensuredExponent).fill(coefficients))
+	const identity = repeatMultidimensional(getDimensions(coefficients, isNumber).map(() => 1), () => 1)
+	if (ensuredExponent === 0) return identity
+
+	let result = identity
+	let factor = coefficients
+	let remainingExponent = ensuredExponent
+	while (remainingExponent > 0) {
+		if (remainingExponent % 2 === 1) result = multiplyTwoAlignedCoefficients(result, factor)
+		remainingExponent = Math.floor(remainingExponent / 2)
+		if (remainingExponent > 0) factor = multiplyTwoAlignedCoefficients(factor, factor)
+	}
+	return result
 }
 
 export function raisePolynomialToPower(polynomial: Polynomial, exponent: number): Polynomial {

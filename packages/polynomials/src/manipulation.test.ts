@@ -115,6 +115,10 @@ describe('Check mathematical functions:', () => {
 	})
 
 	describe('raisePolynomialToPower', () => {
+		it('returns the multiplicative identity for exponent zero', () => {
+			expect(raisePolynomialToPower({ coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }, 0)).toEqual({ coefficients: [[1]], variables: ['a', 'b'] })
+		})
+
 		it('works for a polynomial without variables', () => {
 			expect(raisePolynomialToPower({ coefficients: 2, variables: [] }, 3)).toEqual({ coefficients: 8, variables: [] })
 		})
