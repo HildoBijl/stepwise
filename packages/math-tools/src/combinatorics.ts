@@ -6,8 +6,8 @@ const factorialMemoization: Record<number, Record<number, number>> = {}
 // Calculate n!. If nEnd is given, calculate n! / nEnd!.
 export function factorial(n: number, nEnd: number = 0): number {
 	// Check input.
-	n = ensureInteger(n, true)
-	nEnd = ensureInteger(nEnd, true)
+	n = ensureInteger(n, { nonNegative: true })
+	nEnd = ensureInteger(nEnd, { nonNegative: true })
 	if (n < nEnd) throw new RangeError(`Invalid input: factorial requires n >= ${nEnd} but received ${n}.`)
 
 	// Extend memoization if needed.
@@ -27,8 +27,8 @@ const binomialMemoization: Record<number, Record<number, number>> = {}
 // Calculate the binomial coefficient a choose b.
 export function binomial(a: number, b: number): number {
 	// Check input.
-	a = ensureInteger(a, true)
-	b = ensureInteger(b, true)
+	a = ensureInteger(a, { nonNegative: true })
+	b = ensureInteger(b, { nonNegative: true })
 	if (a < b) throw new RangeError(`Invalid input: binomial requires a >= b but received a=${a} and b=${b}.`)
 
 	// Extend memoization if needed.

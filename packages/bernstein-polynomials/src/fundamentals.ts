@@ -10,7 +10,7 @@ export function getBernsteinOrder(coefficients: BernsteinCoefficients): number {
 
 // Increase the order of a coefficient array without changing its PDF.
 export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoefficients, newOrder: number): BernsteinCoefficients {
-	newOrder = ensureInteger(newOrder, true)
+	newOrder = ensureInteger(newOrder, { nonNegative: true })
 	const oldOrder = getBernsteinOrder(coefficients)
 	if (newOrder < oldOrder) throw new Error(`Invalid Bernstein order: cannot increase coefficients of order ${oldOrder} to the lower order ${newOrder}.`)
 	if (newOrder === oldOrder) return coefficients

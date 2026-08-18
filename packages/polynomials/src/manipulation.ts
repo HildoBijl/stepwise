@@ -89,7 +89,7 @@ export function multiplyPolynomials(polynomials: NonEmptyPolynomialList, variabl
 }
 
 function coefficientsToPower(coefficients: PolynomialCoefficients, exponent: number): PolynomialCoefficients {
-	const ensuredExponent = ensureInteger(exponent, true)
+	const ensuredExponent = ensureInteger(exponent, { nonNegative: true })
 	if (ensuredExponent === 0) return repeatMultidimensional(getDimensions(coefficients, isNumber).map(() => 1), () => 1)
 	if (ensuredExponent === 1) return coefficients
 	return multiplyAlignedCoefficients(new Array(ensuredExponent).fill(coefficients))
@@ -102,7 +102,7 @@ export function raisePolynomialToPower(polynomial: Polynomial, exponent: number)
 
 export function getPolynomialPowers(polynomial: Polynomial, maxExponent: number): Polynomial[] {
 	ensurePolynomial(polynomial)
-	const ensuredMaxExponent = ensureInteger(maxExponent, true)
+	const ensuredMaxExponent = ensureInteger(maxExponent, { nonNegative: true })
 	let coefficients = polynomial.coefficients
 	return repeat(ensuredMaxExponent + 1, exponent => {
 		if (exponent === 0) return { coefficients: coefficientsToPower(polynomial.coefficients, 0), variables: polynomial.variables }

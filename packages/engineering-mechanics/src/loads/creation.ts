@@ -11,7 +11,7 @@ export function createForce(value: ForceLike): Force {
 		position: ensureVector(value.position, 2),
 		angle: normalizeAngle(value.angle),
 		applicationPointAt: ensureApplicationPointPosition(value.applicationPointAt ?? 'end'),
-		magnitudeFactor: ensureNumber(value.magnitudeFactor ?? 1, true, true),
+		magnitudeFactor: ensureNumber(value.magnitudeFactor ?? 1, { nonNegative: true, nonZero: true }),
 	}
 }
 

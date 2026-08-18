@@ -4,7 +4,7 @@ import { BernsteinCoefficients, BernsteinCoefficientSet } from './types'
 
 // Ensure a value is a valid coefficient array: an array of non-negative numbers whose sum equals one. Returns a copied array.
 export function ensureBernsteinCoefficients(coefficients: unknown, requireNormalized = true): BernsteinCoefficients {
-	const ensuredCoefficients = ensureNumberArray(coefficients, true)
+	const ensuredCoefficients = ensureNumberArray(coefficients, { nonNegative: true })
 	if (requireNormalized && !approximatelyEqual(sum(ensuredCoefficients), 1)) throw new Error(`Invalid input: expected a coefficient array whose sum equals one, but the sum instead is ${sum(ensuredCoefficients)}. The array itself is [${ensuredCoefficients.join(', ')}].`)
 	return ensuredCoefficients
 }

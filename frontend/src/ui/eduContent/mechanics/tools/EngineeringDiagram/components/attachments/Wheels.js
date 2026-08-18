@@ -23,7 +23,7 @@ export const Wheels = forwardRef((props, ref) => {
 	// Check input.
 	let { position, graphicalPosition, color, numWheels, wheelRadius, wheelStyle, className, style } = mergeDefaults(props, defaultWheels)
 	color = ensureString(color)
-	numWheels = ensureInteger(numWheels, true, true)
+	numWheels = ensureInteger(numWheels, { nonNegative: true, nonZero: true })
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelStyle = ensureObject(wheelStyle)
 	ref = useRefWithEventHandlers(props, ref)

@@ -30,7 +30,7 @@ export const defaultForce = {
 export const Force = forwardRef((props, ref) => {
 	// Check input.
 	let { position, angle, applicationPointAt, magnitudeFactor, magnitude, graphicalMagnitude, size, color, className, style } = mergeDefaults(props, defaultForce)
-	magnitudeFactor = ensureNumber(magnitudeFactor, true, true)
+	magnitudeFactor = ensureNumber(magnitudeFactor, { nonNegative: true, nonZero: true })
 	magnitude = magnitudeFactor * ensureNumber(useGraphicalDistance(magnitude, graphicalMagnitude))
 	const graphicalPosition = applicationPointAt === 'end' ? Vector.zero : Vector.fromPolar(magnitude, angle)
 	size = ensureNumber(size)

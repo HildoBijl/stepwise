@@ -12,7 +12,7 @@ export function getStep(progress: StepExerciseProgress | Record<string, never>):
 
 // Get the last given input from the user at the given step.
 export function getLastInputAtStep(history: ExerciseHistory<InputExerciseAction, StepExerciseProgress>, step: number, userId?: string, requireResolved = false): InputExerciseInput | undefined {
-	step = ensureNumber(step, true)
+	step = ensureNumber(step, { nonNegative: true })
 	for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of history.
 		const event = history[index]

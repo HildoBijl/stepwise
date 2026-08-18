@@ -27,8 +27,8 @@ export function getRandomFloat(options: RandomFloatOptions): Float {
 
 export function getRandomExponentialFloat(options: RandomExponentialFloatOptions): Float {
 	let { min, max, negative, randomSign } = options
-	min = ensureNumber(min, true, true)
-	max = ensureNumber(max, true, true)
+	min = ensureNumber(min, { nonNegative: true, nonZero: true })
+	max = ensureNumber(max, { nonNegative: true, nonZero: true })
 	const randomExponent = getRandomNumber(Math.log10(min), Math.log10(max))
 	if (negative && randomSign) throw new Error(`Invalid input: cannot have both a negative float and a float with random sign.`)
 	const sign = negative || (randomSign && Math.random() < 0.5) ? -1 : 1

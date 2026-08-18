@@ -23,8 +23,8 @@ export function getMultipleChoiceMapping(options: MultipleChoiceMappingOptionsIn
 }
 
 export function resolveMultipleChoiceMappingOptions(options: MultipleChoiceMappingOptionsInput): MultipleChoiceMappingOptions {
-	const numChoices = ensureInteger(options.numChoices, true, true)
-	const pick = ensureInteger(options.pick ?? numChoices, true, true)
+	const numChoices = ensureInteger(options.numChoices, { nonNegative: true, nonZero: true })
+	const pick = ensureInteger(options.pick ?? numChoices, { nonNegative: true, nonZero: true })
 	const include = normalizeIncludedChoices(options.include, numChoices)
 	const randomOrder = options.randomOrder ?? false
 	if (pick > numChoices) throw new Error(`Invalid multiple choice mapping options: cannot pick ${pick} choices from only ${numChoices} choices.`)
@@ -38,7 +38,7 @@ function normalizeIncludedChoices(include: number | number[] | undefined, numCho
 }
 
 function ensureChoiceIndex(index: number, numChoices: number): number {
-	index = ensureInteger(index, true)
+	index = ensureInteger(index, { nonNegative: true })
 	if (index >= numChoices) throw new Error(`Invalid multiple choice include index: expected an index below ${numChoices}, but received ${index}.`)
 	return index
 }

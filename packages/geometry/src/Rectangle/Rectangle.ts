@@ -299,12 +299,12 @@ export class Rectangle {
 	// Check if a circle is fully encompassed by the Rectangle.
 	containsCircle(center: VectorLike, radius: number): boolean {
 		const ensuredCenter = ensureVector(center, this.dimension)
-		return this.contains(ensuredCenter) && this.distanceTo(ensuredCenter, true) >= ensureNumber(radius, true)
+		return this.contains(ensuredCenter) && this.distanceTo(ensuredCenter, true) >= ensureNumber(radius, { nonNegative: true })
 	}
 
 	// Check if a circle intersects the Rectangle's bounds.
 	touchesCircle(center: VectorLike, radius: number): boolean {
-		return this.distanceTo(ensureVector(center, this.dimension)) <= ensureNumber(radius, true)
+		return this.distanceTo(ensureVector(center, this.dimension)) <= ensureNumber(radius, { nonNegative: true })
 	}
 
 	/*

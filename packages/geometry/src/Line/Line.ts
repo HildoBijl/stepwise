@@ -192,7 +192,7 @@ export class Line {
 
 	// Find the factor of the point p on the line satisfying p[axis] = value.
 	getFactorOfPointWithCoordinate(axis: number, value = 0): number {
-		axis = ensureInteger(axis, true)
+		axis = ensureInteger(axis, { nonNegative: true })
 		value = ensureNumber(value)
 		if (axis >= this.dimension) throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
 		const directionCoordinate = this._direction.getCoordinate(axis)

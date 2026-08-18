@@ -87,7 +87,7 @@ export function validateNumberEqualityOptions(options: NumberEqualityOptions): N
 
 export function adjustNumberTolerances(options: NumberEqualityOptionsInput, factor: number) {
 	const equalityOptions = resolveNumberEqualityOptions(options)
-	factor = ensureNumber(factor, true, true)
+	factor = ensureNumber(factor, { nonNegative: true, nonZero: true })
 	return {
 		absoluteTolerance: factor * equalityOptions.absoluteTolerance,
 		relativeTolerance: factor * equalityOptions.relativeTolerance,

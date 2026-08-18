@@ -25,20 +25,20 @@ export function getBoundingRectangle(points) {
 // ensureScale takes a possible scale definition (could be a number or an array of two numbers) and ensures it's the proper shape of [scaleX, scaleY]. Also works for higher dimensions when indicated.
 export function ensureScale(scale, dimension = 2) {
 	// Make sure it's an array.
-	dimension = ensureInteger(dimension, true)
+	dimension = ensureInteger(dimension, { nonNegative: true })
 	if (!Array.isArray(scale))
 		scale = new Array(dimension).fill(scale)
 	if (scale.length !== dimension)
 		throw new Error(`Invalid scale: expected an array with at most ${dimension} elements - one per each dimension - but received an array with ${scale.length} elements.`)
 
 	// Make sure the array is filled with numbers.
-	return scale.map(directionScale => ensureNumber(directionScale, false, false, true))
+	return scale.map(directionScale => ensureNumber(directionScale, { allowInfinity: true }))
 }
 
 // ensureMargin takes a possible margin definition (could be a number, an array, or an array of arrays) and ensures it's the proper shape of [[left, right], [top, bottom]] for two dimensions. Also works for higher dimensions when indicated.
 export function ensureMargin(margin, dimension = 2) {
 	// Make sure it's an array.
-	dimension = ensureInteger(dimension, true)
+	dimension = ensureInteger(dimension, { nonNegative: true })
 	if (!Array.isArray(margin))
 		margin = new Array(dimension).fill(margin)
 	if (margin.length !== dimension)

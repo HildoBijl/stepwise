@@ -137,7 +137,7 @@ function divideCoefficients(coefficients: ExpressionNode[], factor: ExpressionNo
 
 // Shift a polynomial by a given number of coefficients.
 function shiftCoefficients(coefficients: ExpressionNode[], shift: number): ExpressionNode[] {
-	return [...Array(ensureInteger(shift, true)).fill(Integer.zero), ...coefficients]
+	return [...Array(ensureInteger(shift, { nonNegative: true })).fill(Integer.zero), ...coefficients]
 }
 
 // Run a simplification to all coefficients.

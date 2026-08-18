@@ -20,7 +20,7 @@ function multipleChoiceToInputValue(value: MultipleChoiceValue): MultipleChoiceI
 
 function validateOption(value: number): number {
 	if (!isInteger(value) || value < 0) throw new InterpretationError(`Invalid multiple choice option: expected a non-negative integer but received "${value}".`, 'InvalidOption')
-	return ensureInteger(value, true)
+	return ensureInteger(value, { nonNegative: true })
 }
 
 export const MultipleChoiceInterpreter = {

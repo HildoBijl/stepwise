@@ -15,7 +15,7 @@ export function ensureCourseData(data: CourseData): CourseData {
 	// Validate the goal weights.
 	let goalWeights = data.goalWeights
 	if (goalWeights) {
-		goalWeights = ensureNumberArray(goalWeights, true)
+		goalWeights = ensureNumberArray(goalWeights, { nonNegative: true })
 		if (goalWeights.length !== learningGoals.length) throw new Error(`Invalid course goal weights: expected ${learningGoals.length} weights but received ${goalWeights.length}.`)
 	}
 

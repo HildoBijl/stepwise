@@ -21,20 +21,20 @@ export function integerRange(start: number, end?: number): number[] {
 
 // Create points start + i*step for i=0..numPoints-1.
 export function rangeByStep(start: number, step: number, numPoints: number): number[] {
-	numPoints = ensureInteger(numPoints, true, true)
+	numPoints = ensureInteger(numPoints, { nonNegative: true, nonZero: true })
 	return integerRange(0, numPoints - 1).map(i => start + i * step)
 }
 
 // Create an array from start to end with numSteps steps (n steps → n+1 points).
 export function range(start: number, end: number, numSteps: number): number[] {
-	numSteps = ensureInteger(numSteps, true, true)
+	numSteps = ensureInteger(numSteps, { nonNegative: true, nonZero: true })
 	const step = (end - start) / numSteps
 	return rangeByStep(start, step, numSteps + 1)
 }
 
 // Create an array from start to end with the given step.
 export function spread(start: number, end: number, step: number = 1): number[] {
-	step = ensureNumber(step, false, true)
+	step = ensureNumber(step, { nonZero: true })
 	if (start === end) return [start]
 	if (Math.sign(end - start) !== Math.sign(step)) {
 		const temp = end
