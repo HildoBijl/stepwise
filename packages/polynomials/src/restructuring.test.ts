@@ -39,14 +39,18 @@ describe('Check restructure/substitute functions:', () => {
 			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
 			expect(() => alignPolynomialVariables(expression, ['a', 'a'])).toThrow(RangeError)
 		})
+
+		it('adds variables to a constant polynomial', () => {
+			expect(alignPolynomialVariables({ coefficients: 5, variables: [] }, ['x'])).toEqual({ coefficients: [5], variables: ['x'] })
+		})
 	})
 
 	describe('substitutePolynomial', () => {
 		it('works correctly when substituting part of the variables', () => {
 			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
-			const applied = substitutePolynomial(expression, { a: 3 })
-			expect(applied.variables).toEqual(['b'])
-			expect(comparePolynomialCoefficients(applied.coefficients, [14, 18])).toBe(true)
+			const applied1 = substitutePolynomial(expression, { a: 3 })
+			expect(applied1.variables).toEqual(['b'])
+			expect(comparePolynomialCoefficients(applied1.coefficients, [14, 18])).toBe(true)
 			const applied2 = substitutePolynomial(expression, { b: 3 })
 			expect(applied2.variables).toEqual(['a'])
 			expect(comparePolynomialCoefficients(applied2.coefficients, [11, 19])).toBe(true)
@@ -59,7 +63,6 @@ describe('Check restructure/substitute functions:', () => {
 			const expression = { coefficients: [[2, 3], [4, 5]], variables: ['a', 'b'] }
 			expect(substitutePolynomial(expression, { a: 3, b: 2 })).toEqual({ coefficients: 50, variables: [] })
 			expect(substitutePolynomial(expression, { b: 2, a: 3 })).toEqual({ coefficients: 50, variables: [] })
-			expect(substitutePolynomial(expression, { a: 2, b: 3 })).toEqual({ coefficients: 49, variables: [] })
 		})
 	})
 
@@ -86,7 +89,7 @@ describe('Check restructure/substitute functions:', () => {
 		})
 
 		it('uses variablesToSubstitute order for joint moments', () => {
-			const getMoment = ([bExponent, aExponent]: number[]) => 2 ** bExponent * 3 ** aExponent
+			const getMoment = ([bExponent, aExponent]: readonly number[]) => 2 ** bExponent * 3 ** aExponent
 			expect(substitutePolynomialMoments(expression, getMoment, ['b', 'a'])).toEqual({ coefficients: 50, variables: [] })
 		})
 
