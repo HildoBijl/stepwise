@@ -15,7 +15,7 @@ export function isPlainObject(x: unknown): x is Record<string, unknown> {
 	// Exclude React elements. If x has a $$typeof property equal to reactSymbol, it's a React element.
 	try {
 		const reactSymbol = Symbol.for && Symbol.for('react.element')
-		if ((x as any).$$typeof === reactSymbol) return false
+		if (Reflect.get(x, '$$typeof') === reactSymbol) return false
 	} catch { } // Symbol has weird behavior in some browsers, so catch for safety.
 
 	return true

@@ -4,7 +4,8 @@ import { isPlainObject, mapValues, preserveRefs } from '../objects'
 export function resolveFunctionValuesDeep<TArgs extends unknown[]>(value: unknown, ...args: TArgs): unknown {
 	const resolve = (value: unknown): unknown => {
 		if (typeof value === 'function') return (value as (...args: TArgs) => unknown)(...args)
-		if (Array.isArray(value) || isPlainObject(value)) return mapValues(value as any, resolve)
+		if (Array.isArray(value)) return mapValues(value as readonly unknown[], resolve)
+		if (isPlainObject(value)) return mapValues(value, resolve)
 		return value
 	}
 	return preserveRefs(resolve(value), value)

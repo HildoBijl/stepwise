@@ -10,39 +10,42 @@ export function setByPath<T = unknown>(input: unknown, path: PropertyPath, value
 	if (path.length === 0) return value
 
 	// Create a shallow clone of the input so we don't mutate the original.
-	const obj: any = Array.isArray(input) ? [...input] : { ...input }
+	const result: unknown[] | Record<string, unknown> = Array.isArray(input) ? [...input] : { ...input }
 
 	// If this is the last key, assign directly.
 	const [first, ...rest] = path
 	if (rest.length === 0) {
-		Object.defineProperty(obj, first, { value, enumerable: true, configurable: true, writable: true })
-		return obj
+		Object.defineProperty(result, first, { value, enumerable: true, configurable: true, writable: true })
+		return result
 	}
 
 	// Recurse: ensure the child exists and is an object/array-ish value.
-	const hasChild = Object.prototype.hasOwnProperty.call(obj, first)
-	const child = !hasChild || obj[first] === undefined ? (typeof rest[0] === 'number' ? [] : {}) : obj[first]
-	Object.defineProperty(obj, first, { value: setByPath(child, rest, value), enumerable: true, configurable: true, writable: true })
-	return obj
+	const hasChild = Object.prototype.hasOwnProperty.call(result, first)
+	const existingChild = hasChild ? Reflect.get(result, first) : undefined
+	const child = existingChild === undefined ? (typeof rest[0] === 'number' ? [] : {}) : existingChild
+	Object.defineProperty(result, first, { value: setByPath(child, rest, value), enumerable: true, configurable: true, writable: true })
+	return result
 }
 
 // Apply a mapping function to a plain object (maps values) or array (maps elements).
 export function mapValues<T, U>(input: Record<string, T>, mapper: (value: T, key: string, result: Record<string, U>) => U | undefined): Record<string, U>
-export function mapValues<T, U>(input: T[], mapper: (value: T, index: number, result: U[]) => U): U[]
-export function mapValues<T = unknown, U = unknown>(input: T[] | Record<string, T>, mapper: (value: T, key: any, result: any) => U): U[] | Record<string, U> {
+export function mapValues<T, U>(input: readonly T[], mapper: (value: T, index: number, result: U[]) => U): U[]
+export function mapValues<T = unknown, U = unknown>(input: readonly T[] | Record<string, T>, mapper: unknown): U[] | Record<string, U> {
+	if (typeof mapper !== 'function') throw new TypeError('mapValues: mapper must be a function')
+
 	// Array case.
 	if (Array.isArray(input)) {
-		const m = mapper as (value: T, index: number, result: U[]) => U
+		const arrayMapper = mapper as (value: T, index: number, result: U[]) => U
 		const result: U[] = new Array(input.length)
-		for (let i = 0; i < input.length; i++) result[i] = m(input[i], i, result) as U
+		for (let i = 0; i < input.length; i++) result[i] = arrayMapper(input[i], i, result)
 		return result
 	}
 
 	// Plain object case.
 	if (isPlainObject(input)) {
-		const m = mapper as (value: T, key: string, result: Record<string, U>) => U | undefined
-		const keys = Object.keys(input)
-		return fromKeys<U>(keys, (key, _, result) => m((input as any)[key], key, result))
+		const objectMapper = mapper as (value: T, key: string, result: Record<string, U>) => U | undefined
+		const objectInput = input as Record<string, T>
+		return fromKeys<U>(Object.keys(objectInput), (key, _, result) => objectMapper(objectInput[key], key, result))
 	}
 
 	// Any other case.
@@ -55,15 +58,21 @@ export function preserveRefs<T = unknown>(newValue: T, oldValue: T): T {
 	if (deepEqual(newValue, oldValue)) return oldValue
 
 	// If both are arrays or both are plain objects, recurse into children.
-	if (Array.isArray(newValue) && Array.isArray(oldValue)) return (mapValues(newValue as any[], (v, i) => preserveRefs(v, (oldValue as any[])[i])) as unknown) as T
-	if (isPlainObject(newValue) && isPlainObject(oldValue)) return (mapValues(newValue as Record<string, any>, (v, k) => preserveRefs(v, (oldValue as any)[k])) as unknown) as T
+	if (Array.isArray(newValue) && Array.isArray(oldValue)) {
+		const newArray = newValue as readonly unknown[]
+		const oldArray = oldValue as readonly unknown[]
+		return mapValues(newArray, (value, index) => preserveRefs(value, oldArray[index])) as unknown as T
+	}
+	if (isPlainObject(newValue) && isPlainObject(oldValue)) {
+		return mapValues(newValue, (value, key) => preserveRefs(value, oldValue[key])) as unknown as T
+	}
 
 	// Fallback: cannot reconcile deeper; return new value.
 	return newValue
 }
 
 // Pick properties (allowedKeys) from obj.
-export function pickKeys<T>(obj: Record<string, T>, allowedKeys: string[]): Record<string, T> {
+export function pickKeys<T>(obj: Record<string, T>, allowedKeys: readonly string[]): Record<string, T> {
 	if (!isPlainObject(obj)) throw new TypeError('pickKeys: obj must be a plain object')
 	const res: Record<string, T> = {}
 	for (const key of allowedKeys) {
@@ -79,11 +88,11 @@ export function pickFromDefaults(allOptions: Record<string, unknown>, allowedOpt
 }
 
 // Omit properties (keysToRemove) from obj and return a shallow clone without those keys.
-export function omitKeys<T extends Record<string, unknown>>(obj: T, keysToRemove: string[]): Partial<T> {
+export function omitKeys<T extends Record<string, unknown>>(obj: T, keysToRemove: readonly string[]): Partial<T> {
 	if (!isPlainObject(obj)) throw new TypeError('omitKeys: obj must be a plain object')
-	const res = { ...obj }
-	for (const k of keysToRemove) delete (res as any)[k]
-	return res
+	const result: Record<string, unknown> = { ...obj }
+	for (const key of keysToRemove) delete result[key]
+	return result as Partial<T>
 }
 
 // Remove properties from obj that are equal (===) to those in comparison. Returns a shallow copy where equal properties are omitted.
@@ -117,7 +126,7 @@ export function mergeDefaults<T extends Record<string, unknown>>(givenOptions: R
 	const keys = Object.keys(defaultOptions)
 	for (let i = 0; i < keys.length; i++) {
 		const key = keys[i]
-		if (result[key] === undefined && (defaultOptions as any)[key] !== undefined) result[key] = (defaultOptions as any)[key]
+		if (result[key] === undefined && defaultOptions[key] !== undefined) result[key] = defaultOptions[key]
 	}
 
 	return result as T

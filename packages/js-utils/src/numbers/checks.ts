@@ -34,17 +34,15 @@ export function ensureNumber(value: unknown, options: EnsureNumberOptions = {}):
 	return number
 }
 
-// Checks whether a value is an integer or a string representation of an integer.
-export function isInteger(number: unknown): number is number | string {
-	// Check that the value is a number.
-	if (!isNumeric(number)) return false
+// Check whether a value is a JavaScript integer.
+export function isInteger(value: unknown): value is number {
+	return Number.isInteger(value)
+}
 
-	// Approve Infinity as integer-like.
-	if (Math.abs(Number(number)) === Infinity) return true
-
-	// On finite, convert to a numeric value and check integerness.
-	const x = typeof number === 'number' ? number : Number(number.trim())
-	return Number.isInteger(x)
+// Check whether a value is an integer or a non-empty string representing an integer.
+export function isNumericInteger(value: unknown): value is number | string {
+	if (!isNumeric(value)) return false
+	return Number.isInteger(typeof value === 'number' ? value : Number(value.trim()))
 }
 
 // Ensures the given value is an integer; converts numeric strings to integers.

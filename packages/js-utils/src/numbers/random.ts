@@ -6,12 +6,14 @@ export interface RandomIntegerOptions {
 
 // Return true or false randomly. Optionally provide probability for true.
 export function randomBoolean(probability = 0.5): boolean {
+	if (!Number.isFinite(probability)) throw new TypeError(`Input error: probability must be a finite number, but received "${probability}".`)
 	if (probability < 0 || probability > 1) throw new RangeError(`Input error: probability must be in [0, 1], but received "${probability}".`)
 	return Math.random() < probability
 }
 
 // Return a random floating-point number between min (inclusive) and max (exclusive).
 export function randomNumber(min: number, max: number): number {
+	if (!Number.isFinite(min) || !Number.isFinite(max)) throw new TypeError(`Input error: min and max must be finite numbers. Received min="${min}", max="${max}".`)
 	if (min > max) throw new RangeError(`Input error: min must not be greater than max. Received min="${min}", max="${max}".`)
 	return min + (max - min) * Math.random()
 }

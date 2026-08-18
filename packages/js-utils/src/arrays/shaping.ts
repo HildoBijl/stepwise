@@ -1,9 +1,15 @@
 // Flatten an array until it has no arrays left.
 type NestedArray<T> = T | NestedArray<T>[]
 export function flattenDeep<T>(array: readonly NestedArray<T>[]): T[] {
-	let result: unknown[] = [...array]
-	while (result.some(x => Array.isArray(x))) result = (result as any[]).flat()
-	return result as T[]
+	const result: T[] = []
+	const appendValues = (values: readonly unknown[]): void => {
+		for (const value of values) {
+			if (Array.isArray(value)) appendValues(value)
+			else result.push(value as T)
+		}
+	}
+	appendValues(array as readonly unknown[])
+	return result
 }
 
 // Return all combinations picking one element from each sub-array (Cartesian product).
