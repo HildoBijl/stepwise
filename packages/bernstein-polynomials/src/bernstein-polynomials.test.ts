@@ -1,20 +1,20 @@
 import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
 import { describe, expect, it } from 'vitest'
 
-import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
+import { elevateBernsteinCoefficients, getBernsteinDegree, normalizeBernsteinCoefficients } from './fundamentals'
 import { ensureBernsteinCoefficients } from './checks'
 import { getBernsteinExpectedValue, getBernsteinVariance, getBernsteinMoment } from './moments'
 import { getBernsteinCDF, getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum, getInverseBernsteinCDF } from './distributions'
-import { smoothBernsteinCoefficientsWithFactor, smoothBernsteinCoefficientsWithOrder } from './smoothing'
+import { smoothBernsteinCoefficientsToDegree, smoothBernsteinCoefficientsWithFactor } from './smoothing'
 import { mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from './merging'
 
 describe('Check fundamental functions:', () => {
-	describe('getBernsteinOrder', () => {
-		it('gives the correct order on a coefficient array', () => {
-			expect(getBernsteinOrder([0.1, 0.2, 0.3, 0.4])).toBe(3)
+	describe('getBernsteinDegree', () => {
+		it('gives the correct degree of a coefficient array', () => {
+			expect(getBernsteinDegree([0.1, 0.2, 0.3, 0.4])).toBe(3)
 		})
 		it('rejects an empty coefficient array', () => {
-			expect(() => getBernsteinOrder([])).toThrow(RangeError)
+			expect(() => getBernsteinDegree([])).toThrow(RangeError)
 		})
 	})
 	describe('normalizeBernsteinCoefficients', () => {
@@ -26,28 +26,28 @@ describe('Check fundamental functions:', () => {
 			expect(() => normalizeBernsteinCoefficients([-1, 0])).toThrow(RangeError)
 		})
 	})
-	describe('increaseBernsteinCoefficientsOrder', () => {
-		it('throws when lowering the order', () => {
-			expect(() => increaseBernsteinCoefficientsOrder([0.2, 0.8], 0)).toThrow()
+	describe('elevateBernsteinCoefficients', () => {
+		it('throws when lowering the degree', () => {
+			expect(() => elevateBernsteinCoefficients([0.2, 0.8], 0)).toThrow()
 		})
-		it('returns the original coefficients when the order is unchanged', () => {
+		it('returns the original coefficients when the degree is unchanged', () => {
 			const coefficients = [0.2, 0.8]
-			expect(increaseBernsteinCoefficientsOrder(coefficients, 1)).toBe(coefficients)
+			expect(elevateBernsteinCoefficients(coefficients, 1)).toBe(coefficients)
 		})
-		it('increases the order and keeps the coefficients normalized', () => {
-			const increasedCoefficients = increaseBernsteinCoefficientsOrder([0, 1], 2)
-			expect(compareNumberArrays(increasedCoefficients, [0, 1 / 3, 2 / 3])).toBe(true)
-			expect(approximatelyEqual(increasedCoefficients.reduce((sum, coefficient) => sum + coefficient, 0), 1)).toBe(true)
+		it('elevates the degree and keeps the coefficients normalized', () => {
+			const elevatedCoefficients = elevateBernsteinCoefficients([0, 1], 2)
+			expect(compareNumberArrays(elevatedCoefficients, [0, 1 / 3, 2 / 3])).toBe(true)
+			expect(approximatelyEqual(elevatedCoefficients.reduce((sum, coefficient) => sum + coefficient, 0), 1)).toBe(true)
 		})
 		it('preserves the PDF', () => {
 			const coefficients = [0.1, 0.2, 0.7]
-			const increasedCoefficients = increaseBernsteinCoefficientsOrder(coefficients, 6)
+			const elevatedCoefficients = elevateBernsteinCoefficients(coefficients, 6)
 			const pdf = getBernsteinPDF(coefficients)
-			const increasedPdf = getBernsteinPDF(increasedCoefficients)
-			;[0, 0.1, 0.25, 0.5, 0.9, 1].forEach(x => expect(approximatelyEqual(increasedPdf(x), pdf(x))).toBe(true))
+			const elevatedPdf = getBernsteinPDF(elevatedCoefficients)
+			;[0, 0.1, 0.25, 0.5, 0.9, 1].forEach(x => expect(approximatelyEqual(elevatedPdf(x), pdf(x))).toBe(true))
 		})
-		it('rejects unsafe orders', () => {
-			expect(() => increaseBernsteinCoefficientsOrder([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
+		it('rejects unsafe degrees', () => {
+			expect(() => elevateBernsteinCoefficients([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
 		})
 	})
 })
@@ -118,7 +118,7 @@ describe('Check distribution functions:', () => {
 		})
 	})
 	describe('getBernsteinPDFDerivative', () => {
-		it('returns zero everywhere for an order-zero distribution', () => {
+		it('returns zero everywhere for a degree-zero distribution', () => {
 			const derivative = getBernsteinPDFDerivative([1])
 			expect([-1, 0, 0.5, 1, 2].map(derivative)).toEqual([0, 0, 0, 0, 0])
 		})
@@ -181,9 +181,9 @@ describe('Check smoothing functions:', () => {
 			expect(() => smoothBernsteinCoefficientsWithFactor([0, 1], factor)).toThrow()
 		})
 	})
-	describe('smoothWithOrder', () => {
-		it('rejects unsafe smoothing orders', () => {
-			expect(() => smoothBernsteinCoefficientsWithOrder([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
+	describe('smoothToDegree', () => {
+		it('rejects unsafe smoothing degrees', () => {
+			expect(() => smoothBernsteinCoefficientsToDegree([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
 		})
 	})
 })
@@ -200,10 +200,10 @@ describe('Check merging functions:', () => {
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([0.2, 0.8], [0.8, 0.2]), [0.5, 0.5])).toBe(true)
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([3 / 7, 4 / 7], [3 / 7, 4 / 7]), [9 / 25, 16 / 25])).toBe(true)
 		})
-		it('increases unequal orders before merging element-wise', () => {
+		it('elevates unequal degrees before merging element-wise', () => {
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([1, 0], [0.2, 0.3, 0.5]), [4 / 7, 3 / 7, 0])).toBe(true)
 		})
-		it('merges default coefficients with higher-order coefficients', () => {
+		it('merges default coefficients with higher-degree coefficients', () => {
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([1], [0.2, 0.3, 0.5]), [0.2, 0.3, 0.5])).toBe(true)
 		})
 		it('throws when the coefficient arrays have no overlap', () => {

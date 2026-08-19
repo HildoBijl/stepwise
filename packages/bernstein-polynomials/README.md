@@ -9,7 +9,8 @@ Coefficients are described as an array of numbers: `[c_0, c_1, ..., c_n]`. These
 
 `BernsteinCoefficients` is readonly to prevent accidental mutation. Functions in this package expect coefficient arrays to be non-empty, finite, non-negative and normalized. Validate data from APIs, databases or other untrusted sources with `ensureBernsteinCoefficients` before passing it to mathematical operations; internally created and previously validated coefficients can be reused without repeated checks.
 
-- `getBernsteinOrder(coefficients)` returns the order `n` of a coefficient array. This is the length minus one.
+- `getBernsteinDegree(coefficients)` returns the degree `n` of a coefficient array. This is the length minus one.
+- `elevateBernsteinCoefficients(coefficients, newDegree)` rewrites the coefficients at a higher degree without changing the PDF.
 - `normalizeBernsteinCoefficients(coefficients)` normalizes a non-normalized coefficient array, ensuring the sum of the coefficients adds to one.
 - `invertBernsteinCoefficients(coefficients)` inverts a coefficient array, reversing the order of the coefficients. If a set of coefficients describes a random variable `x`, then its inverse describes the random variable `y = 1-x`.
 
@@ -46,13 +47,13 @@ From the coefficients, the complete distribution (that is, the PDF) can also be 
 
 Bernstein coefficients can be "smoothed": their function becomes flatter. This is done through the following functions.
 
-- `smoothBernsteinCoefficientsWithOrder(coefficients, order)` attempts to smooth the given coefficients to new coefficients of the given order.
-- `smoothBernsteinCoefficientsWithFactor(coefficients, factor)` attempts to smooth the given coefficients by a factor. Here `0` means "unchanged" and `1` means "completely flattened. Successive smoothing steps may be used to apply smoothing that's close to the given order.
+- `smoothBernsteinCoefficientsToDegree(coefficients, degree)` attempts to smooth the given coefficients to new coefficients of the given degree.
+- `smoothBernsteinCoefficientsWithFactor(coefficients, factor)` attempts to smooth the given coefficients by a factor. Here `0` means "unchanged" and `1` means "completely flattened. Successive smoothing steps may be used to apply smoothing that's close to the given degree.
 
 
 ## Merging
 
 There are two ways of merging Bernstein polynomials.
 
-- `mergeBernsteinCoefficients(coefficients1, coefficients2, ...)` merges any number of Bernstein polynomials. The result corresponds to `f(x) = f_1(x) * f_2(x) * ...`. The order of the result is the sum of the orders of the individual coefficients.
-- `mergeBernsteinCoefficientsElementwise(coefficients1, coefficients2, ...)` applies an element-wise multiplication on the coefficients. Coefficient lists must all be of the same order. This is needed in case of correlated skills.
+- `mergeBernsteinCoefficients(coefficients1, coefficients2, ...)` merges any number of Bernstein polynomials. The result corresponds to `f(x) = f_1(x) * f_2(x) * ...`. The degree of the result is the sum of the degrees of the individual coefficients.
+- `mergeBernsteinCoefficientsElementwise(coefficients1, coefficients2, ...)` applies an element-wise multiplication on the coefficients. Coefficient lists are elevated to the same degree first. This is needed in case of correlated skills.

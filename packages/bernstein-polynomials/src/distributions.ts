@@ -1,12 +1,12 @@
 import { ensureInteger, ensureNumber, sum, cumulative } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { type BernsteinCoefficients, getBernsteinOrder } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinDegree } from './fundamentals'
 
 // Evaluate the Bernstein Polynomial for a set of coefficients and a given x.
 function evaluateBernsteinPolynomial(coefficients: BernsteinCoefficients, x: number): number {
-	const n = getBernsteinOrder(coefficients)
-	return sum(coefficients.map((c, i) => c * binomialCoefficient(n, i) * x ** i * (1 - x) ** (n - i)))
+	const degree = getBernsteinDegree(coefficients)
+	return sum(coefficients.map((c, i) => c * binomialCoefficient(degree, i) * x ** i * (1 - x) ** (degree - i)))
 }
 
 // Get the PDF for the chance of success, given the coefficients.
@@ -14,22 +14,22 @@ export function getBernsteinPDF(coefficients: BernsteinCoefficients): (x: number
 	return x => {
 		x = ensureNumber(x, { allowInfinity: true })
 		if (x < 0 || x > 1) return 0
-		return evaluateBernsteinPolynomial(coefficients, x) * (getBernsteinOrder(coefficients) + 1)
+		return evaluateBernsteinPolynomial(coefficients, x) * (getBernsteinDegree(coefficients) + 1)
 	}
 }
 
 // Get the derivative of the PDF.
 export function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): (x: number) => number {
-	const n = getBernsteinOrder(coefficients)
+	const degree = getBernsteinDegree(coefficients)
 	return x => {
 		x = ensureNumber(x, { allowInfinity: true })
 		if (x < 0 || x > 1) return 0
-		if (n === 0) return 0
+		if (degree === 0) return 0
 		return sum(coefficients.map((c, i) => {
-			if (i === 0) return c * binomialCoefficient(n, i) * (-n * (1 - x) ** (n - 1))
-			if (i === n) return c * binomialCoefficient(n, i) * (n * x ** (n - 1))
-			return c * binomialCoefficient(n, i) * (i - n * x) * x ** (i - 1) * (1 - x) ** (n - i - 1)
-		})) * (n + 1)
+			if (i === 0) return c * binomialCoefficient(degree, i) * (-degree * (1 - x) ** (degree - 1))
+			if (i === degree) return c * binomialCoefficient(degree, i) * (degree * x ** (degree - 1))
+			return c * binomialCoefficient(degree, i) * (i - degree * x) * x ** (i - 1) * (1 - x) ** (degree - i - 1)
+		})) * (degree + 1)
 	}
 }
 
@@ -40,14 +40,14 @@ export function getBernsteinCDF(coefficients: BernsteinCoefficients): (x: number
 		x = ensureNumber(x, { allowInfinity: true })
 		if (x < 0) return 0
 		if (x > 1) return 1
-		return evaluateBernsteinPolynomial(cdfCoef, x) * (getBernsteinOrder(cdfCoef) + 1)
+		return evaluateBernsteinPolynomial(cdfCoef, x) * (getBernsteinDegree(cdfCoef) + 1)
 	}
 }
 
 // Get the coefficients for the CDF corresponding to a given PDF. These coefficients are not normalized.
 function getBernsteinCDFCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
-	const n = getBernsteinOrder(coefficients)
-	return cumulative([0, ...coefficients]).map(x => x / (n + 2))
+	const degree = getBernsteinDegree(coefficients)
+	return cumulative([0, ...coefficients]).map(x => x / (degree + 2))
 }
 
 // Get the inverse CDF by applying a binary search to the CDF for every call.
@@ -96,7 +96,7 @@ function subdivideBernsteinCoefficients(coefficients: BernsteinCoefficients): [B
 // Get a numerical approximation of the global PDF maximum. Returns { x, f } with x the input and f the output.
 export function getBernsteinPDFMaximum(coefficients: BernsteinCoefficients, numIterations = 20): { x: number, f: number } {
 	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true, safe: true })
-	const scale = getBernsteinOrder(coefficients) + 1
+	const scale = getBernsteinDegree(coefficients) + 1
 	let result = { x: 0, f: coefficients[0] * scale }
 	const rightValue = coefficients[coefficients.length - 1] * scale
 	if (rightValue > result.f) result = { x: 1, f: rightValue }

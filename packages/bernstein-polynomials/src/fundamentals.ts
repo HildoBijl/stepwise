@@ -3,29 +3,29 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 
 export type BernsteinCoefficients = readonly number[]
 
-// Get the order of a coefficient array, equal to its length minus one.
-export function getBernsteinOrder(coefficients: BernsteinCoefficients): number {
+// Get the degree of a coefficient array, equal to its length minus one.
+export function getBernsteinDegree(coefficients: BernsteinCoefficients): number {
 	if (coefficients.length === 0) throw new RangeError('Invalid Bernstein coefficients: expected a non-empty coefficient array.')
 	return coefficients.length - 1
 }
 
-// Increase the order of a coefficient array without changing its PDF.
-export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoefficients, newOrder: number): BernsteinCoefficients {
-	newOrder = ensureInteger(newOrder, { nonNegative: true, safe: true })
-	const oldOrder = getBernsteinOrder(coefficients)
-	if (newOrder < oldOrder) throw new Error(`Invalid Bernstein order: cannot increase coefficients of order ${oldOrder} to the lower order ${newOrder}.`)
-	if (newOrder === oldOrder) return coefficients
+// Elevate the degree of a coefficient array without changing its PDF.
+export function elevateBernsteinCoefficients(coefficients: BernsteinCoefficients, newDegree: number): BernsteinCoefficients {
+	newDegree = ensureInteger(newDegree, { nonNegative: true, safe: true })
+	const oldDegree = getBernsteinDegree(coefficients)
+	if (newDegree < oldDegree) throw new Error(`Invalid Bernstein degree: cannot elevate coefficients of degree ${oldDegree} to the lower degree ${newDegree}.`)
+	if (newDegree === oldDegree) return coefficients
 
-	const orderIncrease = newOrder - oldOrder
-	const orderFactor = 1 / binomialCoefficient(newOrder + 1, oldOrder + 1)
-	return Array.from({ length: newOrder + 1 }, (_, newIndex) => {
-		const minOldIndex = Math.max(0, newIndex - orderIncrease)
-		const maxOldIndex = Math.min(oldOrder, newIndex)
+	const degreeIncrease = newDegree - oldDegree
+	const degreeFactor = 1 / binomialCoefficient(newDegree + 1, oldDegree + 1)
+	return Array.from({ length: newDegree + 1 }, (_, newIndex) => {
+		const minOldIndex = Math.max(0, newIndex - degreeIncrease)
+		const maxOldIndex = Math.min(oldDegree, newIndex)
 		const elevatedCoefficient = sum(coefficients.slice(minOldIndex, maxOldIndex + 1).map((coefficient, offset) => {
 			const oldIndex = minOldIndex + offset
-			return coefficient * binomialCoefficient(newIndex, oldIndex) * binomialCoefficient(newOrder - newIndex, oldOrder - oldIndex)
+			return coefficient * binomialCoefficient(newIndex, oldIndex) * binomialCoefficient(newDegree - newIndex, oldDegree - oldIndex)
 		}))
-		return elevatedCoefficient * orderFactor
+		return elevatedCoefficient * degreeFactor
 	})
 }
 
@@ -39,6 +39,6 @@ export function normalizeBernsteinCoefficients(coefficients: BernsteinCoefficien
 
 // Reverse the coefficients. If the coefficients describe x, the result describes 1 - x.
 export function invertBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
-	getBernsteinOrder(coefficients)
+	getBernsteinDegree(coefficients)
 	return [...coefficients].reverse()
 }
