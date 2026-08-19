@@ -1,7 +1,7 @@
 import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 import { oneMinusPolynomial, substitutePolynomialMoments } from '@step-wise/polynomials'
-import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'
+import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 
@@ -105,7 +105,7 @@ export class SkillLevelSet {
 
 	getSetupsCoefficients(setups: (SkillSetupLike | undefined)[], inferenceOrders?: number | (number | undefined)[]): BernsteinCoefficients {
 		const coefficients = setups.map((setup, index) => setup ? this.getSetupCoefficients(setup, Array.isArray(inferenceOrders) ? inferenceOrders[index] : inferenceOrders) : undefined)
-		return mergeBernsteinCoefficients(...coefficients.filter(c => !!c))
+		return multiplyBernsteinPDFs(...coefficients.filter(coefficient => !!coefficient))
 	}
 
 	/*
@@ -256,7 +256,7 @@ export class SkillLevelSet {
 
 			// Merge the two coefficient sets together.
 			const previousCoefficients = this.getSmoothedCoefficients(skillId)
-			const coefficients = mergeBernsteinCoefficients(shiftedCoefficients, previousCoefficients)
+			const coefficients = multiplyBernsteinPDFs(shiftedCoefficients, previousCoefficients)
 
 			// Set up the result object.
 			const skillLevel = this.getSkillLevelObject(skillId)

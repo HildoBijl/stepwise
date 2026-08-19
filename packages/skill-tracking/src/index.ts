@@ -6,4 +6,4 @@ export * from './smoothing'
 
 // Keep the public name used by the frontend while the implementation lives in
 // the dedicated Bernstein-polynomials package.
-export { getInverseBernsteinCDF as getInverseCDF } from '@step-wise/bernstein-polynomials'
+export { getBernsteinQuantileFunction as getQuantileFunction } from '@step-wise/bernstein-polynomials'

@@ -255,7 +255,7 @@ function SkillFlaskWithLabel({ coef }) {
 	const EV = getBernsteinExpectedValue(coef)
 	const mainText = <Translation entry="estimate">The chance of a correct result is estimated to be {Math.round(EV * 100)}%.</Translation>
 
-	const max = getBernsteinPDFMaximum(coef).f
+	const max = getBernsteinPDFMaximum(coef).density
 	let addendum
 	if (max < 1.2)
 		addendum = <Translation entry="estimateAddendum1">But honestly we don't have a clue yet.</Translation>

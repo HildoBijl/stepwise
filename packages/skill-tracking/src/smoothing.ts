@@ -1,5 +1,5 @@
 import { mergeDefaults } from '@step-wise/js-utils'
-import { type BernsteinCoefficients, smoothBernsteinCoefficientsWithFactor } from '@step-wise/bernstein-polynomials'
+import { type BernsteinCoefficients, smoothBernsteinCoefficientsWithRetentionFactor } from '@step-wise/bernstein-polynomials'
 
 import { decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } from './settings'
 
@@ -35,5 +35,5 @@ function getBernsteinSmoothingFactor(options: BernsteinSmoothingOptions = {}): n
 
 // Smooth a set of coefficients by determining a smoothing factor from the given options.
 export function smoothBernsteinCoefficients(coefficients: BernsteinCoefficients, options?: BernsteinSmoothingOptions): BernsteinCoefficients {
-	return smoothBernsteinCoefficientsWithFactor(coefficients, getBernsteinSmoothingFactor(options))
+	return smoothBernsteinCoefficientsWithRetentionFactor(coefficients, getBernsteinSmoothingFactor(options))
 }
