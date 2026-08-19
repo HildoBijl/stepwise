@@ -46,7 +46,7 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Check out which compare has been provided.
-	const { input, solution, metaData, previousInput, previousFeedback } = exerciseData
+	const { input, solution, metaData, rawInput, previousRawInput, previousFeedback } = exerciseData
 	let { compare } = metaData
 	if (compare === undefined)
 		compare = {}
@@ -71,10 +71,10 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 		// If the input hasn't changed (and nor have any potential dependencies) then keep the previous feedback.
 		let dependency = currOptions.dependency || []
 		dependency = [currParameter, ...(Array.isArray(dependency) ? dependency : [dependency])]
-		if (previousInput && previousFeedback && previousFeedback[currParameter] && dependency.every(dependencyParameter => {
-			const curr = input[dependencyParameter]
-			const prev = previousInput[dependencyParameter]
-			return prev !== undefined && (curr === prev || (curr.SO !== undefined && deepEqual(curr, prev))) // Is this parameter's input equal to the previous input?
+		if (previousRawInput && previousFeedback && previousFeedback[currParameter] && dependency.every(dependencyParameter => {
+			const curr = rawInput[dependencyParameter]
+			const prev = previousRawInput[dependencyParameter]
+			return prev !== undefined && deepEqual(curr, prev) // Has this parameter's raw SI input remained unchanged?
 		}))
 			return previousFeedback[currParameter]
 

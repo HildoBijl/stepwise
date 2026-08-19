@@ -17,7 +17,7 @@ export const crossExerciseTranslationPath = `practice.crossExercise`
 /* The FeedbackProvider takes the following properties.
  * - children: whatever is shown inside the Provider.
  * - input: the input which feedback should be given on. When it changes, the feedback is automatically updated.
- * - getFeedback: the function that is called when the input changes. When called, it is given an object { input: {...}, previousFeedback: {...}, previousInput: {...}, [...] }. All inputs are in FO format.
+ * - getFeedback: the function that is called when the input changes. When called, it receives current and previous input in both FO (`input`/`previousInput`) and SI (`rawInput`/`previousRawInput`) format, along with `previousFeedback` and any exercise data.
  * - data (default {}): an optional extra object with parameters that are then provided to the getFeedback function: see the [...] above. A common data object is { exerciseData: {...}, solution: {...} } but anything can be added.
  * The feedback object then makes the feedback available through the useFeedback(fieldId) hook.
  */
@@ -58,6 +58,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 				rawInput: input,
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,
+				previousRawInput: previousInput,
 				translate, translateCrossExercise,
 			})
 			if (!result || !isPlainObject(result))
