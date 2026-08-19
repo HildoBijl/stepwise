@@ -70,22 +70,52 @@ export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numI
 	}
 }
 
-// Get the maximum value of the PDF. Returns { x, f } with x the input and f the output.
-export function getBernsteinPDFMaximum(coefficients: BernsteinCoefficients, numIterations = 20): { x: number, f: number } {
-	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true })
+type BernsteinInterval = {
+	left: number
+	right: number
+	coefficients: BernsteinCoefficients
+	upperBound: number
+}
 
-	let left = 0, right = 1
-	const pdf = getBernsteinPDF(coefficients)
-	const pdfDerivative = getBernsteinPDFDerivative(coefficients)
-
-	for (let i = 0; i < ensuredNumIterations; i++) {
-		const middle = (left + right) / 2
-		const derivative = pdfDerivative(middle)
-		if (derivative > 0) left = middle
-		else if (derivative < 0) right = middle
-		else break
+// Split Bernstein coefficients into equivalent representations of the left and right halves of their interval.
+function subdivideBernsteinCoefficients(coefficients: BernsteinCoefficients): [BernsteinCoefficients, BernsteinCoefficients] {
+	let level = coefficients
+	const left = [level[0]]
+	const right = [level[level.length - 1]]
+	while (level.length > 1) {
+		level = level.slice(1).map((coefficient, index) => (level[index] + coefficient) / 2)
+		left.push(level[0])
+		right.push(level[level.length - 1])
 	}
+	return [left, right.reverse()]
+}
 
-	const middle = (left + right) / 2
-	return { x: middle, f: pdf(middle) }
+// Get a numerical approximation of the global PDF maximum. Returns { x, f } with x the input and f the output.
+export function getBernsteinPDFMaximum(coefficients: BernsteinCoefficients, numIterations = 20): { x: number, f: number } {
+	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true, safe: true })
+	const scale = getBernsteinOrder(coefficients) + 1
+	let result = { x: 0, f: coefficients[0] * scale }
+	const rightValue = coefficients[coefficients.length - 1] * scale
+	if (rightValue > result.f) result = { x: 1, f: rightValue }
+
+	const intervals: BernsteinInterval[] = [{ left: 0, right: 1, coefficients, upperBound: Math.max(...coefficients) * scale }]
+	for (let iteration = 0; iteration < ensuredNumIterations; iteration++) {
+		let bestIntervalIndex = 0
+		for (let index = 1; index < intervals.length; index++) {
+			if (intervals[index].upperBound > intervals[bestIntervalIndex].upperBound) bestIntervalIndex = index
+		}
+		const interval = intervals.splice(bestIntervalIndex, 1)[0]
+		if (!interval || interval.upperBound <= result.f) break
+
+		const middle = (interval.left + interval.right) / 2
+		const [leftCoefficients, rightCoefficients] = subdivideBernsteinCoefficients(interval.coefficients)
+		const middleValue = leftCoefficients[leftCoefficients.length - 1] * scale
+		if (middleValue > result.f) result = { x: middle, f: middleValue }
+
+		const leftInterval = { left: interval.left, right: middle, coefficients: leftCoefficients, upperBound: Math.max(...leftCoefficients) * scale }
+		const rightInterval = { left: middle, right: interval.right, coefficients: rightCoefficients, upperBound: Math.max(...rightCoefficients) * scale }
+		if (leftInterval.upperBound > result.f) intervals.push(leftInterval)
+		if (rightInterval.upperBound > result.f) intervals.push(rightInterval)
+	}
+	return result
 }

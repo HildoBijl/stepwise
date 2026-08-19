@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
 import { ensureBernsteinCoefficients } from './checks'
 import { getBernsteinExpectedValue, getBernsteinVariance, getBernsteinMoment } from './moments'
-import { getBernsteinPDF, getBernsteinPDFDerivative } from './distributions'
+import { getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum } from './distributions'
 import { smoothBernsteinCoefficientsWithFactor } from './smoothing'
 import { mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from './merging'
 
@@ -99,6 +99,21 @@ describe('Check distribution functions:', () => {
 		it('returns zero everywhere for an order-zero distribution', () => {
 			const derivative = getBernsteinPDFDerivative([1])
 			expect([-1, 0, 0.5, 1, 2].map(derivative)).toEqual([0, 0, 0, 0, 0])
+		})
+	})
+	describe('getBernsteinPDFMaximum', () => {
+		it('finds an interior maximum', () => {
+			const maximum = getBernsteinPDFMaximum([0, 1, 0])
+			expect(maximum.x).toBeCloseTo(0.5)
+			expect(maximum.f).toBeCloseTo(1.5)
+		})
+		it('finds an endpoint maximum for a U-shaped PDF', () => {
+			const maximum = getBernsteinPDFMaximum([0.5, 0, 0.5])
+			expect([0, 1]).toContain(maximum.x)
+			expect(maximum.f).toBeCloseTo(1.5)
+		})
+		it('handles constant PDFs', () => {
+			expect(getBernsteinPDFMaximum([1])).toEqual({ x: 0, f: 1 })
 		})
 	})
 })
