@@ -35,4 +35,12 @@ describe('number checks', () => {
 		expect(() => ensureNumber(Infinity)).toThrow(TypeError)
 		expect(ensureNumber(Infinity, { allowInfinity: true })).toBe(Infinity)
 	})
+
+	it('optionally requires safe integers', () => {
+		const unsafeInteger = Number.MAX_SAFE_INTEGER + 1
+		expect(ensureInteger(Number.MAX_SAFE_INTEGER, { safe: true })).toBe(Number.MAX_SAFE_INTEGER)
+		expect(() => ensureInteger(unsafeInteger, { safe: true })).toThrow(RangeError)
+		expect(() => ensureNumericInteger(String(unsafeInteger), { safe: true })).toThrow(RangeError)
+		expect(() => ensureInteger(Infinity, { safe: true, allowInfinity: true })).toThrow(RangeError)
+	})
 })

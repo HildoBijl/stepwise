@@ -5,7 +5,7 @@ const primes = [2, 3, 5, 7, 11]
 
 // Return the prime number with the given index.
 export function getPrime(index: number): number {
-	index = ensureInteger(index, { nonNegative: true })
+	index = ensureInteger(index, { nonNegative: true, safe: true })
 	while (index >= primes.length) {
 		let candidate = primes[primes.length - 1] + 2
 		while (!isPrime(candidate))
@@ -17,7 +17,7 @@ export function getPrime(index: number): number {
 
 // Check if a number is prime.
 export function isPrime(num: number): boolean {
-	num = ensureInteger(num, { nonNegative: true, nonZero: true })
+	num = ensureInteger(num, { nonNegative: true, nonZero: true, safe: true })
 	if (num === 1) return false
 
 	for (let i = 0; true; i++) {
@@ -36,7 +36,7 @@ export type PrimeFactor = {
 
 // Return the prime factorization as prime-exponent entries.
 export function getPrimeFactorization(num: number): PrimeFactor[] {
-	num = ensureInteger(num, { nonNegative: true, nonZero: true })
+	num = ensureInteger(num, { nonNegative: true, nonZero: true, safe: true })
 	const result: PrimeFactor[] = []
 	for (let i = 0; num > 1; i++) {
 		const prime = getPrime(i)

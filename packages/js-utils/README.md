@@ -61,13 +61,14 @@ partition([1, 2, 3, 4], value => value % 2 === 0) // [[2, 4], [1, 3]]
 | `ensureInteger(value, options?)` | Strictly requires an integer number. |
 | `ensureNumericInteger(value, options?)` | Accepts an integer or integer string and returns an integer. |
 
-The ensure functions support `nonNegative`, `nonZero` and `allowInfinity` options, all defaulting to `false`.
+All ensure functions support `nonNegative`, `nonZero` and `allowInfinity`, defaulting to `false`. The integer ensure functions additionally support `{ safe: true }` to require an integer within JavaScript's exactly representable safe range.
 
 ```ts
 ensureNumber(2) // 2
 ensureNumber('2') // throws TypeError
 ensureNumeric(' 2.5 ') // 2.5
 ensureInteger(-2, { nonNegative: true }) // throws RangeError
+ensureInteger(Number.MAX_SAFE_INTEGER + 1, { safe: true }) // throws RangeError
 ensureNumber(Infinity, { allowInfinity: true }) // Infinity
 ```
 
