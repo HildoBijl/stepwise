@@ -1,8 +1,0 @@
-# String utility functions
-
-All utility functions related to strings are in this folder. These are grouped as follows.
-
-- [checks](./checks.ts) has functions to verify if strings are strings and what kinds of strings they are.
-- [search](./search.ts) is about searching through strings to find something.
-- [manipulation](./manipulation.ts) concerns itself with small adjustments of strings, like removing parts, adding parts or replacing parts.
-- [creation](./creation.ts) revolves around the generation of new strings, based on various arguments.

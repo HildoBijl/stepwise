@@ -2,11 +2,9 @@
 
 Step-Wise uses a large skill tree. For each student, and for each skill in the tree, Step-Wise tracks the mastery level. This package contains the tooling for that. For the mathematics behind skill tracking, see the [paper on Skill Tracking](https://arxiv.org/abs/2501.10050).
 
-
 ## Prerequisites
 
 Before using this package, make sure to [define a Skill Tree](../skill-definition/). Once that is done, then this package can track the skill level of every skill in it. Skill levels are described through [Bernstein coefficients](../bernstein-polynomials/). Every skill has a set of coefficients describing the student's level, which is constantly updated based on new observations.
-
 
 ## Setting up
 
@@ -39,7 +37,6 @@ If new data is received, for instance from the API, then this can be added throu
 skillLevelSet.update(rawSkillLevelUpdateData)
 ```
 
-
 ## Extracting data
 
 The coefficients in the raw data is only based on observations for each individual skill. However, skills are linked. Given these links, we can find *inferred coefficients* for each skill too. If we ask the `SkillLevelSet` for coefficients, it will give us these *inferred* coefficients. This is done through
@@ -64,7 +61,6 @@ It may happen that you have some exercise with a given skill set-up, and you wan
 const setupExpectedValue = skillLevelSet.getSetupExpectedValue(setup)
 const setupCoefficients = skillLevelSet.getSetupCoefficients(setup)
 ```
-
 
 ## Implementing observations
 

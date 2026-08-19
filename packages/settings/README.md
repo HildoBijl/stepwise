@@ -2,6 +2,7 @@
 
 Shared, deployment-time settings used by the Step-Wise API and frontend. These values change infrequently and changes take effect through a new deployment; they are not user preferences or runtime configuration.
 
+
 ## Exports
 
 **Internationalization**
@@ -21,6 +22,7 @@ Shared, deployment-time settings used by the Step-Wise API and frontend. These v
 
 - `defaultDecimalSeparator`: the site-wide decimal separator.
 
+
 ## Example
 
 ```ts
@@ -32,6 +34,7 @@ const mainTranslations = i18nLoadPath(language, 'main')
 console.log(languages) // ['en', 'nl', 'de']
 console.log(mainTranslations) // /locales/en/main.json
 ```
+
 
 ## Behavioral constraints
 
