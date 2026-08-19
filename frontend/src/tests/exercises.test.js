@@ -61,7 +61,7 @@ describe('Check all exercises:', () => {
 							solution: shared.getSolution && assembleSolution(shared.getSolution, state),
 						}
 						expect(() => render(
-							<I18nProvider>
+							<I18nProvider loadLanguageFiles={false}>
 								<ThemeProvider theme={theme}>
 									<FieldController>
 										<ModalManager>

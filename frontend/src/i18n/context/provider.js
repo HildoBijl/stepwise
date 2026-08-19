@@ -7,17 +7,17 @@ import { useI18nHandlers, useInitialLanguage } from './handlers'
 
 const I18nContext = createContext({})
 
-export function I18nProvider({ children }) {
+export function I18nProvider({ children, loadLanguageFiles = true }) {
 	// Define states.
 	const [language, setLanguage] = useState()
 	const [languageFiles, setLanguageFiles] = useState(fromKeys(languages, () => ({})))
 	const loaderRef = useRef(fromKeys(languages, () => ({})))
 
 	// Set up the initial language value based on various sources of information.
-	useInitialLanguage(setLanguage)
+	useInitialLanguage(setLanguage, loadLanguageFiles)
 
 	// Set up various handlers that have important functionalities.
-	const handlers = useI18nHandlers({ setLanguage, setLanguageFiles, loaderRef })
+	const handlers = useI18nHandlers({ setLanguage, setLanguageFiles, loaderRef, loadLanguageFiles })
 
 	// Set up the context value.
 	const value = {

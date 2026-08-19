@@ -8,7 +8,7 @@ import { isLocalhost, useStableCallback } from 'util/index' // Unit test import 
 import { pathAsString, entryAsArray, getStoredLanguage, setStoredLanguage, getLocationBasedLanguage } from '../util'
 import { loadLanguageFile, sendLanguageFileUpdates } from '../loadAndUpdate'
 
-export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFiles, loaderRef }) {
+export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFiles, loaderRef, loadLanguageFiles = true }) {
 	// setLanguage will do a brief check to see if the given language is OK, and then apply it.
 	const setLanguage = useStableCallback((language) => {
 		if (!languages.includes(language))
@@ -19,6 +19,9 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 
 	// requestLanguageFile will start loading a translation file, assuming this hasn't already been requested.
 	const requestLanguageFile = useStableCallback((language, path) => {
+		if (!loadLanguageFiles)
+			return
+
 		// If the translation file is already being loaded, do nothing.
 		path = pathAsString(path)
 		if (loaderRef.current[language][path] !== undefined)
@@ -77,6 +80,9 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 
 	// updateLanguageEntry queues up an updated entry, to be sent to the server when there is some time.
 	const updateLanguageEntry = useStableCallback((language, path, entry, text) => {
+		if (!loadLanguageFiles)
+			return
+
 		// Save the update into the fileUpdatesRef to queue it for updating on the server. Put the state update in a timeout, since otherwise it's called from a render function which leads to React errors. (Yes, not the cleanest solution, but it works.)
 		setTimeout(() => setFileUpdates(fileUpdates => setByPath(fileUpdates, [language, path, entry], text)))
 	})
@@ -86,9 +92,12 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 }
 
 // useInitialLanguage aims to set up the initial value of the language, based on various sources of information.
-export function useInitialLanguage(setLanguage) {
+export function useInitialLanguage(setLanguage, loadLanguageFiles = true) {
 	// Only perform the check upon mounting.
 	useEffect(() => {
+		if (!loadLanguageFiles)
+			return
+
 		// If the local storage has a valid language, apply it.
 		const storedLanguage = getStoredLanguage()
 		if (storedLanguage && languages.includes(storedLanguage)) {
@@ -105,5 +114,5 @@ export function useInitialLanguage(setLanguage) {
 			}
 		})
 		// Note: the above method uses a direct requested from the frontend, exposing the token. Through domain whitelisting this is mostly safe. If the token gets used too much, it might be worthwhile to reroute the request through our own server instead, keeping the token private.
-	}, [setLanguage])
+	}, [setLanguage, loadLanguageFiles])
 }
