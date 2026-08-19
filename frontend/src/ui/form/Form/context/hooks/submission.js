@@ -26,5 +26,5 @@ export function useSubmitCall() {
 		// Call the submit function with the SI and all formData in case it's needed.
 		const SI = getAllInputSI()
 		submitRef.current(SI, formData)
-	}, [submitRef, formData])
+	})
 }

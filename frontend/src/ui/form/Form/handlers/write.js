@@ -1,4 +1,4 @@
-import { preserveRefs, resolveFunctionValuesDeep } from '@step-wise/js-utils'
+import { resolveFunctionValuesDeep } from '@step-wise/js-utils'
 
 import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -16,8 +16,7 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 			// Allow for functions in the new FI that take into account the old FI.
 			FI = resolveFunctionValuesDeep(FI, oldFI)
 
-			// On a non-change, keep the old input.
-			FI = preserveRefs(FI, oldFI)
+			// Functional input may contain domain objects. Its updater must preserve the existing reference itself when no change is needed.
 			if (FI === oldFI)
 				return input
 
@@ -30,17 +29,20 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 	// setAllInputSI can overwrite the entire content of the form with a given form SI object.
 	const setAllInputSI = useStableCallback(inputSI => {
 		setInput(input => {
-			const newInput = { ...input }
+			let newInput = input
 			Object.keys(inputSI).forEach(id => {
 				const fieldData = getFieldData(id)
 				if (!fieldData)
 					return
-				newInput[id] = fieldData.functionalize(inputSI[id])
+
+				// Stored input has field-specific equality and contains no functional objects. Keep the existing FI when its corresponding SI is unchanged.
+				if (!fieldData.equals(inputSI[id], fieldData.SI))
+					newInput = { ...newInput, [id]: fieldData.functionalize(inputSI[id]) }
 				fieldData.SI = inputSI[id]
 				fieldData.recentSI = true
 				fieldData.recentFO = false
 			})
-			return preserveRefs(newInput, input)
+			return newInput
 		})
 	})
 

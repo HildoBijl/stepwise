@@ -3,10 +3,28 @@ import { useMemo, } from 'react'
 import { deduplicate } from '@step-wise/js-utils'
 import { ensureVector, Line, LineSegment } from '@step-wise/geometry'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useEqualRefOnEquality } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../Input'
+
+function areSnappersEqual(current, previous) {
+	if (Object.is(current, previous)) return true
+	if (!Array.isArray(current) || !Array.isArray(previous) || current.length !== previous.length) return false
+	return current.every((snapper, index) => {
+		const previousSnapper = previous[index]
+		if (Object.is(snapper, previousSnapper)) return true
+		if (snapper instanceof Line || previousSnapper instanceof Line)
+			return snapper instanceof Line && previousSnapper instanceof Line && snapper.equals(previousSnapper)
+		if (snapper instanceof LineSegment || previousSnapper instanceof LineSegment)
+			return snapper instanceof LineSegment && previousSnapper instanceof LineSegment && snapper.equals(previousSnapper)
+		try {
+			return ensureVector(snapper).equals(ensureVector(previousSnapper))
+		} catch {
+			return false
+		}
+	})
+}
 
 // useSnappingLines takes a snappers object (which could be unprocessed: it may be an input-dependent function or so) and returns an object of the form { lines: [...], graphicalLines: [...] }.
 export function useSnappingLines(snappers) {
@@ -22,7 +40,7 @@ function useInputDependentSnappers(rawSnappers) {
 		FI = undefined // We don't need the input then. Prevent it from triggering the memo.
 
 	// Recalculate the snappers upon a change.
-	rawSnappers = useConsistentValue(rawSnappers) // Prevent unnecessary updates.
+	rawSnappers = useEqualRefOnEquality(rawSnappers, areSnappersEqual) // Prevent unnecessary updates.
 	return useMemo(() => {
 		let snappers = rawSnappers
 		if (typeof snappers === 'function')
