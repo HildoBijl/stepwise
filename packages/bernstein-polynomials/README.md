@@ -17,7 +17,6 @@ Coefficients are described as an array of numbers: `[c_0, c_1, ..., c_n]`. These
 To check if something is indeed a valid set of coefficients, we have the following functions.
 
 - `ensureBernsteinCoefficients(coefficients, requireNormalized)` ensures that the received parameter is a valid coefficient array. If requireNormalized is true (default) then the coefficients should already be normalized. If anything is off, an error is thrown.
-- `ensureBernsteinCoefficientSet(coefficientSet, requiredSkillIds)` makes sure that the provided object is a plain object whose parameters are coefficient arrays. If `requiredSkillIds` is given, as an array of strings, then only these skillIds are filtered out of the coefficient set, and they must all be present or an error is thrown.
 
 
 ## Moments

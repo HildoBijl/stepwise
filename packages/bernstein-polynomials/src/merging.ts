@@ -1,8 +1,7 @@
 import { product, repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { BernsteinCoefficients } from './types'
-import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
 
 // Merge a list of coefficient arrays.
 export function mergeBernsteinCoefficients(...coefficientsList: BernsteinCoefficients[]): BernsteinCoefficients {

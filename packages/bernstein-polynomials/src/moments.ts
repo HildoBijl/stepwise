@@ -1,7 +1,6 @@
 import { ensureInteger, sum } from '@step-wise/js-utils'
 
-import { BernsteinCoefficients } from './types'
-import { getBernsteinOrder } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinOrder } from './fundamentals'
 
 // Get the expected value of x^i, given the PDF f(x) and an integer i. Effectively "∫₀¹ x^i·f(x) dx".
 export function getBernsteinMoment(coefficients: BernsteinCoefficients, i: number): number {

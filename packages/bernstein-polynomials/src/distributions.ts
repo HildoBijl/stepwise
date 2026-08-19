@@ -1,8 +1,7 @@
 import { ensureInteger, ensureNumber, sum, cumulative } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { BernsteinCoefficients } from './types'
-import { getBernsteinOrder } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinOrder } from './fundamentals'
 
 // Evaluate the Bernstein Polynomial for a set of coefficients and a given x.
 function evaluateBernsteinPolynomial(coefficients: BernsteinCoefficients, x: number): number {

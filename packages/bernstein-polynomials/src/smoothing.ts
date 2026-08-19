@@ -1,8 +1,7 @@
 import { ensureInteger, ensureNumber, sum, repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-import { BernsteinCoefficients } from './types'
-import { getBernsteinOrder, normalizeBernsteinCoefficients } from './fundamentals'
+import { type BernsteinCoefficients, getBernsteinOrder, normalizeBernsteinCoefficients } from './fundamentals'
 
 // General coefficient settings.
 export const maxBernsteinOrder = 150 // If we encounter a higher order coefficient array than this, then we will always do smoothing to keep it manageable.
