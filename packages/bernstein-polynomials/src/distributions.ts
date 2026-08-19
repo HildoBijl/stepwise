@@ -1,5 +1,5 @@
 import { ensureInteger, sum, cumulative } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
 import { getBernsteinOrder } from './fundamentals'
@@ -7,7 +7,7 @@ import { getBernsteinOrder } from './fundamentals'
 // Evaluate the Bernstein Polynomial for a set of coefficients and a given x.
 function evaluateBernsteinPolynomial(coefficients: BernsteinCoefficients, x: number): number {
 	const n = getBernsteinOrder(coefficients)
-	return sum(coefficients.map((c, i) => c * binomial(n, i) * x ** i * (1 - x) ** (n - i)))
+	return sum(coefficients.map((c, i) => c * binomialCoefficient(n, i) * x ** i * (1 - x) ** (n - i)))
 }
 
 // Get the PDF for the chance of success, given the coefficients.
@@ -24,9 +24,9 @@ export function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): 
 	return x => {
 		if (x < 0 || x > 1) return 0
 		return sum(coefficients.map((c, i) => {
-			if (i === 0) return c * binomial(n, i) * (-n * (1 - x) ** (n - 1))
-			if (i === n) return c * binomial(n, i) * (n * x ** (n - 1))
-			return c * binomial(n, i) * (i - n * x) * x ** (i - 1) * (1 - x) ** (n - i - 1)
+			if (i === 0) return c * binomialCoefficient(n, i) * (-n * (1 - x) ** (n - 1))
+			if (i === n) return c * binomialCoefficient(n, i) * (n * x ** (n - 1))
+			return c * binomialCoefficient(n, i) * (i - n * x) * x ** (i - 1) * (1 - x) ** (n - i - 1)
 		})) * (n + 1)
 	}
 }

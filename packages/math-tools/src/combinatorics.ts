@@ -1,45 +1,44 @@
 import { ensureInteger, integerRange } from '@step-wise/js-utils'
 
-// Memoized factorial values.
-const factorialMemoization: Record<number, Record<number, number>> = {}
+// Cached factorial values, indexed by their argument.
+const factorialCache = [1]
 
-// Calculate n!. If nEnd is given, calculate n! / nEnd!.
-export function factorial(n: number, nEnd: number = 0): number {
-	// Check input.
+// Cached factorial ratios, indexed by numerator and denominator.
+const factorialRatioCache: Record<number, Record<number, number>> = {}
+
+// Calculate n!.
+export function factorial(n: number): number {
 	n = ensureInteger(n, { nonNegative: true, safe: true })
-	nEnd = ensureInteger(nEnd, { nonNegative: true, safe: true })
-	if (n < nEnd) throw new RangeError(`Invalid input: factorial requires n >= ${nEnd} but received ${n}.`)
-
-	// Extend memoization if needed.
-	if (!factorialMemoization[n]) factorialMemoization[n] = {}
-	if (factorialMemoization[n][nEnd] === undefined) {
-		if (n === 0 || n === nEnd) factorialMemoization[n][nEnd] = 1
-		else factorialMemoization[n][nEnd] = integerRange(n, nEnd + 1).reduce((f, x) => f * x, 1)
-	}
-
-	// Return result.
-	return factorialMemoization[n][nEnd]
+	for (let value = factorialCache.length; value <= n; value++) factorialCache[value] = factorialCache[value - 1] * value
+	return factorialCache[n]
 }
 
-// Memoized binomial values.
-const binomialMemoization: Record<number, Record<number, number>> = {}
+// Calculate n! / denominator! without separately calculating the two factorials.
+export function factorialRatio(n: number, d: number): number {
+	n = ensureInteger(n, { nonNegative: true, safe: true })
+	d = ensureInteger(d, { nonNegative: true, safe: true })
+	if (n < d) throw new RangeError(`Invalid input: factorialRatio requires n >= denominator but received n=${n} and denominator=${d}.`)
+	if (d <= 1) return factorial(n)
+	if (!factorialRatioCache[n]) factorialRatioCache[n] = {}
+	if (factorialRatioCache[n][d] === undefined) factorialRatioCache[n][d] = integerRange(n, d + 1).reduce((result, value) => result * value, 1)
+	return factorialRatioCache[n][d]
+}
 
-// Calculate the binomial coefficient a choose b.
-export function binomial(a: number, b: number): number {
-	// Check input.
-	a = ensureInteger(a, { nonNegative: true, safe: true })
-	b = ensureInteger(b, { nonNegative: true, safe: true })
-	if (a < b) throw new RangeError(`Invalid input: binomial requires a >= b but received a=${a} and b=${b}.`)
+// Cached binomial coefficients.
+const binomialCoefficientCache: Record<number, Record<number, number>> = {}
 
-	// Extend memoization if needed.
-	if (b > a - b) b = a - b
-	if (!binomialMemoization[a]) binomialMemoization[a] = {}
-	if (binomialMemoization[a][b] === undefined) {
+// Calculate the binomial coefficient n choose k.
+export function binomialCoefficient(n: number, k: number): number {
+	n = ensureInteger(n, { nonNegative: true, safe: true })
+	k = ensureInteger(k, { nonNegative: true, safe: true })
+	if (n < k) throw new RangeError(`Invalid input: binomialCoefficient requires n >= k but received n=${n} and k=${k}.`)
+
+	if (k > n - k) k = n - k
+	if (!binomialCoefficientCache[n]) binomialCoefficientCache[n] = {}
+	if (binomialCoefficientCache[n][k] === undefined) {
 		let result = 1
-		for (let i = 1; i <= b; i++) result *= (a - b + i) / i
-		binomialMemoization[a][b] = result
+		for (let index = 1; index <= k; index++) result *= (n - k + index) / index
+		binomialCoefficientCache[n][k] = result
 	}
-
-	// Return result.
-	return binomialMemoization[a][b]
+	return binomialCoefficientCache[n][k]
 }

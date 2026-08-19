@@ -1,4 +1,4 @@
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 import { repeatFromTo } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Power, power, product, sum } from '../../../../construction'
@@ -14,7 +14,7 @@ function transform(node: Power): ExpressionNode {
 	const n = node.exponent.value
 	const firstTerm = node.base.terms[0]
 	const otherTerms = sum(...node.base.terms.slice(1))
-	return sum(...repeatFromTo(0, n, index => product(binomial(n, index), power(firstTerm, n - index), power(otherTerms, index))))
+	return sum(...repeatFromTo(0, n, index => product(binomialCoefficient(n, index), power(firstTerm, n - index), power(otherTerms, index))))
 }
 
 export const expandPowersOfSums = defineRule({

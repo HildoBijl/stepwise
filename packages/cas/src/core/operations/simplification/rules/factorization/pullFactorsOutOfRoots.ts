@@ -1,4 +1,4 @@
-import { largestPowerDivisor } from '@step-wise/math-tools'
+import { getLargestPerfectPowerDivisor } from '@step-wise/math-tools'
 
 import { type ExpressionNode, type RootLike, integer, product, power } from '../../../../construction'
 
@@ -21,7 +21,7 @@ function getPulledFactor(radicand: ExpressionNode, degree: number): { pulledFact
 	for (const factor of getProductFactors(radicand)) {
 		// Check integers.
 		if (isIntegerNode(factor) && factor.value !== 0) {
-			const largestPowerFactor = largestPowerDivisor(factor.value, degree)
+			const largestPowerFactor = getLargestPerfectPowerDivisor(factor.value, degree)
 			if (largestPowerFactor > 1) {
 				pulledFactors.push(integer(Math.round(largestPowerFactor ** (1 / degree))))
 				const remainingFactor = factor.value / largestPowerFactor

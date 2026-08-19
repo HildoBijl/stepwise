@@ -1,5 +1,5 @@
 import { repeat, getDimensions } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 import { substitutePolynomialMoments, oneMinusPolynomial, multiplyPolynomials, getPolynomialPowers } from '@step-wise/polynomials'
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { Skill } from '@step-wise/skill-definition'
@@ -20,7 +20,7 @@ export function getSetupExpectedValue(setup: SkillSetup, getCoefficients: (skill
 export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients, inferenceOrder = defaultInferenceOrder): BernsteinCoefficients {
 	// Note: the following lines are an approximation. Mathematically simple to calculate, but not accurate. It immediately inserts the expected values, instead of expanding the polynomial and using the respective moments.
 	const expectedValue = getSetupExpectedValue(setup, getCoefficients)
-	const coefficients = repeat(inferenceOrder + 1, i => (inferenceOrder + 1) * binomial(inferenceOrder, i) * expectedValue ** i * (1 - expectedValue) ** (inferenceOrder - i))
+	const coefficients = repeat(inferenceOrder + 1, i => (inferenceOrder + 1) * binomialCoefficient(inferenceOrder, i) * expectedValue ** i * (1 - expectedValue) ** (inferenceOrder - i))
 	return normalizeBernsteinCoefficients(coefficients)
 
 	// // Find the coefficients of the skills in the polynomial.
@@ -43,7 +43,7 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 	// const coefficients = repeat(inferenceOrder + 1, i => {
 	// 	const basisPolynomial = multiplyPolynomials([powersOfPolynomial[i], powersOfOneMinusPolynomial[inferenceOrder - i]], polynomial.variables)
 	// 	const expectedBasisPolynomial = substitutePolynomialMoments(basisPolynomial, getIndividualMoment, polynomial.variables) as number
-	// 	return (inferenceOrder + 1) * binomial(inferenceOrder, i) * expectedBasisPolynomial
+	// 	return (inferenceOrder + 1) * binomialCoefficient(inferenceOrder, i) * expectedBasisPolynomial
 	// })
 	// return normalizeBernsteinCoefficients(coefficients)
 }

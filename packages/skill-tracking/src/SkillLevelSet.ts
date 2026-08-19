@@ -1,5 +1,5 @@
 import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 import { oneMinusPolynomial, substitutePolynomialMoments } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
@@ -252,7 +252,7 @@ export class SkillLevelSet {
 
 			// Shift the coefficients of the polynomial to the Bernstein basis.
 			const n = polynomialCoefficients.length - 1
-			const shiftedCoefficients = repeat(n + 1, i => sum(repeat(i + 1, j => binomial(n - j, i - j) * polynomialCoefficients[j])) / binomial(n, i))
+			const shiftedCoefficients = repeat(n + 1, i => sum(repeat(i + 1, j => binomialCoefficient(n - j, i - j) * polynomialCoefficients[j])) / binomialCoefficient(n, i))
 
 			// Merge the two coefficient sets together.
 			const previousCoefficients = this.getSmoothedCoefficients(skillId)

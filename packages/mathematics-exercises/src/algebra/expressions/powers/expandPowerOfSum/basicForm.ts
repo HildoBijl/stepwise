@@ -1,5 +1,5 @@
 import { sample, randomInteger, repeat, fromKeysAndValues } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 import { repeat as skillRepeat } from '@step-wise/skill-setup'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
@@ -43,7 +43,7 @@ export default buildStepExercise({
 		const expression = t1.add(t2).toPower(e)
 		const terms = repeat(e + 1, n => t1.toPower(e - n).multiply(t2.toPower(n)))
 		const termsSimplified = terms.map(term => term.normalize())
-		const coefficients = repeat(e + 1, n => binomial(e, n))
+		const coefficients = repeat(e + 1, n => binomialCoefficient(e, n))
 		const termsMultiplied = coefficients.map((coefficient, index) => asExpression(coefficient).multiply(termsSimplified[index]))
 		const sum = termsMultiplied[0].add(...termsMultiplied.slice(1))
 		const ans = sum.combine()

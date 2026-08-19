@@ -1,5 +1,5 @@
 import { product, repeat } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
 import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
@@ -18,8 +18,8 @@ function mergeTwo(coefficients1: BernsteinCoefficients, coefficients2: Bernstein
 	const order2 = getBernsteinOrder(coefficients2)
 	const order = order1 + order2
 
-	const multiplicationCoefficients1 = coefficients1.map((c, i) => c * binomial(order1, i))
-	const multiplicationCoefficients2 = coefficients2.map((c, i) => c * binomial(order2, i))
+	const multiplicationCoefficients1 = coefficients1.map((c, i) => c * binomialCoefficient(order1, i))
+	const multiplicationCoefficients2 = coefficients2.map((c, i) => c * binomialCoefficient(order2, i))
 
 	const coefficients = new Array(order + 1).fill(0)
 	multiplicationCoefficients1.forEach((value1, i) => {
@@ -28,7 +28,7 @@ function mergeTwo(coefficients1: BernsteinCoefficients, coefficients2: Bernstein
 		})
 	})
 
-	return normalizeBernsteinCoefficients(coefficients.map((value, i) => value / binomial(order, i)))
+	return normalizeBernsteinCoefficients(coefficients.map((value, i) => value / binomialCoefficient(order, i)))
 }
 
 // Multiply coefficient arrays element-wise. Coefficient arrays of lower orders are first increased to the highest given order.

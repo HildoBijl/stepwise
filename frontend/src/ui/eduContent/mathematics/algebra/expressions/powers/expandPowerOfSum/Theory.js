@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { alpha } from '@mui/material'
 
 import { repeat } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 import { Vector } from '@step-wise/geometry'
 
 import { Translation, useTextTranslation } from 'i18n'
@@ -192,7 +192,7 @@ function PascalsTriangle() {
 				const position = [indexWidth + ((n + 1) / 2 - rowIndex / 2 + colIndex) * colWidth, (rowIndex + 0.5) * rowHeight]
 				return <Fragment key={colIndex}>
 					<Circle center={position} radius={circleRadius} style={{ fill: primaryColor, opacity: 0.1 }} />
-					<Element position={position}><M>{binomial(rowIndex, colIndex)}</M></Element>
+					<Element position={position}><M>{binomialCoefficient(rowIndex, colIndex)}</M></Element>
 				</Fragment>
 			})}
 		</Fragment>)}

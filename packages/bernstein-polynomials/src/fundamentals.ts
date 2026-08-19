@@ -1,5 +1,5 @@
 import { approximatelyEqual, ensureInteger, sum } from '@step-wise/js-utils'
-import { binomial } from '@step-wise/math-tools'
+import { binomialCoefficient } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
 
@@ -16,13 +16,13 @@ export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoeffi
 	if (newOrder === oldOrder) return coefficients
 
 	const orderIncrease = newOrder - oldOrder
-	const orderFactor = 1 / binomial(newOrder + 1, oldOrder + 1)
+	const orderFactor = 1 / binomialCoefficient(newOrder + 1, oldOrder + 1)
 	return Array.from({ length: newOrder + 1 }, (_, newIndex) => {
 		const minOldIndex = Math.max(0, newIndex - orderIncrease)
 		const maxOldIndex = Math.min(oldOrder, newIndex)
 		const elevatedCoefficient = sum(coefficients.slice(minOldIndex, maxOldIndex + 1).map((coefficient, offset) => {
 			const oldIndex = minOldIndex + offset
-			return coefficient * binomial(newIndex, oldIndex) * binomial(newOrder - newIndex, oldOrder - oldIndex)
+			return coefficient * binomialCoefficient(newIndex, oldIndex) * binomialCoefficient(newOrder - newIndex, oldOrder - oldIndex)
 		}))
 		return elevatedCoefficient * orderFactor
 	})
