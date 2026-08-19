@@ -55,6 +55,20 @@ export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && b &&
 	return ref.current
 }
 
+function areArraysShallowlyEqual(current, previous) {
+	return Array.isArray(previous) && current.length === previous.length && current.every((value, index) => Object.is(value, previous[index]))
+}
+
+function areObjectsShallowlyEqual(current, previous) {
+	if (Object.is(current, previous))
+		return true
+	if (current === null || previous === null || typeof current !== 'object' || typeof previous !== 'object')
+		return false
+	const currentKeys = Reflect.ownKeys(current)
+	const previousKeys = Reflect.ownKeys(previous)
+	return currentKeys.length === previousKeys.length && currentKeys.every(key => Object.prototype.hasOwnProperty.call(previous, key) && Object.is(current[key], previous[key]))
+}
+
 // useImmutableValue will ensure that the given property remains exactly the same. If it changes, an error is thrown. It's also not allowed to be undefined. This is useful for properties that are not allowed to change.
 export function useImmutableValue(value) {
 	const ref = useRef(undefined)
@@ -122,8 +136,7 @@ export function useEventListener(eventName, handler, elements = window, options 
 	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
 	eventName = useConsistentValue(eventName)
 	const handlerRef = useLatest(handler)
-	elements = useConsistentValue(elements)
-	options = useConsistentValue(options)
+	options = useEqualRefOnEquality(options, areObjectsShallowlyEqual)
 
 	// Ensure that the elements parameter is an array of existing objects.
 	elements = (Array.isArray(elements) ? elements : [elements])
@@ -137,7 +150,7 @@ export function useEventListener(eventName, handler, elements = window, options 
 		return false // No idea. Throw it out.
 	})
 	elements = elements.filter(element => element) // Throw out non-existing elements or elements without an event listener.
-	elements = useConsistentValue(elements)
+	elements = useEqualRefOnEquality(elements, areArraysShallowlyEqual)
 
 	// Set up the listeners using another effect.
 	useEffect(() => {

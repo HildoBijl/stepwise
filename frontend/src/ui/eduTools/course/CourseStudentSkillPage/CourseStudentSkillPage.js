@@ -46,7 +46,7 @@ export function CourseStudentSkillPageForUser({ overview, user }) {
 	const [showLabels, setShowLabels] = useState(true)
 
 	// If there are no exercises, show this.
-	const exercises = userSkill.exercises
+	const exercises = userSkill?.exercises ?? []
 	if (exercises.length === 0)
 		return <Info><Translation path={translationPath} entry="noExercises">The student has not opened this skill yet. There are no exercises to show.</Translation></Info>
 
