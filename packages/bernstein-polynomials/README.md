@@ -7,6 +7,8 @@ This package is about describing Bernstein polynomials: those of the form `f(x) 
 
 Coefficients are described as an array of numbers: `[c_0, c_1, ..., c_n]`. These are the type `BernsteinCoefficients`. The following functions provide fundamental operations.
 
+`BernsteinCoefficients` is readonly to prevent accidental mutation. Functions in this package expect coefficient arrays to be non-empty, finite, non-negative and normalized. Validate data from APIs, databases or other untrusted sources with `ensureBernsteinCoefficients` before passing it to mathematical operations; internally created and previously validated coefficients can be reused without repeated checks.
+
 - `getBernsteinOrder(coefficients)` returns the order `n` of a coefficient array. This is the length minus one.
 - `normalizeBernsteinCoefficients(coefficients)` normalizes a non-normalized coefficient array, ensuring the sum of the coefficients adds to one.
 - `invertBernsteinCoefficients(coefficients)` inverts a coefficient array, reversing the order of the coefficients. If a set of coefficients describes a random variable `x`, then its inverse describes the random variable `y = 1-x`.

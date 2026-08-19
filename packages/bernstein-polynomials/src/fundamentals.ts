@@ -1,7 +1,7 @@
 import { approximatelyEqual, ensureInteger, sum } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
-export type BernsteinCoefficients = number[]
+export type BernsteinCoefficients = readonly number[]
 
 // Get the order of a coefficient array, equal to its length minus one.
 export function getBernsteinOrder(coefficients: BernsteinCoefficients): number {
