@@ -93,14 +93,14 @@ export default buildStepExercise({
 		const [p, q, r] = coefficients.map(coefficient => coefficient / divisor)
 		const solutionFull = asExpression('(-q±sqrt(q^2-4*p*r))/(2p)').substitute({ p, q, r }).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())
-		if (!rootFull?.isSqrt()) throw new Error('Expected the quadratic formula to contain a square root.')
-		const DFull = rootFull.radicand
+		const DFull = asExpression('q^2-4*p*r').substitute({ p, q, r }).removeTrivial()
 		const D = DFull.combine()
+		const hasRealSolutions = !(D.isNumeric() && D.toNumber() < 0)
 		const solutionHalfSimplified = asExpression('(-q±sqrt(D))/(2p)').substitute({ p, q, r, D }).removeTrivial(['mergeProductNumbers'], ['reduceRootsWithZeroRadicand'])
-		const solution = solutionFull.combine()
-		const solutionsSplit = solution.getSingular().map(solution => solution.removeTrivial())
-		const solutions = solutionsSplit.map(solution => solution.normalize().format())
-		const numSolutions = D.isNumeric() && D.toNumber() < 0 ? 0 : solutions.length
+		const solution = hasRealSolutions ? solutionFull.combine() : solutionHalfSimplified
+		const solutionsSplit = hasRealSolutions ? solution.getSingular().map(solution => solution.removeTrivial()) : [solution, solution]
+		const solutions = hasRealSolutions ? solutionsSplit.map(solution => solution.normalize().format()) : solutionsSplit
+		const numSolutions = hasRealSolutions ? solutions.length : 0
 		const equationsSubstituted = solutions.map(solution => equation.substitute({ [variables.x.toString()]: solution }))
 		const [ans1, ans2] = solutions
 
