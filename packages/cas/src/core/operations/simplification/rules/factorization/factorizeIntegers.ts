@@ -1,4 +1,4 @@
-import { getPrime, getPrimeFactorization } from '@step-wise/math-tools'
+import { getPrimeFactorization } from '@step-wise/math-tools'
 import { sum } from '@step-wise/js-utils'
 
 import { Integer, Product, Power } from '../../../../construction'
@@ -12,13 +12,12 @@ function transform(node: Integer): Integer | Product | Power {
 	// Check out trivial cases.
 	if (node.value <= 3) return node
 	const primeFactors = getPrimeFactorization(node.value)
-	if (sum(primeFactors) <= 1) return node
+	if (sum(primeFactors.map(factor => factor.exponent)) <= 1) return node
 
 	// Assemble factors.
-	const factors = primeFactors.flatMap((exponent, index): (Integer | Power)[] => {
-		if (exponent === 0) return []
-		const prime = new Integer(getPrime(index))
-		return exponent === 1 ? [prime] : [new Power(prime, new Integer(exponent))]
+	const factors = primeFactors.map(({ prime, exponent }): Integer | Power => {
+		const primeNode = new Integer(prime)
+		return exponent === 1 ? primeNode : new Power(primeNode, new Integer(exponent))
 	})
 	if (factors.length === 1) return factors[0]
 	return new Product(factors)

@@ -29,17 +29,28 @@ export function isPrime(num: number): boolean {
 	}
 }
 
-// Return the prime factorization as exponents of consecutive primes.
-export function getPrimeFactorization(num: number): number[] {
+export type PrimeFactor = {
+	prime: number
+	exponent: number
+}
+
+// Return the prime factorization as prime-exponent entries.
+export function getPrimeFactorization(num: number): PrimeFactor[] {
 	num = ensureInteger(num, { nonNegative: true, nonZero: true })
-	const result: number[] = []
+	const result: PrimeFactor[] = []
 	for (let i = 0; num > 1; i++) {
-		result[i] = 0
 		const prime = getPrime(i)
+		if (prime ** 2 > num) {
+			result.push({ prime: num, exponent: 1 })
+			break
+		}
+
+		let exponent = 0
 		while (num % prime === 0) {
-			result[i]++
+			exponent++
 			num /= prime
 		}
+		if (exponent > 0) result.push({ prime, exponent })
 	}
 	return result
 }
