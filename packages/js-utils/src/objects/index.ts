@@ -1,6 +1,6 @@
 export * from './checks'
 export * from './plainnessChecks'
 export * from './comparisons'
-export * from './reading'
+export * from './nesting'
 export * from './creation'
 export * from './manipulation'

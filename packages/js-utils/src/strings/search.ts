@@ -1,3 +1,5 @@
+import { ensureInteger } from '../numbers'
+
 // Find the earliest occurrence of any character at or after startIndex. Return -1 when none are found.
 export function indexOfAnyCharacter(value: string, characters: readonly string[], startIndex = 0): number {
 	if (characters.some(character => Array.from(character).length !== 1)) throw new TypeError('indexOfAnyCharacter: every search value must contain exactly one character.')
@@ -15,4 +17,3 @@ export function indexOfAnyCharacter(value: string, characters: readonly string[]
 	// No symbol is found.
 	return -1
 }
-import { ensureInteger } from '../numbers'

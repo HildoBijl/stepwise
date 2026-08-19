@@ -31,4 +31,3 @@ export function isBetween(value: number, min = 0, max = 1, options: IsBetweenOpt
 	if (typeof inclusive !== 'boolean') throw new TypeError(`Input error: inclusive must be a boolean, but received type "${typeof inclusive}".`)
 	return inclusive ? (value >= min && value <= max) : (value > min && value < max)
 }
-import { isNumber } from './checks'
