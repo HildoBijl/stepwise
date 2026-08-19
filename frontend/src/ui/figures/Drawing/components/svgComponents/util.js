@@ -1,4 +1,4 @@
-import { mod, first, last, repeat, pickKeys } from '@step-wise/js-utils'
+import { mod, first, last, repeat, filterProperties } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
@@ -7,7 +7,7 @@ import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import
 export const defaultEventHandlers = {}
 const eventHandlers = ['mouseenter', 'mouseleave', 'click', 'mousedown', 'mouseup']
 eventHandlers.forEach(name => { defaultEventHandlers[name] = undefined })
-export const filterEventHandlers = (options) => pickKeys(options, eventHandlers)
+export const filterEventHandlers = (options) => filterProperties(options, (value, key) => eventHandlers.includes(key) && typeof value === 'function')
 export const useRefWithEventHandlers = (props, ref) => {
 	ref = useEnsureRef(ref)
 	const handlers = filterEventHandlers(props)
