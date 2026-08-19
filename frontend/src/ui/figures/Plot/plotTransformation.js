@@ -5,7 +5,7 @@ import { Vector, Rectangle, Transformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
-import { getBoundingRectangle, ensureScale } from '../Drawing/transformation/util'
+import { getBoundingRectangle, ensureScale, useConsistentPoints } from '../Drawing/transformation/util'
 import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationOptions } from '../Drawing'
 
 import { getTicks } from './ticks'
@@ -20,7 +20,7 @@ export const defaultPlotTransformationOptions = {
 
 export function usePlotTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
-	points = useConsistentValue(points)
+	points = useConsistentPoints(points)
 	options = useConsistentValue(mergeDefaults(options, defaultPlotTransformationOptions))
 
 	// Check the options.

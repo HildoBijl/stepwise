@@ -1,9 +1,26 @@
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureInteger, mapValues } from '@step-wise/js-utils'
+import { ensureNumber, ensureInteger, isPlainObject, mapValues } from '@step-wise/js-utils'
 import { isTransformable, Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from '@step-wise/geometry'
 
-import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+import { useConsistentValue, useEqualRefOnEquality } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
+
+// Keep a point collection stable while accepting all Vector inputs supported by geometry.
+// Vector instances are compared through their coordinates instead of generic object equality.
+export function useConsistentPoints(points) {
+	return useEqualRefOnEquality(points, (current, previous) => {
+		if (Object.is(current, previous)) return true
+		if (!current || !previous) return false
+		if (Array.isArray(current) !== Array.isArray(previous)) return false
+		if (!Array.isArray(current) && (!isPlainObject(current) || !isPlainObject(previous))) return false
+
+		const currentKeys = Object.keys(current)
+		const previousKeys = Object.keys(previous)
+		return currentKeys.length === previousKeys.length && currentKeys.every(key =>
+			Object.prototype.hasOwnProperty.call(previous, key) && ensureVector(current[key], 2).equals(ensureVector(previous[key], 2)),
+		)
+	})
+}
 
 // getBoundingRectangle gets a set of points (an object or array) and checks the bounds of these points. It returns a Rectangle object for these bounds.
 export function getBoundingRectangle(points) {

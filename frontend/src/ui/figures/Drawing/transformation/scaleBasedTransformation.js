@@ -5,7 +5,7 @@ import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation }
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
-import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
+import { getBoundingRectangle, ensureScale, ensureMargin, useConsistentPoints } from './util'
 
 export const defaultScaleBasedTransformationOptions = {
 	scale: 1,
@@ -15,7 +15,7 @@ export const defaultScaleBasedTransformationOptions = {
 
 export function useScaleBasedTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
-	points = useConsistentValue(points)
+	points = useConsistentPoints(points)
 	options = useConsistentValue(options)
 
 	// Wrap the settings calculation in a useMemo for reference equality and efficiency.

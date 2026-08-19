@@ -5,7 +5,7 @@ import { Transformation, ensureTransformation } from '@step-wise/geometry'
 
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
-import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
+import { getBoundingRectangle, ensureScale, ensureMargin, useConsistentPoints } from './util'
 import { useScaleBasedTransformationSettings } from './scaleBasedTransformation'
 
 export const defaultBoundsBasedTransformationOptions = {
@@ -20,7 +20,7 @@ export const defaultBoundsBasedTransformationOptions = {
 
 export function useBoundsBasedTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
-	points = useConsistentValue(points)
+	points = useConsistentPoints(points)
 	options = useConsistentValue(options)
 
 	// Wrap the settings calculation in a useMemo for reference equality and efficiency.
