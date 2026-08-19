@@ -1,55 +1,66 @@
-import type { ExerciseAction, ExerciseProgress, ExerciseHistory } from './types'
+import type { ExerciseAction, ExerciseProgress, ExerciseHistory, GroupExerciseHistory, SoloExerciseHistory } from './types'
 
-// Get the last action for the given user from an exercise history.
-export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, userId: string): TAction | undefined {
-	// On no history, return nothing.
-	if (history.length === 0) return undefined
+export function createSoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(events: readonly { action: TAction, progress: TProgress }[] = []): SoloExerciseHistory<TAction, TProgress> {
+	return { mode: 'solo', events }
+}
 
-	// If the last event has an action, it's a single-user event. Return the action.
-	const lastEvent = history[history.length - 1]
-	if ('action' in lastEvent) return lastEvent.action
+export function createGroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(events: GroupExerciseHistory<TAction, TProgress>['events'] = []): GroupExerciseHistory<TAction, TProgress> {
+	return { mode: 'group', events }
+}
 
-	// The exercise is a group exercise. Find the last resolved event and look through the submissions to get the current user's action.
-	const lastResolvedEvent = ('progress' in lastEvent) ? lastEvent : history[history.length - 2]
-	if (!lastResolvedEvent || !('submissions' in lastResolvedEvent)) return undefined
-	return lastResolvedEvent.submissions.find(submission => submission.userId === userId)?.action
+function ensureGroupUserId(userId: string | undefined): string {
+	if (userId === undefined) throw new TypeError(`A userId is required when retrieving an action from a group exercise history.`)
+	return userId
+}
+
+// Get the latest resolved action for a solo user or a given group user.
+export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: SoloExerciseHistory<TAction, TProgress>): TAction | undefined
+export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, userId: string): TAction | undefined
+export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, userId?: string): TAction | undefined {
+	if (history.mode === 'solo') return history.events.at(-1)?.action
+
+	const ensuredUserId = ensureGroupUserId(userId)
+	for (let index = history.events.length - 1; index >= 0; index--) {
+		const event = history.events[index]
+		if (!('progress' in event)) continue
+		return event.submissions.find(submission => submission.userId === ensuredUserId)?.action
+	}
+	return undefined
+}
+
+// Get the latest action, including a pending group submission when present.
+export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: SoloExerciseHistory<TAction, TProgress>): TAction | undefined
+export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, userId: string): TAction | undefined
+export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, userId?: string): TAction | undefined {
+	if (history.mode === 'solo') return history.events.at(-1)?.action
+
+	const ensuredUserId = ensureGroupUserId(userId)
+	for (let index = history.events.length - 1; index >= 0; index--) {
+		const action = history.events[index].submissions.find(submission => submission.userId === ensuredUserId)?.action
+		if (action) return action
+	}
+	return undefined
 }
 
 // Get the last progress object from the history array.
-export function getLastProgress<TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<ExerciseAction, TProgress>): TProgress | Record<string, never> {
-	// On no events, return the default progress.
-	if (history.length === 0) return {}
-
-	// On a single-user exercise, return the last progress.
-	const lastEvent = history[history.length - 1]
-	if ('progress' in lastEvent && lastEvent.progress != null) return lastEvent.progress
-
-	// On a group exercise, return the last resolved progress.
-	if (history.length === 1) return {}
-	const lastResolvedEvent = history[history.length - 2]
-	if ('progress' in lastResolvedEvent && lastResolvedEvent.progress != null) return lastResolvedEvent.progress
-
-	// Should never happen.
-	throw new Error(`Invalid exercise history: encountered two consecutive history events without a progress object.`)
+export function getLastProgress<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>): TProgress | Record<string, never> {
+	return getProgressFromEnd(history, 0)
 }
 
 // Get the second-to-last progress object from the history array.
-export function getPreviousProgress<TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<ExerciseAction, TProgress>): TProgress | Record<string, never> {
-	// On no events, return the default progress.
-	if (history.length <= 1) return {}
+export function getPreviousProgress<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>): TProgress | Record<string, never> {
+	return getProgressFromEnd(history, 1)
+}
 
-	// On a single-user exercise, return the second-to-last progress.
-	const lastEvent1 = history[history.length - 1]
-	const lastEvent2 = history[history.length - 2]
-	if ('progress' in lastEvent1 && lastEvent1.progress != null && 'progress' in lastEvent2 && lastEvent2.progress != null) return lastEvent2.progress
-
-	// On a group exercise, return the progress of the third-last event, if it exists.
-	if ('progress' in lastEvent2 && lastEvent2.progress != null && history.length <= 2) return {}
-	const lastEvent3 = history[history.length - 3]
-	if ('progress' in lastEvent2 && lastEvent2.progress != null && 'progress' in lastEvent3 && lastEvent3.progress != null) return lastEvent3.progress
-
-	// Should never happen.
-	throw new Error(`Invalid exercise history: encountered two consecutive history events without a progress object.`)
+function getProgressFromEnd<TAction extends ExerciseAction, TProgress extends ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, offset: number): TProgress | Record<string, never> {
+	let remaining = offset
+	for (let index = history.events.length - 1; index >= 0; index--) {
+		const event = history.events[index]
+		if (!('progress' in event)) continue
+		if (remaining === 0) return event.progress
+		remaining--
+	}
+	return {}
 }
 
 // Check if a progress object marks the exercise as done.

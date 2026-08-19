@@ -24,12 +24,29 @@ export const groupExerciseTypeDefs = gql`
 		active: Boolean!
 		startedOn: DateTime!
 		progress: JSON
-		history: [GroupEvent]!
+		history: GroupExerciseHistory!
 	}
 
-	type GroupEvent {
+	type GroupExerciseHistory {
+		mode: ExerciseMode!
+		events: [GroupEvent]!
+	}
+
+	interface GroupEvent {
 		id: ID!
-		progress: JSON
+		performedAt: DateTime!
+		submissions: [GroupSubmission]!
+	}
+
+	type ResolvedGroupEvent implements GroupEvent {
+		id: ID!
+		progress: JSON!
+		performedAt: DateTime!
+		submissions: [GroupSubmission]!
+	}
+
+	type PendingGroupEvent implements GroupEvent {
+		id: ID!
 		performedAt: DateTime!
 		submissions: [GroupSubmission]!
 	}

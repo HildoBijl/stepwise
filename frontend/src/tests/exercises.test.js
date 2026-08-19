@@ -52,7 +52,7 @@ describe('Check all exercises:', () => {
 						const exerciseData = {
 							exerciseId,
 							state,
-							history: [],
+							history: { mode: 'solo', events: [] },
 							progress: {},
 							submitting: false,
 							submitAction: noop, // (action) => submitAction(action, shared.processAction),

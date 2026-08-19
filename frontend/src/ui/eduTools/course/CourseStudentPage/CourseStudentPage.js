@@ -53,8 +53,8 @@ function LastActivity({ processedStudent, course, overview }) {
 	const getLastSkillActivity = skill => {
 		if (skill.exercises.length === 0) return undefined
 		const lastExercise = last(skill.exercises)
-		if (lastExercise.history.length === 0) return new Date(lastExercise.startedOn)
-		const lastEvent = last(lastExercise.history)
+		if (lastExercise.history.events.length === 0) return new Date(lastExercise.startedOn)
+		const lastEvent = last(lastExercise.history.events)
 		return new Date(lastEvent.performedAt)
 	}
 	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkills.includes(skill.skillId))

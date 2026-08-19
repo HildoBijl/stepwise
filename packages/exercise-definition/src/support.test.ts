@@ -1,23 +1,23 @@
 import { getLastProgress, getPreviousProgress } from './support'
 
 describe('exercise history progress', () => {
-	test('uses the default progress when a group history only has a GraphQL-shaped pending event', () => {
-		const history = [{ submissions: [], progress: null }]
+	test('uses the default progress when a group history only has a pending event', () => {
+		const history = { mode: 'group', events: [{ submissions: [] }] } as const
 
-		expect(getLastProgress(history as any)).toEqual({})
-		expect(getPreviousProgress(history as any)).toEqual({})
+		expect(getLastProgress(history)).toEqual({})
+		expect(getPreviousProgress(history)).toEqual({})
 	})
 
-	test('skips a GraphQL-shaped pending group event when finding progress', () => {
+	test('skips a pending group event when finding progress', () => {
 		const firstProgress = { split: true, step: 1 }
 		const secondProgress = { split: true, step: 2 }
-		const history = [
+		const history = { mode: 'group', events: [
 			{ submissions: [], progress: firstProgress },
 			{ submissions: [], progress: secondProgress },
-			{ submissions: [], progress: null },
-		]
+			{ submissions: [] },
+		] } as const
 
-		expect(getLastProgress(history as any)).toBe(secondProgress)
-		expect(getPreviousProgress(history as any)).toBe(firstProgress)
+		expect(getLastProgress(history)).toBe(secondProgress)
+		expect(getPreviousProgress(history)).toBe(firstProgress)
 	})
 })

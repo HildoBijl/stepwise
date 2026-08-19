@@ -2,19 +2,19 @@ import { getLastInput } from './support'
 
 describe('getLastInput', () => {
 	const userId = 'user-1'
-	const resolvedInput = { answer: 'resolved' }
-	const pendingInput = { answer: 'pending' }
+	const resolvedInput = { answer: { type: 'Text', value: 'resolved' } }
+	const pendingInput = { answer: { type: 'Text', value: 'pending' } }
 
-	const history = [
+	const history = { mode: 'group', events: [
 		{ progress: {}, submissions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
-		{ progress: null, submissions: [{ userId, action: { type: 'input', input: pendingInput } }] },
-	]
+		{ submissions: [{ userId, action: { type: 'input', input: pendingInput } }] },
+	] } as const
 
 	test('returns a pending group input when resolved input is not required', () => {
-		expect(getLastInput(history as any, userId)).toBe(pendingInput)
+		expect(getLastInput(history, userId)).toBe(pendingInput)
 	})
 
-	test('skips a GraphQL-shaped pending event when resolved input is required', () => {
-		expect(getLastInput(history as any, userId, true)).toBe(resolvedInput)
+	test('skips a pending event when resolved input is required', () => {
+		expect(getLastInput(history, userId, true)).toBe(resolvedInput)
 	})
 })

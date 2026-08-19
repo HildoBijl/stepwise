@@ -2,7 +2,7 @@ import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
 import type { ExerciseReducer, ExerciseReducerInput, GroupExerciseSubmission } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerInput, type InputExerciseReducerSingleUserInput, type InputExerciseReducerGroupInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
+import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerInput, type InputExerciseReducerSoloInput, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
 
 import type { StepExerciseProgress, StepExerciseStepProgress, StepExerciseSplitProgress, StepExercise, StepExerciseSpec } from './types'
 import { getStep, hasPreviousInputAtStep } from './support'
@@ -22,26 +22,26 @@ export function buildStepExerciseReducer<TState extends InputExerciseState = Inp
 	return (input: ExerciseReducerInput<InputExerciseAction, StepExerciseProgress>) => {
 		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state) } as InputExerciseReducerInput<InputExerciseAction, StepExerciseProgress, TState>
 		if ('done' in runtimeInput.progress && runtimeInput.progress.done) return runtimeInput.progress
-		return ('submissions' in runtimeInput) ? reduceGroupActions(spec, runtimeInput) : reduceUserAction(spec, runtimeInput)
+		if (runtimeInput.history.mode === 'group') return reduceGroupActions(spec, runtimeInput as InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>)
+		return reduceUserAction(spec, runtimeInput as InputExerciseReducerSoloInput<InputExerciseAction, StepExerciseProgress, TState>)
 	}
 }
 
 // Reduce an action for a single user.
-function reduceUserAction<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSingleUserInput<InputExerciseAction, StepExerciseProgress, TState> & { action: InputExerciseAction, submissions?: never }): StepExerciseProgress {
+function reduceUserAction<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSoloInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	return reduceGroupActions(spec, {
 		...input,
 		submissions: [{ action: input.action }],
-		action: undefined,
-	} as InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>)
+	})
 }
 
 // Reduce a set of actions for a group of users.
-function reduceGroupActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState> & { submissions: GroupExerciseSubmission<InputExerciseAction>[], action?: never }): StepExerciseProgress {
+function reduceGroupActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	return ('split' in input.progress && input.progress.split) ? reduceStepActions(spec, input) : reduceMainProblemActions(spec, input)
 }
 
 // Reduce a set of actions for the main problem.
-function reduceMainProblemActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceMainProblemActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
 	const { progress, submissions, state, history, updateSkills } = input
 
@@ -84,7 +84,7 @@ function reduceMainProblemActions<TState extends InputExerciseState = InputExerc
 }
 
 // Reduce a set of actions for a step.
-function reduceStepActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceStepActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData } = spec
 	const { progress } = input
 	const step = getStep(progress)
@@ -93,7 +93,7 @@ function reduceStepActions<TState extends InputExerciseState = InputExerciseStat
 	return reduceStepWithoutSubstepsActions(spec, input)
 }
 
-function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
 	const { progress, submissions, state, history, updateSkills } = input
 	const step = getStep(progress)
@@ -136,7 +136,7 @@ function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = In
 	return progress
 }
 
-function reduceStepWithSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerGroupInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
+function reduceStepWithSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
 	const { progress, submissions, state, history, updateSkills } = input
 	const step = getStep(progress)

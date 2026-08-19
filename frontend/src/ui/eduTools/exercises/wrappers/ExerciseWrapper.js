@@ -18,7 +18,7 @@ export function ExerciseWrapper({ getFeedback, children }) {
 	// Determine the initial input for the form. (And overwrite it if this updates, for instance in a group exercise through a websocket connection.) In inspection mode, get the requested one, and otherwise the latest one.
 	const userId = useUserId()
 	const { history, inspection, historyIndex } = useExerciseData()
-	const initialInput = inspection ? history[historyIndex]?.action?.input : getLastInput(history, userId)
+	const initialInput = inspection ? history.events[historyIndex]?.action?.input : getLastInput(history, userId)
 
 	// Render all the components that we wrap exercises in.
 	return <Form submit={submit} initialInput={initialInput}>
@@ -41,7 +41,7 @@ function FeedbackWrapper({ getFeedback, children }) {
 	// Determine both the input to show (usually the last submitted (possibly unresolved) input) and the last input which feedback was given on.
 	const { inspection, history, historyIndex } = exerciseData
 	const userId = useUserId()
-	const feedbackInput = inspection ? history[historyIndex]?.action?.input : getLastInput(history, userId, true)
+	const feedbackInput = inspection ? history.events[historyIndex]?.action?.input : getLastInput(history, userId, true)
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>

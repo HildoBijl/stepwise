@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/js-utils'
+import { createSoloExerciseHistory } from '@step-wise/exercise-definition'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExamples, getExamples } from '@step-wise/exercises'
 
@@ -26,7 +27,7 @@ export function ExamplePage({ skillId }) {
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
-			history: [],
+			history: createSoloExerciseHistory(),
 			startedOn: new Date(),
 		}
 		setExercise(exercise)
@@ -49,11 +50,10 @@ export function ExamplePage({ skillId }) {
 			...exercise,
 			active: exercise.active && !progress.done,
 			progress,
-			history: [...exercise.history, {
-				action,
-				progress,
-				performedAt: new Date(),
-			}],
+			history: {
+				...exercise.history,
+				events: [...exercise.history.events, { action, progress, performedAt: new Date() }],
+			},
 		})
 	}, [exercise, setExercise])
 

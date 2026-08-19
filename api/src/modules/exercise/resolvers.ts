@@ -20,7 +20,7 @@ export const exerciseResolvers: Record<string, any> = {
 		progress: getExerciseProgress,
 		lastAction: (exercise: any) => getLastEvent(exercise)?.action || null,
 		lastActionAt: (exercise: any) => getLastEvent(exercise)?.createdAt || null,
-		history: (exercise: any) => exercise.events || [],
+		history: (exercise: any) => ({ mode: 'solo', events: exercise.events || [] }),
 		active: (exercise: any) => exercise.active,
 	},
 	Event: { performedAt: (event: any) => event.createdAt },
@@ -48,7 +48,7 @@ export const exerciseResolvers: Record<string, any> = {
 				action,
 				state: activeExercise.state,
 				progress: getExerciseProgress(activeExercise),
-				history: activeExercise.events,
+				history: { mode: 'solo', events: activeExercise.events },
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
 			})
 			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)

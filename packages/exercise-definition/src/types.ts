@@ -26,12 +26,15 @@ export type ExerciseGenerator<TState extends ExerciseState = ExerciseState> = (e
  * The exercise history (needed as part of the reducer)
  */
 
-// For single users
-export type SingleUserExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
+// For solo users
+export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
 	action: TAction
 	progress: TProgress
 }
-export type SingleUserExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = SingleUserExerciseHistoryEvent<TAction, TProgress>[]
+export type SoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
+	mode: 'solo'
+	events: readonly SoloExerciseHistoryEvent<TAction, TProgress>[]
+}
 
 // For groups
 export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAction> = {
@@ -39,17 +42,20 @@ export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAct
 	action: TAction
 }
 export type ResolvedGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
-	submissions: GroupExerciseSubmission<TAction>[]
+	submissions: readonly GroupExerciseSubmission<TAction>[]
 	progress: TProgress
 }
 export type PendingGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction> = {
-	submissions: GroupExerciseSubmission<TAction>[]
+	submissions: readonly GroupExerciseSubmission<TAction>[]
 }
 export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ResolvedGroupExerciseHistoryEvent<TAction, TProgress> | PendingGroupExerciseHistoryEvent<TAction>
-export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ResolvedGroupExerciseHistoryEvent<TAction, TProgress>[] | [...ResolvedGroupExerciseHistoryEvent<TAction, TProgress>[], PendingGroupExerciseHistoryEvent<TAction>]
+export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
+	mode: 'group'
+	events: readonly GroupExerciseHistoryEvent<TAction, TProgress>[]
+}
 
-// Joint type for single users and groups
-export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = SingleUserExerciseHistory<TAction, TProgress> | GroupExerciseHistory<TAction, TProgress>
+// Joint type for solo users and groups
+export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = SoloExerciseHistory<TAction, TProgress> | GroupExerciseHistory<TAction, TProgress>
 
 /*
  * The processAction reducer
@@ -59,12 +65,11 @@ export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: st
 type ExerciseReducerGeneralInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = {
 	progress: TProgress
 	state: TState
-	history: ExerciseHistory<TAction, TProgress>
 	updateSkills?: UpdateSkills
 }
-export type ExerciseReducerSingleUserInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { action: TAction }
-export type ExerciseReducerGroupInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { submissions: GroupExerciseSubmission<TAction>[] }
-export type ExerciseReducerInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerSingleUserInput<TAction, TProgress, TState> | ExerciseReducerGroupInput<TAction, TProgress, TState>
+export type ExerciseReducerSoloInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { history: SoloExerciseHistory<TAction, TProgress>, action: TAction }
+export type ExerciseReducerGroupInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerGeneralInput<TAction, TProgress, TState> & { history: GroupExerciseHistory<TAction, TProgress>, submissions: readonly GroupExerciseSubmission<TAction>[] }
+export type ExerciseReducerInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseReducerSoloInput<TAction, TProgress, TState> | ExerciseReducerGroupInput<TAction, TProgress, TState>
 export type ExerciseReducer<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends ExerciseState = ExerciseState> = (input: ExerciseReducerInput<TAction, TProgress, TState>) => TProgress
 
 /*

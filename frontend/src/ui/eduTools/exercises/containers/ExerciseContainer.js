@@ -45,7 +45,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const stateFO = useMemo(() => deserializeAll(state), [state])
 
 	// Ensure that the progress has a consistent reference.
-	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(exercise.history))
+	const progress = useConsistentValue(inspection ? (exercise.history.events[historyIndex]?.progress || {}) : getLastProgress(exercise.history))
 
 	if (loading)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />

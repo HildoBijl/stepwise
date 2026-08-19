@@ -3,7 +3,7 @@ export function getExerciseOutcome(exercise) {
 		return 'inProgress'
 	if (!exercise.progress.solved)
 		return 'incorrect'
-	if (exercise.history.length > 1)
+	if (exercise.history.events.length > 1)
 		return 'partiallyCorrect'
 	return 'correct'
 }

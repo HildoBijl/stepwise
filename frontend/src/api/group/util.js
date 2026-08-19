@@ -22,14 +22,19 @@ export const groupExerciseParameters = `
 	startedOn
 	progress
 	history {
-		id
-		progress
-		performedAt
-		submissions {
+		mode
+		events {
 			id
-			userId
 			performedAt
-			action
+			... on ResolvedGroupEvent {
+				progress
+			}
+			submissions {
+				id
+				userId
+				performedAt
+				action
+			}
 		}
 	}
 `

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/js-utils'
+import { createSoloExerciseHistory } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
 
@@ -41,7 +42,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 				id: uuidv4(), // Just generate a random one.
 				active: true,
 				progress: {},
-				history: [],
+				history: createSoloExerciseHistory(),
 				startedOn: new Date(),
 			})
 		}
@@ -55,11 +56,10 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 			...exercise,
 			active: exercise.active && !progress.done,
 			progress,
-			history: [...exercise.history, {
-				action,
-				progress,
-				performedAt: new Date(),
-			}],
+			history: {
+				...exercise.history,
+				events: [...exercise.history.events, { action, progress, performedAt: new Date() }],
+			},
 		})
 	}, [exercise, setExercise])
 

@@ -21,13 +21,17 @@ export function deserializeInputExerciseState<TState extends InputExerciseState>
 
 // Get the last given input from the user. For group-exercises, this may be an unresolved submission input, unless the requireResolved flag is set to true.
 export function getLastInput(history: ExerciseHistory<InputExerciseAction>, userId?: string, requireResolved = false): InputExerciseInput | undefined {
-	for (let index = history.length - 1; index >= 0; index--) {
+	if (history.mode === 'group' && userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+
+	if (history.mode === 'solo') for (let index = history.events.length - 1; index >= 0; index--) {
+		const userAction = history.events[index].action
+		if (userAction.type === 'input') return userAction.input
+	}
+
+	if (history.mode === 'group') for (let index = history.events.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of history.
-		const event = history[index]
-		let userAction: InputExerciseAction | undefined
-		if ('action' in event) userAction = event.action
-		else if (userId && 'submissions' in event) userAction = (!requireResolved || ('progress' in event && event.progress != null)) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
-		else throw new Error(`Invalid getLastInput case. Cannot determine if it is for a user or for a group.`)
+		const event = history.events[index]
+		const userAction = (!requireResolved || 'progress' in event) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
 
 		// If there is no valid input action, keep looking. Otherwise give the input.
 		if (!userAction || userAction.type !== 'input') continue

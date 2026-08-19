@@ -85,7 +85,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	// On giving up, check if a warning needs to be shown.
 	const checkGiveUp = () => {
 		// Should we warn the user that his rating will go down upon a step-wise solution?
-		const showWarning = !example && stepwise && step === 0 && history.length === 0 && !inTestContext
+		const showWarning = !example && stepwise && step === 0 && history.events.length === 0 && !inTestContext
 		if (showWarning) {
 			setModalOpen(true)
 		} else {
@@ -412,7 +412,7 @@ function useDerivedParameters() {
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
-		const currentEvent = history.find(event => event.progress === null)
+		const currentEvent = history.events.find(event => !('progress' in event))
 		const currentSubmissions = currentEvent?.submissions || []
 		const gaveUp = currentSubmissions.some(submission => submission.userId === userId && submission.action.type === 'giveUp')
 		const submittedAction = currentSubmissions.find(submission => submission.userId === userId)?.action
