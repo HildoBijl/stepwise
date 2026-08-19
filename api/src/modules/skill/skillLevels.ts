@@ -15,7 +15,7 @@ interface SkillUpdate {
 export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: string[]) {
 	const allSkillIds = [...includeDirectPrerequisitesAndLinks(skillIds)]
 	const rawSkills = await getUserSkills(database, userId, allSkillIds)
-	const skillsAsObject = fromKeysAndValues(rawSkills.map(skill => skill.skillId), rawSkills.map(skill => ensureSkillLevel(skill)))
+	const skillsAsObject = fromKeysAndValues(rawSkills.map(skill => skill.skillId), rawSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 	return new SkillLevelSet(skillTree, skills)
 }
@@ -41,7 +41,7 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 	const skillsToLoad = [...includeDirectPrerequisitesAndLinks(skillIds)]
 	const skills = await getUserSkills(database, userId, skillsToLoad)
 	const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
-	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill))
+	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill.get({ plain: true })))
 	const rawSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
 	const updates = new SkillLevelSet(skillTree, rawSkillLevelSet).processObservations(observations)
 

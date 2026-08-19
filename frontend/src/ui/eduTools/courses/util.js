@@ -84,5 +84,5 @@ export function processStudent(student, overview) {
 	const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
 
 	// Return all data.
-	return { ...student, skillLevelSet, analysis, numCompleted, numCompletedPerBlock, lastActive }
+	return { ...student, skills: existingSkills, skillLevelSet, analysis, numCompleted, numCompletedPerBlock, lastActive }
 }

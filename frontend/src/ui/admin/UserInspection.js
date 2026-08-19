@@ -50,7 +50,7 @@ function UserInspectionForUser({ user }) {
 				<div className="name head">Skill</div>
 				<div className="numPracticed head">Number of executions</div>
 				<div className="lastPracticed head">Last activity</div>
-				{skillsList.map(skillLevel => <UserInspectionItem key={skillLevel.skill.id} skillId={skillLevel.skill.id} skillLevel={skillLevel} />)}
+				{skillsList.map(skillLevel => <UserInspectionItem key={skillLevel.skillId} skillId={skillLevel.skillId} skillLevel={skillLevel} />)}
 			</Box>
 		</HorizontalSlider>
 	</>
@@ -61,7 +61,7 @@ function UserInspectionItem({ skillId, skillLevel }) {
 		<div className="flask"><SkillFlask skillId={skillId} coef={skillLevel.coefficients} size={40} /></div>
 		<div className="name">{skillTree[skillLevel.skillId].name}</div>
 		<div className="numPracticed">{skillLevel.numPracticed}</div>
-		<div className="lastPracticed">{formatDate(skillLevel.lastPracticed, { includeTime: true })}</div>
+		<div className="lastPracticed">{formatDate(skillLevel.coefficientsOn, { includeTime: true })}</div>
 	</>
 }
 
@@ -100,6 +100,6 @@ function useSkillsLevelsList(user) {
 
 		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.
 		const skillLevels = skillIds.map(skillId => skillLevelSet.getSkillLevel(skillId))
-		return skillLevels.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
+		return skillLevels.sort((a, b) => b.coefficientsOn - a.coefficientsOn) // Sort with latest first.
 	}, [user])
 }
