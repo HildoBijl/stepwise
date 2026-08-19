@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
 import { ensureBernsteinCoefficients } from './checks'
 import { getBernsteinExpectedValue, getBernsteinVariance, getBernsteinMoment } from './moments'
-import { getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum } from './distributions'
+import { getBernsteinCDF, getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum, getInverseBernsteinCDF } from './distributions'
 import { smoothBernsteinCoefficientsWithFactor } from './smoothing'
 import { mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from './merging'
 
@@ -70,10 +70,13 @@ describe('Check moment functions:', () => {
 	})
 	describe('getBernsteinMoment', () => {
 		it('gives correct values', () => {
-			expect(getBernsteinMoment([0, 1], 2)).toBe(1 / 2)
-			expect(getBernsteinMoment([0, 1], 3)).toBe(2 / 5)
-			expect(getBernsteinMoment([0, 0, 1, 0], 2)).toBe(2 / 5)
-			expect(getBernsteinMoment([0, 0, 1, 0], 3)).toBe(2 / 7)
+			expect(getBernsteinMoment([0, 1], 2)).toBeCloseTo(1 / 2)
+			expect(getBernsteinMoment([0, 1], 3)).toBeCloseTo(2 / 5)
+			expect(getBernsteinMoment([0, 0, 1, 0], 2)).toBeCloseTo(2 / 5)
+			expect(getBernsteinMoment([0, 0, 1, 0], 3)).toBeCloseTo(2 / 7)
+		})
+		it('keeps high-order moments finite', () => {
+			expect(getBernsteinMoment([0, 1], 200)).toBeCloseTo(1 / 101)
 		})
 	})
 	describe('getBernsteinVariance', () => {
@@ -94,11 +97,42 @@ describe('Check distribution functions:', () => {
 			expect(pdf(2)).toBe(0)
 			expect(pdf(0.5)).toBe(1.5)
 		})
+		it('validates inputs while supporting infinities', () => {
+			const pdf = getBernsteinPDF([1])
+			expect(pdf(-Infinity)).toBe(0)
+			expect(pdf(Infinity)).toBe(0)
+			expect(() => pdf(NaN)).toThrow(TypeError)
+		})
 	})
 	describe('getBernsteinPDFDerivative', () => {
 		it('returns zero everywhere for an order-zero distribution', () => {
 			const derivative = getBernsteinPDFDerivative([1])
 			expect([-1, 0, 0.5, 1, 2].map(derivative)).toEqual([0, 0, 0, 0, 0])
+		})
+		it('validates inputs while supporting infinities', () => {
+			const derivative = getBernsteinPDFDerivative([1])
+			expect(derivative(-Infinity)).toBe(0)
+			expect(derivative(Infinity)).toBe(0)
+			expect(() => derivative(NaN)).toThrow(TypeError)
+		})
+	})
+	describe('getBernsteinCDF', () => {
+		it('validates inputs while supporting infinities', () => {
+			const cdf = getBernsteinCDF([1])
+			expect(cdf(-Infinity)).toBe(0)
+			expect(cdf(Infinity)).toBe(1)
+			expect(() => cdf(NaN)).toThrow(TypeError)
+		})
+	})
+	describe('getInverseBernsteinCDF', () => {
+		it('accepts probabilities from zero through one', () => {
+			const inverseCDF = getInverseBernsteinCDF([1])
+			expect(inverseCDF(0)).toBe(0)
+			expect(inverseCDF(0.5)).toBeCloseTo(0.5)
+			expect(inverseCDF(1)).toBe(1)
+		})
+		it.each([NaN, -0.1, 1.1, Infinity])('rejects invalid probability %s', probability => {
+			expect(() => getInverseBernsteinCDF([1])(probability)).toThrow()
 		})
 	})
 	describe('getBernsteinPDFMaximum', () => {

@@ -1,4 +1,4 @@
-import { ensureInteger, sum, cumulative } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, sum, cumulative } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
@@ -13,6 +13,7 @@ function evaluateBernsteinPolynomial(coefficients: BernsteinCoefficients, x: num
 // Get the PDF for the chance of success, given the coefficients.
 export function getBernsteinPDF(coefficients: BernsteinCoefficients): (x: number) => number {
 	return x => {
+		x = ensureNumber(x, { allowInfinity: true })
 		if (x < 0 || x > 1) return 0
 		return evaluateBernsteinPolynomial(coefficients, x) * (getBernsteinOrder(coefficients) + 1)
 	}
@@ -22,6 +23,7 @@ export function getBernsteinPDF(coefficients: BernsteinCoefficients): (x: number
 export function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): (x: number) => number {
 	const n = getBernsteinOrder(coefficients)
 	return x => {
+		x = ensureNumber(x, { allowInfinity: true })
 		if (x < 0 || x > 1) return 0
 		if (n === 0) return 0
 		return sum(coefficients.map((c, i) => {
@@ -36,6 +38,7 @@ export function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): 
 export function getBernsteinCDF(coefficients: BernsteinCoefficients): (x: number) => number {
 	const cdfCoef = getBernsteinCDFCoefficients(coefficients)
 	return x => {
+		x = ensureNumber(x, { allowInfinity: true })
 		if (x < 0) return 0
 		if (x > 1) return 1
 		return evaluateBernsteinPolynomial(cdfCoef, x) * (getBernsteinOrder(cdfCoef) + 1)
@@ -54,7 +57,8 @@ export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numI
 	const cdf = getBernsteinCDF(coefficients)
 
 	return F => {
-		if (F < 0 || F > 1) throw new Error(`Invalid inverse CDF input: received a number that is not a possible CDF output. The number must be between 0 and 1 (inclusive) but ${F} was given.`)
+		F = ensureNumber(F, { nonNegative: true })
+		if (F > 1) throw new RangeError(`Invalid inverse CDF input: received a number that is not a possible CDF output. The number must be between 0 and 1 (inclusive) but ${F} was given.`)
 		if (F === 0) return 0
 		if (F === 1) return 1
 

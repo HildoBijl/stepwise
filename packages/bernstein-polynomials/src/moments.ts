@@ -1,5 +1,4 @@
 import { ensureInteger, sum } from '@step-wise/js-utils'
-import { factorialRatio } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
 import { getBernsteinOrder } from './fundamentals'
@@ -8,7 +7,11 @@ import { getBernsteinOrder } from './fundamentals'
 export function getBernsteinMoment(coefficients: BernsteinCoefficients, i: number): number {
 	const ensuredI = ensureInteger(i, { nonNegative: true })
 	const n = getBernsteinOrder(coefficients)
-	return sum(coefficients.map((c, j) => c * factorialRatio(ensuredI + j, j))) / factorialRatio(n + ensuredI + 1, n + 1)
+	return sum(coefficients.map((coefficient, index) => {
+		let weightedCoefficient = coefficient
+		for (let factorIndex = 1; factorIndex <= ensuredI; factorIndex++) weightedCoefficient *= (index + factorIndex) / (n + 1 + factorIndex)
+		return weightedCoefficient
+	}))
 }
 
 // Get the expected value of x, given the coefficients of its distribution. Effectively "∫₀¹ x·f(x) dx".
