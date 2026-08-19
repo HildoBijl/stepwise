@@ -5,12 +5,13 @@ import { BernsteinCoefficients } from './types'
 
 // Get the order of a coefficient array, equal to its length minus one.
 export function getBernsteinOrder(coefficients: BernsteinCoefficients): number {
+	if (coefficients.length === 0) throw new RangeError('Invalid Bernstein coefficients: expected a non-empty coefficient array.')
 	return coefficients.length - 1
 }
 
 // Increase the order of a coefficient array without changing its PDF.
 export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoefficients, newOrder: number): BernsteinCoefficients {
-	newOrder = ensureInteger(newOrder, { nonNegative: true })
+	newOrder = ensureInteger(newOrder, { nonNegative: true, safe: true })
 	const oldOrder = getBernsteinOrder(coefficients)
 	if (newOrder < oldOrder) throw new Error(`Invalid Bernstein order: cannot increase coefficients of order ${oldOrder} to the lower order ${newOrder}.`)
 	if (newOrder === oldOrder) return coefficients
@@ -38,5 +39,6 @@ export function normalizeBernsteinCoefficients(coefficients: BernsteinCoefficien
 
 // Reverse the coefficients. If the coefficients describe x, the result describes 1 - x.
 export function invertBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
+	getBernsteinOrder(coefficients)
 	return [...coefficients].reverse()
 }

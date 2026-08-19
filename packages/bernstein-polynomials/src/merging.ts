@@ -7,6 +7,7 @@ import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernste
 // Merge a list of coefficient arrays.
 export function mergeBernsteinCoefficients(...coefficientsList: BernsteinCoefficients[]): BernsteinCoefficients {
 	if (coefficientsList.length === 0) return [1]
+	coefficientsList.forEach(getBernsteinOrder)
 	if (coefficientsList.length === 1) return coefficientsList[0]
 	if (coefficientsList.length === 2) return mergeTwo(coefficientsList[0], coefficientsList[1])
 	return coefficientsList.slice(1).reduce(mergeTwo, coefficientsList[0])

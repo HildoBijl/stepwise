@@ -10,7 +10,7 @@ export const maxBernsteinSmoothingOrder = 120 // The maximum order for smoothing
 
 // Smooth the distribution described by the coefficients using a smoothing order.
 export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoefficients, order: number): BernsteinCoefficients {
-	const newOrder = Math.min(ensureInteger(order, { nonNegative: true }), maxBernsteinSmoothingOrder)
+	const newOrder = Math.min(ensureInteger(order, { nonNegative: true, safe: true }), maxBernsteinSmoothingOrder)
 	const oldOrder = getBernsteinOrder(coefficients)
 	return normalizeBernsteinCoefficients(repeat(newOrder + 1, i => sum(coefficients.map((c, j) => c * binomialCoefficient(i + j, i) * binomialCoefficient(newOrder + oldOrder - i - j, oldOrder - j)))))
 }
@@ -18,6 +18,7 @@ export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoef
 // Smooth the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is 0.5 + (mu_old - 0.5) * factor. If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
 export function smoothBernsteinCoefficientsWithFactor(coefficients: BernsteinCoefficients, factor: number): BernsteinCoefficients {
 	// Check boundary cases.
+	const oldOrder = getBernsteinOrder(coefficients)
 	factor = ensureNumber(factor, { nonNegative: true })
 	if (factor > 1) throw new RangeError(`Invalid input: the smoothing factor must be a number between 0 and 1 (inclusive) but received "${factor}".`)
 	if (factor === 0 || coefficients.length <= 1) return [1]
@@ -32,7 +33,7 @@ export function smoothBernsteinCoefficientsWithFactor(coefficients: BernsteinCoe
 		smoothingOrders.push(newOrder)
 		remainingFactor /= newOrder / (newOrder + 2)
 	}
-	if (smoothingOrders.length === 0 && getBernsteinOrder(coefficients) > maxBernsteinOrder) smoothingOrders.push(maxBernsteinSmoothingOrder)
+	if (smoothingOrders.length === 0 && oldOrder > maxBernsteinOrder) smoothingOrders.push(maxBernsteinSmoothingOrder)
 
 	// Apply smoothing orders.
 	smoothingOrders.reverse().forEach(newOrder => {

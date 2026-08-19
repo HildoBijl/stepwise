@@ -5,13 +5,16 @@ import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernste
 import { ensureBernsteinCoefficients } from './checks'
 import { getBernsteinExpectedValue, getBernsteinVariance, getBernsteinMoment } from './moments'
 import { getBernsteinCDF, getBernsteinPDF, getBernsteinPDFDerivative, getBernsteinPDFMaximum, getInverseBernsteinCDF } from './distributions'
-import { smoothBernsteinCoefficientsWithFactor } from './smoothing'
+import { smoothBernsteinCoefficientsWithFactor, smoothBernsteinCoefficientsWithOrder } from './smoothing'
 import { mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from './merging'
 
 describe('Check fundamental functions:', () => {
 	describe('getBernsteinOrder', () => {
 		it('gives the correct order on a coefficient array', () => {
 			expect(getBernsteinOrder([0.1, 0.2, 0.3, 0.4])).toBe(3)
+		})
+		it('rejects an empty coefficient array', () => {
+			expect(() => getBernsteinOrder([])).toThrow(RangeError)
 		})
 	})
 	describe('normalizeBernsteinCoefficients', () => {
@@ -43,6 +46,9 @@ describe('Check fundamental functions:', () => {
 			const increasedPdf = getBernsteinPDF(increasedCoefficients)
 			;[0, 0.1, 0.25, 0.5, 0.9, 1].forEach(x => expect(approximatelyEqual(increasedPdf(x), pdf(x))).toBe(true))
 		})
+		it('rejects unsafe orders', () => {
+			expect(() => increaseBernsteinCoefficientsOrder([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
+		})
 	})
 })
 
@@ -53,6 +59,10 @@ describe('Check fundamental functions:', () => {
 		})
 		it('throws an error on non-normalized coefficients', () => {
 			expect(() => ensureBernsteinCoefficients([1, 1])).toThrow()
+		})
+		it('rejects empty arrays regardless of the normalization requirement', () => {
+			expect(() => ensureBernsteinCoefficients([])).toThrow(RangeError)
+			expect(() => ensureBernsteinCoefficients([], false)).toThrow(RangeError)
 		})
 		it('passes on valid coefficient arrays', () => {
 			const coefficients = [0.1, 0.3, 0.6]
@@ -77,6 +87,9 @@ describe('Check moment functions:', () => {
 		})
 		it('keeps high-order moments finite', () => {
 			expect(getBernsteinMoment([0, 1], 200)).toBeCloseTo(1 / 101)
+		})
+		it('rejects unsafe exponents', () => {
+			expect(() => getBernsteinMoment([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
 		})
 	})
 	describe('getBernsteinVariance', () => {
@@ -134,6 +147,9 @@ describe('Check distribution functions:', () => {
 		it.each([NaN, -0.1, 1.1, Infinity])('rejects invalid probability %s', probability => {
 			expect(() => getInverseBernsteinCDF([1])(probability)).toThrow()
 		})
+		it('rejects unsafe iteration counts', () => {
+			expect(() => getInverseBernsteinCDF([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
+		})
 	})
 	describe('getBernsteinPDFMaximum', () => {
 		it('finds an interior maximum', () => {
@@ -149,6 +165,9 @@ describe('Check distribution functions:', () => {
 		it('handles constant PDFs', () => {
 			expect(getBernsteinPDFMaximum([1])).toEqual({ x: 0, f: 1 })
 		})
+		it('rejects unsafe iteration counts', () => {
+			expect(() => getBernsteinPDFMaximum([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
+		})
 	})
 })
 
@@ -160,6 +179,11 @@ describe('Check smoothing functions:', () => {
 		})
 		it.each([NaN, Infinity, -0.1, 1.1])('rejects invalid smoothing factor %s', factor => {
 			expect(() => smoothBernsteinCoefficientsWithFactor([0, 1], factor)).toThrow()
+		})
+	})
+	describe('smoothWithOrder', () => {
+		it('rejects unsafe smoothing orders', () => {
+			expect(() => smoothBernsteinCoefficientsWithOrder([1], Number.MAX_SAFE_INTEGER + 1)).toThrow(RangeError)
 		})
 	})
 })

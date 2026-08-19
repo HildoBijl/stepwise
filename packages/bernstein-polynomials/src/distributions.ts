@@ -53,7 +53,7 @@ function getBernsteinCDFCoefficients(coefficients: BernsteinCoefficients): Berns
 
 // Get the inverse CDF by applying a binary search to the CDF for every call.
 export function getInverseBernsteinCDF(coefficients: BernsteinCoefficients, numIterations = 20): (F: number) => number {
-	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true })
+	const ensuredNumIterations = ensureInteger(numIterations, { nonNegative: true, nonZero: true, safe: true })
 	const cdf = getBernsteinCDF(coefficients)
 
 	return F => {
