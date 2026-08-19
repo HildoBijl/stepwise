@@ -6,6 +6,7 @@ module.exports = {
 	testPathIgnorePatterns: [
 		'<rootDir>/packages/bernstein-polynomials/',
 		'<rootDir>/packages/js-utils/',
+		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/settings/',
 		'<rootDir>/packages/skill-setup/',

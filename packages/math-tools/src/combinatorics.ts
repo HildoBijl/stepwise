@@ -18,6 +18,7 @@ export function factorialRatio(n: number, d: number): number {
 	n = ensureInteger(n, { nonNegative: true, safe: true })
 	d = ensureInteger(d, { nonNegative: true, safe: true })
 	if (n < d) throw new RangeError(`Invalid input: factorialRatio requires n >= denominator but received n=${n} and denominator=${d}.`)
+	if (n === d) return 1
 	if (d <= 1) return factorial(n)
 	if (!factorialRatioCache[n]) factorialRatioCache[n] = {}
 	if (factorialRatioCache[n][d] === undefined) factorialRatioCache[n][d] = integerRange(n, d + 1).reduce((result, value) => result * value, 1)
