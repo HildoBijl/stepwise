@@ -41,7 +41,7 @@ export function useMouseSnapping(options, { position, keys }) {
 // useSnapperFunction returns a function (position) => { ... data ... } that snaps the given mouse position.
 export function useSnapperFunction(lines, graphicalLines, snappingDistance, applySnapping) {
 	const transformationSettings = useTransformationSettings()
-	return useStableCallback((position) => snapMousePosition(position, lines, graphicalLines, transformationSettings, snappingDistance, applySnapping), [lines, graphicalLines, transformationSettings, snappingDistance, applySnapping])
+	return useStableCallback((position) => snapMousePosition(position, lines, graphicalLines, transformationSettings, snappingDistance, applySnapping))
 }
 
 // snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line. For this, it's turned to graphical coordinates, snapped to the appropriate graphicalSnappingLine, and subsequently transformed back.
