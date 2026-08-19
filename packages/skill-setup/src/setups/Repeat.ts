@@ -1,7 +1,7 @@
 import { ensureInteger } from '@step-wise/js-utils'
 import { type PolynomialCoefficients, raisePolynomialToPower } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillItemStorageValue, ensureSkillItemStorageValue, SkillItemSetup, SkillSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
@@ -20,8 +20,9 @@ export class Repeat extends SkillItemSetup<RepeatStorageValue> {
 	override toStorageValue(): RepeatStorageValue {
 		return { ...super.getSkillItemStorageValue(), repeat: this.repeat }
 	}
-	static fromStorageValue(storageValue: RepeatStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup): Repeat {
-		return new Repeat(deserialize(storageValue.skill), storageValue.repeat)
+	static fromStorageValue(storageValue: RepeatStorageValue, deserialize: (setup: unknown) => SkillSetup): Repeat {
+		const { skill } = ensureSkillItemStorageValue(storageValue)
+		return new Repeat(deserialize(skill), storageValue.repeat)
 	}
 
 	override toString(): string {

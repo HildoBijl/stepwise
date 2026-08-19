@@ -1,6 +1,16 @@
-# Polynomials
+# @step-wise/polynomials
 
-Utilities for representing and manipulating multivariable polynomials. A polynomial stores its coefficients in a nested array whose dimensions follow the variable order.
+Utilities for representing and manipulating multivariable polynomials like `2+4*b+3*a+5*a*b`.
+
+
+## Installation
+
+```bash
+npm install @step-wise/polynomials
+```
+
+
+## Quick start
 
 ```ts
 import { createPolynomial, polynomialToString } from '@step-wise/polynomials'

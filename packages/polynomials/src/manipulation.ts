@@ -1,6 +1,6 @@
 import { ensureInteger, ensureNumber, getDimensions, getMatrixElement, isArray, isNumber, repeat, repeatMultidimensional, repeatMultidimensionalFromTo, sum, union } from '@step-wise/js-utils'
 
-import { type NonEmptyPolynomialList, type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
+import { type Polynomial, type PolynomialCoefficients, type PolynomialVariables } from './types'
 import { ensurePolynomial, ensurePolynomialVariables } from './checks'
 import { alignPolynomialVariables } from './restructuring'
 
@@ -46,7 +46,7 @@ function addAlignedCoefficients(allCoefficients: readonly PolynomialCoefficients
 	return repeatMultidimensional(dimensions, (...indices) => sum(allCoefficients.map(coefficients => getMatrixElement(coefficients, indices, isNumber, { allowOutOfBounds: true }) ?? 0)))
 }
 
-export function addPolynomials(polynomials: NonEmptyPolynomialList, variables?: PolynomialVariables): Polynomial {
+export function addPolynomials(polynomials: readonly Polynomial[], variables?: PolynomialVariables): Polynomial {
 	if (polynomials.length === 0) throw new RangeError('Cannot add polynomials: expected at least one polynomial.')
 	polynomials.forEach(ensurePolynomial)
 	variables ??= [...union(...polynomials.map(polynomial => new Set(polynomial.variables)))]
@@ -80,7 +80,7 @@ function multiplyAlignedCoefficients(allCoefficients: readonly PolynomialCoeffic
 	return allCoefficients.slice(1).reduce((result, coefficients) => multiplyTwoAlignedCoefficients(result, coefficients), allCoefficients[0])
 }
 
-export function multiplyPolynomials(polynomials: NonEmptyPolynomialList, variables?: PolynomialVariables): Polynomial {
+export function multiplyPolynomials(polynomials: readonly Polynomial[], variables?: PolynomialVariables): Polynomial {
 	if (polynomials.length === 0) throw new RangeError('Cannot multiply polynomials: expected at least one polynomial.')
 	polynomials.forEach(ensurePolynomial)
 	variables ??= [...union(...polynomials.map(polynomial => new Set(polynomial.variables)))]

@@ -1,6 +1,6 @@
-import { type NonEmptyPolynomialList, type PolynomialCoefficients, multiplyPolynomials } from '@step-wise/polynomials'
+import { type PolynomialCoefficients, multiplyPolynomials } from '@step-wise/polynomials'
 
-import { type SkillListStorageValue, type GenericSerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
+import { type SkillListStorageValue, type GenericSerializedSkillSetup, ensureSkillListStorageValue, SkillListSetup, SkillSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
@@ -17,12 +17,12 @@ export class And extends SkillListSetup<AndStorageValue> {
 	override toStorageValue(): AndStorageValue {
 		return super.getSkillListStorageValue()
 	}
-	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup<AndStorageValue>): And {
-		return new And(...storageValue.skills.map(skill => deserialize(skill)))
+	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: unknown) => SkillSetup): And {
+		return new And(...ensureSkillListStorageValue(storageValue).skills.map(skill => deserialize(skill)))
 	}
 
 	override getPolynomialCoefficients(): PolynomialCoefficients {
-		return multiplyPolynomials(this.skills.map(skill => skill.getPolynomial(this)) as unknown as NonEmptyPolynomialList, this.getSkillList()).coefficients
+		return multiplyPolynomials(this.skills.map(skill => skill.getPolynomial(this)), this.getSkillList()).coefficients
 	}
 }
 

@@ -1,6 +1,6 @@
-import { type NonEmptyPolynomialList, type PolynomialCoefficients, oneMinusPolynomial, multiplyPolynomials } from '@step-wise/polynomials'
+import { type PolynomialCoefficients, oneMinusPolynomial, multiplyPolynomials } from '@step-wise/polynomials'
 
-import { type SkillListStorageValue, type GenericSerializedSkillSetup, SkillListSetup, SkillSetup } from '../abstracts'
+import { type SkillListStorageValue, type GenericSerializedSkillSetup, ensureSkillListStorageValue, SkillListSetup, SkillSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
@@ -17,12 +17,12 @@ export class Or extends SkillListSetup<OrStorageValue> {
 	override toStorageValue(): OrStorageValue {
 		return super.getSkillListStorageValue()
 	}
-	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup): Or {
-		return new Or(...storageValue.skills.map(skill => deserialize(skill)))
+	static fromStorageValue(storageValue: SkillListStorageValue, deserialize: (setup: unknown) => SkillSetup): Or {
+		return new Or(...ensureSkillListStorageValue(storageValue).skills.map(skill => deserialize(skill)))
 	}
 
 	override getPolynomialCoefficients(): PolynomialCoefficients {
-		return oneMinusPolynomial(multiplyPolynomials(this.skills.map(skill => oneMinusPolynomial(skill.getPolynomial(this))) as unknown as NonEmptyPolynomialList, this.getSkillList())).coefficients
+		return oneMinusPolynomial(multiplyPolynomials(this.skills.map(skill => oneMinusPolynomial(skill.getPolynomial(this))), this.getSkillList())).coefficients
 	}
 }
 

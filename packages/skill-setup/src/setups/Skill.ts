@@ -8,10 +8,12 @@ export type SerializedSkill = GenericSerializedSkillSetup<SkillStorageValue, 'Sk
 
 export class Skill extends SkillSetup<SkillStorageValue> {
 	readonly type = 'Skill'
-	readonly skill
+	readonly skill: SkillId
 
 	constructor(skill: SkillStorageValue) {
 		super()
+		if (typeof skill !== 'string') throw new TypeError(`Invalid skill identifier: expected a string, but received type "${typeof skill}".`)
+		if (skill.trim().length === 0) throw new RangeError(`Invalid skill identifier: expected a non-empty string.`)
 		this.skill = skill
 	}
 

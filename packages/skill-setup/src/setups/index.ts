@@ -10,4 +10,5 @@ export { type SkillId, type SkillSetupLike, ensureSetup } from './Skill'
 export type SkillSetupStorageValue = SkillStorageValue | AndStorageValue | OrStorageValue | RepeatStorageValue | PickStorageValue | PartStorageValue
 export type SerializedSkillSetup = SerializedSkill | SerializedAnd | SerializedOr | SerializedRepeat | SerializedPick | SerializedPart
 export { skill, and, or, repeat, pick, part }
-export const setupTypes = { Skill, And, Or, Repeat, Pick, Part }
+export const setupConstructors = { Skill, And, Or, Repeat, Pick, Part }
+export const setupFactories = { skill, and, or, repeat, pick, part }

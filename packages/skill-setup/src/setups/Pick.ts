@@ -1,19 +1,19 @@
 import { ensureInteger, ensureNumberArray, forEachCombination, product } from '@step-wise/js-utils'
-import { type NonEmptyPolynomialList, type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
+import { type PolynomialCoefficients, type Polynomial, addPolynomials, multiplyPolynomials, scalePolynomial } from '@step-wise/polynomials'
 
-import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, SkillListSetup } from '../abstracts'
+import { type GenericSerializedSkillSetup, type SkillSetup, type SkillListStorageValue, ensureSkillListStorageValue, SkillListSetup } from '../abstracts'
 
 import { type SkillSetupLike, ensureSetup } from './Skill'
 
-export type PickStorageValue = SkillListStorageValue & { number?: number, weights?: number[] }
+export type PickStorageValue = SkillListStorageValue & { number?: number, weights?: readonly number[] }
 export type SerializedPick = GenericSerializedSkillSetup<PickStorageValue, 'Pick'>
 
 export class Pick extends SkillListSetup<PickStorageValue> {
 	readonly type = 'Pick'
 	readonly number: number
-	readonly weights: number[]
+	readonly weights: readonly number[]
 
-	constructor(skills: SkillSetupLike[], number = 1, weights?: number[]) {
+	constructor(skills: readonly SkillSetupLike[], number = 1, weights?: readonly number[]) {
 		super(...skills.map(ensureSetup))
 
 		this.number = ensureInteger(number, { nonNegative: true, nonZero: true })
@@ -30,8 +30,9 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 			...(!this.weights.every(weight => weight === 1) ? { weights: this.weights } : {}),
 		}
 	}
-	static fromStorageValue(storageValue: PickStorageValue, deserialize: (setup: GenericSerializedSkillSetup) => SkillSetup): Pick {
-		return new Pick(storageValue.skills.map(skill => deserialize(skill)), storageValue.number, storageValue.weights)
+	static fromStorageValue(storageValue: PickStorageValue, deserialize: (setup: unknown) => SkillSetup): Pick {
+		const { skills } = ensureSkillListStorageValue(storageValue)
+		return new Pick(skills.map(skill => deserialize(skill)), storageValue.number, storageValue.weights)
 	}
 
 	override isDeterministic(): boolean {
@@ -53,10 +54,10 @@ export class Pick extends SkillListSetup<PickStorageValue> {
 		forEachCombination(this.skills.length, this.number, (...option) => {
 			const weight = product(option.map(index => this.weights[index])) // Use a weight proportional to the product of the individual skill weights.
 			sumOfWeights += weight
-			expressions.push(scalePolynomial(multiplyPolynomials(option.map(index => this.skills[index].getPolynomial(this)) as unknown as NonEmptyPolynomialList, skillList), weight))
+			expressions.push(scalePolynomial(multiplyPolynomials(option.map(index => this.skills[index].getPolynomial(this)), skillList), weight))
 		})
-		return scalePolynomial(addPolynomials(expressions as unknown as NonEmptyPolynomialList, skillList), 1 / sumOfWeights).coefficients
+		return scalePolynomial(addPolynomials(expressions, skillList), 1 / sumOfWeights).coefficients
 	}
 }
 
-export const pick = (skills: SkillSetupLike[], number?: number, weights?: number[]): Pick => new Pick(skills, number, weights)
+export const pick = (skills: readonly SkillSetupLike[], number?: number, weights?: readonly number[]): Pick => new Pick(skills, number, weights)
