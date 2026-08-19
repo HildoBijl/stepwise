@@ -67,7 +67,7 @@ function AircoProcess() {
 	const linePoints = maximumHumidity.inputValues[0].map((T, index) => [maximumHumidity.grids[0][index].number, T.number])
 	const points = [point2, ...linePoints.filter(point => point[1] < T2.number && point[1] > T3.number).reverse(), point3]
 
-	return <MollierDiagram maxWidth="500">
+	return <MollierDiagram maxWidth={500}>
 		<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
 		<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
 		<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />

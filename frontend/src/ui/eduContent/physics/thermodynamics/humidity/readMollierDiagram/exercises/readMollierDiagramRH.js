@@ -16,7 +16,7 @@ export default function Exercise() {
 function Problem({ T, AH }) {
 	return <>
 		<Par>In een ruimte van <M>{T}</M> is de absolute luchtvochtigheid <M>{AH}.</M> Wat is de relatieve luchtvochtigheid in deze ruimte?</Par>
-		<MollierDiagram maxWidth="500" />
+		<MollierDiagram maxWidth={500} />
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
@@ -29,7 +29,7 @@ function Solution({ T, RH, AHmax, AH }) {
 	const color = useColor('primary')
 	return <>
 		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>AV = {AH}</M> opzoeken dat <M>RV = {RH}.</M></Par>
-		<MollierDiagram maxWidth="500">
+		<MollierDiagram maxWidth={500}>
 			<Line points={[[AHmax.number, 0], [AHmax.number, T.number], [0, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
 			<Line points={[[AH.number, 0], [AH.number, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
 			<Circle center={[AHmax.number, T.number]} graphicalRadius={3} style={{ fill: color }} />

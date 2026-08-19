@@ -18,7 +18,7 @@ export default function Exercise() {
 
 const Problem = ({ T1, startRH, T4, endRH, mdot }) => <>
 	<Par>Een grote airconditioning-installatie koelt continu <M>{mdot}</M> lucht met temperatuur <M>{T1}</M> en relatieve luchtvochtigheid <M>{startRH}</M> af tot temperatuur <M>{T4}</M> en relatieve luchtvochtigheid <M>{endRH}.</M> Om dit te kunnen doen koelt de airco eerst de lucht sterk af en warmt het de lucht daarna weer ietsje op. Het gehele proces gebeurt op atmosferische druk. Bereken het koelvermogen waarmee de lucht afgekoeld wordt en het verwarmingsvermogen waarmee de lucht daarna weer opgewarmd wordt.</Par>
-	<MollierDiagram maxWidth="500" />
+	<MollierDiagram maxWidth={500} />
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="Pcool" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" positive={true} />
@@ -50,7 +50,7 @@ const steps = [
 
 			return <>
 				<Par>De uitstromende lucht heeft een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}.</M> De absolute luchtvochtigheid hier is dus <M>{endAH}.</M> Om op deze absolute luchtvochtigheid te komen is de lucht hiervoor (op 100% luchtvochtigheid) gekoeld tot <M>T_(tussen) = {T3},</M> af te lezen uit ons Mollier-diagram.</Par>
-				<MollierDiagram maxWidth="500">
+				<MollierDiagram maxWidth={500}>
 					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
 					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
 					<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />

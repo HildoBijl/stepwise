@@ -18,7 +18,7 @@ export default function Exercise() {
 
 const Problem = ({ T1, startRH, T4, endRH }) => <>
 	<Par>Een airconditioning-systeem krijgt lucht met temperatuur <M>{T1}</M> en relatieve luchtvochtigheid <M>{startRH}</M> binnen. Hij levert vervolgens lucht met temperatuur <M>{T4}</M> en relatieve luchtvochtigheid <M>{endRH}.</M> Om dit te kunnen doen koelt de airco eerst de lucht af en warmt het de lucht daarna weer ietsje op. Bereken de temperatuur tot waar de airco de lucht afkoelt. Vind ook de hoeveelheid water per kilogram lucht (in <M>{new Unit('g/kg')}</M>) die hierbij condenseert en afgevoerd wordt.</Par>
-	<MollierDiagram maxWidth="500" />
+	<MollierDiagram maxWidth={500} />
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
@@ -44,7 +44,7 @@ const steps = [
 
 			return <>
 				<Par>Bij een temperatuur van <M>{T1}</M> en een relatieve luchtvochtigheid van <M>{startRH.setUnit('%')}</M> kunnen we opzoeken dat de absolute luchtvochtigheid <M>AH_(in) = {startAH}</M> is.</Par>
-				<MollierDiagram maxWidth="500">
+				<MollierDiagram maxWidth={500}>
 					<Line points={[[startAH.number, 0], [startAH.number, T1.number], [0, T1.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
 					<Circle center={[startAH.number, T1.number]} graphicalRadius={3} style={{ fill: color }} />
 				</MollierDiagram>
@@ -65,7 +65,7 @@ const steps = [
 
 			return <>
 				<Par>Bij een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}</M> kunnen we opzoeken dat de absolute luchtvochtigheid <M>AH_(uit) = {endAH}</M> is.</Par>
-				<MollierDiagram maxWidth="500">
+				<MollierDiagram maxWidth={500}>
 					<Line points={[[endAH.number, 0], [endAH.number, T4.number], [0, T4.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
 					<Circle center={[endAH.number, T4.number]} graphicalRadius={3} style={{ fill: color }} />
 				</MollierDiagram>
@@ -93,7 +93,7 @@ const steps = [
 			return <>
 				<Par>We bekijken de gehele cyclus. Bij het opwarmen/afkoelen van lucht blijft de absolute luchtvochtigheid altijd constant. We gaan vanaf het beginpunt dus verticaal omlaag in het Mollier diagram.</Par>
 				<Par>Na verloop van tijd bereiken we de 100% luchtvochtigheidslijn. Als we nu nog verder afkoelen (wat we ook doen) dan zal vocht in de lucht condenseren en als druppels naar beneden vallen. Immers, de relatieve luchtvochtigheid kan nooit groter dan 100% worden. De 100% luchtvochtigheidslijn geeft vervolgens aan hoeveel vocht er nog in de lucht overblijft.</Par>
-				<MollierDiagram maxWidth="500">
+				<MollierDiagram maxWidth={500}>
 					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
 					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
 					<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
