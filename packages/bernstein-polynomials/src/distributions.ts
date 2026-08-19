@@ -23,6 +23,7 @@ export function getBernsteinPDFDerivative(coefficients: BernsteinCoefficients): 
 	const n = getBernsteinOrder(coefficients)
 	return x => {
 		if (x < 0 || x > 1) return 0
+		if (n === 0) return 0
 		return sum(coefficients.map((c, i) => {
 			if (i === 0) return c * binomialCoefficient(n, i) * (-n * (1 - x) ** (n - 1))
 			if (i === n) return c * binomialCoefficient(n, i) * (n * x ** (n - 1))

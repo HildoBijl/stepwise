@@ -1,4 +1,4 @@
-import { ensureInteger, sum, repeat } from '@step-wise/js-utils'
+import { ensureInteger, ensureNumber, sum, repeat } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 
 import { BernsteinCoefficients } from './types'
@@ -18,7 +18,8 @@ export function smoothBernsteinCoefficientsWithOrder(coefficients: BernsteinCoef
 // Smooth the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is 0.5 + (mu_old - 0.5) * factor. If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
 export function smoothBernsteinCoefficientsWithFactor(coefficients: BernsteinCoefficients, factor: number): BernsteinCoefficients {
 	// Check boundary cases.
-	if (factor < 0 || factor > 1) throw new Error(`Invalid input: the smoothing factor must be a number between 0 and 1 (inclusive) but received "${factor}".`)
+	factor = ensureNumber(factor, { nonNegative: true })
+	if (factor > 1) throw new RangeError(`Invalid input: the smoothing factor must be a number between 0 and 1 (inclusive) but received "${factor}".`)
 	if (factor === 0 || coefficients.length <= 1) return [1]
 	if (factor === 1) return coefficients
 

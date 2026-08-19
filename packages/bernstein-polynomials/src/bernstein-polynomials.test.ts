@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { getBernsteinOrder, increaseBernsteinCoefficientsOrder, normalizeBernsteinCoefficients } from './fundamentals'
 import { ensureBernsteinCoefficients } from './checks'
 import { getBernsteinExpectedValue, getBernsteinVariance, getBernsteinMoment } from './moments'
-import { getBernsteinPDF } from './distributions'
+import { getBernsteinPDF, getBernsteinPDFDerivative } from './distributions'
 import { smoothBernsteinCoefficientsWithFactor } from './smoothing'
 import { mergeBernsteinCoefficients, mergeBernsteinCoefficientsElementwise } from './merging'
 
@@ -17,6 +17,10 @@ describe('Check fundamental functions:', () => {
 	describe('normalizeBernsteinCoefficients', () => {
 		it('properly normalizes an array', () => {
 			expect(compareNumberArrays(normalizeBernsteinCoefficients([1, 2, 3, 4]), [0.1, 0.2, 0.3, 0.4])).toBe(true)
+		})
+		it('throws when the coefficients sum to zero', () => {
+			expect(() => normalizeBernsteinCoefficients([0, 0])).toThrow(RangeError)
+			expect(() => normalizeBernsteinCoefficients([-1, 0])).toThrow(RangeError)
 		})
 	})
 	describe('increaseBernsteinCoefficientsOrder', () => {
@@ -91,6 +95,12 @@ describe('Check distribution functions:', () => {
 			expect(pdf(0.5)).toBe(1.5)
 		})
 	})
+	describe('getBernsteinPDFDerivative', () => {
+		it('returns zero everywhere for an order-zero distribution', () => {
+			const derivative = getBernsteinPDFDerivative([1])
+			expect([-1, 0, 0.5, 1, 2].map(derivative)).toEqual([0, 0, 0, 0, 0])
+		})
+	})
 })
 
 describe('Check smoothing functions:', () => {
@@ -98,6 +108,9 @@ describe('Check smoothing functions:', () => {
 		it('correctly smooths distributions', () => {
 			expect(compareNumberArrays(smoothBernsteinCoefficientsWithFactor([0, 1], 1 / 2), [1 / 6, 1 / 3, 1 / 2])).toBe(true)
 			expect(compareNumberArrays(smoothBernsteinCoefficientsWithFactor([0, 1 / 3, 2 / 3], 3 / 4), [5 / 140, 10 / 140, 15 / 140, 20 / 140, 25 / 140, 30 / 140, 35 / 140])).toBe(true)
+		})
+		it.each([NaN, Infinity, -0.1, 1.1])('rejects invalid smoothing factor %s', factor => {
+			expect(() => smoothBernsteinCoefficientsWithFactor([0, 1], factor)).toThrow()
 		})
 	})
 })
@@ -119,6 +132,9 @@ describe('Check merging functions:', () => {
 		})
 		it('merges default coefficients with higher-order coefficients', () => {
 			expect(compareNumberArrays(mergeBernsteinCoefficientsElementwise([1], [0.2, 0.3, 0.5]), [0.2, 0.3, 0.5])).toBe(true)
+		})
+		it('throws when the coefficient arrays have no overlap', () => {
+			expect(() => mergeBernsteinCoefficientsElementwise([1, 0], [0, 1])).toThrow(RangeError)
 		})
 	})
 })

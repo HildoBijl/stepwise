@@ -32,6 +32,7 @@ export function increaseBernsteinCoefficientsOrder(coefficients: BernsteinCoeffi
 export function normalizeBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
 	const ensuredCoefficients = coefficients.map(c => Math.max(c, 0))
 	const coefficientSum = sum(ensuredCoefficients)
+	if (coefficientSum === 0) throw new RangeError('Invalid Bernstein coefficients: cannot normalize a coefficient array whose values sum to zero.')
 	return approximatelyEqual(coefficientSum, 1) ? ensuredCoefficients : ensuredCoefficients.map(c => c / coefficientSum)
 }
 
