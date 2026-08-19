@@ -8,8 +8,7 @@ export function getPrime(index: number): number {
 	index = ensureInteger(index, { nonNegative: true, safe: true })
 	while (index >= primes.length) {
 		let candidate = primes[primes.length - 1] + 2
-		while (!isPrime(candidate))
-			candidate += 2
+		while (!isPrime(candidate)) candidate += 2
 		primes.push(candidate)
 	}
 	return primes[index]
@@ -19,13 +18,10 @@ export function getPrime(index: number): number {
 export function isPrime(num: number): boolean {
 	num = ensureInteger(num, { nonNegative: true, nonZero: true, safe: true })
 	if (num === 1) return false
-
 	for (let i = 0; true; i++) {
 		const prime = getPrime(i)
-		if (prime * prime > num)
-			return true
-		if (num % prime === 0)
-			return false
+		if (prime * prime > num) return true
+		if (num % prime === 0) return false
 	}
 }
 

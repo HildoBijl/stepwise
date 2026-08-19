@@ -34,7 +34,11 @@ export function binomial(a: number, b: number): number {
 	// Extend memoization if needed.
 	if (b > a - b) b = a - b
 	if (!binomialMemoization[a]) binomialMemoization[a] = {}
-	if (binomialMemoization[a][b] === undefined) binomialMemoization[a][b] = factorial(a, a - b) / factorial(b)
+	if (binomialMemoization[a][b] === undefined) {
+		let result = 1
+		for (let i = 1; i <= b; i++) result *= (a - b + i) / i
+		binomialMemoization[a][b] = result
+	}
 
 	// Return result.
 	return binomialMemoization[a][b]
