@@ -101,17 +101,9 @@ getLargestPerfectPowerDivisor(13, 2) // 1
 
 Returns `n!` for a non-negative safe integer. Values are cached and `factorial(0)` returns `1`.
 
-### `factorialRatio(n, denominator)`
-
-Returns `n! / denominator!` for non-negative safe integers with `n >= denominator`. It multiplies only the required factors, allowing some ratios to remain finite even when `n!` itself overflows, and caches calculated ratios.
-
 ```ts
 factorial(5) // 120
-factorialRatio(10, 6) // 5040
-factorialRatio(5, 5) // 1
 ```
-
-Denominators `0` and `1` use the factorial cache because `0!` and `1!` both equal `1`.
 
 ### `binomialCoefficient(n, k)`
 

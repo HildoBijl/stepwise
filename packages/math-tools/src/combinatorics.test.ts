@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { binomialCoefficient, factorial, factorialRatio } from './combinatorics'
+import { factorial, binomialCoefficient } from './combinatorics'
 
 describe('factorial', () => {
 	it('calculates known factorials', () => {
@@ -22,34 +22,6 @@ describe('factorial', () => {
 
 	it.each([-1, 1.5, Number.MAX_SAFE_INTEGER + 1, Infinity])('rejects invalid input %s', n => {
 		expect(() => factorial(n)).toThrow()
-	})
-})
-
-describe('factorialRatio', () => {
-	it('uses factorial semantics for denominators zero and one', () => {
-		expect(factorialRatio(6, 0)).toBe(factorial(6))
-		expect(factorialRatio(6, 1)).toBe(factorial(6))
-	})
-
-	it('calculates known factorial ratios', () => {
-		expect(factorialRatio(5, 5)).toBe(1)
-		expect(factorialRatio(5, 3)).toBe(20)
-		expect(factorialRatio(10, 6)).toBe(5040)
-	})
-
-	it('supports repeated calls and finite ratios above the factorial overflow threshold', () => {
-		const ratio = 200 * 199 * 198 * 197 * 196
-		expect(factorialRatio(200, 195)).toBe(ratio)
-		expect(factorialRatio(200, 195)).toBe(ratio)
-		expect(factorial(200)).toBe(Infinity)
-	})
-
-	it('rejects a numerator smaller than the denominator', () => {
-		expect(() => factorialRatio(3, 4)).toThrow(RangeError)
-	})
-
-	it.each([[-1, 0], [4, -1], [4.5, 2], [4, 2.5], [Number.MAX_SAFE_INTEGER + 1, 2], [4, Infinity]])('rejects invalid inputs %s and %s', (n, denominator) => {
-		expect(() => factorialRatio(n, denominator)).toThrow()
 	})
 })
 
