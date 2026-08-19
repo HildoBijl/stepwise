@@ -2,13 +2,13 @@ import { ensureInteger, sum } from '@step-wise/js-utils'
 
 import { type BernsteinCoefficients, getBernsteinDegree } from './fundamentals'
 
-// Get the expected value of x^i, given the PDF f(x) and an integer i. Effectively "∫₀¹ x^i·f(x) dx".
-export function getBernsteinMoment(coefficients: BernsteinCoefficients, i: number): number {
-	const ensuredI = ensureInteger(i, { nonNegative: true, safe: true })
+// Get the expected value of x raised to a non-negative integer exponent.
+export function getBernsteinMoment(coefficients: BernsteinCoefficients, exponent: number): number {
+	const ensuredExponent = ensureInteger(exponent, { nonNegative: true, safe: true })
 	const degree = getBernsteinDegree(coefficients)
 	return sum(coefficients.map((coefficient, index) => {
 		let weightedCoefficient = coefficient
-		for (let factorIndex = 1; factorIndex <= ensuredI; factorIndex++) weightedCoefficient *= (index + factorIndex) / (degree + 1 + factorIndex)
+		for (let factorIndex = 1; factorIndex <= ensuredExponent; factorIndex++) weightedCoefficient *= (index + factorIndex) / (degree + 1 + factorIndex)
 		return weightedCoefficient
 	}))
 }

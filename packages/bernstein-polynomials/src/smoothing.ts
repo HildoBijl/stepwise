@@ -11,26 +11,26 @@ export const maxBernsteinSmoothingDegree = 120 // The maximum smoothing degree. 
 export function smoothBernsteinCoefficientsToDegree(coefficients: BernsteinCoefficients, degree: number): BernsteinCoefficients {
 	const newDegree = Math.min(ensureInteger(degree, { nonNegative: true, safe: true }), maxBernsteinSmoothingDegree)
 	const oldDegree = getBernsteinDegree(coefficients)
-	return normalizeBernsteinCoefficients(repeat(newDegree + 1, i => sum(coefficients.map((c, j) => c * binomialCoefficient(i + j, i) * binomialCoefficient(newDegree + oldDegree - i - j, oldDegree - j)))))
+	return normalizeBernsteinCoefficients(repeat(newDegree + 1, newIndex => sum(coefficients.map((coefficient, oldIndex) => coefficient * binomialCoefficient(newIndex + oldIndex, newIndex) * binomialCoefficient(newDegree + oldDegree - newIndex - oldIndex, oldDegree - oldIndex)))))
 }
 
-// Smooth the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is 0.5 + (mu_old - 0.5) * factor. If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
-export function smoothBernsteinCoefficientsWithFactor(coefficients: BernsteinCoefficients, factor: number): BernsteinCoefficients {
+// Smooth the distribution with a retention factor. One leaves it unchanged, while zero returns the uniform starting distribution.
+export function smoothBernsteinCoefficientsWithRetentionFactor(coefficients: BernsteinCoefficients, retentionFactor: number): BernsteinCoefficients {
 	// Check boundary cases.
 	const oldDegree = getBernsteinDegree(coefficients)
-	factor = ensureNumber(factor, { nonNegative: true })
-	if (factor > 1) throw new RangeError(`Invalid input: the smoothing factor must be a number between 0 and 1 (inclusive) but received "${factor}".`)
-	if (factor === 0 || coefficients.length <= 1) return [1]
-	if (factor === 1) return coefficients
+	retentionFactor = ensureNumber(retentionFactor, { nonNegative: true })
+	if (retentionFactor > 1) throw new RangeError(`Invalid input: the retention factor must be a number between 0 and 1 (inclusive) but received "${retentionFactor}".`)
+	if (retentionFactor === 0 || coefficients.length <= 1) return [1]
+	if (retentionFactor === 1) return coefficients
 
 	// Calculate smoothing degrees.
 	const smoothingDegrees: number[] = []
-	let remainingFactor = factor
+	let remainingRetentionFactor = retentionFactor
 	while (true) {
-		const newDegree = Math.ceil(2 * remainingFactor / (1 - remainingFactor) - 1e-15) // Compensate for numerical issues.
+		const newDegree = Math.ceil(2 * remainingRetentionFactor / (1 - remainingRetentionFactor) - 1e-15) // Compensate for numerical issues.
 		if (newDegree > maxBernsteinSmoothingDegree) break
 		smoothingDegrees.push(newDegree)
-		remainingFactor /= newDegree / (newDegree + 2)
+		remainingRetentionFactor /= newDegree / (newDegree + 2)
 	}
 	if (smoothingDegrees.length === 0 && oldDegree > maxBernsteinDegreeBeforeSmoothing) smoothingDegrees.push(maxBernsteinSmoothingDegree)
 

@@ -3,7 +3,7 @@ import { Box, Slider } from '@mui/material'
 import { Check, Clear, Replay } from '@mui/icons-material'
 
 import { fromKeys, mapValues } from '@step-wise/js-utils'
-import { mergeBernsteinCoefficients, getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
+import { getBernsteinExpectedValue, getBernsteinPDFMaximum, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { and, repeat, skill } from '@step-wise/skill-setup'
 import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
 import { getSelectionRates } from '@step-wise/exercise-selection'
@@ -97,7 +97,7 @@ function SkillFlaskWithLabel({ coef, text, months }) {
 		const EV = getBernsteinExpectedValue(coef)
 		text = `${months === undefined ? 'De kans op een correcte uitkomst wordt' : `Na ${months} maanden niet oefenen wordt de kans op een correcte uitkomst`} geschat op zo'n ${Math.round(EV * 100)}%.`
 
-		const max = getBernsteinPDFMaximum(coef).f
+		const max = getBernsteinPDFMaximum(coef).density
 		if (max < 1.2)
 			text += ' Maar eigenlijk hebben we nog geen idee.'
 		else if (max < 1.8)
@@ -225,7 +225,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	// Make the inference towards X. For this first smooth all distributions and then run the inference and merging.
 	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
-	coefficientSetNow[lastLabel] = mergeBernsteinCoefficients(inference, coefficientSetNow[lastLabel])
+	coefficientSetNow[lastLabel] = multiplyBernsteinPDFs(inference, coefficientSetNow[lastLabel])
 
 	// Render contents.
 	return <Box sx={appletStyle}>

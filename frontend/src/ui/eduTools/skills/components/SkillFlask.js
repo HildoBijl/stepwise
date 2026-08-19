@@ -95,5 +95,5 @@ function partToColor(part) {
 }
 
 function coefToFading(coef) {
-	return clamp((getBernsteinPDFMaximum(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
+	return clamp((getBernsteinPDFMaximum(coef, { iterations: 10 }).density - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
 }

@@ -31,14 +31,14 @@ export function elevateBernsteinCoefficients(coefficients: BernsteinCoefficients
 
 // Normalize coefficients so their sum equals one. Negative coefficients are clipped to zero first to guard against numerical noise. Only used internally.
 export function normalizeBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
-	const ensuredCoefficients = coefficients.map(c => Math.max(c, 0))
+	const ensuredCoefficients = coefficients.map(coefficient => Math.max(coefficient, 0))
 	const coefficientSum = sum(ensuredCoefficients)
 	if (coefficientSum === 0) throw new RangeError('Invalid Bernstein coefficients: cannot normalize a coefficient array whose values sum to zero.')
-	return approximatelyEqual(coefficientSum, 1) ? ensuredCoefficients : ensuredCoefficients.map(c => c / coefficientSum)
+	return approximatelyEqual(coefficientSum, 1) ? ensuredCoefficients : ensuredCoefficients.map(coefficient => coefficient / coefficientSum)
 }
 
-// Reverse the coefficients. If the coefficients describe x, the result describes 1 - x.
-export function invertBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
+// Reflect the coefficients. If the coefficients describe x, the result describes 1 - x.
+export function reflectBernsteinCoefficients(coefficients: BernsteinCoefficients): BernsteinCoefficients {
 	getBernsteinDegree(coefficients)
 	return [...coefficients].reverse()
 }
