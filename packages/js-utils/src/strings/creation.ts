@@ -3,11 +3,9 @@ import { ensureInteger } from '../numbers'
 // The English alphabet.
 export const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
-// Convert a positive integer to an alphabet string (1 -> 'a', 26 -> 'z', 27 -> 'aa').
-export function toExcelColumn(n: number): string {
-	n = ensureInteger(n, { nonNegative: true }) // Require positive integer or zero.
-
-	// Boundary case.
+// Get a lowercase spreadsheet column label from a positive integer (1 -> 'a', 26 -> 'z', 27 -> 'aa').
+export function getSpreadsheetColumnLabel(n: number): string {
+	n = ensureInteger(n, { nonNegative: true })
 	if (n === 0) return ''
 
 	// Prepare list for characters.

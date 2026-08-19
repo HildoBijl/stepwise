@@ -2,7 +2,6 @@
 
 All utility functions related to interpolation are in this folder. There are a few ways to call them.
 
-
 ## Step 1: define a table
 
 This is usually the hard part, but it only needs to be done once. You can define a table representing the mathematical function `x = 2a+3b, y = 3a-2b, z = b` through:
@@ -25,7 +24,6 @@ A few things to note here are:
 - It is easily possible to define tables with single input and/or single outputs. Do keep the same array format though.
 - Within the grids, within the final arrays, the first-mentioned input value will vary across its range. A layer higher, it's the second-mentioned input value. This can continue for further input values, creating a multi-dimensional table.
 - It is assumed that all input values are in ascending order. No value may be smaller than the one before it.
-
 
 ## Step 2: use a table
 
@@ -60,7 +58,6 @@ If these conditions are met, we can run an inverse table interpolation.
 inverseTableInterpolate(7, exampleTable, 'x') // Finds the input value for which the output x equals 7. In this example case it will throw, since it's not a single-input table.
 ```
 
-
 ## Interpolation with non-number values
 
 Interpolation can be done with numbers, but it can also be done with objects. All it takes is that the objects match the right interface:
@@ -78,7 +75,6 @@ interface NumberLike<T> {
 
 In other words, the objects must have `add`, `subtract`, `multiply`, `divide` and `compare` methods. Here, `multiply` and `divide` should accept both numbers and objects of the same type as the respective objects. `compare` is a function that gives `-1`, `0` or `1`: which number is larger? Also, `number` returns a numeric representation of the object. This is needed after calculating the interpolation part `(x-a)/(b-a)` (or `x.subtract(a).divide(b.subtract(a))).number`) which should always be a number.
 
-
 ## Extra interpolation methods
 
 Behind the scenes, the interpolation toolbox uses functions that operate directly on grids. Though not as useful for most use cases, they can be used directly as well. The format is `gridInterpolate(input, outputGrid, inputSeries1, inputSeries2, ...)`.
@@ -89,7 +85,6 @@ gridInterpolate(1.5, [2, 4, 6, 8], [0, 1, 2, 3]) // Use value as input. Only wor
 ```
 
 The grid must be structured identically to that of the tables.
-
 
 ## Supporting functions
 

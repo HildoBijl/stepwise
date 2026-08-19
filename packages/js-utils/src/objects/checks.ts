@@ -11,7 +11,7 @@ export function ensureObject(x: unknown): object {
 	return x
 }
 
-// Check whether a value is boolean. (With Typescript type cast.)
+// Check whether a value is boolean.
 export function isBoolean(x: unknown): x is boolean {
 	return typeof x === 'boolean'
 }

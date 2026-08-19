@@ -2,7 +2,6 @@
 
 This package contains tools to define and handle a skill tree. It does not contain any skill trees itself.
 
-
 ## Creation tools
 
 ### Step 1: defining the Skill Tree
@@ -71,7 +70,6 @@ skillTree.skill1 => {
 ```
 
 This allows for easy access of all skill data.
-
 
 ## Searching the skill tree
 

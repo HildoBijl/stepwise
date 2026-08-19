@@ -1,5 +1,6 @@
 import { approximatelyEqual } from '../numbers'
 import { deepEqual } from '../objects'
+
 import { isArray } from './checks'
 
 // Check whether two arrays are shallow-equal (element-wise ===).

@@ -1,3 +1,5 @@
+import { ensureInteger } from '../numbers'
+
 // Make the first character of a string lowercase.
 export function lowerFirst(str: string): string {
 	if (str === '') return str
@@ -33,4 +35,3 @@ export function camelToKebab(str: string): string {
 	if (str === '') return str
 	return lowerFirst(str).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 }
-import { ensureInteger } from '../numbers'

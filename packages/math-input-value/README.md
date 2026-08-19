@@ -5,7 +5,6 @@ The `math-input-value` toolbox supports the input of mathematical expressions an
 - A visual interface that immediately access the expression tree is not ideal. For new students this is confusing, and it also doesn't allow one to for instance write `sin(x)`, turn `sin` into `cos`, and then edit further.
 To solve all this, the `math-input-value` package has built a middle-ground: keep text where possible, but also provide display tools for visual elements like fractions, roots, etcetera.
 
-
 ## The format of a math-input-value object
 
 A typical `math-input-value` object, for instance to display `2+x/(3+5sin(x))`, looks like this:
@@ -40,7 +39,6 @@ Construct expression fields contain expression arrays directly, without nested `
 That's *all*! Everything else (like `sin(x)` or `ln(x)`) is simply kept as plain text, since they don't require special displays.
 
 While editing, an `Expression` can also be combined with a recursive cursor. Cursor state is not part of the stored `math-input-value`; it is removed before persistence and restored when the input is hydrated.
-
 
 ## Toolbox contents
 

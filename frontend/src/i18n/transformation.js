@@ -1,13 +1,13 @@
 import { isValidElement } from 'react'
 
-import { first, isEmptyArray, isPlainObject, toExcelColumn, camelToKebab } from '@step-wise/js-utils'
+import { first, isEmptyArray, isPlainObject, getSpreadsheetColumnLabel, camelToKebab } from '@step-wise/js-utils'
 
 import { renderTagTree } from './tagTrees'
 
 // elementToString takes a React element like <Par>x: {{x}}<br/>y: {{y}}</Par> and turns it into a string for a translation file, like "<par>x: {x}<br/>y: {y}</par>".
 export function elementToString(element, counter = { count: 0 }) {
 	// Define a handler to get a name for a tag/variable when needed.
-	const getName = () => toExcelColumn(++counter.count)
+	const getName = () => getSpreadsheetColumnLabel(++counter.count)
 
 	// On a non-existing element, return an empty string.
 	if (element === undefined || element === null)

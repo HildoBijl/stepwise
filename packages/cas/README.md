@@ -2,7 +2,6 @@
 
 This package contains the Computer Algebra System (CAS) which allows for manipulation expressions, equations and such.
 
-
 ## Usage
 
 The main point of entry is
@@ -14,7 +13,6 @@ const eq = asEquation('2x+3=9')
 ```
 
 Once you have an `Expression` or `Equation` object, you have access to a variety of methods. For the exact possibilities, see the respective for [Expression](./src/expressions/Expression.ts) and [Equation](./src/equations/Equation.ts) classes.
-
 
 ## Settings 
 
@@ -31,7 +29,6 @@ const ex = asExpression('2e', { eAsConstant: false }) // Gives the expression "2
 const ex = asExpression('sin(180)') // Will evaluate as -0.80115...
 const ex = asExpression('sin(180)', undefined, { degrees: true }) // Will evaluate as 0.
 ```
-
 
 ## Internals
 

@@ -1,31 +1,6 @@
 import { isPlainObject } from './plainnessChecks'
 import { deepEqual } from './comparisons'
 import { fromKeys } from './creation'
-import { type PropertyPath } from './reading'
-
-// Set a nested property in a plain object or array, creating missing containers as needed. Return a copy with the modification; original input is not mutated.
-export function setByPath<T = unknown>(input: unknown, path: PropertyPath, value: T): unknown {
-	if (!Array.isArray(input) && !isPlainObject(input)) throw new TypeError('setByPath: input and existing values along the path must be plain objects or arrays')
-	if (!Array.isArray(path) || path.some(key => typeof key !== 'string' && typeof key !== 'number')) throw new TypeError('setByPath: path must be an array of strings and numbers')
-	if (path.length === 0) return value
-
-	// Create a shallow clone of the input so we don't mutate the original.
-	const result: unknown[] | Record<string, unknown> = Array.isArray(input) ? [...input] : { ...input }
-
-	// If this is the last key, assign directly.
-	const [first, ...rest] = path
-	if (rest.length === 0) {
-		Object.defineProperty(result, first, { value, enumerable: true, configurable: true, writable: true })
-		return result
-	}
-
-	// Recurse: ensure the child exists and is an object/array-ish value.
-	const hasChild = Object.prototype.hasOwnProperty.call(result, first)
-	const existingChild = hasChild ? Reflect.get(result, first) : undefined
-	const child = existingChild === undefined ? (typeof rest[0] === 'number' ? [] : {}) : existingChild
-	Object.defineProperty(result, first, { value: setByPath(child, rest, value), enumerable: true, configurable: true, writable: true })
-	return result
-}
 
 // Apply a mapping function to a plain object (maps values) or array (maps elements).
 export function mapValues<T, U>(input: Record<string, T>, mapper: (value: T, key: string, result: Record<string, U>) => U | undefined): Record<string, U>
