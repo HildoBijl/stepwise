@@ -23,7 +23,8 @@ export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseA
 	for (let index = history.events.length - 1; index >= 0; index--) {
 		const event = history.events[index]
 		if (!('progress' in event)) continue
-		return event.submissions.find(submission => submission.userId === ensuredUserId)?.action
+		const action = event.submissions.find(submission => submission.userId === ensuredUserId)?.action
+		if (action) return action
 	}
 	return undefined
 }
