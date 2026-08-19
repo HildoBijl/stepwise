@@ -55,7 +55,7 @@ export default buildStepExercise({
 
 		// Set up parameters for the equation. Ensure that (on a non-normalize exercise) there is a factor to divide by.
 		let parameters = getParameters()
-		while (!normalize && Math.abs(gcd(...getCoefficients(parameters, flip))) === 1) parameters = getParameters()
+		while (!normalize && gcd(...getCoefficients(parameters, flip)) === 1) parameters = getParameters()
 
 		// All done. Return the state.
 		const [a, b, c, d, e] = parameters

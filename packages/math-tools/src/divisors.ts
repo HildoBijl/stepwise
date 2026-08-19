@@ -1,36 +1,24 @@
-import { ensureInteger, deduplicate } from '@step-wise/js-utils'
+import { ensureInteger } from '@step-wise/js-utils'
 
 // Return the greatest common divisor of integer numbers.
 export function gcd(...numbers: number[]): number {
-	numbers = deduplicate(numbers.map(n => ensureInteger(n)))
-
-	// Check edge cases.
 	if (numbers.length === 0) throw new RangeError('gcd requires at least one number.')
-	if (numbers.length === 1) return numbers[0]
-	if (numbers.length > 2) return gcd(gcd(numbers[0], numbers[1]), ...numbers.slice(2))
-
-	// Run Euclides' algorithm.
-	let a = Math.abs(numbers[0])
-	let b = Math.abs(numbers[1])
-	while (b > 0) {
-		const c = b
-		b = a % b
-		a = c
+	let result = 0
+	for (const number of numbers) {
+		let remainder = Math.abs(ensureInteger(number))
+		while (remainder > 0) {
+			const previousRemainder = remainder
+			remainder = result % remainder
+			result = previousRemainder
+		}
 	}
-
-	// If both inputs were negative, return a negative gcd.
-	return (numbers[0] < 0 && numbers[1] < 0) ? -a : a
+	return result
 }
 
 // Return the least common multiple of integer numbers.
 export function lcm(...numbers: number[]): number {
 	numbers = numbers.map(n => Math.abs(ensureInteger(n)))
-
 	if (numbers.length === 0) throw new RangeError('lcm requires at least one number.')
-	if (numbers.length === 1) return numbers[0]
-	if (numbers.length > 2) return lcm(lcm(numbers[0], numbers[1]), ...numbers.slice(2))
-
-	const a = numbers[0]
-	const b = numbers[1]
-	return a * (b / gcd(a, b))
+	if (numbers.some(number => number === 0)) return 0
+	return numbers.reduce((result, number) => result * (number / gcd(result, number)))
 }

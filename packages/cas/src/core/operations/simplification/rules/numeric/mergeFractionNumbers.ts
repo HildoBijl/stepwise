@@ -11,7 +11,8 @@ export function applyMergeFractionNumbers(node: Fraction): ExpressionNode {
 	const terms = [...getSumTerms(node.numerator), ...getSumTerms(node.denominator)]
 	const leadingNumbers = terms.map(getLeadingNumber)
 	if (!leadingNumbers.every(isIntegerNode)) return node
-	const divisor = gcd(...leadingNumbers.map(node => node.value))
+	const positiveDivisor = gcd(...leadingNumbers.map(node => node.value))
+	const divisor = leadingNumbers.every(node => node.value < 0) ? -positiveDivisor : positiveDivisor
 	if (divisor === 0 || divisor === 1) return node
 	return fraction(divideLeadingNumberBy(node.numerator, divisor), divideLeadingNumberBy(node.denominator, divisor))
 }

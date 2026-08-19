@@ -10,7 +10,7 @@ import { mergeProductNumbers, reduceNumberPowers } from '../numeric'
 
 function transform(node: Integer): Integer | Product | Power {
 	// Check out trivial cases.
-	if (Math.abs(node.value) <= 3) return node
+	if (node.value <= 3) return node
 	const primeFactors = getPrimeFactorization(node.value)
 	if (sum(primeFactors) <= 1) return node
 

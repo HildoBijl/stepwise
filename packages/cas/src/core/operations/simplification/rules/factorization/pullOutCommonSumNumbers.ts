@@ -13,7 +13,7 @@ import { expandProductsOfSums } from '../expansion'
 function transform(node: Sum): ExpressionNode {
 	const leadingNumbers = node.terms.map(getLeadingNumber)
 	if (!leadingNumbers.every(isIntegerNode)) return node
-	let divisor = gcd(...leadingNumbers.map(node => node.value))
+	const divisor = gcd(...leadingNumbers.map(node => node.value))
 	if (divisor === 1) return node
 	const terms = node.terms.map(term => divideLeadingNumberBy(term, divisor))
 	return product(integer(divisor), sum(...terms))
