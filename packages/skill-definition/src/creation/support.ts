@@ -1,20 +1,21 @@
-import { deduplicate } from '@step-wise/js-utils'
+import { deduplicate, isPlainObject } from '@step-wise/js-utils'
 
 import { normalizeLinks } from './links'
 import type { SkillId, RawSkill, RawSkillGroup, SkillTree } from './types'
 
 // Check if something is a container or a raw skill.
-function isRawSkill(value: RawSkill | RawSkillGroup): value is RawSkill {
-	return 'name' in value
+function isRawSkill(value: unknown): value is RawSkill {
+	return isPlainObject(value) && typeof value.name === 'string'
 }
 
 // Take a definition of a skill tree and turn it into useful lists.
 export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
-	const skillTree: SkillTree = {}
-	const skillsPerGroup: Record<string, SkillId[]> = {}
+	const skillTree = Object.create(null) as SkillTree
+	const skillsPerGroup = new Map<string, SkillId[]>()
 	const registeredSkillIds = new Map<string, { id: SkillId; path: string }>()
 
-	const walk = (group: RawSkillGroup, path: string[] = []) => {
+	const walk = (group: unknown, path: string[] = []) => {
+		if (!isPlainObject(group)) throw new TypeError(`Invalid raw skill tree entry at "${path.join('/') || '<root>'}": expected a skill or group object.`)
 		for (const [key, value] of Object.entries(group)) {
 			if (isRawSkill(value)) {
 				const skillPath = [...path, key].join('/')
@@ -24,7 +25,11 @@ export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 				registeredSkillIds.set(normalizedSkillId, { id: key, path: skillPath })
 
 				const groupKey = path.join('/')
-				const skillsInGroup = skillsPerGroup[groupKey] ?? (skillsPerGroup[groupKey] = [])
+				let skillsInGroup = skillsPerGroup.get(groupKey)
+				if (!skillsInGroup) {
+					skillsInGroup = []
+					skillsPerGroup.set(groupKey, skillsInGroup)
+				}
 				skillsInGroup.push(key)
 
 				skillTree[key] = {
@@ -39,9 +44,7 @@ export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 					linkedSkills: [],
 					thresholds: value.thresholds,
 				}
-			} else {
-				walk(value, [...path, key])
-			}
+			} else walk(value, [...path, key])
 		}
 	}
 

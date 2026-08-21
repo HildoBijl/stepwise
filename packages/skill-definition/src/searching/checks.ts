@@ -5,7 +5,7 @@ import type { SkillId, SkillTree } from '../creation'
 // Check whether a skill ID exists, in a case-insensitive way. Return the actual ID of the skill.
 export function ensureSkillId(skillTree: SkillTree, skillId: SkillId): SkillId {
 	// Check for direct matches.
-	if (skillId in skillTree)	return skillId
+	if (Object.hasOwn(skillTree, skillId)) return skillId
 
 	// Run a case-insensitive match.
 	const skillIdLower = skillId.toLowerCase()
