@@ -10,7 +10,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const pressureRange = saturatedSteamByPressure.inputValues[0]
 		const p = pressureRange[randomInteger(0, Math.min(25, pressureRange.length))]
 		const type = randomInteger(1, 2)

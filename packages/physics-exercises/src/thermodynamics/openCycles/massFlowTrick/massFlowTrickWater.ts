@@ -8,7 +8,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const q = getRandomFloatUnit({ min: 150, max: 250, unit: 'kJ/kg', decimals: -1 }).setDecimals(0)
 		const mdot = getRandomFloatUnit({ min: 0.2, max: 1, unit: 'kg/s', significantDigits: 2 })
 		const Qdot = mdot.multiply(q).setUnit('kW').roundToPrecision()

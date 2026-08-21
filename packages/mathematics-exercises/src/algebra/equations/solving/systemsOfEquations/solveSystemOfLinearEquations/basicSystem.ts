@@ -18,7 +18,7 @@ export default buildStepExercise({
 		compare: { eq1Solution: expressionComparisons.equivalent, eq2Substituted: equationComparisons.equivalent, Expression: expressionComparisons.onlyOrderChanges },
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const variableSet = sample(availableVariableSets)
 		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
@@ -32,15 +32,15 @@ export default buildStepExercise({
 			e = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		} while (a * e - b * d === 0)
 
-		// Set up state.
+		// Set up parameters.
 		const c = a * x + b * y
 		const f = d * x + e * y
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d, e, f }
 	},
 
-	getSolution(state) {
-		// Extract state variables.
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		// Extract parameters variables.
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + by = c', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const eq2 = asEquation('dx + ey = f', { eAsConstant: false }).substitute(variables).removeTrivial()
 
@@ -53,10 +53,10 @@ export default buildStepExercise({
 		const eq2SubstitutedStep4 = asExpression('a*f-d*c', { eAsConstant: false }).substitute(variables).cancel().divide(asExpression('a*e-d*b', { eAsConstant: false }).substitute(variables).cancel())
 
 		// Find the solution.
-		const { a, b, c, d, e, f } = state
+		const { a, b, c, d, e, f } = parameters
 		const x = asExpression((b * f - e * c) / (b * d - a * e), { eAsConstant: false })
 		const y = asExpression((a * f - d * c) / (a * e - b * d), { eAsConstant: false })
-		return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
+		return { ...parameters, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
 	},
 
 	checkInput(data, step) {

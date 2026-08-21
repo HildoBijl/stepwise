@@ -7,7 +7,7 @@ export default buildSimpleExercise({
 		skill: 'recognizeProcessTypes',
 	},
 
-	generateState() {
+	generateParameters() {
 		const numChoices = 6
 		const type = randomInteger(0, numChoices - 1)
 		return {

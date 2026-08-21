@@ -15,7 +15,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const distances = [
 			randomBoolean() ? 0 : randomInteger(2, 4),
 			randomInteger(4, 8),
@@ -32,8 +32,8 @@ export default buildStepExercise({
 		return { distances, supportTypes, loadProperties }
 	},
 
-	getSolution(state) {
-		const { distances, supportTypes, loadProperties } = state
+	getSolution(parameters) {
+		const { distances, supportTypes, loadProperties } = parameters
 		const left = Vector.zero
 		const A = left.add(new Vector(distances[0], 0))
 		const B = A.add(new Vector(distances[1], 0))
@@ -52,7 +52,7 @@ export default buildStepExercise({
 		const loadsLeft = getReactionLoads(supportTypes[0], A, isAEnd, true)
 		const loadsRight = getReactionLoads(supportTypes[1], B, isBEnd, !isBEnd)
 		const loads = [...loadsLeft, ...loadsRight, externalLoad]
-		return { ...state, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads }
+		return { ...parameters, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads }
 	},
 
 	checkInput(data, step) {

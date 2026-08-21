@@ -7,7 +7,7 @@ export default buildSimpleExercise({
 		skill: 'summation',
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return {
 			a: randomInteger(8, example ? 30 : 100),
 			b: randomInteger(8, example ? 30 : 100),

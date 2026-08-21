@@ -22,7 +22,7 @@ export function SimpleExercise(props) {
 
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
-	const { state, progress, history, example, inspection, startNewExercise } = useExerciseData()
+	const { parameters, progress, history, example, inspection, startNewExercise } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -51,7 +51,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
-						<Problem {...state} translate={addSection(translate, 'problem')} />
+						<Problem {...parameters} translate={addSection(translate, 'problem')} />
 					</TranslationSection>
 				</VerticalAdjuster>
 			</FormPart>
@@ -60,7 +60,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 		</ProblemContainer>
 		<SolutionContainer display={!!showSolution} initialExpand={initialExpandSolution}>
 			<TranslationSection entry="solution">
-				<Solution {...state} {...solution} translate={addSection(translate, 'solution')} />
+				<Solution {...parameters} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>
 		</SolutionContainer>
 		<ContinuationButtons />

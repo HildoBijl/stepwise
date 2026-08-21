@@ -16,8 +16,8 @@ const metaData = {
 	},
 }
 
-function getStaticSolution(state: any) {
-	const { l1, l2, P, angle } = state
+function getStaticSolution(parameters: any) {
+	const { l1, l2, P, angle } = parameters
 	const l = l1.add(l2)
 	const angleRad = degreesToRadians(angle)
 	const A = Vector.zero
@@ -44,7 +44,7 @@ function getStaticSolution(state: any) {
 	const FCx = FCy.multiply(Math.tan(angleRad))
 	const FAx = FCx
 	const FAy = P.subtract(FCy)
-	return { ...state, points, l, angleRad, anglePoints: [Vector.fromPolar(1, -angleRad), Vector.zero, Vector.fromPolar(1, 0)], loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck: loadNames.slice(1), loadValues: [P, FAx, FAy, FC] }
+	return { ...parameters, points, l, angleRad, anglePoints: [Vector.fromPolar(1, -angleRad), Vector.zero, Vector.fromPolar(1, 0)], loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck: loadNames.slice(1), loadValues: [P, FAx, FAy, FC] }
 }
 
 function getDynamicSolution(inputDependency: unknown, solution: any) {
@@ -57,7 +57,7 @@ function getDynamicSolution(inputDependency: unknown, solution: any) {
 
 export default buildStepExercise({
 	metaData,
-	generateState: () => ({
+	generateParameters: () => ({
 		l1: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),

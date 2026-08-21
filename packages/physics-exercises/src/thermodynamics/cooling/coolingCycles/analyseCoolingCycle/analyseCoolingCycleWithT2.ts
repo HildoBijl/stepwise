@@ -21,7 +21,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, mdot, point2 } = getCycle()
 		pEvap = pEvap.setUnit('bar').setSignificantDigits(2).roundToPrecision()
 		pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()

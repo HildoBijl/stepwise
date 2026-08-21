@@ -13,7 +13,7 @@ export default buildStepExercise({
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		// Determine sides and check the triangle inequality.
 		let a, b, c
 		do {
@@ -22,12 +22,12 @@ export default buildStepExercise({
 			c = randomInteger(2, 12)
 		} while (a + b <= c || a + c <= b || b + c <= a)
 
-		// Assemble the state.
+		// Assemble the parameters.
 		return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
-	getSolution(state) {
-		let { α, a, b, c } = state
+	getSolution(parameters) {
+		let { α, a, b, c } = parameters
 		const variables = { α, a, b, c }
 
 		// Define solution method data.
@@ -39,7 +39,7 @@ export default buildStepExercise({
 		// Determine the remaining side a.
 		const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', undefined, { degrees: true }).substitute(variables).combine()
 		α = intermediateEquation.right.arccos()
-		return { ...state, variables, rule, equationRaw, equation, numSolutions, intermediateEquation, α }
+		return { ...parameters, variables, rule, equationRaw, equation, numSolutions, intermediateEquation, α }
 	},
 
 	checkInput(data, step) {

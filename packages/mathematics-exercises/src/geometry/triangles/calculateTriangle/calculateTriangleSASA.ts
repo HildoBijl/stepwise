@@ -14,7 +14,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const b = randomInteger(3, 12)
 		return {
 			α: asExpression(randomInteger(5, 24, { exclude: [18] }) * 5), // Ensure there is no 90 degree angle.
@@ -27,8 +27,8 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		let { α, β, a, b, c } = state
+	getSolution(parameters) {
+		let { α, β, a, b, c } = parameters
 		const variables = { α, β, a, b, c }
 
 		// Determine a through the cosine rule.
@@ -44,7 +44,7 @@ export default buildStepExercise({
 		const intermediateEquation = asEquation('cos(β) = (c^2 + a^2 - b^2)/(2*c*a)', undefined, { degrees: true }).substitute(variables).combine()
 		const βRaw = intermediateEquation.right.arccos()
 		β = asExpression('acos((c-b*cos(α))/a)', undefined, { degrees: true }).substitute({ ...variables, a }).combine()
-		return { ...state, variables, numSolutions, equation1Raw, equation1, aRaw, a, equation2Raw, equation2, intermediateEquation, βRaw, β }
+		return { ...parameters, variables, numSolutions, equation1Raw, equation1, aRaw, a, equation2Raw, equation2, intermediateEquation, βRaw, β }
 	},
 
 	checkInput(data, step) {

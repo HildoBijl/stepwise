@@ -10,7 +10,7 @@ import { compare } from './compare'
 function makeData(rawInput: Record<string, InputValue>, solution: Record<string, unknown>, compareOptions = {}) {
 	return {
 		metaData: { compare: compareOptions },
-		state: {},
+		parameters: {},
 		rawInput,
 		input: mapValues(rawInput, value => interpretInputValue(value)),
 		solution,

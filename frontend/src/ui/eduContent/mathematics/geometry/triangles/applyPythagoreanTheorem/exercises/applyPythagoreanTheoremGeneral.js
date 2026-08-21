@@ -13,13 +13,13 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
+const Problem = (parameters) => {
 	const solution = useSolution()
 	const { x } = solution
 
 	return <>
 		<Par><Translation>Given the triangle below, determine the unknown side <M>{x}</M>.</Translation></Par>
-		<ExerciseFigure state={state} solution={solution} />
+		<ExerciseFigure parameters={parameters} solution={solution} />
 		<InputSpace>
 			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.withRoots} validate={ExpressionInput.validation.numeric} />
 		</InputSpace>
@@ -79,7 +79,7 @@ function getFeedback(exerciseData) {
 	return getFieldInputFeedback(exerciseData, ['equation', 'ansSquared', 'ans'])
 }
 
-function ExerciseFigure({ state, solution }) {
+function ExerciseFigure({ parameters, solution }) {
 	const points = getPoints(solution)
 	const { rotation, reflection } = solution
 
@@ -96,9 +96,9 @@ function ExerciseFigure({ state, solution }) {
 	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 		<RightAngle points={points} graphicalSize={10} />
-		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{state.a}</M></LineLabel>
-		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{state.b}</M></LineLabel>
-		<LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{state.c}</M></LineLabel>
+		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{parameters.a}</M></LineLabel>
+		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{parameters.b}</M></LineLabel>
+		<LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{parameters.c}</M></LineLabel>
 	</Drawing>
 }
 

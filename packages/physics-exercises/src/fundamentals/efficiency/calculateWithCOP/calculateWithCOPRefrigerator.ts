@@ -9,7 +9,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const Ee = getRandomFloatUnit({
 			min: 3,
 			max: 8,

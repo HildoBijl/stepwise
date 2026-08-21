@@ -1,7 +1,7 @@
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { generateState, getSolution as getSolutionPrevious } from '../calculateEntropyChange/calculateEntropyChangeWithProperties'
+import { generateParameters, getSolution as getSolutionPrevious } from '../calculateEntropyChange/calculateEntropyChangeWithProperties'
 
 export default buildStepExercise({
 	metaData: {
@@ -10,10 +10,10 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState,
+	generateParameters,
 
-	getSolution(state) {
-		const solution = getSolutionPrevious(state)
+	getSolution(parameters) {
+		const solution = getSolutionPrevious(parameters)
 		const { T1, T2, c } = solution
 		const dsIn = solution.ds.setDecimals(0)
 		const q = c.multiply(T2.subtract(T1)).multiply(-1).setUnit('J/kg')

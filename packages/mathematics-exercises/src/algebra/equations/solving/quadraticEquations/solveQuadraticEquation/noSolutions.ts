@@ -20,7 +20,7 @@ export default buildStepExercise({
 		compare: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {} },
 	},
 
-	generateState() {
+	generateParameters() {
 		let a = 0, b = 0, c = 0
 		while (a === 0 || b ** 2 - 4 * a * c >= 0) {
 			a = randomInteger(-6, 6, { exclude: [0] })
@@ -30,8 +30,8 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())
@@ -39,7 +39,7 @@ export default buildStepExercise({
 		const DFull = rootFull.radicand
 		const D = DFull.combine()
 		const numSolutions = 0
-		return { ...state, variables, equation, solutionFull, rootFull, DFull, D, numSolutions }
+		return { ...parameters, variables, equation, solutionFull, rootFull, DFull, D, numSolutions }
 	},
 
 	checkInput(data, step) {

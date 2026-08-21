@@ -18,7 +18,7 @@ export default buildSimpleExercise({
 		compare: { ans: (input: Equation, correct: Equation) => !equationComparisons.exactEqual(input, correct.switch()) && equationComparisons.equivalent(input, correct.switch()) },
 	},
 
-	generateState() {
+	generateParameters() {
 		const variableSet = sample(availableVariableSets)
 		const variables = selectRandomVariables(variableSet, usedVariables)
 		return {

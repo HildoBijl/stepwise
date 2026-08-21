@@ -23,7 +23,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-12, 12, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-12, 12, { exclude: [-1, 0, 1, a] })
 		const c = randomInteger(-12, 12, { exclude: [-1, 0, 1, a, b] })
@@ -41,16 +41,16 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 		const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 		const baseExpression = fraction1.divide(fraction2)
-		const expression = (state.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['mergeFractionMinuses'])
+		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['mergeFractionMinuses'])
 		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
 		const inBetween = singleFraction.cancel()
 		const ans = expression.combine()
-		return { ...state, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }
+		return { ...parameters, variables, fraction1, fraction2, expression, singleFraction, inBetween, ans }
 	},
 
 	checkInput(data, step) {

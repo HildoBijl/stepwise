@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		while (true) {
 			const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
 			const angle = randomInteger(5, 13, { exclude: [9] }) * 5
@@ -26,8 +26,8 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const { points, angle, up, right, FD } = state
+	getSolution(parameters) {
+		const { points, angle, up, right, FD } = parameters
 		const [A, B, C, D] = points
 		const angleRad = degreesToRadians(angle)
 		const method = 4
@@ -41,7 +41,7 @@ export default buildStepExercise({
 		const MDx = FDx.multiply(rDx).multiply(right === (rD.y > 0) ? -1 : 1)
 		const MDy = FDy.multiply(rDy).multiply(up === (rD.x > 0) ? -1 : 1)
 		const MD = MDx.add(MDy)
-		if (MD.number === 0) throw new Error('Invalid exercise state: the moment of the given force around the force intersection is zero.')
+		if (MD.number === 0) throw new Error('Invalid exercise parameters: the moment of the given force around the force intersection is zero.')
 
 		const clockwise = MD.number < 0
 		const loads = [
@@ -56,7 +56,7 @@ export default buildStepExercise({
 		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints)
 
 		const MA = MD.abs().setSignificantDigits(2)
-		return { ...state, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, intersection, clockwise, FDx, FDy, rDx, rDy, MDx, MDy, MD, MA }
+		return { ...parameters, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, intersection, clockwise, FDx, FDy, rDx, rDy, MDx, MDy, MD, MA }
 	},
 
 	checkInput(data, step) {

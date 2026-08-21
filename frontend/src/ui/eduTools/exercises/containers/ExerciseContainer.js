@@ -16,7 +16,7 @@ export { ExerciseContext } // Exported for testing purposes.
 
 export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
 	const translate = useTranslator()
-	const { exerciseId, state } = exercise
+	const { exerciseId, parameters } = exercise
 	const mode = exercise.mode ?? (groupExercise ? 'group' : 'solo')
 	const instance = useMemo(() => exercise.mode === mode ? exercise : { ...exercise, mode }, [exercise, mode])
 	const [loading, setLoading] = useState(true)
@@ -43,8 +43,8 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	}
 	useEffect(reload, [setLoading, skillId, exerciseId])
 
-	// Assemble the state as Functional Object.
-	const stateFO = useMemo(() => deserializeAll(state), [state])
+	// Assemble the parameters as Functional Object.
+	const parametersFO = useMemo(() => deserializeAll(parameters), [parameters])
 
 	// Ensure that the progress has a consistent reference.
 	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(instance))
@@ -57,7 +57,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		instance,
 		skillId,
 		exerciseId,
-		state: stateFO,
+		parameters: parametersFO,
 		example,
 		inspection,
 		historyIndex,

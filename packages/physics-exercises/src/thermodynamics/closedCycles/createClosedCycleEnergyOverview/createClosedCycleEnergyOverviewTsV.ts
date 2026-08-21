@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { generateState, getSolution as getCycleParametersRaw } from '../calculateClosedCycle/calculateClosedCycleTsV'
+import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateClosedCycle/calculateClosedCycleTsV'
 
 const metaData = {
 	skill: 'createClosedCycleEnergyOverview',
@@ -12,19 +12,19 @@ const metaData = {
 	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
-function getCycleParameters(state: Parameters<typeof getCycleParametersRaw>[0]) {
-	let { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParametersRaw(state)
+function getCycleParameters(parameters: Parameters<typeof getCycleParametersRaw>[0]) {
+	let { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParametersRaw(parameters)
 	p1 = p1.setSignificantDigits(3); V1 = V1.setSignificantDigits(3); T1 = T1.setSignificantDigits(3)
 	p2 = p2.setSignificantDigits(3); V2 = V2.setSignificantDigits(3); T2 = T2.setSignificantDigits(3)
 	p3 = p3.setSignificantDigits(3); V3 = V3.setSignificantDigits(3); T3 = T3.setSignificantDigits(3)
 	return { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 }
 }
 
-export function getSolution(state: ReturnType<typeof generateState>) {
-	const cycleParameters = getCycleParameters(state)
+export function getSolution(parameters: ReturnType<typeof generateParameters>) {
+	const cycleParameters = getCycleParameters(parameters)
 	const { m, p1, V1, T1, V2, T2, T3 } = cycleParameters
-	const cv = gasProperties[state.medium].cv.simplify()
-	const cp = gasProperties[state.medium].cp.simplify()
+	const cv = gasProperties[parameters.medium].cv.simplify()
+	const cp = gasProperties[parameters.medium].cp.simplify()
 	const Q12 = p1.multiply(V1).multiply(Math.log(V2.number / V1.number)).setUnit('J').setMinimumSignificantDigits(2)
 	const W12 = Q12
 	const Q23 = new FloatUnit('0 J')
@@ -38,7 +38,7 @@ export function getSolution(state: ReturnType<typeof generateState>) {
 
 export default buildStepExercise({
 	metaData,
-	generateState,
+	generateParameters,
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {

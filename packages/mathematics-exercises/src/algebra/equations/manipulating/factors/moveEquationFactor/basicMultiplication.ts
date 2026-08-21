@@ -20,7 +20,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
 		return {
@@ -30,14 +30,14 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const factor = variables.x
 		const baseEquation = asEquation('a=b/x')
-		const equation = (state.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
+		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'])
 		const ans = bothSidesChanged.cancel(['mergeProductFactors', 'cancelFractionFactors'])
-		return { ...state, variables, factor, equation, bothSidesChanged, ans }
+		return { ...parameters, variables, factor, equation, bothSidesChanged, ans }
 	},
 
 	checkInput(data, step) {

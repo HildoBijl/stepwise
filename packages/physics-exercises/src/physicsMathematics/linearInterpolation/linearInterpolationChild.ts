@@ -13,7 +13,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(1, 2)
 		const h1 = getRandomFloatUnit({ min: 80, max: 110, unit: 'cm', decimals: 0 })
 		const h2 = getRandomFloatUnit({ min: 130, max: 160, unit: 'cm', decimals: 0 })
@@ -46,7 +46,7 @@ export default buildStepExercise({
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compare('x', data)
-			default: return compare(data.state.type === 1 ? 'W' : 'h', data)
+			default: return compare(data.parameters.type === 1 ? 'W' : 'h', data)
 		}
 	},
 })

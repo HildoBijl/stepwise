@@ -16,8 +16,8 @@ const metaData = {
 	},
 }
 
-function getStaticSolution(state: any) {
-	const { l1, l2, l3, M, clockwise } = state
+function getStaticSolution(parameters: any) {
+	const { l1, l2, l3, M, clockwise } = parameters
 	const l = l1.add(l2)
 	const A = Vector.zero
 	const C = new Vector(l.number, -l3.number)
@@ -43,12 +43,12 @@ function getStaticSolution(state: any) {
 
 	const loadsToCheck = loadNames.slice(1)
 	const loadValues = [M, new FloatUnit('0 kN'), M.divide(l), M.divide(l)]
-	return { ...state, points, l, Bx, Cx, angle, loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck, loadValues }
+	return { ...parameters, points, l, Bx, Cx, angle, loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck, loadValues }
 }
 
 export default buildStepExercise({
 	metaData,
-	generateState: () => ({
+	generateParameters: () => ({
 		l1: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l3: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),

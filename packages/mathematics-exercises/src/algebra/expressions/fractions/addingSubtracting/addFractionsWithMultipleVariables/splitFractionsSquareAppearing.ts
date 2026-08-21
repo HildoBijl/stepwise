@@ -19,7 +19,7 @@ export default buildStepExercise({
 		compare: { Expression: onlyOrderChanges },
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			plus: randomBoolean(),
@@ -28,17 +28,17 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const sign = state.plus ? '+' : '-'
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const sign = parameters.plus ? '+' : '-'
 		const expression = asExpression(`(ay^2${sign}bxz)/(xy)`).substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
 		const leftExpression = asExpression('(ay^2)/(xy)').substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
 		const rightExpression = asExpression('(bxz)/(xy)').substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
-		const split = state.plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
+		const split = parameters.plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
 		const leftAns = leftExpression.normalize()
 		const rightAns = rightExpression.normalize()
-		const ans = state.plus ? leftAns.add(rightAns) : leftAns.subtract(rightAns)
-		return { ...state, variables, expression, leftExpression, rightExpression, split, leftAns, rightAns, ans }
+		const ans = parameters.plus ? leftAns.add(rightAns) : leftAns.subtract(rightAns)
+		return { ...parameters, variables, expression, leftExpression, rightExpression, split, leftAns, rightAns, ans }
 	},
 
 	checkInput(data, step) {

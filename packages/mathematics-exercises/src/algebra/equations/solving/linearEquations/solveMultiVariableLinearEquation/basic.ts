@@ -21,7 +21,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			a: randomInteger(-12, 12, { exclude: [0] }),
@@ -31,9 +31,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		// Extract state variables.
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		// Extract parameters variables.
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('ax + by = cxy + dz').substitute(variables).removeTrivial()
 
 		// Find the solution.
@@ -50,7 +50,7 @@ export default buildStepExercise({
 		const equationWithSolutionMergedFractions = equationWithSolution.removeTrivial(['mergeFractionProducts', 'mergeFractionSums'])
 		const equationWithSolutionExpandedBrackets = equationWithSolutionMergedFractions.combine(['expandProductsOfSums', 'expandMinusSums', 'sortSums'])
 
-		return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }
+		return { ...parameters, variables, equation, termsMoved, pulledOut, bracketTerm, ans, equationWithSolution, equationWithSolutionMergedFractions, equationWithSolutionExpandedBrackets }
 	},
 
 	checkInput(data, step) {

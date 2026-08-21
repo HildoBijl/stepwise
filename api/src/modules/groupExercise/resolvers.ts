@@ -104,7 +104,7 @@ export const groupExerciseResolvers: ResolverTree = {
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
 			const skillExercises = getExercises(skillId)!
 			const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
-			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
+			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
 			activeEvent.submissions = []
 			exercise.events = [activeEvent]
@@ -194,7 +194,7 @@ export const groupExerciseResolvers: ResolverTree = {
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			if (!exercise.processGroupActions) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support group actions.`)
 			const historyEvents = activeExercise.events.map((event: any) => event.progress === null ? { submissions: event.submissions } : { submissions: event.submissions, progress: event.progress })
-			const progress = exercise.processGroupActions({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: historyEvents, updateSkills })
+			const progress = exercise.processGroupActions({ submissions: activeEvent.submissions, parameters: activeExercise.parameters, progress: previousProgress, history: historyEvents, updateSkills })
 			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Time to store things in the database.

@@ -13,7 +13,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(1, 2)
 		const T1 = getRandomFloatUnit({ min: 20, max: 40, unit: 'dC', decimals: 0 })
 		const T2 = getRandomFloatUnit({ min: 80, max: 100, unit: 'dC', decimals: 0 })
@@ -44,7 +44,7 @@ export default buildStepExercise({
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compare('x', data)
-			default: return compare(data.state.type === 1 ? 't' : 'T', data)
+			default: return compare(data.parameters.type === 1 ? 't' : 'T', data)
 		}
 	},
 })

@@ -20,16 +20,16 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-12, 12, { exclude: [0] })
 		const b = randomInteger(-12, 12, { exclude: [0, a, -a] })
 		const c = randomInteger(-12, 12, { exclude: [0, a, -a, b, -b] })
 		return { ...selectRandomVariables(sample(availableVariableSets), usedVariables), a, b, c }
 	},
 
-	getSolution(state) {
-		// Extract state variables.
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		// Extract parameters variables.
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('(y+b)/(x+c) + a/x = z/x').substitute(variables).removeTrivial()
 
 		// Find the solution.
@@ -45,7 +45,7 @@ export default buildStepExercise({
 		if (!bracketFactor) throw new Error('Expected the isolated side to contain a bracket factor.')
 		const ans = pulledOut.right.divide(bracketFactor)
 
-		return { ...state, variables, equation, factor1, factor2, factor, multiplied, expanded, merged, shifted, pulledOut, bracketFactor, ans }
+		return { ...parameters, variables, equation, factor1, factor2, factor, multiplied, expanded, merged, shifted, pulledOut, bracketFactor, ans }
 	},
 
 	checkInput(data, step) {

@@ -12,14 +12,14 @@ const metaData = {
 	},
 }
 
-export function generateState() {
+export function generateParameters() {
 	const Qo = getRandomFloatUnit({ min: 2, max: 10, significantDigits: 2, unit: 'kJ' })
 	const Two = getRandomFloatUnit({ min: 500, max: 1000, decimals: -2, unit: 'dC' }).setDecimals(0)
 	const Tco = getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'dC' })
 	return { Qo, Two, Tco }
 }
 
-export function getSolution({ Qo, Two, Tco }: ReturnType<typeof generateState>) {
+export function getSolution({ Qo, Two, Tco }: ReturnType<typeof generateParameters>) {
 	const Q = Qo.simplify()
 	const Tw = Two.simplify()
 	const Tc = Tco.simplify()
@@ -33,7 +33,7 @@ export function getSolution({ Qo, Two, Tco }: ReturnType<typeof generateState>) 
 
 export default buildStepExercise({
 	metaData,
-	generateState,
+	generateParameters,
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {

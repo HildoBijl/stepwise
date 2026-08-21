@@ -18,7 +18,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return { constant: sample(example ? exampleConstantNames : constantNames) }
 	},
 

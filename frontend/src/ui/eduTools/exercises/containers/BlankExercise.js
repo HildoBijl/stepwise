@@ -31,14 +31,14 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	const translate = useTranslator()
 	const exerciseDefinition = useMemo(() => getExercise(skillId, exerciseId), [skillId, exerciseId])
 
-	// Make sure there is exercise data, like a state, progress and such.
+	// Make sure there is exercise data, such as parameters and progress.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		if (exerciseDefinition) {
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: exerciseId,
 				mode: 'solo',
-				state: exerciseDefinition.generateState(), // The state should be in storage format, as if it came from the database.
+				parameters: exerciseDefinition.generateParameters(), // The parameters should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
 				progress: {},
@@ -51,7 +51,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processSoloAction) => {
-		const progress = processSoloAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+		const progress = processSoloAction({ action, parameters: exercise.parameters, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

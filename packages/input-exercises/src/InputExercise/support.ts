@@ -3,20 +3,20 @@ import { isPlainDataObject, type PlainDataObject } from '@step-wise/js-utils'
 import { deserializeAll, serializeAll } from '@step-wise/serialization'
 import type { ExerciseHistory, ExerciseMode, GroupExerciseHistory, SoloExerciseHistory } from '@step-wise/exercise-definition'
 
-import type { InputExerciseState, InputExerciseAction, InputExerciseInput } from './types'
+import type { InputExerciseParameters, InputExerciseAction, InputExerciseInput } from './types'
 
-// Serialize a runtime state and ensure that the result is suitable for storage.
-export function serializeInputExerciseState(state: InputExerciseState): PlainDataObject {
-	const serializedState = serializeAll(state)
-	if (!isPlainDataObject(serializedState)) throw new TypeError('Invalid generated input-exercise state: serialization must result in a plain data object.')
-	return serializedState
+// Serialize runtime parameters and ensure that the result is suitable for storage.
+export function serializeInputExerciseParameters(parameters: InputExerciseParameters): PlainDataObject {
+	const serializedParameters = serializeAll(parameters)
+	if (!isPlainDataObject(serializedParameters)) throw new TypeError('Invalid generated input-exercise parameters: serialization must result in a plain data object.')
+	return serializedParameters
 }
 
-// Restore a stored state before passing it to author-facing input-exercise logic.
-export function deserializeInputExerciseState<TState extends InputExerciseState>(state: PlainDataObject): TState {
-	const deserializedState = deserializeAll(state)
-	if (typeof deserializedState !== 'object' || deserializedState === null || Array.isArray(deserializedState)) throw new TypeError('Invalid stored input-exercise state: deserialization must result in an object.')
-	return deserializedState as TState
+// Restore stored parameters before passing them to author-facing input-exercise logic.
+export function deserializeInputExerciseParameters<TParameters extends InputExerciseParameters>(parameters: PlainDataObject): TParameters {
+	const deserializedParameters = deserializeAll(parameters)
+	if (typeof deserializedParameters !== 'object' || deserializedParameters === null || Array.isArray(deserializedParameters)) throw new TypeError('Invalid stored input-exercise parameters: deserialization must result in an object.')
+	return deserializedParameters as TParameters
 }
 
 // Get the last given input from the user. For group-exercises, this may be an unresolved submission input, unless the requireResolved flag is set to true.

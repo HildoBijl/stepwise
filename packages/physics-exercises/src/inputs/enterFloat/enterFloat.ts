@@ -3,9 +3,9 @@ import { getRandomExponentialFloat } from '@step-wise/physics-core'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-function generateState(example: boolean) {
+function generateParameters(example: boolean) {
 	const x = getRandomExponentialFloat({ min: example ? 1e-4 : 1e-8, max: example ? 1e5 : 1e9, randomSign: true, significantDigits: randomInteger(2, example ? 2 : 4) })
-	if (x.getDisplayPower() === 0) return generateState(example)
+	if (x.getDisplayPower() === 0) return generateParameters(example)
 	return { x }
 }
 
@@ -17,7 +17,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState,
+	generateParameters,
 
 	getSolution({ x }) {
 		return { ans: x }

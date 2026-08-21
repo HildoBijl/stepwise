@@ -23,7 +23,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(0, 2)
 		const prefix = sample(['mu', 'm', '', 'M'])
 
@@ -39,8 +39,8 @@ export default buildSimpleExercise({
 		return { m, type, prefix }
 	},
 
-	getSolution(state) {
-		return { ...state, ans: state.type === 2 ? state.m.setUnit(`${state.prefix}g`) : state.m.setUnit('kg') }
+	getSolution(parameters) {
+		return { ...parameters, ans: parameters.type === 2 ? parameters.m.setUnit(`${parameters.prefix}g`) : parameters.m.setUnit('kg') }
 	},
 
 	checkInput(data) {

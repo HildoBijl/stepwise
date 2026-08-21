@@ -9,7 +9,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const mdot = getRandomFloatUnit({ min: 10, max: 50, decimals: 0, unit: 'kg/s' })
 		const wt = getRandomFloatUnit({ min: 600, max: 1200, unit: 'kJ/kg' })
 		const P = mdot.multiply(wt).setUnit('MW').roundToPrecision()

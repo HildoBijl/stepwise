@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const variableSet = sample(availableVariableSets)
 		let a, b, e, f
 
@@ -43,9 +43,9 @@ export default buildStepExercise({
 		return { ...selectRandomVariables(variableSet, usedVariables), a, b, c, d, e, f, g, h }
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Set up the equations.
-		const variables = filterVariables(state, usedVariables, constants)
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + by + cz = d', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const eq2 = asEquation('ex + fy + gz = h', { eAsConstant: false }).substitute(variables).removeTrivial()
 
@@ -61,7 +61,7 @@ export default buildStepExercise({
 		const x = xRaw.normalize()
 
 		// Find the solution.
-		return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, xRaw, y }
+		return { ...parameters, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, xRaw, y }
 	},
 
 	checkInput(data, step) {

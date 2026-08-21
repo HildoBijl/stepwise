@@ -14,14 +14,14 @@ export default buildSimpleExercise({
 		compare: { Expression: expressionComparisons.equivalent },
 	},
 
-	generateState() {
+	generateParameters() {
 		const func = getRandomElementaryFunction(true)
 		const x = sample(variableSet)
 		return { x, f: sample(functionSet), func: func.substitute('x', x) }
 	},
 
-	getSolution(state) {
-		return { ...state, derivative: state.func.getDerivative().combine() }
+	getSolution(parameters) {
+		return { ...parameters, derivative: parameters.func.getDerivative().combine() }
 	},
 
 	checkInput(data) {

@@ -19,14 +19,14 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		// Generate random data.
 		const given = randomInteger(0, 2) // Is a, b or c already given?
 		const triangle = sample(sampleTriangles).map(expression => asExpression(expression))
 		const variableSet = sample(availableVariableSets)
 		const variables = selectRandomVariables(variableSet, usedVariables)
 
-		// Gather all data into a state.
+		// Gather all data into a parameters.
 		return {
 			a: given === 0 ? asExpression(randomInteger(2, 20)) : variables.a,
 			b: given === 1 ? asExpression(randomInteger(2, 20)) : variables.b,
@@ -38,9 +38,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Extract all the variables.
-		let { a, b, c, La, Lb } = state
+		let { a, b, c, La, Lb } = parameters
 		const Lc = asExpression('sqrt(L_a^2 + L_b^2)').substitute({ L_a: La, L_b: Lb }).combine()
 		const variables = { a, b, c, L_a: La, L_b: Lb, L_c: Lc }
 
@@ -89,7 +89,7 @@ export default buildStepExercise({
 			a = ans1
 			b = ans2
 		}
-		return { ...state, given, a, b, c, La, Lb, Lc, x, y, z, equation1, equation2, ans1Raw, ans2Raw, ans1, ans2 }
+		return { ...parameters, given, a, b, c, La, Lb, Lc, x, y, z, equation1, equation2, ans1Raw, ans2Raw, ans1, ans2 }
 	},
 
 	checkInput(data, step) {

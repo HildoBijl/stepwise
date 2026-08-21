@@ -16,7 +16,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const p1o = getRandomFloatUnit({ min: 200, max: 400, unit: 'mbar', decimals: -1 }).setDecimals(0)
 		const p2o = p1o.divide(1.8).subtract(getRandomFloatUnit({ min: 20, max: 40, unit: 'mbar' })).setDecimals(-1).roundToPrecision().setDecimals(0)
 		const rho = getRandomFloatUnit({ min: 0.4, max: 0.65, significantDigits: 2, unit: 'kg/m^3' })

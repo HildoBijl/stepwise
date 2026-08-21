@@ -17,7 +17,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		let { p1, T1, p2, q23, etai: etaio, mdot } = getCycle()
 		p1 = p1.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 		p2 = p2.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)

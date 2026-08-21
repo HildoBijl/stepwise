@@ -19,7 +19,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(0, 2)
 		const medium = sample(gases)
 		const T1o = getRandomFloatUnit({ min: 200, max: 400, decimals: -1, unit: 'dC' }).setDecimals(0)

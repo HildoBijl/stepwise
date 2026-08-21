@@ -11,18 +11,18 @@ export default buildStepExercise({
 		compare: { loads: compareSupportLoads },
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			wallRotation: randomInteger(0, 11) * 30,
 			beamRotation: randomInteger(-1, 1) * 30,
 		}
 	},
 
-	getSolution(state) {
-		const { wallRotation } = state
+	getSolution(parameters) {
+		const { wallRotation } = parameters
 		const A = Vector.zero
 		return {
-			...state,
+			...parameters,
 			points: [A],
 			loads: [createForce({ position: A, angle: degreesToRadians(wallRotation) })],
 			forcePerpendicular: 0,

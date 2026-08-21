@@ -8,7 +8,7 @@ export default buildStepExercise({
 		...stepsToSetup([undefined, 'multiplication', 'summation']),
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return {
 			a: randomInteger(2, example ? 6 : 10),
 			b: randomInteger(2, example ? 6 : 10),

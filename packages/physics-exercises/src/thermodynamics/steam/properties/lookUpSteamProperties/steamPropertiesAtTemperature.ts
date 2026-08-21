@@ -10,7 +10,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const temperatureRange = saturatedSteamByTemperature.inputValues[0]
 		const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]
 		const type = randomInteger(1, 2)

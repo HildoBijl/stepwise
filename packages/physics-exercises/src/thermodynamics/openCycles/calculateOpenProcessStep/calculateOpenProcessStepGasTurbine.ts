@@ -16,7 +16,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const p1o = getRandomFloatUnit({ min: 6, max: 14, unit: 'bar', significantDigits: 2 })
 		const T0o = getRandomFloatUnit({ min: 275, max: 300, unit: 'K' })
 		const T1o = T0o.multiply(Math.pow(p1o.number, 1 - 1 / k.number)).setDecimals(-1).roundToPrecision().setDecimals(0)

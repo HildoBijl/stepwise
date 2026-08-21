@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return {
 			x: sample(variableSet),
 			a: randomInteger(-8, 8, { exclude: [0] }),
@@ -40,11 +40,11 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Assemble the equation.
-		const variables = filterVariables(state, usedVariables, constants)
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const terms = ['a*x^4', 'b*x^3', 'c*x^2', 'd*x'].map(term => asExpression(term).substitute(variables))
-		const termsLeft = [state.aLeft, state.bLeft, state.cLeft, state.dLeft]
+		const termsLeft = [parameters.aLeft, parameters.bLeft, parameters.cLeft, parameters.dLeft]
 		let left = asExpression(0)
 		let right = asExpression(0)
 		terms.forEach((term, index) => {
@@ -59,7 +59,7 @@ export default buildStepExercise({
 		const expanded = form.removeTrivial(['splitFractions'])
 		const ansIntermediate = expanded.cancel(['mergeFractionNumbers'])
 		const ans = ansIntermediate.combine()
-		return { ...state, variables, equation, factor, form, expanded, ansIntermediate, ans }
+		return { ...parameters, variables, equation, factor, form, expanded, ansIntermediate, ans }
 	},
 
 	checkInput(data, step) {

@@ -40,9 +40,9 @@ async function seedTestData(db: Database): Promise<void> {
 	const summation = skills[0]
 	const multiplication = skills[1]
 	const exercises = await Promise.all([
-		summation.createExercise({ exerciseId: 'summation1', state: { a: { type: "Integer", value: "37" }, b: { type: "Integer", value: "42" } }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		summation.createExercise({ exerciseId: 'summation1', state: { a: { type: "Integer", value: "64" }, b: { type: "Integer", value: "32" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		multiplication.createExercise({ exerciseId: 'multiplication1', state: { a: { type: "Integer", value: "8" }, b: { type: "Integer", value: "4" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		summation.createExercise({ exerciseId: 'summation1', parameters: { a: { type: "Integer", value: "37" }, b: { type: "Integer", value: "42" } }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		summation.createExercise({ exerciseId: 'summation1', parameters: { a: { type: "Integer", value: "64" }, b: { type: "Integer", value: "32" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		multiplication.createExercise({ exerciseId: 'multiplication1', parameters: { a: { type: "Integer", value: "8" }, b: { type: "Integer", value: "4" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 	const events = await Promise.all([
 		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '80' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),

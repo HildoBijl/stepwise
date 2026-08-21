@@ -36,7 +36,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const parameters = repeat(8, index => randomInteger(index % 2 === 0 ? 2 : -8, 8, { exclude: [-1, 0, 1] }))
 		const deactivate = randomIndices(3, { count: 2 }).map(index => [0, 1, 3][index])
 		parameters[deactivate[0]] = 0
@@ -49,10 +49,10 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str, { eAsConstant: false }).substitute(variables).removeTrivial())
-		const joinFractions = (items: Expression[]) => items[0].add(state.plus ? items[1] : items[1].negate()).removeTrivial()
+		const joinFractions = (items: Expression[]) => items[0].add(parameters.plus ? items[1] : items[1].negate()).removeTrivial()
 		const expression = joinFractions(fractions)
 		const fractionsWithSameDenominator = fractions.map((fraction, index) => multiplyNumeratorAndDenominator(fraction, fractions[1 - index].denominator, index === 1))
 		const sameDenominator = joinFractions(fractionsWithSameDenominator)
@@ -61,7 +61,7 @@ export default buildStepExercise({
 		const ans = bracketsExpanded.cancel(['mergeFractionSums', 'mergeFractionProducts', 'sortProducts']).mapNumerator(numerator => numerator.cancel(['expandProductsOfSums', 'groupSumTerms', 'sortSums']))
 		const ansCleaned = ans.normalize([], ['applyPolynomialCancellation', 'expandProductsOfSums'])
 		const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
-		return { ...state, variables, fractions, expression, sameDenominator, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
+		return { ...parameters, variables, fractions, expression, sameDenominator, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 
 	checkInput(data, step) {

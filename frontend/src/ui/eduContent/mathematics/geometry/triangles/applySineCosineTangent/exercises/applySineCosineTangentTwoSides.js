@@ -17,8 +17,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { beta } = state
+const Problem = (parameters) => {
+	const { beta } = parameters
 	const { a, b, c, notGiven } = useSolution()
 
 	return <>
@@ -45,10 +45,10 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { beta } = state
+		Problem: (parameters) => {
+			const { beta } = parameters
 			return <>
-				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met hoek <M>{state.beta}.</M> Noteer de vergelijking.</Par>
+				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met hoek <M>{parameters.beta}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
 					<EquationInput id="equation" settings={EquationInput.settings.basicTrigonometryInDegrees} validate={EquationInput.validation.validWithVariables(beta)} />
 				</InputSpace>
@@ -59,8 +59,8 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { beta } = state
+		Problem: (parameters) => {
+			const { beta } = parameters
 			return <>
 				<Par>Los de vergelijking op voor <M>{beta}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
@@ -70,8 +70,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { beta } = state
+		Solution: (parameters) => {
+			const { beta } = parameters
 			const { rule, ansRaw, ans, canSimplifyAns } = useSolution()
 			return <Par>Om <M>{beta}</M> op te lossen nemen we van beide kanten de omgekeerde {funcNames[rule]} (de arc{funcNames[rule]}). Hiermee krijgen we <BM>{beta} = {ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{beta} = {ans}{ans.isInteger() ? `^\\circ` : ``}.</BM></> : null}</Par>
 		},
@@ -105,7 +105,7 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure() {
-	const { state } = useExerciseData()
+	const { parameters } = useExerciseData()
 	const solution = useSolution()
 	const points = getPoints(solution)
 	const { rotation, reflection, a, b, c, notGiven } = solution
@@ -128,7 +128,7 @@ function ExerciseFigure() {
 		{notGiven === 0 ? null : <LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{a}</M></LineLabel>}
 		{notGiven === 1 ? null : <LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{b}</M></LineLabel>}
 		{notGiven === 2 ? null : <LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{c}</M></LineLabel>}
-		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{state.beta}</M></CornerLabel>
+		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{parameters.beta}</M></CornerLabel>
 	</Drawing>
 }
 

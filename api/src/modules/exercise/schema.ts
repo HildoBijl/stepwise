@@ -23,7 +23,7 @@ export const exerciseTypeDefs = gql`
 		id: ID!
 		exerciseId: String!
 		mode: ExerciseMode!
-		state: JSON!
+		parameters: JSON!
 		active: Boolean!
 		startedOn: DateTime!
 		progress: JSON!

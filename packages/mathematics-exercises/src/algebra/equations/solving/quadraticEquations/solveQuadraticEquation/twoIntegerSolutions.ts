@@ -20,7 +20,7 @@ export default buildStepExercise({
 		compare: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {}, ans1: onlyOrderChanges, ans2: onlyOrderChanges },
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const a = randomInteger(example ? 2 : -6, 6, { exclude: [0] })
 		const x1 = randomInteger(example ? -8 : -12, example ? 8 : 12)
 		const x2 = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [x1] })
@@ -29,8 +29,8 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())
@@ -44,7 +44,7 @@ export default buildStepExercise({
 		const numSolutions = solutions.length
 		const equationsSubstituted = solutions.map(solution => equation.substitute({ [variables.x.toString()]: solution }))
 		const [ans1, ans2] = solutions
-		return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
+		return { ...parameters, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
 	},
 
 	checkInput(data, step) {

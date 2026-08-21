@@ -33,7 +33,7 @@ describe('start group exercise:', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(ALEX_SURFSUB)
 
-		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${OTHER_GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId exerciseId state active}}` })
+		const { data, errors } = await client.graphql({ query: `mutation{startGroupExercise(code: "${OTHER_GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {skillId exerciseId parameters active}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(0)

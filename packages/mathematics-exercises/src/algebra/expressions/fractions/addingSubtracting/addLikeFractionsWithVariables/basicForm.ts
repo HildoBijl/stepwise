@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [0] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
@@ -39,16 +39,16 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const fractions = ['(a*(x+b))/(ex+f)', '(c*x+d)/(e*x+f)'].map(str => asExpression(str, { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses']))
-		const expression = (state.plus ? fractions[state.switch ? 1 : 0].add(fractions[state.switch ? 0 : 1]) : fractions[state.switch ? 1 : 0].subtract(fractions[state.switch ? 0 : 1])).removeTrivial([], ['mergeFractionMinuses'])
-		const singleFraction = (state.plus ? fractions[state.switch ? 1 : 0].numerator.add(fractions[state.switch ? 0 : 1].numerator) : fractions[state.switch ? 1 : 0].numerator.subtract(fractions[state.switch ? 0 : 1].numerator)).divide(fractions[0].denominator).removeTrivial()
+		const expression = (parameters.plus ? fractions[parameters.switch ? 1 : 0].add(fractions[parameters.switch ? 0 : 1]) : fractions[parameters.switch ? 1 : 0].subtract(fractions[parameters.switch ? 0 : 1])).removeTrivial([], ['mergeFractionMinuses'])
+		const singleFraction = (parameters.plus ? fractions[parameters.switch ? 1 : 0].numerator.add(fractions[parameters.switch ? 0 : 1].numerator) : fractions[parameters.switch ? 1 : 0].numerator.subtract(fractions[parameters.switch ? 0 : 1].numerator)).divide(fractions[0].denominator).removeTrivial()
 		const bracketsExpanded = singleFraction.removeTrivial(['expandProductsOfSums', 'mergeProductNumbers'])
 		const ans = bracketsExpanded.cancel(['groupSumTerms'])
 		const ansCleaned = ans.combine()
 		const isFurtherSimplificationPossible = !onlyOrderChanges(ans, ansCleaned)
-		return { ...state, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
+		return { ...parameters, variables, expression, singleFraction, bracketsExpanded, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 
 	checkInput(data, step) {

@@ -11,7 +11,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			unit: sample([
 				new Unit('dC'),

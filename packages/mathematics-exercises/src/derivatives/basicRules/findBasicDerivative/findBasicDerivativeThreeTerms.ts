@@ -15,7 +15,7 @@ export default buildStepExercise({
 		compare: { Expression: expressionComparisons.equivalent },
 	},
 
-	generateState() {
+	generateParameters() {
 		const [f1, f2, f3] = getRandomElementaryFunctions(3, false)
 		const x = sample(variableSet)
 		const c1 = randomInteger(-12, 12, { exclude: [0] })
@@ -25,8 +25,8 @@ export default buildStepExercise({
 		return { x, f: sample(functionSet), func }
 	},
 
-	getSolution(state) {
-		const { func } = state
+	getSolution(parameters) {
+		const { func } = parameters
 		if (!func.isSum()) throw new Error('Expected a sum containing three elementary-function terms.')
 		const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])
 		const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
@@ -35,7 +35,7 @@ export default buildStepExercise({
 		const f2Derivative = f2.getDerivative().combine().sort()
 		const f3Derivative = f3.getDerivative().combine().sort()
 		const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).add(c3.multiply(f3Derivative)).combine()
-		return { ...state, c1, c2, c3, f1, f2, f3, f1Derivative, f2Derivative, f3Derivative, derivative }
+		return { ...parameters, c1, c2, c3, f1, f2, f3, f1Derivative, f2Derivative, f3Derivative, derivative }
 	},
 
 	checkInput(data, step, substep) {

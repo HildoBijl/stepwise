@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			x: sample(variableSet),
 			a: randomInteger(2, 6),
@@ -35,17 +35,17 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const factor1 = asExpression(state.xFirst ? 'a*x+b' : 'b+a*x').substitute(variables).removeTrivial()
-		const factor2 = asExpression(state.xFirst ? 'c*x+d' : 'd+c*x').substitute(variables).removeTrivial()
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const factor1 = asExpression(parameters.xFirst ? 'a*x+b' : 'b+a*x').substitute(variables).removeTrivial()
+		const factor2 = asExpression(parameters.xFirst ? 'c*x+d' : 'd+c*x').substitute(variables).removeTrivial()
 		const expression = factor1.multiply(factor2).flatten()
 		const firstExpanded = factor1.terms[0].multiply(factor2).add(factor1.terms[1].multiply(factor2)).flatten()
 		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
 		const ans = allExpanded.combine()
 		const xFactors = allExpanded.terms.filter(term => term.isProduct() && term.factors.some(factor => variables.x.equalStructure(factor)))
 		const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()
-		return { ...state, variables, factor1, factor2, expression, firstExpanded, allExpanded, ans, xFactors, xFactorsMerged }
+		return { ...parameters, variables, factor1, factor2, expression, firstExpanded, allExpanded, ans, xFactors, xFactorsMerged }
 	},
 
 	checkInput(data, step) {

@@ -10,7 +10,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = sample(['fridge', 'heatPump'] as const)
 		const { TCond, TEvap, dTCold, dTWarm } = getTemperatures()
 		return { type, TCond, TEvap, dTCold, dTWarm }

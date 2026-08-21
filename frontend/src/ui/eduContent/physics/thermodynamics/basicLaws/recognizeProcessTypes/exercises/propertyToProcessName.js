@@ -40,7 +40,7 @@ function Solution({ type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { state: { type } } = exerciseData
+	const { parameters: { type } } = exerciseData
 
 	const text = [
 		[

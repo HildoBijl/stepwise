@@ -13,7 +13,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const n = randomNumber(1.2, 1.38)
 		const pressureRatio = randomNumber(6, 9)
 		const T1 = getRandomFloatUnit({ min: 5, max: 25, decimals: 0, unit: 'dC' })

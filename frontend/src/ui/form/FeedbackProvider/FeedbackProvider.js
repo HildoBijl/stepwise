@@ -29,7 +29,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	const translate = addSection(rawTranslate, `practice.${exerciseData.exerciseId}.feedback`, false)
 	const translateCrossExercise = addSection(rawTranslate, crossExerciseTranslationPath, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
-	// Set up a state to store the feedback and corresponding input to which that feedback was given.
+	// Set up a parameters to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
 	const feedbackRef = useLatest(feedback)
 	const progressRef = useRef()
@@ -53,7 +53,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const inputFO = interpretAllInputValues(input)
 			const previousInputFO = interpretAllInputValues(previousInput)
 			let result = getFeedback({
-				...pickKeys(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state', 'example']),
+				...pickKeys(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'parameters', 'example']),
 				input: inputFO,
 				rawInput: input,
 				previousFeedback: previousResult,

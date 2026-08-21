@@ -2,7 +2,7 @@ import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 
-import { generateState } from '../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler'
+import { generateParameters } from '../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler'
 
 export default buildStepExercise({
 	metaData: {
@@ -11,7 +11,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState,
+	generateParameters,
 
 	getSolution({ Q, m }) {
 		const Qs = Q.simplify()

@@ -31,8 +31,8 @@ function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, solution, metaData: { compare } } = exerciseData
-	const { type, dTCold, dTWarm, TEvap, TCond } = state
+	const { input, parameters, solution, metaData: { compare } } = exerciseData
+	const { type, dTCold, dTWarm, TEvap, TCond } = parameters
 	const { TCold, TWarm } = solution
 
 	const wrong = {

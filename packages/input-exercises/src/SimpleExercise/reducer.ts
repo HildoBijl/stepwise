@@ -1,49 +1,49 @@
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import { type GroupExerciseReducer, type SoloExerciseReducer, generateExerciseState } from '@step-wise/exercise-definition'
+import { type GroupExerciseReducer, type SoloExerciseReducer, generateExerciseParameters } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseState, hasPreviousInput, serializeInputExerciseState } from '../InputExercise'
+import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseParameters, hasPreviousInput, serializeInputExerciseParameters } from '../InputExercise'
 
 import type { SimpleExerciseProgress, SimpleExercise, SimpleExerciseSpec } from './types'
 
 // Build a SimpleExercise from its author-facing spec.
-export function buildSimpleExercise<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TState, TSolution>): SimpleExercise<TState, TSolution> {
+export function buildSimpleExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TParameters, TSolution>): SimpleExercise<TParameters, TSolution> {
 	return {
 		...spec,
 		type: 'simple',
-		generateState: example => serializeInputExerciseState(generateExerciseState(spec.generateState, example)),
+		generateParameters: example => serializeInputExerciseParameters(generateExerciseParameters(spec.generateParameters, example)),
 		processSoloAction: buildSimpleExerciseSoloReducer(spec),
 		processGroupActions: buildSimpleExerciseGroupReducer(spec),
 	}
 }
 
-export function buildSimpleExerciseSoloReducer<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TState, TSolution>): SoloExerciseReducer<InputExerciseAction, SimpleExerciseProgress> {
+export function buildSimpleExerciseSoloReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TParameters, TSolution>): SoloExerciseReducer<InputExerciseAction, SimpleExerciseProgress> {
 	return input => {
-		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state) }
+		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters) }
 		if ('done' in runtimeInput.progress && runtimeInput.progress.done) return runtimeInput.progress
 		return reduceGroupActions(spec, { ...runtimeInput, mode: 'solo', submissions: [{ action: input.action }] })
 	}
 }
 
-export function buildSimpleExerciseGroupReducer<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TState, TSolution>): GroupExerciseReducer<InputExerciseAction, SimpleExerciseProgress> {
+export function buildSimpleExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TParameters, TSolution>): GroupExerciseReducer<InputExerciseAction, SimpleExerciseProgress> {
 	return input => {
-		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state), mode: 'group' as const }
+		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters), mode: 'group' as const }
 		if ('done' in runtimeInput.progress && runtimeInput.progress.done) return runtimeInput.progress
 		return reduceGroupActions(spec, runtimeInput)
 	}
 }
 
 // Reduce a set of actions for a group of users.
-function reduceGroupActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, SimpleExerciseProgress, TState>): SimpleExerciseProgress {
+function reduceGroupActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, SimpleExerciseProgress, TParameters>): SimpleExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
-	const { mode, submissions, state, history, updateSkills } = input
+	const { mode, submissions, parameters, history, updateSkills } = input
 
-	const staticSolution = submissions.some(submission => submission.action.type === 'input') && typeof getSolution === 'function' ? getSolution(state) : undefined
+	const staticSolution = submissions.some(submission => submission.action.type === 'input') && typeof getSolution === 'function' ? getSolution(parameters) : undefined
 
 	const correct = submissions.map(submission => {
 		if (submission.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(submission.action.input) as InputExerciseInput
-		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, state, exerciseInput) : undefined)
-		return checkInput({ metaData, state, rawInput: submission.action.input, input: exerciseInput, solution })
+		const solution = staticSolution ?? (getSolution ? assembleSolution(getSolution, parameters, exerciseInput) : undefined)
+		return checkInput({ metaData, parameters, rawInput: submission.action.input, input: exerciseInput, solution })
 	})
 
 	const someCorrect = correct.some(isCorrect => isCorrect)

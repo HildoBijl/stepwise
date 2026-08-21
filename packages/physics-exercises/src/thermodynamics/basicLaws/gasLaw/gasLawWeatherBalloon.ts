@@ -13,7 +13,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const p1 = new FloatUnit('1.0 bar')
 		const V1 = getRandomFloatUnit({ min: 20, max: 300, significantDigits: 2, unit: 'm^3' })
 		const T1 = getRandomFloatUnit({ min: 275, max: 295, significantDigits: 3, unit: 'K' })

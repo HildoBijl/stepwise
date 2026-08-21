@@ -2,7 +2,7 @@ import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
-import { generateState as generateStateRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCycleNspsp'
+import { generateParameters as generateParametersRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCycleNspsp'
 import { getSolution as getEnergyParameters } from '../createOpenCycleEnergyOverview/createOpenCycleEnergyOverviewNspsp'
 
 export default buildStepExercise({
@@ -16,16 +16,16 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const mdoto = getRandomFloatUnit({ min: 1, max: 9, significantDigits: 2, unit: 'g/s' })
-		return { ...generateStateRaw(), mdoto }
+		return { ...generateParametersRaw(), mdoto }
 	},
 
-	getSolution(state) {
-		const cycleParameters = getCycleParameters(state)
-		const energyParameters = getEnergyParameters(state)
+	getSolution(parameters) {
+		const cycleParameters = getCycleParameters(parameters)
+		const energyParameters = getEnergyParameters(parameters)
 		const { q23, q41, wn } = energyParameters
-		const mdot = state.mdoto.simplify()
+		const mdot = parameters.mdoto.simplify()
 		const qin = q41
 		const qout = q23.abs()
 		const COP = qout.divide(wn.abs()).setUnit('').setMinimumSignificantDigits(2)

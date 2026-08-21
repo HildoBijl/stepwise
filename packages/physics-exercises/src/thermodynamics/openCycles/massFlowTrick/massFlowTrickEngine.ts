@@ -9,7 +9,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const rho = getRandomFloatUnit({ min: 0.35, max: 0.6, unit: 'kg/m^3', significantDigits: 2 })
 		const mdot = getRandomFloatUnit({ min: 20, max: 80, unit: 'kg/s', significantDigits: 2 })
 		return { rho, mdot }

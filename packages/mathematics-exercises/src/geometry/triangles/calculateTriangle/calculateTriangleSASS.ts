@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			α: asExpression(randomInteger(5, 24, { exclude: [18] }) * 5), // Ensure there is no 90 degree angle.
 			a: asExpression(sample(variableSet)),
@@ -23,8 +23,8 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		let { α, a, b, c } = state
+	getSolution(parameters) {
+		let { α, a, b, c } = parameters
 		const variables = { α, a, b, c }
 
 		// Define solution method data.
@@ -36,7 +36,7 @@ export default buildStepExercise({
 		// Determine the remaining side a.
 		const aRaw = equation.right.sqrt()
 		a = aRaw.combine()
-		return { ...state, variables, rule, equationRaw, equation, numSolutions, aRaw, a }
+		return { ...parameters, variables, rule, equationRaw, equation, numSolutions, aRaw, a }
 	},
 
 	checkInput(data, step) {

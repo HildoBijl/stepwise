@@ -7,7 +7,7 @@ export default buildSimpleExercise({
 		skill: 'demo',
 	},
 
-	generateState() {
+	generateParameters() {
 		return { x: randomInteger(-100, 100) }
 	},
 

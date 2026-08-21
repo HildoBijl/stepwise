@@ -1,6 +1,6 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { CheckInputData, InputExerciseAction, InputExerciseMetaData, InputExerciseState, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
+import type { CheckInputData, InputExerciseAction, InputExerciseMetaData, InputExerciseParameters, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
@@ -17,10 +17,10 @@ export type StepExerciseSplitProgress = { split: true, step: number, done?: true
 export type StepExerciseProgress = Record<string, never> | { solved: true, done: true } | StepExerciseSplitProgress
 
 // Extend the CheckInput function to include steps and substeps.
-export type StepExerciseCheckInput<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = (data: CheckInputData<StepExerciseMetaData, TState, TSolution>, step: number, substep?: number) => boolean
+export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (data: CheckInputData<StepExerciseMetaData, TParameters, TSolution>, step: number, substep?: number) => boolean
 
 // Author-facing definition before the mode-specific reducers are added.
-export type StepExerciseSpec<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = InputExerciseSpec<StepExerciseMetaData, TState, TSolution> & { checkInput: StepExerciseCheckInput<TState, TSolution> }
+export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExerciseSpec<StepExerciseMetaData, TParameters, TSolution> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type StepExercise<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = InputExercise<StepExerciseMetaData, InputExerciseAction, StepExerciseProgress, TState, TSolution> & Omit<StepExerciseSpec<TState, TSolution>, 'generateState'> & { type: 'step' }
+export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExercise<StepExerciseMetaData, InputExerciseAction, StepExerciseProgress, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters'> & { type: 'step' }

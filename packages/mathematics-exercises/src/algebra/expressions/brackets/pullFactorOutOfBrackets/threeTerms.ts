@@ -34,7 +34,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const b = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		return {
 			x: sample(variableSet),
@@ -46,16 +46,16 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const factor = asExpression('a*x').substitute(variables).removeTrivial()
-		const sum = asExpression(state.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeTrivial()
+		const sum = asExpression(parameters.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeTrivial()
 		const ans = factor.multiply(sum).combine()
 		const expression = ans.combine(['expandProductsOfSums'])
 		const startingForm = factor.multiply(expression.divide(factor)).flatten()
 		const splitUp = factor.multiply(expression.divide(factor).removeTrivial(['splitFractions'])).flatten()
 		const check = expression
-		return { ...state, variables, factor, sum, expression, startingForm, splitUp, ans, check }
+		return { ...parameters, variables, factor, sum, expression, startingForm, splitUp, ans, check }
 	},
 
 	checkInput(data, step) {

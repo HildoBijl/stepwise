@@ -25,7 +25,7 @@ export default buildStepExercise({
 		compare: { method: {}, Expression: equivalent, checkF, checkFAndG },
 	},
 
-	generateState() {
+	generateParameters() {
 		const x = sample(variableSet)
 		const [fRaw, g] = getRandomElementaryFunctions(2, false, false).map(func => func.substitute('x', x))
 		const c = randomInteger(-12, 12, { exclude: [0] })
@@ -35,13 +35,13 @@ export default buildStepExercise({
 	getSolution: {
 		dependentFields: ['f', 'g'],
 
-		getStaticSolution(state) {
-			const { c, fRaw, g } = state
+		getStaticSolution(parameters) {
+			const { c, fRaw, g } = parameters
 			const method = 0
 			const f = fRaw.multiplyLeft(c).cancel()
 			const h = f.multiply(g).flatten()
 			const x = h.getVariables()[0]
-			return { ...state, method, x, f, h }
+			return { ...parameters, method, x, f, h }
 		},
 
 		// The input dependency is the functions f and g when correctly given, and otherwise an empty object.

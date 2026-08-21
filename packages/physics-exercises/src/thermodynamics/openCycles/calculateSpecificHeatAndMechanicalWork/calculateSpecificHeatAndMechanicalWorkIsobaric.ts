@@ -18,7 +18,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const T1o = getRandomFloatUnit({ min: 150, max: 300, decimals: -1, unit: 'dC' }).setDecimals(0)
 		const T2o = getRandomFloatUnit({ min: 650, max: 800, decimals: -1, unit: 'dC' }).setDecimals(0)
 		return { T1o, T2o }

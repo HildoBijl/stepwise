@@ -26,7 +26,7 @@ export function StepExercise(props) {
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
-	const { mode, state, progress, history, startNewExercise, example, inspection } = useExerciseData()
+	const { mode, parameters, progress, history, startNewExercise, example, inspection } = useExerciseData()
 	const userId = useUserId()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
@@ -52,7 +52,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
 					<TranslationSection entry="mainProblem">
-						<MainProblem {...state} translate={addSection(translate, 'mainProblem')} />
+						<MainProblem {...parameters} translate={addSection(translate, 'mainProblem')} />
 					</TranslationSection>
 				</VerticalAdjuster>
 			</FormPart>

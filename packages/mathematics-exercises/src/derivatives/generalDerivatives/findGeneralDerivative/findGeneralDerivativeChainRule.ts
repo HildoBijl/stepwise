@@ -15,15 +15,15 @@ export default buildStepExercise({
 		compare: { method: {}, Expression: expressionComparisons.equivalent },
 	},
 
-	generateState() {
+	generateParameters() {
 		const x = sample(variableSet)
 		const [fRaw, g] = getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
 		const c = randomInteger(-12, 12, { exclude: [0] })
 		return { c, fRaw, g }
 	},
 
-	getSolution(state) {
-		const { c, fRaw, g } = state
+	getSolution(parameters) {
+		const { c, fRaw, g } = parameters
 		const method = 2
 		const f = fRaw.multiplyLeft(c).cancel()
 		const x = f.getVariables()[0]
@@ -32,7 +32,7 @@ export default buildStepExercise({
 		const gDerivative = g.getDerivative().combine()
 		const derivativeRaw = fDerivative.substitute(x, g).multiply(gDerivative)
 		const derivative = derivativeRaw.normalize([], ['applyPolynomialCancellation', 'expandPowersOfSums']).format()
-		return { ...state, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
+		return { ...parameters, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 	},
 
 	checkInput(data, step) {

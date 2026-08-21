@@ -11,7 +11,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const pressureRange = superheatedSteam.inputValues[0]
 		const p = pressureRange[randomInteger(3, Math.min(20, pressureRange.length))]
 		const temperatureRange = superheatedSteam.inputValues[1]

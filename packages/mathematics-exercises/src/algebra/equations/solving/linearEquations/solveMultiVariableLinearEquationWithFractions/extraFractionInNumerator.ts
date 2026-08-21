@@ -21,7 +21,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			a: randomInteger(-12, 12, { exclude: [0] }),
@@ -30,9 +30,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		// Extract state variables.
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		// Extract parameters variables.
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 		// Find the solution.
@@ -44,7 +44,7 @@ export default buildStepExercise({
 		if (!bracketFactor) throw new Error('Expected the isolated side to contain a bracket factor.')
 		const ans = pulledOut.left.divide(bracketFactor).combine()
 
-		return { ...state, variables, equation, simplified, multiplied, shifted, pulledOut, bracketFactor, ans }
+		return { ...parameters, variables, equation, simplified, multiplied, shifted, pulledOut, bracketFactor, ans }
 	},
 
 	checkInput(data, step) {

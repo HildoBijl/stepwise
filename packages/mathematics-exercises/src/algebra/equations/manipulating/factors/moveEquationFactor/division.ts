@@ -27,7 +27,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a, b, -b] })
@@ -39,17 +39,17 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const factor = [variables.a, variables.x, variables.a.multiply(variables.x)][state.type].removeTrivial()
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const factor = [variables.a, variables.x, variables.a.multiply(variables.x)][parameters.type].removeTrivial()
 		const baseEquation = asEquation('a*x=b/c')
-		const equation = (state.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
+		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.divide(factor)
-		const fractionFactorsCanceled = state.switchSides ? bothSidesChanged.mapRight(side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions'])) : bothSidesChanged.mapLeft(side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions']))
+		const fractionFactorsCanceled = parameters.switchSides ? bothSidesChanged.mapRight(side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions'])) : bothSidesChanged.mapLeft(side => side.cancel(['mergeFractionNumbers', 'cancelFractionFactors', 'flattenFractions']))
 		const ans = fractionFactorsCanceled.removeTrivial(['flattenFractions'])
 		const ansCleaned = ans.normalize()
 		const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
-		return { ...state, variables, factor, equation, bothSidesChanged, fractionFactorsCanceled, ans, ansCleaned, isFurtherSimplificationPossible }
+		return { ...parameters, variables, factor, equation, bothSidesChanged, fractionFactorsCanceled, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 
 	checkInput(data, step) {

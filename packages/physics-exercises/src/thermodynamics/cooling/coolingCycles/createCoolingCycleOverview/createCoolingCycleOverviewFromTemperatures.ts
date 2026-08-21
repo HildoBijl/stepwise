@@ -15,7 +15,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		let { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling } = getBasicCycle()
 		TCold = TCold.setDecimals(0).roundToPrecision()
 		TWarm = TWarm.setDecimals(0).roundToPrecision()

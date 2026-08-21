@@ -13,7 +13,7 @@ import { ExerciseContainer } from '../containers'
 export function ExercisePageForStranger({ skillId }) {
 	const getTranslation = useGetTranslation()
 
-	// Use a state to track exercise data. Generate new data on a change in skill ID.
+	// Track the exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		if (!hasExercises(skillId))
@@ -34,7 +34,7 @@ export function ExercisePageForStranger({ skillId }) {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processSoloAction) => {
-		const progress = processSoloAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+		const progress = processSoloAction({ action, parameters: exercise.parameters, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

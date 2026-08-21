@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		// Generate numbers and ensure that there are two solutions.
 		let α, a, c
 		do {
@@ -21,12 +21,12 @@ export default buildStepExercise({
 			a = randomInteger(2, c - 1)
 		} while (a <= c * Math.sin(degreesToRadians(α)) + epsilon)
 
-		// Assemble the state.
+		// Assemble the parameters.
 		return { α: asExpression(α), a: asExpression(a), b: asExpression(sample(variableSet)), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
-	getSolution(state) {
-		const { α, a, b, c } = state
+	getSolution(parameters) {
+		const { α, a, b, c } = parameters
 		const variables = { α, a, b, c }
 
 		// Define solution method data.
@@ -41,7 +41,7 @@ export default buildStepExercise({
 		const b1 = b1Raw.combine()
 		const b2Raw = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
 		const b2 = b2Raw.combine()
-		return { ...state, variables, rule, equationRaw, equation, equationInStandardForm, numSolutions, b1Raw, b1, b2Raw, b2 }
+		return { ...parameters, variables, rule, equationRaw, equation, equationInStandardForm, numSolutions, b1Raw, b1, b2Raw, b2 }
 	},
 
 	checkInput(data, step) {

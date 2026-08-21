@@ -13,7 +13,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		return { medium: sample(media) }
 	},
 

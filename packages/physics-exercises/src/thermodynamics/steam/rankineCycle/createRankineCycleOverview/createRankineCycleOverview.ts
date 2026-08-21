@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.002, significantDigitTolerance: 2 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		let { pc, pe, T2 } = getCycle()
 		pc = pc.setSignificantDigits(2).roundToPrecision()
 		pe = pe.setDecimals(0).roundToPrecision()

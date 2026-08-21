@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
-import { deserializeInputExerciseState, assembleSolution } from '@step-wise/input-exercises'
+import { deserializeInputExerciseParameters, assembleSolution } from '@step-wise/input-exercises'
 import { getAllExercises } from '@step-wise/exercises'
 
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
@@ -47,20 +47,20 @@ describe('Check all exercises:', () => {
 						const Exercise = (await loadExercise(skill, exerciseId)).default
 
 						// Emulate the ExerciseContainer.
-						const storedState = shared.generateState()
-						const state = deserializeInputExerciseState(storedState)
+						const storedParameters = shared.generateParameters()
+						const parameters = deserializeInputExerciseParameters(storedParameters)
 						const exerciseData = {
 							exerciseId,
 							mode: 'solo',
-							state,
+							parameters,
 							history: [],
-							instance: { mode: 'solo', state, history: [] },
+							instance: { mode: 'solo', parameters, history: [] },
 							progress: {},
 							submitting: false,
 							submitAction: noop,
 							startNewExercise: noop,
 							shared: shared,
-							solution: shared.getSolution && assembleSolution(shared.getSolution, state),
+							solution: shared.getSolution && assembleSolution(shared.getSolution, parameters),
 						}
 						expect(() => render(
 							<I18nProvider loadLanguageFiles={false}>

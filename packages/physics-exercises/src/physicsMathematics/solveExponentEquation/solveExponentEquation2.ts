@@ -10,7 +10,7 @@ export default buildSimpleExercise({
 		compare: { Float: { significantDigitTolerance: 2 } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = getRandomFloat({ min: -20, max: 20, significantDigits: 2, prevent: 0 })
 		const c = getRandomFloat({ min: -20, max: 20, significantDigits: 2, prevent: [0, a.number] })
 		const x = getRandomExponentialFloat({ min: 0.2, max: 40, prevent: 1 })

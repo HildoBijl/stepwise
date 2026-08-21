@@ -19,7 +19,7 @@ export function Steps({ steps, forceDisplay }) {
 function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
-	const { mode, state, progress, history, example, inspection, historyIndex } = useExerciseData()
+	const { mode, parameters, progress, history, example, inspection, historyIndex } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
@@ -53,7 +53,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
 					<TranslationSection entry={`step${step}.problem`}>
-						<Problem {...state} translate={addSection(translate, `step${step}.problem`)} />
+						<Problem {...parameters} translate={addSection(translate, `step${step}.problem`)} />
 					</TranslationSection>
 				</VerticalAdjuster>
 			</FormPart>
@@ -62,7 +62,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 		</ProblemContainer>
 		<SolutionContainer display={showSolution} initialExpand={initialSolutionExpand}>
 			<TranslationSection entry={`step${step}.solution`}>
-				<Solution {...state} {...solution} translate={addSection(translate, `step${step}.solution`)} />
+				<Solution {...parameters} {...solution} translate={addSection(translate, `step${step}.solution`)} />
 			</TranslationSection>
 		</SolutionContainer>
 	</>

@@ -14,7 +14,7 @@ import { ExerciseContainer } from '../containers'
 export function ExamplePage({ skillId }) {
 	const getTranslation = useGetTranslation()
 
-	// Use a state to track exercise data. Generate new data on a change in skill ID.
+	// Track the exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		if (!hasExamples(skillId))
@@ -40,7 +40,7 @@ export function ExamplePage({ skillId }) {
 		if (action?.type === 'setProgress') // An override only used by example exercises.
 			progress = action.newProgress
 		else
-			progress = processSoloAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+			progress = processSoloAction({ action, parameters: exercise.parameters, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({

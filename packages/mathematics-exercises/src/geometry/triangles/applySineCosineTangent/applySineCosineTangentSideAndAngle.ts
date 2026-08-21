@@ -12,12 +12,12 @@ export default buildStepExercise({
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		// Determine what is known and what is requested.
 		const known = randomInteger(0, 2) // Is a, b or c known?
 		const requested = randomInteger(0, 2, { exclude: [known] }) // Is a, b or c requested?
 
-		// Gather all data into a state.
+		// Gather all data into a parameters.
 		return {
 			known,
 			x: asExpression(randomInteger(2, known === 2 ? 12 : 10)),
@@ -29,9 +29,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Determine which case we are dealing with.
-		const { x, known, beta, y, requested } = state
+		const { x, known, beta, y, requested } = parameters
 		const variables = { [['a', 'b', 'c'][known]]: x, [['a', 'b', 'c'][requested]]: y, β: beta }
 
 		// Determine the rule to apply.
@@ -58,7 +58,7 @@ export default buildStepExercise({
 		const ansRaw = [a, b, c][requested]
 		const ans = ansRaw.combine()
 		const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
-		return { ...state, a, b, c, variables, rule, equation, ansRaw, ans, canSimplifyAns }
+		return { ...parameters, a, b, c, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 	},
 
 	checkInput(data, step) {

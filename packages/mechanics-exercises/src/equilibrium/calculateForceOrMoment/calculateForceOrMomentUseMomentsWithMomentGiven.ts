@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		while (true) {
 			const getRandomPoint = () => new Vector(randomInteger(0, 4), randomInteger(0, 4))
 			const intersection = getRandomPoint()
@@ -36,8 +36,8 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const { points, angle, up, right, MD } = state
+	getSolution(parameters) {
+		const { points, angle, up, right, MD } = parameters
 		const [A, B, C, D] = points
 		const angleRad = degreesToRadians(angle)
 		const method = 4
@@ -60,7 +60,7 @@ export default buildStepExercise({
 		const decomposedLoads = loads.flatMap((load, index) => index === 0 && isForce(load) ? getAxisComponents(load) : load)
 		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints)
 
-		return { ...state, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, intersection, clockwise, rA, rAy, FAy, FA }
+		return { ...parameters, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, intersection, clockwise, rA, rAy, FAy, FA }
 	},
 
 	checkInput(data, step) {

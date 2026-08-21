@@ -26,7 +26,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = example ? 1 : randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a, b, -b] })
@@ -38,9 +38,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const { switchSides } = state
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const { switchSides } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const baseEquation = asEquation('a/b=c/(dx)').substitute(variables).removeTrivial()
 		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
 		const baseMoved = asEquation('ax/b=c/d').substitute(variables).removeTrivial()
@@ -52,11 +52,11 @@ export default buildStepExercise({
 		const fractionGcd = gcd(isolatedSolutionSimplified.numerator.toNumber(), isolatedSolutionSimplified.denominator.toNumber())
 		const canSimplifyFraction = fractionGcd !== 1
 		const ans = isolatedSolution.normalize()
-		const equationWithSolution = equation.substitute({ [state.x]: ans })
+		const equationWithSolution = equation.substitute({ [parameters.x]: ans })
 		const checkLeft = equationWithSolution.left.normalize()
 		const checkRight = equationWithSolution.right.normalize()
 		const canNumberSideBeSimplified = !onlyOrderChanges(switchSides ? equationWithSolution.right : equationWithSolution.left, switchSides ? checkRight : checkLeft)
-		return { ...state, variables, equation, moved, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
+		return { ...parameters, variables, equation, moved, isolated, isolatedSolution, isolatedSolutionSimplified, fractionGcd, canSimplifyFraction, ans, equationWithSolution, checkLeft, checkRight, canNumberSideBeSimplified }
 	},
 
 	checkInput(data, step) {

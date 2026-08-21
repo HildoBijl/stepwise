@@ -11,7 +11,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling } = getBasicCycle()
 		pEvap = pEvap.setUnit('bar').setSignificantDigits(2).roundToPrecision()
 		pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()

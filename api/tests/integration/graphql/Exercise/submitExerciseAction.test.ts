@@ -51,14 +51,14 @@ describe('submitExerciseAction', () => {
 		await client.loginSurfConext(ALEX_SURFSUB)
 
 		// Start an exercise.
-		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
+		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const state = deserializeAll(exercise.state) as any
+		const parameters = deserializeAll(exercise.parameters) as any
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
 
 		// Submit a wrong solution.
-		const action = inputAction(state.x + 1)
-		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId state active history {action progress}}}}` })
+		const action = inputAction(parameters.x + 1)
+		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters active history {action progress}}}}` })
 		expect(errors).toBeUndefined()
 		expect(updatedExercise).toMatchObject(exercise)
 		expect(updatedExercise.history).toHaveLength(1)
@@ -67,7 +67,7 @@ describe('submitExerciseAction', () => {
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Submit another wrong solution.
-		const secondAction = inputAction(state.x + 2)
+		const secondAction = inputAction(parameters.x + 2)
 		const { data: { submitExerciseAction: { updatedExercise: reupdatedExercise } }, errors: secondActionErrors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(secondAction)}) {updatedExercise {history {action progress}}}}` })
 		expect(secondActionErrors).toBeUndefined()
 		expect(reupdatedExercise.history).toHaveLength(2)
@@ -79,32 +79,32 @@ describe('submitExerciseAction', () => {
 		await client.loginSurfConext(ALEX_SURFSUB)
 
 		// Start an exercise.
-		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
+		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const state = deserializeAll(exercise.state) as any
+		const parameters = deserializeAll(exercise.parameters) as any
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
 
 		// Submit a right solution.
-		const action = inputAction(state.x)
-		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId state active progress history {action progress}}}}` })
+		const action = inputAction(parameters.x)
+		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters active progress history {action progress}}}}` })
 		expect(errors).toBeUndefined()
 		expect(updatedExercise.active).toBe(false)
 		expect(updatedExercise.progress).toMatchObject({ done: true })
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Check that no exercise is active.
-		const { data: { skill: skillAfterSolving }, errors: skillAfterSolvingErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId state active}}}}` })
+		const { data: { skill: skillAfterSolving }, errors: skillAfterSolvingErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId parameters active}}}}` })
 		expect(skillAfterSolvingErrors).toBeUndefined()
 		expect(skillAfterSolving.activeExercise).toBe(null)
 
 		// Start a new exercise and check that we can start it.
-		const { data: { startExercise: secondExercise }, errors: secondExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
+		const { data: { startExercise: secondExercise }, errors: secondExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
 		expect(secondExerciseErrors).toBeUndefined()
 		expect(secondExercise).toMatchObject({ active: true })
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Check that the right exercise is active.
-		const { data: { skill: skillAfterRestart }, errors: skillAfterRestartErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId state active} exercises {id}}}}` })
+		const { data: { skill: skillAfterRestart }, errors: skillAfterRestartErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId ... on SkillWithExercises {activeExercise {id exerciseId parameters active} exercises {id}}}}` })
 		expect(skillAfterRestartErrors).toBeUndefined()
 		expect(skillAfterRestart.activeExercise).toMatchObject(secondExercise)
 		expect(skillAfterRestart.exercises).toHaveLength(2)

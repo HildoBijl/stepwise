@@ -19,7 +19,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const p = getRandomFloatUnit({ min: 180, max: 300, significantDigits: 2, unit: 'bar' })
 		const V = getRandomFloatUnit({ min: 3, max: 18, significantDigits: randomInteger(2, 3), unit: 'l' })
 		const T = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'dC' })

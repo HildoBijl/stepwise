@@ -12,7 +12,7 @@ const metaData = {
 	compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 }
 
-export function generateState() {
+export function generateParameters() {
 	const medium = sample(media)
 	const V1o = getRandomFloatUnit({ min: 20, max: 80, significantDigits: 2, unit: 'l' })
 	const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
@@ -24,7 +24,7 @@ export function generateState() {
 	return { medium, mo, p1o, T1o, V3o }
 }
 
-export function getSolution({ medium, mo, p1o, T1o, V3o }: ReturnType<typeof generateState>) {
+export function getSolution({ medium, mo, p1o, T1o, V3o }: ReturnType<typeof generateParameters>) {
 	const { Rs } = gasProperties[medium]
 	const m = mo.simplify()
 	const p1 = p1o.simplify()
@@ -42,7 +42,7 @@ export function getSolution({ medium, mo, p1o, T1o, V3o }: ReturnType<typeof gen
 
 export default buildStepExercise({
 	metaData,
-	generateState,
+	generateParameters,
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {

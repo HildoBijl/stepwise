@@ -16,8 +16,8 @@ const metaData = {
 	},
 }
 
-function getStaticSolution(state: any) {
-	const { l1, l2, P, angle } = state
+function getStaticSolution(parameters: any) {
+	const { l1, l2, P, angle } = parameters
 	const angleRad = degreesToRadians(angle)
 	const A = Vector.zero
 	const B = new Vector(l1.number, 0)
@@ -43,12 +43,12 @@ function getStaticSolution(state: any) {
 	const FAx = Px
 	const FAy = Py
 	const MA = Py.multiply(l1)
-	return { ...state, angleRad, points, loads, externalLoad: loads[0], Px, Py, loadNames, loadNameDefinitions, loadsToCheck: loadNames.slice(1), loadValues: [P, FAx, FAy, MA] }
+	return { ...parameters, angleRad, points, loads, externalLoad: loads[0], Px, Py, loadNames, loadNameDefinitions, loadsToCheck: loadNames.slice(1), loadValues: [P, FAx, FAy, MA] }
 }
 
 export default buildStepExercise({
 	metaData,
-	generateState: () => ({
+	generateParameters: () => ({
 		l1: getRandomFloatUnit({ min: 4, max: 8, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 4, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),

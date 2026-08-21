@@ -2,7 +2,7 @@ import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
-import { generateState as generateStateRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCyclespsp'
+import { generateParameters as generateParametersRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCyclespsp'
 import { getSolution as getEnergyParameters } from '../createOpenCycleEnergyOverview/createOpenCycleEnergyOverviewspsp'
 
 export default buildStepExercise({
@@ -15,16 +15,16 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const Po = getRandomFloatUnit({ min: 10, max: 30, decimals: 0, unit: 'MW' })
-		return { ...generateStateRaw(), Po }
+		return { ...generateParametersRaw(), Po }
 	},
 
-	getSolution(state) {
-		const cycleParameters = getCycleParameters(state)
-		const energyParameters = getEnergyParameters(state)
+	getSolution(parameters) {
+		const cycleParameters = getCycleParameters(parameters)
+		const energyParameters = getEnergyParameters(parameters)
 		const { q23, wn } = energyParameters
-		const P = state.Po.simplify()
+		const P = parameters.Po.simplify()
 		const qin = q23
 		const eta = wn.divide(qin).setUnit('').setMinimumSignificantDigits(2)
 		const mdot = P.divide(wn).setUnit('kg/s')

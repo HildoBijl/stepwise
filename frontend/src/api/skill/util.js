@@ -24,7 +24,7 @@ export const exerciseFields = `
 	id
 	exerciseId
 	mode
-	state
+	parameters
 	startedOn
 	active
 	progress

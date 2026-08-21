@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		while (true) {
 			const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
 			const angle = randomInteger(5, 13) * 5
@@ -25,8 +25,8 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const { points, angle, up, right, clockwise, FD } = state
+	getSolution(parameters) {
+		const { points, angle, up, right, clockwise, FD } = parameters
 		const [A, B, C, D] = points
 		const angleRad = degreesToRadians(angle)
 		const method = 0
@@ -49,7 +49,7 @@ export default buildStepExercise({
 		// Calculate the respective load.
 		const FDx = FD.multiply(Math.sin(angleRad))
 		const FA = FDx
-		return { ...state, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, FDx, FA }
+		return { ...parameters, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, FDx, FA }
 	},
 
 	checkInput(data, step) {

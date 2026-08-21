@@ -15,7 +15,7 @@ export default buildStepExercise({
 		...stepsToSetup([undefined, undefined, undefined]),
 	},
 
-	generateState() {
+	generateParameters() {
 		const limit = 30
 		const alpha = randomInteger(limit / 5, 80 / 5) * 5 // This is the angle in the Z.
 		const a = randomInteger(limit / 5, (180 - limit - alpha) / 5) * 5
@@ -32,13 +32,13 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const { a, b, c } = state
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const { a, b, c } = parameters
 		const alpha = asExpression(180 - a - b)
 		const beta = asExpression(alpha)
 		const gamma = asExpression(180 - c - beta.toNumber())
-		return { ...state, variables, alpha, beta, gamma }
+		return { ...parameters, variables, alpha, beta, gamma }
 	},
 
 	checkInput(data, step) {

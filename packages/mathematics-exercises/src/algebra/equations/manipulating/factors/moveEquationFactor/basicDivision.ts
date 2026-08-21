@@ -26,7 +26,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
 		return {
@@ -36,16 +36,16 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const factor = variables.a
 		const baseEquation = asEquation('a*x=b')
-		const equation = (state.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
+		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.divide(factor)
-		const ans = state.switchSides ? bothSidesChanged.mapRight(side => side.cancel()) : bothSidesChanged.mapLeft(side => side.cancel())
+		const ans = parameters.switchSides ? bothSidesChanged.mapRight(side => side.cancel()) : bothSidesChanged.mapLeft(side => side.cancel())
 		const ansCleaned = ans.cancel()
 		const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
-		return { ...state, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
+		return { ...parameters, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 
 	checkInput(data, step) {

@@ -94,7 +94,7 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure() {
-	const { state } = useExerciseData()
+	const { parameters } = useExerciseData()
 	const solution = useSolution()
 	const { triangle1, triangle2 } = getPoints(solution)
 	const { rotation, reflection, La, Lb, Lc } = solution
@@ -113,9 +113,9 @@ function ExerciseFigure() {
 		<Polygon points={triangle1} style={{ fill: '#aaccff' }} />
 		<RightAngle points={triangle1} graphicalSize={10} />
 
-		<LineLabel points={[triangle1[0], triangle1[1]]} oppositeTo={triangle1[2]}><M>{state.a}</M></LineLabel>
-		<LineLabel points={[triangle1[1], triangle1[2]]} oppositeTo={triangle1[0]}><M>{state.b}</M></LineLabel>
-		<LineLabel points={[triangle1[0], triangle1[2]]} oppositeTo={triangle1[1]}><M>{state.c}</M></LineLabel>
+		<LineLabel points={[triangle1[0], triangle1[1]]} oppositeTo={triangle1[2]}><M>{parameters.a}</M></LineLabel>
+		<LineLabel points={[triangle1[1], triangle1[2]]} oppositeTo={triangle1[0]}><M>{parameters.b}</M></LineLabel>
+		<LineLabel points={[triangle1[0], triangle1[2]]} oppositeTo={triangle1[1]}><M>{parameters.c}</M></LineLabel>
 
 		<Polygon points={triangle2} style={{ fill: '#ffffff' }} />
 		<RightAngle points={triangle2} graphicalSize={6} />

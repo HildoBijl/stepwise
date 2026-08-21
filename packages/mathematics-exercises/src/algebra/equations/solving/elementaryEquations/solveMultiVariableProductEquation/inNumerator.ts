@@ -25,7 +25,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			a: example ? 1 : randomInteger(-12, 12, { exclude: [0] }),
@@ -35,9 +35,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const { a, b, c, switchSides } = state
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const { a, b, c, switchSides } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const baseEquation = asEquation('(a*x*y)/(b*z) = c*z').substitute(variables).removeTrivial()
 		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
 		const factor1 = asExpression('b*z').substitute(variables).removeTrivial()
@@ -52,7 +52,7 @@ export default buildStepExercise({
 		const equationWithSolutionCleaned = equationWithSolution.combine()
 		const checkLeft = equationWithSolution.left.combine()
 		const checkRight = equationWithSolution.right.combine()
-		return { ...state, variables, equation, factor1, factor2, isolated, isolatedSolution, canSimplifyFraction, ans, equationWithSolution, equationWithSolutionCleaned, checkLeft, checkRight }
+		return { ...parameters, variables, equation, factor1, factor2, isolated, isolatedSolution, canSimplifyFraction, ans, equationWithSolution, equationWithSolutionCleaned, checkLeft, checkRight }
 	},
 
 	checkInput(data, step) {

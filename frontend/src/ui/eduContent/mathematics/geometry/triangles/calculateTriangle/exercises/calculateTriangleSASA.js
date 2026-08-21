@@ -108,10 +108,10 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure({ showa, showβ }) {
-	const { state } = useExerciseData()
+	const { parameters } = useExerciseData()
 	const solution = useSolution()
 	const points = getPoints(solution)
-	const { rotation, reflection, α, β, a, b, c } = state
+	const { rotation, reflection, α, β, a, b, c } = parameters
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)

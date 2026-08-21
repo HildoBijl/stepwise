@@ -25,7 +25,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const p = randomInteger(0, 3)
 		const q = randomInteger(0, 3, { exclude: [p] })
 		return {
@@ -36,8 +36,8 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const factor = asExpression('a*x^p+b*x^q').substitute(variables).removeTrivial()
 		const expression = factor.toPower(2)
 		const multiplication = factor.multiply(factor).flatten()
@@ -45,11 +45,11 @@ export default buildStepExercise({
 		const allExpanded = firstExpanded.mergeNumbers(['expandProductsOfSums', 'expandMinusSums', 'mergeProductFactors'])
 		const jointFactor = asExpression('x^(p+q)').substitute(variables).normalize()
 		const ans = allExpanded.combine()
-		const xPowerToMerge = variables.x.toPower(state.p + state.q).mergeNumbers()
+		const xPowerToMerge = variables.x.toPower(parameters.p + parameters.q).mergeNumbers()
 		const hasXPowerToMerge = (term: Expression): boolean => term.equalStructure(xPowerToMerge) || (term.isProduct() && term.factors.some(factor => factor.equalStructure(xPowerToMerge))) || (term.isMinus() && hasXPowerToMerge(term.argument))
 		const xFactors = allExpanded.terms.filter(term => hasXPowerToMerge(term))
 		const xFactorsMerged = xFactors[0].add(xFactors[1]).normalize()
-		return { ...state, variables, factor, expression, multiplication, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
+		return { ...parameters, variables, factor, expression, multiplication, firstExpanded, allExpanded, jointFactor, ans, xFactors, xFactorsMerged }
 	},
 
 	checkInput(data, step) {

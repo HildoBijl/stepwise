@@ -13,7 +13,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const gas = sample(gases)
 		const p1 = getRandomFloatUnit({ min: 2, max: 8, unit: 'bar' })
 		const V1 = getRandomFloatUnit({ min: 10, max: 30, decimals: 0, unit: 'l' })

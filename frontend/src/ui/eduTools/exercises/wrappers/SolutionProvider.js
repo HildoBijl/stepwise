@@ -29,9 +29,9 @@ export function SolutionProvider({ children }) {
 // SolutionProviderForFunction provides data in case getSolution is a function.
 function SolutionProviderForFunction({ children }) {
 	// Extract the solution from the getSolution function.
-	const { state, shared } = useExerciseData()
+	const { parameters, shared } = useExerciseData()
 	const { getSolution } = shared
-	const solution = useMemo(() => getSolution ? getSolution(state) : undefined, [getSolution, state])
+	const solution = useMemo(() => getSolution ? getSolution(parameters) : undefined, [getSolution, parameters])
 
 	// Return the solution in the context.
 	return <SolutionContext.Provider value={solution}>{children}</SolutionContext.Provider>
@@ -39,12 +39,12 @@ function SolutionProviderForFunction({ children }) {
 
 // SolutionProviderForObject provides data in case getSolution is an object with getStaticSolution, getDynamicSolution, etcetera.
 function SolutionProviderForObject({ children }) {
-	const { state, shared } = useExerciseData()
+	const { parameters, shared } = useExerciseData()
 	const { getSolution } = shared
 	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
 
 	// Determine the static solution.
-	const staticSolution = useMemo(() => getStaticSolution ? getStaticSolution(state) : undefined, [getStaticSolution, state])
+	const staticSolution = useMemo(() => getStaticSolution ? getStaticSolution(parameters) : undefined, [getStaticSolution, parameters])
 
 	// Get only the input parameters that are needed for the dependency.
 	const input = useInputObject(getDynamicSolution ? dependentFields : undefined)
@@ -63,8 +63,8 @@ function SolutionProviderForObject({ children }) {
 	const dynamicSolution = useMemo(() => {
 		if (!getDynamicSolution || inputDependency === undefined)
 			return undefined // No dynamic solution present.
-		return getDynamicSolution(inputDependency, staticSolution, state)
-	}, [getDynamicSolution, inputDependency, staticSolution, state])
+		return getDynamicSolution(inputDependency, staticSolution, parameters)
+	}, [getDynamicSolution, inputDependency, staticSolution, parameters])
 
 	// Assemble the full solution.
 	const solution = useMemo(() => {

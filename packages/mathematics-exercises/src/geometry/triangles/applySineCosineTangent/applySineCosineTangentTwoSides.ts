@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		// Determine the sides.
 		const notGiven = randomInteger(0, 2) // Is a, b or c not given?
 		const sides: Partial<Record<'a' | 'b' | 'c', Expression>> = {}
@@ -29,17 +29,17 @@ export default buildStepExercise({
 			sides.b = asExpression(randomInteger(2, 10))
 		}
 
-		// Gather all data into a state.
+		// Gather all data into a parameters.
 		return { ...sides, beta: asExpression(sample(variableSet)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Determine which case we are dealing with.
-		let { a, b, c } = state
+		let { a, b, c } = parameters
 		const notGiven = a === undefined ? 0 : b === undefined ? 1 : 2
 
 		// Set up a variables object for substitutions.
-		const variables: Record<string, Expression> = { β: state.beta }
+		const variables: Record<string, Expression> = { β: parameters.beta }
 		if (a !== undefined) variables.a = a
 		if (b !== undefined) variables.b = b
 		if (c !== undefined) variables.c = c
@@ -55,7 +55,7 @@ export default buildStepExercise({
 		if (notGiven === 0) a = asExpression('sqrt(c^2 - b^2)').substitute(variables)
 		else if (notGiven === 1) b = asExpression('sqrt(c^2 - a^2)').substitute(variables)
 		else c = asExpression('sqrt(a^2 + b^2)').substitute(variables)
-		return { ...state, a, b, c, notGiven, variables, rule, equation, ansRaw, ans, canSimplifyAns }
+		return { ...parameters, a, b, c, notGiven, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 	},
 
 	checkInput(data, step) {

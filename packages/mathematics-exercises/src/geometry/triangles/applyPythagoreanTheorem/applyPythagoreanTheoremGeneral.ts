@@ -13,7 +13,7 @@ export default buildStepExercise({
 		compare: { equation: equationComparisons.equivalent },
 	},
 
-	generateState() {
+	generateParameters() {
 		// Generate random data.
 		const toFind = randomInteger(0, 2) // Find a, b or c?
 		const usePythagoreanTriplet = randomBoolean() // Use a predefined triplet?
@@ -38,9 +38,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Determine the equation.
-		let { a, b, c } = state
+		let { a, b, c } = parameters
 		const equation = asEquation('a^2 + b^2 = c^2').substitute('a', a).substitute('b', b).substitute('c', c)
 
 		// Determine the solution.
@@ -72,7 +72,7 @@ export default buildStepExercise({
 			x = c
 			c = ans
 		}
-		return { ...state, toFind, a, b, c, x, equation, ansSquared, ansSquaredSimplified, ansRaw, ans, ansCanBeSimplified }
+		return { ...parameters, toFind, a, b, c, x, equation, ansSquared, ansSquaredSimplified, ansRaw, ans, ansCanBeSimplified }
 	},
 
 	checkInput(data, step) {

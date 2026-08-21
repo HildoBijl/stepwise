@@ -18,7 +18,7 @@ export default buildSimpleExercise({
 		compare: { ans: (input: Expression, correct: Expression) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
 	},
 
-	generateState() {
+	generateParameters() {
 		const variableSet = sample(availableVariableSets)
 		const variables = selectRandomVariables(variableSet, usedVariables)
 		return {

@@ -7,7 +7,7 @@ export default buildSimpleExercise({
 		skill: 'enterInteger',
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const limit = example ? 20 : 100
 		return { x: randomInteger(-limit, limit) }
 	},

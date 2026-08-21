@@ -21,7 +21,7 @@ export default buildStepExercise({
 		compare: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			a: randomInteger(2, 12),
@@ -32,24 +32,24 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const term1 = asExpression('a').substitute(variables)
 		const fraction1 = asExpression('x/y').substitute(variables)
-		const numerator = state.plus1 ? term1.add(fraction1) : term1.subtract(fraction1)
+		const numerator = parameters.plus1 ? term1.add(fraction1) : term1.subtract(fraction1)
 		const fraction2 = asExpression('z^b/x').substitute(variables)
 		const term2 = asExpression('c').substitute(variables)
-		const denominator = state.plus2 ? fraction2.add(term2) : fraction2.subtract(term2)
+		const denominator = parameters.plus2 ? fraction2.add(term2) : fraction2.subtract(term2)
 		const expression = numerator.divide(denominator)
 		const term1Intermediate = multiplyNumeratorAndDenominator(term1, fraction1.denominator)
-		const numeratorSplit = state.plus1 ? term1Intermediate.add(fraction1) : term1Intermediate.subtract(fraction1)
-		const numeratorIntermediate = (state.plus1 ? term1Intermediate.numerator.add(fraction1.numerator) : term1Intermediate.numerator.subtract(fraction1.numerator)).divide(fraction1.denominator).combine()
+		const numeratorSplit = parameters.plus1 ? term1Intermediate.add(fraction1) : term1Intermediate.subtract(fraction1)
+		const numeratorIntermediate = (parameters.plus1 ? term1Intermediate.numerator.add(fraction1.numerator) : term1Intermediate.numerator.subtract(fraction1.numerator)).divide(fraction1.denominator).combine()
 		const term2Intermediate = multiplyNumeratorAndDenominator(term2, fraction2.denominator)
-		const denominatorSplit = state.plus2 ? fraction2.add(term2Intermediate) : fraction2.subtract(term2Intermediate)
-		const denominatorIntermediate = (state.plus2 ? fraction2.numerator.add(term2Intermediate.numerator) : fraction2.numerator.subtract(term2Intermediate.numerator)).divide(fraction2.denominator).combine()
+		const denominatorSplit = parameters.plus2 ? fraction2.add(term2Intermediate) : fraction2.subtract(term2Intermediate)
+		const denominatorIntermediate = (parameters.plus2 ? fraction2.numerator.add(term2Intermediate.numerator) : fraction2.numerator.subtract(term2Intermediate.numerator)).divide(fraction2.denominator).combine()
 		const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
 		const ans = intermediate.cancel(['flattenFractions'])
-		return { ...state, variables, term1, fraction1, numerator, fraction2, term2, denominator, expression, term1Intermediate, numeratorSplit, numeratorIntermediate, term2Intermediate, denominatorSplit, denominatorIntermediate, intermediate, ans }
+		return { ...parameters, variables, term1, fraction1, numerator, fraction2, term2, denominator, expression, term1Intermediate, numeratorSplit, numeratorIntermediate, term2Intermediate, denominatorSplit, denominatorIntermediate, intermediate, ans }
 	},
 
 	checkInput(data, step) {

@@ -44,8 +44,8 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { y } = state
+		Problem: (parameters) => {
+			const { y } = parameters
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met onbekende zijde <M>{y}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
@@ -58,8 +58,8 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { y } = state
+		Problem: (parameters) => {
+			const { y } = parameters
 			return <>
 				<Par>Los de vergelijking op voor <M>{y}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
@@ -107,7 +107,7 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure() {
-	const { state } = useExerciseData()
+	const { parameters } = useExerciseData()
 	const solution = useSolution()
 	const points = getPoints(solution)
 	const pointsInSideOrder = [2, 0, 1].map(index => points[index])
@@ -130,7 +130,7 @@ function ExerciseFigure() {
 
 		<LineLabel points={[pointsInSideOrder[(known + 1) % 3], pointsInSideOrder[(known + 2) % 3]]} oppositeTo={pointsInSideOrder[known]}><M>{x}</M></LineLabel>
 		<LineLabel points={[pointsInSideOrder[(requested + 1) % 3], pointsInSideOrder[(requested + 2) % 3]]} oppositeTo={pointsInSideOrder[requested]}><M>{y}</M></LineLabel>
-		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{state.beta}^\circ</M></CornerLabel>
+		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{parameters.beta}^\circ</M></CornerLabel>
 	</Drawing>
 }
 

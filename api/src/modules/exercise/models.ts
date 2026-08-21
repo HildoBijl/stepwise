@@ -13,7 +13,7 @@ export class ExerciseSampleRecord extends Model<InferAttributes<ExerciseSampleRe
 	declare id: CreationOptional<string>
 	declare userSkillId: string
 	declare exerciseId: string
-	declare state: unknown
+	declare parameters: unknown
 	declare active: CreationOptional<boolean>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
@@ -30,7 +30,7 @@ export function createExerciseSampleModel(sequelize: Sequelize): ExerciseSampleM
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
 		userSkillId: { type: DataTypes.UUID, allowNull: false },
 		exerciseId: { type: DataTypes.TEXT, allowNull: false },
-		state: { type: DataTypes.JSON, allowNull: false },
+		parameters: { type: DataTypes.JSON, allowNull: false },
 		active: { type: DataTypes.BOOLEAN, defaultValue: true, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },

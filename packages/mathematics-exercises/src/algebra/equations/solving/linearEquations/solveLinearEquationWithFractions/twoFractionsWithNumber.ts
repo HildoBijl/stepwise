@@ -25,7 +25,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [0] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
@@ -33,9 +33,9 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a, b, c, d }
 	},
 
-	getSolution(state) {
-		const { a, b, c, d } = state
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const { a, b, c, d } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('a/(x+b)=c/(x+d)').substitute(variables).removeTrivial()
 		const factorMoved = asEquation('a(x+d)=c(x+b)').substitute(variables).removeTrivial()
 		const expanded = factorMoved.combine(['expandProductsOfSums'])
@@ -47,7 +47,7 @@ export default buildStepExercise({
 		const canCleanSolution = !onlyOrderChanges(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
-		return { ...state, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
+		return { ...parameters, variables, equation, factorMoved, expanded, termMoved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 	},
 
 	checkInput(data, step) {

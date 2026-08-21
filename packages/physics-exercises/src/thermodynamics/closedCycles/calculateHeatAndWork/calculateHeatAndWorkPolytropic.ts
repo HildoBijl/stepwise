@@ -22,7 +22,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const n = getRandomFloatUnit({ min: 1.1, max: 1.35, decimals: 2, unit: '' })
 		const m = getRandomFloatUnit({ min: 0.3, max: 1.5, significantDigits: 2, unit: 'g' })
 		const T1 = getRandomFloatUnit({ min: 5, max: 30, significantDigits: 2, unit: 'dC' })

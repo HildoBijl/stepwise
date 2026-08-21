@@ -32,7 +32,7 @@ export const exerciseResolvers: Record<string, any> = {
 			ensureSkillId(skillId)
 			const { skill, exercises } = (await getUserSkillWithExercises(db, userId, skillId, { includeExercises: true, requireNoActiveExercise: true, createIfNoneExists: true }))!
 			const generated = await generateSkillBasedExerciseInstance(getExercises(skillId)!, (ids: string[]) => getUserSkillLevelSet(db, userId, ids), exercises)
-			return skill.createExercise({ exerciseId: generated.exerciseId, state: generated.state, active: true })
+			return skill.createExercise({ exerciseId: generated.exerciseId, parameters: generated.parameters, active: true })
 		},
 
 		submitExerciseAction: async (_source: unknown, { skillId, action }: any, { db, pubsub, ensureLoggedIn, userId }: any) => {
@@ -48,7 +48,7 @@ export const exerciseResolvers: Record<string, any> = {
 			const skillUpdates: any[] = []
 			const progress = definition.processSoloAction({
 				action,
-				state: activeExercise.state,
+				parameters: activeExercise.parameters,
 				progress: getExerciseProgress(activeExercise),
 				history: activeExercise.events,
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },

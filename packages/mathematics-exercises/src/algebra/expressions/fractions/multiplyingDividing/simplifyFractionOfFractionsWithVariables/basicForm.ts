@@ -23,7 +23,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const factor = randomInteger(2, 6)
 		const a = factor * randomInteger(2, 6)
 		const b = factor * randomInteger(2, 6, { exclude: [a / factor] })
@@ -39,13 +39,13 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a(x+c)^p)/(b(x+c)^q/(x+d)^r)').substitute(variables)
-		const expression = (state.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial()
+		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial()
 		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])
 		const ans = expression.combine()
-		return { ...state, variables, expression, singleFraction, ans }
+		return { ...parameters, variables, expression, singleFraction, ans }
 	},
 
 	checkInput(data, step) {

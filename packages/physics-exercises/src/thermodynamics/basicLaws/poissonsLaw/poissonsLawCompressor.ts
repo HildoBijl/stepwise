@@ -19,7 +19,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const gas = sample(gases)
 		const V2 = getRandomFloatUnit({ min: 20, max: 120, decimals: 0, unit: 'l' })
 		const p1 = getRandomFloatUnit({ min: 2, max: 10, decimals: 1, unit: 'bar' })

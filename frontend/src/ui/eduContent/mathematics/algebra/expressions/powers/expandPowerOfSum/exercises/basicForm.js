@@ -100,8 +100,8 @@ function getFeedback(exerciseData) {
 		equivalentExpression,
 	]
 	return getFieldInputFeedback(exerciseData, {
-		...fromKeysAndValues(exerciseData.solution.termsNames, repeat(exerciseData.state.e + 1, () => termFeedbackChecks)),
-		...fromKeysAndValues(exerciseData.solution.coefficientsNames, repeat(exerciseData.state.e + 1, () => coefficientFeedbackChecks)),
+		...fromKeysAndValues(exerciseData.solution.termsNames, repeat(exerciseData.parameters.e + 1, () => termFeedbackChecks)),
+		...fromKeysAndValues(exerciseData.solution.coefficientsNames, repeat(exerciseData.parameters.e + 1, () => coefficientFeedbackChecks)),
 		ans: ansFeedbackChecks
 	})
 }

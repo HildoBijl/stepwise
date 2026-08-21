@@ -12,7 +12,7 @@ export default buildStepExercise({
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },
 	},
 
-	generateState() {
+	generateParameters() {
 		// Determine the angles and check if they match the conditions.
 		let α, β
 		do {
@@ -20,12 +20,12 @@ export default buildStepExercise({
 			β = randomInteger(5, 24, { exclude: [18, 18 - α / 5] }) * 5 // Ensure there is no 90 degree angle.
 		} while (α + β > 155)
 
-		// Gather all data into a state.
+		// Gather all data into a parameters.
 		return { α: asExpression(α), β: asExpression(β), a: asExpression(sample(variableSet)), c: asExpression(randomInteger(2, 12)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
 	},
 
-	getSolution(state) {
-		let { α, β, a, c } = state
+	getSolution(parameters) {
+		let { α, β, a, c } = parameters
 		const variables = { α, β, a, c }
 
 		// Determine gamma.
@@ -43,7 +43,7 @@ export default buildStepExercise({
 		a = aRaw.combine()
 		const bRaw = asExpression('c*sin(β)/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
 		const b = bRaw.combine()
-		return { ...state, variables: allVariables, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
+		return { ...parameters, variables: allVariables, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
 	},
 
 	checkInput(data, step) {

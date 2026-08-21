@@ -15,7 +15,7 @@ export default buildStepExercise({
 		...stepsToSetup([undefined, undefined, undefined, undefined]),
 	},
 
-	generateState() {
+	generateParameters() {
 		const limit = 30
 		const twoAlpha = randomInteger(Math.ceil(limit / 4), Math.floor((90 - limit) / 4)) * 4 // This is the angle between the lines.
 		const variables = selectRandomVariables(variableSet, usedVariables)
@@ -30,14 +30,14 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const { a } = state
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const { a } = parameters
 		const alpha = asExpression(90)
 		const beta = asExpression(90 - a)
 		const gamma = asExpression(beta)
 		const delta = asExpression(180 - 90 - gamma.toNumber() - beta.toNumber())
-		return { ...state, variables, alpha, beta, gamma, delta }
+		return { ...parameters, variables, alpha, beta, gamma, delta }
 	},
 
 	checkInput(data, step) {

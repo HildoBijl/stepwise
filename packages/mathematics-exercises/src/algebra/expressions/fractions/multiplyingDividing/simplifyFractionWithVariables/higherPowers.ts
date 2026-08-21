@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const factor = randomInteger(2, 8)
 		const a = factor * randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = factor * randomInteger(-8, 8, { exclude: [-1, 0, 1, a / factor, -a / factor] })
@@ -42,17 +42,17 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const expression = asExpression(state.switch ? '(a*(x+d)^q*(x+c)^p)/(b*(x+c)^s*(x+d)^r)' : '(a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+c)^s)').substitute(variables).removeTrivial()
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const expression = asExpression(parameters.switch ? '(a*(x+d)^q*(x+c)^p)/(b*(x+c)^s*(x+d)^r)' : '(a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+c)^s)').substitute(variables).removeTrivial()
 		const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
 		const factor2 = asExpression('x+d').substitute(variables).removeTrivial()
 		const numericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()
 		const numericPart = numericPartOriginal.combine()
-		const factor = gcd(state.a, state.b) * (state.a < 0 && state.b < 0 ? -1 : 1)
+		const factor = gcd(parameters.a, parameters.b) * (parameters.a < 0 && parameters.b < 0 ? -1 : 1)
 		const numericSimplified = expression.flatten(['mergeProductNumbers', 'mergeFractionNumbers'])
 		const ans = expression.combine()
-		return { ...state, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
+		return { ...parameters, variables, expression, factor1, factor2, numericPartOriginal, numericPart, factor, numericSimplified, ans }
 	},
 
 	checkInput(data, step) {

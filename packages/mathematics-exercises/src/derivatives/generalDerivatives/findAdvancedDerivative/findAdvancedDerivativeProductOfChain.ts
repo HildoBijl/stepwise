@@ -17,7 +17,7 @@ export default buildStepExercise({
 		compare: { method: {}, Expression: equivalent },
 	},
 
-	generateState() {
+	generateParameters() {
 		const x = sample(variableSet)
 		const [f] = getRandomElementaryFunctions(1, false, false, false).map(func => func.substitute('x', x))
 		const [g1, g2] = getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
@@ -27,13 +27,13 @@ export default buildStepExercise({
 	getSolution: {
 		dependentFields: ['f', 'g'],
 
-		getStaticSolution(state) {
-			const { f, g1, g2 } = state
+		getStaticSolution(parameters) {
+			const { f, g1, g2 } = parameters
 			const method = 0
 			const x = f.getVariables()[0]
 			const g = g1.substitute(x, g2).flatten()
 			const h = f.multiply(g).flatten()
-			return { ...state, method, x, f, g, h }
+			return { ...parameters, method, x, f, g, h }
 		},
 
 		// The input dependency is whether or not f and g are switched.

@@ -25,7 +25,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [0, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a] })
@@ -34,9 +34,9 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a, b, c, d, e, switchSides: randomBoolean(), bracketsRight: randomBoolean() }
 	},
 
-	getSolution(state) {
-		const { a, b, c, d, e, switchSides, bracketsRight } = state
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const { a, b, c, d, e, switchSides, bracketsRight } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const baseEquation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
 		const baseMoved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`).substitute(variables).removeTrivial(['expandMinusSums'])
@@ -48,7 +48,7 @@ export default buildStepExercise({
 		const canCleanSolution = !onlyOrderChanges(solution, ans)
 		const equationInserted = equation.substitute({ [variables.x.toString()]: ans })
 		const sideValue = equationInserted.left.normalize()
-		return { ...state, variables, equation, expanded: equation.combine(['expandProductsOfSums']), moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
+		return { ...parameters, variables, equation, expanded: equation.combine(['expandProductsOfSums']), moved, cleaned, factor, solution, ans, canCleanSolution, equationInserted, sideValue }
 	},
 
 	checkInput(data, step) {

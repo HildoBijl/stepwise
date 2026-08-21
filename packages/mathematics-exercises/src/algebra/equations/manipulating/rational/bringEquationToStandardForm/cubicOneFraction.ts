@@ -47,8 +47,8 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
-		// Set up general state parameters.
+	generateParameters(example) {
+		// Set up general parameters parameters.
 		const x = sample(variableSet)
 		const normalize = example ? false : randomBoolean()
 		const flip = example ? false : randomBoolean()
@@ -57,15 +57,15 @@ export default buildStepExercise({
 		let parameters = getParameters()
 		while (!normalize && gcd(...getCoefficients(parameters, flip)) === 1) parameters = getParameters()
 
-		// All done. Return the state.
+		// All done. Return the parameters.
 		const [a, b, c, d, e] = parameters
 		return { a, b, c, d, e, x, flip, normalize }
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Assemble the equation.
-		const { a, b, c, d, e, flip, normalize } = state
-		const variables = filterVariables(state, usedVariables, constants)
+		const { a, b, c, d, e, flip, normalize } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const baseEquation = asEquation('ax+b=(cx(x+d))/(x^2+e)', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = flip ? baseEquation.switch() : baseEquation.self()
 
@@ -83,7 +83,7 @@ export default buildStepExercise({
 		const ans = moved.divide(divisor).combine(['splitFractions'], ['mergeFractionSums']).removeTrivial(['pullOutCommonSumNumbers'])
 
 		// Return all calculated parameters.
-		return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }
+		return { ...parameters, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, ans }
 	},
 
 	checkInput(data, step) {

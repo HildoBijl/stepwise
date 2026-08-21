@@ -1,7 +1,7 @@
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-import { generateState, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleSVSV'
+import { generateParameters, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleSVSV'
 import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV'
 
 export default buildStepExercise({
@@ -14,11 +14,11 @@ export default buildStepExercise({
 		},
 	},
 	
-	generateState,
+	generateParameters,
 
-	getSolution(state) {
-		const cycleParameters = getCycleParameters(state)
-		const energyParameters = getEnergyParameters(state)
+	getSolution(parameters) {
+		const cycleParameters = getCycleParameters(parameters)
+		const energyParameters = getEnergyParameters(parameters)
 		const { Q23, Wn } = energyParameters
 		const Qin = Q23.setMinimumSignificantDigits(2)
 		const eta = Wn.divide(Qin).setUnit('')

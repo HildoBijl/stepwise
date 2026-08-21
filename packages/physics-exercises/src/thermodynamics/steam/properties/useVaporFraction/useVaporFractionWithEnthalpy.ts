@@ -18,7 +18,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(1, 2)
 		const x = getRandomFloatUnit({ min: 0.1, max: 0.9, unit: '' })
 		if (type === 1) {

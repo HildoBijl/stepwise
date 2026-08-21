@@ -22,7 +22,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [0] })
 		const b = randomInteger(-8, 8, { exclude: [0, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [0, a, -a, b, -b] })
@@ -35,15 +35,15 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Set up the equation.
-		const variables = filterVariables(state, usedVariables, constants)
+		const variables = filterVariables(parameters, usedVariables, constants)
 		let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substitute(variables).removeTrivial()
-		const termsToSubtract = state.termsLeft.map(index => equation.right.terms[index])
+		const termsToSubtract = parameters.termsLeft.map(index => equation.right.terms[index])
 		termsToSubtract.forEach(termToSubtract => { equation = equation.subtract(termToSubtract).cancel() })
 
 		// Find the term to move, add/subtract it and simplify.
-		const sideToMove = state.toLeft ? equation.right : equation.left
+		const sideToMove = parameters.toLeft ? equation.right : equation.left
 		const termsToMove = sideToMove.terms
 		const positive = termsToMove.some(term => !term.isMinus())
 		const bothSidesChanged = equation.subtract(sideToMove).flatten(['removeDoubleNegatives', 'expandMinusSums'])
@@ -51,8 +51,8 @@ export default buildStepExercise({
 
 		// Also set up possibly wrong answers.
 		const sidesAdded = equation.left.add(equation.right)
-		const ansWithWrongSignUsed = asEquation({ left: state.toLeft ? sidesAdded : 0, right: state.toLeft ? 0 : sidesAdded }).combine()
-		return { ...state, variables, equation, sideToMove, termsToMove, positive, bothSidesChanged, ans, ansWithWrongSignUsed }
+		const ansWithWrongSignUsed = asEquation({ left: parameters.toLeft ? sidesAdded : 0, right: parameters.toLeft ? 0 : sidesAdded }).combine()
+		return { ...parameters, variables, equation, sideToMove, termsToMove, positive, bothSidesChanged, ans, ansWithWrongSignUsed }
 	},
 
 	checkInput(data, step) {

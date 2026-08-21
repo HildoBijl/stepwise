@@ -21,7 +21,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const v2o = getRandomFloatUnit({ min: 1.5, max: 1.8, decimals: 1, unit: 'm^3/kg' })
 		const pressureRatio = randomNumber(7, 11)
 		const v1o = v2o.multiply(Math.pow(1 / pressureRatio, 1 / k.number)).roundToPrecision()

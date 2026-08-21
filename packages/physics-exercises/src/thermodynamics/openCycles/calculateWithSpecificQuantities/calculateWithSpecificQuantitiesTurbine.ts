@@ -8,7 +8,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 	
-	generateState() {
+	generateParameters() {
 		const wt = getRandomFloatUnit({ min: 600, max: 1200, unit: 'kJ/kg', decimals: -1 }).setDecimals(0)
 		const m = getRandomFloatUnit({ min: 2, max: 10, unit: 'Mg', significantDigits: 2 })
 		return { wt, m }

@@ -20,7 +20,7 @@ export default buildStepExercise({
 		compare: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {}, ans1: onlyOrderChanges },
 	},
 
-	generateState() {
+	generateParameters() {
 		// We want integer coefficients in the equation, but a possibly non-integer solution "numerator/denominator". So we set up the equation a*(x - numerator/denominator)^2 = 0, rewrite it to a*x^2 - 2*a*(numerator/denominator) + a*(numerator/denominator)^2 = 0, and check if this gives integer coefficients.
 		let a = 0, denominator = 1, numerator = 0
 		while (a === 0 || 2 * a * numerator % denominator !== 0 || a * numerator ** 2 % denominator ** 2 !== 0 || numerator === 0) {
@@ -33,8 +33,8 @@ export default buildStepExercise({
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())
@@ -47,7 +47,7 @@ export default buildStepExercise({
 		const numSolutions = solutions.length
 		const [ans1] = solutions
 		const equationsSubstituted = equation.substitute({ [variables.x.toString()]: ans1 })
-		return { ...state, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationsSubstituted, ans1 }
+		return { ...parameters, variables, equation, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutions, numSolutions, equationsSubstituted, ans1 }
 	},
 
 	checkInput(data, step) {

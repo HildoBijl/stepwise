@@ -23,7 +23,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const a = randomInteger(example ? 2 : -4, 4, { exclude: [-1, 0, 1] })
 		const b = randomInteger(1, example ? 1 : 2)
 		const c = randomInteger(example ? 2 : -6, 6, { exclude: [-1, 0, 1, -a, a] })
@@ -35,9 +35,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const { e } = state
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const { e } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const t1 = asExpression('a*x^b').substitute(variables).removeTrivial()
 		const t2 = asExpression('c*x^d').substitute(variables).removeTrivial()
 		const expression = t1.add(t2).toPower(e)
@@ -49,7 +49,7 @@ export default buildStepExercise({
 		const ans = sum.combine()
 		const termsNames = repeat(e + 1, index => `term${index}`)
 		const coefficientsNames = repeat(e + 1, index => `c${index}`)
-		return { ...state, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromKeysAndValues(termsNames, termsSimplified), termsNames, ...fromKeysAndValues(coefficientsNames, coefficients), coefficientsNames }
+		return { ...parameters, variables, t1, t2, expression, terms, termsSimplified, coefficients, sum, ans, ...fromKeysAndValues(termsNames, termsSimplified), termsNames, ...fromKeysAndValues(coefficientsNames, coefficients), coefficientsNames }
 	},
 
 	checkInput(data, step) {

@@ -12,7 +12,7 @@ const metaData = {
 	compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 }
 
-export function generateState() {
+export function generateParameters() {
 		const p1o = getRandomFloatUnit({ min: 0.9, max: 1.0, decimals: 2, unit: 'bar' })
 		const V1o = getRandomFloatUnit({ min: 300, max: 600, significantDigits: 2, unit: 'cm^3' }).setDecimals(0)
 		const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
@@ -23,7 +23,7 @@ export function generateState() {
 		return { p1o, V1o, T1o, p2o, p3o }
 }
 
-export function getSolution({ p1o, V1o, T1o, p2o, p3o }: ReturnType<typeof generateState>) {
+export function getSolution({ p1o, V1o, T1o, p2o, p3o }: ReturnType<typeof generateParameters>) {
 		const { Rs, k } = air
 		const p1 = p1o.simplify()
 		const V1 = V1o.simplify()
@@ -44,7 +44,7 @@ export function getSolution({ p1o, V1o, T1o, p2o, p3o }: ReturnType<typeof gener
 
 export default buildStepExercise({
 	metaData,
-	generateState,
+	generateParameters,
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {

@@ -21,7 +21,7 @@ export const groupExerciseTypeDefs = gql`
 		skillId: String!
 		exerciseId: String!
 		mode: ExerciseMode!
-		state: JSON!
+		parameters: JSON!
 		active: Boolean!
 		startedOn: DateTime!
 		progress: JSON

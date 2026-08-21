@@ -9,7 +9,7 @@ export default buildStepExercise({
 		weight: 2, // This exercise has more variation so can count as two separate copies of this exercise.
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return {
 			a: randomInteger(2, example ? 6 : 10),
 			b: randomInteger(2, example ? 6 : 10),

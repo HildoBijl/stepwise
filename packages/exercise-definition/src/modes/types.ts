@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress, ExerciseState } from '../atomTypes'
+import type { ExerciseAction, ExerciseProgress, ExerciseParameters } from '../atomTypes'
 
 import type { ExerciseMode } from './definitions'
 import type { SoloExerciseHistory } from './solo'
@@ -11,17 +11,17 @@ export type ExerciseHistoryByMode<TAction extends ExerciseAction = ExerciseActio
 
 export type ExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ExerciseHistoryByMode<TAction, TProgress>[ExerciseMode]
 
-export type BaseExerciseInstanceByMode<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TState extends ExerciseState = ExerciseState> = {
+export type BaseExerciseInstanceByMode<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TParameters extends ExerciseParameters = ExerciseParameters> = {
 	solo: {
 		mode: 'solo'
-		state: TState
+		parameters: TParameters
 		history: SoloExerciseHistory<TAction, TProgress>
 	}
 	group: {
 		mode: 'group'
-		state: TState
+		parameters: TParameters
 		history: GroupExerciseHistory<TAction, TProgress>
 	}
 }
 
-export type BaseExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TState extends ExerciseState = ExerciseState> = BaseExerciseInstanceByMode<TAction, TProgress, TState>[ExerciseMode]
+export type BaseExerciseInstance<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TParameters extends ExerciseParameters = ExerciseParameters> = BaseExerciseInstanceByMode<TAction, TProgress, TParameters>[ExerciseMode]

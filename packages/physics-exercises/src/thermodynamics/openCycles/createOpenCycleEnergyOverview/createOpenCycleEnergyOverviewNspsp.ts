@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { generateState, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleNspsp'
+import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleNspsp'
 
 const { cv, cp } = gasProperties.air
 
@@ -14,8 +14,8 @@ const metaData = {
 	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
-function getCycleParameters(state: ReturnType<typeof generateState>) {
-	let { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = getCycleParametersRaw(state)
+function getCycleParameters(parameters: ReturnType<typeof generateParameters>) {
+	let { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = getCycleParametersRaw(parameters)
 	p1 = p1.setSignificantDigits(3); v1 = v1.setSignificantDigits(3); T1 = T1.setSignificantDigits(3)
 	p2 = p2.setSignificantDigits(3); v2 = v2.setSignificantDigits(3); T2 = T2.setSignificantDigits(3)
 	p3 = p3.setSignificantDigits(3); v3 = v3.setSignificantDigits(3); T3 = T3.setSignificantDigits(3)
@@ -23,8 +23,8 @@ function getCycleParameters(state: ReturnType<typeof generateState>) {
 	return { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 }
 }
 
-export function getSolution(state: ReturnType<typeof generateState>) {
-	const cycleParameters = getCycleParameters(state)
+export function getSolution(parameters: ReturnType<typeof generateParameters>) {
+	const cycleParameters = getCycleParameters(parameters)
 	const { T1, T2, T3, T4 } = cycleParameters
 	const cvSimplified = cv.simplify()
 	const cpSimplified = cp.simplify()
@@ -43,7 +43,7 @@ export function getSolution(state: ReturnType<typeof generateState>) {
 
 export default buildStepExercise({
 	metaData,
-	generateState,
+	generateParameters,
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {

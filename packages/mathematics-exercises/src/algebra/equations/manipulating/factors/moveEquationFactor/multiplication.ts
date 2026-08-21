@@ -26,7 +26,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const a = randomInteger(-8, 8, { exclude: [-1, 0, 1] })
 		const b = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a] })
 		const c = randomInteger(-8, 8, { exclude: [-1, 0, 1, a, -a, b, -b] })
@@ -38,16 +38,16 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][state.type].removeTrivial()
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][parameters.type].removeTrivial()
 		const baseEquation = asEquation('a=b/(c*x)')
-		const equation = (state.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
+		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()
 		const bothSidesChanged = equation.multiply(factor).removeTrivial(['mergeFractionProducts'], ['mergeProductMinuses', 'mergeProductPlusMinuses'])
-		const ans = state.switchSides ? bothSidesChanged.mapLeft(side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors'])) : bothSidesChanged.mapRight(side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors']))
+		const ans = parameters.switchSides ? bothSidesChanged.mapLeft(side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors'])) : bothSidesChanged.mapRight(side => side.removeTrivial(['mergeFractionMinuses', 'cancelFractionFactors']))
 		const ansCleaned = ans.normalize()
 		const isFurtherSimplificationPossible = !equationComparisons.onlyOrderChanges(ans, ansCleaned)
-		return { ...state, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
+		return { ...parameters, variables, factor, equation, bothSidesChanged, ans, ansCleaned, isFurtherSimplificationPossible }
 	},
 
 	checkInput(data, step) {

@@ -18,7 +18,7 @@ export const groupExerciseParameters = `
 	skillId
 	exerciseId
 	mode
-	state
+	parameters
 	active
 	startedOn
 	progress

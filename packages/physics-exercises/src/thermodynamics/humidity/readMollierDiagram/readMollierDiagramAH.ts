@@ -11,7 +11,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { absoluteTolerance: 0.0005 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const temperatureRange = maximumHumidity.inputValues[0]
 		const T = getRandomFloatUnit({ min: 5, max: last(temperatureRange).number, unit: first(temperatureRange).unit, decimals: 0 })
 		const RH = getRandomFloatUnit({ min: 20, max: 100, decimals: 0, unit: '%' })

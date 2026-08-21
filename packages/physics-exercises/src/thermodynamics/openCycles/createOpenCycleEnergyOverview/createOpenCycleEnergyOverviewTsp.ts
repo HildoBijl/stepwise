@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
-import { generateState, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleTsp'
+import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCycleTsp'
 
 const metaData = {
 	skill: 'createOpenCycleEnergyOverview',
@@ -12,19 +12,19 @@ const metaData = {
 	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
-function getCycleParameters(state: ReturnType<typeof generateState>) {
-	let { p1, v1, T1, p2, v2, T2, p3, v3, T3 } = getCycleParametersRaw(state)
+function getCycleParameters(parameters: ReturnType<typeof generateParameters>) {
+	let { p1, v1, T1, p2, v2, T2, p3, v3, T3 } = getCycleParametersRaw(parameters)
 	p1 = p1.setSignificantDigits(3); v1 = v1.setSignificantDigits(3); T1 = T1.setSignificantDigits(3)
 	p2 = p2.setSignificantDigits(3); v2 = v2.setSignificantDigits(3); T2 = T2.setSignificantDigits(3)
 	p3 = p3.setSignificantDigits(3); v3 = v3.setSignificantDigits(3); T3 = T3.setSignificantDigits(3)
 	return { p1, v1, T1, p2, v2, T2, p3, v3, T3 }
 }
 
-export function getSolution(state: ReturnType<typeof generateState>) {
-	const cycleParameters = getCycleParameters(state)
+export function getSolution(parameters: ReturnType<typeof generateParameters>) {
+	const cycleParameters = getCycleParameters(parameters)
 	const { p1, v1, T1, v2, T2, T3 } = cycleParameters
-	const cv = gasProperties[state.medium].cv.simplify()
-	const cp = gasProperties[state.medium].cp.simplify()
+	const cv = gasProperties[parameters.medium].cv.simplify()
+	const cp = gasProperties[parameters.medium].cp.simplify()
 	const q12 = p1.multiply(v1).multiply(Math.log(v2.number / v1.number)).setUnit('J/kg').setMinimumSignificantDigits(2)
 	const wt12 = q12
 	const q23 = new FloatUnit('0 J/kg')
@@ -38,7 +38,7 @@ export function getSolution(state: ReturnType<typeof generateState>) {
 
 export default buildStepExercise({
 	metaData,
-	generateState,
+	generateParameters,
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {

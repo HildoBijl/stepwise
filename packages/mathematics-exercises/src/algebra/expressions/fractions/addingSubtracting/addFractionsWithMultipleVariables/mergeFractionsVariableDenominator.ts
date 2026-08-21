@@ -20,7 +20,7 @@ export default buildStepExercise({
 		compare: { Expression: onlyOrderChanges },
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			plus: randomBoolean(),
@@ -29,9 +29,9 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const { plus } = state
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const { plus } = parameters
 		const leftExpression = asExpression('a/(xz)').substitute(variables)
 		const rightExpression = asExpression('b/(yz)').substitute(variables)
 		const expression = plus ? leftExpression.add(rightExpression) : leftExpression.subtract(rightExpression)
@@ -39,7 +39,7 @@ export default buildStepExercise({
 		const leftAns = multiplyNumeratorAndDenominator(leftExpression, variables.y).removeTrivial(['mergeProductNumbers', 'sortProducts'])
 		const rightAns = multiplyNumeratorAndDenominator(rightExpression, variables.x).removeTrivial(['mergeProductNumbers', 'sortProducts'])
 		const ans = (plus ? leftAns.numerator.add(rightAns.numerator) : leftAns.numerator.subtract(rightAns.numerator)).divide(denominator)
-		return { ...state, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
+		return { ...parameters, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
 	},
 
 	checkInput(data, step) {

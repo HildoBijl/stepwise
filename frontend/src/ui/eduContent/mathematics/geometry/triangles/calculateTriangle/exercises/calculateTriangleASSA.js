@@ -83,13 +83,13 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	const { state } = exerciseData
+	const { parameters } = exerciseData
 
 	// Determine MC feedback text in various cases.
 	const numSolutionsText = [
 		<>Nee. Er is zeker wel een driehoek die voldoet aan de gegeven waarden. Deze is immers bij de opgave getekend.</>,
-		<>Dit is niet correct. Kijk of je de lijn van <M>{state.a}</M> kan draaien richting de hoek van <M>{state.α}^\circ.</M> Is er nog een tweede driehoek mogelijk met de gegeven waarden?</>,
-		<>Ja! Als we in de figuur de lijn van <M>{state.a}</M> draaien, richting de hoek van <M>{state.α}^\circ,</M> dan is er nog een tweede driehoek met de gegeven waarden te maken. De overige (onbekende) zijde is dan kleiner.</>,
+		<>Dit is niet correct. Kijk of je de lijn van <M>{parameters.a}</M> kan draaien richting de hoek van <M>{parameters.α}^\circ.</M> Is er nog een tweede driehoek mogelijk met de gegeven waarden?</>,
+		<>Ja! Als we in de figuur de lijn van <M>{parameters.a}</M> draaien, richting de hoek van <M>{parameters.α}^\circ,</M> dan is er nog een tweede driehoek met de gegeven waarden te maken. De overige (onbekende) zijde is dan kleiner.</>,
 	]
 
 	// No feedback checks are defined.
@@ -102,10 +102,10 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure({ useAlternative, showγ }) {
-	const { state } = useExerciseData()
+	const { parameters } = useExerciseData()
 	const solution = useSolution()
 	const points = getPoints(solution, useAlternative)
-	const { rotation, reflection, α, β, γ, a, c } = state
+	const { rotation, reflection, α, β, γ, a, c } = parameters
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)

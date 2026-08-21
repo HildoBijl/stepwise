@@ -24,7 +24,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(0, 3)
 		let T = getRandomFloatUnit({
 			min: 0,
@@ -36,9 +36,9 @@ export default buildSimpleExercise({
 		return { T, type }
 	},
 
-	getSolution(state) {
-		const T = state.T.simplify()
-		return { ...state, ans: state.type === 0 ? T.setUnit('dC') : T }
+	getSolution(parameters) {
+		const T = parameters.T.simplify()
+		return { ...parameters, ans: parameters.type === 0 ? T.setUnit('dC') : T }
 	},
 
 	checkInput(data) {

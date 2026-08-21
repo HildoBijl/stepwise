@@ -10,18 +10,18 @@ export default buildSimpleExercise({
 		compare: { ans: (input: Expression, correct: Expression) => !expressionChecks.hasFraction(input) && expressionComparisons.equivalent(input, correct) },
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		return {
 			a: randomInteger(example ? 2 : -8, 8, { exclude: [-1, 0, 1] }),
 			b: randomInteger(2, example ? 5 : 8),
 		}
 	},
 
-	getSolution(state) {
-		const expression = asExpression('1/a^b').substitute(state).removeTrivial()
-		const ans = asExpression('a^(-b)').substitute(state).removeTrivial()
+	getSolution(parameters) {
+		const expression = asExpression('1/a^b').substitute(parameters).removeTrivial()
+		const ans = asExpression('a^(-b)').substitute(parameters).removeTrivial()
 		const simplified = ans.combine()
-		return { ...state, expression, ans, simplified }
+		return { ...parameters, expression, ans, simplified }
 	},
 
 	checkInput(data) {

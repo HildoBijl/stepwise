@@ -24,7 +24,7 @@ export default buildSimpleExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(0, 3)
 		let p = getRandomExponentialFloatUnit({
 			min: 1e3,
@@ -36,9 +36,9 @@ export default buildSimpleExercise({
 		return { p, type }
 	},
 
-	getSolution(state) {
-		const p = state.p.simplify()
-		return { ...state, ans: state.type === 0 ? p.setUnit('bar') : p }
+	getSolution(parameters) {
+		const p = parameters.p.simplify()
+		return { ...parameters, ans: parameters.type === 0 ? p.setUnit('bar') : p }
 	},
 
 	checkInput(data) {

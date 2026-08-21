@@ -21,7 +21,7 @@ export default buildStepExercise({
 		compare: { Expression: onlyOrderChanges },
 	},
 
-	generateState() {
+	generateParameters() {
 		return {
 			...selectRandomVariables(sample(availableVariableSets), usedVariables),
 			a: randomInteger(2, 12),
@@ -31,21 +31,21 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
-		const gcdValue = gcd(state.a, state.b, state.c)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
+		const gcdValue = gcd(parameters.a, parameters.b, parameters.c)
 		const fraction1 = asExpression('a/x^2').substitute(variables)
 		const fraction2 = asExpression('b/(xy)').substitute(variables)
 		const numerator = asExpression('c/x').substitute(variables)
-		const denominator = state.plus ? fraction1.add(fraction2) : fraction1.subtract(fraction2)
+		const denominator = parameters.plus ? fraction1.add(fraction2) : fraction1.subtract(fraction2)
 		const expression = numerator.divide(denominator)
 		const fraction1Intermediate = multiplyNumeratorAndDenominator(fraction1, variables.y).mergeNumbers(['mergeProductFactors'])
 		const fraction2Intermediate = multiplyNumeratorAndDenominator(fraction2, variables.x).mergeNumbers(['mergeProductFactors'])
-		const intermediateSplit = state.plus ? fraction1Intermediate.add(fraction2Intermediate) : fraction1Intermediate.subtract(fraction2Intermediate)
-		const intermediate = (state.plus ? fraction1Intermediate.numerator.add(fraction2Intermediate.numerator) : fraction1Intermediate.numerator.subtract(fraction2Intermediate.numerator)).divide(fraction1Intermediate.denominator).combine()
+		const intermediateSplit = parameters.plus ? fraction1Intermediate.add(fraction2Intermediate) : fraction1Intermediate.subtract(fraction2Intermediate)
+		const intermediate = (parameters.plus ? fraction1Intermediate.numerator.add(fraction2Intermediate.numerator) : fraction1Intermediate.numerator.subtract(fraction2Intermediate.numerator)).divide(fraction1Intermediate.denominator).combine()
 		const expressionWithIntermediate = numerator.divide(intermediate)
-		const ans = asExpression(`(${state.c / gcdValue}xy)/(${state.a / gcdValue}y ${state.plus ? '+' : '-'} ${state.b / gcdValue}x)`).substitute(variables).combine()
-		return { ...state, variables, gcdValue, fraction1, fraction2, numerator, denominator, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate, expressionWithIntermediate, ans }
+		const ans = asExpression(`(${parameters.c / gcdValue}xy)/(${parameters.a / gcdValue}y ${parameters.plus ? '+' : '-'} ${parameters.b / gcdValue}x)`).substitute(variables).combine()
+		return { ...parameters, variables, gcdValue, fraction1, fraction2, numerator, denominator, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate, expressionWithIntermediate, ans }
 	},
 
 	checkInput(data, step) {

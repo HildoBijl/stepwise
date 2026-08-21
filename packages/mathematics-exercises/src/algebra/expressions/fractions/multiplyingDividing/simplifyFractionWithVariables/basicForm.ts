@@ -23,7 +23,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const b = randomInteger(2, 6)
 		const a = b * randomInteger(2, 6)
 		const d = randomInteger(1, 3)
@@ -36,16 +36,16 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a*x^c)/(b*x^d*(x+f))').substitute(variables).removeTrivial()
-		const expression = state.switch ? baseExpression.invert() : baseExpression.self()
+		const expression = parameters.switch ? baseExpression.invert() : baseExpression.self()
 		const baseNumericPartOriginal = asExpression('a/b').substitute(variables).removeTrivial()
-		const numericPartOriginal = state.switch ? baseNumericPartOriginal.invert() : baseNumericPartOriginal.self()
+		const numericPartOriginal = parameters.switch ? baseNumericPartOriginal.invert() : baseNumericPartOriginal.self()
 		const numericPart = numericPartOriginal.combine()
 		const numericSimplified = expression.removeTrivial(['mergeProductNumbers', 'mergeFractionNumbers'])
 		const ans = expression.combine()
-		return { ...state, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
+		return { ...parameters, variables, expression, numericPartOriginal, numericPart, numericSimplified, ans }
 	},
 
 	checkInput(data, step) {

@@ -15,7 +15,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		let { T1, T3, T4, startRH } = getCycle()
 		T1 = T1.setDecimals(0).roundToPrecision().setDecimals(0)
 		T3 = T3.setDecimals(0).roundToPrecision().setDecimals(0)

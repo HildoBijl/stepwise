@@ -51,8 +51,8 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
-		// Set up general state parameters.
+	generateParameters(example) {
+		// Set up general parameters parameters.
 		const x = sample(variableSet)
 		const zeroSolutions = sample([true, false, false, false, false]) // Only have zero solutions in a small part of the cases.
 		const flip = example ? false : randomBoolean()
@@ -65,15 +65,15 @@ export default buildStepExercise({
 		}
 		while (zeroSolutions !== hasZeroSolutions(parameters)) parameters = getParameters(example)
 
-		// All done. Return the state.
+		// All done. Return the parameters.
 		const [a, b, c, d, e] = parameters
 		return { a, b, c, d, e, x, flip }
 	},
 
-	getSolution(state) {
+	getSolution(parameters) {
 		// Assemble the equation.
-		const { a, b, c, d, e, flip } = state
-		const variables = filterVariables(state, usedVariables, constants)
+		const { a, b, c, d, e, flip } = parameters
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const equationBase = asEquation('a/(x+b) + c = d/(x+e)', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = flip ? equationBase.switch() : equationBase.self()
 
@@ -106,7 +106,7 @@ export default buildStepExercise({
 		const [ans1, ans2] = solutions
 
 		// Return all calculated parameters.
-		return { ...state, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, standardForm, p, q, r, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
+		return { ...parameters, variables, equation, multiplied, expanded, merged, moved, coefficients, divisor, standardForm, p, q, r, solutionFull, rootFull, DFull, D, solutionHalfSimplified, solution, solutionsSplit, solutions, numSolutions, equationsSubstituted, ans1, ans2 }
 	},
 
 	checkInput(data, step) {

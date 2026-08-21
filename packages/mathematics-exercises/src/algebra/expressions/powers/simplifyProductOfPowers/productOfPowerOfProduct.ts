@@ -24,7 +24,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState(example) {
+	generateParameters(example) {
 		const c = randomInteger(example ? 2 : -6, 6, { exclude: [-1, 0, 1] })
 		return {
 			x: sample(variableSet),
@@ -35,14 +35,14 @@ export default buildStepExercise({
 		}
 	},
 
-	getSolution(state) {
-		const variables = filterVariables(state, usedVariables, constants)
+	getSolution(parameters) {
+		const variables = filterVariables(parameters, usedVariables, constants)
 		const expression = asExpression('a*x^b*(c*x)^d').substitute(variables).removeTrivial()
 		const bracketsExpanded = expression.removeTrivial(['expandPowersOfProducts', 'mergePowerMinuses'])
 		const numbersSimplified = bracketsExpanded.removeTrivial(['mergeProductNumbers', 'reduceNumberPowers'])
 		const powersMerged = numbersSimplified.removeTrivial(['mergeProductFactors'])
 		const ans = powersMerged.combine()
-		return { ...state, variables, expression, bracketsExpanded, numbersSimplified, powersMerged, ans }
+		return { ...parameters, variables, expression, bracketsExpanded, numbersSimplified, powersMerged, ans }
 	},
 
 	checkInput(data, step) {

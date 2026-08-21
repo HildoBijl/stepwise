@@ -10,7 +10,7 @@ export default buildSimpleExercise({
 		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		while (true) {
 			const refrigerant = sample(Object.keys(refrigerants))
 			const refrigerantData = refrigerants[refrigerant]
@@ -24,7 +24,7 @@ export default buildSimpleExercise({
 			if (!point1 || !point2) continue
 			if (randomBoolean()) [point1, point2] = [point2, point1]
 
-			const state = {
+			const parameters = {
 				refrigerant,
 				phase1: point1.phase,
 				T1: point1.temperature.setDecimals(0).roundToPrecision(),
@@ -35,11 +35,11 @@ export default buildSimpleExercise({
 				T2: point2.phase === 'vapor' ? undefined : point2.temperature.setDecimals(0).roundToPrecision(),
 			}
 			try {
-				const checkedPoint1 = state.phase1 === 'vapor' ? getVaporPropertiesFromTemperature(refrigerantData, state.T1, state.x1!) : getRefrigerantPropertiesFromTemperature(refrigerantData, state.p1!, state.T1)
+				const checkedPoint1 = parameters.phase1 === 'vapor' ? getVaporPropertiesFromTemperature(refrigerantData, parameters.T1, parameters.x1!) : getRefrigerantPropertiesFromTemperature(refrigerantData, parameters.p1!, parameters.T1)
 				if (!checkedPoint1) continue
-				const checkedPoint2 = state.phase2 === 'vapor' ? getVaporPropertiesFromPressure(refrigerantData, checkedPoint1.pressure, state.x2!) : getRefrigerantPropertiesFromTemperature(refrigerantData, checkedPoint1.pressure, state.T2!)
+				const checkedPoint2 = parameters.phase2 === 'vapor' ? getVaporPropertiesFromPressure(refrigerantData, checkedPoint1.pressure, parameters.x2!) : getRefrigerantPropertiesFromTemperature(refrigerantData, checkedPoint1.pressure, parameters.T2!)
 				if (!checkedPoint2) continue
-				return state
+				return parameters
 			} catch { }
 		}
 	},

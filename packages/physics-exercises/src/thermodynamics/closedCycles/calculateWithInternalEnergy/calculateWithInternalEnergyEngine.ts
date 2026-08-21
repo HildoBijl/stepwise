@@ -13,7 +13,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		const n = getRandomFloatUnit({ min: 1.1, max: 1.3, decimals: 1, unit: '' })
 		const p2 = getRandomFloatUnit({ min: 1.3, max: 1.8, decimals: 2, unit: 'bar' })
 		const V2 = getRandomFloatUnit({ min: 300, max: 600, significantDigits: 2, unit: 'cm^3' }).setDecimals(0)

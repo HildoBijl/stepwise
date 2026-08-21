@@ -13,7 +13,7 @@ export default buildStepExercise({
 		},
 	},
 
-	generateState() {
+	generateParameters() {
 		const type = randomInteger(1, 2)
 		const year1 = randomInteger(1950, 1970)
 		const year2 = randomInteger(1980, 2000)
@@ -47,7 +47,7 @@ export default buildStepExercise({
 	checkInput(data, step) {
 		switch (step) {
 			case 1: return compare('x', data)
-			default: return compare(data.state.type === 1 ? 'pop' : 'year', data)
+			default: return compare(data.parameters.type === 1 ? 'pop' : 'year', data)
 		}
 	},
 })

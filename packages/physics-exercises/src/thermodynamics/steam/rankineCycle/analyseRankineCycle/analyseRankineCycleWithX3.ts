@@ -13,7 +13,7 @@ export default buildStepExercise({
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },
 	},
 
-	generateState() {
+	generateParameters() {
 		let { pc, pe, T2, x3, mdot, P } = getCycle()
 		pc = pc.setSignificantDigits(2).roundToPrecision()
 		pe = pe.setDecimals(0).roundToPrecision()
@@ -57,7 +57,7 @@ export default buildStepExercise({
 	},
 
 	checkInput(data, step, substep) {
-		const toCheck = data.state.type === 1 ? 'P' : 'mdot'
+		const toCheck = data.parameters.type === 1 ? 'P' : 'mdot'
 		switch (step) {
 			case 1: return compare(['h1', 'h2', 'h3p', 'h4'], data)
 			case 2: return compare('h3', data)
