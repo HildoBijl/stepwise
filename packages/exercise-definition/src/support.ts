@@ -1,75 +1,38 @@
-import type { ExerciseAction, ExerciseProgress, ExerciseHistory, GroupExerciseHistory, SoloExerciseHistory } from './types'
+import { type ExerciseAction, type ExerciseProgress } from './fundamentals'
+import { type ExerciseHistoryByMode, type ExerciseMode, type GroupExerciseHistory, type SoloExerciseHistory, groupHistorySupport, soloHistorySupport } from './modes'
 
-export function createSoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(events: readonly { action: TAction, progress: TProgress }[] = []): SoloExerciseHistory<TAction, TProgress> {
-	return { mode: 'solo', events }
-}
-
-export function createGroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(events: GroupExerciseHistory<TAction, TProgress>['events'] = []): GroupExerciseHistory<TAction, TProgress> {
-	return { mode: 'group', events }
-}
-
-function ensureGroupUserId(userId: string | undefined): string {
-	if (userId === undefined) throw new TypeError(`A userId is required when retrieving an action from a group exercise history.`)
-	return userId
-}
-
-// Get the latest resolved action for a solo user or a given group user.
-export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: SoloExerciseHistory<TAction, TProgress>): TAction | undefined
-export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, userId: string): TAction | undefined
-export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, userId?: string): TAction | undefined {
-	if (history.mode === 'solo') return history.events.at(-1)?.action
-
-	const ensuredUserId = ensureGroupUserId(userId)
-	for (let index = history.events.length - 1; index >= 0; index--) {
-		const event = history.events[index]
-		if (!('progress' in event)) continue
-		const action = event.submissions.find(submission => submission.userId === ensuredUserId)?.action
-		if (action) return action
+export function getLastAction<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode], userId?: string): TAction | undefined {
+	switch (mode) {
+		case 'solo': return soloHistorySupport.getLastAction(history as SoloExerciseHistory<TAction, TProgress>)
+		case 'group': return groupHistorySupport.getLastAction(history as GroupExerciseHistory<TAction, TProgress>, userId)
 	}
-	return undefined
 }
 
-// Get the latest action, including a pending group submission when present.
-export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: SoloExerciseHistory<TAction, TProgress>): TAction | undefined
-export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, userId: string): TAction | undefined
-export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, userId?: string): TAction | undefined {
-	if (history.mode === 'solo') return history.events.at(-1)?.action
-
-	const ensuredUserId = ensureGroupUserId(userId)
-	for (let index = history.events.length - 1; index >= 0; index--) {
-		const action = history.events[index].submissions.find(submission => submission.userId === ensuredUserId)?.action
-		if (action) return action
+export function getLastResolvedAction<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode], userId?: string): TAction | undefined {
+	switch (mode) {
+		case 'solo': return soloHistorySupport.getLastResolvedAction(history as SoloExerciseHistory<TAction, TProgress>)
+		case 'group': return groupHistorySupport.getLastResolvedAction(history as GroupExerciseHistory<TAction, TProgress>, userId)
 	}
-	return undefined
 }
 
-// Get the last progress object from the history array.
-export function getLastProgress<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>): TProgress | Record<string, never> {
-	return getProgressFromEnd(history, 0)
-}
-
-// Get the second-to-last progress object from the history array.
-export function getPreviousProgress<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>): TProgress | Record<string, never> {
-	return getProgressFromEnd(history, 1)
-}
-
-function getProgressFromEnd<TAction extends ExerciseAction, TProgress extends ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>, offset: number): TProgress | Record<string, never> {
-	let remaining = offset
-	for (let index = history.events.length - 1; index >= 0; index--) {
-		const event = history.events[index]
-		if (!('progress' in event)) continue
-		if (remaining === 0) return event.progress
-		remaining--
+export function getLastProgress<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode]): TProgress | Record<string, never> {
+	switch (mode) {
+		case 'solo': return soloHistorySupport.getLastProgress(history as SoloExerciseHistory<TAction, TProgress>)
+		case 'group': return groupHistorySupport.getLastProgress(history as GroupExerciseHistory<TAction, TProgress>)
 	}
-	return {}
 }
 
-// Check if a progress object marks the exercise as done.
+export function getPreviousProgress<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode]): TProgress | Record<string, never> {
+	switch (mode) {
+		case 'solo': return soloHistorySupport.getLastProgress(history as SoloExerciseHistory<TAction, TProgress>, 1)
+		case 'group': return groupHistorySupport.getLastProgress(history as GroupExerciseHistory<TAction, TProgress>, 1)
+	}
+}
+
 export function isProgressDone(progress: ExerciseProgress): boolean {
 	return progress.done === true
 }
 
-// Check if an exercise history indicates that the exercise is done.
-export function isHistoryDone<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(history: ExerciseHistory<TAction, TProgress>): boolean {
-	return isProgressDone(getLastProgress(history))
+export function isHistoryDone<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode]): boolean {
+	return isProgressDone(getLastProgress(mode, history))
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/js-utils'
-import { createSoloExerciseHistory } from '@step-wise/exercise-definition'
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { hasExamples, getExamples } from '@step-wise/exercises'
 
@@ -27,7 +26,7 @@ export function ExamplePage({ skillId }) {
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
-			history: createSoloExerciseHistory(),
+			history: [],
 			startedOn: new Date(),
 		}
 		setExercise(exercise)
@@ -37,23 +36,20 @@ export function ExamplePage({ skillId }) {
 	useEffect(startNewExercise, [startNewExercise, skillId])
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
-	const submitAction = useCallback((action, processAction) => {
+	const submitAction = useCallback((action, processSoloAction) => {
 		// Determine the new progress.
 		let progress
 		if (action?.type === 'setProgress') // An override only used by example exercises.
 			progress = action.newProgress
 		else
-			progress = processAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+			progress = processSoloAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,
 			progress,
-			history: {
-				...exercise.history,
-				events: [...exercise.history.events, { action, progress, performedAt: new Date() }],
-			},
+			history: [...exercise.history, { action, progress, performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

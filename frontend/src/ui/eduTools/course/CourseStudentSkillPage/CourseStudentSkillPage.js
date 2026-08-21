@@ -53,7 +53,7 @@ export function CourseStudentSkillPageForUser({ overview, user }) {
 	// Process the data based on the indices.
 	exerciseIndex = exerciseIndex ?? exercises.length - 1
 	const exercise = exercises[exerciseIndex]
-	const events = exercise.history.events
+	const events = exercise.history
 	const lastInputEventIndex = events.length - 1 - [...events].reverse().findIndex(event => event.action.type === 'input')
 	submissionIndex = submissionIndex ?? lastInputEventIndex
 	const event = submissionIndex !== undefined ? events[submissionIndex] : undefined

@@ -1,5 +1,5 @@
 import { ensureNumber } from '@step-wise/js-utils'
-import type { ExerciseHistory } from '@step-wise/exercise-definition'
+import type { ExerciseHistory, ExerciseMode, GroupExerciseHistory, SoloExerciseHistory } from '@step-wise/exercise-definition'
 
 import type { InputExerciseAction, InputExerciseInput } from '../InputExercise'
 
@@ -11,20 +11,20 @@ export function getStep(progress: StepExerciseProgress | Record<string, never>):
 }
 
 // Get the last given input from the user at the given step.
-export function getLastInputAtStep(history: ExerciseHistory<InputExerciseAction, StepExerciseProgress>, step: number, userId?: string, requireResolved = false): InputExerciseInput | undefined {
+export function getLastInputAtStep(mode: ExerciseMode, history: ExerciseHistory<InputExerciseAction, StepExerciseProgress>, step: number, userId?: string, requireResolved = false): InputExerciseInput | undefined {
 	step = ensureNumber(step, { nonNegative: true })
-	if (history.mode === 'group' && userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+	if (mode === 'group' && userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
 
-	if (history.mode === 'solo') for (let index = history.events.length - 1; index >= 0; index--) {
-		const userAction = history.events[index].action
+	if (mode === 'solo') for (let index = history.length - 1; index >= 0; index--) {
+		const userAction = (history as SoloExerciseHistory<InputExerciseAction, StepExerciseProgress>)[index].action
 		if (userAction.type !== 'input') continue
 		const previousProgress = getProgressBeforeEvent(history, index)
 		if (getStep(previousProgress) === step) return userAction.input
 	}
 
-	if (history.mode === 'group') for (let index = history.events.length - 1; index >= 0; index--) {
+	if (mode === 'group') for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of history.
-		const event = history.events[index]
+		const event = (history as GroupExerciseHistory<InputExerciseAction, StepExerciseProgress>)[index]
 		const userAction = (!requireResolved || 'progress' in event) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
 
 		// If there is no valid input action, or it was made at the wrong step, keep looking. Otherwise give the input.
@@ -38,13 +38,13 @@ export function getLastInputAtStep(history: ExerciseHistory<InputExerciseAction,
 
 function getProgressBeforeEvent(history: ExerciseHistory<InputExerciseAction, StepExerciseProgress>, eventIndex: number): StepExerciseProgress | Record<string, never> {
 	for (let index = eventIndex - 1; index >= 0; index--) {
-		const event = history.events[index]
+		const event = history[index]
 		if ('progress' in event) return event.progress
 	}
 	return {}
 }
 
 // Check if a user has made a previous input at the given step.
-export function hasPreviousInputAtStep(history: ExerciseHistory<InputExerciseAction, StepExerciseProgress>, step: number, userId?: string): boolean {
-	return !!getLastInputAtStep(history, step, userId)
+export function hasPreviousInputAtStep(mode: ExerciseMode, history: ExerciseHistory<InputExerciseAction, StepExerciseProgress>, step: number, userId?: string): boolean {
+	return !!getLastInputAtStep(mode, history, step, userId)
 }

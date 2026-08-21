@@ -51,11 +51,12 @@ describe('Check all exercises:', () => {
 						const state = deserializeInputExerciseState(storedState)
 						const exerciseData = {
 							exerciseId,
+							mode: 'solo',
 							state,
-							history: { mode: 'solo', events: [] },
+							history: [],
 							progress: {},
 							submitting: false,
-							submitAction: noop, // (action) => submitAction(action, shared.processAction),
+							submitAction: noop,
 							startNewExercise: noop,
 							shared: shared,
 							solution: shared.getSolution && assembleSolution(shared.getSolution, state),

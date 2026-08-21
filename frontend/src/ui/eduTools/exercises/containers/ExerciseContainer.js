@@ -17,6 +17,7 @@ export { ExerciseContext } // Exported for testing purposes.
 export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
 	const translate = useTranslator()
 	const { exerciseId, state } = exercise
+	const mode = groupExercise ? 'group' : 'solo'
 	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
@@ -45,7 +46,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const stateFO = useMemo(() => deserializeAll(state), [state])
 
 	// Ensure that the progress has a consistent reference.
-	const progress = useConsistentValue(inspection ? (exercise.history.events[historyIndex]?.progress || {}) : getLastProgress(exercise.history))
+	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(mode, exercise.history))
 
 	if (loading)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
@@ -59,10 +60,11 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		inspection,
 		historyIndex,
 		groupExercise,
+		mode,
 		history: exercise.history,
 		progress,
 		submitting,
-		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
+		submitAction: (action) => submitAction(action, mode === 'group' ? ExerciseShared.current.processGroupActions : ExerciseShared.current.processSoloAction), // Incorporate the reducer for Stranger-mode and for optimistic responses.
 		cancelAction,
 		resolveEvent,
 		startNewExercise,

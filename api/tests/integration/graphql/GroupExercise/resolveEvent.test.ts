@@ -50,7 +50,7 @@ describe('resolve group exercise:', () => {
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
 
 		// Resolving the event fails.
-		const { data, errors } = await client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){skillId history{mode events{submissions{userId action}}}}}` })
+		const { data, errors } = await client.graphql({ query: `mutation{resolveGroupEvent(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}"){skillId history{submissions{userId action}}}}` })
 		expect(errors).not.toBeUndefined()
 		expect(data).toBe(null)
 	})

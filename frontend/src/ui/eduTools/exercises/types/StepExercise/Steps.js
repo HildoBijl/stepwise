@@ -19,7 +19,7 @@ export function Steps({ steps, forceDisplay }) {
 function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
-	const { state, progress, history, example, inspection, historyIndex } = useExerciseData()
+	const { mode, state, progress, history, example, inspection, historyIndex } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
@@ -30,14 +30,14 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const stepProgress = (forceDisplay ? { done: true, solved: false } : progress[step]) || {}
 
 	// If this step has had a submission, or is still active, show the input space.
-	const hasSubmissions = history.events.some((event, index) => {
+	const hasSubmissions = history.some((event, index) => {
 		if (inspection && index > historyIndex)
 			return false // We are past the inspection (submission) index: future submissions are ignored.
-		if (index === 0 || history.events[index - 1].progress.step !== step)
+		if (index === 0 || history[index - 1].progress.step !== step)
 			return false // Not at this step.
-		if (history.mode === 'solo' && event.action.type === 'input')
+		if (mode === 'solo' && event.action.type === 'input')
 			return true // Single-user exercise with input at this step.
-		if (history.mode === 'group' && event.submissions.some(submission => submission.action.type === 'input' && submission.userId === userId))
+		if (mode === 'group' && event.submissions.some(submission => submission.action.type === 'input' && submission.userId === userId))
 			return true // Group exercise with input by the user at this step.
 		return false // Nothing found.
 	})

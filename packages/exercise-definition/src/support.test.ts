@@ -3,33 +3,33 @@ import { getLastProgress, getLastResolvedAction, getPreviousProgress } from './s
 describe('getLastResolvedAction', () => {
 	test('finds the latest resolved action from the requested group user', () => {
 		const userAction = { type: 'answer', value: 1 }
-		const history = { mode: 'group', events: [
+		const history = [
 			{ submissions: [{ userId: 'user-1', action: userAction }], progress: {} },
 			{ submissions: [{ userId: 'user-2', action: { type: 'answer', value: 2 } }], progress: {} },
-		] } as const
+		] as const
 
-		expect(getLastResolvedAction(history, 'user-1')).toBe(userAction)
+		expect(getLastResolvedAction('group', history, 'user-1')).toBe(userAction)
 	})
 })
 
 describe('exercise history progress', () => {
 	test('uses the default progress when a group history only has a pending event', () => {
-		const history = { mode: 'group', events: [{ submissions: [] }] } as const
+		const history = [{ submissions: [] }] as const
 
-		expect(getLastProgress(history)).toEqual({})
-		expect(getPreviousProgress(history)).toEqual({})
+		expect(getLastProgress('group', history)).toEqual({})
+		expect(getPreviousProgress('group', history)).toEqual({})
 	})
 
 	test('skips a pending group event when finding progress', () => {
 		const firstProgress = { split: true, step: 1 }
 		const secondProgress = { split: true, step: 2 }
-		const history = { mode: 'group', events: [
+		const history = [
 			{ submissions: [], progress: firstProgress },
 			{ submissions: [], progress: secondProgress },
 			{ submissions: [] },
-		] } as const
+		] as const
 
-		expect(getLastProgress(history)).toBe(secondProgress)
-		expect(getPreviousProgress(history)).toBe(firstProgress)
+		expect(getLastProgress('group', history)).toBe(secondProgress)
+		expect(getPreviousProgress('group', history)).toBe(firstProgress)
 	})
 })

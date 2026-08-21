@@ -20,7 +20,7 @@ export const exerciseResolvers: Record<string, any> = {
 		progress: getExerciseProgress,
 		lastAction: (exercise: any) => getLastEvent(exercise)?.action || null,
 		lastActionAt: (exercise: any) => getLastEvent(exercise)?.createdAt || null,
-		history: (exercise: any) => ({ mode: 'solo', events: exercise.events || [] }),
+		history: (exercise: any) => exercise.events || [],
 		active: (exercise: any) => exercise.active,
 	},
 	Event: { performedAt: (event: any) => event.createdAt },
@@ -41,14 +41,15 @@ export const exerciseResolvers: Record<string, any> = {
 			const { activeExercise } = (await getUserSkillWithExercises(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true }))!
 			const definition = getExercise(skillId, activeExercise.exerciseId)
 			if (!definition) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
+			if (!definition.processSoloAction) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support solo actions.`)
 
 			// Apply the action to the exerccise.
 			const skillUpdates: any[] = []
-			const progress = definition.processAction({
+			const progress = definition.processSoloAction({
 				action,
 				state: activeExercise.state,
 				progress: getExerciseProgress(activeExercise),
-				history: { mode: 'solo', events: activeExercise.events },
+				history: activeExercise.events,
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
 			})
 			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)

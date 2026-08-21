@@ -3,8 +3,6 @@ import { gql } from 'graphql-tag'
 import { skillFields } from '../skill/index.ts'
 
 export const exerciseTypeDefs = gql`
-	enum ExerciseMode { solo group }
-
 	type SkillWithExercises implements Skill {
 		${skillFields}
 		exercises: [Exercise]!
@@ -25,12 +23,7 @@ export const exerciseTypeDefs = gql`
 		progress: JSON!
 		lastAction: JSON
 		lastActionAt: DateTime
-		history: SoloExerciseHistory!
-	}
-
-	type SoloExerciseHistory {
-		mode: ExerciseMode!
-		events: [Event]!
+		history: [Event]!
 	}
 
 	type ExerciseActionResult {

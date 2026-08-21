@@ -24,12 +24,7 @@ export const groupExerciseTypeDefs = gql`
 		active: Boolean!
 		startedOn: DateTime!
 		progress: JSON
-		history: GroupExerciseHistory!
-	}
-
-	type GroupExerciseHistory {
-		mode: ExerciseMode!
-		events: [GroupEvent]!
+		history: [GroupEvent]!
 	}
 
 	interface GroupEvent {

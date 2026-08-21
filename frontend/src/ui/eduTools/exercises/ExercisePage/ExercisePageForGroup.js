@@ -28,8 +28,8 @@ export function ExercisePageForGroup({ skillId }) {
 			startNewExerciseOnServer()
 		}
 	}, [skillId, startNewExerciseOnServer])
-	const submitAction = useCallback((action, processAction) => {
-		// ToDo later: implement processAction, if it's given, to set up an optimistic response.
+	const submitAction = useCallback((action, processGroupActions) => {
+		// ToDo later: use processGroupActions to set up an optimistic response.
 		submitActionToServer({ variables: { action } })
 	}, [submitActionToServer])
 

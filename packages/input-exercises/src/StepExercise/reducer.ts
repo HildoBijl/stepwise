@@ -1,8 +1,8 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import type { ExerciseReducer, ExerciseReducerInput, GroupExerciseSubmission } from '@step-wise/exercise-definition'
+import type { GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerInput, type InputExerciseReducerSoloInput, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
+import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
 
 import type { StepExerciseProgress, StepExerciseStepProgress, StepExerciseSplitProgress, StepExercise, StepExerciseSpec } from './types'
 import { getStep, hasPreviousInputAtStep } from './support'
@@ -13,26 +13,25 @@ export function buildStepExercise<TState extends InputExerciseState = InputExerc
 		...spec,
 		type: 'step',
 		generateState: example => serializeInputExerciseState(spec.generateState(example)),
-		processAction: buildStepExerciseReducer(spec),
+		processSoloAction: buildStepExerciseSoloReducer(spec),
+		processGroupActions: buildStepExerciseGroupReducer(spec),
 	}
 }
 
-// Set up the reducer for a StepExercise.
-export function buildStepExerciseReducer<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): ExerciseReducer<InputExerciseAction, StepExerciseProgress> {
-	return (input: ExerciseReducerInput<InputExerciseAction, StepExerciseProgress>) => {
-		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state) } as InputExerciseReducerInput<InputExerciseAction, StepExerciseProgress, TState>
+export function buildStepExerciseSoloReducer<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): SoloExerciseReducer<InputExerciseAction, StepExerciseProgress> {
+	return input => {
+		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state) }
 		if ('done' in runtimeInput.progress && runtimeInput.progress.done) return runtimeInput.progress
-		if (runtimeInput.history.mode === 'group') return reduceGroupActions(spec, runtimeInput as InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>)
-		return reduceUserAction(spec, runtimeInput as InputExerciseReducerSoloInput<InputExerciseAction, StepExerciseProgress, TState>)
+		return reduceGroupActions(spec, { ...runtimeInput, mode: 'solo', submissions: [{ action: input.action }] })
 	}
 }
 
-// Reduce an action for a single user.
-function reduceUserAction<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSoloInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
-	return reduceGroupActions(spec, {
-		...input,
-		submissions: [{ action: input.action }],
-	})
+export function buildStepExerciseGroupReducer<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>): GroupExerciseReducer<InputExerciseAction, StepExerciseProgress> {
+	return input => {
+		const runtimeInput = { ...input, state: deserializeInputExerciseState<TState>(input.state), mode: 'group' as const }
+		if ('done' in runtimeInput.progress && runtimeInput.progress.done) return runtimeInput.progress
+		return reduceGroupActions(spec, runtimeInput)
+	}
 }
 
 // Reduce a set of actions for a group of users.
@@ -43,7 +42,7 @@ function reduceGroupActions<TState extends InputExerciseState = InputExerciseSta
 // Reduce a set of actions for the main problem.
 function reduceMainProblemActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
-	const { progress, submissions, state, history, updateSkills } = input
+	const { mode, progress, submissions, state, history, updateSkills } = input
 
 	// Get the solution of the exercise, if it exists, does not depend on input, and is actually needed.
 	const staticSolution = typeof getSolution === 'function' && submissions.some(submission => submission.action.type === 'input') ? getSolution(state) : undefined
@@ -69,7 +68,7 @@ function reduceMainProblemActions<TState extends InputExerciseState = InputExerc
 					if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
 					return
 				case 'giveUp': // On a give-up, only update skills when the exercise is done and the user still hasn't tried anything. And then only update the skill (or the set-up, if the skill is not present), because the user seemingly hasn't even tried the steps.
-					if (isDone && !hasPreviousInputAtStep(history, 0, userId)) updateSkills((metaData.skill ?? metaData.setup)!, false, userId)
+					if (isDone && !hasPreviousInputAtStep(mode, history, 0, userId)) updateSkills((metaData.skill ?? metaData.setup)!, false, userId)
 					return
 				default:
 					throw new Error(`Invalid action type: received an action "${JSON.stringify(action)}" which cannot be processed.`)
@@ -95,7 +94,7 @@ function reduceStepActions<TState extends InputExerciseState = InputExerciseStat
 
 function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
-	const { progress, submissions, state, history, updateSkills } = input
+	const { mode, progress, submissions, state, history, updateSkills } = input
 	const step = getStep(progress)
 	const skill = metaData.steps[step - 1] as SkillSetupLike
 
@@ -122,7 +121,7 @@ function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = In
 					if (skill) updateSkills(skill, correct[index], userId)
 					return
 				case 'giveUp':
-					if (skill && isDone && !hasPreviousInputAtStep(history, step, userId)) updateSkills(skill, false, userId)
+					if (skill && isDone && !hasPreviousInputAtStep(mode, history, step, userId)) updateSkills(skill, false, userId)
 					return
 				default:
 					throw new Error(`Invalid action type: received an action "${JSON.stringify(action)}" which cannot be processed.`)
@@ -138,7 +137,7 @@ function reduceStepWithoutSubstepsActions<TState extends InputExerciseState = In
 
 function reduceStepWithSubstepsActions<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TState, TSolution>, input: InputExerciseReducerSubmissionsInput<InputExerciseAction, StepExerciseProgress, TState>): StepExerciseProgress {
 	const { metaData, checkInput, getSolution } = spec
-	const { progress, submissions, state, history, updateSkills } = input
+	const { mode, progress, submissions, state, history, updateSkills } = input
 	const step = getStep(progress)
 	const skill = metaData.steps[step - 1]
 	if (!Array.isArray(skill)) throw new Error(`Invalid reduceStepWithSubstepsActions call: expected step ${step} to have substeps.`)
@@ -173,7 +172,7 @@ function reduceStepWithSubstepsActions<TState extends InputExerciseState = Input
 						if (subskill) updateSkills(subskill, correct[index], userId)
 						return
 					case 'giveUp':
-						if (subskill && isDone && !hasPreviousInputAtStep(history, step, userId)) updateSkills(subskill, false, userId)
+						if (subskill && isDone && !hasPreviousInputAtStep(mode, history, step, userId)) updateSkills(subskill, false, userId)
 						return
 					default:
 						throw new Error(`Invalid action type: received an action "${JSON.stringify(action)}" which cannot be processed.`)

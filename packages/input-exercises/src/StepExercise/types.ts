@@ -19,8 +19,8 @@ export type StepExerciseProgress = Record<string, never> | { solved: true, done:
 // Extend the CheckInput function to include steps and substeps.
 export type StepExerciseCheckInput<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = (data: CheckInputData<StepExerciseMetaData, TState, TSolution>, step: number, substep?: number) => boolean
 
-// Author-facing definition before processAction is added.
+// Author-facing definition before the mode-specific reducers are added.
 export type StepExerciseSpec<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = InputExerciseSpec<StepExerciseMetaData, TState, TSolution> & { checkInput: StepExerciseCheckInput<TState, TSolution> }
 
-// Runtime exercise after processAction is added.
+// Runtime exercise after the mode-specific reducers are added.
 export type StepExercise<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = InputExercise<StepExerciseMetaData, InputExerciseAction, StepExerciseProgress, TState, TSolution> & Omit<StepExerciseSpec<TState, TSolution>, 'generateState'> & { type: 'step' }

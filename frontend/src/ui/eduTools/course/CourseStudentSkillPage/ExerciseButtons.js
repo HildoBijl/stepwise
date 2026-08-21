@@ -40,7 +40,7 @@ export function ExerciseButtons({ exerciseIndex, setExerciseIndex, userSkill, sh
 export function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissionIndex, userSkill, showLabels }) {
 	const exercises = userSkill.exercises
 	const exercise = exercises[exerciseIndex]
-	const events = exercise.history.events
+	const events = exercise.history
 
 	const lastInputEventIndex = events.length - 1 - [...events].reverse().findIndex(event => event.action.type === 'input')
 	submissionIndex = submissionIndex ?? lastInputEventIndex

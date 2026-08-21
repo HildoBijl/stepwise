@@ -20,7 +20,7 @@ export const groupExerciseResolvers: ResolverTree = {
 	GroupExercise: {
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getGroupExerciseProgress(exercise),
-		history: exercise => ({ mode: 'group', events: [...(exercise.events || [])].sort((a: any, b: any) => a.createdAt - b.createdAt) }), // Sort the history ascending by date.
+		history: exercise => [...(exercise.events || [])].sort((a: any, b: any) => a.createdAt - b.createdAt), // Sort the history ascending by date.
 	},
 
 	GroupEvent: {
@@ -191,8 +191,9 @@ export const groupExerciseResolvers: ResolverTree = {
 			const previousProgress = getGroupExerciseProgress(activeExercise)
 			const exercise = getExercise(skillId, activeExercise.exerciseId)
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
+			if (!exercise.processGroupActions) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support group actions.`)
 			const historyEvents = activeExercise.events.map((event: any) => event.progress === null ? { submissions: event.submissions } : { submissions: event.submissions, progress: event.progress })
-			const progress = exercise.processAction({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: { mode: 'group', events: historyEvents }, updateSkills })
+			const progress = exercise.processGroupActions({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: historyEvents, updateSkills })
 			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Time to store things in the database.

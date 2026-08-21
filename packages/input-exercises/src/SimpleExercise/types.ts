@@ -8,8 +8,8 @@ export type SimpleExerciseProgress = Record<string, never> | { solved: true, don
 // Input checking: verify whether the given input solves the exercise.
 export type SimpleExerciseCheckInput<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = (data: CheckInputData<SimpleExerciseMetaData, TState, TSolution>) => boolean
 
-// Author-facing definition before processAction is added.
+// Author-facing definition before the mode-specific reducers are added.
 export type SimpleExerciseSpec<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = InputExerciseSpec<SimpleExerciseMetaData, TState, TSolution> & { checkInput: SimpleExerciseCheckInput<TState, TSolution> }
 
-// Runtime exercise after processAction is added.
+// Runtime exercise after the mode-specific reducers are added.
 export type SimpleExercise<TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = InputExercise<SimpleExerciseMetaData, InputExerciseAction, SimpleExerciseProgress, TState, TSolution> & Omit<SimpleExerciseSpec<TState, TSolution>, 'generateState'> & { type: 'simple' }
