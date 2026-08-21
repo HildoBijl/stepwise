@@ -1,3 +1,5 @@
+import { sortBy } from '@step-wise/js-utils'
+
 import type { SkillId, SkillTree } from '../creation'
 
 import { ensureSkillIds } from './checks'
@@ -51,7 +53,8 @@ export function getRequiredSkills(skillTree: SkillTree, goals: SkillId[], priorK
 }
 
 // Sort a given list of skills by the order defined by the Skill Tree.
-export function sortBySkillTreeOrder(skillTree: SkillTree, skillIds: SkillId[]): SkillId[] {
-	const allSkillIds = Object.keys(skillTree)
-	return [...skillIds].sort((a, b) => allSkillIds.indexOf(a) - allSkillIds.indexOf(b))
+export function sortBySkillTreeOrder(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
+	const ensuredSkillIds = ensureSkillIds(skillTree, skillIds)
+	const skillOrder = new Map(Object.keys(skillTree).map((skillId, index) => [skillId, index]))
+	return sortBy(ensuredSkillIds, ensuredSkillIds.map(skillId => skillOrder.get(skillId)!))
 }
