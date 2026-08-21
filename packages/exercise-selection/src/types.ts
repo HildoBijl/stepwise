@@ -1,4 +1,4 @@
-import { type ExerciseState } from '@step-wise/exercise-definition'
+import { type BaseExerciseInstance } from '@step-wise/exercise-definition'
 import { type ExerciseId } from '@step-wise/exercise-bundling'
 
 export type PreviousExercise = {
@@ -7,7 +7,6 @@ export type PreviousExercise = {
 	updatedAt: number
 }
 
-export type ExerciseInstance = {
+export type ExerciseInstance = BaseExerciseInstance & {
 	exerciseId: ExerciseId
-	state: ExerciseState
 }

@@ -26,8 +26,8 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 				onNewExercise()
 		}
 	}, [skillId, startNewExerciseOnServer, onNewExercise])
-	const submitAction = useCallback((action, processAction) => {
-		// ToDo later: implement processAction from the exercise, to set up an optimistic response.
+	const submitAction = useCallback((action, processSoloAction) => {
+		// ToDo later: use processSoloAction to set up an optimistic response.
 		submitActionToServer({ variables: { action } })
 	}, [submitActionToServer])
 

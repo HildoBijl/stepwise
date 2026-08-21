@@ -26,7 +26,7 @@ export function StepExercise(props) {
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
-	const { state, progress, history, startNewExercise, example, inspection } = useExerciseData()
+	const { mode, state, progress, history, startNewExercise, example, inspection } = useExerciseData()
 	const userId = useUserId()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
@@ -41,7 +41,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, progress, lastEventId, activateFirst])
 
 	// Determine what to show.
-	const hasMainProblemSubmissions = hasPreviousInputAtStep(history, 0, userId)
+	const hasMainProblemSubmissions = hasPreviousInputAtStep(mode, history, 0, userId)
 	const doneWithMainProblem = progress.done || progress.split
 	const readOnly = inspection ? true : (example ? progress.split : doneWithMainProblem)
 	const showInputSpace = !progress.split && (!inspection || hasMainProblemSubmissions)
@@ -80,7 +80,7 @@ function stepExerciseGetFeedback(data) {
 
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
-		const previousProgress = getPreviousProgress(history)
+		const previousProgress = getPreviousProgress(data.instance)
 		const step = getStep(previousProgress)
 		repeat(step, (index) => {
 			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)

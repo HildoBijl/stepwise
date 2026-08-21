@@ -16,6 +16,7 @@ export const exerciseResolvers: Record<string, any> = {
 		},
 	},
 	Exercise: {
+		mode: () => 'solo',
 		startedOn: (exercise: any) => exercise.createdAt,
 		progress: getExerciseProgress,
 		lastAction: (exercise: any) => getLastEvent(exercise)?.action || null,
@@ -41,10 +42,11 @@ export const exerciseResolvers: Record<string, any> = {
 			const { activeExercise } = (await getUserSkillWithExercises(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true }))!
 			const definition = getExercise(skillId, activeExercise.exerciseId)
 			if (!definition) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
+			if (!definition.processSoloAction) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support solo actions.`)
 
 			// Apply the action to the exerccise.
 			const skillUpdates: any[] = []
-			const progress = definition.processAction({
+			const progress = definition.processSoloAction({
 				action,
 				state: activeExercise.state,
 				progress: getExerciseProgress(activeExercise),

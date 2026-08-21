@@ -23,6 +23,7 @@ export const skillFields = (addExerciseFields) => `
 export const exerciseFields = `
 	id
 	exerciseId
+	mode
 	state
 	startedOn
 	active

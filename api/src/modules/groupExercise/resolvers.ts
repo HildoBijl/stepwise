@@ -11,15 +11,29 @@ import { skillEvents, applySkillUpdates } from '../skill/index.ts'
 import { groupExerciseEvents, getGroupExerciseProgress, getGroupWithAllExercises, getGroupWithActiveExercises, getGroupWithActiveSkillExercise } from './service.ts'
 
 type ResolverTree = { [key: string]: ResolverTree | ((...args: any[]) => any) }
+
+function getGroupEventPerformedAt(event: any): any {
+	return findOptimum(event.submissions.map((submission: any) => submission.updatedAt), (a: any, b: any) => a > b) || event.updatedAt
+}
+
 export const groupExerciseResolvers: ResolverTree = {
 	GroupExercise: {
+		mode: () => 'group',
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getGroupExerciseProgress(exercise),
-		history: exercise => exercise.events.sort((a: any, b: any) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.
+		history: exercise => [...(exercise.events || [])].sort((a: any, b: any) => a.createdAt - b.createdAt), // Sort the history ascending by date.
 	},
 
 	GroupEvent: {
-		performedAt: event => findOptimum(event.submissions.map((submission: any) => submission.updatedAt), (a: any, b: any) => a > b) || event.updatedAt, // Get the time of the last submission.
+		__resolveType: event => event.progress === null ? 'PendingGroupEvent' : 'ResolvedGroupEvent',
+	},
+
+	ResolvedGroupEvent: {
+		performedAt: getGroupEventPerformedAt,
+	},
+
+	PendingGroupEvent: {
+		performedAt: getGroupEventPerformedAt,
 	},
 
 	GroupSubmission: {
@@ -89,7 +103,7 @@ export const groupExerciseResolvers: ResolverTree = {
 
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
 			const skillExercises = getExercises(skillId)!
-			const newExercise = generateRandomExerciseInstance(skillExercises)
+			const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
 			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
 			activeEvent.submissions = []
@@ -178,7 +192,9 @@ export const groupExerciseResolvers: ResolverTree = {
 			const previousProgress = getGroupExerciseProgress(activeExercise)
 			const exercise = getExercise(skillId, activeExercise.exerciseId)
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
-			const progress = exercise.processAction({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: activeExercise.events, updateSkills })
+			if (!exercise.processGroupActions) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support group actions.`)
+			const historyEvents = activeExercise.events.map((event: any) => event.progress === null ? { submissions: event.submissions } : { submissions: event.submissions, progress: event.progress })
+			const progress = exercise.processGroupActions({ submissions: activeEvent.submissions, state: activeExercise.state, progress: previousProgress, history: historyEvents, updateSkills })
 			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
 
 			// Time to store things in the database.

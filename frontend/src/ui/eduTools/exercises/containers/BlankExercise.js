@@ -37,6 +37,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 		if (exerciseDefinition) {
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: exerciseId,
+				mode: 'solo',
 				state: exerciseDefinition.generateState(), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
@@ -49,17 +50,13 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	useEffect(startNewExercise, [startNewExercise])
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
-	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+	const submitAction = useCallback((action, processSoloAction) => {
+		const progress = processSoloAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,
 			progress,
-			history: [...exercise.history, {
-				action,
-				progress,
-				performedAt: new Date(),
-			}],
+			history: [...exercise.history, { action, progress, performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

@@ -17,14 +17,17 @@ export const groupExerciseParameters = `
 	id
 	skillId
 	exerciseId
+	mode
 	state
 	active
 	startedOn
 	progress
 	history {
 		id
-		progress
 		performedAt
+		... on ResolvedGroupEvent {
+			progress
+		}
 		submissions {
 			id
 			userId
