@@ -1,4 +1,4 @@
-import { type ExerciseAction, type ExerciseProgress } from './fundamentals'
+import { type ExerciseAction, type ExerciseProgress } from './atomTypes'
 import { type ExerciseHistoryByMode, type ExerciseMode, type GroupExerciseHistory, type SoloExerciseHistory, groupHistorySupport, soloHistorySupport } from './modes'
 
 export function getLastAction<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode], userId?: string): TAction | undefined {

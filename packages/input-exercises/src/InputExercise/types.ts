@@ -48,7 +48,7 @@ export type GetSolution<TState extends InputExerciseState = InputExerciseState, 
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
 export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = {
 	metaData: TMetaData
-	generateState: (example: boolean) => TState
+	generateState?: (example: boolean) => TState
 	getSolution?: GetSolution<TState, TSolution>
 }
 

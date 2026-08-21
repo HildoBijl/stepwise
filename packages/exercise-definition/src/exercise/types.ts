@@ -1,6 +1,6 @@
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { ExerciseAction, ExerciseProgress, ExerciseState } from '../fundamentals'
+import type { ExerciseAction, ExerciseProgress, ExerciseState } from '../atomTypes'
 import type { GroupExerciseHistory, GroupExerciseSubmission, SoloExerciseHistory } from '../modes'
 
 export type ExerciseMetaData = {
@@ -35,10 +35,11 @@ export type GroupExerciseReducer<TAction extends ExerciseAction, TProgress exten
 
 export type ExerciseSpec<TMetaData extends ExerciseMetaData, TState extends ExerciseState = ExerciseState> = {
 	metaData: TMetaData
-	generateState: ExerciseGenerator<TState>
+	generateState?: ExerciseGenerator<TState>
 }
 
-export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TState extends ExerciseState = ExerciseState> = ExerciseSpec<TMetaData, TState> & {
+export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress, TState extends ExerciseState = ExerciseState> = Omit<ExerciseSpec<TMetaData, TState>, 'generateState'> & {
+	generateState: ExerciseGenerator<TState>
 	processSoloAction?: SoloExerciseReducer<TAction, TProgress, TState>
 	processGroupActions?: GroupExerciseReducer<TAction, TProgress, TState>
 }

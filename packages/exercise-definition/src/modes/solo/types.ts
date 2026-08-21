@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress } from '../../fundamentals'
+import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
 
 export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
 	action: TAction

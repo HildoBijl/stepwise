@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress } from '../../fundamentals'
+import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
 
 export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAction> = {
 	userId?: string

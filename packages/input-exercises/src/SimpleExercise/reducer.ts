@@ -1,5 +1,5 @@
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import type { GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
+import { type GroupExerciseReducer, type SoloExerciseReducer, generateExerciseState } from '@step-wise/exercise-definition'
 
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseState, hasPreviousInput, serializeInputExerciseState } from '../InputExercise'
 
@@ -10,7 +10,7 @@ export function buildSimpleExercise<TState extends InputExerciseState = InputExe
 	return {
 		...spec,
 		type: 'simple',
-		generateState: example => serializeInputExerciseState(spec.generateState(example)),
+		generateState: example => serializeInputExerciseState(generateExerciseState(spec.generateState, example)),
 		processSoloAction: buildSimpleExerciseSoloReducer(spec),
 		processGroupActions: buildSimpleExerciseGroupReducer(spec),
 	}

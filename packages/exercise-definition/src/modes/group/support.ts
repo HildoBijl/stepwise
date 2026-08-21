@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress } from '../../fundamentals'
+import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
 import type { GroupExerciseHistory } from './types'
 
 function ensureUserId(userId: string | undefined): string {

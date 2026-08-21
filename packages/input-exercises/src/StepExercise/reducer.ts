@@ -1,6 +1,6 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import type { GroupExerciseReducer, SoloExerciseReducer } from '@step-wise/exercise-definition'
+import { type GroupExerciseReducer, type SoloExerciseReducer, generateExerciseState } from '@step-wise/exercise-definition'
 
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseState, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseState, serializeInputExerciseState } from '../InputExercise'
 
@@ -12,7 +12,7 @@ export function buildStepExercise<TState extends InputExerciseState = InputExerc
 	return {
 		...spec,
 		type: 'step',
-		generateState: example => serializeInputExerciseState(spec.generateState(example)),
+		generateState: example => serializeInputExerciseState(generateExerciseState(spec.generateState, example)),
 		processSoloAction: buildStepExerciseSoloReducer(spec),
 		processGroupActions: buildStepExerciseGroupReducer(spec),
 	}

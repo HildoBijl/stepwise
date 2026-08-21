@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress } from '../fundamentals'
+import type { ExerciseAction, ExerciseProgress } from '../atomTypes'
 
 import type { ExerciseMode } from './definitions'
 import type { SoloExerciseHistory } from './solo'

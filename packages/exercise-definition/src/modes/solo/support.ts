@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress } from '../../fundamentals'
+import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
 import type { SoloExerciseHistory } from './types'
 
 function getLastAction<TAction extends ExerciseAction, TProgress extends ExerciseProgress>(history: SoloExerciseHistory<TAction, TProgress>): TAction | undefined {
