@@ -33,7 +33,7 @@ export function ExerciseButtons(props) {
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
-	const { instance, progress, history, submitting, example, inspection } = useExerciseData()
+	const { instance, state, history, submitting, example, inspection } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
 	const isAdmin = useIsAdmin()
@@ -46,9 +46,9 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Include the buttons in the tabbing.
 	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef()
-	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !inspection && !progress.done && isTeacher, focusRefOnActive: true })
-	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !inspection && !progress.done, focusRefOnActive: true })
-	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !inspection && !example && !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !inspection && !state.done && isTeacher, focusRefOnActive: true })
+	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !inspection && !state.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !inspection && !example && !state.done, focusRefOnActive: true })
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
@@ -65,7 +65,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		return null
 
 	// Is the exercise done? Then no buttons are needed.
-	if (!example && progress.done)
+	if (!example && state.done)
 		return null
 
 	// Determine if the input is the same as previously.
@@ -74,7 +74,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
 	let giveUpText = translate('I give up', 'buttons.giveUp')
-	const step = getStep(progress)
+	const step = getStep(state)
 	if (stepwise) {
 		if (example)
 			giveUpText = translate('Show steps', 'buttons.showSteps')
@@ -130,32 +130,32 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 }
 
 function StepSelect() {
-	const { progress, submitAction, metaData } = useExerciseData()
+	const { state, submitAction, metaData } = useExerciseData()
 	const numSteps = metaData.steps.length
 
-	// Set up a handler that manages the progress on step changes.
+	// Set up a handler that manages the state on step changes.
 	const handleChange = event => {
 		const newSelectedStep = event.target.value
-		const newProgress = { ...progress }
-		delete newProgress.done
-		delete newProgress.solved
-		for (let i = (newSelectedStep || 0) + 1; newProgress[i]; i++) { delete newProgress[i] } // Delete all step progresses after the given step.
+		const newState = { ...state }
+		delete newState.done
+		delete newState.solved
+		for (let i = (newSelectedStep || 0) + 1; newState[i]; i++) { delete newState[i] } // Delete all step states after the given step.
 		if (newSelectedStep) {
-			newProgress.split = true
-			newProgress.step = newSelectedStep
-			newProgress[newSelectedStep] = { ...newProgress[newSelectedStep] } || {}
-			delete newProgress[newSelectedStep].done
-			delete newProgress[newSelectedStep].solved
+			newState.split = true
+			newState.step = newSelectedStep
+			newState[newSelectedStep] = { ...newState[newSelectedStep] } || {}
+			delete newState[newSelectedStep].done
+			delete newState[newSelectedStep].solved
 		} else {
-			delete newProgress.split
-			delete newProgress.step
+			delete newState.split
+			delete newState.step
 		}
-		submitAction({ type: 'setProgress', newProgress })
+		submitAction({ type: 'setState', newState })
 	}
 
 	// Render the button.
 	return <FormControl variant="outlined" size="small" color="info">
-		<Select id="stepSelect" color="info" value={getStep(progress)} onChange={handleChange} sx={theme => ({
+		<Select id="stepSelect" color="info" value={getStep(state)} onChange={handleChange} sx={theme => ({
 			'& svg': { color: theme.palette.info.contrastText },
 			'& .MuiSelect-select': {
 				backgroundColor: theme.palette.info.main,
@@ -172,13 +172,13 @@ function StepSelect() {
 }
 
 function GroupExerciseButtons({ stepwise = false }) {
-	const { progress } = useExerciseData()
+	const { state } = useExerciseData()
 
 	// Determine the status of the exercise.
 	const derivedParameters = useDerivedParameters()
 
 	// Is the exercise done? Then return the restart button.
-	if (progress.done)
+	if (state.done)
 		return null
 
 	// Render the variety of buttons required.
@@ -237,7 +237,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const getTranslation = useGetTranslation(translationPath)
 	const translate = useTranslator(translationPath, 'groupExercise')
-	const { instance, progress, submitting } = useExerciseData()
+	const { instance, state, submitting } = useExerciseData()
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
 
@@ -260,7 +260,7 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 
 	// Determine the give-up button text.
 	let giveUpText = getTranslation('buttons.giveUp')
-	const step = getStep(progress)
+	const step = getStep(state)
 	if (stepwise)
 		giveUpText = step ? getTranslation('buttons.giveUpStep') : getTranslation('buttons.solveStepWise')
 
@@ -329,7 +329,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 
 function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
-	const { progress } = useExerciseData()
+	const { state } = useExerciseData()
 	const activeGroup = useActiveGroup()
 
 	// Set up a cancel button ref and register it to tab control.
@@ -348,15 +348,15 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 	// Show the people that gave up.
 	return <>
 		<div className="inBetween" />
-		<div className="description1">{!stepwise || progress.step ? translate('Given up:', 'status.givenUp') : translate('Solve Step-Wise:', 'status.solveStepWise')}</div>
+		<div className="description1">{!stepwise || state.step ? translate('Given up:', 'status.givenUp') : translate('Solve Step-Wise:', 'status.solveStepWise')}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || progress.step ? translate('Cancel giving up', 'buttons.cancelGivingUp') : translate('Cancel solving Step-Wise', 'buttons.cancelSolveStepWise')}</span></Button> : null}
+		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || state.step ? translate('Cancel giving up', 'buttons.cancelGivingUp') : translate('Cancel solving Step-Wise', 'buttons.cancelSolveStepWise')}</span></Button> : null}
 	</>
 }
 
 function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting, unsubmittedMembers }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
-	const { progress } = useExerciseData()
+	const { state } = useExerciseData()
 
 	// Set up a resolve button ref and register it to tab control.
 	const resolve = useResolveEvent()
@@ -372,8 +372,8 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	if (allGaveUp) {
 		return <>
 			<div className="inBetween" />
-			<div className="description3 info"><InfoIcon />{!stepwise || progress.step ? translate('Everyone gave up.', 'status.allGaveUp') : translate('Everyone votes for solving this Step-Wise.', 'status.allStepWise')}</div>
-			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || progress.step ? translate('Confirm giving up', 'buttons.confirmGivingUp') : translate('Confirm solving Step-Wise', 'buttons.comfirmSolvingStepWise')}</span></Button>
+			<div className="description3 info"><InfoIcon />{!stepwise || state.step ? translate('Everyone gave up.', 'status.allGaveUp') : translate('Everyone votes for solving this Step-Wise.', 'status.allStepWise')}</div>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || state.step ? translate('Confirm giving up', 'buttons.confirmGivingUp') : translate('Confirm solving Step-Wise', 'buttons.comfirmSolvingStepWise')}</span></Button>
 		</>
 	}
 
@@ -412,7 +412,7 @@ function useDerivedParameters() {
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
-		const currentEvent = history.find(event => !('progress' in event))
+		const currentEvent = history.find(event => !('state' in event))
 		const currentSubmissions = currentEvent?.submissions || []
 		const gaveUp = currentSubmissions.some(submission => submission.userId === userId && submission.action.type === 'giveUp')
 		const submittedAction = currentSubmissions.find(submission => submission.userId === userId)?.action

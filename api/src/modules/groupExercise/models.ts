@@ -12,7 +12,7 @@ export class GroupExerciseSubmissionRecord extends Model<InferAttributes<GroupEx
 export class GroupExerciseEventRecord extends Model<InferAttributes<GroupExerciseEventRecord>, InferCreationAttributes<GroupExerciseEventRecord>> {
 	declare id: CreationOptional<string>
 	declare groupExerciseSampleId: string
-	declare progress: unknown | null
+	declare state: unknown | null
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare submissions?: NonAttribute<GroupExerciseSubmissionRecord[]>
@@ -52,7 +52,7 @@ export function createGroupExerciseEventModel(sequelize: Sequelize) {
 	GroupExerciseEvent.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
 		groupExerciseSampleId: { type: DataTypes.UUID, allowNull: false },
-		progress: { type: DataTypes.JSON, allowNull: true },
+		state: { type: DataTypes.JSON, allowNull: true },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'groupExerciseEvent' })

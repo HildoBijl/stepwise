@@ -5,7 +5,7 @@ describe('getLastInputAtStep', () => {
 		const userId = 'user-1'
 		const resolvedInput = { answer: { type: 'Text', value: 'resolved' } }
 		const history = [
-			{ progress: { split: true, step: 1, 1: {} }, submissions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
+			{ state: { split: true, step: 1, 1: {} }, submissions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
 			{ submissions: [{ userId, action: { type: 'input', input: { answer: { type: 'Text', value: 'pending' } } } }] },
 		] as const
 

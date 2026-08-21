@@ -1,37 +1,37 @@
-import { getLastProgress, getLastResolvedAction, getPreviousProgress } from './support'
+import { getLastState, getLastResolvedAction, getPreviousState } from './support'
 
 describe('getLastResolvedAction', () => {
 	test('finds the latest resolved action from the requested group user', () => {
 		const userAction = { type: 'answer', value: 1 }
 		const history = [
-			{ submissions: [{ userId: 'user-1', action: userAction }], progress: {} },
-			{ submissions: [{ userId: 'user-2', action: { type: 'answer', value: 2 } }], progress: {} },
+			{ submissions: [{ userId: 'user-1', action: userAction }], state: {} },
+			{ submissions: [{ userId: 'user-2', action: { type: 'answer', value: 2 } }], state: {} },
 		] as const
 
 		expect(getLastResolvedAction({ mode: 'group', parameters: {}, history }, 'user-1')).toBe(userAction)
 	})
 })
 
-describe('exercise history progress', () => {
-	test('uses the default progress when a group history only has a pending event', () => {
+describe('exercise history state', () => {
+	test('uses the default state when a group history only has a pending event', () => {
 		const history = [{ submissions: [] }] as const
 
 		const instance = { mode: 'group', parameters: {}, history } as const
-		expect(getLastProgress(instance)).toEqual({})
-		expect(getPreviousProgress(instance)).toEqual({})
+		expect(getLastState(instance)).toEqual({})
+		expect(getPreviousState(instance)).toEqual({})
 	})
 
-	test('skips a pending group event when finding progress', () => {
-		const firstProgress = { split: true, step: 1 }
-		const secondProgress = { split: true, step: 2 }
+	test('skips a pending group event when finding state', () => {
+		const firstState = { split: true, step: 1 }
+		const secondState = { split: true, step: 2 }
 		const history = [
-			{ submissions: [], progress: firstProgress },
-			{ submissions: [], progress: secondProgress },
+			{ submissions: [], state: firstState },
+			{ submissions: [], state: secondState },
 			{ submissions: [] },
 		] as const
 
 		const instance = { mode: 'group', parameters: {}, history } as const
-		expect(getLastProgress(instance)).toBe(secondProgress)
-		expect(getPreviousProgress(instance)).toBe(firstProgress)
+		expect(getLastState(instance)).toBe(secondState)
+		expect(getPreviousState(instance)).toBe(firstState)
 	})
 })

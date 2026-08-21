@@ -45,11 +45,11 @@ async function seedTestData(db: Database): Promise<void> {
 		multiplication.createExercise({ exerciseId: 'multiplication1', parameters: { a: { type: "Integer", value: "8" }, b: { type: "Integer", value: "4" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 	const events = await Promise.all([
-		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '80' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '79' } } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[1].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '90' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '30' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '31' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '80' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '79' } } }, state: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[1].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '90' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '30' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '31' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 }
 

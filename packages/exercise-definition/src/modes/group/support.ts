@@ -1,4 +1,4 @@
-import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
+import type { ExerciseAction, ExerciseState } from '../../atomTypes'
 import type { GroupExerciseHistory } from './types'
 
 function ensureUserId(userId: string | undefined): string {
@@ -6,7 +6,7 @@ function ensureUserId(userId: string | undefined): string {
 	return userId
 }
 
-function getLastAction<TAction extends ExerciseAction, TProgress extends ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, userId?: string): TAction | undefined {
+function getLastAction<TAction extends ExerciseAction, TState extends ExerciseState>(history: GroupExerciseHistory<TAction, TState>, userId?: string): TAction | undefined {
 	const ensuredUserId = ensureUserId(userId)
 	for (let index = history.length - 1; index >= 0; index--) {
 		const action = history[index].submissions.find(submission => submission.userId === ensuredUserId)?.action
@@ -15,23 +15,23 @@ function getLastAction<TAction extends ExerciseAction, TProgress extends Exercis
 	return undefined
 }
 
-function getLastResolvedAction<TAction extends ExerciseAction, TProgress extends ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, userId?: string): TAction | undefined {
+function getLastResolvedAction<TAction extends ExerciseAction, TState extends ExerciseState>(history: GroupExerciseHistory<TAction, TState>, userId?: string): TAction | undefined {
 	const ensuredUserId = ensureUserId(userId)
 	for (let index = history.length - 1; index >= 0; index--) {
 		const event = history[index]
-		if (!('progress' in event)) continue
+		if (!('state' in event)) continue
 		const action = event.submissions.find(submission => submission.userId === ensuredUserId)?.action
 		if (action) return action
 	}
 	return undefined
 }
 
-function getLastProgress<TAction extends ExerciseAction, TProgress extends ExerciseProgress>(history: GroupExerciseHistory<TAction, TProgress>, offset = 0): TProgress | Record<string, never> {
+function getLastState<TAction extends ExerciseAction, TState extends ExerciseState>(history: GroupExerciseHistory<TAction, TState>, offset = 0): TState | Record<string, never> {
 	let remaining = offset
 	for (let index = history.length - 1; index >= 0; index--) {
 		const event = history[index]
-		if (!('progress' in event)) continue
-		if (remaining === 0) return event.progress
+		if (!('state' in event)) continue
+		if (remaining === 0) return event.state
 		remaining--
 	}
 	return {}
@@ -40,5 +40,5 @@ function getLastProgress<TAction extends ExerciseAction, TProgress extends Exerc
 export const groupHistorySupport = {
 	getLastAction,
 	getLastResolvedAction,
-	getLastProgress,
+	getLastState,
 }

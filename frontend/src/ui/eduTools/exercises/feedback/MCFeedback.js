@@ -10,7 +10,7 @@ import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
  * The options object can contain the following.
  * - correct: the correct answer. It is used to determine if the given input is correct or not. If it is not given, it is attempted to be pulled out of the getSolution function.
  * - done: whether the question is done. If so, the correct answer will be displayed.
- * - step: if provided, the progress object is used to determine whether this question is done. Only used if "done" is not given.
+ * - step: if provided, the state object is used to determine whether this question is done. Only used if "done" is not given.
  * - substep: if provided, the corresponding substep is checked.
  * - text: the text corresponding to each option, if it is selected. This is usually an array of strings/JSXs. If it is not an array, the given text is simply always shown.
  * - correctText: the text that is used upon a correct answer, if no text is given.
@@ -28,7 +28,7 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 		currOptions = { text: currOptions }
 
 	// Extract given parameters.
-	const { input, progress, solution, example } = exerciseData
+	const { input, state, solution, example } = exerciseData
 	let { correct, done, step, substep, text, correctText, incorrectText } = currOptions
 
 	// Attempt to get correct answer if not given.
@@ -39,13 +39,13 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 
 	// Attempt to determine "done". (Except for examples. Because they can be retried, they're never done.)
 	if (!example && done === undefined) {
-		if (progress.done) {
-			done = progress.done
+		if (state.done) {
+			done = state.done
 		} else if (step !== undefined) {
-			let currProgress = progress[step]
+			let currState = state[step]
 			if (substep !== undefined)
-				currProgress = currProgress && currProgress[substep]
-			done = currProgress?.done
+				currState = currState && currState[substep]
+			done = currState?.done
 		}
 	}
 

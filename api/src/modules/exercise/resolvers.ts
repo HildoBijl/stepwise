@@ -4,7 +4,7 @@ import { ensureSkillId } from '@step-wise/skill-tree'
 
 import { applySkillUpdatesForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
 
-import { getExerciseProgress, getLastEvent, getUserSkillWithExercises } from './service.ts'
+import { getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'
 
 export const exerciseResolvers: Record<string, any> = {
 	Skill: { __resolveType: (skill: any) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
@@ -18,7 +18,7 @@ export const exerciseResolvers: Record<string, any> = {
 	Exercise: {
 		mode: () => 'solo',
 		startedOn: (exercise: any) => exercise.createdAt,
-		progress: getExerciseProgress,
+		state: getExerciseState,
 		lastAction: (exercise: any) => getLastEvent(exercise)?.action || null,
 		lastActionAt: (exercise: any) => getLastEvent(exercise)?.createdAt || null,
 		history: (exercise: any) => exercise.events || [],
@@ -46,21 +46,21 @@ export const exerciseResolvers: Record<string, any> = {
 
 			// Apply the action to the exerccise.
 			const skillUpdates: any[] = []
-			const progress = definition.processSoloAction({
+			const state = definition.processSoloAction({
 				action,
 				parameters: activeExercise.parameters,
-				progress: getExerciseProgress(activeExercise),
+				state: getExerciseState(activeExercise),
 				history: activeExercise.events,
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
 			})
-			if (!progress) throw new Error(`Invalid progress object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise progress.`)
+			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
 
 			// Apply potential skill updates.
 			let updatedSkills: any[] = []
 			await db.transaction(async (transaction: any) => {
 				updatedSkills = await applySkillUpdatesForUser(db, userId, skillUpdates, transaction)
-				activeExercise.events.push(await activeExercise.createEvent({ action, progress }, { transaction }))
-				if (progress.done) {
+				activeExercise.events.push(await activeExercise.createEvent({ action, state }, { transaction }))
+				if (state.done) {
 					await activeExercise.update({ active: false }, { transaction })
 					activeExercise.active = false
 				}

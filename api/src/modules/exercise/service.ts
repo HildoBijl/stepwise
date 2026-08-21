@@ -12,12 +12,12 @@ export interface ExerciseDatabase extends SkillDatabase {
 }
 
 export function getLastEvent(exercise: any): any {
-	const events = (exercise.events || []).filter((event: any) => event.progress !== null)
+	const events = (exercise.events || []).filter((event: any) => event.state !== null)
 	return events.length > 0 ? last(events) : null
 }
 
-export function getExerciseProgress(exercise: any) {
-	return getLastEvent(exercise)?.progress ?? {}
+export function getExerciseState(exercise: any) {
+	return getLastEvent(exercise)?.state ?? {}
 }
 
 export async function getUserSkillWithExercises(db: any, userId: string, skillId: string, options: any = {}) {

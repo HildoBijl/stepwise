@@ -196,12 +196,12 @@ function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, exter
 }
 
 function getFeedback(data) {
-	const { input, progress, solution } = data
+	const { input, state, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
 	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: FBDComparison } })
 	const loadsCorrect = input.loads && compareLoadSets(input.loads, solution.loads, FBDComparison).equal
-	if (getStep(progress) === 0 && !loadsCorrect)
+	if (getStep(state) === 0 && !loadsCorrect)
 		return loadsFeedback
 
 	// Give full feedback.

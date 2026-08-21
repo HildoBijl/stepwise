@@ -6,7 +6,7 @@ describe('getLastInput', () => {
 	const pendingInput = { answer: { type: 'Text', value: 'pending' } }
 
 	const history = [
-		{ progress: {}, submissions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
+		{ state: {}, submissions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
 		{ submissions: [{ userId, action: { type: 'input', input: pendingInput } }] },
 	] as const
 

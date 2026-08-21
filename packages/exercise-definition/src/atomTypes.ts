@@ -2,4 +2,4 @@ import type { PlainDataObject } from '@step-wise/js-utils'
 
 export type ExerciseParameters = PlainDataObject
 export type ExerciseAction = PlainDataObject & { type: string }
-export type ExerciseProgress = PlainDataObject
+export type ExerciseState = PlainDataObject

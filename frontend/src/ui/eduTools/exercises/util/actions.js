@@ -58,7 +58,7 @@ export function useCancelAction() {
 
 	return useCallback(() => {
 		// If the user has not submitted anything, do not do anything.
-		const currentEvent = historyRef.current.find(event => !('progress' in event))
+		const currentEvent = historyRef.current.find(event => !('state' in event))
 		const isUserAction = (currentEvent?.submissions || []).some(submission => submission.userId === userId)
 		if (!isUserAction)
 			return
@@ -91,7 +91,7 @@ export function canResolveGroupEvent(group, history) {
 		return false
 
 	// Check that every active member has submitted something.
-	const currentEvent = history.find(event => !('progress' in event))
+	const currentEvent = history.find(event => !('state' in event))
 	const submissions = currentEvent?.submissions || []
 	if (group.members.some(member => member.active && !submissions.some(submission => submission.userId === member.userId)))
 		return false

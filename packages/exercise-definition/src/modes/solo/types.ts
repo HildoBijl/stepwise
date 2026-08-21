@@ -1,8 +1,8 @@
-import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
+import type { ExerciseAction, ExerciseState } from '../../atomTypes'
 
-export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
+export type SoloExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
 	action: TAction
-	progress: TProgress
+	state: TState
 }
 
-export type SoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = readonly SoloExerciseHistoryEvent<TAction, TProgress>[]
+export type SoloExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = readonly SoloExerciseHistoryEvent<TAction, TState>[]

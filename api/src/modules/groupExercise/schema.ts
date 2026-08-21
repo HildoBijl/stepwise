@@ -24,7 +24,7 @@ export const groupExerciseTypeDefs = gql`
 		parameters: JSON!
 		active: Boolean!
 		startedOn: DateTime!
-		progress: JSON
+		state: JSON
 		history: [GroupEvent]!
 	}
 
@@ -36,7 +36,7 @@ export const groupExerciseTypeDefs = gql`
 
 	type ResolvedGroupEvent implements GroupEvent {
 		id: ID!
-		progress: JSON!
+		state: JSON!
 		performedAt: DateTime!
 		submissions: [GroupSubmission]!
 	}

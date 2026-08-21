@@ -27,11 +27,11 @@ export const exerciseFields = `
 	parameters
 	startedOn
 	active
-	progress
+	state
 	history {
 		id
 		action
-		progress
+		state
 		performedAt
 	}
 `

@@ -1,4 +1,4 @@
-export { getPreviousProgress } from '@step-wise/exercise-definition'
+export { getPreviousState } from '@step-wise/exercise-definition'
 export { getStep } from '@step-wise/input-exercises'
 
 export * from './Steps'

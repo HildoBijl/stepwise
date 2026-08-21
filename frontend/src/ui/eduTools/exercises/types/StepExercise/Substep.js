@@ -13,16 +13,16 @@ import { useExerciseData } from '../../containers'
 export function Substep({ ss, children }) {
 	// Gather data.
 	let settings = useFormPartSettings()
-	const { progress, example } = useExerciseData()
+	const { state, example } = useExerciseData()
 
 	// Check input.
 	ss = ensureInteger(ss)
 
 	// If the step is not read-only yet, check if the substep has to be read-only. The same applies for showing hints.
 	if (!settings.readOnly && !example) {
-		const step = getStep(progress)
-		const stepProgress = progress[step] || {}
-		if (stepProgress[ss])
+		const step = getStep(state)
+		const stepState = state[step] || {}
+		if (stepState[ss])
 			settings = { ...settings, readOnly: true, showHints: false }
 	}
 

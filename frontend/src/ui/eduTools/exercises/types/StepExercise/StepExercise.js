@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { last, repeat } from '@step-wise/js-utils'
-import { getPreviousProgress } from '@step-wise/exercise-definition'
+import { getPreviousState } from '@step-wise/exercise-definition'
 import { getStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
@@ -26,7 +26,7 @@ export function StepExercise(props) {
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
-	const { mode, parameters, progress, history, startNewExercise, example, inspection } = useExerciseData()
+	const { mode, parameters, state, history, startNewExercise, example, inspection } = useExerciseData()
 	const userId = useUserId()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
@@ -36,16 +36,16 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	// Upon loading, or on a change of the last event (something was submitted), focus on the first field. (Delay to ensure all fields are registered.))
 	const lastEventId = last(history, { allowOutOfBounds: true })?.id
 	useEffect(() => {
-		if (!progress.done)
+		if (!state.done)
 			setTimeout(activateFirst, 1)
-	}, [MainProblem, progress, lastEventId, activateFirst])
+	}, [MainProblem, state, lastEventId, activateFirst])
 
 	// Determine what to show.
 	const hasMainProblemSubmissions = hasPreviousInputAtStep(mode, history, 0, userId)
-	const doneWithMainProblem = progress.done || progress.split
-	const readOnly = inspection ? true : (example ? progress.split : doneWithMainProblem)
-	const showInputSpace = !progress.split && (!inspection || hasMainProblemSubmissions)
-	const showMainFeedback = showInputSpace && (progress.solved || progress.split || isAllInputEqual(feedbackInput))
+	const doneWithMainProblem = state.done || state.split
+	const readOnly = inspection ? true : (example ? state.split : doneWithMainProblem)
+	const showInputSpace = !state.split && (!inspection || hasMainProblemSubmissions)
+	const showMainFeedback = showInputSpace && (state.solved || state.split || isAllInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer example={example} refresh={example && startNewExercise}>
@@ -57,16 +57,16 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} />
-			{progress.split ? null : <ExerciseButtons stepwise={true} />}
+			{state.split ? null : <ExerciseButtons stepwise={true} />}
 		</ProblemContainer>
-		{!expandSolution && !example && !inspection ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
+		{!expandSolution && !example && !inspection ? <SolutionContainer display={!!state.done && !state.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
 		<Steps steps={steps} forceDisplay={expandSolution} />
 		<ContinuationButtons />
 	</>
 }
 
 function stepExerciseGetFeedback(data) {
-	const { progress, history, shared } = data
+	const { state, history, shared } = data
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
 	if (shared.getSolution)
@@ -75,13 +75,13 @@ function stepExerciseGetFeedback(data) {
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (shared.checkInput) {
 		// If the exercise is not split, only do so for the main problem.
-		if (!progress.split)
+		if (!state.split)
 			return { main: shared.checkInput(data, 0) }
 
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
-		const previousProgress = getPreviousProgress(data.instance)
-		const step = getStep(previousProgress)
+		const previousState = getPreviousState(data.instance)
+		const step = getStep(previousState)
 		repeat(step, (index) => {
 			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)
 		})

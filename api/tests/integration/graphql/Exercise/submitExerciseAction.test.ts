@@ -58,17 +58,17 @@ describe('submitExerciseAction', () => {
 
 		// Submit a wrong solution.
 		const action = inputAction(parameters.x + 1)
-		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters active history {action progress}}}}` })
+		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters active history {action state}}}}` })
 		expect(errors).toBeUndefined()
 		expect(updatedExercise).toMatchObject(exercise)
 		expect(updatedExercise.history).toHaveLength(1)
-		expect(updatedExercise.history[0].progress).toEqual({})
+		expect(updatedExercise.history[0].state).toEqual({})
 		expect(updatedExercise.history[0].action).toEqual(action)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Submit another wrong solution.
 		const secondAction = inputAction(parameters.x + 2)
-		const { data: { submitExerciseAction: { updatedExercise: reupdatedExercise } }, errors: secondActionErrors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(secondAction)}) {updatedExercise {history {action progress}}}}` })
+		const { data: { submitExerciseAction: { updatedExercise: reupdatedExercise } }, errors: secondActionErrors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(secondAction)}) {updatedExercise {history {action state}}}}` })
 		expect(secondActionErrors).toBeUndefined()
 		expect(reupdatedExercise.history).toHaveLength(2)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(2)
@@ -86,10 +86,10 @@ describe('submitExerciseAction', () => {
 
 		// Submit a right solution.
 		const action = inputAction(parameters.x)
-		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters active progress history {action progress}}}}` })
+		const { data: { submitExerciseAction: { updatedExercise } }, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(action)}) {updatedExercise {id exerciseId parameters active state history {action state}}}}` })
 		expect(errors).toBeUndefined()
 		expect(updatedExercise.active).toBe(false)
-		expect(updatedExercise.progress).toMatchObject({ done: true })
+		expect(updatedExercise.state).toMatchObject({ done: true })
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 
 		// Check that no exercise is active.

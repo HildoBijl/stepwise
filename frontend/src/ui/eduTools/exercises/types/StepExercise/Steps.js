@@ -19,21 +19,21 @@ export function Steps({ steps, forceDisplay }) {
 function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
-	const { mode, parameters, progress, history, example, inspection, historyIndex } = useExerciseData()
+	const { mode, parameters, state, history, example, inspection, historyIndex } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
 
 	// Determine what to show.
-	const exerciseStep = getStep(progress) // How far the student is with the exercise.
+	const exerciseStep = getStep(state) // How far the student is with the exercise.
 	const display = step <= exerciseStep || forceDisplay || !!example || inspection
-	const stepProgress = (forceDisplay ? { done: true, solved: false } : progress[step]) || {}
+	const stepState = (forceDisplay ? { done: true, solved: false } : state[step]) || {}
 
 	// If this step has had a submission, or is still active, show the input space.
 	const hasSubmissions = history.some((event, index) => {
 		if (inspection && index > historyIndex)
 			return false // We are past the inspection (submission) index: future submissions are ignored.
-		if (index === 0 || history[index - 1].progress.step !== step)
+		if (index === 0 || history[index - 1].state.step !== step)
 			return false // Not at this step.
 		if (mode === 'solo' && event.action.type === 'input')
 			return true // Single-user exercise with input at this step.
@@ -41,12 +41,12 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 			return true // Group exercise with input by the user at this step.
 		return false // Nothing found.
 	})
-	const doneWithStep = stepProgress.done
+	const doneWithStep = stepState.done
 	const readOnly = inspection ? true : (example ? step !== exerciseStep : doneWithStep)
-	const showInputSpace = (!inspection && !stepProgress.done && step === exerciseStep) || hasSubmissions
-	const showMainFeedback = showInputSpace && (stepProgress.done || isAllInputEqual(feedbackInput))
-	const showSolution = !!(example || inspection || stepProgress.done)
-	const initialSolutionExpand = !!(forceDisplay || inspection || (stepProgress.done && !stepProgress.solved))
+	const showInputSpace = (!inspection && !stepState.done && step === exerciseStep) || hasSubmissions
+	const showMainFeedback = showInputSpace && (stepState.done || isAllInputEqual(feedbackInput))
+	const showSolution = !!(example || inspection || stepState.done)
+	const initialSolutionExpand = !!(forceDisplay || inspection || (stepState.done && !stepState.solved))
 
 	return <>
 		<ProblemContainer display={!!display} step={step}>
@@ -58,7 +58,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} step={step} />
-			{step === exerciseStep && (!stepProgress.done || example) ? <ExerciseButtons stepwise={true} /> : null}
+			{step === exerciseStep && (!stepState.done || example) ? <ExerciseButtons stepwise={true} /> : null}
 		</ProblemContainer>
 		<SolutionContainer display={showSolution} initialExpand={initialSolutionExpand}>
 			<TranslationSection entry={`step${step}.solution`}>

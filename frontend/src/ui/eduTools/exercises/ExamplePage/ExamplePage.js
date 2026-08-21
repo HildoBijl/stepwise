@@ -24,7 +24,7 @@ export function ExamplePage({ skillId }) {
 			...newExercise,
 			id: uuidv4(), // Just generate a random one.
 			active: true,
-			progress: {},
+			state: {},
 			startedOn: new Date(),
 		}
 		setExercise(exercise)
@@ -33,21 +33,21 @@ export function ExamplePage({ skillId }) {
 	// Start a new exercise whenever the skillId changes.
 	useEffect(startNewExercise, [startNewExercise, skillId])
 
-	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
+	// On a submit handle the process as would happen on the server: find the new state and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processSoloAction) => {
-		// Determine the new progress.
-		let progress
-		if (action?.type === 'setProgress') // An override only used by example exercises.
-			progress = action.newProgress
+		// Determine the new state.
+		let state
+		if (action?.type === 'setState') // An override only used by example exercises.
+			state = action.newState
 		else
-			progress = processSoloAction({ action, parameters: exercise.parameters, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+			state = processSoloAction({ action, parameters: exercise.parameters, state: exercise.state, history: exercise.history, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({
 			...exercise,
-			active: exercise.active && !progress.done,
-			progress,
-			history: [...exercise.history, { action, progress, performedAt: new Date() }],
+			active: exercise.active && !state.done,
+			state,
+			history: [...exercise.history, { action, state, performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

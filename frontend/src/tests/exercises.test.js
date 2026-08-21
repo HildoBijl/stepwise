@@ -55,7 +55,7 @@ describe('Check all exercises:', () => {
 							parameters,
 							history: [],
 							instance: { mode: 'solo', parameters, history: [] },
-							progress: {},
+							state: {},
 							submitting: false,
 							submitAction: noop,
 							startNewExercise: noop,

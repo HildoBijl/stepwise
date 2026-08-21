@@ -1,18 +1,18 @@
-import type { ExerciseAction, ExerciseProgress } from '../../atomTypes'
+import type { ExerciseAction, ExerciseState } from '../../atomTypes'
 
 export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAction> = {
 	userId?: string
 	action: TAction
 }
 
-export type ResolvedGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = {
+export type ResolvedGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
 	submissions: readonly GroupExerciseSubmission<TAction>[]
-	progress: TProgress
+	state: TState
 }
 
 export type PendingGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction> = {
 	submissions: readonly GroupExerciseSubmission<TAction>[]
 }
 
-export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = ResolvedGroupExerciseHistoryEvent<TAction, TProgress> | PendingGroupExerciseHistoryEvent<TAction>
-export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress> = readonly GroupExerciseHistoryEvent<TAction, TProgress>[]
+export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = ResolvedGroupExerciseHistoryEvent<TAction, TState> | PendingGroupExerciseHistoryEvent<TAction>
+export type GroupExerciseHistory<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = readonly GroupExerciseHistoryEvent<TAction, TState>[]

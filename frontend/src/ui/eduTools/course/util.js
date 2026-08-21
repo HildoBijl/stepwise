@@ -1,7 +1,7 @@
 export function getExerciseOutcome(exercise) {
-	if (!exercise.progress.done)
-		return 'inProgress'
-	if (!exercise.progress.solved)
+	if (!exercise.state.done)
+		return 'inState'
+	if (!exercise.state.solved)
 		return 'incorrect'
 	if (exercise.history.length > 1)
 		return 'partiallyCorrect'
@@ -16,7 +16,7 @@ export function getOutcomeColor(outcome) {
 			return 'warning'
 		case 'incorrect':
 			return 'error'
-		case 'inProgress':
+		case 'inState':
 			return 'info'
 		default:
 			throw new Error(`Invalid exercise outcome: received "${outcome}" but this was not one of the valid options.`)

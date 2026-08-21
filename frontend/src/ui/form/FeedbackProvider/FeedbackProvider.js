@@ -29,20 +29,20 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	const translate = addSection(rawTranslate, `practice.${exerciseData.exerciseId}.feedback`, false)
 	const translateCrossExercise = addSection(rawTranslate, crossExerciseTranslationPath, false) // Allows skill-wide feedback translation (cross-exercise) instead of exercise-bound feedback translation.
 
-	// Set up a parameters to store the feedback and corresponding input to which that feedback was given.
+	// Set up state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
 	const feedbackRef = useLatest(feedback)
-	const progressRef = useRef()
+	const stateRef = useRef()
 
 	// Set up an updateFeedback handler.
 	const { isAllInputEqual } = useFormData()
 	const exerciseDataRef = useLatest(exerciseData)
-	const updateFeedback = useStableCallback((input = {}, progress = {}) => {
-		// Compare the new input with the previous input. When they are equal, and the progress is equal too, do not evaluate.
+	const updateFeedback = useStableCallback((input = {}, state = {}) => {
+		// Compare the new input with the previous input. When they are equal, and the state is equal too, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
-		if (isAllInputEqual(input, previousInput) && deepEqual(progress, progressRef.currect))
+		if (isAllInputEqual(input, previousInput) && deepEqual(state, stateRef.current))
 			return
-		progressRef.current = progress
+		stateRef.current = state
 
 		// If there is no input, then make sure there is no feedback either.
 		if (!input || Object.keys(input).length === 0)
@@ -53,7 +53,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const inputFO = interpretAllInputValues(input)
 			const previousInputFO = interpretAllInputValues(previousInput)
 			let result = getFeedback({
-				...pickKeys(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'parameters', 'example']),
+				...pickKeys(exerciseDataRef.current, ['history', 'state', 'metaData', 'shared', 'solution', 'parameters', 'example']),
 				input: inputFO,
 				rawInput: input,
 				previousFeedback: previousResult,
@@ -68,12 +68,12 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 		}
 	})
 
-	// When the input to be given feedback on changes, update the feedback. Also update on progress changes, since some fields (like MultipleChoice) base their feedback on whether an exercise done to show the right answer.
-	const { progress } = exerciseData
+	// When the input to be given feedback on changes, update the feedback. Also update on state changes, since some fields (like MultipleChoice) base their feedback on whether an exercise done to show the right answer.
+	const { state } = exerciseData
 	useEffect(() => {
 		if (input)
-			updateFeedback(input, progress)
-	}, [input, progress, updateFeedback])
+			updateFeedback(input, state)
+	}, [input, state, updateFeedback])
 
 	// Wrap a provider around the contents. Also export the updateFeedback, so instances may manually call for a change here, for instance when viewing submissions made by other students in the coop mode.
 	return <FeedbackContext.Provider value={{ ...feedback, updateFeedback }}>{children}</FeedbackContext.Provider>

@@ -4,12 +4,12 @@ import { getExercise } from '@step-wise/exercises'
 export const groupExerciseEvents = { groupExerciseUpdated: 'GROUP_EXERCISE_UPDATED' } as const
 
 function getLastResolvedGroupEvent(exercise: any) {
-	const events = (exercise.events || []).filter((event: any) => event.progress !== null)
+	const events = (exercise.events || []).filter((event: any) => event.state !== null)
 	return findOptimum(events, (a: any, b: any) => a.updatedAt > b.updatedAt) || null
 }
 
-export function getGroupExerciseProgress(exercise: any) {
-	return getLastResolvedGroupEvent(exercise)?.progress ?? {}
+export function getGroupExerciseState(exercise: any) {
+	return getLastResolvedGroupEvent(exercise)?.state ?? {}
 }
 
 async function deactivateMissingGroupExercises(group: any) {

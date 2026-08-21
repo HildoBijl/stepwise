@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { deserializeAll } from '@step-wise/serialization'
-import { getLastProgress } from '@step-wise/exercise-definition'
+import { getLastState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
 
@@ -46,8 +46,8 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	// Assemble the parameters as Functional Object.
 	const parametersFO = useMemo(() => deserializeAll(parameters), [parameters])
 
-	// Ensure that the progress has a consistent reference.
-	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(instance))
+	// Ensure that the state has a consistent reference.
+	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state || {}) : getLastState(instance))
 
 	if (loading)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
@@ -64,7 +64,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		groupExercise,
 		mode,
 		history: exercise.history,
-		progress,
+		state,
 		submitting,
 		submitAction: (action) => submitAction(action, mode === 'group' ? ExerciseShared.current.processGroupActions : ExerciseShared.current.processSoloAction), // Incorporate the reducer for Stranger-mode and for optimistic responses.
 		cancelAction,

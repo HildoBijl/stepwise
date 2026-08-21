@@ -4,7 +4,7 @@ export class ExerciseEventRecord extends Model<InferAttributes<ExerciseEventReco
 	declare id: CreationOptional<string>
 	declare exerciseSampleId: string
 	declare action: unknown
-	declare progress: unknown
+	declare state: unknown
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 }
@@ -44,7 +44,7 @@ export function createExerciseEventModel(sequelize: Sequelize): ExerciseEventMod
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
 		exerciseSampleId: { type: DataTypes.UUID, allowNull: false },
 		action: { type: DataTypes.JSON, allowNull: false },
-		progress: { type: DataTypes.JSON, allowNull: false },
+		state: { type: DataTypes.JSON, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'exerciseEvent' })

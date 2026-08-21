@@ -31,7 +31,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	const translate = useTranslator()
 	const exerciseDefinition = useMemo(() => getExercise(skillId, exerciseId), [skillId, exerciseId])
 
-	// Make sure there is exercise data, such as parameters and progress.
+	// Make sure there is exercise data, such as parameters and state.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		if (exerciseDefinition) {
@@ -41,7 +41,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 				parameters: exerciseDefinition.generateParameters(), // The parameters should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
-				progress: {},
+				state: {},
 				history: [],
 				startedOn: new Date(),
 			})
@@ -49,14 +49,14 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	}, [exerciseId, exerciseDefinition])
 	useEffect(startNewExercise, [startNewExercise])
 
-	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
+	// Set up a submit handler. Do the same as would happen on the server: find the new state and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processSoloAction) => {
-		const progress = processSoloAction({ action, parameters: exercise.parameters, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+		const state = processSoloAction({ action, parameters: exercise.parameters, state: exercise.state, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
-			active: exercise.active && !progress.done,
-			progress,
-			history: [...exercise.history, { action, progress, performedAt: new Date() }],
+			active: exercise.active && !state.done,
+			state,
+			history: [...exercise.history, { action, state, performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

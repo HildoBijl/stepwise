@@ -22,7 +22,7 @@ export function SimpleExercise(props) {
 
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
-	const { parameters, progress, history, example, inspection, startNewExercise } = useExerciseData()
+	const { parameters, state, history, example, inspection, startNewExercise } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -33,22 +33,22 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	// Upon loading, or on history updates, focus on the first field. (Delay to ensure all fields are registered.)
 	useEffect(() => {
 		clearTimeout(timeoutIndexRef.current)
-		if (!progress.done)
+		if (!state.done)
 			timeoutIndexRef.current = setTimeout(activateFirst)
-	}, [Problem, progress, history, activateFirst])
+	}, [Problem, state, history, activateFirst])
 
 	// Determine what to show.
 	const hasSubmissions = hasPreviousInput(history, userId) // Has there been an input action?
-	const readOnly = inspection || (!example && progress.done)
-	const showInputSpace = hasSubmissions || (!progress.done && !inspection)
-	const showMainFeedback = showInputSpace && (progress.done || isAllInputEqual(feedbackInput))
-	const showSolution = inspection || example || progress.done
-	const initialExpandSolution = inspection || (!example && !progress.solved)
+	const readOnly = inspection || (!example && state.done)
+	const showInputSpace = hasSubmissions || (!state.done && !inspection)
+	const showMainFeedback = showInputSpace && (state.done || isAllInputEqual(feedbackInput))
+	const showSolution = inspection || example || state.done
+	const initialExpandSolution = inspection || (!example && !state.solved)
 
 	// Render the exercise.
 	return <>
 		<ProblemContainer example={example} refresh={example && startNewExercise}>
-			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!progress.done}>
+			<FormPart readOnly={readOnly} showInputSpace={showInputSpace} showHints={!state.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
 						<Problem {...parameters} translate={addSection(translate, 'problem')} />

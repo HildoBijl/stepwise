@@ -55,32 +55,32 @@ export function SubmissionButtons({ exerciseIndex, submissionIndex, setSubmissio
 		</Box> : <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
 			{events.map((event, index) => {
 				let disabled, color, value
-				const progress = event.progress
-				const prevProgress = events[index - 1]?.progress || {}
+				const state = event.state
+				const prevState = events[index - 1]?.state || {}
 				switch (event.action.type) {
 					case 'giveUp':
 						disabled = true
-						if (progress.split && !prevProgress.split) { // Split action?
+						if (state.split && !prevState.split) { // Split action?
 							color = 'warning'
 							value = 'S'
 						} else { // Regular give-up action.
 							color = 'warning'
-							value = progress.split ? `${prevProgress.step}.G` : 'G'
+							value = state.split ? `${prevState.step}.G` : 'G'
 						}
 						break
 					case 'input':
 						// Determine if the input was correct.
 						let correct = false
-						if (progress.solved) // Main problem?
+						if (state.solved) // Main problem?
 							correct = true
-						if (prevProgress.split && progress[prevProgress.step].solved) // At a step?
+						if (prevState.split && state[prevState.step].solved) // At a step?
 							correct = true
 
 						// Set up parameters.
 						disabled = false
 						color = correct ? 'success' : 'error'
-						value = progress.split ? // Count the number of previous actions (at that step).
-							`${prevProgress.step}.${events.filter((currEvent, currIndex) => currEvent.progress.step === prevProgress.step && currIndex < index).length}` :
+						value = state.split ? // Count the number of previous actions (at that step).
+							`${prevState.step}.${events.filter((currEvent, currIndex) => currEvent.state.step === prevState.step && currIndex < index).length}` :
 							events.filter((_, currIndex) => currIndex <= index).length
 						break
 					default:
