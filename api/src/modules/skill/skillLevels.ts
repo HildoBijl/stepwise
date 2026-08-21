@@ -28,7 +28,8 @@ export async function applySkillUpdates(database: SkillDatabase, skillUpdates: S
 		updatesPerUser[update.userId].push(update)
 	})
 	const userIds = Object.keys(updatesPerUser)
-	const result = await Promise.all(userIds.map(userId => applySkillUpdatesForUser(database, userId, updatesPerUser[userId], transaction)))
+	const result = []
+	for (const userId of userIds) result.push(await applySkillUpdatesForUser(database, userId, updatesPerUser[userId], transaction))
 	return fromKeysAndValues(userIds, result)
 }
 
@@ -45,9 +46,10 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 	const rawSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
 	const updates = new SkillLevelSet(skillTree, rawSkillLevelSet).processObservations(observations)
 
-	return Promise.all(Object.keys(updates).map(skillId => {
+	const result = []
+	for (const skillId of Object.keys(updates)) {
 		const skill = skillsAsObject[skillId]
-		if (skill) return skill.update(updates[skillId], { transaction })
-		return database.UserSkill.create({ userId, skillId, ...updates[skillId] }, { transaction })
-	}))
+		result.push(skill ? await skill.update(updates[skillId], { transaction }) : await database.UserSkill.create({ userId, skillId, ...updates[skillId] }, { transaction }))
+	}
+	return result
 }
