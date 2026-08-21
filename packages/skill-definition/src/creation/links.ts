@@ -6,19 +6,25 @@ import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 export function normalizeLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {
 	// Ensure the links attribute is an array of links.
 	if (Array.isArray(links) && links.length === 0) return []
-	const list = !links ? [] : Array.isArray(links) && !links.every(link => typeof link === 'string') ? links : [links]
+	const list = links === undefined ? [] : Array.isArray(links) && !links.every(link => typeof link === 'string') ? links : [links]
 	return list.map(link => {
 		// Deal with strings or lists of strings.
-		if (typeof link === 'string') return { skills: [link] }
+		if (typeof link === 'string') {
+			if (link.length === 0) throw new Error('Invalid skill link: linked skill IDs must not be empty.')
+			return { skills: [link] }
+		}
 		if (Array.isArray(link) && link.every(elem => typeof elem === 'string')) {
-			if (link.length === 0) throw new Error('Invalid skill link: expected at least one linked skill.')
-			return { skills: link as string[] }
+			const skillIds = link as string[]
+			if (skillIds.length === 0) throw new Error('Invalid skill link: expected at least one linked skill.')
+			if (skillIds.some(skillId => skillId.length === 0)) throw new Error('Invalid skill link: linked skill IDs must not be empty.')
+			return { skills: skillIds }
 		}
 		if (!isPlainObject(link)) throw new Error(`Invalid skill link: expected a plain object, string or array, but got "${typeof link}".`)
 
 		// For an object, extract the skill IDs.
-		const skills = link.skills ?? (link.skill ? (Array.isArray(link.skill) ? link.skill : [link.skill]) : undefined)
-		if (!skills || !Array.isArray(skills) || skills.length === 0 || !skills.every(skillId => typeof skillId === 'string')) throw new Error(`Invalid skill link: linked skills were not properly given.`)
+		if (link.skill !== undefined && link.skills !== undefined) throw new Error('Invalid skill link: "skill" and "skills" cannot both be specified.')
+		const skills = link.skills ?? (link.skill === undefined ? undefined : Array.isArray(link.skill) ? link.skill : [link.skill])
+		if (!skills || !Array.isArray(skills) || skills.length === 0 || !skills.every(skillId => typeof skillId === 'string' && skillId.length > 0)) throw new Error(`Invalid skill link: linked skills were not properly given.`)
 
 		// Validate the correlation when provided.
 		const correlation = link.correlation === undefined ? undefined : ensureNumber(link.correlation)
@@ -33,6 +39,13 @@ export function applyLinks(skillTree: SkillTree): void {
 	const skillIds = Object.keys(skillTree)
 	const skillOrder = new Map(skillIds.map((skillId, index) => [skillId, index]))
 	const relationships = new Map<string, { participants: SkillId[]; correlation?: number }>()
+	const compareSkillIdLists = (list1: SkillId[], list2: SkillId[]): number => {
+		for (let index = 0; index < Math.min(list1.length, list2.length); index++) {
+			const difference = skillOrder.get(list1[index])! - skillOrder.get(list2[index])!
+			if (difference !== 0) return difference
+		}
+		return list1.length - list2.length
+	}
 
 	// Validate and canonicalize every declared relationship.
 	for (const skill of Object.values(skillTree)) {
@@ -65,5 +78,9 @@ export function applyLinks(skillTree: SkillTree): void {
 			skillTree[participant].links.push({ skills: relationship.participants.filter(skillId => skillId !== participant), ...(relationship.correlation === undefined ? {} : { correlation: relationship.correlation }) })
 		}
 	}
-	for (const skill of Object.values(skillTree)) skill.linkedSkills = deduplicate(skill.links.flatMap(link => link.skills))
+	for (const skill of Object.values(skillTree)) {
+		skill.links.sort((link1, link2) => compareSkillIdLists(link1.skills, link2.skills))
+		const linkedSkills = deduplicate(skill.links.flatMap(link => link.skills))
+		skill.linkedSkills = sortBy(linkedSkills, linkedSkills.map(skillId => skillOrder.get(skillId)!))
+	}
 }

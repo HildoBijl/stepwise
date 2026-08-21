@@ -11,25 +11,21 @@ function isRawSkill(value: unknown): value is RawSkill {
 // Take a definition of a skill tree and turn it into useful lists.
 export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 	const skillTree = Object.create(null) as SkillTree
-	const skillsPerGroup = new Map<string, SkillId[]>()
 	const registeredSkillIds = new Map<string, { id: SkillId; path: string }>()
 
 	const walk = (group: unknown, path: string[] = []) => {
 		if (!isPlainObject(group)) throw new TypeError(`Invalid raw skill tree entry at "${path.join('/') || '<root>'}": expected a skill or group object.`)
+		const skillsInGroup: SkillId[] = []
 		for (const [key, value] of Object.entries(group)) {
 			if (isRawSkill(value)) {
 				const skillPath = [...path, key].join('/')
+				if (key.length === 0) throw new RangeError(`Invalid skill ID at "${skillPath}": skill IDs must not be empty.`)
+				if (value.name.length === 0) throw new RangeError(`Invalid skill name for "${key}" at "${skillPath}": skill names must not be empty.`)
 				const normalizedSkillId = key.toLowerCase()
 				const existingSkill = registeredSkillIds.get(normalizedSkillId)
 				if (existingSkill) throw new Error(`Duplicate skill ID: "${key}" at "${skillPath}" conflicts with "${existingSkill.id}" at "${existingSkill.path}". Skill IDs must be unique regardless of casing.`)
 				registeredSkillIds.set(normalizedSkillId, { id: key, path: skillPath })
 
-				const groupKey = path.join('/')
-				let skillsInGroup = skillsPerGroup.get(groupKey)
-				if (!skillsInGroup) {
-					skillsInGroup = []
-					skillsPerGroup.set(groupKey, skillsInGroup)
-				}
 				skillsInGroup.push(key)
 
 				skillTree[key] = {
