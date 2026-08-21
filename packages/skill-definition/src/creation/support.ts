@@ -12,10 +12,17 @@ function isRawSkill(value: RawSkill | RawSkillGroup): value is RawSkill {
 export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 	const skillTree: SkillTree = {}
 	const skillsPerGroup: Record<string, SkillId[]> = {}
+	const registeredSkillIds = new Map<string, { id: SkillId; path: string }>()
 
 	const walk = (group: RawSkillGroup, path: string[] = []) => {
 		for (const [key, value] of Object.entries(group)) {
 			if (isRawSkill(value)) {
+				const skillPath = [...path, key].join('/')
+				const normalizedSkillId = key.toLowerCase()
+				const existingSkill = registeredSkillIds.get(normalizedSkillId)
+				if (existingSkill) throw new Error(`Duplicate skill ID: "${key}" at "${skillPath}" conflicts with "${existingSkill.id}" at "${existingSkill.path}". Skill IDs must be unique regardless of casing.`)
+				registeredSkillIds.set(normalizedSkillId, { id: key, path: skillPath })
+
 				const groupKey = path.join('/')
 				const skillsInGroup = skillsPerGroup[groupKey] ?? (skillsPerGroup[groupKey] = [])
 				skillsInGroup.push(key)
@@ -52,4 +59,3 @@ export function applyContinuations(skillTree: SkillTree): void {
 		}
 	}
 }
-
