@@ -1,7 +1,7 @@
 import { and, repeat } from '@step-wise/skill-setup'
-import type { RawSkillGroup } from '@step-wise/skill-definition'
+import type { RawSkillTree } from '@step-wise/skill-definition'
 
-export const demoTree: RawSkillGroup = {
+export const demoTree: RawSkillTree = {
 	demo: {
 		name: 'Demo exercise',
 	},

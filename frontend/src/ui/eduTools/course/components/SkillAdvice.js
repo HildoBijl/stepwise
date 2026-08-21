@@ -221,7 +221,7 @@ export function useSkillAdvice() {
 // findPriorSkillToPractice takes a skillId, a list of courseSkills (order matters) and a practiceNeeded object, and determines which prior skill should be practiced before the current skill. For this, it walks through the prerequisites and checks if any of them require work. This is done recursively. With "require work" we mean that practiceNeeded equals 2. If the includeDoubtfulCases parameter is set to true, also practiceNeeded equaling 1 is included.
 function findPriorSkillToPractice(skillId, courseSkills, practiceNeeded, includeDoubtfulCases = false) {
 	// Find the first skill in the course that is a prerequisite, requires work and can be worked on.
-	const recommendation = courseSkills.find(prerequisiteId => skillTree[skillId].prerequisites.includes(prerequisiteId) && (practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1)) && hasExercises(prerequisiteId))
+	const recommendation = courseSkills.find(prerequisiteId => skillTree[skillId].prerequisiteIds.includes(prerequisiteId) && (practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1)) && hasExercises(prerequisiteId))
 
 	// If no prior skill requires work, return that we best practice the current skill.
 	if (!recommendation)
@@ -234,7 +234,7 @@ function findPriorSkillToPractice(skillId, courseSkills, practiceNeeded, include
 // findNextSkillToPractice takes a skillId, a list of courseSkills (order matters) and a practiceNeeded object and determines which next skill should be practice upon completion of the current skill. For this, it studies the continuation skills and sees if any require work. (Or even continuations of those continuations, if the continuations are done already.) It then also checks their children, to see if any of those still require works. The most suitable option (that is, the first in the general skills list) is returned. If nothing suitable is found, undefined is returned.
 function findNextSkillToPractice(skillId, courseSkills, practiceNeeded) {
 	// Find the first skill in the course that is a continuation, requires practice and can be worked on. If there is none, do a depth-first search on the continuations of the continuations, to see if anything suitable pops up.
-	const continuations = courseSkills.filter(continuationId => skillTree[skillId].continuations.includes(continuationId))
+	const continuations = courseSkills.filter(continuationId => skillTree[skillId].continuationIds.includes(continuationId))
 	let recommendation = continuations.find(continuationId => (practiceNeeded[continuationId] === 1 || practiceNeeded[continuationId] === 2) && hasExercises(continuationId))
 	if (!recommendation)
 		return continuations.find(continuationId => findNextSkillToPractice(continuationId, courseSkills, practiceNeeded))

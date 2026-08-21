@@ -1,4 +1,4 @@
-import { type SkillId, ensureSkillId as agnosticEnsureSkillId, ensureSkillIds as agnosticEnsureSkillIds, includeDirectPrerequisites as agnosticIncludeDirectPrerequisites, includeDirectPrerequisitesAndLinks as agnosticIncludeDirectPrerequisitesAndLinks, isSkillRequiredFor as agnosticIsSkillRequiredFor } from '@step-wise/skill-definition'
+import { type SkillId, ensureSkillId as agnosticEnsureSkillId, ensureSkillIds as agnosticEnsureSkillIds, getSkillIdsWithDirectPrerequisites as agnosticGetSkillIdsWithDirectPrerequisites, getSkillIdsWithDirectPrerequisitesAndLinks as agnosticGetSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteFor as agnosticIsSkillPrerequisiteFor } from '@step-wise/skill-definition'
 
 import { skillTree } from './processing'
 
@@ -12,14 +12,14 @@ export function ensureSkillIds(skillIds: SkillId | readonly SkillId[]): SkillId[
 	return agnosticEnsureSkillIds(skillTree, skillIds)
 }
 
-export function includeDirectPrerequisites(skillIds: SkillId | SkillId[]): SkillId[] {
-	return agnosticIncludeDirectPrerequisites(skillTree, skillIds)
+export function getSkillIdsWithDirectPrerequisites(skillIds: SkillId | SkillId[]): SkillId[] {
+	return agnosticGetSkillIdsWithDirectPrerequisites(skillTree, skillIds)
 }
 
-export function includeDirectPrerequisitesAndLinks(skillIds: SkillId | SkillId[]): SkillId[] {
-	return agnosticIncludeDirectPrerequisitesAndLinks(skillTree, skillIds)
+export function getSkillIdsWithDirectPrerequisitesAndLinks(skillIds: SkillId | SkillId[]): SkillId[] {
+	return agnosticGetSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)
 }
 
-export function isSkillRequiredFor(childId: SkillId, parentId: SkillId): boolean {
-	return agnosticIsSkillRequiredFor(skillTree, childId, parentId)
+export function isSkillPrerequisiteFor(prerequisiteId: SkillId, skillId: SkillId): boolean {
+	return agnosticIsSkillPrerequisiteFor(skillTree, prerequisiteId, skillId)
 }

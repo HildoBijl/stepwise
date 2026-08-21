@@ -3,7 +3,7 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import { oneMinusPolynomial, substitutePolynomialMoments } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
-import { type SkillId, type SkillTree, ensureSkillId, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
+import { type SkillId, type SkillTree, ensureSkillId, getSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 
 import type { RawSkillLevel, RawSkillLevelSet, SkillLevelOutput, SkillObservation, SkillLevelUpdate, SkillLevelUpdateSet } from './types'
 import { maxSkillLevelCacheTime } from './settings'
@@ -46,7 +46,7 @@ export class SkillLevelSet {
 
 	hasDataOn(skillId: SkillId): boolean {
 		const skill = this.skillTree[this.ensureSkillId(skillId)]
-		const linkedSkillIds = includeDirectPrerequisitesAndLinks(this.skillTree, skill.id)
+		const linkedSkillIds = getSkillIdsWithDirectPrerequisitesAndLinks(this.skillTree, skill.id)
 		return linkedSkillIds.every(linkedSkillId => this.hasSkill(linkedSkillId))
 	}
 
@@ -77,8 +77,8 @@ export class SkillLevelSet {
 		if (!cacheEntry) return false
 		if (Date.now() - cacheEntry.on.getTime() >= maxSkillLevelCacheTime) return false
 		if (skillLevel.coefficientsOn >= cacheEntry.on) return false
-		if (skill.prerequisites.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).coefficientsOn >= cacheEntry.on)) return false
-		if (skill.linkedSkills.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).coefficientsOn >= cacheEntry.on)) return false
+		if (skill.prerequisiteIds.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).coefficientsOn >= cacheEntry.on)) return false
+		if (skill.linkedSkillIds.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).coefficientsOn >= cacheEntry.on)) return false
 		return true
 	}
 
@@ -135,8 +135,8 @@ export class SkillLevelSet {
 		if (!cacheEntry) return false
 		if (Date.now() - cacheEntry.on.getTime() >= maxSkillLevelCacheTime) return false
 		if (skillLevel.highestOn >= cacheEntry.on) return false
-		if (skill.prerequisites.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).highestOn >= cacheEntry.on)) return false
-		if (skill.linkedSkills.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).highestOn >= cacheEntry.on)) return false
+		if (skill.prerequisiteIds.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).highestOn >= cacheEntry.on)) return false
+		if (skill.linkedSkillIds.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).highestOn >= cacheEntry.on)) return false
 		return true
 	}
 

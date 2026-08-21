@@ -1,7 +1,7 @@
 import { and, repeat } from '@step-wise/skill-setup'
-import type { RawSkillGroup } from '@step-wise/skill-definition'
+import type { RawSkillTree } from '@step-wise/skill-definition'
 
-export const mechanicsTree: RawSkillGroup = {
+export const mechanicsTree: RawSkillTree = {
 	equilibrium: {
 		calculateForceOrMoment: {
 			name: 'Calculate a force or moment',

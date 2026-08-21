@@ -38,10 +38,10 @@ This provides sufficient information to the processing functions to set up the s
 
 ### Step 2: processing the Skill Tree
 
-To process the Skill Tree, pass the raw skill tree to the `processSkillTree` function.
+To create the Skill Tree, pass the raw skill tree to the `createSkillTree` function.
 
 ```
-const skillTree = processSkillTree(rawSkillTree)
+const skillTree = createSkillTree(rawSkillTree)
 ```
 
 The result will be a flat object of the form
@@ -61,11 +61,11 @@ skillTree.skill1 => {
 	skillId: 'skill1', // The key used within the raw tree.
 	name: 'Some example skill',
 	path: ['subject1', 'category1'], // The path within the raw tree.
-	skillsInGroup: ['skill1', 'skill2'], // Skills from the same group in the raw tree.
-	prerequisites: [], // Now with the skills from the set-up added to it.
-	continuations: ['skill3'], // The skills that have this skill as prerequisite.
-	links: [], // Links in processed form, with an optional correlation and no order.
-	linkedSkills: [], // All skills that are present in at least one link.
+	groupSkillIds: ['skill1', 'skill2'], // Skills from the same group in the raw tree.
+	prerequisiteIds: [], // Now with the skills from the set-up added to it.
+	continuationIds: ['skill3'], // The skills that have this skill as prerequisite.
+	links: [], // Links in processed form, with an optional correlation.
+	linkedSkillIds: [], // All skills that are present in at least one link.
 }
 ```
 
@@ -77,6 +77,6 @@ To walk through the Skill Tree, there are a variety of functions. All functions 
 
 - `ensureSkillId(skillTree, skillId)` takes a `skillId` and in a case-insensitive way tries to find the matching skillId. So `ensureSkillId(skillTree, 'sKIlL1')` will return 'skill1' while a non-existing skill will throw.
 - `ensureSkillIds(skillTree, skillIds)` does the same, but for a list of skillIds.
-- `isSkillRequiredFor(skillTree, childId, parentId)` checks if the given child skill is a prerequisite (directly or indirectly) for the parent skill.
-- `includeDirectPrerequisites(skillTree, skillIds)` takes a list of skillIds and expands it to include all direct prerequisites. No recursion is done.
-- `includeDirectPrerequisitesAndLinks(skillTree, skillIds)` takes a list of skillIds and expands it to include all direct prerequisites and direct links of the given skills. No recursion is done.
+- `isSkillPrerequisiteFor(skillTree, prerequisiteId, skillId)` checks if the first skill is a prerequisite, directly or indirectly, for the second skill.
+- `getSkillIdsWithDirectPrerequisites(skillTree, skillIds)` returns the given skill IDs and their direct prerequisites. No recursion is done.
+- `getSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)` returns the given skill IDs, their direct prerequisites and their directly linked skills. No recursion is done.

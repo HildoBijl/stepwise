@@ -1,7 +1,7 @@
 import { and, repeat, pick, part } from '@step-wise/skill-setup'
-import type { RawSkillGroup } from '@step-wise/skill-definition'
+import type { RawSkillTree } from '@step-wise/skill-definition'
 
-export const mathematicsTree: RawSkillGroup = {
+export const mathematicsTree: RawSkillTree = {
 	inputs: {
 		enterExpression: {
 			name: 'Enter an expression',
@@ -66,7 +66,7 @@ export const mathematicsTree: RawSkillGroup = {
 				},
 				substituteAnExpression: {
 					name: 'Substitute an expression',
-					links: { skill: 'substituteANumber', correlation: 0.4 },
+					links: { skillId: 'substituteANumber', correlation: 0.4 },
 				},
 			},
 			simplification: {
@@ -113,7 +113,7 @@ export const mathematicsTree: RawSkillGroup = {
 					simplifyFractionWithVariables: {
 						name: 'Simplify fraction with variables',
 						setup: and('simplifyFraction', 'cancelFractionFactors', 'rewritePower'),
-						links: { skill: 'simplifyProductOfPowers', correlation: 0.4 },
+						links: { skillId: 'simplifyProductOfPowers', correlation: 0.4 },
 					},
 					simplifyFractionOfFractionsWithVariables: {
 						name: 'Simplify fraction of fractions with variables',
@@ -136,12 +136,12 @@ export const mathematicsTree: RawSkillGroup = {
 					addFractionsWithMultipleVariables: {
 						name: 'Add fractions with multiple variables',
 						setup: and('simplifyFractionWithVariables', 'addLikeFractionsWithVariables'),
-						links: { skill: 'addFractionsWithVariables', correlation: 0.5 },
+						links: { skillId: 'addFractionsWithVariables', correlation: 0.5 },
 					},
 					simplifyFractionOfFractionSumsWithMultipleVariables: {
 						name: 'Simplify fraction of fraction sums with multiple variables',
 						setup: and('addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables'),
-						links: { skill: 'simplifyFractionOfFractionSumsWithVariables', correlation: 0.6 },
+						links: { skillId: 'simplifyFractionOfFractionSumsWithVariables', correlation: 0.6 },
 					},
 				},
 			},
@@ -173,12 +173,12 @@ export const mathematicsTree: RawSkillGroup = {
 				factors: {
 					multiplyBothEquationSides: {
 						name: 'Multiply both equation sides',
-						links: { skill: 'addToBothEquationSides', correlation: 0.4 },
+						links: { skillId: 'addToBothEquationSides', correlation: 0.4 },
 					},
 					moveEquationFactor: {
 						name: 'Move equation factor',
 						setup: and('multiplyBothEquationSides', 'cancelFractionFactors', part('multiplyDivideFractions', 1 / 2)),
-						links: { skill: 'moveEquationTerm', correlation: 0.4 },
+						links: { skillId: 'moveEquationTerm', correlation: 0.4 },
 					},
 				},
 				rational: {
@@ -202,7 +202,7 @@ export const mathematicsTree: RawSkillGroup = {
 					solveMultiVariableProductEquation: {
 						name: 'Solve multi-variable product equation',
 						setup: and('moveEquationFactor', part('moveEquationFactor', 0.5), 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution'),
-						links: { skill: 'solveProductEquation', correlation: 0.7 },
+						links: { skillId: 'solveProductEquation', correlation: 0.7 },
 					},
 				},
 				linearEquations: {
@@ -241,7 +241,7 @@ export const mathematicsTree: RawSkillGroup = {
 					solveMultiVariableSystemOfLinearEquations: {
 						name: 'Solve multi-variable system of linear equations',
 						setup: and('solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', 'simplifyFractionOfFractionSumsWithMultipleVariables'),
-						links: { skill: 'solveSystemOfLinearEquations', correlation: 0.4 },
+						links: { skillId: 'solveSystemOfLinearEquations', correlation: 0.4 },
 					},
 				},
 			},

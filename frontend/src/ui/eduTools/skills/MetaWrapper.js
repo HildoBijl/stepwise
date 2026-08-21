@@ -25,45 +25,45 @@ export function MetaWrapper({ skillId, empty, children }) {
 
 function Prerequisites({ skillId }) {
 	const skill = skillTree[skillId]
-	const numPrerequisities = skill.prerequisites.length
+	const numPrerequisities = skill.prerequisiteIds.length
 	if (numPrerequisities === 0)
 		return <Par><Translation entry="noPrerequisites">This skill has no <strong>prerequisites</strong>.</Translation></Par>
 	return <>
 		<Par><Translation entry="prerequisites">This skill has <CountingWord>{numPrerequisities}</CountingWord> <strong>prerequisite</strong> <Plurals value={numPrerequisities}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals>.</Translation></Par>
-		<SkillList skillIds={skill.prerequisites} />
+		<SkillList skillIds={skill.prerequisiteIds} />
 	</>
 }
 
 function Links({ skillId }) {
 	const skill = skillTree[skillId]
-	const numLinks = skill.linkedSkills.length
+	const numLinks = skill.linkedSkillIds.length
 	if (numLinks === 0)
 		return null
 	return <>
 		<Par><Translation entry="links">It is <strong>similar</strong> (correlated) to <CountingWord>{numLinks}</CountingWord> <Plurals value={numLinks}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals>.</Translation></Par>
-		<SkillList skillIds={skill.linkedSkills} />
+		<SkillList skillIds={skill.linkedSkillIds} />
 	</>
 }
 
 function Continuations({ skillId }) {
 	const skill = skillTree[skillId]
-	const numContinuations = skill.continuations.length
+	const numContinuations = skill.continuationIds.length
 	if (numContinuations === 0)
 		return <Par><Translation entry="noContinuations">It is an <strong>end goal</strong>: it is not needed for any other skills.</Translation></Par>
 	return <>
 		<Par><Translation entry="continuations">It is a <strong>requirement</strong> for <CountingWord>{numContinuations}</CountingWord> other <Plurals value={numContinuations}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals>.</Translation></Par>
-		<SkillList skillIds={skill.continuations} />
+		<SkillList skillIds={skill.continuationIds} />
 	</>
 }
 
 function SameGroup({ skillId }) {
 	const skill = skillTree[skillId]
-	const numSkillsInGroup = skill.skillsInGroup.length
+	const numSkillsInGroup = skill.groupSkillIds.length
 	if (numSkillsInGroup <= 1)
 		return null
 	return <>
 		<Par><Translation entry="sameGroup">It is part of the group <strong>{{ group: skill.path.join('/') }}</strong> consisting of <CountingWord>{numSkillsInGroup}</CountingWord> <Plurals value={numSkillsInGroup}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals> in total.</Translation></Par>
-		<SkillList skillIds={skill.skillsInGroup} />
+		<SkillList skillIds={skill.groupSkillIds} />
 	</>
 }
 

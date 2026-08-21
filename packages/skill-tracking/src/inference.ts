@@ -51,7 +51,7 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 // Get the distributions of a skill based only on linked skills, one coefficient array per link.
 function getLinkCoefficients(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients[] {
 	return (skill.links ?? []).map(link => {
-		const smoothedCoefficients = link.skills.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithRetentionFactor(coefficients, link.correlation ?? defaultLinkCorrelation))
+		const smoothedCoefficients = link.skillIds.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithRetentionFactor(coefficients, link.correlation ?? defaultLinkCorrelation))
 		return multiplyBernsteinCoefficientsElementwise(...smoothedCoefficients)
 	})
 }

@@ -21,7 +21,7 @@ export function ensureSkillIds(skillTree: SkillTree, skillIds: SkillId | readonl
 }
 
 // Make sure the set-up is valid for the Skill Tree.
-export function ensureValidSetup(skillTree: SkillTree, setup: SkillSetupLike): SkillSetup {
+export function ensureSkillSetup(skillTree: SkillTree, setup: SkillSetupLike): SkillSetup {
 	const checkedSetup = ensureSetup(setup)
 	ensureSkillIds(skillTree, checkedSetup.getSkillList())
 	return checkedSetup

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect, createContext, useCon
 
 import { fromKeysAndValues, fromKeys } from '@step-wise/js-utils'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
-import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
+import { getSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 
 import { useConsistentValue, useConstant } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUser } from 'api'
@@ -26,7 +26,7 @@ export default function SkillCacher({ children }) {
 	const allSkillsToLoad = useConsistentValue(useMemo(() => [...new Set(skillsToLoad.flat())], [skillsToLoad]))
 
 	// Load in all the skills from the database. Also listen to updates.
-	const skillsWithPrerequisitesAndLinks = useMemo(() => includeDirectPrerequisitesAndLinks(allSkillsToLoad), [allSkillsToLoad])
+	const skillsWithPrerequisitesAndLinks = useMemo(() => getSkillIdsWithDirectPrerequisitesAndLinks(allSkillsToLoad), [allSkillsToLoad])
 	const { data, loading, error, subscribeToMore } = useSkillsQuery(skillsWithPrerequisitesAndLinks)
 	useSkillsSubscription(subscribeToMore, allSkillsToLoad.length > 0)
 	const skills = data?.skills

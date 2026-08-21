@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader'
 import { Op } from 'sequelize'
-import { includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
+import { getSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
 import type { ApiContext, ApiLoaders } from '../types.ts'
 import { dbCourseToCourseDefinition } from '../course/index.ts'
@@ -27,7 +27,7 @@ export function createSkillLoaders(context: ApiContext, { coursesWithStudent }: 
 					if (!courseSkills[course.id]) {
 						const courseDefinition = dbCourseToCourseDefinition(course)
 						courseSkills[course.id] = [...courseDefinition.allSkills]
-						courseSkillsWithLinks[course.id] = [...includeDirectPrerequisitesAndLinks(courseSkills[course.id])]
+						courseSkillsWithLinks[course.id] = [...getSkillIdsWithDirectPrerequisitesAndLinks(courseSkills[course.id])]
 					}
 					courseSkills[course.id].forEach(skillId => withExercises.add(skillId))
 					courseSkillsWithLinks[course.id].forEach(skillId => withoutExercises.add(skillId))

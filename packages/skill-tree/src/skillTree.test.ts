@@ -15,30 +15,30 @@ describe('Check all skills:', () => {
 			})
 
 			it('has prerequisite links, which are mutual', () => {
-				expect(Array.isArray(skill.prerequisites)).toBe(true)
-				for (const prerequisiteId of skill.prerequisites) {
+				expect(Array.isArray(skill.prerequisiteIds)).toBe(true)
+				for (const prerequisiteId of skill.prerequisiteIds) {
 					const prerequisite = skillTree[prerequisiteId]
 					expect(prerequisite).toBeDefined()
-					expect(prerequisite.continuations).toContain(skill.id)
+					expect(prerequisite.continuationIds).toContain(skill.id)
 				}
 			})
 
 			it('has continuation links, which are mutual', () => {
-				expect(Array.isArray(skill.continuations)).toBe(true)
-				for (const continuationId of skill.continuations) {
+				expect(Array.isArray(skill.continuationIds)).toBe(true)
+				for (const continuationId of skill.continuationIds) {
 					const continuation = skillTree[continuationId]
 					expect(continuation).toBeDefined()
-					expect(continuation.prerequisites).toContain(skill.id)
+					expect(continuation.prerequisiteIds).toContain(skill.id)
 				}
 			})
 			
 			it('has no duplicate linked skills', () => {
-				const linkedSkillsFiltered = [...new Set(skill.linkedSkills)]
-				expect(linkedSkillsFiltered.length).toBe(skill.linkedSkills.length)
+				const linkedSkillIdsFiltered = [...new Set(skill.linkedSkillIds)]
+				expect(linkedSkillIdsFiltered.length).toBe(skill.linkedSkillIds.length)
 			})
 
 			it('has no linked skills that are also prerequisites', () => {
-				expect(skill.linkedSkills.find(linkedSkill => skill.prerequisites.find(prerequisite => prerequisite === linkedSkill))).toBe(undefined)
+				expect(skill.linkedSkillIds.find(linkedSkillId => skill.prerequisiteIds.find(prerequisiteId => prerequisiteId === linkedSkillId))).toBe(undefined)
 			})
 		})
 	}
@@ -59,7 +59,7 @@ describe('Check the skill tree:', () => {
 			examined.add(skill.id)
 
 			// Iterate over the children. If nothing is found, mark the node as safe again afterwards.
-			for (const continuationId of skill.continuations) examine(skillTree[continuationId])
+			for (const continuationId of skill.continuationIds) examine(skillTree[continuationId])
 			inRecursionTree.delete(skill.id)
 		}
 		for (const skill of Object.values(skillTree) as Skill[]) examine(skill)

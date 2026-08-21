@@ -18,20 +18,20 @@ describe('Check all skills:', () => {
 			// })
 
 			it('has prerequisite links, which are mutual', () => {
-				expect(Array.isArray(skill.prerequisites)).toBe(true)
-				skill.prerequisites.forEach(prerequisiteId => {
+				expect(Array.isArray(skill.prerequisiteIds)).toBe(true)
+				skill.prerequisiteIds.forEach(prerequisiteId => {
 					const prerequisite = skillTree[prerequisiteId]
 					expect(typeof prerequisite).toBe('object')
-					expect(prerequisite.continuations).toContain(skill.id)
+					expect(prerequisite.continuationIds).toContain(skill.id)
 				})
 			})
 
 			it('has continuation links, which are mutual', () => {
-				expect(Array.isArray(skill.continuations)).toBe(true)
-				skill.continuations.forEach(continuationId => {
+				expect(Array.isArray(skill.continuationIds)).toBe(true)
+				skill.continuationIds.forEach(continuationId => {
 					const continuation = skillTree[continuationId]
 					expect(typeof continuation).toBe('object')
-					expect(continuation.prerequisites).toContain(skill.id)
+					expect(continuation.prerequisiteIds).toContain(skill.id)
 				})
 			})
 		})
@@ -53,7 +53,7 @@ describe('The skill tree', () => {
 			// Note that we passed it. Then check all the children and see if we passed one already during this cycle.
 			inRecursionTree[skill.id] = true
 			examined[skill.id] = true
-			skill.continuations.forEach(continuationId => examine(skillTree[continuationId]))
+			skill.continuationIds.forEach(continuationId => examine(skillTree[continuationId]))
 			inRecursionTree[skill.id] = false // If we get here, we didn't find a cycle. Mark the node as safe again.
 		}
 		Object.values(skillTree).forEach(skill => examine(skill))

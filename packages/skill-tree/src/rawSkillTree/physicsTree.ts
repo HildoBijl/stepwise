@@ -1,7 +1,7 @@
 import { and, or, repeat, pick, part } from '@step-wise/skill-setup'
-import type { RawSkillGroup } from '@step-wise/skill-definition'
+import type { RawSkillTree } from '@step-wise/skill-definition'
 
-export const physicsTree: RawSkillGroup = {
+export const physicsTree: RawSkillTree = {
 	inputs: {
 		enterFloat: {
 			name: 'Enter a decimal number',
@@ -45,7 +45,7 @@ export const physicsTree: RawSkillGroup = {
 			},
 			calculateWithCOP: {
 				name: 'Calculate with the COP',
-				links: { skill: 'calculateWithEfficiency', correlation: 0.5 },
+				links: { skillId: 'calculateWithEfficiency', correlation: 0.5 },
 			},
 		},
 	},
@@ -60,7 +60,7 @@ export const physicsTree: RawSkillGroup = {
 			},
 			specificHeats: {
 				name: 'Look up specific heats',
-				links: { skills: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
+				links: { skillIds: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
 			},
 		},
 		
@@ -118,34 +118,34 @@ export const physicsTree: RawSkillGroup = {
 			calculateOpenProcessStep: {
 				name: 'Calculate an open process step',
 				setup: and('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
-				links: { skill: 'calculateProcessStep', correlation: 0.7 },
+				links: { skillId: 'calculateProcessStep', correlation: 0.7 },
 			},
 			calculateOpenCycle: {
 				name: 'Calculate an open cycle',
 				setup: repeat('calculateOpenProcessStep', 3),
-				links: { skill: 'calculateClosedCycle', correlation: 0.6 },
+				links: { skillId: 'calculateClosedCycle', correlation: 0.6 },
 				thresholds: { pass: 0.5 },
 			},
 			calculateSpecificHeatAndMechanicalWork: {
 				name: 'Calculate specific heat and mechanical work',
 				setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2), 'calculateWithSpecificQuantities'),
-				links: { skill: 'calculateHeatAndWork', correlation: 0.4 },
+				links: { skillId: 'calculateHeatAndWork', correlation: 0.4 },
 			},
 			calculateWithEnthalpy: {
 				name: 'Calculate with enthalpy',
 				setup: and(pick(['massFlowTrick', 'calculateWithSpecificQuantities']), 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
-				links: { skill: 'calculateWithInternalEnergy', correlation: 0.3 },
+				links: { skillId: 'calculateWithInternalEnergy', correlation: 0.3 },
 			},
 			createOpenCycleEnergyOverview: {
 				name: 'Create an open cycle energy overview',
 				setup: and(repeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
-				links: { skill: 'createClosedCycleEnergyOverview', correlation: 0.4 },
+				links: { skillId: 'createClosedCycleEnergyOverview', correlation: 0.4 },
 				thresholds: { pass: 0.5 },
 			},
 			analyseOpenCycle: {
 				name: 'Analyse an open cycle',
 				setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP']), 'massFlowTrick'),
-				links: { skill: 'analyseClosedCycle', correlation: 0.5 },
+				links: { skillId: 'analyseClosedCycle', correlation: 0.5 },
 				thresholds: { pass: 0.4 },
 			},
 		},

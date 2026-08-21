@@ -1,7 +1,7 @@
 import { approximatelyEqual, compareNumberArrays } from '@step-wise/js-utils'
 import { type BernsteinCoefficients, getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 import { skill, and, or, repeat, pick, part } from '@step-wise/skill-setup'
-import { processSkillTree } from '@step-wise/skill-definition'
+import { createSkillTree } from '@step-wise/skill-definition'
 
 import type { RawSkillLevel } from './types'
 import { SkillLevelSet } from './SkillLevelSet'
@@ -22,7 +22,7 @@ const rawSkillTree = {
 		name: 'B',
 	},
 }
-const skillTree = processSkillTree(rawSkillTree)
+const skillTree = createSkillTree(rawSkillTree)
 
 // Set up a helper to create raw skill level objects.
 const coefficientsToRawSkillLevel = (coefficients: BernsteinCoefficients, date = now, numPracticed = 0): RawSkillLevel => ({
@@ -72,24 +72,24 @@ describe('Skill inference for elementary skills:', () => {
 
 describe('Skill link correlations:', () => {
 	it('Skill definition leaves an unspecified correlation undefined', () => {
-		const linkedTree = processSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
-		expect(linkedTree.a.links[0]).toEqual({ skills: ['b'] })
-		expect(linkedTree.b.links[0]).toEqual({ skills: ['a'] })
+		const linkedTree = createSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
+		expect(linkedTree.a.links[0]).toEqual({ skillIds: ['b'] })
+		expect(linkedTree.b.links[0]).toEqual({ skillIds: ['a'] })
 	})
 
 	it('Skill definition preserves an explicit correlation', () => {
-		const linkedTree = processSkillTree({ a: { name: 'A', links: { skill: 'b', correlation: 0.6 } }, b: { name: 'B' } })
+		const linkedTree = createSkillTree({ a: { name: 'A', links: { skillId: 'b', correlation: 0.6 } }, b: { name: 'B' } })
 		expect(linkedTree.a.links[0].correlation).toBe(0.6)
 		expect(linkedTree.b.links[0].correlation).toBe(0.6)
 	})
 
 	it.each([NaN, 0, 1, Infinity])('Skill definition rejects invalid correlation %s', correlation => {
-		expect(() => processSkillTree({ a: { name: 'A', links: { skill: 'b', correlation } }, b: { name: 'B' } })).toThrow()
+		expect(() => createSkillTree({ a: { name: 'A', links: { skillId: 'b', correlation } }, b: { name: 'B' } })).toThrow()
 	})
 
 	it('Skill tracking uses the default correlation when none is specified', () => {
-		const defaultTree = processSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
-		const explicitTree = processSkillTree({ a: { name: 'A', links: { skill: 'b', correlation: defaultLinkCorrelation } }, b: { name: 'B' } })
+		const defaultTree = createSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
+		const explicitTree = createSkillTree({ a: { name: 'A', links: { skillId: 'b', correlation: defaultLinkCorrelation } }, b: { name: 'B' } })
 		const data = { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) }
 		expect(new SkillLevelSet(defaultTree, data).getCoefficients('a')).toEqual(new SkillLevelSet(explicitTree, data).getCoefficients('a'))
 	})

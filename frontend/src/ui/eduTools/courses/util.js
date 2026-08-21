@@ -1,5 +1,5 @@
 import { count, fromKeysAndValues, fromKeys, findOptimum } from '@step-wise/js-utils'
-import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
+import { getSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 import { hasExercises } from '@step-wise/exercises'
 
@@ -58,8 +58,8 @@ function checkPracticeNeeded(skillId, skillLevelSet, priorKnowledge, result, bes
 	result[skillId] = practiceNeeded
 
 	// Store, and recursively add prerequisites.
-	if (!isPriorKnowledge && skill.prerequisites)
-		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillLevelSet, priorKnowledge, result, practiceNeeded))
+	if (!isPriorKnowledge && skill.prerequisiteIds)
+		skill.prerequisiteIds.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillLevelSet, priorKnowledge, result, practiceNeeded))
 }
 
 // processStudent takes a student (as given by the database API) and a course overview, and processes the student's skill data. It gives a skillLevelSet containing data of all the course's skills, it has an analysis on what to practice, and checks how many skills the student has completed.
@@ -69,7 +69,7 @@ export function processStudent(student, overview) {
 	const skillsAsObject = fromKeysAndValues(existingSkills.map(skill => skill.skillId), existingSkills.map(skill => ensureSkillLevel(skill)))
 
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-	const allSkillIds = includeDirectPrerequisitesAndLinks(overview.allSkills)
+	const allSkillIds = getSkillIdsWithDirectPrerequisitesAndLinks(overview.allSkills)
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 	const skillLevelSet = new SkillLevelSet(skillTree, skills)
 

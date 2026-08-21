@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 import { fromKeysAndValues, fromKeys, formatDate } from '@step-wise/js-utils'
-import { skillTree, includeDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
+import { getSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 import { SkillLevelSet, getInitialSkillLevel, ensureSkillLevel } from '@step-wise/skill-tracking'
 
 import { useUserQuery } from 'api'
@@ -94,7 +94,7 @@ function useSkillsLevelsList(user) {
 		const skillsAsObject = fromKeysAndValues(skillIds, existingSkills.map(skill => ensureSkillLevel(skill)))
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-		const allSkillIds = includeDirectPrerequisitesAndLinks(skillIds)
+		const allSkillIds = getSkillIdsWithDirectPrerequisitesAndLinks(skillIds)
 		const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 		const skillLevelSet = new SkillLevelSet(skillTree, skills)
 

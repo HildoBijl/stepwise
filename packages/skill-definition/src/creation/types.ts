@@ -3,30 +3,30 @@ import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 export type { SkillId } from '@step-wise/skill-setup'
 
 // Raw skills.
-export type Thresholds = { pass?: number } // Threshold legacy
-export type RawSkillLink = string | string[] | { skill?: SkillId | SkillId[]; skills?: SkillId[]; correlation?: number }
-export type RawSkill = {
+export type SkillThresholds = { pass?: number } // Threshold legacy
+export type RawSkillLink = string | string[] | { skillId?: SkillId | SkillId[]; skillIds?: SkillId[]; correlation?: number }
+export type RawSkillDefinition = {
 	name: string
 	setup?: SkillSetup<unknown>
 	prerequisites?: SkillId[]
 	links?: RawSkillLink | RawSkillLink[]
-	thresholds?: Thresholds
+	thresholds?: SkillThresholds
 }
-export type RawSkillGroup = { [key: string]: RawSkill | RawSkillGroup }
+export type RawSkillTree = { [key: string]: RawSkillDefinition | RawSkillTree }
 
 // Processed skills.
-export type SkillLink = { skills: SkillId[]; correlation?: number }
+export type SkillLink = { skillIds: SkillId[]; correlation?: number }
 export type Skill = {
 	id: SkillId
 	name: string
 	path: string[]
-	skillsInGroup: SkillId[]
+	groupSkillIds: SkillId[]
 	setup?: SkillSetup<unknown>
-	prerequisites: SkillId[]
-	continuations: SkillId[]
+	prerequisiteIds: SkillId[]
+	continuationIds: SkillId[]
 	links: SkillLink[]
-	linkedSkills: SkillId[]
-	thresholds?: Thresholds
+	linkedSkillIds: SkillId[]
+	thresholds?: SkillThresholds
 }
 
 // Skill containers.
