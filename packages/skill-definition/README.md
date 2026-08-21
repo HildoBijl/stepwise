@@ -9,7 +9,7 @@
 npm install @step-wise/skill-definition @step-wise/skill-setup
 ```
 
-`@step-wise/skill-setup` is only needed when skill definitions use setups. Install downstream packages separately when course analysis or skill tracking is required.
+`@step-wise/skill-setup` is only needed when skill definitions use setups.
 
 
 ## Quick start
@@ -181,25 +181,6 @@ getSkillIdsBetweenGoalsAndPriorKnowledge(skillTree, ['solveLinearEquation'], ['a
 ### `sortSkillIdsByTreeOrder(skillTree, skillIds)`
 
 Validates and canonicalizes the supplied IDs, then returns a new array sorted by their order in the processed skill tree. Duplicate IDs are preserved.
-
-
-## Using the tree with other packages
-
-The processed tree is intentionally independent of any particular course or learner. Pass the same `SkillTree` into packages that add those concerns.
-
-```ts
-import { Course } from '@step-wise/course-definition'
-import { SkillLevelSet } from '@step-wise/skill-tracking'
-
-const course = new Course(skillTree, {
-	startingPoints: ['addNumbers'],
-	learningGoals: ['solveLinearEquation'],
-})
-
-const skillLevels = new SkillLevelSet(skillTree)
-```
-
-`@step-wise/course-definition` derives course contents and prior knowledge from its goals and starting points. `@step-wise/skill-tracking` combines the definition with learner-specific skill-level data. A project may also use the search helpers in this package directly without installing either consumer.
 
 
 ## TypeScript
