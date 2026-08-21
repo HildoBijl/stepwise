@@ -1,31 +1,31 @@
 import { type ExerciseAction, type ExerciseProgress } from './atomTypes'
-import { type ExerciseHistoryByMode, type ExerciseMode, type GroupExerciseHistory, type SoloExerciseHistory, groupHistorySupport, soloHistorySupport } from './modes'
+import { type BaseExerciseInstance, groupHistorySupport, soloHistorySupport } from './modes'
 
-export function getLastAction<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode], userId?: string): TAction | undefined {
-	switch (mode) {
-		case 'solo': return soloHistorySupport.getLastAction(history as SoloExerciseHistory<TAction, TProgress>)
-		case 'group': return groupHistorySupport.getLastAction(history as GroupExerciseHistory<TAction, TProgress>, userId)
+export function getLastAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(instance: BaseExerciseInstance<TAction, TProgress>, userId?: string): TAction | undefined {
+	switch (instance.mode) {
+		case 'solo': return soloHistorySupport.getLastAction(instance.history)
+		case 'group': return groupHistorySupport.getLastAction(instance.history, userId)
 	}
 }
 
-export function getLastResolvedAction<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode], userId?: string): TAction | undefined {
-	switch (mode) {
-		case 'solo': return soloHistorySupport.getLastResolvedAction(history as SoloExerciseHistory<TAction, TProgress>)
-		case 'group': return groupHistorySupport.getLastResolvedAction(history as GroupExerciseHistory<TAction, TProgress>, userId)
+export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(instance: BaseExerciseInstance<TAction, TProgress>, userId?: string): TAction | undefined {
+	switch (instance.mode) {
+		case 'solo': return soloHistorySupport.getLastResolvedAction(instance.history)
+		case 'group': return groupHistorySupport.getLastResolvedAction(instance.history, userId)
 	}
 }
 
-export function getLastProgress<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode]): TProgress | Record<string, never> {
-	switch (mode) {
-		case 'solo': return soloHistorySupport.getLastProgress(history as SoloExerciseHistory<TAction, TProgress>)
-		case 'group': return groupHistorySupport.getLastProgress(history as GroupExerciseHistory<TAction, TProgress>)
+export function getLastProgress<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(instance: BaseExerciseInstance<TAction, TProgress>): TProgress | Record<string, never> {
+	switch (instance.mode) {
+		case 'solo': return soloHistorySupport.getLastProgress(instance.history)
+		case 'group': return groupHistorySupport.getLastProgress(instance.history)
 	}
 }
 
-export function getPreviousProgress<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode]): TProgress | Record<string, never> {
-	switch (mode) {
-		case 'solo': return soloHistorySupport.getLastProgress(history as SoloExerciseHistory<TAction, TProgress>, 1)
-		case 'group': return groupHistorySupport.getLastProgress(history as GroupExerciseHistory<TAction, TProgress>, 1)
+export function getPreviousProgress<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(instance: BaseExerciseInstance<TAction, TProgress>): TProgress | Record<string, never> {
+	switch (instance.mode) {
+		case 'solo': return soloHistorySupport.getLastProgress(instance.history, 1)
+		case 'group': return groupHistorySupport.getLastProgress(instance.history, 1)
 	}
 }
 
@@ -33,6 +33,6 @@ export function isProgressDone(progress: ExerciseProgress): boolean {
 	return progress.done === true
 }
 
-export function isHistoryDone<TMode extends ExerciseMode, TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(mode: TMode, history: ExerciseHistoryByMode<TAction, TProgress>[TMode]): boolean {
-	return isProgressDone(getLastProgress(mode, history))
+export function isHistoryDone<TAction extends ExerciseAction = ExerciseAction, TProgress extends ExerciseProgress = ExerciseProgress>(instance: BaseExerciseInstance<TAction, TProgress>): boolean {
+	return isProgressDone(getLastProgress(instance))
 }

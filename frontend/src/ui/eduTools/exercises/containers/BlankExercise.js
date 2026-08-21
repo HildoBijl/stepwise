@@ -37,6 +37,7 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 		if (exerciseDefinition) {
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: exerciseId,
+				mode: 'solo',
 				state: exerciseDefinition.generateState(), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,

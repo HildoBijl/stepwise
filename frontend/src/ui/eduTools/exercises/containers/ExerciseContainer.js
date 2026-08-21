@@ -17,7 +17,8 @@ export { ExerciseContext } // Exported for testing purposes.
 export function ExerciseContainer({ skillId, exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise, example, inspection, historyIndex }) {
 	const translate = useTranslator()
 	const { exerciseId, state } = exercise
-	const mode = groupExercise ? 'group' : 'solo'
+	const mode = exercise.mode ?? (groupExercise ? 'group' : 'solo')
+	const instance = useMemo(() => exercise.mode === mode ? exercise : { ...exercise, mode }, [exercise, mode])
 	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
@@ -46,13 +47,14 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const stateFO = useMemo(() => deserializeAll(state), [state])
 
 	// Ensure that the progress has a consistent reference.
-	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(mode, exercise.history))
+	const progress = useConsistentValue(inspection ? (exercise.history[historyIndex]?.progress || {}) : getLastProgress(instance))
 
 	if (loading)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
+		instance,
 		skillId,
 		exerciseId,
 		state: stateFO,

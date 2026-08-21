@@ -18,14 +18,12 @@ export function ExercisePageForStranger({ skillId }) {
 	const startNewExercise = useCallback(() => {
 		if (!hasExercises(skillId))
 			throw new Error(`Invalid startNewExercise call: the skill ${skillId} has no exercises.`)
-		const newExercise = generateRandomExerciseInstance(getExercises(skillId))
+		const newExercise = generateRandomExerciseInstance(getExercises(skillId), 'solo')
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
-			exerciseId: newExercise.exerciseId,
-			state: newExercise.state, // The state should be in storage format, as if it came from the database.
+			...newExercise,
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
-			history: [],
 			startedOn: new Date(),
 		}
 		setExercise(exercise)

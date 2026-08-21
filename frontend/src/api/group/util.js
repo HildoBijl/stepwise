@@ -17,6 +17,7 @@ export const groupExerciseParameters = `
 	id
 	skillId
 	exerciseId
+	mode
 	state
 	active
 	startedOn

@@ -80,7 +80,7 @@ function stepExerciseGetFeedback(data) {
 
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
-		const previousProgress = getPreviousProgress(mode, history)
+		const previousProgress = getPreviousProgress(data.instance)
 		const step = getStep(previousProgress)
 		repeat(step, (index) => {
 			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)

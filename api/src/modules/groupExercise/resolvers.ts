@@ -18,6 +18,7 @@ function getGroupEventPerformedAt(event: any): any {
 
 export const groupExerciseResolvers: ResolverTree = {
 	GroupExercise: {
+		mode: () => 'group',
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getGroupExerciseProgress(exercise),
 		history: exercise => [...(exercise.events || [])].sort((a: any, b: any) => a.createdAt - b.createdAt), // Sort the history ascending by date.
@@ -102,7 +103,7 @@ export const groupExerciseResolvers: ResolverTree = {
 
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
 			const skillExercises = getExercises(skillId)!
-			const newExercise = generateRandomExerciseInstance(skillExercises)
+			const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
 			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
 			activeEvent.submissions = []

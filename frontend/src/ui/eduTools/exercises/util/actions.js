@@ -11,10 +11,10 @@ import { useExerciseData } from '../containers'
 
 // useFormSubmitAction gives a function that is given to a Form, to be called whenever the form is submitted.
 export function useFormSubmitAction() {
-	const { mode, submitting, submitAction, history } = useExerciseData()
+	const { instance, submitting, submitAction } = useExerciseData()
 	const userId = useUserId()
 
-	const historyRef = useLatest(history)
+	const instanceRef = useLatest(instance)
 	const disabledRef = useLatest(submitting)
 
 	return useCallback((input, formData) => {
@@ -24,7 +24,7 @@ export function useFormSubmitAction() {
 
 		// Check if the input is the same as for the previous action. If so, do nothing.
 		const { getFieldData } = formData
-		const lastAction = getLastAction(mode, historyRef.current, userId)
+		const lastAction = getLastAction(instanceRef.current, userId)
 		if (lastAction && lastAction.type === 'input') {
 			const fieldIds = Object.keys(input)
 			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getFieldData(id).equals(input[id], lastAction.input[id])))
@@ -33,7 +33,7 @@ export function useFormSubmitAction() {
 
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input: input })
-	}, [mode, historyRef, disabledRef, submitAction, userId])
+	}, [instanceRef, disabledRef, submitAction, userId])
 }
 
 export function useSubmitAction() {

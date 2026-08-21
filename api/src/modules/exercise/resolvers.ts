@@ -16,6 +16,7 @@ export const exerciseResolvers: Record<string, any> = {
 		},
 	},
 	Exercise: {
+		mode: () => 'solo',
 		startedOn: (exercise: any) => exercise.createdAt,
 		progress: getExerciseProgress,
 		lastAction: (exercise: any) => getLastEvent(exercise)?.action || null,

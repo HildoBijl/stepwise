@@ -19,14 +19,12 @@ export function ExamplePage({ skillId }) {
 	const startNewExercise = useCallback(() => {
 		if (!hasExamples(skillId))
 			throw new Error(`Invalid startNewExercise call: the skill ${skillId} has no example exercises.`)
-		const newExercise = generateRandomExerciseInstance(getExamples(skillId))
+		const newExercise = generateRandomExerciseInstance(getExamples(skillId), 'solo')
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
-			exerciseId: newExercise.exerciseId,
-			state: newExercise.state, // The state should be in storage format, as if it came from the database.
+			...newExercise,
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
-			history: [],
 			startedOn: new Date(),
 		}
 		setExercise(exercise)
