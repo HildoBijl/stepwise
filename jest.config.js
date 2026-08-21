@@ -9,6 +9,7 @@ module.exports = {
 		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/settings/',
+		'<rootDir>/packages/skill-definition/',
 		'<rootDir>/packages/skill-setup/',
 	],
 	moduleNameMapper: {
