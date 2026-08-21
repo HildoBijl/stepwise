@@ -1,4 +1,4 @@
-import { deduplicate, ensureNumber, isPlainObject } from '@step-wise/js-utils'
+import { deduplicate, ensureNumber, isPlainObject, sortBy } from '@step-wise/js-utils'
 
 import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 
@@ -30,18 +30,40 @@ export function normalizeLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink
 
 // For a skillTree list, set up the linkedSkills array within all skills.
 export function applyLinks(skillTree: SkillTree): void {
-	// Make sure that every link is also present at the linked skill.
-	const originalLinks = Object.fromEntries(Object.entries(skillTree).map(([id, skill]) => [id, [...skill.links]])) as Record<SkillId, SkillLink[]>
-	for (const [skillId, links] of Object.entries(originalLinks)) {
-		const skill = skillTree[skillId]
-		for (const link of links) {
-			for (const linkedSkill of link.skills) {
-				if (!skillTree[linkedSkill]) throw new Error(`Invalid skill link: received unknown skill ID "${linkedSkill}" in skill "${skill.id}".`)
-				skillTree[linkedSkill].links.push({ ...link, skills: [...link.skills.filter(id => id !== linkedSkill), skill.id] })
+	const skillIds = Object.keys(skillTree)
+	const skillOrder = new Map(skillIds.map((skillId, index) => [skillId, index]))
+	const relationships = new Map<string, { participants: SkillId[]; correlation?: number }>()
+
+	// Validate and canonicalize every declared relationship.
+	for (const skill of Object.values(skillTree)) {
+		for (const link of skill.links) {
+			for (const linkedSkillId of link.skills) {
+				if (!skillTree[linkedSkillId]) throw new Error(`Invalid skill link: received unknown skill ID "${linkedSkillId}" in skill "${skill.id}".`)
+				if (linkedSkillId === skill.id) throw new Error(`Invalid skill link: skill "${skill.id}" cannot link to itself.`)
 			}
+			if (new Set(link.skills).size !== link.skills.length) throw new Error(`Invalid skill link in skill "${skill.id}": linked skill IDs must not be repeated.`)
+
+			const participants = sortBy([skill.id, ...link.skills], [skillOrder.get(skill.id)!, ...link.skills.map(skillId => skillOrder.get(skillId)!)])
+			const relationshipKey = JSON.stringify(participants)
+			const existingRelationship = relationships.get(relationshipKey)
+			if (existingRelationship) {
+				const participantList = participants.map(skillId => `"${skillId}"`).join(', ')
+				if (existingRelationship.correlation !== link.correlation) throw new Error(`Conflicting skill link: the relationship between ${participantList} is declared with different correlations.`)
+				throw new Error(`Duplicate skill link: the relationship between ${participantList} is declared more than once.`)
+			}
+			relationships.set(relationshipKey, { participants, ...(link.correlation === undefined ? {} : { correlation: link.correlation }) })
 		}
 	}
 
-	// Run through all links and extract the corresponding skills.
+	// Rebuild all derived links from the canonical relationships.
+	for (const skill of Object.values(skillTree)) {
+		skill.links = []
+		skill.linkedSkills = []
+	}
+	for (const relationship of relationships.values()) {
+		for (const participant of relationship.participants) {
+			skillTree[participant].links.push({ skills: relationship.participants.filter(skillId => skillId !== participant), ...(relationship.correlation === undefined ? {} : { correlation: relationship.correlation }) })
+		}
+	}
 	for (const skill of Object.values(skillTree)) skill.linkedSkills = deduplicate(skill.links.flatMap(link => link.skills))
 }
