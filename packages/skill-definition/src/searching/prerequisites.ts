@@ -3,12 +3,16 @@ import type { SkillId, SkillTree } from '../creation'
 import { ensureSkillIds } from './checks'
 
 // Check if the given child skill is a prerequisite for the given parent skill.
-export function isSkillRequiredFor(skillTree: SkillTree, childId: SkillId, parentId: SkillId, visited = new Set<SkillId>()): boolean {
-	if (childId === parentId) return true
-	if (visited.has(parentId)) return false
-	visited.add(parentId)
-	return skillTree[parentId].prerequisites.some(prerequisiteId => isSkillRequiredFor(skillTree, childId, prerequisiteId, visited)
-	)
+export function isSkillRequiredFor(skillTree: SkillTree, childId: SkillId, parentId: SkillId): boolean {
+	const [ensuredChildId, ensuredParentId] = ensureSkillIds(skillTree, [childId, parentId])
+	const visited = new Set<SkillId>()
+	const searchPrerequisites = (currentSkillId: SkillId): boolean => {
+		if (ensuredChildId === currentSkillId) return true
+		if (visited.has(currentSkillId)) return false
+		visited.add(currentSkillId)
+		return skillTree[currentSkillId].prerequisites.some(searchPrerequisites)
+	}
+	return searchPrerequisites(ensuredParentId)
 }
 
 // Find the prerequisites of all the given skillIds.
