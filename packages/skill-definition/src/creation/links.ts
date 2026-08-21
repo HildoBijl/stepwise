@@ -5,16 +5,20 @@ import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 // Take a raw set of links and turn it into a processed SkillLink object.
 export function normalizeLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {
 	// Ensure the links attribute is an array of links.
+	if (Array.isArray(links) && links.length === 0) return []
 	const list = !links ? [] : Array.isArray(links) && !links.every(link => typeof link === 'string') ? links : [links]
 	return list.map(link => {
 		// Deal with strings or lists of strings.
 		if (typeof link === 'string') return { skills: [link] }
-		if (Array.isArray(link) && link.every(elem => typeof elem === 'string')) return { skills: link as string[] }
+		if (Array.isArray(link) && link.every(elem => typeof elem === 'string')) {
+			if (link.length === 0) throw new Error('Invalid skill link: expected at least one linked skill.')
+			return { skills: link as string[] }
+		}
 		if (!isPlainObject(link)) throw new Error(`Invalid skill link: expected a plain object, string or array, but got "${typeof link}".`)
 
 		// For an object, extract the skill IDs.
 		const skills = link.skills ?? (link.skill ? (Array.isArray(link.skill) ? link.skill : [link.skill]) : undefined)
-		if (!skills || !Array.isArray(skills) || !skills.every(skillId => typeof skillId === 'string')) throw new Error(`Invalid skill link: linked skills were not properly given.`)
+		if (!skills || !Array.isArray(skills) || skills.length === 0 || !skills.every(skillId => typeof skillId === 'string')) throw new Error(`Invalid skill link: linked skills were not properly given.`)
 
 		// Determine the correlation, converting a legacy order when needed.
 		if (link.order !== undefined && link.correlation !== undefined) throw new Error(`Invalid skill link: an order and a correlation cannot both be specified.`)
