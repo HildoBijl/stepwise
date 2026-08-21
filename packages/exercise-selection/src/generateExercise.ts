@@ -1,6 +1,6 @@
 import type { SkillId } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
-import { type Exercise } from '@step-wise/exercise-definition'
+import { type Exercise, type ExerciseMode } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseContainer } from '@step-wise/exercise-bundling'
 
 import { PreviousExercise, ExerciseInstance } from './types'
@@ -9,20 +9,22 @@ import { selectExercise, selectRandomExercise } from './selectExercise'
 // Get a new exercise based on skill data.
 export async function generateSkillBasedExerciseInstance(exercises: ExerciseContainer, getSkillLevelSet: (skillIds: SkillId[]) => Promise<SkillLevelSet>, previousExercises: PreviousExercise[] = []): Promise<ExerciseInstance> {
 	const exerciseId = await selectExercise(exercises, getSkillLevelSet, previousExercises)
-	return generateExerciseInstance(exerciseId, exercises[exerciseId], false)
+	return generateExerciseInstance(exerciseId, exercises[exerciseId], 'solo', false)
 }
 
 // Get a random exercise (ignores skill data).
-export function generateRandomExerciseInstance(exercises: ExerciseContainer, example?: boolean): ExerciseInstance {
+export function generateRandomExerciseInstance(exercises: ExerciseContainer, mode: ExerciseMode, example?: boolean): ExerciseInstance {
 	const exerciseId = selectRandomExercise(exercises)
-	return generateExerciseInstance(exerciseId, exercises[exerciseId], example)
+	return generateExerciseInstance(exerciseId, exercises[exerciseId], mode, example)
 }
 
 // Build an exercise instance from an exerciseId.
-function generateExerciseInstance(exerciseId: ExerciseId, exercise: Exercise, example = false): ExerciseInstance {
+function generateExerciseInstance(exerciseId: ExerciseId, exercise: Exercise, mode: ExerciseMode, example = false): ExerciseInstance {
 	const { generateState } = exercise
 	return {
 		exerciseId,
+		mode,
 		state: generateState(example),
+		history: [],
 	}
 }

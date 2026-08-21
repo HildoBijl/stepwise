@@ -20,7 +20,7 @@ There are various parameters in the `ExerciseData`. These are:
 - `submitting`: a boolean that is set to true when an action has been submitted to the server and we're still waiting for a response.
 - `submitAction`: the function used to submit an action to the server. Just call `submitAction(action)` to send an action to the `progressAction` handler.
 - `startNewExercise`: the function used to start up a new exercise. This can only be called when the exercise is done. Then call `startNewExercise()`. (No input is required.)
-- `shared`: all the objects exported from the `shared` file for this exercise, including `metaData`, `generateState` and `processAction` but also anything else that's exported, like potentially `getSolution` and `checkInput`.
+- `shared`: all the objects exported from the `shared` file for this exercise, including `metaData`, `generateState` and the mode-specific reducers, but also anything else that's exported, like potentially `getSolution` and `checkInput`.
 - `metaData`: for easy reference the `metaData` is also pulled out of the `shared` parameter.
 
 Using this data, your React component should render the exercise appropriately. It is your responsibility to:

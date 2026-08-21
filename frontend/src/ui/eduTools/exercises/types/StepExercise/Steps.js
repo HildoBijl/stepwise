@@ -19,7 +19,7 @@ export function Steps({ steps, forceDisplay }) {
 function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
-	const { state, progress, history, example, inspection, historyIndex } = useExerciseData()
+	const { mode, state, progress, history, example, inspection, historyIndex } = useExerciseData()
 	const solution = useSolution(false) || {}
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
@@ -35,9 +35,9 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 			return false // We are past the inspection (submission) index: future submissions are ignored.
 		if (index === 0 || history[index - 1].progress.step !== step)
 			return false // Not at this step.
-		if (event.action && event.action.type === 'input')
+		if (mode === 'solo' && event.action.type === 'input')
 			return true // Single-user exercise with input at this step.
-		if (event.submissions && event.submissions.some(submission => submission.action.type === 'input' && submission.userId === userId))
+		if (mode === 'group' && event.submissions.some(submission => submission.action.type === 'input' && submission.userId === userId))
 			return true // Group exercise with input by the user at this step.
 		return false // Nothing found.
 	})

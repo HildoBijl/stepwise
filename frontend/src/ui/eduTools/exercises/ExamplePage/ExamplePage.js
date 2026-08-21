@@ -19,14 +19,12 @@ export function ExamplePage({ skillId }) {
 	const startNewExercise = useCallback(() => {
 		if (!hasExamples(skillId))
 			throw new Error(`Invalid startNewExercise call: the skill ${skillId} has no example exercises.`)
-		const newExercise = generateRandomExerciseInstance(getExamples(skillId))
+		const newExercise = generateRandomExerciseInstance(getExamples(skillId), 'solo')
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
-			exerciseId: newExercise.exerciseId,
-			state: newExercise.state, // The state should be in storage format, as if it came from the database.
+			...newExercise,
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
-			history: [],
 			startedOn: new Date(),
 		}
 		setExercise(exercise)
@@ -36,24 +34,20 @@ export function ExamplePage({ skillId }) {
 	useEffect(startNewExercise, [startNewExercise, skillId])
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
-	const submitAction = useCallback((action, processAction) => {
+	const submitAction = useCallback((action, processSoloAction) => {
 		// Determine the new progress.
 		let progress
 		if (action?.type === 'setProgress') // An override only used by example exercises.
 			progress = action.newProgress
 		else
-			progress = processAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
+			progress = processSoloAction({ action, state: exercise.state, progress: exercise.progress, history: exercise.history, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,
 			progress,
-			history: [...exercise.history, {
-				action,
-				progress,
-				performedAt: new Date(),
-			}],
+			history: [...exercise.history, { action, progress, performedAt: new Date() }],
 		})
 	}, [exercise, setExercise])
 

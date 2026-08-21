@@ -20,6 +20,7 @@ export const groupExerciseTypeDefs = gql`
 		id: ID!
 		skillId: String!
 		exerciseId: String!
+		mode: ExerciseMode!
 		state: JSON!
 		active: Boolean!
 		startedOn: DateTime!
@@ -27,9 +28,21 @@ export const groupExerciseTypeDefs = gql`
 		history: [GroupEvent]!
 	}
 
-	type GroupEvent {
+	interface GroupEvent {
 		id: ID!
-		progress: JSON
+		performedAt: DateTime!
+		submissions: [GroupSubmission]!
+	}
+
+	type ResolvedGroupEvent implements GroupEvent {
+		id: ID!
+		progress: JSON!
+		performedAt: DateTime!
+		submissions: [GroupSubmission]!
+	}
+
+	type PendingGroupEvent implements GroupEvent {
+		id: ID!
 		performedAt: DateTime!
 		submissions: [GroupSubmission]!
 	}

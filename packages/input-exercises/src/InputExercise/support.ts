@@ -1,7 +1,7 @@
 
 import { isPlainDataObject, type PlainDataObject } from '@step-wise/js-utils'
 import { deserializeAll, serializeAll } from '@step-wise/serialization'
-import type { ExerciseHistory } from '@step-wise/exercise-definition'
+import type { ExerciseHistory, ExerciseMode, GroupExerciseHistory, SoloExerciseHistory } from '@step-wise/exercise-definition'
 
 import type { InputExerciseState, InputExerciseAction, InputExerciseInput } from './types'
 
@@ -20,14 +20,18 @@ export function deserializeInputExerciseState<TState extends InputExerciseState>
 }
 
 // Get the last given input from the user. For group-exercises, this may be an unresolved submission input, unless the requireResolved flag is set to true.
-export function getLastInput(history: ExerciseHistory<InputExerciseAction>, userId?: string, requireResolved = false): InputExerciseInput | undefined {
-	for (let index = history.length - 1; index >= 0; index--) {
+export function getLastInput(mode: ExerciseMode, history: ExerciseHistory<InputExerciseAction>, userId?: string, requireResolved = false): InputExerciseInput | undefined {
+	if (mode === 'group' && userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
+
+	if (mode === 'solo') for (let index = history.length - 1; index >= 0; index--) {
+		const userAction = (history as SoloExerciseHistory<InputExerciseAction>)[index].action
+		if (userAction.type === 'input') return userAction.input
+	}
+
+	if (mode === 'group') for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of history.
-		const event = history[index]
-		let userAction: InputExerciseAction | undefined
-		if ('action' in event) userAction = event.action
-		else if (userId && 'submissions' in event) userAction = (!requireResolved || ('progress' in event && event.progress != null)) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
-		else throw new Error(`Invalid getLastInput case. Cannot determine if it is for a user or for a group.`)
+		const event = (history as GroupExerciseHistory<InputExerciseAction>)[index]
+		const userAction = (!requireResolved || 'progress' in event) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
 
 		// If there is no valid input action, keep looking. Otherwise give the input.
 		if (!userAction || userAction.type !== 'input') continue
@@ -37,6 +41,6 @@ export function getLastInput(history: ExerciseHistory<InputExerciseAction>, user
 }
 
 // Check if a user has made a previous input at the given step.
-export function hasPreviousInput(history: ExerciseHistory<InputExerciseAction>, userId?: string): boolean {
-	return !!getLastInput(history, userId)
+export function hasPreviousInput(mode: ExerciseMode, history: ExerciseHistory<InputExerciseAction>, userId?: string): boolean {
+	return !!getLastInput(mode, history, userId)
 }

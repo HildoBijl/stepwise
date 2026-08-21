@@ -1,5 +1,5 @@
 import type { InputValue } from '@step-wise/input-interpretation'
-import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseProgress, GroupExerciseSubmission, UpdateSkills } from '@step-wise/exercise-definition'
+import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseMode, ExerciseProgress, GroupExerciseReducer, GroupExerciseSubmission, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
 import type { PlainDataObject } from '@step-wise/js-utils'
 
 /*
@@ -45,10 +45,10 @@ export type GetSolution<TState extends InputExerciseState = InputExerciseState, 
  * Full exercise definition
  */
 
-// Input exercise spec: what authors define before a concrete exercise builder adds processAction.
+// Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
 export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = {
 	metaData: TMetaData
-	generateState: (example: boolean) => TState
+	generateState?: (example: boolean) => TState
 	getSolution?: GetSolution<TState, TSolution>
 }
 
@@ -56,16 +56,19 @@ export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TState ex
 type InputExerciseReducerGeneralInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = {
 	progress: TProgress
 	state: TState
-	history: ExerciseHistory<TAction, TProgress>
 	updateSkills?: UpdateSkills
 }
-export type InputExerciseReducerSingleUserInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerGeneralInput<TAction, TProgress, TState> & { action: TAction }
-export type InputExerciseReducerGroupInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerGeneralInput<TAction, TProgress, TState> & { submissions: GroupExerciseSubmission<TAction>[] }
-export type InputExerciseReducerInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerSingleUserInput<TAction, TProgress, TState> | InputExerciseReducerGroupInput<TAction, TProgress, TState>
+export type InputExerciseReducerSubmissionsInput<TAction extends ExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState> = InputExerciseReducerGeneralInput<TAction, TProgress, TState> & {
+	mode: ExerciseMode
+	history: ExerciseHistory<TAction, TProgress>
+	submissions: readonly GroupExerciseSubmission<TAction>[]
+}
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized state.
 export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TProgress extends ExerciseProgress, TState extends InputExerciseState = InputExerciseState, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TProgress> & Omit<InputExerciseSpec<TMetaData, TState, TSolution>, 'generateState'> & {
 	generateState: (example: boolean) => PlainDataObject
+	processSoloAction: SoloExerciseReducer<TAction, TProgress>
+	processGroupActions: GroupExerciseReducer<TAction, TProgress>
 }
 
 /*

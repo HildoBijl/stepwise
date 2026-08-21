@@ -5,9 +5,9 @@ export class UserSkillRecord extends Model<InferAttributes<UserSkillRecord>, Inf
 	declare userId: string
 	declare skillId: string
 	declare numPracticed: CreationOptional<number>
-	declare coefficients: CreationOptional<number[]>
+	declare coefficients: CreationOptional<readonly number[]>
 	declare coefficientsOn: CreationOptional<Date>
-	declare highest: CreationOptional<number[]>
+	declare highest: CreationOptional<readonly number[]>
 	declare highestOn: CreationOptional<Date>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>

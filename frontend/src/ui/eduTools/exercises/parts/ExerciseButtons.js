@@ -33,7 +33,7 @@ export function ExerciseButtons(props) {
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
-	const { progress, history, submitting, example, inspection } = useExerciseData()
+	const { instance, progress, history, submitting, example, inspection } = useExerciseData()
 	const solution = useSolution(false)
 	const inTestContext = useTestContext()
 	const isAdmin = useIsAdmin()
@@ -69,7 +69,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		return null
 
 	// Determine if the input is the same as previously.
-	const lastAction = getLastAction(history)
+	const lastAction = getLastAction(instance)
 	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
@@ -237,7 +237,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const getTranslation = useGetTranslation(translationPath)
 	const translate = useTranslator(translationPath, 'groupExercise')
-	const { progress, submitting, history } = useExerciseData()
+	const { instance, progress, submitting } = useExerciseData()
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
 
@@ -254,7 +254,7 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, focusRefOnActive: true })
 
 	// Determine if the input is the same as previously, or as to what is currently submitted.
-	const lastAction = getLastAction(history, userId)
+	const lastAction = getLastAction(instance, userId)
 	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
 	const isAllInputEqualToSubmittedInput = submittedAction && submittedAction.type === 'input' && isAllInputEqual(submittedAction.input)
 
@@ -304,7 +304,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const historyRef = useLatest(history), submissionListRef = useLatest(submissionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastInput(historyRef.current, last(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
+		updateFeedback(getLastInput('group', historyRef.current, last(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
 		setAllInputSI(last(submissionListRef.current).action.input) // Show the input of the last action.
 	}, [historyRef, submissionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {
@@ -412,7 +412,7 @@ function useDerivedParameters() {
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
-		const currentEvent = history.find(event => event.progress === null)
+		const currentEvent = history.find(event => !('progress' in event))
 		const currentSubmissions = currentEvent?.submissions || []
 		const gaveUp = currentSubmissions.some(submission => submission.userId === userId && submission.action.type === 'giveUp')
 		const submittedAction = currentSubmissions.find(submission => submission.userId === userId)?.action
