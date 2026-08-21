@@ -163,11 +163,11 @@ Checks whether the first skill is a direct or transitive prerequisite of the sec
 
 ### `getSkillIdsWithDirectPrerequisites(skillTree, skillIds)`
 
-Returns the requested canonical IDs and their direct prerequisites. It does not recurse.
+Accepts a readonly array and returns the requested canonical IDs and their direct prerequisites. It does not recurse.
 
 ### `getSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)`
 
-Returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
+Accepts a readonly array and returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
 
 ### `getSkillIdsBetweenGoalsAndPriorKnowledge(skillTree, goals, priorKnowledge)`
 

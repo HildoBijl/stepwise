@@ -27,8 +27,7 @@ describe('ensureSkillId', () => {
 })
 
 describe('ensureSkillIds', () => {
-	it('accepts one ID or a readonly array and normalizes every ID', () => {
-		expect(ensureSkillIds(tree, 'ALPHA')).toEqual(['Alpha'])
+	it('accepts a readonly array and normalizes every ID', () => {
 		const input = ['BETA', 'alpha', 'BETA'] as const
 		const result = ensureSkillIds(tree, input)
 		expect(result).toEqual(['beta', 'Alpha', 'beta'])

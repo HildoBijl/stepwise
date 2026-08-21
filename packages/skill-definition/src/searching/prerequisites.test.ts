@@ -33,7 +33,7 @@ describe('isSkillPrerequisiteFor', () => {
 
 describe('getSkillIdsWithDirectPrerequisites', () => {
 	it('includes requested IDs and only their direct prerequisites', () => {
-		expect(getSkillIdsWithDirectPrerequisites(tree, 'e')).toEqual(['e', 'b', 'c'])
+		expect(getSkillIdsWithDirectPrerequisites(tree, ['e'])).toEqual(['e', 'b', 'c'])
 		expect(getSkillIdsWithDirectPrerequisites(tree, ['E', 'b'])).toEqual(['e', 'b', 'c', 'a'])
 	})
 
@@ -44,8 +44,8 @@ describe('getSkillIdsWithDirectPrerequisites', () => {
 
 describe('getSkillIdsWithDirectPrerequisitesAndLinks', () => {
 	it('includes direct prerequisites and linked skills without recursion', () => {
-		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, 'c')).toEqual(['c', 'a', 'd'])
-		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, 'e')).toEqual(['e', 'b', 'c'])
+		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, ['c'])).toEqual(['c', 'a', 'd'])
+		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, ['e'])).toEqual(['e', 'b', 'c'])
 	})
 
 	it('deduplicates overlap across multiple requested skills', () => {

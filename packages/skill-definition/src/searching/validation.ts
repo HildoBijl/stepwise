@@ -14,10 +14,9 @@ export function ensureSkillId(skillTree: SkillTree, skillId: SkillId): SkillId {
 	throw new Error(`Unknown skill ID: "${skillId}" is not known in the skill tree.`)
 }
 
-// Make sure the given parameters are existing skillIds.
-export function ensureSkillIds(skillTree: SkillTree, skillIds: SkillId | readonly SkillId[]): SkillId[] {
-	const list = Array.isArray(skillIds) ? [...skillIds] : [skillIds]
-	return list.map(id => ensureSkillId(skillTree, id))
+// Make sure the given skill IDs exist.
+export function ensureSkillIds(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
+	return skillIds.map(skillId => ensureSkillId(skillTree, skillId))
 }
 
 // Make sure the set-up is valid for the Skill Tree.

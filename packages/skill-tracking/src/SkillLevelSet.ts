@@ -46,7 +46,7 @@ export class SkillLevelSet {
 
 	hasDataOn(skillId: SkillId): boolean {
 		const skill = this.skillTree[this.ensureSkillId(skillId)]
-		const linkedSkillIds = getSkillIdsWithDirectPrerequisitesAndLinks(this.skillTree, skill.id)
+		const linkedSkillIds = getSkillIdsWithDirectPrerequisitesAndLinks(this.skillTree, [skill.id])
 		return linkedSkillIds.every(linkedSkillId => this.hasSkill(linkedSkillId))
 	}
 
