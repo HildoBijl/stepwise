@@ -4,7 +4,7 @@ export type { SkillId } from '@step-wise/skill-setup'
 
 // Raw skills.
 export type Thresholds = { pass?: number } // Threshold legacy
-export type RawSkillLink = string	| string[] | { skill?: SkillId | SkillId[]; skills?: SkillId[]; order?: number; correlation?: number }
+export type RawSkillLink = string | string[] | { skill?: SkillId | SkillId[]; skills?: SkillId[]; correlation?: number }
 export type RawSkill = {
 	name: string
 	setup?: SkillSetup<unknown>

@@ -77,14 +77,14 @@ describe('Skill link correlations:', () => {
 		expect(linkedTree.b.links[0]).toEqual({ skills: ['a'] })
 	})
 
-	it('Skill definition converts a link order to a correlation', () => {
-		const linkedTree = processSkillTree({ a: { name: 'A', links: { skill: 'b', order: 3 } }, b: { name: 'B' } })
-		expect(linkedTree.a.links[0].correlation).toBe(3 / 5)
-		expect(linkedTree.b.links[0].correlation).toBe(3 / 5)
+	it('Skill definition preserves an explicit correlation', () => {
+		const linkedTree = processSkillTree({ a: { name: 'A', links: { skill: 'b', correlation: 0.6 } }, b: { name: 'B' } })
+		expect(linkedTree.a.links[0].correlation).toBe(0.6)
+		expect(linkedTree.b.links[0].correlation).toBe(0.6)
 	})
 
-	it('Skill definition rejects links with both an order and a correlation', () => {
-		expect(() => processSkillTree({ a: { name: 'A', links: { skill: 'b', order: 2, correlation: 0.5 } }, b: { name: 'B' } })).toThrow('cannot both be specified')
+	it.each([NaN, 0, 1, Infinity])('Skill definition rejects invalid correlation %s', correlation => {
+		expect(() => processSkillTree({ a: { name: 'A', links: { skill: 'b', correlation } }, b: { name: 'B' } })).toThrow()
 	})
 
 	it('Skill tracking uses the default correlation when none is specified', () => {

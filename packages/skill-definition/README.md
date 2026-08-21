@@ -30,7 +30,7 @@ skillId3: {
 	name: "Some example skill", // Obligatory
 	setup: and('skill1', 'skill2'), // Optional: setups imported from the skill-setup package.
 	prerequisites: ['skill1', 'skill2'], // Optional: default [], and any skills from the set-up will always be added to the prerequisites as well.
-	links: ['skill5'], // Optional. Object links may specify either correlation or the legacy order.
+	links: ['skill5'], // Optional. Object links may specify a correlation.
 },
 ```
 

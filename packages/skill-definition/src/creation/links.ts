@@ -1,4 +1,4 @@
-import { isPlainObject, deduplicate } from '@step-wise/js-utils'
+import { deduplicate, ensureNumber, isPlainObject } from '@step-wise/js-utils'
 
 import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 
@@ -20,10 +20,9 @@ export function normalizeLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink
 		const skills = link.skills ?? (link.skill ? (Array.isArray(link.skill) ? link.skill : [link.skill]) : undefined)
 		if (!skills || !Array.isArray(skills) || skills.length === 0 || !skills.every(skillId => typeof skillId === 'string')) throw new Error(`Invalid skill link: linked skills were not properly given.`)
 
-		// Determine the correlation, converting a legacy order when needed.
-		if (link.order !== undefined && link.correlation !== undefined) throw new Error(`Invalid skill link: an order and a correlation cannot both be specified.`)
-		const correlation = link.correlation ?? (link.order === undefined ? undefined : link.order / (link.order + 2))
-		if (correlation !== undefined && (correlation <= 0 || correlation >= 1)) throw new Error(`Invalid skill correlation "${correlation}": expected a value between 0 and 1.`)
+		// Validate the correlation when provided.
+		const correlation = link.correlation === undefined ? undefined : ensureNumber(link.correlation)
+		if (correlation !== undefined && (correlation <= 0 || correlation >= 1)) throw new RangeError(`Invalid skill correlation "${correlation}": expected a value between 0 and 1.`)
 
 		return { skills, ...(correlation === undefined ? {} : { correlation }) }
 	})
