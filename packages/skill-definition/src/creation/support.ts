@@ -54,11 +54,36 @@ export function flattenSkillTree(rawSkillTree: RawSkillGroup): SkillTree {
 
 // For a given semi-processed skillTree, set up the continuations attributes for each skill.
 export function applyContinuations(skillTree: SkillTree): void {
+	// Validate all prerequisite references before modifying the tree.
 	for (const skill of Object.values(skillTree)) {
 		for (const prerequisiteId of skill.prerequisites) {
-			const prerequisite = skillTree[prerequisiteId]
-			if (!prerequisite) throw new Error(`Invalid prerequisite skill "${prerequisiteId}" given for skill "${skill.id}".`)
-			prerequisite.continuations.push(skill.id)
+			if (!skillTree[prerequisiteId]) throw new Error(`Invalid prerequisite skill "${prerequisiteId}" given for skill "${skill.id}".`)
+		}
+	}
+
+	// Reject cyclic prerequisite graphs.
+	const states = new Map<SkillId, 'visiting' | 'visited'>()
+	const path: SkillId[] = []
+	const visit = (skillId: SkillId): void => {
+		const state = states.get(skillId)
+		if (state === 'visited') return
+		if (state === 'visiting') {
+			const cycleStart = path.indexOf(skillId)
+			const cycle = [...path.slice(cycleStart), skillId]
+			throw new Error(`Invalid skill prerequisites: detected cycle ${cycle.map(id => `"${id}"`).join(' -> ')}.`)
+		}
+		states.set(skillId, 'visiting')
+		path.push(skillId)
+		for (const prerequisiteId of skillTree[skillId].prerequisites) visit(prerequisiteId)
+		path.pop()
+		states.set(skillId, 'visited')
+	}
+	for (const skillId of Object.keys(skillTree)) visit(skillId)
+
+	// Set up the reverse prerequisite references.
+	for (const skill of Object.values(skillTree)) {
+		for (const prerequisiteId of skill.prerequisites) {
+			skillTree[prerequisiteId].continuations.push(skill.id)
 		}
 	}
 }
