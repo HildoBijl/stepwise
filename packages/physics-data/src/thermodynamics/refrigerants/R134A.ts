@@ -1,6 +1,7 @@
 import { FloatUnit } from '@step-wise/physics-core'
+import { createInterpolationTable } from '@step-wise/interpolation'
 
-import { createTable, floatUnitGrid, exactFloatUnits } from '../../utils'
+import { floatUnitGrid, exactFloatUnits } from '../../utils'
 
 import { type CriticalPoint, type RefrigerantPressureTable, createRefrigerantTable } from './types'
 
@@ -31,12 +32,12 @@ const boilingEntropyLiquid = [...floatUnitGrid(['0.79023', '0.79561', '0.80098',
 
 const boilingEntropyVapor = [...floatUnitGrid(['1.7658', '1.7643', '1.7629', '1.7615', '1.7602', '1.7588', '1.7575', '1.7563', '1.7550', '1.7538', '1.7526', '1.7515', '1.7503', '1.7492', '1.7482', '1.7471', '1.7461', '1.7451', '1.7441', '1.7432', '1.7422', '1.7413', '1.7404', '1.7396', '1.7387', '1.7379', '1.7371', '1.7363', '1.7355', '1.7348', '1.7341', '1.7334', '1.7327', '1.7320', '1.7313', '1.7307', '1.7300', '1.7294', '1.7288', '1.7282', '1.7276', '1.7271', '1.7265', '1.7260', '1.7255', '1.7250', '1.7245', '1.7240', '1.7235', '1.7230', '1.7226', '1.7221', '1.7217', '1.7212', '1.7208', '1.7204', '1.7200', '1.7196', '1.7192', '1.7188', '1.7184', '1.7180', '1.7177', '1.7173', '1.7169', '1.7166', '1.7162', '1.7159', '1.7155', '1.7152', '1.7148', '1.7145', '1.7142', '1.7138', '1.7135', '1.7131', '1.7128', '1.7124', '1.7121', '1.7118', '1.7114', '1.7111', '1.7107', '1.7103', '1.7100', '1.7096', '1.7092', '1.7089', '1.7085', '1.7081', '1.7077', '1.7072', '1.7068', '1.7064', '1.7059', '1.7055', '1.7050', '1.7045', '1.7040', '1.7035', '1.7030', '1.7024', '1.7019', '1.7013', '1.7006', '1.7000', '1.6993', '1.6987', '1.6979', '1.6972', '1.6964', '1.6956', '1.6948', '1.6939', '1.6929', '1.6920', '1.6909', '1.6899', '1.6887', '1.6876', '1.6863', '1.6850', '1.6836', '1.6821', '1.6806', '1.6789', '1.6771', '1.6752', '1.6732', '1.6710', '1.6687', '1.6662', '1.6634', '1.6604', '1.6571', '1.6534', '1.6492', '1.6445', '1.6389', '1.6322', '1.6235', '1.6109', '1.5776'], 'kJ/kg * K'), criticalPoint.entropy]
 
-export const boilingData = createTable(
-	['temperature'],
-	[boilingTemperature],
-	['pressure', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'],
-	[boilingPressure, boilingEnthalpyLiquid, boilingEnthalpyVapor, boilingEntropyLiquid, boilingEntropyVapor],
-)
+export const boilingData = createInterpolationTable({
+	inputLabels: ['temperature'],
+	inputAxes: [boilingTemperature],
+	outputLabels: ['pressure', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'],
+	outputGrids: [boilingPressure, boilingEnthalpyLiquid, boilingEnthalpyVapor, boilingEntropyLiquid, boilingEntropyVapor],
+})
 
 /*
  * General properties

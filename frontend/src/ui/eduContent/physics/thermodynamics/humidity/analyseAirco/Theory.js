@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
+import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { FloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
@@ -19,12 +19,12 @@ const T3 = new FloatUnit('8 dC').setDecimals(0)
 const T4 = new FloatUnit('20 dC')
 const startRH = new FloatUnit('80%')
 
-const startAHmax = tableInterpolate(T1, maximumHumidity).setSignificantDigits(2)
+const startAHmax = interpolateTable(T1, maximumHumidity).setSignificantDigits(2)
 const startAH = startRH.setUnit('').multiply(startAHmax)
-const endAH = tableInterpolate(T3, maximumHumidity).setSignificantDigits(2)
-const endAHmax = tableInterpolate(T4, maximumHumidity).setSignificantDigits(2)
+const endAH = interpolateTable(T3, maximumHumidity).setSignificantDigits(2)
+const endAHmax = interpolateTable(T4, maximumHumidity).setSignificantDigits(2)
 const endRH = endAH.divide(endAHmax).setUnit('%')
-const T2 = inverseTableInterpolate(startAH, maximumHumidity).setDecimals(0)
+const T2 = interpolateTableInput(startAH, maximumHumidity).setDecimals(0)
 
 export default function Component() {
 	return <>
@@ -64,7 +64,7 @@ function AircoProcess() {
 	const point3 = [endAH.number, T3.number]
 	const point4 = [endAH.number, T4.number]
 
-	const linePoints = maximumHumidity.inputValues[0].map((T, index) => [maximumHumidity.grids[0][index].number, T.number])
+	const linePoints = maximumHumidity.inputAxes[0].map((T, index) => [maximumHumidity.outputGrids[0][index].number, T.number])
 	const points = [point2, ...linePoints.filter(point => point[1] < T2.number && point[1] > T3.number).reverse(), point3]
 
 	return <MollierDiagram maxWidth={500}>

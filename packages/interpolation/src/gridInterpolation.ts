@@ -1,66 +1,105 @@
-import type { InterpolationValue, InterpolationInputSeries, InterpolationOutputSeries, InterpolationGrid } from './types'
-import { compareInterpolationValues, getClosestIndices } from './support'
-import { rangeInterpolate } from './rangeInterpolation'
+import { isNumber } from '@step-wise/js-utils'
 
-export function gridInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+import type { InterpolationValue, InterpolationAxis, InterpolationSeries, InterpolationGrid } from './types'
+import { compareInterpolationValues, doesGridMatchInputAxes, isInterpolationGrid, isInterpolationAxis, isInterpolationValue } from './checks'
+import { interpolateRange } from './rangeInterpolation'
+
+export function interpolateGrid<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: InputType,
-	outputSeries: InterpolationOutputSeries<OutputType>,
-	inputSeries: InterpolationInputSeries<InputType>,
+	outputSeries: InterpolationSeries<OutputType>,
+	inputAxis: InterpolationAxis<InputType>,
 ): OutputType | undefined
-export function gridInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+export function interpolateGrid<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: readonly InputType[],
 	outputSeries: InterpolationGrid<OutputType>,
-	...inputSeries: InterpolationInputSeries<InputType>[]
+	...inputAxes: InterpolationAxis<InputType>[]
 ): OutputType | undefined
-export function gridInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+export function interpolateGrid<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: InputType | readonly InputType[],
-	outputSeries: InterpolationOutputSeries<OutputType> | InterpolationGrid<OutputType>,
-	...inputSeries: InterpolationInputSeries<InputType>[]
+	outputSeries: InterpolationSeries<OutputType> | InterpolationGrid<OutputType>,
+	...inputAxes: InterpolationAxis<InputType>[]
 ): OutputType | undefined {
-	// In the single-parameter case, interpolate directly.
-	if (!Array.isArray(input) || input.length === 1) {
-		if (inputSeries.length > 1) throw new RangeError(`Grid interpolate error: too many parameters.`)
-		return gridInterpolateSingleValue(Array.isArray(input) ? input[0] : input, outputSeries as InterpolationOutputSeries<OutputType>, inputSeries[0])
-	}
+	const inputs = Array.isArray(input) ? input : [input]
+	validateInterpolationInputs(inputs, inputAxes)
+	if (!inputAxes.every(axis => isInterpolationAxis<InputType>(axis))) throw new RangeError(`Interpolation error: every input axis must be non-empty and ascending.`)
+	if (!isInterpolationGrid<OutputType>(outputSeries)) throw new TypeError(`Interpolation error: the output grid must contain finite interpolation values of one type.`)
+	if (!doesGridMatchInputAxes(outputSeries as InterpolationGrid<OutputType>, inputAxes)) throw new RangeError(`Interpolation error: the output grid dimensions must match the input axes.`)
+	return interpolateGridRecursive(inputs, outputSeries as InterpolationGrid<OutputType>, inputAxes)
+}
 
-	// Check the input parameters.
-	if (input.length === 0) throw new TypeError(`Grid interpolate error: received an empty array as input.`)
-	if (inputSeries.length !== input.length) throw new RangeError(`Grid interpolate error: incorrect number of input series given. Expected ${input.length} input series, but received ${inputSeries.length}.`)
+export function interpolateValidatedGrid<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	inputs: readonly InputType[],
+	outputGrid: InterpolationGrid<OutputType>,
+	inputAxes: readonly InterpolationAxis<InputType>[],
+): OutputType | undefined {
+	validateInterpolationInputs(inputs, inputAxes)
+	return interpolateGridRecursive(inputs, outputGrid, inputAxes)
+}
+
+function validateInterpolationInputs<InputType extends InterpolationValue<InputType>>(inputs: readonly InputType[], inputAxes: readonly InterpolationAxis<InputType>[]): void {
+	if (inputs.length === 0) throw new RangeError(`Interpolation error: at least one input value is required.`)
+	if (inputs.some(value => !isInterpolationValue<InputType>(value))) throw new TypeError(`Interpolation error: every input must be a finite interpolation value.`)
+	if (inputAxes.length !== inputs.length) throw new RangeError(`Interpolation error: expected ${inputs.length} input axes, but received ${inputAxes.length}.`)
+}
+
+function interpolateGridRecursive<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	input: readonly InputType[],
+	outputSeries: InterpolationGrid<OutputType>,
+	inputAxes: readonly InterpolationAxis<InputType>[],
+): OutputType | undefined {
+	if (input.length === 1) return interpolateSeries(input[0], outputSeries as InterpolationSeries<OutputType>, inputAxes[0])
 
 	// Reduce the problem to one with one parameter less: examine the last input variable.
 	const params: InputType[] = [...input]
-	const remainingInputSeries: InterpolationInputSeries<InputType>[] = [...inputSeries]
+	const remainingInputAxes: InterpolationAxis<InputType>[] = [...inputAxes]
 	const param = params.pop() as InputType
-	const paramInputSeries = remainingInputSeries.pop() as InterpolationInputSeries<InputType>
-
-	// Check the output table.
-	if (!Array.isArray(outputSeries)) throw new TypeError(`Grid interpolate error: the outputSeries parameter must be an array.`)
-	if (paramInputSeries.length !== outputSeries.length) throw new RangeError(`Grid interpolate error: incorrect size of the output table. The input series of the last parameter has ${paramInputSeries.length} entries, but the output table has ${outputSeries.length} elements.`)
+	const paramInputAxis = remainingInputAxes.pop() as InterpolationAxis<InputType>
 
 	// Find the right interval and interpolate within it.
-	const [min, max] = getClosestIndices(param, index => paramInputSeries[index], paramInputSeries.length)
-	if (compareInterpolationValues(param, paramInputSeries[min]) === 0) return gridInterpolate(params, outputSeries[min] as InterpolationGrid<OutputType>, ...remainingInputSeries)
-	if (compareInterpolationValues(param, paramInputSeries[max]) === 0) return gridInterpolate(params, outputSeries[max] as InterpolationGrid<OutputType>, ...remainingInputSeries)
-	const vMin = gridInterpolate(params, outputSeries[min] as InterpolationGrid<OutputType>, ...remainingInputSeries)
-	const vMax = gridInterpolate(params, outputSeries[max] as InterpolationGrid<OutputType>, ...remainingInputSeries)
+	const [min, max] = getBracketingIndices(param, index => paramInputAxis[index], paramInputAxis.length)
+	ensureCoordinateIsUnambiguous(param, paramInputAxis, min, max)
+	if (compareInterpolationValues(param, paramInputAxis[min]) === 0) return interpolateGridRecursive(params, outputSeries[min] as InterpolationGrid<OutputType>, remainingInputAxes)
+	if (compareInterpolationValues(param, paramInputAxis[max]) === 0) return interpolateGridRecursive(params, outputSeries[max] as InterpolationGrid<OutputType>, remainingInputAxes)
+	if (min === max) return undefined
+	const vMin = interpolateGridRecursive(params, outputSeries[min] as InterpolationGrid<OutputType>, remainingInputAxes)
+	const vMax = interpolateGridRecursive(params, outputSeries[max] as InterpolationGrid<OutputType>, remainingInputAxes)
 	if (vMin === undefined || vMax === undefined) return undefined
-	return rangeInterpolate(param, [vMin, vMax], [paramInputSeries[min], paramInputSeries[max]])
+	return interpolateRange(param, [vMin, vMax], [paramInputAxis[min], paramInputAxis[max]])
 }
 
-function gridInterpolateSingleValue<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+function interpolateSeries<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
 	input: InputType,
-	outputSeries: InterpolationOutputSeries<OutputType>,
-	inputSeries: InterpolationInputSeries<InputType>,
+	outputSeries: InterpolationSeries<OutputType>,
+	inputAxis: InterpolationAxis<InputType>,
 ): OutputType | undefined {
-	// Check input and output series.
-	if (!Array.isArray(inputSeries)) throw new TypeError(`Grid interpolate error: the input series was not an array.`)
-	if (!Array.isArray(outputSeries)) throw new TypeError(`Grid interpolate error: the output series was not an array.`)
-	if (inputSeries.length !== outputSeries.length) throw new RangeError(`Grid interpolate error: the input series and output series do not have matching lengths. The input series has length ${inputSeries.length} while the output series has length ${outputSeries.length}.`)
-
-	// Find indices on the input series, and interpolate for these indices.
-	const [min, max] = getClosestIndices(input, index => inputSeries[index], inputSeries.length)
-	if (compareInterpolationValues(input, inputSeries[min]) === 0) return outputSeries[min]
-	if (compareInterpolationValues(input, inputSeries[max]) === 0) return outputSeries[max]
+	// Find indices on the input axis, and interpolate for these indices.
+	const [min, max] = getBracketingIndices(input, index => inputAxis[index], inputAxis.length)
+	ensureCoordinateIsUnambiguous(input, inputAxis, min, max)
+	if (compareInterpolationValues(input, inputAxis[min]) === 0) return outputSeries[min]
+	if (compareInterpolationValues(input, inputAxis[max]) === 0) return outputSeries[max]
+	if (min === max) return undefined
 	if (outputSeries[min] === undefined || outputSeries[max] === undefined) return undefined
-	return rangeInterpolate(input, [outputSeries[min], outputSeries[max]], [inputSeries[min], inputSeries[max]])
+	return interpolateRange(input, [outputSeries[min], outputSeries[max]], [inputAxis[min], inputAxis[max]])
+}
+
+function ensureCoordinateIsUnambiguous<InputType extends InterpolationValue<InputType>>(input: InputType, inputAxis: InterpolationAxis<InputType>, ...candidateIndices: number[]): void {
+	for (const index of candidateIndices) {
+		if (compareInterpolationValues(input, inputAxis[index]) !== 0) continue
+		const matchesPrevious = index > 0 && compareInterpolationValues(inputAxis[index], inputAxis[index - 1]) === 0
+		const matchesNext = index < inputAxis.length - 1 && compareInterpolationValues(inputAxis[index], inputAxis[index + 1]) === 0
+		if (matchesPrevious || matchesNext) throw new RangeError(`Interpolation error: the input exactly matches a duplicated coordinate and therefore has an ambiguous output.`)
+	}
+}
+
+export function getBracketingIndices<InputType extends InterpolationValue<InputType>>(value: InputType, getAxisValue: (index: number) => InputType, axisLength: number): [number, number] {
+	if (!Number.isSafeInteger(axisLength) || axisLength <= 0) throw new RangeError(`Interpolation error: axisLength must be a positive safe integer.`)
+	let min = 0
+	let max = axisLength - 1
+	while (max - min > 1) {
+		const trial = Math.floor((max + min) / 2)
+		const comparisonValue = getAxisValue(trial)
+		if (isNumber(value) ? value < (comparisonValue as number) : value.compare(comparisonValue as InputType) < 0) max = trial
+		else min = trial
+	}
+	return [min, max]
 }

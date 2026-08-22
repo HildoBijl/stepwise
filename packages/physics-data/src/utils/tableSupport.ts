@@ -12,7 +12,3 @@ export function exactFloatUnits(values: readonly number[], unit: string): FloatU
 export function floatUnitGrid(values: RawFloatUnitGrid, unit: string): FloatUnitGrid {
 	return values.map(value => Array.isArray(value) ? floatUnitGrid(value, unit) : value === undefined ? undefined : new FloatUnit({ float: value as string | number, unit })) as FloatUnitGrid
 }
-
-export function createTable(inputLabels: string[], inputValues: FloatUnit[][], outputLabels: string[], grids: FloatUnitGrid[]): FloatUnitTable {
-	return { inputLabels, inputValues, outputLabels, grids }
-}

@@ -1,4 +1,4 @@
-import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
+import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
@@ -30,12 +30,12 @@ export default buildStepExercise({
 	getSolution({ T1, startRH, T4, endRH, mdot }) {
 		startRH = startRH.simplify()
 		endRH = endRH.simplify()
-		const startAHmax = tableInterpolate(T1, maximumHumidity)!.setSignificantDigits(2)
-		const endAHmax = tableInterpolate(T4, maximumHumidity)!.setSignificantDigits(2)
+		const startAHmax = interpolateTable(T1, maximumHumidity)!.setSignificantDigits(2)
+		const endAHmax = interpolateTable(T4, maximumHumidity)!.setSignificantDigits(2)
 		const startAH = startRH.multiply(startAHmax).setDecimals(0)
 		const endAH = endRH.multiply(endAHmax).setDecimals(0)
-		const T2 = inverseTableInterpolate(startAH, maximumHumidity)!.setDecimals(0)
-		const T3 = inverseTableInterpolate(endAH, maximumHumidity)!.setDecimals(0)
+		const T2 = interpolateTableInput(startAH, maximumHumidity)!.setDecimals(0)
+		const T3 = interpolateTableInput(endAH, maximumHumidity)!.setDecimals(0)
 		const qcool = cp.multiply(T1.subtract(T3)).setUnit('kJ/kg').setMinimumSignificantDigits(2)
 		const qheat = cp.multiply(T4.subtract(T3)).setUnit('kJ/kg').setMinimumSignificantDigits(2)
 		const Pcool = mdot.multiply(qcool).setUnit('kW')
