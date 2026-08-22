@@ -3,7 +3,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compare } from '@step-wise/exercise-grading'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'summationAndMultiplication',
 		...createStepExerciseMetadata([undefined, 'multiplication', 'summation']),
 	},

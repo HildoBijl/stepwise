@@ -7,7 +7,7 @@ const { Rs } = gasProperties.air
 const TComparison = { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 } }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateProcessStep',
 		...createStepExerciseMetadata(['gasLaw', 'recognizeProcessTypes', 'gasLaw']),
 		compare: {

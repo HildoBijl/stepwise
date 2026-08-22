@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'poissonsLaw',
 		...createStepExerciseMetadata([['calculateWithTemperature', undefined, 'calculateWithVolume'], undefined, 'solveLinearEquation']),
 		compare: {

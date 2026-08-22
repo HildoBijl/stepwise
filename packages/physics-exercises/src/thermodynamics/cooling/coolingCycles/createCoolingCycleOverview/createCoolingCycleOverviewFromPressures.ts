@@ -5,7 +5,7 @@ import { refrigerants, getBoilingTemperature, getRefrigerantPropertiesFromTemper
 import { getBasicCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'createCoolingCycleOverview',
 		...createStepExerciseMetadata(['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
 		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },

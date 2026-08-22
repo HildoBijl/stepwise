@@ -6,7 +6,7 @@ import { Vector } from '@step-wise/geometry'
 import { type Load, type NamedLoad, createForce, deriveLoadNames } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateForceOrMoment',
 		...createStepExerciseMetadata([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },

@@ -11,7 +11,7 @@ const usedVariables = ['w', 'x', 'y', 'z']
 const constants = ['a', 'b']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
 		compare: {

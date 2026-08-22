@@ -28,7 +28,7 @@ const getCoefficients = ([a, b, c, d, e]: [number, number, number, number, numbe
 }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveRewrittenQuadraticEquation',
 		...createStepExerciseMetadata(['bringEquationToStandardForm', 'solveQuadraticEquation']),
 		compare: {

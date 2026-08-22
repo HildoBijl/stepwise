@@ -12,7 +12,7 @@ import { getCurrentStep } from './support'
 
 // Build a StepExercise from its author-facing spec.
 export function buildStepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>): StepExercise<TParameters, TSolution> {
-	ensureStepExerciseSteps(spec.metaData.steps)
+	ensureStepExerciseSteps(spec.metadata.steps)
 	return {
 		...spec,
 		type: 'step',
@@ -47,7 +47,7 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 
 // Reduce a set of actions for the main problem.
 function reduceMainProblem<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
-	const { metaData, checkInput, getSolution } = spec
+	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, getAttemptingUserIds(actions))
 
@@ -59,7 +59,7 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 		if (userAction.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metaData, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, 0, 0)
+		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, 0, 0)
 	})
 
 	// If any userAction is correct, or if all gave up, the exercise is done.
@@ -71,11 +71,11 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 			const { action, userId } = userAction
 			switch (action.type) {
 				case 'input':
-					if (metaData.skill) updateSkills(metaData.skill, correct[index], userId)
-					if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
+					if (metadata.skill) updateSkills(metadata.skill, correct[index], userId)
+					if (metadata.setup) updateSkills(metadata.setup, correct[index], userId)
 					return
 				case 'giveUp': // On a give-up, only update skills when the exercise is done and the user still hasn't tried anything. And then only update the skill (or the set-up, if the skill is not present), because the user seemingly hasn't even tried the steps.
-					const setup = metaData.skill ?? metaData.setup
+					const setup = metadata.skill ?? metadata.setup
 					if (setup && isDone && !hasAttempted(state, mode, userId)) updateSkills(setup, false, userId)
 					return
 				default:
@@ -86,25 +86,25 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 
 	// Determine the new state.
 	if (someCorrect) return { ...newState, solved: true, done: true }
-	if (allGaveUp) return advanceToNextStep({ ...newState, split: true, step: 0 }, metaData.steps.length)
+	if (allGaveUp) return advanceToNextStep({ ...newState, split: true, step: 0 }, metadata.steps.length)
 	return newState
 }
 
 // Reduce a set of actions for a step.
 function reduceCurrentStep<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
-	const { metaData } = spec
+	const { metadata } = spec
 	const { state } = input
 	const step = getCurrentStep(state)
-	const skill = metaData.steps[step - 1]
+	const skill = metadata.steps[step - 1]
 	if (Array.isArray(skill)) return reduceStepWithSubsteps(spec, input)
 	return reduceStepWithoutSubsteps(spec, input)
 }
 
 function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
-	const { metaData, checkInput, getSolution } = spec
+	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)
-	const skill = metaData.steps[step - 1] as SkillSetupLike
+	const skill = metadata.steps[step - 1] as SkillSetupLike
 	const stepState = getStepState(state, step)
 	const newStepState = addAttemptsToState(stepState, mode, getAttemptingUserIds(actions))
 
@@ -116,7 +116,7 @@ function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters =
 		if (userAction.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metaData, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, 0)
+		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, 0)
 	})
 
 	// If any userAction is correct, or if all gave up, the step is done.
@@ -140,16 +140,16 @@ function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters =
 	}
 
 	// Determine the new state.
-	if (someCorrect) return advanceToNextStep({ ...state, [step]: { ...newStepState, solved: true, done: true } }, metaData.steps.length)
-	if (allGaveUp) return advanceToNextStep({ ...state, [step]: { ...newStepState, givenUp: true, done: true } }, metaData.steps.length)
+	if (someCorrect) return advanceToNextStep({ ...state, [step]: { ...newStepState, solved: true, done: true } }, metadata.steps.length)
+	if (allGaveUp) return advanceToNextStep({ ...state, [step]: { ...newStepState, givenUp: true, done: true } }, metadata.steps.length)
 	return { ...state, [step]: newStepState }
 }
 
 function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: StepExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, StepExerciseState, TParameters>): StepExerciseState {
-	const { metaData, checkInput, getSolution } = spec
+	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const step = getCurrentStep(state)
-	const skill = metaData.steps[step - 1]
+	const skill = metadata.steps[step - 1]
 	if (!Array.isArray(skill)) throw new Error(`Invalid reduceStepWithSubsteps call: expected step ${step} to have substeps.`)
 
 	// Get the solution of the exercise, if it exists, does not depend on input, and is actually needed.
@@ -169,7 +169,7 @@ function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = In
 			if (userAction.action.type !== 'input') return false
 			const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
 			const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-			return checkInput({ metaData, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, substep)
+			return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, substep)
 		})
 		const someCorrect = correct.some(isCorrect => isCorrect)
 		const isDone = someCorrect || allGaveUp
@@ -197,8 +197,8 @@ function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = In
 
 	// Determine the new state, given the substep state.
 	const everySubstepSolved = skill.every((_, index) => stepState[`${index + 1}`])
-	if (everySubstepSolved) return advanceToNextStep({ ...state, [step]: { ...stepState, solved: true, done: true } }, metaData.steps.length)
-	if (allGaveUp) return advanceToNextStep({ ...state, [step]: { ...stepState, givenUp: true, done: true } }, metaData.steps.length)
+	if (everySubstepSolved) return advanceToNextStep({ ...state, [step]: { ...stepState, solved: true, done: true } }, metadata.steps.length)
+	if (allGaveUp) return advanceToNextStep({ ...state, [step]: { ...stepState, givenUp: true, done: true } }, metadata.steps.length)
 	return { ...state, [step]: stepState }
 }
 

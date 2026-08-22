@@ -8,7 +8,7 @@ import { getCycle } from '../tools'
 const { k, cp } = gasProperties.air
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseGasTurbine',
 		...createStepExerciseMetadata(['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']]),
 		compare: {

@@ -8,7 +8,7 @@ const rawInput = (answer: number) => ({ answer: { type: 'Integer', value: `${ans
 
 function buildExercise(overrides = {}) {
 	return buildMonoExercise({
-		metaData: { skill: 'main-skill' },
+		metadata: { skill: 'main-skill' },
 		generateParameters: example => ({ answer: example ? 1 : 2 }),
 		checkInput: ({ input, parameters }) => input.answer === parameters.answer,
 		...overrides,
@@ -24,7 +24,7 @@ describe('buildMonoExercise', () => {
 	})
 
 	it('uses empty parameters and state when their generators are omitted', () => {
-		const exercise = buildMonoExercise({ metaData: {}, checkInput: () => false })
+		const exercise = buildMonoExercise({ metadata: {}, checkInput: () => false })
 		const parameters = exercise.generateParameters(false)
 		expect(parameters).toEqual({})
 		expect(exercise.getInitialState(parameters)).toEqual({})
@@ -75,11 +75,11 @@ describe('buildMonoExercise', () => {
 
 	it('updates a configured setup and does nothing when no skill information exists', () => {
 		const updateSkills = vi.fn()
-		const withSetup = buildExercise({ metaData: { setup: skill('setup-skill') } })
+		const withSetup = buildExercise({ metadata: { setup: skill('setup-skill') } })
 		withSetup.processSoloAction({ parameters: withSetup.generateParameters(false), state: {}, action: { type: 'input', input: rawInput(2) }, updateSkills })
 		expect(updateSkills).toHaveBeenCalledWith(expect.objectContaining({ skill: 'setup-skill' }), true, undefined)
 
-		const withoutSetup = buildExercise({ metaData: {} })
+		const withoutSetup = buildExercise({ metadata: {} })
 		expect(() => withoutSetup.processSoloAction({ parameters: withoutSetup.generateParameters(false), state: {}, action: { type: 'input', input: rawInput(2) } })).not.toThrow()
 	})
 

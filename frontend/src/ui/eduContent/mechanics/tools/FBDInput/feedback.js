@@ -20,13 +20,13 @@ export function getFBDFeedback(exerciseData, parameterOptions) {
 	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Walk through the parameters and incorporate feedback.
-	const { input, solution, metaData } = exerciseData
-	const { compare } = metaData
+	const { input, solution, metadata } = exerciseData
+	const { compare } = metadata
 	return mapValues(parameterOptions, (currOptions, currParameter) => {
 		const currInput = input[currParameter]
 		const currSolution = solution[currParameter]
 
-		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metaData compare options and previous input/feedback.
+		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metadata compare options and previous input/feedback.
 		if (typeof currOptions === 'function') // On a function, assume it's a single feedbackCheck.
 			currOptions = [currOptions]
 		if (Array.isArray(currOptions)) // On an array, assume they are feedbackChecks.

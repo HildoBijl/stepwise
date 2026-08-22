@@ -13,7 +13,7 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveQuadraticEquation',
 		weight: 1,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, 'simplifyFraction']),

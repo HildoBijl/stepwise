@@ -5,7 +5,7 @@ import { generateParameters, getSolution as getCycleParameters } from '../calcul
 import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSTST'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseClosedCycle',
 		...createStepExerciseMetadata(['calculateClosedCycle', 'createClosedCycleEnergyOverview', undefined, 'calculateWithCOP']),
 		compare: {

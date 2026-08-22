@@ -11,28 +11,28 @@ const processGroupActions = () => ({})
 
 describe('isExerciseSpec', () => {
 	it('accepts a minimal exercise specification', () => {
-		expect(isExerciseSpec({ metaData: {} })).toBe(true)
+		expect(isExerciseSpec({ metadata: {} })).toBe(true)
 	})
 
 	it('accepts an exercise specification with both factories', () => {
-		expect(isExerciseSpec({ metaData: {}, generateParameters, getInitialState })).toBe(true)
+		expect(isExerciseSpec({ metadata: {}, generateParameters, getInitialState })).toBe(true)
 	})
 
 	it.each([undefined, null, [], 3, 'exercise', () => ({})])('rejects a non-object specification: %p', value => {
 		expect(isExerciseSpec(value)).toBe(false)
 	})
 
-	it.each([undefined, null, [], 3])('rejects invalid metadata: %p', metaData => {
-		expect(isExerciseSpec({ metaData })).toBe(false)
+	it.each([undefined, null, [], 3])('rejects invalid metadata: %p', metadata => {
+		expect(isExerciseSpec({ metadata })).toBe(false)
 	})
 
 	it.each(['generateParameters', 'getInitialState'] as const)('rejects a non-function %s property', property => {
-		expect(isExerciseSpec({ metaData: {}, [property]: {} })).toBe(false)
+		expect(isExerciseSpec({ metadata: {}, [property]: {} })).toBe(false)
 	})
 })
 
 describe('isExercise', () => {
-	const baseExercise = { metaData: {}, generateParameters, getInitialState }
+	const baseExercise = { metadata: {}, generateParameters, getInitialState }
 
 	it('accepts a solo exercise', () => {
 		expect(isExercise({ ...baseExercise, processSoloAction })).toBe(true)

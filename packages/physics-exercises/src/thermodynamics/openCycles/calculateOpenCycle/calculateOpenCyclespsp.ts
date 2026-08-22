@@ -5,7 +5,7 @@ import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs, k } = gasProperties.air
 
-const metaData = {
+const metadata = {
 	skill: 'calculateOpenCycle',
 	...createStepExerciseMetadata(['calculateOpenProcessStep', 'calculateOpenProcessStep', 'calculateOpenProcessStep']),
 	compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
@@ -37,7 +37,7 @@ export function getSolution({ p1o, T1o, p2o, T3o }: ReturnType<typeof generatePa
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters,
 	getSolution,
 	checkInput(data, step) {

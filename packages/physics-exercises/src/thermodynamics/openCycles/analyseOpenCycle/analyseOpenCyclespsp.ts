@@ -6,7 +6,7 @@ import { generateParameters as generateParametersRaw, getSolution as getCyclePar
 import { getSolution as getEnergyParameters } from '../createOpenCycleEnergyOverview/createOpenCycleEnergyOverviewspsp'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseOpenCycle',
 		...createStepExerciseMetadata(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
 		compare: {

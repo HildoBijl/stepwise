@@ -9,7 +9,7 @@ const variableSet = ['x', 'y', 't']
 const functionSet = ['f', 'g', 'h']
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'lookUpElementaryDerivative',
 		compare: { Expression: expressionComparisons.equivalent },
 	},

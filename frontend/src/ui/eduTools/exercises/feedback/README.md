@@ -19,7 +19,7 @@ const getFeedback = (exerciseData) => {
 }
 ```
 
-Note that the format is identical! The `getFieldInputFeedback` then tries to get feedback about the given parameters in an intelligent way. It gets the compare options from the `metaData`, grades them once more, tries grading them in alternative ways to see if this changes the results, and then returns a message like "Well done! It's correct, but if the margins were a bit smaller, it wouldn't be. Try to be a bit more accurate." Of course the result is in the required object format `{ param1: { correct: true, ... } }`.
+Note that the format is identical! The `getFieldInputFeedback` then tries to get feedback about the given parameters in an intelligent way. It gets the compare options from the `metadata`, grades them once more, tries grading them in alternative ways to see if this changes the results, and then returns a message like "Well done! It's correct, but if the margins were a bit smaller, it wouldn't be. Try to be a bit more accurate." Of course the result is in the required object format `{ param1: { correct: true, ... } }`.
 
 ### Adding feedbackChecks
 
@@ -49,7 +49,7 @@ Based on this, the check either returns something falsy, in which case it's igno
 
 Sometimes it is needed to add extra options to the feedback checks. In this case the given options value is also an object. Extra options include:
 
-- `compare`: a different compare object/function that overrides what is in the `metaData`. (Not recommended.)
+- `compare`: a different compare object/function that overrides what is in the `metadata`. (Not recommended.)
 - `feedbackFunction`: a specific feedback function to be called instead of the regular intelligent way of determining feedback.
 - `dependency`: an array of field IDs. If any of these input fields changes, then the feedback is recalculated. This is useful if the correctness of a field depends on the value of another field. (For instance, one multiple choice field decides on the positive direction, and the `height` input field then gives the height value. In this case the `height` may suddenly turn from incorrect to correct based on a change in another field.)
 - `feedbackChecks`: as mentioned before, the feedbackChecks can also be defined as options.

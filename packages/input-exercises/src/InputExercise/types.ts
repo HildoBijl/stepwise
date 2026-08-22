@@ -54,7 +54,7 @@ export type SolutionDefinition<TParameters extends InputExerciseParameters = Inp
 
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
 export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
-	metaData: TMetadata
+	metadata: TMetadata
 	generateParameters?: (example: boolean) => TParameters
 	getSolution?: SolutionDefinition<TParameters, TSolution>
 }
@@ -72,7 +72,7 @@ export type InputExercise<TMetadata extends InputExerciseMetadata, TAction exten
  */
 
 export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
-	metaData: TMetadata
+	metadata: TMetadata
 	parameters: TParameters
 	rawInput: InputExerciseRawInput
 	input: InputExerciseInput

@@ -9,7 +9,7 @@ import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 // Type 3: from liter to SI (so m^3).
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithVolume',
 		compare: {
 			FloatUnit: {

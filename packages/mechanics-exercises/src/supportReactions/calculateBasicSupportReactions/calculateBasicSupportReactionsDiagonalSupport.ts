@@ -7,7 +7,7 @@ import { createForce, FBDComparison, reverseLoad } from '@step-wise/engineering-
 
 import { getInputDependency } from './common'
 
-const metaData = {
+const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', undefined]),
 	compare: {
@@ -56,7 +56,7 @@ function getDynamicSolution(inputDependency: unknown, solution: any) {
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters: () => ({
 		l1: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),

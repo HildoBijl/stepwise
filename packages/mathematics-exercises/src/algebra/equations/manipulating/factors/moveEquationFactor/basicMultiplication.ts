@@ -11,7 +11,7 @@ const usedVariables = ['x']
 const constants = ['a', 'b']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'moveEquationFactor',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'cancelFractionFactors']),
 		compare: {

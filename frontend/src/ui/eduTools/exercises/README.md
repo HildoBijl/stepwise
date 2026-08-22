@@ -20,8 +20,8 @@ There are various parameters in the `ExerciseData`. These are:
 - `submitting`: a boolean that is set to true when an action has been submitted to the server and we're still waiting for a response.
 - `submitAction`: the function used to submit an action to the server. Just call `submitAction(action)` to send an action to the appropriate mode-specific reducer.
 - `startNewExercise`: the function used to start up a new exercise. This can only be called when the exercise is done. Then call `startNewExercise()`. (No input is required.)
-- `shared`: all the objects exported from the `shared` file for this exercise, including `metaData`, `generateParameters` and the mode-specific reducers, but also anything else that's exported, like potentially `getSolution` and `checkInput`.
-- `metaData`: for easy reference the `metaData` is also pulled out of the `shared` parameter.
+- `shared`: all the objects exported from the `shared` file for this exercise, including `metadata`, `generateParameters` and the mode-specific reducers, but also anything else that's exported, like potentially `getSolution` and `checkInput`.
+- `metadata`: for easy reference the `metadata` is also pulled out of the `shared` parameter.
 
 Using this data, your React component should render the exercise appropriately. It is your responsibility to:
 
@@ -133,7 +133,7 @@ The `getFeedback` function can be manually defined! If you want to set up your o
 
 After you defined your `getFeedback` function, make sure to include it into the exercise, for instance through `Exercise = () => <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />`.
 
-If you do not specify a `getFeedback` function yourself, the `MonoExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the compare options provided in the `metaData`.
+If you do not specify a `getFeedback` function yourself, the `MonoExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the compare options provided in the `metadata`.
 
 Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getFieldInputFeedback(exerciseData, ['param1', 'param2'])` function comes in very handy! You might see it at various example exercises. Read more about how this works in the [feedback folder](./feedback/).
 

@@ -9,7 +9,7 @@ const variableSet = ['x', 'y', 't']
 const functionSet = ['f', 'g', 'h']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'findBasicDerivative',
 		...createStepExerciseMetadata([[undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
 		compare: { Expression: expressionComparisons.equivalent },

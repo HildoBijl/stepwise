@@ -6,7 +6,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'readMollierDiagram',
 		compare: { FloatUnit: { float: { absoluteTolerance: 0.04 } } },
 	},

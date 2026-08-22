@@ -53,7 +53,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const inputFO = interpretAllInputValues(input)
 			const previousInputFO = interpretAllInputValues(previousInput)
 			let result = getFeedback({
-				...pickKeys(exerciseDataRef.current, ['history', 'state', 'metaData', 'shared', 'solution', 'parameters', 'example']),
+				...pickKeys(exerciseDataRef.current, ['history', 'state', 'metadata', 'shared', 'solution', 'parameters', 'example']),
 				input: inputFO,
 				rawInput: input,
 				previousFeedback: previousResult,

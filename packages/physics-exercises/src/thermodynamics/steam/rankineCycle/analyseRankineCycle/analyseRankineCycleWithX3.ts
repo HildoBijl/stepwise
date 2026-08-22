@@ -7,7 +7,7 @@ import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-d
 import { getCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseRankineCycle',
 		...createStepExerciseMetadata(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },

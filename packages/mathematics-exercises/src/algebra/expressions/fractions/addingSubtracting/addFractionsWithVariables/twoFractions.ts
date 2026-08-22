@@ -15,7 +15,7 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'addFractionsWithVariables',
 		...createStepExerciseMetadata(['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables']),
 		compare: {

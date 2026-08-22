@@ -15,7 +15,7 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'expandPowerOfSum',
 		...createStepExerciseMetadata([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
 		compare: {

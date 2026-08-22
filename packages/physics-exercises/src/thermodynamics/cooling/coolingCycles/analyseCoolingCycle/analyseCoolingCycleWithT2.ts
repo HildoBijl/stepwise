@@ -5,7 +5,7 @@ import { refrigerants, getBoilingTemperature, getRefrigerantPropertiesFromTemper
 import { getCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseCoolingCycle',
 		...createStepExerciseMetadata(['createCoolingCycleOverview', ['calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick']]),
 		compare: {

@@ -9,7 +9,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 // Type 3: from °C to SI (so K).
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithTemperature',
 		compare: {
 			FloatUnit: {

@@ -8,7 +8,7 @@ import { getRandomElementaryFunctions } from '../../tools'
 const variableSet = ['x', 'y', 't']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'applyProductRule',
 		...createStepExerciseMetadata([['lookUpElementaryDerivative', 'findBasicDerivative'], undefined]),
 		compare: { Expression: expressionComparisons.equivalent },

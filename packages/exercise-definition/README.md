@@ -22,7 +22,7 @@ type Action = { type: 'answer', value: number }
 type State = { attempts: number, done?: boolean }
 
 const exercise: Exercise<{}, Action, State, Parameters> = {
-	metaData: {},
+	metadata: {},
 	generateParameters: () => ({ target: 6 }),
 	getInitialState: () => ({ attempts: 0 }),
 	processSoloAction: ({ parameters, state, action }) => ({

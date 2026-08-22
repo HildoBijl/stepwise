@@ -15,7 +15,7 @@ const constants = ['a', 'b', 'c', 'd']
 const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveLinearEquationWithFractions',
 		...createStepExerciseMetadata(['moveEquationFactor', 'solveLinearEquation']),
 		...{ factorMovedComparison },

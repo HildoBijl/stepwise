@@ -18,7 +18,7 @@ function checkFAndG(input: { f?: Expression, g?: Expression }, solution: { f?: E
 }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'findGeneralDerivative',
 		...createStepExerciseMetadata([undefined, undefined, 'applyQuotientRule']),
 		weight: 2,

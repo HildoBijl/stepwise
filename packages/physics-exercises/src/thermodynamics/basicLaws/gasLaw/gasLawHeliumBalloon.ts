@@ -6,7 +6,7 @@ import { gasProperties } from '@step-wise/physics-data'
 const { Rs } = gasProperties.helium
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'gasLaw',
 		...createStepExerciseMetadata([['calculateWithMass', 'calculateWithTemperature', 'calculateWithPressure'], 'specificGasConstant', 'solveLinearEquation']),
 		compare: {

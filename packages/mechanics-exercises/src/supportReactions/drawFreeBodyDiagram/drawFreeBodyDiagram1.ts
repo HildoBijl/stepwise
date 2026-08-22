@@ -5,7 +5,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { type Load, FBDComparison, compareLoadSets, createForce, createMoment, equalLoads, isLoad } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'drawFreeBodyDiagram',
 		...createStepExerciseMetadata(['schematizeSupport', 'schematizeSupport', undefined]),
 		compare: {

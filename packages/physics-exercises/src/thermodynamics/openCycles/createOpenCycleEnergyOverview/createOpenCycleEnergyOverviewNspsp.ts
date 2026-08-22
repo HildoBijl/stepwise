@@ -8,7 +8,7 @@ import { generateParameters, getSolution as getCycleParametersRaw } from '../cal
 
 const { cv, cp } = gasProperties.air
 
-const metaData = {
+const metadata = {
 	skill: 'createOpenCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')]),
 	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
@@ -42,7 +42,7 @@ export function getSolution(parameters: ReturnType<typeof generateParameters>) {
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters,
 	getSolution,
 	checkInput(data, step) {

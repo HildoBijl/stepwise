@@ -10,7 +10,7 @@ const usedVariables = ['alpha', 'beta', 'gamma', 'delta']
 const constants = ['a']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'determine2DAngles',
 		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
 	},

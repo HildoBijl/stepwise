@@ -9,7 +9,7 @@ import { getCycle } from '../tools'
 const { cp } = gasProperties.air
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		...createStepExerciseMetadata(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },

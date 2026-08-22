@@ -8,7 +8,7 @@ import { getRandomElementaryFunctions } from '../../tools'
 const variableSet = ['x', 'y', 't']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'findAdvancedDerivative',
 		...createStepExerciseMetadata([undefined, undefined, ['applyQuotientRule', 'lookUpElementaryDerivative'], undefined]),
 		weight: 2,

@@ -5,7 +5,7 @@ import { Vector } from '@step-wise/geometry'
 import { createForce, createMoment, isForce, isMoment } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'schematizeSupport',
 		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
 		compare: { loads: checkFixedSupport },

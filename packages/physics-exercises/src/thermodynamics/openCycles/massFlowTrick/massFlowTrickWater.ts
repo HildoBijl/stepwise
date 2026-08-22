@@ -3,7 +3,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'massFlowTrick',
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},

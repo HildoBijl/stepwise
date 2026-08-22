@@ -3,7 +3,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithEnthalpy',
 		...createStepExerciseMetadata(['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },

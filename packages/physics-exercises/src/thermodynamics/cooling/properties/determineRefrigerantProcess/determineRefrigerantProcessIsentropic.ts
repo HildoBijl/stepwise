@@ -5,7 +5,7 @@ import { getRandomFloatUnit, getRandomExponentialFloatUnit } from '@step-wise/ph
 import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy, getVaporPropertiesFromTemperature } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'determineRefrigerantProcess',
 		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},

@@ -6,7 +6,7 @@ import { gasProperties } from '@step-wise/physics-data'
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'specificGasConstant',
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.015 } },

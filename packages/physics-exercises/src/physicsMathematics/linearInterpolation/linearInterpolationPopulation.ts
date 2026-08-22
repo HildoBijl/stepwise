@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { Float } from '@step-wise/physics-core'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
 		compare: {

@@ -11,7 +11,7 @@ const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveMultiVariableLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
 		compare: {

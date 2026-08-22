@@ -7,7 +7,7 @@ import { gasProperties } from '@step-wise/physics-data'
 const { Rs } = gasProperties.oxygen
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'gasLaw',
 		...createStepExerciseMetadata([['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation']),
 		compare: {

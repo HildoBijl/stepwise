@@ -6,7 +6,7 @@ import { compare } from '@step-wise/exercise-grading'
 const variableSet = ['α', 'β', 'γ']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'applySineCosineTangent',
 		...createStepExerciseMetadata([undefined, undefined, undefined]),
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },

@@ -10,7 +10,7 @@ const { equivalent } = expressionComparisons
 const variableSet = ['x', 'y', 't']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'findAdvancedDerivative',
 		...createStepExerciseMetadata([undefined, undefined, ['applyChainRule', 'lookUpElementaryDerivative'], undefined]),
 		weight: 3,

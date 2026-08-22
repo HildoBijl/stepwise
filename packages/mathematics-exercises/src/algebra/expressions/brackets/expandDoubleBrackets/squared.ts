@@ -14,7 +14,7 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'p', 'q']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
 		compare: {

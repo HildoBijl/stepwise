@@ -2,7 +2,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
-const metaData = {
+const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', undefined]),
 	compare: {
@@ -32,7 +32,7 @@ export function getSolution({ Qo, Two, Tco }: ReturnType<typeof generateParamete
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters,
 	getSolution,
 	checkInput(data, step) {

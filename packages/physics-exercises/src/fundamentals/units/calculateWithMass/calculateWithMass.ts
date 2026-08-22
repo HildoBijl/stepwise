@@ -8,7 +8,7 @@ import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 // Type 2: from kg to (mu/m/./M)g.
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithMass',
 		compare: {
 			FloatUnit: {

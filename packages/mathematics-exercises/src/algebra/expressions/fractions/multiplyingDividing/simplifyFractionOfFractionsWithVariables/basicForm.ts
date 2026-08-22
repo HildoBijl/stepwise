@@ -14,7 +14,7 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'p', 'q', 'r']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'simplifyFractionOfFractionsWithVariables',
 		...createStepExerciseMetadata(['multiplyDivideFractions', 'simplifyFractionWithVariables']),
 		compare: {

@@ -5,7 +5,7 @@ import { type Exercise } from '@step-wise/exercise-definition'
 import { isEmptyExerciseCollection, isExerciseCollection } from './exerciseCollection'
 
 const exercise = {
-	metaData: {},
+	metadata: {},
 	generateParameters: () => ({}),
 	getInitialState: () => ({}),
 	processSoloAction: () => ({}),

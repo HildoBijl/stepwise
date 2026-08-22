@@ -71,7 +71,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 		resolveEvent,
 		startNewExercise,
 		shared: ExerciseShared.current,
-		metaData: ExerciseShared.current.metaData,
+		metadata: ExerciseShared.current.metadata,
 	}
 
 	const Exercise = ExerciseLocal.current

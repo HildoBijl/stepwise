@@ -38,7 +38,7 @@ function buildMonoExerciseGroupReducer<TParameters extends InputExerciseParamete
 
 // Reduce a normalized set of solo or group actions.
 function reduceActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(spec: MonoExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, MonoExerciseState, TParameters>): MonoExerciseState {
-	const { metaData, checkInput, getSolution } = spec
+	const { metadata, checkInput, getSolution } = spec
 	const { mode, state, actions, parameters, updateSkills } = input
 	const newState = addAttemptsToState(state, mode, actions.filter(userAction => userAction.action.type === 'input').map(userAction => userAction.userId))
 
@@ -48,7 +48,7 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 		if (userAction.action.type !== 'input') return false
 		const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
-		return checkInput({ metaData, parameters, rawInput: userAction.action.input, input: exerciseInput, solution })
+		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution })
 	})
 
 	const someCorrect = correct.some(isCorrect => isCorrect)
@@ -58,8 +58,8 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 			actions.forEach((userAction, index) => {
 				const { action, userId } = userAction
 				if (action.type === 'input' || !hasAttempted(state, mode, userId)) {
-					if (metaData.skill) updateSkills(metaData.skill, correct[index], userId)
-					if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
+					if (metadata.skill) updateSkills(metadata.skill, correct[index], userId)
+					if (metadata.setup) updateSkills(metadata.setup, correct[index], userId)
 				}
 			})
 		}
@@ -70,8 +70,8 @@ function reduceActions<TParameters extends InputExerciseParameters = InputExerci
 		actions.forEach((userAction, index) => {
 			const { action, userId } = userAction
 			if (action.type === 'input') {
-				if (metaData.skill) updateSkills(metaData.skill, correct[index], userId)
-				if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
+				if (metadata.skill) updateSkills(metadata.skill, correct[index], userId)
+				if (metadata.setup) updateSkills(metadata.setup, correct[index], userId)
 			}
 		})
 	}

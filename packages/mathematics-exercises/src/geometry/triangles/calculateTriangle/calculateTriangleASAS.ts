@@ -6,7 +6,7 @@ import { compare } from '@step-wise/exercise-grading'
 const variableSet = ['x', 'y', 'z']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata(['determine2DAngles', undefined, undefined, undefined, 'solveLinearEquation']),
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },

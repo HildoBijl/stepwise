@@ -12,7 +12,7 @@ const usedVariables = ['x', 'y']
 const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveSystemOfLinearEquations',
 		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
 		compare: { eq1Solution: expressionComparisons.equivalent, eq2Substituted: equationComparisons.equivalent, Expression: expressionComparisons.onlyOrderChanges },

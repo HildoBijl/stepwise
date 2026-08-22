@@ -10,7 +10,7 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['a', 'b', 'c']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'applySimilarTriangles',
 		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
 		compare: {

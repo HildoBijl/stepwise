@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { generateParameters, getSolution as getSolutionPrevious } from '../calculateEntropyChange/calculateEntropyChangeWithProperties'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateMissedWork',
 		...createStepExerciseMetadata(['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },

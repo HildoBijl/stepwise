@@ -130,8 +130,8 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 }
 
 function StepSelect() {
-	const { state, submitAction, metaData } = useExerciseData()
-	const numSteps = metaData.steps.length
+	const { state, submitAction, metadata } = useExerciseData()
+	const numSteps = metadata.steps.length
 
 	// Set up a handler that manages the state on step changes.
 	const handleChange = event => {

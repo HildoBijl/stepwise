@@ -7,7 +7,7 @@ import { gasProperties } from '@step-wise/physics-data'
 const gases = ['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateHeatAndWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], undefined]),
 		compare: {

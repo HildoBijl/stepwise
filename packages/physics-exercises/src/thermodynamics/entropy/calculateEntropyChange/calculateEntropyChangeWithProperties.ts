@@ -4,7 +4,7 @@ import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { cv, cp, Rs } = gasProperties.air
-const metaData = {
+const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation']),
 	compare: {
@@ -33,7 +33,7 @@ export function getSolution({ p1o, T1o, p2o, n }: ReturnType<typeof generatePara
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters,
 	getSolution,
 	checkInput(data, step, substep) {

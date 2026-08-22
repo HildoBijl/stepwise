@@ -34,7 +34,7 @@ export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends E
 export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: GroupExerciseReducerInput<TAction, TState, TParameters>) => TState
 
 export type ExerciseSpec<TMetadata extends ExerciseMetadata, TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = {
-	metaData: TMetadata
+	metadata: TMetadata
 	generateParameters?: GenerateExerciseParameters<TParameters>
 	getInitialState?: GetInitialState<TParameters, TState>
 }

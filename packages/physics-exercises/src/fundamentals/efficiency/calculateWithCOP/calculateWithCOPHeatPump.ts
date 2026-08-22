@@ -4,7 +4,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithCOP',
 		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},

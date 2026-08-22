@@ -26,7 +26,7 @@ function Solution({ Ee, Eout, Ef, epsilon }) {
 }
 
 function getFeedback(exerciseData) {
-	const compare = exerciseData.metaData.compare.default
+	const compare = exerciseData.metadata.compare.default
 	return getFieldInputFeedback(exerciseData, {
 		epsilon: (input, answer) => answer.add(1).equals(input, compare) && 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.',
 	})

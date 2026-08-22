@@ -23,7 +23,7 @@ type Parameters = { left: number, right: number }
 type Solution = { answer: number }
 
 const addition = buildMonoExercise<Parameters, Solution>({
-	metaData: { skill: 'addition' },
+	metadata: { skill: 'addition' },
 	generateParameters: example => example ? { left: 2, right: 3 } : { left: 7, right: 8 },
 	getSolution: parameters => ({ answer: parameters.left + parameters.right }),
 	checkInput: data => getInput('answer', data, 'number') === data.solution?.answer,
@@ -32,12 +32,12 @@ const addition = buildMonoExercise<Parameters, Solution>({
 
 An input exercise specification commonly contains:
 
-- `metaData` includes the practiced `skill` or a more involved skill `setup`.
+- `metadata` includes the practiced `skill` or a more involved skill `setup`.
 - `generateParameters(example)` creates the fixed problem parameters. It generally uses randomization.
 - `getSolution` uses the parameters to build a solution, as well as other useful info for the exercise.
 - `checkInput(data)` decides whether the interpreted learner input is correct.
 
-Only `metaData` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
+Only `metadata` and `checkInput` are required. Omitting `generateParameters` uses an empty object.
 
 `buildMonoExercise` creates both `processSoloAction` and `processGroupActions`. Consumers therefore do not need separate exercise definitions for solo and group use.
 
@@ -47,7 +47,7 @@ Only `metaData` and `checkInput` are required. Omitting `generateParameters` use
 Input actions contain serializable raw input values. Before `checkInput` runs, the package interprets those values into their domain values. Its argument contains both forms:
 
 ```ts
-checkInput: ({ rawInput, input, parameters, solution, metaData }) => {
+checkInput: ({ rawInput, input, parameters, solution, metadata }) => {
 	// rawInput: values suitable for storage and transport
 	// input: interpreted numbers, quantities, expressions, and other domain values
 	return input.answer === solution?.answer
@@ -66,11 +66,7 @@ Use `getInputs` when several fields share a type or need a matching list of type
 
 ```ts
 const [left, right] = getInputs(['left', 'right'], data, 'number')
-const [count, quantity] = getInputs(
-	['count', 'quantity'],
-	data,
-	['number', FloatUnit],
-)
+const [count, quantity] = getInputs(['count', 'quantity'], data, ['number', FloatUnit])
 ```
 
 Both helpers throw when a field is missing or has an unexpected type. Interpretation itself is provided by [@step-wise/input-interpretation](https://www.npmjs.com/package/@step-wise/input-interpretation).
@@ -108,7 +104,7 @@ import {
 } from '@step-wise/input-exercises'
 
 const multiplication = buildStepExercise({
-	metaData: {
+	metadata: {
 		...createStepExerciseMetadata([
 			'multiply-ones',
 			'multiply-tens',
@@ -136,7 +132,7 @@ Steps are numbered from `1`. The unsplit main problem uses step `0`. `getCurrent
 A step can contain an array of substeps:
 
 ```ts
-const metaData = createStepExerciseMetadata([
+const metadata = createStepExerciseMetadata([
 	'expand-brackets',
 	['combine-like-terms', 'simplify-coefficients'],
 ])

@@ -5,7 +5,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { getTemperatures } from '../../coolingCycles/tools'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'findFridgeTemperatures',
 		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},

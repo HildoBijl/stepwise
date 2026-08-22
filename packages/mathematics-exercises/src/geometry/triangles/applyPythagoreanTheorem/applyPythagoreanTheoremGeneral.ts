@@ -7,7 +7,7 @@ const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8
 const variableSet = ['x', 'y', 'z']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'applyPythagoreanTheorem',
 		...createStepExerciseMetadata([undefined, undefined, undefined]),
 		compare: { equation: equationComparisons.equivalent },

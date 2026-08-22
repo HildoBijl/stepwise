@@ -5,7 +5,7 @@ import { compare } from '@step-wise/exercise-grading'
 
 // 1/a^b => a^(-b)
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'rewriteNegativePower',
 		compare: { ans: (input: Expression, correct: Expression) => !expressionChecks.hasFraction(input) && expressionComparisons.equivalent(input, correct) },
 	},

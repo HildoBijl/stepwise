@@ -7,7 +7,7 @@ describe('generateRandomExerciseInstance', () => {
 		const parameters = { questionCount: 3 }
 		const initialState = { questionsRemaining: 3 }
 		const exercise: Exercise = {
-			metaData: {},
+			metadata: {},
 			generateParameters: () => parameters,
 			getInitialState: receivedParameters => receivedParameters === parameters ? initialState : {},
 			processSoloAction: ({ state }) => state,

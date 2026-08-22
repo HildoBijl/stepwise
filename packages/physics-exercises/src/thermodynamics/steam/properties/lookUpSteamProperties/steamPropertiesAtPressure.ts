@@ -5,7 +5,7 @@ import { compare } from '@step-wise/exercise-grading'
 import { saturatedSteamByPressure } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'lookUpSteamProperties',
 		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},

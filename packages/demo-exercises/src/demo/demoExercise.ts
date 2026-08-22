@@ -3,7 +3,7 @@ import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'demo',
 	},
 

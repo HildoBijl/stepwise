@@ -5,7 +5,7 @@ import { FloatUnit } from '@step-wise/physics-core'
 import { generateParameters } from '../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithEnthalpy',
 		...createStepExerciseMetadata(['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },

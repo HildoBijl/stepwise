@@ -9,7 +9,7 @@ import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 // Type 3: from bar to SI (so Pa).
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithPressure',
 		compare: {
 			FloatUnit: {

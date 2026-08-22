@@ -8,7 +8,7 @@ const rawInput = (answer: number) => ({ answer: { type: 'Integer', value: `${ans
 
 function buildExercise(steps: StepExerciseSteps = ['step-one', 'step-two']) {
 	return buildStepExercise({
-		metaData: createStepExerciseMetadata([...steps]),
+		metadata: createStepExerciseMetadata([...steps]),
 		generateParameters: () => ({ answer: 0 }),
 		checkInput: ({ input }, step, substep = 0) => input.answer === (substep || step),
 	})

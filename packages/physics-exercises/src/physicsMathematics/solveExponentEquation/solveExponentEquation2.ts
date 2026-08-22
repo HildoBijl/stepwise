@@ -5,7 +5,7 @@ import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-co
 // a + b*x^p = c
 
 export default buildMonoExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveExponentEquation',
 		compare: { Float: { significantDigitTolerance: 2 } },
 	},

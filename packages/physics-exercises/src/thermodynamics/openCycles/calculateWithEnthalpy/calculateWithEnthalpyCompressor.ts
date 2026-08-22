@@ -7,7 +7,7 @@ import { gasProperties } from '@step-wise/physics-data'
 const { Rs, k, cp } = gasProperties.air
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateWithEnthalpy',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },

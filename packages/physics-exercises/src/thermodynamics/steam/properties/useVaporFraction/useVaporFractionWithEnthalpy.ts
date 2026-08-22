@@ -7,7 +7,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { saturatedSteamByTemperature, saturatedSteamByPressure } from '@step-wise/physics-data'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'useVaporFraction',
 		setup: and('lookUpSteamProperties', 'linearInterpolation'),
 		...createStepExerciseMetadata(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),

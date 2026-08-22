@@ -35,7 +35,7 @@ function getCoefficients([a, b, c, d, e]: [number, number, number, number, numbe
 }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'bringEquationToStandardForm',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
 		compare: {
