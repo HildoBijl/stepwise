@@ -11,6 +11,7 @@ module.exports = {
 =======
 		'<rootDir>/packages/course-definition/',
 >>>>>>> packages
+		'<rootDir>/packages/interpolation/',
 		'<rootDir>/packages/js-utils/',
 		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/polynomials/',
