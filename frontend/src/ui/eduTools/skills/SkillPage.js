@@ -27,15 +27,15 @@ export function SkillPageForSkill({ skillId, freePracticeMode = false, onNewExer
 
 	// Whenever the skill ID changes, reload the skill pages.
 	const reload = () => {
-		const { path } = skillTree[skillId]
+		const { groupPath } = skillTree[skillId]
 		setLoadedForSkillId(undefined)
-		const loadPages = skillPageModules[`/src/ui/eduContent/${path.join('/')}/${skillId}/index.js`]
+		const loadPages = skillPageModules[`/src/ui/eduContent/${groupPath.join('/')}/${skillId}/index.js`]
 		const pagesPromise = loadPages
 			? loadPages()
 			: Promise.reject(new Error(`No skill page module found for skill "${skillId}".`))
 		pagesPromise.then(pages => {
 			if (pages === null)
-				throw new Error(`Invalid skill path: tried to find skill pages at "skills/contents/${path}/${skillId}" but no files were found there. Could not render skill pages.`)
+				throw new Error(`Invalid skill path: tried to find skill pages at "skills/contents/${groupPath}/${skillId}" but no files were found there. Could not render skill pages.`)
 			Pages.current = pages
 			setLoadedForSkillId(skillId)
 		}).catch((error) => { // Probably an empty skill that simply couldn't be loaded.
