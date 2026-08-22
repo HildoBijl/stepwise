@@ -18,12 +18,6 @@ export function isInterpolationValue<T>(x: unknown): x is InputValue<T> {
 	return isNumber(x) ? Number.isFinite(x) : isNumberLike<T>(x)
 }
 
-// Ensure the given value is a number or number-like object.
-export function ensureInterpolationValue<T>(x: unknown): InputValue<T> {
-	if (!isInterpolationValue<T>(x)) throw new TypeError(`Interpolation error: expected a finite number or number-like object. Instead received "${JSON.stringify(x)}".`)
-	return x
-}
-
 // Check if the given interpolation part is valid.
 export function isValidInterpolationPart(part: number): boolean {
 	return part >= 0 && part <= 1

@@ -54,10 +54,6 @@ function gridInterpolateRecursive<InputType extends InterpolationValue<InputType
 	const param = params.pop() as InputType
 	const paramInputSeries = remainingInputSeries.pop() as InterpolationInputSeries<InputType>
 
-	// Check the output table.
-	if (!Array.isArray(outputSeries)) throw new TypeError(`Interpolation error: the output grid must be an array.`)
-	if (paramInputSeries.length !== outputSeries.length) throw new RangeError(`Interpolation error: the output grid dimensions must match the input series.`)
-
 	// Find the right interval and interpolate within it.
 	const [min, max] = getClosestIndices(param, index => paramInputSeries[index], paramInputSeries.length)
 	ensureCoordinateIsUnambiguous(param, paramInputSeries, min, max)
@@ -75,16 +71,11 @@ function gridInterpolateSingleValue<InputType extends InterpolationValue<InputTy
 	outputSeries: InterpolationOutputSeries<OutputType>,
 	inputSeries: InterpolationInputSeries<InputType>,
 ): OutputType | undefined {
-	// Check input and output series.
-	if (!Array.isArray(inputSeries)) throw new TypeError(`Interpolation error: the input series must be an array.`)
-	if (!Array.isArray(outputSeries)) throw new TypeError(`Interpolation error: the output series must be an array.`)
-	if (inputSeries.length !== outputSeries.length) throw new RangeError(`Interpolation error: the input and output series must have matching lengths.`)
-
 	// Find indices on the input series, and interpolate for these indices.
 	const [min, max] = getClosestIndices(input, index => inputSeries[index], inputSeries.length)
 	ensureCoordinateIsUnambiguous(input, inputSeries, min, max)
-	if (compareInterpolationValues(input, inputSeries[min]) === 0) return ensureGridOutputValue(outputSeries[min])
-	if (compareInterpolationValues(input, inputSeries[max]) === 0) return ensureGridOutputValue(outputSeries[max])
+	if (compareInterpolationValues(input, inputSeries[min]) === 0) return outputSeries[min]
+	if (compareInterpolationValues(input, inputSeries[max]) === 0) return outputSeries[max]
 	if (min === max) return undefined
 	if (outputSeries[min] === undefined || outputSeries[max] === undefined) return undefined
 	return rangeInterpolate(input, [outputSeries[min], outputSeries[max]], [inputSeries[min], inputSeries[max]])
@@ -97,9 +88,4 @@ function ensureCoordinateIsUnambiguous<InputType extends InterpolationValue<Inpu
 		const matchesNext = index < inputSeries.length - 1 && compareInterpolationValues(inputSeries[index], inputSeries[index + 1]) === 0
 		if (matchesPrevious || matchesNext) throw new RangeError(`Interpolation error: the input exactly matches a duplicated coordinate and therefore has an ambiguous output.`)
 	}
-}
-
-function ensureGridOutputValue<OutputType extends InterpolationValue<OutputType>>(value: OutputType | undefined): OutputType | undefined {
-	if (value !== undefined && !isInterpolationValue<OutputType>(value)) throw new TypeError(`Interpolation error: output values must be finite interpolation values.`)
-	return value
 }
