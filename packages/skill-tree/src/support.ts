@@ -1,15 +1,15 @@
-import { type SkillId, ensureSkillId as agnosticEnsureSkillId, ensureSkillIds as agnosticEnsureSkillIds, expandSkillIdsWithDirectPrerequisites as agnosticExpandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks as agnosticExpandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf as agnosticIsSkillPrerequisiteOf } from '@step-wise/skill-definition'
+import { type EnsureSkillIdOptions, type SkillId, ensureSkillId as agnosticEnsureSkillId, ensureSkillIds as agnosticEnsureSkillIds, expandSkillIdsWithDirectPrerequisites as agnosticExpandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks as agnosticExpandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf as agnosticIsSkillPrerequisiteOf } from '@step-wise/skill-definition'
 
 import { skillTree } from './processing'
 
-export type { SkillId, SkillTree } from '@step-wise/skill-definition'
+export type { EnsureSkillIdOptions, SkillId, SkillTree } from '@step-wise/skill-definition'
 
-export function ensureSkillId(skillId: SkillId): SkillId {
-	return agnosticEnsureSkillId(skillTree, skillId)
+export function ensureSkillId(skillId: SkillId, options: EnsureSkillIdOptions = {}): SkillId {
+	return agnosticEnsureSkillId(skillTree, skillId, options)
 }
 
-export function ensureSkillIds(skillIds: readonly SkillId[]): SkillId[] {
-	return agnosticEnsureSkillIds(skillTree, skillIds)
+export function ensureSkillIds(skillIds: readonly SkillId[], options: EnsureSkillIdOptions = {}): SkillId[] {
+	return agnosticEnsureSkillIds(skillTree, skillIds, options)
 }
 
 export function expandSkillIdsWithDirectPrerequisites(skillIds: readonly SkillId[]): SkillId[] {

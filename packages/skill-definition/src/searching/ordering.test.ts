@@ -7,13 +7,13 @@ import { sortSkillIdsByTreeOrder } from './ordering'
 const tree = createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta' }, gamma: { name: 'Gamma' } })
 
 describe('sortSkillIdsByTreeOrder', () => {
-	it('normalizes and sorts IDs by tree order while preserving duplicates', () => {
-		expect(sortSkillIdsByTreeOrder(tree, ['GAMMA', 'beta', 'alpha', 'BETA'])).toEqual(['Alpha', 'beta', 'beta', 'gamma'])
+	it('sorts IDs by tree order while preserving duplicates', () => {
+		expect(sortSkillIdsByTreeOrder(tree, ['gamma', 'beta', 'Alpha', 'beta'])).toEqual(['Alpha', 'beta', 'beta', 'gamma'])
 	})
 
 	it('handles empty and single-item arrays', () => {
 		expect(sortSkillIdsByTreeOrder(tree, [])).toEqual([])
-		expect(sortSkillIdsByTreeOrder(tree, ['BETA'])).toEqual(['beta'])
+		expect(sortSkillIdsByTreeOrder(tree, ['beta'])).toEqual(['beta'])
 	})
 
 	it('accepts readonly input without mutating it', () => {
@@ -24,5 +24,6 @@ describe('sortSkillIdsByTreeOrder', () => {
 
 	it('rejects unknown IDs', () => {
 		expect(() => sortSkillIdsByTreeOrder(tree, ['missing'])).toThrow(/missing/)
+		expect(() => sortSkillIdsByTreeOrder(tree, ['ALPHA'])).toThrow(/ALPHA/)
 	})
 })

@@ -25,8 +25,8 @@ describe('isSkillPrerequisiteOf', () => {
 		expect(isSkillPrerequisiteOf(tree, 'e', 'a')).toBe(false)
 	})
 
-	it('normalizes casing and rejects unknown IDs', () => {
-		expect(isSkillPrerequisiteOf(tree, 'A', 'E')).toBe(true)
+	it('requires exact casing and rejects unknown IDs', () => {
+		expect(() => isSkillPrerequisiteOf(tree, 'A', 'E')).toThrow(/A/)
 		expect(() => isSkillPrerequisiteOf(tree, 'missing', 'missing')).toThrow(/missing/)
 	})
 })
@@ -34,7 +34,7 @@ describe('isSkillPrerequisiteOf', () => {
 describe('expandSkillIdsWithDirectPrerequisites', () => {
 	it('includes requested IDs and only their direct prerequisites', () => {
 		expect(expandSkillIdsWithDirectPrerequisites(tree, ['e'])).toEqual(['e', 'b', 'c'])
-		expect(expandSkillIdsWithDirectPrerequisites(tree, ['E', 'b'])).toEqual(['e', 'b', 'c', 'a'])
+		expect(expandSkillIdsWithDirectPrerequisites(tree, ['e', 'b'])).toEqual(['e', 'b', 'c', 'a'])
 	})
 
 	it('deduplicates shared prerequisites', () => {
@@ -62,8 +62,8 @@ describe('getSkillIdsBetweenGoalsAndPriorKnowledge', () => {
 		expect(getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['e'], ['b'])).toEqual(['e', 'c', 'a'])
 	})
 
-	it('handles multiple goals, shared branches, casing, and duplicates', () => {
-		expect(getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['E', 'b'], [])).toEqual(['e', 'b', 'a', 'c'])
+	it('handles multiple goals, shared branches, and duplicates', () => {
+		expect(getSkillIdsBetweenGoalsAndPriorKnowledge(tree, ['e', 'b'], [])).toEqual(['e', 'b', 'a', 'c'])
 	})
 
 	it('rejects unknown goals and prior-knowledge IDs', () => {
