@@ -23,7 +23,7 @@ export function ExercisePageForStranger({ skillId }) {
 			...newExercise,
 			id: uuidv4(), // Just generate a random one.
 			active: true,
-			state: {},
+			state: newExercise.initialState,
 			startedOn: new Date(),
 		}
 		setExercise(exercise)

@@ -104,7 +104,7 @@ export const groupExerciseResolvers: ResolverTree = {
 			// Select a new exercise, store it, and right away add an empty event to couple submissions to.
 			const skillExercises = getExercises(skillId)!
 			const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
-			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, active: true })
+			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, parameters: newExercise.parameters, initialState: newExercise.initialState, active: true })
 			const activeEvent = await exercise.createEvent({ state: null })
 			activeEvent.submissions = []
 			exercise.events = [activeEvent]

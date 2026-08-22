@@ -15,11 +15,13 @@ export type BaseExerciseInstanceByMode<TAction extends ExerciseAction = Exercise
 	solo: {
 		mode: 'solo'
 		parameters: TParameters
+		initialState: TState
 		history: SoloExerciseHistory<TAction, TState>
 	}
 	group: {
 		mode: 'group'
 		parameters: TParameters
+		initialState: TState
 		history: GroupExerciseHistory<TAction, TState>
 	}
 }

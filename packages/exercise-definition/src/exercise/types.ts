@@ -12,6 +12,7 @@ export type ExerciseMetaData = {
 }
 
 export type ExerciseGenerator<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => TParameters
+export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => TState
 export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: string) => void
 
 type ExerciseReducerGeneralInput<TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {
@@ -33,13 +34,15 @@ export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState ext
 export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: SoloExerciseReducerInput<TAction, TState, TParameters>) => TState
 export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: GroupExerciseReducerInput<TAction, TState, TParameters>) => TState
 
-export type ExerciseSpec<TMetaData extends ExerciseMetaData, TParameters extends ExerciseParameters = ExerciseParameters> = {
+export type ExerciseSpec<TMetaData extends ExerciseMetaData, TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = {
 	metaData: TMetaData
 	generateParameters?: ExerciseGenerator<TParameters>
+	getInitialState?: GetInitialState<TParameters, TState>
 }
 
-export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = Omit<ExerciseSpec<TMetaData, TParameters>, 'generateParameters'> & {
+export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = Omit<ExerciseSpec<TMetaData, TParameters, TState>, 'generateParameters' | 'getInitialState'> & {
 	generateParameters: ExerciseGenerator<TParameters>
+	getInitialState: GetInitialState<TParameters, TState>
 	processSoloAction?: SoloExerciseReducer<TAction, TState, TParameters>
 	processGroupActions?: GroupExerciseReducer<TAction, TState, TParameters>
 }

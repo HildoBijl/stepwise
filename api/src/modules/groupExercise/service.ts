@@ -9,7 +9,7 @@ function getLastResolvedGroupEvent(exercise: any) {
 }
 
 export function getGroupExerciseState(exercise: any) {
-	return getLastResolvedGroupEvent(exercise)?.state ?? {}
+	return getLastResolvedGroupEvent(exercise)?.state ?? exercise.initialState
 }
 
 async function deactivateMissingGroupExercises(group: any) {

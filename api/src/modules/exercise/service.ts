@@ -17,7 +17,7 @@ export function getLastEvent(exercise: any): any {
 }
 
 export function getExerciseState(exercise: any) {
-	return getLastEvent(exercise)?.state ?? {}
+	return getLastEvent(exercise)?.state ?? exercise.initialState
 }
 
 export async function getUserSkillWithExercises(db: any, userId: string, skillId: string, options: any = {}) {

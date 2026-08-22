@@ -26,7 +26,7 @@ function getLastResolvedAction<TAction extends ExerciseAction, TState extends Ex
 	return undefined
 }
 
-function getLastState<TAction extends ExerciseAction, TState extends ExerciseState>(history: GroupExerciseHistory<TAction, TState>, offset = 0): TState | Record<string, never> {
+function getLastState<TAction extends ExerciseAction, TState extends ExerciseState>(history: GroupExerciseHistory<TAction, TState>, initialState: TState, offset = 0): TState {
 	let remaining = offset
 	for (let index = history.length - 1; index >= 0; index--) {
 		const event = history[index]
@@ -34,7 +34,7 @@ function getLastState<TAction extends ExerciseAction, TState extends ExerciseSta
 		if (remaining === 0) return event.state
 		remaining--
 	}
-	return {}
+	return initialState
 }
 
 export const groupHistorySupport = {
