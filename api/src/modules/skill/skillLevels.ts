@@ -1,7 +1,7 @@
 import type { Transaction } from 'sequelize'
 import { SkillLevelSet, ensureSkillLevel, getInitialSkillLevel } from '@step-wise/skill-tracking'
 import { ensureSetup, type SkillSetupLike } from '@step-wise/skill-setup'
-import { ensureSkillIds, getSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
+import { ensureSkillIds, expandSkillIdsWithDirectPrerequisitesAndLinks, skillTree } from '@step-wise/skill-tree'
 import { ensureBoolean, fromKeysAndValues, fromKeys, mapValues, union } from '@step-wise/js-utils'
 
 import { getUserSkills, type SkillDatabase } from './service.ts'
@@ -13,7 +13,7 @@ interface SkillUpdate {
 }
 
 export async function getUserSkillLevelSet(database: SkillDatabase, userId: string, skillIds: string[]) {
-	const allSkillIds = [...getSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
+	const allSkillIds = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
 	const rawSkills = await getUserSkills(database, userId, allSkillIds)
 	const skillsAsObject = fromKeysAndValues(rawSkills.map(skill => skill.skillId), rawSkills.map(skill => ensureSkillLevel(skill.get({ plain: true }))))
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
@@ -39,7 +39,7 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 	const skillIds = ensureSkillIds([...union(...skillSets)])
 	if (skillIds.length === 0) return []
 
-	const skillsToLoad = [...getSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
+	const skillsToLoad = [...expandSkillIdsWithDirectPrerequisitesAndLinks(skillIds)]
 	const skills = await getUserSkills(database, userId, skillsToLoad)
 	const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills)
 	const skillLevels = mapValues(skillsAsObject, skill => ensureSkillLevel(skill.get({ plain: true })))

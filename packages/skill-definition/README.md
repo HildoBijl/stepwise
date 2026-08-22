@@ -125,7 +125,7 @@ Each processed `Skill` contains:
 | --- | --- |
 | `id` | Canonical skill ID taken from the raw-tree key. |
 | `name` | Display name from the raw definition. |
-| `path` | Group path from the root to the containing group. |
+| `groupPath` | Group path from the root to the containing group. |
 | `groupSkillIds` | All skills directly contained in the same group, including the skill itself. |
 | `setup` | Original optional setup. |
 | `prerequisiteIds` | Deduplicated explicit and setup-derived direct prerequisites. |
@@ -141,31 +141,32 @@ Creation rejects malformed entries, empty IDs or names, exact and case-insensiti
 
 All search and validation functions receive a processed `SkillTree` as their first argument.
 
-### `ensureSkillId(skillTree, skillId)`
+### `ensureSkillId(skillTree, skillId, options?)`
 
-Returns the canonical known ID using case-insensitive matching. Unknown IDs throw.
+Returns the known skill ID when it matches exactly. Unknown IDs and casing differences throw by default. Set `allowCaseInsensitiveMatch` to `true` at boundaries where casing cannot be trusted, such as IDs read from URLs; the canonical ID from the tree is then returned.
 
 ```ts
-ensureSkillId(skillTree, 'ADDNUMBERS') // 'addNumbers'
+ensureSkillId(skillTree, 'addNumbers') // 'addNumbers'
+ensureSkillId(skillTree, 'ADDNUMBERS', { allowCaseInsensitiveMatch: true }) // 'addNumbers'
 ```
 
-### `ensureSkillIds(skillTree, skillIds)`
+### `ensureSkillIds(skillTree, skillIds, options?)`
 
-Accepts a readonly array and returns a new array containing the canonical IDs in the supplied order. Use `ensureSkillId` for a single ID.
+Accepts a readonly array and returns a new array containing the validated IDs in the supplied order. It supports the same `allowCaseInsensitiveMatch` option. Use `ensureSkillId` for a single ID.
 
 ### `ensureSkillSetup(skillTree, setup)`
 
 Normalizes a setup through `@step-wise/skill-setup`, verifies that every referenced skill exists and returns the resulting setup.
 
-### `isSkillPrerequisiteFor(skillTree, prerequisiteId, skillId)`
+### `isSkillPrerequisiteOf(skillTree, prerequisiteId, skillId)`
 
 Checks whether the first skill is a direct or transitive prerequisite of the second. A skill is considered a prerequisite of itself for reachability calculations.
 
-### `getSkillIdsWithDirectPrerequisites(skillTree, skillIds)`
+### `expandSkillIdsWithDirectPrerequisites(skillTree, skillIds)`
 
 Accepts a readonly array and returns the requested canonical IDs and their direct prerequisites. It does not recurse.
 
-### `getSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)`
+### `expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)`
 
 Accepts a readonly array and returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
 
@@ -180,9 +181,9 @@ getSkillIdsBetweenGoalsAndPriorKnowledge(skillTree, ['solveLinearEquation'], ['a
 
 ### `sortSkillIdsByTreeOrder(skillTree, skillIds)`
 
-Validates and canonicalizes the supplied IDs, then returns a new array sorted by their order in the processed skill tree. Duplicate IDs are preserved.
+Validates the supplied IDs, then returns a new array sorted by their order in the processed skill tree. Duplicate IDs are preserved.
 
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink` and `SkillThresholds`.
+The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink` and `SkillThresholdOverrides`.

@@ -8,9 +8,9 @@ describe('flattenRawSkillTree', () => {
 	it('flattens nested groups and derives paths and group skill IDs', () => {
 		const tree = flattenRawSkillTree({ subject: { group: { a: { name: 'A' }, b: { name: 'B' } }, c: { name: 'C' } } })
 		expect(Object.keys(tree)).toEqual(['a', 'b', 'c'])
-		expect(tree.a).toMatchObject({ id: 'a', name: 'A', path: ['subject', 'group'], groupSkillIds: ['a', 'b'] })
+		expect(tree.a).toMatchObject({ id: 'a', name: 'A', groupPath: ['subject', 'group'], groupSkillIds: ['a', 'b'] })
 		expect(tree.b.groupSkillIds).toBe(tree.a.groupSkillIds)
-		expect(tree.c).toMatchObject({ path: ['subject'], groupSkillIds: ['c'] })
+		expect(tree.c).toMatchObject({ groupPath: ['subject'], groupSkillIds: ['c'] })
 	})
 
 	it('keeps structurally different groups separate when their paths serialize equally', () => {
@@ -46,7 +46,7 @@ describe('flattenRawSkillTree', () => {
 
 	it('allows a group to contain a skill whose ID is name', () => {
 		const tree = flattenRawSkillTree({ group: { name: { name: 'Name' }, other: { name: 'Other' } } })
-		expect(tree.name.path).toEqual(['group'])
+		expect(tree.name.groupPath).toEqual(['group'])
 		expect(tree.name.groupSkillIds).toEqual(['name', 'other'])
 	})
 
@@ -58,6 +58,29 @@ describe('flattenRawSkillTree', () => {
 	it('rejects empty skill IDs and names', () => {
 		expect(() => flattenRawSkillTree({ '': { name: 'Empty ID' } })).toThrow(RangeError)
 		expect(() => flattenRawSkillTree({ a: { name: '' } })).toThrow(RangeError)
+		expect(() => flattenRawSkillTree({ a: { name: '   ' } })).toThrow(RangeError)
+	})
+
+	it('rejects skill IDs and references with surrounding whitespace', () => {
+		expect(() => flattenRawSkillTree({ ' a': { name: 'A' } })).toThrow(/start or end with whitespace/)
+		expect(() => flattenRawSkillTree({ 'a ': { name: 'A' } })).toThrow(/start or end with whitespace/)
+		expect(() => flattenRawSkillTree({ a: { name: 'A', prerequisites: [' b'] } })).toThrow(/start or end with whitespace/)
+		expect(() => flattenRawSkillTree({ a: { name: 'A', links: 'b ' } })).toThrow(/start or end with whitespace/)
+		expect(() => flattenRawSkillTree({ a: { name: 'A', setup: and(' b', 'c') } })).toThrow(/start or end with whitespace/)
+	})
+
+	it('validates raw skill properties', () => {
+		expect(() => flattenRawSkillTree({ a: { name: 'A', prerequisites: 'b' } } as unknown as RawSkillTree)).toThrow(/prerequisites.*array/)
+		expect(() => flattenRawSkillTree({ a: { name: 'A', setup: {} } } as unknown as RawSkillTree)).toThrow(/setup.*SkillSetup/)
+		expect(() => flattenRawSkillTree({ a: { name: 'A', thresholds: 0.5 } } as unknown as RawSkillTree)).toThrow(/thresholds.*plain object/)
+	})
+
+	it.each([NaN, -0.1, 1.1, Infinity, '0.5'])('rejects an invalid pass threshold: %s', pass => {
+		expect(() => flattenRawSkillTree({ a: { name: 'A', thresholds: { pass } } } as unknown as RawSkillTree)).toThrow()
+	})
+
+	it.each([0, 0.5, 1])('accepts a pass threshold on the inclusive unit interval: %s', pass => {
+		expect(flattenRawSkillTree({ a: { name: 'A', thresholds: { pass } } }).a.thresholds).toEqual({ pass })
 	})
 
 	it('rejects malformed group entries with their path', () => {

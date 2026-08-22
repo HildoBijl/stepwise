@@ -1,7 +1,7 @@
 import type { SkillId, SkillTree } from './types'
 
 // Validate prerequisites and set up the continuation IDs for each skill.
-export function processPrerequisites(skillTree: SkillTree): void {
+export function validateAndProcessPrerequisites(skillTree: SkillTree): void {
 	// Validate all prerequisite references before modifying the tree.
 	for (const skill of Object.values(skillTree)) {
 		for (const prerequisiteId of skill.prerequisiteIds) {

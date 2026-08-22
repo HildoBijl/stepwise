@@ -7,7 +7,7 @@ import { skillTree } from '@step-wise/skill-tree'
 import * as allExercises from './exerciseGatherer'
 
 // Prepare by getting all skill paths, and preparing a list of exercises that are discovered.
-const skillsByPath = new Map(Object.values(skillTree).map(skill => [[...skill.path, skill.id].join('/'), skill] as const))
+const skillsByPath = new Map(Object.values(skillTree).map(skill => [[...skill.groupPath, skill.id].join('/'), skill] as const))
 const skillExerciseExport: { path: string[], skill: Skill, skillExercises: unknown }[] = []
 
 // Walk through the gathered exports and couple every leaf to its skill-tree entry. Note when an exercise cannot be matched.
@@ -36,7 +36,7 @@ describe('Gathered exercises', () => {
 		describe(`${skill.id} (${path.join('/')})`, () => {
 			// Ensure that the skill's path matches the exercise's path. (Should already be checked, since the exercises were matched to this skill.)
 			it('is exported at the path specified by the skill tree', () => {
-				expect(path).toEqual([...skill.path, skill.id])
+				expect(path).toEqual([...skill.groupPath, skill.id])
 			})
 
 			// Ensure that the container has the right format.

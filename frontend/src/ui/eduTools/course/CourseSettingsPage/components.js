@@ -51,7 +51,7 @@ export function CourseLearningGoals({ course }) {
 			<Par><Translation entry="learningGoals.description">The course has the following final <Plurals value={course.goals.length}><Plurals.One>goal</Plurals.One><Plurals.NotOne>goals</Plurals.NotOne></Plurals>.</Translation></Par>
 			<List items={course.goals.map(goalId => {
 				const skill = skillTree[goalId]
-				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.path.join('.')}.${skill.id}`}>{skill.name}</Translation></Link>
+				return <Link to={paths.skill({ skillId: goalId })}><Translation path="eduContent/skillNames" entry={`${skill.groupPath.join('.')}.${skill.id}`}>{skill.name}</Translation></Link>
 			})} />
 		</TranslationSection>
 	</TranslationFile>

@@ -3,7 +3,7 @@ import type { SkillId, SkillTree } from '../creation'
 import { ensureSkillIds } from './validation'
 
 // Check if the given child skill is a prerequisite for the given parent skill.
-export function isSkillPrerequisiteFor(skillTree: SkillTree, prerequisiteId: SkillId, skillId: SkillId): boolean {
+export function isSkillPrerequisiteOf(skillTree: SkillTree, prerequisiteId: SkillId, skillId: SkillId): boolean {
 	const [ensuredPrerequisiteId, ensuredSkillId] = ensureSkillIds(skillTree, [prerequisiteId, skillId])
 	const visited = new Set<SkillId>()
 	const searchPrerequisites = (currentSkillId: SkillId): boolean => {
@@ -16,7 +16,7 @@ export function isSkillPrerequisiteFor(skillTree: SkillTree, prerequisiteId: Ski
 }
 
 // Find the prerequisites of all the given skillIds.
-export function getSkillIdsWithDirectPrerequisites(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
+export function expandSkillIdsWithDirectPrerequisites(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
 	const result = new Set<SkillId>()
 	for (const skillId of ensureSkillIds(skillTree, skillIds)) {
 		result.add(skillId)
@@ -26,7 +26,7 @@ export function getSkillIdsWithDirectPrerequisites(skillTree: SkillTree, skillId
 }
 
 // Find the prerequisites and linked skills of all the given skillIds.
-export function getSkillIdsWithDirectPrerequisitesAndLinks(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
+export function expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree: SkillTree, skillIds: readonly SkillId[]): SkillId[] {
 	const result = new Set<SkillId>()
 	for (const skillId of ensureSkillIds(skillTree, skillIds)) {
 		result.add(skillId)

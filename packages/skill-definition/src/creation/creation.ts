@@ -1,11 +1,11 @@
 import type { RawSkillTree, SkillTree } from './types'
 import { flattenRawSkillTree } from './flattening'
-import { processPrerequisites } from './prerequisiteProcessing'
-import { processLinks } from './linkProcessing'
+import { validateAndProcessPrerequisites } from './prerequisiteProcessing'
+import { validateAndProcessLinks } from './linkProcessing'
 
 export function createSkillTree(rawSkillTree: RawSkillTree): SkillTree {
 	const skillTree = flattenRawSkillTree(rawSkillTree)
-	processPrerequisites(skillTree)
-	processLinks(skillTree)
+	validateAndProcessPrerequisites(skillTree)
+	validateAndProcessLinks(skillTree)
 	return skillTree
 }

@@ -17,7 +17,7 @@ import { ExerciseContext } from 'ui/eduTools'
 const exerciseModules = import.meta.glob('/src/ui/eduContent/**/exercises/*.js')
 
 function loadExercise(skill, exerciseId) {
-	const path = `/src/ui/eduContent/${skill.path.join('/')}/${skill.id}/exercises/${exerciseId}.js`
+	const path = `/src/ui/eduContent/${skill.groupPath.join('/')}/${skill.id}/exercises/${exerciseId}.js`
 	const load = exerciseModules[path]
 	if (!load)
 		throw new Error(`No frontend exercise module found at "${path}".`)
@@ -68,7 +68,7 @@ describe('Check all exercises:', () => {
 								<ThemeProvider theme={theme}>
 									<FieldController>
 										<ModalManager>
-											<TranslationFile path={`eduContent/${skill.path.join('/')}/${skill.id}`}>
+											<TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
 												<TranslationSection entry="practice">
 													<ExerciseContext.Provider value={exerciseData}>
 														<Exercise />

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from '@step-wise/js-utils'
-import { getSkill } from '@step-wise/skill-tree'
+import { ensureSkillId, getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
 
 import { TranslationFile, TranslationSection, useTranslator } from 'i18n'
@@ -16,11 +16,12 @@ import { ExerciseContainer } from './ExerciseContainer'
 
 export function BlankExercise() {
 	const translate = useTranslator()
-	const { skillId, exerciseName } = useParams()
+	const { skillId: skillIdFromUrl, exerciseName } = useParams()
+	const skillId = skillIdFromUrl && ensureSkillId(skillIdFromUrl, { allowCaseInsensitiveMatch: true })
 	if (!exerciseName)
 		return <ErrorNote text={translate('The URL has no exercise name in it.', 'loadingNotes.missingExerciseName', 'eduTools/exercises')} />
 	const skill = getSkill(skillId)
-	return <TranslationFile path={`eduContent/${skill.path.join('/')}/${skill.id}`}>
+	return <TranslationFile path={`eduContent/${skill.groupPath.join('/')}/${skill.id}`}>
 		<TranslationSection entry="practice">
 			<BlankExerciseInner skillId={skillId} exerciseId={exerciseName} />
 		</TranslationSection>

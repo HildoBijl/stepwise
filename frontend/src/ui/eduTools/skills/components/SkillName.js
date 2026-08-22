@@ -12,5 +12,5 @@ export function SkillName() {
 	const skillNames = 'eduContent/skillNames'
 	if (!skill || !skill.name)
 		return <TitleItem path={skillNames} entry={`miscellaneous.unknownSkill`} name="Unknown skill" />
-	return <TitleItem path={skillNames} entry={`${skill.path.join('.')}.${skill.id}`} name={skill?.name} />
+	return <TitleItem path={skillNames} entry={`${skill.groupPath.join('.')}.${skill.id}`} name={skill?.name} />
 }

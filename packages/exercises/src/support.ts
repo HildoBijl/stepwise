@@ -9,7 +9,7 @@ import * as allExercises from './exerciseGatherer'
 // Extract all exercises defined for a certain skill.
 export function getExercises(skillId: SkillId, examples = false): ExerciseContainer | undefined {
 	const skill = getSkill(skillId)
-	const skillExercises = getByPath(allExercises, [...skill.path, skill.id])
+	const skillExercises = getByPath(allExercises, [...skill.groupPath, skill.id])
 	if (skillExercises === undefined) return undefined
 	if (!isPlainObject(skillExercises)) throw new Error(`Invalid exercises found at skill ${skillId}: the skill definitions did not return a plain object but gave something of type "${typeof skillExercises}".`)
 	const label = examples ? 'examples' : 'exercises'
