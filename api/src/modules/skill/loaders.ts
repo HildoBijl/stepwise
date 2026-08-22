@@ -3,7 +3,7 @@ import { Op } from 'sequelize'
 import { expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-tree'
 
 import type { ApiContext, ApiLoaders } from '../types.ts'
-import { dbCourseToCourseDefinition } from '../course/index.ts'
+import { createCourseFromRecord } from '../course/index.ts'
 
 import type { UserSkillRecord } from './model.ts'
 import type { SkillDatabase } from './service.ts'
@@ -25,8 +25,8 @@ export function createSkillLoaders(context: ApiContext, { coursesWithStudent }: 
 				const withoutExercises = new Set<string>()
 				courses.forEach(course => {
 					if (!courseSkills[course.id]) {
-						const courseDefinition = dbCourseToCourseDefinition(course)
-						courseSkills[course.id] = [...courseDefinition.allSkills]
+						const analyzedCourse = createCourseFromRecord(course)
+						courseSkills[course.id] = [...analyzedCourse.allSkillIds]
 						courseSkillsWithLinks[course.id] = [...expandSkillIdsWithDirectPrerequisitesAndLinks(courseSkills[course.id])]
 					}
 					courseSkills[course.id].forEach(skillId => withExercises.add(skillId))

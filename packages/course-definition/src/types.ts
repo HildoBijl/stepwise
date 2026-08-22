@@ -1,56 +1,56 @@
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
-export type CourseData = {
-	startingPoints: readonly SkillId[]
-	learningGoals: readonly SkillId[]
-	goalWeights?: readonly number[]
-	blockGoals?: readonly SkillId[][]
+export type CourseDefinition = {
+	startingPointIds: readonly SkillId[]
+	learningGoalIds: readonly SkillId[]
+	learningGoalWeights?: readonly number[]
+	blockLearningGoalIds?: readonly (readonly SkillId[])[]
 	setup?: SkillSetupLike
 }
 
-export type ResolvedCourse = {
-	readonly priorKnowledge: readonly SkillId[]
-	readonly startingPoints: readonly SkillId[]
-	readonly contents: readonly SkillId[]
-	readonly allSkills: readonly SkillId[]
+export type CourseResolution = {
+	readonly priorKnowledgeIds: readonly SkillId[]
+	readonly startingPointIds: readonly SkillId[]
+	readonly contentSkillIds: readonly SkillId[]
+	readonly allSkillIds: readonly SkillId[]
 	
-	readonly learningGoals: readonly SkillId[]
+	readonly learningGoalIds: readonly SkillId[]
 	readonly learningGoalWeights: readonly number[]
 
-	readonly blocks?: readonly ResolvedCourseBlock[]
+	readonly blocks?: readonly CourseResolutionBlock[]
 	readonly setup?: SkillSetup
 }
 
-export type ResolvedCourseBlock = {
-	readonly learningGoals: readonly SkillId[]
-	readonly contents: readonly SkillId[]
+export type CourseResolutionBlock = {
+	readonly learningGoalIds: readonly SkillId[]
+	readonly contentSkillIds: readonly SkillId[]
 }
 
 export type CourseDiagnostics = {
-	readonly originalStartingPoints: readonly SkillId[]
-	readonly unknownStartingPoints: readonly SkillId[]
-	readonly externalStartingPoints: readonly SkillId[]
-	readonly superfluousStartingPoints: readonly SkillId[]
-	readonly missingStartingPoints: readonly SkillId[]
+	readonly originalStartingPointIds: readonly SkillId[]
+	readonly unknownStartingPointIds: readonly SkillId[]
+	readonly externalStartingPointIds: readonly SkillId[]
+	readonly redundantStartingPointIds: readonly SkillId[]
+	readonly missingStartingPointIds: readonly SkillId[]
 
-	readonly originalLearningGoals: readonly SkillId[]
-	readonly unknownLearningGoals: readonly SkillId[]
-	readonly superfluousLearningGoals: readonly SkillId[]
+	readonly originalLearningGoalIds: readonly SkillId[]
+	readonly unknownLearningGoalIds: readonly SkillId[]
+	readonly redundantLearningGoalIds: readonly SkillId[]
 
-	readonly blockIssues?: readonly CourseBlockIssues[]
-	readonly uncoveredLearningGoals?: readonly SkillId[]
+	readonly blockDiagnostics?: readonly CourseBlockDiagnostics[]
+	readonly uncoveredLearningGoalIds?: readonly SkillId[]
 
-	readonly unknownSetupSkills?: readonly SkillId[]
-	readonly externalSetupSkills?: readonly SkillId[]
+	readonly unknownSetupSkillIds?: readonly SkillId[]
+	readonly externalSetupSkillIds?: readonly SkillId[]
 }
 
-export type CourseBlockIssues = {
-	readonly unknownLearningGoals: readonly SkillId[]
-	readonly externalLearningGoals: readonly SkillId[]
-	readonly superfluousLearningGoals: readonly SkillId[]
+export type CourseBlockDiagnostics = {
+	readonly unknownLearningGoalIds: readonly SkillId[]
+	readonly externalLearningGoalIds: readonly SkillId[]
+	readonly redundantLearningGoalIds: readonly SkillId[]
 }
 
 export type CourseAnalysis = {
-	readonly course: ResolvedCourse
+	readonly resolution: CourseResolution
 	readonly diagnostics: CourseDiagnostics
 }
