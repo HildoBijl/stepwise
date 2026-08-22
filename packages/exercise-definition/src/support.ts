@@ -15,17 +15,17 @@ export function getLastResolvedAction<TAction extends ExerciseAction = ExerciseA
 	}
 }
 
-export function getLastState<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState>(instance: BaseExerciseInstance<TAction, TState>): TState | Record<string, never> {
+export function getLastState<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState>(instance: BaseExerciseInstance<TAction, TState>): TState {
 	switch (instance.mode) {
-		case 'solo': return soloHistorySupport.getLastState(instance.history)
-		case 'group': return groupHistorySupport.getLastState(instance.history)
+		case 'solo': return soloHistorySupport.getLastState(instance.history, instance.initialState)
+		case 'group': return groupHistorySupport.getLastState(instance.history, instance.initialState)
 	}
 }
 
-export function getPreviousState<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState>(instance: BaseExerciseInstance<TAction, TState>): TState | Record<string, never> {
+export function getPreviousState<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState>(instance: BaseExerciseInstance<TAction, TState>): TState {
 	switch (instance.mode) {
-		case 'solo': return soloHistorySupport.getLastState(instance.history, 1)
-		case 'group': return groupHistorySupport.getLastState(instance.history, 1)
+		case 'solo': return soloHistorySupport.getLastState(instance.history, instance.initialState, 1)
+		case 'group': return groupHistorySupport.getLastState(instance.history, instance.initialState, 1)
 	}
 }
 

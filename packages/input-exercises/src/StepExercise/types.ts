@@ -20,7 +20,7 @@ export type StepExerciseState = Record<string, never> | { solved: true, done: tr
 export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (data: CheckInputData<StepExerciseMetaData, TParameters, TSolution>, step: number, substep?: number) => boolean
 
 // Author-facing definition before the mode-specific reducers are added.
-export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExerciseSpec<StepExerciseMetaData, TParameters, TSolution> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
+export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExerciseSpec<StepExerciseMetaData, TParameters, TSolution, StepExerciseState> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExercise<StepExerciseMetaData, InputExerciseAction, StepExerciseState, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters'> & { type: 'step' }
+export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExercise<StepExerciseMetaData, InputExerciseAction, StepExerciseState, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'getInitialState'> & { type: 'step' }

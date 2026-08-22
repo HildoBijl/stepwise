@@ -8,17 +8,26 @@ describe('getLastResolvedAction', () => {
 			{ submissions: [{ userId: 'user-2', action: { type: 'answer', value: 2 } }], state: {} },
 		] as const
 
-		expect(getLastResolvedAction({ mode: 'group', parameters: {}, history }, 'user-1')).toBe(userAction)
+		expect(getLastResolvedAction({ mode: 'group', parameters: {}, initialState: {}, history }, 'user-1')).toBe(userAction)
 	})
 })
 
 describe('exercise history state', () => {
-	test('uses the default state when a group history only has a pending event', () => {
-		const history = [{ submissions: [] }] as const
+	test('uses the initial state when a solo history is empty', () => {
+		const initialState = { attempts: 0 }
+		const instance = { mode: 'solo', parameters: {}, initialState, history: [] } as const
 
-		const instance = { mode: 'group', parameters: {}, history } as const
-		expect(getLastState(instance)).toEqual({})
-		expect(getPreviousState(instance)).toEqual({})
+		expect(getLastState(instance)).toBe(initialState)
+		expect(getPreviousState(instance)).toBe(initialState)
+	})
+
+	test('uses the initial state when a group history only has a pending event', () => {
+		const history = [{ submissions: [] }] as const
+		const initialState = { attempts: 0 }
+
+		const instance = { mode: 'group', parameters: {}, initialState, history } as const
+		expect(getLastState(instance)).toBe(initialState)
+		expect(getPreviousState(instance)).toBe(initialState)
 	})
 
 	test('skips a pending group event when finding state', () => {
@@ -30,7 +39,7 @@ describe('exercise history state', () => {
 			{ submissions: [] },
 		] as const
 
-		const instance = { mode: 'group', parameters: {}, history } as const
+		const instance = { mode: 'group', parameters: {}, initialState: { split: false }, history } as const
 		expect(getLastState(instance)).toBe(secondState)
 		expect(getPreviousState(instance)).toBe(firstState)
 	})

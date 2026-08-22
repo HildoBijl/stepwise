@@ -35,13 +35,16 @@ function BlankExerciseInner({ skillId, exerciseId }) {
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		if (exerciseDefinition) {
+			const parameters = exerciseDefinition.generateParameters()
+			const initialState = exerciseDefinition.getInitialState(parameters)
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: exerciseId,
 				mode: 'solo',
-				parameters: exerciseDefinition.generateParameters(), // The parameters should be in storage format, as if it came from the database.
+				parameters,
+				initialState,
 				id: uuidv4(), // Just generate a random one.
 				active: true,
-				state: {},
+				state: initialState,
 				history: [],
 				startedOn: new Date(),
 			})

@@ -47,7 +47,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const parametersFO = useMemo(() => deserializeAll(parameters), [parameters])
 
 	// Ensure that the state has a consistent reference.
-	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state || {}) : getLastState(instance))
+	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getLastState(instance))
 
 	if (loading)
 		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'eduTools/pages/skillPage')} />

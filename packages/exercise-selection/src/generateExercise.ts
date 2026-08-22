@@ -20,11 +20,13 @@ export function generateRandomExerciseInstance(exercises: ExerciseContainer, mod
 
 // Build an exercise instance from an exerciseId.
 function generateExerciseInstance(exerciseId: ExerciseId, exercise: Exercise, mode: ExerciseMode, example = false): ExerciseInstance {
-	const { generateParameters } = exercise
+	const { generateParameters, getInitialState } = exercise
+	const parameters = generateParameters(example)
 	return {
 		exerciseId,
 		mode,
-		parameters: generateParameters(example),
+		parameters,
+		initialState: getInitialState(parameters),
 		history: [],
 	}
 }

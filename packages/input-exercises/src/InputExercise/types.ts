@@ -46,9 +46,10 @@ export type GetSolution<TParameters extends InputExerciseParameters = InputExerc
  */
 
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
-export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = {
+export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TState extends ExerciseState = ExerciseState> = {
 	metaData: TMetaData
 	generateParameters?: (example: boolean) => TParameters
+	getInitialState?: (parameters: TParameters) => TState
 	getSolution?: GetSolution<TParameters, TSolution>
 }
 
@@ -65,8 +66,9 @@ export type InputExerciseReducerSubmissionsInput<TAction extends ExerciseAction,
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TState> & Omit<InputExerciseSpec<TMetaData, TParameters, TSolution>, 'generateParameters'> & {
+export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TState> & Omit<InputExerciseSpec<TMetaData, TParameters, TSolution, TState>, 'generateParameters' | 'getInitialState'> & {
 	generateParameters: (example: boolean) => PlainDataObject
+	getInitialState: (parameters: PlainDataObject) => TState
 	processSoloAction: SoloExerciseReducer<TAction, TState>
 	processGroupActions: GroupExerciseReducer<TAction, TState>
 }

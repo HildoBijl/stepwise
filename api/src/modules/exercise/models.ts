@@ -14,6 +14,7 @@ export class ExerciseSampleRecord extends Model<InferAttributes<ExerciseSampleRe
 	declare userSkillId: string
 	declare exerciseId: string
 	declare parameters: unknown
+	declare initialState: CreationOptional<unknown>
 	declare active: CreationOptional<boolean>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
@@ -27,11 +28,12 @@ export type ExerciseSampleModel = ModelStatic<ExerciseSampleRecord>
 export function createExerciseSampleModel(sequelize: Sequelize): ExerciseSampleModel {
 	class ExerciseSample extends ExerciseSampleRecord { }
 	ExerciseSample.init({
-		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
+		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 		userSkillId: { type: DataTypes.UUID, allowNull: false },
 		exerciseId: { type: DataTypes.TEXT, allowNull: false },
 		parameters: { type: DataTypes.JSON, allowNull: false },
-		active: { type: DataTypes.BOOLEAN, defaultValue: true, allowNull: false },
+		initialState: { type: DataTypes.JSON, allowNull: false, defaultValue: {} },
+		active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
 	}, { sequelize, modelName: 'exerciseSample' })
@@ -41,7 +43,7 @@ export function createExerciseSampleModel(sequelize: Sequelize): ExerciseSampleM
 export function createExerciseEventModel(sequelize: Sequelize): ExerciseEventModel {
 	class ExerciseEvent extends ExerciseEventRecord { }
 	ExerciseEvent.init({
-		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
+		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 		exerciseSampleId: { type: DataTypes.UUID, allowNull: false },
 		action: { type: DataTypes.JSON, allowNull: false },
 		state: { type: DataTypes.JSON, allowNull: false },

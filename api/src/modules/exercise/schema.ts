@@ -24,6 +24,7 @@ export const exerciseTypeDefs = gql`
 		exerciseId: String!
 		mode: ExerciseMode!
 		parameters: JSON!
+		initialState: JSON!
 		active: Boolean!
 		startedOn: DateTime!
 		state: JSON!

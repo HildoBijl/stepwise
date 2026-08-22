@@ -5,8 +5,8 @@ function getLastAction<TAction extends ExerciseAction, TState extends ExerciseSt
 	return history.at(-1)?.action
 }
 
-function getLastState<TAction extends ExerciseAction, TState extends ExerciseState>(history: SoloExerciseHistory<TAction, TState>, offset = 0): TState | Record<string, never> {
-	return history.at(-(offset + 1))?.state ?? {}
+function getLastState<TAction extends ExerciseAction, TState extends ExerciseState>(history: SoloExerciseHistory<TAction, TState>, initialState: TState, offset = 0): TState {
+	return history.at(-(offset + 1))?.state ?? initialState
 }
 
 export const soloHistorySupport = {
