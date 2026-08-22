@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import sumInDenominator from './sumInDenominator'
 import sumInNumerator from './sumInNumerator'
@@ -8,4 +8,4 @@ import sumsWithFractions from './sumsWithFractions'
 export default {
 	examples: { sumInDenominator, sumInNumerator },
 	exercises: { sumInDenominator, sumInNumerator, sumsWithIntegers, sumsWithFractions },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

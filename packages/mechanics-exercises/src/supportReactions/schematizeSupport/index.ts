@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import schematizeFixedSupport from './schematizeFixedSupport'
 import schematizeHingeSupport from './schematizeHingeSupport'
@@ -8,4 +8,4 @@ import schematizeRollerSupport from './schematizeRollerSupport'
 export default {
 	examples: {},
 	exercises: { schematizeFixedSupport, schematizeHingeSupport, schematizeRollerHingeSupport, schematizeRollerSupport },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

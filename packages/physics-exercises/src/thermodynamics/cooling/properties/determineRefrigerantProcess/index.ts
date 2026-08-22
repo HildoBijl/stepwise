@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import determineRefrigerantProcessIsobaric from './determineRefrigerantProcessIsobaric'
 import determineRefrigerantProcessIsentropic from './determineRefrigerantProcessIsentropic'
@@ -6,4 +6,4 @@ import determineRefrigerantProcessIsentropic from './determineRefrigerantProcess
 export default {
 	examples: { determineRefrigerantProcessIsobaric },
 	exercises: { determineRefrigerantProcessIsobaric, determineRefrigerantProcessIsentropic },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

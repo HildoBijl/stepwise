@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import basicDivision from './basicDivision'
 import basicMultiplication from './basicMultiplication'
@@ -8,4 +8,4 @@ import multiplication from './multiplication'
 export default {
 	examples: { basicDivision, basicMultiplication },
 	exercises: { division, multiplication },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

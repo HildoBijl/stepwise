@@ -1,2 +1,2 @@
-export * from './exerciseContainer'
-export * from './skillExercises'
+export * from './exerciseCollection'
+export * from './skillExerciseBundle'

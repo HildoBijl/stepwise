@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateSpecificHeatAndMechanicalWorkIsobaric from './calculateSpecificHeatAndMechanicalWorkIsobaric'
 import calculateSpecificHeatAndMechanicalWorkIsothermal from './calculateSpecificHeatAndMechanicalWorkIsothermal'
@@ -7,4 +7,4 @@ import calculateSpecificHeatAndMechanicalWorkIsentropic from './calculateSpecifi
 export default {
 	examples: { calculateSpecificHeatAndMechanicalWorkIsobaric },
 	exercises: { calculateSpecificHeatAndMechanicalWorkIsobaric, calculateSpecificHeatAndMechanicalWorkIsothermal, calculateSpecificHeatAndMechanicalWorkIsentropic },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

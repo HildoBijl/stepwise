@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import oneFractionWithSquare from './oneFractionWithSquare'
 import twoFractions from './twoFractions'
@@ -6,4 +6,4 @@ import twoFractions from './twoFractions'
 export default {
 	examples: { twoFractions },
 	exercises: { twoFractions, oneFractionWithSquare },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

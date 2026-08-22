@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import moveSingleTerm from './moveSingleTerm'
 import moveAllTerms from './moveAllTerms'
@@ -6,4 +6,4 @@ import moveAllTerms from './moveAllTerms'
 export default {
 	examples: { moveSingleTerm },
 	exercises: { moveSingleTerm, moveAllTerms },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

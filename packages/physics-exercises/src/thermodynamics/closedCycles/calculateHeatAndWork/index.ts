@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateHeatAndWorkIsobaric from './calculateHeatAndWorkIsobaric'
 import calculateHeatAndWorkIsochoric from './calculateHeatAndWorkIsochoric'
@@ -9,4 +9,4 @@ import calculateHeatAndWorkPolytropic from './calculateHeatAndWorkPolytropic'
 export default {
 	examples: { calculateHeatAndWorkIsobaric },
 	exercises: { calculateHeatAndWorkIsobaric, calculateHeatAndWorkIsochoric, calculateHeatAndWorkIsothermal, calculateHeatAndWorkIsentropic, calculateHeatAndWorkPolytropic },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

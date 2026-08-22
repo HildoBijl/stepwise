@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateWithCOPRefrigerator from './calculateWithCOPRefrigerator'
 import calculateWithCOPHeatPump from './calculateWithCOPHeatPump'
@@ -6,4 +6,4 @@ import calculateWithCOPHeatPump from './calculateWithCOPHeatPump'
 export default {
 	examples: { calculateWithCOPRefrigerator },
 	exercises: { calculateWithCOPRefrigerator, calculateWithCOPHeatPump },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import applyProductRuleTwoElementary from './applyProductRuleTwoElementary'
 import applyProductRuleElementaryAndBasic from './applyProductRuleElementaryAndBasic'
@@ -6,4 +6,4 @@ import applyProductRuleElementaryAndBasic from './applyProductRuleElementaryAndB
 export default {
 	examples: {},
 	exercises: { applyProductRuleTwoElementary, applyProductRuleElementaryAndBasic },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle
