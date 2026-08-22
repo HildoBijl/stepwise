@@ -1,6 +1,6 @@
 import { partition } from '@step-wise/js-utils'
 import { type SkillSetup, ensureSetup } from '@step-wise/skill-setup'
-import { type SkillId, type SkillTree, isSkillPrerequisiteFor, sortSkillIdsByTreeOrder } from '@step-wise/skill-definition'
+import { type SkillId, type SkillTree, isSkillPrerequisiteOf, sortSkillIdsByTreeOrder } from '@step-wise/skill-definition'
 
 import type { CourseData, CourseAnalysis, ResolvedCourseBlock, CourseBlockIssues } from './types'
 
@@ -18,7 +18,7 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 	const superfluousLearningGoals: SkillId[] = []
 	const processSkill = (skillId: SkillId, parentId: SkillId | undefined) => {
 		// If we're out-of-tree (the skill does not follow from any starting point) then add the parent as a missing starting point.
-		if (!startingPointsFiltered.some(startingPointId => isSkillPrerequisiteFor(skillTree, startingPointId, skillId))) {
+		if (!startingPointsFiltered.some(startingPointId => isSkillPrerequisiteOf(skillTree, startingPointId, skillId))) {
 			if (parentId !== undefined && !missingStartingPoints.includes(parentId)) missingStartingPoints.push(parentId)
 			return
 		}
@@ -34,7 +34,7 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 		if (startingPointsFiltered.includes(skillId)) {
 			startingPointsFound.push(skillId)
 				skillTree[skillId].prerequisiteIds.forEach(prerequisiteId => {
-				if (startingPointsFiltered.some(startingPointId => isSkillPrerequisiteFor(skillTree, startingPointId, prerequisiteId))) processSkill(prerequisiteId, skillId)
+				if (startingPointsFiltered.some(startingPointId => isSkillPrerequisiteOf(skillTree, startingPointId, prerequisiteId))) processSkill(prerequisiteId, skillId)
 			})
 			return
 		}

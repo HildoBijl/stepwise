@@ -27,7 +27,7 @@ export function SkillRecommender({ courseCode, recommendation }) {
 	} else {
 		link = paths.courseSkill({ courseCode, skillId: recommendation })
 		const skill = skillTree[recommendation]
-		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
+		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}`
 	}
 
 	// Show the button.

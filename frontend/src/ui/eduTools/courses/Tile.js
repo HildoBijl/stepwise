@@ -79,7 +79,7 @@ export function StudentTile({ course, skillsTotal, skillsDone, recommendation })
 			break
 		default:
 			const skill = skillTree[recommendation]
-			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
+			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}</>
 			break
 	}
 

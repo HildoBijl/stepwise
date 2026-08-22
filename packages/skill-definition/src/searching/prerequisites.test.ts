@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { createSkillTree } from '../creation'
 
-import { getSkillIdsBetweenGoalsAndPriorKnowledge, getSkillIdsWithDirectPrerequisites, getSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteFor } from './prerequisites'
+import { getSkillIdsBetweenGoalsAndPriorKnowledge, expandSkillIdsWithDirectPrerequisites, expandSkillIdsWithDirectPrerequisitesAndLinks, isSkillPrerequisiteOf } from './prerequisites'
 
 const tree = createSkillTree({
 	a: { name: 'A' },
@@ -13,43 +13,43 @@ const tree = createSkillTree({
 	f: { name: 'F' },
 })
 
-describe('isSkillPrerequisiteFor', () => {
+describe('isSkillPrerequisiteOf', () => {
 	it('recognizes direct, transitive, and self prerequisites', () => {
-		expect(isSkillPrerequisiteFor(tree, 'a', 'b')).toBe(true)
-		expect(isSkillPrerequisiteFor(tree, 'a', 'e')).toBe(true)
-		expect(isSkillPrerequisiteFor(tree, 'e', 'e')).toBe(true)
+		expect(isSkillPrerequisiteOf(tree, 'a', 'b')).toBe(true)
+		expect(isSkillPrerequisiteOf(tree, 'a', 'e')).toBe(true)
+		expect(isSkillPrerequisiteOf(tree, 'e', 'e')).toBe(true)
 	})
 
 	it('returns false for unrelated or reversed skills', () => {
-		expect(isSkillPrerequisiteFor(tree, 'f', 'e')).toBe(false)
-		expect(isSkillPrerequisiteFor(tree, 'e', 'a')).toBe(false)
+		expect(isSkillPrerequisiteOf(tree, 'f', 'e')).toBe(false)
+		expect(isSkillPrerequisiteOf(tree, 'e', 'a')).toBe(false)
 	})
 
 	it('normalizes casing and rejects unknown IDs', () => {
-		expect(isSkillPrerequisiteFor(tree, 'A', 'E')).toBe(true)
-		expect(() => isSkillPrerequisiteFor(tree, 'missing', 'missing')).toThrow(/missing/)
+		expect(isSkillPrerequisiteOf(tree, 'A', 'E')).toBe(true)
+		expect(() => isSkillPrerequisiteOf(tree, 'missing', 'missing')).toThrow(/missing/)
 	})
 })
 
-describe('getSkillIdsWithDirectPrerequisites', () => {
+describe('expandSkillIdsWithDirectPrerequisites', () => {
 	it('includes requested IDs and only their direct prerequisites', () => {
-		expect(getSkillIdsWithDirectPrerequisites(tree, ['e'])).toEqual(['e', 'b', 'c'])
-		expect(getSkillIdsWithDirectPrerequisites(tree, ['E', 'b'])).toEqual(['e', 'b', 'c', 'a'])
+		expect(expandSkillIdsWithDirectPrerequisites(tree, ['e'])).toEqual(['e', 'b', 'c'])
+		expect(expandSkillIdsWithDirectPrerequisites(tree, ['E', 'b'])).toEqual(['e', 'b', 'c', 'a'])
 	})
 
 	it('deduplicates shared prerequisites', () => {
-		expect(getSkillIdsWithDirectPrerequisites(tree, ['b', 'c'])).toEqual(['b', 'a', 'c'])
+		expect(expandSkillIdsWithDirectPrerequisites(tree, ['b', 'c'])).toEqual(['b', 'a', 'c'])
 	})
 })
 
-describe('getSkillIdsWithDirectPrerequisitesAndLinks', () => {
+describe('expandSkillIdsWithDirectPrerequisitesAndLinks', () => {
 	it('includes direct prerequisites and linked skills without recursion', () => {
-		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, ['c'])).toEqual(['c', 'a', 'd'])
-		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, ['e'])).toEqual(['e', 'b', 'c'])
+		expect(expandSkillIdsWithDirectPrerequisitesAndLinks(tree, ['c'])).toEqual(['c', 'a', 'd'])
+		expect(expandSkillIdsWithDirectPrerequisitesAndLinks(tree, ['e'])).toEqual(['e', 'b', 'c'])
 	})
 
 	it('deduplicates overlap across multiple requested skills', () => {
-		expect(getSkillIdsWithDirectPrerequisitesAndLinks(tree, ['c', 'd'])).toEqual(['c', 'a', 'd'])
+		expect(expandSkillIdsWithDirectPrerequisitesAndLinks(tree, ['c', 'd'])).toEqual(['c', 'a', 'd'])
 	})
 })
 

@@ -3,7 +3,7 @@ import { deduplicate, ensureNumber, isPlainObject, sortBy } from '@step-wise/js-
 import type { RawSkillLink, SkillId, SkillLink, SkillTree } from './types'
 
 // Take a raw set of links and turn it into a processed SkillLink object.
-export function normalizeRawSkillLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {
+export function normalizeSkillLinks(links?: RawSkillLink | RawSkillLink[]): SkillLink[] {
 	// Ensure the links attribute is an array of links.
 	if (Array.isArray(links) && links.length === 0) return []
 	const list = links === undefined ? [] : Array.isArray(links) && !links.every(link => typeof link === 'string') ? links : [links]
@@ -35,7 +35,7 @@ export function normalizeRawSkillLinks(links?: RawSkillLink | RawSkillLink[]): S
 }
 
 // For a skill tree, set up the links and linked skill IDs for every skill.
-export function processLinks(skillTree: SkillTree): void {
+export function validateAndProcessLinks(skillTree: SkillTree): void {
 	const skillIds = Object.keys(skillTree)
 	const skillOrder = new Map(skillIds.map((skillId, index) => [skillId, index]))
 	const relationships = new Map<string, { participants: SkillId[]; correlation?: number }>()

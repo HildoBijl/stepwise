@@ -27,7 +27,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	const reload = () => {
 		const skill = getSkill(skillId)
 		setLoading(true)
-		const loadExercise = exerciseModules[`/src/ui/eduContent/${skill.path.join('/')}/${skill.id}/exercises/${exerciseId}.js`]
+		const loadExercise = exerciseModules[`/src/ui/eduContent/${skill.groupPath.join('/')}/${skill.id}/exercises/${exerciseId}.js`]
 		Promise.all([
 			loadExercise ? loadExercise() : Promise.reject(new Error(`No front-end exercise module found for exercise "${exerciseId}" in skill "${skillId}".`)),
 		]).then(importedModules => {

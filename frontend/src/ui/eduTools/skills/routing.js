@@ -33,7 +33,7 @@ export function SkillLink({ skillId, tab, children, ...props }) {
 	const skill = skillTree[skillId]
 	const getTranslation = useGetTranslation('eduContent/skillNames')
 	if (!children)
-		children = getTranslation(`${skill.path.join('.')}.${skill.id}`)
+		children = getTranslation(`${skill.groupPath.join('.')}.${skill.id}`)
 
 	// Render the link.
 	return <Link to={path} {...props}>{children}</Link>

@@ -1,7 +1,7 @@
 import { SkillSetup } from '@step-wise/skill-setup'
 import { deduplicate, ensureNumber, isPlainObject } from '@step-wise/js-utils'
 
-import { normalizeRawSkillLinks } from './linkProcessing'
+import { normalizeSkillLinks } from './linkProcessing'
 import type { SkillId, RawSkillDefinition, RawSkillTree, SkillTree } from './types'
 
 // Check if something is a container or a raw skill.
@@ -61,12 +61,12 @@ export function flattenRawSkillTree(rawSkillTree: RawSkillTree): SkillTree {
 				skillTree[skillId] = {
 					id: skillId,
 					name: value.name,
-					path,
+					groupPath: path,
 					groupSkillIds,
 					setup: value.setup,
 					prerequisiteIds: deduplicate([...(value.prerequisites ?? []), ...(value.setup?.getSkillList() ?? [])]),
 					continuationIds: [],
-					links: normalizeRawSkillLinks(value.links).map(link => {
+					links: normalizeSkillLinks(value.links).map(link => {
 						link.skillIds.forEach(linkedSkillId => ensureValidSkillId(linkedSkillId, `linked skill ID for skill "${skillId}"`))
 						return link
 					}),

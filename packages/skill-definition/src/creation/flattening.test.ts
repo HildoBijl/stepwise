@@ -8,9 +8,9 @@ describe('flattenRawSkillTree', () => {
 	it('flattens nested groups and derives paths and group skill IDs', () => {
 		const tree = flattenRawSkillTree({ subject: { group: { a: { name: 'A' }, b: { name: 'B' } }, c: { name: 'C' } } })
 		expect(Object.keys(tree)).toEqual(['a', 'b', 'c'])
-		expect(tree.a).toMatchObject({ id: 'a', name: 'A', path: ['subject', 'group'], groupSkillIds: ['a', 'b'] })
+		expect(tree.a).toMatchObject({ id: 'a', name: 'A', groupPath: ['subject', 'group'], groupSkillIds: ['a', 'b'] })
 		expect(tree.b.groupSkillIds).toBe(tree.a.groupSkillIds)
-		expect(tree.c).toMatchObject({ path: ['subject'], groupSkillIds: ['c'] })
+		expect(tree.c).toMatchObject({ groupPath: ['subject'], groupSkillIds: ['c'] })
 	})
 
 	it('keeps structurally different groups separate when their paths serialize equally', () => {
@@ -46,7 +46,7 @@ describe('flattenRawSkillTree', () => {
 
 	it('allows a group to contain a skill whose ID is name', () => {
 		const tree = flattenRawSkillTree({ group: { name: { name: 'Name' }, other: { name: 'Other' } } })
-		expect(tree.name.path).toEqual(['group'])
+		expect(tree.name.groupPath).toEqual(['group'])
 		expect(tree.name.groupSkillIds).toEqual(['name', 'other'])
 	})
 

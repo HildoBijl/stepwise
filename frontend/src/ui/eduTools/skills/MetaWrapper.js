@@ -62,7 +62,7 @@ function SameGroup({ skillId }) {
 	if (numSkillsInGroup <= 1)
 		return null
 	return <>
-		<Par><Translation entry="sameGroup">It is part of the group <strong>{{ group: skill.path.join('/') }}</strong> consisting of <CountingWord>{numSkillsInGroup}</CountingWord> <Plurals value={numSkillsInGroup}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals> in total.</Translation></Par>
+		<Par><Translation entry="sameGroup">It is part of the group <strong>{{ group: skill.groupPath.join('/') }}</strong> consisting of <CountingWord>{numSkillsInGroup}</CountingWord> <Plurals value={numSkillsInGroup}><Plurals.One>skill</Plurals.One><Plurals.NotOne>skills</Plurals.NotOne></Plurals> in total.</Translation></Par>
 		<SkillList skillIds={skill.groupSkillIds} />
 	</>
 }

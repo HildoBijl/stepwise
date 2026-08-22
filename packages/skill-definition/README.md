@@ -125,7 +125,7 @@ Each processed `Skill` contains:
 | --- | --- |
 | `id` | Canonical skill ID taken from the raw-tree key. |
 | `name` | Display name from the raw definition. |
-| `path` | Group path from the root to the containing group. |
+| `groupPath` | Group path from the root to the containing group. |
 | `groupSkillIds` | All skills directly contained in the same group, including the skill itself. |
 | `setup` | Original optional setup. |
 | `prerequisiteIds` | Deduplicated explicit and setup-derived direct prerequisites. |
@@ -157,15 +157,15 @@ Accepts a readonly array and returns a new array containing the canonical IDs in
 
 Normalizes a setup through `@step-wise/skill-setup`, verifies that every referenced skill exists and returns the resulting setup.
 
-### `isSkillPrerequisiteFor(skillTree, prerequisiteId, skillId)`
+### `isSkillPrerequisiteOf(skillTree, prerequisiteId, skillId)`
 
 Checks whether the first skill is a direct or transitive prerequisite of the second. A skill is considered a prerequisite of itself for reachability calculations.
 
-### `getSkillIdsWithDirectPrerequisites(skillTree, skillIds)`
+### `expandSkillIdsWithDirectPrerequisites(skillTree, skillIds)`
 
 Accepts a readonly array and returns the requested canonical IDs and their direct prerequisites. It does not recurse.
 
-### `getSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)`
+### `expandSkillIdsWithDirectPrerequisitesAndLinks(skillTree, skillIds)`
 
 Accepts a readonly array and returns the requested canonical IDs, their direct prerequisites and their directly linked skills. It does not recurse through either relationship.
 
@@ -185,4 +185,4 @@ Validates and canonicalizes the supplied IDs, then returns a new array sorted by
 
 ## TypeScript
 
-The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink` and `SkillThresholds`.
+The package includes TypeScript declarations. Its principal exported types are `SkillId`, `RawSkillDefinition`, `RawSkillTree`, `RawSkillLink`, `Skill`, `SkillTree`, `SkillLink` and `SkillThresholdOverrides`.

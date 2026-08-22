@@ -82,7 +82,7 @@ function LastActivity({ processedStudent, course, overview }) {
 									<SkillFlaskWithNumbers skillId={skill.id} student={processedStudent} overview={overview} />
 								</TableCell>
 								<TableCell sx={{ minWidth: 140, width: 800 }}>
-									{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+									{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 								</TableCell>
 							</TableRow>
 						})}
@@ -144,7 +144,7 @@ function SkillIndicator({ skillId, student, overview }) {
 	return <Box sx={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', justifyContent: 'flex-start', gap: '4px' }}>
 		<SkillFlaskWithNumbers {...{ skillId, student, overview }} />
 		<Box sx={{ fontSize: 8, fontWeight: 500 }}>
-			{translate(skill.name, `${skill.path.join('.')}.${skill.id}`, 'eduContent/skillNames')}
+			{translate(skill.name, `${skill.groupPath.join('.')}.${skill.id}`, 'eduContent/skillNames')}
 		</Box>
 	</Box>
 }
