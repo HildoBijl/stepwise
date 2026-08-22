@@ -21,4 +21,10 @@ describe('createSkillTree', () => {
 		expect(() => createSkillTree({ a: { name: 'A', prerequisites: ['missing'] } })).toThrow()
 		expect(() => createSkillTree({ a: { name: 'A', links: 'missing' } })).toThrow()
 	})
+
+	it('requires exact casing for prerequisite, setup and link references', () => {
+		expect(() => createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta', prerequisites: ['ALPHA'] } })).toThrow(/ALPHA/)
+		expect(() => createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta', setup: skill('ALPHA') } })).toThrow(/ALPHA/)
+		expect(() => createSkillTree({ Alpha: { name: 'Alpha' }, beta: { name: 'Beta', links: 'ALPHA' } })).toThrow(/ALPHA/)
+	})
 })
