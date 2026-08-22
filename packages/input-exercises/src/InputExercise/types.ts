@@ -29,35 +29,35 @@ export type InputExerciseHistoryInstance<TState extends ExerciseState = Exercise
  * Solution definition
  */
 
-// Solution function: to generate a solution object from the parameters.
-export type Solution = Record<string, unknown>
-export type GetSolutionFunction<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (parameters: TParameters) => TSolution
+// A solution generator derives the full solution from the parameters.
+export type InputExerciseSolution = Record<string, unknown>
+export type SolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => TSolution
 
-// Solution object: in case the solution depends on the user input, set up a dynamic solution based on input dependencies.
-export type GetStaticSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (parameters: TParameters) => Partial<TSolution>
+// A dynamic solution definition combines a static solution with fields derived from the input.
+export type StaticSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (parameters: TParameters) => Partial<TSolution>
 export type InputDependency = unknown
-export type GetInputDependency<TSolution extends Solution = Solution, TInputDependency = InputDependency> = (input: InputExerciseInput, staticSolution: Partial<TSolution>) => TInputDependency
-export type GetDynamicSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TInputDependency = InputDependency> = (inputDependency: TInputDependency, staticSolution: Partial<TSolution>, parameters: TParameters) => Partial<TSolution>
-export type GetSolutionObject<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TInputDependency = InputDependency> = {
-	getStaticSolution: GetStaticSolution<TParameters, TSolution>
+export type InputDependencyResolver<TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (input: InputExerciseInput, staticSolution: Partial<TSolution>) => TInputDependency
+export type DynamicSolutionGenerator<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = (inputDependency: TInputDependency, staticSolution: Partial<TSolution>, parameters: TParameters) => Partial<TSolution>
+export type DynamicSolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = {
+	getStaticSolution: StaticSolutionGenerator<TParameters, TSolution>
 	dependentFields?: string[]
-	getInputDependency?: GetInputDependency<TSolution, TInputDependency>
-	getDynamicSolution?: GetDynamicSolution<TParameters, TSolution, TInputDependency>
+	getInputDependency?: InputDependencyResolver<TSolution, TInputDependency>
+	getDynamicSolution?: DynamicSolutionGenerator<TParameters, TSolution, TInputDependency>
 }
 
-// Solution: joining the solution function and the solution object.
-export type GetSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TInputDependency = InputDependency> = GetSolutionFunction<TParameters, TSolution> | GetSolutionObject<TParameters, TSolution, TInputDependency>
+// A solution can be defined by either a generator function or a dynamic solution definition.
+export type SolutionDefinition<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TInputDependency = InputDependency> = SolutionGenerator<TParameters, TSolution> | DynamicSolutionDefinition<TParameters, TSolution, TInputDependency>
 
 /*
  * Full exercise definition
  */
 
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
-export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TState extends ExerciseState = ExerciseState> = {
+export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution, TState extends ExerciseState = ExerciseState> = {
 	metaData: TMetadata
 	generateParameters?: (example: boolean) => TParameters
 	getInitialState?: (parameters: TParameters) => TState
-	getSolution?: GetSolution<TParameters, TSolution>
+	getSolution?: SolutionDefinition<TParameters, TSolution>
 }
 
 // Internal reducer inputs use the deserialized runtime parameters, while actions and state remain plain data.
@@ -78,7 +78,7 @@ export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TSt
 }[ExerciseMode]
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TState>, 'generateParameters' | 'getInitialState'> & {
+export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TState>, 'generateParameters' | 'getInitialState'> & {
 	generateParameters: (example: boolean) => PlainDataObject
 	getInitialState: (parameters: PlainDataObject) => TState
 	processSoloAction: SoloExerciseReducer<TAction, TState>
@@ -89,7 +89,7 @@ export type InputExercise<TMetadata extends InputExerciseMetadata, TAction exten
  * Input for the CheckInput function to be implemented by child components
  */
 
-export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = {
+export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = {
 	metaData: TMetadata
 	parameters: TParameters
 	rawInput: InputExerciseInputValue

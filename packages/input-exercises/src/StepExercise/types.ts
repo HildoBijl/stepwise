@@ -1,6 +1,6 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { CheckInputData, InputExerciseAction, InputExerciseAttemptState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
+import type { CheckInputData, InputExerciseAction, InputExerciseAttemptState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, InputExerciseSolution } from '../InputExercise'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
@@ -17,10 +17,10 @@ export type StepExerciseSplitState = InputExerciseAttemptState & { split: true, 
 export type StepExerciseState = (InputExerciseAttemptState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
 
 // Extend the CheckInput function to include steps and substeps.
-export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => boolean
+export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => boolean
 
 // Author-facing definition before the mode-specific reducers are added.
-export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExerciseSpec<StepExerciseMetadata, TParameters, TSolution, StepExerciseState> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
+export type StepExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExerciseSpec<StepExerciseMetadata, TParameters, TSolution, StepExerciseState> & { checkInput: StepExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = InputExercise<StepExerciseMetadata, InputExerciseAction, StepExerciseState, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'getInitialState'> & { type: 'step' }
+export type StepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<StepExerciseMetadata, InputExerciseAction, StepExerciseState, TParameters, TSolution> & Omit<StepExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'getInitialState'> & { type: 'step' }

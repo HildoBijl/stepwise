@@ -1,8 +1,9 @@
 import { pickKeys, isPlainObject } from '@step-wise/js-utils'
-import type { GetSolution, InputExerciseInput, InputExerciseParameters, Solution } from './types'
+
+import type { InputExerciseInput, InputExerciseParameters, InputExerciseSolution, SolutionDefinition } from './types'
 
 // Assemble a solution object from a getSolution function or object.
-export function assembleSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(getSolution: GetSolution<TParameters, TSolution>, parameters: TParameters, input: InputExerciseInput = {}): TSolution {
+export function resolveSolution<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution>(getSolution: SolutionDefinition<TParameters, TSolution>, parameters: TParameters, input: InputExerciseInput = {}): TSolution {
 	// If getSolution is a function, just run it.
 	if (typeof getSolution === 'function') return getSolution(parameters)
 
@@ -11,7 +12,7 @@ export function assembleSolution<TParameters extends InputExerciseParameters = I
 	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
 
 	// Get the static solution.
-	if (typeof getStaticSolution !== 'function') throw new Error(`Invalid assembleSolution call: could not find a getStaticSolution function in the getSolution object. Hence failed to assemble a solution object.`)
+	if (typeof getStaticSolution !== 'function') throw new Error(`Invalid resolveSolution call: could not find a getStaticSolution function in the solution definition.`)
 	const staticSolution = getStaticSolution(parameters)
 
 	// If there is no dynamic solution, we're done.
