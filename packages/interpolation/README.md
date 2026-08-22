@@ -1,93 +1,177 @@
-# Interpolation utility functions
+# @step-wise/interpolation
 
-All utility functions related to interpolation are in this folder. There are a few ways to call them.
+`@step-wise/interpolation` provides linear interpolation for ranges, grids and reusable labeled tables. It supports ordinary numbers as well as custom number-like values, one-dimensional and multidimensional input, multiple output grids, inverse table interpolation and explicitly undefined regions.
 
-## Step 1: define a table
 
-This is usually the hard part, but it only needs to be done once. You can define a table representing the mathematical function `x = 2a+3b, y = 3a-2b, z = b` through:
+## Installation
 
+```bash
+npm install @step-wise/interpolation
 ```
-const exampleTable = {
-	inputLabels: ['a', 'b']
-	inputAxes: [[0, 1, 2], [0, 1, 2, 3]]
-	outputLabels: ['x', 'y']
+
+
+## Quick start
+
+Create and validate a table once, then use it for repeated interpolation.
+
+```ts
+import { createInterpolationTable, interpolateTable } from '@step-wise/interpolation'
+
+const pressureByTemperature = createInterpolationTable({
+	inputLabels: ['temperature'],
+	inputAxes: [[0, 10, 20]],
+	outputLabels: ['pressure'],
+	outputGrids: [[100, 120, 150]],
+})
+
+interpolateTable(5, pressureByTemperature) // 110
+interpolateTable({ temperature: 15 }, pressureByTemperature, 'pressure') // 135
+interpolateTable(25, pressureByTemperature) // undefined
+```
+
+The factory copies and freezes the table structure. It also validates its labels, axes, grids and value types, so subsequent table interpolations can use the trusted structure without validating the complete table again.
+
+
+## Creating interpolation tables
+
+### `createInterpolationTable(definition)`
+
+Creates an `InterpolationTable` from a typed definition. Every table has one label and axis per input and one label and grid per output.
+
+```ts
+const table = createInterpolationTable({
+	inputLabels: ['x', 'y'],
+	inputAxes: [
+		[0, 1, 2],
+		[0, 10],
+	],
+	outputLabels: ['sum', 'difference'],
 	outputGrids: [
-		[[0, 2, 4], [3, 5, 7], [6, 8, 10], [9, 11, 13]], // Output for x
-		[[0, 3, 6], [-2, 1, 4], [-4, -1, 2], [-6, -3, 0]], // Output for y
-		[[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3]], // Output for z
-	]
-}
+		[[0, 1, 2], [10, 11, 12]],
+		[[0, 1, 2], [-10, -9, -8]],
+	],
+})
 ```
 
-A few things to note here are:
+Each input axis must be non-empty and ascending. Equal neighboring coordinates are allowed, although interpolating at the duplicated coordinate is ambiguous and throws. Input and output labels must be unique.
 
-- It is easily possible to define tables with single input and/or single outputs. Do keep the same array format though.
-- Within the grids, within the final arrays, the first-mentioned input value will vary across its range. A layer higher, it's the second-mentioned input value. This can continue for further input values, creating a multi-dimensional table.
-- It is assumed that all input values are in ascending order. No value may be smaller than the one before it.
+Grid nesting follows the input axes from last to first: the outermost grid dimension corresponds to the last input axis, while the innermost dimension corresponds to the first input axis. Every dimension must have the same length as its corresponding axis.
 
-## Step 2: use a table
+An output grid may contain `undefined` leaves to represent unavailable values or regions. A grid must otherwise contain one consistent interpolation value type; numbers and custom number-like objects cannot be mixed within the same grid.
 
-Once a table has been defined, we can interpolate in it. There are two functions to do so: one for a single output value, and one for extracting multiple output values. For the single-output case, there are a few options.
+### `ensureInterpolationTable(value)`
 
-```
-interpolateTable([1.5, 2.5], exampleTable, 'x') // Use array as input. Gives 10.5 here.
-interpolateTable({ a: 1.5, b: 2.5 }, exampleTable, 'x') // Use object as input. Gives 10.5 here.
-interpolateTable(1.5, exampleTable, 'x') // Use value as input: only works for single-input tables, and will throw an error in this example case with a two-dimensional table.
-interpolateTable([1.5, 2.5], exampleTable) // Omit output label: only works for single-output tables, and will throw an error in this example case with three possible outputs.
+Validates an unknown value, copies and freezes its structure, and returns an `InterpolationTable`. Use this at boundaries such as parsed files, external data or API responses.
+
+```ts
+const table = ensureInterpolationTable(JSON.parse(serializedTable))
 ```
 
-To get multiple outputs at the same time, use `interpolateTableOutputs`. The options here are similar.
+### `isInterpolationTable(value)`
 
-```
-interpolateTableOutputs([1.5, 2.5], exampleTable) // Use array as input. Gives { x: 10.5, y: -0.5, z: 2.5 }.
-interpolateTableOutputs({ a: 1.5, b: 2.5 }, exampleTable) // Use object as input. Gives { x: 10.5, y: -0.5, z: 2.5 }.
-interpolateTableOutputs(1.5, exampleTable) // Use value as input: only works for single-input tables, and will throw an error in this example case with a two-dimensional table.
-interpolateTableOutputs([1.5, 2.5], exampleTable, ['z', 'x']) // Provide output labels. Gives { z: 2.5, x: 10.5 }. (Also works with other input types.)
-```
+Returns whether a value has a structurally valid interpolation-table definition. This check does not create the branded, copied and frozen table returned by the factory functions.
 
-Tables may also have `undefined` in them, for instance when the output value there is unknown or not applicable. Whenever an interpolation function encounters `undefined` anywhere, the output is always directly `undefined` too, as the output cannot be computed.
 
-In special cases, you may want to use inverse interpolation on a table: based on an output value find the input value. This is only possible when two conditions are met:
+## Interpolating tables
 
-- The given output series is monotonically increasing or decreasing and has no undefineds. If not, there would be multiple relevant input values.
-- There is only a single input value. Otherwise calculations may be come too complex.
+### `interpolateTable(input, table, outputLabel?)`
 
-If these conditions are met, we can run an inverse table interpolation.
+Interpolates one output. A single-input table accepts a scalar, a one-element array or an object keyed by its input label. Multidimensional tables accept an array in axis order or a labeled object.
 
-```
-interpolateTableInput(7, exampleTable, 'x') // Finds the input value for which the output x equals 7. In this example case it will throw, since it's not a single-input table.
+```ts
+interpolateTable([0.5, 5], table, 'sum') // 5.5
+interpolateTable({ x: 0.5, y: 5 }, table, 'difference') // -4.5
 ```
 
-## Interpolation with non-number values
+The output label may be omitted only when the table has exactly one output. Interpolation outside an axis, or across an undefined output value, returns `undefined`. Unknown or missing labels, incompatible input shapes and ambiguous duplicated coordinates throw an error.
 
-Interpolation can be done with numbers, but it can also be done with objects. All it takes is that the objects match the right interface:
+### `interpolateTableOutputs(input, table, outputLabels?)`
 
+Interpolates multiple outputs and returns an object keyed by output label. When no labels are supplied, every table output is included. A supplied label list controls both the selection and property order and must not contain duplicates.
+
+```ts
+interpolateTableOutputs({ x: 0.5, y: 5 }, table) // { sum: 5.5, difference: -4.5 }
+interpolateTableOutputs([0.5, 5], table, ['difference']) // { difference: -4.5 }
 ```
+
+### `interpolateTableInput(output, table, outputLabel?)`
+
+Performs inverse interpolation and returns the corresponding input. Inverse interpolation requires exactly one input axis and a selected output series containing at least two defined values. The output series must be strictly increasing or strictly decreasing.
+
+```ts
+interpolateTableInput(135, pressureByTemperature) // 15
+```
+
+An output outside the series returns `undefined`. Undefined output values, equal neighboring values, changing direction and multidimensional tables are rejected because they do not define an unambiguous inverse.
+
+
+## Direct range interpolation
+
+### `interpolateRange(input, outputRange, inputRange)`
+
+Linearly interpolates between two endpoints. It returns `undefined` when the input lies outside the input range or either output endpoint is undefined. Equal input endpoints are rejected.
+
+```ts
+interpolateRange(5, [100, 120], [0, 10]) // 110
+interpolateRange(15, [100, 120], [0, 10]) // undefined
+```
+
+### `getInterpolationFraction(input, range)`
+
+Returns the relative position of an input within a range. Unlike `interpolateRange`, this function may return a value below zero or above one for inputs outside the range.
+
+```ts
+getInterpolationFraction(5, [0, 10]) // 0.5
+getInterpolationFraction(15, [0, 10]) // 1.5
+```
+
+### `isInterpolationFraction(value)`
+
+Returns whether a number lies on the closed interval from zero through one.
+
+
+## Direct grid interpolation
+
+### `interpolateGrid(input, outputGrid, ...inputAxes)`
+
+Interpolates directly on a one-dimensional series or multidimensional grid. This lower-level function validates the complete grid on every call; prefer an interpolation table when the same data is reused.
+
+```ts
+interpolateGrid(1.5, [0, 10, 20], [0, 1, 2]) // 15
+
+interpolateGrid(
+	[0.5, 5],
+	[[0, 1, 2], [10, 11, 12]],
+	[0, 1, 2],
+	[0, 10],
+) // 5.5
+```
+
+Exact-coordinate lookups return the corresponding grid value without requiring neighboring values to be defined. Inputs outside the grid and interpolations touching undefined values return `undefined`.
+
+### `getBracketingIndices(value, getAxisValue, axisLength)`
+
+Uses binary search to find the neighboring indices around a value in an ascending axis. This is a low-level helper for working with indexable axes. The axis length must be a positive safe integer.
+
+
+## Custom number-like values
+
+Interpolation inputs and outputs may use objects implementing the exported `NumberLike<T>` interface. This is useful for domain values such as quantities with units.
+
+```ts
 interface NumberLike<T> {
-	number: number
-	add(x: T): T
-	subtract(x: T): T
-	multiply(x: T | number): T
-	divide(x: T | number): T
-	compare(x: T): number
+	readonly number: number
+	add(value: T): T
+	subtract(value: T): T
+	multiply(value: T | number): T
+	divide(value: T | number): T
+	compare(value: T): number
 }
 ```
 
-In other words, the objects must have `add`, `subtract`, `multiply`, `divide` and `compare` methods. Here, `multiply` and `divide` should accept both numbers and objects of the same type as the respective objects. `compare` is a function that gives `-1`, `0` or `1`: which number is larger? Also, `number` returns a numeric representation of the object. This is needed after calculating the interpolation part `(x-a)/(b-a)` (or `x.subtract(a).divide(b.subtract(a))).number`) which should always be a number.
+The `number` property must be finite and represents the numeric value used to calculate interpolation fractions. The arithmetic methods construct interpolated results, while `compare` determines ordering and equality. All values within one input axis or output grid must use the same representation: either numbers or compatible number-like objects.
 
-## Extra interpolation methods
 
-Behind the scenes, the interpolation toolbox uses functions that operate directly on grids. Though not as useful for most use cases, they can be used directly as well. The format is `interpolateGrid(input, outputGrid, inputAxis1, inputAxis2, ...)`.
+## TypeScript
 
-```
-interpolateGrid([1.5, 2.5], [[0, 2, 4], [3, 5, 7], [6, 8, 10], [9, 11, 13]], [0, 1, 2], [0, 1, 2, 3]) // Use array as input. Gives 10.5.
-interpolateGrid(1.5, [2, 4, 6, 8], [0, 1, 2, 3]) // Use value as input. Only works for single-output grids. Gives 5.
-```
-
-The grid must be structured identically to that of the tables.
-
-## Supporting functions
-
-The toolbox has various supporting checks and functions too. You can read about them in their respective files.
-- [checks](./src/checks.ts) has functions that check the inputs given to interpolation functions.
-- [support](./src/support.ts) has support functions, for instance to find interpolation parts or to find where in a series we need to interpolate.
+The package includes TypeScript declarations and uses readonly arrays throughout its public table and grid types. It exports `NumberLike`, `InterpolationValue`, `InterpolationPair`, `InterpolationAxis`, `InterpolationSeries`, `InterpolationGrid`, `InterpolationTableDefinition`, `InterpolationTable`, `TableInterpolationInput` and `TableInterpolationOutput` alongside its runtime functions.
