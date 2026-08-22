@@ -38,9 +38,9 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	}, [Problem, state, history, activateFirst])
 
 	// Determine what to show.
-	const hasSubmissions = hasPreviousInput(history, userId) // Has there been an input action?
+	const hasPreviousActions = hasPreviousInput(history, userId) // Has there been an input action?
 	const readOnly = inspection || (!example && state.done)
-	const showInputSpace = hasSubmissions || (!state.done && !inspection)
+	const showInputSpace = hasPreviousActions || (!state.done && !inspection)
 	const showMainFeedback = showInputSpace && (state.done || isAllInputEqual(feedbackInput))
 	const showSolution = inspection || example || state.done
 	const initialExpandSolution = inspection || (!example && !state.solved)

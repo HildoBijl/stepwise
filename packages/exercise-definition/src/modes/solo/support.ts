@@ -1,4 +1,5 @@
 import type { ExerciseAction, ExerciseState } from '../../atomTypes'
+
 import type { SoloExerciseHistory } from './types'
 
 function getLastAction<TAction extends ExerciseAction, TState extends ExerciseState>(history: SoloExerciseHistory<TAction, TState>): TAction | undefined {

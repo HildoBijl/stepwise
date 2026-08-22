@@ -1,17 +1,17 @@
 import type { ExerciseAction, ExerciseState } from '../../atomTypes'
 
-export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAction> = {
-	userId?: string
+export type UserExerciseAction<TAction extends ExerciseAction = ExerciseAction> = {
+	userId: string
 	action: TAction
 }
 
 export type ResolvedGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = {
-	submissions: readonly GroupExerciseSubmission<TAction>[]
+	actions: readonly UserExerciseAction<TAction>[]
 	state: TState
 }
 
 export type PendingGroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction> = {
-	submissions: readonly GroupExerciseSubmission<TAction>[]
+	actions: readonly UserExerciseAction<TAction>[]
 }
 
 export type GroupExerciseHistoryEvent<TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState> = ResolvedGroupExerciseHistoryEvent<TAction, TState> | PendingGroupExerciseHistoryEvent<TAction>

@@ -1,13 +1,13 @@
 import type { InputValue } from '@step-wise/input-interpretation'
-import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseMode, ExerciseState, GroupExerciseReducer, GroupExerciseSubmission, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
+import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
 import type { PlainDataObject } from '@step-wise/js-utils'
 
 /*
  * Fundamentals
  */
 
-// Meta data: extend with comparison options.
-export type InputExerciseMetaData = ExerciseMetaData & { compare?: Record<string, unknown> }
+// Metadata: extend with comparison options.
+export type InputExerciseMetadata = ExerciseMetadata & { compare?: Record<string, unknown> }
 
 // Actions: only allow input and giveUp actions.
 export type InputExerciseInputValue = Record<string, InputValue>
@@ -46,8 +46,8 @@ export type GetSolution<TParameters extends InputExerciseParameters = InputExerc
  */
 
 // Input exercise spec: what authors define before a concrete exercise builder adds the mode-specific reducers.
-export type InputExerciseSpec<TMetaData extends InputExerciseMetaData, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TState extends ExerciseState = ExerciseState> = {
-	metaData: TMetaData
+export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution, TState extends ExerciseState = ExerciseState> = {
+	metaData: TMetadata
 	generateParameters?: (example: boolean) => TParameters
 	getInitialState?: (parameters: TParameters) => TState
 	getSolution?: GetSolution<TParameters, TSolution>
@@ -59,14 +59,18 @@ type InputExerciseReducerGeneralInput<TAction extends ExerciseAction, TState ext
 	parameters: TParameters
 	updateSkills?: UpdateSkills
 }
-export type InputExerciseReducerSubmissionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TAction, TState, TParameters> & {
+type InputExerciseUserAction<TAction extends ExerciseAction> = {
+	userId?: string
+	action: TAction
+}
+export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TAction, TState, TParameters> & {
 	mode: ExerciseMode
 	history: ExerciseHistory<TAction, TState>
-	submissions: readonly GroupExerciseSubmission<TAction>[]
+	actions: readonly InputExerciseUserAction<TAction>[]
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
-export type InputExercise<TMetaData extends InputExerciseMetaData, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = Exercise<TMetaData, TAction, TState> & Omit<InputExerciseSpec<TMetaData, TParameters, TSolution, TState>, 'generateParameters' | 'getInitialState'> & {
+export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TState>, 'generateParameters' | 'getInitialState'> & {
 	generateParameters: (example: boolean) => PlainDataObject
 	getInitialState: (parameters: PlainDataObject) => TState
 	processSoloAction: SoloExerciseReducer<TAction, TState>
@@ -77,8 +81,8 @@ export type InputExercise<TMetaData extends InputExerciseMetaData, TAction exten
  * Input for the CheckInput function to be implemented by child components
  */
 
-export type CheckInputData<TMetaData extends InputExerciseMetaData = InputExerciseMetaData, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = {
-	metaData: TMetaData
+export type CheckInputData<TMetadata extends InputExerciseMetadata = InputExerciseMetadata, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = {
+	metaData: TMetadata
 	parameters: TParameters
 	rawInput: InputExerciseInputValue
 	input: InputExerciseInput

@@ -17,7 +17,7 @@ export function ExercisePageForGroup({ skillId }) {
 
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
-	const [submitActionToServer, { error: submissionError }] = useSubmitGroupActionMutation(group.code, skillId)
+	const [submitActionToServer, { error: actionError }] = useSubmitGroupActionMutation(group.code, skillId)
 	const [cancelAction, { error: cancelError }] = useCancelGroupActionMutation(group.code, skillId)
 	const [resolveEvent, { loading: resolveLoading, error: resolveError }] = useResolveGroupEventMutation(group.code, skillId)
 
@@ -58,7 +58,7 @@ export function ExercisePageForGroup({ skillId }) {
 		return <div>{getTranslation('loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
 
 	// Any errors we should notify the user of?
-	const presentError = error && newExerciseError && submissionError && cancelError && resolveError
+	const presentError = error && newExerciseError && actionError && cancelError && resolveError
 	if (presentError)
 		return <ErrorNote error={presentError} />
 

@@ -1,9 +1,9 @@
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
 import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes'
-import type { GroupExerciseHistory, GroupExerciseSubmission, SoloExerciseHistory } from '../modes'
+import type { GroupExerciseHistory, UserExerciseAction, SoloExerciseHistory } from '../modes'
 
-export type ExerciseMetaData = {
+export type ExerciseMetadata = {
 	skill?: SkillId,
 	setup?: SkillSetup,
 	setupInferenceOrder?: number,
@@ -11,7 +11,7 @@ export type ExerciseMetaData = {
 	repeatAfter?: number,
 }
 
-export type ExerciseGenerator<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => TParameters
+export type GenerateExerciseParameters<TParameters extends ExerciseParameters = ExerciseParameters> = (example: boolean) => TParameters
 export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => TState
 export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: string) => void
 
@@ -27,24 +27,24 @@ export type SoloExerciseReducerInput<TAction extends ExerciseAction, TState exte
 }
 
 export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerGeneralInput<TState, TParameters> & {
-	submissions: readonly GroupExerciseSubmission<TAction>[]
+	actions: readonly UserExerciseAction<TAction>[]
 	history: GroupExerciseHistory<TAction, TState>
 }
 
 export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: SoloExerciseReducerInput<TAction, TState, TParameters>) => TState
 export type GroupExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: GroupExerciseReducerInput<TAction, TState, TParameters>) => TState
 
-export type ExerciseSpec<TMetaData extends ExerciseMetaData, TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = {
-	metaData: TMetaData
-	generateParameters?: ExerciseGenerator<TParameters>
+export type ExerciseSpec<TMetadata extends ExerciseMetadata, TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = {
+	metaData: TMetadata
+	generateParameters?: GenerateExerciseParameters<TParameters>
 	getInitialState?: GetInitialState<TParameters, TState>
 }
 
-export type Exercise<TMetaData extends ExerciseMetaData = ExerciseMetaData, TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = Omit<ExerciseSpec<TMetaData, TParameters, TState>, 'generateParameters' | 'getInitialState'> & {
-	generateParameters: ExerciseGenerator<TParameters>
+export type Exercise<TMetadata extends ExerciseMetadata = ExerciseMetadata, TAction extends ExerciseAction = ExerciseAction, TState extends ExerciseState = ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = Omit<ExerciseSpec<TMetadata, TParameters, TState>, 'generateParameters' | 'getInitialState'> & {
+	generateParameters: GenerateExerciseParameters<TParameters>
 	getInitialState: GetInitialState<TParameters, TState>
 	processSoloAction?: SoloExerciseReducer<TAction, TState, TParameters>
 	processGroupActions?: GroupExerciseReducer<TAction, TState, TParameters>
 }
 
-export type ExerciseDefinition = Exercise<any, any, any, any>
+export type AnyExercise = Exercise<any, any, any, any>
