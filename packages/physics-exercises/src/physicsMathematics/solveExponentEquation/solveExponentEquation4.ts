@@ -1,10 +1,10 @@
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-core'
 
 // a*x^p = b*x^p + c
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'solveExponentEquation',
 		compare: { Float: { significantDigitTolerance: 2 } },

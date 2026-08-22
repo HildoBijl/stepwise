@@ -1,5 +1,5 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 
@@ -8,7 +8,7 @@ import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 // Type 2: from bar to Pa.
 // Type 3: from bar to SI (so Pa).
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'calculateWithPressure',
 		compare: {

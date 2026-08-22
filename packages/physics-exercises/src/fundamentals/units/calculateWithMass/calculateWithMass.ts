@@ -1,5 +1,5 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 
@@ -7,7 +7,7 @@ import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
 // Type 2: from kg to (mu/m/./M)g.
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'calculateWithMass',
 		compare: {

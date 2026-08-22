@@ -1,6 +1,6 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asEquation, equationComparisons } from '@step-wise/cas'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables } from '#generationTools'
@@ -12,7 +12,7 @@ const availableVariableSets = [
 ] as const
 const usedVariables = ['x', 'y', 'z']
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'enterEquation',
 		compare: { ans: (input: Equation, correct: Equation) => !equationComparisons.exactEqual(input, correct.switch()) && equationComparisons.equivalent(input, correct.switch()) },

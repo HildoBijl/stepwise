@@ -5,10 +5,10 @@ import { constants } from '@step-wise/cas'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { useSolution, MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 const Problem = () => {

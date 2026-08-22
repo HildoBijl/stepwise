@@ -1,8 +1,8 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildSimpleExercise, getMultipleChoiceMapping } from '@step-wise/input-exercises'
+import { buildMonoExercise, getMultipleChoiceMapping } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'recognizeProcessTypes',
 	},

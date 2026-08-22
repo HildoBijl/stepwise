@@ -1,5 +1,5 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
@@ -8,7 +8,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 // Type 2: from °C to K.
 // Type 3: from °C to SI (so K).
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'calculateWithTemperature',
 		compare: {

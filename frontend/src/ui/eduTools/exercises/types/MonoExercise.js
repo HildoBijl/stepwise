@@ -1,4 +1,4 @@
-// The SimpleExercise is an Exercise that cannot be split. It's just one question and a function that checks whether the input is right or wrong. It must be passed a Problem and Solution component. Optional is a getFeedback parameter to extract feedback from input.
+// The MonoExercise is an Exercise that cannot be split. It's just one question and a function that checks whether the input is right or wrong. It must be passed a Problem and Solution component. Optional is a getFeedback parameter to extract feedback from input.
 
 import React, { useEffect, useRef } from 'react'
 
@@ -14,13 +14,13 @@ import { ExerciseWrapper, useSolution } from '../wrappers'
 import { ProblemContainer, SolutionContainer, ExerciseButtons, ContinuationButtons, MainFeedback } from '../parts'
 import { getAllFieldInputsFeedback } from '../feedback'
 
-export function SimpleExercise(props) {
-	return <ExerciseWrapper getFeedback={props.getFeedback || simpleExerciseGetFeedback}>
-		<SimpleExerciseInner {...props} />
+export function MonoExercise(props) {
+	return <ExerciseWrapper getFeedback={props.getFeedback || monoExerciseGetFeedback}>
+		<MonoExerciseInner {...props} />
 	</ExerciseWrapper>
 }
 
-function SimpleExerciseInner({ Problem, Solution }) {
+function MonoExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
 	const exerciseData = useExerciseData()
 	const { parameters, state, history, example, inspection, startNewExercise } = exerciseData
@@ -68,7 +68,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	</>
 }
 
-function simpleExerciseGetFeedback(data) {
+function monoExerciseGetFeedback(data) {
 	const { shared } = data
 	const { getSolution, checkInput } = shared || {}
 

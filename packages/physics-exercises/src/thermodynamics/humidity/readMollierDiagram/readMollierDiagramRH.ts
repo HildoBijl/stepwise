@@ -1,11 +1,11 @@
 import { first, last } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'readMollierDiagram',
 		compare: { FloatUnit: { float: { absoluteTolerance: 0.04 } } },

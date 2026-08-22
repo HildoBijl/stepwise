@@ -1,10 +1,10 @@
 import { sample } from '@step-wise/js-utils'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { getTemperatures } from '../../coolingCycles/tools'
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'findFridgeTemperatures',
 		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },

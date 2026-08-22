@@ -1,9 +1,9 @@
 import { sample } from '@step-wise/js-utils'
 import { Unit } from '@step-wise/physics-core'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'enterUnit',
 		compare: {

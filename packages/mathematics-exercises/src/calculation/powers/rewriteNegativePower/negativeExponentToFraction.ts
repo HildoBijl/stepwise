@@ -1,10 +1,10 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 // a^(-b) => 1/a^b
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'rewriteNegativePower',
 		compare: { ans: (input: Expression, correct: Expression) => !expressionChecks.hasNegativeExponent(input) && expressionComparisons.equivalent(input, correct) },

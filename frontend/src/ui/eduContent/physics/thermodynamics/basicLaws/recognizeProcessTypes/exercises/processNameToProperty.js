@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
-import { SimpleExercise, getMCFeedback } from 'ui/eduTools'
+import { MonoExercise, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 const types = ['Isobaar', 'Isochoor', 'Isotherm', 'Adiabatisch', 'Isentroop', 'Polytroop']

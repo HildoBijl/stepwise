@@ -1,2 +1,2 @@
-export * from './SimpleExercise'
+export * from './MonoExercise'
 export * from './StepExercise'

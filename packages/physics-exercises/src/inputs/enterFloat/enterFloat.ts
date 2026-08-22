@@ -1,6 +1,6 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { getRandomExponentialFloat } from '@step-wise/physics-core'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 function generateParameters(example: boolean) {
@@ -9,7 +9,7 @@ function generateParameters(example: boolean) {
 	return { x }
 }
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'enterFloat',
 		compare: {

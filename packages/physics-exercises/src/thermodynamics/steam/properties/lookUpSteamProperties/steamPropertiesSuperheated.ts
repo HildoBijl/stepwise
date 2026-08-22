@@ -1,10 +1,10 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { superheatedSteam } from '@step-wise/physics-data'
 
-export default buildSimpleExercise({
+export default buildMonoExercise({
 	metaData: {
 		skill: 'lookUpSteamProperties',
 		weight: 2,

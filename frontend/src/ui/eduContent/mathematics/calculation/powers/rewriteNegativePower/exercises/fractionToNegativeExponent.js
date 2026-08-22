@@ -4,12 +4,12 @@ import { Translation } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
+import { MonoExercise, useSolution, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { originalExpression, hasFraction, equivalentExpression, nonEquivalentExpression } = expressionChecks
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 function Problem() {
