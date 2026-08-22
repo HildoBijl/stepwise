@@ -11,6 +11,6 @@ export type RefrigerantData = { criticalPoint: CriticalPoint, boilingData: Float
 export function createRefrigerantTable(pressure: FloatUnit, temperature: FloatUnit[], enthalpy: FloatUnitGrid, entropy: FloatUnitGrid): RefrigerantPressureTable {
 	return {
 		pressure,
-		table: createInterpolationTable({ inputLabels: ['temperature'], inputValues: [temperature], outputLabels: ['enthalpy', 'entropy'], grids: [enthalpy, entropy] }),
+		table: createInterpolationTable({ inputLabels: ['temperature'], inputAxes: [temperature], outputLabels: ['enthalpy', 'entropy'], outputGrids: [enthalpy, entropy] }),
 	}
 }

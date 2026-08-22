@@ -34,9 +34,9 @@ const boilingEntropyVapor = [...floatUnitGrid(['1.7658', '1.7643', '1.7629', '1.
 
 export const boilingData = createInterpolationTable({
 	inputLabels: ['temperature'],
-	inputValues: [boilingTemperature],
+	inputAxes: [boilingTemperature],
 	outputLabels: ['pressure', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'],
-	grids: [boilingPressure, boilingEnthalpyLiquid, boilingEnthalpyVapor, boilingEntropyLiquid, boilingEntropyVapor],
+	outputGrids: [boilingPressure, boilingEnthalpyLiquid, boilingEnthalpyVapor, boilingEntropyLiquid, boilingEntropyVapor],
 })
 
 /*

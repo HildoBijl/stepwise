@@ -1,5 +1,5 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { tableInterpolate } from '@step-wise/interpolation'
+import { interpolateTable } from '@step-wise/interpolation'
 import { buildSimpleExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { saturatedSteamByPressure } from '@step-wise/physics-data'
@@ -11,16 +11,16 @@ export default buildSimpleExercise({
 	},
 
 	generateParameters() {
-		const pressureRange = saturatedSteamByPressure.inputValues[0]
+		const pressureRange = saturatedSteamByPressure.inputAxes[0]
 		const p = pressureRange[randomInteger(0, Math.min(25, pressureRange.length))]
 		const type = randomInteger(1, 2)
 		return { p, type }
 	},
 
 	getSolution({ p, type }) {
-		const T = tableInterpolate(p, saturatedSteamByPressure, 'boilingTemperature')
-		const h = tableInterpolate(p, saturatedSteamByPressure, type === 1 ? 'enthalpyLiquid' : 'enthalpyVapor')
-		const s = tableInterpolate(p, saturatedSteamByPressure, type === 1 ? 'entropyLiquid' : 'entropyVapor')
+		const T = interpolateTable(p, saturatedSteamByPressure, 'boilingTemperature')
+		const h = interpolateTable(p, saturatedSteamByPressure, type === 1 ? 'enthalpyLiquid' : 'enthalpyVapor')
+		const s = interpolateTable(p, saturatedSteamByPressure, type === 1 ? 'entropyLiquid' : 'entropyVapor')
 		return { p, type, T, h, s }
 	},
 

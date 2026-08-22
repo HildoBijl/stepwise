@@ -1,5 +1,5 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { tableInterpolate } from '@step-wise/interpolation'
+import { interpolateTable } from '@step-wise/interpolation'
 import { and } from '@step-wise/skill-setup'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
@@ -22,17 +22,17 @@ export default buildStepExercise({
 		const type = randomInteger(1, 2)
 		const x = getRandomFloatUnit({ min: 0.1, max: 0.9, unit: '' })
 		if (type === 1) {
-			const temperatureRange = saturatedSteamByTemperature.inputValues[0]
+			const temperatureRange = saturatedSteamByTemperature.inputAxes[0]
 			const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]
-			const hx0 = tableInterpolate(T, saturatedSteamByTemperature, 'enthalpyLiquid')!
-			const hx1 = tableInterpolate(T, saturatedSteamByTemperature, 'enthalpyVapor')!
+			const hx0 = interpolateTable(T, saturatedSteamByTemperature, 'enthalpyLiquid')!
+			const hx1 = interpolateTable(T, saturatedSteamByTemperature, 'enthalpyVapor')!
 			const h = hx0.add(x.multiply(hx1.subtract(hx0))).setDecimals(0).roundToPrecision()
 			return { type, T, h }
 		}
-		const pressureRange = saturatedSteamByPressure.inputValues[0]
+		const pressureRange = saturatedSteamByPressure.inputAxes[0]
 		const p = pressureRange[randomInteger(0, Math.min(25, pressureRange.length))]
-		const hx0 = tableInterpolate(p, saturatedSteamByPressure, 'enthalpyLiquid')!
-		const hx1 = tableInterpolate(p, saturatedSteamByPressure, 'enthalpyVapor')!
+		const hx0 = interpolateTable(p, saturatedSteamByPressure, 'enthalpyLiquid')!
+		const hx1 = interpolateTable(p, saturatedSteamByPressure, 'enthalpyVapor')!
 		const h = hx0.add(x.multiply(hx1.subtract(hx0))).setDecimals(0).roundToPrecision()
 		return { type, p, h }
 	},
@@ -40,10 +40,10 @@ export default buildStepExercise({
 	getSolution({ type, T, p, h }) {
 		const value = type === 1 ? T! : p!
 		const table = type === 1 ? saturatedSteamByTemperature : saturatedSteamByPressure
-		const hx0 = tableInterpolate(value, table, 'enthalpyLiquid')!
-		const hx1 = tableInterpolate(value, table, 'enthalpyVapor')!
-		const sx0 = tableInterpolate(value, table, 'entropyLiquid')!
-		const sx1 = tableInterpolate(value, table, 'entropyVapor')!
+		const hx0 = interpolateTable(value, table, 'enthalpyLiquid')!
+		const hx1 = interpolateTable(value, table, 'enthalpyVapor')!
+		const sx0 = interpolateTable(value, table, 'entropyLiquid')!
+		const sx1 = interpolateTable(value, table, 'entropyVapor')!
 		const x = h.subtract(hx0).divide(hx1.subtract(hx0)).setUnit('')
 		const s = sx0.add(x.multiply(sx1.subtract(sx0)))
 		return { hx0, hx1, x, sx0, sx1, s }

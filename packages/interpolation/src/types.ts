@@ -13,16 +13,16 @@ export type InterpolationValue<T> = number | NumberLike<T>
 export type InterpolationPair<T> = readonly [T, T]
 
 // Interpolation series and grids.
-export type InterpolationInputSeries<T> = readonly T[]
-export type InterpolationOutputSeries<T> = readonly (T | undefined)[]
+export type InterpolationAxis<T> = readonly T[]
+export type InterpolationSeries<T> = readonly (T | undefined)[]
 export type InterpolationGrid<T> = readonly (T | undefined | InterpolationGrid<T | undefined>)[]
 
 // Interpolation table with grid(s). Think of a 2D table with numbers along the horizontal and vertical axis, and a grid of values. We can also add multiple grids: one for each output value.
 export interface InterpolationTableDefinition<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>> {
 	readonly inputLabels: readonly string[]
-	readonly inputValues: readonly InterpolationInputSeries<InputType>[]
+	readonly inputAxes: readonly InterpolationAxis<InputType>[]
 	readonly outputLabels: readonly string[]
-	readonly grids: readonly InterpolationGrid<OutputType>[]
+	readonly outputGrids: readonly InterpolationGrid<OutputType>[]
 }
 
 declare const interpolationTableBrand: unique symbol

@@ -2,7 +2,7 @@ import React from 'react'
 import { Tooltip, Box } from '@mui/material'
 
 import { mergeDefaults, resolveFunctionValuesDeep, integerRange, clamp, repeat } from '@step-wise/js-utils'
-import { gridInterpolate } from '@step-wise/interpolation'
+import { interpolateGrid } from '@step-wise/interpolation'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skillTree } from '@step-wise/skill-tree'
 
@@ -91,7 +91,7 @@ export function SkillFlask(props) {
 
 function partToColor(part) {
 	const partTransitionList = integerRange(0, colorSpread.length - 1).map(v => v / (colorSpread.length - 1)) // An array of where (at what part) we transition from one color to the next; for instance [0, 0.2, 0.4, 0.6, 0.8, 1] or so.
-	return repeat(4, index => gridInterpolate(part, colorSpread.map(color => color[index]), partTransitionList)) // Interpolate for each element in the color array.
+	return repeat(4, index => interpolateGrid(part, colorSpread.map(color => color[index]), partTransitionList)) // Interpolate for each element in the color array.
 }
 
 function coefToFading(coef) {

@@ -8,9 +8,9 @@ const pressureRange = exactFloatUnits([0.01, 0.02, 0.05, 0.1, 0.2, 0.4, 0.6, 0.8
 // Saturated steam properties for a given temperature.
 export const saturatedSteamByTemperature = createInterpolationTable({
 	inputLabels: ['temperature'],
-	inputValues: [temperatureRange],
+	inputAxes: [temperatureRange],
 	outputLabels: ['boilingPressure', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'],
-	grids: [
+	outputGrids: [
 		floatUnitGrid(['0.0061', '0.0123', '0.0234', '0.0424', '0.0737', '0.1233', '0.1992', '0.3116', '0.4736', '0.7011', '1.013', '1.433', '1.985', '2.701', '3.614', '4.76', '6.18', '7.92', '10.03', '12.55', '15.55', '19.08', '23.20', '27.98', '33.48', '39.78', '43.24', '46.94', '50.87', '55.05', '59.49', '64.19', '69.17', '74.45', '80.03', '85.9', '92.1', '98.7', '105.6', '112.9', '120.6', '128.7', '137.1', '146.1', '155.5', '165.4', '175.8', '186.7', '198.3', '210.5'], 'bar'),
 		floatUnitGrid(['0.0', '42.0', '83.9', '125.6', '167.3', '209.1', '250.9', '292.8', '334.7', '376.8', '418.9', '461.1', '503.5', '546.1', '588.9', '631.9', '675.2', '718.8', '762.7', '807.0', '851.8', '897.1', '943.0', '989.6', '1036.9', '1085.1', '1109.5', '1134.3', '1159.3', '1184.5', '1210.2', '1236.1', '1262.5', '1289.3', '1316.5', '1344.2', '1372.5', '1401.3', '1430.9', '1461.3', '1492.5', '1524.8', '1558.4', '1593.5', '1630.5', '1670.3', '1714.5', '1762.2', '1817.9', '1893.7'], 'kJ/kg'),
 		floatUnitGrid(['2500.5', '2518.9', '2537.3', '2555.5', '2573.5', '2591.3', '2608.8', '2625.9', '2642.5', '2658.7', '2674.4', '2689.6', '2704.2', '2718.3', '2731.8', '2744.5', '2756.5', '2767.6', '2777.6', '2786.3', '2793.7', '2799.4', '2803.4', '2805.4', '2805.1', '2802.5', '2800.3', '2797.4', '2793.8', '2789.5', '2784.5', '2778.7', '2772.2', '2764.9', '2756.9', '2745.0', '2738.3', '2727.7', '2716.8', '2702.4', '2685.7', '2666.4', '2644.3', '2620.2', '2593.4', '2562.3', '2527.3', '2483.1', '2425.9', '2339.9'], 'kJ/kg'),
@@ -22,9 +22,9 @@ export const saturatedSteamByTemperature = createInterpolationTable({
 // Saturated steam properties for a given pressure.
 export const saturatedSteamByPressure = createInterpolationTable({
 	inputLabels: ['pressure'],
-	inputValues: [pressureRange],
+	inputAxes: [pressureRange],
 	outputLabels: ['boilingTemperature', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'],
-	grids: [
+	outputGrids: [
 		floatUnitGrid(['6.98', '17.51', '32.9', '45.8', '60.1', '75.9', '86.0', '93.5', '99.6', '120.2', '133.5', '143.6', '151.9', '158.8', '165.0', '170.4', '175.4', '180.0', '188.0', '195.0', '201.4', '207.1', '212.4', '217.2', '221.8', '226.0', '230.0', '233.8', '237.4', '244.2', '250.3', '257.4', '263.9', '275.6', '285.8', '295.0', '303.3', '311.0', '318.0', '324.6', '330.8', '336.6', '342.1', '347.3', '352.3', '357.0', '361.4', '365.7', '369.8'], 'dC'),
 		floatUnitGrid(['29.4', '73.5', '137.7', '191.7', '251.3', '317.5', '359.7', '391.5', '417.3', '504.5', '561.2', '604.4', '639.9', '670.1', '696.7', '720.6', '742.2', '762.2', '797.9', '829.5', '858.0', '884.0', '908.0', '930.3', '951.3', '971.0', '989.8', '1007.7', '1024.7', '1056.9', '1086.7', '1121.4', '1153.8', '1213.1', '1266.7', '1316.4', '1362.9', '1407.0', '1449.3', '1490.2', '1530.2', '1569.6', '1608.9', '1648.5', '1689.4', '1732.9', '1777.3', '1826.7', '1889.9'], 'kJ/kg'),
 		floatUnitGrid(['2513.4', '2532.7', '2560.7', '2583.9', '2608.9', '2635.7', '2652.2', '2664.3', '2673.8', '2704.6', '2723.2', '2736.5', '2746.8', '2755.2', '2762.1', '2768.0', '2773.1', '2777.5', '2784.7', '2790.2', '2794.6', '2798.0', '2800.6', '2802.5', '2803.9', '2804.8', '2805.4', '2805.5', '2805.4', '2804.4', '2802.4', '2799.0', '2794.6', '2783.9', '2771.1', '2756.9', '2741.6', '2725.6', '2708.7', '2687.2', '2663.5', '2637.7', '2610.5', '2581.2', '2547.0', '2511.4', '2468.4', '2416.0', '2344.9'], 'kJ/kg'),
@@ -39,9 +39,9 @@ const superheatedTemperatureRange = exactFloatUnits([220, 240, 260, 280, 300, 32
 // Superheated steam properties for a given pressure and temperature.
 export const superheatedSteam = createInterpolationTable({
 	inputLabels: ['pressure', 'temperature'],
-	inputValues: [superheatedPressureRange, superheatedTemperatureRange],
+	inputAxes: [superheatedPressureRange, superheatedTemperatureRange],
 	outputLabels: ['enthalpy', 'entropy'],
-	grids: [
+	outputGrids: [
 		floatUnitGrid([
 			['2858.2', '2847.8', '2836.6', '2824.6', '2811.7', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined],
 			['2905.9', '2897.7', '2889.1', '2880.0', '2870.6', '2860.6', '2850.1', '2839.0', '2827.2', '2814.8', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined],

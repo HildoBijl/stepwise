@@ -1,21 +1,21 @@
 import React, { forwardRef } from 'react'
 
 import { rangeByStep, last } from '@step-wise/js-utils'
-import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
+import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { FloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Curve, Label, defaultAxesOptions } from 'ui/figures'
 
 const factors = rangeByStep(0.1, 1, 0.1)
-const pointsList = factors.map(factor => maximumHumidity.inputValues[0].map((temperature, index) => [maximumHumidity.grids[0][index].number * factor, temperature.number]))
-const finalPoint = [35, inverseTableInterpolate(new FloatUnit('35 g/kg'), maximumHumidity).number]
+const pointsList = factors.map(factor => maximumHumidity.inputAxes[0].map((temperature, index) => [maximumHumidity.outputGrids[0][index].number * factor, temperature.number]))
+const finalPoint = [35, interpolateTableInput(new FloatUnit('35 g/kg'), maximumHumidity).number]
 pointsList[pointsList.length - 1] = [...pointsList[pointsList.length - 1].filter(point => point[0] <= 35), finalPoint]
 
 const pointToRelativeHumidity = point => {
 	const T = new FloatUnit({ float: point.y, unit: 'dC' })
 	const AH = new FloatUnit({ float: point.x, unit: 'g/kg' })
-	const AHmax = tableInterpolate(T, maximumHumidity)
+	const AHmax = interpolateTable(T, maximumHumidity)
 	if (!AHmax)
 		return null // On undefined (out of range) do not show a label.
 	const RH = AH.divide(AHmax).setUnit('')

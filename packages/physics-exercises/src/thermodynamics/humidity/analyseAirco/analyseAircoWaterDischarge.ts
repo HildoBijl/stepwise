@@ -1,4 +1,4 @@
-import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
+import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { maximumHumidity } from '@step-wise/physics-data'
@@ -27,13 +27,13 @@ export default buildStepExercise({
 	getSolution({ T1, startRH, T4, endRH }) {
 		startRH = startRH.simplify()
 		endRH = endRH.simplify()
-		const startAHmax = tableInterpolate(T1, maximumHumidity)!.setSignificantDigits(2)
-		const endAHmax = tableInterpolate(T4, maximumHumidity)!.setSignificantDigits(2)
+		const startAHmax = interpolateTable(T1, maximumHumidity)!.setSignificantDigits(2)
+		const endAHmax = interpolateTable(T4, maximumHumidity)!.setSignificantDigits(2)
 		const startAH = startRH.multiply(startAHmax).setDecimals(0)
 		const endAH = endRH.multiply(endAHmax).setDecimals(0)
 		const dAH = startAH.subtract(endAH)
-		const T2 = inverseTableInterpolate(startAH, maximumHumidity)!.setDecimals(0)
-		const T3 = inverseTableInterpolate(endAH, maximumHumidity)!.setDecimals(0)
+		const T2 = interpolateTableInput(startAH, maximumHumidity)!.setDecimals(0)
+		const T3 = interpolateTableInput(endAH, maximumHumidity)!.setDecimals(0)
 		return { T2, T3, startAH, startAHmax, endAH, endAHmax, dAH }
 	},
 

@@ -27,7 +27,7 @@ const Problem = ({ T1, startRH, T4, endRH, mdot }) => <>
 	</InputSpace>
 </>
 
-const linePoints = maximumHumidity.inputValues[0].map((T, index) => [maximumHumidity.grids[0][index].number, T.number])
+const linePoints = maximumHumidity.inputAxes[0].map((T, index) => [maximumHumidity.outputGrids[0][index].number, T.number])
 
 const steps = [
 	{

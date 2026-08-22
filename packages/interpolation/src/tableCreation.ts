@@ -13,9 +13,9 @@ export function ensureInterpolationTable<InputType extends InterpolationValue<In
 function freezeInterpolationTable<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(definition: InterpolationTableDefinition<InputType, OutputType>): InterpolationTable<InputType, OutputType> {
 	const table = {
 		inputLabels: Object.freeze([...definition.inputLabels]),
-		inputValues: Object.freeze(definition.inputValues.map(series => Object.freeze([...series]))),
+		inputAxes: Object.freeze(definition.inputAxes.map(axis => Object.freeze([...axis]))),
 		outputLabels: Object.freeze([...definition.outputLabels]),
-		grids: Object.freeze(definition.grids.map(grid => cloneAndFreezeGrid(grid))),
+		outputGrids: Object.freeze(definition.outputGrids.map(grid => cloneAndFreezeGrid(grid))),
 	}
 	return Object.freeze(table) as InterpolationTable<InputType, OutputType>
 }
