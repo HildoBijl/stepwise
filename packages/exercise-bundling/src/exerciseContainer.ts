@@ -8,7 +8,7 @@ export type ExerciseContainer = Record<ExerciseId, AnyExercise>
 // Check if we have a set of exercises in a container.
 export function isExerciseContainer(obj: unknown): obj is ExerciseContainer {
 	if (!isPlainObject(obj)) return false
-	return Object.values(obj).every(exercise => isExercise(exercise))
+	return Object.entries(obj).every(([exerciseId, exercise]) => exerciseId.length > 0 && exerciseId.trim() === exerciseId && isExercise(exercise))
 }
 
 // Check if an exercise container is empty.
