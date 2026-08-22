@@ -1,4 +1,5 @@
 import type { ExerciseAction, ExerciseState } from '../../atomTypes'
+
 import type { GroupExerciseHistory } from './types'
 
 function ensureUserId(userId: string | undefined): string {

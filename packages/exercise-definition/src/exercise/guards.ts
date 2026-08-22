@@ -1,6 +1,7 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
 import { exerciseModes, exerciseReducerNameByMode } from '../modes'
+
 import type { Exercise, ExerciseSpec } from './types'
 
 export function isExerciseSpec(obj: unknown): obj is ExerciseSpec<any, any> {

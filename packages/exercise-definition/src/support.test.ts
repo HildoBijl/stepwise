@@ -1,4 +1,4 @@
-import { getLastState, getLastResolvedAction, getPreviousState } from './support'
+import { getCurrentState, getLastResolvedAction, getPreviousState } from './modes'
 
 describe('getLastResolvedAction', () => {
 	test('finds the latest resolved action from the requested group user', () => {
@@ -17,7 +17,7 @@ describe('exercise history state', () => {
 		const initialState = { attempts: 0 }
 		const instance = { mode: 'solo', parameters: {}, initialState, history: [] } as const
 
-		expect(getLastState(instance)).toBe(initialState)
+		expect(getCurrentState(instance)).toBe(initialState)
 		expect(getPreviousState(instance)).toBe(initialState)
 	})
 
@@ -26,7 +26,7 @@ describe('exercise history state', () => {
 		const initialState = { attempts: 0 }
 
 		const instance = { mode: 'group', parameters: {}, initialState, history } as const
-		expect(getLastState(instance)).toBe(initialState)
+		expect(getCurrentState(instance)).toBe(initialState)
 		expect(getPreviousState(instance)).toBe(initialState)
 	})
 
@@ -40,7 +40,7 @@ describe('exercise history state', () => {
 		] as const
 
 		const instance = { mode: 'group', parameters: {}, initialState: { split: false }, history } as const
-		expect(getLastState(instance)).toBe(secondState)
+		expect(getCurrentState(instance)).toBe(secondState)
 		expect(getPreviousState(instance)).toBe(firstState)
 	})
 })

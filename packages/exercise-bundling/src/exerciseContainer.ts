@@ -1,9 +1,9 @@
 import { isPlainObject } from '@step-wise/js-utils'
-import { type ExerciseDefinition, isExercise } from '@step-wise/exercise-definition'
+import { type AnyExercise, isExercise } from '@step-wise/exercise-definition'
 
 // A set of exercises, bundled in a container.
 export type ExerciseId = string
-export type ExerciseContainer = Record<ExerciseId, ExerciseDefinition>
+export type ExerciseContainer = Record<ExerciseId, AnyExercise>
 
 // Check if we have a set of exercises in a container.
 export function isExerciseContainer(obj: unknown): obj is ExerciseContainer {

@@ -1,23 +1,23 @@
-import { generateExerciseParameters, getExerciseInitialState } from './support'
+import { resolveExerciseParameters, resolveInitialState } from './support'
 
-describe('generateExerciseParameters', () => {
+describe('resolveExerciseParameters', () => {
 	test('uses an empty object when no generator is provided', () => {
-		expect(generateExerciseParameters(undefined, false)).toEqual({})
+		expect(resolveExerciseParameters(undefined, false)).toEqual({})
 	})
 })
 
-describe('getExerciseInitialState', () => {
+describe('resolveInitialState', () => {
 	test('uses an empty object when no initializer is provided', () => {
-		expect(getExerciseInitialState(undefined, { value: 2 })).toEqual({})
+		expect(resolveInitialState(undefined, { value: 2 })).toEqual({})
 	})
 
 	test('passes the parameters to the initializer', () => {
 		const parameters = { value: 2 }
 		const initialState = { remaining: 2 }
-		expect(getExerciseInitialState(received => received.value === 2 ? initialState : {}, parameters)).toBe(initialState)
+		expect(resolveInitialState(received => received.value === 2 ? initialState : {}, parameters)).toBe(initialState)
 	})
 
 	test.each([undefined, null, [], 3])('rejects a non-plain initial state: %p', initialState => {
-		expect(() => getExerciseInitialState(() => initialState as never, {})).toThrow(TypeError)
+		expect(() => resolveInitialState(() => initialState as never, {})).toThrow(TypeError)
 	})
 })

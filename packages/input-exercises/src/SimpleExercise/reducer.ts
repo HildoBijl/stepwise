@@ -1,5 +1,5 @@
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import { type GroupExerciseReducer, type SoloExerciseReducer, generateExerciseParameters, getExerciseInitialState } from '@step-wise/exercise-definition'
+import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
 
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseReducerSubmissionsInput, type Solution, assembleSolution, deserializeInputExerciseParameters, hasPreviousInput, serializeInputExerciseParameters } from '../InputExercise'
 
@@ -10,8 +10,8 @@ export function buildSimpleExercise<TParameters extends InputExerciseParameters 
 	return {
 		...spec,
 		type: 'simple',
-		generateParameters: example => serializeInputExerciseParameters(generateExerciseParameters(spec.generateParameters, example)),
-		getInitialState: parameters => getExerciseInitialState<TParameters, SimpleExerciseState>(spec.getInitialState, deserializeInputExerciseParameters<TParameters>(parameters)),
+		generateParameters: example => serializeInputExerciseParameters(resolveExerciseParameters(spec.generateParameters, example)),
+		getInitialState: parameters => resolveInitialState<TParameters, SimpleExerciseState>(spec.getInitialState, deserializeInputExerciseParameters<TParameters>(parameters)),
 		processSoloAction: buildSimpleExerciseSoloReducer(spec),
 		processGroupActions: buildSimpleExerciseGroupReducer(spec),
 	}
