@@ -1,5 +1,5 @@
 import type { InputValue } from '@step-wise/input-interpretation'
-import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseMode, ExerciseState, GroupExerciseReducer, GroupExerciseSubmission, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
+import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetaData, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
 import type { PlainDataObject } from '@step-wise/js-utils'
 
 /*
@@ -59,10 +59,14 @@ type InputExerciseReducerGeneralInput<TAction extends ExerciseAction, TState ext
 	parameters: TParameters
 	updateSkills?: UpdateSkills
 }
+type InputExerciseSubmission<TAction extends ExerciseAction> = {
+	userId?: string
+	action: TAction
+}
 export type InputExerciseReducerSubmissionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TAction, TState, TParameters> & {
 	mode: ExerciseMode
 	history: ExerciseHistory<TAction, TState>
-	submissions: readonly GroupExerciseSubmission<TAction>[]
+	submissions: readonly InputExerciseSubmission<TAction>[]
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.

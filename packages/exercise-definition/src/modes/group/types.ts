@@ -1,7 +1,7 @@
 import type { ExerciseAction, ExerciseState } from '../../atomTypes'
 
 export type GroupExerciseSubmission<TAction extends ExerciseAction = ExerciseAction> = {
-	userId?: string
+	userId: string
 	action: TAction
 }
 
