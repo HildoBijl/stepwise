@@ -40,7 +40,7 @@ export function ExamplePage({ skillId }) {
 		if (action?.type === 'setState') // An override only used by example exercises.
 			state = action.newState
 		else
-			state = processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, initialState: exercise.initialState, history: exercise.history, updateSkills: noop })
+			state = processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
 
 		// Use it to adjust the exercise.
 		setExercise({

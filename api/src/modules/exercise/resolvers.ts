@@ -50,8 +50,6 @@ export const exerciseResolvers: Record<string, any> = {
 				parameters: activeExercise.parameters,
 				state: getExerciseState(activeExercise),
 				action,
-				initialState: activeExercise.initialState,
-				history: activeExercise.events,
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
 			})
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)

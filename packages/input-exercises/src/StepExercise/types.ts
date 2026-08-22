@@ -1,6 +1,6 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
 
-import type { CheckInputData, InputExerciseAction, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
+import type { CheckInputData, InputExerciseAction, InputExerciseAttemptState, InputExerciseMetadata, InputExerciseParameters, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
@@ -12,9 +12,9 @@ export type StepExerciseMetadata = InputExerciseMetadata & { steps: StepExercise
 export type StepId = `${number}`
 export type SubStepId = `${number}`
 export type StepExerciseSubStepState = true
-export type StepExerciseStepState = { [subStepId: SubStepId]: StepExerciseSubStepState } & Partial<{ solved: true, givenUp: true, done: true }>
-export type StepExerciseSplitState = { split: true, step: number, done?: true } & { [stepId: StepId]: StepExerciseStepState }
-export type StepExerciseState = Record<string, never> | { solved: true, done: true } | StepExerciseSplitState
+export type StepExerciseStepState = InputExerciseAttemptState & { [subStepId: SubStepId]: StepExerciseSubStepState } & Partial<{ solved: true, givenUp: true, done: true }>
+export type StepExerciseSplitState = InputExerciseAttemptState & { split: true, step: number, done?: true } & { [stepId: StepId]: StepExerciseStepState }
+export type StepExerciseState = (InputExerciseAttemptState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
 
 // Extend the CheckInput function to include steps and substeps.
 export type StepExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (data: CheckInputData<StepExerciseMetadata, TParameters, TSolution>, step: number, substep?: number) => boolean

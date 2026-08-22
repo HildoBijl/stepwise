@@ -22,7 +22,8 @@ export function SimpleExercise(props) {
 
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
-	const { parameters, state, history, example, inspection, startNewExercise } = useExerciseData()
+	const exerciseData = useExerciseData()
+	const { parameters, state, history, example, inspection, startNewExercise } = exerciseData
 	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -38,7 +39,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	}, [Problem, state, history, activateFirst])
 
 	// Determine what to show.
-	const hasPreviousActions = hasPreviousInput(history, userId) // Has there been an input action?
+	const hasPreviousActions = hasPreviousInput(exerciseData, userId) // Has there been an input action?
 	const readOnly = inspection || (!example && state.done)
 	const showInputSpace = hasPreviousActions || (!state.done && !inspection)
 	const showMainFeedback = showInputSpace && (state.done || isAllInputEqual(feedbackInput))

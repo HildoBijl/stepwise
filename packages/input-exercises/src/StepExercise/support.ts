@@ -6,7 +6,7 @@ import type { StepExerciseState } from './types'
 
 // Get the step which this problem is at.
 export function getStep(state: StepExerciseState | Record<string, never>): number {
-	return 'split' in state ? state.step : 0
+	return 'step' in state && typeof state.step === 'number' ? state.step : 0
 }
 
 // Get the last given raw input from the user at the given step.

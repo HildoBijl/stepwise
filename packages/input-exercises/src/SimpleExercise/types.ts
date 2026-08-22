@@ -1,9 +1,9 @@
-import type { InputExerciseMetadata, InputExerciseAction, InputExerciseParameters, CheckInputData, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
+import type { InputExerciseMetadata, InputExerciseAction, InputExerciseAttemptState, InputExerciseParameters, CheckInputData, InputExercise, InputExerciseSpec, Solution } from '../InputExercise'
 
 export type SimpleExerciseMetadata = InputExerciseMetadata
 
 // Update the state to only allow specific values.
-export type SimpleExerciseState = Record<string, never> | { solved: true, done: true } | { givenUp: true, done: true }
+export type SimpleExerciseState = InputExerciseAttemptState & Partial<{ solved: true, givenUp: true, done: true }>
 
 // Input checking: verify whether the given input solves the exercise.
 export type SimpleExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = (data: CheckInputData<SimpleExerciseMetadata, TParameters, TSolution>) => boolean

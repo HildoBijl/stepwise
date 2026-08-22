@@ -1,7 +1,7 @@
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
 
-import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseReducerActionsInput, type Solution, assembleSolution, deserializeInputExerciseParameters, hasPreviousInput, serializeInputExerciseParameters } from '../InputExercise'
+import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseReducerActionsInput, type Solution, addAttemptsToState, assembleSolution, deserializeInputExerciseParameters, hasAttempted, serializeInputExerciseParameters } from '../InputExercise'
 
 import type { SimpleExerciseState, SimpleExercise, SimpleExerciseSpec } from './types'
 
@@ -37,7 +37,8 @@ export function buildSimpleExerciseGroupReducer<TParameters extends InputExercis
 // Reduce a set of actions for a group of users.
 function reduceGroupActions<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TParameters, TSolution>, input: InputExerciseReducerActionsInput<InputExerciseAction, SimpleExerciseState, TParameters>): SimpleExerciseState {
 	const { metaData, checkInput, getSolution } = spec
-	const { mode, actions, parameters, history, updateSkills } = input
+	const { mode, state, actions, parameters, updateSkills } = input
+	const newState = addAttemptsToState(state, mode, actions.filter(userAction => userAction.action.type === 'input').map(userAction => userAction.userId))
 
 	const staticSolution = actions.some(userAction => userAction.action.type === 'input') && typeof getSolution === 'function' ? getSolution(parameters) : undefined
 
@@ -54,13 +55,13 @@ function reduceGroupActions<TParameters extends InputExerciseParameters = InputE
 		if (updateSkills !== undefined) {
 			actions.forEach((userAction, index) => {
 				const { action, userId } = userAction
-				if (action.type === 'input' || !hasPreviousInput(input, userId)) {
+				if (action.type === 'input' || !hasAttempted(state, mode, userId)) {
 					if (metaData.skill) updateSkills(metaData.skill, correct[index], userId)
 					if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
 				}
 			})
 		}
-		return { [someCorrect ? 'solved' : 'givenUp']: true, done: true } as SimpleExerciseState
+		return { ...newState, [someCorrect ? 'solved' : 'givenUp']: true, done: true } as SimpleExerciseState
 	}
 
 	if (updateSkills !== undefined) {
@@ -73,5 +74,5 @@ function reduceGroupActions<TParameters extends InputExerciseParameters = InputE
 		})
 	}
 
-	return {}
+	return newState
 }

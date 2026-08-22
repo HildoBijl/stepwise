@@ -1,5 +1,5 @@
 import type { InputValue } from '@step-wise/input-interpretation'
-import type { BaseExerciseInstanceByMode, Exercise, ExerciseAction, ExerciseHistoryByMode, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
+import type { BaseExerciseInstanceByMode, Exercise, ExerciseAction, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
 import type { PlainDataObject } from '@step-wise/js-utils'
 
 /*
@@ -17,6 +17,10 @@ export type InputExerciseActionType = InputExerciseAction['type']
 // Parameters and input: runtime objects obtained after deserialization and interpretation.
 export type InputExerciseParameters = Record<string, unknown>
 export type InputExerciseInput = Record<string, unknown>
+export type InputExerciseAttemptState = Partial<{
+	attempted: true
+	attemptedBy: string[]
+}>
 export type InputExerciseHistoryInstance<TState extends ExerciseState = ExerciseState> = {
 	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<InputExerciseAction, TState>[Mode], 'mode' | 'initialState' | 'history'>
 }[ExerciseMode]
@@ -69,8 +73,6 @@ export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TSt
 	[Mode in ExerciseMode]: {
 		mode: Mode
 		actions: readonly InputExerciseUserAction<TAction>[]
-		initialState: TState
-		history: ExerciseHistoryByMode<TAction, TState>[Mode]
 		updateSkills?: UpdateSkills
 	}
 }[ExerciseMode]
