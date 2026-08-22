@@ -8,9 +8,9 @@ export function getInterpolationPart(input: number, range: InterpolationPair<num
 export function getInterpolationPart<InputType extends NumberLike<InputType>>(input: InputType, range: InterpolationPair<InputType>): number
 export function getInterpolationPart<InputType extends NumberLike<InputType>>(input: number | InputType, range: InterpolationPair<number> | InterpolationPair<InputType>): number {
 	// Check the inputs.
-	if (!Array.isArray(range) || range.length !== 2) throw new TypeError(`Interpolate error: the input range was not an array of size 2. Instead, we received "${JSON.stringify(range)}".`)
-	if (!isInterpolationValue<InputType>(input) || !isInterpolationValue<InputType>(range[0]) || !isInterpolationValue<InputType>(range[1])) throw new TypeError(`Invalid interpolation input: the input value and range endpoints must be finite interpolation values.`)
-	if (isNumber(input) !== isNumber(range[0]) || isNumber(input) !== isNumber(range[1])) throw new TypeError(`Invalid interpolation input: the input value must be of the same type as the input range, but this is not the case. The input value is "${input}" but the input range is [${range.join(', ')}].`)
+	if (!Array.isArray(range) || range.length !== 2) throw new TypeError(`Interpolation error: the input range must be an array of size 2. Instead received "${JSON.stringify(range)}".`)
+	if (!isInterpolationValue<InputType>(input) || !isInterpolationValue<InputType>(range[0]) || !isInterpolationValue<InputType>(range[1])) throw new TypeError(`Interpolation error: the input value and range endpoints must be finite interpolation values.`)
+	if (isNumber(input) !== isNumber(range[0]) || isNumber(input) !== isNumber(range[1])) throw new TypeError(`Interpolation error: the input value and input range endpoints must use the same value type.`)
 
 	// Find the interpolation part depending on the type.
 	if (isNumber(input)) {
@@ -23,11 +23,12 @@ export function getInterpolationPart<InputType extends NumberLike<InputType>>(in
 		if (a.compare(b) === 0) throw new RangeError(`Interpolation error: the input range endpoints must differ.`)
 		return input.subtract(a).divide(b.subtract(a)).number
 	}
-	throw new Error(`Invalid getInterpolationPart case: received an input that is neither a number nor number-like.`)
+	throw new TypeError(`Interpolation error: the input must be a number or number-like object.`)
 }
 
 // Find the two closest indices in an ascending series using binary search. If the value is out of range, it will still give the two closest indices (being the first two or last two).
 export function getClosestIndices<InputType extends InterpolationValue<InputType>>(value: InputType, getSeriesValue: (index: number) => InputType, seriesLength: number): [number, number] {
+	if (!Number.isSafeInteger(seriesLength) || seriesLength <= 0) throw new RangeError(`Interpolation error: seriesLength must be a positive safe integer.`)
 	let min = 0
 	let max = seriesLength - 1
 	while (max - min > 1) {
@@ -51,19 +52,19 @@ export function interpolateNumberLikeFromPart<OutputType extends NumberLike<Outp
 
 export function compareInterpolationValues<T extends InterpolationValue<T>>(a: T, b: T): number {
 	if (typeof a === 'number' && typeof b === 'number') return a - b
-	if (isNumberLike<T>(a) && isNumberLike<T>(b)) return a.number === b.number ? 0 : a.compare(b)
-	throw new Error(`Inverse table interpolate error: output series contains mixed interpolation value types.`)
+	if (isNumberLike<T>(a) && isNumberLike<T>(b)) return a.compare(b)
+	throw new TypeError(`Interpolation error: output series contains mixed interpolation value types.`)
 }
 
 export function ensureMonotonicSeries<T extends InterpolationValue<T>>(series: InterpolationInputSeries<T>): InterpolationInputSeries<T> {
-	if (series.length < 2) throw new Error(`Inverse table interpolate error: expected at least two output values.`)
+	if (series.length < 2) throw new RangeError(`Interpolation error: inverse interpolation requires at least two output values.`)
 	let direction: -1 | 1 | undefined
 	for (let i = 1; i < series.length; i++) {
 		const comparison = compareInterpolationValues(series[i], series[i - 1])
-		if (comparison === 0) throw new Error(`Inverse table interpolate error: output series must be strictly monotonic, but equal neighboring values were found at indices ${i - 1} and ${i}.`)
+		if (comparison === 0) throw new RangeError(`Interpolation error: inverse interpolation requires a strictly monotonic output series, but equal neighboring values were found at indices ${i - 1} and ${i}.`)
 		const currDirection = comparison > 0 ? 1 : -1
 		direction ??= currDirection
-		if (currDirection !== direction) throw new Error(`Inverse table interpolate error: output series must be monotonic, but direction changes near index ${i}.`)
+		if (currDirection !== direction) throw new RangeError(`Interpolation error: inverse interpolation requires a monotonic output series, but its direction changes near index ${i}.`)
 	}
 	return series
 }

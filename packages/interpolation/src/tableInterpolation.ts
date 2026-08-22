@@ -54,7 +54,7 @@ export function multiOutputTableInterpolate<InputType extends InterpolationValue
 ): TableInterpolationOutput<OutputType> {
 	const normalizedInput = normalizeTableInterpolationInput(input, table)
 	const selectedOutputLabels = outputLabels ?? table.outputLabels
-	if (hasDuplicates(selectedOutputLabels)) throw new Error(`Table interpolate error: duplicate output labels are not allowed.`)
+	if (hasDuplicates(selectedOutputLabels)) throw new RangeError(`Interpolation error: duplicate output labels are not allowed in a request.`)
 	return fromKeys(selectedOutputLabels, label => interpolateTrustedGrid(normalizedInput, table.grids[getOutputIndex(table, label)], table.inputValues))
 }
 
@@ -64,7 +64,7 @@ export function inverseTableInterpolate<InputType extends InterpolationValue<Inp
 	outputLabel?: string,
 ): InputType | undefined {
 	// Check that the table is one-dimensional.
-	if (table.inputValues.length !== 1) throw new Error(`Inverse table interpolate error: expected a table with one input parameter, but received ${table.inputValues.length}.`)
+	if (table.inputValues.length !== 1) throw new RangeError(`Interpolation error: inverse interpolation requires exactly one input parameter, but received ${table.inputValues.length}.`)
 
 	// Find the output grid.
 	const outputIndex = getOutputIndex(table, outputLabel)
@@ -72,10 +72,10 @@ export function inverseTableInterpolate<InputType extends InterpolationValue<Inp
 	const inputSeries = table.inputValues[0]
 
 	// Check that the selected output grid is one-dimensional.
-	if (!Array.isArray(outputSeries)) throw new Error(`Inverse table interpolate error: expected a one-dimensional output grid.`)
-	if (outputSeries.some(value => Array.isArray(value))) throw new Error(`Inverse table interpolate error: can only invert one-dimensional output grids.`)
-	if (outputSeries.length !== inputSeries.length) throw new Error(`Inverse table interpolate error: input and output series length mismatch.`)
-	if (outputSeries.some(value => value === undefined)) throw new Error(`Inverse table interpolate error: cannot invert an output series containing undefined values.`)
+	if (!Array.isArray(outputSeries)) throw new TypeError(`Interpolation error: inverse interpolation requires a one-dimensional output grid.`)
+	if (outputSeries.some(value => Array.isArray(value))) throw new RangeError(`Interpolation error: inverse interpolation requires a one-dimensional output grid.`)
+	if (outputSeries.length !== inputSeries.length) throw new RangeError(`Interpolation error: the input and output series must have matching lengths.`)
+	if (outputSeries.some(value => value === undefined)) throw new RangeError(`Interpolation error: inverse interpolation cannot use an output series containing undefined values.`)
 
 	// Check monotonicity, then interpolate with input and output swapped.
 	const definedOutputSeries = ensureMonotonicSeries(outputSeries as InterpolationInputSeries<OutputType>)
@@ -84,42 +84,39 @@ export function inverseTableInterpolate<InputType extends InterpolationValue<Inp
 }
 
 function normalizeTableInterpolationInput<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(input: TableInterpolationInput<InputType>, table: InterpolationTable<InputType, OutputType>): readonly InputType[] {
-	if (hasDuplicates(table.inputLabels)) throw new Error(`Table interpolate error: duplicate input labels are not allowed.`)
-
 	// On an array, check the length and return it.
 	if (Array.isArray(input)) {
-		if (input.length !== table.inputValues.length) throw new RangeError(`Table interpolate error: expected ${table.inputValues.length} input values, but received ${input.length}.`)
+		if (input.length !== table.inputValues.length) throw new RangeError(`Interpolation error: expected ${table.inputValues.length} input values, but received ${input.length}.`)
 		return [...input]
 	}
 
 	// On an object, turn into an array with values in the right order.
 	if (isPlainObject(input)) {
 		return table.inputLabels.map(label => {
-			if (!Object.hasOwn(input, label)) throw new Error(`Table interpolate error: missing input value for label "${label}".`)
+			if (!Object.hasOwn(input, label)) throw new TypeError(`Interpolation error: missing input value for label "${label}".`)
 			return input[label]
 		})
 	}
 
 	// On a single value, check if this matches the table.
 	if (isNumber(input) || isNumberLike(input)) {
-		if (table.inputValues.length !== 1) throw new RangeError(`Table interpolate error: single input values are only allowed for single-input tables.`)
+		if (table.inputValues.length !== 1) throw new RangeError(`Interpolation error: single input values are only allowed for single-input tables.`)
 		return [input as InputType]
 	}
 
-	throw new Error(`Table interpolate error: unexpected input type "${typeof input}".`)
+	throw new TypeError(`Interpolation error: unexpected input type "${typeof input}".`)
 }
 
 function getOutputIndex<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(table: InterpolationTable<InputType, OutputType>, outputLabel?: string): number {
 	// On no output label, the table must have only one output.
 	if (outputLabel === undefined) {
-		if (table.outputLabels.length !== 1) throw new Error(`Table interpolate error: table has ${table.outputLabels.length} outputs. Please specify an output label.`)
+		if (table.outputLabels.length !== 1) throw new RangeError(`Interpolation error: the table has ${table.outputLabels.length} outputs; an output label is required.`)
 		return 0
 	}
 
 	// Find the corresponding output label in the table output labels.
 	const index = table.outputLabels.indexOf(outputLabel)
-	if (index === -1) throw new Error(`Table interpolate error: unknown output label "${outputLabel}".`)
-	if (table.outputLabels.lastIndexOf(outputLabel) !== index) throw new Error(`Table interpolate error: duplicate output label "${outputLabel}" is ambiguous.`)
+	if (index === -1) throw new Error(`Interpolation error: unknown output label "${outputLabel}".`)
 	return index
 }
 

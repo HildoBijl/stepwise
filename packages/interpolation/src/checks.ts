@@ -20,7 +20,7 @@ export function isInterpolationValue<T>(x: unknown): x is InputValue<T> {
 
 // Ensure the given value is a number or number-like object.
 export function ensureInterpolationValue<T>(x: unknown): InputValue<T> {
-	if (!isInterpolationValue<T>(x)) throw new TypeError(`Invalid parameter: expected a number or number-like object (with add/subtract/multiply/divide functions). Instead received "${JSON.stringify(x)}".`)
+	if (!isInterpolationValue<T>(x)) throw new TypeError(`Interpolation error: expected a finite number or number-like object. Instead received "${JSON.stringify(x)}".`)
 	return x
 }
 
@@ -37,7 +37,7 @@ export function isInterpolationInputSeries<InputType extends InputValue<InputTyp
 		const previousValue = x[index - 1]
 		if (isNumber(value) !== isNumber(previousValue)) return false
 		if (isNumber(value)) return value >= (previousValue as number)
-		return isNumberLike<InputType>(value) && (value.number === (previousValue as NumberLike<InputType>).number || value.compare(previousValue as InputType) >= 0)
+		return isNumberLike<InputType>(value) && value.compare(previousValue as InputType) >= 0
 	})
 }
 

@@ -20,9 +20,9 @@ export function gridInterpolate<InputType extends InterpolationValue<InputType>,
 ): OutputType | undefined {
 	const inputs = Array.isArray(input) ? input : [input]
 	validateGridInputs(inputs, inputSeries)
-	if (!inputSeries.every(series => isInterpolationInputSeries<InputType>(series))) throw new RangeError(`Grid interpolate error: every input series must be non-empty and ascending.`)
-	if (!isInterpolationGrid<OutputType>(outputSeries)) throw new TypeError(`Grid interpolate error: the output grid must contain finite interpolation values of one type.`)
-	if (!doesGridMatchinputValues(outputSeries as InterpolationGrid<OutputType>, inputSeries)) throw new RangeError(`Grid interpolate error: the output grid dimensions must match the input series.`)
+	if (!inputSeries.every(series => isInterpolationInputSeries<InputType>(series))) throw new RangeError(`Interpolation error: every input series must be non-empty and ascending.`)
+	if (!isInterpolationGrid<OutputType>(outputSeries)) throw new TypeError(`Interpolation error: the output grid must contain finite interpolation values of one type.`)
+	if (!doesGridMatchinputValues(outputSeries as InterpolationGrid<OutputType>, inputSeries)) throw new RangeError(`Interpolation error: the output grid dimensions must match the input series.`)
 	return gridInterpolateRecursive(inputs, outputSeries as InterpolationGrid<OutputType>, inputSeries)
 }
 
@@ -36,9 +36,9 @@ export function interpolateTrustedGrid<InputType extends InterpolationValue<Inpu
 }
 
 function validateGridInputs<InputType extends InterpolationValue<InputType>>(inputs: readonly InputType[], inputSeries: readonly InterpolationInputSeries<InputType>[]): void {
-	if (inputs.length === 0) throw new TypeError(`Grid interpolate error: received an empty array as input.`)
-	if (inputs.some(value => !isInterpolationValue<InputType>(value))) throw new TypeError(`Grid interpolate error: every input must be a finite interpolation value.`)
-	if (inputSeries.length !== inputs.length) throw new RangeError(`Grid interpolate error: incorrect number of input series given. Expected ${inputs.length} input series, but received ${inputSeries.length}.`)
+	if (inputs.length === 0) throw new RangeError(`Interpolation error: at least one input value is required.`)
+	if (inputs.some(value => !isInterpolationValue<InputType>(value))) throw new TypeError(`Interpolation error: every input must be a finite interpolation value.`)
+	if (inputSeries.length !== inputs.length) throw new RangeError(`Interpolation error: expected ${inputs.length} input series, but received ${inputSeries.length}.`)
 }
 
 function gridInterpolateRecursive<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
@@ -55,8 +55,8 @@ function gridInterpolateRecursive<InputType extends InterpolationValue<InputType
 	const paramInputSeries = remainingInputSeries.pop() as InterpolationInputSeries<InputType>
 
 	// Check the output table.
-	if (!Array.isArray(outputSeries)) throw new TypeError(`Grid interpolate error: the outputSeries parameter must be an array.`)
-	if (paramInputSeries.length !== outputSeries.length) throw new RangeError(`Grid interpolate error: incorrect size of the output table. The input series of the last parameter has ${paramInputSeries.length} entries, but the output table has ${outputSeries.length} elements.`)
+	if (!Array.isArray(outputSeries)) throw new TypeError(`Interpolation error: the output grid must be an array.`)
+	if (paramInputSeries.length !== outputSeries.length) throw new RangeError(`Interpolation error: the output grid dimensions must match the input series.`)
 
 	// Find the right interval and interpolate within it.
 	const [min, max] = getClosestIndices(param, index => paramInputSeries[index], paramInputSeries.length)
@@ -76,9 +76,9 @@ function gridInterpolateSingleValue<InputType extends InterpolationValue<InputTy
 	inputSeries: InterpolationInputSeries<InputType>,
 ): OutputType | undefined {
 	// Check input and output series.
-	if (!Array.isArray(inputSeries)) throw new TypeError(`Grid interpolate error: the input series was not an array.`)
-	if (!Array.isArray(outputSeries)) throw new TypeError(`Grid interpolate error: the output series was not an array.`)
-	if (inputSeries.length !== outputSeries.length) throw new RangeError(`Grid interpolate error: the input series and output series do not have matching lengths. The input series has length ${inputSeries.length} while the output series has length ${outputSeries.length}.`)
+	if (!Array.isArray(inputSeries)) throw new TypeError(`Interpolation error: the input series must be an array.`)
+	if (!Array.isArray(outputSeries)) throw new TypeError(`Interpolation error: the output series must be an array.`)
+	if (inputSeries.length !== outputSeries.length) throw new RangeError(`Interpolation error: the input and output series must have matching lengths.`)
 
 	// Find indices on the input series, and interpolate for these indices.
 	const [min, max] = getClosestIndices(input, index => inputSeries[index], inputSeries.length)
@@ -95,11 +95,11 @@ function ensureCoordinateIsUnambiguous<InputType extends InterpolationValue<Inpu
 		if (compareInterpolationValues(input, inputSeries[index]) !== 0) continue
 		const matchesPrevious = index > 0 && compareInterpolationValues(inputSeries[index], inputSeries[index - 1]) === 0
 		const matchesNext = index < inputSeries.length - 1 && compareInterpolationValues(inputSeries[index], inputSeries[index + 1]) === 0
-		if (matchesPrevious || matchesNext) throw new RangeError(`Grid interpolate error: the input exactly matches a duplicated coordinate and therefore has an ambiguous output.`)
+		if (matchesPrevious || matchesNext) throw new RangeError(`Interpolation error: the input exactly matches a duplicated coordinate and therefore has an ambiguous output.`)
 	}
 }
 
 function ensureGridOutputValue<OutputType extends InterpolationValue<OutputType>>(value: OutputType | undefined): OutputType | undefined {
-	if (value !== undefined && !isInterpolationValue<OutputType>(value)) throw new TypeError(`Grid interpolate error: output values must be finite interpolation values.`)
+	if (value !== undefined && !isInterpolationValue<OutputType>(value)) throw new TypeError(`Interpolation error: output values must be finite interpolation values.`)
 	return value
 }

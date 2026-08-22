@@ -174,6 +174,7 @@ export class FloatUnit {
 	setUnit(input: UnitLike): FloatUnit {
 		// Check that the units match, and compare them.
 		const unit = asUnit(input)
+		if (this.unit.equals(unit, { target: 'unchanged', checkSize: true })) return this
 		if (!this.unit.equals(unit, { target: 'base', checkSize: false })) throw new Error(`Invalid unit given: cannot transform "${this.str}" to unit "${unit.str}". These units are not similar.`)
 		const current = this.simplify({ target: 'standard', combine: true, sort: true, simplifyFloat: false })
 		const targetData = unit.simplifyWithData({ target: 'standard', combine: true, sort: true })

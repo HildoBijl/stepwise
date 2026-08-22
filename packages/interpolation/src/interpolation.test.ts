@@ -1,16 +1,17 @@
 import { isInterpolationInputSeries, isInterpolationTable, isInterpolationValue } from './checks'
 import { gridInterpolate } from './gridInterpolation'
 import { rangeInterpolate } from './rangeInterpolation'
+import { getClosestIndices } from './support'
 import { createInterpolationTable, ensureInterpolationTable } from './tableCreation'
 import { tableInterpolate, multiOutputTableInterpolate, inverseTableInterpolate } from './tableInterpolation'
 
 class TestNumber {
-	constructor(readonly number: number) {}
+	constructor(readonly number: number, readonly comparisonValue = number) {}
 	add(value: TestNumber): TestNumber { return new TestNumber(this.number + value.number) }
 	subtract(value: TestNumber): TestNumber { return new TestNumber(this.number - value.number) }
 	multiply(value: TestNumber | number): TestNumber { return new TestNumber(this.number * (typeof value === 'number' ? value : value.number)) }
 	divide(value: TestNumber | number): TestNumber { return new TestNumber(this.number / (typeof value === 'number' ? value : value.number)) }
-	compare(value: TestNumber): number { return this.number - value.number }
+	compare(value: TestNumber): number { return this.comparisonValue - value.comparisonValue }
 }
 
 const singleInputTable = createInterpolationTable({
@@ -84,6 +85,10 @@ describe('interpolation', () => {
 			expect(isInterpolationInputSeries([1, 3, 2])).toBe(false)
 			expect(isInterpolationInputSeries([3, 2, 1])).toBe(false)
 			expect(isInterpolationInputSeries([1, new TestNumber(2)])).toBe(false)
+		})
+		test('uses compare rather than the numeric representation to order number-like values', () => {
+			expect(isInterpolationInputSeries([new TestNumber(1, 1), new TestNumber(1, 2)])).toBe(true)
+			expect(isInterpolationInputSeries([new TestNumber(1, 2), new TestNumber(1, 1)])).toBe(false)
 		})
 	})
 
@@ -232,6 +237,13 @@ describe('interpolation', () => {
 		test('rejects non-finite inputs and outputs', () => {
 			expect(() => gridInterpolate(Infinity, [2, 4], [0, 1])).toThrow(/finite interpolation value/)
 			expect(() => gridInterpolate(0, [Infinity, 4], [0, 1])).toThrow(/finite interpolation value/)
+		})
+	})
+
+	describe('getClosestIndices', () => {
+		test('rejects invalid series lengths', () => {
+			expect(() => getClosestIndices(1, index => index, 0)).toThrow(/positive safe integer/)
+			expect(() => getClosestIndices(1, index => index, 1.5)).toThrow(/positive safe integer/)
 		})
 	})
 })

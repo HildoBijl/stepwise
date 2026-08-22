@@ -104,6 +104,8 @@ describe('FloatUnit', () => {
 
 	describe('unit adjustments and simplification', () => {
 		test('sets equivalent units', () => {
+			const temperature = new FloatUnit('20 °C')
+			expect(temperature.setUnit('°C')).toBe(temperature)
 			expect(new FloatUnit('2000 m').setUnit('km').toString()).toBe('2000 * 10^(-3) km')
 			expect(new FloatUnit('2000 m').simplify().setUnit('km').toString()).toBe('2.000 km')
 			expect(new FloatUnit('1 bar').setUnit('Pa').toString()).toBe('1 * 10^5 Pa')
@@ -131,6 +133,7 @@ describe('FloatUnit', () => {
 			expect(new FloatUnit('2 m').compare('150 cm')).toBe(1)
 			expect(new FloatUnit('2 m').compare('250 cm')).toBe(-1)
 			expect(new FloatUnit('2 m').compare('200 cm')).toBe(0)
+			expect(new FloatUnit('20 dC').compare('20 dC')).toBe(0)
 		})
 		test('checks equality with converted units', () => {
 			expect(new FloatUnit('2.00 m').equals('200 cm')).toBe(true)
