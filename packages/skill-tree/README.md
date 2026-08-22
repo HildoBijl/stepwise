@@ -13,7 +13,7 @@ npm install @step-wise/skill-tree
 ## Quick start
 
 ```ts
-import { getSkill, isSkillPrerequisiteOf, skillTree } from '@step-wise/skill-tree'
+import { skillTree, getSkill, isSkillPrerequisiteOf } from '@step-wise/skill-tree'
 
 const skill = getSkill('solveLinearEquation')
 

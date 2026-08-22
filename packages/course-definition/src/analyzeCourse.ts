@@ -8,8 +8,8 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 	const { learningGoals: originalLearningGoals, startingPoints: originalStartingPoints } = data
 
 	// Filter out unknown skills.
-	const [learningGoalsFiltered, unknownLearningGoals] = partition(originalLearningGoals, skillId => !!skillTree[skillId])
-	const [startingPointsFiltered, unknownStartingPoints] = partition(originalStartingPoints, skillId => !!skillTree[skillId])
+	const [learningGoalsFiltered, unknownLearningGoals] = partition(originalLearningGoals, skillId => Object.hasOwn(skillTree, skillId))
+	const [startingPointsFiltered, unknownStartingPoints] = partition(originalStartingPoints, skillId => Object.hasOwn(skillTree, skillId))
 
 	// Walk back from the learning goals to derive course contents and starting points.
 	const contentsFound: SkillId[] = []
@@ -19,16 +19,17 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 	const processSkill = (skillId: SkillId, parentId: SkillId | undefined) => {
 		// If we're out-of-tree (the skill does not follow from any starting point) then add the parent as a missing starting point.
 		if (!startingPointsFiltered.some(startingPointId => isSkillPrerequisiteOf(skillTree, startingPointId, skillId))) {
-			if (parentId !== undefined && !missingStartingPoints.includes(parentId)) missingStartingPoints.push(parentId)
+			const missingStartingPoint = parentId ?? skillId
+			if (!missingStartingPoints.includes(missingStartingPoint)) missingStartingPoints.push(missingStartingPoint)
 			return
 		}
+
+		// Register learning goals that are required for other learning goals as superfluous.
+		if (parentId !== undefined && learningGoalsFiltered.includes(skillId) && !superfluousLearningGoals.includes(skillId)) superfluousLearningGoals.push(skillId)
 
 		// Remember which contents we found, so we don't double-process nodes.
 		if (contentsFound.includes(skillId)) return
 		contentsFound.push(skillId)
-
-		// Register learning goals that are required for other learning goals as superfluous.
-		if (parentId !== undefined && learningGoalsFiltered.includes(skillId)) superfluousLearningGoals.push(skillId)
 
 		// If we hit a starting point, only continue with those prerequisites that follow from another starting point.
 		if (startingPointsFiltered.includes(skillId)) {
@@ -66,10 +67,10 @@ export function analyzeCourse(skillTree: SkillTree, data: CourseData): CourseAna
 
 	// Check the set-up contents.
 	let setup: SkillSetup | undefined, unknownSetupSkills: SkillId[] | undefined, externalSetupSkills: SkillId[] | undefined
-	if (data.setup) {
+	if (data.setup !== undefined) {
 		setup = ensureSetup(data.setup)
-		unknownSetupSkills = setup.getSkillList().filter(skillId => !skillTree[skillId])
-		externalSetupSkills = setup.getSkillList().filter(skillId => !!skillTree[skillId] && !contentsFound.includes(skillId))
+		unknownSetupSkills = setup.getSkillList().filter(skillId => !Object.hasOwn(skillTree, skillId))
+		externalSetupSkills = setup.getSkillList().filter(skillId => Object.hasOwn(skillTree, skillId) && !contentsFound.includes(skillId))
 	}
 
 	// Assemble the final analysis.
@@ -125,8 +126,9 @@ function analyzeCourseBlocks(skillTree: SkillTree, blockGoals: readonly SkillId[
 		// Set up a handler to add to the block contents.
 		const contents: SkillId[] = [], unknownLearningGoals: SkillId[] = [], externalLearningGoals: SkillId[] = [], superfluousLearningGoals: SkillId[] = []
 		const addSkill = (skillId: SkillId) => {
+			if (!Object.hasOwn(skillTree, skillId)) return
 			const skill = skillTree[skillId]
-			if (!skill || !allContents.includes(skillId) || contentsSoFar.includes(skillId)) return
+			if (!allContents.includes(skillId) || contentsSoFar.includes(skillId)) return
 			contentsSoFar.push(skillId)
 			skill.prerequisiteIds.forEach(addSkill)
 			contents.push(skillId)
@@ -134,7 +136,7 @@ function analyzeCourseBlocks(skillTree: SkillTree, blockGoals: readonly SkillId[
 
 		// Walk through the learning goals to check them, and if valid add their contents.
 		blockLearningGoals.forEach(blockLearningGoal => {
-			if (!skillTree[blockLearningGoal]) unknownLearningGoals.push(blockLearningGoal)
+			if (!Object.hasOwn(skillTree, blockLearningGoal)) unknownLearningGoals.push(blockLearningGoal)
 			else if (!allContents.includes(blockLearningGoal)) externalLearningGoals.push(blockLearningGoal)
 			else if (contentsSoFar.includes(blockLearningGoal)) superfluousLearningGoals.push(blockLearningGoal)
 			else addSkill(blockLearningGoal)

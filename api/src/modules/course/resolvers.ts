@@ -15,7 +15,7 @@ function validateCourse(input: any, current?: any) {
 		startingPoints: input.startingPoints ?? current?.startingPoints,
 		learningGoals: input.goals ?? current?.goals,
 		goalWeights: input.goalWeights ?? current?.goalWeights,
-		blockGoals: current ? input.blocks ?? current.blocks : input.blocks?.map((block: any) => block.goals),
+		blockGoals: (input.blocks ?? current?.blocks)?.map((block: any) => block.goals),
 		setup: input.setup ?? current?.setup,
 	}
 	ensureValidCourseDiagnostics(new Course(skillTree, data).diagnostics)

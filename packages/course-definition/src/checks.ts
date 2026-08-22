@@ -1,4 +1,4 @@
-import { ensureArray, ensureNumberArray, ensureString, hasDuplicates } from '@step-wise/js-utils'
+import { ensureArray, ensureNumberArray, ensureString, hasDuplicates, sum } from '@step-wise/js-utils'
 import { ensureSetup } from '@step-wise/skill-setup'
 
 import type { CourseData } from './types'
@@ -17,6 +17,7 @@ export function ensureCourseData(data: CourseData): CourseData {
 	if (goalWeights) {
 		goalWeights = ensureNumberArray(goalWeights, { nonNegative: true })
 		if (goalWeights.length !== learningGoals.length) throw new Error(`Invalid course goal weights: expected ${learningGoals.length} weights but received ${goalWeights.length}.`)
+		if (sum(goalWeights) === 0) throw new Error(`Invalid course goal weights: the weights must have a positive sum.`)
 	}
 
 	// Validate the block goals.
@@ -24,7 +25,7 @@ export function ensureCourseData(data: CourseData): CourseData {
 	if (blockGoals) blockGoals = ensureArray(blockGoals).map(goals => ensureArray(goals).map(goal => ensureString(goal)))
 
 	// Validate the setup.
-	const setup = data.setup && ensureSetup(data.setup)
+	const setup = data.setup === undefined ? undefined : ensureSetup(data.setup)
 
 	// Return the normalized data.
 	return {
