@@ -1,87 +1,87 @@
 import type { SkillId, SkillSetup } from '@step-wise/skill-setup'
 import type { SkillTree } from '@step-wise/skill-definition'
 
-import type { CourseAnalysis, CourseData, CourseDiagnostics, ResolvedCourse, ResolvedCourseBlock } from './types'
-import { ensureCourseData } from './checks'
+import type { CourseAnalysis, CourseDefinition, CourseDiagnostics, CourseResolution, CourseResolutionBlock } from './types'
+import { ensureCourseDefinition } from './dataValidation'
 import { analyzeCourse } from './analyzeCourse'
 
 export class Course {
 	readonly skillTree: SkillTree
-	readonly data: CourseData
+	readonly definition: CourseDefinition
 
 	private _analysis?: CourseAnalysis
 
-	constructor(skillTree: SkillTree, data: CourseData) {
+	constructor(skillTree: SkillTree, definition: CourseDefinition) {
 		this.skillTree = skillTree
-		this.data = ensureCourseData(data)
+		this.definition = ensureCourseDefinition(definition)
 	}
 
 	get analysis(): CourseAnalysis {
-		return this._analysis ??= analyzeCourse(this.skillTree, this.data)
+		return this._analysis ??= analyzeCourse(this.skillTree, this.definition)
 	}
 
 	/*
 	 * Course properties
 	 */
 
-	get course(): ResolvedCourse {
-		return this.analysis.course
+	get resolution(): CourseResolution {
+		return this.analysis.resolution
 	}
 
-	get priorKnowledge(): readonly SkillId[] {
-		return this.course.priorKnowledge
+	get priorKnowledgeIds(): readonly SkillId[] {
+		return this.resolution.priorKnowledgeIds
 	}
 
-	get startingPoints(): readonly SkillId[] {
-		return this.course.startingPoints
+	get startingPointIds(): readonly SkillId[] {
+		return this.resolution.startingPointIds
 	}
 
-	get contents(): readonly SkillId[] {
-		return this.course.contents
+	get contentSkillIds(): readonly SkillId[] {
+		return this.resolution.contentSkillIds
 	}
 
-	get allSkills(): readonly SkillId[] {
-		return this.course.allSkills
+	get allSkillIds(): readonly SkillId[] {
+		return this.resolution.allSkillIds
 	}
 
-	get learningGoals(): readonly SkillId[] {
-		return this.course.learningGoals
+	get learningGoalIds(): readonly SkillId[] {
+		return this.resolution.learningGoalIds
 	}
 
 	get learningGoalWeights(): readonly number[] {
-		return this.course.learningGoalWeights
+		return this.resolution.learningGoalWeights
 	}
 
-	get blocks(): readonly ResolvedCourseBlock[] | undefined {
-		return this.course.blocks
+	get blocks(): readonly CourseResolutionBlock[] | undefined {
+		return this.resolution.blocks
 	}
 
 	get setup(): SkillSetup | undefined {
-		return this.course.setup
+		return this.resolution.setup
 	}
 
 	/*
 	 * Derived helpers
 	 */
 
-	hasSkill(skillId: SkillId): boolean {
-		return this.contents.includes(skillId)
+	hasAsContents(skillId: SkillId): boolean {
+		return this.contentSkillIds.includes(skillId)
 	}
 
-	hasPriorKnowledge(skillId: SkillId): boolean {
-		return this.priorKnowledge.includes(skillId)
+	hasAsPriorKnowledge(skillId: SkillId): boolean {
+		return this.priorKnowledgeIds.includes(skillId)
 	}
 
-	hasStartingPoint(skillId: SkillId): boolean {
-		return this.startingPoints.includes(skillId)
+	hasAsStartingPoint(skillId: SkillId): boolean {
+		return this.startingPointIds.includes(skillId)
 	}
 
-	hasLearningGoal(skillId: SkillId): boolean {
-		return this.learningGoals.includes(skillId)
+	hasAsLearningGoal(skillId: SkillId): boolean {
+		return this.learningGoalIds.includes(skillId)
 	}
 
 	getLearningGoalWeight(skillId: SkillId): number {
-		const index = this.learningGoals.indexOf(skillId)
+		const index = this.learningGoalIds.indexOf(skillId)
 		return index === -1 ? 0 : this.learningGoalWeights[index]
 	}
 

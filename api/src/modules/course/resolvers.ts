@@ -1,5 +1,5 @@
 import { AuthenticationError } from '../../errors.ts'
-import { Course, ensureValidCourseDiagnostics } from '@step-wise/course-definition'
+import { Course, validateCourseDiagnostics } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
 import { getCourseByCode, getCourseById, getCourses } from './service.ts'
@@ -12,13 +12,13 @@ const courseForStudent = {
 
 function validateCourse(input: any, current?: any) {
 	const data = {
-		startingPoints: input.startingPoints ?? current?.startingPoints,
-		learningGoals: input.goals ?? current?.goals,
-		goalWeights: input.goalWeights ?? current?.goalWeights,
-		blockGoals: (input.blocks ?? current?.blocks)?.map((block: any) => block.goals),
+		startingPointIds: input.startingPoints ?? current?.startingPoints,
+		learningGoalIds: input.goals ?? current?.goals,
+		learningGoalWeights: input.goalWeights ?? current?.goalWeights,
+		blockLearningGoalIds: (input.blocks ?? current?.blocks)?.map((block: any) => block.goals),
 		setup: input.setup ?? current?.setup,
 	}
-	ensureValidCourseDiagnostics(new Course(skillTree, data).diagnostics)
+	validateCourseDiagnostics(new Course(skillTree, data).diagnostics)
 }
 
 export const courseResolvers = {
