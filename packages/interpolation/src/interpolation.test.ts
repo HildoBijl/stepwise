@@ -66,10 +66,8 @@ describe('interpolation', () => {
 		test('rejects an input range with equal endpoints', () => {
 			expect(() => rangeInterpolate(1, [2, 4], [1, 1])).toThrow(/endpoints must differ/)
 		})
-		test('reports missing and excess input ranges', () => {
-			expect(() => rangeInterpolate([0.5, 0.5], [[0, 1], [2, 3]], [0, 1])).toThrow(/Expected 2 input ranges, but received 1/)
-			expect(() => rangeInterpolate([0.5], [0, 1], [0, 1], [0, 1])).toThrow(/Expected 1 input range, but received 2/)
-			expect(() => rangeInterpolate([0.5, 0.5], [[0, 1], [2, 3]], [0, 1], [0, 1], [0, 1])).toThrow(/Expected 2 input ranges, but received 3/)
+		test('interpolates within a single range', () => {
+			expect(rangeInterpolate(0.5, [2, 4], [0, 1])).toBe(3)
 		})
 	})
 

@@ -11,7 +11,6 @@ export type InterpolationValue<T> = number | NumberLike<T>
 
 // Box-based interpolation.
 export type InterpolationPair<T> = readonly [T, T]
-export type InterpolationOutputTree<T> = readonly [T | InterpolationOutputTree<T>, T | InterpolationOutputTree<T>]
 
 // Interpolation series and grids.
 export type InterpolationInputSeries<T> = readonly T[]
