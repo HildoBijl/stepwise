@@ -1,10 +1,10 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 const metaData = {
 	skill: 'calculateEntropyChange',
-	...stepsToSetup(['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', undefined]),
+	...createStepExerciseMetadata(['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', undefined]),
 	compare: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		Tw: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },

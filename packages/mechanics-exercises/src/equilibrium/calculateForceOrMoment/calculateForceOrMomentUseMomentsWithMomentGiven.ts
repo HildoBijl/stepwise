@@ -1,5 +1,5 @@
 import { degreesToRadians, randomBoolean, randomInteger } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
@@ -8,7 +8,7 @@ import { type Load, createForce, createMoment, deriveLoadNames, getAxisComponent
 export default buildStepExercise({
 	metaData: {
 		skill: 'calculateForceOrMoment',
-		...stepsToSetup([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
+		...createStepExerciseMetadata([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 

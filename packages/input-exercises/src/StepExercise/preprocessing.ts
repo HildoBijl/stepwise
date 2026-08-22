@@ -2,7 +2,7 @@ import { type SkillSetup, type SkillSetupLike, ensureSetup, and } from '@step-wi
 
 import type { StepExerciseSteps } from './types'
 
-export function stepsToSetup(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup?: SkillSetup } {
+export function createStepExerciseMetadata(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup?: SkillSetup } {
 	ensureStepExerciseSteps(steps)
 	const setup = getSetupFromSteps(steps)
 	return {

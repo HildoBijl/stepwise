@@ -1,5 +1,5 @@
 import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties, maximumHumidity } from '@step-wise/physics-data'
@@ -10,7 +10,7 @@ const { cp } = gasProperties.air
 
 export default buildStepExercise({
 	metaData: {
-		...stepsToSetup(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
+		...createStepExerciseMetadata(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },
 			T3: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },

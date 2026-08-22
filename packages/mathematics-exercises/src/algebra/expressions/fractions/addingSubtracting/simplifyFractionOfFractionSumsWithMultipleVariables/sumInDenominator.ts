@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { asExpression, expressionComparisons, expressionOperations } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
@@ -17,7 +17,7 @@ const constants = ['a', 'b', 'c']
 export default buildStepExercise({
 	metaData: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
-		...stepsToSetup(['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
+		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
 		compare: { Expression: onlyOrderChanges },
 	},
 

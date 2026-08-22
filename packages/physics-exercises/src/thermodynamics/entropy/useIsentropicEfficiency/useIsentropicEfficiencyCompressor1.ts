@@ -1,4 +1,4 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -9,7 +9,7 @@ const { k, cp } = gasProperties.air
 export default buildStepExercise({
 	metaData: {
 		skill: 'useIsentropicEfficiency',
-		...stepsToSetup(['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
+		...createStepExerciseMetadata(['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 

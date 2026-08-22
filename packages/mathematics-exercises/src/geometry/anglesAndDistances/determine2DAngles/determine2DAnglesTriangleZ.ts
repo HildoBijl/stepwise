@@ -1,6 +1,6 @@
 import { randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { asExpression } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
@@ -12,7 +12,7 @@ const constants = ['a', 'b', 'c']
 export default buildStepExercise({
 	metaData: {
 		skill: 'determine2DAngles',
-		...stepsToSetup([undefined, undefined, undefined]),
+		...createStepExerciseMetadata([undefined, undefined, undefined]),
 	},
 
 	generateParameters() {

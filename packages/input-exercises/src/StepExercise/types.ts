@@ -4,15 +4,15 @@ import type { CheckInputData, InputExerciseAction, InputExerciseAttemptState, In
 
 // Add exercise steps and substeps to meta data.
 export type StepExerciseStep = SkillSetupLike | undefined
-export type StepExerciseSubSteps = StepExerciseStep[]
-export type StepExerciseSteps = (StepExerciseStep | StepExerciseSubSteps)[]
+export type StepExerciseSubsteps = StepExerciseStep[]
+export type StepExerciseSteps = (StepExerciseStep | StepExerciseSubsteps)[]
 export type StepExerciseMetadata = InputExerciseMetadata & { steps: StepExerciseSteps }
 
 // Update the state to allow for steps and substeps.
 export type StepId = `${number}`
-export type SubStepId = `${number}`
-export type StepExerciseSubStepState = true
-export type StepExerciseStepState = InputExerciseAttemptState & { [subStepId: SubStepId]: StepExerciseSubStepState } & Partial<{ solved: true, givenUp: true, done: true }>
+export type SubstepId = `${number}`
+export type StepExerciseSubstepState = true
+export type StepExerciseStepState = InputExerciseAttemptState & { [subStepId: SubstepId]: StepExerciseSubstepState } & Partial<{ solved: true, givenUp: true, done: true }>
 export type StepExerciseSplitState = InputExerciseAttemptState & { split: true, step: number, done?: true } & { [stepId: StepId]: StepExerciseStepState }
 export type StepExerciseState = (InputExerciseAttemptState & Partial<{ solved: true, done: true }>) | StepExerciseSplitState
 

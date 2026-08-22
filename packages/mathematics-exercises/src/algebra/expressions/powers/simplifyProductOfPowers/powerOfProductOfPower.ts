@@ -1,6 +1,6 @@
 import { sample, randomInteger, count } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons, expressionChecks } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -16,7 +16,7 @@ const constants = ['a', 'b', 'c']
 export default buildStepExercise({
 	metaData: {
 		skill: 'simplifyProductOfPowers',
-		...stepsToSetup(['rewritePower', 'simplifyNumberProduct', 'rewritePower']),
+		...createStepExerciseMetadata(['rewritePower', 'simplifyNumberProduct', 'rewritePower']),
 		compare: {
 			bracketsExpanded: (input: Expression, correct: Expression) => !hasProductWithinPowerBase(input) && equivalent(input, correct),
 			numbersSimplified: (input: Expression, correct: Expression) => !hasProductWithinPowerBase(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),

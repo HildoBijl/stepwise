@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { Expression, asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare, compareList } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metaData: {
 		skill: 'solveQuadraticEquation',
 		weight: 3,
-		...stepsToSetup(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
+		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
 		compare: {
 			a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").

@@ -1,6 +1,6 @@
-import { getLastRawInput } from './support'
+import { getLastRawInput } from './history'
 
-describe('getLastInput', () => {
+describe('input-exercise history', () => {
 	const userId = 'user-1'
 	const resolvedInput = { answer: { type: 'Text', value: 'resolved' } }
 	const pendingInput = { answer: { type: 'Text', value: 'pending' } }
@@ -16,6 +16,6 @@ describe('getLastInput', () => {
 	})
 
 	test('skips a pending event when resolved input is required', () => {
-		expect(getLastRawInput(instance, userId, true)).toBe(resolvedInput)
+		expect(getLastRawInput(instance, userId, { resolvedOnly: true })).toBe(resolvedInput)
 	})
 })

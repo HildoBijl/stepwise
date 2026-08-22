@@ -1,5 +1,5 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildMonoExercise, getMultipleChoiceMapping } from '@step-wise/input-exercises'
+import { buildMonoExercise, generateMultipleChoiceMapping } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 export default buildMonoExercise({
@@ -12,7 +12,7 @@ export default buildMonoExercise({
 		const type = randomInteger(0, numChoices - 1)
 		return {
 			type,
-			mapping: getMultipleChoiceMapping({ numChoices, pick: 4, include: type, randomOrder: true }),
+			mapping: generateMultipleChoiceMapping({ numChoices, pick: 4, include: type, randomOrder: true }),
 		}
 	},
 

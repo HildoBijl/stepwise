@@ -2,7 +2,7 @@ import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, type Expression, asEquation, expressionComparisons, equationChecks, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -37,7 +37,7 @@ function getCoefficients([a, b, c, d, e]: [number, number, number, number, numbe
 export default buildStepExercise({
 	metaData: {
 		skill: 'bringEquationToStandardForm',
-		...stepsToSetup(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
+		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
 		compare: {
 			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct),
 			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct),

@@ -1,4 +1,4 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 
@@ -7,7 +7,7 @@ import { generateParameters } from '../calculateWithSpecificQuantities/calculate
 export default buildStepExercise({
 	metaData: {
 		skill: 'calculateWithEnthalpy',
-		...stepsToSetup(['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
+		...createStepExerciseMetadata(['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 

@@ -1,4 +1,4 @@
-import { buildStepExercise, stepsToSetup, getInput } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
@@ -8,7 +8,7 @@ const { Rs, k } = gasProperties.air
 export default buildStepExercise({
 	metaData: {
 		skill: 'calculateOpenProcessStep',
-		...stepsToSetup(['gasLaw', 'poissonsLaw', 'gasLaw']),
+		...createStepExerciseMetadata(['gasLaw', 'poissonsLaw', 'gasLaw']),
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			T1: { float: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },

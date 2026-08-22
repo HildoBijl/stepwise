@@ -1,7 +1,7 @@
 import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 const variableSet = ['α', 'β', 'γ']
@@ -9,7 +9,7 @@ const variableSet = ['α', 'β', 'γ']
 export default buildStepExercise({
 	metaData: {
 		skill: 'calculateTriangle',
-		...stepsToSetup([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
+		...createStepExerciseMetadata([undefined, undefined, undefined, and('solveLinearEquation', 'applySineCosineTangent')]),
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 

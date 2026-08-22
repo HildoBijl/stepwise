@@ -1,5 +1,5 @@
 import { degreesToRadians, anglesEqual, randomInteger } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
 import { createForce, isForce } from '@step-wise/engineering-mechanics'
@@ -7,7 +7,7 @@ import { createForce, isForce } from '@step-wise/engineering-mechanics'
 export default buildStepExercise({
 	metaData: {
 		skill: 'schematizeSupport',
-		...stepsToSetup([undefined, undefined, undefined, undefined]),
+		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
 		compare: { loads: checkHingeSupport },
 	},
 

@@ -1,6 +1,6 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Expression, asExpression, asEquation, expressionComparisons, expressionChecks } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -16,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'n']
 export default buildStepExercise({
 	metaData: {
 		skill: 'multiplyAllEquationTerms',
-		...stepsToSetup(['multiplyBothEquationSides', 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables']),
+		...createStepExerciseMetadata(['multiplyBothEquationSides', 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables']),
 		compare: {
 			form: { compareSide: equivalent },
 			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinFraction(input) && equivalent(input, correct) },

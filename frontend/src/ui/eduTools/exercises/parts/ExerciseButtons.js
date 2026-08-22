@@ -5,7 +5,7 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
 import { toInputValue } from '@step-wise/input-interpretation'
-import { getLastRawInput, getStep } from '@step-wise/input-exercises'
+import { getLastRawInput, getCurrentStep } from '@step-wise/input-exercises'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
@@ -74,7 +74,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
 	let giveUpText = translate('I give up', 'buttons.giveUp')
-	const step = getStep(state)
+	const step = getCurrentStep(state)
 	if (stepwise) {
 		if (example)
 			giveUpText = translate('Show steps', 'buttons.showSteps')
@@ -155,7 +155,7 @@ function StepSelect() {
 
 	// Render the button.
 	return <FormControl variant="outlined" size="small" color="info">
-		<Select id="stepSelect" color="info" value={getStep(state)} onChange={handleChange} sx={theme => ({
+		<Select id="stepSelect" color="info" value={getCurrentStep(state)} onChange={handleChange} sx={theme => ({
 			'& svg': { color: theme.palette.info.contrastText },
 			'& .MuiSelect-select': {
 				backgroundColor: theme.palette.info.main,
@@ -260,7 +260,7 @@ function GiveUpAndSubmitButtons({ stepwise, currentAction }) {
 
 	// Determine the give-up button text.
 	let giveUpText = getTranslation('buttons.giveUp')
-	const step = getStep(state)
+	const step = getCurrentStep(state)
 	if (stepwise)
 		giveUpText = step ? getTranslation('buttons.giveUpStep') : getTranslation('buttons.solveStepWise')
 
@@ -305,7 +305,7 @@ function CurrentActionRow({ actionList, submitting, index }) {
 	const historyRef = useLatest(history), actionListRef = useLatest(actionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastRawInput({ ...exerciseData, history: historyRef.current }, last(actionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
+		updateFeedback(getLastRawInput({ ...exerciseData, history: historyRef.current }, last(actionListRef.current).userId, { resolvedOnly: true }) || {}) // Show feedback on the last resolved input.
 		setAllInputSI(last(actionListRef.current).action.input) // Show the input of the last action.
 	}, [exerciseData, historyRef, actionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {

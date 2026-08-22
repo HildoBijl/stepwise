@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 
 import { last, repeat } from '@step-wise/js-utils'
 import { getPreviousState } from '@step-wise/exercise-definition'
-import { getStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
+import { getCurrentStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
@@ -82,7 +82,7 @@ function stepExerciseGetFeedback(data) {
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
 		const previousState = getPreviousState(data.instance)
-		const step = getStep(previousState)
+		const step = getCurrentStep(previousState)
 		repeat(step, (index) => {
 			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)
 		})

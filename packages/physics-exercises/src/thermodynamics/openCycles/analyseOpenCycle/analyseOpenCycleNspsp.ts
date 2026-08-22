@@ -1,4 +1,4 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
@@ -8,7 +8,7 @@ import { getSolution as getEnergyParameters } from '../createOpenCycleEnergyOver
 export default buildStepExercise({
 	metaData: {
 		skill: 'analyseOpenCycle',
-		...stepsToSetup(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']]),
+		...createStepExerciseMetadata(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']]),
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			epsilon: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },

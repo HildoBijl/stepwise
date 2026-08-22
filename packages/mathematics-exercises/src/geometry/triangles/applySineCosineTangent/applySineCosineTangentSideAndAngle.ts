@@ -1,6 +1,6 @@
 import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 const variableSet = ['x', 'y', 'z']
@@ -8,7 +8,7 @@ const variableSet = ['x', 'y', 'z']
 export default buildStepExercise({
 	metaData: {
 		skill: 'applySineCosineTangent',
-		...stepsToSetup([undefined, undefined, undefined]),
+		...createStepExerciseMetadata([undefined, undefined, undefined]),
 		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 

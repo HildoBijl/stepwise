@@ -1,6 +1,22 @@
-import type { ExerciseMode } from '@step-wise/exercise-definition'
+import type { ExerciseAction, ExerciseMode, ExerciseState, UpdateSkills } from '@step-wise/exercise-definition'
 
-import type { InputExerciseAttemptState } from './types'
+import type { InputExerciseAttemptState, InputExerciseParameters } from './InputExercise'
+
+type InputExerciseReducerGeneralInput<TState extends ExerciseState, TParameters extends InputExerciseParameters> = {
+	parameters: TParameters
+	state: TState
+}
+type InputExerciseUserAction<TAction extends ExerciseAction> = {
+	userId?: string
+	action: TAction
+}
+export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TState, TParameters> & {
+	[Mode in ExerciseMode]: {
+		mode: Mode
+		actions: readonly InputExerciseUserAction<TAction>[]
+		updateSkills?: UpdateSkills
+	}
+}[ExerciseMode]
 
 export function hasAttempted(state: InputExerciseAttemptState, mode: ExerciseMode, userId?: string): boolean {
 	switch (mode) {

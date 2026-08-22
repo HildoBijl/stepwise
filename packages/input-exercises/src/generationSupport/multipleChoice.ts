@@ -1,20 +1,20 @@
 import { ensureInteger, integerRange, randomSubset, shuffle } from '@step-wise/js-utils'
 
-export type MultipleChoiceMappingOptionsInput = {
+export type MultipleChoiceMappingOptions = {
 	numChoices: number // How many choices are there?
 	pick?: number // How many should we pick?
 	include?: number | number[] // Are there any particular ones (like the correct options) we always must include?
 	randomOrder?: boolean // Should we put the options in random order?
 }
 
-export type MultipleChoiceMappingOptions = {
+export type ResolvedMultipleChoiceMappingOptions = {
 	numChoices: number
 	pick: number
 	include: number[]
 	randomOrder: boolean
 }
 
-export function getMultipleChoiceMapping(options: MultipleChoiceMappingOptionsInput): number[] {
+export function generateMultipleChoiceMapping(options: MultipleChoiceMappingOptions): number[] {
 	const { numChoices, pick, include, randomOrder } = resolveMultipleChoiceMappingOptions(options)
 	const nonIncluded = integerRange(0, numChoices - 1).filter(index => !include.includes(index))
 	const numExtra = Math.max(pick - include.length, 0)
@@ -22,7 +22,7 @@ export function getMultipleChoiceMapping(options: MultipleChoiceMappingOptionsIn
 	return randomOrder ? shuffle(mapping) : mapping.sort((a, b) => a - b)
 }
 
-export function resolveMultipleChoiceMappingOptions(options: MultipleChoiceMappingOptionsInput): MultipleChoiceMappingOptions {
+export function resolveMultipleChoiceMappingOptions(options: MultipleChoiceMappingOptions): ResolvedMultipleChoiceMappingOptions {
 	const numChoices = ensureInteger(options.numChoices, { nonNegative: true, nonZero: true })
 	const pick = ensureInteger(options.pick ?? numChoices, { nonNegative: true, nonZero: true })
 	const include = normalizeIncludedChoices(options.include, numChoices)

@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { type Expression, asExpression, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -16,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd', 'f']
 export default buildStepExercise({
 	metaData: {
 		skill: 'simplifyFractionWithVariables',
-		...stepsToSetup(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
+		...createStepExerciseMetadata(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
 		compare: {
 			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().simplify(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),

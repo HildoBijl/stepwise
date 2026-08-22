@@ -10,6 +10,6 @@ describe('getLastInputAtStep', () => {
 		] as const
 		const instance = { mode: 'group', parameters: {}, initialState: {}, history } as const
 
-		expect(getLastRawInputAtStep(instance, 0, userId, true)).toBe(resolvedInput)
+		expect(getLastRawInputAtStep(instance, 0, userId, { resolvedOnly: true })).toBe(resolvedInput)
 	})
 })

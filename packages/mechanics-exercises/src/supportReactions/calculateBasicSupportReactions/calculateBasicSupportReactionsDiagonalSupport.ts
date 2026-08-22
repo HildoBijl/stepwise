@@ -1,7 +1,7 @@
 import { degreesToRadians, fromKeysAndValues, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { createForce, FBDComparison, reverseLoad } from '@step-wise/engineering-mechanics'
 
@@ -9,7 +9,7 @@ import { getInputDependency } from './common'
 
 const metaData = {
 	skill: 'calculateBasicSupportReactions',
-	...stepsToSetup(['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', undefined]),
+	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', undefined]),
 	compare: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison,

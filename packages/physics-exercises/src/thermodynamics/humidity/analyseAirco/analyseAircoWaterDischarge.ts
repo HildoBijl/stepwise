@@ -1,5 +1,5 @@
 import { tableInterpolate, inverseTableInterpolate } from '@step-wise/interpolation'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { maximumHumidity } from '@step-wise/physics-data'
 
@@ -8,7 +8,7 @@ import { getCycle } from '../tools'
 export default buildStepExercise({
 	metaData: {
 		skill: 'analyseAirco',
-		...stepsToSetup(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', undefined]),
+		...createStepExerciseMetadata(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', undefined]),
 		compare: {
 			FloatUnit: { float: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } },
 			T3: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },

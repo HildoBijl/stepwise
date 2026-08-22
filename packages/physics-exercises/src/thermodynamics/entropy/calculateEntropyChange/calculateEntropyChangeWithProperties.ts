@@ -1,4 +1,4 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
@@ -6,7 +6,7 @@ import { gasProperties } from '@step-wise/physics-data'
 const { cv, cp, Rs } = gasProperties.air
 const metaData = {
 	skill: 'calculateEntropyChange',
-	...stepsToSetup(['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation']),
+	...createStepExerciseMetadata(['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation']),
 	compare: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		Rs: { float: { relativeTolerance: 0.02 } },

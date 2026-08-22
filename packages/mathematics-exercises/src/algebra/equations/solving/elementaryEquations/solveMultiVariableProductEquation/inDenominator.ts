@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { asEquation, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
@@ -16,7 +16,7 @@ const constants = ['a', 'b', 'c']
 export default buildStepExercise({
 	metaData: {
 		skill: 'solveMultiVariableProductEquation',
-		...stepsToSetup(['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution']),
+		...createStepExerciseMetadata(['moveEquationFactor', 'moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution']),
 		compare: {
 			moved: { compareSide: equivalent, allowSwitch: true },
 			isolated: { compareSide: equivalent, allowSwitch: true },

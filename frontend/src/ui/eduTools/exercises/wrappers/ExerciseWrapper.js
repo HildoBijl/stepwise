@@ -42,7 +42,7 @@ function FeedbackWrapper({ getFeedback, children }) {
 	// Determine both the input to show (usually the last submitted (possibly unresolved) input) and the last input which feedback was given on.
 	const { inspection, history, historyIndex } = exerciseData
 	const userId = useUserId()
-	const feedbackInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId, true)
+	const feedbackInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId, { resolvedOnly: true })
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>

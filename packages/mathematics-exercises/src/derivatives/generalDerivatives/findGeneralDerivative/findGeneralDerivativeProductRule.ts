@@ -1,6 +1,6 @@
 import { pickKeys, sample, randomInteger } from '@step-wise/js-utils'
 import { type Expression, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions } from '../../tools'
@@ -20,7 +20,7 @@ function checkFAndG(input: { f?: Expression, g?: Expression }, solution: { f?: E
 export default buildStepExercise({
 	metaData: {
 		skill: 'findGeneralDerivative',
-		...stepsToSetup([undefined, undefined, 'applyProductRule']),
+		...createStepExerciseMetadata([undefined, undefined, 'applyProductRule']),
 		weight: 3,
 		compare: { method: {}, Expression: equivalent, checkF, checkFAndG },
 	},

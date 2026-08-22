@@ -1,6 +1,6 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
@@ -13,7 +13,7 @@ const constants = ['a', 'b', 'c', 'd']
 export default buildStepExercise({
 	metaData: {
 		skill: 'solveMultiVariableLinearEquation',
-		...stepsToSetup(['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
+		...createStepExerciseMetadata(['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
 		compare: {
 			termsMoved: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
 			pulledOut: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.

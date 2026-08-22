@@ -1,5 +1,5 @@
 import { randomNumber } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
@@ -8,7 +8,7 @@ const { air } = gasProperties
 
 const metaData = {
 	skill: 'calculateClosedCycle',
-	...stepsToSetup(['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep']),
+	...createStepExerciseMetadata(['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep']),
 	compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 }
 

@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { ensureInteger } from '@step-wise/js-utils'
-import { getStep } from '@step-wise/input-exercises'
+import { getCurrentStep } from '@step-wise/input-exercises'
 
 import { FormPart, useFormPartSettings } from 'ui/form'
 
@@ -20,7 +20,7 @@ export function Substep({ ss, children }) {
 
 	// If the step is not read-only yet, check if the substep has to be read-only. The same applies for showing hints.
 	if (!settings.readOnly && !example) {
-		const step = getStep(state)
+		const step = getCurrentStep(state)
 		const stepState = state[step] || {}
 		if (stepState[ss])
 			settings = { ...settings, readOnly: true, showHints: false }
