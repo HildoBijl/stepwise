@@ -1,7 +1,7 @@
 import { isNumber } from '@step-wise/js-utils'
 
 import type { NumberLike, InterpolationValue, InterpolationPair, InterpolationInputSeries } from './types'
-import { isNumberLike } from './checks'
+import { isInterpolationValue, isNumberLike } from './checks'
 
 // Get the interpolation part of an input within a range.
 export function getInterpolationPart(input: number, range: InterpolationPair<number>): number
@@ -9,15 +9,18 @@ export function getInterpolationPart<InputType extends NumberLike<InputType>>(in
 export function getInterpolationPart<InputType extends NumberLike<InputType>>(input: number | InputType, range: InterpolationPair<number> | InterpolationPair<InputType>): number {
 	// Check the inputs.
 	if (!Array.isArray(range) || range.length !== 2) throw new TypeError(`Interpolate error: the input range was not an array of size 2. Instead, we received "${JSON.stringify(range)}".`)
+	if (!isInterpolationValue<InputType>(input) || !isInterpolationValue<InputType>(range[0]) || !isInterpolationValue<InputType>(range[1])) throw new TypeError(`Invalid interpolation input: the input value and range endpoints must be finite interpolation values.`)
 	if (isNumber(input) !== isNumber(range[0]) || isNumber(input) !== isNumber(range[1])) throw new TypeError(`Invalid interpolation input: the input value must be of the same type as the input range, but this is not the case. The input value is "${input}" but the input range is [${range.join(', ')}].`)
 
 	// Find the interpolation part depending on the type.
 	if (isNumber(input)) {
 		const [a, b] = range as InterpolationPair<number>
+		if (a === b) throw new RangeError(`Interpolation error: the input range endpoints must differ.`)
 		return (input - a) / (b - a)
 	}
 	if (isNumberLike<InputType>(input)) {
 		const [a, b] = range as InterpolationPair<InputType>
+		if (a.compare(b) === 0) throw new RangeError(`Interpolation error: the input range endpoints must differ.`)
 		return input.subtract(a).divide(b.subtract(a)).number
 	}
 	throw new Error(`Invalid getInterpolationPart case: received an input that is neither a number nor number-like.`)
@@ -48,7 +51,7 @@ export function interpolateNumberLikeFromPart<OutputType extends NumberLike<Outp
 
 export function compareInterpolationValues<T extends InterpolationValue<T>>(a: T, b: T): number {
 	if (typeof a === 'number' && typeof b === 'number') return a - b
-	if (isNumberLike<T>(a) && isNumberLike<T>(b)) return a.compare(b)
+	if (isNumberLike<T>(a) && isNumberLike<T>(b)) return a.number === b.number ? 0 : a.compare(b)
 	throw new Error(`Inverse table interpolate error: output series contains mixed interpolation value types.`)
 }
 

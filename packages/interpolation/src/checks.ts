@@ -1,4 +1,4 @@
-import { isNumber } from '@step-wise/js-utils'
+import { hasDuplicates, isNumber } from '@step-wise/js-utils'
 
 import type { NumberLike, InterpolationValue as InputValue, InterpolationInputSeries, InterpolationGrid, InterpolationTable } from './types'
 
@@ -7,7 +7,7 @@ export function isNumberLike<T>(x: unknown): x is NumberLike<T> {
 	if (typeof x !== 'object' || x === null) return false
 
 	const obj = x as Record<string, unknown>
-	if (typeof obj.number !== 'number') return false
+	if (typeof obj.number !== 'number' || !Number.isFinite(obj.number)) return false
 
 	const funcs = ['add', 'subtract', 'multiply', 'divide', 'compare'] as const
 	return funcs.every(func => typeof obj[func] === 'function')
@@ -15,7 +15,7 @@ export function isNumberLike<T>(x: unknown): x is NumberLike<T> {
 
 // Check if a value is valid for interpolation.
 export function isInterpolationValue<T>(x: unknown): x is InputValue<T> {
-	return isNumber(x) || isNumberLike<T>(x)
+	return isNumber(x) ? Number.isFinite(x) : isNumberLike<T>(x)
 }
 
 // Ensure the given value is a number or number-like object.
@@ -30,19 +30,43 @@ export function isValidInterpolationPart(part: number): boolean {
 }
 
 // Check if a value is an array of interpolation values.
-export function isInterpolationInputSeries<InputType>(x: unknown): x is InterpolationInputSeries<InputType> {
-	return Array.isArray(x) && x.every(value => isInterpolationValue<InputType>(value))
+export function isInterpolationInputSeries<InputType extends InputValue<InputType>>(x: unknown): x is InterpolationInputSeries<InputType> {
+	if (!Array.isArray(x) || x.length === 0 || !x.every(value => isInterpolationValue<InputType>(value))) return false
+	return x.every((value, index) => {
+		if (index === 0) return true
+		const previousValue = x[index - 1]
+		if (isNumber(value) !== isNumber(previousValue)) return false
+		if (isNumber(value)) return value >= (previousValue as number)
+		return isNumberLike<InputType>(value) && (value.number === (previousValue as NumberLike<InputType>).number || value.compare(previousValue as InputType) >= 0)
+	})
 }
 
 // Check that a grid matches the input dimensions.
-export function doesGridMatchinputValues<InputType, OutputType>(grid: InterpolationGrid<OutputType>, inputValues: readonly InterpolationInputSeries<InputType>[]): boolean {
+export function isInterpolationGrid<OutputType extends InputValue<OutputType>>(grid: unknown): grid is InterpolationGrid<OutputType> {
+	if (!Array.isArray(grid)) return false
+	let outputUsesNumbers: boolean | undefined
+	const checkNode = (node: unknown): boolean => {
+		if (Array.isArray(node)) return node.every(checkNode)
+		if (node === undefined) return true
+		if (!isInterpolationValue<OutputType>(node)) return false
+		const usesNumbers = isNumber(node)
+		outputUsesNumbers ??= usesNumbers
+		return outputUsesNumbers === usesNumbers
+	}
+	return checkNode(grid)
+}
+
+// Check that a grid matches the input dimensions.
+export function doesGridMatchinputValues<InputType extends InputValue<InputType>, OutputType extends InputValue<OutputType>>(grid: InterpolationGrid<OutputType>, inputValues: readonly InterpolationInputSeries<InputType>[]): boolean {
+	if (!isInterpolationGrid<OutputType>(grid)) return false
 	const checkLevel = (node: unknown, depth: number): boolean => {
 		// Final level: must be a leaf interpolation value.
 		if (depth === inputValues.length) return node === undefined || isInterpolationValue<OutputType>(node)
 
 		// Intermediate level: must be an array with matching length.
 		if (!Array.isArray(node)) return false
-		if (node.length !== inputValues[depth].length) return false
+		const inputDimension = inputValues.length - depth - 1
+		if (node.length !== inputValues[inputDimension].length) return false
 
 		// Check children.
 		return node.every(child => checkLevel(child, depth + 1))
@@ -61,6 +85,7 @@ export function isInterpolationTable<InputType extends InputValue<InputType>, Ou
 
 	if (!Array.isArray(obj.inputLabels) || !obj.inputLabels.every(label => typeof label === 'string')) return false
 	if (obj.inputLabels.length !== inputValues.length) return false
+	if (hasDuplicates(obj.inputLabels)) return false
 
 	if (!('grids' in obj)) return false
 	if (!Array.isArray(obj.grids)) return false
@@ -70,6 +95,7 @@ export function isInterpolationTable<InputType extends InputValue<InputType>, Ou
 
 	if (!Array.isArray(obj.outputLabels) || !obj.outputLabels.every(label => typeof label === 'string')) return false
 	if (obj.outputLabels.length !== grids.length) return false
+	if (hasDuplicates(obj.outputLabels)) return false
 
 	return true
 }

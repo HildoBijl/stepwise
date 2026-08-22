@@ -1,4 +1,4 @@
-import { isNumber, isPlainObject, fromKeys } from '@step-wise/js-utils'
+import { fromKeys, hasDuplicates, isNumber, isPlainObject } from '@step-wise/js-utils'
 
 import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput, InterpolationInputSeries, InterpolationOutputSeries } from './types'
 import { isNumberLike } from './checks'
@@ -53,7 +53,9 @@ export function multiOutputTableInterpolate<InputType extends InterpolationValue
 	outputLabels?: readonly string[],
 ): TableInterpolationOutput<OutputType> {
 	const normalizedInput = normalizeTableInterpolationInput(input, table)
-	return fromKeys(outputLabels ?? table.outputLabels, label => gridInterpolate(normalizedInput, table.grids[getOutputIndex(table, label)], ...table.inputValues))
+	const selectedOutputLabels = outputLabels ?? table.outputLabels
+	if (hasDuplicates(selectedOutputLabels)) throw new Error(`Table interpolate error: duplicate output labels are not allowed.`)
+	return fromKeys(selectedOutputLabels, label => gridInterpolate(normalizedInput, table.grids[getOutputIndex(table, label)], ...table.inputValues))
 }
 
 export function inverseTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
@@ -82,6 +84,8 @@ export function inverseTableInterpolate<InputType extends InterpolationValue<Inp
 }
 
 function normalizeTableInterpolationInput<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(input: TableInterpolationInput<InputType>, table: InterpolationTable<InputType, OutputType>): readonly InputType[] {
+	if (hasDuplicates(table.inputLabels)) throw new Error(`Table interpolate error: duplicate input labels are not allowed.`)
+
 	// On an array, check the length and return it.
 	if (Array.isArray(input)) {
 		if (input.length !== table.inputValues.length) throw new RangeError(`Table interpolate error: expected ${table.inputValues.length} input values, but received ${input.length}.`)
@@ -91,7 +95,7 @@ function normalizeTableInterpolationInput<InputType extends InterpolationValue<I
 	// On an object, turn into an array with values in the right order.
 	if (isPlainObject(input)) {
 		return table.inputLabels.map(label => {
-			if (!(label in input)) throw new Error(`Table interpolate error: missing input value for label "${label}".`)
+			if (!Object.hasOwn(input, label)) throw new Error(`Table interpolate error: missing input value for label "${label}".`)
 			return input[label]
 		})
 	}
@@ -115,6 +119,7 @@ function getOutputIndex<InputType extends InterpolationValue<InputType>, OutputT
 	// Find the corresponding output label in the table output labels.
 	const index = table.outputLabels.indexOf(outputLabel)
 	if (index === -1) throw new Error(`Table interpolate error: unknown output label "${outputLabel}".`)
+	if (table.outputLabels.lastIndexOf(outputLabel) !== index) throw new Error(`Table interpolate error: duplicate output label "${outputLabel}" is ambiguous.`)
 	return index
 }
 
