@@ -1,5 +1,5 @@
 import { FloatUnit } from '@step-wise/physics-core'
-import { type InterpolationGrid, type InterpolationTable } from '@step-wise/interpolation'
+import { type InterpolationGrid, type InterpolationTable, createInterpolationTable } from '@step-wise/interpolation'
 
 export type RawFloatUnitGrid = readonly (string | number | undefined | RawFloatUnitGrid)[]
 export type FloatUnitGrid = InterpolationGrid<FloatUnit>
@@ -14,5 +14,5 @@ export function floatUnitGrid(values: RawFloatUnitGrid, unit: string): FloatUnit
 }
 
 export function createTable(inputLabels: string[], inputValues: FloatUnit[][], outputLabels: string[], grids: FloatUnitGrid[]): FloatUnitTable {
-	return { inputLabels, inputValues, outputLabels, grids }
+	return createInterpolationTable({ inputLabels, inputValues, outputLabels, grids })
 }

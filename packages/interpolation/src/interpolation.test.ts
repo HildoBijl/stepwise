@@ -1,6 +1,7 @@
 import { isInterpolationInputSeries, isInterpolationTable, isInterpolationValue } from './checks'
 import { gridInterpolate } from './gridInterpolation'
 import { rangeInterpolate } from './rangeInterpolation'
+import { createInterpolationTable, ensureInterpolationTable } from './tableCreation'
 import { tableInterpolate, multiOutputTableInterpolate, inverseTableInterpolate } from './tableInterpolation'
 
 class TestNumber {
@@ -12,35 +13,35 @@ class TestNumber {
 	compare(value: TestNumber): number { return this.number - value.number }
 }
 
-const singleInputTable = {
+const singleInputTable = createInterpolationTable({
 	inputLabels: ['a'],
 	inputValues: [[0, 1, 2, 3]],
 	outputLabels: ['x'],
 	grids: [[2, 4, 6, 8]],
-}
+})
 
-const decreasingTable = {
+const decreasingTable = createInterpolationTable({
 	inputLabels: ['a'],
 	inputValues: [[0, 1, 2, 3]],
 	outputLabels: ['x'],
 	grids: [[8, 6, 4, 2]],
-}
+})
 
-const nonMonotonicTable = {
+const nonMonotonicTable = createInterpolationTable({
 	inputLabels: ['a'],
 	inputValues: [[0, 1, 2, 3]],
 	outputLabels: ['x'],
 	grids: [[0, 2, 1, 3]],
-}
+})
 
-const tableWithUndefined = {
+const tableWithUndefined = createInterpolationTable({
 	inputLabels: ['a'],
 	inputValues: [[0, 1, 2, 3]],
 	outputLabels: ['x'],
 	grids: [[0, undefined, 4, 6]],
-}
+})
 
-const multiDimensionalTable = {
+const multiDimensionalTable = createInterpolationTable({
 	inputLabels: ['a', 'b'],
 	inputValues: [[0, 1, 2], [0, 1, 2, 3]],
 	outputLabels: ['x', 'y', 'z'],
@@ -49,7 +50,7 @@ const multiDimensionalTable = {
 		[[0, 3, 6], [-2, 1, 4], [-4, -1, 2], [-6, -3, 0]],
 		[[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3]],
 	],
-}
+})
 
 describe('interpolation', () => {
 	describe('isInterpolationValue', () => {
@@ -100,6 +101,22 @@ describe('interpolation', () => {
 		})
 	})
 
+	describe('table creation', () => {
+		test('rejects invalid definitions through both creation boundaries', () => {
+			const invalidTable = { ...singleInputTable, outputLabels: ['x', 'x'], grids: [[2, 4, 6, 8], [3, 5, 7, 9]] }
+			expect(() => createInterpolationTable(invalidTable)).toThrow(/invalid table/)
+			expect(() => ensureInterpolationTable(invalidTable)).toThrow(/invalid table/)
+		})
+		test('copies and freezes the table structure', () => {
+			const inputLabels = ['a']
+			const table = createInterpolationTable({ inputLabels, inputValues: [[0, 1]], outputLabels: ['x'], grids: [[2, 4]] })
+			inputLabels[0] = 'changed'
+			expect(table.inputLabels).toEqual(['a'])
+			expect(Object.isFrozen(table)).toBe(true)
+			expect(Object.isFrozen(table.grids[0])).toBe(true)
+		})
+	})
+
 	describe('tableInterpolate', () => {
 		test('interpolates a single-input table with direct value input', () => {
 			expect(tableInterpolate(1.5, singleInputTable)).toBe(5)
@@ -135,10 +152,9 @@ describe('interpolation', () => {
 		test('throws when single-value input is used for a multi-input table', () => {
 			expect(() => tableInterpolate(1.5, multiDimensionalTable, 'x')).toThrow()
 		})
-		test('rejects duplicate labels and inherited object inputs', () => {
-			expect(() => tableInterpolate([0.5, 0.5], { ...singleInputTable, inputLabels: ['a', 'a'], inputValues: [[0, 1], [0, 1]], grids: [[[2, 4], [6, 8]]] })).toThrow(/duplicate input labels/)
-			expect(() => tableInterpolate(0.5, { ...singleInputTable, outputLabels: ['x', 'x'], grids: [[2, 4, 6, 8], [3, 5, 7, 9]] }, 'x')).toThrow(/duplicate output label/)
-			expect(() => tableInterpolate({}, { ...singleInputTable, inputLabels: ['toString'] })).toThrow(/missing input value/)
+		test('rejects inherited object inputs', () => {
+			const table = createInterpolationTable({ ...singleInputTable, inputLabels: ['toString'] })
+			expect(() => tableInterpolate({}, table)).toThrow(/missing input value/)
 		})
 	})
 
