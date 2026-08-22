@@ -1,6 +1,6 @@
 import { sample, randomInteger, randomBoolean, repeat, randomIndices } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons, expressionChecks, expressionOperations } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -15,9 +15,9 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'addFractionsWithVariables',
-		...stepsToSetup(['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables']),
+		...createStepExerciseMetadata(['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables']),
 		compare: {
 			sameDenominator: (input: Expression, correct: Expression) => {
 				if (!input.isSum() || input.terms.length !== 2) return false

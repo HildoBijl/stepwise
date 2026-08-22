@@ -1,5 +1,5 @@
 import { sample } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup, getInput } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
@@ -7,9 +7,9 @@ import { gasProperties } from '@step-wise/physics-data'
 const gases = ['methane', 'helium', 'hydrogen'] as const
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'poissonsLaw',
-		...stepsToSetup([[undefined, 'calculateWithPressure', undefined], 'specificHeatRatio', undefined, 'solveExponentEquation']),
+		...createStepExerciseMetadata([[undefined, 'calculateWithPressure', undefined], 'specificHeatRatio', undefined, 'solveExponentEquation']),
 		compare: {
 			V2s: { float: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } }, // Standard units, in m^3.
 			p1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },

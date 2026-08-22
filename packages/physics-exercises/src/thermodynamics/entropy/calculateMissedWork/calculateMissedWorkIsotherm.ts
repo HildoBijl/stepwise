@@ -1,12 +1,12 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { generateParameters, getSolution as getSolutionPrevious } from '../calculateEntropyChange/calculateEntropyChangeIsotherm'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateMissedWork',
-		...stepsToSetup(['calculateEntropyChange', 'solveLinearEquation']),
+		...createStepExerciseMetadata(['calculateEntropyChange', 'solveLinearEquation']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 

@@ -1,6 +1,6 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -13,9 +13,9 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'n']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'pullFactorOutOfBrackets',
-		...stepsToSetup([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
+		...createStepExerciseMetadata([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
 		compare: {
 			startingForm: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten(), correct),
 			splitUp: (input: Expression, correct: Expression, { expression, factor }: { expression: Expression, factor: Expression }) => {

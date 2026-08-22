@@ -1,4 +1,4 @@
 export * from './InputExercise'
-export * from './SimpleExercise'
+export * from './MonoExercise'
 export * from './StepExercise'
 export * from './generationSupport'

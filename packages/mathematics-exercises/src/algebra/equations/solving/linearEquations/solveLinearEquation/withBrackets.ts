@@ -1,6 +1,6 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, expressionComparisons, equationChecks, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -13,10 +13,10 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		weight: 2,
 		skill: 'solveLinearEquation',
-		...stepsToSetup(['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
+		...createStepExerciseMetadata(['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
 		compare: {
 			expanded: (input: Equation, correct: Equation) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
 			moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },

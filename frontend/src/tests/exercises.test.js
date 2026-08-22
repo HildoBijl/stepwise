@@ -5,7 +5,8 @@ import { ThemeProvider } from '@mui/material/styles'
 
 import { noop } from '@step-wise/js-utils'
 import { skillTree } from '@step-wise/skill-tree'
-import { deserializeInputExerciseParameters, assembleSolution } from '@step-wise/input-exercises'
+import { resolveSolution } from '@step-wise/input-exercises'
+import { deserializeAll } from '@step-wise/serialization'
 import { getAllExercises } from '@step-wise/exercises'
 
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
@@ -48,7 +49,7 @@ describe('Check all exercises:', () => {
 
 						// Emulate the ExerciseContainer.
 						const storedParameters = shared.generateParameters()
-						const parameters = deserializeInputExerciseParameters(storedParameters)
+						const parameters = deserializeAll(storedParameters)
 						const initialState = shared.getInitialState(storedParameters)
 						const exerciseData = {
 							exerciseId,
@@ -61,7 +62,7 @@ describe('Check all exercises:', () => {
 							submitAction: noop,
 							startNewExercise: noop,
 							shared: shared,
-							solution: shared.getSolution && assembleSolution(shared.getSolution, parameters),
+							solution: shared.getSolution && resolveSolution(shared.getSolution, parameters),
 						}
 						expect(() => render(
 							<I18nProvider loadLanguageFiles={false}>

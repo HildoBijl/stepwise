@@ -5,7 +5,7 @@ import { exerciseModes, exerciseReducerNameByMode } from '../modes'
 import type { Exercise, ExerciseSpec } from './types'
 
 export function isExerciseSpec(obj: unknown): obj is ExerciseSpec<any, any> {
-	return isPlainObject(obj) && isPlainObject(obj.metaData) && (obj.generateParameters === undefined || typeof obj.generateParameters === 'function') && (obj.getInitialState === undefined || typeof obj.getInitialState === 'function')
+	return isPlainObject(obj) && isPlainObject(obj.metadata) && (obj.generateParameters === undefined || typeof obj.generateParameters === 'function') && (obj.getInitialState === undefined || typeof obj.getInitialState === 'function')
 }
 
 export function isExercise(obj: unknown): obj is Exercise<any, any, any, any> {

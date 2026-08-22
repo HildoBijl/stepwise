@@ -1,13 +1,13 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { generateParameters, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleSVSV'
 import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseClosedCycle',
-		...stepsToSetup(['calculateClosedCycle', 'createClosedCycleEnergyOverview', undefined, 'calculateWithEfficiency']),
+		...createStepExerciseMetadata(['calculateClosedCycle', 'createClosedCycleEnergyOverview', undefined, 'calculateWithEfficiency']),
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			eta: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },

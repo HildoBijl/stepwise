@@ -61,7 +61,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define an alternate feedback check for the final answer, to take into account the variations that are possible depending on switchSides.
-	const ansCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metaData.ansEqualsOptions)
+	const ansCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metadata.ansEqualsOptions)
 
 	// Set up the overview of feedback checks.
 	return getFieldInputFeedback(exerciseData, {

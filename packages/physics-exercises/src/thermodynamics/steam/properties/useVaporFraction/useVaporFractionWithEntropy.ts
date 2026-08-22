@@ -1,16 +1,16 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { tableInterpolate } from '@step-wise/interpolation'
 import { and } from '@step-wise/skill-setup'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { saturatedSteamByTemperature, saturatedSteamByPressure } from '@step-wise/physics-data'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'useVaporFraction',
 		setup: and('lookUpSteamProperties', 'linearInterpolation'),
-		...stepsToSetup(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
+		...createStepExerciseMetadata(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.001 } },
 			x: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },

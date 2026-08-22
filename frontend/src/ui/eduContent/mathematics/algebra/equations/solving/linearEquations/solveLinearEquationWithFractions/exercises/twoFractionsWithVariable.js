@@ -81,8 +81,8 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Set up the default feedback function for the factorMoved and the expanded field.
-	const factorMovedCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metaData.factorMovedComparison)
-	const expandedCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metaData.expandedComparison)
+	const factorMovedCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metadata.factorMovedComparison)
+	const expandedCheck = (input, correct, solution, isCorrect) => fullEquationFeedback(input, correct, solution, isCorrect, exerciseData.metadata.expandedComparison)
 
 	return getFieldInputFeedback(exerciseData, {
 		factorMoved: [originalEquation, hasXInDenominator, factorMovedCheck],

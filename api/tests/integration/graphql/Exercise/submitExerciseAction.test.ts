@@ -62,7 +62,7 @@ describe('submitExerciseAction', () => {
 		expect(errors).toBeUndefined()
 		expect(updatedExercise).toMatchObject(exercise)
 		expect(updatedExercise.history).toHaveLength(1)
-		expect(updatedExercise.history[0].state).toEqual({})
+		expect(updatedExercise.history[0].state).toEqual({ attempted: true })
 		expect(updatedExercise.history[0].action).toEqual(action)
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(1)
 

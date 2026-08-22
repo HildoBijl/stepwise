@@ -1,5 +1,5 @@
 import { sample } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
@@ -7,9 +7,9 @@ import { gasProperties } from '@step-wise/physics-data'
 const gases = ['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'calculateSpecificHeatAndMechanicalWork',
-		...stepsToSetup(['recognizeProcessTypes', undefined, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities']),
+		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities']),
 		compare: {
 			Rs: { float: { relativeTolerance: 0.015 } },
 			ratio: { float: { relativeTolerance: 0.01 } },

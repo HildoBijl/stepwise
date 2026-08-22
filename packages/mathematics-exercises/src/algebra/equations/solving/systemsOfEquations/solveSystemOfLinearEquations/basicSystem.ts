@@ -1,6 +1,6 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
@@ -12,9 +12,9 @@ const usedVariables = ['x', 'y']
 const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveSystemOfLinearEquations',
-		...stepsToSetup(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
+		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveLinearEquation', 'substituteANumber']),
 		compare: { eq1Solution: expressionComparisons.equivalent, eq2Substituted: equationComparisons.equivalent, Expression: expressionComparisons.onlyOrderChanges },
 	},
 

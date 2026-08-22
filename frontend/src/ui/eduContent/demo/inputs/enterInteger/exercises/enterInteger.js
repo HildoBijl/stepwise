@@ -4,10 +4,10 @@ import { Translation, Check } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
-import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 function Problem({ x }) {

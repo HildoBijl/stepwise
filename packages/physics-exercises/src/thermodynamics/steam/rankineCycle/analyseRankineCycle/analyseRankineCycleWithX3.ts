@@ -1,15 +1,15 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { multiOutputTableInterpolate } from '@step-wise/interpolation'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseRankineCycle',
-		...stepsToSetup(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
+		...createStepExerciseMetadata(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },
 	},
 

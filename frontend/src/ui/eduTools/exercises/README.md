@@ -20,8 +20,8 @@ There are various parameters in the `ExerciseData`. These are:
 - `submitting`: a boolean that is set to true when an action has been submitted to the server and we're still waiting for a response.
 - `submitAction`: the function used to submit an action to the server. Just call `submitAction(action)` to send an action to the appropriate mode-specific reducer.
 - `startNewExercise`: the function used to start up a new exercise. This can only be called when the exercise is done. Then call `startNewExercise()`. (No input is required.)
-- `shared`: all the objects exported from the `shared` file for this exercise, including `metaData`, `generateParameters` and the mode-specific reducers, but also anything else that's exported, like potentially `getSolution` and `checkInput`.
-- `metaData`: for easy reference the `metaData` is also pulled out of the `shared` parameter.
+- `shared`: all the objects exported from the `shared` file for this exercise, including `metadata`, `generateParameters` and the mode-specific reducers, but also anything else that's exported, like potentially `getSolution` and `checkInput`.
+- `metadata`: for easy reference the `metadata` is also pulled out of the `shared` parameter.
 
 Using this data, your React component should render the exercise appropriately. It is your responsibility to:
 
@@ -39,14 +39,14 @@ If you do all that, you have a valid Exercise!
 So far we have explained exercises in their most general form. Any exercise satisfying the above requirements is a valid exercise. Now we will look at specific types of exercises, which are used more commonly.
 
 
-### The SimpleExercise type
+### The MonoExercise type
 
-The `SimpleExercise` is an exercise which can receive an input (possibly with multiple numbers or pieces of data) which is then judged as "correct" or "incorrect". It doesn't get any simpler than that.
+The `MonoExercise` grades one indivisible problem from an input, which may itself contain multiple numbers or pieces of data.
 
-Setting up a `SimpleExercise` yourself is relatively easy. After all, the `SimpleExercise` component handles all the intricacies behind the scenes. What you need to do is the following.
+Setting up a `MonoExercise` yourself is relatively easy. After all, the `MonoExercise` component handles all the intricacies behind the scenes. What you need to do is the following.
 
-- Import the `SimpleExercise` component using `import SimpleExercise from '../types/SimpleExercise'`. (Hint: copy an existing exercise, so everything is in place already.)
-- Use as default export a function `() => <SimpleExercise Problem={Problem} Solution={Solution} />`. The given `Problem` and `Solution` should be React components that you define yourself.
+- Import the `MonoExercise` component using `import MonoExercise from '../types/MonoExercise'`. (Hint: copy an existing exercise, so everything is in place already.)
+- Use as default export a function `() => <MonoExercise Problem={Problem} Solution={Solution} />`. The given `Problem` and `Solution` should be React components that you define yourself.
 - Define a `Problem` React component of the form `(parameters) => <div>Put the problem here</div>`. So an example is `Problem = ({ a, b }) => <div>Calculate {a} + {b}. [Add an input field]</div>`. How to add input fields is explained below, when discussing forms.
 - Define a `Solution` React component of the form `(solution) => <div>Put the solution here</div>`. So an example is `Solution = ({ a, b, ans }) => <div>The solution of {a} + {b} is {ans}.</div>`.
 
@@ -57,14 +57,14 @@ For safety reasons (you don't want to accidentally give away the outcome) the `P
 
 ### The StepExercise type
 
-One step more complicated than a `SimpleExercise` is the `StepExercise`. This exercise lets you formulate a main question. If the user solves it: great! If they give up, the main question is split up into subquestions, which they can then solve one by one. This allows us to figure out what exactly the student is struggling with, and for the student it is nice to be guided through the problem as well.
+One step more complicated than a `MonoExercise` is the `StepExercise`. This exercise lets you formulate a main question. If the user solves it: great! If they give up, the main question is split up into subquestions, which they can then solve one by one. This allows us to figure out what exactly the student is struggling with, and for the student it is nice to be guided through the problem as well.
 
 To implement a `StepExercise` in the front-end, there are two important differences.
 
 - Import the `StepExercise` component instead, using `import StepExercise from '../types/StepExercise'`.
 - Set it up using `<StepExercise Problem={Problem} steps={steps} />`. There are two parameters here.
 	- The `Problem` is the main problem, as a React component. Think of `({ a, b, c }) => <div>Calculate {a} + {b}*{c}.</div>`
-	- The `steps` parameter must be an array of the form `[{ Problem: ..., Solution: ... }, { Problem: ..., Solution: ... }, ...]`, where each individual step has its own `Problem` and `Solution`. You can think of each step as a `SimpleExercise`.
+	- The `steps` parameter must be an array of the form `[{ Problem: ..., Solution: ... }, { Problem: ..., Solution: ... }, ...]`, where each individual step has its own `Problem` and `Solution`. You can think of each step as a `MonoExercise`.
 
 If you set it up like this, the `StepExercise` component will deal with all the intricacies (how to display the steps, when to show the solution, how to start a new exercises) all by itself. You do not need to worry about it.
 
@@ -81,7 +81,7 @@ As was mentioned before, every exercise is placed in an `ExerciseContainer`. Thi
 
 ### The ExerciseWrapper
 
-The `SimpleExercise` and `StepExercise` wrap each exercise in an `ExerciseWrapper`. This again provides extra functionalities. (Note that these are not accessible to manually programmed exercises.) 
+The `MonoExercise` and `StepExercise` wrap each exercise in an `ExerciseWrapper`. This again provides extra functionalities. (Note that these are not accessible to manually programmed exercises.)
 
 
 #### Forms and input fields
@@ -131,9 +131,9 @@ The `getFeedback` function can be manually defined! If you want to set up your o
 - If you insert an object, note both whether the exercise was correct (`true` or `false`) and provided a text giving feedback.
 - The `main` field is special: if you put feedback under this ID, then it will appear under the entire exercise as an extra feedback bar!
 
-After you defined your `getFeedback` function, make sure to include it into the exercise, for instance through `Exercise = () => <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />`.
+After you defined your `getFeedback` function, make sure to include it into the exercise, for instance through `Exercise = () => <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />`.
 
-If you do not specify a `getFeedback` function yourself, the `SimpleExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the compare options provided in the `metaData`. 
+If you do not specify a `getFeedback` function yourself, the `MonoExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the compare options provided in the `metadata`.
 
 Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getFieldInputFeedback(exerciseData, ['param1', 'param2'])` function comes in very handy! You might see it at various example exercises. Read more about how this works in the [feedback folder](./feedback/).
 

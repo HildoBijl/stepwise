@@ -1,12 +1,12 @@
 import { randomNumber } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup, getInput } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'poissonsLaw',
-		...stepsToSetup([['calculateWithTemperature', undefined, 'calculateWithVolume'], undefined, 'solveLinearEquation']),
+		...createStepExerciseMetadata([['calculateWithTemperature', undefined, 'calculateWithVolume'], undefined, 'solveLinearEquation']),
 		compare: {
 			V1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
 			V2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },

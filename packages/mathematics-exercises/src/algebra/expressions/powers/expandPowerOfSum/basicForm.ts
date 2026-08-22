@@ -2,7 +2,7 @@ import { sample, randomInteger, repeat, fromKeysAndValues } from '@step-wise/js-
 import { binomialCoefficient } from '@step-wise/math-tools'
 import { repeat as skillRepeat } from '@step-wise/skill-setup'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -15,9 +15,9 @@ const usedVariables = ['x']
 const constants = ['a', 'b', 'c', 'd', 'e']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'expandPowerOfSum',
-		...stepsToSetup([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
+		...createStepExerciseMetadata([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
 		compare: {
 			Expression: onlyOrderChanges,
 		},

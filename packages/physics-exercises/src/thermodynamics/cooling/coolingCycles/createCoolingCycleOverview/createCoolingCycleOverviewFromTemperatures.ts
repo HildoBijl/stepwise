@@ -1,13 +1,13 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 
 import { getBasicCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'createCoolingCycleOverview',
-		...stepsToSetup(['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
+		...createStepExerciseMetadata(['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
 		compare: {
 			FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			TEvap: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },

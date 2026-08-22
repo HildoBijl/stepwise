@@ -1,15 +1,15 @@
 import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { asExpression, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
 const variableSet = ['x', 'y', 'z']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'applyPythagoreanTheorem',
-		...stepsToSetup([undefined, undefined, undefined]),
+		...createStepExerciseMetadata([undefined, undefined, undefined]),
 		compare: { equation: equationComparisons.equivalent },
 	},
 

@@ -1,11 +1,11 @@
 import { sample, randomBoolean } from '@step-wise/js-utils'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit, getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getVaporPropertiesFromTemperature, getVaporPropertiesFromPressure } from '@step-wise/physics-data'
 
-export default buildSimpleExercise({
-	metaData: {
+export default buildMonoExercise({
+	metadata: {
 		skill: 'determineRefrigerantProcess',
 		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},

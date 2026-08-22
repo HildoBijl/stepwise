@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise } from 'ui/eduTools'
+import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 function Problem({ type, TCond, TEvap, dTCold, dTWarm }) {
@@ -31,7 +31,7 @@ function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, parameters, solution, metaData: { compare } } = exerciseData
+	const { input, parameters, solution, metadata: { compare } } = exerciseData
 	const { type, dTCold, dTWarm, TEvap, TCond } = parameters
 	const { TCold, TWarm } = solution
 

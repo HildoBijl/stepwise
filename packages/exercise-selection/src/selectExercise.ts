@@ -16,16 +16,16 @@ export async function selectExercise(exercises: ExerciseCollection, getSkillLeve
 	// Filter out exercises that have been done too recently.
 	const sortedPreviousExercises = [...previousExercises].sort((a, b) => b.createdAt - a.createdAt)
 	let suitableExercises: ExerciseCollection = filterProperties(exercises, (exercise, exerciseId) => {
-		const { metaData } = exercise
-		const repeatAfter = isNumber(metaData.repeatAfter) ? metaData.repeatAfter : 1
+		const { metadata } = exercise
+		const repeatAfter = isNumber(metadata.repeatAfter) ? metadata.repeatAfter : 1
 		const exercisesSince = sortedPreviousExercises.findIndex(previousExercise => previousExercise.exerciseId === exerciseId)
 		return exercisesSince === -1 || exercisesSince >= repeatAfter
 	}) as ExerciseCollection
 	if (Object.values(suitableExercises).length === 0) suitableExercises = exercises
 
 	// Calculate selection rates and select based on them.
-	const successRates = await getExerciseSuccessRates(Object.values(suitableExercises).map(exercise => exercise.metaData), getSkillLevelSet)
-	const weights = Object.values(suitableExercises).map(exercise => isNumber(exercise.metaData.weight) ? Math.abs(exercise.metaData.weight) : 1)
+	const successRates = await getExerciseSuccessRates(Object.values(suitableExercises).map(exercise => exercise.metadata), getSkillLevelSet)
+	const weights = Object.values(suitableExercises).map(exercise => isNumber(exercise.metadata.weight) ? Math.abs(exercise.metadata.weight) : 1)
 	const selectionRates = getSelectionRates(successRates, weights)
 	return sample(Object.keys(suitableExercises), { weights: selectionRates })
 }
@@ -50,6 +50,6 @@ export function getSelectionRates(successRates: number[], weights = successRates
 // Select a random exercise without taking skill data into account.
 export function selectRandomExercise(exercises: ExerciseCollection): ExerciseId {
 	if (exercises === undefined || Object.values(exercises).length === 0) throw new Error(`Invalid request: cannot pick an exercise. No valid set of exercises was provided.`)
-	const weights = Object.values(exercises).map(exercise => isNumber(exercise.metaData.weight) ? Math.abs(exercise.metaData.weight) : 1)
+	const weights = Object.values(exercises).map(exercise => isNumber(exercise.metadata.weight) ? Math.abs(exercise.metadata.weight) : 1)
 	return sample(Object.keys(exercises), { weights })
 }

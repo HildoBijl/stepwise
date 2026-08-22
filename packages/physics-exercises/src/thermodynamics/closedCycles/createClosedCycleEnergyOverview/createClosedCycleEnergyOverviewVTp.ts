@@ -1,14 +1,14 @@
 import { or } from '@step-wise/skill-setup'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateClosedCycle/calculateClosedCycleVTp'
 
-const metaData = {
+const metadata = {
 	skill: 'createClosedCycleEnergyOverview',
-	...stepsToSetup(['calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
+	...createStepExerciseMetadata(['calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
 	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
@@ -37,7 +37,7 @@ export function getSolution(parameters: ReturnType<typeof generateParameters>) {
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters,
 	getSolution,
 	checkInput(data, step) {

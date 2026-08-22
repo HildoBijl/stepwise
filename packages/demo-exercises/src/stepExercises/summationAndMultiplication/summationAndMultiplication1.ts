@@ -1,11 +1,11 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'summationAndMultiplication',
-		...stepsToSetup([undefined, 'multiplication', 'summation']),
+		...createStepExerciseMetadata([undefined, 'multiplication', 'summation']),
 	},
 
 	generateParameters(example) {

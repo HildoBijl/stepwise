@@ -1,12 +1,12 @@
 import { sample } from '@step-wise/js-utils'
-import { buildSimpleExercise } from '@step-wise/input-exercises'
+import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
 
-export default buildSimpleExercise({
-	metaData: {
+export default buildMonoExercise({
+	metadata: {
 		skill: 'specificHeats',
 		compare: {
 			FloatUnit: { float: { relativeTolerance: 0.02 } },

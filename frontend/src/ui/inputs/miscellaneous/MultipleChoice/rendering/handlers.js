@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react'
 
-import { getMultipleChoiceMapping } from '@step-wise/input-exercises'
+import { generateMultipleChoiceMapping } from '@step-wise/input-exercises'
 
 import { useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -11,7 +11,7 @@ export function useStableMapping(numChoices, pick, include, randomOrder) {
 
 	// If the mapping is not present, generate one.
 	if (!mappingRef.current)
-		mappingRef.current = getMultipleChoiceMapping({ numChoices, pick, include, randomOrder })
+		mappingRef.current = generateMultipleChoiceMapping({ numChoices, pick, include, randomOrder })
 
 	// Return the mapping that was divised.
 	return mappingRef.current

@@ -1,9 +1,9 @@
 import { randomInteger } from '@step-wise/js-utils'
-import { buildSimpleExercise, getMultipleChoiceMapping } from '@step-wise/input-exercises'
+import { buildMonoExercise, generateMultipleChoiceMapping } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
-export default buildSimpleExercise({
-	metaData: {
+export default buildMonoExercise({
+	metadata: {
 		skill: 'recognizeProcessTypes',
 	},
 
@@ -12,7 +12,7 @@ export default buildSimpleExercise({
 		const type = randomInteger(0, numChoices - 1)
 		return {
 			type,
-			mapping: getMultipleChoiceMapping({ numChoices, pick: 4, include: type, randomOrder: true }),
+			mapping: generateMultipleChoiceMapping({ numChoices, pick: 4, include: type, randomOrder: true }),
 		}
 	},
 

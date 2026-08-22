@@ -25,7 +25,7 @@ type AdditionAction = { type: 'answer', answer: number }
 type AdditionState = { done: boolean }
 
 const additionExercise = {
-	metaData: {},
+	metadata: {},
 	generateParameters: () => ({ left: 2, right: 3 }),
 	getInitialState: () => ({ done: false }),
 	processSoloAction: ({ action, parameters }) => ({

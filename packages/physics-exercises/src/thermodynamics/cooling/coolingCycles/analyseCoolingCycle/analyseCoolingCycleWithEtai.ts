@@ -1,13 +1,13 @@
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'analyseCoolingCycle',
-		...stepsToSetup(['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']]),
+		...createStepExerciseMetadata(['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']]),
 		compare: {
 			h1: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			h2p: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },

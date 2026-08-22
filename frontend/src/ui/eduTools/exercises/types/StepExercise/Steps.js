@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getStep } from '@step-wise/input-exercises'
+import { getCurrentStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
@@ -25,7 +25,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const feedbackInput = useFeedbackInput()
 
 	// Determine what to show.
-	const exerciseStep = getStep(state) // How far the student is with the exercise.
+	const exerciseStep = getCurrentStep(state) // How far the student is with the exercise.
 	const display = step <= exerciseStep || forceDisplay || !!example || inspection
 	const stepState = (forceDisplay ? { done: true, solved: false } : state[step]) || {}
 

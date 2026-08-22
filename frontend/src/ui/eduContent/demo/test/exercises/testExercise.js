@@ -7,10 +7,10 @@ import { Par, M } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { DrawingInput, DragMarker, useInputValue, useDrawingInputData, IntegerInput } from 'ui/inputs'
-import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 function Problem({ x }) {

@@ -1,6 +1,6 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions, getElementaryFunctionFromTerm } from '../../tools'
@@ -9,9 +9,9 @@ const variableSet = ['x', 'y', 't']
 const functionSet = ['f', 'g', 'h']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'findBasicDerivative',
-		...stepsToSetup([[undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
+		...createStepExerciseMetadata([[undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
 		compare: { Expression: expressionComparisons.equivalent },
 	},
 

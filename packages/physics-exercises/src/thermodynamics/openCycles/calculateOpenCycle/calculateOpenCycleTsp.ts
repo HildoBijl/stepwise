@@ -1,14 +1,14 @@
 import { sample } from '@step-wise/js-utils'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
 
-const metaData = {
+const metadata = {
 	skill: 'calculateOpenCycle',
-	...stepsToSetup(['calculateOpenProcessStep', 'calculateOpenProcessStep']),
+	...createStepExerciseMetadata(['calculateOpenProcessStep', 'calculateOpenProcessStep']),
 	compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 }
 
@@ -35,7 +35,7 @@ export function getSolution({ medium, p1o, T1o, p2o }: ReturnType<typeof generat
 }
 
 export default buildStepExercise({
-	metaData,
+	metadata,
 	generateParameters,
 	getSolution,
 	checkInput(data, step) {

@@ -1,6 +1,6 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Equation, type Expression, asExpression, asEquation, expressionComparisons, equationChecks } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -15,9 +15,9 @@ const constants = ['a', 'b', 'c', 'd']
 const factorMovedComparison = { compareSide: equivalent, allowSwitch: true }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveLinearEquationWithFractions',
-		...stepsToSetup(['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation']),
+		...createStepExerciseMetadata(['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation']),
 		...{ factorMovedComparison },
 		compare: {
 			termMoved: { compareSide: onlyOrderChanges, allowSwitch: true },

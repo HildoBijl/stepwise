@@ -5,12 +5,12 @@ import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise } from 'ui/eduTools'
+import { MonoExercise } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} />
+	return <MonoExercise Problem={Problem} Solution={Solution} />
 }
 
 function Problem({ T, AH }) {

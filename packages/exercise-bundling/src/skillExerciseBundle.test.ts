@@ -5,7 +5,7 @@ import { type Exercise } from '@step-wise/exercise-definition'
 import { withSameExamples } from './skillExerciseBundle'
 
 const exercise = {
-	metaData: {},
+	metadata: {},
 	generateParameters: () => ({}),
 	getInitialState: () => ({}),
 	processSoloAction: () => ({}),

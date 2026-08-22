@@ -1,13 +1,13 @@
 import { randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { type Load, FBDComparison, compareLoadSets, createForce, createMoment, equalLoads, isLoad } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'drawFreeBodyDiagram',
-		...stepsToSetup(['schematizeSupport', 'schematizeSupport', undefined]),
+		...createStepExerciseMetadata(['schematizeSupport', 'schematizeSupport', undefined]),
 		compare: {
 			loadsLeft: compareReactionLoads,
 			loadsRight: compareReactionLoads,

@@ -47,10 +47,9 @@ export const exerciseResolvers: Record<string, any> = {
 			// Apply the action to the exerccise.
 			const skillUpdates: any[] = []
 			const state = definition.processSoloAction({
-				action,
 				parameters: activeExercise.parameters,
 				state: getExerciseState(activeExercise),
-				history: activeExercise.events,
+				action,
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
 			})
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)

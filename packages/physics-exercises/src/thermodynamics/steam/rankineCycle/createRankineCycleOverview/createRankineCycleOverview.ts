@@ -1,14 +1,14 @@
 import { multiOutputTableInterpolate } from '@step-wise/interpolation'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'createRankineCycleOverview',
-		...stepsToSetup(['lookUpSteamProperties', undefined, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction']),
+		...createStepExerciseMetadata(['lookUpSteamProperties', undefined, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction']),
 		compare: { FloatUnit: { float: { relativeTolerance: 0.002, significantDigitTolerance: 2 } } },
 	},
 

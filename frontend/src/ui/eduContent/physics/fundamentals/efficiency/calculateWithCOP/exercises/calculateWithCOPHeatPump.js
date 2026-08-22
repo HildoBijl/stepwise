@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
+import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <MonoExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
 function Problem({ Pe, Pin }) {
@@ -26,7 +26,7 @@ function Solution({ Pe, Pin, Pout, COP }) {
 }
 
 function getFeedback(exerciseData) {
-	const compare = exerciseData.metaData.compare.default
+	const compare = exerciseData.metadata.compare.default
 	return getFieldInputFeedback(exerciseData, {
 		COP: (input, answer) => answer.subtract(1).equals(input, compare) && 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.',
 	})

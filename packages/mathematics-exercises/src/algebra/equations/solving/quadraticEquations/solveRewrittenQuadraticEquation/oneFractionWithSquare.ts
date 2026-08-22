@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { gcd } from '@step-wise/math-tools'
 import { Expression, asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare, compareList } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
@@ -27,9 +27,9 @@ const getCoefficients = ([a, b, c, d]: [number, number, number, number], flip: b
 }
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveRewrittenQuadraticEquation',
-		...stepsToSetup(['bringEquationToStandardForm', 'solveQuadraticEquation']),
+		...createStepExerciseMetadata(['bringEquationToStandardForm', 'solveQuadraticEquation']),
 		compare: {
 			standardForm: {
 				compareLeft: (input: Expression, correct: Expression) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.

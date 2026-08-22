@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { repeat } from '@step-wise/skill-setup'
 import { type Equation, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
@@ -12,9 +12,9 @@ const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c']
 
 export default buildStepExercise({
-	metaData: {
+	metadata: {
 		skill: 'solveMultiVariableLinearEquation',
-		...stepsToSetup([repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
+		...createStepExerciseMetadata([repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
 		compare: {
 			pulledOut: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 			ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.

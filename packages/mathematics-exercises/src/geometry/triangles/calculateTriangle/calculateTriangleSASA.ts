@@ -1,14 +1,14 @@
 import { approximatelyEqual, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, asEquation } from '@step-wise/cas'
-import { buildStepExercise, stepsToSetup } from '@step-wise/input-exercises'
+import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compare } from '@step-wise/exercise-grading'
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']
 
 export default buildStepExercise({
-	metaData: {
-		...stepsToSetup(['calculateTriangle', 'calculateTriangle', undefined]),
+	metadata: {
+		...createStepExerciseMetadata(['calculateTriangle', 'calculateTriangle', undefined]),
 		compare: {
 			βRaw: (input: Expression, correct: Expression, { variables, a }: { variables: Record<string, Expression>, a: Expression }) => approximatelyEqual(...[input, correct].map(value => value.substitute(variables.a, a).toNumber()) as [number, number]), // Plug in the value of a and compare numbers. This is the easiest way to allow for alternate solutions.
 		},

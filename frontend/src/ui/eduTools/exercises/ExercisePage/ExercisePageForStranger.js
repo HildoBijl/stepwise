@@ -34,7 +34,7 @@ export function ExercisePageForStranger({ skillId }) {
 
 	// On a submit handle the process as would happen on the server: find the new state and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processSoloAction) => {
-		const state = processSoloAction({ action, parameters: exercise.parameters, state: exercise.state, history: exercise.history, updateSkills: noop })
+		const state = processSoloAction({ parameters: exercise.parameters, state: exercise.state, action, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !state.done,

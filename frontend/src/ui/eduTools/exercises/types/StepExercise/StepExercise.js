@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 
 import { last, repeat } from '@step-wise/js-utils'
 import { getPreviousState } from '@step-wise/exercise-definition'
-import { getStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
+import { getCurrentStep, hasPreviousInputAtStep } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection, useTranslator, addSection } from 'i18n'
@@ -26,7 +26,8 @@ export function StepExercise(props) {
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
-	const { mode, parameters, state, history, startNewExercise, example, inspection } = useExerciseData()
+	const exerciseData = useExerciseData()
+	const { parameters, state, history, startNewExercise, example, inspection } = exerciseData
 	const userId = useUserId()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
@@ -41,7 +42,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, state, lastEventId, activateFirst])
 
 	// Determine what to show.
-	const hasMainProblemActions = hasPreviousInputAtStep(mode, history, 0, userId)
+	const hasMainProblemActions = hasPreviousInputAtStep(exerciseData, 0, userId)
 	const doneWithMainProblem = state.done || state.split
 	const readOnly = inspection ? true : (example ? state.split : doneWithMainProblem)
 	const showInputSpace = !state.split && (!inspection || hasMainProblemActions)
@@ -81,7 +82,7 @@ function stepExerciseGetFeedback(data) {
 		// If the exercise is split, give main feedback to each step that has just been submitted.
 		const feedback = {}
 		const previousState = getPreviousState(data.instance)
-		const step = getStep(previousState)
+		const step = getCurrentStep(previousState)
 		repeat(step, (index) => {
 			feedback[`step${index + 1}main`] = shared.checkInput(data, index + 1)
 		})
