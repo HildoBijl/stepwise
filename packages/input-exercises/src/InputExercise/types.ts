@@ -1,5 +1,5 @@
 import type { InputValue } from '@step-wise/input-interpretation'
-import type { Exercise, ExerciseAction, ExerciseHistory, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
+import type { BaseExerciseInstanceByMode, Exercise, ExerciseAction, ExerciseHistoryByMode, ExerciseMetadata, ExerciseMode, ExerciseState, GroupExerciseReducer, SoloExerciseReducer, UpdateSkills } from '@step-wise/exercise-definition'
 import type { PlainDataObject } from '@step-wise/js-utils'
 
 /*
@@ -17,6 +17,9 @@ export type InputExerciseActionType = InputExerciseAction['type']
 // Parameters and input: runtime objects obtained after deserialization and interpretation.
 export type InputExerciseParameters = Record<string, unknown>
 export type InputExerciseInput = Record<string, unknown>
+export type InputExerciseHistoryInstance<TState extends ExerciseState = ExerciseState> = {
+	[Mode in ExerciseMode]: Pick<BaseExerciseInstanceByMode<InputExerciseAction, TState>[Mode], 'mode' | 'initialState' | 'history'>
+}[ExerciseMode]
 
 /*
  * Solution definition
@@ -54,20 +57,23 @@ export type InputExerciseSpec<TMetadata extends InputExerciseMetadata, TParamete
 }
 
 // Internal reducer inputs use the deserialized runtime parameters, while actions and state remain plain data.
-type InputExerciseReducerGeneralInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = {
-	state: TState
+type InputExerciseReducerGeneralInput<TState extends ExerciseState, TParameters extends InputExerciseParameters> = {
 	parameters: TParameters
-	updateSkills?: UpdateSkills
+	state: TState
 }
 type InputExerciseUserAction<TAction extends ExerciseAction> = {
 	userId?: string
 	action: TAction
 }
-export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TAction, TState, TParameters> & {
-	mode: ExerciseMode
-	history: ExerciseHistory<TAction, TState>
-	actions: readonly InputExerciseUserAction<TAction>[]
-}
+export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TState, TParameters> & {
+	[Mode in ExerciseMode]: {
+		mode: Mode
+		actions: readonly InputExerciseUserAction<TAction>[]
+		initialState: TState
+		history: ExerciseHistoryByMode<TAction, TState>[Mode]
+		updateSkills?: UpdateSkills
+	}
+}[ExerciseMode]
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.
 export type InputExercise<TMetadata extends InputExerciseMetadata, TAction extends InputExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution> = Exercise<TMetadata, TAction, TState> & Omit<InputExerciseSpec<TMetadata, TParameters, TSolution, TState>, 'generateParameters' | 'getInitialState'> & {

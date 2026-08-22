@@ -47,9 +47,10 @@ export const exerciseResolvers: Record<string, any> = {
 			// Apply the action to the exerccise.
 			const skillUpdates: any[] = []
 			const state = definition.processSoloAction({
-				action,
 				parameters: activeExercise.parameters,
 				state: getExerciseState(activeExercise),
+				action,
+				initialState: activeExercise.initialState,
 				history: activeExercise.events,
 				updateSkills: (setup: any, correct: boolean) => { if (setup) skillUpdates.push({ setup, correct, userId }) },
 			})

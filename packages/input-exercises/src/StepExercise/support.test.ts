@@ -1,4 +1,4 @@
-import { getLastInputAtStep } from './support'
+import { getLastRawInputAtStep } from './support'
 
 describe('getLastInputAtStep', () => {
 	test('skips a pending event when resolved input is required', () => {
@@ -8,7 +8,8 @@ describe('getLastInputAtStep', () => {
 			{ state: { split: true, step: 1, 1: {} }, actions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
 			{ actions: [{ userId, action: { type: 'input', input: { answer: { type: 'Text', value: 'pending' } } } }] },
 		] as const
+		const instance = { mode: 'group', parameters: {}, initialState: {}, history } as const
 
-		expect(getLastInputAtStep('group', history, 0, userId, true)).toBe(resolvedInput)
+		expect(getLastRawInputAtStep(instance, 0, userId, true)).toBe(resolvedInput)
 	})
 })

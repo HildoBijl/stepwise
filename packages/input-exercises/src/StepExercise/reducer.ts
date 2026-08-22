@@ -5,10 +5,12 @@ import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExercisePar
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseReducerActionsInput, type Solution, assembleSolution, deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise'
 
 import type { StepExerciseState, StepExerciseStepState, StepExerciseSplitState, StepExercise, StepExerciseSpec } from './types'
+import { ensureStepExerciseSteps } from './preprocessing'
 import { getStep, hasPreviousInputAtStep } from './support'
 
 // Build a StepExercise from its author-facing spec.
 export function buildStepExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TParameters, TSolution>): StepExercise<TParameters, TSolution> {
+	ensureStepExerciseSteps(spec.metaData.steps)
 	return {
 		...spec,
 		type: 'step',
@@ -29,6 +31,7 @@ export function buildStepExerciseSoloReducer<TParameters extends InputExercisePa
 
 export function buildStepExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: StepExerciseSpec<TParameters, TSolution>): GroupExerciseReducer<InputExerciseAction, StepExerciseState> {
 	return input => {
+		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters), mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
 		return reduceGroupActions(spec, runtimeInput)
@@ -69,7 +72,8 @@ function reduceMainProblemActions<TParameters extends InputExerciseParameters = 
 					if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
 					return
 				case 'giveUp': // On a give-up, only update skills when the exercise is done and the user still hasn't tried anything. And then only update the skill (or the set-up, if the skill is not present), because the user seemingly hasn't even tried the steps.
-					if (isDone && !hasPreviousInputAtStep(mode, history, 0, userId)) updateSkills((metaData.skill ?? metaData.setup)!, false, userId)
+					const setup = metaData.skill ?? metaData.setup
+					if (setup && isDone && !hasPreviousInputAtStep(input, 0, userId)) updateSkills(setup, false, userId)
 					return
 				default:
 					throw new Error(`Invalid action type: received an action "${JSON.stringify(action)}" which cannot be processed.`)
@@ -122,7 +126,7 @@ function reduceStepWithoutSubstepsActions<TParameters extends InputExerciseParam
 					if (skill) updateSkills(skill, correct[index], userId)
 					return
 				case 'giveUp':
-					if (skill && isDone && !hasPreviousInputAtStep(mode, history, step, userId)) updateSkills(skill, false, userId)
+					if (skill && isDone && !hasPreviousInputAtStep(input, step, userId)) updateSkills(skill, false, userId)
 					return
 				default:
 					throw new Error(`Invalid action type: received an action "${JSON.stringify(action)}" which cannot be processed.`)
@@ -173,7 +177,7 @@ function reduceStepWithSubstepsActions<TParameters extends InputExerciseParamete
 						if (subskill) updateSkills(subskill, correct[index], userId)
 						return
 					case 'giveUp':
-						if (subskill && isDone && !hasPreviousInputAtStep(mode, history, step, userId)) updateSkills(subskill, false, userId)
+						if (subskill && isDone && !hasPreviousInputAtStep(input, step, userId)) updateSkills(subskill, false, userId)
 						return
 					default:
 						throw new Error(`Invalid action type: received an action "${JSON.stringify(action)}" which cannot be processed.`)

@@ -34,7 +34,9 @@ export function resolveMultipleChoiceMappingOptions(options: MultipleChoiceMappi
 
 function normalizeIncludedChoices(include: number | number[] | undefined, numChoices: number): number[] {
 	if (include === undefined) return []
-	return (Array.isArray(include) ? include : [include]).map(index => ensureChoiceIndex(index, numChoices))
+	const normalized = (Array.isArray(include) ? include : [include]).map(index => ensureChoiceIndex(index, numChoices))
+	if (new Set(normalized).size !== normalized.length) throw new Error(`Invalid multiple choice mapping options: included choices must be unique.`)
+	return normalized
 }
 
 function ensureChoiceIndex(index: number, numChoices: number): number {

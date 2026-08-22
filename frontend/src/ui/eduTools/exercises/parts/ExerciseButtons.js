@@ -5,7 +5,7 @@ import { Check, Clear, Send, Search, Warning } from '@mui/icons-material'
 import { last, fromKeys, isPlainObject, repeat } from '@step-wise/js-utils'
 import { getLastAction } from '@step-wise/exercise-definition'
 import { toInputValue } from '@step-wise/input-interpretation'
-import { getLastInput, getStep } from '@step-wise/input-exercises'
+import { getLastRawInput, getStep } from '@step-wise/input-exercises'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 import { useUserId, useIsAdmin, useActiveGroup, useSelfAndOtherMembers } from 'api'
@@ -280,7 +280,8 @@ function CurrentActions(derivedProperties) {
 
 function CurrentActionRow({ actionList, submitting, index }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
-	const { history } = useExerciseData()
+	const exerciseData = useExerciseData()
+	const { history } = exerciseData
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
 	const { setAllInputSI, isAllInputEqual } = useFormData()
@@ -304,9 +305,9 @@ function CurrentActionRow({ actionList, submitting, index }) {
 	const historyRef = useLatest(history), actionListRef = useLatest(actionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastInput('group', historyRef.current, last(actionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
+		updateFeedback(getLastRawInput({ ...exerciseData, history: historyRef.current }, last(actionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
 		setAllInputSI(last(actionListRef.current).action.input) // Show the input of the last action.
-	}, [historyRef, actionListRef, updateFeedback, setAllInputSI])
+	}, [exerciseData, historyRef, actionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {
 		setFormInput()
 		submit()

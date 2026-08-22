@@ -194,7 +194,7 @@ export const groupExerciseResolvers: ResolverTree = {
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
 			if (!exercise.processGroupActions) throw new Error(`Unsupported exercise mode: exercise "${activeExercise.exerciseId}" does not support group actions.`)
 			const historyEvents = activeExercise.events.map((event: any) => event.state === null ? { actions: event.actions } : { actions: event.actions, state: event.state })
-			const state = exercise.processGroupActions({ actions: activeEvent.actions, parameters: activeExercise.parameters, state: previousState, history: historyEvents, updateSkills })
+			const state = exercise.processGroupActions({ parameters: activeExercise.parameters, state: previousState, actions: activeEvent.actions, initialState: activeExercise.initialState, history: historyEvents, updateSkills })
 			if (!state) throw new Error(`Invalid state object: could not process action for skill "${skillId}" exerciseId "${activeExercise.exerciseId}" due to an error in updating the exercise state.`)
 
 			// Time to store things in the database.

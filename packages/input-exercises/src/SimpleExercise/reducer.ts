@@ -27,6 +27,7 @@ export function buildSimpleExerciseSoloReducer<TParameters extends InputExercise
 
 export function buildSimpleExerciseGroupReducer<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends Solution = Solution>(spec: SimpleExerciseSpec<TParameters, TSolution>): GroupExerciseReducer<InputExerciseAction, SimpleExerciseState> {
 	return input => {
+		if (input.actions.length === 0) throw new Error(`Cannot resolve a group exercise without actions.`)
 		const runtimeInput = { ...input, parameters: deserializeInputExerciseParameters<TParameters>(input.parameters), mode: 'group' as const }
 		if ('done' in runtimeInput.state && runtimeInput.state.done) return runtimeInput.state
 		return reduceGroupActions(spec, runtimeInput)
@@ -53,7 +54,7 @@ function reduceGroupActions<TParameters extends InputExerciseParameters = InputE
 		if (updateSkills !== undefined) {
 			actions.forEach((userAction, index) => {
 				const { action, userId } = userAction
-				if (action.type === 'input' || !hasPreviousInput(mode, history, userId)) {
+				if (action.type === 'input' || !hasPreviousInput(input, userId)) {
 					if (metaData.skill) updateSkills(metaData.skill, correct[index], userId)
 					if (metaData.setup) updateSkills(metaData.setup, correct[index], userId)
 				}

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { getLastInput } from '@step-wise/input-exercises'
+import { getLastRawInput } from '@step-wise/input-exercises'
 
 import { useUserId } from 'api'
 import { TranslationSection } from 'i18n'
@@ -17,8 +17,9 @@ export function ExerciseWrapper({ getFeedback, children }) {
 
 	// Determine the initial input for the form. (And overwrite it if this updates, for instance in a group exercise through a websocket connection.) In inspection mode, get the requested one, and otherwise the latest one.
 	const userId = useUserId()
-	const { mode, history, inspection, historyIndex } = useExerciseData()
-	const initialInput = inspection ? history[historyIndex]?.action?.input : getLastInput(mode, history, userId)
+	const exerciseData = useExerciseData()
+	const { history, inspection, historyIndex } = exerciseData
+	const initialInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId)
 
 	// Render all the components that we wrap exercises in.
 	return <Form submit={submit} initialInput={initialInput}>
@@ -39,9 +40,9 @@ function FeedbackWrapper({ getFeedback, children }) {
 	const mergedExerciseData = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
 	// Determine both the input to show (usually the last submitted (possibly unresolved) input) and the last input which feedback was given on.
-	const { mode, inspection, history, historyIndex } = exerciseData
+	const { inspection, history, historyIndex } = exerciseData
 	const userId = useUserId()
-	const feedbackInput = inspection ? history[historyIndex]?.action?.input : getLastInput(mode, history, userId, true)
+	const feedbackInput = inspection ? history[historyIndex]?.action?.input : getLastRawInput(exerciseData, userId, true)
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>

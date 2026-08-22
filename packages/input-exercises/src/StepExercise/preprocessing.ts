@@ -3,6 +3,7 @@ import { type SkillSetup, type SkillSetupLike, ensureSetup, and } from '@step-wi
 import type { StepExerciseSteps } from './types'
 
 export function stepsToSetup(steps: StepExerciseSteps): { steps: StepExerciseSteps, setup?: SkillSetup } {
+	ensureStepExerciseSteps(steps)
 	const setup = getSetupFromSteps(steps)
 	return {
 		steps,
@@ -10,8 +11,15 @@ export function stepsToSetup(steps: StepExerciseSteps): { steps: StepExerciseSte
 	}
 }
 
+export function ensureStepExerciseSteps(steps: StepExerciseSteps): StepExerciseSteps {
+	if (!Array.isArray(steps)) throw new Error(`Invalid steps: expected an array, but received "${steps}".`)
+	steps.forEach((step, index) => {
+		if (Array.isArray(step) && step.length < 2) throw new Error(`Invalid step ${index + 1}: a substep array must contain at least two substeps.`)
+	})
+	return steps
+}
+
 function getSetupFromSteps(steps: StepExerciseSteps): SkillSetup | undefined {
-	if (!Array.isArray(steps)) throw new Error(`Invalid getSetupFromSteps call: expected a steps array, but received "${steps}".`)
 	steps = steps.flat().filter(step => !!step)
 	if (steps.length === 0) return undefined
 	return and(...steps.map(step => ensureSetup(step as SkillSetupLike)))

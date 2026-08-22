@@ -15,20 +15,23 @@ export type GenerateExerciseParameters<TParameters extends ExerciseParameters = 
 export type GetInitialState<TParameters extends ExerciseParameters = ExerciseParameters, TState extends ExerciseState = ExerciseState> = (parameters: TParameters) => TState
 export type UpdateSkills = (setup: SkillSetupLike, correct: boolean, userId?: string) => void
 
-type ExerciseReducerGeneralInput<TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {
-	state: TState
+type ExerciseReducerRequiredInput<TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = {
 	parameters: TParameters
+	state: TState
+}
+
+export type SoloExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerRequiredInput<TState, TParameters> & {
+	action: TAction
+	initialState: TState
+	history: SoloExerciseHistory<TAction, TState>
 	updateSkills?: UpdateSkills
 }
 
-export type SoloExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerGeneralInput<TState, TParameters> & {
-	action: TAction
-	history: SoloExerciseHistory<TAction, TState>
-}
-
-export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerGeneralInput<TState, TParameters> & {
+export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerRequiredInput<TState, TParameters> & {
 	actions: readonly UserExerciseAction<TAction>[]
+	initialState: TState
 	history: GroupExerciseHistory<TAction, TState>
+	updateSkills?: UpdateSkills
 }
 
 export type SoloExerciseReducer<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = (input: SoloExerciseReducerInput<TAction, TState, TParameters>) => TState
