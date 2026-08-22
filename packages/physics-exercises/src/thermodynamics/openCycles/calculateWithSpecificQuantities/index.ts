@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateWithSpecificQuantitiesDensity from './calculateWithSpecificQuantitiesDensity'
 import calculateWithSpecificQuantitiesBoiler from './calculateWithSpecificQuantitiesBoiler'
@@ -7,4 +7,4 @@ import calculateWithSpecificQuantitiesTurbine from './calculateWithSpecificQuant
 export default {
 	examples: { calculateWithSpecificQuantitiesDensity },
 	exercises: { calculateWithSpecificQuantitiesDensity, calculateWithSpecificQuantitiesBoiler, calculateWithSpecificQuantitiesTurbine },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import applyQuotientRuleTwoElementary from './applyQuotientRuleTwoElementary'
 import applyQuotientRuleElementaryAndBasic from './applyQuotientRuleElementaryAndBasic'
@@ -6,4 +6,4 @@ import applyQuotientRuleElementaryAndBasic from './applyQuotientRuleElementaryAn
 export default {
 	examples: {},
 	exercises: { applyQuotientRuleTwoElementary, applyQuotientRuleElementaryAndBasic },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

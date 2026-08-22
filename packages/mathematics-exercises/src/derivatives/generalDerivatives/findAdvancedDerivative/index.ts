@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import findAdvancedDerivativeChainOfProduct from './findAdvancedDerivativeChainOfProduct'
 import findAdvancedDerivativeChainOfFraction from './findAdvancedDerivativeChainOfFraction'
@@ -9,4 +9,4 @@ import findAdvancedDerivativeFractionOfChain from './findAdvancedDerivativeFract
 export default {
 	examples: {},
 	exercises: { findAdvancedDerivativeChainOfProduct, findAdvancedDerivativeChainOfFraction, findAdvancedDerivativeProductOfChain, findAdvancedDerivativeFractionOfProduct, findAdvancedDerivativeFractionOfChain },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

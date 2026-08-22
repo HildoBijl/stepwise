@@ -5,7 +5,9 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -b tsconfig.build.json",
-		"watch": "tsc -b tsconfig.build.json --watch"
+		"watch": "tsc -b tsconfig.build.json --watch",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@step-wise/exercise-definition": "1.0.0",
@@ -13,7 +15,7 @@
 		"@step-wise/js-utils": "1.0.0"
 	},
 	"devDependencies": {
-		"@types/jest": "^30.0.0",
-		"typescript": "^6.0.2"
+		"typescript": "^6.0.2",
+		"vitest": "^3.0.0"
 	}
 }

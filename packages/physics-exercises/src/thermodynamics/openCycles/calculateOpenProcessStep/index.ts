@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateOpenProcessStepWing from './calculateOpenProcessStepWing'
 import calculateOpenProcessStepCompressor from './calculateOpenProcessStepCompressor'
@@ -7,4 +7,4 @@ import calculateOpenProcessStepGasTurbine from './calculateOpenProcessStepGasTur
 export default {
 	examples: { calculateOpenProcessStepWing },
 	exercises: { calculateOpenProcessStepWing, calculateOpenProcessStepCompressor, calculateOpenProcessStepGasTurbine },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import createCoolingCycleOverviewFromPressures from './createCoolingCycleOverviewFromPressures'
 import createCoolingCycleOverviewFromTemperatures from './createCoolingCycleOverviewFromTemperatures'
@@ -6,4 +6,4 @@ import createCoolingCycleOverviewFromTemperatures from './createCoolingCycleOver
 export default {
 	examples: { createCoolingCycleOverviewFromPressures },
 	exercises: { createCoolingCycleOverviewFromPressures, createCoolingCycleOverviewFromTemperatures },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

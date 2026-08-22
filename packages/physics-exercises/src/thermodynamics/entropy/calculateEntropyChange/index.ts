@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateEntropyChangeIsotherm from './calculateEntropyChangeIsotherm'
 import calculateEntropyChangeWithTemperature from './calculateEntropyChangeWithTemperature'
@@ -7,4 +7,4 @@ import calculateEntropyChangeWithProperties from './calculateEntropyChangeWithPr
 export default {
 	examples: { calculateEntropyChangeIsotherm },
 	exercises: { calculateEntropyChangeIsotherm, calculateEntropyChangeWithTemperature, calculateEntropyChangeWithProperties },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

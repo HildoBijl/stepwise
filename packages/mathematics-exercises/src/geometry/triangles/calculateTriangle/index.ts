@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateTriangleASAS from './calculateTriangleASAS'
 import calculateTriangleSSAA from './calculateTriangleSSAA'
@@ -11,4 +11,4 @@ import calculateTriangleSSSA from './calculateTriangleSSSA'
 export default {
 	examples: {},
 	exercises: { calculateTriangleASAS, calculateTriangleSSAA, calculateTriangleASSA, calculateTriangleSASS, calculateTriangleSSAS, calculateTriangleSASA, calculateTriangleSSSA },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

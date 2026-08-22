@@ -2,26 +2,26 @@ import { isNumber, sum, sample, filterProperties } from '@step-wise/js-utils'
 import { normalPDF } from '@step-wise/math-tools'
 import type { SkillId } from '@step-wise/skill-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
-import type { ExerciseId, ExerciseContainer } from '@step-wise/exercise-bundling'
+import type { ExerciseId, ExerciseCollection } from '@step-wise/exercise-bundling'
 
 import { PreviousExercise } from './types'
 import { mu, sigma, thresholdFactor } from './settings'
 import { getExerciseSuccessRates } from './successRates'
 
 // Select an exercise intelligently based on available skill data.
-export async function selectExercise(skillExercises: ExerciseContainer, getSkillLevelSet: (skillIds: SkillId[]) => Promise<SkillLevelSet>, previousExercises: PreviousExercise[] = []): Promise<ExerciseId> {
+export async function selectExercise(exercises: ExerciseCollection, getSkillLevelSet: (skillIds: SkillId[]) => Promise<SkillLevelSet>, previousExercises: PreviousExercise[] = []): Promise<ExerciseId> {
 	// Verify input.
-	if (skillExercises === undefined || Object.values(skillExercises).length === 0) throw new Error(`Invalid request: cannot pick an exercise. No valid set of exercises was provided.`)
+	if (exercises === undefined || Object.values(exercises).length === 0) throw new Error(`Invalid request: cannot pick an exercise. No valid set of exercises was provided.`)
 
 	// Filter out exercises that have been done too recently.
 	const sortedPreviousExercises = [...previousExercises].sort((a, b) => b.createdAt - a.createdAt)
-	let suitableExercises: ExerciseContainer = filterProperties(skillExercises, (exercise, exerciseId) => {
+	let suitableExercises: ExerciseCollection = filterProperties(exercises, (exercise, exerciseId) => {
 		const { metaData } = exercise
 		const repeatAfter = isNumber(metaData.repeatAfter) ? metaData.repeatAfter : 1
 		const exercisesSince = sortedPreviousExercises.findIndex(previousExercise => previousExercise.exerciseId === exerciseId)
 		return exercisesSince === -1 || exercisesSince >= repeatAfter
-	}) as ExerciseContainer
-	if (Object.values(suitableExercises).length === 0) suitableExercises = skillExercises
+	}) as ExerciseCollection
+	if (Object.values(suitableExercises).length === 0) suitableExercises = exercises
 
 	// Calculate selection rates and select based on them.
 	const successRates = await getExerciseSuccessRates(Object.values(suitableExercises).map(exercise => exercise.metaData), getSkillLevelSet)
@@ -48,8 +48,8 @@ export function getSelectionRates(successRates: number[], weights = successRates
 }
 
 // Select a random exercise without taking skill data into account.
-export function selectRandomExercise(skillExercises: ExerciseContainer): ExerciseId {
-	if (skillExercises === undefined || Object.values(skillExercises).length === 0) throw new Error(`Invalid request: cannot pick an exercise. No valid set of exercises was provided.`)
-	const weights = Object.values(skillExercises).map(exercise => isNumber(exercise.metaData.weight) ? Math.abs(exercise.metaData.weight) : 1)
-	return sample(Object.keys(skillExercises), { weights })
+export function selectRandomExercise(exercises: ExerciseCollection): ExerciseId {
+	if (exercises === undefined || Object.values(exercises).length === 0) throw new Error(`Invalid request: cannot pick an exercise. No valid set of exercises was provided.`)
+	const weights = Object.values(exercises).map(exercise => isNumber(exercise.metaData.weight) ? Math.abs(exercise.metaData.weight) : 1)
+	return sample(Object.keys(exercises), { weights })
 }

@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import applySineCosineTangentTwoSides from './applySineCosineTangentTwoSides'
 import applySineCosineTangentSideAndAngle from './applySineCosineTangentSideAndAngle'
@@ -6,4 +6,4 @@ import applySineCosineTangentSideAndAngle from './applySineCosineTangentSideAndA
 export default {
 	examples: {},
 	exercises: { applySineCosineTangentTwoSides, applySineCosineTangentSideAndAngle },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

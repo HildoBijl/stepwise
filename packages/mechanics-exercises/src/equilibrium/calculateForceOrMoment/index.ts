@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import calculateForceOrMomentUseDiagonalForces from './calculateForceOrMomentUseDiagonalForces'
 import calculateForceOrMomentUseHorizontalForces from './calculateForceOrMomentUseHorizontalForces'
@@ -17,4 +17,4 @@ export default {
 		calculateForceOrMomentUseMomentsWithOnlyForces,
 		calculateForceOrMomentUseVerticalForces,
 	},
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

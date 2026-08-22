@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import noSolutions from './noSolutions'
 import oneSolution from './oneSolution'
@@ -8,4 +8,4 @@ import twoNonIntegerSolutions from './twoNonIntegerSolutions'
 export default {
 	examples: { oneSolution, twoIntegerSolutions },
 	exercises: { noSolutions, oneSolution, twoIntegerSolutions, twoNonIntegerSolutions },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

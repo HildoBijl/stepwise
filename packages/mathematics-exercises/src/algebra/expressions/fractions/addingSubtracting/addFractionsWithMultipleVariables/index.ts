@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import mergeFractionsNumberInDenominator from './mergeFractionsNumberInDenominator'
 import splitFractionsNumberInDenominator from './splitFractionsNumberInDenominator'
@@ -10,4 +10,4 @@ import splitFractionsVariableDenominator from './splitFractionsVariableDenominat
 export default {
 	examples: { mergeFractionsNumberInDenominator, splitFractionsNumberInDenominator },
 	exercises: { mergeFractionsNumberInDenominator, splitFractionsNumberInDenominator, mergeFractionsSquareAppearing, splitFractionsSquareAppearing, mergeFractionsVariableDenominator, splitFractionsVariableDenominator },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle

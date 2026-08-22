@@ -1,4 +1,4 @@
-import { type SkillExercises } from '@step-wise/exercise-bundling'
+import { type SkillExerciseBundle } from '@step-wise/exercise-bundling'
 
 import basicForm from './basicForm'
 import higherPowers from './higherPowers'
@@ -8,4 +8,4 @@ import multipleFactorsNegativePowers from './multipleFactorsNegativePowers'
 export default {
 	examples: { basicForm },
 	exercises: { higherPowers, multipleFactors, multipleFactorsNegativePowers },
-} satisfies SkillExercises
+} satisfies SkillExerciseBundle
