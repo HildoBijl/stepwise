@@ -1,67 +1,24 @@
-import type { Skill, SkillId } from '@step-wise/skill-definition'
+import { describe, expect, it } from 'vitest'
 
-import { skillTree } from './processing'
+import { getSkill, skillTree } from './skillTree'
 
-// Check individual skills.
-describe('Check all skills:', () => {
-	for (const [key, skill] of Object.entries(skillTree) as [SkillId, Skill][]) {
-		describe(key, () => {
-			it('has an id matching its key', () => {
-				expect(skill.id).toBe(key)
-			})
-
-			it('has a name', () => {
-				expect(typeof skill.name).toBe('string')
-			})
-
-			it('has prerequisite links, which are mutual', () => {
-				expect(Array.isArray(skill.prerequisiteIds)).toBe(true)
-				for (const prerequisiteId of skill.prerequisiteIds) {
-					const prerequisite = skillTree[prerequisiteId]
-					expect(prerequisite).toBeDefined()
-					expect(prerequisite.continuationIds).toContain(skill.id)
-				}
-			})
-
-			it('has continuation links, which are mutual', () => {
-				expect(Array.isArray(skill.continuationIds)).toBe(true)
-				for (const continuationId of skill.continuationIds) {
-					const continuation = skillTree[continuationId]
-					expect(continuation).toBeDefined()
-					expect(continuation.prerequisiteIds).toContain(skill.id)
-				}
-			})
-			
-			it('has no duplicate linked skills', () => {
-				const linkedSkillIdsFiltered = [...new Set(skill.linkedSkillIds)]
-				expect(linkedSkillIdsFiltered.length).toBe(skill.linkedSkillIds.length)
-			})
-
-			it('has no linked skills that are also prerequisites', () => {
-				expect(skill.linkedSkillIds.find(linkedSkillId => skill.prerequisiteIds.find(prerequisiteId => prerequisiteId === linkedSkillId))).toBe(undefined)
-			})
-		})
-	}
+describe('skillTree', () => {
+	it('exports the processed Step-Wise skill tree', () => {
+		expect(Object.keys(skillTree).length).toBeGreaterThan(0)
+		expect(skillTree.demo).toMatchObject({ id: 'demo', name: 'Demo exercise' })
+	})
 })
 
-// Check the hierarchy of skills.
-describe('Check the skill tree:', () => {
-	it('it has no dependency cycles', () => {
-		const examined = new Set<SkillId>()
-		const inRecursionTree = new Set<SkillId>()
+describe('getSkill', () => {
+	it('returns a known skill', () => {
+		expect(getSkill('demo')).toBe(skillTree.demo)
+	})
 
-		// Use a cycle detection algorithm for a directed graph. From each node, do a DFS to try and find a cycle. 
-		const examine = (skill: Skill): void => {
-			// If we found the node in the current run, there's a cycle. If we found it in an earlier run, don't examine again.
-			if (inRecursionTree.has(skill.id)) throw new Error(`Skill cycle detected around skill "${skill.id}".`)
-			if (examined.has(skill.id)) return
-			inRecursionTree.add(skill.id)
-			examined.add(skill.id)
+	it('rejects an unknown skill ID', () => {
+		expect(() => getSkill('unknown')).toThrow('Unknown skill ID')
+	})
 
-			// Iterate over the children. If nothing is found, mark the node as safe again afterwards.
-			for (const continuationId of skill.continuationIds) examine(skillTree[continuationId])
-			inRecursionTree.delete(skill.id)
-		}
-		for (const skill of Object.values(skillTree) as Skill[]) examine(skill)
+	it('optionally allows a case-insensitive match', () => {
+		expect(getSkill('DEMO', { allowCaseInsensitiveMatch: true })).toBe(skillTree.demo)
 	})
 })

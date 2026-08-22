@@ -3,7 +3,7 @@ import { defineConfig, mergeConfig } from 'vitest/config'
 import baseConfig from './vitest.base.config'
 
 // Packages are added here one by one as their tests move off Jest.
-const migratedPackages = ['bernstein-polynomials', 'js-utils', 'math-tools', 'polynomials', 'settings', 'skill-definition', 'skill-setup']
+const migratedPackages = ['bernstein-polynomials', 'js-utils', 'math-tools', 'polynomials', 'settings', 'skill-definition', 'skill-setup', 'skill-tree']
 
 export default mergeConfig(baseConfig, defineConfig({
 	test: {

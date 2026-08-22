@@ -102,7 +102,7 @@ export const mathematicsTree: RawSkillTree = {
 				expandPowerOfSum: {
 					name: 'Expand power of sum',
 					setup: and('simplifyProductOfPowers', 'simplifyNumberProduct'),
-					prerequisites: ['expandDoubleBrackets', 'simplifyProductOfPowers', 'simplifyNumberProduct'],
+					prerequisites: ['expandDoubleBrackets'],
 				},
 			},
 			fractions: {

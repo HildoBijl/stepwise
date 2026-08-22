@@ -10,8 +10,7 @@
   },
   "references": [
     { "path": "../skill-definition/tsconfig.build.json" },
-    { "path": "../skill-setup/tsconfig.build.json" },
-    { "path": "../js-utils/tsconfig.build.json" }
+    { "path": "../skill-setup/tsconfig.build.json" }
   ],
   "include": ["src"]
 }

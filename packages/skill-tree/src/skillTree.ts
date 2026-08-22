@@ -1,6 +1,6 @@
 import { type EnsureSkillIdOptions, type Skill, type SkillId, createSkillTree, ensureSkillId } from '@step-wise/skill-definition'
 
-import { rawSkillTree } from './rawSkillTree'
+import { rawSkillTree } from './definitions'
 
 export const skillTree = createSkillTree(rawSkillTree)
 

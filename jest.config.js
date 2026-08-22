@@ -11,6 +11,7 @@ module.exports = {
 		'<rootDir>/packages/settings/',
 		'<rootDir>/packages/skill-definition/',
 		'<rootDir>/packages/skill-setup/',
+		'<rootDir>/packages/skill-tree/',
 	],
 	moduleNameMapper: {
 		'^@step-wise/([^/]+)$': '<rootDir>/packages/$1/src',

@@ -4,12 +4,12 @@ This package contains the definition of the Skill Tree used within Step-Wise. It
 
 ## Defining the raw Skill Tree
 
-This is done in the [rawSkillTree](./src/rawSkillTree), separately for each subject. To adjust the Skill Tree, go here. For notation conventions, see the [skill-definition](../skillDefinition/) package.
+This is done in the [definitions](./src/definitions), separately for each subject. To adjust the Skill Tree, go here. For notation conventions, see the [skill-definition](../skill-definition/) package.
 
 ## Processing the raw Skill Tree
 
-This is done in the [processing](./src/processing.ts) file.
+This is done in the [skillTree](./src/skillTree.ts) file.
 
 ## Utility functions
 
-The utility functions from the [skill-definition](../skillDefinition/) all require the Skill Tree as argument. To short-cut this, we set up the same functions but then with the Skill Tree already implicit in them, so it doesn't have to be passed as argument.
+The utility functions from the [skill-definition](../skill-definition/) all require the Skill Tree as argument. To short-cut this, we set up the same functions but then with the Skill Tree already implicit in them, so it doesn't have to be passed as argument.
