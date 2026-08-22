@@ -10,18 +10,17 @@ function buildExercise(overrides = {}) {
 	return buildMonoExercise({
 		metaData: { skill: 'main-skill' },
 		generateParameters: example => ({ answer: example ? 1 : 2 }),
-		getInitialState: parameters => ({ attempted: parameters.answer === 9 ? true : undefined }),
 		checkInput: ({ input, parameters }) => input.answer === parameters.answer,
 		...overrides,
 	})
 }
 
 describe('buildMonoExercise', () => {
-	it('builds stored parameters and derives the initial state from runtime parameters', () => {
+	it('builds stored parameters and supplies an empty initial state', () => {
 		const exercise = buildExercise()
 		const parameters = exercise.generateParameters(false)
 		expect(parameters).toEqual({ answer: 2 })
-		expect(exercise.getInitialState(parameters)).toEqual({ attempted: undefined })
+		expect(exercise.getInitialState(parameters)).toEqual({})
 	})
 
 	it('uses empty parameters and state when their generators are omitted', () => {

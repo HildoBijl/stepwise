@@ -1,5 +1,5 @@
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
+import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
 
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise'
 import { deserializeInputExerciseParameters, serializeInputExerciseParameters } from '../InputExercise/parameterSerialization'
@@ -13,7 +13,7 @@ export function buildMonoExercise<TParameters extends InputExerciseParameters = 
 		...spec,
 		type: 'mono',
 		generateParameters: example => serializeInputExerciseParameters(resolveExerciseParameters(spec.generateParameters, example)),
-		getInitialState: parameters => resolveInitialState<TParameters, MonoExerciseState>(spec.getInitialState, deserializeInputExerciseParameters<TParameters>(parameters)),
+		getInitialState: () => ({}),
 		processSoloAction: buildMonoExerciseSoloReducer(spec),
 		processGroupActions: buildMonoExerciseGroupReducer(spec),
 	}

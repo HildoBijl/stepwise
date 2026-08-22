@@ -9,7 +9,7 @@ export type MonoExerciseState = InputExerciseAttemptState & Partial<{ solved: tr
 export type MonoExerciseCheckInput<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = (data: CheckInputData<MonoExerciseMetadata, TParameters, TSolution>) => boolean
 
 // Author-facing definition before the mode-specific reducers are added.
-export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution, MonoExerciseState> & { checkInput: MonoExerciseCheckInput<TParameters, TSolution> }
+export type MonoExerciseSpec<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExerciseSpec<MonoExerciseMetadata, TParameters, TSolution> & { checkInput: MonoExerciseCheckInput<TParameters, TSolution> }
 
 // Runtime exercise after the mode-specific reducers are added.
-export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution> & Omit<MonoExerciseSpec<TParameters, TSolution>, 'generateParameters' | 'getInitialState'> & { type: 'mono' }
+export type MonoExercise<TParameters extends InputExerciseParameters = InputExerciseParameters, TSolution extends InputExerciseSolution = InputExerciseSolution> = InputExercise<MonoExerciseMetadata, InputExerciseAction, MonoExerciseState, TParameters, TSolution> & Omit<MonoExerciseSpec<TParameters, TSolution>, 'generateParameters'> & { type: 'mono' }
