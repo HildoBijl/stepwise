@@ -19,13 +19,26 @@ export function gridInterpolate<InputType extends InterpolationValue<InputType>,
 	...inputSeries: InterpolationInputSeries<InputType>[]
 ): OutputType | undefined {
 	const inputs = Array.isArray(input) ? input : [input]
-	if (inputs.length === 0) throw new TypeError(`Grid interpolate error: received an empty array as input.`)
-	if (inputs.some(value => !isInterpolationValue<InputType>(value))) throw new TypeError(`Grid interpolate error: every input must be a finite interpolation value.`)
-	if (inputSeries.length !== inputs.length) throw new RangeError(`Grid interpolate error: incorrect number of input series given. Expected ${inputs.length} input series, but received ${inputSeries.length}.`)
+	validateGridInputs(inputs, inputSeries)
 	if (!inputSeries.every(series => isInterpolationInputSeries<InputType>(series))) throw new RangeError(`Grid interpolate error: every input series must be non-empty and ascending.`)
 	if (!isInterpolationGrid<OutputType>(outputSeries)) throw new TypeError(`Grid interpolate error: the output grid must contain finite interpolation values of one type.`)
 	if (!doesGridMatchinputValues(outputSeries as InterpolationGrid<OutputType>, inputSeries)) throw new RangeError(`Grid interpolate error: the output grid dimensions must match the input series.`)
 	return gridInterpolateRecursive(inputs, outputSeries as InterpolationGrid<OutputType>, inputSeries)
+}
+
+export function interpolateTrustedGrid<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
+	inputs: readonly InputType[],
+	outputGrid: InterpolationGrid<OutputType>,
+	inputSeries: readonly InterpolationInputSeries<InputType>[],
+): OutputType | undefined {
+	validateGridInputs(inputs, inputSeries)
+	return gridInterpolateRecursive(inputs, outputGrid, inputSeries)
+}
+
+function validateGridInputs<InputType extends InterpolationValue<InputType>>(inputs: readonly InputType[], inputSeries: readonly InterpolationInputSeries<InputType>[]): void {
+	if (inputs.length === 0) throw new TypeError(`Grid interpolate error: received an empty array as input.`)
+	if (inputs.some(value => !isInterpolationValue<InputType>(value))) throw new TypeError(`Grid interpolate error: every input must be a finite interpolation value.`)
+	if (inputSeries.length !== inputs.length) throw new RangeError(`Grid interpolate error: incorrect number of input series given. Expected ${inputs.length} input series, but received ${inputSeries.length}.`)
 }
 
 function gridInterpolateRecursive<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(

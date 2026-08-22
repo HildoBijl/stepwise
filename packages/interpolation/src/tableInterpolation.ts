@@ -3,7 +3,7 @@ import { fromKeys, hasDuplicates, isNumber, isPlainObject } from '@step-wise/js-
 import type { InterpolationValue, InterpolationTable, TableInterpolationInput, TableInterpolationOutput, InterpolationInputSeries, InterpolationOutputSeries } from './types'
 import { isNumberLike } from './checks'
 import { compareInterpolationValues, ensureMonotonicSeries } from './support'
-import { gridInterpolate } from './gridInterpolation'
+import { interpolateTrustedGrid } from './gridInterpolation'
 
 // Find a single value in a table, either because the table only has one output, or because an output label is indicated.
 export function tableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
@@ -28,7 +28,7 @@ export function tableInterpolate<InputType extends InterpolationValue<InputType>
 ): OutputType | undefined {
 	const normalizedInput = normalizeTableInterpolationInput(input, table)
 	const outputIndex = getOutputIndex(table, outputLabel)
-	return gridInterpolate(normalizedInput, table.grids[outputIndex], ...table.inputValues)
+	return interpolateTrustedGrid(normalizedInput, table.grids[outputIndex], table.inputValues)
 }
 
 // Find multiple output values in a table.
@@ -55,7 +55,7 @@ export function multiOutputTableInterpolate<InputType extends InterpolationValue
 	const normalizedInput = normalizeTableInterpolationInput(input, table)
 	const selectedOutputLabels = outputLabels ?? table.outputLabels
 	if (hasDuplicates(selectedOutputLabels)) throw new Error(`Table interpolate error: duplicate output labels are not allowed.`)
-	return fromKeys(selectedOutputLabels, label => gridInterpolate(normalizedInput, table.grids[getOutputIndex(table, label)], ...table.inputValues))
+	return fromKeys(selectedOutputLabels, label => interpolateTrustedGrid(normalizedInput, table.grids[getOutputIndex(table, label)], table.inputValues))
 }
 
 export function inverseTableInterpolate<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(
@@ -80,7 +80,7 @@ export function inverseTableInterpolate<InputType extends InterpolationValue<Inp
 	// Check monotonicity, then interpolate with input and output swapped.
 	const definedOutputSeries = ensureMonotonicSeries(outputSeries as InterpolationInputSeries<OutputType>)
 	const [interpolationInputSeries, interpolationOutputSeries] = isDescendingSeries(definedOutputSeries) ? [[...definedOutputSeries].reverse(), [...inputSeries].reverse()] : [definedOutputSeries, inputSeries]
-	return gridInterpolate(output, interpolationOutputSeries, interpolationInputSeries)
+	return interpolateTrustedGrid([output], interpolationOutputSeries, [interpolationInputSeries])
 }
 
 function normalizeTableInterpolationInput<InputType extends InterpolationValue<InputType>, OutputType extends InterpolationValue<OutputType>>(input: TableInterpolationInput<InputType>, table: InterpolationTable<InputType, OutputType>): readonly InputType[] {
