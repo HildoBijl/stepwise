@@ -1,5 +1,5 @@
 import { interpretAllInputValues } from '@step-wise/input-interpretation'
-import { ensureNumber } from '@step-wise/js-utils'
+import { ensureInteger } from '@step-wise/js-utils'
 
 import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput, LastInputOptions } from '../InputExercise'
 
@@ -12,7 +12,7 @@ export function getCurrentStep(state: StepExerciseState | Record<string, never>)
 
 // Get the last given raw input from the user at the given step.
 export function getLastRawInputAtStep(instance: InputExerciseHistoryInstance<StepExerciseState>, step: number, userId?: string, options: LastInputOptions = {}): InputExerciseRawInput | undefined {
-	step = ensureNumber(step, { nonNegative: true })
+	step = ensureInteger(step, { nonNegative: true })
 	const { resolvedOnly = false } = options
 
 	if (instance.mode === 'solo') for (let index = instance.history.length - 1; index >= 0; index--) {
