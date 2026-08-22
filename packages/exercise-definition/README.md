@@ -25,7 +25,7 @@ const exercise: Exercise<{}, Action, State, Parameters> = {
 	metaData: {},
 	generateParameters: () => ({ target: 6 }),
 	getInitialState: () => ({ attempts: 0 }),
-	processSoloAction: ({ action, state, parameters }) => ({
+	processSoloAction: ({ parameters, state, action }) => ({
 		attempts: state.attempts + 1,
 		done: action.value === parameters.target,
 	}),
@@ -36,10 +36,9 @@ Reducers should return a new state without modifying the old one:
 
 ```ts
 const state = exercise.processSoloAction!({
-	action: { type: 'answer', value: 6 },
-	state: { attempts: 0 },
 	parameters: { target: 6 },
-	history: [],
+	state: { attempts: 0 },
+	action: { type: 'answer', value: 6 },
 })
 // { attempts: 1, done: true }
 ```
@@ -53,7 +52,7 @@ At its core, an exercise is a state transition:
 current state + action -> new state
 ```
 
-`processSoloAction` receives one action and returns the resulting state. Its input also provides the (fixed) exercise parameters, the exercise history, and an optional `updateSkills` callback.
+`processSoloAction` receives the fixed exercise parameters, the current state, and one action, and returns the resulting state. Its input may also provide an `updateSkills` callback.
 
 The action describes what happened, while the state stores the consequences. For example, an answer is an action; whether the exercise is complete belongs in the state. An exercise is considered completed when the state satisfies `state.done === true`.
 
@@ -62,13 +61,13 @@ The reducer model is not restricted to solo use. An exercise can supply reducers
 An exercise must support at least one mode at runtime. It may support solo mode, group mode, or both.
 
 
-## Parameters, actions, and state
+## Parameters, state, and actions
 
 The package distinguishes three kinds of exercise data:
 
 - **Parameters** describe the generated problem and remain fixed for an exercise instance.
-- **Actions** describe events to process, such as entering an answer or giving up.
 - **State** records the accumulated result of processing those actions.
+- **Actions** describe events to process, such as entering an answer or giving up.
 
 All three use plain data objects so they can be stored and transferred safely. Every action must have a string `type` property.
 
@@ -85,10 +84,9 @@ A solo reducer receives one action:
 
 ```ts
 processSoloAction: ({
-	action,
-	state,
 	parameters,
-	history,
+	state,
+	action,
 	updateSkills,
 }) => newState
 ```
@@ -109,10 +107,9 @@ A group reducer receives all actions collected for the current event:
 
 ```ts
 processGroupActions: ({
-	actions,
-	state,
 	parameters,
-	history,
+	state,
+	actions,
 	updateSkills,
 }) => newState
 ```
