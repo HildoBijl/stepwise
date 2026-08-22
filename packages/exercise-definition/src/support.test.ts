@@ -25,8 +25,8 @@ describe('isExerciseDone', () => {
 		const instance = {
 			mode: 'group', parameters: {}, initialState: {},
 			history: [
-				{ submissions: [], state: { done: true } },
-				{ submissions: [{ userId: 'user-1', action: { type: 'answer' } }] },
+				{ actions: [], state: { done: true } },
+				{ actions: [{ userId: 'user-1', action: { type: 'answer' } }] },
 			],
 		} as const
 
@@ -35,7 +35,7 @@ describe('isExerciseDone', () => {
 
 	it('uses the initial state when there is no resolved history', () => {
 		const soloInstance = { mode: 'solo', parameters: {}, initialState: { done: true }, history: [] } as const
-		const groupInstance = { mode: 'group', parameters: {}, initialState: { done: true }, history: [{ submissions: [] }] } as const
+		const groupInstance = { mode: 'group', parameters: {}, initialState: { done: true }, history: [{ actions: [] }] } as const
 
 		expect(isExerciseDone(soloInstance)).toBe(true)
 		expect(isExerciseDone(groupInstance)).toBe(true)

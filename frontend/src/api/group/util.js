@@ -29,7 +29,7 @@ export const groupExerciseParameters = `
 		... on ResolvedGroupEvent {
 			state
 		}
-		submissions {
+		actions {
 			id
 			userId
 			performedAt

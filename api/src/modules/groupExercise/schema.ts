@@ -32,23 +32,23 @@ export const groupExerciseTypeDefs = gql`
 	interface GroupEvent {
 		id: ID!
 		performedAt: DateTime!
-		submissions: [GroupSubmission]!
+		actions: [GroupExerciseAction]!
 	}
 
 	type ResolvedGroupEvent implements GroupEvent {
 		id: ID!
 		state: JSON!
 		performedAt: DateTime!
-		submissions: [GroupSubmission]!
+		actions: [GroupExerciseAction]!
 	}
 
 	type PendingGroupEvent implements GroupEvent {
 		id: ID!
 		performedAt: DateTime!
-		submissions: [GroupSubmission]!
+		actions: [GroupExerciseAction]!
 	}
 
-	type GroupSubmission {
+	type GroupExerciseAction {
 		id: ID!
 		userId: ID!
 		action: JSON!

@@ -54,12 +54,12 @@ describe('group exercise history support', () => {
 	const firstState = { step: 1 }
 	const secondState = { step: 2 }
 
-	it('includes pending submissions when retrieving the last action', () => {
+	it('includes pending actions when retrieving the last action', () => {
 		const instance = {
 			mode: 'group', parameters: {}, initialState,
 			history: [
-				{ submissions: [{ userId: 'user-1', action: firstAction }], state: firstState },
-				{ submissions: [{ userId: 'user-1', action: secondAction }] },
+				{ actions: [{ userId: 'user-1', action: firstAction }], state: firstState },
+				{ actions: [{ userId: 'user-1', action: secondAction }] },
 			],
 		} as const
 
@@ -71,8 +71,8 @@ describe('group exercise history support', () => {
 		const instance = {
 			mode: 'group', parameters: {}, initialState,
 			history: [
-				{ submissions: [{ userId: 'user-1', action: firstAction }], state: firstState },
-				{ submissions: [{ userId: 'user-2', action: otherAction }], state: secondState },
+				{ actions: [{ userId: 'user-1', action: firstAction }], state: firstState },
+				{ actions: [{ userId: 'user-2', action: otherAction }], state: secondState },
 			],
 		} as const
 
@@ -92,9 +92,9 @@ describe('group exercise history support', () => {
 		const instance = {
 			mode: 'group', parameters: {}, initialState,
 			history: [
-				{ submissions: [], state: firstState },
-				{ submissions: [], state: secondState },
-				{ submissions: [{ userId: 'user-1', action: secondAction }] },
+				{ actions: [], state: firstState },
+				{ actions: [], state: secondState },
+				{ actions: [{ userId: 'user-1', action: secondAction }] },
 			],
 		} as const
 
@@ -103,8 +103,8 @@ describe('group exercise history support', () => {
 	})
 
 	it('falls back to the initial state when there are insufficient resolved events', () => {
-		const pendingInstance = { mode: 'group', parameters: {}, initialState, history: [{ submissions: [{ userId: 'user-1', action: firstAction }] }] } as const
-		const oneResolvedInstance = { mode: 'group', parameters: {}, initialState, history: [{ submissions: [], state: firstState }] } as const
+		const pendingInstance = { mode: 'group', parameters: {}, initialState, history: [{ actions: [{ userId: 'user-1', action: firstAction }] }] } as const
+		const oneResolvedInstance = { mode: 'group', parameters: {}, initialState, history: [{ actions: [], state: firstState }] } as const
 
 		expect(getCurrentState(pendingInstance)).toBe(initialState)
 		expect(getPreviousState(pendingInstance)).toBe(initialState)

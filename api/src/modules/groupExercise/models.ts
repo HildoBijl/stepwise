@@ -1,6 +1,6 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute, Sequelize } from 'sequelize'
 
-export class GroupExerciseSubmissionRecord extends Model<InferAttributes<GroupExerciseSubmissionRecord>, InferCreationAttributes<GroupExerciseSubmissionRecord>> {
+export class GroupExerciseActionRecord extends Model<InferAttributes<GroupExerciseActionRecord>, InferCreationAttributes<GroupExerciseActionRecord>> {
 	declare id: CreationOptional<string>
 	declare userId: string
 	declare groupExerciseEventId: string
@@ -15,8 +15,8 @@ export class GroupExerciseEventRecord extends Model<InferAttributes<GroupExercis
 	declare state: unknown | null
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
-	declare submissions?: NonAttribute<GroupExerciseSubmissionRecord[]>
-	declare createSubmission: NonAttribute<(values: any, options?: any) => Promise<GroupExerciseSubmissionRecord>>
+	declare actions?: NonAttribute<GroupExerciseActionRecord[]>
+	declare createAction: NonAttribute<(values: any, options?: any) => Promise<GroupExerciseActionRecord>>
 }
 
 export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerciseSampleRecord>, InferCreationAttributes<GroupExerciseSampleRecord>> {
@@ -61,15 +61,15 @@ export function createGroupExerciseEventModel(sequelize: Sequelize) {
 	return GroupExerciseEvent
 }
 
-export function createGroupExerciseSubmissionModel(sequelize: Sequelize) {
-	class GroupExerciseSubmission extends GroupExerciseSubmissionRecord { }
-	GroupExerciseSubmission.init({
+export function createGroupExerciseActionModel(sequelize: Sequelize) {
+	class GroupExerciseAction extends GroupExerciseActionRecord { }
+	GroupExerciseAction.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 		userId: { type: DataTypes.UUID, allowNull: false },
 		groupExerciseEventId: { type: DataTypes.UUID, allowNull: false },
 		action: { type: DataTypes.JSON, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'groupExerciseSubmission', indexes: [{ fields: ['userId', 'groupExerciseEventId'], unique: true }] })
-	return GroupExerciseSubmission
+	}, { sequelize, modelName: 'groupExerciseAction', indexes: [{ fields: ['userId', 'groupExerciseEventId'], unique: true }] })
+	return GroupExerciseAction
 }

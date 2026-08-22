@@ -41,10 +41,10 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, state, lastEventId, activateFirst])
 
 	// Determine what to show.
-	const hasMainProblemSubmissions = hasPreviousInputAtStep(mode, history, 0, userId)
+	const hasMainProblemActions = hasPreviousInputAtStep(mode, history, 0, userId)
 	const doneWithMainProblem = state.done || state.split
 	const readOnly = inspection ? true : (example ? state.split : doneWithMainProblem)
-	const showInputSpace = !state.split && (!inspection || hasMainProblemSubmissions)
+	const showInputSpace = !state.split && (!inspection || hasMainProblemActions)
 	const showMainFeedback = showInputSpace && (state.solved || state.split || isAllInputEqual(feedbackInput))
 
 	return <>

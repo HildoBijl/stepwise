@@ -1,7 +1,7 @@
 import type { SkillId, SkillSetup, SkillSetupLike } from '@step-wise/skill-setup'
 
 import type { ExerciseAction, ExerciseState, ExerciseParameters } from '../atomTypes'
-import type { GroupExerciseHistory, GroupExerciseSubmission, SoloExerciseHistory } from '../modes'
+import type { GroupExerciseHistory, UserExerciseAction, SoloExerciseHistory } from '../modes'
 
 export type ExerciseMetadata = {
 	skill?: SkillId,
@@ -27,7 +27,7 @@ export type SoloExerciseReducerInput<TAction extends ExerciseAction, TState exte
 }
 
 export type GroupExerciseReducerInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends ExerciseParameters = ExerciseParameters> = ExerciseReducerGeneralInput<TState, TParameters> & {
-	submissions: readonly GroupExerciseSubmission<TAction>[]
+	actions: readonly UserExerciseAction<TAction>[]
 	history: GroupExerciseHistory<TAction, TState>
 }
 

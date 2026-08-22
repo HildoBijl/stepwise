@@ -16,7 +16,7 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExerciseMutation(skillId)
-	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
+	const [submitActionToServer, { loading: actionLoading, error: actionError }] = useSubmitExerciseActionMutation(skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -45,8 +45,8 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 	// Any errors we should notify the user of?
 	if (error)
 		return <ErrorNote error={error} />
-	if (submissionError)
-		return <ErrorNote error={submissionError} />
+	if (actionError)
+		return <ErrorNote error={actionError} />
 	if (newExerciseError)
 		return <ErrorNote error={newExerciseError} />
 
@@ -57,5 +57,5 @@ export function ExercisePageForUser({ skillId, onNewExercise }) {
 		return <LoadingNote text={translate('Generating new exercise...', 'loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
-	return <ExerciseContainer key={exercise.startedOn} skillId={skillId} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer key={exercise.startedOn} skillId={skillId} exercise={exercise} submitting={actionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
 }

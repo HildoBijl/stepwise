@@ -23,7 +23,7 @@ async function getGroupWithExercises(code: string, db: any, where?: Record<strin
 		where: { code: code.toUpperCase() },
 		include: [{ association: 'members' }, {
 			association: 'exercises', where, required: false,
-			include: { association: 'events', required: false, include: { association: 'submissions', required: false } },
+			include: { association: 'events', required: false, include: { association: 'actions', required: false } },
 		}],
 	})
 	await deactivateMissingGroupExercises(group)

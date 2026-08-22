@@ -19,7 +19,7 @@ export function deserializeInputExerciseParameters<TParameters extends InputExer
 	return deserializedParameters as TParameters
 }
 
-// Get the last given input from the user. For group-exercises, this may be an unresolved submission input, unless the requireResolved flag is set to true.
+// Get the last given input from the user. For group-exercises, this may be an unresolved userAction input, unless the requireResolved flag is set to true.
 export function getLastInput(mode: ExerciseMode, history: ExerciseHistory<InputExerciseAction>, userId?: string, requireResolved = false): InputExerciseInput | undefined {
 	if (mode === 'group' && userId === undefined) throw new TypeError(`A userId is required when retrieving input from a group exercise history.`)
 
@@ -31,7 +31,7 @@ export function getLastInput(mode: ExerciseMode, history: ExerciseHistory<InputE
 	if (mode === 'group') for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of history.
 		const event = (history as GroupExerciseHistory<InputExerciseAction>)[index]
-		const userAction = (!requireResolved || 'state' in event) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
+		const userAction = (!requireResolved || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined
 
 		// If there is no valid input action, keep looking. Otherwise give the input.
 		if (!userAction || userAction.type !== 'input') continue

@@ -51,7 +51,7 @@ const apolloClient = new ApolloClient({
 			},
 			GroupEvent: {
 				fields: {
-					submissions: { merge: false },
+					actions: { merge: false },
 				},
 			},
 			Member: { keyFields: ['groupId', 'userId'] },

@@ -228,13 +228,13 @@ function GroupExerciseButtons({ stepwise = false }) {
 		},
 	})}>
 		<GiveUpAndSubmitButtons stepwise={stepwise} {...derivedParameters} />
-		<CurrentSubmissions {...derivedParameters} />
+		<CurrentActions {...derivedParameters} />
 		<GivenUpNote stepwise={stepwise} {...derivedParameters} />
 		<ResolveNote stepwise={stepwise} {...derivedParameters} />
 	</Box>
 }
 
-function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
+function GiveUpAndSubmitButtons({ stepwise, currentAction }) {
 	const getTranslation = useGetTranslation(translationPath)
 	const translate = useTranslator(translationPath, 'groupExercise')
 	const { instance, state, submitting } = useExerciseData()
@@ -246,17 +246,17 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const giveUp = useGiveUpAction()
 
 	// Determine whether the user has given up.
-	const hasGivenUp = submittedAction && submittedAction.type === 'giveUp'
+	const hasGivenUp = currentAction && currentAction.type === 'giveUp'
 
 	// Register the buttons to tab control.
 	const giveUpButtonRef = useRef(), submitButtonRef = useRef()
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !hasGivenUp, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, focusRefOnActive: true })
 
-	// Determine if the input is the same as previously, or as to what is currently submitted.
+	// Determine if the input is the same as the previous or current action.
 	const lastAction = getLastAction(instance, userId)
 	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
-	const isAllInputEqualToSubmittedInput = submittedAction && submittedAction.type === 'input' && isAllInputEqual(submittedAction.input)
+	const isAllInputEqualToCurrentAction = currentAction && currentAction.type === 'input' && isAllInputEqual(currentAction.input)
 
 	// Determine the give-up button text.
 	let giveUpText = getTranslation('buttons.giveUp')
@@ -267,18 +267,18 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	// Render the buttons.
 	const WarningIcon = getIcon('warning')
 	return <>
-		{submittedAction && submittedAction.type === 'input' && !isAllInputEqualToSubmittedInput ? <div className="description2 warning"><WarningIcon />{translate('The above input is not equal to your submitted solution.', 'unequalSolutionWarning')}</div> : null}
+		{currentAction && currentAction.type === 'input' && !isAllInputEqualToCurrentAction ? <div className="description2 warning"><WarningIcon />{translate('The above input is not equal to your submitted solution.', 'unequalSolutionWarning')}</div> : null}
 		{hasGivenUp ? null : <Button className="button1" variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}><span className="buttonText">{giveUpText}</span></Button>}
-		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToSubmittedInput} color="primary" ref={submitButtonRef}><span className="buttonText">{translate('Send submission', 'buttons.sendSubmission')}</span></Button>
+		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToCurrentAction} color="primary" ref={submitButtonRef}><span className="buttonText">{translate('Send submission', 'buttons.sendSubmission')}</span></Button>
 	</>
 }
 
-function CurrentSubmissions(derivedProperties) {
-	const { groupedSubmissions } = derivedProperties
-	return groupedSubmissions.input.map((submissionList, index) => <CurrentSubmissionRow key={index} {...{ ...derivedProperties, index, submissionList }} />)
+function CurrentActions(derivedProperties) {
+	const { groupedActions } = derivedProperties
+	return groupedActions.input.map((actionList, index) => <CurrentActionRow key={index} {...{ ...derivedProperties, index, actionList }} />)
 }
 
-function CurrentSubmissionRow({ submissionList, submitting, index }) {
+function CurrentActionRow({ actionList, submitting, index }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
 	const { history } = useExerciseData()
 	const userId = useUserId()
@@ -296,25 +296,25 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	useFieldRegistration({ id: `copyCancelButton${index}`, element: copyCancelButtonRef, focusRefOnActive: true })
 
 	// Determine the members and their names for display purposes.
-	const submissionMembers = submissionList.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
-	const membersSorted = useSelfAndOtherMembers(submissionMembers)
-	const isSelfPresent = submissionMembers.some(member => member.userId === userId)
+	const actionMembers = actionList.map(userAction => activeGroup.members.find(member => member.userId === userAction.userId))
+	const membersSorted = useSelfAndOtherMembers(actionMembers)
+	const isSelfPresent = actionMembers.some(member => member.userId === userId)
 
 	// Set up handlers to put the input into the form and possibly submit it.
-	const historyRef = useLatest(history), submissionListRef = useLatest(submissionList)
+	const historyRef = useLatest(history), actionListRef = useLatest(actionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastInput('group', historyRef.current, last(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
-		setAllInputSI(last(submissionListRef.current).action.input) // Show the input of the last action.
-	}, [historyRef, submissionListRef, updateFeedback, setAllInputSI])
+		updateFeedback(getLastInput('group', historyRef.current, last(actionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
+		setAllInputSI(last(actionListRef.current).action.input) // Show the input of the last action.
+	}, [historyRef, actionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {
 		setFormInput()
 		submit()
 	}, [setFormInput, submit])
 
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
-	const submittedInput = last(submissionList).action.input
-	const isEqual = isAllInputEqual(submittedInput)
+	const actionInput = last(actionList).action.input
+	const isEqual = isAllInputEqual(actionInput)
 	return <>
 		<div className="inBetween" />
 		<div className="description1">{translate('Submitted:', 'status.submitted')}</div>
@@ -327,7 +327,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	</>
 }
 
-function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
+function GivenUpNote({ stepwise, gaveUp, submitting, groupedActions }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
 	const { state } = useExerciseData()
 	const activeGroup = useActiveGroup()
@@ -338,11 +338,11 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 	useFieldRegistration({ id: 'cancelButton', element: cancelButtonRef, apply: gaveUp, focusRefOnActive: true })
 
 	// Determine who gave up.
-	const giveUpMembers = groupedSubmissions.giveUp.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
+	const giveUpMembers = groupedActions.giveUp.map(userAction => activeGroup.members.find(member => member.userId === userAction.userId))
 	const membersSorted = useSelfAndOtherMembers(giveUpMembers)
 
 	// If no one gave up, show nothing.
-	if (groupedSubmissions.giveUp.length === 0)
+	if (groupedActions.giveUp.length === 0)
 		return null
 
 	// Show the people that gave up.
@@ -354,7 +354,7 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 	</>
 }
 
-function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting, unsubmittedMembers }) {
+function ResolveNote({ stepwise, hasUserAction, canResolve, allGaveUp, submitting, membersWithoutActions }) {
 	const translate = useTranslator(translationPath, 'groupExercise')
 	const { state } = useExerciseData()
 
@@ -363,8 +363,8 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	const resolveButtonRef = useRef()
 	useFieldRegistration({ id: 'resolveButton', element: resolveButtonRef, apply: canResolve, focusRefOnActive: true })
 
-	// If the user has not submitted anything, do not show anything.
-	if (!hasSubmitted)
+	// If the user has no current action, do not show anything.
+	if (!hasUserAction)
 		return null
 
 	// If everyone gave up, show an alternate note.
@@ -386,12 +386,12 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 		</>
 	}
 
-	// If the exercise cannot be resolved because submissions are missing, show remaining members.
-	if (unsubmittedMembers.length > 0) {
+	// If the exercise cannot be resolved because actions are missing, show remaining members.
+	if (membersWithoutActions.length > 0) {
 		return <>
 			<div className="inBetween" />
 			<div className="description1">{translate('Missing:', 'status.missingSubmissions')}</div>
-			<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
+			<div className="memberList"><MemberList members={membersWithoutActions} /></div>
 		</>
 	}
 
@@ -413,57 +413,57 @@ function useDerivedParameters() {
 	// Determine the status of the exercise.	
 	return useMemo(() => {
 		const currentEvent = history.find(event => !('state' in event))
-		const currentSubmissions = currentEvent?.submissions || []
-		const gaveUp = currentSubmissions.some(submission => submission.userId === userId && submission.action.type === 'giveUp')
-		const submittedAction = currentSubmissions.find(submission => submission.userId === userId)?.action
-		const hasSubmitted = !!submittedAction
-		const numSubmissions = currentSubmissions.length
-		const unsubmittedMembers = activeGroup.members.filter(member => member.active && !currentSubmissions.some(submission => submission.userId === member.userId))
+		const currentActions = currentEvent?.actions || []
+		const gaveUp = currentActions.some(userAction => userAction.userId === userId && userAction.action.type === 'giveUp')
+		const currentAction = currentActions.find(userAction => userAction.userId === userId)?.action
+		const hasUserAction = !!currentAction
+		const numActions = currentActions.length
+		const membersWithoutActions = activeGroup.members.filter(member => member.active && !currentActions.some(userAction => userAction.userId === member.userId))
 		const canResolve = canResolveGroupEvent(activeGroup, history)
-		const allGaveUp = canResolve && currentEvent.submissions.every(submission => submission.action.type === 'giveUp')
-		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isAllInputEqual)
-		return { currentEvent, currentSubmissions, gaveUp, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
+		const allGaveUp = canResolve && currentEvent.actions.every(userAction => userAction.action.type === 'giveUp')
+		const groupedActions = groupActions(currentActions, userId, isAllInputEqual)
+		return { currentEvent, currentActions, currentAction, gaveUp, hasUserAction, numActions, membersWithoutActions, canResolve, allGaveUp, groupedActions }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeGroup, history, userId, isAllInputEqual, fieldIds]) // The fieldIds dependency is needed because, only after the fields get loaded into the form, can isAllInputEqual function properly.
 }
 
-// groupSubmissions takes a set of submissions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
-function groupSubmissions(submissions, userId, isAllInputEqual) {
-	// Filter the submissions by their type.
-	const inputSubmissions = submissions.filter(submission => submission.action.type === 'input')
-	const giveUpSubmissions = submissions.filter(submission => submission.action.type === 'giveUp')
+// groupActions takes a set of actions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
+function groupActions(actions, userId, isAllInputEqual) {
+	// Filter the actions by their type.
+	const inputActions = actions.filter(userAction => userAction.action.type === 'input')
+	const giveUpActions = actions.filter(userAction => userAction.action.type === 'giveUp')
 
-	// Walk through the input submissions and group them based on equality. If there is an earlier submission with equal input, group them together.
-	const inputSubmissionsGrouped = []
-	inputSubmissions.forEach(submission => {
-		const index = inputSubmissionsGrouped.findIndex(submissionList => isAllInputEqual(submissionList[0].action.input, submission.action.input))
+	// Walk through the input actions and group them based on equality. If there is an earlier user action with equal input, group them together.
+	const groupedInputActions = []
+	inputActions.forEach(userAction => {
+		const index = groupedInputActions.findIndex(actionList => isAllInputEqual(actionList[0].action.input, userAction.action.input))
 		if (index !== -1)
-			inputSubmissionsGrouped[index].push(submission)
+			groupedInputActions[index].push(userAction)
 		else
-			inputSubmissionsGrouped.push([submission])
+			groupedInputActions.push([userAction])
 	})
 
-	// Sort the submission lists based on their last submission time, with later first. But put the user's submission always first.
-	const inputSubmissionsSorted = inputSubmissionsGrouped.sort((a, b) => {
-		if (a.some(submission => submission.userId === userId))
+	// Sort the action lists based on their latest action time, with later first. But always put the user's action first.
+	const sortedInputActions = groupedInputActions.sort((a, b) => {
+		if (a.some(userAction => userAction.userId === userId))
 			return -2
-		if (b.some(submission => submission.userId === userId))
+		if (b.some(userAction => userAction.userId === userId))
 			return 2
-		const lastASubmission = Math.max(...a.map(submission => new Date(submission.performedAt).getTime()))
-		const lastBSubmission = Math.max(...b.map(submission => new Date(submission.performedAt).getTime()))
-		return Math.sign(lastBSubmission - lastASubmission)
+		const latestATime = Math.max(...a.map(userAction => new Date(userAction.performedAt).getTime()))
+		const latestBTime = Math.max(...b.map(userAction => new Date(userAction.performedAt).getTime()))
+		return Math.sign(latestBTime - latestATime)
 	})
 
 	// Return the final result.
 	return {
-		input: inputSubmissionsSorted.map(submissionList => sortSubmissionList(submissionList, userId)),
-		giveUp: sortSubmissionList(giveUpSubmissions),
+		input: sortedInputActions.map(actionList => sortActionList(actionList, userId)),
+		giveUp: sortActionList(giveUpActions),
 	}
 }
 
-// sortSubmissionList takes an array of submissions and sorts it: it puts the given user last, and other than that it sorts them based on time with later submissions last.
-function sortSubmissionList(submissions, userId) {
-	return submissions.sort((a, b) => {
+// sortActionList takes an array of actions and sorts it: it puts the given user last, and other than that it sorts them based on time with later actions last.
+function sortActionList(actions, userId) {
+	return actions.sort((a, b) => {
 		if (a.userId === userId)
 			return 2
 		if (b.userId === userId)

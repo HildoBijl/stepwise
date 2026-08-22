@@ -6,8 +6,8 @@ describe('getLastInput', () => {
 	const pendingInput = { answer: { type: 'Text', value: 'pending' } }
 
 	const history = [
-		{ state: {}, submissions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
-		{ submissions: [{ userId, action: { type: 'input', input: pendingInput } }] },
+		{ state: {}, actions: [{ userId, action: { type: 'input', input: resolvedInput } }] },
+		{ actions: [{ userId, action: { type: 'input', input: pendingInput } }] },
 	] as const
 
 	test('returns a pending group input when resolved input is not required', () => {

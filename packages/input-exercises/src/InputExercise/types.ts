@@ -59,14 +59,14 @@ type InputExerciseReducerGeneralInput<TAction extends ExerciseAction, TState ext
 	parameters: TParameters
 	updateSkills?: UpdateSkills
 }
-type InputExerciseSubmission<TAction extends ExerciseAction> = {
+type InputExerciseUserAction<TAction extends ExerciseAction> = {
 	userId?: string
 	action: TAction
 }
-export type InputExerciseReducerSubmissionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TAction, TState, TParameters> & {
+export type InputExerciseReducerActionsInput<TAction extends ExerciseAction, TState extends ExerciseState, TParameters extends InputExerciseParameters> = InputExerciseReducerGeneralInput<TAction, TState, TParameters> & {
 	mode: ExerciseMode
 	history: ExerciseHistory<TAction, TState>
-	submissions: readonly InputExerciseSubmission<TAction>[]
+	actions: readonly InputExerciseUserAction<TAction>[]
 }
 
 // Input exercise: its public generator and reducer use stored data; author-facing callbacks use deserialized parameters.

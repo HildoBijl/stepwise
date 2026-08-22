@@ -25,7 +25,7 @@ export function getLastInputAtStep(mode: ExerciseMode, history: ExerciseHistory<
 	if (mode === 'group') for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of history.
 		const event = (history as GroupExerciseHistory<InputExerciseAction, StepExerciseState>)[index]
-		const userAction = (!requireResolved || 'state' in event) ? event.submissions.find(submission => submission.userId === userId)?.action : undefined
+		const userAction = (!requireResolved || 'state' in event) ? event.actions.find(userAction => userAction.userId === userId)?.action : undefined
 
 		// If there is no valid input action, or it was made at the wrong step, keep looking. Otherwise give the input.
 		if (!userAction || userAction.type !== 'input') continue

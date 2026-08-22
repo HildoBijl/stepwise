@@ -29,21 +29,21 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const display = step <= exerciseStep || forceDisplay || !!example || inspection
 	const stepState = (forceDisplay ? { done: true, solved: false } : state[step]) || {}
 
-	// If this step has had a submission, or is still active, show the input space.
-	const hasSubmissions = history.some((event, index) => {
+	// If this step has had an action, or is still active, show the input space.
+	const hasPreviousActions = history.some((event, index) => {
 		if (inspection && index > historyIndex)
-			return false // We are past the inspection (submission) index: future submissions are ignored.
+			return false // We are past the inspection action index: future actions are ignored.
 		if (index === 0 || history[index - 1].state.step !== step)
 			return false // Not at this step.
 		if (mode === 'solo' && event.action.type === 'input')
 			return true // Single-user exercise with input at this step.
-		if (mode === 'group' && event.submissions.some(submission => submission.action.type === 'input' && submission.userId === userId))
+		if (mode === 'group' && event.actions.some(userAction => userAction.action.type === 'input' && userAction.userId === userId))
 			return true // Group exercise with input by the user at this step.
 		return false // Nothing found.
 	})
 	const doneWithStep = stepState.done
 	const readOnly = inspection ? true : (example ? step !== exerciseStep : doneWithStep)
-	const showInputSpace = (!inspection && !stepState.done && step === exerciseStep) || hasSubmissions
+	const showInputSpace = (!inspection && !stepState.done && step === exerciseStep) || hasPreviousActions
 	const showMainFeedback = showInputSpace && (stepState.done || isAllInputEqual(feedbackInput))
 	const showSolution = !!(example || inspection || stepState.done)
 	const initialSolutionExpand = !!(forceDisplay || inspection || (stepState.done && !stepState.solved))
