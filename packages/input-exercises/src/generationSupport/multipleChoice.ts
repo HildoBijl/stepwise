@@ -1,4 +1,4 @@
-import { ensureInteger, integerRange, randomSubset, shuffle } from '@step-wise/js-utils'
+import { ensureBoolean, ensureInteger, integerRange, randomSubset, shuffle } from '@step-wise/js-utils'
 
 export type MultipleChoiceMappingOptions = {
 	numChoices: number // How many choices are there?
@@ -7,7 +7,7 @@ export type MultipleChoiceMappingOptions = {
 	randomOrder?: boolean // Should we put the options in random order?
 }
 
-export type ResolvedMultipleChoiceMappingOptions = {
+type ResolvedMultipleChoiceMappingOptions = {
 	numChoices: number
 	pick: number
 	include: number[]
@@ -22,11 +22,11 @@ export function generateMultipleChoiceMapping(options: MultipleChoiceMappingOpti
 	return randomOrder ? shuffle(mapping) : mapping.sort((a, b) => a - b)
 }
 
-export function resolveMultipleChoiceMappingOptions(options: MultipleChoiceMappingOptions): ResolvedMultipleChoiceMappingOptions {
+function resolveMultipleChoiceMappingOptions(options: MultipleChoiceMappingOptions): ResolvedMultipleChoiceMappingOptions {
 	const numChoices = ensureInteger(options.numChoices, { nonNegative: true, nonZero: true })
 	const pick = ensureInteger(options.pick ?? numChoices, { nonNegative: true, nonZero: true })
 	const include = normalizeIncludedChoices(options.include, numChoices)
-	const randomOrder = options.randomOrder ?? false
+	const randomOrder = ensureBoolean(options.randomOrder ?? false)
 	if (pick > numChoices) throw new Error(`Invalid multiple choice mapping options: cannot pick ${pick} choices from only ${numChoices} choices.`)
 	if (include.length > pick) throw new Error(`Invalid multiple choice mapping options: ${include.length} choices are included, but only ${pick} choices are requested.`)
 	return { numChoices, pick, include, randomOrder }
