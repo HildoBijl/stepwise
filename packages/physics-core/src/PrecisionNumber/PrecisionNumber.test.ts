@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { PrecisionNumber, asPrecisionNumber } from './PrecisionNumber'
 import { deserializePrecisionNumber, serializePrecisionNumber } from './serialization'
 import { precisionNumberToInputValue, interpretPrecisionNumberInputValue, isPrecisionNumberInputValue } from './inputValue'

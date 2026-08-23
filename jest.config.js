@@ -13,6 +13,7 @@ module.exports = {
 		'<rootDir>/packages/interpolation/',
 		'<rootDir>/packages/js-utils/',
 		'<rootDir>/packages/math-tools/',
+		'<rootDir>/packages/physics-core/',
 		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/settings/',
 		'<rootDir>/packages/skill-definition/',

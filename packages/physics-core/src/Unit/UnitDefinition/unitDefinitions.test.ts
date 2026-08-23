@@ -34,3 +34,4 @@ describe('base-unit definitions', () => {
 		expect(() => unitDefinitionList.forEach(visit)).not.toThrow()
 	})
 })
+import { describe, expect, test } from 'vitest'
