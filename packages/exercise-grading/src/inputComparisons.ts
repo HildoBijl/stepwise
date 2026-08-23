@@ -10,6 +10,7 @@ function getInputComparisons(data: CheckInputData): Record<string, InputComparis
 	if (!isPlainObject(comparisons)) throw new TypeError(`Invalid comparison settings: expected a plain object.`)
 	return comparisons as Record<string, InputComparisonSetting>
 }
+
 export function resolveInputComparison<TData extends CheckInputData>(key: InputKey<TData>, type: InputValue['type'], data: TData): InputComparisonSetting | undefined {
 	const comparisons = getInputComparisons(data)
 	const comparison = comparisons?.[key] ?? comparisons?.[type]
