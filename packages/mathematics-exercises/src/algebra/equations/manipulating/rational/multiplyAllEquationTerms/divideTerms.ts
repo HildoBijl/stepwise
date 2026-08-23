@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'multiplyAllEquationTerms',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables']),
-		compare: {
+		comparisons: {
 			form: { compareSide: equivalent },
 			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinFraction(input) && equivalent(input, correct) },
 			ans: { compareSide: onlyOrderChanges },

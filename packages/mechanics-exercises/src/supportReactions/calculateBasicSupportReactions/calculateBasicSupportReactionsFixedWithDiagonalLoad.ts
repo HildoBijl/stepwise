@@ -10,7 +10,7 @@ import { getDynamicSolution, getInputDependency } from './common'
 const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', undefined, 'calculateForceOrMoment']),
-	compare: {
+	comparisons: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison,
 	},

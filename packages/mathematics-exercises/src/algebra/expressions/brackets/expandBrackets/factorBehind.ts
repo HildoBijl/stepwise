@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'expandBrackets',
 		...createStepExerciseMetadata([undefined, 'simplifyNumberProduct', 'rewritePower']),
-		compare: {
+		comparisons: {
 			expanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
 			numbersMerged: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
 			ans: onlyOrderChanges,

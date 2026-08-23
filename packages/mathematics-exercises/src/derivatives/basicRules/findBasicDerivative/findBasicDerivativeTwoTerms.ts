@@ -12,7 +12,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'findBasicDerivative',
 		...createStepExerciseMetadata([[undefined, undefined], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
-		compare: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.equivalent },
 	},
 
 	generateParameters() {

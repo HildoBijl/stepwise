@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionsWithVariables',
 		...createStepExerciseMetadata(['multiplyDivideFractions', 'simplifyFractionWithVariables']),
-		compare: {
+		comparisons: {
 			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
 		},

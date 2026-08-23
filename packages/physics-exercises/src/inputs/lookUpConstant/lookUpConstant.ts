@@ -11,7 +11,7 @@ const constantNames: ConstantName[] = ['c', 'g', 'R', 'e', 'k', 'G']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpConstant',
-		compare: {
+		comparisons: {
 			ans: {
 				float: { relativeTolerance: 0.0001 },
 			},

@@ -10,9 +10,9 @@ import { compareInputList, compareInputListEntry } from './compareInputList'
 import { compareInteger } from './objects/Integer'
 import { compareMultipleChoice } from './objects/MultipleChoice'
 
-function makeData(rawInput: Record<string, InputValue>, solution: Record<string, unknown>, compareOptions = {}) {
+function makeData(rawInput: Record<string, InputValue>, solution: Record<string, unknown>, comparisons = {}) {
 	return {
-		metadata: { compare: compareOptions },
+		metadata: { comparisons },
 		parameters: {},
 		rawInput,
 		input: mapValues(rawInput, value => interpretInputValue(value)),

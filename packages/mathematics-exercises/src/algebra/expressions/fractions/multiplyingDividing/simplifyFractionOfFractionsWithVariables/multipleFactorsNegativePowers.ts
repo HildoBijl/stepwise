@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionsWithVariables',
 		...createStepExerciseMetadata(['rewriteNegativePower', 'multiplyDivideFractions', 'simplifyFractionWithVariables']),
-		compare: {
+		comparisons: {
 			withoutNegativeExponents: (input: Expression, correct: Expression) => !hasNegativeExponent(input) && equivalent(input, correct),
 			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),

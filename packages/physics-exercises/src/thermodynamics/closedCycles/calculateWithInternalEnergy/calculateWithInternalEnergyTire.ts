@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateWithInternalEnergy',
 		...createStepExerciseMetadata(['gasLaw', 'specificHeats', 'solveLinearEquation']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			cv: { float: { relativeTolerance: 0.02 } },
 		},

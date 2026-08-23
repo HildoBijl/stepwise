@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyProductOfPowers',
 		...createStepExerciseMetadata(['rewritePower', 'simplifyNumberProduct', 'rewritePower']),
-		compare: {
+		comparisons: {
 			bracketsExpanded: (input: Expression, correct: Expression) => !hasProductWithinPowerBase(input) && equivalent(input, correct),
 			numbersSimplified: (input: Expression, correct: Expression) => !hasProductWithinPowerBase(input) && !input.some(term => term.isProduct() && count(term.factors, factor => factor.isNumeric()) > 1) && equivalent(input, correct),
 			ans: onlyOrderChanges,

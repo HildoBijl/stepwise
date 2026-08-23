@@ -20,7 +20,7 @@ export default buildStepExercise({
 		skill: 'solveLinearEquationWithFractions',
 		...createStepExerciseMetadata(['moveEquationFactor', 'expandDoubleBrackets', 'solveLinearEquation']),
 		...{ factorMovedComparison, expandedComparison },
-		compare: {
+		comparisons: {
 			factorMoved: (input: Equation, correct: Equation, { variables }: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 			expanded: (input: Equation, correct: Equation) => !hasSumWithinProduct(input) && correct.equals(input, expandedComparison),
 			ans: onlyOrderChanges,

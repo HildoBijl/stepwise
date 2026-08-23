@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'createRankineCycleOverview',
 		...createStepExerciseMetadata(['lookUpSteamProperties', undefined, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.002, significantDigitTolerance: 2 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.002, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {

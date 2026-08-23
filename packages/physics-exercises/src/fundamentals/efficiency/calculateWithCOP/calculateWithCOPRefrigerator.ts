@@ -6,7 +6,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithCOP',
-		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {

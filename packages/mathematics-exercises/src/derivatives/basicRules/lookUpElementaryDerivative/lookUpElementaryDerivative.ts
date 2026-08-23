@@ -11,7 +11,7 @@ const functionSet = ['f', 'g', 'h']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpElementaryDerivative',
-		compare: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.equivalent },
 	},
 
 	generateParameters() {

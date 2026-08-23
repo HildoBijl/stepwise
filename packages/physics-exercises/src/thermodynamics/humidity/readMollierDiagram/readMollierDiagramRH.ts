@@ -8,7 +8,7 @@ import { maximumHumidity } from '@step-wise/physics-data'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'readMollierDiagram',
-		compare: { FloatUnit: { float: { absoluteTolerance: 0.04 } } },
+		comparisons: { FloatUnit: { float: { absoluteTolerance: 0.04 } } },
 	},
 
 	generateParameters() {

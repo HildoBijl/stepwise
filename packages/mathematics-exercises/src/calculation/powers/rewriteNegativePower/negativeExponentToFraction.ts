@@ -7,7 +7,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'rewriteNegativePower',
-		compare: { ans: (input: Expression, correct: Expression) => !expressionChecks.hasNegativeExponent(input) && expressionComparisons.equivalent(input, correct) },
+		comparisons: { ans: (input: Expression, correct: Expression) => !expressionChecks.hasNegativeExponent(input) && expressionComparisons.equivalent(input, correct) },
 	},
 
 	generateParameters(example) {

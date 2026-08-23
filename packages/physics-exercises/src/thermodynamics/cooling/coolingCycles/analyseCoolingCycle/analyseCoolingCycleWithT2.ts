@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseCoolingCycle',
 		...createStepExerciseMetadata(['createCoolingCycleOverview', ['calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick']]),
-		compare: {
+		comparisons: {
 			h1: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			h2p: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			h2: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },

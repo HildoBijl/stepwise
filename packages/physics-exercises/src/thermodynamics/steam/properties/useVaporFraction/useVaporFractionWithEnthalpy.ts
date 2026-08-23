@@ -11,7 +11,7 @@ export default buildStepExercise({
 		skill: 'useVaporFraction',
 		setup: and('lookUpSteamProperties', 'linearInterpolation'),
 		...createStepExerciseMetadata(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.001 } },
 			x: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
 			s: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },

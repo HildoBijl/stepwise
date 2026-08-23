@@ -197,7 +197,7 @@ function getFeedback(data) {
 	const { input, state, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { compare: FBDComparison } })
+	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { comparison: FBDComparison } })
 	const loadsCorrect = input.loads && compareLoadSets(input.loads, solution.loads, FBDComparison).equal
 	if (getCurrentStep(state) === 0 && !loadsCorrect)
 		return loadsFeedback

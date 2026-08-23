@@ -12,7 +12,7 @@ function generateParameters(example: boolean) {
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterFloat',
-		compare: {
+		comparisons: {
 			ans: { significantDigitTolerance: 0, checkPower: true },
 		},
 	},

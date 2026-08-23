@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'findGeneralDerivative',
 		...createStepExerciseMetadata([undefined, undefined, 'applyChainRule']),
 		weight: 4,
-		compare: { method: {}, Expression: expressionComparisons.equivalent },
+		comparisons: { method: {}, Expression: expressionComparisons.equivalent },
 	},
 
 	generateParameters() {

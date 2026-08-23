@@ -9,7 +9,7 @@ import { generateParameters, getSolution as getCycleParametersRaw } from '../cal
 const metadata = {
 	skill: 'createClosedCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
-	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+	comparisons: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
 function getCycleParameters(parameters: Parameters<typeof getCycleParametersRaw>[0]) {

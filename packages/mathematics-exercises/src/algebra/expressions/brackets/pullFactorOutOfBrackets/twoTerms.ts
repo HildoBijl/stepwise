@@ -16,7 +16,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'pullFactorOutOfBrackets',
 		...createStepExerciseMetadata([undefined, 'addLikeFractionsWithVariables', 'simplifyFractionWithVariables', 'expandBrackets']),
-		compare: {
+		comparisons: {
 			startingForm: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten(), correct),
 			splitUp: (input: Expression, correct: Expression, { expression, factor }: { expression: Expression, factor: Expression }) => {
 				input = input.flatten()

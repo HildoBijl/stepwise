@@ -20,7 +20,7 @@ export default buildStepExercise({
 		skill: 'moveEquationFactor',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'cancelFractionFactors', 'multiplyDivideFractions']),
 		...{ ansEqualsOptions },
-		compare: {
+		comparisons: {
 			bothSidesChanged: { compareSide: equivalent },
 			fractionFactorsCanceled: (input: Equation, correct: Equation, solution: { switchSides: boolean }) => correct.equals(input, ansEqualsOptions(solution)),
 			ans: (input: Equation, correct: Equation, solution: { switchSides: boolean }) => !hasFractionWithinFraction(input) && correct.equals(input, ansEqualsOptions(solution)),

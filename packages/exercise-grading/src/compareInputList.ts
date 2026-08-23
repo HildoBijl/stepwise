@@ -33,5 +33,5 @@ export function compareInputListEntry<TData extends CheckInputData>(inputKey: In
 	const inputValue = input[inputKey]
 	const expectedValue = solution[solutionKey]
 	const inputComparison = resolveInputComparison(solutionKey, type, data)
-	return compareInputValue(inputValue, expectedValue, { key: solutionKey, type, compare: inputComparison, data })
+	return compareInputValue(inputValue, expectedValue, { key: solutionKey, type, comparison: inputComparison, data })
 }

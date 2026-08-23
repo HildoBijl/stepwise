@@ -10,7 +10,7 @@ const variableSet = ['α', 'β', 'γ']
 export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['calculateTriangle', 'determine2DAngles']),
-		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct) },
 	},
 
 	generateParameters() {

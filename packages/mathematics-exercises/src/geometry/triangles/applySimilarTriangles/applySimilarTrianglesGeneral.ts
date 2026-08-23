@@ -13,7 +13,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'applySimilarTriangles',
 		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
-		compare: {
+		comparisons: {
 			Equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 			Expression: expressionComparisons.equivalent,
 		},

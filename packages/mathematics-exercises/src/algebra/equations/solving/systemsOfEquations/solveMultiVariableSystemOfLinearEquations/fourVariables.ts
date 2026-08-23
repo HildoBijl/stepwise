@@ -16,7 +16,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveMultiVariableSystemOfLinearEquations',
 		...createStepExerciseMetadata(['solveMultiVariableLinearEquation', 'substituteAnExpression', 'solveMultiVariableLinearEquation', and('substituteAnExpression', 'simplifyFractionOfFractionSumsWithMultipleVariables')]),
-		compare: {
+		comparisons: {
 			eq1Solution: expressionComparisons.equivalent,
 			eq2Substituted: equationComparisons.equivalent,
 			x: (input: Expression, correct: Expression) => expressionComparisons.equivalent(input, correct) && !expressionChecks.hasFractionWithinFraction(input),

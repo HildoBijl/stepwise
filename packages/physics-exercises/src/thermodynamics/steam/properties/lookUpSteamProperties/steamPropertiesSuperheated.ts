@@ -8,7 +8,7 @@ export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpSteamProperties',
 		weight: 2,
-		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},
 
 	generateParameters() {

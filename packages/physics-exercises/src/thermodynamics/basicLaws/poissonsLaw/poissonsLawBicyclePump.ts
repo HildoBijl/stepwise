@@ -7,7 +7,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'poissonsLaw',
 		...createStepExerciseMetadata([['calculateWithTemperature', undefined, 'calculateWithVolume'], undefined, 'solveLinearEquation']),
-		compare: {
+		comparisons: {
 			V1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
 			V2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
 			T1s: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },

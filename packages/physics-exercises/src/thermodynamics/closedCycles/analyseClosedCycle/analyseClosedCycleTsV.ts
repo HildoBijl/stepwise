@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseClosedCycle',
 		...createStepExerciseMetadata(['calculateClosedCycle', 'createClosedCycleEnergyOverview', undefined, 'calculateWithCOP']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			eta: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},

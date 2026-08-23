@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseAirco',
 		...createStepExerciseMetadata(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } },
 			endRH: { float: { absoluteTolerance: 0.04, significantDigitTolerance: 1 } },
 		},

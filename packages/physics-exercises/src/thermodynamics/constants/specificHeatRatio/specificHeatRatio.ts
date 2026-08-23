@@ -8,7 +8,7 @@ const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'specificHeatRatio',
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.015 } },
 		},
 	},

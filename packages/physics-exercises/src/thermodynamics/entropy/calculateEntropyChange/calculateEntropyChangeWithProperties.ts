@@ -7,7 +7,7 @@ const { cv, cp, Rs } = gasProperties.air
 const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation']),
-	compare: {
+	comparisons: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		Rs: { float: { relativeTolerance: 0.02 } },
 		cp: { float: { relativeTolerance: 0.02 } },

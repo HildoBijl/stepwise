@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
-		compare: {
+		comparisons: {
 			multiplication: (input: Expression, correct: Expression) => !input.some(factor => factor.isPower() && factor.base.isSum()) && equivalent(input, correct),
 			firstExpanded: (input: Expression, correct: Expression) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && equivalent(input, correct),
 			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input) && equivalent(input, correct),

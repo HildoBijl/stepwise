@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyProductOfPowers',
 		...createStepExerciseMetadata(['rewritePower', 'rewritePower']),
-		compare: {
+		comparisons: {
 			powersReduced: (input: Expression, correct: Expression) => !hasPowerWithinPowerBase(input) && equivalent(input, correct),
 			ans: onlyOrderChanges,
 		},

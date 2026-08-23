@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateHeatAndWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, ['specificHeats', 'specificGasConstant'], ['calculateWithMass', 'calculateWithTemperature'], undefined]),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 2 } },
 			ms: { float: { relativeTolerance: 0.001 }, unit: { target: 'unchanged' } },
 			T1s: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },

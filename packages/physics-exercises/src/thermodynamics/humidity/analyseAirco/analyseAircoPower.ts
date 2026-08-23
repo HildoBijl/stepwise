@@ -11,7 +11,7 @@ const { cp } = gasProperties.air
 export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },
 			T3: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
 		},

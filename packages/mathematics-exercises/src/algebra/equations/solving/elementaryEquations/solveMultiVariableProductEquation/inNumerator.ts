@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveMultiVariableProductEquation',
 		...createStepExerciseMetadata(['moveEquationFactor', 'simplifyFractionWithVariables', 'checkMultiVariableEquationSolution']),
-		compare: {
+		comparisons: {
 			isolated: { compareSide: equivalent, allowSwitch: true },
 			ans: onlyOrderChanges,
 			checkLeft: onlyOrderChanges,

@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'poissonsLaw',
 		...createStepExerciseMetadata([[undefined, undefined, 'calculateWithPressure'], 'specificHeatRatio', undefined, 'solveExponentEquation']),
-		compare: {
+		comparisons: {
 			T1s: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
 			p1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
 			p2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },

@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'expandPowerOfSum',
 		...createStepExerciseMetadata([skillRepeat('simplifyProductOfPowers', 2), undefined, 'simplifyNumberProduct']),
-		compare: {
+		comparisons: {
 			Expression: onlyOrderChanges,
 		},
 	},

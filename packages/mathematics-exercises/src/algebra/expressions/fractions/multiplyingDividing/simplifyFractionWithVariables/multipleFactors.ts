@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionWithVariables',
 		...createStepExerciseMetadata(['simplifyFraction', and('rewritePower', 'cancelFractionFactors')]),
-		compare: {
+		comparisons: {
 			numericSimplified: (input: Expression, correct: Expression) => onlyOrderChanges(input.flatten().flatten(['mergeProductNumbers', 'mergeFractionNumbers']), input.flatten()) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
 		},

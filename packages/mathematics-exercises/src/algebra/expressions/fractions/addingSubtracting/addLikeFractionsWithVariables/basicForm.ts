@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'addLikeFractionsWithVariables',
 		...createStepExerciseMetadata([undefined, 'expandBrackets', 'mergeSimilarTerms']),
-		compare: {
+		comparisons: {
 			singleFraction: (input: Expression, correct: Expression) => input.flatten().isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 			bracketsExpanded: (input: Expression, correct: Expression) => input.flatten().isFraction() && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => isFractionLike(input) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),

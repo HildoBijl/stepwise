@@ -16,7 +16,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'moveEquationTerm',
 		...createStepExerciseMetadata(['addToBothEquationSides', 'cancelSumTerms']),
-		compare: {
+		comparisons: {
 			bothSidesChanged: { compareSide: equivalent },
 			ans: { compareSide: onlyOrderChanges },
 		},

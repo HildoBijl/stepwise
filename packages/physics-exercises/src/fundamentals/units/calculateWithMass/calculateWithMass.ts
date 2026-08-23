@@ -10,7 +10,7 @@ import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithMass',
-		compare: {
+		comparisons: {
 			FloatUnit: {
 				float: {
 					relativeTolerance: 0.001,

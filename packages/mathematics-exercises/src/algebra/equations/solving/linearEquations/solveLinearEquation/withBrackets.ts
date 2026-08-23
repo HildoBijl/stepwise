@@ -17,7 +17,7 @@ export default buildStepExercise({
 		weight: 2,
 		skill: 'solveLinearEquation',
 		...createStepExerciseMetadata(['expandBrackets', 'moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
-		compare: {
+		comparisons: {
 			expanded: (input: Equation, correct: Equation) => !equationChecks.hasSumWithinProduct(input) && equationComparisons.equivalent(input, correct),
 			moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
 			cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },

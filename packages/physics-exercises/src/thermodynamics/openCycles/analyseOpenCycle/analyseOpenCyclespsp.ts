@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseOpenCycle',
 		...createStepExerciseMetadata(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			eta: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},

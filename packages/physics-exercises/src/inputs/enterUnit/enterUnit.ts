@@ -6,7 +6,7 @@ import { compareInputs } from '@step-wise/exercise-grading'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterUnit',
-		compare: {
+		comparisons: {
 			ans: { target: 'unchanged' },
 		},
 	},

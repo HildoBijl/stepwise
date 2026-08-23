@@ -38,7 +38,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'bringEquationToStandardForm',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
-		compare: {
+		comparisons: {
 			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct),
 			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct),
 			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },

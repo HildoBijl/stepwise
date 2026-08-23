@@ -7,7 +7,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			x: { absoluteTolerance: 0.005, significantDigitTolerance: 1 },
 		},

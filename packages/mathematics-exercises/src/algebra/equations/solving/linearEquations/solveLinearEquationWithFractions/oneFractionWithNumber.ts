@@ -19,7 +19,7 @@ export default buildStepExercise({
 		skill: 'solveLinearEquationWithFractions',
 		...createStepExerciseMetadata(['moveEquationTerm', 'moveEquationFactor', 'solveLinearEquation']),
 		...{ factorMovedComparison },
-		compare: {
+		comparisons: {
 			termMoved: { compareSide: onlyOrderChanges, allowSwitch: true },
 			factorMoved: (input: Equation, correct: Equation, { variables }: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 			ans: onlyOrderChanges,

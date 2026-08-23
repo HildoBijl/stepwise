@@ -9,7 +9,7 @@ const angleVariableSet = ['α', 'β', 'γ']
 export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['calculateTriangle', 'calculateTriangle', undefined]),
-		compare: {
+		comparisons: {
 			βRaw: (input: Expression, correct: Expression, { variables, a }: { variables: Record<string, Expression>, a: Expression }) => approximatelyEqual(...[input, correct].map(value => value.substitute(variables.a, a).toNumber()) as [number, number]), // Plug in the value of a and compare numbers. This is the easiest way to allow for alternate solutions.
 		},
 	},

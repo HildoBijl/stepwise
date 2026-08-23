@@ -11,7 +11,7 @@ const { cv, cp } = gasProperties.air
 const metadata = {
 	skill: 'createOpenCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')]),
-	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+	comparisons: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
 function getCycleParameters(parameters: ReturnType<typeof generateParameters>) {

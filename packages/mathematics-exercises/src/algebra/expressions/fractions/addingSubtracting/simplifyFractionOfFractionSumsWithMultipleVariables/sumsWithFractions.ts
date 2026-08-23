@@ -19,7 +19,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-		compare: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct) },
+		comparisons: { Expression: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct) },
 	},
 
 	generateParameters() {

@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'addFractionsWithVariables',
 		...createStepExerciseMetadata(['cancelFractionFactors', 'expandDoubleBrackets', 'addLikeFractionsWithVariables']),
-		compare: {
+		comparisons: {
 			sameDenominator: (input: Expression, correct: Expression) => {
 				if (!input.isSum() || input.terms.length !== 2) return false
 				const fractions = input.terms.map(term => term.find(part => part.isFraction()))

@@ -5,7 +5,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', undefined]),
-	compare: {
+	comparisons: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		Tw: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 		Tc: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },

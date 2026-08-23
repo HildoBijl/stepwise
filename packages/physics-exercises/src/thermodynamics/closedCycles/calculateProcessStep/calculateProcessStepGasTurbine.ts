@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateProcessStep',
 		...createStepExerciseMetadata(['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {

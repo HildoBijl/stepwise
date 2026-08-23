@@ -18,7 +18,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionSumsWithMultipleVariables',
 		...createStepExerciseMetadata(['addFractionsWithMultipleVariables', 'simplifyFractionOfFractionsWithVariables']),
-		compare: { Expression: onlyOrderChanges },
+		comparisons: { Expression: onlyOrderChanges },
 	},
 
 	generateParameters() {

@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'solveQuadraticEquation',
 		weight: 2,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, 'simplifyFraction']),
-		compare: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {}, ans1: onlyOrderChanges, ans2: onlyOrderChanges },
+		comparisons: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {}, ans1: onlyOrderChanges, ans2: onlyOrderChanges },
 	},
 
 	generateParameters(example) {

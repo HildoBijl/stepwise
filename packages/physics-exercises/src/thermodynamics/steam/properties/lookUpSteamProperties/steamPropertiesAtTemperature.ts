@@ -7,7 +7,7 @@ import { saturatedSteamByTemperature } from '@step-wise/physics-data'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpSteamProperties',
-		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},
 
 	generateParameters() {

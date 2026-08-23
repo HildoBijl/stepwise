@@ -11,7 +11,7 @@ import { getRandomFloatUnit } from '@step-wise/physics-core'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithTemperature',
-		compare: {
+		comparisons: {
 			FloatUnit: {
 				float: {
 					absoluteTolerance: 0.7,

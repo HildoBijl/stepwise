@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata([undefined, undefined, undefined, 'solveQuadraticEquation']),
-		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
 	generateParameters() {

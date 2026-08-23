@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'drawFreeBodyDiagram',
 		...createStepExerciseMetadata(['schematizeSupport', 'schematizeSupport', undefined]),
-		compare: {
+		comparisons: {
 			loadsLeft: compareReactionLoads,
 			loadsRight: compareReactionLoads,
 			loads: compareAllLoads,

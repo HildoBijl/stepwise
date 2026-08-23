@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'schematizeSupport',
 		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
-		compare: { loads: checkFixedSupport },
+		comparisons: { loads: checkFixedSupport },
 	},
 
 	generateParameters() {

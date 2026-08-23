@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
-		compare: {
+		comparisons: {
 			firstExpanded: (input: Expression, correct: Expression, { factor2 }: { factor2: Expression }) => !input.some(term => term.isProduct() && term.some(factor => factor.isSum() && !equivalent(factor, factor2))) && equivalent(input, correct),
 			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct),
 			ans: onlyOrderChanges,

@@ -11,7 +11,7 @@ export default buildStepExercise({
 		skill: 'calculateEntropyChange',
 		...createStepExerciseMetadata(['calculateWithTemperature', 'specificHeats', 'solveLinearEquation']),
 		weight: 2,
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
 			c: { float: { relativeTolerance: 0.015 } },
 			T1: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },

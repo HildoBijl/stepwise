@@ -9,29 +9,29 @@ import { getFeedbackCheckResult, processParameterOptions } from 'ui/eduTools'
 
 import { translationPath } from './validation'
 
-// getFBDFeedbackFunction returns a feedback function to give feedback on Free Body Diagram inputs. It requires compare options and a set of points to refer to when naming a point.
-export function getFBDFeedbackFunction(compare, points = {}) {
-	return (input, solution) => getFBDFeedback(input, solution, compare, points)
+// getFBDFeedbackFunction returns a feedback function to give feedback on Free Body Diagram inputs. It requires comparison options and a set of points to refer to when naming a point.
+export function getFBDFeedbackFunction(comparison, points = {}) {
+	return (input, solution) => getFBDFeedback(input, solution, comparison, points)
 }
 
-// getFBDFeedback takes an input FBD and a solution FBD and compares them to extract feedback. It requires the compare options too, as well as an object { A: new Vector(...), ... } whose names the feedback may refer to.
+// getFBDFeedback takes an input FBD and a solution FBD and compares them to extract feedback. It requires the comparison options too, as well as an object { A: new Vector(...), ... } whose names the feedback may refer to.
 export function getFBDFeedback(exerciseData, parameterOptions) {
 	// Process the parameters.
 	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Walk through the parameters and incorporate feedback.
 	const { input, solution, metadata } = exerciseData
-	const { compare } = metadata
+	const { comparisons = {} } = metadata
 	return mapValues(parameterOptions, (currOptions, currParameter) => {
 		const currInput = input[currParameter]
 		const currSolution = solution[currParameter]
 
-		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metadata compare options and previous input/feedback.
+		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metadata comparison options and previous input/feedback.
 		if (typeof currOptions === 'function') // On a function, assume it's a single feedbackCheck.
 			currOptions = [currOptions]
 		if (Array.isArray(currOptions)) // On an array, assume they are feedbackChecks.
 			currOptions = { feedbackChecks: currOptions }
-		currOptions.compare = currOptions.compare || (compare && compare[currParameter]) || compare?.default
+		currOptions.comparison = currOptions.comparison || comparisons[currParameter] || comparisons.default
 
 		// Get the feedback individually.
 		return getIndividualFBDFeedback(exerciseData, currParameter, currInput, currSolution, currOptions)
@@ -41,11 +41,11 @@ export function getFBDFeedback(exerciseData, parameterOptions) {
 export function getIndividualFBDFeedback(exerciseData, currParameter, currInput, currSolution, currOptions) {
 	const { solution } = exerciseData
 	const { points } = solution
-	const { compare, feedbackChecks, feedbackFunction } = currOptions
+	const { comparison, feedbackChecks, feedbackFunction } = currOptions
 
-	// Determine if the field is correct. Do this in the same way as the compare function from the shared directory.
-	const comparisonReport = typeof compare === 'function' ? undefined : compareLoadSets(currInput, currSolution, compare)
-	const correct = typeof compare === 'function' ? compare(currInput, currSolution, solution, exerciseData) : comparisonReport.equal
+	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
+	const comparisonReport = typeof comparison === 'function' ? undefined : compareLoadSets(currInput, currSolution, comparison)
+	const correct = typeof comparison === 'function' ? comparison(currInput, currSolution, solution, exerciseData) : comparisonReport.equal
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct)
@@ -58,11 +58,11 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 		return isPlainObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
 	}
 
-	// Go for default feedback. If the compare is a function, all we can say is whether it's correct or incorrect.
-	if (typeof compare === 'function')
+	// Go for default feedback. If the comparison is a function, all we can say is whether it's correct or incorrect.
+	if (typeof comparison === 'function')
 		return { correct, text: (correct ? selectRandomCorrect : selectRandomIncorrect)() }
 
-	// There are compare options, so try to find detailed feedback. First set up a matching of loads, so we can give feedback on it.
+	// There are comparison options, so try to find detailed feedback. First set up a matching of loads, so we can give feedback on it.
 	// Check if any input loads are not matched.
 	const unmatchedInputLoads = currInput.filter((_, index) => comparisonReport.inputMatching[index] === undefined)
 	if (unmatchedInputLoads.length > 0) {

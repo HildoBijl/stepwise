@@ -30,7 +30,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveRewrittenQuadraticEquation',
 		...createStepExerciseMetadata(['bringEquationToStandardForm', 'solveQuadraticEquation']),
-		compare: {
+		comparisons: {
 			standardForm: {
 				compareLeft: (input: Expression, correct: Expression) => { // Set up an extra check for constant multiples, since the constantMultiple in the CAS isn't fully functional yet.
 					if (constantMultiple(input, correct)) return true

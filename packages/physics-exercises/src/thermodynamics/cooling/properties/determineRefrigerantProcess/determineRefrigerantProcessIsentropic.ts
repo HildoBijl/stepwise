@@ -7,7 +7,7 @@ import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPr
 export default buildMonoExercise({
 	metadata: {
 		skill: 'determineRefrigerantProcess',
-		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
+		comparisons: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {

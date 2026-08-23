@@ -8,7 +8,7 @@ const { Rs, k } = gasProperties.air
 const metadata = {
 	skill: 'calculateOpenCycle',
 	...createStepExerciseMetadata(['calculateOpenProcessStep', 'calculateOpenProcessStep', 'calculateOpenProcessStep']),
-	compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
+	comparisons: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 }
 
 export function generateParameters() {

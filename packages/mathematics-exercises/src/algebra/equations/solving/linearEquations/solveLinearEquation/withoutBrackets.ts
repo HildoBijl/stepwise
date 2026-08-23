@@ -16,7 +16,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'mergeSimilarTerms', 'solveProductEquation']),
-		compare: {
+		comparisons: {
 			moved: { compareSide: equivalent, allowSwitch: true, allowMinus: true },
 			cleaned: { compareSide: onlyOrderChanges, allowSwitch: true, allowMinus: true },
 			ans: onlyOrderChanges,

@@ -15,7 +15,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveMultiVariableLinearEquation',
 		...createStepExerciseMetadata([repeat('moveEquationTerm', 2), 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
-		compare: {
+		comparisons: {
 			pulledOut: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 			ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
 			Equation: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.

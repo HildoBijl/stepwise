@@ -7,7 +7,7 @@ import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-co
 export default buildMonoExercise({
 	metadata: {
 		skill: 'solveExponentEquation',
-		compare: { Float: { significantDigitTolerance: 2 } },
+		comparisons: { Float: { significantDigitTolerance: 2 } },
 	},
 
 	generateParameters() {

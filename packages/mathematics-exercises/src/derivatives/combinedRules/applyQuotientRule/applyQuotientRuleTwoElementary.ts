@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'applyQuotientRule',
 		...createStepExerciseMetadata([['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
 		weight: 2,
-		compare: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.equivalent },
 	},
 
 	generateParameters() {

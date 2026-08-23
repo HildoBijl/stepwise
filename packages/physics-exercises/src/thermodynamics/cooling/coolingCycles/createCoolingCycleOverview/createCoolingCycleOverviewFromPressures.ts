@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'createCoolingCycleOverview',
 		...createStepExerciseMetadata(['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
-		compare: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
+		comparisons: { FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {
