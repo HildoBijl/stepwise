@@ -105,7 +105,7 @@ const steps = [
 		Solution: ({ k, Vs, p1s, p2s, Q, W }) => {
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
-					<BMPart>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {Vs.float} \cdot \left({p2s.float} - {p1s.float}\right) = {Q},</BMPart>
+					<BMPart>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.value}-1) \cdot {Vs.value} \cdot \left({p2s.value} - {p1s.value}\right) = {Q},</BMPart>
 					<BMPart>W = {W}.</BMPart>
 				</BMList>
 				Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>

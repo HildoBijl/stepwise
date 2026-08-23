@@ -13,7 +13,7 @@ export default buildMonoExercise({
 		skill: 'calculateWithTemperature',
 		comparisons: {
 			FloatUnit: {
-				float: {
+				value: {
 					absoluteTolerance: 0.7,
 					significantDigitTolerance: 1,
 				},

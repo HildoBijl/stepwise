@@ -32,7 +32,7 @@ const steps = [
 					<BMPart>V_1 = {V1s},</BMPart>
 					<BMPart>T_1 = {T1s}.</BMPart>
 				</BMList>
-				Vervolgens zoeken we de gasconstante van helium op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de weerballon op de grond. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1s.float} \cdot {V1s.float})({Rs.float} \cdot {T1s.float}) = {m}.</BM></Par>
+				Vervolgens zoeken we de gasconstante van helium op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de weerballon op de grond. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1s.value} \cdot {V1s.value})({Rs.value} \cdot {T1s.value}) = {m}.</BM></Par>
 		},
 	},
 	{
@@ -49,9 +49,9 @@ const steps = [
 						<BMPart>p_2 = {p2s},</BMPart>
 						<BMPart>T_2 = {T2s}.</BMPart>
 					</BMList>
-					Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de weerballon hoog in de lucht. Om deze wet op te lossen voor het volume <M>V</M> delen we beide kanten van de vergelijking door <M>p.</M> Zo vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({p2s.float}) = {V2}.</BM> Dit is een stuk groter dan voorheen, maar dat is logisch gezien de erg lage druk hoog in de lucht.</Par>
+					Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de weerballon hoog in de lucht. Om deze wet op te lossen voor het volume <M>V</M> delen we beide kanten van de vergelijking door <M>p.</M> Zo vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.value} \cdot {Rs.value} \cdot {T2s.value})({p2s.value}) = {V2}.</BM> Dit is een stuk groter dan voorheen, maar dat is logisch gezien de erg lage druk hoog in de lucht.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We hadden dit gehele probleem ook in één keer op kunnen lossen door de dubbele gaswet toe te passen, <BM>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2).</BM> Als we deze vergelijking oplossen voor <M>V_2</M> vinden we direct <BM>V_2 = V_1 \cdot \frac(p_1)(p_2) \cdot \frac(T_2)(T_1) = {V1s.float} \cdot \frac{p1s.float}{p2s.float} \cdot \frac{T2.float}{T1.float} = {V2}.</BM> Merk op dat we hier zelfs de druk in bar hadden kunnen invullen, omdat de conversiefactoren toch tegen elkaar weggedeeld worden. De temperatuur moet wel zeker in Kelvin en niet in graden Celsius.</Par>
+				<Par>We hadden dit gehele probleem ook in één keer op kunnen lossen door de dubbele gaswet toe te passen, <BM>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2).</BM> Als we deze vergelijking oplossen voor <M>V_2</M> vinden we direct <BM>V_2 = V_1 \cdot \frac(p_1)(p_2) \cdot \frac(T_2)(T_1) = {V1s.value} \cdot \frac{p1s.value}{p2s.value} \cdot \frac{T2.value}{T1.value} = {V2}.</BM> Merk op dat we hier zelfs de druk in bar hadden kunnen invullen, omdat de conversiefactoren toch tegen elkaar weggedeeld worden. De temperatuur moet wel zeker in Kelvin en niet in graden Celsius.</Par>
 			</>
 		},
 	},

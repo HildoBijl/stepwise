@@ -45,7 +45,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ s, sx0, sx1, x }) => {
-			return <Par>We bekijken hoe ver <M>s</M> zit, op het interval van <M>s_(x=0)</M> tot <M>s_(x=1).</M> Dit is op een deel van <BM>x = \frac(s - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s.float} - {sx0.float})({sx1.float} - {sx0.float}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water dat inmiddels in gasvormig stoom is omgezet.</Par>
+			return <Par>We bekijken hoe ver <M>s</M> zit, op het interval van <M>s_(x=0)</M> tot <M>s_(x=1).</M> Dit is op een deel van <BM>x = \frac(s - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s.value} - {sx0.value})({sx1.value} - {sx0.value}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water dat inmiddels in gasvormig stoom is omgezet.</Par>
 		},
 	},
 	{
@@ -58,7 +58,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ x, hx0, hx1, h }) => {
-			return <Par>We weten dat de enthalpie op een deel <M>x</M> zit, van <M>h_(x=0)</M> naar <M>h_(x=1).</M> De enthalpie is dus <BM>h = h_(x=0) + x \left(h_(x=1) - h_(x=0)\right) = {hx0.float} + {x.float} \cdot \left({hx1.float} - {hx0.float}\right) = {h}.</BM> Dit is de specifieke enthalpie die we moesten berekenen.</Par>
+			return <Par>We weten dat de enthalpie op een deel <M>x</M> zit, van <M>h_(x=0)</M> naar <M>h_(x=1).</M> De enthalpie is dus <BM>h = h_(x=0) + x \left(h_(x=1) - h_(x=0)\right) = {hx0.value} + {x.value} \cdot \left({hx1.value} - {hx0.value}\right) = {h}.</BM> Dit is de specifieke enthalpie die we moesten berekenen.</Par>
 		},
 	},
 ]

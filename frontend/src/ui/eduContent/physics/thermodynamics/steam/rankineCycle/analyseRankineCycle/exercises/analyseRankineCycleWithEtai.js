@@ -43,7 +43,7 @@ const steps = [
 						<BMPart>h_2 = {h2},</BMPart>
 						<BMPart>s_2 = {s2}.</BMPart>
 					</BMList>
-					In deze ideale Rankine-cyclus verloopt de expansie in de turbine isentroop. Zo komen we op het fictieve punt <M>3'.</M> Dit punt heeft als entropie dus <BM>s_(3') = s_2 = {s3p}.</BM> De dampfractie die hierbij hoort is <BM>x_(3') = \frac(s_(3') - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s3p.float} - {sx0.float})({sx1.float} - {sx0.float}) = {x3p.setDecimals(3)}.</BM> Via deze dampfractie vinden we de specifieke enthalpie in punt <M>3'</M> als <BM>h_(3') = h_(x=0) + x_(3') \left(h_(x=1) - h_(x=0)\right) = {hx0.float} + {x3p.setDecimals(3).float} \cdot \left({hx1.float} - {hx0.float}\right) = {h3p}.</BM> Hiermee zijn alle eigenschappen van deze ideale Rankine-cyclus bekend.</Par>
+					In deze ideale Rankine-cyclus verloopt de expansie in de turbine isentroop. Zo komen we op het fictieve punt <M>3'.</M> Dit punt heeft als entropie dus <BM>s_(3') = s_2 = {s3p}.</BM> De dampfractie die hierbij hoort is <BM>x_(3') = \frac(s_(3') - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s3p.value} - {sx0.value})({sx1.value} - {sx0.value}) = {x3p.setDecimals(3)}.</BM> Via deze dampfractie vinden we de specifieke enthalpie in punt <M>3'</M> als <BM>h_(3') = h_(x=0) + x_(3') \left(h_(x=1) - h_(x=0)\right) = {hx0.value} + {x3p.setDecimals(3).value} \cdot \left({hx1.value} - {hx0.value}\right) = {h3p}.</BM> Hiermee zijn alle eigenschappen van deze ideale Rankine-cyclus bekend.</Par>
 			</>
 		},
 	},
@@ -57,7 +57,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ h2, h3p, h3, etai }) => {
-			return <Par>De definitie van het isentropisch rendement in de turbine is <BM>\eta_i = \frac(w_t)(w_t') = \frac(h_2 - h_3)(h_2 - h_(3')).</BM> De oplossing voor <M>h_3</M> is <BM>h_3 = h_2 - \eta_i \left(h_2 - h_(3')\right) = {h2.float} - {etai.float} \cdot \left({h2.float} - {h3p.float}\right) = {h3}.</BM> Hiermee zijn voor de cyclus nu alle enthalpie-waarden bekend.</Par>
+			return <Par>De definitie van het isentropisch rendement in de turbine is <BM>\eta_i = \frac(w_t)(w_t') = \frac(h_2 - h_3)(h_2 - h_(3')).</BM> De oplossing voor <M>h_3</M> is <BM>h_3 = h_2 - \eta_i \left(h_2 - h_(3')\right) = {h2.value} - {etai.value} \cdot \left({h2.value} - {h3p.value}\right) = {h3}.</BM> Hiermee zijn voor de cyclus nu alle enthalpie-waarden bekend.</Par>
 		},
 	},
 	{
@@ -74,10 +74,10 @@ const steps = [
 		</>,
 		Solution: ({ type, h1, h2, h3, wt, q, eta, mdot, P }) => {
 			return <>
-				<Par>Als eerste berekenen we het rendement. De technische arbeid die in de turbine geleverd wordt is <BM>w_t = h_2 - h_3 = {h2.float} - {h3.float} = {wt}.</BM> De warmte die wordt toegevoerd is <BM>q = h_2 - h_1 = {h2.float} - {h1.float} = {q}.</BM> Hiermee vinden we een rendement van <BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_t)(q) = \frac{wt.float}{q.float} = {eta}.</BM> Een rendement van <M>{eta.setUnit('%')}</M> is realistisch voor een stoomturbine.</Par>
+				<Par>Als eerste berekenen we het rendement. De technische arbeid die in de turbine geleverd wordt is <BM>w_t = h_2 - h_3 = {h2.value} - {h3.value} = {wt}.</BM> De warmte die wordt toegevoerd is <BM>q = h_2 - h_1 = {h2.value} - {h1.value} = {q}.</BM> Hiermee vinden we een rendement van <BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_t)(q) = \frac{wt.value}{q.value} = {eta}.</BM> Een rendement van <M>{eta.setUnit('%')}</M> is realistisch voor een stoomturbine.</Par>
 				{type === 1 ?
-					<Par>Om het geleverde vermogen te berekenen gebruiken we het massadebiet. Dit gaat via <BM>P = \dot(m) w_t = {mdot.float} \cdot {wt.float} = {P.setUnit('kW')}.</BM> Een vermogen van <M>{P}</M> is een realistische waarde voor een redelijk grote stoomturbine.</Par> :
-					<Par>Om het massadebiet te berekenen gebruiken we het geleverde vermogen. We weten dat <M>P = \dot(m) w_t</M> waardoor <BM>\dot(m) = \frac(P)(w_t) = \frac{P.setUnit('kW').float}{wt.float} = {mdot}.</BM> Dit is een realistische waarde voor een redelijk grote stoomturbine.</Par>}
+					<Par>Om het geleverde vermogen te berekenen gebruiken we het massadebiet. Dit gaat via <BM>P = \dot(m) w_t = {mdot.value} \cdot {wt.value} = {P.setUnit('kW')}.</BM> Een vermogen van <M>{P}</M> is een realistische waarde voor een redelijk grote stoomturbine.</Par> :
+					<Par>Om het massadebiet te berekenen gebruiken we het geleverde vermogen. We weten dat <M>P = \dot(m) w_t</M> waardoor <BM>\dot(m) = \frac(P)(w_t) = \frac{P.setUnit('kW').value}{wt.value} = {mdot}.</BM> Dit is een realistische waarde voor een redelijk grote stoomturbine.</Par>}
 			</>
 		},
 	},

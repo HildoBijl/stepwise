@@ -8,7 +8,7 @@ export default buildStepExercise({
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			x: { absoluteTolerance: 0.005, significantDigitTolerance: 1 },
 		},
 	},
@@ -34,10 +34,10 @@ export default buildStepExercise({
 	getSolution({ type, h1, h2, W1, W2, h, W }) {
 		let x
 		if (type === 1) {
-			x = h!.subtract(h1).divide(h2.subtract(h1)).float
+			x = h!.subtract(h1).divide(h2.subtract(h1)).value
 			W = W1.add(W2.subtract(W1).multiply(x)).roundToPrecision()
 		} else {
-			x = W!.subtract(W1).divide(W2.subtract(W1)).float
+			x = W!.subtract(W1).divide(W2.subtract(W1)).value
 			h = h1.add(h2.subtract(h1).multiply(x)).roundToPrecision()
 		}
 		return { type, h1, h2, W1, W2, x, h, W }

@@ -21,7 +21,7 @@ export function resolveRandomExponentialFloatUnitOptions(options: RandomExponent
 export function getRandomFloatUnit(options: RandomFloatUnitOptionsInput): FloatUnit {
 	const { unit, ...floatOptions } = resolveRandomFloatUnitOptions(options)
 	return new FloatUnit({
-		float: getRandomFloat(floatOptions),
+		value: getRandomFloat(floatOptions),
 		unit,
 	})
 }
@@ -29,7 +29,7 @@ export function getRandomFloatUnit(options: RandomFloatUnitOptionsInput): FloatU
 export function getRandomExponentialFloatUnit(options: RandomExponentialFloatUnitOptionsInput): FloatUnit {
 	const { unit, ...floatOptions } = resolveRandomExponentialFloatUnitOptions(options)
 	return new FloatUnit({
-		float: getRandomExponentialFloat(floatOptions),
+		value: getRandomExponentialFloat(floatOptions),
 		unit,
 	})
 }

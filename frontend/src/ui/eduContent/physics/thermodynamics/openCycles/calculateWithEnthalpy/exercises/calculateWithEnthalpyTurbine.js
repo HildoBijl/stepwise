@@ -29,7 +29,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ Ps, mdot, wt }) => {
-			return <Par>Het vermogen is <M>P = {Ps}.</M> Om van vermogen (arbeid per seconde) naar specifieke arbeid (arbeid per kilogram) te gaan gebruiken we <M>P = \dot(m) w_t.</M> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \frac(P)(\dot(m)) = \frac{Ps.float}{mdot.float} = {wt}.</BM> Dit is de specifieke arbeid die de stoom in de turbine levert.</Par>
+			return <Par>Het vermogen is <M>P = {Ps}.</M> Om van vermogen (arbeid per seconde) naar specifieke arbeid (arbeid per kilogram) te gaan gebruiken we <M>P = \dot(m) w_t.</M> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \frac(P)(\dot(m)) = \frac{Ps.value}{mdot.value} = {wt}.</BM> Dit is de specifieke arbeid die de stoom in de turbine levert.</Par>
 		},
 	},
 	{
@@ -58,7 +58,7 @@ const steps = [
 		</>,
 		Solution: ({ q, wt, dh }) => {
 			return <>
-				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.float} - {wt.float} = {dh}.</BM> Het minteken is belangrijk: die geeft aan dat de enthalpie afneemt. Dit is logisch: de stoom verricht arbeid en verliest daarmee dus energie. Dit resulteert in een afname van de enthalpie.</Par>
+				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.value} - {wt.value} = {dh}.</BM> Het minteken is belangrijk: die geeft aan dat de enthalpie afneemt. Dit is logisch: de stoom verricht arbeid en verliest daarmee dus energie. Dit resulteert in een afname van de enthalpie.</Par>
 			</>
 		},
 	},

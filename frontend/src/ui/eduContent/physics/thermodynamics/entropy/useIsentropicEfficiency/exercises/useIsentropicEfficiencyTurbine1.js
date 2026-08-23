@@ -35,8 +35,8 @@ const steps = [
 					<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
 					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Zo vinden we
 					<BMList>
-						<BMPart>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti},</BMPart>
-						<BMPart>w_t = h_1 - h_2 = {h1.float} - {h2.float} = {wt}.</BMPart>
+						<BMPart>w_(t_i) = h_1 - h_(2') = {h1.value} - {h2p.value} = {wti},</BMPart>
+						<BMPart>w_t = h_1 - h_2 = {h1.value} - {h2.value} = {wt}.</BMPart>
 					</BMList>
 					Merk op dat de werkelijke technische arbeid kleiner is dan de technische arbeid in het optimale geval. Dit is logisch: als er frictie aanwezig is, levert een turbine minder arbeid.
 				</Par>
@@ -53,7 +53,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ wt, wti, etai }) => {
-			return <Par>Het isentropisch rendement is altijd een getal tussen de <M>0</M> en de <M>1.</M> We moeten bij een turbine dus de werkelijke technische arbeid (het kleinere getal) delen door de theoretische technische arbeid (het grotere getal). Zo vinden we <BM>\eta_i = \frac(w_t)(w_(t_i)) = \frac{wt.float}{wti.float} = {etai}.</BM> Een isentropisch rendement van <M>{etai.setUnit('%')}</M> is redelijk reëel voor een turbine.</Par>
+			return <Par>Het isentropisch rendement is altijd een getal tussen de <M>0</M> en de <M>1.</M> We moeten bij een turbine dus de werkelijke technische arbeid (het kleinere getal) delen door de theoretische technische arbeid (het grotere getal). Zo vinden we <BM>\eta_i = \frac(w_t)(w_(t_i)) = \frac{wt.value}{wti.value} = {etai}.</BM> Een isentropisch rendement van <M>{etai.setUnit('%')}</M> is redelijk reëel voor een turbine.</Par>
 		},
 	},
 ]

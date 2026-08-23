@@ -46,7 +46,7 @@ const exercise = buildMonoExercise({
 	metadata: {
 		comparisons: {
 			answer: { absoluteTolerance: 0.01 },
-			FloatUnit: { float: { relativeTolerance: 0.02 } },
+			FloatUnit: { value: { relativeTolerance: 0.02 } },
 		},
 	},
 	// ...

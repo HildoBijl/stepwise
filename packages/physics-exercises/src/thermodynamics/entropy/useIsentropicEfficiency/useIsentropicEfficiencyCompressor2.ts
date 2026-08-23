@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'useIsentropicEfficiency',
 		...createStepExerciseMetadata(['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork']),
-		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -24,7 +24,7 @@ export default buildStepExercise({
 
 	getSolution({ p1, p2, T1, etaio }) {
 		const etai = etaio.simplify()
-		const T2p = T1.multiply(p2.divide(p1).float.toPower(1 - 1 / k.number)).setDecimals(0)
+		const T2p = T1.multiply(p2.divide(p1).value.toPower(1 - 1 / k.number)).setDecimals(0)
 		const wti = cp.multiply(T2p.subtract(T1)).setUnit('J/kg')
 		const wt = wti.divide(etai).setUnit('J/kg')
 		const T2 = T1.add(wt.divide(cp)).setUnit('K').setDecimals(0)

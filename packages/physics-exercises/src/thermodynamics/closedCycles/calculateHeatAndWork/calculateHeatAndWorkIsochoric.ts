@@ -11,10 +11,10 @@ export default buildStepExercise({
 		skill: 'calculateHeatAndWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], undefined]),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 2 } },
-			Vs: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
-			p1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
-			p2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+			FloatUnit: { value: { relativeTolerance: 0.015, significantDigitTolerance: 2 } },
+			Vs: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+			p1s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
+			p2s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
 		},
 	},
 

@@ -6,14 +6,14 @@ The return type is a `FloatUnit` object which is basically a combination of a `F
 
 - `str`
 - `tex`
-- `float`
+- `value`
 - `unit`
 
 It has various useful methods.
 
 - `clone`
 - `isValid` for the unit
-- `makeExact` for the float
+- `makeExact` for the value
 - `simplify`
 - `checkEquality`
 - `equals`

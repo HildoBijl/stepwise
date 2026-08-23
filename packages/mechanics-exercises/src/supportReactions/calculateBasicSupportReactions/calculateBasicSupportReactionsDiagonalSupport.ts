@@ -11,7 +11,7 @@ const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', undefined]),
 	comparisons: {
-		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison,
 	},
 }

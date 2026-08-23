@@ -10,11 +10,11 @@ export default buildStepExercise({
 		skill: 'calculateSpecificHeatAndMechanicalWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificHeats', 'calculateWithTemperature', 'calculateWithSpecificQuantities']),
 		comparisons: {
-			cp: { float: { relativeTolerance: 0.02 } },
-			T1: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },
-			T2: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },
-			q: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
-			wt: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
+			cp: { value: { relativeTolerance: 0.02 } },
+			T1: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },
+			T2: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },
+			q: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
+			wt: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
 	},
 

@@ -9,9 +9,9 @@ export default buildStepExercise({
 		skill: 'createCoolingCycleOverview',
 		...createStepExerciseMetadata(['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
 		comparisons: {
-			FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
-			TEvap: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
-			TCond: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
+			TEvap: { value: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
+			TCond: { value: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
 		},
 	},
 

@@ -23,9 +23,9 @@ function Problem({ type, TCond, TEvap, dTCold, dTWarm }) {
 
 function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 	return <Par>We bekijken eerst de condensor. Deze zit op <M>{TCond}.</M> In de condensor gaat er warmte uit het koudemiddel (daarom condenseert het) en deze warmte wordt dus geleverd aan de {type === 'heatPump' ? 'huiskamer' : 'keuken'}. Om deze warmte te kunnen leveren moet deze ruimte dus kouder zijn dan de condensor. Zo vinden we
-		<BM>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`} = T_c - \Delta T_c = {TCond.float} - {dTWarm.float} = {TWarm}.</BM>
+		<BM>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`} = T_c - \Delta T_c = {TCond.value} - {dTWarm.value} = {TWarm}.</BM>
 		Vervolgens bekijken we de verdamper. Deze zit op <M>{TEvap}.</M> In de verdamper gaat er warmte in het koudemiddel (daarom verdampt het) en deze warmte wordt dus onttrokken aan de {type === 'heatPump' ? 'buitenlucht' : 'te koelen ruimte'}. Om hier warmte aan te kunnen onttrekken moet de temperatuur in de verdamper kouder zijn. Zo vinden we
-		<BM>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`} = T_v + \Delta T_v = {TEvap.float} + {dTCold.float} = {TCold}.</BM>
+		<BM>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`} = T_v + \Delta T_v = {TEvap.value} + {dTCold.value} = {TCold}.</BM>
 		De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
 	</Par>
 }

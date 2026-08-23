@@ -12,9 +12,9 @@ export default buildStepExercise({
 		setup: and('lookUpSteamProperties', 'linearInterpolation'),
 		...createStepExerciseMetadata(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.001 } },
-			x: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
-			h: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.001 } },
+			x: { value: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
+			h: { value: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
 		},
 	},
 

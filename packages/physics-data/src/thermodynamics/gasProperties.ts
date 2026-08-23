@@ -52,7 +52,7 @@ export type GasName = keyof typeof baseGasProperties
 // Derive cp and cv for the gases.
 export const gasProperties: Record<GasName, GasProperties> = mapValues(baseGasProperties, (gas) => {
 		const Rs = gas.Rs.setSignificantDigits(4)
-		const cv = Rs.divide(gas.k.float.subtract(1)).setMinimumSignificantDigits(4)
+		const cv = Rs.divide(gas.k.value.subtract(1)).setMinimumSignificantDigits(4)
 		const cp = cv.multiply(gas.k).setMinimumSignificantDigits(4)
 		return { Rs, k: gas.k, cv, cp }
 })

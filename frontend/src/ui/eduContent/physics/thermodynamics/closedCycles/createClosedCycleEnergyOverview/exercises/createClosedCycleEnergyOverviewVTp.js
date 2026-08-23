@@ -54,7 +54,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2, cv, Q12, W12 }) => {
-			return <Par>Bij een isochore stap geldt <M>W_(1-2) = {W12}.</M> We hoeven dus alleen <M>Q_(1-2)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(1-2) = mc_v\left(T_2 - T_1\right) = {m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {Q12}.</BM> Hiermee is de eerste stap doorgerekend.</Par>
+			return <Par>Bij een isochore stap geldt <M>W_(1-2) = {W12}.</M> We hoeven dus alleen <M>Q_(1-2)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(1-2) = mc_v\left(T_2 - T_1\right) = {m.value} \cdot {cv.value} \cdot \left({T2.value} - {T1.value}\right) = {Q12}.</BM> Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
 	{
@@ -68,7 +68,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ p2, V2, V3, Q23, W23 }) => {
-			return <Par>Er zijn wederom meerdere formules om te gebruiken. We vinden <M>Q_(2-3)</M> het makkelijkst via <BM>Q_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(2-3) = Q_(2-3) = {W23}.</M> Hiermee is ook deze stap klaar.</Par>
+			return <Par>Er zijn wederom meerdere formules om te gebruiken. We vinden <M>Q_(2-3)</M> het makkelijkst via <BM>Q_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.value} \cdot {V2.value} \cdot \ln\left(\frac{V3.value}{V2.value}\right) = {Q23}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(2-3) = Q_(2-3) = {W23}.</M> Hiermee is ook deze stap klaar.</Par>
 		},
 	},
 	{
@@ -85,11 +85,11 @@ const steps = [
 			return <>
 				<Par>Er zijn meerdere formules die we kunnen gebruiken, maar het makkelijkst hier zijn
 					<BMList>
-						<BMPart>Q_(3-1) = mc_p\left(T_1-T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BMPart>
-						<BMPart>W_(3-1) = p\left(V_1-V_3\right) = {p3.float} \cdot \left({V1.float} - {V3.float}\right) = {W31}.</BMPart>
+						<BMPart>Q_(3-1) = mc_p\left(T_1-T_3\right) = {m.value} \cdot {cp.value} \cdot \left({T1.value} - {T3.value}\right) = {Q31},</BMPart>
+						<BMPart>W_(3-1) = p\left(V_1-V_3\right) = {p3.value} \cdot \left({V1.value} - {V3.value}\right) = {W31}.</BMPart>
 					</BMList>
 					Daarmee is alles doorgerekend.</Par>
-				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithSign} {Q31.float.texWithSign} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithSign} {W31.float.texWithSign} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>
+				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.value} {Q23.value.texWithSign} {Q31.value.texWithSign} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.value} {W23.value.texWithSign} {W31.value.texWithSign} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>
 			</>
 		},
 	},

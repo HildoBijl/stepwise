@@ -8,7 +8,7 @@ export default buildStepExercise({
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			x: { absoluteTolerance: 0.005, significantDigitTolerance: 1 },
 		},
 	},
@@ -32,10 +32,10 @@ export default buildStepExercise({
 	getSolution({ type, T1, T2, t1, t2, T, t }) {
 		let x
 		if (type === 1) {
-			x = T!.subtract(T1).divide(T2.subtract(T1)).float
+			x = T!.subtract(T1).divide(T2.subtract(T1)).value
 			t = t1.add(t2.subtract(t1).multiply(x)).roundToPrecision()
 		} else {
-			x = t!.subtract(t1).divide(t2.subtract(t1)).float
+			x = t!.subtract(t1).divide(t2.subtract(t1)).value
 			T = T1.add(T2.subtract(T1).multiply(x)).roundToPrecision()
 		}
 		return { type, T1, T2, t1, t2, x, T, t }

@@ -35,8 +35,8 @@ const steps = [
 		Solution: ({ T1, T2 }) => {
 			return <Par>We moeten temperaturen gebruiken in Kelvin. Het omzetten gaat via
 				<BMList>
-					<BMPart>T_1 = {T1.float} + {TConversion.float} = {T1.simplify()},</BMPart>
-					<BMPart>T_2 = {T1.float} + {TConversion.float} = {T2.simplify()}.</BMPart>
+					<BMPart>T_1 = {T1.value} + {TConversion.value} = {T1.simplify()},</BMPart>
+					<BMPart>T_2 = {T1.value} + {TConversion.value} = {T2.simplify()}.</BMPart>
 				</BMList>
 			</Par>
 		},
@@ -69,9 +69,9 @@ const steps = [
 		</>,
 		Solution: ({ type, m, c, T1, T2, dS }) => {
 			if (type === 2)
-				return <Par>De entropieverandering volgt direct uit de formule <BM>\Delta S = m c \ln\left(\frac(T_2)(T_1)\right) = {m.float} \cdot {c.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) = {dS}.</BM> Dit is logisch: bij een isentroop proces is er geen warmte-uitwisseling, waardoor dan altijd <M>Q = 0</M> geldt, en hiermee dus ook <M>\Delta S = 0.</M></Par>
+				return <Par>De entropieverandering volgt direct uit de formule <BM>\Delta S = m c \ln\left(\frac(T_2)(T_1)\right) = {m.value} \cdot {c.value} \cdot \ln\left(\frac{T2.value}{T1.value}\right) = {dS}.</BM> Dit is logisch: bij een isentroop proces is er geen warmte-uitwisseling, waardoor dan altijd <M>Q = 0</M> geldt, en hiermee dus ook <M>\Delta S = 0.</M></Par>
 			return <>
-				<Par>De entropieverandering volgt direct uit de formule <BM>\Delta S = m c \ln\left(\frac(T_2)(T_1)\right) = {m.float} \cdot {c.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) = {dS}.</BM> Dit is negatief, wat logisch is: de temperatuur daalt en dus is het zeer waarschijnlijk dat er warmte afgevoerd wordt. Hiermee neemt de entropie dus af.</Par>
+				<Par>De entropieverandering volgt direct uit de formule <BM>\Delta S = m c \ln\left(\frac(T_2)(T_1)\right) = {m.value} \cdot {c.value} \cdot \ln\left(\frac{T2.value}{T1.value}\right) = {dS}.</BM> Dit is negatief, wat logisch is: de temperatuur daalt en dus is het zeer waarschijnlijk dat er warmte afgevoerd wordt. Hiermee neemt de entropie dus af.</Par>
 				<Par>Deze entropie-afname is overigens geen overtreding van de tweede hoofdwet. De warmte stroomt immers ergens naar toe, en daar zal de entropie ongetwijfeld meer toenemen. Het is dus niet zo dat de totale entropieverandering in het universum negatief is.</Par>
 			</>
 		},

@@ -47,7 +47,7 @@ const steps = [
 		</>,
 		Solution: ({ m, cv, T2, T2p, dS2p2 }) => {
 			return <>
-				<Par>Bij deze stap blijft het volume constant. Het is dus een isochoor proces met <M>c = c_v = {cv}.</M> De entropieverandering is hierbij dus <BM>\Delta S_(2'-2) = m c_v \ln\left(\frac(T_2)(T_(2'))\right) = {m.float} \cdot {cv.float} \cdot \ln\left(\frac{T2.float}{T2p.float}\right) = {dS2p2}.</BM></Par>
+				<Par>Bij deze stap blijft het volume constant. Het is dus een isochoor proces met <M>c = c_v = {cv}.</M> De entropieverandering is hierbij dus <BM>\Delta S_(2'-2) = m c_v \ln\left(\frac(T_2)(T_(2'))\right) = {m.value} \cdot {cv.value} \cdot \ln\left(\frac{T2.value}{T2p.value}\right) = {dS2p2}.</BM></Par>
 			</>
 		},
 	},
@@ -62,7 +62,7 @@ const steps = [
 		</>,
 		Solution: ({ dS12p, dS2p2, dS }) => {
 			return <>
-				<Par>Voor de totale entropieverandering tellen we de entropieveranderingen van de stappen op. Dit gaat via <BM>\Delta S_(1-2) = \Delta S_(1-2') + \Delta S_(2'-2) = {dS12p.float} {dS2p2.float.texWithSign} = {dS}.</BM></Par>
+				<Par>Voor de totale entropieverandering tellen we de entropieveranderingen van de stappen op. Dit gaat via <BM>\Delta S_(1-2) = \Delta S_(1-2') + \Delta S_(2'-2) = {dS12p.value} {dS2p2.value.texWithSign} = {dS}.</BM></Par>
 			</>
 		},
 	},
@@ -77,7 +77,7 @@ const steps = [
 		</>,
 		Solution: ({ TAtm, dS, Wm }) => {
 			return <>
-				<Par>De koudste temperatuur waarop in dit probleem warmte geloosd kan worden is de omgevingstemperatuur <M>T_(omg) = {TAtm}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>W_m = T_(omg) \Delta S = {TAtm.float} \cdot {dS.float} = {Wm}.</BM></Par>
+				<Par>De koudste temperatuur waarop in dit probleem warmte geloosd kan worden is de omgevingstemperatuur <M>T_(omg) = {TAtm}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>W_m = T_(omg) \Delta S = {TAtm.value} \cdot {dS.value} = {Wm}.</BM></Par>
 			</>
 		},
 	},

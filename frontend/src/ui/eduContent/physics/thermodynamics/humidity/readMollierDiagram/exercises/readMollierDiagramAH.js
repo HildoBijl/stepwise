@@ -37,6 +37,6 @@ function Solution({ T, RH, AHmax, AH }) {
 			<Circle center={[AHmax.number, T.number]} graphicalRadius={3} style={{ fill: color }} />
 			<Circle center={[AH.number, T.number]} graphicalRadius={3} style={{ fill: color }} />
 		</MollierDiagram>
-		<Par>Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de absolute luchtvochtigheid als <BM>AV = RV \cdot AV_(max) = {RH.float} \cdot {AHmax.float} = {AH}.</BM></Par>
+		<Par>Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de absolute luchtvochtigheid als <BM>AV = RV \cdot AV_(max) = {RH.value} \cdot {AHmax.value} = {AH}.</BM></Par>
 	</>
 }

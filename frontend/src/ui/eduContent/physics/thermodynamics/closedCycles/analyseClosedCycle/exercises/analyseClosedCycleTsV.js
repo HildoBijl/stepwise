@@ -61,7 +61,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3 }) => {
-			return <Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M>, <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> De massa van het gas volgt via de gaswet als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> In punt 3 is al bekend dat <M>V_3 = V_1 = {V3}.</M> Via Poisson's wet <M>p_2V_2^n = p_3V_3^n</M> vinden we <M>p_3</M> als <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.float} \cdot \left(\frac{V2.float}{V3.float}\right)^({k}) = {p3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
+			return <Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M>, <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> De massa van het gas volgt via de gaswet als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.value} \cdot {V1.value})({Rs.value} \cdot {T1.value}) = {m}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.value} \cdot {Rs.value} \cdot {T2.value})({p2.value}) = {V2}.</BM> In punt 3 is al bekend dat <M>V_3 = V_1 = {V3}.</M> Via Poisson's wet <M>p_2V_2^n = p_3V_3^n</M> vinden we <M>p_3</M> als <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.value} \cdot \left(\frac{V2.value}{V3.value}\right)^({k}) = {p3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.value} \cdot {V3.value})({m.value} \cdot {Rs.value}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
 		},
 	},
 	{
@@ -85,11 +85,11 @@ const steps = [
 		</>,
 		Solution: ({ m, cv, p1, V1, T1, V2, T2, T3, Q12, W12, Q23, W23, Q31, W31, Wn }) => {
 			return <>
-				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>Q_(1-2) = W_(1-2) = pV\ln\left(\frac(V_2)(V_1)\right) = {p1.float} \cdot {V1.float} \cdot \ln\left(\frac{V2.float}{V1.float}\right) = {Q12}.</BM> Voor de isentrope stap 2-3 geldt <M>Q_(2-3) = {Q23}</M> en <BM>W_(2-3) = -mc_v\left(T_3-T_2\right) = -{m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {W23}.</BM> Ten slotte heeft de isochore stap 3-1 <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}</BM> en <M>W_(3-1) = {W31}.</M></Par>
+				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>Q_(1-2) = W_(1-2) = pV\ln\left(\frac(V_2)(V_1)\right) = {p1.value} \cdot {V1.value} \cdot \ln\left(\frac{V2.value}{V1.value}\right) = {Q12}.</BM> Voor de isentrope stap 2-3 geldt <M>Q_(2-3) = {Q23}</M> en <BM>W_(2-3) = -mc_v\left(T_3-T_2\right) = -{m.value} \cdot {cv.value} \cdot \left({T3.value} - {T2.value}\right) = {W23}.</BM> Ten slotte heeft de isochore stap 3-1 <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.value} \cdot {cv.value} \cdot \left({T1.value} - {T3.value}\right) = {Q31}</BM> en <M>W_(3-1) = {W31}.</M></Par>
 				<Par>Als check controleren we de energiebalans. Zo vinden we
 					<BMList>
-						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithSign} {Q31.float.texWithSign} = {Wn},</BMPart>
-						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithSign} {W31.float.texWithSign} = {Wn}.</BMPart>
+						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.value} {Q23.value.texWithSign} {Q31.value.texWithSign} = {Wn},</BMPart>
+						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.value} {W23.value.texWithSign} {W31.value.texWithSign} = {Wn}.</BMPart>
 					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
 			</>

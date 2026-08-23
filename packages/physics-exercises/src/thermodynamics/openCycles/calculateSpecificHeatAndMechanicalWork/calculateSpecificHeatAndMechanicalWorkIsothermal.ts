@@ -11,11 +11,11 @@ export default buildStepExercise({
 		skill: 'calculateSpecificHeatAndMechanicalWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities']),
 		comparisons: {
-			Rs: { float: { relativeTolerance: 0.015 } },
-			ratio: { float: { relativeTolerance: 0.01 } },
-			T: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
-			q: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
-			wt: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
+			Rs: { value: { relativeTolerance: 0.015 } },
+			ratio: { value: { relativeTolerance: 0.01 } },
+			T: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
+			q: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
+			wt: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
 		},
 	},
 

@@ -52,12 +52,12 @@ const steps = [
 					Hierbij geldt bij een isentroop proces met lucht dat <M>n = k = {k}.</M> Het bovenstaande oplossen voor <M>T_2</M> kan via
 					<BMList>
 						<BMPart>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
-						<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(1/n) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BMPart>
+						<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(1/n) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.value} \cdot \left(\frac{p2.value}{p1.value}\right)^(\frac({k}-1)({k})) = {T2}.</BMPart>
 					</BMList>
 					De specifieke volumen <M>v_1</M> en <M>v_2</M> volgen beiden via de gaswet als
 					<BMList>
-						<BMPart>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1},</BMPart>
-						<BMPart>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BMPart>
+						<BMPart>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.value} \cdot {T1.value})({p1.value}) = {v1},</BMPart>
+						<BMPart>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.value} \cdot {T2.value})({p2.value}) = {v2}.</BMPart>
 					</BMList>
 					Daarmee is de eerste stap helemaal doorgerekend.</Par>
 			</>
@@ -72,7 +72,7 @@ const steps = [
 		</>,
 		Solution: ({ Rs, p4, v4, T4 }) => {
 			return <Par>We weten dat <M>p_4 = p_1 = {p4}</M> en <M>T_4 = {T4}.</M> Het specifieke volume <M>v_4</M> volgt via de gaswet als
-				<BM>v_4 = \frac(R_sT_4)(p_4) = \frac({Rs.float} \cdot {T4.float})({p4.float}) = {v4}.</BM>
+				<BM>v_4 = \frac(R_sT_4)(p_4) = \frac({Rs.value} \cdot {T4.value})({p4.value}) = {v4}.</BM>
 				Zo is ook punt vier bekend.
 			</Par>
 		},
@@ -86,9 +86,9 @@ const steps = [
 		</>,
 		Solution: ({ k, Rs, T3, v3, p3, p4, T4 }) => {
 			return <Par>Omdat stap 2-3 isobaar is geldt <M>p_3 = p_2 = {p3}.</M> De temperatuur <M>T_3</M> volgt vanuit Poisson's wet. Identiek aan hoe we <M>T_2</M> vonden geldt hier
-				<BM>T_3 = T_4 \left(\frac(p_3)(p_4)\right)^(\frac(n-1)(n)) = {T4.float} \cdot \left(\frac{p3.float}{p4.float}\right)^(\frac({k}-1)({k})) = {T3}.</BM>
+				<BM>T_3 = T_4 \left(\frac(p_3)(p_4)\right)^(\frac(n-1)(n)) = {T4.value} \cdot \left(\frac{p3.value}{p4.value}\right)^(\frac({k}-1)({k})) = {T3}.</BM>
 				Het specifieke volume <M>v_3</M> volgt wederom vanuit de gaswet als
-				<BM>v_3 = \frac(R_sT_3)(p_3) = \frac({Rs.float} \cdot {T3.float})({p3.float}) = {v3}.</BM>
+				<BM>v_3 = \frac(R_sT_3)(p_3) = \frac({Rs.value} \cdot {T3.value})({p3.value}) = {v3}.</BM>
 				Hiermee zijn alle eigenschappen bekend.
 			</Par>
 		},

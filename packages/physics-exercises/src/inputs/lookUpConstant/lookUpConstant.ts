@@ -13,7 +13,7 @@ export default buildMonoExercise({
 		skill: 'lookUpConstant',
 		comparisons: {
 			ans: {
-				float: { relativeTolerance: 0.0001 },
+				value: { relativeTolerance: 0.0001 },
 			},
 		},
 	},

@@ -58,7 +58,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2, cv, Q12, W12 }) => {
-			return <Par>Bij een isentroop proces is er per definitie geen warmte toegevoerd. Er geldt dus <M>Q_(1-2) = {Q12}.</M> De arbeid is te berekenen als <BM>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {W12}.</BM> Hiermee is de eerste stap doorgerekend.</Par>
+			return <Par>Bij een isentroop proces is er per definitie geen warmte toegevoerd. Er geldt dus <M>Q_(1-2) = {Q12}.</M> De arbeid is te berekenen als <BM>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.value} \cdot {cv.value} \cdot \left({T2.value} - {T1.value}\right) = {W12}.</BM> Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
 	{
@@ -72,7 +72,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ p2, V2, V3, Q23, W23 }) => {
-			return <Par>Er zijn wederom meerdere formules om te gebruiken. We vinden <M>Q_(2-3)</M> het makkelijkst via <BM>Q_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(2-3) = Q_(2-3) = {W23}.</M> Hiermee is ook deze stap klaar.</Par>
+			return <Par>Er zijn wederom meerdere formules om te gebruiken. We vinden <M>Q_(2-3)</M> het makkelijkst via <BM>Q_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.value} \cdot {V2.value} \cdot \ln\left(\frac{V3.value}{V2.value}\right) = {Q23}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(2-3) = Q_(2-3) = {W23}.</M> Hiermee is ook deze stap klaar.</Par>
 		},
 	},
 	{
@@ -86,7 +86,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T3, T4, cv, Q34, W34 }) => {
-			return <Par>Net als bij stap 1-2 geldt bij dit isentrope proces <M>Q_(3-4) = {Q34}</M> en <BM>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BM> Zo is de derde stap ook bekend.</Par>
+			return <Par>Net als bij stap 1-2 geldt bij dit isentrope proces <M>Q_(3-4) = {Q34}</M> en <BM>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.value} \cdot {cv.value} \cdot \left({T4.value} - {T3.value}\right) = {W34}.</BM> Zo is de derde stap ook bekend.</Par>
 		},
 	},
 	{
@@ -101,8 +101,8 @@ const steps = [
 		</>,
 		Solution: ({ p4, V1, V4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Qn, Wn }) => {
 			return <>
-				<Par>Net als bij stap 2-3 geldt hier <BM>Q_(4-1) = W_(4-1) = pV\ln\left(\frac(V_1)(V_4)\right) = {p4.float} \cdot {V4.float} \cdot \ln\left(\frac{V1.float}{V4.float}\right) = {Q41}.</BM> Daarmee is ook de laatste stap doorgerekend.</Par>
-				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithSign} {Q34.float.texWithSign} {Q41.float.texWithSign} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithSign} {W34.float.texWithSign} {W41.float.texWithSign} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>
+				<Par>Net als bij stap 2-3 geldt hier <BM>Q_(4-1) = W_(4-1) = pV\ln\left(\frac(V_1)(V_4)\right) = {p4.value} \cdot {V4.value} \cdot \ln\left(\frac{V1.value}{V4.value}\right) = {Q41}.</BM> Daarmee is ook de laatste stap doorgerekend.</Par>
+				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.value} {Q23.value.texWithSign} {Q34.value.texWithSign} {Q41.value.texWithSign} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.value} {W23.value.texWithSign} {W34.value.texWithSign} {W41.value.texWithSign} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>
 			</>
 		},
 	},

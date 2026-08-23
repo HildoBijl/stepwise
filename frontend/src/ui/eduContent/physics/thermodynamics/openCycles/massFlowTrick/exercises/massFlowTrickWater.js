@@ -21,5 +21,5 @@ function Problem({ q, Qdot }) {
 }
 
 function Solution({ qs, Qdots, mdot }) {
-	return <Par>We weten dat <M>q = {qs}</M> de warmte is die <em>per kilogram</em> water wordt toegevoerd. Net zo is <M>\dot(Q) = {Qdots}</M> de warmte die <em>per seconde</em> op de lucht uitgeoefend wordt. Om tussen "per kilogram" en "per seconde" heen en weer te rekenen gebruiken we de massastroom. Oftewel, <BM>\dot(Q) = \dot(m)q.</BM> Dit oplossen voor <M>\dot(m)</M> geeft <BM>\dot(m) = \frac(\dot(Q))(q) = \frac{Qdots.float}{qs.float} = {mdot}.</BM> Eventueel hadden we hier <M>q</M> en <M>\dot(Q)</M> ook allebei in <M>{new Unit('kJ')}</M> kunnen laten staan, omdat dit dan toch tegen elkaar wegvalt.</Par>
+	return <Par>We weten dat <M>q = {qs}</M> de warmte is die <em>per kilogram</em> water wordt toegevoerd. Net zo is <M>\dot(Q) = {Qdots}</M> de warmte die <em>per seconde</em> op de lucht uitgeoefend wordt. Om tussen "per kilogram" en "per seconde" heen en weer te rekenen gebruiken we de massastroom. Oftewel, <BM>\dot(Q) = \dot(m)q.</BM> Dit oplossen voor <M>\dot(m)</M> geeft <BM>\dot(m) = \frac(\dot(Q))(q) = \frac{Qdots.value}{qs.value} = {mdot}.</BM> Eventueel hadden we hier <M>q</M> en <M>\dot(Q)</M> ook allebei in <M>{new Unit('kJ')}</M> kunnen laten staan, omdat dit dan toch tegen elkaar wegvalt.</Par>
 }

@@ -9,7 +9,7 @@ export default buildMonoExercise({
 	metadata: {
 		skill: 'specificHeatRatio',
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.015 } },
+			FloatUnit: { value: { relativeTolerance: 0.015 } },
 		},
 	},
 

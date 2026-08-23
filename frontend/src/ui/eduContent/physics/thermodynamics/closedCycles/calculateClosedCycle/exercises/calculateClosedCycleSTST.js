@@ -49,17 +49,17 @@ const steps = [
 			return <>
 				<Par>
 					In punt 1 hebben we twee van de drie eigenschappen: <M>p_1 = {p1}</M> en <M>V_1 = {V1}.</M> Via de gaswet vinden we <M>T_1</M> als
-					<BM>T_1 = \frac(p_1V_1)(mR_s) = \frac({p1.float} \cdot {V1.float})({m.float} \cdot {Rs.float}) = {T1}.</BM>
+					<BM>T_1 = \frac(p_1V_1)(mR_s) = \frac({p1.value} \cdot {V1.value})({m.value} \cdot {Rs.value}) = {T1}.</BM>
 					Zo is punt 1 volledig bekend.
 				</Par>
 				<Par>
 					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
 					<BMList>
 						<BMPart>V_2^n = \frac(p_1)(p_2) V_1^n,</BMPart>
-						<BMPart>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BMPart>
+						<BMPart>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.value}{p2.value}\right)^(\frac{1}{k}) \cdot {V1.value} = {V2}.</BMPart>
 					</BMList>
 					De temperatuur <M>T_2</M> volgt via de gaswet als
-					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>
+					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.value} \cdot {V2.value})({m.value} \cdot {Rs.value}) = {T2}.</BM>
 					Hiermee is ook punt 2 doorgerekend.
 				</Par>
 			</>
@@ -73,7 +73,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, Rs, p4, V4, T4 }) => {
-			return <Par>Gegeven is dat <M>p_4 = {p4}.</M> Omdat proces 4-1 isotherm is geldt verder <M>T_4 = T_1 = {T4}.</M> Via de gaswet volgt <BM>V_4 = \frac(mR_sT_4)(p_4) = \frac({m.float} \cdot {Rs.float} \cdot {T4.float})({p4.float}) = {V4}.</BM> Daarmee is punt 4 bekend.</Par>
+			return <Par>Gegeven is dat <M>p_4 = {p4}.</M> Omdat proces 4-1 isotherm is geldt verder <M>T_4 = T_1 = {T4}.</M> Via de gaswet volgt <BM>V_4 = \frac(mR_sT_4)(p_4) = \frac({m.value} \cdot {Rs.value} \cdot {T4.value})({p4.value}) = {V4}.</BM> Daarmee is punt 4 bekend.</Par>
 		},
 	},
 	{
@@ -88,10 +88,10 @@ const steps = [
 				Omdat proces 2-3 isotherm is geldt <M>T_3 = T_2 = {T3}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Dit gaat het makkelijkst via <M>T_3V_3^(n-1) = T_4V_4^(n-1).</M> Dit oplossen voor <M>V_3</M> geeft
 				<BMList>
 					<BMPart>V_3^(n-1) = \frac(T_4)(T_3) V_4^(n-1),</BMPart>
-					<BMPart>V_3 = \left(\frac(T_4)(T_3) V_4^(n-1)\right)^(\frac(1)(n-1)) = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.float}{T3.float}\right)^(\frac(1)({k}-1)) \cdot {V4.float} = {V3}.</BMPart>
+					<BMPart>V_3 = \left(\frac(T_4)(T_3) V_4^(n-1)\right)^(\frac(1)(n-1)) = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.value}{T3.value}\right)^(\frac(1)({k}-1)) \cdot {V4.value} = {V3}.</BMPart>
 				</BMList>
 				Ten slotte volgt via de gaswet <M>p_3</M> als
-				<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.float} \cdot {Rs.float} \cdot {T3.float})({V3.float}) = {p3}.</BM>
+				<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.value} \cdot {Rs.value} \cdot {T3.value})({V3.value}) = {p3}.</BM>
 				En zo is het probleem volledig opgelost.
 			</Par>
 		},

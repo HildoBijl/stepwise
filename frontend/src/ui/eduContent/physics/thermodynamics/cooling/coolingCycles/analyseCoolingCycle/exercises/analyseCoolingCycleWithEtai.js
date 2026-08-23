@@ -39,8 +39,8 @@ const steps = [
 			return <>
 				<Par>We vinden eerst de temperaturen in de verdamper en de condensor als
 					<BMList>
-						<BMPart>T_v = {TCold.float} - {dTCold.float} = {TEvap},</BMPart>
-						<BMPart>T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BMPart>
+						<BMPart>T_v = {TCold.value} - {dTCold.value} = {TEvap},</BMPart>
+						<BMPart>T_c = {TWarm.value} + {dTWarm.value} = {TCond}.</BMPart>
 					</BMList>
 					De bijbehorende verdamperdruk en condensordruk zijn op te zoeken als <M>p_v = {pEvap}</M> en <M>p_c = {pCond}.</M>
 				</Par>
@@ -59,7 +59,7 @@ const steps = [
 		</>,
 		Solution: ({ h1, h2p, h2, wt, wtp, etai }) => {
 			return <>
-				<Par>De specifieke technische arbeid in het isentrope geval is <BM>w_(t') = h_(2') - h_1 = {h2p.float} - {h1.float} = {wtp}.</BM> In werkelijkheid is dit getal groter: vanwege frictie moet de compressor meer arbeid verrichten. De werkelijke arbeid volgt dus als <BM>w_t = \frac(w_(t'))(\eta_i) = \frac{wtp.float}{etai.float} = {wt}.</BM> De specifieke enthalpie in punt <M>2</M> volgt als <BM>h_2 = h_1 + w_t = {h1.float} + {wt.float} = {h2}.</BM> Eventueel had dit ook direct gevonden kunnen worden via <BM>h_2 = h_1 + \frac(h_(2') - h_1)(\eta_i) = {h1.float} + \frac({h2p.float} - {h1.float}){etai.float} = {h2}.</BM></Par>
+				<Par>De specifieke technische arbeid in het isentrope geval is <BM>w_(t') = h_(2') - h_1 = {h2p.value} - {h1.value} = {wtp}.</BM> In werkelijkheid is dit getal groter: vanwege frictie moet de compressor meer arbeid verrichten. De werkelijke arbeid volgt dus als <BM>w_t = \frac(w_(t'))(\eta_i) = \frac{wtp.value}{etai.value} = {wt}.</BM> De specifieke enthalpie in punt <M>2</M> volgt als <BM>h_2 = h_1 + w_t = {h1.value} + {wt.value} = {h2}.</BM> Eventueel had dit ook direct gevonden kunnen worden via <BM>h_2 = h_1 + \frac(h_(2') - h_1)(\eta_i) = {h1.value} + \frac({h2p.value} - {h1.value}){etai.value} = {h2}.</BM></Par>
 			</>
 		},
 	},
@@ -77,14 +77,14 @@ const steps = [
 		Solution: ({ h1, h2, h3, h4, wt, qin, qout, epsilon, COP, mdot, P }) => {
 			return <Par>De toegevoerde en afgevoerde warmte zijn
 				<BMList>
-					<BMPart>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BMPart>
-					<BMPart>q_(af) = h_2 - h_3 = {h2.float} - {h3.float} = {qout}.</BMPart>
+					<BMPart>q_(toe) = h_1 - h_4 = {h1.value} - {h4.value} = {qin},</BMPart>
+					<BMPart>q_(af) = h_2 - h_3 = {h2.value} - {h3.value} = {qout}.</BMPart>
 				</BMList>
 				Ook was al bekend dat <M>w_t = {wt}</M> en <M>P = {P}.</M> Hiermee kunnen we alle benodigde waarden direct berekenen. We vinden
 				<BMList>
-					<BMPart>\epsilon = \frac(q_(in))(w_t) = \frac{qin.float}{wt.float} = {epsilon},</BMPart>
-					<BMPart>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.float}{wt.float} = {COP},</BMPart>
-					<BMPart>\dot(m) = \frac(P)(w_t) = \frac{P.float}{wt.float} = {mdot}.</BMPart>
+					<BMPart>\epsilon = \frac(q_(in))(w_t) = \frac{qin.value}{wt.value} = {epsilon},</BMPart>
+					<BMPart>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.value}{wt.value} = {COP},</BMPart>
+					<BMPart>\dot(m) = \frac(P)(w_t) = \frac{P.value}{wt.value} = {mdot}.</BMPart>
 				</BMList>Hiermee zijn all gevraagde waarden gevonden.</Par>
 		},
 	},

@@ -43,12 +43,12 @@ const steps = [
 		</>,
 		Solution: ({ medium, m, Rs, p1, V1, T1, p2, V2, T2 }) => {
 			return <>
-				<Par>In punt 1 hebben we drie eigenschappen, maar we weten de massa van het gas niet. Het is handig om deze eerst te vinden. Voor {Dutch[medium]} geldt <M>R_s = {Rs}.</M> Via de gaswet volgt <M>m</M> als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM> Nu dit bekend is kunnen we naar punt 2 kijken. We weten al dat <M>p_2 = {p2}.</M> Omdat proces 1-2 een isotherm proces is geldt verder <BM>T_2 = T_1 = {T2}.</BM> Via de gaswet volgt <M>V_2</M> als <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Daarmee is punt 2 volledig bekend.</Par>
+				<Par>In punt 1 hebben we drie eigenschappen, maar we weten de massa van het gas niet. Het is handig om deze eerst te vinden. Voor {Dutch[medium]} geldt <M>R_s = {Rs}.</M> Via de gaswet volgt <M>m</M> als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.value} \cdot {V1.value})({Rs.value} \cdot {T1.value}) = {m}.</BM> Nu dit bekend is kunnen we naar punt 2 kijken. We weten al dat <M>p_2 = {p2}.</M> Omdat proces 1-2 een isotherm proces is geldt verder <BM>T_2 = T_1 = {T2}.</BM> Via de gaswet volgt <M>V_2</M> als <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.value} \cdot {Rs.value} \cdot {T2.value})({p2.value}) = {V2}.</BM> Daarmee is punt 2 volledig bekend.</Par>
 				<SubHead>Short-cut</SubHead>
 				<Par>We hadden ook kunnen gebruiken dat, bij een isotherm proces, <M>pV</M> constant blijft. (Immers, <M>mR_sT</M> blijft ook constant.) We vinden dan <M>V_2</M> direct via
 					<BMList>
 						<BMPart>p_1V_1 = p_2V_2,</BMPart>
-						<BMPart>V_2 = \frac(p_1)(p_2)\cdot V_1 = \frac{p1.float}{p2.float} \cdot {V1.float} = {V2}.</BMPart>
+						<BMPart>V_2 = \frac(p_1)(p_2)\cdot V_1 = \frac{p1.value}{p2.value} \cdot {V1.value} = {V2}.</BMPart>
 					</BMList>
 					De massa berekenen was hierbij niet eens nodig geweest.</Par>
 			</>
@@ -62,7 +62,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ medium, m, Rs, k, p2, V2, p3, V3, T3 }) => {
-			return <Par>We weten dat <M>V_3 = V_1 = {V3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2V_2^n = p_3V_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>p_3</M> is <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.float} \cdot \left(\frac{V2.float}{V3.float}\right)^({k}) = {p3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet als je de massa niet wilt berekenen) als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
+			return <Par>We weten dat <M>V_3 = V_1 = {V3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2V_2^n = p_3V_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>p_3</M> is <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.value} \cdot \left(\frac{V2.value}{V3.value}\right)^({k}) = {p3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet als je de massa niet wilt berekenen) als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.value} \cdot {V3.value})({m.value} \cdot {Rs.value}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
 		},
 	},
 ]

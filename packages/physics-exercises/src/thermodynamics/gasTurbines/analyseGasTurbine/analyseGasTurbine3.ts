@@ -12,8 +12,8 @@ export default buildStepExercise({
 		skill: 'analyseGasTurbine',
 		...createStepExerciseMetadata(['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']]),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-			eta: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			eta: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
 	},
 

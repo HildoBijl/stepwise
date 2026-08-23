@@ -81,9 +81,9 @@ const steps = [
 					To find <M>F_C</M> we examine the sum of the moments around point <M>A</M>. In this case <M>F_(Ax)</M> and <M>F_(Ay)</M> have no effect. If we decompose <M>F_C</M> into components <M>F_(Cx)</M> and <M>F_(Cy)</M> too, then this gives the equilibrium equation
 					<BM>{sumOfMoments('A', false)} P l_1 {directionIndices[3] ? '-' : '+'} F_(Cy) \left(l_1 + l_2\right) = 0.</BM>
 					The solution for <M>F_(Cy)</M> follows as
-					<BM>F_(Cy) = {directionIndices[3] ? '' : '-'} \frac(P l_1)(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({P.float} \cdot {l1.float})({l1.float} + {l2.float}) = {FCy}.</BM>
+					<BM>F_(Cy) = {directionIndices[3] ? '' : '-'} \frac(P l_1)(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({P.value} \cdot {l1.value})({l1.value} + {l2.value}) = {FCy}.</BM>
 					Through decomposing forces <M>F_C</M> follows as
-					<BM>F_C = \frac(F_(Cy))(\sin\left({angle}\right)) = \frac({FCy.float})(\sin\left({angle}\right)) = {FC}.</BM>
+					<BM>F_C = \frac(F_(Cy))(\sin\left({angle}\right)) = \frac({FCy.value})(\sin\left({angle}\right)) = {FC}.</BM>
 				</Par>
 			</Translation>
 		},
@@ -107,7 +107,7 @@ const steps = [
 					To find <M>F_(Ay)</M> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <M>C</M>, but this is a bit more work.) This gives the equilibrium equation
 					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} F_(Ay) - P {directionIndices[3] ? '+' : '-'} F_(Cy) = 0.</BM>
 					Solving this for <M>F_(Ay)</M> gives
-					<BM>F_(Ay) = {directionIndices[2] ? '' : '-'} P {directionIndices[2] === directionIndices[3] ? '-' : '+'} F_(Cy) = {directionIndices[2] ? '' : '-'} {P.float} {directionIndices[2] === directionIndices[3] ? '-' : '+'} {FCy.float.texWithParentheses} = {FAy}.</BM>
+					<BM>F_(Ay) = {directionIndices[2] ? '' : '-'} P {directionIndices[2] === directionIndices[3] ? '-' : '+'} F_(Cy) = {directionIndices[2] ? '' : '-'} {P.value} {directionIndices[2] === directionIndices[3] ? '-' : '+'} {FCy.value.texWithParentheses} = {FAy}.</BM>
 				</Par>
 			</Translation>
 		},
@@ -131,7 +131,7 @@ const steps = [
 					To find <M>F_(Ax)</M> we look at the sum of the forces in the horizontal direction. In this case <M>F_(Ay)</M> and <M>F_(Cy)</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfForces(false)} {directionIndices[1] ? '' : '-'} F_(Ax) {directionIndices[3] ? '-' : '+'} F_(Cx) = 0.</BM>
 					By decomposing forces we can find that
-					<BM>F_(Cx) = F_C \sin\left({angle}\right) = {FC.float} \cdot \sin\left({angle}\right) = {FCx}.</BM>
+					<BM>F_(Cx) = F_C \sin\left({angle}\right) = {FC.value} \cdot \sin\left({angle}\right) = {FCx}.</BM>
 					Solving the equilibrium equation for <M>F_(Ax)</M> then gives
 					<BM>F_(Ax) = {directionIndices[1] === directionIndices[3] ? '' : '-'} F_(Cx) = {FAx}.</BM>
 					And with this all support reactions have been determined.

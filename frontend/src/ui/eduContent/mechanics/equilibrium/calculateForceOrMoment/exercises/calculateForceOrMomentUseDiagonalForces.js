@@ -62,7 +62,7 @@ const steps = [
 		Solution: ({ FD, FDl }) => {
 			return <Par>
 				Alle hoeken die hier spelen zijn <M>45^\circ.</M> We kunnen de loodrechte component dus vinden via <M>\sin\left(45\right),</M> via <M>\cos\left(45\right),</M> of via de factor <M>\frac(1)(2)\sqrt(2).</M> Met elk van deze methoden komen we uit op
-				<BM>F_(Dl) = F_D \cdot \frac(1)(2)\sqrt(2) = {FD.float} \cdot \frac(1)(2)\sqrt(2) = {FDl}.</BM>
+				<BM>F_(Dl) = F_D \cdot \frac(1)(2)\sqrt(2) = {FD.value} \cdot \frac(1)(2)\sqrt(2) = {FDl}.</BM>
 			</Par>
 		},
 	},

@@ -58,7 +58,7 @@ const steps = [
 		</>,
 		Solution: ({ T1, T2, cp, q12, wt12 }) => {
 			return <Par>Bij een isentroop proces geldt <M>q_(1-2) = {q12}.</M> De technische arbeid volgt vervolgens uit
-				<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
+				<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.value} \cdot \left({T2.value} - {T1.value}\right) = {wt12}.</BM>
 				Dit is negatief: we moeten zelf arbeid in het gas stoppen. Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
@@ -74,7 +74,7 @@ const steps = [
 		</>,
 		Solution: ({ T2, T3, cp, q23, wt23 }) => {
 			return <Par>Bij een isobaar proces is de warmte te vinden als
-				<BM>q_(2-3) = c_p \left(T_3 - T_2\right) = {cp.float} \cdot \left({T3.float} - {T2.float}\right) = {q23}.</BM>
+				<BM>q_(2-3) = c_p \left(T_3 - T_2\right) = {cp.value} \cdot \left({T3.value} - {T2.value}\right) = {q23}.</BM>
 				Dit is positief: we verwarmen het gas. De technische arbeid bij een isobaar proces is altijd <M>w_(t,2-3) = {wt23}.</M> Zo is ook de tweede stap bekend.</Par>
 		},
 	},
@@ -90,7 +90,7 @@ const steps = [
 		</>,
 		Solution: ({ T3, T4, cp, q34, wt34 }) => {
 			return <Par>Bij een isentroop proces geldt nog steeds <M>q_(3-4) = {q34}.</M> De technische arbeid volgt alweer uit
-				<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.float} \cdot \left({T4.float} - {T3.float}\right) = {wt34}.</BM>
+				<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.value} \cdot \left({T4.value} - {T3.value}\right) = {wt34}.</BM>
 				Dit is positief: het gas levert arbeid. Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
@@ -107,9 +107,9 @@ const steps = [
 		Solution: ({ T1, T4, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }) => {
 			return <>
 				<Par>Net als bij stap 2-3 geldt hier
-					<BM>q_(4-1) = c_p \left(T_1 - T_4\right) = {cp.float} \cdot \left({T1.float} - {T4.float}\right) = {q41}.</BM>
+					<BM>q_(4-1) = c_p \left(T_1 - T_4\right) = {cp.value} \cdot \left({T1.value} - {T4.value}\right) = {q41}.</BM>
 					Dit is negatief: het gas wordt afgekoeld. De technische arbeid bij een isobaar proces is <M>w_(t,4-1) = {wt41}.</M> Daarmee is alles doorgerekend.</Par>
-				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>q_(netto) = q_(1-2) + q_(2-3) + q_(3-4) + q_(4-1) = {q12.float} {q23.float.texWithSign} {q34.float.texWithSign} {q41.float.texWithSign} = {qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithSign} {wt34.float.texWithSign} {wt41.float.texWithSign} = {wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft, wat logisch is: een gasturbine is gemaakt om arbeid te leveren.</Par>
+				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>q_(netto) = q_(1-2) + q_(2-3) + q_(3-4) + q_(4-1) = {q12.value} {q23.value.texWithSign} {q34.value.texWithSign} {q41.value.texWithSign} = {qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.value} {wt23.value.texWithSign} {wt34.value.texWithSign} {wt41.value.texWithSign} = {wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft, wat logisch is: een gasturbine is gemaakt om arbeid te leveren.</Par>
 			</>
 		},
 	},

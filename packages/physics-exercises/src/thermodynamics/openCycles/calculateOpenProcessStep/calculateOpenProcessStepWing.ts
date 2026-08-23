@@ -10,9 +10,9 @@ export default buildStepExercise({
 		skill: 'calculateOpenProcessStep',
 		...createStepExerciseMetadata(['calculateWithSpecificQuantities', 'gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-			T1: { float: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-			T2: { float: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			T1: { value: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			T2: { value: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 

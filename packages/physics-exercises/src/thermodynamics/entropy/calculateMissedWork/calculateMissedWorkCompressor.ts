@@ -7,7 +7,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateMissedWork',
 		...createStepExerciseMetadata(['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
-		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters,

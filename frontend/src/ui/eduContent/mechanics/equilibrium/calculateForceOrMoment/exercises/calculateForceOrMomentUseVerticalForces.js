@@ -80,7 +80,7 @@ const steps = [
 		Solution: ({ angle, FAy, FA }) => {
 			return <Par>
 				De schuine kracht <M>F_A</M> volgt via de aanliggende zijde <M>F_(Ay)</M> als
-				<BM>F_A = \frac(F_(Ay))(\cos\left({angle}\right)) = \frac({FAy.float})(\cos\left({angle}\right)) = {FA}.</BM>
+				<BM>F_A = \frac(F_(Ay))(\cos\left({angle}\right)) = \frac({FAy.value})(\cos\left({angle}\right)) = {FA}.</BM>
 				Hiermee is de gevraagde kracht berekend.
 			</Par>
 		},

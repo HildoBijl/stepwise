@@ -116,7 +116,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ startAH, endAH, dAH }) => {
-			return <Par>De instromende lucht bevat <M>AH_(in) = {startAH}</M> aan water. De uitstromende lucht bevat <M>AH_(uit) = {endAH}</M> aan water. Dat betekent dat er <BM>\Delta AH = AH_(in) - AH_(uit) = {startAH.float} - {endAH.float} = {dAH}</BM> aan water is "verdwenen". Dit water is gecondenseerd en wordt door de airco afgevoerd.</Par>
+			return <Par>De instromende lucht bevat <M>AH_(in) = {startAH}</M> aan water. De uitstromende lucht bevat <M>AH_(uit) = {endAH}</M> aan water. Dat betekent dat er <BM>\Delta AH = AH_(in) - AH_(uit) = {startAH.value} - {endAH.value} = {dAH}</BM> aan water is "verdwenen". Dit water is gecondenseerd en wordt door de airco afgevoerd.</Par>
 		},
 	},
 ]

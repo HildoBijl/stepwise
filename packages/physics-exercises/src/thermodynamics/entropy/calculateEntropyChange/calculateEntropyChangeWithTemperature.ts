@@ -12,10 +12,10 @@ export default buildStepExercise({
 		...createStepExerciseMetadata(['calculateWithTemperature', 'specificHeats', 'solveLinearEquation']),
 		weight: 2,
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
-			c: { float: { relativeTolerance: 0.015 } },
-			T1: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
-			T2: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
+			FloatUnit: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
+			c: { value: { relativeTolerance: 0.015 } },
+			T1: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
+			T2: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
 		},
 	},
 

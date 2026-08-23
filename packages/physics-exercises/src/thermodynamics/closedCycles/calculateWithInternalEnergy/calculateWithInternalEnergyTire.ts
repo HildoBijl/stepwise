@@ -11,8 +11,8 @@ export default buildStepExercise({
 		skill: 'calculateWithInternalEnergy',
 		...createStepExerciseMetadata(['gasLaw', 'specificHeats', 'solveLinearEquation']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-			cv: { float: { relativeTolerance: 0.02 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			cv: { value: { relativeTolerance: 0.02 } },
 		},
 	},
 

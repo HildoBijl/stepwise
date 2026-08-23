@@ -10,11 +10,11 @@ export default buildStepExercise({
 		skill: 'poissonsLaw',
 		...createStepExerciseMetadata([[undefined, undefined, 'calculateWithPressure'], 'specificHeatRatio', undefined, 'solveExponentEquation']),
 		comparisons: {
-			T1s: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
-			p1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
-			p2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
-			k: { float: { relativeTolerance: 0.015 } },
-			T2: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			T1s: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
+			p1s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
+			p2s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
+			k: { value: { relativeTolerance: 0.015 } },
+			T2: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 
@@ -30,8 +30,8 @@ export default buildStepExercise({
 		const p1s = p1
 		const p2s = p2
 		const eq = 2
-		const kNum = k.float.number
-		const T2 = T1.multiply(p2.divide(p1).float.toPower((kNum - 1) / kNum))
+		const kNum = k.value.number
+		const T2 = T1.multiply(p2.divide(p1).value.toPower((kNum - 1) / kNum))
 		return { k, p1s, p2s, T1s, T2, eq }
 	},
 

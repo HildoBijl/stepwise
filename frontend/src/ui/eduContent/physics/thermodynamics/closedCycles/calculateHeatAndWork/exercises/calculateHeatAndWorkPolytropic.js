@@ -89,7 +89,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ n, Rs, cv, c }) => {
-			return <Par>Voor elk proces met procescoëfficiënt <M>n</M> kunnen we de soortelijke warmte berekenen via <BM>c = c_v - \frac(R_s)(n-1).</BM> Getallen invullen geeft <BM>c = {cv.float} - \frac({Rs.float})({n.float} - 1) = {c}.</BM> Hiermee kunnen we zo de toegevoerde warmte berekenen.</Par>
+			return <Par>Voor elk proces met procescoëfficiënt <M>n</M> kunnen we de soortelijke warmte berekenen via <BM>c = c_v - \frac(R_s)(n-1).</BM> Getallen invullen geeft <BM>c = {cv.value} - \frac({Rs.value})({n.value} - 1) = {c}.</BM> Hiermee kunnen we zo de toegevoerde warmte berekenen.</Par>
 		},
 	},
 	{
@@ -120,8 +120,8 @@ const steps = [
 		Solution: ({ Rs, n, ms, c, T1s, T2s, Q, W }) => {
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
-					<BMPart>Q = mc\left(T_2 - T_1\right) = {ms.float} \cdot {c.float} \cdot \left({T2s.float} - {T1s.float}\right) = {Q},</BMPart>
-					<BMPart>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({ms.float} \cdot {Rs.float})({n.float} - 1) \cdot \left({T2s.float} - {T1s.float}\right) = {W}.</BMPart>
+					<BMPart>Q = mc\left(T_2 - T_1\right) = {ms.value} \cdot {c.value} \cdot \left({T2s.value} - {T1s.value}\right) = {Q},</BMPart>
+					<BMPart>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({ms.value} \cdot {Rs.value})({n.value} - 1) \cdot \left({T2s.value} - {T1s.value}\right) = {W}.</BMPart>
 				</BMList>
 				De mintekens hier betekenen dat er warmte <strong>uit het gas</strong> stroomt en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn de lucht aan het comprimeren, dus dit kost arbeid. En omdat de lucht warmer wordt stroomt er warmte uit. De mintekens moeten zeker wel vermeld worden, want ze geven de richtingen van deze energiestromen aan.
 			</Par>

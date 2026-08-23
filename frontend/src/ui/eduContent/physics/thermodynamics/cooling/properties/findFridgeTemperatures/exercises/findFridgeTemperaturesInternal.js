@@ -26,15 +26,15 @@ function Problem({ type, TCold, TWarm, dTCold, dTWarm }) {
 function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 	if (type === 'heatPump')
 		return <Par>We bekijken eerst het leveren van warmte aan de huiskamer. De huiskamer heeft een temperatuur van <M>{TWarm}.</M> Er wordt warmte geleverd aan de huiskamer, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de huiskamer, want alleen dan wordt er warmte overgedragen aan de huiskamer. De temperatuur in de condensor is dus
-			<BM>T_c = T_(huis) + \Delta T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BM>
+			<BM>T_c = T_(huis) + \Delta T_c = {TWarm.value} + {dTWarm.value} = {TCond}.</BM>
 			Als tweede bekijken we het onttrekken van warmte aan de buitenlucht. De buitenlucht is <M>{TCold}.</M> Hieruit wordt warmte onttrokken en aan het koudemiddel overgedragen. Deze warmte zorgt ervoor dat het koudemiddel verdampt, waardoor hier de verdamper moet zitten. Om deze warmteoverdracht mogelijk te maken moet de temperatuur van de verdamper lager zijn dan de temperatuur buiten. Dus geldt
-			<BM>T_v = T_(buiten) - \Delta T_v = {TCold.float} - {dTCold.float} = {TEvap}.</BM>
+			<BM>T_v = T_(buiten) - \Delta T_v = {TCold.value} - {dTCold.value} = {TEvap}.</BM>
 			De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
 		</Par>
 	return <Par>We bekijken eerst het onttrekken van warmte aan de te koelen ruimte. De binnenkant van de koelkast is <M>{TCold}.</M> Hieruit wordt warmte onttrokken en aan het koudemiddel overgedragen. Deze warmte zorgt ervoor dat het koudemiddel verdampt, waardoor hier de verdamper moet zitten. Om deze warmteoverdracht mogelijk te maken moet de temperatuur van de verdamper lager zijn dan de temperatuur in de koelkast. Dus geldt
-		<BM>T_v = T_(koelkast) - \Delta T_v = {TCold.float} - {dTCold.float} = {TEvap}.</BM>
+		<BM>T_v = T_(koelkast) - \Delta T_v = {TCold.value} - {dTCold.value} = {TEvap}.</BM>
 		Als tweede bekijken we het lozen van warmte aan de keuken. De keuken heeft een temperatuur van <M>{TWarm}.</M> Er wordt warmte geleverd aan de keuken, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de keuken, want alleen dan wordt er warmte overgedragen aan de keuken. De temperatuur in de condensor is dus
-		<BM>T_c = T_(keuken) + \Delta T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BM>
+		<BM>T_c = T_(keuken) + \Delta T_c = {TWarm.value} + {dTWarm.value} = {TCond}.</BM>
 		De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
 	</Par>
 }

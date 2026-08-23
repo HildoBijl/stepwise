@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['gasLaw', 'gasLaw']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 

@@ -8,16 +8,16 @@ import { isEmpty, isUnitVisible, getFloatFI, getUnitFI } from './support'
 // FloatUnit takes an FI object and shows the corresponding contents as JSX render.
 export function FloatUnit(FI) {
 	const { value, cursor } = FI
-	const { float } = value
+	const { value: numericValue } = value
 
 	// Check if anything should be shown.
 	if (isEmpty(value) && !cursor)
 		return null
 
 	// Show the FloatUnit.
-	const showFloatFiller = isFloatEmpty(float) && cursor?.part !== 'float'
+	const showFloatFiller = isFloatEmpty(numericValue) && cursor?.part !== 'value'
 	return <>
-		<span className="float">
+		<span className="value">
 			{
 				showFloatFiller ?
 					<span className="char filler">?</span> :

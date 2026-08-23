@@ -33,7 +33,7 @@ const steps = [
 			return <>
 				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}.</M> Het volume is daarmee <BM>V = \frac{V}{VConversion} = {Vs}.</BM></Par>
 				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p}</M> als <M>p = {pInBar}.</M> Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion}.</M> Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar} \cdot {pConversion} = {ps}.</BM></Par>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {Ts}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.value}</M> bij op. Hiermee krijgen we <BM>T = {T.value} + {TConversion.value} = {Ts}.</BM></Par>
 			</>
 		},
 	},
@@ -56,7 +56,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ Rs, m, ps, Vs, Ts }) => {
-			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({ps.float} \cdot {Vs.float})({Rs.float} \cdot {Ts.float}) = {m}.</BM></Par>
+			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({ps.value} \cdot {Vs.value})({Rs.value} \cdot {Ts.value}) = {m}.</BM></Par>
 		},
 	},
 ]

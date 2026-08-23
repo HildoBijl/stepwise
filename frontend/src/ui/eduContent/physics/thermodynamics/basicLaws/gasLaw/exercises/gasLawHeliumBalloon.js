@@ -31,7 +31,7 @@ const steps = [
 		Solution: ({ m, T, p, ms, Ts, ps }) => {
 			return <>
 				<Par>De standaard eenheid van massa is de kilogram. Om van gram naar kilogram te gaan gebruiken we een conversiefactor van <M>{mConversion}.</M> Hiermee wordt de massa <BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {Ts}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.value}</M> bij op. Hiermee krijgen we <BM>T = {T.value} + {TConversion.value} = {Ts}.</BM></Par>
 				<Par>De standaard eenheid van druk is Pascal. Om van bar naar Pascal te gaan gebruiken we een conversiefactor van <M>{pConversion}.</M> Hiermee wordt de druk <BM>p = {p} \cdot {pConversion} = {ps}.</BM></Par>
 			</>
 		},
@@ -55,7 +55,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ ps, V, ms, Rs, Ts }) => {
-			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p.</M> Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({ms.float} \cdot {Rs.float} \cdot {Ts.float})({ps.float}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.setUnit('l')}.</M> Dat is grofweg wat we zouden verwachten van een ballon.</Par>
+			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p.</M> Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({ms.value} \cdot {Rs.value} \cdot {Ts.value})({ps.value}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.setUnit('l')}.</M> Dat is grofweg wat we zouden verwachten van een ballon.</Par>
 		},
 	},
 ]

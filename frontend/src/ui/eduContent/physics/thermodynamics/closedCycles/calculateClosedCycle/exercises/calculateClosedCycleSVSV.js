@@ -48,20 +48,20 @@ const steps = [
 			return <>
 				<Par>
 					In punt 1 is alles bekend behalve de massa. Het is dus handig om hieruit de massa te berekenen. Via de gaswet vinden we
-					<BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM>
+					<BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.value} \cdot {V1.value})({Rs.value} \cdot {T1.value}) = {m}.</BM>
 					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor lucht geldt <M>k = {k}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
 					<BMList>
 						<BMPart>V_2^n = \frac(p_1)(p_2) V_1^n,</BMPart>
-						<BMPart>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BMPart>
+						<BMPart>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.value}{p2.value}\right)^(\frac{1}{k}) \cdot {V1.value} = {V2}.</BMPart>
 					</BMList>
 					De temperatuur <M>T_2</M> volgt via de gaswet als
-					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>
+					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.value} \cdot {V2.value})({m.value} \cdot {Rs.value}) = {T2}.</BM>
 					Hiermee is ook punt 2 doorgerekend.
 					<SubHead>Short-cut</SubHead>
 					We konden <M>T_2</M> ook vinden met de kennis dat <M>\frac(pV)(T)</M> constant blijft. Oftewel,
 					<BMList>
 						<BMPart>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2),</BMPart>
-						<BMPart>T_2 = \frac(p_1)(p_2) \cdot \frac(V_1)(V_2) \cdot T_1 = \frac{p1.float}{p2.float} \cdot \frac{V1.float}{V2.float} \cdot {T1.float} = {T2}.</BMPart>
+						<BMPart>T_2 = \frac(p_1)(p_2) \cdot \frac(V_1)(V_2) \cdot T_1 = \frac{p1.value}{p2.value} \cdot \frac{V1.value}{V2.value} \cdot {T1.value} = {T2}.</BMPart>
 					</BMList>
 					Het voordeel is dat we nu de massa van het gas niet hoefden te berekenen. Desondanks is de massa bij de latere stappen ook handig (hoewel deze short-cut daar ook werkt) dus is het mooi dat we deze nu weten.
 				</Par>
@@ -76,7 +76,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, Rs, p3, V3, T3 }) => {
-			return <Par>Gegeven is dat <M>p_3 = {p3}.</M> Omdat proces 2-3 isochoor is geldt verder <M>V_3 = V_2 = {V3}.</M> Via de gaswet volgt <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Daarmee is punt 3 bekend.</Par>
+			return <Par>Gegeven is dat <M>p_3 = {p3}.</M> Omdat proces 2-3 isochoor is geldt verder <M>V_3 = V_2 = {V3}.</M> Via de gaswet volgt <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.value} \cdot {V3.value})({m.value} \cdot {Rs.value}) = {T3}.</BM> Daarmee is punt 3 bekend.</Par>
 		},
 	},
 	{
@@ -89,9 +89,9 @@ const steps = [
 		Solution: ({ m, Rs, k, p3, V3, p4, V4, T4 }) => {
 			return <Par>
 				Omdat proces 4-1 isotherm is geldt <M>V_4 = V_1 = {V4}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Via <M>p_3V_3^n = p_4V_4^n</M> vinden we zo
-				<BM>p_4 = p_3 \frac(V_3^n)(V_4^n) = p_3 \left(\frac(V_3)(V_4)\right)^n = {p3.float} \cdot \left(\frac{V3.float}{V4.float}\right)^{k} = {p4}.</BM>
+				<BM>p_4 = p_3 \frac(V_3^n)(V_4^n) = p_3 \left(\frac(V_3)(V_4)\right)^n = {p3.value} \cdot \left(\frac{V3.value}{V4.value}\right)^{k} = {p4}.</BM>
 				Ten slotte volgt via de gaswet <M>T_4</M> als
-				<BM>T_4 = \frac(p_4V_4)(mR_s) = \frac({p4.float} \cdot {V4.float})({m.float} \cdot {Rs.float}) = {T4}.</BM>
+				<BM>T_4 = \frac(p_4V_4)(mR_s) = \frac({p4.value} \cdot {V4.value})({m.value} \cdot {Rs.value}) = {T4}.</BM>
 				En zo is het probleem volledig opgelost.
 			</Par>
 		},

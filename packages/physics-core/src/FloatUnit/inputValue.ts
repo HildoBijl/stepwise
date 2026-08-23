@@ -6,26 +6,26 @@ import { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToI
 import { FloatUnit } from './FloatUnit'
 
 export type FloatUnitInputValue = {
-	float: FloatInputValue
+	value: FloatInputValue
 	unit?: UnitInputValue
 }
 
 export function isFloatUnitInputValue(value: unknown): value is FloatUnitInputValue {
-	if (!isPlainObject(value) || !hasOnlyKeys(value, ['float', 'unit'])) return false
-	const { float, unit } = value as FloatUnitInputValue
-	return isFloatInputValue(float) && (unit === undefined || isUnitInputValue(unit))
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['value', 'unit'])) return false
+	const { value: numericValue, unit } = value as FloatUnitInputValue
+	return isFloatInputValue(numericValue) && (unit === undefined || isUnitInputValue(unit))
 }
 
 export function interpretFloatUnitInputValue(value: FloatUnitInputValue): FloatUnit {
 	return new FloatUnit({
-		float: interpretFloatInputValue(value.float),
+		value: interpretFloatInputValue(value.value),
 		unit: value.unit === undefined ? undefined : interpretUnitInputValue(value.unit),
 	})
 }
 
 export function floatUnitToInputValue(floatUnit: FloatUnit): FloatUnitInputValue {
 	return {
-		float: floatToInputValue(floatUnit.float),
+		value: floatToInputValue(floatUnit.value),
 		...(floatUnit.unit.isEmpty() ? {} : { unit: unitToInputValue(floatUnit.unit) }),
 	}
 }

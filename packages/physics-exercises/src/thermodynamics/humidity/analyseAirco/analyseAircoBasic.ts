@@ -10,8 +10,8 @@ export default buildStepExercise({
 		skill: 'analyseAirco',
 		...createStepExerciseMetadata(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram']),
 		comparisons: {
-			FloatUnit: { float: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } },
-			endRH: { float: { absoluteTolerance: 0.04, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } },
+			endRH: { value: { absoluteTolerance: 0.04, significantDigitTolerance: 1 } },
 		},
 	},
 

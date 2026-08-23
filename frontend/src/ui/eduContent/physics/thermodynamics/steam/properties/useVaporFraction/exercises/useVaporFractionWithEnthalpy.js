@@ -45,7 +45,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ h, hx0, hx1, x }) => {
-			return <Par>We bekijken hoe ver <M>h</M> zit, op het interval van <M>h_(x=0)</M> tot <M>h_(x=1).</M> Dit is op een deel van <BM>x = \frac(h - h_(x=0))(h_(x=1) - h_(x=0)) = \frac({h.float} - {hx0.float})({hx1.float} - {hx0.float}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water dat inmiddels in gasvormig stoom is omgezet.</Par>
+			return <Par>We bekijken hoe ver <M>h</M> zit, op het interval van <M>h_(x=0)</M> tot <M>h_(x=1).</M> Dit is op een deel van <BM>x = \frac(h - h_(x=0))(h_(x=1) - h_(x=0)) = \frac({h.value} - {hx0.value})({hx1.value} - {hx0.value}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water dat inmiddels in gasvormig stoom is omgezet.</Par>
 		},
 	},
 	{
@@ -58,7 +58,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ x, sx0, sx1, s }) => {
-			return <Par>We weten dat de entropie op een deel <M>x</M> zit, van <M>s_(x=0)</M> naar <M>s_(x=1).</M> De entropie is dus <BM>s = s_(x=0) + x \left(s_(x=1) - s_(x=0)\right) = {sx0.float} + {x.float} \cdot \left({sx1.float} - {sx0.float}\right) = {s}.</BM> Dit is de specifieke entropie die we moesten berekenen.</Par>
+			return <Par>We weten dat de entropie op een deel <M>x</M> zit, van <M>s_(x=0)</M> naar <M>s_(x=1).</M> De entropie is dus <BM>s = s_(x=0) + x \left(s_(x=1) - s_(x=0)\right) = {sx0.value} + {x.value} \cdot \left({sx1.value} - {sx0.value}\right) = {s}.</BM> Dit is de specifieke entropie die we moesten berekenen.</Par>
 		},
 	},
 ]

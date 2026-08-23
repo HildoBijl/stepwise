@@ -12,8 +12,8 @@ export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },
-			T3: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },
+			T3: { value: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
 		},
 	},
 

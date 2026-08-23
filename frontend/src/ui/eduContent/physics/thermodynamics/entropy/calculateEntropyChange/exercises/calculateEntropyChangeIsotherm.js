@@ -34,8 +34,8 @@ const steps = [
 		Solution: ({ Tw, Tc }) => {
 			return <Par>We moeten temperaturen gebruiken in Kelvin. Het omzetten gaat via
 				<BMList>
-					<BMPart>T_w = {Tw.float} + {TConversion.float} = {Tw.simplify()},</BMPart>
-					<BMPart>T_k = {Tc.float} + {TConversion.float} = {Tc.simplify()}.</BMPart>
+					<BMPart>T_w = {Tw.value} + {TConversion.value} = {Tw.simplify()},</BMPart>
+					<BMPart>T_k = {Tc.value} + {TConversion.value} = {Tc.simplify()}.</BMPart>
 				</BMList>
 			</Par>
 		},
@@ -52,7 +52,7 @@ const steps = [
 		Solution: ({ Qc, Tc, dSc }) => {
 			return <>
 				<Par>De ingaande warmtestroom voor het koude vat is <BM>Q_k = Q = {Qc}.</BM> De entropieverandering valt nu direct te berekenen via de definitie van entropie. Immers, de temperatuur is constant. Zo vinden we,
-					<BM>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BM>
+					<BM>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.value}{Tc.value} = {dSc}.</BM>
 					Omdat we de warmtestroom in <M>{Qc.unit}</M> hebben ingevoerd, is de eenheid van de entropieverandering ook <M>{dSc.unit}.</M></Par>
 			</>
 		},
@@ -69,7 +69,7 @@ const steps = [
 		Solution: ({ Qw, Tw, dSw }) => {
 			return <>
 				<Par>De ingaande warmtestroom voor het warme vat is hier <BM>Q_w = -Q = {Qw}.</BM> Immers, de warmte stroomt uit dit vat, en dus is de warmtestroom voor dit vat negatief. De entropieverandering volgt nu wederom via
-					<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw}.</BM>
+					<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.value}{Tw.value} = {dSw}.</BM>
 				</Par>
 			</>
 		},
@@ -85,7 +85,7 @@ const steps = [
 		</>,
 		Solution: ({ dSc, dSw, dS }) => {
 			return <>
-				<Par>De totale entropieverandering is simpelweg de som van de entropietoenamen op alle plekken. Oftewel, <BM>\Delta S = \Delta S_k + \Delta S_w = {dSc.float} {dSw.float.texWithSign} = {dS}.</BM> Deze waarde is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
+				<Par>De totale entropieverandering is simpelweg de som van de entropietoenamen op alle plekken. Oftewel, <BM>\Delta S = \Delta S_k + \Delta S_w = {dSc.value} {dSw.value.texWithSign} = {dS}.</BM> Deze waarde is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
 			</>
 		},
 	},

@@ -13,8 +13,8 @@ const finalPoint = [35, interpolateTableInput(new FloatUnit('35 g/kg'), maximumH
 pointsList[pointsList.length - 1] = [...pointsList[pointsList.length - 1].filter(point => point[0] <= 35), finalPoint]
 
 const pointToRelativeHumidity = point => {
-	const T = new FloatUnit({ float: point.y, unit: 'dC' })
-	const AH = new FloatUnit({ float: point.x, unit: 'g/kg' })
+	const T = new FloatUnit({ value: point.y, unit: 'dC' })
+	const AH = new FloatUnit({ value: point.x, unit: 'g/kg' })
 	const AHmax = interpolateTable(T, maximumHumidity)
 	if (!AHmax)
 		return null // On undefined (out of range) do not show a label.

@@ -9,35 +9,35 @@ import { type as unitType, keyboardSettings as unitKeyboardSettings, keyPressToF
 // Define various trivial objects and functions.
 export const type = 'FloatUnit'
 export const initialValue = {}
-export const parts = ['float', 'unit']
-export const isEmpty = ({ float, unit }) => isFloatEmpty(float) && isUnitEmpty(unit)
+export const parts = ['value', 'unit']
+export const isEmpty = ({ value, unit }) => isFloatEmpty(value) && isUnitEmpty(unit)
 export const isUnitVisible = ({ unit }, cursor) => !isUnitEmpty(unit) || (cursor?.part === 'unit')
-export const getStartCursor = (value, cursor) => ({ part: 'float', cursor: getFloatStartCursor(value.float, cursor?.part === 'float' ? cursor.cursor : undefined) })
+export const getStartCursor = (value, cursor) => ({ part: 'value', cursor: getFloatStartCursor(value.value, cursor?.part === 'value' ? cursor.cursor : undefined) })
 export const getEndCursor = (value, cursor) => {
-	const part = isUnitVisible(value, cursor) ? 'unit' : 'float'
-	const partCursor = (part === 'float' ? getFloatEndCursor : getUnitEndCursor)(value[part], cursor?.part === part ? cursor.cursor : undefined)
+	const part = isUnitVisible(value, cursor) ? 'unit' : 'value'
+	const partCursor = (part === 'value' ? getFloatEndCursor : getUnitEndCursor)(value[part], cursor?.part === part ? cursor.cursor : undefined)
 	return { part, cursor: partCursor }
 }
-export const isCursorAtStart = ({ float }, cursor) => cursor.part === 'float' && isCursorAtFloatStart(float, cursor.cursor)
-export const isCursorAtEnd = (value, cursor) => isUnitVisible(value, cursor) ? (cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)) : isCursorAtFloatEnd(value.float, cursor.cursor)
-export const isValid = ({ float, unit }) => isFloatValid(float) && isUnitValid(unit)
-export const getFloatFI = ({ value, cursor }) => ({ type: floatType, value: value.float, cursor: cursor?.part === 'float' ? cursor.cursor : undefined })
+export const isCursorAtStart = ({ value }, cursor) => cursor.part === 'value' && isCursorAtFloatStart(value, cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => isUnitVisible(value, cursor) ? (cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)) : isCursorAtFloatEnd(value.value, cursor.cursor)
+export const isValid = ({ value, unit }) => isFloatValid(value) && isUnitValid(unit)
+export const getFloatFI = ({ value, cursor }) => ({ type: floatType, value: value.value, cursor: cursor?.part === 'value' ? cursor.cursor : undefined })
 export const getUnitFI = ({ value, cursor }) => ({ type: unitType, value: value.unit, cursor: cursor?.part === 'unit' ? cursor.cursor : undefined })
-export const clean = ({ float, unit }) => {
+export const clean = ({ value, unit }) => {
 	const result = {
-		float: isFloatEmpty(float) ? undefined : cleanFloat(float),
+		value: isFloatEmpty(value) ? undefined : cleanFloat(value),
 		unit: isUnitEmpty(unit) ? undefined : cleanUnit(unit),
 	}
 	return mapValues(result, identity) // Filter out undefined.
 }
-export const functionalize = ({ float, unit }) => ({ float: functionalizeFloat(float), unit: functionalizeUnit(unit) })
+export const functionalize = ({ value, unit }) => ({ value: functionalizeFloat(value), unit: functionalizeUnit(unit) })
 
 // keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function keyboardSettings(FI, positive = false, allowPower = true) {
 	const { value, cursor } = FI
 
 	// Find the settings for the individual parts and merge the key settings.
-	const floatSettings = floatKeyboardSettings({ value: value.float, cursor: cursor.part === 'float' ? cursor.cursor : null }, positive, allowPower)
+	const floatSettings = floatKeyboardSettings({ value: value.value, cursor: cursor.part === 'value' ? cursor.cursor : null }, positive, allowPower)
 	const unitSettings = unitKeyboardSettings({ value: value.unit, cursor: cursor.part === 'unit' ? cursor.cursor : null })
 	const keySettings = {
 		...floatSettings.keySettings,
@@ -45,7 +45,7 @@ export function keyboardSettings(FI, positive = false, allowPower = true) {
 	}
 
 	// Check out special cases in which key settings need to be adjusted.
-	if (cursor.part === 'float') {
+	if (cursor.part === 'value') {
 		const floatCursor = cursor.cursor
 		keySettings.ArrowRight = true
 		keySettings.ArrowDown = keySettings.ArrowUp = false
@@ -64,7 +64,7 @@ export function keyboardSettings(FI, positive = false, allowPower = true) {
 		keySettings,
 		float: floatSettings.float,
 		unit: unitSettings.unit,
-		tab: cursor.part === 'float' ? 'float' : 'unit',
+		tab: cursor.part === 'value' ? 'float' : 'unit',
 	}
 }
 
@@ -73,10 +73,10 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	// Extract given data.
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = FI
-	const { float, unit } = value
+	const { value: numericValue, unit } = value
 
 	// Check where the cursor is currently at.
-	const floatCursor = cursor?.part === 'float' ? cursor.cursor : undefined
+	const floatCursor = cursor?.part === 'value' ? cursor.cursor : undefined
 	const unitCursor = cursor?.part === 'unit' ? cursor.cursor : undefined
 	const floatFI = getFloatFI(FI)
 	const unitFI = getUnitFI(FI)
@@ -85,7 +85,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	const identity = (part = cursor.part, partCursor) => {
 		// Check which part to pass it on to.
 		let newFI = {}
-		if (part === 'float') {
+		if (part === 'value') {
 			const oldFloatFI = {
 				...floatFI,
 				cursor: partCursor !== undefined ? partCursor : floatFI.cursor,
@@ -120,54 +120,54 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
-		// If we're at the start of the unit, move to the end of the float.
+		// If we're at the start of the unit, move to the end of the value.
 		if (cursor.part === 'unit' && isCursorAtUnitStart(unit, unitCursor))
-			return { ...FI, cursor: { part: 'float', cursor: getFloatEndCursor(float, floatCursor) } }
+			return { ...FI, cursor: { part: 'value', cursor: getFloatEndCursor(numericValue, floatCursor) } }
 	}
 	if (key === 'ArrowRight') {
-		// If we're at the end of the float, move to the start of the unit, assuming we're not in an empty field.
-		if (cursor.part === 'float' && isCursorAtFloatEnd(float, floatCursor) && !isEmpty(value))
+		// If we're at the end of the value, move to the start of the unit, assuming we're not in an empty field.
+		if (cursor.part === 'value' && isCursorAtFloatEnd(numericValue, floatCursor) && !isEmpty(value))
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 	if (key === 'Home')
-		return { ...FI, cursor: { part: 'float', cursor: getFloatStartCursor(float) } } // Move to the start of the float.
+		return { ...FI, cursor: { part: 'value', cursor: getFloatStartCursor(numericValue) } } // Move to the start of the value.
 	if (key === 'End') {
 		if (isUnitVisible(value, cursor))
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitEndCursor(unit) } } // Move to the end of the unit.
-		return { ...FI, cursor: { part: 'float', cursor: getFloatEndCursor(float) } } // Move to the end of the float.
+		return { ...FI, cursor: { part: 'value', cursor: getFloatEndCursor(numericValue) } } // Move to the end of the value.
 	}
 
 
 	// For backspace/delete, delete the appropriate symbol.
 	if (key === 'Backspace') {
-		// If the cursor is at the start of the unit, move it to the end of the float.
+		// If the cursor is at the start of the unit, move it to the end of the value.
 		if (cursor.part === 'unit' && isCursorAtUnitStart(unit, unitCursor))
-			return { ...FI, cursor: { part: 'float', cursor: getFloatEndCursor(float, floatCursor) } }
+			return { ...FI, cursor: { part: 'value', cursor: getFloatEndCursor(numericValue, floatCursor) } }
 	}
 	if (key === 'Delete') {
-		// If the cursor is at the end of the float, move it to the start of the unit.
-		if (cursor.part === 'float' && isCursorAtFloatEnd(float, floatCursor) && isUnitVisible(value, cursor))
+		// If the cursor is at the end of the value, move it to the start of the unit.
+		if (cursor.part === 'value' && isCursorAtFloatEnd(numericValue, floatCursor) && isUnitVisible(value, cursor))
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 
-	// In case of a space, if we're in the float, move to the start of the unit.
+	// In case of a space, if we're in the value, move to the start of the unit.
 	if (key === ' ' || key === 'Spacebar') {
-		if (cursor.part === 'float')
+		if (cursor.part === 'value')
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 
-	// In case of a symbol in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
-	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(unitDefinitions).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'float')
+	// In case of a symbol in the value, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
+	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(unitDefinitions).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'value')
 		return identity('unit', getUnitStartCursor(unit))
 
-	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the float.
+	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the value.
 	if (isNumeric(key) && cursor.part === 'unit') {
 		if (isCursorAtUnitStart(unit, unitCursor))
-			return identity('float', getFloatEndCursor(float))
+			return identity('value', getFloatEndCursor(numericValue))
 	}
 
-	// In case of a slash in the float, pretend we're at the start of the unit.
-	if (key === '/' && cursor.part === 'float') {
+	// In case of a slash in the value, pretend we're at the start of the unit.
+	if (key === '/' && cursor.part === 'value') {
 		return identity('unit', getUnitStartCursor(unit))
 	}
 
@@ -178,28 +178,28 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
 export function mouseClickToCursor(event, FI, contentsElement) {
 	const { value, cursor } = FI
-	const { float, unit } = value
+	const { value: numericValue, unit } = value
 
 	// Check on which part was clicked.
 	let partElement
-	let part = ['float', 'unitSpacer', 'unit'].find(part => {
+	let part = ['value', 'unitSpacer', 'unit'].find(part => {
 		partElement = contentsElement.getElementsByClassName(part)[0]
 		return partElement && partElement.contains(event.target)
 	})
 
 	// Find a new cursor given this part.
 	let newCursor
-	if (part === 'float') {
+	if (part === 'value') {
 		if (event.target.classList.contains('filler'))
-			newCursor = getFloatStartCursor(float)
+			newCursor = getFloatStartCursor(numericValue)
 		else
 			newCursor = floatMouseClickToCursor(event, getFloatFI(FI), partElement)
 	} else if (part === 'unit') {
 		newCursor = unitMouseClickToCursor(event, getUnitFI(FI), partElement)
 	} else if (part === 'unitSpacer') {
 		if (getClickSide(event) === 0) {
-			part = 'float'
-			newCursor = getFloatEndCursor(float)
+			part = 'value'
+			newCursor = getFloatEndCursor(numericValue)
 		} else {
 			part = 'unit'
 			newCursor = getUnitStartCursor(unit)

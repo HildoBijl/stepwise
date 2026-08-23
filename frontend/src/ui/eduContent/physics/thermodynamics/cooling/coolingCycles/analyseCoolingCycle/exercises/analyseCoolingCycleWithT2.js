@@ -60,23 +60,23 @@ const steps = [
 			return <Par>
 				Als eerste schrijven we alle warmtestormen op. De toegevoerde en afgevoerde warmte zijn
 				<BMList>
-					<BMPart>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BMPart>
-					<BMPart>q_(af) = h_2 - h_3 = {h2.float} - {h3.float} = {qout}.</BMPart>
+					<BMPart>q_(toe) = h_1 - h_4 = {h1.value} - {h4.value} = {qin},</BMPart>
+					<BMPart>q_(af) = h_2 - h_3 = {h2.value} - {h3.value} = {qout}.</BMPart>
 				</BMList>
 				De technische arbeid in de compressor is, in zowel het ideale (isentropische) geval als het werkelijke geval, gelijk aan
 				<BMList>
-					<BMPart>w_(t') = h_(2') - h_1 = {h2p.float} - {h1.float} = {wtp},</BMPart>
-					<BMPart>w_t = h_2 - h_1 = {h2.float} - {h1.float} = {wt}.</BMPart>
+					<BMPart>w_(t') = h_(2') - h_1 = {h2p.value} - {h1.value} = {wtp},</BMPart>
+					<BMPart>w_t = h_2 - h_1 = {h2.value} - {h1.value} = {wt}.</BMPart>
 				</BMList>
 				Met deze waarden kunnen we alles berekenen. Als eerste zijn de koudefactor en warmtefactor gegeven door
 				<BMList>
-					<BMPart>\epsilon = \frac(q_(in))(w_t) = \frac{qin.float}{wt.float} = {epsilon},</BMPart>
-					<BMPart>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.float}{wt.float} = {COP}.</BMPart>
+					<BMPart>\epsilon = \frac(q_(in))(w_t) = \frac{qin.value}{wt.value} = {epsilon},</BMPart>
+					<BMPart>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.value}{wt.value} = {COP}.</BMPart>
 				</BMList>
 				Hiernaast zijn het isentropisch rendement en het vermogen van de compressor gelijk aan
 				<BMList>
-					<BMPart>\eta_i = \frac(w_(t'))(w_t) = \frac{wtp.float}{wt.float} = {etai},</BMPart>
-					<BMPart>P = \dot(m)w_t = {mdot.float} \cdot {wt.float} = {P}.</BMPart>
+					<BMPart>\eta_i = \frac(w_(t'))(w_t) = \frac{wtp.value}{wt.value} = {etai},</BMPart>
+					<BMPart>P = \dot(m)w_t = {mdot.value} \cdot {wt.value} = {P}.</BMPart>
 				</BMList>
 				Hiermee zijn all gevraagde waarden gevonden.
 			</Par>

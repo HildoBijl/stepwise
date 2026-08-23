@@ -91,7 +91,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ hx0, hx1, sx0, sx1, x3, h3, s3 }) => {
-			return <Par>We weten de entropie <M>s_3.</M> Om de bijbehorende enthalpie <M>h_3</M> te vinden hebben we de dampfractie <M>x_3</M> nodig. Deze vinden we via <BM>x_3 = \frac(s_3 - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s3.float} - {sx0.float})({sx1.float} - {sx0.float}) = {x3.setDecimals(3)}.</BM> Via deze dampfractie kunnen we de enthalpie vinden als <BM>h_3 = h_(x=0) + x \left(h_(x=1) - h_(x=0)\right) = {hx0.float} + {x3.setDecimals(3).float} \cdot \left({hx1.float} - {hx0.float}\right) = {h3}.</BM> Hiermee zijn alle enthalpieën van de cyclus bekend.</Par>
+			return <Par>We weten de entropie <M>s_3.</M> Om de bijbehorende enthalpie <M>h_3</M> te vinden hebben we de dampfractie <M>x_3</M> nodig. Deze vinden we via <BM>x_3 = \frac(s_3 - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s3.value} - {sx0.value})({sx1.value} - {sx0.value}) = {x3.setDecimals(3)}.</BM> Via deze dampfractie kunnen we de enthalpie vinden als <BM>h_3 = h_(x=0) + x \left(h_(x=1) - h_(x=0)\right) = {hx0.value} + {x3.setDecimals(3).value} \cdot \left({hx1.value} - {hx0.value}\right) = {h3}.</BM> Hiermee zijn alle enthalpieën van de cyclus bekend.</Par>
 		},
 	},
 ]

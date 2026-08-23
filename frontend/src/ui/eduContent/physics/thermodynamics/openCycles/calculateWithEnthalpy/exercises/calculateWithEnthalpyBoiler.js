@@ -29,7 +29,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ Qs, m, c, dT, q }) => {
-			return <Par>De toegevoerde specifieke warmte is de warmte die is toegevoerd per kilogram water. Er is in totaal <M>{Qs}</M> toegevoerd aan <M>{m}</M> water. Per kilogram is dit dus <BM>q = \frac(Q)(m) = \frac{Qs.float}{m.float} = {q}.</BM> Eventueel kunnen we nog berekenen dat dit overeenkomt met een temperatuurstoename van <BM>\Delta T = \frac(q)(c) = \frac{q.float}{c.float} = {dT},</BM> wat een realistische temperatuurstoename is van water in een CV-ketel.</Par>
+			return <Par>De toegevoerde specifieke warmte is de warmte die is toegevoerd per kilogram water. Er is in totaal <M>{Qs}</M> toegevoerd aan <M>{m}</M> water. Per kilogram is dit dus <BM>q = \frac(Q)(m) = \frac{Qs.value}{m.value} = {q}.</BM> Eventueel kunnen we nog berekenen dat dit overeenkomt met een temperatuurstoename van <BM>\Delta T = \frac(q)(c) = \frac{q.value}{c.value} = {dT},</BM> wat een realistische temperatuurstoename is van water in een CV-ketel.</Par>
 		},
 	},
 	{
@@ -58,7 +58,7 @@ const steps = [
 		</>,
 		Solution: ({ q, wt, dh }) => {
 			return <>
-				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.float} - {wt.float} = {dh}.</BM> De toename in enthalpie is dus exact gelijk aan de toegevoerde warmte, wat logisch is. Immers, je kunt enthalpie zien als een vorm van "inwendige energie" (waar ook rekening gehouden wordt met druk) en als bij gelijke druk warmte aan water wordt toegevoerd, dan gaat al deze warmte als energie in het water zitten.</Par>
+				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.value} - {wt.value} = {dh}.</BM> De toename in enthalpie is dus exact gelijk aan de toegevoerde warmte, wat logisch is. Immers, je kunt enthalpie zien als een vorm van "inwendige energie" (waar ook rekening gehouden wordt met druk) en als bij gelijke druk warmte aan water wordt toegevoerd, dan gaat al deze warmte als energie in het water zitten.</Par>
 			</>
 		},
 	},

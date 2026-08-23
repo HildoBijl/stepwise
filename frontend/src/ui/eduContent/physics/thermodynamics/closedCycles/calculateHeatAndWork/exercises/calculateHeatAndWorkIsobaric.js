@@ -106,8 +106,8 @@ const steps = [
 		Solution: ({ cp, Rs, ms, T1s, T2s, Q, W }) => {
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
-					<BMPart>Q = mc_p\left(T_2-T_1\right) = {ms.float} \cdot {cp.float} \cdot \left({T2s.float} - {T1s.float}\right) = {Q},</BMPart>
-					<BMPart>W = mR_s\left(T_2-T_1\right) = {ms.float} \cdot {Rs.float} \cdot \left({T2s.float} - {T1s.float}\right) = {W}.</BMPart>
+					<BMPart>Q = mc_p\left(T_2-T_1\right) = {ms.value} \cdot {cp.value} \cdot \left({T2s.value} - {T1s.value}\right) = {Q},</BMPart>
+					<BMPart>W = mR_s\left(T_2-T_1\right) = {ms.value} \cdot {Rs.value} \cdot \left({T2s.value} - {T1s.value}\right) = {W}.</BMPart>
 				</BMList>
 				Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
 		},

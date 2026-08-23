@@ -12,7 +12,7 @@ export default buildMonoExercise({
 		skill: 'calculateWithMass',
 		comparisons: {
 			FloatUnit: {
-				float: {
+				value: {
 					relativeTolerance: 0.001,
 					significantDigitTolerance: 0,
 				},

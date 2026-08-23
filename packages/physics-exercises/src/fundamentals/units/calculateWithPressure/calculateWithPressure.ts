@@ -13,7 +13,7 @@ export default buildMonoExercise({
 		skill: 'calculateWithPressure',
 		comparisons: {
 			FloatUnit: {
-				float: {
+				value: {
 					relativeTolerance: 0.001,
 					significantDigitTolerance: 0,
 				},

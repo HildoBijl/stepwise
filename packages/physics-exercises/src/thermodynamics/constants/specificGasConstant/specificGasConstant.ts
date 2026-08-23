@@ -9,7 +9,7 @@ export default buildMonoExercise({
 	metadata: {
 		skill: 'specificGasConstant',
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.015 } },
+			FloatUnit: { value: { relativeTolerance: 0.015 } },
 		},
 	},
 

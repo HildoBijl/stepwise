@@ -11,11 +11,11 @@ export default buildStepExercise({
 		skill: 'poissonsLaw',
 		...createStepExerciseMetadata([[undefined, 'calculateWithPressure', undefined], 'specificHeatRatio', undefined, 'solveExponentEquation']),
 		comparisons: {
-			V2s: { float: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } }, // Standard units, in m^3.
-			p1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
-			p2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
-			k: { float: { relativeTolerance: 0.015 } },
-			V1: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			V2s: { value: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } }, // Standard units, in m^3.
+			p1s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
+			p2s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
+			k: { value: { relativeTolerance: 0.015 } },
+			V1: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 
@@ -33,7 +33,7 @@ export default buildStepExercise({
 		const V2s = V2
 		const { k } = gasProperties[gas]
 		const eq = 0
-		const V1 = V2.multiply(p2.divide(p1).float.toPower(k.float.invert()))
+		const V1 = V2.multiply(p2.divide(p1).value.toPower(k.value.invert()))
 		return { k, p1s, p2s, V2s, eq, V1 }
 	},
 

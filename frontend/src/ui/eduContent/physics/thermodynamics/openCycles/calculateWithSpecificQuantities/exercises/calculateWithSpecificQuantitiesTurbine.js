@@ -22,5 +22,5 @@ function Problem({ wt, m }) {
 
 function Solution({ wts, ms, Wt }) {
 	const wtUnit = wts.multiply(new FloatUnit('1.000000 kg')).setUnit('kJ')
-	return <Par>De specifieke technische arbeid <M>w_t = {wts.setUnit('kJ/kg')}</M> betekent dat elke kilogram stoom zorgt voor <M>{wtUnit}</M> aan arbeid. We hebben in totaal <M>{ms}</M> aan stoom. Dit zorgt voor een totale technische arbeid van <BM>W_t = mw_t = {ms.float} \cdot {wts.float} = {Wt} = {Wt.setUnit('GJ')}.</BM> Dit is een grote hoeveelheid arbeid, maar dat is te verwachten van een stoomturbine die meerdere minuten draait.</Par>
+	return <Par>De specifieke technische arbeid <M>w_t = {wts.setUnit('kJ/kg')}</M> betekent dat elke kilogram stoom zorgt voor <M>{wtUnit}</M> aan arbeid. We hebben in totaal <M>{ms}</M> aan stoom. Dit zorgt voor een totale technische arbeid van <BM>W_t = mw_t = {ms.value} \cdot {wts.value} = {Wt} = {Wt.setUnit('GJ')}.</BM> Dit is een grote hoeveelheid arbeid, maar dat is te verwachten van een stoomturbine die meerdere minuten draait.</Par>
 }

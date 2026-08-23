@@ -10,9 +10,9 @@ export default buildStepExercise({
 		skill: 'analyseOpenCycle',
 		...createStepExerciseMetadata(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']]),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-			epsilon: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
-			COP: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			epsilon: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
+			COP: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
 	},
 

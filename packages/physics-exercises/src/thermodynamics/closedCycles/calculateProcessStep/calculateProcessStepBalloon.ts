@@ -4,14 +4,14 @@ import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs } = gasProperties.air
-const TComparison = { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 } }
+const TComparison = { value: { absoluteTolerance: 0.7, significantDigitTolerance: 1 } }
 
 export default buildStepExercise({
 	metadata: {
 		skill: 'calculateProcessStep',
 		...createStepExerciseMetadata(['gasLaw', 'recognizeProcessTypes', 'gasLaw']),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
+			FloatUnit: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
 			T1: TComparison,
 			T2: TComparison,
 		},

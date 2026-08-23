@@ -109,7 +109,7 @@ const steps = [
 					To find <M>{vFC}</M> we look at the sum of the moments around point <M>A</M>. In this case <M>{vFAx}</M> and <M>{vFAy}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfMoments('A', false)} {clockwise ? '' : '-'} {vMoment} {clockwise === directionIndices[3] ? '-' : '+'} {vFC} \left(l_1 + l_2\right) = 0.</BM>
 					The solution follows as
-					<BM>{vFC} = {directionIndices[3] ? '' : '-'} \frac({vMoment})(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({Moment.float})({l1.float} + {l2.float}) = {FC}.</BM>
+					<BM>{vFC} = {directionIndices[3] ? '' : '-'} \frac({vMoment})(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({Moment.value})({l1.value} + {l2.value}) = {FC}.</BM>
 				</Par>
 			</Translation>
 		},

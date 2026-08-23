@@ -140,7 +140,7 @@ const steps = [
 					To find <M>{vMA}</M> we examine the sum of the moments around point <M>A</M>. In this case <M>{vFAx}</M> and <M>{vFAy}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfMoments('A', false)} P l_2 {directionIndices[3] ? '-' : '+'} {vMA} = 0.</BM>
 					The solution follows as
-					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P l_2 = {directionIndices[3] ? '' : '-'} {P.float} \cdot {l2.float} = {MA}.</BM>
+					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P l_2 = {directionIndices[3] ? '' : '-'} {P.value} \cdot {l2.value} = {MA}.</BM>
 					And with this all support reactions have been determined.
 				</Par>
 			</Translation>

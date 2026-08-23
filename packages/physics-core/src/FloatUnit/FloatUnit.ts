@@ -12,7 +12,7 @@ export function asFloatUnit(input: FloatUnitLike): FloatUnit {
 }
 
 export class FloatUnit {
-	readonly float: Float
+	readonly value: Float
 	readonly unit: Unit
 
 	/*
@@ -20,8 +20,8 @@ export class FloatUnit {
 	 */
 
 	constructor(input: FloatUnitInput) {
-		const { float, unit } = floatUnitInputToParameters(input)
-		this.float = float
+		const { value, unit } = floatUnitInputToParameters(input)
+		this.value = value
 		this.unit = unit
 	}
 
@@ -35,7 +35,7 @@ export class FloatUnit {
 
 	toStorageValue(): FloatUnitStorageValue {
 		return {
-			float: this.float.toStorageValue(),
+			value: this.value.toStorageValue(),
 			unit: this.unit.toStorageValue(),
 		}
 	}
@@ -45,7 +45,7 @@ export class FloatUnit {
 	 */
 
 	get number(): number {
-		return this.float.number
+		return this.value.number
 	}
 
 	/*
@@ -57,7 +57,7 @@ export class FloatUnit {
 	}
 
 	toString(): string {
-		return `${this.float.toString()}${this.unit.isEmpty() ? '' : ` ${this.unit.toString()}`}`
+		return `${this.value.toString()}${this.unit.isEmpty() ? '' : ` ${this.unit.toString()}`}`
 	}
 
 	get tex(): string {
@@ -65,7 +65,7 @@ export class FloatUnit {
 	}
 
 	toTex(texDisplayOptions?: TexDisplayOptionsInput): string {
-		return `${this.float.toTex(texDisplayOptions)}${this.unit.isEmpty() ? '' : `\\ ${this.unit.toTex()}`}`
+		return `${this.value.toTex(texDisplayOptions)}${this.unit.isEmpty() ? '' : `\\ ${this.unit.toTex()}`}`
 	}
 
 	get texWithSign(): string {
@@ -73,28 +73,28 @@ export class FloatUnit {
 	}
 
 	toTexWithSign(texDisplayOptions?: TexDisplayOptionsInput): string {
-		return `${this.float.toTexWithSign(texDisplayOptions)}${this.unit.isEmpty() ? '' : `\\ ${this.unit.toTex()}`}`
+		return `${this.value.toTexWithSign(texDisplayOptions)}${this.unit.isEmpty() ? '' : `\\ ${this.unit.toTex()}`}`
 	}
 
 	/*
 	 * Float arithmetics
 	 */
 
-	mapFloat(mapper: (float: Float) => Float): FloatUnit {
-		return new FloatUnit({ float: mapper(this.float), unit: this.unit })
+	mapFloat(mapper: (value: Float) => Float): FloatUnit {
+		return new FloatUnit({ value: mapper(this.value), unit: this.unit })
 	}
 
 	negate(): FloatUnit {
-		return this.mapFloat(float => float.negate())
+		return this.mapFloat(value => value.negate())
 	}
 
 	abs(): FloatUnit {
-		return this.mapFloat(float => float.abs())
+		return this.mapFloat(value => value.abs())
 	}
 
 	add(input: FloatUnitLike, keepDecimals = false): FloatUnit {
 		const x = asFloatUnit(input).setUnit(this.unit)
-		return new FloatUnit({ float: this.float.add(x.float, keepDecimals), unit: this.unit })
+		return new FloatUnit({ value: this.value.add(x.value, keepDecimals), unit: this.unit })
 	}
 
 	subtract(input: FloatUnitLike, keepDecimals = false): FloatUnit {
@@ -102,15 +102,15 @@ export class FloatUnit {
 	}
 
 	invert(): FloatUnit {
-		return new FloatUnit({ float: this.float.invert(), unit: this.unit.invert() })
+		return new FloatUnit({ value: this.value.invert(), unit: this.unit.invert() })
 	}
 
 	multiply(input: FloatUnitLike, keepDigits?: boolean, combineUnit = true): FloatUnit {
 		const x = asFloatUnit(input)
-		const float = this.float.multiply(x.float, keepDigits)
+		const value = this.value.multiply(x.value, keepDigits)
 		let unit = this.unit.multiply(x.unit)
 		if (combineUnit) unit = unit.combineLikeFactors()
-		return new FloatUnit({ float, unit })
+		return new FloatUnit({ value, unit })
 	}
 
 	divide(input: FloatUnitLike, keepDigits?: boolean, combineUnit?: boolean): FloatUnit {
@@ -119,10 +119,10 @@ export class FloatUnit {
 
 	toPower(power: number | Float | FloatUnit): FloatUnit {
 		if (power instanceof FloatUnit && !unitsEquivalent(power.unit, '')) throw new Error(`Invalid toPower call: cannot raise a FloatUnit to a power containing a unit.`)
-		const decimalExponent = power instanceof FloatUnit ? power.simplify().float : power
+		const decimalExponent = power instanceof FloatUnit ? power.simplify().value : power
 		const decimalExponentNumber = decimalExponent instanceof Float ? decimalExponent.number : decimalExponent
 		return new FloatUnit({
-			float: this.float.toPower(decimalExponentNumber),
+			value: this.value.toPower(decimalExponentNumber),
 			unit: this.unit.toPower(decimalExponentNumber),
 		})
 	}
@@ -132,35 +132,35 @@ export class FloatUnit {
 	 */
 
 	setSignificantDigits(significantDigits: number): FloatUnit {
-		return this.mapFloat(float => float.setSignificantDigits(significantDigits))
+		return this.mapFloat(value => value.setSignificantDigits(significantDigits))
 	}
 
 	makeExact(): FloatUnit {
-		return this.mapFloat(float => float.makeExact())
+		return this.mapFloat(value => value.makeExact())
 	}
 
 	adjustSignificantDigits(delta: number): FloatUnit {
-		return this.mapFloat(float => float.adjustSignificantDigits(delta))
+		return this.mapFloat(value => value.adjustSignificantDigits(delta))
 	}
 
 	setMinimumSignificantDigits(significantDigits: number): FloatUnit {
-		return this.mapFloat(float => float.setMinimumSignificantDigits(significantDigits))
+		return this.mapFloat(value => value.setMinimumSignificantDigits(significantDigits))
 	}
 
 	setDecimals(decimals: number): FloatUnit {
-		return this.mapFloat(float => float.setDecimals(decimals))
+		return this.mapFloat(value => value.setDecimals(decimals))
 	}
 
 	roundToPrecision(): FloatUnit {
-		return this.mapFloat(float => float.roundToPrecision())
+		return this.mapFloat(value => value.roundToPrecision())
 	}
 
 	clearDisplayPower(): FloatUnit {
-		return this.mapFloat(float => float.clearDisplayPower())
+		return this.mapFloat(value => value.clearDisplayPower())
 	}
 
 	setDisplayPower(power: number) {
-		return this.mapFloat(float => float.setDisplayPower(power))
+		return this.mapFloat(value => value.setDisplayPower(power))
 	}
 
 	/*
@@ -168,7 +168,7 @@ export class FloatUnit {
 	 */
 
 	mapUnit(mapper: (unit: Unit) => Unit): FloatUnit {
-		return new FloatUnit({ float: this.float, unit: mapper(this.unit) })
+		return new FloatUnit({ value: this.value, unit: mapper(this.unit) })
 	}
 
 	setUnit(input: UnitLike): FloatUnit {
@@ -179,12 +179,12 @@ export class FloatUnit {
 		const current = this.simplify({ target: 'standard', combine: true, sort: true, simplifyFloat: false })
 		const targetData = unit.simplifyWithData({ target: 'standard', combine: true, sort: true })
 
-		// Apply any offsets to the float, and combine it with the given unit.
-		let float = current.float
-		if (targetData.decimalExponent !== 0) float = float.adjustPower(-targetData.decimalExponent)
-		if (targetData.factor !== 1) float = float.divide({ number: targetData.factor, significantDigits: Infinity })
-		if (targetData.offset !== 0) float = float.subtract({ number: targetData.offset, significantDigits: Infinity })
-		return new FloatUnit({ float, unit })
+		// Apply any offsets to the value, and combine it with the given unit.
+		let value = current.value
+		if (targetData.decimalExponent !== 0) value = value.adjustPower(-targetData.decimalExponent)
+		if (targetData.factor !== 1) value = value.divide({ number: targetData.factor, significantDigits: Infinity })
+		if (targetData.offset !== 0) value = value.subtract({ number: targetData.offset, significantDigits: Infinity })
+		return new FloatUnit({ value, unit })
 	}
 
 	/*
@@ -196,15 +196,15 @@ export class FloatUnit {
 		const { target, combine, sort, simplifyFloat } = resolveFloatUnitSimplificationOptions(options)
 		const { unit, decimalExponent, factor, offset } = this.unit.simplifyWithData({ target, combine, sort })
 
-		// Adjust the float.
-		let float = this.float
-		if (offset !== 0) float = float.add({ number: offset, significantDigits: Infinity })
-		if (factor !== 1) float = float.multiply({ number: factor, significantDigits: Infinity })
-		if (decimalExponent !== 0) float = float.adjustPower(decimalExponent)
-		if (simplifyFloat) float = float.clearDisplayPower()
+		// Adjust the value.
+		let value = this.value
+		if (offset !== 0) value = value.add({ number: offset, significantDigits: Infinity })
+		if (factor !== 1) value = value.multiply({ number: factor, significantDigits: Infinity })
+		if (decimalExponent !== 0) value = value.adjustPower(decimalExponent)
+		if (simplifyFloat) value = value.clearDisplayPower()
 
 		// Assemble the outcome.
-		return new FloatUnit({ float, unit })
+		return new FloatUnit({ value, unit })
 	}
 
 	/*
@@ -213,7 +213,7 @@ export class FloatUnit {
 
 	compare(input: FloatUnitLike): -1 | 0 | 1 {
 		const x = asFloatUnit(input)
-		return this.float.compare(x.setUnit(this.unit).float)
+		return this.value.compare(x.setUnit(this.unit).value)
 	}
 
 	equals(input: FloatUnitLike, options?: FloatUnitEqualityOptionsInput): boolean {
@@ -222,21 +222,21 @@ export class FloatUnit {
 
 	checkEquality(input: FloatUnitLike, options?: FloatUnitEqualityOptionsInput): FloatUnitEqualityResult {
 		const x = asFloatUnit(input)
-		const equalityOptions = resolveFloatUnitEqualityOptions(options, this.float.getMinimumAbsoluteTolerance())
+		const equalityOptions = resolveFloatUnitEqualityOptions(options, this.value.getMinimumAbsoluteTolerance())
 
 		// Check the unit.
 		const unitResult = this.unit.checkEquality(x.unit, equalityOptions.unit)
 
-		// Check the float.
+		// Check the value.
 		const simplificationOptions = { target: equalityOptions.unit.target, combine: true, sort: true, simplifyFloat: false }
 		const inputSimplified = x.simplify(simplificationOptions)
 		const referenceSimplified = this.simplify(simplificationOptions)
-		const floatResult = referenceSimplified.float.checkEquality(inputSimplified.float, equalityOptions.float)
+		const floatResult = referenceSimplified.value.checkEquality(inputSimplified.value, equalityOptions.value)
 
 		// Run the respective comparisons.
 		return {
 			equal: floatResult.equal && unitResult.equal,
-			float: floatResult,
+			value: floatResult,
 			unit: unitResult,
 		}
 	}

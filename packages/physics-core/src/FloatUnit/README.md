@@ -11,7 +11,7 @@ Setting up a new `FloatUnit` object can be done in various ways.
 import { asFloatUnit, FloatUnit, asFloat, asUnit } from '@step-wise/physics-core'
 const c = new FloatUnit('2.99792458 * 10^8 m/s') // String, constructor
 const h = asFloatUnit('6.62607015 * 10^-34 J * s') // String, function
-const k = asFloatUnit({ float: { number: 1.380649, significantDigits: 7, power: -23 }, unit: 'J / K'}) // Object, where float and unit can be strings, objects, etcetera.
+const k = asFloatUnit({ value: { number: 1.380649, significantDigits: 7, power: -23 }, unit: 'J / K'}) // Object, where value and unit can be strings, objects, etcetera.
 const pi = asFloatUnit(3.14159265358979) // Directly from a number or Float object. Will have no unit then.
 ```
 
@@ -85,7 +85,7 @@ The equality options should be set up as follows.
 
 ```
 const equalityOptions = {
-	float: {
+	value: {
 		absoluteTolerance: 0, // How much may the quantities differ to still be considered equal? This is a number, assuming standard units are used. So when comparing `2.00 km` with `2.01 km` the absolute margin should be 10 (meters, standard) to consider them equal.
 		relativeTolerance: 0, // How much may the quantities differ ratio-wise to still be considered equal? Only one of the two margins (absolute and relative) has to match to obtain equality.
 		significantDigitTolerance: Infinity, // How much may the significant digits differ for the numbers to be considered equal?
@@ -93,7 +93,7 @@ const equalityOptions = {
 	},
 	unit: {
 		target: 'base', // To what target do we simplify before we check for equality?
-		checkSize: false, // Do we require the units to have an equal size separately from the float? If set to `true`, then `mm` will be different from `cm`.
+		checkSize: false, // Do we require the units to have an equal size separately from the value? If set to `true`, then `mm` will be different from `cm`.
 	},
 }
 ```

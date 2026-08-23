@@ -124,7 +124,7 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 	if (currInput.constructor === Float)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.number) }
 	if (currInput.constructor === FloatUnit)
-		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.float.number) }
+		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.value.number) }
 	if (currInput.constructor === Equation)
 		return { correct, text: equationChecks.fullEquationFeedback(currInput, currSolution, solution, correct, comparison) }
 
@@ -164,7 +164,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 		if (currSolution instanceof Float)
 			comparison = adjustFloatTolerances(comparison, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
 		if (currSolution instanceof FloatUnit)
-			comparison = adjustFloatUnitTolerances(comparison, accuracyFactorAdjustment, currSolution.float.getMinimumAbsoluteTolerance())
+			comparison = adjustFloatUnitTolerances(comparison, accuracyFactorAdjustment, currSolution.value.getMinimumAbsoluteTolerance())
 		return objectBased ?
 			currSolution.equals(currInput, comparison) :
 			numbersEqual(currInput, currSolution, comparison)
@@ -193,7 +193,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 		return <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
-	const numberEqualityResult = (currSolution instanceof FloatUnit ? equalityResult.float.number : currSolution instanceof Float ? equalityResult.number : equalityResult)
+	const numberEqualityResult = (currSolution instanceof FloatUnit ? equalityResult.value.number : currSolution instanceof Float ? equalityResult.number : equalityResult)
 	const direction = numberEqualityResult?.direction
 	if (numberEqualityResult?.equal === false && direction !== undefined && direction !== 0) {
 		if (inputSign === 0) {
@@ -215,7 +215,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	}
 
 	// Check the number of significant digits.
-	const significantDigitsResult = equalityResult.significantDigits ?? equalityResult.float?.significantDigits
+	const significantDigitsResult = equalityResult.significantDigits ?? equalityResult.value?.significantDigits
 	if (significantDigitsResult !== undefined && significantDigitsResult.equal === false) {
 		if (significantDigitsResult.difference > 0)
 			return <Translation path="eduTools/feedback" entry="numeric.tooManySignificantDigits">You used too many significant digits.</Translation>
@@ -224,7 +224,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	}
 
 	// Check the power. (In case it was examined.)
-	const powerResult = equalityResult.power ?? equalityResult.float?.power
+	const powerResult = equalityResult.power ?? equalityResult.value?.power
 	if (powerResult !== undefined && powerResult.equal === false) {
 		if (powerResult.difference > 0)
 			return <Translation path="eduTools/feedback" entry="numeric.tooLargePower">The exponent you used is too large.</Translation>

@@ -9,7 +9,7 @@ const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane'
 const metadata = {
 	skill: 'calculateClosedCycle',
 	...createStepExerciseMetadata(['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep']),
-	comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+	comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 }
 
 export function generateParameters() {

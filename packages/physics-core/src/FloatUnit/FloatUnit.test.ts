@@ -14,8 +14,8 @@ describe('FloatUnit', () => {
 			expect(new FloatUnit('10').toString()).toBe('10')
 		})
 		test('constructs from objects', () => {
-			const x = new FloatUnit({ float: '3.14', unit: 'm / s' })
-			expect(x.float).toEqual(new Float('3.14'))
+			const x = new FloatUnit({ value: '3.14', unit: 'm / s' })
+			expect(x.value).toEqual(new Float('3.14'))
 			expect(x.unit).toEqual(new Unit('m / s'))
 		})
 		test('constructs from numbers and Floats', () => {
@@ -33,7 +33,7 @@ describe('FloatUnit', () => {
 		test('turns to and from storage values', () => {
 			const x = new FloatUnit('3.14 kg * m / s^2')
 			expect(x.toStorageValue()).toEqual({
-				float: { number: 3.14, significantDigits: 3, power: 0 },
+				value: { number: 3.14, significantDigits: 3, power: 0 },
 				unit: {
 					numerator: [{ prefix: 'k', unit: 'g' }, { unit: 'm' }],
 					denominator: [{ unit: 's', power: 2 }],
@@ -47,7 +47,7 @@ describe('FloatUnit', () => {
 			expect(serialized).toEqual({
 				type: 'FloatUnit',
 				value: {
-					float: { number: 3.14, significantDigits: 3, power: 0 },
+					value: { number: 3.14, significantDigits: 3, power: 0 },
 					unit: { numerator: [{ unit: 'm' }] },
 				},
 			})
@@ -55,7 +55,7 @@ describe('FloatUnit', () => {
 		})
 		test('rejects malformed serialized quantities', () => {
 			expect(() => deserializeFloatUnit({ type: 'Float', value: {} })).toThrow(/serialized FloatUnit/)
-			expect(() => deserializeFloatUnit({ type: 'FloatUnit', value: { float: { number: 1, significantDigits: 1 }, unit: { extra: true } } })).toThrow(/UnitStorageValue/)
+			expect(() => deserializeFloatUnit({ type: 'FloatUnit', value: { value: { number: 1, significantDigits: 1 }, unit: { extra: true } } })).toThrow(/UnitStorageValue/)
 		})
 	})
 
@@ -73,15 +73,15 @@ describe('FloatUnit', () => {
 		})
 	})
 
-	describe('float operations', () => {
-		test('maps basic float operations', () => {
+	describe('value operations', () => {
+		test('maps basic value operations', () => {
 			expect(new FloatUnit('3.0 m').negate().toString()).toBe('-3.0 m')
 			expect(new FloatUnit('-3.0 m').abs().toString()).toBe('3.0 m')
-			expect(new FloatUnit('3.14 m').makeExact().float.significantDigits).toBe(Infinity)
+			expect(new FloatUnit('3.14 m').makeExact().value.significantDigits).toBe(Infinity)
 			expect(new FloatUnit('3.140 m').setSignificantDigits(2).toString()).toBe('3.1 m')
 			expect(new FloatUnit('3.140 m').adjustSignificantDigits(-1).toString()).toBe('3.14 m')
 			expect(new FloatUnit('3.140 m').setMinimumSignificantDigits(6).toString()).toBe('3.14000 m')
-			expect(new FloatUnit({ float: { number: 3.14159, significantDigits: 3 }, unit: 'm' }).roundToPrecision().float.number).toBe(3.14)
+			expect(new FloatUnit({ value: { number: 3.14159, significantDigits: 3 }, unit: 'm' }).roundToPrecision().value.number).toBe(3.14)
 		})
 	})
 
@@ -146,7 +146,7 @@ describe('FloatUnit', () => {
 		test('returns structured equality results', () => {
 			const result = new FloatUnit('2.00 m').checkEquality('201 cm')
 			expect(result.equal).toBe(false)
-			expect(result.float.number.direction).toBe(1)
+			expect(result.value.number.direction).toBe(1)
 			expect(result.unit.equal).toBe(true)
 		})
 		test('can enforce unit size equality', () => {
@@ -154,28 +154,28 @@ describe('FloatUnit', () => {
 			expect(new FloatUnit('2 m').equals('200 cm', { unit: { checkSize: true } })).toBe(false)
 		})
 		test('rejects invalid comparison options', () => {
-			expect(() => new FloatUnit('2 m').equals('2 m', { float: { checkPower: 'yes' as never } })).toThrow(/boolean/)
+			expect(() => new FloatUnit('2 m').equals('2 m', { value: { checkPower: 'yes' as never } })).toThrow(/boolean/)
 			expect(() => new FloatUnit('2 m').equals('2 m', { unit: { target: 'invalid' as never } })).toThrow(/target/)
 		})
 	})
 
 	describe('input values', () => {
 		test('recognizes FloatUnitInputValue objects', () => {
-			expect(isFloatUnitInputValue({ float: { number: '3.14' }, unit: { numerator: [{ text: 'm' }] } })).toBe(true)
-			expect(isFloatUnitInputValue({ float: { number: '3.14' } })).toBe(true)
+			expect(isFloatUnitInputValue({ value: { number: '3.14' }, unit: { numerator: [{ text: 'm' }] } })).toBe(true)
+			expect(isFloatUnitInputValue({ value: { number: '3.14' } })).toBe(true)
 			expect(isFloatUnitInputValue({ unit: { numerator: [{ text: 'm' }] } })).toBe(false)
-			expect(isFloatUnitInputValue({ float: { number: '3.14' }, extra: true })).toBe(false)
+			expect(isFloatUnitInputValue({ value: { number: '3.14' }, extra: true })).toBe(false)
 		})
 		test('interprets input values', () => {
 			const x = interpretFloatUnitInputValue({
-				float: { number: '3.140', power: '2' },
+				value: { number: '3.140', power: '2' },
 				unit: { numerator: [{ text: 'kg' }, { text: 'm' }], denominator: [{ text: 's', power: '2' }] },
 			})
 			expect(x.toString()).toBe('3.140 * 10^2 kg * m / s^2')
 		})
 		test('turns FloatUnits back into input values', () => {
 			expect(floatUnitToInputValue(new FloatUnit('3.14 m / s^2'))).toEqual({
-				float: { number: '3.14' },
+				value: { number: '3.14' },
 				unit: {
 					numerator: [{ text: 'm' }],
 					denominator: [{ text: 's', power: '2' }],

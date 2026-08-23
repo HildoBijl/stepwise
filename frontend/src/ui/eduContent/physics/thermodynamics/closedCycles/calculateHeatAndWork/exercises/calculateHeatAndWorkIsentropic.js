@@ -103,7 +103,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ k, p1s, p2s, V1s, V2s, Q, W }) => {
-			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>Q = {Q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>W = -\frac(1)(k-1)\left(p_2V_2 - p_1V_1\right) = -\frac(1)({k}-1)\left({p2s.float} \cdot {V2s.float} - {p1s.float} \cdot {V1s.float}\right) = {W}.</BM> Dit is een erg grote hoeveelheid arbeid. We hebben hier echter ook te maken met een grote gasturbine die een volle minuut draait. Dit kan dus goed kloppen.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>Q = {Q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>W = -\frac(1)(k-1)\left(p_2V_2 - p_1V_1\right) = -\frac(1)({k}-1)\left({p2s.value} \cdot {V2s.value} - {p1s.value} \cdot {V1s.value}\right) = {W}.</BM> Dit is een erg grote hoeveelheid arbeid. We hebben hier echter ook te maken met een grote gasturbine die een volle minuut draait. Dit kan dus goed kloppen.</Par>
 		},
 	},
 ]

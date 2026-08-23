@@ -12,7 +12,7 @@ export function generateParameters() {
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithSpecificQuantities',
-		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters,

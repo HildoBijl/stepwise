@@ -11,9 +11,9 @@ export default buildStepExercise({
 		skill: 'calculateHeatAndWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], undefined]),
 		comparisons: {
-			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } },
-			ms: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
-			Ts: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
+			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 2 } },
+			ms: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
+			Ts: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
 		},
 	},
 

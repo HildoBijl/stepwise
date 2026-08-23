@@ -65,7 +65,7 @@ const steps = [
 				Als we momentenevenwicht toepassen om punt <M>E,</M> en met de klok mee als positieve richting gebruiken, dan vinden we
 				<BM>{sumOfMoments('E', false)} {clockwise ? '-' : ''} r_(Ay) F_(Ay) {clockwise ? '+' : '-'} M_D = 0.</BM>
 				De oplossing volgt als
-				<BM>F_(Ay) = \frac(M_D)(r_(Ay)) = \frac({MD.float})({rAy.float}) = {FAy}.</BM>
+				<BM>F_(Ay) = \frac(M_D)(r_(Ay)) = \frac({MD.value})({rAy.value}) = {FAy}.</BM>
 				<Par>Hiermee is de gevraagde kracht berekend.</Par>
 			</Par>
 		},
@@ -82,7 +82,7 @@ const steps = [
 		Solution: ({ angle, FAy, FA }) => {
 			return <Par>
 				De schuine kracht <M>F_A</M> volgt via de aanliggende zijde <M>F_(Ay)</M> als
-				<BM>F_A = \frac(F_(Ay))(\cos\left({angle}\right)) = \frac({FAy.float})(\cos\left({angle}\right)) = {FA}.</BM>
+				<BM>F_A = \frac(F_(Ay))(\cos\left({angle}\right)) = \frac({FAy.value})(\cos\left({angle}\right)) = {FA}.</BM>
 				Hiermee is de gevraagde kracht berekend.
 			</Par>
 		},

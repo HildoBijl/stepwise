@@ -32,7 +32,7 @@ const steps = [
 			return <Par>Poisson's wet zegt dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> Hierbij moet <M>T_1 = {T1}</M> uiteraard in Kelvin staan. Het bovenstaande oplossen voor <M>T_2</M> gaat via
 				<BMList>
 					<BMPart>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
-					<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \left(\frac{p2.float}{p1.float}\right)^(\frac({n}-1)({n})) = {T2}.</BMPart>
+					<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.value} \left(\frac{p2.value}{p1.value}\right)^(\frac({n}-1)({n})) = {T2}.</BMPart>
 				</BMList>
 				Merk op dat we de druk in <M>{p1.unit}</M> mogen laten staan, omdat we met een drukverhouding rekenen.</Par>
 		},
@@ -48,7 +48,7 @@ const steps = [
 		</>,
 		Solution: ({ p1, p2, T1, T2, dsIn, cp, Rs }) => {
 			return <>
-				<Par>De entropieverandering valt te berekenen vanuit de druk en de temperatuur volgens <BM>\Delta s_(binnen) = c_p \ln\left(\frac(T_2)(T_1)\right) - R_s \ln\left(\frac(p_2)(p_1)\right) = {cp.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) - {Rs.float} \cdot \ln\left(\frac{p2.float}{p1.float}\right) = {dsIn}.</BM> Dit is negatief, wat logisch is: er stroomt een beetje warmte weg naar buiten.</Par>
+				<Par>De entropieverandering valt te berekenen vanuit de druk en de temperatuur volgens <BM>\Delta s_(binnen) = c_p \ln\left(\frac(T_2)(T_1)\right) - R_s \ln\left(\frac(p_2)(p_1)\right) = {cp.value} \cdot \ln\left(\frac{T2.value}{T1.value}\right) - {Rs.value} \cdot \ln\left(\frac{p2.value}{p1.value}\right) = {dsIn}.</BM> Dit is negatief, wat logisch is: er stroomt een beetje warmte weg naar buiten.</Par>
 			</>
 		},
 	},
@@ -63,7 +63,7 @@ const steps = [
 		</>,
 		Solution: ({ n, T1, T2, cv, Rs, c, q }) => {
 			return <>
-				<Par>Om de afgevoerde specifieke warmte te berekenen, is de soortelijke warmte <M>c</M> van het proces nodig. Deze is gelijk aan <BM>c = c_v - \frac(R_s)(n-1) = {cv.float} - \frac{Rs.float}({n.float} - 1) = {c}.</BM> Hiermee vinden we de specifieke warmte als <BM>q = c \left(T_2 - T_1\right) = {c.float} \cdot \left({T2.float} - {T1.float}\right) = {q.multiply(-1)}.</BM> Merk op: dit is de warmte <em>toegevoerd</em> tijdens de compressie. De vraag is echter welke warmte <em>wegstroomt</em>, wat het omgekeerde is. Hierdoor is het juiste antwoord <M>q = {q}.</M></Par>
+				<Par>Om de afgevoerde specifieke warmte te berekenen, is de soortelijke warmte <M>c</M> van het proces nodig. Deze is gelijk aan <BM>c = c_v - \frac(R_s)(n-1) = {cv.value} - \frac{Rs.value}({n.value} - 1) = {c}.</BM> Hiermee vinden we de specifieke warmte als <BM>q = c \left(T_2 - T_1\right) = {c.value} \cdot \left({T2.value} - {T1.value}\right) = {q.multiply(-1)}.</BM> Merk op: dit is de warmte <em>toegevoerd</em> tijdens de compressie. De vraag is echter welke warmte <em>wegstroomt</em>, wat het omgekeerde is. Hierdoor is het juiste antwoord <M>q = {q}.</M></Par>
 			</>
 		},
 	},
@@ -78,7 +78,7 @@ const steps = [
 		</>,
 		Solution: ({ q, T1, dsOut }) => {
 			return <>
-				<Par>We kunnen aannemen dat de temperatuur van de omgeving constant is. De entropieverandering volgt nu via <BM>\Delta s_(buiten) = \frac(q)(T) = \frac{q.float}{T1.float} = {dsOut}.</BM> Dit is positief, wat logisch is: de warmte stroomt naar de omgeving toe.</Par>
+				<Par>We kunnen aannemen dat de temperatuur van de omgeving constant is. De entropieverandering volgt nu via <BM>\Delta s_(buiten) = \frac(q)(T) = \frac{q.value}{T1.value} = {dsOut}.</BM> Dit is positief, wat logisch is: de warmte stroomt naar de omgeving toe.</Par>
 			</>
 		},
 	},
@@ -93,7 +93,7 @@ const steps = [
 		</>,
 		Solution: ({ dsIn, dsOut, ds }) => {
 			return <>
-				<Par>De totale entropieverandering is simpelweg de som van de entropieverschillen op verschillende plekken. We vinden zo <BM>\Delta s = \Delta s_(binnen) + \Delta s_(buiten) = {dsIn.float} {dsOut.float.texWithSign} = {ds}.</BM> Dit is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
+				<Par>De totale entropieverandering is simpelweg de som van de entropieverschillen op verschillende plekken. We vinden zo <BM>\Delta s = \Delta s_(binnen) + \Delta s_(buiten) = {dsIn.value} {dsOut.value.texWithSign} = {ds}.</BM> Dit is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
 			</>
 		},
 	},
@@ -108,7 +108,7 @@ const steps = [
 		</>,
 		Solution: ({ T1, ds, wm }) => {
 			return <>
-				<Par>De koudste temperatuur waarop in dit probleem warmte geloosd kan worden is de omgevingstemperatuur <M>T_1 = {T1}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>w_m = T_1 \Delta s = {T1.float} \cdot {ds.float} = {wm}.</BM> Merk op dat we deze formule zowel met hoofdletters (<M>W</M> en <M>S</M>) als met kleine letters (<M>w</M> en <M>s</M>) kunnen gebruiken.</Par>
+				<Par>De koudste temperatuur waarop in dit probleem warmte geloosd kan worden is de omgevingstemperatuur <M>T_1 = {T1}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>w_m = T_1 \Delta s = {T1.value} \cdot {ds.value} = {wm}.</BM> Merk op dat we deze formule zowel met hoofdletters (<M>W</M> en <M>S</M>) als met kleine letters (<M>w</M> en <M>s</M>) kunnen gebruiken.</Par>
 			</>
 		},
 	},

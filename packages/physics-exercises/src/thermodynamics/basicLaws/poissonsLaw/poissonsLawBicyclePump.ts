@@ -8,10 +8,10 @@ export default buildStepExercise({
 		skill: 'poissonsLaw',
 		...createStepExerciseMetadata([['calculateWithTemperature', undefined, 'calculateWithVolume'], undefined, 'solveLinearEquation']),
 		comparisons: {
-			V1s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
-			V2s: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
-			T1s: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
-			T2: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			V1s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
+			V2s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 } },
+			T1s: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
+			T2: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 
@@ -29,7 +29,7 @@ export default buildStepExercise({
 		const V1s = V1
 		const V2s = V2
 		const eq = 1
-		const T2 = T1s.multiply(V1.float.divide(V2.float).toPower(n.subtract(1)))
+		const T2 = T1s.multiply(V1.value.divide(V2.value).toPower(n.subtract(1)))
 		return { n, T1s, T2, V1s, V2s, eq }
 	},
 

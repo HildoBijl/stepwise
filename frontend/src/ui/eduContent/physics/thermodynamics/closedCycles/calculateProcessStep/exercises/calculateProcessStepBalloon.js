@@ -44,12 +44,12 @@ const steps = [
 				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,
 					<BMList>
 						<BMPart>V_1 = \frac{V1}{VConversion} = {V1s},</BMPart>
-						<BMPart>T_1 = {T1.float} + {TConversion.float} = {T1s},</BMPart>
+						<BMPart>T_1 = {T1.value} + {TConversion.value} = {T1s},</BMPart>
 						<BMPart>m = \frac{m}{mConversion} = {ms}.</BMPart>
 					</BMList>
 				</Par>
 				<Par>Ook is de specifieke gasconstante van lucht nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
-				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Onafgerond was dit antwoord <M>p_1 = {p1.setUnit('bar').setDecimals(2)}</M>, wat net iets hoger is dan de atmosferische druk. Dit is logisch: een ballon trekt wel een klein beetje extra op de lucht die erin zit, waardoor de druk ietsje hoger is dan atmosferische druk, maar een ballon is relatief flexibel, dus deze overdruk is minimaal.</Par>
+				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({ms.value} \cdot {Rs.value} \cdot {T1s.value})({V1s.value}) = {p1}.</BM> Onafgerond was dit antwoord <M>p_1 = {p1.setUnit('bar').setDecimals(2)}</M>, wat net iets hoger is dan de atmosferische druk. Dit is logisch: een ballon trekt wel een klein beetje extra op de lucht die erin zit, waardoor de druk ietsje hoger is dan atmosferische druk, maar een ballon is relatief flexibel, dus deze overdruk is minimaal.</Par>
 			</>
 		},
 	},
@@ -77,7 +77,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ V1, T2, Rs, ms, T2s, V2, p2 }) => {
-			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({ms.float} \cdot {Rs.float} \cdot {T2s.float})({p2.float}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}.</M> Dit klinkt logisch: de ballon zet immers uit.</Par>
+			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.value} + {TConversion.value} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({ms.value} \cdot {Rs.value} \cdot {T2s.value})({p2.value}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}.</M> Dit klinkt logisch: de ballon zet immers uit.</Par>
 		},
 	},
 ]

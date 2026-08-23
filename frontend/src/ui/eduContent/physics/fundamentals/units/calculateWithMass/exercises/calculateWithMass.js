@@ -39,8 +39,8 @@ function Solution({ m, type, prefix, ans }) {
 	const intro = `${type === 1 ? 'De standaard eenheid van massa is de kilogram. Oftewel, we willen' : 'We willen'} van ${fromName}gram naar ${toName}gram gaan.`
 
 	if (fromPower > toPower)
-		return <Par>{intro} Een {fromName}gram is <M>{conversion.float}</M> {toName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = {m} \cdot {conversion} = {ans}.</BM></Par>
-	return <Par>{intro} Een {toName}gram is <M>{conversion.float}</M> {fromName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = \frac{m}{conversion} = {ans}.</BM></Par>
+		return <Par>{intro} Een {fromName}gram is <M>{conversion.value}</M> {toName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = {m} \cdot {conversion} = {ans}.</BM></Par>
+	return <Par>{intro} Een {toName}gram is <M>{conversion.value}</M> {fromName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = \frac{m}{conversion} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {

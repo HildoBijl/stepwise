@@ -20,5 +20,5 @@ function Problem({ Q, m }) {
 
 function Solution({ Qs, m, q }) {
 	const qUnit = q.setUnit('kJ/kg')
-	return <Par>De specifieke warmte is simpelweg de warmte per kilogram medium. Hij is dus te vinden via <BM>q = \frac(Q)(m) = \frac{Qs.float}{m.float} = {q}.</BM> Het is bij specifieke warmte de gewoonte om deze te schrijven als <M>{qUnit}</M>, omdat hij vaak een grootte van enkele honderden <M>{qUnit.unit}</M> heeft.</Par>
+	return <Par>De specifieke warmte is simpelweg de warmte per kilogram medium. Hij is dus te vinden via <BM>q = \frac(Q)(m) = \frac{Qs.value}{m.value} = {q}.</BM> Het is bij specifieke warmte de gewoonte om deze te schrijven als <M>{qUnit}</M>, omdat hij vaak een grootte van enkele honderden <M>{qUnit.unit}</M> heeft.</Par>
 }

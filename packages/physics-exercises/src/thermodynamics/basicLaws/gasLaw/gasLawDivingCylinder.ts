@@ -11,11 +11,11 @@ export default buildStepExercise({
 		skill: 'gasLaw',
 		...createStepExerciseMetadata([['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation']),
 		comparisons: {
-			Vs: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
-			ms: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
-			Ts: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
-			Rs: { float: { relativeTolerance: 0.01 }, unit: { target: 'normalizedPrefixes' } },
-			p: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Vs: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
+			ms: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
+			Ts: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
+			Rs: { value: { relativeTolerance: 0.01 }, unit: { target: 'normalizedPrefixes' } },
+			p: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 

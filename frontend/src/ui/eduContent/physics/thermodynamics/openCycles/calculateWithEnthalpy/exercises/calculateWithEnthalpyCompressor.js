@@ -30,7 +30,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ cp, T1, T2, dh }) => {
-			return <Par>De verandering van specifieke enthalpie <M>\Delta h</M> kun je, bij ideale gassen als lucht, direct uit de temperatuur berekenen. Dit gaat via <BM>\Delta h = c_p \Delta T = c_p \left(T_2 - T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {dh}.</BM> Onthoud: deze verandering kun je zien als de "toename in inwendige energie inclusief energie vanuit druk."</Par>
+			return <Par>De verandering van specifieke enthalpie <M>\Delta h</M> kun je, bij ideale gassen als lucht, direct uit de temperatuur berekenen. Dit gaat via <BM>\Delta h = c_p \Delta T = c_p \left(T_2 - T_1\right) = {cp.value} \cdot \left({T2.value} - {T1.value}\right) = {dh}.</BM> Onthoud: deze verandering kun je zien als de "toename in inwendige energie inclusief energie vanuit druk."</Par>
 		},
 	},
 	{
@@ -44,7 +44,7 @@ const steps = [
 		</>,
 		Solution: ({ wts, dh, q }) => {
 			return <>
-				<Par>De eerste hoofdwet zegt <M>\Delta h = q - w_t.</M> Dit oplossen voor de specifieke toegevoerde warmte <M>q</M> geeft <BM>q = \Delta h + w_t = {dh.float} {wts.float.texWithSign} = {q}.</BM> Merk op: de toegevoerde warmte is negatief omdat er warmte afgevoerd wordt. Het is conventie om het altijd over de toegevoerde warmte te hebben, en daarom is het cruciaal om dit minteken te vermelden.</Par>
+				<Par>De eerste hoofdwet zegt <M>\Delta h = q - w_t.</M> Dit oplossen voor de specifieke toegevoerde warmte <M>q</M> geeft <BM>q = \Delta h + w_t = {dh.value} {wts.value.texWithSign} = {q}.</BM> Merk op: de toegevoerde warmte is negatief omdat er warmte afgevoerd wordt. Het is conventie om het altijd over de toegevoerde warmte te hebben, en daarom is het cruciaal om dit minteken te vermelden.</Par>
 			</>
 		},
 	},

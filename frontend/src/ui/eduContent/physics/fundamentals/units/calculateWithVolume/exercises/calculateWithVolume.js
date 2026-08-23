@@ -54,7 +54,7 @@ function Solution({ V, type, ans }) {
 
 			const word = prefix.symbol === 'c' ? 'centimeter' : 'decimeter'
 			conversion = new FloatUnit(`10^${-3 * prefix.exponent} ${prefix.symbol}m^3/m^3`)
-			return <Par>De standaard eenheid van volume is kubieke meters. We weten dat een meter gelijk is aan <M>{prefix.exponent === -1 ? '10' : '10^2'}</M> {word}. Een kubieke meter is dus gelijk aan <M>{conversion.float}</M> kubieke {word}. Het volume is daarmee te vinden als <BM>V = \frac{V}{conversion} = {ans}.</BM></Par>
+			return <Par>De standaard eenheid van volume is kubieke meters. We weten dat een meter gelijk is aan <M>{prefix.exponent === -1 ? '10' : '10^2'}</M> {word}. Een kubieke meter is dus gelijk aan <M>{conversion.value}</M> kubieke {word}. Het volume is daarmee te vinden als <BM>V = \frac{V}{conversion} = {ans}.</BM></Par>
 
 		case 2:
 		case 3:

@@ -87,7 +87,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ p1, p2, ratio }) => {
-			return <Par>De gaswet zegt dat <M>pV = mR_sT.</M> We weten hier dat <M>m</M>, <M>R_s</M> en <M>T</M> allen constant blijven. Dus moet ook <M>pV</M> constant blijven. Er geldt dus <BM>p_1V_1 = p_2V_2.</BM> Hieruit kunnen we de volumeverhouding halen. Deze is het omgekeerde van de drukverhouding. Oftewel, <BM>\frac(V_2)(V_1) = \frac(p_1)(p_2) = \frac{p1.float}{p2.float} = {ratio}.</BM> Dit kunnen we straks in de formule voor <M>Q</M> en <M>W</M> invullen.</Par>
+			return <Par>De gaswet zegt dat <M>pV = mR_sT.</M> We weten hier dat <M>m</M>, <M>R_s</M> en <M>T</M> allen constant blijven. Dus moet ook <M>pV</M> constant blijven. Er geldt dus <BM>p_1V_1 = p_2V_2.</BM> Hieruit kunnen we de volumeverhouding halen. Deze is het omgekeerde van de drukverhouding. Oftewel, <BM>\frac(V_2)(V_1) = \frac(p_1)(p_2) = \frac{p1.value}{p2.value} = {ratio}.</BM> Dit kunnen we straks in de formule voor <M>Q</M> en <M>W</M> invullen.</Par>
 		},
 	},
 	{
@@ -115,7 +115,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ Rs, ms, Ts, ratio, Q }) => {
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = W = mR_sT \ln\left(\frac(V_2)(V_1)\right) = {ms.float} \cdot {Rs.float} \cdot {Ts.float} \cdot \ln\left({ratio.float}\right) = {Q}.</BM> Het minteken hier betekent dat er warmte <strong>uit het gas</strong> stroomt, en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn het gas aan het comprimeren, dus dit kost arbeid. Het minteken moet dus zeker wel vermeld worden, want het geeft de richting van deze energiestroom aan.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = W = mR_sT \ln\left(\frac(V_2)(V_1)\right) = {ms.value} \cdot {Rs.value} \cdot {Ts.value} \cdot \ln\left({ratio.value}\right) = {Q}.</BM> Het minteken hier betekent dat er warmte <strong>uit het gas</strong> stroomt, en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn het gas aan het comprimeren, dus dit kost arbeid. Het minteken moet dus zeker wel vermeld worden, want het geeft de richting van deze energiestroom aan.</Par>
 		},
 	},
 ]

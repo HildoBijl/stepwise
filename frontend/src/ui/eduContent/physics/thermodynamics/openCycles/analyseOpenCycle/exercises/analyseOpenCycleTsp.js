@@ -49,7 +49,7 @@ const steps = [
 		</>,
 		Solution: ({ Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 }) => {
 			return <>
-				<Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Het specifieke volume <M>v_1</M> volgt via de gaswet als <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BM> In punt 3 is al bekend dat <M>p_3 = p_1 = {p3}.</M> Via Poisson's wet <M>p_2v_2^n = p_3v_3^n</M> vinden we <M>v_3</M> als <BM>v_3 = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot v_2 = \left(\frac{p2.float}{p3.float}\right)^(\frac(1)({k})) \cdot {v2.float} = {v3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3v_3)(R_s) = \frac({p3.float} \cdot {v3.float})({Rs.float}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
+				<Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Het specifieke volume <M>v_1</M> volgt via de gaswet als <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.value} \cdot {T1.value})({p1.value}) = {v1}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.value} \cdot {T2.value})({p2.value}) = {v2}.</BM> In punt 3 is al bekend dat <M>p_3 = p_1 = {p3}.</M> Via Poisson's wet <M>p_2v_2^n = p_3v_3^n</M> vinden we <M>v_3</M> als <BM>v_3 = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot v_2 = \left(\frac{p2.value}{p3.value}\right)^(\frac(1)({k})) \cdot {v2.value} = {v3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3v_3)(R_s) = \frac({p3.value} \cdot {v3.value})({Rs.value}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
 			</>
 		},
 	},
@@ -74,11 +74,11 @@ const steps = [
 		</>,
 		Solution: ({ cp, p1, v1, T1, v2, T2, T3, q12, wt12, q23, wt23, q31, wt31, qn, wn }) => {
 			return <>
-				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>q_(1-2) = w_(t,1-2) = pv\ln\left(\frac(v_2)(v_1)\right) = {p1.float} \cdot {v1.float} \cdot \ln\left(\frac{v2.float}{v1.float}\right) = {q12}.</BM> Voor de isentrope stap 2-3 geldt <M>q_(2-3) = {q23}</M> en <BM>w_(t,2-3) = -c_p\left(T_3-T_2\right) = -{cp.float} \cdot \left({T3.float} - {T2.float}\right) = {wt23}.</BM> Ten slotte heeft de isobare stap 3-1 <BM>q_(3-1) = c_p\left(T_1 - T_3\right) = {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {q31}</BM> en <M>w_(t,3-1) = {wt31}.</M></Par>
+				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>q_(1-2) = w_(t,1-2) = pv\ln\left(\frac(v_2)(v_1)\right) = {p1.value} \cdot {v1.value} \cdot \ln\left(\frac{v2.value}{v1.value}\right) = {q12}.</BM> Voor de isentrope stap 2-3 geldt <M>q_(2-3) = {q23}</M> en <BM>w_(t,2-3) = -c_p\left(T_3-T_2\right) = -{cp.value} \cdot \left({T3.value} - {T2.value}\right) = {wt23}.</BM> Ten slotte heeft de isobare stap 3-1 <BM>q_(3-1) = c_p\left(T_1 - T_3\right) = {cp.value} \cdot \left({T1.value} - {T3.value}\right) = {q31}</BM> en <M>w_(t,3-1) = {wt31}.</M></Par>
 				<Par>Als check controleren we de energiebalans. Zo vinden we
 					<BMList>
-						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-1) = {q12.float} {q23.float.texWithSign} {q31.float.texWithSign} = {qn},</BMPart>
-						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-1) = {wt12.float} {wt23.float.texWithSign} {wt31.float.texWithSign} = {wn}.</BMPart>
+						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-1) = {q12.value} {q23.value.texWithSign} {q31.value.texWithSign} = {qn},</BMPart>
+						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-1) = {wt12.value} {wt23.value.texWithSign} {wt31.value.texWithSign} = {wn}.</BMPart>
 					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
 			</>
@@ -99,11 +99,11 @@ const steps = [
 			const qout = q12.abs()
 			return <>
 				<Par>De processtappen waarop warmte toegevoerd wordt (<M>q \gt 0</M>) is alleen stap 3-1. De toegevoerde warmte is dus <M>q_(toe) = q_(3-1) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt de koudefactor als
-					<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(q_(toe))(w_(netto)) = \frac{qin.float}{wn.abs().float} = {epsilon}.</BM>
+					<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(q_(toe))(w_(netto)) = \frac{qin.value}{wn.abs().value} = {epsilon}.</BM>
 					Voor de warmtefactor moeten we kijken naar de stappen waarop warmte afgevoerd wordt. Dit is alleen stap 1-2. De afgevoerde warmte is dus <M>q_(af) = q_(1-2) = {qout}.</M> (We negeren hier het minteken omdat we al in woorden zeggen dat dit afgevoerde warmte is.) Dit zorgt voor een warmtefactor van
-					<BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(q_(af))(w_(netto)) = \frac{qout.float}{wn.abs().float} = {COP}.</BM>
+					<BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(q_(af))(w_(netto)) = \frac{qout.value}{wn.abs().value} = {COP}.</BM>
 					Of we hadden kunnen gebruiken dat de warmtefactor altijd één hoger is dan de koudefactor. Dat was hier sneller geweest. Bovenstaande factoren zijn overigens niet bepaald hoog. Het is immers ook geen heel efficiënt kringproces.</Par>
-				<Par>Voor het koelvermogen gebruiken we de vergelijking <BM>P_(koel) = \dot(m) q_(in) = {mdot.float} \cdot {qin.float} = {Pc}.</BM> Dit is het vermogen aan warmte dat onttrokken wordt aan de te koelen ruimte.</Par>
+				<Par>Voor het koelvermogen gebruiken we de vergelijking <BM>P_(koel) = \dot(m) q_(in) = {mdot.value} \cdot {qin.value} = {Pc}.</BM> Dit is het vermogen aan warmte dat onttrokken wordt aan de te koelen ruimte.</Par>
 			</>
 		},
 	},

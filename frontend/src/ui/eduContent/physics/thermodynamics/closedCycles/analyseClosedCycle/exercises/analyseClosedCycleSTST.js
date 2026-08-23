@@ -68,17 +68,17 @@ const steps = [
 			return <>
 				<Par>
 					In punt 1 weten we al dat <M>p_1 = {p1}</M> en <M>V_1 = {V1}.</M> Via de gaswet vinden we
-					<BM>T_1 = \frac(p_1V_1)(mR_s) = \frac({p1.float} \cdot {V1.float})({m.float} \cdot {Rs.float}) = {T1}.</BM>
+					<BM>T_1 = \frac(p_1V_1)(mR_s) = \frac({p1.value} \cdot {V1.value})({m.value} \cdot {Rs.value}) = {T1}.</BM>
 					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> en <M>n = k = {k}</M> vinden we
-					<BM>V_2 = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BM>
+					<BM>V_2 = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.value}{p2.value}\right)^(\frac{1}{k}) \cdot {V1.value} = {V2}.</BM>
 					De temperatuur <M>T_2</M> volgt via de gaswet als
-					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>
+					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.value} \cdot {V2.value})({m.value} \cdot {Rs.value}) = {T2}.</BM>
 					In punt 4 weten we dat <M>p_4 = {p4}</M> en <M>T_4 = T_1 = {T4}</M> (isotherm proces). Via de gaswet volgt
-					<BM>V_4 = \frac(mR_sT_4)(p_4) = \frac({m.float} \cdot {Rs.float} \cdot {T4.float})({p4.float}) = {V4}.</BM>
+					<BM>V_4 = \frac(mR_sT_4)(p_4) = \frac({m.value} \cdot {Rs.value} \cdot {T4.value})({p4.value}) = {V4}.</BM>
 					Voor punt 3 geldt <M>T_3 = T_2 = {T3}</M> (isotherm proces). Proces 3-4 is isentroop, zodat we via <M>T_3V_3^(n-1) = T_4V_4^(n-1)</M> kunnen vinden dat
-					<BM>V_3 = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.float}{T3.float}\right)^(\frac(1)({k}-1)) \cdot {V4.float} = {V3}.</BM>
+					<BM>V_3 = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.value}{T3.value}\right)^(\frac(1)({k}-1)) \cdot {V4.value} = {V3}.</BM>
 					Ten slotte volgt via de gaswet <M>p_3</M> als
-					<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.float} \cdot {Rs.float} \cdot {T3.float})({V3.float}) = {p3}.</BM> Daarmee zijn alle eigenschappen bekend.
+					<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.value} \cdot {Rs.value} \cdot {T3.value})({V3.value}) = {p3}.</BM> Daarmee zijn alle eigenschappen bekend.
 				</Par>
 			</>
 		},
@@ -111,23 +111,23 @@ const steps = [
 					Voor de isentrope stap 1-2 zijn de energiestromen
 					<BMList>
 						<BMPart>Q_(1-2) = {Q12},</BMPart>
-						<BMPart>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {W12}.</BMPart>
+						<BMPart>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.value} \cdot {cv.value} \cdot \left({T2.value} - {T1.value}\right) = {W12}.</BMPart>
 					</BMList>
 					Voor de isotherme stap 2-3 hebben we
-					<BM>Q_(2-3) = W_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM>
+					<BM>Q_(2-3) = W_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.value} \cdot {V2.value} \cdot \ln\left(\frac{V3.value}{V2.value}\right) = {Q23}.</BM>
 					Voor de isentrope stap 3-4 geldt
 					<BMList>
 						<BMPart>Q_(3-4) = {Q34},</BMPart>
-						<BMPart>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BMPart>
+						<BMPart>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.value} \cdot {cv.value} \cdot \left({T4.value} - {T3.value}\right) = {W34}.</BMPart>
 					</BMList>
 					Ten slotte vinden we voor de isotherme stap 4-1,
-					<BM>Q_(4-1) = W_(4-1) = pV\ln\left(\frac(V_1)(V_4)\right) = {p4.float} \cdot {V4.float} \cdot \ln\left(\frac{V1.float}{V4.float}\right) = {Q41}.</BM>
+					<BM>Q_(4-1) = W_(4-1) = pV\ln\left(\frac(V_1)(V_4)\right) = {p4.value} \cdot {V4.value} \cdot \ln\left(\frac{V1.value}{V4.value}\right) = {Q41}.</BM>
 				</Par>
 				<Par>
 					Als check controleren we de energiebalans. Zo zien we
 					<BMList>
-						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithSign} {Q34.float.texWithSign} {Q41.float.texWithSign} = {Wn},</BMPart>
-						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithSign} {W34.float.texWithSign} {W41.float.texWithSign} = {Wn}.</BMPart>
+						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.value} {Q23.value.texWithSign} {Q34.value.texWithSign} {Q41.value.texWithSign} = {Wn},</BMPart>
+						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.value} {W23.value.texWithSign} {W34.value.texWithSign} {W41.value.texWithSign} = {Wn}.</BMPart>
 					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.
 				</Par>
@@ -165,8 +165,8 @@ const steps = [
 				<SubHead>Short-cut</SubHead>
 				Merk op dat dit een Carnot-proces is. Voor een Carnot-proces kunnen we ook de koudefactor en warmtefactor vinden via
 				<BMList>
-					<BMPart>\varepsilon_C = \frac(T_(min))(T_(max) - T_(min)) = \frac({T1.float})({T2.float} - {T1.float}) = {epsilon},</BMPart>
-					<BMPart>\varepsilon_(w_C) = \frac(T_(max))(T_(max) - T_(min)) = \frac({T2.float})({T2.float} - {T1.float}) = {COP}.</BMPart>
+					<BMPart>\varepsilon_C = \frac(T_(min))(T_(max) - T_(min)) = \frac({T1.value})({T2.value} - {T1.value}) = {epsilon},</BMPart>
+					<BMPart>\varepsilon_(w_C) = \frac(T_(max))(T_(max) - T_(min)) = \frac({T2.value})({T2.value} - {T1.value}) = {COP}.</BMPart>
 				</BMList>
 				Dit was een stuk sneller geweest. Deze short-cut werkt echter alleen voor Carnot-processen, en kan dus niet altijd toegepast worden.</Par>
 		},

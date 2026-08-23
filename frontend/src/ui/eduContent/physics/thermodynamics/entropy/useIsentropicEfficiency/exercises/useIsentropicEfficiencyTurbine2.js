@@ -33,7 +33,7 @@ const steps = [
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
 					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Voor het theoretische geval vinden we zo
-					<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti}.</BM>
+					<BM>w_(t_i) = h_1 - h_(2') = {h1.value} - {h2p.value} = {wti}.</BM>
 				</Par>
 			</>
 		},
@@ -49,7 +49,7 @@ const steps = [
 		</>,
 		Solution: ({ wti, wt, etai }) => {
 			return <>
-				<Par>In een turbine is de werkelijk geleverde arbeid altijd kleiner dan de in theorie haalbare technische arbeid. Het isentropisch rendement van een turbine is dus gedefinieerd als <BM>\eta_i = \frac(w_t)(w_(t_i)).</BM> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \eta_i w_(t_i) = {etai.float} \cdot {wti.float} = {wt}.</BM> Dit is inderdaad ietsje kleiner dan de specifieke technische arbeid in het isentropische geval.</Par>
+				<Par>In een turbine is de werkelijk geleverde arbeid altijd kleiner dan de in theorie haalbare technische arbeid. Het isentropisch rendement van een turbine is dus gedefinieerd als <BM>\eta_i = \frac(w_t)(w_(t_i)).</BM> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \eta_i w_(t_i) = {etai.value} \cdot {wti.value} = {wt}.</BM> Dit is inderdaad ietsje kleiner dan de specifieke technische arbeid in het isentropische geval.</Par>
 			</>
 		},
 	},
@@ -63,7 +63,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ wt, h1, h2 }) => {
-			return <Par>Er geldt nog steeds <BM>w_t = h_1 - h_2.</BM> De oplossing voor <M>h_2</M> volgt als <BM>h_2 = h_1 - w_t = {h1.float} - {wt.float} = {h2}.</BM> Dit is ietsje groter dan <M>h_(2')</M> wat logisch is.</Par>
+			return <Par>Er geldt nog steeds <BM>w_t = h_1 - h_2.</BM> De oplossing voor <M>h_2</M> volgt als <BM>h_2 = h_1 - w_t = {h1.value} - {wt.value} = {h2}.</BM> Dit is ietsje groter dan <M>h_(2')</M> wat logisch is.</Par>
 		},
 	},
 ]

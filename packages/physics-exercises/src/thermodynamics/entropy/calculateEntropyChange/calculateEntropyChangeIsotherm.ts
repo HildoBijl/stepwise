@@ -6,9 +6,9 @@ const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', undefined]),
 	comparisons: {
-		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-		Tw: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
-		Tc: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
+		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		Tw: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
+		Tc: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 	},
 }
 

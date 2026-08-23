@@ -64,8 +64,8 @@ const steps = [
 			return <Par>
 				De gevraagde componenten volgen via
 				<BMList>
-					<BMPart>F_(Dx) = F_D \sin\left({angle}\right) = {FD.float} \cdot \sin\left({angle}\right) = {FDx}.</BMPart>
-					<BMPart>F_(Dy) = F_D \cos\left({angle}\right) = {FD.float} \cdot \cos\left({angle}\right) = {FDy}.</BMPart>
+					<BMPart>F_(Dx) = F_D \sin\left({angle}\right) = {FD.value} \cdot \sin\left({angle}\right) = {FDx}.</BMPart>
+					<BMPart>F_(Dy) = F_D \cos\left({angle}\right) = {FD.value} \cdot \cos\left({angle}\right) = {FDy}.</BMPart>
 				</BMList>
 			</Par>
 		},
@@ -89,7 +89,7 @@ const steps = [
 				Als we momentenevenwicht toepassen om punt <M>E,</M> en met de klok mee als positieve richting gebruiken, dan vinden we
 				<BM>{sumOfMoments('E', false)} {FAPositive ? '' : '-'} r_A F_A {FDxPositive ? '+' : '-'} r_(Dx) F_(Dx) {FDyPositive ? '+' : '-'} r_(Dy) F_(Dy) = 0.</BM>
 				De oplossing volgt als
-				<BM>F_A = \frac({FAPositive === FDxPositive ? '-' : ''} r_(Dx) F_(Dx) {FAPositive === FDyPositive ? '-' : '+'} r_(Dy) F_(Dy))(r_A) = \frac({FAPositive === FDxPositive ? '-' : ''} {rDx.float} \cdot {FDx.float} {FAPositive === FDyPositive ? '-' : '+'} {rDy.float} \cdot {FDy.float})({rA.float}) = {FA}.</BM>
+				<BM>F_A = \frac({FAPositive === FDxPositive ? '-' : ''} r_(Dx) F_(Dx) {FAPositive === FDyPositive ? '-' : '+'} r_(Dy) F_(Dy))(r_A) = \frac({FAPositive === FDxPositive ? '-' : ''} {rDx.value} \cdot {FDx.value} {FAPositive === FDyPositive ? '-' : '+'} {rDy.value} \cdot {FDy.value})({rA.value}) = {FA}.</BM>
 				<Par>Hiermee is de gevraagde kracht berekend.</Par>
 			</Par>
 		},

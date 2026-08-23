@@ -82,7 +82,7 @@ const steps = [
 					To find <M>{vFAx}</M> we examine the sum of the forces in the horizontal direction. In this case <M>{vFAy}</M> and <M>{vMA}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfForces(false)} P_x {directionIndices[1] ? '-' : '+'} {vFAx} = 0.</BM>
 					The horizontal component <M>P_x</M> here equals
-					<BM>P_x = P \cos\left({angle}\right) = {P.float} \cdot \cos\left({angle}\right) = {Px}.</BM>
+					<BM>P_x = P \cos\left({angle}\right) = {P.value} \cdot \cos\left({angle}\right) = {Px}.</BM>
 					If we solve the equilibrium equation for <M>{vFAx}</M>, then we get
 					<BM>{vFAx} = {directionIndices[1] ? '' : '-'} P_x = {FAx}.</BM>
 				</Par>
@@ -110,7 +110,7 @@ const steps = [
 					To find <M>{vFAy}</M> we examine the sum of the forces in the vertical direction. In this case <M>{vFAx}</M> and <M>{vMA}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} {vFAy} - P_y = 0.</BM>
 					The vertical component <M>P_y</M> here equals
-					<BM>P_y = P \sin\left({angle}\right) = {P.float} \cdot \sin\left({angle}\right) = {Py}.</BM>
+					<BM>P_y = P \sin\left({angle}\right) = {P.value} \cdot \sin\left({angle}\right) = {Py}.</BM>
 					If we solve the equilibrium equation for <M>{vFAy}</M>, then we get
 					<BM>{vFAy} = {directionIndices[2] ? '' : '-'} P_y = {FAy}.</BM>
 				</Par>
@@ -138,7 +138,7 @@ const steps = [
 					To find <M>{vMA}</M> we examine the sum of the moments around point <M>A</M>. In this case <M>{vFAx}</M> and <M>{vFAy}</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfMoments('A', false)} P_y l_1 {directionIndices[3] ? '-' : '+'} {vMA} = 0.</BM>
 					The solution follows as
-					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P_y l_1 = {directionIndices[3] ? '' : '-'} {Py.float} \cdot {l1.float} = {MA}.</BM>
+					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P_y l_1 = {directionIndices[3] ? '' : '-'} {Py.value} \cdot {l1.value} = {MA}.</BM>
 					And with this all support reactions have been determined.
 				</Par>
 			</Translation>

@@ -62,7 +62,7 @@ const steps = [
 		Solution: ({ angle, FD, FDx }) => {
 			return <Par>
 				De horizontale component <M>F_(Dx)</M> van kracht <M>F_D</M> volgt als overstaande zijde van de hoek van <M>{angle}^\circ</M> als
-				<BM>F_(Dx) = F_D \sin\left({angle}\right) = {FD.float} \cdot \sin\left({angle}\right) = {FDx}.</BM>
+				<BM>F_(Dx) = F_D \sin\left({angle}\right) = {FD.value} \cdot \sin\left({angle}\right) = {FDx}.</BM>
 			</Par>
 		},
 	},

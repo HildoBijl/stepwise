@@ -29,10 +29,10 @@ function Problem({ T, type }) {
 
 function Solution({ T, type, ans }) {
 	const solution = [
-		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} - {TConversion.float} = {ans}.</BM></Par>,
+		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.value}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.value} - {TConversion.value} = {ans}.</BM></Par>,
 		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {ans}.</M></Par>,
-		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {ans}.</BM></Par>,
-		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {ans}.</BM></Par>,
+		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.value}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.value} + {TConversion.value} = {ans}.</BM></Par>,
+		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.value}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.value} + {TConversion.value} = {ans}.</BM></Par>,
 	][type]
 
 	return <Par>{solution}</Par>
