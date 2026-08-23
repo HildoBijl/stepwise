@@ -1,13 +1,13 @@
 import {
 	type PrecisionNumber as PrecisionNumberDomainValue, type PrecisionNumberInputValue as PrecisionNumberInnerInputValue, PrecisionNumberType, interpretPrecisionNumberInputValue, precisionNumberToInputValue,
 	type Unit as UnitDomainValue, type UnitInputValue as UnitInnerInputValue, UnitType, interpretUnitInputValue, unitToInputValue,
-	type FloatUnit as FloatUnitDomainValue, type FloatUnitInputValue as FloatUnitInnerInputValue, FloatUnitType, interpretFloatUnitInputValue, floatUnitToInputValue,
+	type Quantity as QuantityDomainValue, type QuantityInputValue as QuantityInnerInputValue, QuantityType, interpretQuantityInputValue, quantityToInputValue,
 } from '@step-wise/physics-core'
 
 import type { InputValue, InterpreterEntry } from '../types'
 import { makeInputValue } from '../support'
 
-export { PrecisionNumberType, UnitType, FloatUnitType }
+export { PrecisionNumberType, UnitType, QuantityType }
 
 export type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInnerInputValue>
 export const PrecisionNumberInterpreter = {
@@ -21,14 +21,14 @@ export const UnitInterpreter = {
 	toInputValue: unit => makeInputValue(UnitType, unitToInputValue(unit)),
 } satisfies InterpreterEntry<UnitInputValue, UnitDomainValue>
 
-export type FloatUnitInputValue = InputValue<FloatUnitType, FloatUnitInnerInputValue>
-export const FloatUnitInterpreter = {
-	interpret: inputValue => interpretFloatUnitInputValue(inputValue.value),
-	toInputValue: floatUnit => makeInputValue(FloatUnitType, floatUnitToInputValue(floatUnit)),
-} satisfies InterpreterEntry<FloatUnitInputValue, FloatUnitDomainValue>
+export type QuantityInputValue = InputValue<QuantityType, QuantityInnerInputValue>
+export const QuantityInterpreter = {
+	interpret: inputValue => interpretQuantityInputValue(inputValue.value),
+	toInputValue: quantity => makeInputValue(QuantityType, quantityToInputValue(quantity)),
+} satisfies InterpreterEntry<QuantityInputValue, QuantityDomainValue>
 
 export const physicsInterpreters = {
 	[PrecisionNumberType]: PrecisionNumberInterpreter,
 	[UnitType]: UnitInterpreter,
-	[FloatUnitType]: FloatUnitInterpreter,
+	[QuantityType]: QuantityInterpreter,
 }

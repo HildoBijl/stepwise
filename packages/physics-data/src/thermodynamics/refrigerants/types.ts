@@ -1,14 +1,14 @@
-import { type FloatUnit } from '@step-wise/physics-core'
+import { type Quantity } from '@step-wise/physics-core'
 import { createInterpolationTable } from '@step-wise/interpolation'
 
-import { type FloatUnitGrid, type FloatUnitTable } from '../../utils'
+import { type QuantityGrid, type QuantityTable } from '../../utils'
 
-export type CriticalPoint = { pressure: FloatUnit, temperature: FloatUnit, enthalpy: FloatUnit, entropy: FloatUnit }
-export type RefrigerantPressureTable = { pressure: FloatUnit, table: FloatUnitTable }
+export type CriticalPoint = { pressure: Quantity, temperature: Quantity, enthalpy: Quantity, entropy: Quantity }
+export type RefrigerantPressureTable = { pressure: Quantity, table: QuantityTable }
 export type RefrigerantTable = readonly RefrigerantPressureTable[]
-export type RefrigerantData = { criticalPoint: CriticalPoint, boilingData: FloatUnitTable, tablesByPressure: RefrigerantTable }
+export type RefrigerantData = { criticalPoint: CriticalPoint, boilingData: QuantityTable, tablesByPressure: RefrigerantTable }
 
-export function createRefrigerantTable(pressure: FloatUnit, temperature: FloatUnit[], enthalpy: FloatUnitGrid, entropy: FloatUnitGrid): RefrigerantPressureTable {
+export function createRefrigerantTable(pressure: Quantity, temperature: Quantity[], enthalpy: QuantityGrid, entropy: QuantityGrid): RefrigerantPressureTable {
 	return {
 		pressure,
 		table: createInterpolationTable({ inputLabels: ['temperature'], inputAxes: [temperature], outputLabels: ['enthalpy', 'entropy'], outputGrids: [enthalpy, entropy] }),

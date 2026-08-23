@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ P, mdot }) => <>
 	<Par>Een stoomturbine levert een vermogen van <M>{P}.</M> Dit gebeurt via stoom dat met <M>{mdot}</M> langsstroomt. Ga ervan uit dat de turbine isentropisch werkt. Vanwege deze arbeidsproductie verandert de specifieke enthalpie <M>h</M> van de stoom. Bereken deze specifieke enthalpieverandering.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />
+			<QuantityInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Bereken via de gegeven getallen de specifieke arbeid die de stoom levert.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wt" prelabel={<M>w_t=</M>} label="Geleverde specifieke arbeid" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t=</M>} label="Geleverde specifieke arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -37,7 +37,7 @@ const steps = [
 			<Par>Vind de toegevoerde specifieke warmte bij dit isentrope proces.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -52,7 +52,7 @@ const steps = [
 			<Par>Bereken aan de hand van de eerste hoofdwet de toename in specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dh" prelabel={<M>\Delta h =</M>} label="Specifieke enthalpietoename" size="s" />
+					<QuantityInput id="dh" prelabel={<M>\Delta h =</M>} label="Specifieke enthalpietoename" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

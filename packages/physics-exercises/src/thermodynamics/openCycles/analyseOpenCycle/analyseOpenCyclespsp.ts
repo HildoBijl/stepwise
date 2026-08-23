@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 
 import { generateParameters as generateParametersRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCyclespsp'
 import { getSolution as getEnergyParameters } from '../createOpenCycleEnergyOverview/createOpenCycleEnergyOverviewspsp'
@@ -10,13 +10,13 @@ export default buildStepExercise({
 		skill: 'analyseOpenCycle',
 		...createStepExerciseMetadata(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			eta: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
 	},
 
 	generateParameters() {
-		const Po = getRandomFloatUnit({ min: 10, max: 30, decimals: 0, unit: 'MW' })
+		const Po = getRandomQuantity({ min: 10, max: 30, decimals: 0, unit: 'MW' })
 		return { ...generateParametersRaw(), Po }
 	},
 

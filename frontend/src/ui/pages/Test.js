@@ -5,7 +5,7 @@ import { Par, Head, M, BM } from 'ui/components'
 
 import * as c from '@step-wise/cas'
 import * as m from '@step-wise/math-input-value'
-import { Unit, PrecisionNumber, FloatUnit } from '@step-wise/physics-core'
+import { Unit, PrecisionNumber, Quantity } from '@step-wise/physics-core'
 
 window.c = c
 window.m = m
@@ -14,7 +14,7 @@ window.asEquation = c.asEquation
 
 window.Unit = Unit
 window.PrecisionNumber = PrecisionNumber
-window.FloatUnit = FloatUnit
+window.Quantity = Quantity
 
 export function Test() {
 	// const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])

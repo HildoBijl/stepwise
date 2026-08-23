@@ -7,7 +7,7 @@ Step-Wise has an internal keyboard for input fields. This makes it suitable for 
 
 When an input field wants the keyboard to pop up, it should provide (upon registration to the `FieldController`) appropriate keyboard settings. These keyboard settings are a plain object `{ ... }` with three important (types of) parameters.
 
-An example of `keyboardSettings`, that are for instance used by the `FloatUnitInput` field, are the following.
+An example of `keyboardSettings`, that are for instance used by the `QuantityInput` field, are the following.
 
 ```
 keyboardSettings = {

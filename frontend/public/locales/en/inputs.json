@@ -15,7 +15,7 @@
   "unitInput": {
     "placeHolder": "Unit"
   },
-  "floatUnitInput": {
+  "quantityInput": {
     "placeHolder": "Number with unit"
   },
   "expressionInput": {

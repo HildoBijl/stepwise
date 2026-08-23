@@ -1,21 +1,21 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithEfficiency',
-		comparisons: { FloatUnit: { value: { significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
-		const E = getRandomFloatUnit({
+		const E = getRandomQuantity({
 			min: 15,
 			max: 60,
 			decimals: 0,
 			unit: 'kWh',
 		}).setSignificantDigits(3).roundToPrecision()
-		const eta = getRandomFloatUnit({
+		const eta = getRandomQuantity({
 			min: 0.915,
 			max: 0.995,
 			significantDigits: 3,

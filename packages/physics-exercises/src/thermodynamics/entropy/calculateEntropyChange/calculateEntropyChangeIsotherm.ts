@@ -1,21 +1,21 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 
 const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', undefined]),
 	comparisons: {
-		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		Tw: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 		Tc: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 	},
 }
 
 export function generateParameters() {
-	const Qo = getRandomFloatUnit({ min: 2, max: 10, significantDigits: 2, unit: 'kJ' })
-	const Two = getRandomFloatUnit({ min: 500, max: 1000, decimals: -2, unit: 'dC' }).setDecimals(0)
-	const Tco = getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'dC' })
+	const Qo = getRandomQuantity({ min: 2, max: 10, significantDigits: 2, unit: 'kJ' })
+	const Two = getRandomQuantity({ min: 500, max: 1000, decimals: -2, unit: 'dC' }).setDecimals(0)
+	const Tco = getRandomQuantity({ min: 5, max: 30, decimals: 0, unit: 'dC' })
 	return { Qo, Two, Tco }
 }
 

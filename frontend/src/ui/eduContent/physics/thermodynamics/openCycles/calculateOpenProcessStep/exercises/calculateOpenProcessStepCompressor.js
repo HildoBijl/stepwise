@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getAllFieldInputsFeedbackExcluding } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -12,13 +12,13 @@ export default function Exercise() {
 const colHeads = ['Druk', 'Specifiek volume', 'Temperatuur']
 const rowHeads = ['Voor de compressie', 'Na de compressie']
 const fields = [[
-	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-	<FloatUnitInput id="v1" label={<M>v_1</M>} size="l" />,
-	<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
+	<QuantityInput id="p1" label={<M>p_1</M>} size="l" />,
+	<QuantityInput id="v1" label={<M>v_1</M>} size="l" />,
+	<QuantityInput id="T1" label={<M>T_1</M>} size="l" />,
 ], [
-	<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-	<FloatUnitInput id="v2" label={<M>v_2</M>} size="l" />,
-	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
+	<QuantityInput id="p2" label={<M>p_2</M>} size="l" />,
+	<QuantityInput id="v2" label={<M>v_2</M>} size="l" />,
+	<QuantityInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
 const Problem = ({ p1o, p2o, T1o, n }) => <>
@@ -54,13 +54,13 @@ const steps = [
 					{choice === 0 ? <>
 						<Par>Prima! Wat is dan het specifieke volume na de compressie?</Par>
 						<Par>
-							<FloatUnitInput id="v2" prelabel={<M>v_2=</M>} label="Specifiek volume" size="s" />
+							<QuantityInput id="v2" prelabel={<M>v_2=</M>} label="Specifiek volume" size="s" />
 						</Par>
 					</> : null}
 					{choice === 1 ? <>
 						<Par>Oké, wat is dan de temperatuur na de compressie?</Par>
 						<Par>
-							<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+							<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 						</Par>
 					</> : null}
 				</InputSpace>

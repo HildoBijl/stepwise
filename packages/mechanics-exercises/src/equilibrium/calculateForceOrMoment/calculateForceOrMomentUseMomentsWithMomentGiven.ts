@@ -1,7 +1,7 @@
 import { degreesToRadians, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, createForce, createMoment, deriveLoadNames, getAxisComponents, isForce } from '@step-wise/engineering-mechanics'
 
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateForceOrMoment',
 		...createStepExerciseMetadata([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -29,7 +29,7 @@ export default buildStepExercise({
 			const angle = randomInteger(5, 13) * 5
 			const up = randomBoolean()
 			const right = randomBoolean()
-			const MD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN*m' })
+			const MD = getRandomQuantity({ min: 3, max: 18, significantDigits: 2, unit: 'kN*m' })
 			if (points.some((point, index) => points.some((otherPoint, otherIndex) => index < otherIndex && point.equals(otherPoint)))) continue
 			if (intersection.equals(points[0])) continue
 			return { points, angle, up, right, MD }
@@ -44,7 +44,7 @@ export default buildStepExercise({
 
 		const intersection = new Vector(B.x, C.y + B.x - C.x)
 		const rA = A.x - intersection.x
-		const rAy = new FloatUnit(`${Math.abs(rA)} m`).setSignificantDigits(2)
+		const rAy = new Quantity(`${Math.abs(rA)} m`).setSignificantDigits(2)
 		const FAy = MD.divide(rAy)
 		const FA = FAy.divide(Math.cos(angleRad))
 		const clockwise = (rA > 0) === up

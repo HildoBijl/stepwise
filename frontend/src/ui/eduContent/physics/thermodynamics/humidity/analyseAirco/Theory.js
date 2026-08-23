@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { useColor } from 'ui/theme'
@@ -11,13 +11,13 @@ import { SkillLink } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
-const p45 = new FloatUnit('45%')
-const p60 = new FloatUnit('60%')
+const p45 = new Quantity('45%')
+const p60 = new Quantity('60%')
 
-const T1 = new FloatUnit('30 dC')
-const T3 = new FloatUnit('8 dC').setDecimals(0)
-const T4 = new FloatUnit('20 dC')
-const startRH = new FloatUnit('80%')
+const T1 = new Quantity('30 dC')
+const T3 = new Quantity('8 dC').setDecimals(0)
+const T4 = new Quantity('20 dC')
+const startRH = new Quantity('80%')
 
 const startAHmax = interpolateTable(T1, maximumHumidity).setSignificantDigits(2)
 const startAH = startRH.setUnit('').multiply(startAHmax)

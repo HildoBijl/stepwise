@@ -4,7 +4,7 @@ import { temperatureCelsius as TConversion, volumeLiter as VConversion } from '@
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ export default function Exercise() {
 
 const Problem = ({ V, m, T }) => <>
 	<Par>Een duiker heeft een duikfles van <M>{V}</M> op zijn rug, gevuld met <M>{m}</M> zuurstof. Bij een temperatuur van <M>{T}</M>, bereken de druk in de fles.</Par>
-	<InputSpace><Par><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par></InputSpace>
+	<InputSpace><Par><QuantityInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par></InputSpace>
 </>
 
 const steps = [
@@ -22,9 +22,9 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="Vs" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ms" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="Vs" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
+					<Substep ss={2}><QuantityInput id="ms" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
+					<Substep ss={3}><QuantityInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -40,7 +40,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de specifieke gasconstante van het gas op, in standaard eenheden.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
+				<Par><QuantityInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ Rs }) => {
@@ -51,7 +51,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bereken via de gaswet de druk van het gas in de duikfles.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par>
+				<Par><QuantityInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ p, Vs, m, Rs, Ts }) => {

@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { k, Rs } = gasProperties.air
@@ -9,14 +9,14 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateProcessStep',
 		...createStepExerciseMetadata(['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw']),
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
-		const m = getRandomFloatUnit({ min: 500, max: 3000, significantDigits: 2, unit: 'kg' })
-		const T1 = getRandomFloatUnit({ min: 900, max: 1200, decimals: -1, unit: 'K' })
-		const p1 = getRandomFloatUnit({ min: 7, max: 11, decimals: 1, unit: 'bar' })
-		const p2 = new FloatUnit('1.0 bar')
+		const m = getRandomQuantity({ min: 500, max: 3000, significantDigits: 2, unit: 'kg' })
+		const T1 = getRandomQuantity({ min: 900, max: 1200, decimals: -1, unit: 'K' })
+		const p1 = getRandomQuantity({ min: 7, max: 11, decimals: 1, unit: 'bar' })
+		const p2 = new Quantity('1.0 bar')
 		return { m, T1, p1, p2 }
 	},
 

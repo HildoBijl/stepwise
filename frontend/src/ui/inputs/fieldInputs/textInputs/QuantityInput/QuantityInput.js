@@ -9,10 +9,10 @@ import { defaultPrecisionNumberInputOptions } from '../PrecisionNumberInput'
 import { defaultUnitInputOptions } from '../UnitInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
-import { FloatUnitInputInner } from './FloatUnitInputInner'
+import { QuantityInputInner } from './QuantityInputInner'
 import * as validation from './validation'
 
-export const defaultFloatUnitInputOptions = {
+export const defaultQuantityInputOptions = {
 	...defaultPrecisionNumberInputOptions, // Loads in positive and allowPower.
 	...defaultUnitInputOptions,
 
@@ -23,7 +23,7 @@ export const defaultFloatUnitInputOptions = {
 	}),
 
 	// Settings from outside.
-	placeholder: <Translation path="inputs" entry="floatUnitInput.placeHolder">Number with unit</Translation>,
+	placeholder: <Translation path="inputs" entry="quantityInput.placeHolder">Number with unit</Translation>,
 	validate: validation.nonEmptyUnit,
 
 	// Functionalities.
@@ -42,8 +42,8 @@ export const defaultFloatUnitInputOptions = {
 	errorToMessage,
 }
 
-export function FloatUnitInput(options) {
-	options = mergeDefaults(options, defaultFloatUnitInputOptions)
+export function QuantityInput(options) {
+	options = mergeDefaults(options, defaultQuantityInputOptions)
 
 	// Set up options for the TextInput field.
 	const { positive, allowPower } = options
@@ -55,8 +55,8 @@ export function FloatUnitInput(options) {
 
 	// Render the TextInput.
 	return <TextInput {...textInputOptions}>
-		<FloatUnitInputInner />
+		<QuantityInputInner />
 	</TextInput>
 }
-FloatUnitInput.validation = validation
-FloatUnitInput.translatableProps = TextInput.translatableProps
+QuantityInput.validation = validation
+QuantityInput.translatableProps = TextInput.translatableProps

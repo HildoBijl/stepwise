@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, SubHead, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -12,21 +12,21 @@ export default function Exercise() {
 const colHeads = ['Druk', 'Volume', 'Temperatuur']
 const rowHeads = ['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']
 const fields = [[
-	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-	<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
-	<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
+	<QuantityInput id="p1" label={<M>p_1</M>} size="l" />,
+	<QuantityInput id="V1" label={<M>V_1</M>} size="l" />,
+	<QuantityInput id="T1" label={<M>T_1</M>} size="l" />,
 ], [
-	<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-	<FloatUnitInput id="V2" label={<M>V_2</M>} size="l" />,
-	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
+	<QuantityInput id="p2" label={<M>p_2</M>} size="l" />,
+	<QuantityInput id="V2" label={<M>V_2</M>} size="l" />,
+	<QuantityInput id="T2" label={<M>T_2</M>} size="l" />,
 ], [
-	<FloatUnitInput id="p3" label={<M>p_3</M>} size="l" />,
-	<FloatUnitInput id="V3" label={<M>V_3</M>} size="l" />,
-	<FloatUnitInput id="T3" label={<M>T_3</M>} size="l" />,
+	<QuantityInput id="p3" label={<M>p_3</M>} size="l" />,
+	<QuantityInput id="V3" label={<M>V_3</M>} size="l" />,
+	<QuantityInput id="T3" label={<M>T_3</M>} size="l" />,
 ], [
-	<FloatUnitInput id="p4" label={<M>p_4</M>} size="l" />,
-	<FloatUnitInput id="V4" label={<M>V_4</M>} size="l" />,
-	<FloatUnitInput id="T4" label={<M>T_4</M>} size="l" />,
+	<QuantityInput id="p4" label={<M>p_4</M>} size="l" />,
+	<QuantityInput id="V4" label={<M>V_4</M>} size="l" />,
+	<QuantityInput id="T4" label={<M>T_4</M>} size="l" />,
 ]]
 
 const Problem = ({ p1o, V1o, T1o, p2o, p3o }) => <>

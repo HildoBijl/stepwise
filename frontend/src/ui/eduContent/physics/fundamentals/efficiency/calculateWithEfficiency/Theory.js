@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, BM, Term, Info, Warning } from 'ui/components'
 
-const p80 = new FloatUnit('80%')
-const p100 = new FloatUnit('100%')
+const p80 = new Quantity('80%')
+const p100 = new Quantity('100%')
 const p0p8 = p80.setUnit('')
 
 export default function Component() {

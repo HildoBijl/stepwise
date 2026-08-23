@@ -1,7 +1,7 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).
@@ -12,7 +12,7 @@ export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithTemperature',
 		comparisons: {
-			FloatUnit: {
+			Quantity: {
 				value: {
 					absoluteTolerance: 0.7,
 					significantDigitTolerance: 1,
@@ -26,7 +26,7 @@ export default buildMonoExercise({
 
 	generateParameters() {
 		const type = randomInteger(0, 3)
-		let T = getRandomFloatUnit({
+		let T = getRandomQuantity({
 			min: 0,
 			max: 1000,
 			decimals: randomInteger(0, 1),

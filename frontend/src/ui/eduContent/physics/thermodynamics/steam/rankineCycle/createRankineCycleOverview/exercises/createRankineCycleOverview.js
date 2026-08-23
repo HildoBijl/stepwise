@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,10 +14,10 @@ const Problem = ({ pc, pe, T2 }) => {
 		<Par>Een stoomturbine gebruikt een Rankine-cyclus. Hierbij wordt het water eerst met een pomp gecomprimeerd naar <M>{pe}</M> (punt 1). De bijbehorende pomparbeid mag worden verwaarloosd. Op deze druk wordt het water verwarmd, verdampt en oververhit tot <M>{T2}</M> (punt 2). Van hieruit gaat de stoom in de turbine. Via isentrope expansie wordt de druk teruggebracht tot <M>{pc}</M> (punt 3). Ten slotte wordt de stoom isobaar gecondenseerd tot water, tot de vloeistoflijn bereikt wordt (punt 4). Vanaf hier begint alles opnieuw. Vind voor deze ideale Rankine-cyclus de specifieke enthalpie van de stoom/het water in elk punt.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
-				<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
-				<FloatUnitInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
-				<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
+				<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
+				<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
+				<QuantityInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
+				<QuantityInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -29,7 +29,7 @@ const steps = [
 			<Par>Het is het handigst om bij punt 4 te beginnen. Dit punt licht op de damplijn bij <M>{pc}.</M> Zoek de specifieke enthalpie op.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
+					<QuantityInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -44,7 +44,7 @@ const steps = [
 			<Par>Beredeneer wat de specifieke enthalpie in punt 1 is, gegeven dat de pomparbeid verwaarloosd mag worden.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
+					<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -57,8 +57,8 @@ const steps = [
 			<Par>Zoek op wat de enthalpie en entropie van de stoom zijn in punt 2, bij <M>{pe}</M> en <M>{T2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
-					<FloatUnitInput id="s2" prelabel={<M>s_2 =</M>} label="Specifieke entropie in punt 2" size="s" />
+					<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
+					<QuantityInput id="s2" prelabel={<M>s_2 =</M>} label="Specifieke entropie in punt 2" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -73,7 +73,7 @@ const steps = [
 			<Par>Beredeneer wat de entropie van de damp is in punt 3.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="s3" prelabel={<M>s_3 =</M>} label="Specifieke entropie in punt 3" size="s" />
+					<QuantityInput id="s3" prelabel={<M>s_3 =</M>} label="Specifieke entropie in punt 3" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -86,7 +86,7 @@ const steps = [
 			<Par>Bereken de enthalpie van de damp in punt 3.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
+					<QuantityInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

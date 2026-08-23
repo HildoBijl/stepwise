@@ -5,7 +5,7 @@ import { temperatureCelsius as TConversion } from '@step-wise/physics-data'
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -16,7 +16,7 @@ const Problem = ({ type, medium, T1o, T2o, mo }) => <>
 	<Par>We voeren een {type === 0 ? 'isobaar' : type === 1 ? 'isochoor' : 'isentroop'} proces uit met <M>{mo}</M> {Dutch[medium]}. De temperatuur daalt bij dit proces van <M>{T1o}</M> naar <M>{T2o}.</M> Wat is de entropieverandering tijdens dit proces?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="dS" prelabel={<M>\Delta S=</M>} label="Entropieverandering" size="s" />
+			<QuantityInput id="dS" prelabel={<M>\Delta S=</M>} label="Entropieverandering" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -27,8 +27,8 @@ const steps = [
 			<Par>Zet de temperaturen in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" />
-					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Eindtemperatuur" size="s" />
+					<QuantityInput id="T1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Eindtemperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -46,7 +46,7 @@ const steps = [
 			<Par>Vind de soortelijke warmte die bij dit proces hoort.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="c" prelabel={<M>c =</M>} label="Soortelijke warmte" size="s" />
+					<QuantityInput id="c" prelabel={<M>c =</M>} label="Soortelijke warmte" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -63,7 +63,7 @@ const steps = [
 			<Par>Bereken met behulp van deze waarde van <M>c</M> de verandering in entropie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dS" prelabel={<M>\Delta S =</M>} label="Entropieverandering" size="s" />
+					<QuantityInput id="dS" prelabel={<M>\Delta S =</M>} label="Entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

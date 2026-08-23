@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,8 +14,8 @@ function Problem({ type, TCond, TEvap, dTCold, dTWarm }) {
 		<Par>{type === 'heatPump' ? `Een warmtepomp onttrekt warmte uit de buitenlucht en levert deze aan de huiskamer. De warmtepomp` : `Een koelkast onttrekt warmte uit de te koelen ruimte en levert deze af aan de keuken waar hij in staat. De koelkast`} heeft een condensortemperatuur van <M>{TCond}</M> en een verdampertemperatuur van <M>{TEvap}.</M> De warmtewisselaar van de condensor heeft minimaal een temperatuursverschil nodig van <M>{dTWarm}.</M> Bij de verdamper is dit minimaal benodigde temperatuursverschil <M>{dTCold}.</M> {type === 'heatPump' ? `Bereken de temperatuur buiten en binnen waarbij de warmtepomp nog net goed werkt.` : `Bereken de temperatuur in de koelkast en in de keuken waarbij de koelkast nog net goed werkt.`}</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="TCold" prelabel={<M>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`}=</M>} label={type === 'heatPump' ? 'Temperatuur buiten' : 'Temperatuur in de koelkast'} size="s" />
-				<FloatUnitInput id="TWarm" prelabel={<M>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`}=</M>} label={type === 'heatPump' ? 'Temperatuur binnen' : 'Temperatuur in de keuken'} size="s" />
+				<QuantityInput id="TCold" prelabel={<M>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`}=</M>} label={type === 'heatPump' ? 'Temperatuur buiten' : 'Temperatuur in de koelkast'} size="s" />
+				<QuantityInput id="TWarm" prelabel={<M>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`}=</M>} label={type === 'heatPump' ? 'Temperatuur binnen' : 'Temperatuur in de keuken'} size="s" />
 			</Par>
 		</InputSpace>
 	</>

@@ -2,12 +2,12 @@ import React from 'react'
 
 import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, LoadLabel, render, sumOfForces, loadColors } from 'ui/eduContent/mechanics'
@@ -24,7 +24,7 @@ const Problem = ({ horizontal, FD }) => {
 		<Par>Een voorwerp wordt volgens onderstaande wijze met vier krachten belast. Het voorwerp staat stil. Alle schuine krachten hebben een hoek van <M>45^\circ</M> ten opzichte van de verticaal. De {horizontal ? 'horizontale' : 'verticale'} kracht (rood) heeft een grootte van <M>F_D = {FD}.</M> Bereken de kracht <M>F_A</M> (geel).</Par>
 		<Diagram />
 		<InputSpace>
-			<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
+			<QuantityInput id="FA" prelabel={<M>F_A=</M>} size="s" />
 		</InputSpace>
 	</>
 }
@@ -55,7 +55,7 @@ const steps = [
 				<Par>Bereken via de ontbinding in componenten de component <M>F_(Dl)</M> loodrecht op de werklijnen van <M>F_B</M> en <M>F_C.</M> (De parallelle component <M>F_(Dp)</M> is niet nodig.)</Par>
 				<Diagram decompose={true} />
 				<InputSpace>
-					<FloatUnitInput id="FDl" prelabel={<M>F_(Dl)=</M>} size="s" />
+					<QuantityInput id="FDl" prelabel={<M>F_(Dl)=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -71,7 +71,7 @@ const steps = [
 			return <>
 				<Par>Pas krachtenevenwicht toe langs de richting van <M>F_A</M> om <M>F_A</M> te berekenen.</Par>
 				<InputSpace>
-					<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
+					<QuantityInput id="FA" prelabel={<M>F_A=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -106,7 +106,7 @@ function Diagram({ decompose = false }) {
 		})))}
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new Quantity('1.0 m')}</M></Element>
 		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 	</Drawing>
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Dutch } from 'ui/lang/gases'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,8 +15,8 @@ function Problem({ medium }) {
 		<Par>Zoek de soortelijke warmten <M>c_v</M> en <M>c_p</M> op van <strong>{Dutch[medium]}</strong>.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="cv" prelabel={<M>c_v =</M>} label={<span><M>c_v</M>-waarde</span>} size="s" />
-				<FloatUnitInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M>-waarde</span>} size="s" />
+				<QuantityInput id="cv" prelabel={<M>c_v =</M>} label={<span><M>c_v</M>-waarde</span>} size="s" />
+				<QuantityInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M>-waarde</span>} size="s" />
 			</Par>
 		</InputSpace>
 	</>

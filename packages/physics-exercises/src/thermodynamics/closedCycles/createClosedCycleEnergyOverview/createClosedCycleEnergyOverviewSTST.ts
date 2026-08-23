@@ -1,7 +1,7 @@
 import { or } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateClosedCycle/calculateClosedCycleSTST'
@@ -9,7 +9,7 @@ import { generateParameters, getSolution as getCycleParametersRaw } from '../cal
 const metadata = {
 	skill: 'createClosedCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
-	comparisons: { FloatUnit: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+	comparisons: { Quantity: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
 function getCycleParameters(parameters: Parameters<typeof getCycleParametersRaw>[0]) {
@@ -28,11 +28,11 @@ export function getSolution(parameters: ReturnType<typeof generateParameters>) {
 	const cp = gasProperties[parameters.medium].cp.simplify()
 	const mcv = m.multiply(cv)
 	const mRs = m.multiply(Rs)
-	const Q12 = new FloatUnit('0 J')
+	const Q12 = new Quantity('0 J')
 	const W12 = mcv.multiply(T1.subtract(T2)).setUnit('J').setMinimumSignificantDigits(2)
 	const Q23 = mRs.multiply(T2).multiply(Math.log(V3.number / V2.number)).setUnit('J').setMinimumSignificantDigits(2)
 	const W23 = Q23
-	const Q34 = new FloatUnit('0 J')
+	const Q34 = new Quantity('0 J')
 	const W34 = mcv.multiply(T3.subtract(T4)).setUnit('J').setMinimumSignificantDigits(2)
 	const Q41 = mRs.multiply(T4).multiply(Math.log(V1.number / V4.number)).setUnit('J').setMinimumSignificantDigits(2)
 	const W41 = Q41

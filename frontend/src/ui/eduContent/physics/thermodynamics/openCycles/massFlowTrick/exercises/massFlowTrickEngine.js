@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ function Problem({ rho, mdot }) {
 	return <>
 		<Par>Een vliegtuig vliegt op grote hoogte. De lucht heeft hier een dichtheid van <M>{rho}.</M> De motor van het vliegtuig (een gasturbine) heeft een massastroom van <M>{mdot}.</M> Bereken de volumestroom van lucht die aangezogen wordt.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="Vdot" prelabel={<M>\dot(V) =</M>} label="Volumestroom lucht" size="s" positive="true" /></Par>
+			<Par><QuantityInput id="Vdot" prelabel={<M>\dot(V) =</M>} label="Volumestroom lucht" size="s" positive="true" /></Par>
 		</InputSpace>
 	</>
 }

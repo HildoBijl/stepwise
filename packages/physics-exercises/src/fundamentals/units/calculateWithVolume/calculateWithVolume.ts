@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
+import { getRandomExponentialQuantity } from '@step-wise/physics-core'
 
 // Type 0: from (c/d/.)m^3 to liter.
 // Type 1: from (c/d/.)m^3 to SI (so m^3: which it may already be in).
@@ -12,7 +12,7 @@ export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithVolume',
 		comparisons: {
-			FloatUnit: {
+			Quantity: {
 				value: {
 					relativeTolerance: 0.001,
 					significantDigitTolerance: 0,
@@ -25,7 +25,7 @@ export default buildMonoExercise({
 	},
 
 	generateParameters() {
-		let V = getRandomExponentialFloatUnit({
+		let V = getRandomExponentialQuantity({
 			min: 1e-5,
 			max: 1e2,
 			significantDigits: randomInteger(2, 3),

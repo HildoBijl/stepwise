@@ -3,7 +3,7 @@ import React from 'react'
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,7 +14,7 @@ const Problem = ({ gas, V2, p1, p2 }) => <>
 	<Par>Een compressor vult een drukvat met {Dutch[gas]}gas. Het drukvat heeft een volume van <M>{V2}.</M> De compressor comprimeert het {Dutch[gas]} van <M>{p1}</M> naar <M>{p2}.</M> Deze compressie is bij benadering isentroop, waardoor geldt <M>n = k.</M> Bereken het volume van het {Dutch[gas]}gas voor de compressie.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="V1" prelabel={<M>V_(\rm in)=</M>} label="Volume" size="s" />
+			<QuantityInput id="V1" prelabel={<M>V_(\rm in)=</M>} label="Volume" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -25,9 +25,9 @@ const steps = [
 			<Par>Noem het ingestroomde gas "punt 1" en het uitgestroomde gas dat nu in het drukvat zit "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="p1s" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="p2s" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="V2s" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="p1s" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
+					<Substep ss={2}><QuantityInput id="p2s" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
+					<Substep ss={3}><QuantityInput id="V2s" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -42,7 +42,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de <M>k</M>-waarde (verhouding van soortelijke warmten) op van het betreffende gas.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={FloatUnitInput.validation.any} /></Par>
+				<Par><QuantityInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={QuantityInput.validation.any} /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ gas, k }) => {
@@ -69,7 +69,7 @@ const steps = [
 			<Par>Bereken via de gekozen wet van Poisson het volume voor de compressie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="V1" prelabel={<M>V_1=</M>} label="Volume" size="s" />
+					<QuantityInput id="V1" prelabel={<M>V_1=</M>} label="Volume" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

@@ -97,7 +97,7 @@ There is a large variety of [input components](ui/form/inputs/). The `Form` comp
 
 #### Validation of input
 
-When a student submits an exercise, first the input is *validated* by the form. This means something like "check for obvious errors". If a field is still blank, or if a `FloatUnit` field has a number but misses a unit, then the validation fails. There is an obvious error.
+When a student submits an exercise, first the input is *validated* by the form. This means something like "check for obvious errors". If a field is still blank, or if a `Quantity` field has a number but misses a unit, then the validation fails. There is an obvious error.
 
 When the validation fails, no submission to the API/server is made. Nothing is stored and no mastery scores are updated. Instead, any input field which failed validation will give a warning to the student. 
 
@@ -135,7 +135,7 @@ After you defined your `getFeedback` function, make sure to include it into the 
 
 If you do not specify a `getFeedback` function yourself, the `MonoExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the compare options provided in the `metadata`.
 
-Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getFieldInputFeedback(exerciseData, ['param1', 'param2'])` function comes in very handy! You might see it at various example exercises. Read more about how this works in the [feedback folder](./feedback/).
+Very often, you'll want to provide feedback to parameters in a default way. For instance, for `Quantity` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getFieldInputFeedback(exerciseData, ['param1', 'param2'])` function comes in very handy! You might see it at various example exercises. Read more about how this works in the [feedback folder](./feedback/).
 
 
 ### InputSpace and AntiInputSpace

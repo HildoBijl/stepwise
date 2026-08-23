@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -23,8 +23,8 @@ function Problem({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {
 		</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie" size="s" />
-				<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie" size="s" />
+				<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie" size="s" />
+				<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie" size="s" />
 			</Par>
 		</InputSpace>
 	</>

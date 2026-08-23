@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ h1, h2p, etaio }) => <>
 	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Dit gebeurt niet isentroop. Bij een isentroop proces zou de specifieke enthalpie van de stoom dalen van <M>{h1}</M> naar <M>{h2p}.</M> Nu is er echter een isentropisch rendement van <M>{etaio}</M> van toepassing. Bereken in dit geval de specifieke enthalpie die de stoom werkelijk heeft bij het verlaten van de turbine.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie na turbine" size="s" />
+			<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie na turbine" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Bereken de specifieke technische arbeid die de stoom in de turbine levert voor het theoretische isentrope geval.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
+					<QuantityInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -43,7 +43,7 @@ const steps = [
 			<Par>Bereken via het isentropisch rendement de werkelijke specifieke technische arbeid die de stoom in de turbine levert.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wt" prelabel={<M>w_t=</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t=</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -58,7 +58,7 @@ const steps = [
 			<Par>Bereken aan de hand van de specifieke technische arbeid de enthalpie die de stoom bij het verlaten van de turbine heeft.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie na turbine" size="s" />
+					<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie na turbine" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

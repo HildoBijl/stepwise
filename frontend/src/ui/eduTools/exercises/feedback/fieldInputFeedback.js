@@ -2,7 +2,7 @@ import { isValidElement } from 'react'
 
 import { findWithValue, isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
-import { PrecisionNumber, Unit, FloatUnit, adjustPrecisionNumberTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
+import { PrecisionNumber, Unit, Quantity, adjustPrecisionNumberTolerances, adjustQuantityTolerances } from '@step-wise/physics-core'
 import { compareInputs as gradingCompare } from '@step-wise/exercise-grading'
 
 import { Translation } from 'i18n'
@@ -123,7 +123,7 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 		return { correct, text: getUnitComparisonFeedback(currInput, currSolution, currOptions.comparison) }
 	if (currInput.constructor === PrecisionNumber)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.number) }
-	if (currInput.constructor === FloatUnit)
+	if (currInput.constructor === Quantity)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.value.number) }
 	if (currInput.constructor === Equation)
 		return { correct, text: equationChecks.fullEquationFeedback(currInput, currSolution, solution, correct, comparison) }
@@ -163,8 +163,8 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	const isEqual = (currInput, currSolution, accuracyFactorAdjustment) => {
 		if (currSolution instanceof PrecisionNumber)
 			comparison = adjustPrecisionNumberTolerances(comparison, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
-		if (currSolution instanceof FloatUnit)
-			comparison = adjustFloatUnitTolerances(comparison, accuracyFactorAdjustment, currSolution.value.getMinimumAbsoluteTolerance())
+		if (currSolution instanceof Quantity)
+			comparison = adjustQuantityTolerances(comparison, accuracyFactorAdjustment, currSolution.value.getMinimumAbsoluteTolerance())
 		return objectBased ?
 			currSolution.equals(currInput, comparison) :
 			numbersEqual(currInput, currSolution, comparison)
@@ -178,7 +178,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	}
 
 	// Check the unit (when needed).
-	if (currSolution instanceof FloatUnit && equalityResult.unit.equal === false) {
+	if (currSolution instanceof Quantity && equalityResult.unit.equal === false) {
 		return getUnitComparisonFeedback(currInput.unit, currSolution.unit, comparison.unit)
 	}
 
@@ -193,7 +193,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 		return <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
-	const numberEqualityResult = (currSolution instanceof FloatUnit ? equalityResult.value.number : currSolution instanceof PrecisionNumber ? equalityResult.number : equalityResult)
+	const numberEqualityResult = (currSolution instanceof Quantity ? equalityResult.value.number : currSolution instanceof PrecisionNumber ? equalityResult.number : equalityResult)
 	const direction = numberEqualityResult?.direction
 	if (numberEqualityResult?.equal === false && direction !== undefined && direction !== 0) {
 		if (inputSign === 0) {
@@ -236,7 +236,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 	return selectRandomIncorrect()
 }
 
-// getUnitComparisonFeedback takes an input unit and a solution unit, and gives feedback on it. This can be both for a unit as part of a FloatUnit, but also as a unit on its own.
+// getUnitComparisonFeedback takes an input unit and a solution unit, and gives feedback on it. This can be both for a unit as part of a Quantity, but also as a unit on its own.
 export function getUnitComparisonFeedback(currInput, currSolution, currComparison) {
 	if (currSolution.equals(currInput, currComparison))
 		return selectRandomCorrect()

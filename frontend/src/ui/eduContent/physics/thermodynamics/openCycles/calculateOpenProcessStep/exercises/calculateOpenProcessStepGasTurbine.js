@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -12,13 +12,13 @@ export default function Exercise() {
 const colHeads = ['Druk', 'Specifiek volume', 'Temperatuur']
 const rowHeads = ['Voor de verwarming', 'Na de verwarming']
 const fields = [[
-	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-	<FloatUnitInput id="v1" label={<M>v_1</M>} size="l" />,
-	<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
+	<QuantityInput id="p1" label={<M>p_1</M>} size="l" />,
+	<QuantityInput id="v1" label={<M>v_1</M>} size="l" />,
+	<QuantityInput id="T1" label={<M>T_1</M>} size="l" />,
 ], [
-	<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-	<FloatUnitInput id="v2" label={<M>v_2</M>} size="l" />,
-	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
+	<QuantityInput id="p2" label={<M>p_2</M>} size="l" />,
+	<QuantityInput id="v2" label={<M>v_2</M>} size="l" />,
+	<QuantityInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
 const Problem = ({ p1o, T1o, T2o }) => <>

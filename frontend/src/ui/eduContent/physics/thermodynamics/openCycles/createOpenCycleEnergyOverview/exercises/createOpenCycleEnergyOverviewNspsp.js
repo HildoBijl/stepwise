@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, List, M, BM, Table, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -12,17 +12,17 @@ export default function Exercise() {
 const colHeads = [<span>Specifieke warmte <M>q</M></span>, <span>Specifieke technische arbeid <M>w_t</M></span>]
 const rowHeads = ['Stap 1-2', 'Stap 2-3', 'Stap 3-4', 'Stap 4-1']
 const fields = [[
-	<FloatUnitInput id="q12" label={<M>q_(1-2)</M>} size="l" />,
-	<FloatUnitInput id="wt12" label={<M>w_(t,1-2)</M>} size="l" />,
+	<QuantityInput id="q12" label={<M>q_(1-2)</M>} size="l" />,
+	<QuantityInput id="wt12" label={<M>w_(t,1-2)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="q23" label={<M>q_(2-3)</M>} size="l" />,
-	<FloatUnitInput id="wt23" label={<M>w_(t,2-3)</M>} size="l" />,
+	<QuantityInput id="q23" label={<M>q_(2-3)</M>} size="l" />,
+	<QuantityInput id="wt23" label={<M>w_(t,2-3)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="q34" label={<M>q_(3-4)</M>} size="l" />,
-	<FloatUnitInput id="wt34" label={<M>w_(t,3-4)</M>} size="l" />,
+	<QuantityInput id="q34" label={<M>q_(3-4)</M>} size="l" />,
+	<QuantityInput id="wt34" label={<M>w_(t,3-4)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="q41" label={<M>q_(4-1)</M>} size="l" />,
-	<FloatUnitInput id="wt41" label={<M>w_(t,4-1)</M>} size="l" />,
+	<QuantityInput id="q41" label={<M>q_(4-1)</M>} size="l" />,
+	<QuantityInput id="wt41" label={<M>w_(t,4-1)</M>} size="l" />,
 ]]
 
 const Problem = () => {
@@ -51,8 +51,8 @@ const steps = [
 			<Par>Bereken eerst de gevraagde waarden voor de <strong>isentrope</strong> stap 1-2.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q12" prelabel={<M>q_(1-2) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt12" prelabel={<M>w_(t,1-2) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q12" prelabel={<M>q_(1-2) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt12" prelabel={<M>w_(t,1-2) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -67,8 +67,8 @@ const steps = [
 			<Par>Bereken de gevraagde waarden voor de <strong>isobare</strong> stap 2-3.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q23" prelabel={<M>q_(2-3) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt23" prelabel={<M>w_(t,2-3) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q23" prelabel={<M>q_(2-3) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt23" prelabel={<M>w_(t,2-3) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -83,8 +83,8 @@ const steps = [
 			<Par>Bereken de gevraagde waarden voor de <strong>isentrope</strong> stap 3-4.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q34" prelabel={<M>q_(3-4) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt34" prelabel={<M>w_(t,3-4) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q34" prelabel={<M>q_(3-4) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt34" prelabel={<M>w_(t,3-4) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -99,8 +99,8 @@ const steps = [
 			<Par>Bereken de gevraagde waarden voor de <strong>isobare</strong> stap 4-1.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q41" prelabel={<M>Q_(4-1) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt41" prelabel={<M>W_(4-1) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q41" prelabel={<M>Q_(4-1) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt41" prelabel={<M>W_(4-1) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

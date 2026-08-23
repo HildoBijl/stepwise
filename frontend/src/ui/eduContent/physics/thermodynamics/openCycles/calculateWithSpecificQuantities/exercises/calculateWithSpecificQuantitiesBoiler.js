@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ function Problem({ Q, m }) {
 	return <>
 		<Par>We meten een dag lang een CV-ketel in een huis door. Gedurende deze dag is er <M>{m}</M> aan water doorgestroomd. Dit water heeft in totaal <M>{Q}</M> aan warmte toegevoerd gekregen. Ga ervan uit dat deze warmte gelijkmatig aan het water is toegevoerd: elke liter water is evenveel verwarmd. Wat is de specifieke toegevoerde warmte?</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" /></Par>
+			<Par><QuantityInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" /></Par>
 		</InputSpace>
 	</>
 }

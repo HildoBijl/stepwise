@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p1o, T1o, p2o, n }) => <>
 	<Par>In de compressor van een gasturbine wordt continu lucht gecomprimeerd van <M>{p1o}</M> tot <M>{p2o}.</M> De temperatuur van de lucht bij de ingang is <M>{T1o}.</M> De compressor werkt niet isentroop: ga uit van een procescoëfficiënt van <M>n={n}.</M> Bereken de specifieke entropieverandering die de lucht in de compressor ondergaat.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="ds" prelabel={<M>\Delta s=</M>} label="Specifieke entropieverandering" size="s" />
+			<QuantityInput id="ds" prelabel={<M>\Delta s=</M>} label="Specifieke entropieverandering" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Bereken via Poisson's wet de temperatuur van de lucht bij de uitgang van de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Uitgangstemperatuur" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Uitgangstemperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -42,8 +42,8 @@ const steps = [
 			<Par>Zoek voor lucht de specifieke gasconstante en de soortelijke warmte bij constante druk op.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="cp" prelabel={<M>c_p=</M>} label="Soortelijke warmte (isobaar)" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Substep>
+					<Substep ss={2}><QuantityInput id="cp" prelabel={<M>c_p=</M>} label="Soortelijke warmte (isobaar)" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -58,7 +58,7 @@ const steps = [
 			<Par>Vind via de druk en de temperatuur de specifieke entropieverandering.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ds" prelabel={<M>\Delta s =</M>} label="Specifieke entropieverandering" size="s" />
+					<QuantityInput id="ds" prelabel={<M>\Delta s =</M>} label="Specifieke entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

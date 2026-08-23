@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p1, p2, T1, etaio }) => <>
 	<Par>Een compressor in een gasturbine comprimeert lucht van <M>{p1}</M> en <M>{T1}</M> tot <M>{p2}.</M> Deze compressie verloopt niet isentroop: het isentropisch rendement is <M>{etaio}.</M> Bereken de temperatuur van de lucht aan de uitgang van de compressor.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />
+			<QuantityInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Stel dat de compressor <em>wel</em> isentroop was. Bereken in dit geval de temperatuur van de lucht aan de uitgang van de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2p" prelabel={<M>T_(2')=</M>} label="Theoretische temperatuur na compressor" size="s" />
+					<QuantityInput id="T2p" prelabel={<M>T_(2')=</M>} label="Theoretische temperatuur na compressor" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -42,7 +42,7 @@ const steps = [
 			<Par>Bereken de specifieke technische arbeid die de compressor op de lucht uitoefent, in dit theoretische isentrope geval. (Merk op: je antwoorden moeten positieve getallen zijn.)</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
+					<QuantityInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -61,7 +61,7 @@ const steps = [
 			<Par>Gebruik het isentropisch rendement om de werkelijke specifieke technische arbeid te berekenen die de compressor op de lucht uitoefent.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -78,7 +78,7 @@ const steps = [
 			<Par>Bereken, aan de hand van de technische arbeid die de compressor in werkelijkheid op de lucht uitoefent, de temperatuur waarmee de lucht de compressor verlaat.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur na compressor" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur na compressor" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

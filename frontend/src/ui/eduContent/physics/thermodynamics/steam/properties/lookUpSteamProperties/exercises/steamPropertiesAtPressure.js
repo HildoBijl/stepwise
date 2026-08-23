@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,9 +14,9 @@ function Problem({ p, type }) {
 		<Par>We bekijken water met een druk van <M>{p}.</M> {type === 1 ? `We hebben te maken met een verzadigde vloeistof: het water kookt maar is nog vloeibaar.` : `We hebben te maken met een verzadigde damp: al het water is net verdampt.`} Wat is de temperatuur van het water? En wat zijn de specifieke enthalpie en specifieke entropie?</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="T" prelabel={<M>T =</M>} label="Temperatuur" size="s" />
-				<FloatUnitInput id="h" prelabel={<M>h =</M>} label="Specifieke enthalpie" size="s" />
-				<FloatUnitInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
+				<QuantityInput id="T" prelabel={<M>T =</M>} label="Temperatuur" size="s" />
+				<QuantityInput id="h" prelabel={<M>h =</M>} label="Specifieke enthalpie" size="s" />
+				<QuantityInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
 			</Par>
 		</InputSpace>
 	</>

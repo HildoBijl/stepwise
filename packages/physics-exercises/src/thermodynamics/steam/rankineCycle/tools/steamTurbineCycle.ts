@@ -1,6 +1,6 @@
 import { integerRange, sample, randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
 
 export function getCycle() {
@@ -14,7 +14,7 @@ export function getCycle() {
 		const evaporatorIndex = randomInteger(13, 19)
 		const pe = pressureRangeTable2[evaporatorIndex]
 		const Te = interpolateTable(pe, saturatedSteamByPressure, 'boilingTemperature')!
-		const x3 = getRandomFloatUnit({ min: 0.95, max: 1, unit: '' })
+		const x3 = getRandomQuantity({ min: 0.95, max: 1, unit: '' })
 
 		// Check which rows (that is, temperatures) from the enthalpy table are suitable. Pick one randomly.
 		const temperatureRange = superheatedSteam.inputAxes[superheatedSteam.inputLabels.indexOf('temperature')]
@@ -33,7 +33,7 @@ export function getCycle() {
 
 		// Find the remaining properties and check requirements.
 		const { hx0, hx1, sx0, sx1, h2, s2, s3p, x3p, h3p, s3, h3, etai } = getCycleProperties(pc, pe, T2, x3)!
-		if (h2.compare(new FloatUnit('3700 kJ/kg')) > 0) continue
+		if (h2.compare(new Quantity('3700 kJ/kg')) > 0) continue
 
 		// Gather remaining properties.
 		const h4 = hx0
@@ -49,7 +49,7 @@ export function getCycle() {
 		const T3 = Tc
 
 		// Determine size/efficiency properties.
-		const mdot = getRandomFloatUnit({ min: 40, max: 160, decimals: -1, unit: 'kg/s' }).divide(2).setDecimals(0)
+		const mdot = getRandomQuantity({ min: 40, max: 160, decimals: -1, unit: 'kg/s' }).divide(2).setDecimals(0)
 		const P = mdot.multiply(h2.subtract(h3)).setUnit('MW')
 		const Ph = mdot.multiply(h2.subtract(h1)).setUnit('MW')
 		const eta = h2.subtract(h3).divide(h2.subtract(h1)).setUnit('')
@@ -58,7 +58,7 @@ export function getCycle() {
 	}
 }
 
-function getCycleProperties(pc: FloatUnit, pe: FloatUnit, T2: FloatUnit, x3: FloatUnit) {
+function getCycleProperties(pc: Quantity, pe: Quantity, T2: Quantity, x3: Quantity) {
 	while (true) {
 		// Liquid and vapor points.
 		const hx0 = interpolateTable(pc, saturatedSteamByPressure, 'enthalpyLiquid')

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ function Problem({ rho }) {
 	return <>
 		<Par>Een vliegtuig meet dat de luchtdichtheid op enkele kilometers hoogte <M>{rho}</M> is. Wat is het specifieke volume van de lucht op die hoogte?</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="v" prelabel={<M>v =</M>} label="Specifiek volume" size="s" /></Par>
+			<Par><QuantityInput id="v" prelabel={<M>v =</M>} label="Specifiek volume" size="s" /></Par>
 		</InputSpace>
 	</>
 }

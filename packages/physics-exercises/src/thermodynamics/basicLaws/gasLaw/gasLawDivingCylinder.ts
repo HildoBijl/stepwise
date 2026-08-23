@@ -1,7 +1,7 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs } = gasProperties.oxygen
@@ -20,9 +20,9 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		const p = getRandomFloatUnit({ min: 180, max: 300, significantDigits: 2, unit: 'bar' })
-		const V = getRandomFloatUnit({ min: 3, max: 18, significantDigits: randomInteger(2, 3), unit: 'l' })
-		const T = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'dC' })
+		const p = getRandomQuantity({ min: 180, max: 300, significantDigits: 2, unit: 'bar' })
+		const V = getRandomQuantity({ min: 3, max: 18, significantDigits: randomInteger(2, 3), unit: 'l' })
+		const T = getRandomQuantity({ min: 3, max: 18, significantDigits: 2, unit: 'dC' })
 		const m = p.multiply(V).divide(Rs.multiply(T.setUnit('K'))).setUnit('kg').roundToPrecision()
 		return { V, m, T }
 	},

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, List, M, BM, Table, InputTable } from 'ui/components'
 import { InputSpace, Hint } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -12,17 +12,17 @@ export default function Exercise() {
 const colHeads = [<span>Warmte <M>Q</M></span>, <span>Arbeid <M>W</M></span>]
 const rowHeads = ['Stap 1-2', 'Stap 2-3', 'Stap 3-4', 'Stap 4-1']
 const fields = [[
-	<FloatUnitInput id="Q12" label={<M>Q_(1-2)</M>} size="l" />,
-	<FloatUnitInput id="W12" label={<M>W_(1-2)</M>} size="l" />,
+	<QuantityInput id="Q12" label={<M>Q_(1-2)</M>} size="l" />,
+	<QuantityInput id="W12" label={<M>W_(1-2)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="Q23" label={<M>Q_(2-3)</M>} size="l" />,
-	<FloatUnitInput id="W23" label={<M>W_(2-3)</M>} size="l" />,
+	<QuantityInput id="Q23" label={<M>Q_(2-3)</M>} size="l" />,
+	<QuantityInput id="W23" label={<M>W_(2-3)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="Q34" label={<M>Q_(3-4)</M>} size="l" />,
-	<FloatUnitInput id="W34" label={<M>W_(3-4)</M>} size="l" />,
+	<QuantityInput id="Q34" label={<M>Q_(3-4)</M>} size="l" />,
+	<QuantityInput id="W34" label={<M>W_(3-4)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="Q41" label={<M>Q_(4-1)</M>} size="l" />,
-	<FloatUnitInput id="W41" label={<M>W_(4-1)</M>} size="l" />,
+	<QuantityInput id="Q41" label={<M>Q_(4-1)</M>} size="l" />,
+	<QuantityInput id="W41" label={<M>W_(4-1)</M>} size="l" />,
 ]]
 
 const Problem = () => {
@@ -51,8 +51,8 @@ const steps = [
 			<Par>Bekijk eerst stap 1-2. Bij deze stap wordt het gas <strong>isentroop</strong> gecomprimeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q12" prelabel={<M>Q_(1-2) =</M>} label={<span>Warmte</span>} size="s" />
-					<FloatUnitInput id="W12" prelabel={<M>W_(1-2) =</M>} label={<span>Arbeid</span>} size="s" />
+					<QuantityInput id="Q12" prelabel={<M>Q_(1-2) =</M>} label={<span>Warmte</span>} size="s" />
+					<QuantityInput id="W12" prelabel={<M>W_(1-2) =</M>} label={<span>Arbeid</span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -65,8 +65,8 @@ const steps = [
 			<Par>Bekijk vervolgens stap 2-3. Bij deze stap wordt het gas <strong>isochoor</strong> verwarmd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q23" prelabel={<M>Q_(2-3) =</M>} label="Warmte" size="s" />
-					<FloatUnitInput id="W23" prelabel={<M>W_(2-3) =</M>} label="Arbeid" size="s" />
+					<QuantityInput id="Q23" prelabel={<M>Q_(2-3) =</M>} label="Warmte" size="s" />
+					<QuantityInput id="W23" prelabel={<M>W_(2-3) =</M>} label="Arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -79,8 +79,8 @@ const steps = [
 			<Par>Bekijk nu stap 3-4. Bij deze stap wordt het gas <strong>isentroop</strong> geëxpandeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q34" prelabel={<M>Q_(3-4) =</M>} label="Warmte" size="s" />
-					<FloatUnitInput id="W34" prelabel={<M>W_(3-4) =</M>} label="Arbeid" size="s" />
+					<QuantityInput id="Q34" prelabel={<M>Q_(3-4) =</M>} label="Warmte" size="s" />
+					<QuantityInput id="W34" prelabel={<M>W_(3-4) =</M>} label="Arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -93,8 +93,8 @@ const steps = [
 			<Par>Ten slotte is er stap 4-1. Hier wordt het gas <strong>isochoor</strong> afgekoeld. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q41" prelabel={<M>Q_(4-1) =</M>} label="Warmte" size="s" />
-					<FloatUnitInput id="W41" prelabel={<M>W_(4-1) =</M>} label="Arbeid" size="s" />
+					<QuantityInput id="Q41" prelabel={<M>Q_(4-1) =</M>} label="Warmte" size="s" />
+					<QuantityInput id="W41" prelabel={<M>W_(4-1) =</M>} label="Arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

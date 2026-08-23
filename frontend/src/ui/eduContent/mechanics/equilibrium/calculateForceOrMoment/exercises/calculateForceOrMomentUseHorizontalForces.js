@@ -2,12 +2,12 @@ import React from 'react'
 
 import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, LoadLabel, render, sumOfForces, defaultGraphicalForceLength, loadColors } from 'ui/eduContent/mechanics'
@@ -24,7 +24,7 @@ const Problem = ({ angle, FD }) => {
 		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. De diagonale kracht <M>F_D</M> (rood) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal, en de grootte is <M>F_D = {FD}.</M> Bereken de horizontale kracht <M>F_A</M> (geel).</Par>
 		<Diagram />
 		<InputSpace>
-			<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
+			<QuantityInput id="FA" prelabel={<M>F_A=</M>} size="s" />
 		</InputSpace>
 	</>
 }
@@ -55,7 +55,7 @@ const steps = [
 				<Par>Bereken via de ontbinding in componenten de horizontale component <M>F_(Dx)</M> van <M>F_D.</M></Par>
 				<Diagram decompose={true} />
 				<InputSpace>
-					<FloatUnitInput id="FDx" prelabel={<M>F_(Dx)=</M>} size="s" />
+					<QuantityInput id="FDx" prelabel={<M>F_(Dx)=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -71,7 +71,7 @@ const steps = [
 			return <>
 				<Par>Pas krachtenevenwicht in de horizontale richting toe om <M>F_A</M> te berekenen.</Par>
 				<InputSpace>
-					<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
+					<QuantityInput id="FA" prelabel={<M>F_A=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -111,7 +111,7 @@ function Diagram({ decompose = false }) {
 		})))}
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new Quantity('1.0 m')}</M></Element>
 		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 
 		{decompose ? null : <>

@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs, k } = gasProperties.air
@@ -8,14 +8,14 @@ const { Rs, k } = gasProperties.air
 const metadata = {
 	skill: 'calculateOpenCycle',
 	...createStepExerciseMetadata(['calculateOpenProcessStep', 'calculateOpenProcessStep', 'calculateOpenProcessStep']),
-	comparisons: { FloatUnit: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
+	comparisons: { Quantity: { value: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 }
 
 export function generateParameters() {
-	const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
-	const p1o = new FloatUnit('1.0 bar')
-	const p2o = getRandomFloatUnit({ min: 6, max: 12, significantDigits: 2, unit: 'bar' })
-	const T3o = getRandomFloatUnit({ min: 900, max: 1200, decimals: -1, unit: 'dC' })
+	const T1o = getRandomQuantity({ min: 1, max: 30, decimals: 0, unit: 'dC' })
+	const p1o = new Quantity('1.0 bar')
+	const p2o = getRandomQuantity({ min: 6, max: 12, significantDigits: 2, unit: 'bar' })
+	const T3o = getRandomQuantity({ min: 900, max: 1200, decimals: -1, unit: 'dC' })
 	return { p1o, T1o, p2o, T3o }
 }
 

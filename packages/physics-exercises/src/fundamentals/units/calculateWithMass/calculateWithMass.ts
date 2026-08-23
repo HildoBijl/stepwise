@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomExponentialFloatUnit } from '@step-wise/physics-core'
+import { getRandomExponentialQuantity } from '@step-wise/physics-core'
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
@@ -11,7 +11,7 @@ export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithMass',
 		comparisons: {
-			FloatUnit: {
+			Quantity: {
 				value: {
 					relativeTolerance: 0.001,
 					significantDigitTolerance: 0,
@@ -27,7 +27,7 @@ export default buildMonoExercise({
 		const type = randomInteger(0, 2)
 		const prefix = sample(['mu', 'm', '', 'M'])
 
-		let m = getRandomExponentialFloatUnit({
+		let m = getRandomExponentialQuantity({
 			min: 1e-1,
 			max: 1e3,
 			significantDigits: randomInteger(2, 3),

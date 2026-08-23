@@ -1,7 +1,7 @@
 import { or } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateClosedCycle/calculateClosedCycleSVSV'
@@ -9,7 +9,7 @@ import { generateParameters, getSolution as getCycleParametersRaw } from '../cal
 const metadata = {
 	skill: 'createClosedCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')]),
-	comparisons: { FloatUnit: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+	comparisons: { Quantity: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
 function getCycleParameters(parameters: Parameters<typeof getCycleParametersRaw>[0]) {
@@ -27,14 +27,14 @@ export function getSolution(parameters: ReturnType<typeof generateParameters>) {
 	const cv = gasProperties.air.cv.simplify()
 	const cp = gasProperties.air.cp.simplify()
 	const mcv = m.multiply(cv)
-	const Q12 = new FloatUnit('0 J')
+	const Q12 = new Quantity('0 J')
 	const W12 = mcv.multiply(T1.subtract(T2)).setUnit('J').setMinimumSignificantDigits(2)
 	const Q23 = mcv.multiply(T3.subtract(T2)).setUnit('J').setMinimumSignificantDigits(2)
-	const W23 = new FloatUnit('0 J')
-	const Q34 = new FloatUnit('0 J')
+	const W23 = new Quantity('0 J')
+	const Q34 = new Quantity('0 J')
 	const W34 = mcv.multiply(T3.subtract(T4)).setUnit('J').setMinimumSignificantDigits(2)
 	const Q41 = mcv.multiply(T1.subtract(T4)).setUnit('J').setMinimumSignificantDigits(2)
-	const W41 = new FloatUnit('0 J')
+	const W41 = new Quantity('0 J')
 	const Qn = Q12.add(Q23).add(Q34).add(Q41).setMinimumSignificantDigits(2)
 	const Wn = W12.add(W23).add(W34).add(W41).setMinimumSignificantDigits(2)
 	return { ...cycleParameters, cv, cp, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Qn, Wn }

@@ -4,7 +4,7 @@ import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
@@ -19,7 +19,7 @@ function Problem({ T, AH }) {
 		<MollierDiagram maxWidth={500} />
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
+				<QuantityInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={QuantityInput.validation.any} />
 			</Par>
 		</InputSpace>
 	</>

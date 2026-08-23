@@ -1,15 +1,15 @@
 import React from 'react'
 
-import { Unit, FloatUnit } from '@step-wise/physics-core'
+import { Unit, Quantity } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, BM, Term } from 'ui/components'
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
 import { MaximumHumidityPlot } from './MaximumHumidityPlot'
 
-const T25dC = new FloatUnit('25 dC')
-const AV15gpkg = new FloatUnit('15 g/kg')
-const AV20gpkg = new FloatUnit('20 g/kg')
+const T25dC = new Quantity('25 dC')
+const AV15gpkg = new Quantity('15 g/kg')
+const AV20gpkg = new Quantity('20 g/kg')
 const RV = AV15gpkg.divide(AV20gpkg)
 const RVp = RV.setUnit('%')
 const gpkg = AV20gpkg.unit

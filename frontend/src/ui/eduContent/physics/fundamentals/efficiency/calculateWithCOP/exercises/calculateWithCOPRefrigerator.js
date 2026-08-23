@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ function Problem({ Ee, Eout }) {
 	return <>
 		<Par>Gedurende een volle dag wordt het energieverbruik van een koelkast gemeten. In deze dag heeft de koelkast <M>{Ee}</M> aan elektriciteit verbruikt. Ook is er <M>{Eout}</M> warmte aan de keuken afgestaan. Bereken de koudefactor van de koelkast.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} /></Par>
+			<Par><QuantityInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={QuantityInput.validation.any} /></Par>
 		</InputSpace>
 	</>
 }

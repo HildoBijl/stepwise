@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { PrecisionNumberInput, FloatUnitInput } from 'ui/inputs'
+import { PrecisionNumberInput, QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,14 +13,14 @@ const Problem = ({ type, h1, h2, W1, W2, h, W }) => type === 1 ? <>
 	<Par>We bekijken een opgroeiend kind. Op een bepaald moment meten we het kind op: het gewicht is <M>{W1}</M> en de hoogte is <M>{h1}</M> groot. Enkele jaren later meten we opnieuw en vinden we <M>{W2}</M> en <M>{h2}</M>. Hoeveel woog het kind toen het <M>{h}</M> groot was? Ga uit van een lineair verband tussen hoogte en gewicht.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span>Gewicht bij <M>{h}</M></span>} size="s" />
+			<QuantityInput id="W" prelabel={<M>W =</M>} label={<span>Gewicht bij <M>{h}</M></span>} size="s" />
 		</Par>
 	</InputSpace>
 </> : <>
 	<Par>We bekijken de manier waarop een kind groeit. Op een bepaald moment meten we het kind op: het gewicht is <M>{W1}</M> en de hoogte is <M>{h1}</M> groot. Enkele jaren later meten we opnieuw en vinden we <M>{W2}</M> en <M>{h2}</M>. Hoe groot was het kind toen het <M>{W}</M> woog? Ga uit van een lineair verband tussen hoogte en gewicht.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="h" prelabel={<M>h =</M>} label={<span>Hoogte bij <M>{W}</M></span>} size="s" />
+			<QuantityInput id="h" prelabel={<M>h =</M>} label={<span>Hoogte bij <M>{W}</M></span>} size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -70,14 +70,14 @@ const steps = [
 			<Par>Uitgaande van dat ook dit deel van de gewichtstoename plaats heeft gevonden, bepaal het gewicht. Merk op dat het gewicht bij de eerste meting <M>{W1}</M> was en bij de tweede <M>{W2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span>Gewicht bij <M>{h}</M></span>} size="s" />
+					<QuantityInput id="W" prelabel={<M>W =</M>} label={<span>Gewicht bij <M>{h}</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</> : <>
 			<Par>Uitgaande van dat ook dit deel van de hoogtestijging plaats heeft gevonden, bepaal de hoogte. Merk op dat de hoogte bij de eerste meting <M>{h1}</M> was en bij de tweede <M>{h2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h" prelabel={<M>h =</M>} label={<span>Hoogte bij <M>{W}</M></span>} size="s" />
+					<QuantityInput id="h" prelabel={<M>h =</M>} label={<span>Hoogte bij <M>{W}</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,

@@ -1,5 +1,5 @@
 import { Vector } from '@step-wise/geometry'
-import { getRandomFloatUnit, FloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity, Quantity } from '@step-wise/physics-core'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, createMoment, FBDComparison } from '@step-wise/engineering-mechanics'
@@ -10,7 +10,7 @@ const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', undefined, 'calculateForceOrMoment']),
 	comparisons: {
-		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison,
 	},
 }
@@ -36,16 +36,16 @@ function getStaticSolution(parameters: any) {
 		{ symbol: 'M', point: 'A' },
 	]
 
-	const loadValues = [P, P, new FloatUnit('0 kN'), P.multiply(l2)]
+	const loadValues = [P, P, new Quantity('0 kN'), P.multiply(l2)]
 	return { ...parameters, points, loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck: loadNames.slice(1), loadValues }
 }
 
 export default buildStepExercise({
 	metadata,
 	generateParameters: () => ({
-		l1: getRandomFloatUnit({ min: 4, max: 8, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 4, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
+		l1: getRandomQuantity({ min: 4, max: 8, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomQuantity({ min: 2, max: 4, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		P: getRandomQuantity({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
 	}),
 	getSolution: {
 		dependentFields: ['loads'],

@@ -1,13 +1,13 @@
 import { sample, randomBoolean } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit, getRandomExponentialFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity, getRandomExponentialQuantity } from '@step-wise/physics-core'
 import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy, getVaporPropertiesFromTemperature } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'determineRefrigerantProcess',
-		comparisons: { FloatUnit: { value: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
+		comparisons: { Quantity: { value: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {
@@ -16,9 +16,9 @@ export default buildMonoExercise({
 			const refrigerantData = refrigerants[refrigerant]
 			const minPressure = refrigerantData.tablesByPressure[0].pressure.setUnit('bar').number
 			const maxPressure = refrigerantData.criticalPoint.pressure.setUnit('bar').number * 0.8
-			const pressure1 = getRandomExponentialFloatUnit({ min: minPressure, max: minPressure * 6, unit: 'bar' })
-			const pressure2 = getRandomExponentialFloatUnit({ min: maxPressure / 6, max: maxPressure, unit: 'bar' })
-			let point2 = getRefrigerantPropertiesFromEnthalpy(refrigerantData, pressure2, getRandomFloatUnit({ min: 350, max: 500, unit: 'kJ/kg' }))
+			const pressure1 = getRandomExponentialQuantity({ min: minPressure, max: minPressure * 6, unit: 'bar' })
+			const pressure2 = getRandomExponentialQuantity({ min: maxPressure / 6, max: maxPressure, unit: 'bar' })
+			let point2 = getRefrigerantPropertiesFromEnthalpy(refrigerantData, pressure2, getRandomQuantity({ min: 350, max: 500, unit: 'kJ/kg' }))
 			if (!point2) continue
 			let point1 = getRefrigerantPropertiesFromEntropy(refrigerantData, pressure1, point2.entropy)
 			if (!point1) continue

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ type, T, p, h }) => <>
 	<Par>We bekijken een natte damp op <M>{type === 1 ? T : p}.</M> De specifieke enthalpie is <M>{h}.</M> Wat is de specifieke entropie?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
+			<QuantityInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,10 +24,10 @@ const steps = [
 			<Par>Zoek eerst de enthalpie en entropie op, voor de gegeven {type === 1 ? `temperatuur` : `druk`}, bij de vloeistoflijn en damplijn.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="hx0" prelabel={<M>h_(x=0) =</M>} label="Specifieke enthalpie (vloeistoflijn)" size="s" />
-					<FloatUnitInput id="hx1" prelabel={<M>h_(x=1) =</M>} label="Specifieke enthalpie (damplijn)" size="s" />
-					<FloatUnitInput id="sx0" prelabel={<M>s_(x=0) =</M>} label="Specifieke entropie (vloeistoflijn)" size="s" />
-					<FloatUnitInput id="sx1" prelabel={<M>s_(x=1) =</M>} label="Specifieke entropie (damplijn)" size="s" />
+					<QuantityInput id="hx0" prelabel={<M>h_(x=0) =</M>} label="Specifieke enthalpie (vloeistoflijn)" size="s" />
+					<QuantityInput id="hx1" prelabel={<M>h_(x=1) =</M>} label="Specifieke enthalpie (damplijn)" size="s" />
+					<QuantityInput id="sx0" prelabel={<M>s_(x=0) =</M>} label="Specifieke entropie (vloeistoflijn)" size="s" />
+					<QuantityInput id="sx1" prelabel={<M>s_(x=1) =</M>} label="Specifieke entropie (damplijn)" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -40,7 +40,7 @@ const steps = [
 			<Par>Gegeven de specifieke enthalpie en de zojuist opgezochte waarden <M>h_(x=0)</M> en <M>h_(x=1),</M> bereken de dampfractie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="x" prelabel={<M>x =</M>} label="Dampfractie" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="x" prelabel={<M>x =</M>} label="Dampfractie" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,
@@ -53,7 +53,7 @@ const steps = [
 			<Par>Gegeven de dampfractie en de zojuist opgezochte waarden <M>s_(x=0)</M> en <M>s_(x=1),</M> bereken de specifieke entropie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
+					<QuantityInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

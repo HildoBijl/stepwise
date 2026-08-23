@@ -4,7 +4,7 @@ import { temperatureCelsius as TConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,7 +15,7 @@ const Problem = ({ Qo, Two, Tco }) => <>
 	<Par>In een fabriekshal staan twee grote drukvaten. Het warme vat heeft een temperatuur van <M>{Two}</M> en het koude vat zit op <M>{Tco}.</M> Vanwege dit temperatuursverschil stroomt er <M>{Qo}</M> aan warmte van het warme vat naar het koude. Bereken de totale entropieverandering vanwege deze warmtestroom. Je mag ervan uitgaan dat de vaten groot genoeg zijn dat de temperatuur ervan niet verandert.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="dS" prelabel={<M>\Delta S=</M>} label="Entropieverandering" size="s" />
+			<QuantityInput id="dS" prelabel={<M>\Delta S=</M>} label="Entropieverandering" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -26,8 +26,8 @@ const steps = [
 			<Par>Zet de temperaturen in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Tw" prelabel={<M>T_w=</M>} label="Temperatuur warme vat" size="s" />
-					<FloatUnitInput id="Tc" prelabel={<M>T_k=</M>} label="Temperatuur koude vat" size="s" />
+					<QuantityInput id="Tw" prelabel={<M>T_w=</M>} label="Temperatuur warme vat" size="s" />
+					<QuantityInput id="Tc" prelabel={<M>T_k=</M>} label="Temperatuur koude vat" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -45,7 +45,7 @@ const steps = [
 			<Par>Bereken de entropieverandering van het koude vat.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dSc" prelabel={<M>\Delta S_k =</M>} label="Entropieverandering koude vat" size="s" />
+					<QuantityInput id="dSc" prelabel={<M>\Delta S_k =</M>} label="Entropieverandering koude vat" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -62,7 +62,7 @@ const steps = [
 			<Par>Bereken de entropieverandering van het warme vat.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dSw" prelabel={<M>\Delta S_w =</M>} label="Entropieverandering warme vat" size="s" />
+					<QuantityInput id="dSw" prelabel={<M>\Delta S_w =</M>} label="Entropieverandering warme vat" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -79,7 +79,7 @@ const steps = [
 			<Par>Bereken de totale entropieverandering.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dS" prelabel={<M>\Delta S =</M>} label="Totale entropieverandering" size="s" />
+					<QuantityInput id="dS" prelabel={<M>\Delta S =</M>} label="Totale entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

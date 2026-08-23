@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ h1, h2p, h2 }) => <>
 	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Bij dit proces daalt de specifieke enthalpie van de stoom van <M>{h1}</M> naar <M>{h2}.</M> De turbine werkt niet isentroop: als deze wel isentroop zou werken zou de enthalpie dalen tot <M>{h2p}.</M> Bereken het isentropisch rendement van de turbine.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
+			<QuantityInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={QuantityInput.validation.any} />
 		</Par>
 	</InputSpace>
 </>
@@ -24,8 +24,8 @@ const steps = [
 			<Par>Bereken de specifieke technische arbeid die de stoom in de turbine levert, zowel voor het theoretische isentrope geval als in werkelijkheid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
-					<FloatUnitInput id="wt" prelabel={<M>w_t=</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t=</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -48,7 +48,7 @@ const steps = [
 			<Par>Bereken het isentropisch rendement door de theoretische isentrope situatie met de werkelijkheid te vergelijken.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,

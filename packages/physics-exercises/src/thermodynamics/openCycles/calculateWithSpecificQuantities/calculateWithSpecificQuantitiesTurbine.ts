@@ -1,16 +1,16 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithSpecificQuantities',
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 	
 	generateParameters() {
-		const wt = getRandomFloatUnit({ min: 600, max: 1200, unit: 'kJ/kg', decimals: -1 }).setDecimals(0)
-		const m = getRandomFloatUnit({ min: 2, max: 10, unit: 'Mg', significantDigits: 2 })
+		const wt = getRandomQuantity({ min: 600, max: 1200, unit: 'kJ/kg', decimals: -1 }).setDecimals(0)
+		const m = getRandomQuantity({ min: 2, max: 10, unit: 'Mg', significantDigits: 2 })
 		return { wt, m }
 	},
 

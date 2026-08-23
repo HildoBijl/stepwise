@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, M } from 'ui/components'
 
-const dist = new FloatUnit('2.3 km')
-const temp = new FloatUnit('18 °C')
+const dist = new Quantity('2.3 km')
+const temp = new Quantity('18 °C')
 
 export function Theory() {
 	return <>
@@ -20,7 +20,7 @@ export function Theory() {
 			<Par>To save you from this frustration, Step-Wise has internal attachments to look up data. Whenever an exercise requires you to look something up, there is always an "Attachments" tab with said data. Browse it to get what you need, and then return to the exercise to use your newfound discovery.</Par>
 		</Translation>
 
-		<Translation entry="floatUnitInputs">
+		<Translation entry="quantityInputs">
 			<Head>Input fields for decimal numbers with units</Head>
 			<Par>Physical quantities always have a number and a unit. For instance, a distance might be <M>{dist}</M> or a temperature may be <M>{temp}</M>. Without the unit, the number is meaningless.</Par>
 			<Par>Entering physical quantities in Step-Wise is easy: we once more have a custom input field. This field has two parts.</Par>

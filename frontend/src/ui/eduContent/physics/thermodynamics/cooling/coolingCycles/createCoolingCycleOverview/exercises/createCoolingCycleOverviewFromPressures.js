@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,10 +14,10 @@ const Problem = ({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }) =>
 		<Par>We bekijken een koelmachine die werkt met {refrigerant}. In de verdamper is de druk <M>{pEvap}</M> en in de condensor is deze <M>{pCond}.</M> De koelmachine past <M>{dTSuperheating}</M> oververhitting en <M>{dTSubcooling}</M> nakoeling toe. Bepaal de specifieke enthalpie van het koudemiddel na de verdamper (punt 1), voor de condensor (punt 2), na de condensor (punt 3) en voor de verdamper (punt 4).</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
-				<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
-				<FloatUnitInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
-				<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
+				<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
+				<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
+				<QuantityInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
+				<QuantityInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -29,7 +29,7 @@ const steps = [
 			<Par>Begin bij punt 1. Hier wordt het koudemiddel op een druk van <M>{pEvap}</M> verwarmd tot <M>{dTSuperheating}</M> na de damplijn. Bepaal de specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
+					<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -44,7 +44,7 @@ const steps = [
 			<Par>Ga door naar punt 2. Hier wordt het koudemiddel isentropisch gecomprimeerd tot <M>{pCond}.</M> Bepaal de specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
+					<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -57,7 +57,7 @@ const steps = [
 			<Par>Ga verder met punt 3. Hier wordt het koudemiddel isobaar gekoeld tot <M>{dTSubcooling}</M> na de vloeistoflijn. Bepaal de specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
+					<QuantityInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -72,7 +72,7 @@ const steps = [
 			<Par>Bepaal ten slotte de specifieke enthalpie in punt 4, na expansie tot <M>{pEvap}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
+					<QuantityInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

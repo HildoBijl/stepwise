@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ function Problem({ Pe, Pin }) {
 	return <>
 		<Par>We gebruiken een warmtepomp om een gebouw te verwarmen. De warmtepomp gebruikt <M>{Pe}</M> aan elektriciteit en onttrekt hiermee <M>{Pin}</M> warmte aan de buitenlucht. Bereken de warmtefactor (COP) van de warmtepomp.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} /></Par>
+			<Par><QuantityInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={QuantityInput.validation.any} /></Par>
 		</InputSpace>
 	</>
 }

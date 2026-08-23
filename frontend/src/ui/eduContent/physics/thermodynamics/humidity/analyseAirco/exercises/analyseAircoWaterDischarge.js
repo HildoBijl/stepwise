@@ -7,7 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
@@ -21,8 +21,8 @@ const Problem = ({ T1, startRH, T4, endRH }) => <>
 	<MollierDiagram maxWidth={500} />
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
-			<FloatUnitInput id="dAH" prelabel={<M>\frac(m_(water))(m_(lucht)) =</M>} label="Afgevoerde water" size="s" />
+			<QuantityInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
+			<QuantityInput id="dAH" prelabel={<M>\frac(m_(water))(m_(lucht)) =</M>} label="Afgevoerde water" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -35,7 +35,7 @@ const steps = [
 			<Par>Bepaal de absolute luchtvochtigheid van de instromende lucht.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="startAH" prelabel={<M>AV_(in) =</M>} label="Absolute luchtvochtigheid" size="s" />
+					<QuantityInput id="startAH" prelabel={<M>AV_(in) =</M>} label="Absolute luchtvochtigheid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -56,7 +56,7 @@ const steps = [
 			<Par>Bepaal de absolute luchtvochtigheid van de uitstromende lucht.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="endAH" prelabel={<M>AV_(uit) =</M>} label="Absolute luchtvochtigheid" size="s" />
+					<QuantityInput id="endAH" prelabel={<M>AV_(uit) =</M>} label="Absolute luchtvochtigheid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -77,7 +77,7 @@ const steps = [
 			<Par>Om op deze absolute luchtvochtigheid <M>AV_(uit)</M> te komen wordt de lucht afgekoeld. Bepaal bij welke temperatuur deze absolute luchtvochtigheid bereikt wordt.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
+					<QuantityInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -111,7 +111,7 @@ const steps = [
 			<Par>Bepaal hoeveel water per kilogram lucht (in <M>{new Unit('g/kg')}</M>) tijdens het koelen gecondenseerd is.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dAH" prelabel={<M>\frac(m_(water))(m_(lucht)) =</M>} label="Afgevoerde water" size="s" />
+					<QuantityInput id="dAH" prelabel={<M>\frac(m_(water))(m_(lucht)) =</M>} label="Afgevoerde water" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

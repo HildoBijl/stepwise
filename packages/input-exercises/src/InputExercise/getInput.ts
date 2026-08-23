@@ -15,7 +15,7 @@ function isInputConstructor(inputType: InputType): inputType is InputConstructor
 	return typeof inputType === 'function'
 }
 
-// Retrieve an interpreted input value and verify its domain type. Use constructors for object types "getInput('p', data, FloatUnit)" and use strings for basic types "getInput('n', data, 'number')".
+// Retrieve an interpreted input value and verify its domain type. Use constructors for object types "getInput('p', data, Quantity)" and use strings for basic types "getInput('n', data, 'number')".
 export function getInput<Type extends InputType>(key: string, data: CheckInputData, inputType: Type): InputInstance<Type> {
 	const input = data.input[key]
 	const matches = isInputConstructor(inputType) ? input instanceof inputType : typeof input === inputType

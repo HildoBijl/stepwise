@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,8 +15,8 @@ const Problem = ({ p1, T1, p2, q23, etaio, mdot }) => {
 		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etaio}.</M> Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
-				<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" />
+				<QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} />
+				<QuantityInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -27,7 +27,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Neem eerst aan dat de compressor <em>wel</em> isentroop werkt. Vind de temperatuur aan de uitgang van deze fictieve compressor.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="T2p" prelabel={<M>T_(2') =</M>} label="Temperatuur na isentrope compressie" size="s" /></Par>
+				<Par><QuantityInput id="T2p" prelabel={<M>T_(2') =</M>} label="Temperatuur na isentrope compressie" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ k, p1, T1, p2, T2p }) => {
@@ -42,7 +42,7 @@ const steps = [
 			<Par>Bereken via het isentropisch rendement de werkelijke temperatuur na de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -58,7 +58,7 @@ const steps = [
 			<Par>Bereken via de toegevoerde warmte de temperatuur na de verbrandingskamer.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T3" prelabel={<M>T_3 =</M>} label="Temperatuur na verwarming" size="s" />
+					<QuantityInput id="T3" prelabel={<M>T_3 =</M>} label="Temperatuur na verwarming" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -70,7 +70,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Neem aan dat de turbine <em>wel</em> isentroop werkt. Vind de temperatuur aan de uitgang van deze fictieve turbine.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="T4p" prelabel={<M>T_(4') =</M>} label="Temperatuur na isentrope expansie" size="s" /></Par>
+				<Par><QuantityInput id="T4p" prelabel={<M>T_(4') =</M>} label="Temperatuur na isentrope expansie" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ k, p3, T3, p4, T4p }) => {
@@ -83,7 +83,7 @@ const steps = [
 			<Par>Bereken via het isentropisch rendement de werkelijke temperatuur na de turbine.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T4" prelabel={<M>T_4 =</M>} label="Temperatuur na turbine" size="s" />
+					<QuantityInput id="T4" prelabel={<M>T_4 =</M>} label="Temperatuur na turbine" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -100,7 +100,7 @@ const steps = [
 			<Par>Bereken de netto specifieke arbeid die is toegevoerd bij dit kringproces.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wn" prelabel={<M>w_(netto) =</M>} label="Netto specifieke arbeid" size="s" />
+					<QuantityInput id="wn" prelabel={<M>w_(netto) =</M>} label="Netto specifieke arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -120,8 +120,8 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, het rendement van de gasturbine. Bereken ook via het gegeven asvermogen de gebruikte massastroom.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Substep>
-					<Substep ss={2}><FloatUnitInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} /></Substep>
+					<Substep ss={2}><QuantityInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,

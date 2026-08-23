@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { Par, M } from 'ui/components'
 import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
@@ -21,7 +21,7 @@ const Problem = ({ T1, T3, T4, startRH }) => <>
 	<MollierDiagram maxWidth={500} />
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
+			<QuantityInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={QuantityInput.validation.any} />
 		</Par>
 	</InputSpace>
 </>
@@ -34,7 +34,7 @@ const steps = [
 			<Par>Bepaal de absolute luchtvochtigheid van de instromende lucht.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="startAH" prelabel={<M>AV_(in) =</M>} label="Absolute luchtvochtigheid" size="s" />
+					<QuantityInput id="startAH" prelabel={<M>AV_(in) =</M>} label="Absolute luchtvochtigheid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -54,7 +54,7 @@ const steps = [
 			<Par>De instromende lucht koelt af tot <M>{T3}</M>. Bepaal de absolute luchtvochtigheid van de lucht op dat moment.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="endAH" prelabel={<M>AV_(tussen) =</M>} label="Absolute luchtvochtigheid" size="s" />
+					<QuantityInput id="endAH" prelabel={<M>AV_(tussen) =</M>} label="Absolute luchtvochtigheid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -85,7 +85,7 @@ const steps = [
 			<Par>Vervolgens wordt de lucht opgewarmd tot <M>{T4}.</M> Bepaal de relatieve luchtvochtigheid na afloop.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,
@@ -110,7 +110,7 @@ const steps = [
 					<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
 					<Circle center={point4} graphicalRadius={3} style={{ fill: color }} />
 				</MollierDiagram>
-				<Par>Over het algemeen wordt een relatieve luchtvochtigheid tussen de grofweg <M>{new FloatUnit('45%')}</M> en <M>{new FloatUnit('60%')}</M> als comfortabel beschouwd, dus deze airco lijkt goed afgesteld te zijn.</Par>
+				<Par>Over het algemeen wordt een relatieve luchtvochtigheid tussen de grofweg <M>{new Quantity('45%')}</M> en <M>{new Quantity('60%')}</M> als comfortabel beschouwd, dus deze airco lijkt goed afgesteld te zijn.</Par>
 			</>
 		},
 	},

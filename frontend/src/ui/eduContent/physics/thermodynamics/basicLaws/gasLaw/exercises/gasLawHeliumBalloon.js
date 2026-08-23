@@ -4,7 +4,7 @@ import { massGram as mConversion, temperatureCelsius as TConversion, pressureBar
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ export default function Exercise() {
 
 const Problem = ({ m, T, p }) => <>
 	<Par>We blazen een ballon op met heliumgas. We gebruiken hierbij <M>{m}</M> van dit gas. Uiteindelijk is de temperatuur van de ballon <M>{T}</M> en de druk <M>{p}.</M> Hoe groot is de ballon dan?</Par>
-	<InputSpace><Par><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Par></InputSpace>
+	<InputSpace><Par><QuantityInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Par></InputSpace>
 </>
 
 const steps = [
@@ -22,9 +22,9 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ms" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ps" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="ms" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
+					<Substep ss={2}><QuantityInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={3}><QuantityInput id="ps" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -40,7 +40,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de specifieke gasconstante van het gas op, in standaard eenheden.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
+				<Par><QuantityInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ Rs }) => {
@@ -51,7 +51,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bereken via de gaswet het volume van het gas in de ballon.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
+				<Par><QuantityInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ ps, V, ms, Rs, Ts }) => {

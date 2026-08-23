@@ -1,24 +1,24 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomPrecisionNumber, getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomPrecisionNumber, getRandomQuantity } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metadata: {
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			x: { absoluteTolerance: 0.005, significantDigitTolerance: 1 },
 		},
 	},
 
 	generateParameters() {
 		const type = randomInteger(1, 2)
-		const T1 = getRandomFloatUnit({ min: 20, max: 40, unit: 'dC', decimals: 0 })
-		const T2 = getRandomFloatUnit({ min: 80, max: 100, unit: 'dC', decimals: 0 })
-		const t1 = getRandomFloatUnit({ min: 10, max: 30, unit: 's', decimals: 0 })
-		const t2 = getRandomFloatUnit({ min: 80, max: 160, unit: 's', decimals: 0 })
+		const T1 = getRandomQuantity({ min: 20, max: 40, unit: 'dC', decimals: 0 })
+		const T2 = getRandomQuantity({ min: 80, max: 100, unit: 'dC', decimals: 0 })
+		const t1 = getRandomQuantity({ min: 10, max: 30, unit: 's', decimals: 0 })
+		const t2 = getRandomQuantity({ min: 80, max: 160, unit: 's', decimals: 0 })
 		const x = getRandomPrecisionNumber({ min: 0.1, max: 0.9 })
 
 		if (type === 1) {

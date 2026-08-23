@@ -3,7 +3,7 @@ import React from 'react'
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,8 +15,8 @@ const Problem = ({ gas, To, p1o, p2o }) => {
 		<Par>In een centrifugaalcompressor wordt continu {Dutch[gas]} gecomprimeerd. Dit gebeurt van <M>{p1o}</M> naar <M>{p2o}.</M> De temperatuur wordt hierbij op <M>{To}</M> gehouden. Bereken hoeveel specifieke warmte <M>q</M> er in het gas is gestopt en hoeveel specifieke technische arbeid <M>w_t</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
-				<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
+				<QuantityInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
+				<QuantityInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -68,7 +68,7 @@ const steps = [
 				<Par>Zoek voor {Dutch[gas]} de specifieke gasconstante <M>R_s</M> op.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="Rs" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" />
+						<QuantityInput id="Rs" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" />
 					</Par>
 				</InputSpace>
 			</>
@@ -82,7 +82,7 @@ const steps = [
 			<Par>In de formule staat ook de verhouding <M>v_2/v_1.</M> Bereken deze verhouding. Gebruik hiervoor eventueel de gaswet, wetende dat de temperatuur constant blijft.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ratio" prelabel={<M>\frac(v_2)(v_1) =</M>} label="Volumeverhouding" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="ratio" prelabel={<M>\frac(v_2)(v_1) =</M>} label="Volumeverhouding" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,
@@ -95,7 +95,7 @@ const steps = [
 			<Par>Zet de gegeven temperatuur in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T" prelabel={<M>T =</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="T" prelabel={<M>T =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -108,8 +108,8 @@ const steps = [
 			<Par>Bereken met de gegeven formules en bekende waarden de specifieke warmte <M>q</M> en de specifieke technische arbeid <M>w_t.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

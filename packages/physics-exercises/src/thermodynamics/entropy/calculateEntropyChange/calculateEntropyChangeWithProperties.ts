@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { cv, cp, Rs } = gasProperties.air
@@ -8,17 +8,17 @@ const metadata = {
 	skill: 'calculateEntropyChange',
 	...createStepExerciseMetadata(['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation']),
 	comparisons: {
-		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		Rs: { value: { relativeTolerance: 0.02 } },
 		cp: { value: { relativeTolerance: 0.02 } },
 	},
 }
 
 export function generateParameters() {
-	const n = getRandomFloatUnit({ min: 1.26, max: 1.38, significantDigits: 3, unit: '' })
-	const T1o = getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'dC' })
-	const p1o = new FloatUnit('1.0 bar')
-	const p2o = getRandomFloatUnit({ min: 6, max: 11, significantDigits: 2, unit: 'bar' })
+	const n = getRandomQuantity({ min: 1.26, max: 1.38, significantDigits: 3, unit: '' })
+	const T1o = getRandomQuantity({ min: 5, max: 30, decimals: 0, unit: 'dC' })
+	const p1o = new Quantity('1.0 bar')
+	const p2o = getRandomQuantity({ min: 6, max: 11, significantDigits: 2, unit: 'bar' })
 	return { p1o, T1o, p2o, n }
 }
 

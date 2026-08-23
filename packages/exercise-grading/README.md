@@ -46,7 +46,7 @@ const exercise = buildMonoExercise({
 	metadata: {
 		comparisons: {
 			answer: { absoluteTolerance: 0.01 },
-			FloatUnit: { value: { relativeTolerance: 0.02 } },
+			Quantity: { value: { relativeTolerance: 0.02 } },
 		},
 	},
 	// ...
@@ -121,7 +121,7 @@ The `key` is used for diagnostics, `type` selects the registered value compariso
 The package currently includes comparisons for:
 
 - Integers and multiple-choice values from `@step-wise/input-interpretation`.
-- Precision numbers, units, and `FloatUnit` values from `@step-wise/physics-core`.
+- Precision numbers, units, and `Quantity` values from `@step-wise/physics-core`.
 - Expressions and equations from `@step-wise/cas`.
 - Vectors, lines, line segments, and rectangles from `@step-wise/geometry`.
 - Free-body diagrams from `@step-wise/engineering-mechanics`.

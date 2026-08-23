@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const gases = ['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
@@ -11,7 +11,7 @@ export default buildStepExercise({
 		skill: 'calculateHeatAndWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], undefined]),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 2 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 2 } },
 			ms: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 			Ts: { value: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
 		},
@@ -19,10 +19,10 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const gas = sample(gases)
-		const m = getRandomFloatUnit({ min: 0.5, max: 6, significantDigits: 2, unit: 'kg' })
-		const T = getRandomFloatUnit({ min: 6, max: 30, decimals: 0, unit: 'dC' })
-		const p1 = getRandomFloatUnit({ min: 2, max: 9, decimals: 1, unit: 'bar' })
-		const p2 = getRandomFloatUnit({ min: 10, max: 30, decimals: 0, unit: 'bar' })
+		const m = getRandomQuantity({ min: 0.5, max: 6, significantDigits: 2, unit: 'kg' })
+		const T = getRandomQuantity({ min: 6, max: 30, decimals: 0, unit: 'dC' })
+		const p1 = getRandomQuantity({ min: 2, max: 9, decimals: 1, unit: 'bar' })
+		const p2 = getRandomQuantity({ min: 10, max: 30, decimals: 0, unit: 'bar' })
 		return { gas, m, T, p1, p2 }
 	},
 

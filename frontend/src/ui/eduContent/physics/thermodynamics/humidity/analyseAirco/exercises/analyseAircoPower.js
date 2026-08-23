@@ -7,7 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
@@ -21,8 +21,8 @@ const Problem = ({ T1, startRH, T4, endRH, mdot }) => <>
 	<MollierDiagram maxWidth={500} />
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="Pcool" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" positive={true} />
-			<FloatUnitInput id="Pheat" prelabel={<M>P_(warm) =</M>} label="Verwarmingsvermogen" size="s" positive={true} />
+			<QuantityInput id="Pcool" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" positive={true} />
+			<QuantityInput id="Pheat" prelabel={<M>P_(warm) =</M>} label="Verwarmingsvermogen" size="s" positive={true} />
 		</Par>
 	</InputSpace>
 </>
@@ -35,7 +35,7 @@ const steps = [
 			<Par>Bepaal de temperatuur tot waar de lucht gekoeld wordt.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
+					<QuantityInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -68,8 +68,8 @@ const steps = [
 			<Par>Bepaal de warmte per kilogram lucht (in <M>{new Unit('J/kg')}</M> of <M>{new Unit('kJ/kg')}</M>) die bij het afkoelen afgevoerd wordt uit de lucht. Bepaal net zo de warmte per kilogram lucht die bij het opwarmen toegevoerd wordt aan de lucht.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="qcool" prelabel={<M>q_(af) =</M>} label="Afgevoerde warmte" size="s" positive={true} />
-					<FloatUnitInput id="qheat" prelabel={<M>q_(toe) =</M>} label="Toegevoerde warmte" size="s" positive={true} />
+					<QuantityInput id="qcool" prelabel={<M>q_(af) =</M>} label="Afgevoerde warmte" size="s" positive={true} />
+					<QuantityInput id="qheat" prelabel={<M>q_(toe) =</M>} label="Toegevoerde warmte" size="s" positive={true} />
 				</Par>
 			</InputSpace>
 		</>,
@@ -82,8 +82,8 @@ const steps = [
 			<Par>Bepaal aan de hand van de warmtestromen en de massastroom lucht wat het koelvermogen en het verwarmingsvermogen zijn.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Pcool" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" positive={true} />
-					<FloatUnitInput id="Pheat" prelabel={<M>P_(warm) =</M>} label="Verwarmingsvermogen" size="s" positive={true} />
+					<QuantityInput id="Pcool" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" positive={true} />
+					<QuantityInput id="Pheat" prelabel={<M>P_(warm) =</M>} label="Verwarmingsvermogen" size="s" positive={true} />
 				</Par>
 			</InputSpace>
 		</>,

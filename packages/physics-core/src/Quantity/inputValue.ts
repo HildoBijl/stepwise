@@ -3,29 +3,29 @@ import { isPlainObject, hasOnlyKeys } from '@step-wise/js-utils'
 import { type PrecisionNumberInputValue, isPrecisionNumberInputValue, interpretPrecisionNumberInputValue, precisionNumberToInputValue } from '../PrecisionNumber'
 import { type UnitInputValue, isUnitInputValue, interpretUnitInputValue, unitToInputValue } from '../Unit'
 
-import { FloatUnit } from './FloatUnit'
+import { Quantity } from './Quantity'
 
-export type FloatUnitInputValue = {
+export type QuantityInputValue = {
 	value: PrecisionNumberInputValue
 	unit?: UnitInputValue
 }
 
-export function isFloatUnitInputValue(value: unknown): value is FloatUnitInputValue {
+export function isQuantityInputValue(value: unknown): value is QuantityInputValue {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['value', 'unit'])) return false
-	const { value: numericValue, unit } = value as FloatUnitInputValue
+	const { value: numericValue, unit } = value as QuantityInputValue
 	return isPrecisionNumberInputValue(numericValue) && (unit === undefined || isUnitInputValue(unit))
 }
 
-export function interpretFloatUnitInputValue(value: FloatUnitInputValue): FloatUnit {
-	return new FloatUnit({
+export function interpretQuantityInputValue(value: QuantityInputValue): Quantity {
+	return new Quantity({
 		value: interpretPrecisionNumberInputValue(value.value),
 		unit: value.unit === undefined ? undefined : interpretUnitInputValue(value.unit),
 	})
 }
 
-export function floatUnitToInputValue(floatUnit: FloatUnit): FloatUnitInputValue {
+export function quantityToInputValue(quantity: Quantity): QuantityInputValue {
 	return {
-		value: precisionNumberToInputValue(floatUnit.value),
-		...(floatUnit.unit.isEmpty() ? {} : { unit: unitToInputValue(floatUnit.unit) }),
+		value: precisionNumberToInputValue(quantity.value),
+		...(quantity.unit.isEmpty() ? {} : { unit: unitToInputValue(quantity.unit) }),
 	}
 }

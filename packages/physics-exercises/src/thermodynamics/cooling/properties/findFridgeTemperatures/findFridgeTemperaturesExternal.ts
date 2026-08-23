@@ -7,7 +7,7 @@ import { getTemperatures } from '../../coolingCycles/tools'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'findFridgeTemperatures',
-		comparisons: { FloatUnit: { value: { significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {

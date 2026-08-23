@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p1, p2, T1 }) => <>
 	<Par>In de motor van een vliegtuig wordt in de verbrandingskamer de lucht verwarmd tot <M>{T1}.</M> Dit gebeurt op een druk van <M>{p1}.</M> Vervolgens gaat de lucht door de turbine, waarna het weer naar buiten stroomt op <M>{p2}.</M> De turbine is bij benadering isentroop, waardoor geldt <M>n = k.</M> Bereken de temperatuur van de uitstromende lucht.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="T2" prelabel={<M>T_(\rm uit)=</M>} label="Temperatuur" size="s" />
+			<QuantityInput id="T2" prelabel={<M>T_(\rm uit)=</M>} label="Temperatuur" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,9 +24,9 @@ const steps = [
 			<Par>Noem de lucht die de turbine ingaat "punt 1" en lucht die de turbine uitstroomt "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="T1s" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="p1s" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="p2s" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="T1s" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
+					<Substep ss={2}><QuantityInput id="p1s" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
+					<Substep ss={3}><QuantityInput id="p2s" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -41,7 +41,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de <M>k</M>-waarde (verhouding van soortelijke warmten) op van het betreffende gas.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={FloatUnitInput.validation.any} /></Par>
+				<Par><QuantityInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={QuantityInput.validation.any} /></Par>
 			</InputSpace>
 		</>,
 		Solution: ({ k }) => {
@@ -68,7 +68,7 @@ const steps = [
 			<Par>Bereken via de gekozen wet van Poisson de temperatuur na de turbine.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

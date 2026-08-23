@@ -7,7 +7,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'useIsentropicEfficiency',
 		...createStepExerciseMetadata(['calculateWithEnthalpy', 'solveLinearEquation']),
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {

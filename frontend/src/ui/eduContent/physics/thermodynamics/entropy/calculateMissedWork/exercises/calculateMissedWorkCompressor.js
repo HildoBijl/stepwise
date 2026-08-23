@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p1o, T1o, p2o, n }) => <>
 	<Par>In de compressor van een gasturbine wordt continu lucht gecomprimeerd van <M>{p1o}</M> tot <M>{p2o}.</M> De temperatuur van de lucht bij de ingang is gelijk aan de omgevingstemperatuur van <M>{T1o}.</M> De compressor werkt niet isentroop: er stroomt een beetje warmte weg naar de omgeving. Ga uit van een procescoëfficiënt van <M>n={n}.</M> Bereken de theoretisch gemiste specifieke arbeid als gevolg van deze niet-isentropische compressie.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="wm" prelabel={<M>w_m=</M>} label="Gemiste specifieke arbeid" size="s" />
+			<QuantityInput id="wm" prelabel={<M>w_m=</M>} label="Gemiste specifieke arbeid" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Bereken via Poisson's wet de temperatuur van de lucht bij de uitgang van de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Uitgangstemperatuur" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Uitgangstemperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -42,7 +42,7 @@ const steps = [
 			<Par>Bereken de specifieke entropieverandering van de lucht binnen de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dsIn" prelabel={<M>\Delta s_(binnen)=</M>} label="Specifieke entropieverandering" size="s" />
+					<QuantityInput id="dsIn" prelabel={<M>\Delta s_(binnen)=</M>} label="Specifieke entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -57,7 +57,7 @@ const steps = [
 			<Par>Bereken de specifieke warmte die <em>wegstroomt</em> naar de omgeving.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q" prelabel={<M>q=</M>} label="Specifieke warmte" positive={true} size="s" />
+					<QuantityInput id="q" prelabel={<M>q=</M>} label="Specifieke warmte" positive={true} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -72,7 +72,7 @@ const steps = [
 			<Par>Bereken de specifieke entropieverandering van de omgeving.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dsOut" prelabel={<M>\Delta s_(buiten)=</M>} label="Specifieke entropieverandering" size="s" />
+					<QuantityInput id="dsOut" prelabel={<M>\Delta s_(buiten)=</M>} label="Specifieke entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -87,7 +87,7 @@ const steps = [
 			<Par>Bereken de totale specifieke entropieverandering.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ds" prelabel={<M>\Delta s=</M>} label="Specifieke entropieverandering" size="s" />
+					<QuantityInput id="ds" prelabel={<M>\Delta s=</M>} label="Specifieke entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -102,7 +102,7 @@ const steps = [
 			<Par>Gebruik de totale specifieke entropieverandering om de gemiste specifieke arbeid te berekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wm" prelabel={<M>w_m =</M>} label="Gemiste specifieke arbeid" size="s" />
+					<QuantityInput id="wm" prelabel={<M>w_m =</M>} label="Gemiste specifieke arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

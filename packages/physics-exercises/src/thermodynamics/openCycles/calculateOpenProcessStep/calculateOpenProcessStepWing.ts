@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs, k } = gasProperties.air
@@ -10,16 +10,16 @@ export default buildStepExercise({
 		skill: 'calculateOpenProcessStep',
 		...createStepExerciseMetadata(['calculateWithSpecificQuantities', 'gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw']),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			T1: { value: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			T2: { value: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 
 	generateParameters() {
-		const p1o = getRandomFloatUnit({ min: 200, max: 400, unit: 'mbar', decimals: -1 }).setDecimals(0)
-		const p2o = p1o.divide(1.8).subtract(getRandomFloatUnit({ min: 20, max: 40, unit: 'mbar' })).setDecimals(-1).roundToPrecision().setDecimals(0)
-		const rho = getRandomFloatUnit({ min: 0.4, max: 0.65, significantDigits: 2, unit: 'kg/m^3' })
+		const p1o = getRandomQuantity({ min: 200, max: 400, unit: 'mbar', decimals: -1 }).setDecimals(0)
+		const p2o = p1o.divide(1.8).subtract(getRandomQuantity({ min: 20, max: 40, unit: 'mbar' })).setDecimals(-1).roundToPrecision().setDecimals(0)
+		const rho = getRandomQuantity({ min: 0.4, max: 0.65, significantDigits: 2, unit: 'kg/m^3' })
 		return { p1o, p2o, rho }
 	},
 

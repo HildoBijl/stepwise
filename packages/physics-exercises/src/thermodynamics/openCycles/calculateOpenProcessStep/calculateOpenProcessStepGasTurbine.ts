@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs, k } = gasProperties.air
@@ -10,17 +10,17 @@ export default buildStepExercise({
 		skill: 'calculateOpenProcessStep',
 		...createStepExerciseMetadata(['gasLaw', 'recognizeProcessTypes', 'gasLaw']),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			T1: { value: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			T2: { value: { absoluteTolerance: 0.7, relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 
 	generateParameters() {
-		const p1o = getRandomFloatUnit({ min: 6, max: 14, unit: 'bar', significantDigits: 2 })
-		const T0o = getRandomFloatUnit({ min: 275, max: 300, unit: 'K' })
+		const p1o = getRandomQuantity({ min: 6, max: 14, unit: 'bar', significantDigits: 2 })
+		const T0o = getRandomQuantity({ min: 275, max: 300, unit: 'K' })
 		const T1o = T0o.multiply(Math.pow(p1o.number, 1 - 1 / k.number)).setDecimals(-1).roundToPrecision().setDecimals(0)
-		const T2o = getRandomFloatUnit({ min: 900, max: 1300, unit: 'K', decimals: -1 }).setDecimals(0)
+		const T2o = getRandomQuantity({ min: 900, max: 1300, unit: 'K', decimals: -1 }).setDecimals(0)
 		return { p1o, T1o, T2o }
 	},
 

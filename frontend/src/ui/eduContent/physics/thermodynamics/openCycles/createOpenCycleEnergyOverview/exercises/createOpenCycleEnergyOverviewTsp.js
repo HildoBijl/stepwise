@@ -3,7 +3,7 @@ import React from 'react'
 import { Dutch } from 'ui/lang/gases'
 import { Par, List, M, BM, Table, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,14 +13,14 @@ export default function Exercise() {
 const colHeads = [<span>Specifieke warmte <M>q</M></span>, <span>Specifieke technische arbeid <M>w_t</M></span>]
 const rowHeads = ['Stap 1-2', 'Stap 2-3', 'Stap 3-1']
 const fields = [[
-	<FloatUnitInput id="q12" label={<M>q_(1-2)</M>} size="l" />,
-	<FloatUnitInput id="wt12" label={<M>w_(t,1-2)</M>} size="l" />,
+	<QuantityInput id="q12" label={<M>q_(1-2)</M>} size="l" />,
+	<QuantityInput id="wt12" label={<M>w_(t,1-2)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="q23" label={<M>q_(2-3)</M>} size="l" />,
-	<FloatUnitInput id="wt23" label={<M>w_(t,2-3)</M>} size="l" />,
+	<QuantityInput id="q23" label={<M>q_(2-3)</M>} size="l" />,
+	<QuantityInput id="wt23" label={<M>w_(t,2-3)</M>} size="l" />,
 ], [
-	<FloatUnitInput id="q31" label={<M>q_(3-1)</M>} size="l" />,
-	<FloatUnitInput id="wt31" label={<M>w_(t,3-1)</M>} size="l" />,
+	<QuantityInput id="q31" label={<M>q_(3-1)</M>} size="l" />,
+	<QuantityInput id="wt31" label={<M>w_(t,3-1)</M>} size="l" />,
 ]]
 
 const Problem = ({ medium }) => {
@@ -48,8 +48,8 @@ const steps = [
 			<Par>Bekijk eerst stap 1-2. Bij deze stap wordt het gas <strong>isotherm</strong> gecomprimeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde technische arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q12" prelabel={<M>q_(1-2) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt12" prelabel={<M>w_(t,1-2) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q12" prelabel={<M>q_(1-2) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt12" prelabel={<M>w_(t,1-2) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -62,8 +62,8 @@ const steps = [
 			<Par>Bekijk vervolgens stap 2-3. Bij deze stap wordt het gas <strong>isentroop</strong> geëxpandeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde technische arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q23" prelabel={<M>q_(2-3) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt23" prelabel={<M>w_(t,2-3) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q23" prelabel={<M>q_(2-3) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt23" prelabel={<M>w_(t,2-3) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -76,8 +76,8 @@ const steps = [
 			<Par>Ten slotte is er stap 3-1. Hier wordt het gas <strong>isobaar</strong> opgewarmd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde technische arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q31" prelabel={<M>Q_(3-1) =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt31" prelabel={<M>W_(3-1) =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q31" prelabel={<M>Q_(3-1) =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt31" prelabel={<M>W_(3-1) =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

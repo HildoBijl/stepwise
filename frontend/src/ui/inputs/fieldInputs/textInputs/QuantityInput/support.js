@@ -7,7 +7,7 @@ import { type as precisionNumberType, keyboardSettings as precisionNumberKeyboar
 import { type as unitType, keyboardSettings as unitKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'
 
 // Define various trivial objects and functions.
-export const type = 'FloatUnit'
+export const type = 'Quantity'
 export const initialValue = {}
 export const parts = ['value', 'unit']
 export const isEmpty = ({ value, unit }) => isPrecisionNumberEmpty(value) && isUnitEmpty(unit)

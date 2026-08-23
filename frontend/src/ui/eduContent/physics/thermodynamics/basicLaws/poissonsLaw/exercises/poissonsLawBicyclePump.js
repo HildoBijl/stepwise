@@ -4,7 +4,7 @@ import { temperatureCelsius as TConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -16,7 +16,7 @@ const Problem = ({ n, T1, V1, V2 }) => <>
 	<Par>Ga ervan uit dat de druk nog niet voldoende is om het ventiel open te laten gaan; er is dus nog geen lucht weggestroomd. Ga er ook van uit dat het proces <em>niet</em> isentropisch verloopt: er stroomt een beetje warmte weg. Gebruik een procescoëfficiënt van <M>n={n}.</M></Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="T2" prelabel={<M>T_(\rm eind)=</M>} label="Temperatuur" size="s" />
+			<QuantityInput id="T2" prelabel={<M>T_(\rm eind)=</M>} label="Temperatuur" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -27,9 +27,9 @@ const steps = [
 			<Par>Noem de beginsituatie "punt 1" en de eindsituatie "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="T1s" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="V1s" prelabel={<M>V_1=</M>} label="Beginvolume" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="V2s" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="T1s" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
+					<Substep ss={2}><QuantityInput id="V1s" prelabel={<M>V_1=</M>} label="Beginvolume" size="s" /></Substep>
+					<Substep ss={3}><QuantityInput id="V2s" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -60,7 +60,7 @@ const steps = [
 			<Par>Bereken via de gekozen wet van Poisson de temperatuur na de compressie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

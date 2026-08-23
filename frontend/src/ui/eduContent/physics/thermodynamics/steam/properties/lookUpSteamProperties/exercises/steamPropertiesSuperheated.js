@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,8 +14,8 @@ function Problem({ p, T }) {
 		<Par>We bekijken oververhitte stoom bij <M>{p}</M> en <M>{T}.</M> Wat zijn de specifieke enthalpie en specifieke entropie?</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="h" prelabel={<M>h =</M>} label="Specifieke enthalpie" size="s" />
-				<FloatUnitInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
+				<QuantityInput id="h" prelabel={<M>h =</M>} label="Specifieke enthalpie" size="s" />
+				<QuantityInput id="s" prelabel={<M>s =</M>} label="Specifieke entropie" size="s" />
 			</Par>
 		</InputSpace>
 	</>

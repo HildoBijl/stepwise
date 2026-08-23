@@ -5,7 +5,7 @@ import { temperatureCelsius as TConversion, volumeLiter as VConversion, massGram
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, AntiInputSpace, InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,13 +15,13 @@ export default function Exercise() {
 const colHeads = ['Druk', 'Volume', 'Temperatuur']
 const rowHeads = ['Voor compressie', 'Na compressie']
 const fields = [[
-	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-	<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
-	<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
+	<QuantityInput id="p1" label={<M>p_1</M>} size="l" />,
+	<QuantityInput id="V1" label={<M>V_1</M>} size="l" />,
+	<QuantityInput id="T1" label={<M>T_1</M>} size="l" />,
 ], [
-	<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-	<FloatUnitInput id="V2" label={<M>V_2</M>} size="l" />,
-	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
+	<QuantityInput id="p2" label={<M>p_2</M>} size="l" />,
+	<QuantityInput id="V2" label={<M>V_2</M>} size="l" />,
+	<QuantityInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
 const Problem = ({ gas, m, T1, V1, V2 }) => {
@@ -84,13 +84,13 @@ const steps = [
 					{choice === 0 ? <>
 						<Par>Prima! Wat is in dit geval de druk na de compressie?</Par>
 						<Par>
-							<FloatUnitInput id="p2" prelabel={<M>p_2=</M>} label="Druk" size="s" />
+							<QuantityInput id="p2" prelabel={<M>p_2=</M>} label="Druk" size="s" />
 						</Par>
 					</> : null}
 					{choice === 1 ? <>
 						<Par>Oké, wat is dan de temperatuur na de compressie?</Par>
 						<Par>
-							<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+							<QuantityInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 						</Par>
 					</> : null}
 				</InputSpace>

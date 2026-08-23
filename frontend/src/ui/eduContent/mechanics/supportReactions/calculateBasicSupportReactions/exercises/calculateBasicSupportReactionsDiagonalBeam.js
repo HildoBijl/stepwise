@@ -8,7 +8,7 @@ import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
-import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
+import { useCurrentBackgroundColor, QuantityInput } from 'ui/inputs'
 import { StepExercise, getCurrentStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadColors, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
@@ -36,7 +36,7 @@ const Problem = () => {
 			<Par>Calculate the unknown support reactions.</Par>
 		</Translation>
 		<InputSpace>
-			{loadNames.map(({ name }) => { const variable = loadNameToVariable(name); const id = getLoadInputId(name); return <FloatUnitInput key={id} id={id} prelabel={<M>{variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} /> })}
+			{loadNames.map(({ name }) => { const variable = loadNameToVariable(name); const id = getLoadInputId(name); return <QuantityInput key={id} id={id} prelabel={<M>{variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} /> })}
 		</InputSpace>
 	</>
 }
@@ -70,7 +70,7 @@ const steps = [
 					<Par>Calculate the horizontal reaction force <M>{vFAx}</M>.</Par>
 				</Translation>
 				<InputSpace>
-					<FloatUnitInput id={getLoadInputId(vFAx)} prelabel={<M>{vFAx}=</M>} size="s" />
+					<QuantityInput id={getLoadInputId(vFAx)} prelabel={<M>{vFAx}=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -96,7 +96,7 @@ const steps = [
 					<Par>Calculate the vertical reaction force <M>{vFC}</M>.</Par>
 				</Translation>
 				<InputSpace>
-					<FloatUnitInput id={getLoadInputId(vFC)} prelabel={<M>{vFC}=</M>} size="s" />
+					<QuantityInput id={getLoadInputId(vFC)} prelabel={<M>{vFC}=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -123,7 +123,7 @@ const steps = [
 					<Par>Calculate the vertical reaction force <M>{vFAy}</M>.</Par>
 				</Translation>
 				<InputSpace>
-					<FloatUnitInput id={getLoadInputId(vFAy)} prelabel={<M>{vFAy}=</M>} size="s" />
+					<QuantityInput id={getLoadInputId(vFAy)} prelabel={<M>{vFAy}=</M>} size="s" />
 				</InputSpace>
 			</>
 		},

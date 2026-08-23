@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { cp } = gasProperties.air
@@ -19,8 +19,8 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		const T1o = getRandomFloatUnit({ min: 150, max: 300, decimals: -1, unit: 'dC' }).setDecimals(0)
-		const T2o = getRandomFloatUnit({ min: 650, max: 800, decimals: -1, unit: 'dC' }).setDecimals(0)
+		const T1o = getRandomQuantity({ min: 150, max: 300, decimals: -1, unit: 'dC' }).setDecimals(0)
+		const T2o = getRandomQuantity({ min: 650, max: 800, decimals: -1, unit: 'dC' }).setDecimals(0)
 		return { T1o, T2o }
 	},
 
@@ -29,7 +29,7 @@ export default buildStepExercise({
 		const T1 = T1o
 		const T2 = T2o
 		const q = cpSimplified.multiply(T2.subtract(T1)).setUnit('J/kg')
-		const wt = new FloatUnit('0 J/kg')
+		const wt = new Quantity('0 J/kg')
 		return { process: 0, eq: 1, T1, T2, cp: cpSimplified, q, wt }
 	},
 

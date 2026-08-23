@@ -1,16 +1,16 @@
 import { randomNumber } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithCOP',
-		comparisons: { FloatUnit: { value: { significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
-		const Ee = getRandomFloatUnit({
+		const Ee = getRandomQuantity({
 			min: 3,
 			max: 8,
 			significantDigits: 2,

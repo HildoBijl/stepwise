@@ -2,12 +2,12 @@ import React from 'react'
 
 import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, Label, LoadLabel, render, sumOfMoments, defaultGraphicalForceLength, loadColors } from 'ui/eduContent/mechanics'
@@ -24,7 +24,7 @@ const Problem = ({ angle, FD }) => {
 		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. De diagonale kracht <M>F_D</M> (rood) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal, en de grootte is <M>F_D = {FD}.</M> Bereken het moment <M>M_A</M> (geel).</Par>
 		<Diagram />
 		<InputSpace>
-			<FloatUnitInput id="MA" prelabel={<M>M_A=</M>} size="s" />
+			<QuantityInput id="MA" prelabel={<M>M_A=</M>} size="s" />
 		</InputSpace>
 	</>
 }
@@ -55,8 +55,8 @@ const steps = [
 				<Par>Ontbind de kracht <M>F_D</M> in de componenten <M>F_(Dx)</M> en <M>F_(Dy).</M></Par>
 				<Diagram decompose={true} />
 				<InputSpace>
-					<FloatUnitInput id="FDx" prelabel={<M>F_(Dx)=</M>} size="s" />
-					<FloatUnitInput id="FDy" prelabel={<M>F_(Dy)=</M>} size="s" />
+					<QuantityInput id="FDx" prelabel={<M>F_(Dx)=</M>} size="s" />
+					<QuantityInput id="FDy" prelabel={<M>F_(Dy)=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -76,7 +76,7 @@ const steps = [
 				<Par>Definieer punt <M>E</M> als het snijpunt van de werklijnen van krachten <M>F_B</M> en <M>F_C.</M> Pas momentenevenwicht om dit punt toe om <M>M_A</M> te berekenen.</Par>
 				<Diagram decompose={true} showIntersection={true} />
 				<InputSpace>
-					<FloatUnitInput id="MA" prelabel={<M>M_A=</M>} size="s" />
+					<QuantityInput id="MA" prelabel={<M>M_A=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -127,7 +127,7 @@ function Diagram({ decompose = false, showIntersection = false }) {
 			<Circle center={intersection} graphicalRadius={5} style={{ fill: '#000' }} />
 		</> : null}
 
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new Quantity('1.0 m')}</M></Element>
 		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 	</Drawing>
 }

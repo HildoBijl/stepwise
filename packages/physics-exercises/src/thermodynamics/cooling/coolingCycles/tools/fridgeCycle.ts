@@ -1,12 +1,12 @@
 import { sample } from '@step-wise/js-utils'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 
 export function getTemperatures() {
-	const TCold = getRandomFloatUnit({ min: -4, max: 6, unit: 'dC', decimals: 0 })
-	const TWarm = getRandomFloatUnit({ min: 18, max: 28, unit: 'dC', decimals: 0 })
-	const dTCold = getRandomFloatUnit({ min: 6, max: 16, unit: 'dC', decimals: 0 })
-	const dTWarm = getRandomFloatUnit({ min: 6, max: 16, unit: 'dC', decimals: 0 })
+	const TCold = getRandomQuantity({ min: -4, max: 6, unit: 'dC', decimals: 0 })
+	const TWarm = getRandomQuantity({ min: 18, max: 28, unit: 'dC', decimals: 0 })
+	const dTCold = getRandomQuantity({ min: 6, max: 16, unit: 'dC', decimals: 0 })
+	const dTWarm = getRandomQuantity({ min: 6, max: 16, unit: 'dC', decimals: 0 })
 	const TEvap = TCold.subtract(dTCold)
 	const TCond = TWarm.add(dTWarm)
 	return { TCold, TWarm, dTCold, dTWarm, TEvap, TCond }
@@ -17,8 +17,8 @@ export function getBasicCycle() {
 	const refrigerantData = refrigerants[refrigerant]
 	const temperatures = getTemperatures()
 	const { TEvap, TCond } = temperatures
-	const dTSuperheating = getRandomFloatUnit({ min: 4, max: 12, unit: 'dC', decimals: 0 })
-	const dTSubcooling = getRandomFloatUnit({ min: 4, max: 12, unit: 'dC', decimals: 0 })
+	const dTSuperheating = getRandomQuantity({ min: 4, max: 12, unit: 'dC', decimals: 0 })
+	const dTSubcooling = getRandomQuantity({ min: 4, max: 12, unit: 'dC', decimals: 0 })
 	const T1 = TEvap.add(dTSuperheating)
 	const T3 = TCond.subtract(dTSubcooling)
 	const pEvap = getBoilingPressure(refrigerantData, TEvap)!
@@ -34,7 +34,7 @@ export function getCycle() {
 	const basicCycle = getBasicCycle()
 	const { refrigerant, pCond, point1, point2: point2p, point3, point4 } = basicCycle
 	const refrigerantData = refrigerants[refrigerant]
-	const etai = getRandomFloatUnit({ min: 0.7, max: 0.85, unit: '' })
+	const etai = getRandomQuantity({ min: 0.7, max: 0.85, unit: '' })
 	const wtp = point2p.enthalpy.subtract(point1.enthalpy)
 	const wt = wtp.divide(etai)
 	const h2 = point1.enthalpy.add(wt)
@@ -43,7 +43,7 @@ export function getCycle() {
 	const qout = point2.enthalpy.subtract(point3.enthalpy)
 	const epsilon = qin.divide(wt).setUnit('')
 	const COP = qout.divide(wt).setUnit('')
-	const mdot = getRandomFloatUnit({ min: 20, max: 200, unit: 'g/s', decimals: -1 }).setDecimals(0)
+	const mdot = getRandomQuantity({ min: 20, max: 200, unit: 'g/s', decimals: -1 }).setDecimals(0)
 	const P = mdot.multiply(wt).setUnit('kW')
 	return { ...basicCycle, point2, point2p, wt, wtp, etai, qin, qout, epsilon, COP, mdot, P }
 }

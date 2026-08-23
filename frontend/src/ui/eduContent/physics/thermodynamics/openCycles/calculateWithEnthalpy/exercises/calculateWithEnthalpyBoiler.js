@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ Q, m }) => <>
 	<Par>We meten een dag lang een CV-ketel in een huis door. Gedurende deze dag is er <M>{m}</M> aan water doorgestroomd. Dit water heeft in totaal <M>{Q}</M> aan warmte toegevoerd gekregen. Ga ervan uit dat deze warmte gelijkmatig aan het water is toegevoerd: elke liter water is evenveel verwarmd. De verwarming gebeurt op constant druk. Wat is de specifieke enthalpietoename van het water, vanwege deze verwarming?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />
+			<QuantityInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Bereken de toegevoerde specifieke warmte.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q" prelabel={<M>q=</M>} label="Toegevoerde specifieke warmte" size="s" />
+					<QuantityInput id="q" prelabel={<M>q=</M>} label="Toegevoerde specifieke warmte" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -37,7 +37,7 @@ const steps = [
 			<Par>Vind de specifieke technische arbeid bij dit isobare verwarmingsproces.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke arbeid" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -52,7 +52,7 @@ const steps = [
 			<Par>Bereken aan de hand van de eerste hoofdwet de toename in specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dh" prelabel={<M>\Delta h =</M>} label="Specifieke enthalpietoename" size="s" />
+					<QuantityInput id="dh" prelabel={<M>\Delta h =</M>} label="Specifieke enthalpietoename" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

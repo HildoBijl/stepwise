@@ -10,6 +10,6 @@ The [PrecisionNumber](./src/PrecisionNumber/) represents a number with a certain
 
 The [Unit](./src/Unit/) represents a unit in physics. We may have `m`, `kg`, `m / s`, `mm^3` or `kg * m / s^2`.
 
-## FloatUnit
+## Quantity
 
-The [FloatUnit](./src/FloatUnit/) combines the `PrecisionNumber` and `Unit` classes to model physics quantities. Think of for instance `2.9979 * 10^8 m / s`.
+The [Quantity](./src/Quantity/) combines the `PrecisionNumber` and `Unit` classes to model physics quantities. Think of for instance `2.9979 * 10^8 m / s`.

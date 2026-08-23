@@ -1,7 +1,7 @@
 import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { k } = gasProperties.helium
@@ -10,13 +10,13 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateWithInternalEnergy',
 		...createStepExerciseMetadata(['calculateHeatAndWork', 'solveLinearEquation']),
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
 		const factor = randomNumber(1.1, 1.25)
-		const p = getRandomFloatUnit({ min: 1.01, max: 1.10, decimals: 2, unit: 'bar' })
-		const V1 = getRandomFloatUnit({ min: 3, max: 10, significantDigits: 2, unit: 'l' })
+		const p = getRandomQuantity({ min: 1.01, max: 1.10, decimals: 2, unit: 'bar' })
+		const V1 = getRandomQuantity({ min: 3, max: 10, significantDigits: 2, unit: 'l' })
 		const V2 = V1.multiply(factor).roundToPrecision()
 		return { p, V1, V2 }
 	},

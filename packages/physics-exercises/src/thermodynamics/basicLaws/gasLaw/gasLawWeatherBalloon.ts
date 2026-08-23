@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs } = gasProperties.helium
@@ -9,16 +9,16 @@ export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['gasLaw', 'gasLaw']),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},
 
 	generateParameters() {
-		const p1 = new FloatUnit('1.0 bar')
-		const V1 = getRandomFloatUnit({ min: 20, max: 300, significantDigits: 2, unit: 'm^3' })
-		const T1 = getRandomFloatUnit({ min: 275, max: 295, significantDigits: 3, unit: 'K' })
-		const p2 = getRandomFloatUnit({ min: 5, max: 20, significantDigits: 2, unit: 'mbar' })
-		const T2 = getRandomFloatUnit({ min: 200, max: 250, significantDigits: 3, unit: 'K' })
+		const p1 = new Quantity('1.0 bar')
+		const V1 = getRandomQuantity({ min: 20, max: 300, significantDigits: 2, unit: 'm^3' })
+		const T1 = getRandomQuantity({ min: 275, max: 295, significantDigits: 3, unit: 'K' })
+		const p2 = getRandomQuantity({ min: 5, max: 20, significantDigits: 2, unit: 'mbar' })
+		const T2 = getRandomQuantity({ min: 200, max: 250, significantDigits: 3, unit: 'K' })
 		return { p1, p2, T1, T2, V1 }
 	},
 

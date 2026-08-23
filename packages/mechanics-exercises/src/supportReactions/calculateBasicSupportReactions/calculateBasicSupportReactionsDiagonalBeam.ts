@@ -1,6 +1,6 @@
 import { randomBoolean } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, createMoment, FBDComparison } from '@step-wise/engineering-mechanics'
@@ -11,7 +11,7 @@ const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', undefined, 'calculateForceOrMoment', 'calculateForceOrMoment']),
 	comparisons: {
-		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison
 	},
 }
@@ -42,17 +42,17 @@ function getStaticSolution(parameters: any) {
 	]
 
 	const loadsToCheck = loadNames.slice(1)
-	const loadValues = [M, new FloatUnit('0 kN'), M.divide(l), M.divide(l)]
+	const loadValues = [M, new Quantity('0 kN'), M.divide(l), M.divide(l)]
 	return { ...parameters, points, l, Bx, Cx, angle, loads, externalLoad: loads[0], loadNames, loadNameDefinitions, loadsToCheck, loadValues }
 }
 
 export default buildStepExercise({
 	metadata,
 	generateParameters: () => ({
-		l1: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		l3: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		M: getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'kN*m' }).setSignificantDigits(2),
+		l1: getRandomQuantity({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomQuantity({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l3: getRandomQuantity({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		M: getRandomQuantity({ min: 5, max: 30, decimals: 0, unit: 'kN*m' }).setSignificantDigits(2),
 		clockwise: randomBoolean(),
 	}),
 	getSolution: {

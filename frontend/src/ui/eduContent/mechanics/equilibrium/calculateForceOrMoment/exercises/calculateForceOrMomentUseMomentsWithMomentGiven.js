@@ -2,12 +2,12 @@ import React from 'react'
 
 import { integerRange } from '@step-wise/js-utils'
 import { Vector, Rectangle } from '@step-wise/geometry'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, Label, LoadLabel, render, sumOfMoments, defaultGraphicalForceLength, loadColors } from 'ui/eduContent/mechanics'
@@ -24,7 +24,7 @@ const Problem = ({ angle, MD }) => {
 		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. Het moment (rood) heeft een grootte van <M>M_D = {MD}.</M> De diagonale kracht <M>F_A</M> (geel) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal en de diagonale kracht <M>F_C</M> (blauw) staat onder een hoek van <M>45^\circ.</M> Bereken <M>F_A.</M></Par>
 		<Diagram />
 		<InputSpace>
-			<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
+			<QuantityInput id="FA" prelabel={<M>F_A=</M>} size="s" />
 		</InputSpace>
 	</>
 }
@@ -55,7 +55,7 @@ const steps = [
 				<Par>Definieer punt <M>E</M> als het snijpunt van de werklijnen van krachten <M>F_B</M> en <M>F_C.</M> Pas momentenevenwicht om dit punt toe om de verticale component <M>F_(Ay)</M> te berekenen.</Par>
 				<Diagram decompose={true} showIntersection={true} />
 				<InputSpace>
-					<FloatUnitInput id="FAy" prelabel={<M>F_(Ay)=</M>} size="s" />
+					<QuantityInput id="FAy" prelabel={<M>F_(Ay)=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -75,7 +75,7 @@ const steps = [
 			return <>
 				<Par>Bereken via de ontbinding in componenten de kracht <M>F_A.</M></Par>
 				<InputSpace>
-					<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
+					<QuantityInput id="FA" prelabel={<M>F_A=</M>} size="s" />
 				</InputSpace>
 			</>
 		},
@@ -125,7 +125,7 @@ function Diagram({ decompose = false, showIntersection = false }) {
 			<Circle center={intersection} graphicalRadius={5} style={{ fill: '#000' }} />
 		</> : null}
 
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new Quantity('1.0 m')}</M></Element>
 		<Distance lineSegment={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 
 		<CornerLabel points={[forceStart2, force2.position, lineEndpoint2]} graphicalSize={28}><M>45^\circ</M></CornerLabel>

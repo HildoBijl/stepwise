@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { FloatUnit, findPrefix } from '@step-wise/physics-core'
+import { Quantity, findPrefix } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -21,7 +21,7 @@ function Problem({ m, type, prefix }) {
 	return <>
 		{description}
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>m =</M>} label="Massa" size="s" /></Par>
+			<Par><QuantityInput id="ans" prelabel={<M>m =</M>} label="Massa" size="s" /></Par>
 		</InputSpace>
 	</>
 }
@@ -33,8 +33,8 @@ function Solution({ m, type, prefix, ans }) {
 	const { name: toName, exponent: toPower } = getPrefixData(toPrefix)
 
 	const conversion = (fromPower > toPower ?
-		new FloatUnit(`10^${fromPower - toPower} ${toPrefix}g/${fromPrefix}g`) :
-		new FloatUnit(`10^${toPower - fromPower} ${fromPrefix}g/${toPrefix}g`))
+		new Quantity(`10^${fromPower - toPower} ${toPrefix}g/${fromPrefix}g`) :
+		new Quantity(`10^${toPower - fromPower} ${fromPrefix}g/${toPrefix}g`))
 
 	const intro = `${type === 1 ? 'De standaard eenheid van massa is de kilogram. Oftewel, we willen' : 'We willen'} van ${fromName}gram naar ${toName}gram gaan.`
 

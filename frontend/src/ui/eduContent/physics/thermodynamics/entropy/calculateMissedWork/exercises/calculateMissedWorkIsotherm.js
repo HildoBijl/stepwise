@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,7 +15,7 @@ const Problem = ({ Qo, Two, Tco }) => <>
 	<Par>In een fabriekshal staan twee grote drukvaten. Het warme vat heeft een temperatuur van <M>{Two}</M> en het koude vat zit op <M>{Tco}.</M> Vanwege dit temperatuursverschil stroomt er <M>{Qo}</M> aan warmte van het warme vat naar het koude. Deze warmtestroom wordt nu niet gebruikt om arbeid te genereren. Bereken hoeveel arbeid hiermee in theorie gemist wordt. Je mag ervan uitgaan dat de vaten groot genoeg zijn dat de temperatuur ervan niet verandert.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="Wm" prelabel={<M>W_m=</M>} label="Gemiste arbeid" size="s" />
+			<QuantityInput id="Wm" prelabel={<M>W_m=</M>} label="Gemiste arbeid" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -26,7 +26,7 @@ const steps = [
 			<Par>Bereken de totale entropieverandering die plaatsvindt vanwege deze warmtestroom.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dS" prelabel={<M>\Delta S =</M>} label="Totale entropieverandering" size="s" />
+					<QuantityInput id="dS" prelabel={<M>\Delta S =</M>} label="Totale entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -48,12 +48,12 @@ const steps = [
 			<Par>Gebruik de entropieverandering om de gemiste arbeid te berekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Wm" prelabel={<M>W_m =</M>} label="Gemiste arbeid" size="s" />
+					<QuantityInput id="Wm" prelabel={<M>W_m =</M>} label="Gemiste arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
 		Solution: ({ Q, Tc, Tw, dS, Wm }) => {
-			const eta = new FloatUnit('1.000000000000').subtract(Tc.divide(Tw))
+			const eta = new Quantity('1.000000000000').subtract(Tc.divide(Tw))
 			return <>
 				<Par>De koudste temperatuur waar in dit probleem warmte geloosd kan worden is <M>T_k = {Tc}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>W_m = T_k \Delta S = {Tc.value} \cdot {dS.value} = {Wm}.</BM></Par>
 				<SubHead>Alternatieve oplossing</SubHead>

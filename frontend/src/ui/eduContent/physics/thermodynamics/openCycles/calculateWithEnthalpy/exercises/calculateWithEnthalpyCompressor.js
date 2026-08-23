@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,7 +14,7 @@ const Problem = ({ T1, T2, wt }) => <>
 	<Par>De compressie verloopt niet isentroop: er wordt warmte afgevoerd naar de omgeving. Om uit te vinden hoeveel warmte er precies afgevoerd wordt, wordt de temperatuur van de ingezogen en geleverde lucht gemeten. De ingaande lucht is <M>{T1}</M> en de uitgaande lucht is <M>{T2}.</M> Wat is de specifieke <em>toegevoerde</em> warmte tijdens dit compressieproces?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="q" prelabel={<M>q=</M>} label="Toegevoerde specifieke warmte" size="s" />
+			<QuantityInput id="q" prelabel={<M>q=</M>} label="Toegevoerde specifieke warmte" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -25,7 +25,7 @@ const steps = [
 			<Par>Bereken aan de hand van de temperaturen de toename in specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />
+					<QuantityInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -38,7 +38,7 @@ const steps = [
 			<Par>Bereken via de eerste hoofdwet de tijdens het proces toegevoerde specifieke warmte <M>q.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Toegevoerde specifieke warmte" size="s" />
+					<QuantityInput id="q" prelabel={<M>q =</M>} label="Toegevoerde specifieke warmte" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

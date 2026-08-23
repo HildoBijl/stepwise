@@ -4,7 +4,7 @@ import { Unit } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,7 +15,7 @@ function Problem({ q, Qdot }) {
 	return <>
 		<Par>Een CV-ketel verwarmt water. De ketel is zo ingesteld dat hij altijd een warmte van <M>{q}</M> aan het water toevoert. Op een gegeven moment is het toegevoerde warmtevermogen <M>{Qdot}.</M> Wat is de massastroom van het water op dat moment?</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom water" size="s" positive="true" /></Par>
+			<Par><QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom water" size="s" positive="true" /></Par>
 		</InputSpace>
 	</>
 }

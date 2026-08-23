@@ -1,7 +1,7 @@
 import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomPrecisionNumber, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomPrecisionNumber, getRandomQuantity } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metadata: {
@@ -17,8 +17,8 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const n = getRandomPrecisionNumber({ min: 1.1, max: 1.3, decimals: 1 })
-		const T1 = getRandomFloatUnit({ min: 5, max: 30, significantDigits: 2, unit: 'dC' })
-		const V1 = getRandomFloatUnit({ min: 0.2, max: 1.2, significantDigits: 2, unit: 'l' })
+		const T1 = getRandomQuantity({ min: 5, max: 30, significantDigits: 2, unit: 'dC' })
+		const V1 = getRandomQuantity({ min: 0.2, max: 1.2, significantDigits: 2, unit: 'l' })
 		const pressureRatio = randomNumber(2, 5)
 		const V2 = V1.multiply(Math.pow(pressureRatio, -1 / n.number)).roundToPrecision()
 		return { n, T1, V1, V2 }
@@ -38,8 +38,8 @@ export default buildStepExercise({
 			case 1:
 				switch (substep) {
 					case 1: return compareInputs('T1s', data)
-					case 2: return compareInputs('V1s', data) && getInput('V1s', data, FloatUnit).unit.equals(getInput('V2s', data, FloatUnit).unit, { target: 'unchanged' })
-					case 3: return compareInputs('V2s', data) && getInput('V1s', data, FloatUnit).unit.equals(getInput('V2s', data, FloatUnit).unit, { target: 'unchanged' })
+					case 2: return compareInputs('V1s', data) && getInput('V1s', data, Quantity).unit.equals(getInput('V2s', data, Quantity).unit, { target: 'unchanged' })
+					case 3: return compareInputs('V2s', data) && getInput('V1s', data, Quantity).unit.equals(getInput('V2s', data, Quantity).unit, { target: 'unchanged' })
 				}
 			case 2: return compareInputs('eq', data)
 			default: return compareInputs('T2', data)

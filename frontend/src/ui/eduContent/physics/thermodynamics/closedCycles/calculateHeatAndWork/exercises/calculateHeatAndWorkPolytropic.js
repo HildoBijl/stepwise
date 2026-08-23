@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,8 +14,8 @@ const Problem = ({ m, T1, T2, n }) => {
 		<Par>In een fietspomp wordt tijdens één slag <M>{m}</M> lucht gecomprimeerd. De temperatuur van de lucht voor de compressie is <M>{T1}</M>, en na de compressie is dit <M>{T2}.</M> De compressie verloopt niet isentroop: via metingen is de procescoëfficiënt bepaald als <M>n = {n}.</M> Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
-				<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
+				<QuantityInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
+				<QuantityInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -67,8 +67,8 @@ const steps = [
 				<Par>Zoek voor lucht de specifieke gasconstante <M>R_s</M> en de soortelijke warmte bij constant volume <M>c_v</M> op.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="Rs" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" />
-						<FloatUnitInput id="cv" prelabel={<M>c_v =</M>} label="Soortelijke warmte" size="s" />
+						<QuantityInput id="Rs" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" />
+						<QuantityInput id="cv" prelabel={<M>c_v =</M>} label="Soortelijke warmte" size="s" />
 					</Par>
 				</InputSpace>
 			</>
@@ -83,7 +83,7 @@ const steps = [
 				<Par>Bereken de soortelijke warmte <M>c</M> die hoort bij dit proces.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="c" prelabel={<M>c =</M>} label="Soortelijke warmte" size="s" />
+						<QuantityInput id="c" prelabel={<M>c =</M>} label="Soortelijke warmte" size="s" />
 					</Par>
 				</InputSpace>
 			</>
@@ -97,9 +97,9 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ms" prelabel={<M>m =</M>} label="Massa" size="s" />
-					<FloatUnitInput id="T1s" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
-					<FloatUnitInput id="T2s" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="ms" prelabel={<M>m =</M>} label="Massa" size="s" />
+					<QuantityInput id="T1s" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="T2s" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -112,8 +112,8 @@ const steps = [
 			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
-					<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
+					<QuantityInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
+					<QuantityInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,

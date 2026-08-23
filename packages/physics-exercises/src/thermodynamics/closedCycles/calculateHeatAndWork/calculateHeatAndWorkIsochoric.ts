@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const gases = ['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
@@ -11,7 +11,7 @@ export default buildStepExercise({
 		skill: 'calculateHeatAndWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], undefined]),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.015, significantDigitTolerance: 2 } },
+			Quantity: { value: { relativeTolerance: 0.015, significantDigitTolerance: 2 } },
 			Vs: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
 			p1s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
 			p2s: { value: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { checkSize: true } },
@@ -20,9 +20,9 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const gas = sample(gases)
-		const V = getRandomFloatUnit({ min: 20, max: 200, decimals: -1, unit: 'l' }).setDecimals(0)
-		const p1 = getRandomFloatUnit({ min: 6, max: 12, decimals: 0, unit: 'bar' })
-		const p2 = getRandomFloatUnit({ min: 13, max: 24, decimals: 0, unit: 'bar' })
+		const V = getRandomQuantity({ min: 20, max: 200, decimals: -1, unit: 'l' }).setDecimals(0)
+		const p1 = getRandomQuantity({ min: 6, max: 12, decimals: 0, unit: 'bar' })
+		const p2 = getRandomQuantity({ min: 13, max: 24, decimals: 0, unit: 'bar' })
 		return { gas, V, p1, p2 }
 	},
 
@@ -32,7 +32,7 @@ export default buildStepExercise({
 		const p1s = p1.simplify()
 		const p2s = p2.simplify()
 		const Q = Vs.multiply(p2s.subtract(p1s)).multiply(1 / (k.number - 1)).setUnit('J')
-		const W = new FloatUnit('0 J')
+		const W = new Quantity('0 J')
 		return { gas, process: 1, eq: 2, k, Vs, p1s, p2s, Q, W }
 	},
 

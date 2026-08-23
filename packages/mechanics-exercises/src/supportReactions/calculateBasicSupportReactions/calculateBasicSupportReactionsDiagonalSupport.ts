@@ -1,6 +1,6 @@
 import { degreesToRadians, fromKeysAndValues, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, FBDComparison, reverseLoad } from '@step-wise/engineering-mechanics'
@@ -11,7 +11,7 @@ const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', undefined]),
 	comparisons: {
-		FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison,
 	},
 }
@@ -58,9 +58,9 @@ function getDynamicSolution(inputDependency: unknown, solution: any) {
 export default buildStepExercise({
 	metadata,
 	generateParameters: () => ({
-		l1: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
-		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
+		l1: getRandomQuantity({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomQuantity({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		P: getRandomQuantity({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
 		angle: randomInteger(4, 14) * 5,
 	}),
 	getSolution: {

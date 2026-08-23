@@ -1,6 +1,6 @@
 import { type PrecisionNumberEqualityOptionsInput, PrecisionNumber, PrecisionNumberType } from '@step-wise/physics-core'
 import { type UnitEqualityOptionsInput, Unit, UnitType } from '@step-wise/physics-core'
-import { type FloatUnitEqualityOptionsInput, FloatUnit, FloatUnitType } from '@step-wise/physics-core'
+import { type QuantityEqualityOptionsInput, Quantity, QuantityType } from '@step-wise/physics-core'
 
 import type { TypeCompareFunction } from '../types'
 
@@ -14,13 +14,13 @@ export function compareUnit(inputValue: unknown, expectedValue: unknown, options
 	return expectedValue.equals(inputValue, options)
 }
 
-export function compareFloatUnit(inputValue: unknown, expectedValue: unknown, options: FloatUnitEqualityOptionsInput): boolean {
-	if (!(expectedValue instanceof FloatUnit) || !(inputValue instanceof FloatUnit)) throw new Error(`Invalid FloatUnit comparison: received parameters that were not FloatUnits.`)
+export function compareQuantity(inputValue: unknown, expectedValue: unknown, options: QuantityEqualityOptionsInput): boolean {
+	if (!(expectedValue instanceof Quantity) || !(inputValue instanceof Quantity)) throw new Error(`Invalid Quantity comparison: received parameters that were not Quantitys.`)
 	return expectedValue.equals(inputValue, options)
 }
 
 export const physicsCompareFunctions = {
 	[PrecisionNumberType]: comparePrecisionNumber,
 	[UnitType]: compareUnit,
-	[FloatUnitType]: compareFloatUnit,
+	[QuantityType]: compareQuantity,
 } satisfies Record<string, TypeCompareFunction>

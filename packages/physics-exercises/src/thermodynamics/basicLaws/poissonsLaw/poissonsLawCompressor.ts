@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const gases = ['methane', 'helium', 'hydrogen'] as const
@@ -21,9 +21,9 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const gas = sample(gases)
-		const V2 = getRandomFloatUnit({ min: 20, max: 120, decimals: 0, unit: 'l' })
-		const p1 = getRandomFloatUnit({ min: 2, max: 10, decimals: 1, unit: 'bar' })
-		const p2 = getRandomFloatUnit({ min: 200, max: 300, decimals: -1, unit: 'bar' }).setDecimals(0)
+		const V2 = getRandomQuantity({ min: 20, max: 120, decimals: 0, unit: 'l' })
+		const p1 = getRandomQuantity({ min: 2, max: 10, decimals: 1, unit: 'bar' })
+		const p2 = getRandomQuantity({ min: 200, max: 300, decimals: -1, unit: 'bar' }).setDecimals(0)
 		return { gas, V2, p1, p2 }
 	},
 
@@ -41,8 +41,8 @@ export default buildStepExercise({
 		switch (step) {
 			case 1:
 				switch (substep) {
-					case 1: return compareInputs('p1s', data) && getInput('p1s', data, FloatUnit).unit.equals(getInput('p2s', data, FloatUnit).unit, { target: 'unchanged' })
-					case 2: return compareInputs('p2s', data) && getInput('p1s', data, FloatUnit).unit.equals(getInput('p2s', data, FloatUnit).unit, { target: 'unchanged' })
+					case 1: return compareInputs('p1s', data) && getInput('p1s', data, Quantity).unit.equals(getInput('p2s', data, Quantity).unit, { target: 'unchanged' })
+					case 2: return compareInputs('p2s', data) && getInput('p1s', data, Quantity).unit.equals(getInput('p2s', data, Quantity).unit, { target: 'unchanged' })
 					case 3: return compareInputs('V2s', data)
 				}
 			case 2: return compareInputs('k', data)

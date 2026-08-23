@@ -1,7 +1,7 @@
 import { degreesToRadians, randomBoolean, randomInteger, integerRange, isMultipleOf } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, createForce, createMoment, deriveLoadNames, getAxisComponents, isForce } from '@step-wise/engineering-mechanics'
 
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateForceOrMoment',
 		...createStepExerciseMetadata([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -18,7 +18,7 @@ export default buildStepExercise({
 			const angle = randomInteger(5, 13, { exclude: [9] }) * 5
 			const up = randomBoolean()
 			const right = randomBoolean()
-			const FD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
+			const FD = getRandomQuantity({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
 			if (points.some((point, index) => points.some((otherPoint, otherIndex) => index < otherIndex && point.equals(otherPoint)))) continue
 			if (points[3].x === points[1].x || points[3].y === points[2].y) continue
 			if (points[0].x === points[1].x && points[0].y === points[2].y) continue
@@ -36,8 +36,8 @@ export default buildStepExercise({
 		const FDy = FD.multiply(Math.cos(angleRad))
 		const intersection = new Vector(B.x, C.y)
 		const rD = D.subtract(intersection)
-		const rDx = new FloatUnit(`${Math.abs(rD.y)} m`).setSignificantDigits(2)
-		const rDy = new FloatUnit(`${Math.abs(rD.x)} m`).setSignificantDigits(2)
+		const rDx = new Quantity(`${Math.abs(rD.y)} m`).setSignificantDigits(2)
+		const rDy = new Quantity(`${Math.abs(rD.x)} m`).setSignificantDigits(2)
 		const MDx = FDx.multiply(rDx).multiply(right === (rD.y > 0) ? -1 : 1)
 		const MDy = FDy.multiply(rDy).multiply(up === (rD.x > 0) ? -1 : 1)
 		const MD = MDx.add(MDy)

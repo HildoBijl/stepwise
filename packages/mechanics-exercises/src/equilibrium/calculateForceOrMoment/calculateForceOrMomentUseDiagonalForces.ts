@@ -1,7 +1,7 @@
 import { randomBoolean, randomInteger, integerRange } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, type NamedLoad, createForce, deriveLoadNames } from '@step-wise/engineering-mechanics'
 
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateForceOrMoment',
 		...createStepExerciseMetadata([undefined, undefined, undefined]), // ToDo later: add steps, once they have been implemented.
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -18,7 +18,7 @@ export default buildStepExercise({
 			const up = randomBoolean()
 			const right = randomBoolean()
 			const horizontal = randomBoolean()
-			const FD = getRandomFloatUnit({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
+			const FD = getRandomQuantity({ min: 3, max: 18, significantDigits: 2, unit: 'kN' })
 			if (points.some((point, index) => points.some((otherPoint, otherIndex) => index < otherIndex && point.equals(otherPoint)))) continue
 			const index = up === right ? -1 : 1
 			if (points[1].x + index * points[1].y === points[2].x + index * points[2].y) continue

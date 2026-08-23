@@ -3,7 +3,7 @@ import React from 'react'
 import { Dutch } from 'ui/lang/gases'
 import { InputTable, Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -23,14 +23,14 @@ const Problem = ({ medium, mo, p1o, V1o, p2o, p4o }) => {
 			{choice === 0 ? <>
 				<Par>Wat is in dat geval het rendement?</Par>
 				<Par>
-					<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</> : null}
 			{choice === 1 ? <>
 				<Par>Wat zijn in dat geval de koudefactor en de warmtefactor?</Par>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={QuantityInput.validation.any} />
+					<QuantityInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</> : null}
 		</InputSpace>
@@ -46,21 +46,21 @@ const steps = [
 					colHeads={['Druk', 'Volume', 'Temperatuur']}
 					rowHeads={['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']}
 					fields={[[
-						<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-						<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
-						<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
+						<QuantityInput id="p1" label={<M>p_1</M>} size="l" />,
+						<QuantityInput id="V1" label={<M>V_1</M>} size="l" />,
+						<QuantityInput id="T1" label={<M>T_1</M>} size="l" />,
 					], [
-						<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-						<FloatUnitInput id="V2" label={<M>V_2</M>} size="l" />,
-						<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
+						<QuantityInput id="p2" label={<M>p_2</M>} size="l" />,
+						<QuantityInput id="V2" label={<M>V_2</M>} size="l" />,
+						<QuantityInput id="T2" label={<M>T_2</M>} size="l" />,
 					], [
-						<FloatUnitInput id="p3" label={<M>p_3</M>} size="l" />,
-						<FloatUnitInput id="V3" label={<M>V_3</M>} size="l" />,
-						<FloatUnitInput id="T3" label={<M>T_3</M>} size="l" />,
+						<QuantityInput id="p3" label={<M>p_3</M>} size="l" />,
+						<QuantityInput id="V3" label={<M>V_3</M>} size="l" />,
+						<QuantityInput id="T3" label={<M>T_3</M>} size="l" />,
 					], [
-						<FloatUnitInput id="p4" label={<M>p_4</M>} size="l" />,
-						<FloatUnitInput id="V4" label={<M>V_4</M>} size="l" />,
-						<FloatUnitInput id="T4" label={<M>T_4</M>} size="l" />,
+						<QuantityInput id="p4" label={<M>p_4</M>} size="l" />,
+						<QuantityInput id="V4" label={<M>V_4</M>} size="l" />,
+						<QuantityInput id="T4" label={<M>T_4</M>} size="l" />,
 					]]} />
 			</InputSpace>
 		</>,
@@ -91,17 +91,17 @@ const steps = [
 					colHeads={[<span>Warmte <M>Q</M></span>, <span>Arbeid <M>W</M></span>]}
 					rowHeads={['Stap 1-2', 'Stap 2-3', 'Stap 3-4', 'Stap 4-1']}
 					fields={[[
-						<FloatUnitInput id="Q12" label={<M>Q_(1-2)</M>} size="l" />,
-						<FloatUnitInput id="W12" label={<M>W_(1-2)</M>} size="l" />,
+						<QuantityInput id="Q12" label={<M>Q_(1-2)</M>} size="l" />,
+						<QuantityInput id="W12" label={<M>W_(1-2)</M>} size="l" />,
 					], [
-						<FloatUnitInput id="Q23" label={<M>Q_(2-3)</M>} size="l" />,
-						<FloatUnitInput id="W23" label={<M>W_(2-3)</M>} size="l" />,
+						<QuantityInput id="Q23" label={<M>Q_(2-3)</M>} size="l" />,
+						<QuantityInput id="W23" label={<M>W_(2-3)</M>} size="l" />,
 					], [
-						<FloatUnitInput id="Q34" label={<M>Q_(3-4)</M>} size="l" />,
-						<FloatUnitInput id="W34" label={<M>W_(3-4)</M>} size="l" />,
+						<QuantityInput id="Q34" label={<M>Q_(3-4)</M>} size="l" />,
+						<QuantityInput id="W34" label={<M>W_(3-4)</M>} size="l" />,
 					], [
-						<FloatUnitInput id="Q41" label={<M>Q_(4-1)</M>} size="l" />,
-						<FloatUnitInput id="W41" label={<M>W_(4-1)</M>} size="l" />,
+						<QuantityInput id="Q41" label={<M>Q_(4-1)</M>} size="l" />,
+						<QuantityInput id="W41" label={<M>W_(4-1)</M>} size="l" />,
 					]]} />
 			</InputSpace>
 		</>,
@@ -151,8 +151,8 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, de koudefactor en de warmtefactor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={QuantityInput.validation.any} />
+					<QuantityInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,

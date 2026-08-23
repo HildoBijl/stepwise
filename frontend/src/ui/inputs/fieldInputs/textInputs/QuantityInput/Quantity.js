@@ -5,8 +5,8 @@ import { Unit } from '../UnitInput'
 
 import { isEmpty, isUnitVisible, getPrecisionNumberFI, getUnitFI } from './support'
 
-// FloatUnit takes an FI object and shows the corresponding contents as JSX render.
-export function FloatUnit(FI) {
+// Quantity takes an FI object and shows the corresponding contents as JSX render.
+export function Quantity(FI) {
 	const { value, cursor } = FI
 	const { value: numericValue } = value
 
@@ -14,7 +14,7 @@ export function FloatUnit(FI) {
 	if (isEmpty(value) && !cursor)
 		return null
 
-	// Show the FloatUnit.
+	// Show the Quantity.
 	const showPrecisionNumberFiller = isPrecisionNumberEmpty(numericValue) && cursor?.part !== 'value'
 	return <>
 		<span className="value">

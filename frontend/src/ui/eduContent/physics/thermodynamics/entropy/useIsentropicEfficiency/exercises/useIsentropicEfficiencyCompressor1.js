@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p1, p2, T1, T2 }) => <>
 	<Par>Een compressor in een gasturbine comprimeert lucht van <M>{p1}</M> en <M>{T1}</M> tot <M>{p2}</M> en <M>{T2}.</M> Deze compressie verloopt niet isentroop. Bereken het isentropisch rendement.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
+			<QuantityInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={QuantityInput.validation.any} />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Stel dat de compressor <em>wel</em> isentroop werkt. Bereken in dit geval de temperatuur van de lucht aan de uitgang van de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2p" prelabel={<M>T_(2')=</M>} label="Theoretische temperatuur" size="s" />
+					<QuantityInput id="T2p" prelabel={<M>T_(2')=</M>} label="Theoretische temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -42,8 +42,8 @@ const steps = [
 			<Par>Bereken de specifieke technische arbeid die de compressor op de lucht uitoefent, zowel voor het theoretische isentrope geval als in werkelijkheid. (Merk op: je antwoorden moeten positieve getallen zijn.)</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
-					<FloatUnitInput id="wt" prelabel={<M>w_t=</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t=</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -66,7 +66,7 @@ const steps = [
 			<Par>Bereken het isentropisch rendement door de theoretische isentrope situatie met de werkelijkheid te vergelijken.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
+					<QuantityInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={QuantityInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,

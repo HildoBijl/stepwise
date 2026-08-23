@@ -3,7 +3,7 @@ import { interpolateTable } from '@step-wise/interpolation'
 import { and } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { saturatedSteamByTemperature, saturatedSteamByPressure } from '@step-wise/physics-data'
 
 export default buildStepExercise({
@@ -12,7 +12,7 @@ export default buildStepExercise({
 		setup: and('lookUpSteamProperties', 'linearInterpolation'),
 		...createStepExerciseMetadata(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.001 } },
+			Quantity: { value: { relativeTolerance: 0.001 } },
 			x: { value: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
 			h: { value: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
 		},
@@ -20,7 +20,7 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const type = randomInteger(1, 2)
-		const x = getRandomFloatUnit({ min: 0.1, max: 0.9, unit: '' })
+		const x = getRandomQuantity({ min: 0.1, max: 0.9, unit: '' })
 		if (type === 1) {
 			const temperatureRange = saturatedSteamByTemperature.inputAxes[0]
 			const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]

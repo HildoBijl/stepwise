@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,9 +14,9 @@ const Problem = ({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dT
 		<Par>We bekijken een koelmachine die werkt met {refrigerant}. De koelmachine moet een ruimte op een temperatuur houden van <M>{TCold}.</M> De omgevingstemperatuur (waar warmte geloosd wordt) is <M>{TWarm}.</M> In de verdamper is een minimaal temperatuursverschil nodig van <M>{dTCold}</M> en in de condensor is dit benodigde temperatuursverschil <M>{dTWarm}.</M> Tevens vindt er in de koelmachine <M>{dTSuperheating}</M> oververhitting en <M>{dTSubcooling}</M> nakoeling plaats. De compressor heeft een isentropisch rendement van <M>{etai.setUnit('%')}</M> en gebruikt een vermogen van <M>{P}.</M> Bepaal de koudefactor/warmtefactor en de massastroom koudemiddel die door de koelmachine stroomt.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
-				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
-				<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom" size="s" />
+				<QuantityInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={QuantityInput.validation.any} />
+				<QuantityInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={QuantityInput.validation.any} />
+				<QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -28,10 +28,10 @@ const steps = [
 			<Par>Bekijk eerst de ideale cyclus (zonder meenemen van het isentropisch rendement) beschreven door punten <M>1-2'-3-4.</M> Bepaal hiervoor de specifieke enthalpiën.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
-					<FloatUnitInput id="h2p" prelabel={<M>h_(2') =</M>} label="Specifieke enthalpie in punt 2'" size="s" />
-					<FloatUnitInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
-					<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
+					<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />
+					<QuantityInput id="h2p" prelabel={<M>h_(2') =</M>} label="Specifieke enthalpie in punt 2'" size="s" />
+					<QuantityInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
+					<QuantityInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -53,7 +53,7 @@ const steps = [
 			<Par>Gebruik het isentropisch rendement om de werkelijke specifieke enthalpie na de compressor te bepalen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
+					<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie in punt 2" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -68,9 +68,9 @@ const steps = [
 			<Par>Bereken met alle bekende gegevens de koudefactor, de warmtefactor en de massastroom aan koudemiddel.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
-					<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom" size="s" />
+					<QuantityInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={QuantityInput.validation.any} />
+					<QuantityInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={QuantityInput.validation.any} />
+					<QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

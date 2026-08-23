@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { MultipleChoice, QuantityInput } from 'ui/inputs'
 import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,8 +14,8 @@ const Problem = ({ T1o, T2o }) => {
 		<Par>In de verbrandingskamer van een vliegtuigmotor wordt continu lucht verwarmd van <M>{T1o}</M> tot <M>{T2o}.</M> Dit gebeurt bij gelijkblijvende druk. Bereken hoeveel specifieke warmte <M>q</M> er in de lucht wordt gestopt en hoeveel specifieke technische arbeid <M>w_t</M> de lucht verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
-				<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
+				<QuantityInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
+				<QuantityInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -67,7 +67,7 @@ const steps = [
 				<Par>Zoek voor lucht de waarde van <M>c_p</M> op.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
+						<QuantityInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
 					</Par>
 				</InputSpace>
 			</>
@@ -81,8 +81,8 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
-					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="T1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
+					<QuantityInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -95,8 +95,8 @@ const steps = [
 			<Par>Bereken met de gegeven formules en bekende waarden de specifieke warmte <M>q</M> en de specifieke technische arbeid <M>w_t.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
-					<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
+					<QuantityInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
+					<QuantityInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

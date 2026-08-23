@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,11 +14,11 @@ const Problem = ({ type, pc, pe, T2, x3, mdot, P }) => {
 		<Par>Een stoomturbine gebruikt een Rankine-cyclus. Hierbij wordt het water eerst met een pomp gecomprimeerd naar <M>{pe}</M> (punt 1). De bijbehorende pomparbeid mag worden verwaarloosd. Op deze druk wordt het water verwarmd, verdampt en oververhit tot <M>{T2}</M> (punt 2). Van hieruit gaat de stoom in de turbine, waar het expandeert tot een druk van <M>{pc}</M> (punt 3). De stoomturbine werkt niet isentroop, maar wel is bekend dat de dampfractie na deze expansie <M>{x3}</M> is. Ten slotte wordt de stoom isobaar gecondenseerd tot water, tot de vloeistoflijn bereikt wordt (punt 4). Vanaf hier begint alles opnieuw. De stoomturbine heeft een {type === 1 ? <>massadebiet van <M>{mdot}.</M></> : <>geleverd vermogen van <M>{P}.</M></>} Bereken het isentropisch rendement van de turbine, en het (thermodynamisch) rendement en {type === 1 ? `het geleverde vermogen` : `het massadebiet`} van de gehele Rankine-cyclus.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
-				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Thermodynamisch rendement" size="s" validate={FloatUnitInput.validation.any} />
+				<QuantityInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={QuantityInput.validation.any} />
+				<QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Thermodynamisch rendement" size="s" validate={QuantityInput.validation.any} />
 				{type === 1 ?
-					<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Geleverd vermogen" size="s" /> :
-					<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />}
+					<QuantityInput id="P" prelabel={<M>P =</M>} label="Geleverd vermogen" size="s" /> :
+					<QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />}
 			</Par>
 		</InputSpace>
 	</>
@@ -30,10 +30,10 @@ const steps = [
 			<Par>We bekijken eerst de ideale Rankine-cyclus, waarbij de expansie in de turbine isentropisch verloopt. Hierbij hebben we niet een werkelijk punt <M>3</M> maar een fictief punt <M>3'.</M> Vind voor deze cyclus alle eigenschappen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label={<span>Specifieke enthalpie in punt <M>1</M></span>} size="s" />
-					<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label={<span>Specifieke enthalpie in punt <M>2</M></span>} size="s" />
-					<FloatUnitInput id="h3p" prelabel={<M>h_(3') =</M>} label={<span>Specifieke enthalpie in punt <M>3'</M></span>} size="s" />
-					<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label={<span>Specifieke enthalpie in punt <M>4</M></span>} size="s" />
+					<QuantityInput id="h1" prelabel={<M>h_1 =</M>} label={<span>Specifieke enthalpie in punt <M>1</M></span>} size="s" />
+					<QuantityInput id="h2" prelabel={<M>h_2 =</M>} label={<span>Specifieke enthalpie in punt <M>2</M></span>} size="s" />
+					<QuantityInput id="h3p" prelabel={<M>h_(3') =</M>} label={<span>Specifieke enthalpie in punt <M>3'</M></span>} size="s" />
+					<QuantityInput id="h4" prelabel={<M>h_4 =</M>} label={<span>Specifieke enthalpie in punt <M>4</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -53,7 +53,7 @@ const steps = [
 			<Par>Bereken via de gegeven dampfractie de werkelijke specifieke enthalpie in punt <M>3.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
+					<QuantityInput id="h3" prelabel={<M>h_3 =</M>} label="Specifieke enthalpie in punt 3" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -66,11 +66,11 @@ const steps = [
 			<Par>Bereken met behulp van de enthalpie-waarden het isentropisch rendement van de turbine en het (thermodynamisch) rendement van de cyclus. {type === 1 ? `Gebruik ook het massadebiet om het geleverde vermogen te berekenen.` : `Gebruik ook het geleverde vermogen om het massadebiet te berekenen.`}</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} /></Substep>
-					<Substep ss={2}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Substep>
+					<Substep ss={1}><QuantityInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={QuantityInput.validation.any} /></Substep>
+					<Substep ss={2}><QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} /></Substep>
 					<Substep ss={3}>{type === 1 ?
-						<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Geleverd vermogen" size="s" /> :
-						<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />}</Substep>
+						<QuantityInput id="P" prelabel={<M>P =</M>} label="Geleverd vermogen" size="s" /> :
+						<QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />}</Substep>
 				</Par>
 			</InputSpace>
 		</>,

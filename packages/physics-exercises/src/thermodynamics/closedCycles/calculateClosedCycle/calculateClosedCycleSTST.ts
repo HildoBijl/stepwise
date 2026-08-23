@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
@@ -9,16 +9,16 @@ const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane'
 const metadata = {
 	skill: 'calculateClosedCycle',
 	...createStepExerciseMetadata(['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep']),
-	comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+	comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 }
 
 export function generateParameters() {
 	const medium = sample(media)
-	const V1o = getRandomFloatUnit({ min: 4, max: 30, significantDigits: 2, unit: 'l' })
-	const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
-	const p1o = getRandomFloatUnit({ min: 1, max: 2, significantDigits: 2, unit: 'bar' })
-	const p2o = getRandomFloatUnit({ min: 6, max: 12, significantDigits: 2, unit: 'bar' })
-	const p4o = getRandomFloatUnit({ min: 6, max: 12, significantDigits: 2, unit: 'bar' })
+	const V1o = getRandomQuantity({ min: 4, max: 30, significantDigits: 2, unit: 'l' })
+	const T1o = getRandomQuantity({ min: 1, max: 30, decimals: 0, unit: 'dC' })
+	const p1o = getRandomQuantity({ min: 1, max: 2, significantDigits: 2, unit: 'bar' })
+	const p2o = getRandomQuantity({ min: 6, max: 12, significantDigits: 2, unit: 'bar' })
+	const p4o = getRandomQuantity({ min: 6, max: 12, significantDigits: 2, unit: 'bar' })
 	const { Rs } = gasProperties[medium]
 	const mo = p1o.setUnit('Pa').multiply(V1o.setUnit('m^3')).divide(Rs.multiply(T1o.setUnit('K'))).setUnit('g').roundToPrecision()
 	return { medium, mo, p1o, V1o, p2o, p4o }

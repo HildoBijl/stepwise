@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,7 +15,7 @@ const Problem = ({ m, TAtm, T1, T2, T2p }) => <>
 	<Par>Bereken hoeveel arbeid er in de eerste situatie (voor het onderhoud) in theorie gemist werd bij elke expansieslag. Doe dit via een entropieberekening. Gebruik hierbij een minimumtemperatuur waarop warmte geloosd kan worden van <M>T_(omg) = {TAtm}.</M></Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="Wm" prelabel={<M>W_m=</M>} label="Gemiste arbeid" size="s" />
+			<QuantityInput id="Wm" prelabel={<M>W_m=</M>} label="Gemiste arbeid" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -26,7 +26,7 @@ const steps = [
 			<Par>De truc bij deze opgave is om het niet-isentropische proces (van voor de onderhoud) als "twee processen" te zien. Het eerste proces is hierbij de isentropische expansie: van punt <M>1</M> naar het theoretische punt <M>2'.</M> Bereken voor deze isentropische stap de entropieverandering.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dS12p" prelabel={<M>\Delta S_(1-2') =</M>} label="Entropieverandering" size="s" />
+					<QuantityInput id="dS12p" prelabel={<M>\Delta S_(1-2') =</M>} label="Entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -41,7 +41,7 @@ const steps = [
 			<Par>De tweede stap is die van punt <M>2'</M> naar punt <M>2.</M> Merk op dat in deze punten het volume gelijk is. Bereken voor deze stap de entropieverandering.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dS2p2" prelabel={<M>\Delta S_(2'-2) =</M>} label="Entropieverandering" size="s" />
+					<QuantityInput id="dS2p2" prelabel={<M>\Delta S_(2'-2) =</M>} label="Entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -56,7 +56,7 @@ const steps = [
 			<Par>Bereken de totale entropieverandering bij het gehele proces, van punt <M>1</M> naar punt <M>2.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dS" prelabel={<M>\Delta S_(1-2) =</M>} label="Entropieverandering" size="s" />
+					<QuantityInput id="dS" prelabel={<M>\Delta S_(1-2) =</M>} label="Entropieverandering" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -71,7 +71,7 @@ const steps = [
 			<Par>Gebruik de entropieverandering om de gemiste arbeid te berekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Wm" prelabel={<M>W_m =</M>} label="Gemiste arbeid" size="s" />
+					<QuantityInput id="Wm" prelabel={<M>W_m =</M>} label="Gemiste arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

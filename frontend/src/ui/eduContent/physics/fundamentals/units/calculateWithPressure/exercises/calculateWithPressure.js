@@ -4,7 +4,7 @@ import { pressureBar as pConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -22,7 +22,7 @@ function Problem({ p, type }) {
 	return <>
 		{description}
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>p =</M>} label="Druk" size="s" /></Par>
+			<Par><QuantityInput id="ans" prelabel={<M>p =</M>} label="Druk" size="s" /></Par>
 		</InputSpace>
 	</>
 }

@@ -1,7 +1,7 @@
 import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
+import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { k } = gasProperties.air
@@ -22,10 +22,10 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		const v2o = getRandomFloatUnit({ min: 1.5, max: 1.8, decimals: 1, unit: 'm^3/kg' })
+		const v2o = getRandomQuantity({ min: 1.5, max: 1.8, decimals: 1, unit: 'm^3/kg' })
 		const pressureRatio = randomNumber(7, 11)
 		const v1o = v2o.multiply(Math.pow(1 / pressureRatio, 1 / k.number)).roundToPrecision()
-		const p2o = new FloatUnit('1.0 bar')
+		const p2o = new Quantity('1.0 bar')
 		const p1o = p2o.multiply(Math.pow(v2o.number / v1o.number, k.number)).setDecimals(1).roundToPrecision()
 		return { p1o, p2o, v1o, v2o }
 	},
@@ -35,7 +35,7 @@ export default buildStepExercise({
 		const p2 = p2o.simplify()
 		const v1 = v1o
 		const v2 = v2o
-		const q = new FloatUnit('0 J/kg')
+		const q = new Quantity('0 J/kg')
 		const wt = p2.multiply(v2).subtract(p1.multiply(v1)).multiply(-k.number / (k.number - 1)).setUnit('J/kg')
 		return { process: 3, eq: 6, k, p1, p2, v1, v2, q, wt }
 	},

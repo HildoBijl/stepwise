@@ -111,14 +111,14 @@ Because every exercise defines different fields, interpreted input is initially 
 ```ts
 const count = getInput('count', data, 'number')
 const name = getInput('name', data, 'string')
-const quantity = getInput('quantity', data, FloatUnit)
+const quantity = getInput('quantity', data, Quantity)
 ```
 
 Use `getInputs` when several fields share a type or need a matching list of types:
 
 ```ts
 const [left, right] = getInputs(['left', 'right'], data, 'number')
-const [count, quantity] = getInputs(['count', 'quantity'], data, ['number', FloatUnit])
+const [count, quantity] = getInputs(['count', 'quantity'], data, ['number', Quantity])
 ```
 
 Both helpers throw when a field is missing or has an unexpected type. Interpretation itself is provided by [@step-wise/input-interpretation](https://www.npmjs.com/package/@step-wise/input-interpretation).

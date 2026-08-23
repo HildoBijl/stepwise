@@ -2,19 +2,19 @@ import React, { forwardRef } from 'react'
 
 import { rangeByStep, last } from '@step-wise/js-utils'
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Curve, Label, defaultAxesOptions } from 'ui/figures'
 
 const factors = rangeByStep(0.1, 1, 0.1)
 const pointsList = factors.map(factor => maximumHumidity.inputAxes[0].map((temperature, index) => [maximumHumidity.outputGrids[0][index].number * factor, temperature.number]))
-const finalPoint = [35, interpolateTableInput(new FloatUnit('35 g/kg'), maximumHumidity).number]
+const finalPoint = [35, interpolateTableInput(new Quantity('35 g/kg'), maximumHumidity).number]
 pointsList[pointsList.length - 1] = [...pointsList[pointsList.length - 1].filter(point => point[0] <= 35), finalPoint]
 
 const pointToRelativeHumidity = point => {
-	const T = new FloatUnit({ value: point.y, unit: 'dC' })
-	const AH = new FloatUnit({ value: point.x, unit: 'g/kg' })
+	const T = new Quantity({ value: point.y, unit: 'dC' })
+	const AH = new Quantity({ value: point.x, unit: 'g/kg' })
 	const AHmax = interpolateTable(T, maximumHumidity)
 	if (!AHmax)
 		return null // On undefined (out of range) do not show a label.

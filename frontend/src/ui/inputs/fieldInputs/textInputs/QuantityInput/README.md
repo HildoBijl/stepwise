@@ -1,8 +1,8 @@
-# FloatUnitInput
+# QuantityInput
 
 ## Return type
 
-The return type is a `FloatUnit` object which is basically a combination of a `PrecisionNumber` and a `Unit` object. It has various properties.
+The return type is a `Quantity` object which is basically a combination of a `PrecisionNumber` and a `Unit` object. It has various properties.
 
 - `str`
 - `tex`
@@ -20,7 +20,7 @@ It has various useful methods.
 - `add`
 - `multiply`
 
-See the `FloatUnit` source code in the `shared` directory for details on this.
+See the `Quantity` source code in the `shared` directory for details on this.
 
 ## Options
 

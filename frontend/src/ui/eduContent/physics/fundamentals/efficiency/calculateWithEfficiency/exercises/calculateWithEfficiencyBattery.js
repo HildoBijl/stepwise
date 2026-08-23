@@ -4,7 +4,7 @@ import { Unit } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,7 +15,7 @@ function Problem({ E, Ein }) {
 	return <>
 		<Par>Een elektrische auto heeft een batterij die <M>{E}</M> op kan slaan. We laden deze batterij volledig op, van "helemaal leeg" naar "helemaal vol". Na afloop blijkt dat we <M>{Ein}</M> aan elektriciteit verbruikt hebben. Bereken het rendement van het oplaadproces.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Par>
+			<Par><QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} /></Par>
 		</InputSpace>
 	</>
 }

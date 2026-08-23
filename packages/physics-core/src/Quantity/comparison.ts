@@ -3,35 +3,35 @@ import { mergeDefaults } from '@step-wise/js-utils'
 import { type PrecisionNumberEqualityOptions, type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, defaultPrecisionNumberEqualityOptions, resolvePrecisionNumberEqualityOptions, adjustPrecisionNumberTolerances } from '../PrecisionNumber'
 import { type Unit, type UnitEqualityOptions, type UnitEqualityOptionsInput, type UnitEqualityResult, defaultUnitEqualityOptions, resolveUnitEqualityOptions } from '../Unit'
 
-export type FloatUnitEqualityOptions = {
+export type QuantityEqualityOptions = {
 	value: PrecisionNumberEqualityOptions
 	unit: UnitEqualityOptions
 }
 
-export type FloatUnitEqualityOptionsInput = {
+export type QuantityEqualityOptionsInput = {
 	value?: PrecisionNumberEqualityOptionsInput
 	unit?: UnitEqualityOptionsInput
 }
 
-export const defaultFloatUnitEqualityOptions = {
+export const defaultQuantityEqualityOptions = {
 	value: defaultPrecisionNumberEqualityOptions,
 	unit: { ...defaultUnitEqualityOptions, checkSize: false }, // Don't check unit size, since this is now done through the value.
-} satisfies FloatUnitEqualityOptions
+} satisfies QuantityEqualityOptions
 
-export function resolveFloatUnitEqualityOptions(options: FloatUnitEqualityOptionsInput = {}, minimumAbsoluteTolerance: number): FloatUnitEqualityOptions {
-	const settings = mergeDefaults(options, defaultFloatUnitEqualityOptions)
+export function resolveQuantityEqualityOptions(options: QuantityEqualityOptionsInput = {}, minimumAbsoluteTolerance: number): QuantityEqualityOptions {
+	const settings = mergeDefaults(options, defaultQuantityEqualityOptions)
 	return {
 		value: resolvePrecisionNumberEqualityOptions(settings.value, minimumAbsoluteTolerance),
-		unit: resolveUnitEqualityOptions(mergeDefaults(settings.unit, defaultFloatUnitEqualityOptions.unit)),
+		unit: resolveUnitEqualityOptions(mergeDefaults(settings.unit, defaultQuantityEqualityOptions.unit)),
 	}
 }
 
-export function adjustFloatUnitTolerances(options: FloatUnitEqualityOptionsInput, factor: number, minimumAbsoluteTolerance: number) {
-	const equalityOptions = resolveFloatUnitEqualityOptions(options, minimumAbsoluteTolerance)
+export function adjustQuantityTolerances(options: QuantityEqualityOptionsInput, factor: number, minimumAbsoluteTolerance: number) {
+	const equalityOptions = resolveQuantityEqualityOptions(options, minimumAbsoluteTolerance)
 	return { ...equalityOptions, value: adjustPrecisionNumberTolerances(equalityOptions.value, factor, minimumAbsoluteTolerance) }
 }
 
-export type FloatUnitEqualityResult = {
+export type QuantityEqualityResult = {
 	equal: boolean
 	value: PrecisionNumberEqualityResult
 	unit: UnitEqualityResult<Unit>

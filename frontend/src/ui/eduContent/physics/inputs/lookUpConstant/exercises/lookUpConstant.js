@@ -3,7 +3,7 @@ import React from 'react'
 import { Translation, useGetTranslation } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 import { tableValues } from '../References'
@@ -17,7 +17,7 @@ function Problem({ constant }) {
 	return <>
 		<Par><Translation entry="text">Look up {{ constantDescription: getTranslation(`references.constants.${constant}`, undefined, false) }} <M>{tableValues[constant].symbol}</M>.</Translation></Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>{constant} =</M>} label={<Translation entry="label">Enter the constant here</Translation>} size="s" /></Par>
+			<Par><QuantityInput id="ans" prelabel={<M>{constant} =</M>} label={<Translation entry="label">Enter the constant here</Translation>} size="s" /></Par>
 		</InputSpace>
 	</>
 }

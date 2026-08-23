@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -16,8 +16,8 @@ function Problem({ type, TCold, TWarm, dTCold, dTWarm }) {
 			<Par>Een koelkast heeft aan de binnenkant, in de te koelen ruimte, een temperatuur van <M>{TCold}.</M> De koelkast staat in een keuken met een temperatuur van <M>{TWarm}.</M> Bij het onttrekken van warmte uit de te koelen ruimte is voor de warmtewisselaar een temperatuursverschil van <M>{dTCold}</M> benodigd. Voor het lozen van warmte in de keuken is een temperatuursverschil van <M>{dTWarm}</M> nodig. Bereken de temperaturen in de condensor en verdamper van de koelkast.</Par>}
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="TCond" prelabel={<M>T_c =</M>} label="Temperatuur in de condensor" size="s" />
-				<FloatUnitInput id="TEvap" prelabel={<M>T_v =</M>} label="Temperatuur in de verdamper" size="s" />
+				<QuantityInput id="TCond" prelabel={<M>T_c =</M>} label="Temperatuur in de condensor" size="s" />
+				<QuantityInput id="TEvap" prelabel={<M>T_v =</M>} label="Temperatuur in de verdamper" size="s" />
 			</Par>
 		</InputSpace>
 	</>

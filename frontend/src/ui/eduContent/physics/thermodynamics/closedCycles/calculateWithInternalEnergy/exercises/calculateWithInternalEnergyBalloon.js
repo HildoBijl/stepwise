@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p, V1, V2 }) => <>
 	<Par>Een met helium gevulde ballon met druk <M>{p}</M> en volume <M>{V1}</M> wordt verwarmd. Hierdoor stijgt het volume tot <M>{V2}.</M> Neem aan dat de druk constant blijft. Bereken de verandering van de inwendige energie van het helium in de ballon.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
+			<QuantityInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,8 +24,8 @@ const steps = [
 			<Par>Bereken de toegevoerde warmte <M>Q</M> en door het helium geleverde arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
-					<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
+					<QuantityInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
+					<QuantityInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -44,7 +44,7 @@ const steps = [
 			<Par>Bereken via de eerste hoofdwet de verandering <M>\Delta U</M> in inwendige energie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
+					<QuantityInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,

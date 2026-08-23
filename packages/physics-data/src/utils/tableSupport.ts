@@ -1,14 +1,14 @@
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { type InterpolationGrid, type InterpolationTable } from '@step-wise/interpolation'
 
-export type RawFloatUnitGrid = readonly (string | number | undefined | RawFloatUnitGrid)[]
-export type FloatUnitGrid = InterpolationGrid<FloatUnit>
-export type FloatUnitTable = InterpolationTable<FloatUnit, FloatUnit>
+export type RawQuantityGrid = readonly (string | number | undefined | RawQuantityGrid)[]
+export type QuantityGrid = InterpolationGrid<Quantity>
+export type QuantityTable = InterpolationTable<Quantity, Quantity>
 
-export function exactFloatUnits(values: readonly number[], unit: string): FloatUnit[] {
-	return values.map(precisionNumber => new FloatUnit({ value: precisionNumber, unit }).makeExact())
+export function exactQuantitys(values: readonly number[], unit: string): Quantity[] {
+	return values.map(precisionNumber => new Quantity({ value: precisionNumber, unit }).makeExact())
 }
 
-export function floatUnitGrid(values: RawFloatUnitGrid, unit: string): FloatUnitGrid {
-	return values.map(value => Array.isArray(value) ? floatUnitGrid(value, unit) : value === undefined ? undefined : new FloatUnit({ value: value as string | number, unit })) as FloatUnitGrid
+export function quantityGrid(values: RawQuantityGrid, unit: string): QuantityGrid {
+	return values.map(value => Array.isArray(value) ? quantityGrid(value, unit) : value === undefined ? undefined : new Quantity({ value: value as string | number, unit })) as QuantityGrid
 }

@@ -1,7 +1,7 @@
 import { or } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 import { generateParameters, getSolution as getCycleParametersRaw } from '../calculateOpenCycle/calculateOpenCyclespsp'
@@ -11,7 +11,7 @@ const { cv, cp } = gasProperties.air
 const metadata = {
 	skill: 'createOpenCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')]),
-	comparisons: { FloatUnit: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+	comparisons: { Quantity: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
 function getCycleParameters(parameters: ReturnType<typeof generateParameters>) {
@@ -28,14 +28,14 @@ export function getSolution(parameters: ReturnType<typeof generateParameters>) {
 	const { T1, T2, T3, T4 } = cycleParameters
 	const cvSimplified = cv.simplify()
 	const cpSimplified = cp.simplify()
-	const q12 = new FloatUnit('0 J/kg')
+	const q12 = new Quantity('0 J/kg')
 	const wt12 = cpSimplified.multiply(T1.subtract(T2)).setUnit('J/kg')
 	const q23 = cpSimplified.multiply(T3.subtract(T2)).setUnit('J/kg')
-	const wt23 = new FloatUnit('0 J/kg')
-	const q34 = new FloatUnit('0 J/kg')
+	const wt23 = new Quantity('0 J/kg')
+	const q34 = new Quantity('0 J/kg')
 	const wt34 = cpSimplified.multiply(T3.subtract(T4)).setUnit('J/kg')
 	const q41 = cpSimplified.multiply(T1.subtract(T4)).setUnit('J/kg')
-	const wt41 = new FloatUnit('0 J/kg')
+	const wt41 = new Quantity('0 J/kg')
 	const qn = q12.add(q23).add(q34).add(q41).setMinimumSignificantDigits(2)
 	const wn = wt12.add(wt23).add(wt34).add(wt41).setMinimumSignificantDigits(2)
 	return { ...cycleParameters, cv: cvSimplified, cp: cpSimplified, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }

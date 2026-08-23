@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const gases = ['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
@@ -21,9 +21,9 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const gas = sample(gases)
-		const To = getRandomFloatUnit({ min: 6, max: 30, decimals: 0, unit: 'dC' })
-		const p1o = getRandomFloatUnit({ min: 2, max: 9, decimals: 1, unit: 'bar' })
-		const p2o = getRandomFloatUnit({ min: 10, max: 30, decimals: 0, unit: 'bar' })
+		const To = getRandomQuantity({ min: 6, max: 30, decimals: 0, unit: 'dC' })
+		const p1o = getRandomQuantity({ min: 2, max: 9, decimals: 1, unit: 'bar' })
+		const p2o = getRandomQuantity({ min: 10, max: 30, decimals: 0, unit: 'bar' })
 		return { gas, To, p1o, p2o }
 	},
 

@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'analyseGasTurbine',
 		...createStepExerciseMetadata(['calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			eta: { value: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
 	},
@@ -38,14 +38,14 @@ export default buildStepExercise({
 		const T2 = T1.add(T2p.subtract(T1).divide(etai)).setDecimals(0)
 		const T4p = T3.divide(factor).setDecimals(0)
 		const T4 = T3.add(T4p.subtract(T3).multiply(etai)).setDecimals(0)
-		const q12 = new FloatUnit('0 J/kg')
+		const q12 = new Quantity('0 J/kg')
 		const wt12 = cp.multiply(T1.subtract(T2)).setUnit('J/kg')
 		const q23 = cp.multiply(T3.subtract(T2)).setUnit('J/kg')
-		const wt23 = new FloatUnit('0 J/kg')
-		const q34 = new FloatUnit('0 J/kg')
+		const wt23 = new Quantity('0 J/kg')
+		const q34 = new Quantity('0 J/kg')
 		const wt34 = cp.multiply(T3.subtract(T4)).setUnit('J/kg')
 		const q41 = cp.multiply(T1.subtract(T4)).setUnit('J/kg')
-		const wt41 = new FloatUnit('0 J/kg')
+		const wt41 = new Quantity('0 J/kg')
 		const wn = wt12.add(wt23).add(wt34).add(wt41)
 		const qin = q23
 		const eta = wn.divide(qin).setUnit('')

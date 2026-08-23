@@ -1,26 +1,26 @@
-# FloatUnit
+# Quantity
 
-The `FloatUnit` class represents a numerical quantity having a specific accuracy and a specific unit. An example is `2.0 km` or `2000.00 m`.
+The `Quantity` class represents a numerical quantity having a specific accuracy and a specific unit. An example is `2.0 km` or `2000.00 m`.
 
 
 ## Creation
 
-Setting up a new `FloatUnit` object can be done in various ways.
+Setting up a new `Quantity` object can be done in various ways.
 
 ```
-import { asFloatUnit, FloatUnit, asPrecisionNumber, asUnit } from '@step-wise/physics-core'
-const c = new FloatUnit('2.99792458 * 10^8 m/s') // String, constructor
-const h = asFloatUnit('6.62607015 * 10^-34 J * s') // String, function
-const k = asFloatUnit({ value: { number: 1.380649, significantDigits: 7, power: -23 }, unit: 'J / K'}) // Object, where value and unit can be strings, objects, etcetera.
-const pi = asFloatUnit(3.14159265358979) // Directly from a number or PrecisionNumber object. Will have no unit then.
+import { asQuantity, Quantity, asPrecisionNumber, asUnit } from '@step-wise/physics-core'
+const c = new Quantity('2.99792458 * 10^8 m/s') // String, constructor
+const h = asQuantity('6.62607015 * 10^-34 J * s') // String, function
+const k = asQuantity({ value: { number: 1.380649, significantDigits: 7, power: -23 }, unit: 'J / K'}) // Object, where value and unit can be strings, objects, etcetera.
+const pi = asQuantity(3.14159265358979) // Directly from a number or PrecisionNumber object. Will have no unit then.
 ```
 
-The resulting `FloatUnit` object has a variety of properties and methods.
+The resulting `Quantity` object has a variety of properties and methods.
 
 
 ## Display
 
-The `FloatUnit` has the same display functions as the `PrecisionNumber` object. The most common ones are:
+The `Quantity` has the same display functions as the `PrecisionNumber` object. The most common ones are:
 
 ```
 console.log(c.str) // String representation
@@ -61,12 +61,12 @@ It is possible to adjust the precision with which the number is stored; its sign
 
 To adjust the units, there are various functions available. These functions generally throw an error if the adjustment is not possible.
 
-- `setUnit(newUnit)`: turns the unit of the `FloatUnit` into the given units. Use for instance `new FloatUnit('2.0 cm').setUnit('mm').str` to get `20 mm`.
+- `setUnit(newUnit)`: turns the unit of the `Quantity` into the given units. Use for instance `new Quantity('2.0 cm').setUnit('mm').str` to get `20 mm`.
 
 
 ## Simplification
 
-Simplifying a `FloatUnit` object is done through the `simplify(options)` function. The options it can take are the following.
+Simplifying a `Quantity` object is done through the `simplify(options)` function. The options it can take are the following.
 
 - `target`: (default `'standard'`) either `'unchanged'`, `'noPrefixes'`, `'standard'` or `'base'`. How much should the unit be simplified? It can turn `mbar` into `bar`, `Pa` or `kg / m * s^2`. Quantities are adjusted accordingly.
 - `combine`: (default `true`) should `m * m^2` be combined into `m^3`?
@@ -76,10 +76,10 @@ Simplifying a `FloatUnit` object is done through the `simplify(options)` functio
 
 ## Comparison
 
-To compare `FloatUnit` objects, we separately compare `PrecisionNumber` and `Unit` objects. As is the case with these classes too, there are two functions.
+To compare `Quantity` objects, we separately compare `PrecisionNumber` and `Unit` objects. As is the case with these classes too, there are two functions.
 
-- `equals(otherFloatUnit, equalityOptions)`: checks for equality and returns `true`/`false`.
-- `checkEquality(otherFloatUnit, equalityOptions)`: gives a report (as an object) with data on equality and which checks failed/passed.
+- `equals(otherQuantity, equalityOptions)`: checks for equality and returns `true`/`false`.
+- `checkEquality(otherQuantity, equalityOptions)`: gives a report (as an object) with data on equality and which checks failed/passed.
 
 The equality options should be set up as follows.
 
@@ -101,21 +101,21 @@ const equalityOptions = {
 
 ## Random generation
 
-To randomly generate `FloatUnit` objects, there are two functions.
+To randomly generate `Quantity` objects, there are two functions.
 
-- `getRandomFloatUnit(options)` gives a `FloatUnit` according to a uniform distribution. Use for instance `getRandomFloatUnit({ min: 3, max: 6 })`.
-- `getRandomExponentialFloatUnit(options)` gives a `FloatUnit` where `log(x)` satisfies a uniform distribution. Use for instance `getRandomExponentialFloatUnit({ min: 1000, max: 10 ** 6 })`. The minimum and maximum must be positive.
+- `getRandomQuantity(options)` gives a `Quantity` according to a uniform distribution. Use for instance `getRandomQuantity({ min: 3, max: 6 })`.
+- `getRandomExponentialQuantity(options)` gives a `Quantity` where `log(x)` satisfies a uniform distribution. Use for instance `getRandomExponentialQuantity({ min: 1000, max: 10 ** 6 })`. The minimum and maximum must be positive.
 
 Other options the can be included are:
 
-- `unit`: which unit the `FloatUnit` will have. Default is `undefined` (no unit) but use for instance `kg * m / s^2` to get this unit. It will be converted into a `Unit` object internally.
+- `unit`: which unit the `Quantity` will have. Default is `undefined` (no unit) but use for instance `kg * m / s^2` to get this unit. It will be converted into a `Unit` object internally.
 - `significantDigits`: how many significant digits the `PrecisionNumber` should have.
-- `decimals`: how many decimals the `FloatUnit` should have. Cannot be combined with `significantDigits`.
-- `round`: should the `FloatUnit` be rounded to its precision? Default `true`: this ensures that a random value of `3.4` is not behind the scenes actually `3.34499999`.
+- `decimals`: how many decimals the `Quantity` should have. Cannot be combined with `significantDigits`.
+- `round`: should the `Quantity` be rounded to its precision? Default `true`: this ensures that a random value of `3.4` is not behind the scenes actually `3.34499999`.
 - `negative`: only for `getRandomExponentialPrecisionNumber`, makes the outcome negative.
 - `randomSign`: only for `getRandomExponentialPrecisionNumber`, makes the outcome have a random sign. Cannot be combined with `negative`.
 
 
 ## Serialization
 
-See the [serialization](./serialization.ts) and [inputValue](./inputValue.ts) files to learn more about how `FloatUnit` objects are serialized and/or created as input.
+See the [serialization](./serialization.ts) and [inputValue](./inputValue.ts) files to learn more about how `Quantity` objects are serialized and/or created as input.

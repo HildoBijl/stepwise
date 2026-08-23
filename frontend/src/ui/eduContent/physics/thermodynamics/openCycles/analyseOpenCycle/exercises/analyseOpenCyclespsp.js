@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -15,8 +15,8 @@ const Problem = ({ p1o, T1o, p2o, T3o, Po }) => {
 		<Par>Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1o}</M> en een temperatuur van <M>{T1o}.</M> Na de compressie is de druk <M>{p2o}</M> en na de verwarming is de temperatuur <M>{T3o}.</M> Bereken het rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{Po}</M> is.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
-				<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />
+				<QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} />
+				<QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -31,21 +31,21 @@ const steps = [
 					colHeads={['Druk', 'Specifiek volume', 'Temperatuur']}
 					rowHeads={['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']}
 					fields={[[
-						<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-						<FloatUnitInput id="v1" label={<M>v_1</M>} size="l" />,
-						<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
+						<QuantityInput id="p1" label={<M>p_1</M>} size="l" />,
+						<QuantityInput id="v1" label={<M>v_1</M>} size="l" />,
+						<QuantityInput id="T1" label={<M>T_1</M>} size="l" />,
 					], [
-						<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-						<FloatUnitInput id="v2" label={<M>v_2</M>} size="l" />,
-						<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
+						<QuantityInput id="p2" label={<M>p_2</M>} size="l" />,
+						<QuantityInput id="v2" label={<M>v_2</M>} size="l" />,
+						<QuantityInput id="T2" label={<M>T_2</M>} size="l" />,
 					], [
-						<FloatUnitInput id="p3" label={<M>p_3</M>} size="l" />,
-						<FloatUnitInput id="v3" label={<M>v_3</M>} size="l" />,
-						<FloatUnitInput id="T3" label={<M>T_3</M>} size="l" />,
+						<QuantityInput id="p3" label={<M>p_3</M>} size="l" />,
+						<QuantityInput id="v3" label={<M>v_3</M>} size="l" />,
+						<QuantityInput id="T3" label={<M>T_3</M>} size="l" />,
 					], [
-						<FloatUnitInput id="p4" label={<M>p_4</M>} size="l" />,
-						<FloatUnitInput id="v4" label={<M>v_4</M>} size="l" />,
-						<FloatUnitInput id="T4" label={<M>T_4</M>} size="l" />,
+						<QuantityInput id="p4" label={<M>p_4</M>} size="l" />,
+						<QuantityInput id="v4" label={<M>v_4</M>} size="l" />,
+						<QuantityInput id="T4" label={<M>T_4</M>} size="l" />,
 					]]} />
 			</InputSpace>
 		</>,
@@ -74,17 +74,17 @@ const steps = [
 					colHeads={[<span>Specifieke warmte <M>q</M></span>, <span>Technische arbeid <M>w_t</M></span>]}
 					rowHeads={['Stap 1-2', 'Stap 2-3', 'Stap 3-4', 'Stap 4-1']}
 					fields={[[
-						<FloatUnitInput id="q12" label={<M>q_(1-2)</M>} size="l" />,
-						<FloatUnitInput id="wt12" label={<M>w_(t,1-2)</M>} size="l" />,
+						<QuantityInput id="q12" label={<M>q_(1-2)</M>} size="l" />,
+						<QuantityInput id="wt12" label={<M>w_(t,1-2)</M>} size="l" />,
 					], [
-						<FloatUnitInput id="q23" label={<M>q_(2-3)</M>} size="l" />,
-						<FloatUnitInput id="wt23" label={<M>w_(t,2-3)</M>} size="l" />,
+						<QuantityInput id="q23" label={<M>q_(2-3)</M>} size="l" />,
+						<QuantityInput id="wt23" label={<M>w_(t,2-3)</M>} size="l" />,
 					], [
-						<FloatUnitInput id="q34" label={<M>q_(3-4)</M>} size="l" />,
-						<FloatUnitInput id="wt34" label={<M>w_(t,3-4)</M>} size="l" />,
+						<QuantityInput id="q34" label={<M>q_(3-4)</M>} size="l" />,
+						<QuantityInput id="wt34" label={<M>w_(t,3-4)</M>} size="l" />,
 					], [
-						<FloatUnitInput id="q41" label={<M>q_(4-1)</M>} size="l" />,
-						<FloatUnitInput id="wt41" label={<M>w_(t,4-1)</M>} size="l" />,
+						<QuantityInput id="q41" label={<M>q_(4-1)</M>} size="l" />,
+						<QuantityInput id="wt41" label={<M>w_(t,4-1)</M>} size="l" />,
 					]]} />
 			</InputSpace>
 		</>,
@@ -113,8 +113,8 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, het rendement van de gasturbine. Bereken ook via het gegeven asvermogen de gebruikte massastroom.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Substep>
-					<Substep ss={2}><FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" /></Substep>
+					<Substep ss={1}><QuantityInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={QuantityInput.validation.any} /></Substep>
+					<Substep ss={2}><QuantityInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,

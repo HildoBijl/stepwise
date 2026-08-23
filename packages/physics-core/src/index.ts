@@ -12,6 +12,6 @@ export {
 } from './Unit'
 
 export {
-	type FloatUnitStorageValue, type FloatUnitInput, type FloatUnitSimplificationOptions, type FloatUnitSimplificationOptionsInput, type FloatUnitEqualityOptions, type FloatUnitEqualityOptionsInput, type FloatUnitEqualityResult, type FloatUnitLike, type SerializedFloatUnit, type FloatUnitInputValue, type RandomFloatUnitOptions, type RandomFloatUnitOptionsInput, type RandomExponentialFloatUnitOptions, type RandomExponentialFloatUnitOptionsInput, FloatUnitType,
-	defaultFloatUnitSimplificationOptions, resolveFloatUnitSimplificationOptions, defaultFloatUnitEqualityOptions, resolveFloatUnitEqualityOptions, adjustFloatUnitTolerances, FloatUnit, asFloatUnit, serializeFloatUnit, deserializeFloatUnit, isFloatUnitInputValue, interpretFloatUnitInputValue, floatUnitToInputValue, resolveRandomFloatUnitOptions, resolveRandomExponentialFloatUnitOptions, getRandomFloatUnit, getRandomExponentialFloatUnit
-} from './FloatUnit'
+	type QuantityStorageValue, type QuantityInput, type QuantitySimplificationOptions, type QuantitySimplificationOptionsInput, type QuantityEqualityOptions, type QuantityEqualityOptionsInput, type QuantityEqualityResult, type QuantityLike, type SerializedQuantity, type QuantityInputValue, type RandomQuantityOptions, type RandomQuantityOptionsInput, type RandomExponentialQuantityOptions, type RandomExponentialQuantityOptionsInput, QuantityType,
+	defaultQuantitySimplificationOptions, resolveQuantitySimplificationOptions, defaultQuantityEqualityOptions, resolveQuantityEqualityOptions, adjustQuantityTolerances, Quantity, asQuantity, serializeQuantity, deserializeQuantity, isQuantityInputValue, interpretQuantityInputValue, quantityToInputValue, resolveRandomQuantityOptions, resolveRandomExponentialQuantityOptions, getRandomQuantity, getRandomExponentialQuantity
+} from './Quantity'

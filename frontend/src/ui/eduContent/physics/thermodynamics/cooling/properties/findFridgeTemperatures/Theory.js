@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { FloatUnit } from '@step-wise/physics-core'
+import { Quantity } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, Term, Emp, Info } from 'ui/components'
 
-const Tm5dC = new FloatUnit('-5 dC')
-const T5dC = new FloatUnit('5 dC')
-const T20dC = new FloatUnit('20 dC')
-const T30dC = new FloatUnit('30 dC')
-const T35dC = new FloatUnit('35 dC')
+const Tm5dC = new Quantity('-5 dC')
+const T5dC = new Quantity('5 dC')
+const T20dC = new Quantity('20 dC')
+const T30dC = new Quantity('30 dC')
+const T35dC = new Quantity('35 dC')
 
 export default function Component() {
 	return <>

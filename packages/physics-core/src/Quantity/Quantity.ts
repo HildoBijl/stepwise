@@ -1,17 +1,17 @@
 import { type TexDisplayOptionsInput, PrecisionNumber } from '../PrecisionNumber'
 import { type UnitLike, Unit, asUnit, unitsEquivalent } from '../Unit'
 
-import { type FloatUnitInput, type FloatUnitStorageValue, FloatUnitType, floatUnitInputToParameters } from './interpreting'
-import { type FloatUnitSimplificationOptionsInput, resolveFloatUnitSimplificationOptions } from './simplification'
-import { type FloatUnitEqualityOptionsInput, type FloatUnitEqualityResult, resolveFloatUnitEqualityOptions } from './comparison'
+import { type QuantityInput, type QuantityStorageValue, QuantityType, quantityInputToParameters } from './interpreting'
+import { type QuantitySimplificationOptionsInput, resolveQuantitySimplificationOptions } from './simplification'
+import { type QuantityEqualityOptionsInput, type QuantityEqualityResult, resolveQuantityEqualityOptions } from './comparison'
 
-export type FloatUnitLike = FloatUnit | FloatUnitInput
+export type QuantityLike = Quantity | QuantityInput
 
-export function asFloatUnit(input: FloatUnitLike): FloatUnit {
-	return input instanceof FloatUnit ? input : new FloatUnit(input)
+export function asQuantity(input: QuantityLike): Quantity {
+	return input instanceof Quantity ? input : new Quantity(input)
 }
 
-export class FloatUnit {
+export class Quantity {
 	readonly value: PrecisionNumber
 	readonly unit: Unit
 
@@ -19,8 +19,8 @@ export class FloatUnit {
 	 * Construction
 	 */
 
-	constructor(input: FloatUnitInput) {
-		const { value, unit } = floatUnitInputToParameters(input)
+	constructor(input: QuantityInput) {
+		const { value, unit } = quantityInputToParameters(input)
 		this.value = value
 		this.unit = unit
 	}
@@ -29,11 +29,11 @@ export class FloatUnit {
 	 * Serialization
 	 */
 
-	get type(): FloatUnitType {
-		return FloatUnitType
+	get type(): QuantityType {
+		return QuantityType
 	}
 
-	toStorageValue(): FloatUnitStorageValue {
+	toStorageValue(): QuantityStorageValue {
 		return {
 			value: this.value.toStorageValue(),
 			unit: this.unit.toStorageValue(),
@@ -80,48 +80,48 @@ export class FloatUnit {
 	 * PrecisionNumber arithmetics
 	 */
 
-	mapPrecisionNumber(mapper: (value: PrecisionNumber) => PrecisionNumber): FloatUnit {
-		return new FloatUnit({ value: mapper(this.value), unit: this.unit })
+	mapPrecisionNumber(mapper: (value: PrecisionNumber) => PrecisionNumber): Quantity {
+		return new Quantity({ value: mapper(this.value), unit: this.unit })
 	}
 
-	negate(): FloatUnit {
+	negate(): Quantity {
 		return this.mapPrecisionNumber(value => value.negate())
 	}
 
-	abs(): FloatUnit {
+	abs(): Quantity {
 		return this.mapPrecisionNumber(value => value.abs())
 	}
 
-	add(input: FloatUnitLike, keepDecimals = false): FloatUnit {
-		const x = asFloatUnit(input).setUnit(this.unit)
-		return new FloatUnit({ value: this.value.add(x.value, keepDecimals), unit: this.unit })
+	add(input: QuantityLike, keepDecimals = false): Quantity {
+		const x = asQuantity(input).setUnit(this.unit)
+		return new Quantity({ value: this.value.add(x.value, keepDecimals), unit: this.unit })
 	}
 
-	subtract(input: FloatUnitLike, keepDecimals = false): FloatUnit {
-		return this.add(asFloatUnit(input).negate(), keepDecimals)
+	subtract(input: QuantityLike, keepDecimals = false): Quantity {
+		return this.add(asQuantity(input).negate(), keepDecimals)
 	}
 
-	invert(): FloatUnit {
-		return new FloatUnit({ value: this.value.invert(), unit: this.unit.invert() })
+	invert(): Quantity {
+		return new Quantity({ value: this.value.invert(), unit: this.unit.invert() })
 	}
 
-	multiply(input: FloatUnitLike, keepDigits?: boolean, combineUnit = true): FloatUnit {
-		const x = asFloatUnit(input)
+	multiply(input: QuantityLike, keepDigits?: boolean, combineUnit = true): Quantity {
+		const x = asQuantity(input)
 		const value = this.value.multiply(x.value, keepDigits)
 		let unit = this.unit.multiply(x.unit)
 		if (combineUnit) unit = unit.combineLikeFactors()
-		return new FloatUnit({ value, unit })
+		return new Quantity({ value, unit })
 	}
 
-	divide(input: FloatUnitLike, keepDigits?: boolean, combineUnit?: boolean): FloatUnit {
-		return this.multiply(asFloatUnit(input).invert(), keepDigits, combineUnit)
+	divide(input: QuantityLike, keepDigits?: boolean, combineUnit?: boolean): Quantity {
+		return this.multiply(asQuantity(input).invert(), keepDigits, combineUnit)
 	}
 
-	toPower(power: number | PrecisionNumber | FloatUnit): FloatUnit {
-		if (power instanceof FloatUnit && !unitsEquivalent(power.unit, '')) throw new Error(`Invalid toPower call: cannot raise a FloatUnit to a power containing a unit.`)
-		const decimalExponent = power instanceof FloatUnit ? power.simplify().value : power
+	toPower(power: number | PrecisionNumber | Quantity): Quantity {
+		if (power instanceof Quantity && !unitsEquivalent(power.unit, '')) throw new Error(`Invalid toPower call: cannot raise a Quantity to a power containing a unit.`)
+		const decimalExponent = power instanceof Quantity ? power.simplify().value : power
 		const decimalExponentNumber = decimalExponent instanceof PrecisionNumber ? decimalExponent.number : decimalExponent
-		return new FloatUnit({
+		return new Quantity({
 			value: this.value.toPower(decimalExponentNumber),
 			unit: this.unit.toPower(decimalExponentNumber),
 		})
@@ -131,31 +131,31 @@ export class FloatUnit {
 	 * PrecisionNumber precision operations
 	 */
 
-	setSignificantDigits(significantDigits: number): FloatUnit {
+	setSignificantDigits(significantDigits: number): Quantity {
 		return this.mapPrecisionNumber(value => value.setSignificantDigits(significantDigits))
 	}
 
-	makeExact(): FloatUnit {
+	makeExact(): Quantity {
 		return this.mapPrecisionNumber(value => value.makeExact())
 	}
 
-	adjustSignificantDigits(delta: number): FloatUnit {
+	adjustSignificantDigits(delta: number): Quantity {
 		return this.mapPrecisionNumber(value => value.adjustSignificantDigits(delta))
 	}
 
-	setMinimumSignificantDigits(significantDigits: number): FloatUnit {
+	setMinimumSignificantDigits(significantDigits: number): Quantity {
 		return this.mapPrecisionNumber(value => value.setMinimumSignificantDigits(significantDigits))
 	}
 
-	setDecimals(decimals: number): FloatUnit {
+	setDecimals(decimals: number): Quantity {
 		return this.mapPrecisionNumber(value => value.setDecimals(decimals))
 	}
 
-	roundToPrecision(): FloatUnit {
+	roundToPrecision(): Quantity {
 		return this.mapPrecisionNumber(value => value.roundToPrecision())
 	}
 
-	clearDisplayPower(): FloatUnit {
+	clearDisplayPower(): Quantity {
 		return this.mapPrecisionNumber(value => value.clearDisplayPower())
 	}
 
@@ -167,11 +167,11 @@ export class FloatUnit {
 	 * Unit adjustments
 	 */
 
-	mapUnit(mapper: (unit: Unit) => Unit): FloatUnit {
-		return new FloatUnit({ value: this.value, unit: mapper(this.unit) })
+	mapUnit(mapper: (unit: Unit) => Unit): Quantity {
+		return new Quantity({ value: this.value, unit: mapper(this.unit) })
 	}
 
-	setUnit(input: UnitLike): FloatUnit {
+	setUnit(input: UnitLike): Quantity {
 		// Check that the units match, and compare them.
 		const unit = asUnit(input)
 		if (this.unit.equals(unit, { target: 'unchanged', checkSize: true })) return this
@@ -184,16 +184,16 @@ export class FloatUnit {
 		if (targetData.decimalExponent !== 0) value = value.adjustPower(-targetData.decimalExponent)
 		if (targetData.factor !== 1) value = value.divide({ number: targetData.factor, significantDigits: Infinity })
 		if (targetData.offset !== 0) value = value.subtract({ number: targetData.offset, significantDigits: Infinity })
-		return new FloatUnit({ value, unit })
+		return new Quantity({ value, unit })
 	}
 
 	/*
 	 * Simplification
 	 */
 
-	simplify(options?: FloatUnitSimplificationOptionsInput): FloatUnit {
+	simplify(options?: QuantitySimplificationOptionsInput): Quantity {
 		// Transform the unit.
-		const { target, combine, sort, simplifyPrecisionNumber } = resolveFloatUnitSimplificationOptions(options)
+		const { target, combine, sort, simplifyPrecisionNumber } = resolveQuantitySimplificationOptions(options)
 		const { unit, decimalExponent, factor, offset } = this.unit.simplifyWithData({ target, combine, sort })
 
 		// Adjust the value.
@@ -204,25 +204,25 @@ export class FloatUnit {
 		if (simplifyPrecisionNumber) value = value.clearDisplayPower()
 
 		// Assemble the outcome.
-		return new FloatUnit({ value, unit })
+		return new Quantity({ value, unit })
 	}
 
 	/*
 	 * Comparison
 	 */
 
-	compare(input: FloatUnitLike): -1 | 0 | 1 {
-		const x = asFloatUnit(input)
+	compare(input: QuantityLike): -1 | 0 | 1 {
+		const x = asQuantity(input)
 		return this.value.compare(x.setUnit(this.unit).value)
 	}
 
-	equals(input: FloatUnitLike, options?: FloatUnitEqualityOptionsInput): boolean {
+	equals(input: QuantityLike, options?: QuantityEqualityOptionsInput): boolean {
 		return this.checkEquality(input, options).equal
 	}
 
-	checkEquality(input: FloatUnitLike, options?: FloatUnitEqualityOptionsInput): FloatUnitEqualityResult {
-		const x = asFloatUnit(input)
-		const equalityOptions = resolveFloatUnitEqualityOptions(options, this.value.getMinimumAbsoluteTolerance())
+	checkEquality(input: QuantityLike, options?: QuantityEqualityOptionsInput): QuantityEqualityResult {
+		const x = asQuantity(input)
+		const equalityOptions = resolveQuantityEqualityOptions(options, this.value.getMinimumAbsoluteTolerance())
 
 		// Check the unit.
 		const unitResult = this.unit.checkEquality(x.unit, equalityOptions.unit)

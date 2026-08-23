@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseRankineCycle',
 		...createStepExerciseMetadata(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
-		comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },
+		comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {

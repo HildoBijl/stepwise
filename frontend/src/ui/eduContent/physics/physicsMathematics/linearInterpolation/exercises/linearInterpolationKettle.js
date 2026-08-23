@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { PrecisionNumberInput, FloatUnitInput } from 'ui/inputs'
+import { PrecisionNumberInput, QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,14 +13,14 @@ const Problem = ({ type, T1, T2, t1, t2, T, t }) => type === 1 ? <>
 	<Par>We gebruiken een waterkoker om wat water te koken. Hiervoor vullen we de waterkoker met water en zetten hem aan. Na <M>{t1}</M> zien we op de display dat de temperatuur <M>{T1}</M> is. Na <M>{t2}</M> zien we op de display dat de temperatuur <M>{T2}</M> is. Na hoeveel seconden was de temperatuur <M>{T}?</M> Ga ervan uit dat de temperatuur lineair toeneemt met de tijd.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="t" prelabel={<M>t =</M>} label={<span>Gepasseerde tijd bij <M>{T}</M></span>} size="s" />
+			<QuantityInput id="t" prelabel={<M>t =</M>} label={<span>Gepasseerde tijd bij <M>{T}</M></span>} size="s" />
 		</Par>
 	</InputSpace>
 </> : <>
 	<Par>We gebruiken een waterkoker om wat water te koken. Hiervoor vullen we de waterkoker met water en zetten hem aan. Na <M>{t1}</M> zien we op de display dat de temperatuur <M>{T1}</M> is. Na <M>{t2}</M> zien we op de display dat de temperatuur <M>{T2}</M> is. Wat was de temperatuur na <M>{t}?</M> Ga ervan uit dat de temperatuur lineair toeneemt met de tijd.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="T" prelabel={<M>T =</M>} label={<span>Temperatuur na <M>{t}</M></span>} size="s" />
+			<QuantityInput id="T" prelabel={<M>T =</M>} label={<span>Temperatuur na <M>{t}</M></span>} size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -70,14 +70,14 @@ const steps = [
 			<Par>Uitgaande van dat dit deel van de tijd gepasseerd is, bepaal dan het aantal seconden dat gepasseerd is sinds de waterkoker is aangezet. Merk op dat de eerste meting na <M>{t1}</M> was en de tweede na <M>{t2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="t" prelabel={<M>t =</M>} label={<span>Gepasseerde tijd bij <M>{T}</M></span>} size="s" />
+					<QuantityInput id="t" prelabel={<M>t =</M>} label={<span>Gepasseerde tijd bij <M>{T}</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</> : <>
 			<Par>Uitgaande van dat dit deel van de tijd gepasseerd is, bepaal dan de temperatuur op dit moment. Merk op dat de temperatuur is gestegen van <M>{T1}</M> tot <M>{T2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T" prelabel={<M>T =</M>} label={<span>Temperatuur na <M>{t}</M></span>} size="s" />
+					<QuantityInput id="T" prelabel={<M>T =</M>} label={<span>Temperatuur na <M>{t}</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,

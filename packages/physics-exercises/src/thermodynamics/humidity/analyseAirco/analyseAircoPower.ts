@@ -1,7 +1,7 @@
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties, maximumHumidity } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -12,7 +12,7 @@ export default buildStepExercise({
 	metadata: {
 		...createStepExerciseMetadata(['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick']),
 		comparisons: {
-			FloatUnit: { value: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },
+			Quantity: { value: { relativeTolerance: 0.05, significantDigitTolerance: 1 } },
 			T3: { value: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
 		},
 	},
@@ -23,7 +23,7 @@ export default buildStepExercise({
 		T4 = T4.setDecimals(0).roundToPrecision().setDecimals(0)
 		startRH = startRH.setUnit('%').setDecimals(0).roundToPrecision()
 		endRH = endRH.setUnit('%').setDecimals(0).roundToPrecision()
-		const mdot = getRandomFloatUnit({ min: 3, max: 15, unit: 'kg/s', significantDigits: 2 })
+		const mdot = getRandomQuantity({ min: 3, max: 15, unit: 'kg/s', significantDigits: 2 })
 		return { T1, startRH, T4, endRH, mdot }
 	},
 

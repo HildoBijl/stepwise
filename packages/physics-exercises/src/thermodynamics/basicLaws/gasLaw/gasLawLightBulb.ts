@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const { Rs } = gasProperties.argon
@@ -19,9 +19,9 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		const V = getRandomFloatUnit({ min: 40, max: 200, decimals: -1, unit: 'cm^3' }).adjustSignificantDigits(1)
-		const p = getRandomFloatUnit({ min: 200, max: 800, significantDigits: 2, unit: 'mbar' }).adjustSignificantDigits(1)
-		const T = getRandomFloatUnit({ min: 15, max: 30, decimals: 0, unit: 'dC' })
+		const V = getRandomQuantity({ min: 40, max: 200, decimals: -1, unit: 'cm^3' }).adjustSignificantDigits(1)
+		const p = getRandomQuantity({ min: 200, max: 800, significantDigits: 2, unit: 'mbar' }).adjustSignificantDigits(1)
+		const T = getRandomQuantity({ min: 15, max: 30, decimals: 0, unit: 'dC' })
 		return { V, p, T }
 	},
 

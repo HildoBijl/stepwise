@@ -1,7 +1,7 @@
 import { sample, randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomQuantity } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
@@ -9,14 +9,14 @@ const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane'
 const metadata = {
 	skill: 'calculateClosedCycle',
 	...createStepExerciseMetadata(['calculateProcessStep', 'calculateProcessStep']),
-	comparisons: { FloatUnit: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+	comparisons: { Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 }
 
 export function generateParameters() {
 	const medium = sample(media)
-	const V1o = getRandomFloatUnit({ min: 20, max: 80, significantDigits: 2, unit: 'l' })
-	const T1o = getRandomFloatUnit({ min: 1, max: 30, decimals: 0, unit: 'dC' })
-	const p1o = getRandomFloatUnit({ min: 2, max: 3, significantDigits: 2, unit: 'bar' })
+	const V1o = getRandomQuantity({ min: 20, max: 80, significantDigits: 2, unit: 'l' })
+	const T1o = getRandomQuantity({ min: 1, max: 30, decimals: 0, unit: 'dC' })
+	const p1o = getRandomQuantity({ min: 2, max: 3, significantDigits: 2, unit: 'bar' })
 	const scale = randomNumber(2, 4)
 	const V3o = V1o.multiply(scale).roundToPrecision()
 	const { Rs } = gasProperties[medium]

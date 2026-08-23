@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatUnitInput } from 'ui/inputs'
+import { QuantityInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ const Problem = ({ p1, V1, V2, n }) => <>
 	<Par>De zuiger van een benzinemotor zit in zijn hoogste stand, waardoor de lucht is samengedrukt tot <M>{V1}.</M> De brandstof is zojuist ontbrand, waardoor de druk is toegenomen tot <M>{p1}.</M> Wij bekijken de expansiestap, waarbij de zuiger terug naar beneden wordt geduwd. Aan het einde van deze stap is het volume <M>{V2}.</M> Dit proces heeft een procescoëfficiënt van <M>n = {n}.</M> Wat is de verandering in de inwendige energie <M>U</M> tijdens deze expansie?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
+			<QuantityInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -24,7 +24,7 @@ const steps = [
 			<Par>Bereken allereerst via Poisson's wet de druk <M>p_2</M> aan het einde van de expansiestap.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="p2" prelabel={<M>p_2=</M>} label="Druk" size="s" />
+					<QuantityInput id="p2" prelabel={<M>p_2=</M>} label="Druk" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -42,8 +42,8 @@ const steps = [
 			<Par>Bereken de tijdens het proces toegevoerde warmte <M>Q</M> en door de lucht geleverde arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
-					<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
+					<QuantityInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
+					<QuantityInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -65,7 +65,7 @@ const steps = [
 			<Par>Bereken via de eerste hoofdwet de verandering <M>\Delta U</M> in inwendige energie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
+					<QuantityInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
