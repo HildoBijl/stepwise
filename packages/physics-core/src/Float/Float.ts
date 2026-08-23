@@ -1,6 +1,6 @@
 import { ensureInteger, isInteger, compareNumbers, roundToDigits, checkNumberEquality } from '@step-wise/js-utils'
 
-import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, getSignificantDigits } from './interpreting'
+import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, countSignificantDigits } from './interpreting'
 import { type FloatEqualityOptionsInput, type FloatEqualityResult, resolveFloatEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'
 import { type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
 
@@ -93,7 +93,7 @@ export class Float {
 		if (this.number === 0) return this.significantDigits === Infinity || this.significantDigits <= 1 ? '0' : `0.${'0'.repeat(this.significantDigits - 1)}`
 		const number = roundToDigits(this.number / Math.pow(10, power), this.significantDigits)
 		let str = number.toString()
-		const digitsToAdd = this.significantDigits - getSignificantDigits(str)
+		const digitsToAdd = this.significantDigits - countSignificantDigits(str)
 		if (digitsToAdd > 0 && digitsToAdd < Infinity) str += `${str.includes('.') ? '' : '.'}${'0'.repeat(digitsToAdd)}`
 		return str
 	}
@@ -102,17 +102,17 @@ export class Float {
 		return this.getDisplayNumber(power).replace('.', decimalSeparator === ',' ? '{,}' : decimalSeparator)
 	}
 
-	get texWithPM(): string {
-		return this.toTexWithPM()
+	get texWithSign(): string {
+		return this.toTexWithSign()
 	}
-	toTexWithPM(texDisplayOptions?: TexDisplayOptionsInput): string {
+	toTexWithSign(texDisplayOptions?: TexDisplayOptionsInput): string {
 		return `${this.number < 0 ? '' : '+'}${this.toTex(texDisplayOptions)}`
 	}
 
-	get texWithBrackets(): string {
-		return this.toTexWithBrackets()
+	get texWithParentheses(): string {
+		return this.toTexWithParentheses()
 	}
-	toTexWithBrackets(texDisplayOptions?: TexDisplayOptionsInput): string {
+	toTexWithParentheses(texDisplayOptions?: TexDisplayOptionsInput): string {
 		return this.number < 0 || this.hasVisiblePower() ? `\\left(${this.toTex(texDisplayOptions)}\\right)` : this.toTex(texDisplayOptions)
 	}
 

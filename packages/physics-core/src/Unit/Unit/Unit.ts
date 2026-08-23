@@ -1,9 +1,9 @@
 import { ensureInteger, shallowEqual } from '@step-wise/js-utils'
 
-import { type UnitElement, type UnitElementStorageValue } from '../UnitElement'
+import { type UnitFactor, type UnitFactorStorageValue } from '../UnitFactor'
 
-import { type UnitElementArray, type UnitStorageValue, type UnitInput, UnitType, splitUnitString, asUnitElementArray } from './interpreting'
-import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, compareUnitElements } from './simplification'
+import { type UnitFactorArray, type UnitStorageValue, type UnitInput, UnitType, splitUnitString, asUnitFactorArray } from './interpreting'
+import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, compareUnitFactors } from './simplification'
 import { type UnitEqualityOptionsInput, type UnitEqualityResult, compareUnitTransformationSize, resolveUnitEqualityOptions } from './comparison'
 
 const unitColor = '#044488'
@@ -15,8 +15,8 @@ export function asUnit(input: UnitLike): Unit {
 }
 
 export class Unit {
-	readonly numerator: UnitElementArray
-	readonly denominator: UnitElementArray
+	readonly numerator: UnitFactorArray
+	readonly denominator: UnitFactorArray
 
 	/*
 	 * Construction
@@ -24,8 +24,8 @@ export class Unit {
 
 	constructor(input: UnitInput = {}) {
 		if (typeof input === 'string') input = splitUnitString(input)
-		this.numerator = asUnitElementArray(input.numerator ?? [])
-		this.denominator = asUnitElementArray(input.denominator ?? [])
+		this.numerator = asUnitFactorArray(input.numerator ?? [])
+		this.denominator = asUnitFactorArray(input.denominator ?? [])
 	}
 
 	/*
@@ -38,8 +38,8 @@ export class Unit {
 
 	toStorageValue(): UnitStorageValue {
 		return {
-			...(this.numerator.length === 0 ? {} : { numerator: this.numerator.map((unitElement: UnitElement): UnitElementStorageValue => unitElement.toStorageValue()) }),
-			...(this.denominator.length === 0 ? {} : { denominator: this.denominator.map((unitElement: UnitElement): UnitElementStorageValue => unitElement.toStorageValue()) }),
+			...(this.numerator.length === 0 ? {} : { numerator: this.numerator.map((unitFactor: UnitFactor): UnitFactorStorageValue => unitFactor.toStorageValue()) }),
+			...(this.denominator.length === 0 ? {} : { denominator: this.denominator.map((unitFactor: UnitFactor): UnitFactorStorageValue => unitFactor.toStorageValue()) }),
 		}
 	}
 
@@ -47,32 +47,32 @@ export class Unit {
 	 * Basic properties
 	 */
 
-	get allElements(): UnitElement[] {
+	get factors(): UnitFactor[] {
 		return [...this.numerator, ...this.denominator]
 	}
 
 	isEmpty(): boolean {
-		return this.allElements.length === 0
+		return this.factors.length === 0
 	}
 
-	hasStandardPrefixes(): boolean {
-		return this.allElements.every(unitElement => unitElement.hasStandardPrefix())
+	usesStandardPrefixes(): boolean {
+		return this.factors.every(unitFactor => unitFactor.usesStandardPrefix())
 	}
 
 	isInStandardUnits(): boolean {
-		return this.allElements.every(unitElement => unitElement.isInStandardUnits())
+		return this.factors.every(unitFactor => unitFactor.isInStandardUnits())
 	}
 
 	isInStandardForm(): boolean {
-		return this.allElements.every(unitElement => unitElement.isInStandardForm())
+		return this.factors.every(unitFactor => unitFactor.isInStandardForm())
 	}
 
-	isInBaseUnits(): boolean {
-		return this.allElements.every(unitElement => unitElement.isInBaseUnits())
+	isInUnitDefinitions(): boolean {
+		return this.factors.every(unitFactor => unitFactor.isInUnitDefinitions())
 	}
 
 	isInBaseForm(): boolean {
-		return this.allElements.every(unitElement => unitElement.isInBaseForm())
+		return this.factors.every(unitFactor => unitFactor.isInBaseForm())
 	}
 
 	/*
@@ -84,7 +84,7 @@ export class Unit {
 	}
 
 	toString(): string {
-		const partToString = (part: UnitElementArray) => part.length === 0 ? '1' : part.map(unitElement => unitElement.str).join(' * ')
+		const partToString = (part: UnitFactorArray) => part.length === 0 ? '1' : part.map(unitFactor => unitFactor.str).join(' * ')
 		let str = partToString(this.numerator)
 		if (this.denominator.length > 0) str += ` / ${partToString(this.denominator)}`
 		return str
@@ -96,7 +96,7 @@ export class Unit {
 
 	toTex(): string {
 		const addColor = (tex: string) => `{\\color{${unitColor}} ${tex}}`
-		const partToTex = (part: UnitElementArray) => part.length === 0 ? '1' : part.map(unitElement => addColor(unitElement.tex)).join(' \\cdot ')
+		const partToTex = (part: UnitFactorArray) => part.length === 0 ? '1' : part.map(unitFactor => addColor(unitFactor.tex)).join(' \\cdot ')
 		if (this.denominator.length > 0) return `\\frac{${partToTex(this.numerator)}}{${partToTex(this.denominator)}}`
 		return partToTex(this.numerator)
 	}
@@ -140,8 +140,8 @@ export class Unit {
 
 		// Apply the power to the individual elements.
 		return new Unit({
-			numerator: this.numerator.map(unitElement => unitElement.toPower(power)),
-			denominator: this.denominator.map(unitElement => unitElement.toPower(power)),
+			numerator: this.numerator.map(unitFactor => unitFactor.toPower(power)),
+			denominator: this.denominator.map(unitFactor => unitFactor.toPower(power)),
 		})
 	}
 
@@ -150,53 +150,53 @@ export class Unit {
 	 */
 
 	// Combine identical units like "dm^2 * dm^3" into one, like "dm^5".
-	combine(): Unit {
-		// Set up a handler to track the total power for each unitElement.
-		const unitPowers: Record<string, { unitElement: UnitElement, power: number }> = {}
-		const addUnitElement = (unitElement: UnitElement, positive: boolean) => {
-			const key = unitElement.getStringWithoutPower()
-			unitPowers[key] ??= { unitElement, power: 0 }
-			unitPowers[key].power += (positive ? 1 : -1) * unitElement.power
+	combineLikeFactors(): Unit {
+		// Set up a handler to track the total power for each unitFactor.
+		const unitPowers: Record<string, { unitFactor: UnitFactor, power: number }> = {}
+		const addUnitFactor = (unitFactor: UnitFactor, positive: boolean) => {
+			const key = unitFactor.getSymbol()
+			unitPowers[key] ??= { unitFactor, power: 0 }
+			unitPowers[key].power += (positive ? 1 : -1) * unitFactor.power
 		}
 
-		// Walk through all present unit elements.
-		this.numerator.forEach(unitElement => addUnitElement(unitElement, true))
-		this.denominator.forEach(unitElement => addUnitElement(unitElement, false))
+		// Walk through all present unit factors.
+		this.numerator.forEach(unitFactor => addUnitFactor(unitFactor, true))
+		this.denominator.forEach(unitFactor => addUnitFactor(unitFactor, false))
 
 		// Reassemble the result.
 		if (Object.keys(unitPowers).length === this.numerator.length + this.denominator.length) return this
 		return new Unit({
-			numerator: Object.values(unitPowers).filter(({ power }) => power > 0).map(({ unitElement, power }) => unitElement.setPower(power)),
-			denominator: Object.values(unitPowers).filter(({ power }) => power < 0).map(({ unitElement, power }) => unitElement.setPower(-power)),
+			numerator: Object.values(unitPowers).filter(({ power }) => power > 0).map(({ unitFactor, power }) => unitFactor.setPower(power)),
+			denominator: Object.values(unitPowers).filter(({ power }) => power < 0).map(({ unitFactor, power }) => unitFactor.setPower(-power)),
 		})
 	}
 
 	// Sort units according to a standard ordering.
-	sort(): Unit {
-		const sortUnitElements = (unitElements: UnitElement[]): UnitElement[] => [...unitElements].sort(compareUnitElements)
-		const numerator = sortUnitElements(this.numerator)
-		const denominator = sortUnitElements(this.denominator)
+	sortFactors(): Unit {
+		const sortUnitFactors = (unitFactors: UnitFactor[]): UnitFactor[] => [...unitFactors].sort(compareUnitFactors)
+		const numerator = sortUnitFactors(this.numerator)
+		const denominator = sortUnitFactors(this.denominator)
 		return (shallowEqual(numerator, this.numerator) && shallowEqual(denominator, this.denominator)) ? this : new Unit({ numerator: numerator, denominator: denominator })
 	}
 
 	// Remove all prefixes.
-	removePrefixes(): Unit {
-		return this.removePrefixesWithData().unit
+	normalizePrefixes(): Unit {
+		return this.normalizePrefixesWithData().unit
 	}
-	removePrefixesWithData(): UnitTransformationData<Unit> {
-		if (this.hasStandardPrefixes()) return { unit: this, exponent: 0, factor: 1, difference: 0 }
-		let exponent = 0
+	normalizePrefixesWithData(): UnitTransformationData<Unit> {
+		if (this.usesStandardPrefixes()) return { unit: this, decimalExponent: 0, factor: 1, offset: 0 }
+		let decimalExponent = 0
 		const unit = new Unit({
-			numerator: this.numerator.map(unitElement => {
-				exponent += unitElement.getPrefixRemovalExponent()
-				return unitElement.removePrefix()
+			numerator: this.numerator.map(unitFactor => {
+				decimalExponent += unitFactor.getPrefixNormalizationExponent()
+				return unitFactor.normalizePrefix()
 			}),
-			denominator: this.denominator.map(unitElement => {
-				exponent -= unitElement.getPrefixRemovalExponent()
-				return unitElement.removePrefix()
+			denominator: this.denominator.map(unitFactor => {
+				decimalExponent -= unitFactor.getPrefixNormalizationExponent()
+				return unitFactor.normalizePrefix()
 			}),
 		})
-		return { unit, exponent, factor: 1, difference: 0 }
+		return { unit, decimalExponent, factor: 1, offset: 0 }
 	}
 
 	// Turn all units to standard units.
@@ -204,50 +204,50 @@ export class Unit {
 		return this.toStandardUnitsWithData().unit
 	}
 	toStandardUnitsWithData(): UnitTransformationData<Unit> {
-		const data = this.removePrefixesWithData()
+		const data = this.normalizePrefixesWithData()
 		if (data.unit.isInStandardForm()) return data
-		let { unit, exponent, factor, difference } = data
+		let { unit, decimalExponent, factor, offset } = data
 
-		// Walk through all unit elements and transform them to standard form.
+		// Walk through all unit factors and transform them to standard form.
 		let newUnit = new Unit()
-		unit.allElements.forEach((unitElement: UnitElement, index: number): void => {
+		unit.factors.forEach((unitFactor: UnitFactor, index: number): void => {
 			const inNumerator = index < unit.numerator.length
-			if (unitElement.isInStandardForm()) {
-				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](new Unit({ numerator: [unitElement] }))
+			if (unitFactor.isInStandardForm()) {
+				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](new Unit({ numerator: [unitFactor] }))
 			} else {
-				const adjustment = unitElement.unit.toStandard
-				if (!adjustment) throw new Error(`Invalid unit conversion: unit "${unitElement.unit}" has no standard conversion.`)
+				const adjustment = unitFactor.unit.toStandard
+				if (!adjustment) throw new Error(`Invalid unit conversion: unit "${unitFactor.unit}" has no standard conversion.`)
 				const sign = inNumerator ? 1 : -1
-				difference += (adjustment.difference ?? 0) * sign
-				factor *= Math.pow(adjustment.factor ?? 1, unitElement.power * sign)
-				exponent += (adjustment.exponent ?? 0) * unitElement.power * sign
-				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](asUnit(adjustment.unit).toPower(unitElement.power))
+				offset += (adjustment.offset ?? 0) * sign
+				factor *= Math.pow(adjustment.factor ?? 1, unitFactor.power * sign)
+				decimalExponent += (adjustment.decimalExponent ?? 0) * unitFactor.power * sign
+				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](asUnit(adjustment.unit).toPower(unitFactor.power))
 			}
 		})
 
 		// Affine shifts only apply to standalone units like °C, not J/°C or °C^2.
-		if (this.numerator.length !== 1 || this.denominator.length !== 0 || this.numerator[0].power !== 1) difference = 0
-		return { unit: newUnit, exponent, factor, difference }
+		if (this.numerator.length !== 1 || this.denominator.length !== 0 || this.numerator[0].power !== 1) offset = 0
+		return { unit: newUnit, decimalExponent, factor, offset }
 	}
 
 	// Turn all units to base units.
-	toBaseUnits(): Unit {
-		return this.toBaseUnitsWithData().unit
+	toUnitDefinitions(): Unit {
+		return this.toUnitDefinitionsWithData().unit
 	}
-	toBaseUnitsWithData(): UnitTransformationData<Unit> {
+	toUnitDefinitionsWithData(): UnitTransformationData<Unit> {
 		const data = this.toStandardUnitsWithData()
 		if (data.unit.isInBaseForm()) return data
-		let { unit, exponent, factor, difference } = data
+		let { unit, decimalExponent, factor, offset } = data
 
-		// Walk through all unit elements and transform them to base form.
+		// Walk through all unit factors and transform them to base form.
 		let newUnit = new Unit()
-		unit.allElements.forEach((unitElement: UnitElement, index: number): void => {
+		unit.factors.forEach((unitFactor: UnitFactor, index: number): void => {
 			const inNumerator = index < unit.numerator.length
-			if (unitElement.isInBaseForm()) {
-				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](new Unit({ numerator: [unitElement] }))
+			if (unitFactor.isInBaseForm()) {
+				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](new Unit({ numerator: [unitFactor] }))
 			} else {
-				if (!unitElement.unit.toBase) throw new Error(`Invalid unit conversion: unit "${unitElement.unit}" has no base conversion.`)
-				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](asUnit(unitElement.unit.toBase).toPower(unitElement.power))
+				if (!unitFactor.unit.toBase) throw new Error(`Invalid unit conversion: unit "${unitFactor.unit}" has no base conversion.`)
+				newUnit = newUnit[inNumerator ? 'multiply' : 'divide'](asUnit(unitFactor.unit.toBase).toPower(unitFactor.power))
 			}
 		})
 
@@ -258,9 +258,9 @@ export class Unit {
 	simplifyWithData(options?: UnitSimplificationOptionsInput): UnitTransformationData<Unit> {
 		const simplificationOptions = resolveUnitSimplificationOptions(options)
 		const { target } = simplificationOptions
-		let data = target === 'base' ? this.toBaseUnitsWithData() : target === 'standard' ? this.toStandardUnitsWithData() : target === 'noPrefixes' ? this.removePrefixesWithData() : { unit: this, exponent: 0, factor: 1, difference: 0 }
-		if (simplificationOptions.combine) data = { ...data, unit: data.unit.combine() }
-		if (simplificationOptions.sort) data = { ...data, unit: data.unit.sort() }
+		let data = target === 'base' ? this.toUnitDefinitionsWithData() : target === 'standard' ? this.toStandardUnitsWithData() : target === 'normalizedPrefixes' ? this.normalizePrefixesWithData() : { unit: this, decimalExponent: 0, factor: 1, offset: 0 }
+		if (simplificationOptions.combine) data = { ...data, unit: data.unit.combineLikeFactors() }
+		if (simplificationOptions.sort) data = { ...data, unit: data.unit.sortFactors() }
 		return data
 	}
 

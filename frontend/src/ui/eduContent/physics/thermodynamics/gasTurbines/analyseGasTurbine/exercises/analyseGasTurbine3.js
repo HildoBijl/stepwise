@@ -111,7 +111,7 @@ const steps = [
 				Net zo is bij de turbine de specifieke technische arbeid
 				<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.float} \cdot \left({T4.float} - {T3.float}\right) = {wt34}.</BM>
 				De totale (netto) specifieke technische arbeid is dus
-				<BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithPM} {wt34.float.texWithPM} {wt41.float.texWithPM} = {wn}.</BM>
+				<BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithSign} {wt34.float.texWithSign} {wt41.float.texWithSign} = {wn}.</BM>
 			</Par>
 		},
 	},

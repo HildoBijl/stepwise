@@ -62,7 +62,7 @@ const steps = [
 		</>,
 		Solution: ({ dS12p, dS2p2, dS }) => {
 			return <>
-				<Par>Voor de totale entropieverandering tellen we de entropieveranderingen van de stappen op. Dit gaat via <BM>\Delta S_(1-2) = \Delta S_(1-2') + \Delta S_(2'-2) = {dS12p.float} {dS2p2.float.texWithPM} = {dS}.</BM></Par>
+				<Par>Voor de totale entropieverandering tellen we de entropieveranderingen van de stappen op. Dit gaat via <BM>\Delta S_(1-2) = \Delta S_(1-2') + \Delta S_(2'-2) = {dS12p.float} {dS2p2.float.texWithSign} = {dS}.</BM></Par>
 			</>
 		},
 	},

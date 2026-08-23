@@ -1,28 +1,28 @@
 import { ensureInteger } from '@step-wise/js-utils'
 
 import { Prefix } from '../Prefix'
-import { type BaseUnit } from '../BaseUnit'
+import { type UnitDefinition } from '../UnitDefinition'
 
-import { type UnitElementInput, type UnitElementStorageValue, UnitElementType } from './interpreting'
-import { unitElementInputToParameters } from './construction'
+import { type UnitFactorInput, type UnitFactorStorageValue, UnitFactorType } from './interpreting'
+import { unitFactorInputToParameters } from './construction'
 
-export type UnitElementLike = UnitElementInput | UnitElement
+export type UnitFactorLike = UnitFactorInput | UnitFactor
 
-export function asUnitElement(input: UnitElementLike): UnitElement {
-	return input instanceof UnitElement ? input : new UnitElement(input)
+export function asUnitFactor(input: UnitFactorLike): UnitFactor {
+	return input instanceof UnitFactor ? input : new UnitFactor(input)
 }
 
-export class UnitElement {
+export class UnitFactor {
 	readonly prefix: Prefix | undefined
-	readonly unit: BaseUnit
+	readonly unit: UnitDefinition
 	readonly power: number
 
 	/*
 	 * Construction
 	 */
 
-	constructor(input: UnitElementInput) {
-		const { prefix, unit, power } = unitElementInputToParameters(input)
+	constructor(input: UnitFactorInput) {
+		const { prefix, unit, power } = unitFactorInputToParameters(input)
 		this.prefix = prefix
 		this.unit = unit
 		this.power = power
@@ -32,11 +32,11 @@ export class UnitElement {
 	 * Serialization
 	 */
 
-	get type(): UnitElementType {
-		return UnitElementType
+	get type(): UnitFactorType {
+		return UnitFactorType
 	}
 
-	toStorageValue(): UnitElementStorageValue {
+	toStorageValue(): UnitFactorStorageValue {
 		return {
 			...(this.prefix ? { prefix: this.prefixString } : {}),
 			unit: this.unitString,
@@ -56,7 +56,7 @@ export class UnitElement {
 		return this.prefix ? this.prefix.exponent : 0
 	}
 
-	hasStandardPrefix(): boolean {
+	usesStandardPrefix(): boolean {
 		return this.prefix === this.unit.standardPrefix || (this.prefix instanceof Prefix && this.unit.standardPrefix instanceof Prefix && this.prefix.equals(this.unit.standardPrefix))
 	}
 
@@ -65,15 +65,15 @@ export class UnitElement {
 	}
 
 	isInStandardForm(): boolean {
-		return this.isInStandardUnits() && this.hasStandardPrefix()
+		return this.isInStandardUnits() && this.usesStandardPrefix()
 	}
 
-	isInBaseUnits(): boolean {
+	isInUnitDefinitions(): boolean {
 		return this.unit.base
 	}
 
 	isInBaseForm(): boolean {
-		return this.isInBaseUnits() && this.hasStandardPrefix()
+		return this.isInUnitDefinitions() && this.usesStandardPrefix()
 
 	}
 
@@ -86,7 +86,7 @@ export class UnitElement {
 	}
 
 	toString(): string {
-		let str = this.getStringWithoutPower()
+		let str = this.getSymbol()
 		if (this.power !== 1) str += `^${this.power}`
 		return str
 	}
@@ -96,20 +96,20 @@ export class UnitElement {
 	}
 
 	toTex(): string {
-		let tex = this.getStringWithoutPower()
+		let tex = this.getSymbol()
 		if (this.power !== 1) tex += `^{${this.power}}`
 		return `{\\rm ${tex}}`
 	}
 
 	get prefixString(): string {
-		return this.prefix ? this.prefix.letter : ''
+		return this.prefix ? this.prefix.symbol : ''
 	}
 
 	get unitString(): string {
 		return this.unit.str
 	}
 
-	getStringWithoutPower(): string {
+	getSymbol(): string {
 		return this.prefixString + this.unitString
 	}
 
@@ -117,24 +117,24 @@ export class UnitElement {
 	 * Operations
 	 */
 
-	removePrefix(): UnitElement {
-		return new UnitElement({
-			prefix: this.unit.standardPrefix ? this.unit.standardPrefix.letter : '',
+	normalizePrefix(): UnitFactor {
+		return new UnitFactor({
+			prefix: this.unit.standardPrefix ? this.unit.standardPrefix.symbol : '',
 			unit: this.unitString,
 			power: this.power,
 		})
 	}
 
-	getPrefixRemovalExponent(): number {
+	getPrefixNormalizationExponent(): number {
 		return (this.prefixExponent - this.unit.defaultPrefixExponent) * this.power
 	}
 
-	setPower(power: number): UnitElement {
+	setPower(power: number): UnitFactor {
 		power = ensureInteger(power, { nonNegative: true, nonZero: true })
-		return power === this.power ? this : new UnitElement({ prefix: this.prefix, unit: this.unit, power })
+		return power === this.power ? this : new UnitFactor({ prefix: this.prefix, unit: this.unit, power })
 	}
 
-	toPower(power: number): UnitElement {
+	toPower(power: number): UnitFactor {
 		return this.setPower(this.power * ensureInteger(power, { nonNegative: true, nonZero: true }))
 	}
 }

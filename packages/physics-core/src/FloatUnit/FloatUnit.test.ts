@@ -68,8 +68,8 @@ describe('FloatUnit', () => {
 		test('converts to tex', () => {
 			expect(new FloatUnit('3.14 m').toTex()).toBe('3{,}14\\ {\\color{#044488} {\\rm m}}')
 			expect(new FloatUnit('3.14').toTex()).toBe('3{,}14')
-			expect(new FloatUnit('-3.14 m').toTexWithPM()).toBe('-3{,}14\\ {\\color{#044488} {\\rm m}}')
-			expect(new FloatUnit('3.14 m').toTexWithPM()).toBe('+3{,}14\\ {\\color{#044488} {\\rm m}}')
+			expect(new FloatUnit('-3.14 m').toTexWithSign()).toBe('-3{,}14\\ {\\color{#044488} {\\rm m}}')
+			expect(new FloatUnit('3.14 m').toTexWithSign()).toBe('+3{,}14\\ {\\color{#044488} {\\rm m}}')
 		})
 	})
 
@@ -118,9 +118,9 @@ describe('FloatUnit', () => {
 			expect(() => new FloatUnit('2 m').setUnit('s')).toThrow()
 		})
 		test('simplifies prefixes', () => {
-			expect(new FloatUnit('2 km').simplify({ target: 'noPrefixes' }).toString()).toBe('2 * 10^3 m')
-			expect(new FloatUnit('2 ms').simplify({ target: 'noPrefixes' }).toString()).toBe('2 * 10^(-3) s')
-			expect(new FloatUnit('2 g').simplify({ target: 'noPrefixes' }).toString()).toBe('2 * 10^(-3) kg')
+			expect(new FloatUnit('2 km').simplify({ target: 'normalizedPrefixes' }).toString()).toBe('2 * 10^3 m')
+			expect(new FloatUnit('2 ms').simplify({ target: 'normalizedPrefixes' }).toString()).toBe('2 * 10^(-3) s')
+			expect(new FloatUnit('2 g').simplify({ target: 'normalizedPrefixes' }).toString()).toBe('2 * 10^(-3) kg')
 		})
 		test('simplifies to standard and base units', () => {
 			expect(new FloatUnit('1 bar').simplify({ target: 'standard' }).toString()).toBe('1 * 10^5 Pa')

@@ -101,7 +101,7 @@ const steps = [
 		Solution: ({ m, T1, T4, cv, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Qn, Wn }) => {
 			return <>
 				<Par>Net als bij stap 2-3 geldt hier <BM>Q_(4-1) = mc_v \left(T_1 - T_4\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T4.float}\right) = {Q41},</BM> en ook <M>W_(4-1) = {W41}.</M> Daarmee is ook de laatste stap doorgerekend.</Par>
-				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithPM} {Q34.float.texWithPM} {Q41.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithPM} {W34.float.texWithPM} {W41.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>
+				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithSign} {Q34.float.texWithSign} {Q41.float.texWithSign} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithSign} {W34.float.texWithSign} {W41.float.texWithSign} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>
 			</>
 		},
 	},

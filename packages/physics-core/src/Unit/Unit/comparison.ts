@@ -32,20 +32,20 @@ export type UnitEqualityResult<TUnit> = {
 	}
 	size: {
 		equal: boolean
-		exponentDifference: number
+		decimalExponentDifference: number
 		factorRatio: number
-		differenceDifference: number
+		offsetDifference: number
 	}
 }
 
 export function compareUnitTransformationSize<TUnit>(input: UnitTransformationData<TUnit>, reference: UnitTransformationData<TUnit>) {
-	const exponentDifference = input.exponent - reference.exponent
+	const decimalExponentDifference = input.decimalExponent - reference.decimalExponent
 	const factorRatio = input.factor / reference.factor
-	const differenceDifference = input.difference - reference.difference
+	const offsetDifference = input.offset - reference.offset
 	return {
-		equal: exponentDifference === 0 && factorRatio === 1 && differenceDifference === 0,
-		exponentDifference,
+		equal: decimalExponentDifference === 0 && factorRatio === 1 && offsetDifference === 0,
+		decimalExponentDifference,
 		factorRatio,
-		differenceDifference,
+		offsetDifference,
 	}
 }

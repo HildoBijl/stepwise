@@ -1,26 +1,26 @@
-import { type UnitElementStorageValue, type UnitElement, type UnitElementLike, asUnitElement, unitElementPattern } from '../UnitElement'
+import { type UnitFactorStorageValue, type UnitFactor, type UnitFactorLike, asUnitFactor, unitFactorPattern } from '../UnitFactor'
 
 export const UnitType = 'Unit'
 export type UnitType = typeof UnitType
 
-export type UnitElementArrayStorageValue = UnitElementStorageValue[]
-export type UnitElementArrayInput = string | UnitElementLike[]
-export type UnitElementArray = UnitElement[]
+export type UnitFactorArrayStorageValue = UnitFactorStorageValue[]
+export type UnitFactorArrayInput = string | UnitFactorLike[]
+export type UnitFactorArray = UnitFactor[]
 
 export type UnitStorageValue = {
-	numerator?: UnitElementArrayStorageValue
-	denominator?: UnitElementArrayStorageValue
+	numerator?: UnitFactorArrayStorageValue
+	denominator?: UnitFactorArrayStorageValue
 }
 
 export type UnitInput = string | {
-	numerator?: UnitElementArrayInput
-	denominator?: UnitElementArrayInput
+	numerator?: UnitFactorArrayInput
+	denominator?: UnitFactorArrayInput
 }
 
-export const unitElementArrayPattern = `(1|${unitElementPattern}(\\s*\\*\\s*${unitElementPattern})*)`
-export const unitPattern = `(${unitElementArrayPattern}(\\s*/\\s*${unitElementArrayPattern})?|/\\s*${unitElementArrayPattern})`
+export const unitFactorArrayPattern = `(1|${unitFactorPattern}(\\s*\\*\\s*${unitFactorPattern})*)`
+export const unitPattern = `(${unitFactorArrayPattern}(\\s*/\\s*${unitFactorArrayPattern})?|/\\s*${unitFactorArrayPattern})`
 
-export const unitElementArrayRegex = new RegExp(`^${unitElementArrayPattern}$`)
+export const unitFactorArrayRegex = new RegExp(`^${unitFactorArrayPattern}$`)
 export const unitRegex = new RegExp(`^${unitPattern}$`)
 
 // Turn a string like 'kg * m / s^2' into parts based on the position of the slash.
@@ -33,13 +33,13 @@ export function splitUnitString(str: string): { numerator: string, denominator: 
 	return { numerator, denominator }
 }
 
-// Turn a unit string like 'kg * m^2 * s' (without slashes) or an array of unit element inputs into an array of UnitElements.
-export function asUnitElementArray(input: UnitElementArrayInput): UnitElementArray {
+// Turn a unit string like 'kg * m^2 * s' (without slashes) or an array of unit factor inputs into an array of UnitFactors.
+export function asUnitFactorArray(input: UnitFactorArrayInput): UnitFactorArray {
 	if (typeof input === 'string') {
 		input = input.trim()
 		if (input === '' || input === '1') return []
-		if (!unitElementArrayRegex.test(input)) throw new Error(`Invalid unit element array input: could not parse "${input}".`)
+		if (!unitFactorArrayRegex.test(input)) throw new Error(`Invalid unit factor array input: could not parse "${input}".`)
 		input = input.split('*').map(part => part.trim()).filter(part => part !== '')
 	}
-	return input.map(unitElement => asUnitElement(unitElement))
+	return input.map(unitFactor => asUnitFactor(unitFactor))
 }

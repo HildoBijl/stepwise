@@ -3,7 +3,7 @@ import { last, mapValues, fromKeys, repeat } from '@step-wise/js-utils'
 import { selectRandomInvalidUnit } from '../../../../util'
 
 import { type as unitArrayType, initialValue as initialUnitArrayValue, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray, keyPressToFI as unitArrayKeyPressToFI, mouseClickToCursor as unitArrayMouseClickToCursor } from '../UnitArray'
-import { isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from '../UnitElement'
+import { isEmpty as isUnitFactorEmpty, getStartCursor as getUnitFactorStartCursor, getEndCursor as getUnitFactorEndCursor, isCursorAtStart as isCursorAtUnitFactorStart } from '../UnitFactor'
 
 // Define various trivial objects and functions.
 export const type = 'Unit'
@@ -31,8 +31,8 @@ export function keyboardSettings(FI) {
 		// Get the exact cursor position.
 		const unitArray = unit[unitCursor.part]
 		const unitArrayCursor = unitCursor.cursor
-		const unitElement = unitArray[unitArrayCursor.part]
-		const unitElementCursor = unitArrayCursor.cursor
+		const unitFactor = unitArray[unitArrayCursor.part]
+		const unitFactorCursor = unitArrayCursor.cursor
 
 		// Determine which keys to disable.
 		keySettings = {
@@ -41,12 +41,12 @@ export function keyboardSettings(FI) {
 			ArrowRight: !isCursorAtEnd(unit, unitCursor),
 			ArrowUp: unitCursor.part === 'denominator',
 			ArrowDown: unitCursor.part === 'numerator',
-			Minus: unitElementCursor.part === 'power',
-			Times: !isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor),
+			Minus: unitFactorCursor.part === 'power',
+			Times: !isUnitFactorEmpty(unitFactor) && !isCursorAtUnitFactorStart(unitFactor, unitFactorCursor),
 			Divide: unitCursor.part === 'numerator' || (unitCursor.part === 'denominator' && !isCursorAtUnitArrayStart(unitArray, unitArrayCursor)),
-			Power: unitElementCursor.part === 'text' && !isCursorAtUnitElementStart(unitElement, unitElementCursor),
+			Power: unitFactorCursor.part === 'text' && !isCursorAtUnitFactorStart(unitFactor, unitFactorCursor),
 		}
-		if (unitElementCursor.part === 'text' && unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0)
+		if (unitFactorCursor.part === 'text' && unitFactorCursor.cursor === 0 && unitFactor.prefix.length + unitFactor.unit.length > 0)
 			repeat(10, (index) => keySettings[index] = false)
 	}
 
@@ -68,8 +68,8 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	// Check where the cursor is currently at.
 	const unitArray = value[cursor.part]
 	const unitArrayCursor = cursor.cursor
-	const unitElement = unitArray[unitArrayCursor.part]
-	const unitElementCursor = unitArrayCursor.cursor
+	const unitFactor = unitArray[unitArrayCursor.part]
+	const unitFactorCursor = unitArrayCursor.cursor
 
 	// Set up a pass-on function.
 	const identity = () => {
@@ -147,15 +147,15 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	}
 
 	// For the minus sign, if we're in a power, throw the unit to the other unit array.
-	if ((key === '-' || key === 'Minus') && unitElementCursor.part === 'power') {
+	if ((key === '-' || key === 'Minus') && unitFactorCursor.part === 'power') {
 		const partA = cursor.part
 		const partB = partA === 'numerator' ? 'denominator' : 'numerator'
 		const unitArrayA = unitArray.length === 1 ? functionalizeUnitArray(initialUnitArrayValue) : unitArray.toSpliced(unitArrayCursor.part, 1)
-		const unitArrayB = isUnitArrayEmpty(value[partB]) ? [unitElement] : [...value[partB], unitElement]
+		const unitArrayB = isUnitArrayEmpty(value[partB]) ? [unitFactor] : [...value[partB], unitFactor]
 		return {
 			...FI,
 			value: { [partA]: unitArrayA, [partB]: unitArrayB },
-			cursor: { part: partB, cursor: { part: unitArrayB.length - 1, cursor: unitElementCursor } },
+			cursor: { part: partB, cursor: { part: unitArrayB.length - 1, cursor: unitFactorCursor } },
 		}
 	}
 
@@ -164,19 +164,19 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 		// Before we split, preprocess the unit and figure out where we will split it.
 		let unitBeforeSplit, divideAt
 		const numeratorLength = (isUnitArrayEmpty(numerator) ? 0 : numerator.length)
-		if (isCursorAtUnitElementStart(unitElement, unitElementCursor)) { // Cursor is at the start.
-			// Don't do any preprocessing. Just remember to split before the current unit element.
+		if (isCursorAtUnitFactorStart(unitFactor, unitFactorCursor)) { // Cursor is at the start.
+			// Don't do any preprocessing. Just remember to split before the current unit factor.
 			unitBeforeSplit = value
 			divideAt = cursor.part === 'numerator' ? unitArrayCursor.part : numeratorLength + unitArrayCursor.part
-		} else if (unitElementCursor.part === 'text' && unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) { // Cursor is inside of the text (but not at the start/end).
-			// Split the unit element accordingly.
+		} else if (unitFactorCursor.part === 'text' && unitFactorCursor.cursor < unitFactor.prefix.length + unitFactor.unit.length) { // Cursor is inside of the text (but not at the start/end).
+			// Split the unit factor accordingly.
 			unitBeforeSplit = {
 				...value,
 				[cursor.part]: splitElement(unitArray, unitArrayCursor),
 			}
 			divideAt = cursor.part === 'numerator' ? unitArrayCursor.part + 1 : numeratorLength + unitArrayCursor.part + 1
 		} else { // Cursor is at the end of the text or in the power.
-			// Don't do any preprocessing. Just remember to split after the current unit element.
+			// Don't do any preprocessing. Just remember to split after the current unit factor.
 			unitBeforeSplit = value
 			divideAt = cursor.part === 'numerator' ? unitArrayCursor.part + 1 : numeratorLength + unitArrayCursor.part + 1
 		}
@@ -221,12 +221,12 @@ export function mouseClickToCursor(evt, FI, contentsElement) {
 
 // mergeNumeratorAndDenominator merges the numerator and denominator and puts the cursor in-between. If putCursorOnTheRight is set to false (default true) then the cursor is put at the end of the previous numerator, and otherwise at the start of the previous denominator. It returns an object of the form { value, cursor }.
 function mergeNumeratorAndDenominator(value, putCursorOnTheRight = true) {
-	// Determine the numerator and the cursor in case we do not merge unit elements.
+	// Determine the numerator and the cursor in case we do not merge unit factors.
 	const { numerator, denominator } = value
 	let newNumerator = [...numerator, ...denominator]
 	let newNumeratorCursor = putCursorOnTheRight ?
-		{ part: numerator.length, cursor: getUnitElementStartCursor(denominator[0]) } :
-		{ part: numerator.length - 1, cursor: getUnitElementEndCursor(last(numerator)) }
+		{ part: numerator.length, cursor: getUnitFactorStartCursor(denominator[0]) } :
+		{ part: numerator.length - 1, cursor: getUnitFactorEndCursor(last(numerator)) }
 
 	// Check if a merger is needed and if so execute it.
 	if (last(numerator).power === '' || denominator[0].text === '') {

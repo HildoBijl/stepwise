@@ -1,12 +1,12 @@
 import { ensureBoolean, mergeDefaults } from '@step-wise/js-utils'
 
-import { type UnitElement } from '../UnitElement'
+import { type UnitFactor } from '../UnitFactor'
 
 /*
  * Simplification targets: to what depth/form do we simplify units?
  */
 
-export const unitSimplificationTargets = ['unchanged', 'noPrefixes', 'standard', 'base'] as const
+export const unitSimplificationTargets = ['unchanged', 'normalizedPrefixes', 'standard', 'base'] as const
 export type UnitSimplificationTarget = typeof unitSimplificationTargets[number]
 
 /*
@@ -38,19 +38,19 @@ export function resolveUnitSimplificationOptions(options: UnitSimplificationOpti
 
 export type UnitTransformationData<TUnit> = {
 	unit: TUnit
-	exponent: number
+	decimalExponent: number
 	factor: number
-	difference: number
+	offset: number
 }
 
 /*
- * Sorting: how do we order the unit elements inside a unit?
+ * Sorting: how do we order the unit factors inside a unit?
  */
 
-// For sorting, compare two unit elements and determine which should come earlier.
-export function compareUnitElements(a: UnitElement, b: UnitElement): number {
+// For sorting, compare two unit factors and determine which should come earlier.
+export function compareUnitFactors(a: UnitFactor, b: UnitFactor): number {
 	if (a.unit.order !== b.unit.order) return a.unit.order - b.unit.order
-	if (a.unit.letter !== b.unit.letter) return a.unit.letter.toLowerCase() > b.unit.letter.toLowerCase() ? 1 : -1
+	if (a.unit.symbol !== b.unit.symbol) return a.unit.symbol.toLowerCase() > b.unit.symbol.toLowerCase() ? 1 : -1
 	const prefixExponentA = a.prefix?.exponent ?? 0
 	const prefixExponentB = b.prefix?.exponent ?? 0
 	if (prefixExponentA !== prefixExponentB) return prefixExponentA - prefixExponentB

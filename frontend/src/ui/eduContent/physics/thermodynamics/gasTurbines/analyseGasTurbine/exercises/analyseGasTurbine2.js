@@ -122,8 +122,8 @@ const steps = [
 					Zo zijn alle energiestromen bekend.</Par>
 				<Par>Als check controleren we de energiebalans. Zo vinden we
 					<BMList>
-						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-4) + q_(4-1) = {q12.float} {q23.float.texWithPM} {q34.float.texWithPM} {q41.float.texWithPM} = {wn},</BMPart>
-						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithPM} {wt34.float.texWithPM} {wt41.float.texWithPM} = {wn}.</BMPart>
+						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-4) + q_(4-1) = {q12.float} {q23.float.texWithSign} {q34.float.texWithSign} {q41.float.texWithSign} = {wn},</BMPart>
+						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithSign} {wt34.float.texWithSign} {wt41.float.texWithSign} = {wn}.</BMPart>
 					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus we hebben geen rekenfout gemaakt.</Par>
 			</>

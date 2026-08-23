@@ -1,4 +1,4 @@
 export * from './Prefix'
-export * from './BaseUnit'
-export * from './UnitElement'
+export * from './UnitDefinition'
+export * from './UnitFactor'
 export * from './Unit'

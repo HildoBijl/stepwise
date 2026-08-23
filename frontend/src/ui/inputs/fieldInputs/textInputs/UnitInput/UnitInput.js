@@ -19,7 +19,7 @@ export const defaultUnitInputOptions = {
 		'&.filler-1': {
 			pointerEvents: 'none', // To prevent it being clicked on. When the cursor is already in the numerator, the filler disappears as soon as it's clicked on, which messes up the click processing.
 		},
-		'& .unitElement': {
+		'& .unitFactor': {
 			color: theme.palette.info.main,
 			'&.valid': {
 				'& .prefix': {
@@ -27,7 +27,7 @@ export const defaultUnitInputOptions = {
 				},
 			},
 			'&.invalid': {
-				'& .prefix, .baseUnit': { color: theme.palette.error.main },
+				'& .prefix, .unitDefinition': { color: theme.palette.error.main },
 			},
 		},
 		'& .fraction': {

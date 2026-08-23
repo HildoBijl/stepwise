@@ -132,8 +132,8 @@ const steps = [
 				<Par>
 					Als check controleren we de energiebalans. Zo zien we
 					<BMList>
-						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithPM} {Q34.float.texWithPM} {Q41.float.texWithPM} = {Wn},</BMPart>
-						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithPM} {W34.float.texWithPM} {W41.float.texWithPM} = {Wn}.</BMPart>
+						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithSign} {Q34.float.texWithSign} {Q41.float.texWithSign} = {Wn},</BMPart>
+						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithSign} {W34.float.texWithSign} {W41.float.texWithSign} = {Wn}.</BMPart>
 					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.
 				</Par>

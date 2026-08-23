@@ -85,7 +85,7 @@ const steps = [
 		</>,
 		Solution: ({ dSc, dSw, dS }) => {
 			return <>
-				<Par>De totale entropieverandering is simpelweg de som van de entropietoenamen op alle plekken. Oftewel, <BM>\Delta S = \Delta S_k + \Delta S_w = {dSc.float} {dSw.float.texWithPM} = {dS}.</BM> Deze waarde is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
+				<Par>De totale entropieverandering is simpelweg de som van de entropietoenamen op alle plekken. Oftewel, <BM>\Delta S = \Delta S_k + \Delta S_w = {dSc.float} {dSw.float.texWithSign} = {dS}.</BM> Deze waarde is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
 			</>
 		},
 	},

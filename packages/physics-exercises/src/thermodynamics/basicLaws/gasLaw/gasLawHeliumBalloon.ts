@@ -13,7 +13,7 @@ export default buildStepExercise({
 			ms: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 			Ts: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
 			ps: { float: { relativeTolerance: 0.001, significantDigitTolerance: 1 }, unit: { target: 'unchanged' } },
-			Rs: { float: { relativeTolerance: 0.01 }, unit: { target: 'noPrefixes' } },
+			Rs: { float: { relativeTolerance: 0.01 }, unit: { target: 'normalizedPrefixes' } },
 			V: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		},
 	},

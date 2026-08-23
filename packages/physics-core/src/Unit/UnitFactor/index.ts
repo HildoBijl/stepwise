@@ -1,4 +1,4 @@
 export * from './interpreting'
 export * from './construction'
-export * from './UnitElement'
+export * from './UnitFactor'
 export * from './inputValue'

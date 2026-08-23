@@ -5,7 +5,7 @@ The `Unit` class represents a physics unit like `kg * m / s^2`.
 
 ## Internal structure
 
-A `Unit` effectively consists of two `UnitArray` entries (`numerator` and `denominator`). Each is a list of `UnitElement` objects. Every `UnitElement` consists of a `Prefix` (can be undefined), a `BaseUnit` and a `Power` (default `1`).
+A `Unit` effectively consists of two `UnitArray` entries (`numerator` and `denominator`). Each is a list of `UnitFactor` objects. Every `UnitFactor` consists of a `Prefix` (can be undefined), a `UnitDefinition` and a `Power` (default `1`).
 
 
 ## Creation
@@ -33,7 +33,7 @@ There are a few basic checks you can run.
 - `hasStandardPrefixes()` checks if the prefixes in all elements are the standard ones. (So that's mostly "none" but for the unit "g" the prefix has to be "k" since the standard unit for mass is "kg".)
 - `isInStandardUnits()` checks if all units are standard. So we may not use `bar` but we may use `Pa`. Prefixes are allowed: `mPa` is OK here.
 - `isInStandardForm()` combines the previous two: checks if all units are standard with their standard prefixes. `Pa` is allowed but `mPa` is not.
-- `isInBaseUnits()` checks if only the seven base units are used. Prefixes are allowed.
+- `isInUnitDefinitions()` checks if only the seven base units are used. Prefixes are allowed.
 - `isInBaseForm()` checks if only the seven base units are used, with their standard prefixes.
 
 
@@ -60,14 +60,14 @@ Units can be manipulated through the following methods.
 
 There are various ways in which units can be reduced. First, there are two basic clean-up methods.
 
-- `combine()` combines identical unit elements. So `dm^5 * dm^3 / dm^2` becomes `dm^6`. It does not match unit elements with different prefixes.
-- `sort()` sorts the unit elements, first according to their unit and then according to their prefix.
+- `combine()` combines identical unit factors. So `dm^5 * dm^3 / dm^2` becomes `dm^6`. It does not match unit factors with different prefixes.
+- `sort()` sorts the unit factors, first according to their unit and then according to their prefix.
 
 Then there are three methods that reduce a unit in some way. Each method goes a step further than the previous one (so includes the previous one).
 
-- `removePrefixes()` applies standard prefixes to all unit elements. So `km` becomes `m`, `ms` becomes `s` and (perhaps surprisingly) `g` becomes `kg`, since `kg` is the standard unit. So the name is misleading: we apply standard prefixes. (But that function name would be too long.)
+- `removePrefixes()` applies standard prefixes to all unit factors. So `km` becomes `m`, `ms` becomes `s` and (perhaps surprisingly) `g` becomes `kg`, since `kg` is the standard unit. So the name is misleading: we apply standard prefixes. (But that function name would be too long.)
 - `toStandardUnits()` removes prefixes and turns everything into standard units. So `bar` becomes `Pa` and `°C` becomes `K`.
-- `toBaseUnits()` first turns units to standard units, and then subsequently reduces them further to the seven base units.
+- `toUnitDefinitions()` first turns units to standard units, and then subsequently reduces them further to the seven base units.
 
 You can also combine the above functions into one function: the `simplify` function.
 
@@ -81,7 +81,7 @@ const simplificationOptions = {
 }
 ```
 
-When simplifying the unit, the actual value of the quantity may change. To account for this, the above four functions all have an extra variant: `removePrefixesWithData`, `toStandardUnitsWithData`, `toBaseUnitsWithData` and `simplifyWithData`. These functions return an object of the form `{ unit, exponent, factor, difference }`.
+When simplifying the unit, the actual value of the quantity may change. To account for this, the above four functions all have an extra variant: `removePrefixesWithData`, `toStandardUnitsWithData`, `toUnitDefinitionsWithData` and `simplifyWithData`. These functions return an object of the form `{ unit, exponent, factor, difference }`.
 
 - `unit` is the new unit.
 - `factor` is what the original number should be multiplied with. For instance, when turning hours to seconds, this will be `3600`.

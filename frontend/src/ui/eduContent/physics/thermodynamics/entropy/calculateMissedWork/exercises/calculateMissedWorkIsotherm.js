@@ -38,7 +38,7 @@ const steps = [
 						<BMPart>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BMPart>
 					</BMList>
 					Merk op dat we een uitgaande warmtestroom negatief rekenen. De totale entropieverandering is hiermee
-					<BM>\Delta S = \Delta S_w + \Delta S_k = {dSw.float} {dSc.float.texWithPM} = {dS}.</BM>
+					<BM>\Delta S = \Delta S_w + \Delta S_k = {dSw.float} {dSc.float.texWithSign} = {dS}.</BM>
 					Dit is positief, zoals de tweede hoofdwet vereist.</Par>
 			</>
 		},

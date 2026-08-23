@@ -36,7 +36,7 @@ function Solution({ V, type, ans }) {
 				conversion = new FloatUnit('10^3 dm^3/m^3')
 				return <Par>Een liter is per definitie een kubieke decimeter. We moeten dus van kubieke meter naar kubieke decimeter. Een meter is <M>10</M> decimeter, waardoor een kubieke meter gelijk is aan <M>10^3</M> kubieke decimeter. De conversiefactor is daarom <M>{conversion}.</M> Hiermee vinden we <BM>V = {V} \cdot {conversion} = {ans.setUnit('dm^3')} = {ans}.</BM></Par>
 			}
-			switch (prefix.letter) {
+			switch (prefix.symbol) {
 				case 'd':
 					return <Par>Een liter is per definitie een kubieke decimeter. Het volgt dus direct dat <BM>V = {ans}.</BM></Par>
 
@@ -45,15 +45,15 @@ function Solution({ V, type, ans }) {
 					return <Par>Een liter is per definitie een kubieke decimeter. We moeten dus van kubieke centimeter naar kubieke decimeter. Een decimeter is <M>10</M> centimeter, waardoor een kubieke decimeter gelijk is aan <M>10^3</M> kubieke centimeter. De conversiefactor is daarom <M>{conversion}.</M> Hiermee vinden we <BM>V = \frac{V}{conversion} = {ans.setUnit('dm^3')} = {ans}.</BM></Par>
 
 				default:
-					throw new Error(`Invalid prefix letter "${prefix.letter}".`)
+					throw new Error(`Invalid prefix symbol "${prefix.symbol}".`)
 			}
 
 		case 1:
 			if (!prefix)
 				return <Par>Dit is een strikvraag. Het volume staat al in standaard eenheden (kubieke meters). Het antwoord is dus gewoon <M>V = {ans}.</M></Par>
 
-			const word = prefix.letter === 'c' ? 'centimeter' : 'decimeter'
-			conversion = new FloatUnit(`10^${-3 * prefix.exponent} ${prefix.letter}m^3/m^3`)
+			const word = prefix.symbol === 'c' ? 'centimeter' : 'decimeter'
+			conversion = new FloatUnit(`10^${-3 * prefix.exponent} ${prefix.symbol}m^3/m^3`)
 			return <Par>De standaard eenheid van volume is kubieke meters. We weten dat een meter gelijk is aan <M>{prefix.exponent === -1 ? '10' : '10^2'}</M> {word}. Een kubieke meter is dus gelijk aan <M>{conversion.float}</M> kubieke {word}. Het volume is daarmee te vinden als <BM>V = \frac{V}{conversion} = {ans}.</BM></Par>
 
 		case 2:

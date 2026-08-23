@@ -45,11 +45,11 @@ export function stringToFloatStorageValue(str: string): FloatStorageValue {
 	const numberStr = (match[2] || match[17] || '').replace(',', '.')
 	const power = parseInt(match[10] || match[11] || match[15] || match[16] || '0')
 	if (numberStr === '') return { number: Math.pow(10, power), significantDigits: Infinity, power }
-	return { number: parseFloat(numberStr) * Math.pow(10, power), significantDigits: getSignificantDigits(numberStr), power }
+	return { number: parseFloat(numberStr) * Math.pow(10, power), significantDigits: countSignificantDigits(numberStr), power }
 }
 
 // Check for a string how many significant digits there are.
-export function getSignificantDigits(str: string): number {
+export function countSignificantDigits(str: string): number {
 	if (!isNumberString(str)) throw new Error(`Invalid number string: could not get significant digits from "${str}".`)
 	const digits = str.replace(/[,.-]+/g, '').split('')
 	if (digits.every(digit => digit === '0')) return digits.length

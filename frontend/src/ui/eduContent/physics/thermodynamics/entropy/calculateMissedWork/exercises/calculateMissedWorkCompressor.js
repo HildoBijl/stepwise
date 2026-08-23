@@ -93,7 +93,7 @@ const steps = [
 		</>,
 		Solution: ({ dsIn, dsOut, ds }) => {
 			return <>
-				<Par>De totale entropieverandering is simpelweg de som van de entropieverschillen op verschillende plekken. We vinden zo <BM>\Delta s = \Delta s_(binnen) + \Delta s_(buiten) = {dsIn.float} {dsOut.float.texWithPM} = {ds}.</BM> Dit is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
+				<Par>De totale entropieverandering is simpelweg de som van de entropieverschillen op verschillende plekken. We vinden zo <BM>\Delta s = \Delta s_(binnen) + \Delta s_(buiten) = {dsIn.float} {dsOut.float.texWithSign} = {ds}.</BM> Dit is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
 			</>
 		},
 	},

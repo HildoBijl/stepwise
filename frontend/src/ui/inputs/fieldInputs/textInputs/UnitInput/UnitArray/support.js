@@ -2,19 +2,19 @@ import { isNumeric, isLetter, first, last } from '@step-wise/js-utils'
 
 import { getClickSide } from 'util'
 
-import { type as unitElementType, initialValue as initialUnitElementValue, isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd, isValid as isUnitElementValid, clean as cleanUnitElement, functionalize as functionalizeUnitElement, keyPressToFI as unitElementKeyPressToFI, mouseClickToCursor as unitElementMouseClickToCursor, processUnitElement } from '../UnitElement'
+import { type as unitFactorType, initialValue as initialUnitFactorValue, isEmpty as isUnitFactorEmpty, getStartCursor as getUnitFactorStartCursor, getEndCursor as getUnitFactorEndCursor, isCursorAtStart as isCursorAtUnitFactorStart, isCursorAtEnd as isCursorAtUnitFactorEnd, isValid as isUnitFactorValid, clean as cleanUnitFactor, functionalize as functionalizeUnitFactor, keyPressToFI as unitFactorKeyPressToFI, mouseClickToCursor as unitFactorMouseClickToCursor, processUnitFactor } from '../UnitFactor'
 
 // Define various trivial objects and functions.
 export const type = 'UnitArray'
-export const initialValue = [initialUnitElementValue]
-export const isEmpty = value => value.length === 0 || (value.length === 1 && isUnitElementEmpty(first(value)))
-export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitElementStartCursor(first(value), cursor?.part === 0 ? cursor.cursor : undefined) })
-export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitElementEndCursor(last(value), cursor?.part === value.length - 1 ? cursor.cursor : undefined) })
-export const isCursorAtStart = (value, cursor) => cursor?.part === 0 && isCursorAtUnitElementStart(first(value), cursor.cursor)
-export const isCursorAtEnd = (value, cursor) => cursor?.part === value.length - 1 && isCursorAtUnitElementEnd(last(value), cursor.cursor)
-export const isValid = value => isEmpty(value) || value.every(unitElement => isUnitElementValid(unitElement))
-export const clean = value => isEmpty(value) ? undefined : value.map(cleanUnitElement)
-export const functionalize = value => (value || initialValue).map(functionalizeUnitElement)
+export const initialValue = [initialUnitFactorValue]
+export const isEmpty = value => value.length === 0 || (value.length === 1 && isUnitFactorEmpty(first(value)))
+export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitFactorStartCursor(first(value), cursor?.part === 0 ? cursor.cursor : undefined) })
+export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitFactorEndCursor(last(value), cursor?.part === value.length - 1 ? cursor.cursor : undefined) })
+export const isCursorAtStart = (value, cursor) => cursor?.part === 0 && isCursorAtUnitFactorStart(first(value), cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => cursor?.part === value.length - 1 && isCursorAtUnitFactorEnd(last(value), cursor.cursor)
+export const isValid = value => isEmpty(value) || value.every(unitFactor => isUnitFactorValid(unitFactor))
+export const clean = value => isEmpty(value) ? undefined : value.map(cleanUnitFactor)
+export const functionalize = value => (value || initialValue).map(functionalizeUnitFactor)
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
 export function keyPressToFI(keyInfo, FI, contentsElement) {
@@ -23,23 +23,23 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	const { value, cursor } = FI
 
 	// Check where the cursor is currently at.
-	const unitElement = value[cursor.part]
-	const unitElementCursor = cursor.cursor
+	const unitFactor = value[cursor.part]
+	const unitFactorCursor = cursor.cursor
 
 	// Set up a pass-on function.
 	const identity = () => {
-		const oldUnitElementFI = {
-			type: unitElementType,
-			value: unitElement,
-			cursor: unitElementCursor,
+		const oldUnitFactorFI = {
+			type: unitFactorType,
+			value: unitFactor,
+			cursor: unitFactorCursor,
 		}
-		const newUnitElementFI = unitElementKeyPressToFI(keyInfo, oldUnitElementFI, contentsElement)
+		const newUnitFactorFI = unitFactorKeyPressToFI(keyInfo, oldUnitFactorFI, contentsElement)
 		return {
 			...FI,
-			value: value.toSpliced(cursor.part, 1, newUnitElementFI.value),
+			value: value.toSpliced(cursor.part, 1, newUnitFactorFI.value),
 			cursor: {
 				part: cursor.part,
-				cursor: newUnitElementFI.cursor,
+				cursor: newUnitFactorFI.cursor,
 			}
 		}
 	}
@@ -50,13 +50,13 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
-		if (cursor.part > 0 && isCursorAtUnitElementStart(unitElement, unitElementCursor)) // Cursor is at the start of an element.
-			return { ...FI, cursor: { part: cursor.part - 1, cursor: getUnitElementEndCursor(value[cursor.part - 1]) } } // Move to the end of the previous one.
+		if (cursor.part > 0 && isCursorAtUnitFactorStart(unitFactor, unitFactorCursor)) // Cursor is at the start of an element.
+			return { ...FI, cursor: { part: cursor.part - 1, cursor: getUnitFactorEndCursor(value[cursor.part - 1]) } } // Move to the end of the previous one.
 	}
 	if (key === 'ArrowRight') {
-		if (isCursorAtUnitElementEnd(unitElement, unitElementCursor)) {
-			if (cursor.part < value.length - 1) // Is there still another unit element? If so, go there.
-				return { ...FI, cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(value[cursor.part + 1]) } }
+		if (isCursorAtUnitFactorEnd(unitFactor, unitFactorCursor)) {
+			if (cursor.part < value.length - 1) // Is there still another unit factor? If so, go there.
+				return { ...FI, cursor: { part: cursor.part + 1, cursor: getUnitFactorStartCursor(value[cursor.part + 1]) } }
 		}
 	}
 	if (key === 'Home')
@@ -64,33 +64,33 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	if (key === 'End')
 		return { ...FI, cursor: getEndCursor(value, cursor) }
 
-	// For backspace/delete, potentially merge unit elements.
+	// For backspace/delete, potentially merge unit factors.
 	if (key === 'Backspace') {
-		if (!isCursorAtStart(value, cursor) && isCursorAtUnitElementStart(unitElement, unitElementCursor)) // Cursor is at start of a unit element, but not the first.
+		if (!isCursorAtStart(value, cursor) && isCursorAtUnitFactorStart(unitFactor, unitFactorCursor)) // Cursor is at start of a unit factor, but not the first.
 			return { ...FI, ...mergeElements(value, cursor.part - 1, false) } // Merge it with the previous element.
 	}
 	if (key === 'Delete') {
-		if (!isCursorAtEnd(value, cursor) && isCursorAtUnitElementEnd(unitElement, unitElementCursor)) // Cursor is at end of unit element, but not the last.
+		if (!isCursorAtEnd(value, cursor) && isCursorAtUnitFactorEnd(unitFactor, unitFactorCursor)) // Cursor is at end of unit factor, but not the last.
 			return { ...FI, ...mergeElements(value, cursor.part, true) } // Merge it with the next element.
 	}
 
 	// For a multiplication "*" (or a space) split up elements.
 	if (key === '*' || key === 'Times' || key === '.' || key === ' ' || key === 'Spacebar') {
-		if (!isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor)) { // Cursor is not in an empty element or at the start of the element. This prevents endless rows of multiplications.
-			if (unitElementCursor.part === 'power' || unitElementCursor.cursor === unitElement.prefix.length + unitElement.unit.length) { // The cursor is in the power or at the end of the text.
-				const nextUnitElement = value[cursor.part + 1]
-				if (nextUnitElement && isUnitElementEmpty(nextUnitElement)) // If the next element is empty, just go there without changing anything.
+		if (!isUnitFactorEmpty(unitFactor) && !isCursorAtUnitFactorStart(unitFactor, unitFactorCursor)) { // Cursor is not in an empty element or at the start of the element. This prevents endless rows of multiplications.
+			if (unitFactorCursor.part === 'power' || unitFactorCursor.cursor === unitFactor.prefix.length + unitFactor.unit.length) { // The cursor is in the power or at the end of the text.
+				const nextUnitFactor = value[cursor.part + 1]
+				if (nextUnitFactor && isUnitFactorEmpty(nextUnitFactor)) // If the next element is empty, just go there without changing anything.
 					return {
 						...FI,
-						cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(nextUnitElement) },
+						cursor: { part: cursor.part + 1, cursor: getUnitFactorStartCursor(nextUnitFactor) },
 					}
 				return { // Add a new empty element and move the cursor to it.
 					...FI,
-					value: value.toSpliced(cursor.part + 1, 0, functionalizeUnitElement(initialUnitElementValue)),
-					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() },
+					value: value.toSpliced(cursor.part + 1, 0, functionalizeUnitFactor(initialUnitFactorValue)),
+					cursor: { part: cursor.part + 1, cursor: getUnitFactorStartCursor() },
 				}
 			}
-			return { // Split the unit element up into two.
+			return { // Split the unit factor up into two.
 				...FI,
 				value: splitElement(value, cursor),
 				cursor: { part: cursor.part + 1, cursor: { part: 'text', cursor: 0 } },
@@ -98,11 +98,11 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 		}
 	}
 
-	// For letters, if we're in the power (but not the start), add a new unit element with the pressed letter, with the power split accordingly.
+	// For letters, if we're in the power (but not the start), add a new unit factor with the pressed letter, with the power split accordingly.
 	if (isLetter(key)) {
-		if (unitElementCursor.part === 'power' && unitElementCursor.cursor > 0) {
-			const element1 = { ...unitElement, power: unitElement.power.slice(0, unitElementCursor.cursor) }
-			const element2 = processUnitElement({ text: key, power: unitElement.power.slice(unitElementCursor.cursor) }).value
+		if (unitFactorCursor.part === 'power' && unitFactorCursor.cursor > 0) {
+			const element1 = { ...unitFactor, power: unitFactor.power.slice(0, unitFactorCursor.cursor) }
+			const element2 = processUnitFactor({ text: key, power: unitFactor.power.slice(unitFactorCursor.cursor) }).value
 			return {
 				...FI,
 				value: value.toSpliced(cursor.part, 1, element1, element2),
@@ -111,18 +111,18 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 		}
 	}
 
-	// For numbers or power symbols, if the cursor is in the text, split the unit element.
+	// For numbers or power symbols, if the cursor is in the text, split the unit factor.
 	if (isNumeric(key) || key === '^' || key === 'Power') {
-		if (unitElementCursor.part === 'text') {
-			if (unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0) // If the cursor is at the start of a unit element with text, do nothing. Don't pass on.
+		if (unitFactorCursor.part === 'text') {
+			if (unitFactorCursor.cursor === 0 && unitFactor.prefix.length + unitFactor.unit.length > 0) // If the cursor is at the start of a unit factor with text, do nothing. Don't pass on.
 				return { ...FI }
-			if (unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) {
+			if (unitFactorCursor.cursor < unitFactor.prefix.length + unitFactor.unit.length) {
 				const toAdd = isNumeric(key) ? key : ''
 				return {
 					...FI,
 					value: splitElement(value, cursor, toAdd),
 					cursor: { part: cursor.part, cursor: { part: 'power', cursor: toAdd.length } },
-				} // Split the unit element up into two.
+				} // Split the unit factor up into two.
 			}
 		}
 	}
@@ -139,25 +139,25 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 	if (evt.target === unitArrayElement)
 		return getClickSide(evt) === 0 ? getStartCursor(value, cursor) : getEndCursor(value, cursor)
 
-	// If we clicked on a unit element, pass on the call.
-	const unitElementElements = [...unitArrayElement.getElementsByClassName('unitElement')]
-	const unitElementIndex = unitElementElements.findIndex(unitElementElement => unitElementElement.contains(evt.target))
-	if (unitElementIndex !== -1) {
-		const unitElementFI = { type: unitElementType, value: value[unitElementIndex], cursor: cursor?.part === unitElementIndex ? cursor.cursor : undefined }
-		const newCursor = unitElementMouseClickToCursor(evt, unitElementFI, unitElementElements[unitElementIndex])
-		return newCursor === undefined ? undefined : { part: unitElementIndex, cursor: newCursor }
+	// If we clicked on a unit factor, pass on the call.
+	const unitFactorElements = [...unitArrayElement.getElementsByClassName('unitFactor')]
+	const unitFactorIndex = unitFactorElements.findIndex(unitFactorElement => unitFactorElement.contains(evt.target))
+	if (unitFactorIndex !== -1) {
+		const unitFactorFI = { type: unitFactorType, value: value[unitFactorIndex], cursor: cursor?.part === unitFactorIndex ? cursor.cursor : undefined }
+		const newCursor = unitFactorMouseClickToCursor(evt, unitFactorFI, unitFactorElements[unitFactorIndex])
+		return newCursor === undefined ? undefined : { part: unitFactorIndex, cursor: newCursor }
 	}
 
-	// If we clicked on a times symbol, find the nearest unit element.
+	// If we clicked on a times symbol, find the nearest unit factor.
 	const timesElements = [...unitArrayElement.getElementsByClassName('times')]
 	const timesIndex = timesElements.findIndex(timesElement => timesElement.contains(evt.target))
 	if (timesIndex !== -1) {
 		const side = getClickSide(evt)
 		const part = timesIndex + side
-		const unitElement = value[part]
+		const unitFactor = value[part]
 		return {
 			part,
-			cursor: side === 0 ? getUnitElementEndCursor(unitElement) : getUnitElementStartCursor(unitElement),
+			cursor: side === 0 ? getUnitFactorEndCursor(unitFactor) : getUnitFactorStartCursor(unitFactor),
 		}
 	}
 
@@ -165,7 +165,7 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 	return cursor
 }
 
-// mergeElements takes a unitArray and merges two unit elements together at the given index. (The index points to the first of the two.) When the first unit doesn't have a power or the second unit doesn't have a text, everything can be merged smoothly. If not, either the left power is cut (default) or the right text is cut (when cutRight set to true). The cursor is put in-between as much as possible. It returns an object of the form { value, cursor }.
+// mergeElements takes a unitArray and merges two unit factors together at the given index. (The index points to the first of the two.) When the first unit doesn't have a power or the second unit doesn't have a text, everything can be merged smoothly. If not, either the left power is cut (default) or the right text is cut (when cutRight set to true). The cursor is put in-between as much as possible. It returns an object of the form { value, cursor }.
 export function mergeElements(unitArray, index, cutRight = false) {
 	// Extract two subsequent unit array elements and merge them, returning the new unit array and the corresponding cursor.
 	const a = unitArray[index]
@@ -173,59 +173,59 @@ export function mergeElements(unitArray, index, cutRight = false) {
 
 	// Cut away the text of the right element?
 	if ((b.prefix === '' && b.unit === '') || (cutRight && a.power !== '')) {
-		const unitElement = { ...a, power: a.power + b.power }
-		const unitElementCursor = a.power === '' ? { part: 'text', cursor: a.prefix.length + a.unit.length } : { part: 'power', cursor: a.power.length }
+		const unitFactor = { ...a, power: a.power + b.power }
+		const unitFactorCursor = a.power === '' ? { part: 'text', cursor: a.prefix.length + a.unit.length } : { part: 'power', cursor: a.power.length }
 		return {
-			value: unitArray.toSpliced(index, 2, unitElement),
-			cursor: { part: index, cursor: unitElementCursor },
+			value: unitArray.toSpliced(index, 2, unitFactor),
+			cursor: { part: index, cursor: unitFactorCursor },
 		}
 	}
 
 	// Cut away the power of the left element.
-	const { value: unitElement, cursor: unitElementCursor } = processUnitElement({ text: a.prefix + a.unit + b.prefix + b.unit, power: b.power }, { part: 'text', cursor: a.prefix.length + a.unit.length })
+	const { value: unitFactor, cursor: unitFactorCursor } = processUnitFactor({ text: a.prefix + a.unit + b.prefix + b.unit, power: b.power }, { part: 'text', cursor: a.prefix.length + a.unit.length })
 	return {
-		value: unitArray.toSpliced(index, 2, unitElement),
-		cursor: { part: index, cursor: unitElementCursor },
+		value: unitArray.toSpliced(index, 2, unitFactor),
+		cursor: { part: index, cursor: unitFactorCursor },
 	}
 }
 
 // splitElement takes a unit array and a cursor object and splits the element at the position of the cursor. It returns a new unit array. A newPower string can be given as the new power of the leftmost of the two elements.
 export function splitElement(unitArray, cursor, newPower = '') {
-	const unitElement = unitArray[cursor.part]
-	const unitElementCursor = cursor.cursor
+	const unitFactor = unitArray[cursor.part]
+	const unitFactorCursor = cursor.cursor
 	return unitArray.toSpliced(cursor.part, 1,
-		processUnitElement({ text: (unitElement.prefix + unitElement.unit).slice(0, unitElementCursor.cursor), power: newPower }).value,
-		processUnitElement({ text: (unitElement.prefix + unitElement.unit).slice(unitElementCursor.cursor), power: unitElement.power }).value,
+		processUnitFactor({ text: (unitFactor.prefix + unitFactor.unit).slice(0, unitFactorCursor.cursor), power: newPower }).value,
+		processUnitFactor({ text: (unitFactor.prefix + unitFactor.unit).slice(unitFactorCursor.cursor), power: unitFactor.power }).value,
 	)
 }
 
 // getCursorFromOffset takes a unit array displayed in a field and finds the position the cursor should have given the offset x-coordinate.
 export function getCursorFromOffset(unitArray, unitArrayField, offset) {
-	// Find the unit element which the cursor is closest to.
-	const unitElementFields = [...unitArrayField.getElementsByClassName('unitElement')]
-	const closestFieldIndex = unitElementFields.reduce(closestFieldReducer, { offset }).index
-	const unitElement = unitArray[closestFieldIndex]
-	const unitElementField = unitElementFields[closestFieldIndex]
+	// Find the unit factor which the cursor is closest to.
+	const unitFactorFields = [...unitArrayField.getElementsByClassName('unitFactor')]
+	const closestFieldIndex = unitFactorFields.reduce(closestFieldReducer, { offset }).index
+	const unitFactor = unitArray[closestFieldIndex]
+	const unitFactorField = unitFactorFields[closestFieldIndex]
 
 	// Find the character closest to the cursor.
-	const charFields = [...unitElementField.getElementsByClassName('char')]
+	const charFields = [...unitFactorField.getElementsByClassName('char')]
 	const closestCharFieldIndex = charFields.reduce(closestFieldReducer, { offset }).index
 	const charField = charFields[closestCharFieldIndex]
 
-	// Find if we're closer to the left or the right of the character. Also check if the character is in the text or the power of the unit element. Use that to determine the cursor position.
-	const textLength = unitElement.prefix.length + unitElement.unit.length
+	// Find if we're closer to the left or the right of the character. Also check if the character is in the text or the power of the unit factor. Use that to determine the cursor position.
+	const textLength = unitFactor.prefix.length + unitFactor.unit.length
 	const side = (Math.abs(charField.offsetLeft - offset) < Math.abs(charField.offsetLeft + charField.offsetWidth - offset) ? 0 : 1) // 0 means left, 1 means right.
-	const numFillers = unitElementField.getElementsByClassName('filler').length
+	const numFillers = unitFactorField.getElementsByClassName('filler').length
 	if (closestCharFieldIndex < textLength + numFillers)
 		return { part: closestFieldIndex, cursor: { part: 'text', cursor: Math.min(closestCharFieldIndex + side, textLength) } }
 	return { part: closestFieldIndex, cursor: { part: 'power', cursor: closestCharFieldIndex + side - (numFillers + textLength) } }
 }
 
 // closestFieldReducer is a function used by the getCursorFromOffset function to find the nearest field to an offset position.
-function closestFieldReducer(optimum, unitElementField, index) {
+function closestFieldReducer(optimum, unitFactorField, index) {
 	// Check the distance from the given field to the offset (which is hidden inside the optimum object). If it's closer than the previous optimum, return a new optimum object.
 	const offset = optimum.offset
-	const distance = Math.min(Math.abs(unitElementField.offsetLeft - offset), Math.abs(unitElementField.offsetLeft + unitElementField.offsetWidth - offset))
+	const distance = Math.min(Math.abs(unitFactorField.offsetLeft - offset), Math.abs(unitFactorField.offsetLeft + unitFactorField.offsetWidth - offset))
 	if (optimum.index === undefined || distance < optimum.distance)
 		return { index, distance, offset } // New optimum found.
 	return optimum // Keep the old optimum.

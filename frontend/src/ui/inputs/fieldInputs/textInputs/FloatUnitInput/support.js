@@ -1,5 +1,5 @@
 import { isNumeric, isLetter, mapValues, identity } from '@step-wise/js-utils'
-import { baseUnits, prefixes } from '@step-wise/physics-core'
+import { unitDefinitions, prefixes } from '@step-wise/physics-core'
 
 import { getClickSide } from 'util'
 
@@ -156,8 +156,8 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 
-	// In case of a letter in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
-	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(baseUnits).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'float')
+	// In case of a symbol in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
+	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(unitDefinitions).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'float')
 		return identity('unit', getUnitStartCursor(unit))
 
 	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the float.

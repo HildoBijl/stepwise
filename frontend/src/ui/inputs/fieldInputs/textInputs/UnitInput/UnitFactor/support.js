@@ -1,10 +1,10 @@
 import { isNumeric, removeAt, insertAt, isLetter } from '@step-wise/js-utils'
-import { baseUnits, prefixes, interpretPrefixAndBaseUnitString } from '@step-wise/physics-core'
+import { unitDefinitions, prefixes, interpretPrefixAndUnitDefinitionString } from '@step-wise/physics-core'
 
 import { getClickPosition } from '../../TextInput'
 
 // Define various trivial objects and functions.
-export const type = 'UnitElement'
+export const type = 'UnitFactor'
 export const initialValue = {}
 export const parts = ['prefix', 'unit', 'power']
 export const isEmpty = value => value.prefix === '' && value.unit === '' && value.power === ''
@@ -15,7 +15,7 @@ export const isCursorAtStart = (_, cursor) => cursor?.part === 'text' && cursor.
 export const isCursorAtEnd = ({ prefix, unit, power }, cursor) => (cursor?.part === 'power' && cursor.cursor === power.length) || (power === '' && cursor?.cursor === prefix.length + unit.length)
 export const isValid = value => value.unitObj && (value.prefix === '' || !!value.prefixObj)
 export const clean = value => isEmpty(value) ? undefined : { text: (value.prefix ?? '') + (value.unit ?? ''), ...(value.power ? { power: value.power } : {}) }
-export const functionalize = ({ text = '', power = '' }) => processUnitElement({ text, power }).value
+export const functionalize = ({ text = '', power = '' }) => processUnitFactor({ text, power }).value
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
 export function keyPressToFI(keyInfo, FI, contentsElement) {
@@ -54,10 +54,10 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 			return FI // Do nothing.
 		if (cursor.part === 'power') { // Cursor is in the power.
 			if (cursor.cursor === 0) // Cursor is at the start of the power.
-				return { ...FI, ...processUnitElement({ text: removeAt(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
+				return { ...FI, ...processUnitFactor({ text: removeAt(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
 			return { ...FI, value: { ...value, power: removeAt(power, cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Remove the previous character from the power.
 		}
-		return { ...FI, ...processUnitElement({ text: removeAt(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
+		return { ...FI, ...processUnitFactor({ text: removeAt(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
 	}
 	if (key === 'Delete') {
 		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
@@ -65,7 +65,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 		if (cursor.part === 'text') { // Cursor is in the text.
 			if (cursor.cursor === prefix.length + unit.length) // Cursor is at the end of the text.
 				return { ...FI, value: { ...value, power: removeAt(power, 0) }, cursor: { part: 'power', cursor: 0 } } // Remove the first character from the power.
-			return { ...FI, ...processUnitElement({ text: removeAt(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
+			return { ...FI, ...processUnitFactor({ text: removeAt(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
 		}
 		return { ...FI, value: { ...value, [cursor.part]: removeAt(power, cursor.cursor) } } // Remove the upcoming character from the power.
 	}
@@ -76,9 +76,9 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 	}
 
 	// For letters and base units add them to the unit.
-	if (isLetter(key) || Object.keys(baseUnits).includes(key) || Object.keys(prefixes).includes(key)) {
+	if (isLetter(key) || Object.keys(unitDefinitions).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...FI, ...processUnitElement({ text: insertAt(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
+		return { ...FI, ...processUnitFactor({ text: insertAt(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.
@@ -92,26 +92,26 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
-export function mouseClickToCursor(evt, FI, unitElementElement) {
+export function mouseClickToCursor(evt, FI, unitFactorElement) {
 	const { value, cursor } = FI
 
 	// Did we click on a filler?
-	const fillers = [...unitElementElement.getElementsByClassName('filler')]
+	const fillers = [...unitFactorElement.getElementsByClassName('filler')]
 	if (fillers.some(filler => filler.contains(evt.target)))
 		return getStartCursor()
 
 	// Did we click on the prefix element?
-	const prefixElement = unitElementElement.getElementsByClassName('prefix')[0]
+	const prefixElement = unitFactorElement.getElementsByClassName('prefix')[0]
 	if (prefixElement && prefixElement.contains(evt.target))
 		return { part: 'text', cursor: getClickPosition(evt, prefixElement) }
 
-	// Was it the unit element?
-	const unitElement = unitElementElement.getElementsByClassName('baseUnit')[0]
-	if (unitElement && unitElement.contains(evt.target))
-		return { part: 'text', cursor: value.prefix.length + getClickPosition(evt, unitElement) }
+	// Was it the unit factor?
+	const unitFactor = unitFactorElement.getElementsByClassName('unitDefinition')[0]
+	if (unitFactor && unitFactor.contains(evt.target))
+		return { part: 'text', cursor: value.prefix.length + getClickPosition(evt, unitFactor) }
 
 	// Was it the power symbol?
-	const powerElement = unitElementElement.getElementsByClassName('power')[0]
+	const powerElement = unitFactorElement.getElementsByClassName('power')[0]
 	if (powerElement && powerElement.contains(evt.target))
 		return { part: 'power', cursor: getClickPosition(evt, powerElement) }
 
@@ -119,10 +119,10 @@ export function mouseClickToCursor(evt, FI, unitElementElement) {
 	return cursor
 }
 
-// processUnitElement takes a simple unit element value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2', prefixObj: {obj}, unitObj: {obj} }, cursor: { part: 'text', cursor: 2 } }. If found, the references to the prefix and unit objects are also added.
-export function processUnitElement(value, cursor) {
+// processUnitFactor takes a simple unit factor value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2', prefixObj: {obj}, unitObj: {obj} }, cursor: { part: 'text', cursor: 2 } }. If found, the references to the prefix and unit objects are also added.
+export function processUnitFactor(value, cursor) {
 	const { text, power } = value
-	const { prefix, unit } = interpretPrefixAndBaseUnitString(text)
+	const { prefix, unit } = interpretPrefixAndUnitDefinitionString(text)
 
 	// Determine if the cursor needs to shift.
 	if (cursor?.part === 'text') {

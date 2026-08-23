@@ -1,27 +1,27 @@
 import { isPlainObject, hasOnlyKeys, InterpretationError } from '@step-wise/js-utils'
 
-import { type UnitElementStorageValue, type UnitElementInputValue, interpretPrefixAndBaseUnitString, isUnitElementInputValue, unitElementToInputValue } from '../UnitElement'
+import { type UnitFactorStorageValue, type UnitFactorInputValue, interpretPrefixAndUnitDefinitionString, isUnitFactorInputValue, unitFactorToInputValue } from '../UnitFactor'
 
 import { type UnitStorageValue } from './interpreting'
 import { Unit } from './Unit'
 
 export type UnitInputValue = {
-	numerator?: UnitElementInputValue[]
-	denominator?: UnitElementInputValue[]
+	numerator?: UnitFactorInputValue[]
+	denominator?: UnitFactorInputValue[]
 }
 
 /*
  * Type checks
  */
 
-export function isUnitElementArrayInputValue(value: unknown): value is UnitElementInputValue[] {
-	return Array.isArray(value) && value.every(isUnitElementInputValue)
+export function isUnitFactorArrayInputValue(value: unknown): value is UnitFactorInputValue[] {
+	return Array.isArray(value) && value.every(isUnitFactorInputValue)
 }
 
 export function isUnitInputValue(value: unknown): value is UnitInputValue {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['numerator', 'denominator'])) return false
 	const { numerator, denominator } = value as UnitInputValue
-	return (numerator === undefined || isUnitElementArrayInputValue(numerator)) && (denominator === undefined || isUnitElementArrayInputValue(denominator))
+	return (numerator === undefined || isUnitFactorArrayInputValue(numerator)) && (denominator === undefined || isUnitFactorArrayInputValue(denominator))
 }
 
 /*
@@ -34,23 +34,23 @@ export function interpretUnitInputValue(value: UnitInputValue): Unit {
 
 function inputValueToStorageValue(value: UnitInputValue): UnitStorageValue {
 	return {
-		...(value.numerator === undefined || value.numerator.length === 0 ? {} : { numerator: unitElementArrayInputValueToStorageValue(value.numerator) }),
-		...(value.denominator === undefined || value.denominator.length === 0 ? {} : { denominator: unitElementArrayInputValueToStorageValue(value.denominator) }),
+		...(value.numerator === undefined || value.numerator.length === 0 ? {} : { numerator: unitFactorArrayInputValueToStorageValue(value.numerator) }),
+		...(value.denominator === undefined || value.denominator.length === 0 ? {} : { denominator: unitFactorArrayInputValueToStorageValue(value.denominator) }),
 	}
 }
 
-function unitElementArrayInputValueToStorageValue(array: UnitElementInputValue[]): UnitElementStorageValue[] {
-	return array.map((element, index) => unitElementInputValueToStorageValue(element))
+function unitFactorArrayInputValueToStorageValue(array: UnitFactorInputValue[]): UnitFactorStorageValue[] {
+	return array.map((element, index) => unitFactorInputValueToStorageValue(element))
 }
 
-function unitElementInputValueToStorageValue(element: UnitElementInputValue): UnitElementStorageValue {
+function unitFactorInputValueToStorageValue(element: UnitFactorInputValue): UnitFactorStorageValue {
 	let { text, power } = element
-	if (text === undefined || text.trim() === '') throw new InterpretationError(`Could not interpret an empty unit element.`, 'EmptyUnitElement')
+	if (text === undefined || text.trim() === '') throw new InterpretationError(`Could not interpret an empty unit factor.`, 'EmptyUnitFactor')
 	if (power === '-') throw new InterpretationError(`Could not interpret a unit power consisting of only a minus sign.`, 'MinusSign')
 
 	// Parse the text.
 	text = text.trim()
-	const result = interpretPrefixAndBaseUnitString(text)
+	const result = interpretPrefixAndUnitDefinitionString(text)
 	if (!result.valid) throw new InterpretationError(`Could not interpret the unit with text "${text}".`, 'InvalidUnit')
 
 	// Parse the power.
@@ -73,7 +73,7 @@ function unitElementInputValueToStorageValue(element: UnitElementInputValue): Un
 
 export function unitToInputValue(unit: Unit): UnitInputValue {
 	return {
-		...(unit.numerator.length === 0 ? {} : { numerator: unit.numerator.map(unitElementToInputValue) }),
-		...(unit.denominator.length === 0 ? {} : { denominator: unit.denominator.map(unitElementToInputValue) }),
+		...(unit.numerator.length === 0 ? {} : { numerator: unit.numerator.map(unitFactorToInputValue) }),
+		...(unit.denominator.length === 0 ? {} : { denominator: unit.denominator.map(unitFactorToInputValue) }),
 	}
 }

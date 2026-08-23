@@ -77,8 +77,8 @@ const steps = [
 				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>q_(1-2) = w_(t,1-2) = pv\ln\left(\frac(v_2)(v_1)\right) = {p1.float} \cdot {v1.float} \cdot \ln\left(\frac{v2.float}{v1.float}\right) = {q12}.</BM> Voor de isentrope stap 2-3 geldt <M>q_(2-3) = {q23}</M> en <BM>w_(t,2-3) = -c_p\left(T_3-T_2\right) = -{cp.float} \cdot \left({T3.float} - {T2.float}\right) = {wt23}.</BM> Ten slotte heeft de isobare stap 3-1 <BM>q_(3-1) = c_p\left(T_1 - T_3\right) = {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {q31}</BM> en <M>w_(t,3-1) = {wt31}.</M></Par>
 				<Par>Als check controleren we de energiebalans. Zo vinden we
 					<BMList>
-						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-1) = {q12.float} {q23.float.texWithPM} {q31.float.texWithPM} = {qn},</BMPart>
-						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-1) = {wt12.float} {wt23.float.texWithPM} {wt31.float.texWithPM} = {wn}.</BMPart>
+						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-1) = {q12.float} {q23.float.texWithSign} {q31.float.texWithSign} = {qn},</BMPart>
+						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-1) = {wt12.float} {wt23.float.texWithSign} {wt31.float.texWithSign} = {wn}.</BMPart>
 					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
 			</>

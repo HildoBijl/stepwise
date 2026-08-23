@@ -11,6 +11,6 @@ export function unitsEquivalent(a: UnitLike, b: UnitLike): boolean {
 }
 
 // Same physical dimension, but ignoring scale like 'km' ≈ 'm' and 'bar' ≈ 'Pa'.
-export function unitsSimilar(a: UnitLike, b: UnitLike): boolean {
+export function unitsCompatible(a: UnitLike, b: UnitLike): boolean {
 	return asUnit(a).equals(b, { target: 'base', checkSize: false })
 }

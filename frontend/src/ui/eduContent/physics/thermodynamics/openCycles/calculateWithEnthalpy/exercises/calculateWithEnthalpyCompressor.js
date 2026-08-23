@@ -44,7 +44,7 @@ const steps = [
 		</>,
 		Solution: ({ wts, dh, q }) => {
 			return <>
-				<Par>De eerste hoofdwet zegt <M>\Delta h = q - w_t.</M> Dit oplossen voor de specifieke toegevoerde warmte <M>q</M> geeft <BM>q = \Delta h + w_t = {dh.float} {wts.float.texWithPM} = {q}.</BM> Merk op: de toegevoerde warmte is negatief omdat er warmte afgevoerd wordt. Het is conventie om het altijd over de toegevoerde warmte te hebben, en daarom is het cruciaal om dit minteken te vermelden.</Par>
+				<Par>De eerste hoofdwet zegt <M>\Delta h = q - w_t.</M> Dit oplossen voor de specifieke toegevoerde warmte <M>q</M> geeft <BM>q = \Delta h + w_t = {dh.float} {wts.float.texWithSign} = {q}.</BM> Merk op: de toegevoerde warmte is negatief omdat er warmte afgevoerd wordt. Het is conventie om het altijd over de toegevoerde warmte te hebben, en daarom is het cruciaal om dit minteken te vermelden.</Par>
 			</>
 		},
 	},

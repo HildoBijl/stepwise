@@ -1,6 +1,6 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { ensureUnitElementStorageValue } from '../UnitElement'
+import { ensureUnitFactorStorageValue } from '../UnitFactor'
 
 import { type UnitStorageValue, UnitType } from './interpreting'
 import { Unit } from './Unit'
@@ -29,7 +29,7 @@ function ensureUnitStorageValue(value: unknown): UnitStorageValue {
 		const part = value[key]
 		if (part === undefined) continue
 		if (!Array.isArray(part)) throw new TypeError(`Invalid UnitStorageValue: ${key} must be an array.`)
-		result[key] = part.map(ensureUnitElementStorageValue)
+		result[key] = part.map(ensureUnitFactorStorageValue)
 	}
 	return result
 }

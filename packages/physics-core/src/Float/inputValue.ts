@@ -1,7 +1,7 @@
 import { isPlainObject, InterpretationError, hasOnlyKeys } from '@step-wise/js-utils'
 
 import { Float } from './Float'
-import { getSignificantDigits } from './interpreting'
+import { countSignificantDigits } from './interpreting'
 
 export type FloatInputValue = {
 	number?: string
@@ -33,7 +33,7 @@ function inputValueToStorageValue(value: FloatInputValue) {
 	const parsedPower = parseInt(power)
 	return {
 		number: parseFloat(number) * Math.pow(10, parsedPower),
-		significantDigits: getSignificantDigits(number),
+		significantDigits: countSignificantDigits(number),
 		power: parsedPower,
 	}
 }
