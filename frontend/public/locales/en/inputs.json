@@ -7,7 +7,7 @@
     }
   },
   "precisionNumberInput": {
-    "placeHolder": "Floating point number",
+    "placeHolder": "Precision number",
     "validation": {
       "onlyDecimalSeparator": "A decimal separator on its own is not a number."
     }

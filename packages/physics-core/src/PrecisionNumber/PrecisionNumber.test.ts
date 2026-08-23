@@ -164,19 +164,19 @@ describe('PrecisionNumber', () => {
 		})
 	})
 
-	describe('random floats', () => {
+	describe('random precision numbers', () => {
 		test('resolves random options and applies defaults', () => {
 			expect(resolveRandomPrecisionNumberOptions({ min: 2, max: 5 })).toEqual({ min: 2, max: 5, decimals: undefined, significantDigits: undefined, round: true, prevent: [] })
 			expect(resolveRandomExponentialPrecisionNumberOptions({ min: 2, max: 5, randomSign: true })).toEqual({ min: 2, max: 5, decimals: undefined, significantDigits: undefined, round: true, prevent: [], negative: false, randomSign: true })
 		})
-		test('generates floats within bounds', () => {
+		test('generates precision numbers within bounds', () => {
 			for (let i = 0; i < 10; i++) {
 				const x = getRandomPrecisionNumber({ min: 2, max: 5 })
 				expect(x.number).toBeGreaterThanOrEqual(2)
 				expect(x.number).toBeLessThanOrEqual(5)
 			}
 		})
-		test('generates exponential floats within bounds', () => {
+		test('generates exponential precision numbers within bounds', () => {
 			for (let i = 0; i < 10; i++) {
 				const x = getRandomExponentialPrecisionNumber({ min: 0.01, max: 100 })
 				expect(x.number).toBeGreaterThanOrEqual(0.01)
