@@ -65,8 +65,8 @@ describe('Unit', () => {
 			expect(new Unit('bar').isInStandardUnits()).toBe(false)
 		})
 		test('detects base forms', () => {
-			expect(new Unit('m').isInUnitDefinitions()).toBe(true)
-			expect(new Unit('N').isInUnitDefinitions()).toBe(false)
+			expect(new Unit('m').isInBaseUnits()).toBe(true)
+			expect(new Unit('N').isInBaseUnits()).toBe(false)
 		})
 	})
 
@@ -113,9 +113,9 @@ describe('Unit', () => {
 			expect(new Unit('J / °C').toStandardUnitsWithData().offset).toBe(0)
 		})
 		test('converts to base units', () => {
-			expect(new Unit('N').toUnitDefinitions().toString()).toBe('kg * m / s^2')
-			expect(new Unit('J').toUnitDefinitions().toString()).toBe('kg * m^2 / s^2')
-			expect(new Unit('Hz').toUnitDefinitions().toString()).toBe('1 / s')
+			expect(new Unit('N').toBaseUnits().toString()).toBe('kg * m / s^2')
+			expect(new Unit('J').toBaseUnits().toString()).toBe('kg * m^2 / s^2')
+			expect(new Unit('Hz').toBaseUnits().toString()).toBe('1 / s')
 		})
 		test('simplifies according to target', () => {
 			expect(new Unit('km').simplifyWithData({ target: 'normalizedPrefixes' })).toEqual({ unit: new Unit('m'), decimalExponent: 3, factor: 1, offset: 0 })
