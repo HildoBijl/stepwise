@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FloatUnit, getPrefixName, getPrefixExponent } from '@step-wise/physics-core'
+import { FloatUnit, findPrefix } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -15,7 +15,7 @@ function Problem({ m, type, prefix }) {
 	const description = [
 		<Par>Schrijf de massa <M>m = {m}</M> in kilogram.</Par>,
 		<Par>Schrijf de massa <M>m = {m}</M> in standaard eenheden.</Par>,
-		<Par>Schrijf de massa <M>m = {m}</M> in {getPrefixName(prefix)}gram.</Par>,
+		<Par>Schrijf de massa <M>m = {m}</M> in {getPrefixData(prefix).name}gram.</Par>,
 	][type]
 
 	return <>
@@ -29,10 +29,8 @@ function Problem({ m, type, prefix }) {
 function Solution({ m, type, prefix, ans }) {
 	const fromPrefix = (type === 2 ? 'k' : prefix)
 	const toPrefix = (type === 2 ? prefix : 'k')
-	const fromName = getPrefixName(fromPrefix)
-	const toName = getPrefixName(toPrefix)
-	const fromPower = getPrefixExponent(fromPrefix)
-	const toPower = getPrefixExponent(toPrefix)
+	const { name: fromName, exponent: fromPower } = getPrefixData(fromPrefix)
+	const { name: toName, exponent: toPower } = getPrefixData(toPrefix)
 
 	const conversion = (fromPower > toPower ?
 		new FloatUnit(`10^${fromPower - toPower} ${toPrefix}g/${fromPrefix}g`) :
@@ -59,5 +57,12 @@ function getUnitMessage(type, prefix) {
 	if (type === 1)
 		return 'Je hebt niet de standaard eenheid van massa gebruikt.'
 	if (type === 2)
-		return `Je hebt niet ${getPrefixName(prefix)}gram als eenheid gebruikt.`
+		return `Je hebt niet ${getPrefixData(prefix).name}gram als eenheid gebruikt.`
+}
+
+function getPrefixData(symbol) {
+	if (symbol === '') return { name: '', exponent: 0 }
+	const prefix = findPrefix(symbol)
+	if (!prefix) throw new Error(`Unknown prefix "${symbol}".`)
+	return prefix
 }

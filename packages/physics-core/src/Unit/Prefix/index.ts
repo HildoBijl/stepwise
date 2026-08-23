@@ -1,3 +1,3 @@
-export { Prefix } from './Prefix'
+export { type PrefixInput, Prefix } from './Prefix'
 export { prefixes } from './prefixes'
-export * from './utils'
+export { findPrefix } from './utils'
