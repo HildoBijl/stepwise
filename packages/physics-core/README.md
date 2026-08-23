@@ -22,7 +22,7 @@ value.significantDigits // 4
 const speed = new Quantity('90.0 km / h')
 speed.setUnit('m / s').toString() // '25.0 m / s'
 
-new Unit('N').toUnitDefinitions().toString() // 'kg * m / s^2'
+new Unit('N').toBaseUnits().toString() // 'kg * m / s^2'
 ```
 
 All operations return new objects. Existing `PrecisionNumber`, `Unit` and `Quantity` instances are never mutated.
@@ -129,11 +129,11 @@ result.factor // 1
 result.offset // 0
 ```
 
-The returned `decimalExponent`, `factor` and `offset` describe how a corresponding numerical value must change. `Quantity.simplify()` applies these transformations automatically. Options also include `combine` and `sort`, both defaulting to `true`. Convenience methods `toStandardUnits`, `toUnitDefinitions` and their `WithData` variants perform common transformations directly.
+The returned `decimalExponent`, `factor` and `offset` describe how a corresponding numerical value must change. `Quantity.simplify()` applies these transformations automatically. Options also include `combine` and `sort`, both defaulting to `true`. Convenience methods `toStandardUnits`, `toBaseUnits` and their `WithData` variants perform common transformations directly.
 
 ### Inspection and comparison
 
-`isEmpty`, `usesStandardPrefixes`, `isInStandardUnits`, `isInStandardForm`, `isInUnitDefinitions` and `isInBaseForm` inspect the current representation.
+`isEmpty`, `usesStandardPrefixes`, `isInStandardUnits`, `isInStandardForm`, `isInBaseUnits` and `isInBaseForm` inspect the current representation.
 
 ```ts
 unitsEqual('m * s', 's * m') // true: same written factors

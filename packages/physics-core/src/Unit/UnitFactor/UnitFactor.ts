@@ -68,12 +68,12 @@ export class UnitFactor {
 		return this.isInStandardUnits() && this.usesStandardPrefix()
 	}
 
-	isInUnitDefinitions(): boolean {
+	isInBaseUnits(): boolean {
 		return this.unit.base
 	}
 
 	isInBaseForm(): boolean {
-		return this.isInUnitDefinitions() && this.usesStandardPrefix()
+		return this.isInBaseUnits() && this.usesStandardPrefix()
 
 	}
 

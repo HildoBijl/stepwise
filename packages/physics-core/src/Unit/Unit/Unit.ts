@@ -67,8 +67,8 @@ export class Unit {
 		return this.factors.every(unitFactor => unitFactor.isInStandardForm())
 	}
 
-	isInUnitDefinitions(): boolean {
-		return this.factors.every(unitFactor => unitFactor.isInUnitDefinitions())
+	isInBaseUnits(): boolean {
+		return this.factors.every(unitFactor => unitFactor.isInBaseUnits())
 	}
 
 	isInBaseForm(): boolean {
@@ -231,13 +231,13 @@ export class Unit {
 	}
 
 	// Turn all units to base units.
-	toUnitDefinitions(): Unit {
-		return this.toUnitDefinitionsWithData().unit
+	toBaseUnits(): Unit {
+		return this.toBaseUnitsWithData().unit
 	}
-	toUnitDefinitionsWithData(): UnitTransformationData<Unit> {
+	toBaseUnitsWithData(): UnitTransformationData<Unit> {
 		const data = this.toStandardUnitsWithData()
 		if (data.unit.isInBaseForm()) return data
-		let { unit, decimalExponent, factor, offset } = data
+		const { unit } = data
 
 		// Walk through all unit factors and transform them to base form.
 		let newUnit = new Unit()
@@ -258,7 +258,7 @@ export class Unit {
 	simplifyWithData(options?: UnitSimplificationOptionsInput): UnitTransformationData<Unit> {
 		const simplificationOptions = resolveUnitSimplificationOptions(options)
 		const { target } = simplificationOptions
-		let data = target === 'base' ? this.toUnitDefinitionsWithData() : target === 'standard' ? this.toStandardUnitsWithData() : target === 'normalizedPrefixes' ? this.normalizePrefixesWithData() : { unit: this, decimalExponent: 0, factor: 1, offset: 0 }
+		let data = target === 'base' ? this.toBaseUnitsWithData() : target === 'standard' ? this.toStandardUnitsWithData() : target === 'normalizedPrefixes' ? this.normalizePrefixesWithData() : { unit: this, decimalExponent: 0, factor: 1, offset: 0 }
 		if (simplificationOptions.combine) data = { ...data, unit: data.unit.combineLikeFactors() }
 		if (simplificationOptions.sort) data = { ...data, unit: data.unit.sortFactors() }
 		return data
