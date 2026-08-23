@@ -24,8 +24,8 @@ export function CourseProvider({ children }) {
 function CourseProviderInner({ course, children }) {
 	// Analyse the course for the specific user.
 	const overview = useMemo(() => new Course(skillTree, courseRecordToCourseData(course)), [course])
-	const skillsData = useSkillLevels(overview.allSkills)
-	const skillsDataLoaded = overview.allSkills.every(skillId => !!skillsData[skillId])
+	const skillsData = useSkillLevels(overview.allSkillIds)
+	const skillsDataLoaded = overview.allSkillIds.every(skillId => !!skillsData[skillId])
 	const analysis = getAnalysis(overview, skillsData)
 	return <CourseContext.Provider value={{ course, overview, skillsData, skillsDataLoaded, analysis }}>{children}</CourseContext.Provider>
 }

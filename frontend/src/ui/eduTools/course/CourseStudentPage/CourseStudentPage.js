@@ -57,7 +57,7 @@ function LastActivity({ processedStudent, course, overview }) {
 		const lastEvent = last(lastExercise.history)
 		return new Date(lastEvent.performedAt)
 	}
-	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkills.includes(skill.skillId))
+	let skills = processedStudent.skills.filter(skill => hasExercises(skill.skillId) && overview.allSkillIds.includes(skill.skillId))
 	skills = skills.filter(skill => getLastSkillActivity(skill) !== undefined)
 	skills = skills.sort((s1, s2) => getLastSkillActivity(s2) - getLastSkillActivity(s1))
 
@@ -96,7 +96,7 @@ function ProgressOverview({ processedStudent, course, overview }) {
 	const translate = useTranslator()
 	const paths = usePaths()
 	const navigate = useNavigate()
-	const numSkillColumns = useMemo(() => Math.max(...overview.blocks.map(block => block.contents.length)), [overview])
+	const numSkillColumns = useMemo(() => Math.max(...overview.blocks.map(block => block.contentSkillIds.length)), [overview])
 
 	// Render the overview.
 	return <TranslationSection entry="progressOverview">
@@ -120,10 +120,10 @@ function ProgressOverview({ processedStudent, course, overview }) {
 							{translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
 						</TableCell>
 						<TableCell align="center">
-							<CenteredProgressIndicator size={50} total={block.contents.length} done={processedStudent.numCompletedPerBlock[index]} />
+							<CenteredProgressIndicator size={50} total={block.contentSkillIds.length} done={processedStudent.numCompletedPerBlock[index]} />
 						</TableCell>
-						{repeat(numSkillColumns, index => <TableCell key={index} align="center" onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: block.contents[index] }))} sx={{ verticalAlign: 'top', cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
-							<SkillIndicator skillId={block.contents[index]} student={processedStudent} overview={overview} />
+						{repeat(numSkillColumns, index => <TableCell key={index} align="center" onClick={() => navigate(paths.courseStudentSkill({ courseCode: course.code, studentId: processedStudent.id, skillId: block.contentSkillIds[index] }))} sx={{ verticalAlign: 'top', cursor: 'pointer', '&:hover': { backgroundColor: theme => theme.palette.action.hover } }}>
+							<SkillIndicator skillId={block.contentSkillIds[index]} student={processedStudent} overview={overview} />
 						</TableCell>)}
 					</TableRow>)}
 				</TableBody>
@@ -153,7 +153,7 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 	// Extract data for the skill.
 	const skillLevelSet = student.skillLevelSet
 	const skill = student.skills.find(skill => skill.skillId === skillId)
-	const isPriorKnowledge = overview.priorKnowledge.includes(skillId)
+	const isPriorKnowledge = overview.priorKnowledgeIds.includes(skillId)
 
 	// Determine the number of correct, partially correct, incorrect and in-progress exercises. (Partially correct counts as correct on a second or later attempt. Incorrect is "given up" or "solved step-wise".)
 	const exercises = skill?.exercises ?? []

@@ -82,7 +82,7 @@ function StudentOverview({ course, overview, students }) {
 			align: 'center',
 			headerAlign: 'center',
 			renderHeader,
-			renderCell: cell => <CenteredProgressIndicator total={overview.contents.length} done={cell.value} sx={{ fontWeight: 600 }} />,
+			renderCell: cell => <CenteredProgressIndicator total={overview.contentSkillIds.length} done={cell.value} sx={{ fontWeight: 600 }} />,
 		},
 		...overview.blocks.map((_, index) => ({
 			field: `block${index}`,
@@ -94,7 +94,7 @@ function StudentOverview({ course, overview, students }) {
 			renderHeader: cell => <Tooltip title={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')} arrow>
 				{renderHeader(cell)}
 			</Tooltip>,
-			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contents.length} done={cell.value} />,
+			renderCell: cell => <CenteredProgressIndicator total={overview.blocks[index].contentSkillIds.length} done={cell.value} />,
 		})),
 	], [course, overview, translate])
 

@@ -127,10 +127,10 @@ export function TeacherTile({ course }) {
 	// Render the tile part.
 	return <Tile course={course}>
 		<Box sx={containerStyle}>
-			<Box sx={numberStyle}>{overview.contents.length}</Box>
+			<Box sx={numberStyle}>{overview.contentSkillIds.length}</Box>
 			<Box sx={labelStyle}>
 				<Translation entry="tiles.skills">
-					<Plurals value={overview.contents.length}>
+					<Plurals value={overview.contentSkillIds.length}>
 						<Plurals.One>Skill</Plurals.One>
 						<Plurals.NotOne>Skills</Plurals.NotOne>
 					</Plurals>

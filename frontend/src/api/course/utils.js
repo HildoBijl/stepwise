@@ -2,10 +2,10 @@ import { deserializeSetup } from '@step-wise/skill-setup'
 
 export function courseRecordToCourseData(record) {
 	return {
-		learningGoals: record.goals,
-		startingPoints: record.startingPoints,
-		goalWeights: record.goalWeights,
-		blockGoals: record.blocks?.map(block => block.goals),
-		setup: record.setup && deserializeSetup(record.setup),
+		learningGoalIds: record.goals,
+		startingPointIds: record.startingPoints,
+		learningGoalWeights: record.goalWeights ?? undefined,
+		blockLearningGoalIds: record.blocks?.map(block => block.goals),
+		setup: record.setup == null ? undefined : deserializeSetup(record.setup),
 	}
 }

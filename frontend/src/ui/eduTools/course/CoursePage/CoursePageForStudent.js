@@ -25,8 +25,8 @@ export function CoursePageForStudent() {
 	const hasRecommendation = !!recommendation
 
 	// Determine which block to open up at the start.
-	let recommendationBlock = overview.blocks.findIndex(block => block.contents.includes(recommendation)) // Find the block containing the recommendation.
-	if (overview.priorKnowledge.includes(recommendation))
+	let recommendationBlock = overview.blocks.findIndex(block => block.contentSkillIds.includes(recommendation)) // Find the block containing the recommendation.
+	if (overview.priorKnowledgeIds.includes(recommendation))
 		recommendationBlock = -1 // -1 means prior knowledge.
 	if (recommendation === strFreePractice)
 		recommendationBlock = overview.blocks.length - 1 // When everything is mastered, open up the last block.
@@ -66,19 +66,19 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 	if (activeBlock === undefined)
 		skillIds = []
 	else if (activeBlock === -1)
-		skillIds = overview.priorKnowledge
+		skillIds = overview.priorKnowledgeIds
 	else
-		skillIds = overview.blocks[activeBlock].contents
+		skillIds = overview.blocks[activeBlock].contentSkillIds
 
 	// Determine other important data.
-	const hasPriorKnowledge = overview.priorKnowledge.length > 0
+	const hasPriorKnowledge = overview.priorKnowledgeIds.length > 0
 
 	return <Box sx={courseOverviewStyle}>
 		<Box sx={{ marginRight: '1rem', width: '50%' }}>
 			{hasPriorKnowledge ? <Block
 				landscape={landscape}
 				courseCode={course.code}
-				skillIds={overview.priorKnowledge}
+				skillIds={overview.priorKnowledgeIds}
 				active={activeBlock === -1}
 				toggleActive={() => toggleActiveBlock(-1)}
 				name={translate('Prior knowledge', 'priorKnowledge')}
@@ -89,7 +89,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 				key={index}
 				landscape={landscape}
 				courseCode={course.code}
-				skillIds={block.contents}
+				skillIds={block.contentSkillIds}
 				active={activeBlock === index}
 				toggleActive={() => toggleActiveBlock(index)}
 				name={translate(course.blocks[index].name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}
@@ -106,14 +106,14 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
 	const translate = useTranslator()
 	const landscape = false
-	const hasPriorKnowledge = overview.priorKnowledge.length > 0
+	const hasPriorKnowledge = overview.priorKnowledgeIds.length > 0
 
 	return <Box sx={courseOverviewStyle}>
 		<Box sx={{ width: '100%' }}>
 			{hasPriorKnowledge ? <Block
 				landscape={landscape}
 				courseCode={course.code}
-				skillIds={overview.priorKnowledge}
+				skillIds={overview.priorKnowledgeIds}
 				active={activeBlock === -1}
 				toggleActive={() => toggleActiveBlock(-1)}
 				name={translate('Prior knowledge', 'priorKnowledge')}
@@ -125,7 +125,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					key={index}
 					landscape={landscape}
 					courseCode={course.code}
-					skillIds={block.contents}
+					skillIds={block.contentSkillIds}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
 					name={translate(block.name, `${course.organization}.${course.code}.blocks.${index}`, 'eduContent/courseInfo')}

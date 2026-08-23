@@ -77,7 +77,7 @@ function StudentCourseList({ courses, showAddButton }) {
 	// Load all the skills data for the courses and use it to determine which skills need practice.
 	const sortedCourses = useMemo(() => [...courses].sort((c1, c2) => new Date(c1.subscribedOn) - new Date(c2.subscribedOn)), [courses]) // Sort by subscription date, so that later courses come at the end.
 	const courseOverviews = useMemo(() => sortedCourses.map(rawCourse => new Course(skillTree, courseRecordToCourseData(rawCourse))), [sortedCourses])
-	const allSkills = [...new Set(courseOverviews.map(overview => overview.allSkills).flat())] // A list of all relevant skills for all courses.
+	const allSkills = [...new Set(courseOverviews.map(overview => overview.allSkillIds).flat())] // A list of all relevant skills for all courses.
 	const skillLevelSet = useSkillLevels(allSkills) // The SkillLevelSet objects for all skills.
 	const skillLevelSnapshot = skillLevelSet.getSnapshot()
 	const analyses = useMemo(() => {
@@ -92,8 +92,8 @@ function StudentCourseList({ courses, showAddButton }) {
 				{sortedCourses.map((course, index) => <StudentTile
 					key={course.id}
 					course={course}
-					skillsTotal={courseOverviews[index].contents.length}
-					skillsDone={analyses[index] ? count(courseOverviews[index].contents, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
+					skillsTotal={courseOverviews[index].contentSkillIds.length}
+					skillsDone={analyses[index] ? count(courseOverviews[index].contentSkillIds, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
 					recommendation={analyses[index]?.recommendation}
 				/>)}
 				{showAddButton && <AddCourseTile />}

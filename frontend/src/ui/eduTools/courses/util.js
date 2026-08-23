@@ -12,15 +12,15 @@ export function getAnalysis(overview, skillLevelSet) {
 	const practiceNeeded = getPracticeNeeded(overview, skillLevelSet)
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
-	if (overview.allSkills.some(skillId => practiceNeeded[skillId] === undefined))
+	if (overview.allSkillIds.some(skillId => practiceNeeded[skillId] === undefined))
 		return undefined
 
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills. Also ensure that this recommendation has exercises that can be practiced.
-	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
+	let recommendation = overview.priorKnowledgeIds.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
 	if (!recommendation)
-		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
+		recommendation = overview.contentSkillIds.find(skillId => practiceNeeded[skillId] === 2 && hasExercises(skillId))
 	if (!recommendation)
-		recommendation = overview.contents.find(skillId => practiceNeeded[skillId] === 1 && hasExercises(skillId))
+		recommendation = overview.contentSkillIds.find(skillId => practiceNeeded[skillId] === 1 && hasExercises(skillId))
 
 	// If no recommendation has been found, then all skills are mastered. Recommend free practice.
 	if (!recommendation)
@@ -36,7 +36,7 @@ export function getAnalysis(overview, skillLevelSet) {
 // getPracticeNeeded takes a course set-up and walks through it to determine which skills require practice. It returns an object { skill1: 2, skill2: 0, skill3: 1, ... } which indicates the practice-needed-index for each skill in the course (including prior knowledge skills). It also takes into account the skill hierarchy: if a main skill X has an index (for instance "1") then all subskills have AT MOST that index, possibly lower.
 function getPracticeNeeded(overview, skillLevelSet) {
 	const result = {}
-	overview.learningGoals.forEach(goalId => checkPracticeNeeded(goalId, skillLevelSet, overview.priorKnowledge, result))
+	overview.learningGoalIds.forEach(goalId => checkPracticeNeeded(goalId, skillLevelSet, overview.priorKnowledgeIds, result))
 	return result
 }
 
@@ -69,18 +69,18 @@ export function processStudent(student, overview) {
 	const skillsAsObject = fromKeysAndValues(existingSkills.map(skill => skill.skillId), existingSkills.map(skill => ensureSkillLevel(skill)))
 
 	// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-	const allSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(overview.allSkills)
+	const allSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(overview.allSkillIds)
 	const skills = fromKeys(allSkillIds, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
 	const skillLevelSet = new SkillLevelSet(skillTree, skills)
 
 	// Run an analysis of what the student completed.
 	const analysis = getAnalysis(overview, skillLevelSet)
 	const getNumCompleted = skillIds => count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
-	const numCompleted = getNumCompleted(overview.contents)
-	const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contents))
+	const numCompleted = getNumCompleted(overview.contentSkillIds)
+	const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contentSkillIds))
 
 	// Determine the last activity for the student. (Use the original skills and not the newly added skills, that have more recent dates.)
-	const activityPerSkill = existingSkills.filter(skill => overview.allSkills.includes(skill.skillId)).map(skill => skill.updatedAt)
+	const activityPerSkill = existingSkills.filter(skill => overview.allSkillIds.includes(skill.skillId)).map(skill => skill.updatedAt)
 	const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
 
 	// Return all data.
