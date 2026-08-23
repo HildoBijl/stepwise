@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import { PrecisionNumber } from '../PrecisionNumber'
 import { Unit } from '../Unit'
 

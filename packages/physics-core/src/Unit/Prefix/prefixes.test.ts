@@ -6,3 +6,4 @@ describe('prefix definitions', () => {
 		expect(new Set(representations).size).toBe(representations.length)
 	})
 })
+import { describe, expect, test } from 'vitest'
