@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Equation, type Expression, asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
 
@@ -14,7 +14,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveMultiVariableLinearEquationWithFractions',
 		...createStepExerciseMetadata(['simplifyFractionOfFractionSumsWithMultipleVariables', 'multiplyAllEquationTerms', 'solveMultiVariableLinearEquation']),
-		compare: {
+		comparisons: {
 			simplified: (input: Equation, correct: Equation) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionComparisons.equivalent(input.left, correct.left),
 			multiplied: (input: Equation, correct: Equation) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.negate())),
 			ans: (input: Expression, correct: Expression) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
@@ -49,9 +49,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('simplified', data)
-			case 2: return compare('multiplied', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('simplified', data)
+			case 2: return compareInputs('multiplied', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

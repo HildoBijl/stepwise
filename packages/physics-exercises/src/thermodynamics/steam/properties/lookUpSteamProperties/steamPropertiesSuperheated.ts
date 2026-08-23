@@ -1,14 +1,14 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { superheatedSteam } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpSteamProperties',
 		weight: 2,
-		compare: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.001 } } },
 	},
 
 	generateParameters() {
@@ -26,6 +26,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare(['h', 's'], data)
+		return compareInputs(['h', 's'], data)
 	},
 })

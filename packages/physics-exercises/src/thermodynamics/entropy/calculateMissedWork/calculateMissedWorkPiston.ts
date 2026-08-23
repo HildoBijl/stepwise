@@ -1,6 +1,6 @@
 import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateMissedWork',
 		...createStepExerciseMetadata(['calculateEntropyChange', 'calculateEntropyChange', undefined, 'solveLinearEquation']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -39,10 +39,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('dS12p', data)
-			case 2: return compare('dS2p2', data)
-			case 3: return compare('dS', data)
-			default: return compare('Wm', data)
+			case 1: return compareInputs('dS12p', data)
+			case 2: return compareInputs('dS2p2', data)
+			case 3: return compareInputs('dS', data)
+			default: return compareInputs('Wm', data)
 		}
 	},
 })

@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseCoolingCycle',
 		...createStepExerciseMetadata(['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']]),
-		compare: {
+		comparisons: {
 			h1: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			h2p: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			h2: { float: { absoluteTolerance: 6000, significantDigitTolerance: 2 } },
@@ -62,14 +62,14 @@ export default buildStepExercise({
 
 	checkInput(data, step, substep) {
 		switch (step) {
-			case 1: return compare(['h1', 'h2p', 'h3', 'h4'], data)
-			case 2: return compare('h2', data)
+			case 1: return compareInputs(['h1', 'h2p', 'h3', 'h4'], data)
+			case 2: return compareInputs('h2', data)
 			case 3:
 				switch (substep) {
-					case 1: return compare(['epsilon', 'COP'], data)
-					case 2: return compare('mdot', data)
+					case 1: return compareInputs(['epsilon', 'COP'], data)
+					case 2: return compareInputs('mdot', data)
 				}
-			default: return compare(['epsilon', 'COP', 'mdot'], data)
+			default: return compareInputs(['epsilon', 'COP', 'mdot'], data)
 		}
 	},
 })

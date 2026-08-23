@@ -1,7 +1,7 @@
 import { epsilon, degreesToRadians, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare, compareList } from '@step-wise/exercise-grading'
+import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
 const variableSet = ['x', 'y', 'z']
 
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateTriangle',
 		...createStepExerciseMetadata([undefined, undefined, undefined, 'solveQuadraticEquation']),
-		compare: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
+		comparisons: { equation: (input: Equation, correct: Equation) => equationComparisons.equivalent(input, correct) },
 	},
 
 	generateParameters() {
@@ -46,11 +46,11 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('rule', data)
-			case 2: return compare('equation', data)
-			case 3: return compare('numSolutions', data)
-			case 4: return compareList(['b1', 'b2'], data)
-			default: return compare('numSolutions', data) && compareList(['b1', 'b2'], data)
+			case 1: return compareInputs('rule', data)
+			case 2: return compareInputs('equation', data)
+			case 3: return compareInputs('numSolutions', data)
+			case 4: return compareInputList(['b1', 'b2'], data)
+			default: return compareInputs('numSolutions', data) && compareInputList(['b1', 'b2'], data)
 		}
 	},
 })

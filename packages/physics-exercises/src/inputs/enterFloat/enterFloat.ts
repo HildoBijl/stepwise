@@ -1,7 +1,7 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { getRandomExponentialFloat } from '@step-wise/physics-core'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 function generateParameters(example: boolean) {
 	const x = getRandomExponentialFloat({ min: example ? 1e-4 : 1e-8, max: example ? 1e5 : 1e9, randomSign: true, significantDigits: randomInteger(2, example ? 2 : 4) })
@@ -12,7 +12,7 @@ function generateParameters(example: boolean) {
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterFloat',
-		compare: {
+		comparisons: {
 			ans: { significantDigitTolerance: 0, checkPower: true },
 		},
 	},
@@ -24,6 +24,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('ans', data)
+		return compareInputs('ans', data)
 	},
 })

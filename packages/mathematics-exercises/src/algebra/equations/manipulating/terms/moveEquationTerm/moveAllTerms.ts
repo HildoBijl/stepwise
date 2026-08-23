@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean, randomIndices } from '@step-wise/js-utils'
 import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -16,7 +16,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'moveEquationTerm',
 		...createStepExerciseMetadata(['addToBothEquationSides', 'cancelSumTerms']),
-		compare: {
+		comparisons: {
 			bothSidesChanged: { compareSide: equivalent },
 			ans: { compareSide: onlyOrderChanges },
 		},
@@ -57,8 +57,8 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('bothSidesChanged', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('bothSidesChanged', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

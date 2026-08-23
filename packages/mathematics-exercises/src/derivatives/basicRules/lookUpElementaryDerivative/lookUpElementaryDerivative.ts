@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunction } from '../../tools'
 
@@ -11,7 +11,7 @@ const functionSet = ['f', 'g', 'h']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'lookUpElementaryDerivative',
-		compare: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.equivalent },
 	},
 
 	generateParameters() {
@@ -25,6 +25,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('derivative', data)
+		return compareInputs('derivative', data)
 	},
 })

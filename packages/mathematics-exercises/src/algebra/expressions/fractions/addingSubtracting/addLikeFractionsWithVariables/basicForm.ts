@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons, expressionChecks } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'addLikeFractionsWithVariables',
 		...createStepExerciseMetadata([undefined, 'expandBrackets', 'mergeSimilarTerms']),
-		compare: {
+		comparisons: {
 			singleFraction: (input: Expression, correct: Expression) => input.flatten().isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 			bracketsExpanded: (input: Expression, correct: Expression) => input.flatten().isFraction() && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => isFractionLike(input) && !hasFractionWithinFraction(input) && !hasSumWithinProduct(input) && !hasSimilarTerms(input) && equivalent(input, correct),
@@ -53,9 +53,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('singleFraction', data)
-			case 2: return compare('bracketsExpanded', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('singleFraction', data)
+			case 2: return compareInputs('bracketsExpanded', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

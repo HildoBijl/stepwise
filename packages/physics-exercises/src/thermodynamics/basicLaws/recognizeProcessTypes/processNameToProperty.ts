@@ -1,6 +1,6 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildMonoExercise, generateMultipleChoiceMapping } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 export default buildMonoExercise({
 	metadata: {
@@ -21,6 +21,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('ans', data)
+		return compareInputs('ans', data)
 	},
 })

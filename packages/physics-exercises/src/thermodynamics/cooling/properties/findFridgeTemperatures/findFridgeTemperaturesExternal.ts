@@ -1,13 +1,13 @@
 import { sample } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getTemperatures } from '../../coolingCycles/tools'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'findFridgeTemperatures',
-		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -23,6 +23,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare(['TCold', 'TWarm'], data)
+		return compareInputs(['TCold', 'TWarm'], data)
 	},
 })

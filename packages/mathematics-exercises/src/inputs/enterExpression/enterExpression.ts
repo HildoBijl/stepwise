@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionComparisons } from '@step-wise/cas'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables } from '#generationTools'
 
@@ -15,7 +15,7 @@ const usedVariables = ['x', 'y']
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterExpression',
-		compare: { ans: (input: Expression, correct: Expression) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
+		comparisons: { ans: (input: Expression, correct: Expression) => expressionComparisons.exactEqual(input.flatten(), correct.flatten()) },
 	},
 
 	generateParameters() {
@@ -39,6 +39,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('ans', data)
+		return compareInputs('ans', data)
 	},
 })

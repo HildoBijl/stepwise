@@ -91,7 +91,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	const { solution, input, metadata } = exerciseData
-	const { checkF } = metadata.compare
+	const { checkF } = metadata.comparisons
 	const { x } = solution
 
 	// Define h derivative checks.

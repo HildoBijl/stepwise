@@ -26,8 +26,8 @@ function Solution({ Ee, Eout, Ef, epsilon }) {
 }
 
 function getFeedback(exerciseData) {
-	const compare = exerciseData.metadata.compare.default
+	const comparison = exerciseData.metadata.comparisons.default
 	return getFieldInputFeedback(exerciseData, {
-		epsilon: (input, answer) => answer.add(1).equals(input, compare) && 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.',
+		epsilon: (input, answer) => answer.add(1).equals(input, comparison) && 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.',
 	})
 }

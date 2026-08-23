@@ -3,7 +3,7 @@ import { isValidElement } from 'react'
 import { findWithValue, isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
 import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
-import { compare as gradingCompare } from '@step-wise/exercise-grading'
+import { compareInputs as gradingCompare } from '@step-wise/exercise-grading'
 
 import { Translation } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomNonNumeric } from 'ui/inputs'
@@ -12,7 +12,7 @@ import { processParameterOptions } from './util'
 import { equationChecks } from './feedbackChecks'
 
 const defaultOptions = {
-	compare: {}, // A compare function or object that will be used to check for correctness. If not given, it will be looked for in the exercise metadata.
+	comparison: {}, // A comparison function or object that will be used to check for correctness. If not given, it will be looked for in the exercise metadata.
 	feedbackChecks: [], // Checks to be run on the given input. Feedback checks are of the form (currInput, currSolution, solution, correct, exerciseData) => <>SomeMessage</>. Here "currSolution" refers to the solution for this parameter, while "solution" is the full solution object returned from the getSolution function. The value of correct is true/false, indicating whether it was graded to be equal. The first check that returns something truthy will be used.
 	feedbackFunction: undefined, // The function to be called after the feedbackChecks have failed to give any result. This is a function of the type (currInput, currSolution, currOptions, exerciseData) => { correct: false, <>SomeMessage</> } or similar. When not given, default feedback is determined based on the input and solution types.
 	dependency: undefined, // The names of parameters which the feedback of this parameter may depend on. The feedback of a parameter is only updated when it changes, or any of its dependencies changes.
@@ -40,18 +40,18 @@ export function getAllFieldInputsFeedbackExcluding(excludedFields) {
 	}
 }
 
-// getFieldInputFeedback takes an exercise data object and an array of parameters ['p1', 'p2'] and tries to get feedback for these parameters in a default way. It is also possible to pass the parameters as an object of the form { p1: { feedbackChecks: [...], compare: {...}, p2: { ... } } } to pass extra options per parameter. In the special case that only an array is passed { p1: [...], p2: ... } then this array is assumed to be the feedbackChecks.
+// getFieldInputFeedback takes an exercise data object and an array of parameters ['p1', 'p2'] and tries to get feedback for these parameters in a default way. It is also possible to pass the parameters as an object of the form { p1: { feedbackChecks: [...], comparison: {...}, p2: { ... } } } to pass extra options per parameter. In the special case that only an array is passed { p1: [...], p2: ... } then this array is assumed to be the feedbackChecks.
 export function getFieldInputFeedback(exerciseData, parameterOptions) {
 	// Process the parameters.
 	parameterOptions = processParameterOptions(parameterOptions)
 
-	// Check out which compare has been provided.
+	// Check out which comparison has been provided.
 	const { input, solution, metadata, rawInput, previousRawInput, previousFeedback } = exerciseData
-	let { compare } = metadata
-	if (compare === undefined)
-		compare = {}
-	if (!isPlainObject(compare))
-		throw new Error(`Invalid compare parameter: expected a plain object with compare options/functions for each parameter. Received something of type ${typeof compare}.`)
+	let { comparisons } = metadata
+	if (comparisons === undefined)
+		comparisons = {}
+	if (!isPlainObject(comparisons))
+		throw new Error(`Invalid comparisons parameter: expected a plain object with comparison options/functions for each parameter. Received something of type ${typeof comparisons}.`)
 
 	// Walk through the parameters and incorporate feedback.
 	return mapValues(parameterOptions, (currOptions, currParameter) => {
@@ -61,12 +61,12 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 		if (currInput === undefined)
 			return
 
-		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metadata compare options and previous input/feedback.
+		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metadata comparison options and previous input/feedback.
 		if (typeof currOptions === 'function') // On a function, assume it's a single feedbackCheck.
 			currOptions = [currOptions]
 		if (Array.isArray(currOptions)) // On an array, assume they are feedbackChecks.
 			currOptions = { feedbackChecks: currOptions }
-		currOptions.compare = currOptions.compare || (compare && compare[currParameter]) || compare?.[exerciseData.rawInput[currParameter].type]
+		currOptions.comparison = currOptions.comparison || comparisons[currParameter] || comparisons[exerciseData.rawInput[currParameter].type]
 
 		// If the input hasn't changed (and nor have any potential dependencies) then keep the previous feedback.
 		let dependency = currOptions.dependency || []
@@ -85,10 +85,10 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 
 // getIndividualFieldInputFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
 function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput, currSolution, currOptions) {
-	const { compare, feedbackChecks, feedbackFunction } = mergeDefaults(currOptions, defaultOptions)
+	const { comparison, feedbackChecks, feedbackFunction } = mergeDefaults(currOptions, defaultOptions)
 	const { solution } = exerciseData
 
-	// Determine if the field is correct. Do this in the same way as the compare function from the shared directory.
+	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
 	const correct = gradingCompare(currParameter, exerciseData)
 
 	// Walk through the feedback checks and see if one fires.
@@ -102,11 +102,11 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 		return isPlainObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
 	}
 
-	// Go for default feedback. If the compare is a function, all we can say is whether it's correct or incorrect.
-	if (typeof compare === 'function')
+	// Go for default feedback. If the comparison is a function, all we can say is whether it's correct or incorrect.
+	if (typeof comparison === 'function')
 		return { correct, text: (correct ? selectRandomCorrect : selectRandomIncorrect)() }
 
-	// There are compare options, so try to find detailed feedback. If the parameters are pure numbers (or numeric Expressions) compare them using number compare.
+	// There are comparison options, so try to find detailed feedback. If the parameters are pure numbers (or numeric Expressions), compare them using number comparison.
 	if (currSolution instanceof Expression && currSolution.isNumeric())
 		currSolution = currSolution.toNumber()
 	if (typeof currSolution === 'number') {
@@ -120,16 +120,16 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 
 	// It's not a pure number. Try various other parameter types.
 	if (currInput.constructor === Unit)
-		return { correct, text: getUnitComparisonFeedback(currInput, currSolution, currOptions.compare) }
+		return { correct, text: getUnitComparisonFeedback(currInput, currSolution, currOptions.comparison) }
 	if (currInput.constructor === Float)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.number) }
 	if (currInput.constructor === FloatUnit)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.float.number) }
 	if (currInput.constructor === Equation)
-		return { correct, text: equationChecks.fullEquationFeedback(currInput, currSolution, solution, correct, compare) }
+		return { correct, text: equationChecks.fullEquationFeedback(currInput, currSolution, solution, correct, comparison) }
 
 	// No clue what kind of type we have.
-	throw new Error(`Default feedback error: could not set up specific feedback for parameter "${currParameter}". Its type does not support automatic feedback. You can use a compare function for compare, and then feedback checks for specific feedback.`)
+	throw new Error(`Default feedback error: could not set up specific feedback for parameter "${currParameter}". Its type does not support automatic feedback. You can use a comparison function for comparison, and then feedback checks for specific feedback.`)
 }
 
 /* getFeedbackCheckResult gets an array of feedback checks and various other data. It then runs through these feedback checks to see if one matches and returns the corresponding feedback.
@@ -153,21 +153,21 @@ export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, 
 
 // getNumberComparisonFeedback takes two numbers: an input answer and a solution answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }.
 export function getNumberComparisonFeedback(currInput, currSolution, currOptions, objectBased, getNumber = (x => x)) {
-	let { compare, previousFeedback } = mergeDefaults(currOptions, defaultOptions)
+	let { comparison, previousFeedback } = mergeDefaults(currOptions, defaultOptions)
 
 	// How to get equality data and equality depends on whether this is object-based (like with a Float) or number-based (like with regular numbers).
 	const equalityResult = objectBased ?
-		currSolution.checkEquality(currInput, compare) :
-		checkNumberEquality(currInput, currSolution, compare)
+		currSolution.checkEquality(currInput, comparison) :
+		checkNumberEquality(currInput, currSolution, comparison)
 	const correct = equalityResult.equal
 	const isEqual = (currInput, currSolution, accuracyFactorAdjustment) => {
 		if (currSolution instanceof Float)
-			compare = adjustFloatTolerances(compare, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
+			comparison = adjustFloatTolerances(comparison, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
 		if (currSolution instanceof FloatUnit)
-			compare = adjustFloatUnitTolerances(compare, accuracyFactorAdjustment, currSolution.float.getMinimumAbsoluteTolerance())
+			comparison = adjustFloatUnitTolerances(comparison, accuracyFactorAdjustment, currSolution.float.getMinimumAbsoluteTolerance())
 		return objectBased ?
-			currSolution.equals(currInput, compare) :
-			numbersEqual(currInput, currSolution, compare)
+			currSolution.equals(currInput, comparison) :
+			numbersEqual(currInput, currSolution, comparison)
 	}
 
 	// On a correct answer, check if a margin warning is needed. Otherwise give the default message.
@@ -179,7 +179,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 
 	// Check the unit (when needed).
 	if (currSolution instanceof FloatUnit && equalityResult.unit.equal === false) {
-		return getUnitComparisonFeedback(currInput.unit, currSolution.unit, compare.unit)
+		return getUnitComparisonFeedback(currInput.unit, currSolution.unit, comparison.unit)
 	}
 
 	// Something is incorrect. Check the signs.

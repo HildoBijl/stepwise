@@ -1,6 +1,6 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 export default buildStepExercise({
 	metadata: {
@@ -26,9 +26,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('order', data)
-			case 2: return compare('ab', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('order', data)
+			case 2: return compareInputs('ab', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

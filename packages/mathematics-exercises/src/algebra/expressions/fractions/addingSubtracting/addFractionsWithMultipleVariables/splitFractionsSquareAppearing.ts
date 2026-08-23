@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { asExpression, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
 
@@ -16,7 +16,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'addFractionsWithMultipleVariables',
 		...createStepExerciseMetadata(['addLikeFractionsWithVariables', ['simplifyFractionWithVariables', 'simplifyFractionWithVariables'], undefined]),
-		compare: { Expression: onlyOrderChanges },
+		comparisons: { Expression: onlyOrderChanges },
 	},
 
 	generateParameters() {
@@ -43,9 +43,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('split', data)
-			case 2: return compare(['leftAns', 'rightAns'], data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('split', data)
+			case 2: return compareInputs(['leftAns', 'rightAns'], data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

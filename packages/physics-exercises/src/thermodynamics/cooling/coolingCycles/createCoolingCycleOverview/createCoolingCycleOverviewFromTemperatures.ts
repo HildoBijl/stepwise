@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 
 import { getBasicCycle } from '../tools'
@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'createCoolingCycleOverview',
 		...createStepExerciseMetadata(['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', undefined]),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { absoluteTolerance: 4000, significantDigitTolerance: 2 } },
 			TEvap: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
 			TCond: { float: { absoluteTolerance: 1, significantDigitTolerance: 1 } },
@@ -48,12 +48,12 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['TEvap', 'TCond'], data)
-			case 2: return compare('h1', data)
-			case 3: return compare('h2', data)
-			case 4: return compare('h3', data)
-			case 5: return compare('h4', data)
-			default: return compare(['h1', 'h2', 'h3', 'h4'], data)
+			case 1: return compareInputs(['TEvap', 'TCond'], data)
+			case 2: return compareInputs('h1', data)
+			case 3: return compareInputs('h2', data)
+			case 4: return compareInputs('h3', data)
+			case 5: return compareInputs('h4', data)
+			default: return compareInputs(['h1', 'h2', 'h3', 'h4'], data)
 		}
 	},
 })

@@ -95,8 +95,8 @@ const steps = [
 function getFeedback(data) {
 	const { input, solution } = data
 	const supportParameters = {
-		...(input.loadsLeft ? { loadsLeft: { compare: FBDComparison } } : {}),
-		...(input.loadsRight ? { loadsRight: { compare: FBDComparison } } : {}),
+		...(input.loadsLeft ? { loadsLeft: { comparison: FBDComparison } } : {}),
+		...(input.loadsRight ? { loadsRight: { comparison: FBDComparison } } : {}),
 	}
 
 	return {

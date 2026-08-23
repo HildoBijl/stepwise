@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Expression, asExpression, asEquation, expressionComparisons, expressionChecks } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'multiplyAllEquationTerms',
 		...createStepExerciseMetadata(['multiplyBothEquationSides', 'expandBrackets', 'simplifyFractionWithVariables']),
-		compare: {
+		comparisons: {
 			form: { compareSide: equivalent },
 			expanded: { compareSide: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && equivalent(input, correct) },
 			ans: { compareSide: onlyOrderChanges },
@@ -64,9 +64,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('form', data)
-			case 2: return compare('expanded', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('form', data)
+			case 2: return compareInputs('expanded', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

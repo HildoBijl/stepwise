@@ -1,7 +1,7 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { interpolateTableOutputs } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseRankineCycle',
 		...createStepExerciseMetadata(['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']]),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {
@@ -59,15 +59,15 @@ export default buildStepExercise({
 	checkInput(data, step, substep) {
 		const toCheck = data.parameters.type === 1 ? 'P' : 'mdot'
 		switch (step) {
-			case 1: return compare(['h1', 'h2', 'h3p', 'h4'], data)
-			case 2: return compare('h3', data)
+			case 1: return compareInputs(['h1', 'h2', 'h3p', 'h4'], data)
+			case 2: return compareInputs('h3', data)
 			case 3:
 				switch (substep) {
-					case 1: return compare('etai', data)
-					case 2: return compare('eta', data)
-					case 3: return compare(toCheck, data)
+					case 1: return compareInputs('etai', data)
+					case 2: return compareInputs('eta', data)
+					case 3: return compareInputs(toCheck, data)
 				}
-			default: return compare(['etai', 'eta', toCheck], data)
+			default: return compareInputs(['etai', 'eta', toCheck], data)
 		}
 	},
 })

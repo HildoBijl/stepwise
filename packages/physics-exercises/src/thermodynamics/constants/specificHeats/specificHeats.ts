@@ -1,6 +1,6 @@
 import { sample } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
 const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'] as const
@@ -8,7 +8,7 @@ const media = ['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane'
 export default buildMonoExercise({
 	metadata: {
 		skill: 'specificHeats',
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.02 } },
 		},
 	},
@@ -22,6 +22,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare(['cv', 'cp'], data)
+		return compareInputs(['cv', 'cp'], data)
 	},
 })

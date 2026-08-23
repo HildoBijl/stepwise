@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions } from '../../tools'
 
@@ -12,7 +12,7 @@ export default buildStepExercise({
 		skill: 'applyChainRule',
 		...createStepExerciseMetadata([['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], undefined]),
 		weight: 2,
-		compare: { Expression: expressionComparisons.equivalent },
+		comparisons: { Expression: expressionComparisons.equivalent },
 	},
 
 	generateParameters() {
@@ -38,10 +38,10 @@ export default buildStepExercise({
 		switch (step) {
 			case 1:
 				switch (substep) {
-					case 1: return compare('fDerivative', data)
-					case 2: return compare('gDerivative', data)
+					case 1: return compareInputs('fDerivative', data)
+					case 2: return compareInputs('gDerivative', data)
 				}
-			default: return compare('derivative', data)
+			default: return compareInputs('derivative', data)
 		}
 	},
 })

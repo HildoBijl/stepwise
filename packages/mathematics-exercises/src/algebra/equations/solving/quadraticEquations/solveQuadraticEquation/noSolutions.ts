@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -17,7 +17,7 @@ export default buildStepExercise({
 		skill: 'solveQuadraticEquation',
 		weight: 1,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined]),
-		compare: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {} },
+		comparisons: { a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {} },
 	},
 
 	generateParameters() {
@@ -44,10 +44,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['a', 'b', 'c'], data)
-			case 2: return compare('solutionFull', data)
-			case 3: return compare('D', data)
-			default: return compare('numSolutions', data)
+			case 1: return compareInputs(['a', 'b', 'c'], data)
+			case 2: return compareInputs('solutionFull', data)
+			case 3: return compareInputs('D', data)
+			default: return compareInputs('numSolutions', data)
 		}
 	},
 })

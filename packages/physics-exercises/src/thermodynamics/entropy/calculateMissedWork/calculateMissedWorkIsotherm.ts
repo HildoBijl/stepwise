@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { generateParameters, getSolution as getSolutionPrevious } from '../calculateEntropyChange/calculateEntropyChangeIsotherm'
 
@@ -7,7 +7,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateMissedWork',
 		...createStepExerciseMetadata(['calculateEntropyChange', 'solveLinearEquation']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters,
@@ -20,8 +20,8 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('dS', data)
-			default: return compare('Wm', data)
+			case 1: return compareInputs('dS', data)
+			default: return compareInputs('Wm', data)
 		}
 	},
 })

@@ -2,7 +2,7 @@ import { sample, randomInteger } from '@step-wise/js-utils'
 import { and } from '@step-wise/skill-setup'
 import { Expression, asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare, compareList } from '@step-wise/exercise-grading'
+import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -18,7 +18,7 @@ export default buildStepExercise({
 		skill: 'solveQuadraticEquation',
 		weight: 3,
 		...createStepExerciseMetadata(['substituteANumber', 'substituteANumber', 'calculateSumOfProducts', undefined, and('simplifyFraction', 'simplifyRoot')]),
-		compare: {
+		comparisons: {
 			a: {}, b: {}, c: {}, solutionFull: equivalent, D: {}, numSolutions: {},
 			// For the answers, allow the user to either keep the fraction together (default, as "(2+3sqrt(5))/6") or not (extra, as "1/3+sqrt(5)/2").
 			ans1: (input: Expression, correct: Expression) => onlyOrderChanges(input, correct) || onlyOrderChanges(input, correct.combine(['splitFractions'], ['mergeFractionSums'])),
@@ -56,12 +56,12 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['a', 'b', 'c'], data)
-			case 2: return compare('solutionFull', data)
-			case 3: return compare('D', data)
-			case 4: return compare('numSolutions', data)
-			case 5: return compareList(['ans1', 'ans2'], data)
-			default: return compare('numSolutions', data) && compareList(['ans1', 'ans2'], data)
+			case 1: return compareInputs(['a', 'b', 'c'], data)
+			case 2: return compareInputs('solutionFull', data)
+			case 3: return compareInputs('D', data)
+			case 4: return compareInputs('numSolutions', data)
+			case 5: return compareInputList(['ans1', 'ans2'], data)
+			default: return compareInputs('numSolutions', data) && compareInputList(['ans1', 'ans2'], data)
 		}
 	},
 })

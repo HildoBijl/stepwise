@@ -1,6 +1,6 @@
 import { randomInteger, sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -11,7 +11,7 @@ export default buildStepExercise({
 		skill: 'calculateEntropyChange',
 		...createStepExerciseMetadata(['calculateWithTemperature', 'specificHeats', 'solveLinearEquation']),
 		weight: 2,
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } },
 			c: { float: { relativeTolerance: 0.015 } },
 			T1: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
@@ -39,9 +39,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['T1', 'T2'], data)
-			case 2: return compare('c', data)
-			default: return compare('dS', data)
+			case 1: return compareInputs(['T1', 'T2'], data)
+			case 2: return compareInputs('c', data)
+			default: return compareInputs('dS', data)
 		}
 	},
 })

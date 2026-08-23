@@ -1,7 +1,8 @@
-import { type NumberEqualityOptionsInput, numbersEqual, resolveNumberEqualityOptions } from '@step-wise/js-utils'
+import { type NumberEqualityOptionsInput, ensureInteger, numbersEqual, resolveNumberEqualityOptions } from '@step-wise/js-utils'
 
-export function compareInteger(input: number, correct: number, options: NumberEqualityOptionsInput = {}): boolean {
+export function compareInteger(inputValue: number, expectedValue: number, options: NumberEqualityOptionsInput = {}): boolean {
+	inputValue = ensureInteger(inputValue)
+	expectedValue = ensureInteger(expectedValue)
 	const { absoluteTolerance, relativeTolerance } = resolveNumberEqualityOptions(options)
-	if (typeof input !== 'number' || typeof correct !== 'number') throw new Error(`Invalid integer comparison: received parameters that were not numbers.`)
-	return numbersEqual(input, correct, { absoluteTolerance, relativeTolerance })
+	return numbersEqual(inputValue, expectedValue, { absoluteTolerance, relativeTolerance })
 }

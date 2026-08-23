@@ -3,14 +3,14 @@ import { type EquationEqualityOptionsInput, Equation, EquationType } from '@step
 
 import type { TypeCompareFunction } from '../types'
 
-export function compareExpression(input: unknown, correct: unknown, options: ExpressionEqualityOptionsInput): boolean {
-	if (!(correct instanceof Expression) || !(input instanceof Expression)) throw new Error(`Invalid Expression comparison: received parameters that were not Expressions.`)
-	return correct.equals(input, options)
+export function compareExpression(inputValue: unknown, expectedValue: unknown, options: ExpressionEqualityOptionsInput): boolean {
+	if (!(expectedValue instanceof Expression) || !(inputValue instanceof Expression)) throw new Error(`Invalid Expression comparison: received parameters that were not Expressions.`)
+	return expectedValue.equals(inputValue, options)
 }
 
-export function compareEquation(input: unknown, correct: unknown, options: EquationEqualityOptionsInput): boolean {
-	if (!(correct instanceof Equation) || !(input instanceof Equation)) throw new Error(`Invalid Equation comparison: received parameters that were not Equations.`)
-	return correct.equals(input, options)
+export function compareEquation(inputValue: unknown, expectedValue: unknown, options: EquationEqualityOptionsInput): boolean {
+	if (!(expectedValue instanceof Equation) || !(inputValue instanceof Equation)) throw new Error(`Invalid Equation comparison: received parameters that were not Equations.`)
+	return expectedValue.equals(inputValue, options)
 }
 
 export const casCompareFunctions = {

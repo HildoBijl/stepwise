@@ -1,12 +1,12 @@
 import { sample } from '@step-wise/js-utils'
 import { Unit } from '@step-wise/physics-core'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'enterUnit',
-		compare: {
+		comparisons: {
 			ans: { target: 'unchanged' },
 		},
 	},
@@ -30,6 +30,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('ans', data)
+		return compareInputs('ans', data)
 	},
 })

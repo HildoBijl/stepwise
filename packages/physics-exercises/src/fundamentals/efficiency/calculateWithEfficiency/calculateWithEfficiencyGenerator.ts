@@ -1,11 +1,11 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithEfficiency',
-		compare: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -31,6 +31,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('eta', data)
+		return compareInputs('eta', data)
 	},
 })

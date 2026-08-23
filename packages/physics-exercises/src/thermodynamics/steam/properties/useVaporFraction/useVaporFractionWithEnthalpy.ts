@@ -2,7 +2,7 @@ import { randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { and } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { saturatedSteamByTemperature, saturatedSteamByPressure } from '@step-wise/physics-data'
 
@@ -11,7 +11,7 @@ export default buildStepExercise({
 		skill: 'useVaporFraction',
 		setup: and('lookUpSteamProperties', 'linearInterpolation'),
 		...createStepExerciseMetadata(['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.001 } },
 			x: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
 			s: { float: { relativeTolerance: 0.002, significantDigitTolerance: 1 } },
@@ -51,9 +51,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['hx0', 'hx1', 'sx0', 'sx1'], data)
-			case 2: return compare('x', data)
-			default: return compare('s', data)
+			case 1: return compareInputs(['hx0', 'hx1', 'sx0', 'sx1'], data)
+			case 2: return compareInputs('x', data)
+			default: return compareInputs('s', data)
 		}
 	},
 })

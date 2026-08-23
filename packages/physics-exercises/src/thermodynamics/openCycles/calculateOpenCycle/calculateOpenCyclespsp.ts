@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -8,7 +8,7 @@ const { Rs, k } = gasProperties.air
 const metadata = {
 	skill: 'calculateOpenCycle',
 	...createStepExerciseMetadata(['calculateOpenProcessStep', 'calculateOpenProcessStep', 'calculateOpenProcessStep']),
-	compare: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
+	comparisons: { FloatUnit: { float: { relativeTolerance: 0.015, significantDigitTolerance: 1 } } },
 }
 
 export function generateParameters() {
@@ -42,10 +42,10 @@ export default buildStepExercise({
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], data)
-			case 2: return compare(['p3', 'v3', 'T3'], data)
-			case 3: return compare(['p4', 'v4', 'T4'], data)
-			default: return compare(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], data)
+			case 1: return compareInputs(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], data)
+			case 2: return compareInputs(['p3', 'v3', 'T3'], data)
+			case 3: return compareInputs(['p4', 'v4', 'T4'], data)
+			default: return compareInputs(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], data)
 		}
 	},
 })

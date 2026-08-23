@@ -1,6 +1,6 @@
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseAirco',
 		...createStepExerciseMetadata(['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { absoluteTolerance: 0.001, significantDigitTolerance: 1 } },
 			endRH: { float: { absoluteTolerance: 0.04, significantDigitTolerance: 1 } },
 		},
@@ -37,9 +37,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('startAH', data)
-			case 2: return compare('endAH', data)
-			default: return compare('endRH', data)
+			case 1: return compareInputs('startAH', data)
+			case 2: return compareInputs('endAH', data)
+			default: return compareInputs('endRH', data)
 		}
 	},
 })

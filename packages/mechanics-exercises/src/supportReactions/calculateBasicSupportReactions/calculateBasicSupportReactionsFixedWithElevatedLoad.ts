@@ -1,7 +1,7 @@
 import { Vector } from '@step-wise/geometry'
 import { getRandomFloatUnit, FloatUnit } from '@step-wise/physics-core'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { createForce, createMoment, FBDComparison } from '@step-wise/engineering-mechanics'
 
 import { getDynamicSolution, getInputDependency } from './common'
@@ -9,7 +9,7 @@ import { getDynamicSolution, getInputDependency } from './common'
 const metadata = {
 	skill: 'calculateBasicSupportReactions',
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', undefined, 'calculateForceOrMoment']),
-	compare: {
+	comparisons: {
 		FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 		loads: FBDComparison,
 	},
@@ -55,11 +55,11 @@ export default buildStepExercise({
 	},
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('loads', data)
-			case 2: return compare('FAx', data)
-			case 3: return compare('FAy', data)
-			case 4: return compare('MA', data)
-			default: return compare('loads', data) && compare(['FAx', 'FAy', 'MA'], data)
+			case 1: return compareInputs('loads', data)
+			case 2: return compareInputs('FAx', data)
+			case 3: return compareInputs('FAy', data)
+			case 4: return compareInputs('MA', data)
+			default: return compareInputs('loads', data) && compareInputs(['FAx', 'FAy', 'MA'], data)
 		}
 	},
 })

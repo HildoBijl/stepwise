@@ -1,6 +1,6 @@
 import { sample } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateSpecificHeatAndMechanicalWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities']),
-		compare: {
+		comparisons: {
 			Rs: { float: { relativeTolerance: 0.015 } },
 			ratio: { float: { relativeTolerance: 0.01 } },
 			T: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 }, unit: { target: 'unchanged' } },
@@ -40,12 +40,12 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('process', data)
-			case 2: return compare('eq', data)
-			case 3: return compare('Rs', data)
-			case 4: return compare('ratio', data)
-			case 5: return compare('T', data)
-			default: return compare(['q', 'wt'], data)
+			case 1: return compareInputs('process', data)
+			case 2: return compareInputs('eq', data)
+			case 3: return compareInputs('Rs', data)
+			case 4: return compareInputs('ratio', data)
+			case 5: return compareInputs('T', data)
+			default: return compareInputs(['q', 'wt'], data)
 		}
 	},
 })

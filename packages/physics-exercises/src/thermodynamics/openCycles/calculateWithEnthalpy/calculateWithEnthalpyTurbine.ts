@@ -1,12 +1,12 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metadata: {
 		skill: 'calculateWithEnthalpy',
 		...createStepExerciseMetadata(['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -26,9 +26,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('wt', data)
-			case 2: return compare('q', data)
-			default: return compare('dh', data)
+			case 1: return compareInputs('wt', data)
+			case 2: return compareInputs('q', data)
+			default: return compareInputs('dh', data)
 		}
 	},
 })

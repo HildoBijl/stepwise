@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 import { generateParameters as generateParametersRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCyclespsp'
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'analyseOpenCycle',
 		...createStepExerciseMetadata(['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']]),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			eta: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } },
 		},
@@ -33,14 +33,14 @@ export default buildStepExercise({
 
 	checkInput(data, step, substep) {
 		switch (step) {
-			case 1: return compare(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], data)
-			case 2: return compare(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], data)
+			case 1: return compareInputs(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], data)
+			case 2: return compareInputs(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], data)
 			case 3:
 				switch (substep) {
-					case 1: return compare('eta', data)
-					case 2: return compare('mdot', data)
+					case 1: return compareInputs('eta', data)
+					case 2: return compareInputs('mdot', data)
 				}
-			default: return compare(['eta', 'mdot'], data)
+			default: return compareInputs(['eta', 'mdot'], data)
 		}
 	},
 })

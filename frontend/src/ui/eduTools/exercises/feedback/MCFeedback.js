@@ -1,5 +1,5 @@
 import { mapValues } from '@step-wise/js-utils'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 
@@ -35,7 +35,7 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 	let currInput = input[currParameter]
 	let currSolution = solution[currParameter]
 	if (currInput !== undefined && correct === undefined)
-		correct = compare(currParameter, exerciseData)
+		correct = compareInputs(currParameter, exerciseData)
 
 	// Attempt to determine "done". (Except for examples. Because they can be retried, they're never done.)
 	if (!example && done === undefined) {

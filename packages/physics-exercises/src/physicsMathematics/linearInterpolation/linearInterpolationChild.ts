@@ -1,13 +1,13 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metadata: {
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
-		compare: {
+		comparisons: {
 			FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
 			x: { absoluteTolerance: 0.005, significantDigitTolerance: 1 },
 		},
@@ -45,8 +45,8 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('x', data)
-			default: return compare(data.parameters.type === 1 ? 'W' : 'h', data)
+			case 1: return compareInputs('x', data)
+			default: return compareInputs(data.parameters.type === 1 ? 'W' : 'h', data)
 		}
 	},
 })

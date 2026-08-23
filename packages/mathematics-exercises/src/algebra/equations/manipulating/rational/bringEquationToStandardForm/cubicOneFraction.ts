@@ -3,7 +3,7 @@ import { gcd } from '@step-wise/math-tools'
 import { and } from '@step-wise/skill-setup'
 import { type Equation, type Expression, asEquation, expressionComparisons, equationChecks, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -39,7 +39,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'bringEquationToStandardForm',
 		...createStepExerciseMetadata(['multiplyAllEquationTerms', 'expandDoubleBrackets', and('moveEquationTerm', 'mergeSimilarTerms'), 'multiplyAllEquationTerms']),
-		compare: {
+		comparisons: {
 			multiplied: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && equivalent(input, correct),
 			expanded: (input: Equation, correct: Equation, solution: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, solution.variables.x) && !hasSumWithinProduct(input) && equivalent(input, correct),
 			moved: { compareLeft: expressionComparisons.constantMultiple, compareRight: expressionComparisons.exactEqual },
@@ -88,10 +88,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('multiplied', data)
-			case 2: return compare('expanded', data)
-			case 3: return compare('moved', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('multiplied', data)
+			case 2: return compareInputs('expanded', data)
+			case 3: return compareInputs('moved', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

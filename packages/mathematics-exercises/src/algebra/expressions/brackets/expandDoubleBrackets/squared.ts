@@ -1,7 +1,7 @@
 import { sample, randomInteger, count } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'expandDoubleBrackets',
 		...createStepExerciseMetadata(['rewritePower', 'expandBrackets', 'expandBrackets', 'mergeSimilarTerms']),
-		compare: {
+		comparisons: {
 			multiplication: (input: Expression, correct: Expression) => !input.some(factor => factor.isPower() && factor.base.isSum()) && equivalent(input, correct),
 			firstExpanded: (input: Expression, correct: Expression) => !input.some(term => term.isProduct() && count(term.factors, factor => factor.isSum()) > 1) && equivalent(input, correct),
 			allExpanded: (input: Expression, correct: Expression) => !hasSumWithinProduct(input) && !hasSumWithinPowerBase(input) && equivalent(input, correct),
@@ -54,10 +54,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('multiplication', data)
-			case 2: return compare('firstExpanded', data)
-			case 3: return compare('allExpanded', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('multiplication', data)
+			case 2: return compareInputs('firstExpanded', data)
+			case 3: return compareInputs('allExpanded', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

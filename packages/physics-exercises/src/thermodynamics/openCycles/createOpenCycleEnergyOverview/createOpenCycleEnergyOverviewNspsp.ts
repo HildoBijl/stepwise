@@ -1,6 +1,6 @@
 import { or } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -11,7 +11,7 @@ const { cv, cp } = gasProperties.air
 const metadata = {
 	skill: 'createOpenCycleEnergyOverview',
 	...createStepExerciseMetadata(['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')]),
-	compare: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
+	comparisons: { FloatUnit: { float: { relativeTolerance: 0.02, significantDigitTolerance: 1 } } },
 }
 
 function getCycleParameters(parameters: ReturnType<typeof generateParameters>) {
@@ -47,11 +47,11 @@ export default buildStepExercise({
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['q12', 'wt12'], data)
-			case 2: return compare(['q23', 'wt23'], data)
-			case 3: return compare(['q34', 'wt34'], data)
-			case 4: return compare(['q41', 'wt41'], data)
-			default: return compare(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], data)
+			case 1: return compareInputs(['q12', 'wt12'], data)
+			case 2: return compareInputs(['q23', 'wt23'], data)
+			case 3: return compareInputs(['q34', 'wt34'], data)
+			case 4: return compareInputs(['q41', 'wt41'], data)
+			default: return compareInputs(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], data)
 		}
 	},
 })

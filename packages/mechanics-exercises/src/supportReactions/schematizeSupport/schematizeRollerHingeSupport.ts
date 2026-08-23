@@ -1,6 +1,6 @@
 import { degreesToRadians, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
 import { compareLoadSets, createForce, isLoad } from '@step-wise/engineering-mechanics'
 
@@ -8,7 +8,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'schematizeSupport',
 		...createStepExerciseMetadata([undefined, undefined, undefined, undefined]),
-		compare: { loads: compareSupportLoads },
+		comparisons: { loads: compareSupportLoads },
 	},
 
 	generateParameters() {
@@ -33,10 +33,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('forcePerpendicular', data)
-			case 2: return compare('forceParallel', data)
-			case 3: return compare('moment', data)
-			default: return compare('loads', data)
+			case 1: return compareInputs('forcePerpendicular', data)
+			case 2: return compareInputs('forceParallel', data)
+			case 3: return compareInputs('moment', data)
+			default: return compareInputs('loads', data)
 		}
 	},
 })

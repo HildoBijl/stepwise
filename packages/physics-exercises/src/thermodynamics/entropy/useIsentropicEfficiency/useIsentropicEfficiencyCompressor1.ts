@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { gasProperties } from '@step-wise/physics-data'
 
 import { getCycle } from '../../gasTurbines/tools'
@@ -10,7 +10,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'useIsentropicEfficiency',
 		...createStepExerciseMetadata(['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -33,9 +33,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('T2p', data)
-			case 2: return compare(['wt', 'wti'], data)
-			default: return compare('etai', data)
+			case 1: return compareInputs('T2p', data)
+			case 2: return compareInputs(['wt', 'wti'], data)
+			default: return compareInputs('etai', data)
 		}
 	},
 })

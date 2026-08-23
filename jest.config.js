@@ -8,6 +8,7 @@ module.exports = {
 		'<rootDir>/packages/course-definition/',
 		'<rootDir>/packages/exercise-bundling/',
 		'<rootDir>/packages/exercise-definition/',
+		'<rootDir>/packages/exercise-grading/',
 		'<rootDir>/packages/input-exercises/',
 		'<rootDir>/packages/interpolation/',
 		'<rootDir>/packages/js-utils/',

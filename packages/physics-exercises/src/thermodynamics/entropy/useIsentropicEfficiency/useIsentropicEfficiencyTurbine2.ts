@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getCycle } from '../../steam/rankineCycle/tools'
 
@@ -7,7 +7,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'useIsentropicEfficiency',
 		...createStepExerciseMetadata(['calculateWithEnthalpy', 'solveLinearEquation', 'calculateWithEnthalpy']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -28,9 +28,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('wti', data)
-			case 2: return compare('wt', data)
-			default: return compare('h2', data)
+			case 1: return compareInputs('wti', data)
+			case 2: return compareInputs('wt', data)
+			default: return compareInputs('h2', data)
 		}
 	},
 })

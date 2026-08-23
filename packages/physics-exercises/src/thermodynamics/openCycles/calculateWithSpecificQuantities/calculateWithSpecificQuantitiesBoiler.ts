@@ -1,5 +1,5 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 export function generateParameters() {
@@ -12,7 +12,7 @@ export function generateParameters() {
 export default buildMonoExercise({
 	metadata: {
 		skill: 'calculateWithSpecificQuantities',
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters,
@@ -24,6 +24,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('q', data)
+		return compareInputs('q', data)
 	},
 })

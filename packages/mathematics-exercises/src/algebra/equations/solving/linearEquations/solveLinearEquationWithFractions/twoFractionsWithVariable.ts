@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Equation, type Expression, asExpression, asEquation, expressionComparisons, equationChecks } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -20,7 +20,7 @@ export default buildStepExercise({
 		skill: 'solveLinearEquationWithFractions',
 		...createStepExerciseMetadata(['moveEquationFactor', 'expandDoubleBrackets', 'solveLinearEquation']),
 		...{ factorMovedComparison, expandedComparison },
-		compare: {
+		comparisons: {
 			factorMoved: (input: Equation, correct: Equation, { variables }: { variables: Record<string, Expression> }) => !hasVariableInDenominator(input, variables.x) && correct.equals(input, factorMovedComparison),
 			expanded: (input: Equation, correct: Equation) => !hasSumWithinProduct(input) && correct.equals(input, expandedComparison),
 			ans: onlyOrderChanges,
@@ -54,9 +54,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('factorMoved', data)
-			case 2: return compare('expanded', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('factorMoved', data)
+			case 2: return compareInputs('expanded', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

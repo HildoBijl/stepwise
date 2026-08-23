@@ -1,12 +1,12 @@
 import { and } from '@step-wise/skill-setup'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
 	metadata: {
 		setup: and('calculateWithSpecificQuantities', 'massFlowTrick'),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.01, significantDigitTolerance: 1 } } },
 	},
 
 	generateParameters() {
@@ -22,6 +22,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('Vdot', data)
+		return compareInputs('Vdot', data)
 	},
 })

@@ -7,7 +7,7 @@ import type { PlainDataObject } from '@step-wise/js-utils'
  */
 
 // Metadata: extend with comparison options.
-export type InputExerciseMetadata = ExerciseMetadata & { compare?: Record<string, unknown> }
+export type InputExerciseMetadata = ExerciseMetadata & { comparisons?: Record<string, unknown> }
 
 // Actions: only allow input and giveUp actions.
 export type InputExerciseRawInput = Record<string, InputValue>

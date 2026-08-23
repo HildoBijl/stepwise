@@ -1,7 +1,7 @@
 import { sample, randomInteger, randomBoolean } from '@step-wise/js-utils'
 import { type Expression, asExpression, expressionChecks, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { filterVariables } from '#generationTools'
 
@@ -17,7 +17,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'simplifyFractionOfFractionsWithVariables',
 		...createStepExerciseMetadata(['rewriteNegativePower', 'multiplyDivideFractions', 'simplifyFractionWithVariables']),
-		compare: {
+		comparisons: {
 			withoutNegativeExponents: (input: Expression, correct: Expression) => !hasNegativeExponent(input) && equivalent(input, correct),
 			singleFraction: (input: Expression, correct: Expression) => input.isFraction() && !hasFractionWithinFraction(input) && equivalent(input, correct),
 			ans: (input: Expression, correct: Expression) => onlyOrderChanges(input.combine(), input.flatten()) && equivalent(input, correct),
@@ -65,9 +65,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('withoutNegativeExponents', data)
-			case 2: return compare('singleFraction', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('withoutNegativeExponents', data)
+			case 2: return compareInputs('singleFraction', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

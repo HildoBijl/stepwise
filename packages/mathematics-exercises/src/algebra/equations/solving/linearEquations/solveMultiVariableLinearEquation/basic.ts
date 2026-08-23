@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
 
@@ -14,7 +14,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'solveMultiVariableLinearEquation',
 		...createStepExerciseMetadata(['moveEquationTerm', 'pullFactorOutOfBrackets', 'multiplyAllEquationTerms']),
-		compare: {
+		comparisons: {
 			termsMoved: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.negate().normalize()), // Allow switches and minus signs.
 			pulledOut: (input: Equation, correct: Equation) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.mapRight(side => side.negate()).mapLeft(side => side.mapFactors((factor, index) => index === 1 ? factor.negate() : factor)).normalize()), // Allow switches and minus signs inside the brackets.
 			ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
@@ -55,9 +55,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('termsMoved', data)
-			case 2: return compare('pulledOut', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('termsMoved', data)
+			case 2: return compareInputs('pulledOut', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

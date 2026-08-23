@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { serializeAll } from '@step-wise/serialization'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { Par, M } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
@@ -29,7 +29,7 @@ function Solution({ x }) {
 
 
 function getFeedback(data) {
-	const correct = compare('ans', data)
+	const correct = compareInputs('ans', data)
 	return {
 		...getFieldInputFeedback(data, {
 			ans: [

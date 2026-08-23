@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'calculateSpecificHeatAndMechanicalWork',
 		...createStepExerciseMetadata(['recognizeProcessTypes', undefined, 'specificHeats', 'calculateWithTemperature', 'calculateWithSpecificQuantities']),
-		compare: {
+		comparisons: {
 			cp: { float: { relativeTolerance: 0.02 } },
 			T1: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },
 			T2: { float: { absoluteTolerance: 0.7, significantDigitTolerance: 2 } },
@@ -35,11 +35,11 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('process', data)
-			case 2: return compare('eq', data)
-			case 3: return compare('cp', data)
-			case 4: return compare(['T1', 'T2'], data)
-			default: return compare(['q', 'wt'], data)
+			case 1: return compareInputs('process', data)
+			case 2: return compareInputs('eq', data)
+			case 3: return compareInputs('cp', data)
+			case 4: return compareInputs(['T1', 'T2'], data)
+			default: return compareInputs(['q', 'wt'], data)
 		}
 	},
 })

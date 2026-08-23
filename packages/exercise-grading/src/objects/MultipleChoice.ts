@@ -1,16 +1,14 @@
 import { type MultipleChoiceValue } from '@step-wise/input-interpretation'
+import { ensureInteger, hasDuplicates } from '@step-wise/js-utils'
 
-export function compareMultipleChoice(input: MultipleChoiceValue, correct: MultipleChoiceValue): boolean {
-	if (!isMultipleChoiceValue(input) || !isMultipleChoiceValue(correct))	throw new Error(`Invalid multiple choice comparison: received parameters that were not numbers or number arrays.`)
-	const inputList = normalizeMultipleChoiceValue(input)
-	const correctList = normalizeMultipleChoiceValue(correct)
-	return inputList.length === correctList.length && inputList.every(item => correctList.includes(item))
+export function compareMultipleChoice(inputValue: MultipleChoiceValue, expectedValue: MultipleChoiceValue): boolean {
+	const inputList = ensureMultipleChoiceValue(inputValue)
+	const expectedList = ensureMultipleChoiceValue(expectedValue)
+	return inputList.length === expectedList.length && inputList.every(item => expectedList.includes(item))
 }
 
-function isMultipleChoiceValue(value: unknown): value is MultipleChoiceValue {
-	return typeof value === 'number' || (Array.isArray(value) && value.every(item => typeof item === 'number'))
-}
-
-function normalizeMultipleChoiceValue(value: MultipleChoiceValue): number[] {
-	return typeof value === 'number' ? [value] : value
+function ensureMultipleChoiceValue(value: unknown): number[] {
+	const values = (Array.isArray(value) ? value : [value]).map(option => ensureInteger(option, { nonNegative: true }))
+	if (hasDuplicates(values)) throw new Error(`Invalid multiple choice comparison: duplicate options are not allowed.`)
+	return values
 }

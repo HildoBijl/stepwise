@@ -1,6 +1,6 @@
 import { interpolateTableOutputs } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -9,7 +9,7 @@ export default buildStepExercise({
 	metadata: {
 		skill: 'createRankineCycleOverview',
 		...createStepExerciseMetadata(['lookUpSteamProperties', undefined, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction']),
-		compare: { FloatUnit: { float: { relativeTolerance: 0.002, significantDigitTolerance: 2 } } },
+		comparisons: { FloatUnit: { float: { relativeTolerance: 0.002, significantDigitTolerance: 2 } } },
 	},
 
 	generateParameters() {
@@ -43,12 +43,12 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('h4', data)
-			case 2: return compare('h1', data)
-			case 3: return compare(['h2', 's2'], data)
-			case 4: return compare('s3', data)
-			case 5: return compare('h3', data)
-			default: return compare(['h1', 'h2', 'h3', 'h4'], data)
+			case 1: return compareInputs('h4', data)
+			case 2: return compareInputs('h1', data)
+			case 3: return compareInputs(['h2', 's2'], data)
+			case 4: return compareInputs('s3', data)
+			case 5: return compareInputs('h3', data)
+			default: return compareInputs(['h1', 'h2', 'h3', 'h4'], data)
 		}
 	},
 })
