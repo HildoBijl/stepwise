@@ -1,4 +1,4 @@
-import { isInteger, isNumber } from '@step-wise/js-utils'
+import { isInteger, isPlainObject, hasOnlyKeys, ensureNumber } from '@step-wise/js-utils'
 
 export const FloatType = 'Float'
 export type FloatType = typeof FloatType
@@ -65,9 +65,11 @@ export function numberToFloatStorageValue(number: number): FloatStorageValue {
 }
 
 // Check if a FloatStorageValue has valid parameter values.
-export function validateFloatStorageValue(value: FloatStorageValue): FloatStorageValue {
-	if (!isNumber(value.number)) throw new Error(`Invalid FloatStorageValue: expected "number" to be a number, but received "${value.number}".`)
-	if (value.significantDigits !== Infinity && (!isInteger(value.significantDigits) || value.significantDigits < 0)) throw new Error(`Invalid FloatStorageValue: expected "significantDigits" to be a non-negative integer or Infinity, but received "${value.significantDigits}".`)
-	if (value.power !== undefined && !isInteger(value.power)) throw new Error(`Invalid FloatStorageValue: expected "power" to be an integer or undefined, but received "${value.power}".`)
-	return value
+export function validateFloatStorageValue(value: unknown): FloatStorageValue {
+	if (!isPlainObject(value) || !hasOnlyKeys(value, ['number', 'significantDigits', 'power'])) throw new TypeError(`Invalid FloatStorageValue: expected an object containing only "number", "significantDigits" and optionally "power".`)
+	const { number, significantDigits, power } = value
+	ensureNumber(number)
+	if (significantDigits !== Infinity && (!isInteger(significantDigits) || significantDigits < 0)) throw new Error(`Invalid FloatStorageValue: expected "significantDigits" to be a non-negative integer or Infinity, but received "${significantDigits}".`)
+	if (power !== undefined && !isInteger(power)) throw new Error(`Invalid FloatStorageValue: expected "power" to be an integer or undefined, but received "${power}".`)
+	return value as FloatStorageValue
 }

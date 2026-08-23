@@ -1,4 +1,4 @@
-import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, isInteger, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances } from '@step-wise/js-utils'
+import { type NumberEqualityOptions, type NumberEqualityResult, mergeDefaults, pickFromDefaults, isInteger, ensureBoolean, ensureNumber, defaultNumberEqualityOptions, adjustNumberTolerances, validateNumberEqualityOptions } from '@step-wise/js-utils'
 
 export type FloatEqualityOptions = NumberEqualityOptions & {
 	significantDigitTolerance: number
@@ -27,22 +27,26 @@ export type FloatEqualityResult = {
 }
 
 export function resolveFloatEqualityOptions(options: FloatEqualityOptionsInput = {}, minimumAbsoluteTolerance: number): FloatEqualityOptions {
-	return applyMinimumAbsoluteTolerance(validateFloatEqualityOptions(mergeDefaults(options, defaultFloatEqualityOptions)), minimumAbsoluteTolerance)
+	minimumAbsoluteTolerance = ensureNumber(minimumAbsoluteTolerance, { nonNegative: true })
+	const resolved = mergeDefaults(options, defaultFloatEqualityOptions)
+	validateFloatEqualityOptions(resolved)
+	return applyMinimumAbsoluteTolerance(resolved, minimumAbsoluteTolerance)
 }
 
-export function validateFloatEqualityOptions(options: FloatEqualityOptions): FloatEqualityOptions {
-	const { absoluteTolerance, relativeTolerance, significantDigitTolerance } = options
-	if (absoluteTolerance < 0) throw new Error(`Invalid FloatEqualityOptions: absoluteTolerance must be a non-negative number, but received "${absoluteTolerance}".`)
-	if (relativeTolerance < 0) throw new Error(`Invalid FloatEqualityOptions: relativeTolerance must be a non-negative number, but received "${relativeTolerance}".`)
+export function validateFloatEqualityOptions(options: FloatEqualityOptions): void {
+	validateNumberEqualityOptions(options)
+	const { significantDigitTolerance, checkPower } = options
 	if (significantDigitTolerance !== Infinity && (!isInteger(significantDigitTolerance) || significantDigitTolerance < 0)) throw new Error(`Invalid FloatEqualityOptions: significantDigitTolerance must be a non-negative integer, but received "${significantDigitTolerance}".`)
-	return options
+	ensureBoolean(checkPower)
 }
 
 export function applyMinimumAbsoluteTolerance(options: FloatEqualityOptions, minimumAbsoluteTolerance: number) {
+	minimumAbsoluteTolerance = ensureNumber(minimumAbsoluteTolerance, { nonNegative: true })
 	return { ...options, absoluteTolerance: Math.max(options.absoluteTolerance, minimumAbsoluteTolerance) }
 }
 
 export function adjustFloatTolerances(options: FloatEqualityOptionsInput, factor: number, minimumAbsoluteTolerance: number) {
+	factor = ensureNumber(factor, { nonNegative: true, nonZero: true })
 	const equalityOptions = resolveFloatEqualityOptions(options, minimumAbsoluteTolerance)
 	return applyMinimumAbsoluteTolerance({
 		...equalityOptions,

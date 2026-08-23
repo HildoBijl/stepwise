@@ -22,7 +22,7 @@ export function resolveFloatUnitEqualityOptions(options: FloatUnitEqualityOption
 	const settings = mergeDefaults(options, defaultFloatUnitEqualityOptions)
 	return {
 		float: resolveFloatEqualityOptions(settings.float, minimumAbsoluteTolerance),
-		unit: mergeDefaults(settings.unit, defaultFloatUnitEqualityOptions.unit),
+		unit: resolveUnitEqualityOptions(mergeDefaults(settings.unit, defaultFloatUnitEqualityOptions.unit)),
 	}
 }
 

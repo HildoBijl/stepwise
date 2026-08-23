@@ -1,5 +1,10 @@
+import { BaseUnit } from '../BaseUnit'
+import { Prefix } from '../Prefix'
+
 import { Unit, asUnit } from './Unit'
 import { unitsEqual, unitsEquivalent, unitsSimilar } from './comparisonFunctions'
+import { interpretUnitInputValue } from './inputValue'
+import { deserializeUnit, serializeUnit } from './serialization'
 
 describe('Unit', () => {
 	describe('construction', () => {
@@ -22,6 +27,17 @@ describe('Unit', () => {
 			expect(() => new Unit('unknown')).toThrow()
 			expect(() => new Unit('m / s / kg')).toThrow()
 			expect(() => new Unit('(m * s)')).toThrow()
+		})
+		test('rejects partially parsed input powers', () => {
+			expect(() => interpretUnitInputValue({ numerator: [{ text: 'm', power: '2junk' }] })).toThrow(/power/)
+		})
+	})
+
+	describe('definitions', () => {
+		test('rejects inconsistent prefixes and base units', () => {
+			expect(() => new Prefix({ letter: '', name: 'empty', exponent: 1 })).toThrow(/non-empty/)
+			expect(() => new BaseUnit({ letter: 'x', name: 'example', base: true, standard: false, toStandard: { unit: 'm' } })).toThrow(/base unit/)
+			expect(() => new BaseUnit({ letter: 'x', name: 'example', toStandard: { unit: 'm', factor: Infinity } })).toThrow(/finite/)
 		})
 	})
 
@@ -144,6 +160,21 @@ describe('Unit', () => {
 			expect(result.size.equal).toBe(false)
 			expect(result.size.exponentDifference).toBe(3)
 			expect(result.equal).toBe(false)
+		})
+		test('rejects invalid equality and simplification options', () => {
+			expect(() => new Unit('m').simplifyWithData({ target: 'invalid' as never })).toThrow(/target/)
+			expect(() => new Unit('m').equals('m', { checkSize: 'yes' as never })).toThrow(/boolean/)
+		})
+	})
+
+	describe('serialization', () => {
+		test('serializes and deserializes validated units', () => {
+			const unit = new Unit('kg * m / s^2')
+			expect(deserializeUnit(serializeUnit(unit))).toEqual(unit)
+		})
+		test('rejects malformed serialized units', () => {
+			expect(() => deserializeUnit({ type: 'Float', value: {} })).toThrow(/serialized Unit/)
+			expect(() => deserializeUnit({ type: 'Unit', value: { numerator: [{ unit: 'm', extra: true }] } })).toThrow(/UnitElementStorageValue/)
 		})
 	})
 })

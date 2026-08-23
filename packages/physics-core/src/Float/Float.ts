@@ -41,6 +41,7 @@ export class Float {
 	 */
 
 	get decimals(): number {
+		if (this.number === 0) return this.significantDigits === Infinity ? Infinity : this.significantDigits - 1
 		return this.significantDigits - Math.floor(Math.log10(Math.abs(this.number))) - 1
 	}
 
@@ -89,7 +90,7 @@ export class Float {
 	}
 
 	getDisplayNumber(power = this.getDisplayPower()): string {
-		if (this.number === 0) return '0'
+		if (this.number === 0) return this.significantDigits === Infinity || this.significantDigits <= 1 ? '0' : `0.${'0'.repeat(this.significantDigits - 1)}`
 		const number = roundToDigits(this.number / Math.pow(10, power), this.significantDigits)
 		let str = number.toString()
 		const digitsToAdd = this.significantDigits - getSignificantDigits(str)
@@ -199,18 +200,17 @@ export class Float {
 
 	setDecimals(decimals: number): Float {
 		decimals = ensureInteger(decimals)
-		const significantDigits = Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals)
+		const significantDigits = this.number === 0 ? decimals + 1 : Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals)
 		return this.setSignificantDigits(Math.max(significantDigits, 0))
 	}
 
 	// Round the number to equal the precision of its significant digits.
 	roundToPrecision(): Float {
 		const number = this.significantDigits === Infinity ? this.number : roundToDigits(this.number, this.significantDigits)
-		const digitsIncreased = number > this.number && Math.floor(Math.log10(number)) > Math.floor(Math.log10(this.number))
-		const significantDigits = this.significantDigits + (digitsIncreased ? 1 : 0)
+		const magnitudeIncreased = number !== 0 && this.number !== 0 && Math.floor(Math.log10(Math.abs(number))) > Math.floor(Math.log10(Math.abs(this.number)))
 		return new Float({
 			number,
-			significantDigits,
+			significantDigits: this.significantDigits + (magnitudeIncreased ? 1 : 0),
 			power: this.power,
 		})
 	}

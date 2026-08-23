@@ -1,4 +1,6 @@
-import { type Prefix } from '../Prefix'
+import { ensureBoolean, ensureInteger, ensureNumber, ensureObject, ensureString, hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
+
+import { Prefix } from '../Prefix'
 
 export type BaseUnitInput = {
 	letter: string
@@ -34,14 +36,26 @@ export class BaseUnit {
 
 	constructor(input: BaseUnitInput) {
 		// Check input edge cases.
+		ensureObject(input)
+		const letter = ensureString(input.letter, { nonEmpty: true })
+		const name = ensureString(input.name, { nonEmpty: true })
+		const plural = input.plural === undefined ? name : ensureString(input.plural, { nonEmpty: true })
+		if (input.standard !== undefined) ensureBoolean(input.standard)
+		if (input.base !== undefined) ensureBoolean(input.base)
+		if (input.base && !input.standard) throw new Error(`Invalid BaseUnit input: every base unit must also be a standard unit.`)
+		if (input.standardPrefix !== undefined && !(input.standardPrefix instanceof Prefix)) throw new TypeError(`Invalid BaseUnit input: standardPrefix must be a Prefix.`)
 		if (!!input.standard === !!input.toStandard) throw new Error(`Invalid BaseUnit input: every non-standard unit should have a toStandard object, and every standard unit should omit it.`)
 		if ((!input.standard || !!input.base) === !!input.toBase) throw new Error(`Invalid BaseUnit input: every standard non-base unit should have a toBase string, and every other unit should omit it.`)
+		if (input.toBase !== undefined) ensureString(input.toBase, { nonEmpty: true })
+		if (input.order !== undefined) ensureNumber(input.order)
+		validateBaseUnitConversion(input.toStandard)
 
 		// Store the input.
-		this.letter = input.letter
-		this.name = input.name
-		this.plural = input.plural ?? input.name
-		this.alternatives = input.alternatives === undefined ? [] : Array.isArray(input.alternatives) ? input.alternatives : [input.alternatives]
+		this.letter = letter
+		this.name = name
+		this.plural = plural
+		this.alternatives = (input.alternatives === undefined ? [] : Array.isArray(input.alternatives) ? input.alternatives : [input.alternatives]).map(alternative => ensureString(alternative, { nonEmpty: true }))
+		if (new Set([this.letter, ...this.alternatives]).size !== this.alternatives.length + 1) throw new Error(`Invalid BaseUnit input: letter and alternatives must be unique.`)
 		this.standard = input.standard ?? false
 		this.standardPrefix = input.standardPrefix
 		this.toStandard = input.toStandard
@@ -59,7 +73,7 @@ export class BaseUnit {
 	}
 
 	equalsString(str: string): boolean {
-		if (typeof str !== 'string') throw new Error(`Invalid input: expected a string, but received "${str}".`)
+		str = ensureString(str)
 		return this.letter === str || this.alternatives.includes(str)
 	}
 
@@ -70,4 +84,14 @@ export class BaseUnit {
 	get defaultPrefixExponent(): number {
 		return this.standardPrefix?.exponent ?? 0
 	}
+}
+
+function validateBaseUnitConversion(conversion?: BaseUnitToStandard): void {
+	if (conversion === undefined) return
+	ensureObject(conversion)
+	if (!isPlainObject(conversion) || !hasOnlyKeys(conversion, ['unit', 'factor', 'exponent', 'difference'])) throw new TypeError(`Invalid BaseUnit conversion: expected an object containing only unit, factor, exponent and difference.`)
+	ensureString(conversion.unit)
+	if (conversion.factor !== undefined) ensureNumber(conversion.factor, { nonZero: true })
+	if (conversion.exponent !== undefined) ensureInteger(conversion.exponent)
+	if (conversion.difference !== undefined) ensureNumber(conversion.difference)
 }

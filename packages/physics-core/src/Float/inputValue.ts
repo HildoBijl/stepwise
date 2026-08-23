@@ -29,6 +29,7 @@ function inputValueToStorageValue(value: FloatInputValue) {
 
 	// Interpret the input.
 	power = power === undefined || power === '' ? '0' : power
+	if (!/^-?\d+$/.test(power)) throw new InterpretationError(`Could not interpret the power "${power}" as an integer.`, 'InvalidPower')
 	const parsedPower = parseInt(power)
 	return {
 		number: parseFloat(number) * Math.pow(10, parsedPower),

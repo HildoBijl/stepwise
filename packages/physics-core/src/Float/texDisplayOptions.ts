@@ -9,5 +9,7 @@ export const defaultTexDisplayOptions = {
 } satisfies TexDisplayOptions
 
 export function resolveTexDisplayOptions(options?: TexDisplayOptionsInput): TexDisplayOptions {
-	return mergeDefaults(options ?? {}, defaultTexDisplayOptions)
+	const resolved = mergeDefaults(options ?? {}, defaultTexDisplayOptions)
+	if (resolved.decimalSeparator !== ',' && resolved.decimalSeparator !== '.') throw new RangeError(`Invalid decimal separator "${resolved.decimalSeparator}".`)
+	return resolved
 }

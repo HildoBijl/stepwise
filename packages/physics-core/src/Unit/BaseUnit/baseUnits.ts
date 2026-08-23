@@ -1,8 +1,6 @@
-import { prefixes } from '../Prefix/index'
+import { prefixes } from '../Prefix'
 
 import { BaseUnit } from './BaseUnit'
-
-export const specialUnitSymbols = ['Ω', 'μ', '°', '∘', '%']
 
 export const baseUnitList = [
 	new BaseUnit({ letter: 'm', name: 'meter', plural: 'meters', order: 3, standard: true, base: true }),
@@ -34,3 +32,5 @@ export const baseUnitList = [
 ] as const
 
 export const baseUnits = Object.fromEntries(baseUnitList.map(unit => [unit.letter, unit])) as Record<string, BaseUnit>
+
+export const specialUnitSymbols = ['Ω', 'μ', '°', '∘', '%']

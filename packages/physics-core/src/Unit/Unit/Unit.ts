@@ -3,7 +3,7 @@ import { ensureInteger, shallowEqual } from '@step-wise/js-utils'
 import { type UnitElement, type UnitElementStorageValue } from '../UnitElement'
 
 import { type UnitElementArray, type UnitStorageValue, type UnitInput, UnitType, splitUnitString, asUnitElementArray } from './interpreting'
-import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, getUnitSimplificationTargetRank, compareUnitElements } from './simplification'
+import { type UnitSimplificationOptionsInput, type UnitTransformationData, resolveUnitSimplificationOptions, compareUnitElements } from './simplification'
 import { type UnitEqualityOptionsInput, type UnitEqualityResult, compareUnitTransformationSize, resolveUnitEqualityOptions } from './comparison'
 
 const unitColor = '#044488'
@@ -257,8 +257,8 @@ export class Unit {
 	// Use custom simplification options.
 	simplifyWithData(options?: UnitSimplificationOptionsInput): UnitTransformationData<Unit> {
 		const simplificationOptions = resolveUnitSimplificationOptions(options)
-		const rank = getUnitSimplificationTargetRank(simplificationOptions.target)
-		let data = rank >= 3 ? this.toBaseUnitsWithData() : rank >= 2 ? this.toStandardUnitsWithData() : rank >= 1 ? this.removePrefixesWithData() : { unit: this, exponent: 0, factor: 1, difference: 0 }
+		const { target } = simplificationOptions
+		let data = target === 'base' ? this.toBaseUnitsWithData() : target === 'standard' ? this.toStandardUnitsWithData() : target === 'noPrefixes' ? this.removePrefixesWithData() : { unit: this, exponent: 0, factor: 1, difference: 0 }
 		if (simplificationOptions.combine) data = { ...data, unit: data.unit.combine() }
 		if (simplificationOptions.sort) data = { ...data, unit: data.unit.sort() }
 		return data

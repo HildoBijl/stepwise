@@ -1,4 +1,4 @@
-import { ensureInteger } from '@step-wise/js-utils'
+import { ensureInteger, ensureObject, ensureString } from '@step-wise/js-utils'
 
 export type PrefixInput = {
 	letter: string
@@ -14,10 +14,12 @@ export class Prefix {
 	readonly alternatives: string[]
 
 	constructor(input: PrefixInput) {
-		this.letter = input.letter
-		this.name = input.name
+		ensureObject(input)
+		this.letter = ensureString(input.letter, { nonEmpty: true })
+		this.name = ensureString(input.name, { nonEmpty: true })
 		this.exponent = ensureInteger(input.exponent)
-		this.alternatives = input.alternatives === undefined ? [] : Array.isArray(input.alternatives) ? input.alternatives : [input.alternatives]
+		this.alternatives = (input.alternatives === undefined ? [] : Array.isArray(input.alternatives) ? input.alternatives : [input.alternatives]).map(alternative => ensureString(alternative, { nonEmpty: true }))
+		if (new Set([this.letter, ...this.alternatives]).size !== this.alternatives.length + 1) throw new Error(`Invalid Prefix input: letter and alternatives must be unique.`)
 	}
 
 	get str(): string {
@@ -29,6 +31,7 @@ export class Prefix {
 	}
 
 	equalsString(str: string): boolean {
+		str = ensureString(str)
 		return this.letter === str || this.alternatives.includes(str)
 	}
 

@@ -55,6 +55,7 @@ function unitElementInputValueToStorageValue(element: UnitElementInputValue): Un
 
 	// Parse the power.
 	power = power === undefined || power === '' ? '1' : power
+	if (!/^\d+$/.test(power)) throw new InterpretationError(`Could not interpret the unit power "${power}" as a positive integer.`, 'InvalidPower')
 	const parsedPower = parseInt(power)
 	if (!Number.isInteger(parsedPower) || parsedPower <= 0) throw new InterpretationError(`Could not interpret a non-positive or invalid unit power.`, 'InvalidPower')
 

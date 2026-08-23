@@ -1,7 +1,7 @@
 import { Float, asFloat } from './Float'
 import { deserializeFloat, serializeFloat } from './serialization'
 import { floatToInputValue, interpretFloatInputValue, isFloatInputValue } from './inputValue'
-	import { getRandomExponentialFloat, getRandomFloat } from './random'
+import { getRandomExponentialFloat, getRandomFloat, resolveRandomExponentialFloatOptions, resolveRandomFloatOptions } from './random'
 
 describe('Float', () => {
 	describe('construction', () => {
@@ -24,6 +24,10 @@ describe('Float', () => {
 			expect(asFloat(x)).toBe(x)
 			expect(asFloat('3.14')).toEqual(x)
 		})
+		test('rejects non-finite values', () => {
+			expect(() => new Float(Infinity)).toThrow(/finite/)
+			expect(() => new Float(-Infinity)).toThrow(/finite/)
+		})
 	})
 
 	describe('display', () => {
@@ -43,6 +47,11 @@ describe('Float', () => {
 			expect(new Float('3.14 * 10^2').hasVisiblePower()).toBe(true)
 			expect(new Float('10^2').hasVisiblePower()).toBe(true)
 		})
+		test('preserves the precision of zero', () => {
+			expect(new Float('0.00').decimals).toBe(2)
+			expect(new Float('0.00').toString()).toBe('0.00')
+			expect(new Float(0).setDecimals(2).toString()).toBe('0.00')
+		})
 	})
 
 	describe('precision operations', () => {
@@ -55,6 +64,10 @@ describe('Float', () => {
 		test('rounds to precision', () => {
 			const x = new Float({ number: 3.14159, significantDigits: 3 })
 			expect(x.roundToPrecision().number).toBe(3.14)
+		})
+		test('preserves decimals when rounding across a power of ten', () => {
+			expect(new Float({ number: 9.99, significantDigits: 2 }).roundToPrecision().toString()).toBe('10.0')
+			expect(new Float({ number: -9.99, significantDigits: 2 }).roundToPrecision().toString()).toBe('-10.0')
 		})
 		test('makes values exact', () => {
 			const x = new Float('3.14').makeExact()
@@ -121,6 +134,10 @@ describe('Float', () => {
 			})
 			expect(deserializeFloat(serialized)).toEqual(x)
 		})
+		test('rejects invalid serialized values', () => {
+			expect(() => deserializeFloat({ type: 'Unit', value: { number: 3, significantDigits: 1 } })).toThrow(/serialized Float/)
+			expect(() => deserializeFloat({ type: 'Float', value: { number: Infinity, significantDigits: 1 } })).toThrow(/finite/)
+		})
 	})
 
 	describe('input values', () => {
@@ -143,10 +160,15 @@ describe('Float', () => {
 			expect(() => interpretFloatInputValue({ number: '-' })).toThrow()
 			expect(() => interpretFloatInputValue({ number: '.' })).toThrow()
 			expect(() => interpretFloatInputValue({ number: '3.14', power: '-' })).toThrow()
+			expect(() => interpretFloatInputValue({ number: '3.14', power: '2junk' })).toThrow(/power/)
 		})
 	})
 
 	describe('random floats', () => {
+		test('resolves random options and applies defaults', () => {
+			expect(resolveRandomFloatOptions({ min: 2, max: 5 })).toEqual({ min: 2, max: 5, decimals: undefined, significantDigits: undefined, round: true, prevent: [] })
+			expect(resolveRandomExponentialFloatOptions({ min: 2, max: 5, randomSign: true })).toEqual({ min: 2, max: 5, decimals: undefined, significantDigits: undefined, round: true, prevent: [], negative: false, randomSign: true })
+		})
 		test('generates floats within bounds', () => {
 			for (let i = 0; i < 10; i++) {
 				const x = getRandomFloat({ min: 2, max: 5 })
@@ -160,6 +182,9 @@ describe('Float', () => {
 				expect(x.number).toBeGreaterThanOrEqual(0.01)
 				expect(x.number).toBeLessThanOrEqual(100)
 			}
+		})
+		test('throws when prevented values make sampling impossible', () => {
+			expect(() => getRandomFloat({ min: 2, max: 2, prevent: 2 })).toThrow(/could not generate an allowed value/)
 		})
 	})
 })

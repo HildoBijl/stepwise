@@ -1,22 +1,13 @@
-import { mergeDefaults } from '@step-wise/js-utils'
+import { ensureBoolean, mergeDefaults } from '@step-wise/js-utils'
 
 import { type UnitElement } from '../UnitElement'
 
 /*
- * Simplification target rank: to what depth/form do we simplify units?
+ * Simplification targets: to what depth/form do we simplify units?
  */
 
-export const unitSimplificationTargetRanks = {
-	unchanged: 0,
-	noPrefixes: 1,
-	standard: 2,
-	base: 3,
-} as const
-export type UnitSimplificationTarget = keyof typeof unitSimplificationTargetRanks
-
-export function getUnitSimplificationTargetRank(target: UnitSimplificationTarget): number {
-	return unitSimplificationTargetRanks[target]
-}
+export const unitSimplificationTargets = ['unchanged', 'noPrefixes', 'standard', 'base'] as const
+export type UnitSimplificationTarget = typeof unitSimplificationTargets[number]
 
 /*
  * Simplification options: what are the full options for simplifying units?
@@ -36,7 +27,9 @@ export const defaultUnitSimplificationOptions = {
 } satisfies UnitSimplificationOptions
 
 export function resolveUnitSimplificationOptions(options: UnitSimplificationOptionsInput = {}): UnitSimplificationOptions {
-	return mergeDefaults(options, defaultUnitSimplificationOptions)
+	const resolved = mergeDefaults(options, defaultUnitSimplificationOptions)
+	if (!unitSimplificationTargets.includes(resolved.target)) throw new RangeError(`Invalid unit simplification target "${resolved.target}".`)
+	return { target: resolved.target, combine: ensureBoolean(resolved.combine), sort: ensureBoolean(resolved.sort) }
 }
 
 /*

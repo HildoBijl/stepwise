@@ -4,7 +4,7 @@ import { Unit } from '../Unit'
 import { FloatUnit, asFloatUnit } from './FloatUnit'
 import { deserializeFloatUnit, serializeFloatUnit } from './serialization'
 import { floatUnitToInputValue, interpretFloatUnitInputValue, isFloatUnitInputValue } from './inputValue'
-import { getRandomExponentialFloatUnit, getRandomFloatUnit } from './random'
+import { getRandomExponentialFloatUnit, getRandomFloatUnit, resolveRandomExponentialFloatUnitOptions, resolveRandomFloatUnitOptions } from './random'
 
 describe('FloatUnit', () => {
 	describe('construction', () => {
@@ -52,6 +52,10 @@ describe('FloatUnit', () => {
 				},
 			})
 			expect(deserializeFloatUnit(serialized)).toEqual(x)
+		})
+		test('rejects malformed serialized quantities', () => {
+			expect(() => deserializeFloatUnit({ type: 'Float', value: {} })).toThrow(/serialized FloatUnit/)
+			expect(() => deserializeFloatUnit({ type: 'FloatUnit', value: { float: { number: 1, significantDigits: 1 }, unit: { extra: true } } })).toThrow(/UnitStorageValue/)
 		})
 	})
 
@@ -149,6 +153,10 @@ describe('FloatUnit', () => {
 			expect(new FloatUnit('2 m').equals('200 cm', { unit: { checkSize: false } })).toBe(true)
 			expect(new FloatUnit('2 m').equals('200 cm', { unit: { checkSize: true } })).toBe(false)
 		})
+		test('rejects invalid comparison options', () => {
+			expect(() => new FloatUnit('2 m').equals('2 m', { float: { checkPower: 'yes' as never } })).toThrow(/boolean/)
+			expect(() => new FloatUnit('2 m').equals('2 m', { unit: { target: 'invalid' as never } })).toThrow(/target/)
+		})
 	})
 
 	describe('input values', () => {
@@ -177,6 +185,10 @@ describe('FloatUnit', () => {
 	})
 
 	describe('random FloatUnits', () => {
+		test('resolves random FloatUnit options', () => {
+			expect(resolveRandomFloatUnitOptions({ min: 2, max: 5, unit: 'm' })).toMatchObject({ min: 2, max: 5, round: true, prevent: [], unit: new Unit('m') })
+			expect(resolveRandomExponentialFloatUnitOptions({ min: 2, max: 5, unit: 'm' })).toMatchObject({ min: 2, max: 5, negative: false, randomSign: false, unit: new Unit('m') })
+		})
 		test('generates FloatUnits within bounds and with unit', () => {
 			for (let i = 0; i < 10; i++) {
 				const x = getRandomFloatUnit({ min: 2, max: 5, unit: 'm' })
