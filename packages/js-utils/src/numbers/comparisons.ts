@@ -67,8 +67,8 @@ export function checkNumberEquality(input: number, reference: number, options: N
 	const absoluteDifference = getAbsoluteDifference(input, reference)
 	const relativeDifference = getRelativeDifference(input, reference)
 
-	const absoluteEqual = absoluteDifference <= equalityOptions.absoluteTolerance + epsilon
-	const relativeEqual = relativeDifference <= equalityOptions.relativeTolerance + epsilon
+	const absoluteEqual = absoluteDifference <= equalityOptions.absoluteTolerance
+	const relativeEqual = relativeDifference <= equalityOptions.relativeTolerance
 	const equal = absoluteEqual || relativeEqual
 
 	return {

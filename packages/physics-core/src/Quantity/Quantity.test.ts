@@ -145,6 +145,9 @@ describe('Quantity', () => {
 			expect(new Quantity('2.00 m').equals('200 cm')).toBe(true)
 			expect(new Quantity('2.00 m').equals('2.00 s')).toBe(false)
 		})
+		test('rejects large relative errors for very small values', () => {
+			expect(new Quantity('1.602176634 * 10^-19 C').equals('1.6 * 10^-17 C', { value: { relativeTolerance: 0.0001 } })).toBe(false)
+		})
 		test('returns structured equality results', () => {
 			const result = new Quantity('2.00 m').checkEquality('201 cm')
 			expect(result.equal).toBe(false)
