@@ -1,6 +1,6 @@
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { maximumHumidity } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -39,11 +39,11 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('startAH', data)
-			case 2: return compare('endAH', data)
-			case 3: return compare('T3', data)
-			case 4: return compare('dAH', data)
-			default: return compare(['T3', 'dAH'], data)
+			case 1: return compareInputs('startAH', data)
+			case 2: return compareInputs('endAH', data)
+			case 3: return compareInputs('T3', data)
+			case 4: return compareInputs('dAH', data)
+			default: return compareInputs(['T3', 'dAH'], data)
 		}
 	},
 })

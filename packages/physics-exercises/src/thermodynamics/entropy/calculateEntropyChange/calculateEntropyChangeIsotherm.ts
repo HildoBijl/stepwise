@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 const metadata = {
@@ -37,10 +37,10 @@ export default buildStepExercise({
 	getSolution,
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['Tw', 'Tc'], data)
-			case 2: return compare('dSc', data)
-			case 3: return compare('dSw', data)
-			default: return compare('dS', data)
+			case 1: return compareInputs(['Tw', 'Tc'], data)
+			case 2: return compareInputs('dSc', data)
+			case 3: return compareInputs('dSw', data)
+			default: return compareInputs('dS', data)
 		}
 	},
 })

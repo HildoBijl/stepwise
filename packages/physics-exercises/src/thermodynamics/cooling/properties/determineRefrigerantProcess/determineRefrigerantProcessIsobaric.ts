@@ -1,6 +1,6 @@
 import { sample, randomBoolean } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit, getRandomExponentialFloatUnit } from '@step-wise/physics-core'
 import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getVaporPropertiesFromTemperature, getVaporPropertiesFromPressure } from '@step-wise/physics-data'
 
@@ -63,6 +63,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare(['h1', 'h2'], data)
+		return compareInputs(['h1', 'h2'], data)
 	},
 })

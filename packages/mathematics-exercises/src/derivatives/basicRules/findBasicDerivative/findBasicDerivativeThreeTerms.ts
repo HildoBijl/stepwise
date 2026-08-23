@@ -1,7 +1,7 @@
 import { sample, randomInteger } from '@step-wise/js-utils'
 import { expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getRandomElementaryFunctions, getElementaryFunctionFromTerm } from '../../tools'
 
@@ -42,17 +42,17 @@ export default buildStepExercise({
 		switch (step) {
 			case 1:
 				switch (substep) {
-					case 1: return compare('f1', data)
-					case 2: return compare('f2', data)
-					case 3: return compare('f3', data)
+					case 1: return compareInputs('f1', data)
+					case 2: return compareInputs('f2', data)
+					case 3: return compareInputs('f3', data)
 				}
 			case 2:
 				switch (substep) {
-					case 1: return compare('f1Derivative', data)
-					case 2: return compare('f2Derivative', data)
-					case 3: return compare('f3Derivative', data)
+					case 1: return compareInputs('f1Derivative', data)
+					case 2: return compareInputs('f2Derivative', data)
+					case 3: return compareInputs('f3Derivative', data)
 				}
-			default: return compare('derivative', data)
+			default: return compareInputs('derivative', data)
 		}
 	},
 })

@@ -1,6 +1,6 @@
 import { sample } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { getTemperatures } from '../../coolingCycles/tools'
 
@@ -23,6 +23,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare(['TEvap', 'TCond'], data)
+		return compareInputs(['TEvap', 'TCond'], data)
 	},
 })

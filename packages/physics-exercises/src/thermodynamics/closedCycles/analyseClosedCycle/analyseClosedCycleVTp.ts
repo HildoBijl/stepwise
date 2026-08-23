@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { generateParameters, getSolution as getCycleParameters } from '../calculateClosedCycle/calculateClosedCycleVTp'
 import { getSolution as getEnergyParameters } from '../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewVTp'
@@ -27,10 +27,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], data)
-			case 2: return compare(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], data)
-			case 3: return compare('choice', data)
-			default: return compare(['choice', 'eta'], data)
+			case 1: return compareInputs(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], data)
+			case 2: return compareInputs(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], data)
+			case 3: return compareInputs('choice', data)
+			default: return compareInputs(['choice', 'eta'], data)
 		}
 	},
 })

@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { refrigerants, getBoilingTemperature, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
@@ -62,14 +62,14 @@ export default buildStepExercise({
 
 	checkInput(data, step, substep) {
 		switch (step) {
-			case 1: return compare(['h1', 'h2p', 'h2', 'h3', 'h4'], data)
+			case 1: return compareInputs(['h1', 'h2p', 'h2', 'h3', 'h4'], data)
 			case 2:
 				switch (substep) {
-					case 1: return compare(['epsilon', 'COP'], data)
-					case 2: return compare('etai', data)
-					case 3: return compare('P', data)
+					case 1: return compareInputs(['epsilon', 'COP'], data)
+					case 2: return compareInputs('etai', data)
+					case 3: return compareInputs('P', data)
 				}
-			default: return compare(['epsilon', 'COP', 'etai', 'P'], data)
+			default: return compareInputs(['epsilon', 'COP', 'etai', 'P'], data)
 		}
 	},
 })

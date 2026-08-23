@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 import { generateParameters as generateParametersRaw, getSolution as getCycleParameters } from '../calculateOpenCycle/calculateOpenCycleTsp'
@@ -35,14 +35,14 @@ export default buildStepExercise({
 
 	checkInput(data, step, substep) {
 		switch (step) {
-			case 1: return compare(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3'], data)
-			case 2: return compare(['q12', 'wt12', 'q23', 'wt23', 'q31', 'wt31'], data)
+			case 1: return compareInputs(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3'], data)
+			case 2: return compareInputs(['q12', 'wt12', 'q23', 'wt23', 'q31', 'wt31'], data)
 			case 3:
 				switch (substep) {
-					case 1: return compare(['epsilon', 'COP'], data)
-					case 2: return compare('Pc', data)
+					case 1: return compareInputs(['epsilon', 'COP'], data)
+					case 2: return compareInputs('Pc', data)
 				}
-			default: return compare(['epsilon', 'COP', 'Pc'], data)
+			default: return compareInputs(['epsilon', 'COP', 'Pc'], data)
 		}
 	},
 })

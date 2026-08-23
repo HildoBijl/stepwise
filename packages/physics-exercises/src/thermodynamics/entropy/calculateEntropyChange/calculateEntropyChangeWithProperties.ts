@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -38,13 +38,13 @@ export default buildStepExercise({
 	getSolution,
 	checkInput(data, step, substep) {
 		switch (step) {
-			case 1: return compare('T2', data)
+			case 1: return compareInputs('T2', data)
 			case 2:
 				switch (substep) {
-					case 1: return compare('Rs', data)
-					case 2: return compare('cp', data)
+					case 1: return compareInputs('Rs', data)
+					case 2: return compareInputs('cp', data)
 				}
-			default: return compare('ds', data)
+			default: return compareInputs('ds', data)
 		}
 	},
 })

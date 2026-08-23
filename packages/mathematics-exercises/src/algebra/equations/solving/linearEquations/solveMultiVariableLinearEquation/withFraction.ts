@@ -2,7 +2,7 @@ import { sample, randomInteger } from '@step-wise/js-utils'
 import { repeat } from '@step-wise/skill-setup'
 import { type Equation, asEquation, expressionComparisons, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables, filterVariables } from '#generationTools'
 
@@ -56,9 +56,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('termsMoved', data)
-			case 2: return compare('pulledOut', data)
-			default: return compare('ans', data)
+			case 1: return compareInputs('termsMoved', data)
+			case 2: return compareInputs('pulledOut', data)
+			default: return compareInputs('ans', data)
 		}
 	},
 })

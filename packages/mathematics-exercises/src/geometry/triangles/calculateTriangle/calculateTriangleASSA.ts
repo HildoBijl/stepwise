@@ -1,7 +1,7 @@
 import { epsilon, degreesToRadians, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare, compareList } from '@step-wise/exercise-grading'
+import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
 import { selectRandomVariables } from '#generationTools'
 
@@ -51,9 +51,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('numSolutions', data) && compareList(['γ1', 'γ2'], data)
-			case 2: return compareList(['β1', 'β2'], data)
-			default: return compare('numSolutions', data) && compareList(['β1', 'β2'], data)
+			case 1: return compareInputs('numSolutions', data) && compareInputList(['γ1', 'γ2'], data)
+			case 2: return compareInputList(['β1', 'β2'], data)
+			default: return compareInputs('numSolutions', data) && compareInputList(['β1', 'β2'], data)
 		}
 	},
 })

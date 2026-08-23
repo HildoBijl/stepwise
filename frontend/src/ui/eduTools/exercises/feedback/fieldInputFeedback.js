@@ -3,7 +3,7 @@ import { isValidElement } from 'react'
 import { findWithValue, isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
 import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
-import { compare as gradingCompare } from '@step-wise/exercise-grading'
+import { compareInputs as gradingCompare } from '@step-wise/exercise-grading'
 
 import { Translation } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomNonNumeric } from 'ui/inputs'

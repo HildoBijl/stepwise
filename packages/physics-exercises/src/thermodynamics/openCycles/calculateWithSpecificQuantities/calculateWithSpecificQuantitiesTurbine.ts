@@ -1,5 +1,5 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildMonoExercise({
@@ -22,6 +22,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('Wt', data)
+		return compareInputs('Wt', data)
 	},
 })

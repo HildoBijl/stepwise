@@ -1,6 +1,6 @@
 import { degreesToRadians, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
 import { type Load, createForce, createMoment, deriveLoadNames, getAxisComponents, isForce } from '@step-wise/engineering-mechanics'
@@ -65,9 +65,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('method', data)
-			case 2: return compare('FAy', data)
-			default: return compare('FA', data)
+			case 1: return compareInputs('method', data)
+			case 2: return compareInputs('FAy', data)
+			default: return compareInputs('FA', data)
 		}
 	},
 })

@@ -2,7 +2,7 @@ import { sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/j
 import { and } from '@step-wise/skill-setup'
 import { type Equation, asExpression, asEquation, equationComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 const variableSet = ['α', 'β', 'γ']
 
@@ -44,11 +44,11 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('rule', data)
-			case 2: return compare('equation', data)
-			case 3: return compare('numSolutions', data)
-			case 4: return compare('α', data)
-			default: return compare(['numSolutions', 'α'], data)
+			case 1: return compareInputs('rule', data)
+			case 2: return compareInputs('equation', data)
+			case 3: return compareInputs('numSolutions', data)
+			case 4: return compareInputs('α', data)
+			default: return compareInputs(['numSolutions', 'α'], data)
 		}
 	},
 })

@@ -1,10 +1,10 @@
 import { type MultipleChoiceValue } from '@step-wise/input-interpretation'
 import { ensureInteger, hasDuplicates } from '@step-wise/js-utils'
 
-export function compareMultipleChoice(input: MultipleChoiceValue, correct: MultipleChoiceValue): boolean {
-	const inputList = ensureMultipleChoiceValue(input)
-	const correctList = ensureMultipleChoiceValue(correct)
-	return inputList.length === correctList.length && inputList.every(item => correctList.includes(item))
+export function compareMultipleChoice(inputValue: MultipleChoiceValue, expectedValue: MultipleChoiceValue): boolean {
+	const inputList = ensureMultipleChoiceValue(inputValue)
+	const expectedList = ensureMultipleChoiceValue(expectedValue)
+	return inputList.length === expectedList.length && inputList.every(item => expectedList.includes(item))
 }
 
 function ensureMultipleChoiceValue(value: unknown): number[] {

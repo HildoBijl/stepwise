@@ -1,5 +1,5 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-core'
 
 // a*x^p = b*x^p + c
@@ -28,6 +28,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('ans', data)
+		return compareInputs('ans', data)
 	},
 })

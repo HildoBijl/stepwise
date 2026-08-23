@@ -1,4 +1,4 @@
 export * from './types'
-export * from './compare'
-export * from './compareList'
-export * from './compareValues'
+export * from './compareInputs'
+export * from './compareInputList'
+export * from './compareInputValue'

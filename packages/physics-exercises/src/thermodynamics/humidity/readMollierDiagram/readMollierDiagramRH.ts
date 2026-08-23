@@ -1,7 +1,7 @@
 import { first, last } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { maximumHumidity } from '@step-wise/physics-data'
 
@@ -27,6 +27,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('RH', data)
+		return compareInputs('RH', data)
 	},
 })

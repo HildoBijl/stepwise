@@ -1,6 +1,6 @@
 import { randomNumber } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -41,15 +41,15 @@ export default buildStepExercise({
 
 	checkInput(data, step, substep) {
 		switch (step) {
-			case 1: return compare('process', data)
-			case 2: return compare('eq', data)
-			case 3: return compare('k', data)
+			case 1: return compareInputs('process', data)
+			case 2: return compareInputs('eq', data)
+			case 3: return compareInputs('k', data)
 			case 4:
 				switch (substep) {
-					case 1: return compare(['V1s', 'V2s'], data)
-					case 2: return compare(['p1s', 'p2s'], data)
+					case 1: return compareInputs(['V1s', 'V2s'], data)
+					case 2: return compareInputs(['p1s', 'p2s'], data)
 				}
-			default: return compare(['Q', 'W'], data)
+			default: return compareInputs(['Q', 'W'], data)
 		}
 	},
 })

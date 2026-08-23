@@ -1,6 +1,6 @@
 import { interpolateTable, interpolateTableInput } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties, maximumHumidity } from '@step-wise/physics-data'
 
@@ -45,9 +45,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('T3', data)
-			case 2: return compare(['qcool', 'qheat'], data)
-			default: return compare(['Pcool', 'Pheat'], data)
+			case 1: return compareInputs('T3', data)
+			case 2: return compareInputs(['qcool', 'qheat'], data)
+			default: return compareInputs(['Pcool', 'Pheat'], data)
 		}
 	},
 })

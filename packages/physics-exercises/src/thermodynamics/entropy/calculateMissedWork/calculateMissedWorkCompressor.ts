@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 import { generateParameters, getSolution as getSolutionPrevious } from '../calculateEntropyChange/calculateEntropyChangeWithProperties'
 
@@ -25,12 +25,12 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('T2', data)
-			case 2: return compare('dsIn', data)
-			case 3: return compare('q', data)
-			case 4: return compare('dsOut', data)
-			case 5: return compare('ds', data)
-			default: return compare('wm', data)
+			case 1: return compareInputs('T2', data)
+			case 2: return compareInputs('dsIn', data)
+			case 3: return compareInputs('q', data)
+			case 4: return compareInputs('dsOut', data)
+			case 5: return compareInputs('ds', data)
+			default: return compareInputs('wm', data)
 		}
 	},
 })

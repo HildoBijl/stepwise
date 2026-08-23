@@ -1,5 +1,5 @@
 import { buildStepExercise, createStepExerciseMetadata, getInput } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { FloatUnit, getRandomFloatUnit } from '@step-wise/physics-core'
 import { gasProperties } from '@step-wise/physics-data'
 
@@ -39,13 +39,13 @@ export default buildStepExercise({
 		switch (step) {
 			case 1:
 				switch (substep) {
-					case 1: return compare('T1s', data)
-					case 2: return compare('p1s', data) && getInput('p1s', data, FloatUnit).unit.equals(getInput('p2s', data, FloatUnit).unit, { target: 'unchanged' })
-					case 3: return compare('p2s', data) && getInput('p1s', data, FloatUnit).unit.equals(getInput('p2s', data, FloatUnit).unit, { target: 'unchanged' })
+					case 1: return compareInputs('T1s', data)
+					case 2: return compareInputs('p1s', data) && getInput('p1s', data, FloatUnit).unit.equals(getInput('p2s', data, FloatUnit).unit, { target: 'unchanged' })
+					case 3: return compareInputs('p2s', data) && getInput('p1s', data, FloatUnit).unit.equals(getInput('p2s', data, FloatUnit).unit, { target: 'unchanged' })
 				}
-			case 2: return compare('k', data)
-			case 3: return compare('eq', data)
-			default: return compare('T2', data)
+			case 2: return compareInputs('k', data)
+			case 3: return compareInputs('eq', data)
+			default: return compareInputs('T2', data)
 		}
 	},
 })

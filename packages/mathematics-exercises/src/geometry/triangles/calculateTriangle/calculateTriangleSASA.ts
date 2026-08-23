@@ -1,7 +1,7 @@
 import { approximatelyEqual, sample, randomNumber, randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { type Expression, asExpression, asEquation } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']
@@ -49,10 +49,10 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare(['numSolutions', 'a'], data)
-			case 2: return compare('βRaw', data)
-			case 3: return compare('β', data)
-			default: return compare(['numSolutions', 'β'], data)
+			case 1: return compareInputs(['numSolutions', 'a'], data)
+			case 2: return compareInputs('βRaw', data)
+			case 3: return compareInputs('β', data)
+			default: return compareInputs(['numSolutions', 'β'], data)
 		}
 	},
 })

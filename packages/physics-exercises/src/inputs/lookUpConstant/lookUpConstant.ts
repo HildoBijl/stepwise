@@ -1,7 +1,7 @@
 import { sample } from '@step-wise/js-utils'
 import { c, g, R, e, k, G } from '@step-wise/physics-data'
 import { buildMonoExercise } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 
 const constants = { c, g, R, e, k, G }
 type ConstantName = keyof typeof constants
@@ -27,6 +27,6 @@ export default buildMonoExercise({
 	},
 
 	checkInput(data) {
-		return compare('ans', data)
+		return compareInputs('ans', data)
 	},
 })

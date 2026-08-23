@@ -1,7 +1,7 @@
 import { randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
-import { compare } from '@step-wise/exercise-grading'
+import { compareInputs } from '@step-wise/exercise-grading'
 import { type Load, FBDComparison, compareLoadSets, createForce, createMoment, equalLoads, isLoad } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
@@ -57,9 +57,9 @@ export default buildStepExercise({
 
 	checkInput(data, step) {
 		switch (step) {
-			case 1: return compare('loadsLeft', data)
-			case 2: return compare('loadsRight', data)
-			default: return compare('loads', data)
+			case 1: return compareInputs('loadsLeft', data)
+			case 2: return compareInputs('loadsRight', data)
+			default: return compareInputs('loads', data)
 		}
 	},
 })
