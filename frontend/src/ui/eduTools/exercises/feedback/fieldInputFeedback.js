@@ -2,7 +2,7 @@ import { isValidElement } from 'react'
 
 import { findWithValue, isPlainObject, mergeDefaults, deepEqual, mapValues, numbersEqual, checkNumberEquality } from '@step-wise/js-utils'
 import { Expression, Equation } from '@step-wise/cas'
-import { Float, Unit, FloatUnit, adjustFloatTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
+import { PrecisionNumber, Unit, FloatUnit, adjustPrecisionNumberTolerances, adjustFloatUnitTolerances } from '@step-wise/physics-core'
 import { compareInputs as gradingCompare } from '@step-wise/exercise-grading'
 
 import { Translation } from 'i18n'
@@ -121,7 +121,7 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
 	// It's not a pure number. Try various other parameter types.
 	if (currInput.constructor === Unit)
 		return { correct, text: getUnitComparisonFeedback(currInput, currSolution, currOptions.comparison) }
-	if (currInput.constructor === Float)
+	if (currInput.constructor === PrecisionNumber)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.number) }
 	if (currInput.constructor === FloatUnit)
 		return { correct, text: getNumberComparisonFeedback(currInput, currSolution, currOptions, true, value => value.value.number) }
@@ -155,14 +155,14 @@ export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, 
 export function getNumberComparisonFeedback(currInput, currSolution, currOptions, objectBased, getNumber = (x => x)) {
 	let { comparison, previousFeedback } = mergeDefaults(currOptions, defaultOptions)
 
-	// How to get equality data and equality depends on whether this is object-based (like with a Float) or number-based (like with regular numbers).
+	// How to get equality data and equality depends on whether this is object-based (like with a PrecisionNumber) or number-based (like with regular numbers).
 	const equalityResult = objectBased ?
 		currSolution.checkEquality(currInput, comparison) :
 		checkNumberEquality(currInput, currSolution, comparison)
 	const correct = equalityResult.equal
 	const isEqual = (currInput, currSolution, accuracyFactorAdjustment) => {
-		if (currSolution instanceof Float)
-			comparison = adjustFloatTolerances(comparison, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
+		if (currSolution instanceof PrecisionNumber)
+			comparison = adjustPrecisionNumberTolerances(comparison, accuracyFactorAdjustment, currSolution.getMinimumAbsoluteTolerance())
 		if (currSolution instanceof FloatUnit)
 			comparison = adjustFloatUnitTolerances(comparison, accuracyFactorAdjustment, currSolution.value.getMinimumAbsoluteTolerance())
 		return objectBased ?
@@ -193,7 +193,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 		return <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
-	const numberEqualityResult = (currSolution instanceof FloatUnit ? equalityResult.value.number : currSolution instanceof Float ? equalityResult.number : equalityResult)
+	const numberEqualityResult = (currSolution instanceof FloatUnit ? equalityResult.value.number : currSolution instanceof PrecisionNumber ? equalityResult.number : equalityResult)
 	const direction = numberEqualityResult?.direction
 	if (numberEqualityResult?.equal === false && direction !== undefined && direction !== 0) {
 		if (inputSign === 0) {

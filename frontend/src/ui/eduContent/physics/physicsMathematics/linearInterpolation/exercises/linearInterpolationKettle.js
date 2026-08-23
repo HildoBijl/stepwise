@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatInput, FloatUnitInput } from 'ui/inputs'
+import { PrecisionNumberInput, FloatUnitInput } from 'ui/inputs'
 import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -31,14 +31,14 @@ const steps = [
 			<Par>Bereken op welk deel <M>x</M> de temperatuur <M>{T}</M> ligt, ten opzichte van de stijging van <M>{T1}</M> naar <M>{T2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatInput id="x" prelabel={<M>x=</M>} label="Deel van de stijging" size="s" />
+					<PrecisionNumberInput id="x" prelabel={<M>x=</M>} label="Deel van de stijging" size="s" />
 				</Par>
 			</InputSpace>
 		</> : <>
 			<Par>Bereken op welk deel <M>x</M> de tijd <M>{t}</M> ligt, ten opzichte van de periode van <M>{t1}</M> tot <M>{t2}.</M></Par>
 			<InputSpace>
 				<Par>
-					<FloatInput id="x" prelabel={<M>x=</M>} label="Deel van de periode" size="s" />
+					<PrecisionNumberInput id="x" prelabel={<M>x=</M>} label="Deel van de periode" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

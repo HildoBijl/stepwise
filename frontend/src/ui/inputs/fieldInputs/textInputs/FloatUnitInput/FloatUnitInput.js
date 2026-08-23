@@ -5,7 +5,7 @@ import { mergeDefaults, pickFromDefaults, resolveFunctionValuesDeep } from '@ste
 import { Translation } from 'i18n'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
-import { defaultFloatInputOptions } from '../FloatInput'
+import { defaultPrecisionNumberInputOptions } from '../PrecisionNumberInput'
 import { defaultUnitInputOptions } from '../UnitInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
@@ -13,11 +13,11 @@ import { FloatUnitInputInner } from './FloatUnitInputInner'
 import * as validation from './validation'
 
 export const defaultFloatUnitInputOptions = {
-	...defaultFloatInputOptions, // Loads in positive and allowPower.
+	...defaultPrecisionNumberInputOptions, // Loads in positive and allowPower.
 	...defaultUnitInputOptions,
 
 	contentsStyle: theme => ({
-		...resolveFunctionValuesDeep(defaultFloatInputOptions.contentsStyle, theme),
+		...resolveFunctionValuesDeep(defaultPrecisionNumberInputOptions.contentsStyle, theme),
 		...resolveFunctionValuesDeep(defaultUnitInputOptions.contentsStyle, theme),
 		'& .spacer.unitSpacer': { width: '0.3em' },
 	}),

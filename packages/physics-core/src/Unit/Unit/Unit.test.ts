@@ -173,7 +173,7 @@ describe('Unit', () => {
 			expect(deserializeUnit(serializeUnit(unit))).toEqual(unit)
 		})
 		test('rejects malformed serialized units', () => {
-			expect(() => deserializeUnit({ type: 'Float', value: {} })).toThrow(/serialized Unit/)
+			expect(() => deserializeUnit({ type: 'PrecisionNumber', value: {} })).toThrow(/serialized Unit/)
 			expect(() => deserializeUnit({ type: 'Unit', value: { numerator: [{ unit: 'm', extra: true }] } })).toThrow(/UnitFactorStorageValue/)
 		})
 	})

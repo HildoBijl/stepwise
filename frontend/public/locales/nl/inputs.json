@@ -6,7 +6,7 @@
       "onlyMinusSign": "Alleen een min-teken is geen getal."
     }
   },
-  "floatInput": {
+  "precisionNumberInput": {
     "placeHolder": "Kommagetal",
     "validation": {
       "onlyDecimalSeparator": "Alleen een komma is geen getal."

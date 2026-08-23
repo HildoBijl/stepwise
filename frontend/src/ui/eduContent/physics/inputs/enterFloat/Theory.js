@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Translation } from 'i18n'
 import { Head, Par, List, Term, M } from 'ui/components'
 
-const num1 = new Float('2.3')
-const num2 = new Float('2.3*10^4')
+const num1 = new PrecisionNumber('2.3')
+const num2 = new PrecisionNumber('2.3*10^4')
 
 export function Theory() {
 	return <>

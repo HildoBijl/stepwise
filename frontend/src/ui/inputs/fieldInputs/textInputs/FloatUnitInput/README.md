@@ -2,7 +2,7 @@
 
 ## Return type
 
-The return type is a `FloatUnit` object which is basically a combination of a `Float` and a `Unit` object. It has various properties.
+The return type is a `FloatUnit` object which is basically a combination of a `PrecisionNumber` and a `Unit` object. It has various properties.
 
 - `str`
 - `tex`
@@ -24,7 +24,7 @@ See the `FloatUnit` source code in the `shared` directory for details on this.
 
 ## Options
 
-The options are identical to the Float field.
+The options are identical to the PrecisionNumber field.
 
 - `positive`: When set to true (default false) only positive numbers are allowed.
 - `allowPower`: When set to false (default true) no power ` * 10^x` is allowed.

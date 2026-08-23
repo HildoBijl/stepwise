@@ -3,7 +3,7 @@ import React from 'react'
 import { Translation } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatInput } from 'ui/inputs'
+import { PrecisionNumberInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -14,7 +14,7 @@ function Problem({ x }) {
 	return <>
 		<Par><Translation entry="text">Enter the number <M>{x}</M>.</Translation></Par>
 		<InputSpace>
-			<Par><FloatInput id="ans" prelabel={<M>{x}=</M>} label={<Translation entry="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
+			<Par><PrecisionNumberInput id="ans" prelabel={<M>{x}=</M>} label={<Translation entry="label">Enter <M>{x}</M> here</Translation>} size='s' /></Par>
 		</InputSpace>
 	</>
 }

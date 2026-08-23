@@ -7,14 +7,14 @@ import { Translation } from 'i18n'
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
-import { FloatInputInner } from './FloatInputInner'
+import { PrecisionNumberInputInner } from './PrecisionNumberInputInner'
 import * as validation from './validation'
 
-export const defaultFloatInputOptions = {
+export const defaultPrecisionNumberInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
-	placeholder: <Translation path="inputs" entry="floatInput.placeHolder">Floating point number</Translation>,
+	placeholder: <Translation path="inputs" entry="precisionNumberInput.placeHolder">Precision number</Translation>,
 	positive: false,
 	allowPower: true,
 	validate: validation.any,
@@ -35,8 +35,8 @@ export const defaultFloatInputOptions = {
 	errorToMessage,
 }
 
-export function FloatInput(options) {
-	options = mergeDefaults(options, defaultFloatInputOptions)
+export function PrecisionNumberInput(options) {
+	options = mergeDefaults(options, defaultPrecisionNumberInputOptions)
 
 	// Set up options for the TextInput field.
 	const { positive, allowPower } = options
@@ -48,8 +48,8 @@ export function FloatInput(options) {
 
 	// Render the TextInput.
 	return <TextInput {...textInputOptions}>
-		<FloatInputInner />
+		<PrecisionNumberInputInner />
 	</TextInput>
 }
-FloatInput.validation = validation
-FloatInput.translatableProps = TextInput.translatableProps
+PrecisionNumberInput.validation = validation
+PrecisionNumberInput.translatableProps = TextInput.translatableProps

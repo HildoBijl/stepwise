@@ -2,7 +2,7 @@ import React from 'react'
 
 import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
@@ -95,7 +95,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, α, aRaw }) => {
-			return <Par>Om <M>{variables.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.toNumber(), 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{variables.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{variables.a} \approx {new PrecisionNumber(roundToDigits(aRaw.toNumber(), 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]

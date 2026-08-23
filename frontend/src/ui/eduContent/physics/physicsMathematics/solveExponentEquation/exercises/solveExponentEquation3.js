@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { FloatInput } from 'ui/inputs'
+import { PrecisionNumberInput } from 'ui/inputs'
 import { MonoExercise } from 'ui/eduTools'
 
 export default function Exercise() {
@@ -13,7 +13,7 @@ function Problem({ a, b, c, d }) {
 	return <>
 		<Par>Los de vergelijking <M>{a} \cdot x^{c} = {b} \cdot x^{d}</M> op voor <M>x.</M></Par>
 		<InputSpace>
-			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
+			<Par><PrecisionNumberInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>
 	</>
 }

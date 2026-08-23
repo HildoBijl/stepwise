@@ -2,7 +2,7 @@ import React from 'react'
 
 import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
@@ -85,7 +85,7 @@ const steps = [
 		},
 		Solution: ({ a, β, variables }) => {
 			return <>
-				<Par>We vervangen <M>{variables.a}</M> letterlijk voor <M>{a}.</M> Zo krijgen we (licht vereenvoudigd) de uitkomst <BM>{variables.β} = {β}.</BM> Dit komt overeen met een hoek van <M>{variables.β} \approx {new Float(roundToDigits(β.toNumber(), 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+				<Par>We vervangen <M>{variables.a}</M> letterlijk voor <M>{a}.</M> Zo krijgen we (licht vereenvoudigd) de uitkomst <BM>{variables.β} = {β}.</BM> Dit komt overeen met een hoek van <M>{variables.β} \approx {new PrecisionNumber(roundToDigits(β.toNumber(), 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
 			</>
 		},
 	},

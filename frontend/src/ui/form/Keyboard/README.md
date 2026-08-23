@@ -12,17 +12,17 @@ An example of `keyboardSettings`, that are for instance used by the `FloatUnitIn
 ```
 keyboardSettings = {
 	keySettings: { Backspace: false, ArrowLeft: false, ArrowUp: false, ... },
-	float: { positive: false, allowPower: true },
+	precisionNumber: { positive: false, allowPower: true },
 	unit: {},
-	tab: 'float',
+	tab: 'precisionNumber',
 }
 ```
 
 In this object there are three important (types of) parameters.
 
 - `keySettings`: these settings work by key and indicate that that key is (currently, given the situation) not accessible. For instance, if the cursor is all the way on the left, then `ArrowLeft` is set to `false` to disable that key.
-- `layoutSettings`: for each possible keyboard type/layout (think of `int`, `float`, `unit`, `textUnit`, `greek`, `basicMath`, `textMath`) there may be a parameter. If the parameter is present, the corresponding keyboard layout is visible as a tab and may be used. The object itself may contain further settings for the given keyboard layout. For instance, by setting `positive: true` the keyboard layout may for instance decide to not display a minus sign button at all, because it won't be used anyway.
-- `tab`: which keyboard layout does the input field currently want to display? The user can always change keyboard layouts by clicking on the appropriate tab, but this gives the currently shown keyboard. For instance, when the user goes from the `float` part of an input field to the `unit` part, by moving the cursor, it's nice if the `unit` keyboard tab also automatically pops up.
+- `layoutSettings`: for each possible keyboard type/layout (think of `int`, `precisionNumber`, `unit`, `textUnit`, `greek`, `basicMath`, `textMath`) there may be a parameter. If the parameter is present, the corresponding keyboard layout is visible as a tab and may be used. The object itself may contain further settings for the given keyboard layout. For instance, by setting `positive: true` the keyboard layout may for instance decide to not display a minus sign button at all, because it won't be used anyway.
+- `tab`: which keyboard layout does the input field currently want to display? The user can always change keyboard layouts by clicking on the appropriate tab, but this gives the currently shown keyboard. For instance, when the user goes from the `precisionNumber` part of an input field to the `unit` part, by moving the cursor, it's nice if the `unit` keyboard tab also automatically pops up.
 
 By providing the right keyboard layout, and by adjusting it appropriately to the situation, the user-friendliness of the input field can be significantly improved.
 

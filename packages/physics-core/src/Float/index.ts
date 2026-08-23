@@ -1,7 +1,0 @@
-export { type DecimalSeparator, type TexDisplayOptions, type TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions } from './texDisplayOptions'
-export { type FloatStorageValue, type FloatInput, FloatType, floatPattern } from './interpreting'
-export { type FloatEqualityOptions, type FloatEqualityOptionsInput, type FloatEqualityResult, defaultFloatEqualityOptions, resolveFloatEqualityOptions, validateFloatEqualityOptions, adjustFloatTolerances } from './comparison'
-export { Float, asFloat } from './Float'
-export { type SerializedFloat, serializeFloat, deserializeFloat } from './serialization'
-export { type FloatInputValue, isFloatInputValue, interpretFloatInputValue, floatToInputValue } from './inputValue'
-export { type RandomFloatOptions, type RandomFloatOptionsInput, type RandomExponentialFloatOptions, type RandomExponentialFloatOptionsInput, defaultRandomFloatOptions, defaultRandomExponentialFloatOptions, resolveRandomFloatOptions, resolveRandomExponentialFloatOptions, getRandomFloat, getRandomExponentialFloat } from './random'

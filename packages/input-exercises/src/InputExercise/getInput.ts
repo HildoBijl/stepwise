@@ -10,7 +10,7 @@ type InputTypesForKeys<Keys extends readonly string[]> = { readonly [Index in ke
 type InputInstance<Type extends InputType> = Type extends PrimitiveInputType ? PrimitiveInputTypeMap[Type] : Type extends InputConstructor ? InstanceType<Type> : never
 type InputInstances<Types extends readonly InputType[]> = { [Index in keyof Types]: InputInstance<Types[Index]> }
 
-// Helper to check if a given type is a constructor (like Float) or otherwise a string of a basic type (like 'number').
+// Helper to check if a given type is a constructor (like PrecisionNumber) or otherwise a string of a basic type (like 'number').
 function isInputConstructor(inputType: InputType): inputType is InputConstructor {
 	return typeof inputType === 'function'
 }

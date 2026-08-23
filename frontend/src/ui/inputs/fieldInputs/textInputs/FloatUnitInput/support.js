@@ -3,54 +3,54 @@ import { unitDefinitions, prefixes } from '@step-wise/physics-core'
 
 import { getClickSide } from 'util'
 
-import { type as floatType, keyboardSettings as floatKeyboardSettings, keyPressToFI as floatKeyPressToFI, mouseClickToCursor as floatMouseClickToCursor, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat, errorToMessage as floatErrorToMessage } from '../FloatInput'
+import { type as precisionNumberType, keyboardSettings as precisionNumberKeyboardSettings, keyPressToFI as precisionNumberKeyPressToFI, mouseClickToCursor as precisionNumberMouseClickToCursor, isEmpty as isPrecisionNumberEmpty, getStartCursor as getPrecisionNumberStartCursor, getEndCursor as getPrecisionNumberEndCursor, isCursorAtStart as isCursorAtPrecisionNumberStart, isCursorAtEnd as isCursorAtPrecisionNumberEnd, isValid as isPrecisionNumberValid, clean as cleanPrecisionNumber, functionalize as functionalizePrecisionNumber, errorToMessage as precisionNumberErrorToMessage } from '../PrecisionNumberInput'
 import { type as unitType, keyboardSettings as unitKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'
 
 // Define various trivial objects and functions.
 export const type = 'FloatUnit'
 export const initialValue = {}
 export const parts = ['value', 'unit']
-export const isEmpty = ({ value, unit }) => isFloatEmpty(value) && isUnitEmpty(unit)
+export const isEmpty = ({ value, unit }) => isPrecisionNumberEmpty(value) && isUnitEmpty(unit)
 export const isUnitVisible = ({ unit }, cursor) => !isUnitEmpty(unit) || (cursor?.part === 'unit')
-export const getStartCursor = (value, cursor) => ({ part: 'value', cursor: getFloatStartCursor(value.value, cursor?.part === 'value' ? cursor.cursor : undefined) })
+export const getStartCursor = (value, cursor) => ({ part: 'value', cursor: getPrecisionNumberStartCursor(value.value, cursor?.part === 'value' ? cursor.cursor : undefined) })
 export const getEndCursor = (value, cursor) => {
 	const part = isUnitVisible(value, cursor) ? 'unit' : 'value'
-	const partCursor = (part === 'value' ? getFloatEndCursor : getUnitEndCursor)(value[part], cursor?.part === part ? cursor.cursor : undefined)
+	const partCursor = (part === 'value' ? getPrecisionNumberEndCursor : getUnitEndCursor)(value[part], cursor?.part === part ? cursor.cursor : undefined)
 	return { part, cursor: partCursor }
 }
-export const isCursorAtStart = ({ value }, cursor) => cursor.part === 'value' && isCursorAtFloatStart(value, cursor.cursor)
-export const isCursorAtEnd = (value, cursor) => isUnitVisible(value, cursor) ? (cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)) : isCursorAtFloatEnd(value.value, cursor.cursor)
-export const isValid = ({ value, unit }) => isFloatValid(value) && isUnitValid(unit)
-export const getFloatFI = ({ value, cursor }) => ({ type: floatType, value: value.value, cursor: cursor?.part === 'value' ? cursor.cursor : undefined })
+export const isCursorAtStart = ({ value }, cursor) => cursor.part === 'value' && isCursorAtPrecisionNumberStart(value, cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => isUnitVisible(value, cursor) ? (cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)) : isCursorAtPrecisionNumberEnd(value.value, cursor.cursor)
+export const isValid = ({ value, unit }) => isPrecisionNumberValid(value) && isUnitValid(unit)
+export const getPrecisionNumberFI = ({ value, cursor }) => ({ type: precisionNumberType, value: value.value, cursor: cursor?.part === 'value' ? cursor.cursor : undefined })
 export const getUnitFI = ({ value, cursor }) => ({ type: unitType, value: value.unit, cursor: cursor?.part === 'unit' ? cursor.cursor : undefined })
 export const clean = ({ value, unit }) => {
 	const result = {
-		value: isFloatEmpty(value) ? undefined : cleanFloat(value),
+		value: isPrecisionNumberEmpty(value) ? undefined : cleanPrecisionNumber(value),
 		unit: isUnitEmpty(unit) ? undefined : cleanUnit(unit),
 	}
 	return mapValues(result, identity) // Filter out undefined.
 }
-export const functionalize = ({ value, unit }) => ({ value: functionalizeFloat(value), unit: functionalizeUnit(unit) })
+export const functionalize = ({ value, unit }) => ({ value: functionalizePrecisionNumber(value), unit: functionalizeUnit(unit) })
 
 // keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function keyboardSettings(FI, positive = false, allowPower = true) {
 	const { value, cursor } = FI
 
 	// Find the settings for the individual parts and merge the key settings.
-	const floatSettings = floatKeyboardSettings({ value: value.value, cursor: cursor.part === 'value' ? cursor.cursor : null }, positive, allowPower)
+	const precisionNumberSettings = precisionNumberKeyboardSettings({ value: value.value, cursor: cursor.part === 'value' ? cursor.cursor : null }, positive, allowPower)
 	const unitSettings = unitKeyboardSettings({ value: value.unit, cursor: cursor.part === 'unit' ? cursor.cursor : null })
 	const keySettings = {
-		...floatSettings.keySettings,
+		...precisionNumberSettings.keySettings,
 		...unitSettings.keySettings,
 	}
 
 	// Check out special cases in which key settings need to be adjusted.
 	if (cursor.part === 'value') {
-		const floatCursor = cursor.cursor
+		const precisionNumberCursor = cursor.cursor
 		keySettings.ArrowRight = true
 		keySettings.ArrowDown = keySettings.ArrowUp = false
 		keySettings.Power = false
-		keySettings.Times = floatCursor.part === 'number'
+		keySettings.Times = precisionNumberCursor.part === 'number'
 	}
 	if (cursor.part === 'unit') {
 		keySettings.ArrowLeft = true
@@ -62,9 +62,9 @@ export function keyboardSettings(FI, positive = false, allowPower = true) {
 	// Pass on settings.
 	return {
 		keySettings,
-		float: floatSettings.float,
+		precisionNumber: precisionNumberSettings.precisionNumber,
 		unit: unitSettings.unit,
-		tab: cursor.part === 'value' ? 'float' : 'unit',
+		tab: cursor.part === 'value' ? 'precisionNumber' : 'unit',
 	}
 }
 
@@ -76,9 +76,9 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	const { value: numericValue, unit } = value
 
 	// Check where the cursor is currently at.
-	const floatCursor = cursor?.part === 'value' ? cursor.cursor : undefined
+	const precisionNumberCursor = cursor?.part === 'value' ? cursor.cursor : undefined
 	const unitCursor = cursor?.part === 'unit' ? cursor.cursor : undefined
-	const floatFI = getFloatFI(FI)
+	const precisionNumberFI = getPrecisionNumberFI(FI)
 	const unitFI = getUnitFI(FI)
 
 	// Set up a pass-on function.
@@ -86,11 +86,11 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 		// Check which part to pass it on to.
 		let newFI = {}
 		if (part === 'value') {
-			const oldFloatFI = {
-				...floatFI,
-				cursor: partCursor !== undefined ? partCursor : floatFI.cursor,
+			const oldPrecisionNumberFI = {
+				...precisionNumberFI,
+				cursor: partCursor !== undefined ? partCursor : precisionNumberFI.cursor,
 			}
-			newFI = floatKeyPressToFI(keyInfo, oldFloatFI, contentsElement, positive, allowPower)
+			newFI = precisionNumberKeyPressToFI(keyInfo, oldPrecisionNumberFI, contentsElement, positive, allowPower)
 		}
 		if (part === 'unit') {
 			const oldUnitFI = {
@@ -122,19 +122,19 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	if (key === 'ArrowLeft') {
 		// If we're at the start of the unit, move to the end of the value.
 		if (cursor.part === 'unit' && isCursorAtUnitStart(unit, unitCursor))
-			return { ...FI, cursor: { part: 'value', cursor: getFloatEndCursor(numericValue, floatCursor) } }
+			return { ...FI, cursor: { part: 'value', cursor: getPrecisionNumberEndCursor(numericValue, precisionNumberCursor) } }
 	}
 	if (key === 'ArrowRight') {
 		// If we're at the end of the value, move to the start of the unit, assuming we're not in an empty field.
-		if (cursor.part === 'value' && isCursorAtFloatEnd(numericValue, floatCursor) && !isEmpty(value))
+		if (cursor.part === 'value' && isCursorAtPrecisionNumberEnd(numericValue, precisionNumberCursor) && !isEmpty(value))
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 	if (key === 'Home')
-		return { ...FI, cursor: { part: 'value', cursor: getFloatStartCursor(numericValue) } } // Move to the start of the value.
+		return { ...FI, cursor: { part: 'value', cursor: getPrecisionNumberStartCursor(numericValue) } } // Move to the start of the value.
 	if (key === 'End') {
 		if (isUnitVisible(value, cursor))
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitEndCursor(unit) } } // Move to the end of the unit.
-		return { ...FI, cursor: { part: 'value', cursor: getFloatEndCursor(numericValue) } } // Move to the end of the value.
+		return { ...FI, cursor: { part: 'value', cursor: getPrecisionNumberEndCursor(numericValue) } } // Move to the end of the value.
 	}
 
 
@@ -142,11 +142,11 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	if (key === 'Backspace') {
 		// If the cursor is at the start of the unit, move it to the end of the value.
 		if (cursor.part === 'unit' && isCursorAtUnitStart(unit, unitCursor))
-			return { ...FI, cursor: { part: 'value', cursor: getFloatEndCursor(numericValue, floatCursor) } }
+			return { ...FI, cursor: { part: 'value', cursor: getPrecisionNumberEndCursor(numericValue, precisionNumberCursor) } }
 	}
 	if (key === 'Delete') {
 		// If the cursor is at the end of the value, move it to the start of the unit.
-		if (cursor.part === 'value' && isCursorAtFloatEnd(numericValue, floatCursor) && isUnitVisible(value, cursor))
+		if (cursor.part === 'value' && isCursorAtPrecisionNumberEnd(numericValue, precisionNumberCursor) && isUnitVisible(value, cursor))
 			return { ...FI, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 
@@ -163,7 +163,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the value.
 	if (isNumeric(key) && cursor.part === 'unit') {
 		if (isCursorAtUnitStart(unit, unitCursor))
-			return identity('value', getFloatEndCursor(numericValue))
+			return identity('value', getPrecisionNumberEndCursor(numericValue))
 	}
 
 	// In case of a slash in the value, pretend we're at the start of the unit.
@@ -191,15 +191,15 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 	let newCursor
 	if (part === 'value') {
 		if (event.target.classList.contains('filler'))
-			newCursor = getFloatStartCursor(numericValue)
+			newCursor = getPrecisionNumberStartCursor(numericValue)
 		else
-			newCursor = floatMouseClickToCursor(event, getFloatFI(FI), partElement)
+			newCursor = precisionNumberMouseClickToCursor(event, getPrecisionNumberFI(FI), partElement)
 	} else if (part === 'unit') {
 		newCursor = unitMouseClickToCursor(event, getUnitFI(FI), partElement)
 	} else if (part === 'unitSpacer') {
 		if (getClickSide(event) === 0) {
 			part = 'value'
-			newCursor = getFloatEndCursor(numericValue)
+			newCursor = getPrecisionNumberEndCursor(numericValue)
 		} else {
 			part = 'unit'
 			newCursor = getUnitStartCursor(unit)
@@ -214,5 +214,5 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 
 // errorToMessage turns an error during interpretation into a message to be displayed.
 export function errorToMessage(error) {
-	return floatErrorToMessage(error) || unitErrorToMessage(error)
+	return precisionNumberErrorToMessage(error) || unitErrorToMessage(error)
 }

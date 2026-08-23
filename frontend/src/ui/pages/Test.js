@@ -5,7 +5,7 @@ import { Par, Head, M, BM } from 'ui/components'
 
 import * as c from '@step-wise/cas'
 import * as m from '@step-wise/math-input-value'
-import { Unit, Float, FloatUnit } from '@step-wise/physics-core'
+import { Unit, PrecisionNumber, FloatUnit } from '@step-wise/physics-core'
 
 window.c = c
 window.m = m
@@ -13,7 +13,7 @@ window.asExpression = c.asExpression
 window.asEquation = c.asEquation
 
 window.Unit = Unit
-window.Float = Float
+window.PrecisionNumber = PrecisionNumber
 window.FloatUnit = FloatUnit
 
 export function Test() {

@@ -1,8 +1,8 @@
-# FloatInput
+# PrecisionNumberInput
 
 ## Return type
 
-The return type is a `Float` object. It has various properties.
+The return type is a `PrecisionNumber` object. It has various properties.
 
 - `number`: The number it represents.
 - `significantDigits`: How many significant digits it has.
@@ -18,7 +18,7 @@ It has various useful methods.
 - `equals`
 - `checkEquality`
 
-See the `Float` source code in the `shared` directory for details on this.
+See the `PrecisionNumber` source code in the `shared` directory for details on this.
 
 ## Options
 

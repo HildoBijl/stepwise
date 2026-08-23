@@ -6,7 +6,7 @@ export type FloatUnitGrid = InterpolationGrid<FloatUnit>
 export type FloatUnitTable = InterpolationTable<FloatUnit, FloatUnit>
 
 export function exactFloatUnits(values: readonly number[], unit: string): FloatUnit[] {
-	return values.map(float => new FloatUnit({ value: float, unit }).makeExact())
+	return values.map(precisionNumber => new FloatUnit({ value: precisionNumber, unit }).makeExact())
 }
 
 export function floatUnitGrid(values: RawFloatUnitGrid, unit: string): FloatUnitGrid {

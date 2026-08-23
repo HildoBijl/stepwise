@@ -1,10 +1,10 @@
 import { ensureInteger, isInteger, compareNumbers, roundToDigits, checkNumberEquality } from '@step-wise/js-utils'
 
-import { type FloatStorageValue, type FloatInput, FloatType, floatInputToStorageValue, countSignificantDigits } from './interpreting'
-import { type FloatEqualityOptionsInput, type FloatEqualityResult, resolveFloatEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'
+import { type PrecisionNumberStorageValue, type PrecisionNumberInput, PrecisionNumberType, precisionNumberInputToStorageValue, countSignificantDigits } from './interpreting'
+import { type PrecisionNumberEqualityOptionsInput, type PrecisionNumberEqualityResult, resolvePrecisionNumberEqualityOptions, applyMinimumAbsoluteTolerance } from './comparison'
 import { type TexDisplayOptionsInput, resolveTexDisplayOptions } from './texDisplayOptions'
 
-export class Float {
+export class PrecisionNumber {
 	readonly number: number
 	readonly significantDigits: number
 	readonly power?: number
@@ -13,8 +13,8 @@ export class Float {
 	 * Construction
 	 */
 
-	constructor(input: FloatInput) {
-		const { number, significantDigits, power } = floatInputToStorageValue(input)
+	constructor(input: PrecisionNumberInput) {
+		const { number, significantDigits, power } = precisionNumberInputToStorageValue(input)
 		this.number = number
 		this.significantDigits = significantDigits
 		this.power = power
@@ -24,11 +24,11 @@ export class Float {
 	 * Serialization
 	 */
 
-	get type(): FloatType {
-		return FloatType
+	get type(): PrecisionNumberType {
+		return PrecisionNumberType
 	}
 
-	toStorageValue(): FloatStorageValue {
+	toStorageValue(): PrecisionNumberStorageValue {
 		return {
 			number: this.number,
 			significantDigits: this.significantDigits,
@@ -127,88 +127,88 @@ export class Float {
 	 * Arithmetics
 	 */
 
-	negate(): Float {
-		return new Float({ number: -this.number, significantDigits: this.significantDigits, power: this.power })
+	negate(): PrecisionNumber {
+		return new PrecisionNumber({ number: -this.number, significantDigits: this.significantDigits, power: this.power })
 	}
 
-	abs(): Float {
-		return this.number < 0 ? new Float({ number: Math.abs(this.number), significantDigits: this.significantDigits, power: this.power }) : this
+	abs(): PrecisionNumber {
+		return this.number < 0 ? new PrecisionNumber({ number: Math.abs(this.number), significantDigits: this.significantDigits, power: this.power }) : this
 	}
 
-	add(input: Float | FloatInput, keepDecimals = false): Float {
-		const x = asFloat(input)
+	add(input: PrecisionNumber | PrecisionNumberInput, keepDecimals = false): PrecisionNumber {
+		const x = asPrecisionNumber(input)
 		const minDecimals = (keepDecimals ? Math.max : Math.min)(this.decimals, x.decimals)
 		const number = this.number + x.number
 		const significantDigits = number === 0 ? minDecimals + 1 : Math.max(Math.floor(Math.log10(Math.abs(number))) + minDecimals + 1, 1)
-		return new Float({ number, significantDigits, power: this.power === x.power ? this.power : undefined })
+		return new PrecisionNumber({ number, significantDigits, power: this.power === x.power ? this.power : undefined })
 	}
 
-	subtract(input: Float | FloatInput, keepDecimals?: boolean): Float {
-		return this.add(asFloat(input).negate(), keepDecimals)
+	subtract(input: PrecisionNumber | PrecisionNumberInput, keepDecimals?: boolean): PrecisionNumber {
+		return this.add(asPrecisionNumber(input).negate(), keepDecimals)
 	}
 
-	invert(): Float {
+	invert(): PrecisionNumber {
 		if (this.number === 0) throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero is not allowed.`)
-		return new Float({ number: 1 / this.number, significantDigits: this.significantDigits })
+		return new PrecisionNumber({ number: 1 / this.number, significantDigits: this.significantDigits })
 	}
 
-	multiply(input: Float | FloatInput, keepDigits = false): Float {
-		const x = asFloat(input)
-		return new Float({ number: this.number * x.number, significantDigits: (keepDigits ? Math.max : Math.min)(this.significantDigits, x.significantDigits) })
+	multiply(input: PrecisionNumber | PrecisionNumberInput, keepDigits = false): PrecisionNumber {
+		const x = asPrecisionNumber(input)
+		return new PrecisionNumber({ number: this.number * x.number, significantDigits: (keepDigits ? Math.max : Math.min)(this.significantDigits, x.significantDigits) })
 	}
 
-	divide(input: Float | FloatInput, keepDigits?: boolean): Float {
-		return this.multiply(asFloat(input).invert(), keepDigits)
+	divide(input: PrecisionNumber | PrecisionNumberInput, keepDigits?: boolean): PrecisionNumber {
+		return this.multiply(asPrecisionNumber(input).invert(), keepDigits)
 	}
 
-	adjustPower(delta: number): Float {
+	adjustPower(delta: number): PrecisionNumber {
 		delta = ensureInteger(delta)
-		return new Float({ number: this.number * Math.pow(10, delta), power: this.power === undefined ? undefined : this.power + delta, significantDigits: this.significantDigits })
+		return new PrecisionNumber({ number: this.number * Math.pow(10, delta), power: this.power === undefined ? undefined : this.power + delta, significantDigits: this.significantDigits })
 	}
 
-	toPower(power: number | Float): Float {
-		if (power instanceof Float) power = power.number
+	toPower(power: number | PrecisionNumber): PrecisionNumber {
+		if (power instanceof PrecisionNumber) power = power.number
 		if (this.number < 0 && !isInteger(power)) throw new Error(`Invalid toPower call: cannot take a fractional power of a negative number.`)
-		if (power === 0) return new Float({ number: 1, significantDigits: Infinity })
+		if (power === 0) return new PrecisionNumber({ number: 1, significantDigits: Infinity })
 		if (power < 0) return this.invert().toPower(-power)
-		return new Float({ number: Math.pow(this.number, power), significantDigits: this.significantDigits })
+		return new PrecisionNumber({ number: Math.pow(this.number, power), significantDigits: this.significantDigits })
 	}
 
 	/*
 	 * Precision operations
 	 */
 
-	setSignificantDigits(significantDigits: number): Float {
+	setSignificantDigits(significantDigits: number): PrecisionNumber {
 		significantDigits = ensureInteger(significantDigits, { nonNegative: true, allowInfinity: true })
-		return significantDigits === this.significantDigits ? this : new Float({ number: this.number, significantDigits, power: this.power })
+		return significantDigits === this.significantDigits ? this : new PrecisionNumber({ number: this.number, significantDigits, power: this.power })
 	}
 
 	// Set infinite significant digits.
-	makeExact(): Float {
+	makeExact(): PrecisionNumber {
 		return this.setSignificantDigits(Infinity)
 	}
 
 	// Shift significant digits up/down.
-	adjustSignificantDigits(delta: number): Float {
+	adjustSignificantDigits(delta: number): PrecisionNumber {
 		delta = ensureInteger(delta)
 		return this.setSignificantDigits(Math.max(this.significantDigits + delta, 0))
 	}
 
-	setMinimumSignificantDigits(significantDigits: number): Float {
+	setMinimumSignificantDigits(significantDigits: number): PrecisionNumber {
 		return this.setSignificantDigits(Math.max(significantDigits, this.significantDigits))
 	}
 
-	setDecimals(decimals: number): Float {
+	setDecimals(decimals: number): PrecisionNumber {
 		decimals = ensureInteger(decimals)
 		const significantDigits = this.number === 0 ? decimals + 1 : Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals)
 		return this.setSignificantDigits(Math.max(significantDigits, 0))
 	}
 
 	// Round the number to equal the precision of its significant digits.
-	roundToPrecision(): Float {
+	roundToPrecision(): PrecisionNumber {
 		const number = this.significantDigits === Infinity ? this.number : roundToDigits(this.number, this.significantDigits)
 		const magnitudeIncreased = number !== 0 && this.number !== 0 && Math.floor(Math.log10(Math.abs(number))) > Math.floor(Math.log10(Math.abs(this.number)))
-		return new Float({
+		return new PrecisionNumber({
 			number,
 			significantDigits: this.significantDigits + (magnitudeIncreased ? 1 : 0),
 			power: this.power,
@@ -216,17 +216,17 @@ export class Float {
 	}
 
 	// Set the format of this number to the default format: x.xxxx * 10^yy with only one non-zero digit prior to the comma. The number of significant digits is kept the same.
-	clearDisplayPower(): Float {
-		return new Float({
+	clearDisplayPower(): PrecisionNumber {
+		return new PrecisionNumber({
 			number: this.number,
 			significantDigits: this.significantDigits,
 		})
 	}
 
 	// Set the display power to a specific value.
-	setDisplayPower(power: number): Float {
+	setDisplayPower(power: number): PrecisionNumber {
 		power = ensureInteger(power)
-		return new Float({
+		return new PrecisionNumber({
 			number: this.number,
 			significantDigits: this.significantDigits,
 			power,
@@ -237,17 +237,17 @@ export class Float {
 	 * Comparison
 	 */
 
-	compare(input: Float | FloatInput): -1 | 0 | 1 {
-		return compareNumbers(this.number, asFloat(input).number)
+	compare(input: PrecisionNumber | PrecisionNumberInput): -1 | 0 | 1 {
+		return compareNumbers(this.number, asPrecisionNumber(input).number)
 	}
 
-	equals(input: Float | FloatInput, options?: FloatEqualityOptionsInput): boolean {
+	equals(input: PrecisionNumber | PrecisionNumberInput, options?: PrecisionNumberEqualityOptionsInput): boolean {
 		return this.checkEquality(input, options).equal
 	}
 
-	checkEquality(input: Float | FloatInput, options?: FloatEqualityOptionsInput): FloatEqualityResult {
-		const x = asFloat(input)
-		const { absoluteTolerance, relativeTolerance, significantDigitTolerance, checkPower } = resolveFloatEqualityOptions(options, this.getMinimumAbsoluteTolerance())
+	checkEquality(input: PrecisionNumber | PrecisionNumberInput, options?: PrecisionNumberEqualityOptionsInput): PrecisionNumberEqualityResult {
+		const x = asPrecisionNumber(input)
+		const { absoluteTolerance, relativeTolerance, significantDigitTolerance, checkPower } = resolvePrecisionNumberEqualityOptions(options, this.getMinimumAbsoluteTolerance())
 
 		// Check the number.
 		const number = checkNumberEquality(x.number, this.number, { absoluteTolerance, relativeTolerance })
@@ -257,7 +257,7 @@ export class Float {
 		const significantDigitsEqual = Math.abs(significantDigitDifference) <= significantDigitTolerance
 
 		// Assemble the result.
-		const result: FloatEqualityResult = {
+		const result: PrecisionNumberEqualityResult = {
 			equal: number.equal && significantDigitsEqual,
 			number,
 			significantDigits: {
@@ -283,6 +283,6 @@ export class Float {
 	}
 }
 
-export function asFloat(input: Float | FloatInput): Float {
-	return input instanceof Float ? input : new Float(input)
+export function asPrecisionNumber(input: PrecisionNumber | PrecisionNumberInput): PrecisionNumber {
+	return input instanceof PrecisionNumber ? input : new PrecisionNumber(input)
 }

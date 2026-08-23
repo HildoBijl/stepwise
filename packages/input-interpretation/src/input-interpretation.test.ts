@@ -1,4 +1,4 @@
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
 
@@ -10,7 +10,7 @@ describe('input interpretation', () => {
 		test('interprets individual input values', () => {
 			expect(interpretInputValue({ type: 'Integer', value: '42' })).toBe(42)
 			expect(interpretInputValue({ type: 'MultipleChoice', value: [2, 4, 1] })).toEqual([2, 4, 1])
-			expect(interpretInputValue({ type: 'Float', value: { number: '3.140' } })).toEqual(new Float('3.140'))
+			expect(interpretInputValue({ type: 'PrecisionNumber', value: { number: '3.140' } })).toEqual(new PrecisionNumber('3.140'))
 			expect(interpretInputValue({ type: 'Vector', value: [1, 2] })).toEqual(new Vector(1, 2))
 			expect(interpretInputValue({ type: 'Expression', value: ['x+2'] })).toEqual(asExpression('x+2'))
 		})
@@ -24,7 +24,7 @@ describe('input interpretation', () => {
 			expect(toInputValue(42, 'Integer')).toEqual({ type: 'Integer', value: '42' })
 			expect(toInputValue([2, 4, 1], 'MultipleChoice')).toEqual({ type: 'MultipleChoice', value: [2, 4, 1] })
 			expect(toInputValue(new Vector(1, 2), 'Vector')).toEqual({ type: 'Vector', value: [1, 2] })
-			expect(toInputValue(new Float('3.140'), 'Float')).toEqual({ type: 'Float', value: { number: '3.140' } })
+			expect(toInputValue(new PrecisionNumber('3.140'), 'PrecisionNumber')).toEqual({ type: 'PrecisionNumber', value: { number: '3.140' } })
 			expect(toInputValue(asExpression('x+2'), 'Expression')).toEqual({ type: 'Expression', value: ['x+2'] })
 		})
 		test('throws on unknown types', () => {
@@ -38,7 +38,7 @@ describe('input interpretation', () => {
 				a: { type: 'Vector', value: [1, 2] },
 				b: [
 					{ type: 'Expression', value: ['x+2'] },
-					{ type: 'Float', value: { number: '2.50' } },
+					{ type: 'PrecisionNumber', value: { number: '2.50' } },
 				],
 				c: { type: 'Integer', value: '3' },
 				d: null,
@@ -46,7 +46,7 @@ describe('input interpretation', () => {
 			const result = interpretAllInputValues(data) as any
 			expect(result.a).toEqual(new Vector(1, 2))
 			expect(result.b[0]).toEqual(asExpression('x+2'))
-			expect(result.b[1]).toEqual(new Float('2.50'))
+			expect(result.b[1]).toEqual(new PrecisionNumber('2.50'))
 			expect(result.c).toBe(3)
 			expect(result.d).toBeNull()
 		})

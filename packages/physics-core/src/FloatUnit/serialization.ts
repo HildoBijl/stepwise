@@ -1,6 +1,6 @@
 import { hasOnlyKeys, isPlainObject } from '@step-wise/js-utils'
 
-import { deserializeFloat, FloatType } from '../Float'
+import { deserializePrecisionNumber, PrecisionNumberType } from '../PrecisionNumber'
 import { deserializeUnit, UnitType } from '../Unit'
 
 import { type FloatUnitStorageValue, FloatUnitType } from './interpreting'
@@ -23,7 +23,7 @@ export function deserializeFloatUnit(serializedFloatUnit: unknown): FloatUnit {
 	const value = serializedFloatUnit.value
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['value', 'unit']) || !Object.hasOwn(value, 'value') || !Object.hasOwn(value, 'unit')) throw new TypeError(`Invalid FloatUnitStorageValue: expected an object containing "value" and "unit".`)
 	return new FloatUnit({
-		value: deserializeFloat({ type: FloatType, value: value.value }),
+		value: deserializePrecisionNumber({ type: PrecisionNumberType, value: value.value }),
 		unit: deserializeUnit({ type: UnitType, value: value.unit }),
 	})
 }

@@ -1,25 +1,25 @@
 import { isPlainObject, InterpretationError, hasOnlyKeys } from '@step-wise/js-utils'
 
-import { Float } from './Float'
+import { PrecisionNumber } from './PrecisionNumber'
 import { countSignificantDigits } from './interpreting'
 
-export type FloatInputValue = {
+export type PrecisionNumberInputValue = {
 	number?: string
 	power?: string
 }
 
-export function isFloatInputValue(value: unknown): value is FloatInputValue {
+export function isPrecisionNumberInputValue(value: unknown): value is PrecisionNumberInputValue {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['number', 'power'])) return false
-	const { number, power } = value as FloatInputValue
+	const { number, power } = value as PrecisionNumberInputValue
 	return (number === undefined || typeof number === 'string') && (power === undefined || typeof power === 'string')
 }
 
-export function interpretFloatInputValue(value: FloatInputValue): Float {
+export function interpretPrecisionNumberInputValue(value: PrecisionNumberInputValue): PrecisionNumber {
 	const storageValue = inputValueToStorageValue(value)
-	return new Float(storageValue)
+	return new PrecisionNumber(storageValue)
 }
 
-function inputValueToStorageValue(value: FloatInputValue) {
+function inputValueToStorageValue(value: PrecisionNumberInputValue) {
 	// Validate the input.
 	let { number, power } = value
 	if (number === '' || number === undefined) throw new InterpretationError('Could not interpret an empty string into a number.', 'Empty')
@@ -38,10 +38,10 @@ function inputValueToStorageValue(value: FloatInputValue) {
 	}
 }
 
-export function floatToInputValue(float: Float): FloatInputValue {
-	const power = float.getDisplayPower()
+export function precisionNumberToInputValue(precisionNumber: PrecisionNumber): PrecisionNumberInputValue {
+	const power = precisionNumber.getDisplayPower()
 	return {
-		number: float.getDisplayNumber(power),
+		number: precisionNumber.getDisplayNumber(power),
 		...(power === 0 ? {} : { power: power.toString() }),
 	}
 }

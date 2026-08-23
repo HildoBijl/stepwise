@@ -1,14 +1,14 @@
 import { randomNumber, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metadata: {
 		skill: 'linearInterpolation',
 		...createStepExerciseMetadata(['solveLinearEquation', 'solveLinearEquation']),
 		comparisons: {
-			Float: { absoluteTolerance: 1 },
+			PrecisionNumber: { absoluteTolerance: 1 },
 			x: { absoluteTolerance: 0.005, relativeTolerance: 0.01 },
 		},
 	},
@@ -40,7 +40,7 @@ export default buildStepExercise({
 			yearUnrounded = year1 + factor * (year2 - year1)
 			year = Math.floor(yearUnrounded)
 		}
-		const x = new Float({ number: factor, significantDigits: 2 })
+		const x = new PrecisionNumber({ number: factor, significantDigits: 2 })
 		return { type, year1, year2, pop1, pop2, x, year, pop, yearUnrounded, popUnrounded }
 	},
 

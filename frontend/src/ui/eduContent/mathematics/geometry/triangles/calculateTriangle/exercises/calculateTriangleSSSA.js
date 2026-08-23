@@ -2,7 +2,7 @@ import React from 'react'
 
 import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
@@ -95,7 +95,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ variables, intermediateEquation, α }) => {
-			return <Par>Om <M>{variables.α}</M> te vinden isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Vervolgens nemen we van beide kanten de omgekeerde cosinus. Het resultaat is <BM>{variables.α} = {α}.</BM> Hiermee is de gevraagde hoek berekend. Het zou overeen komen met een waarde van <M>{variables.α} \approx {new Float(roundToDigits(α.toNumber(), 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{variables.α}</M> te vinden isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Vervolgens nemen we van beide kanten de omgekeerde cosinus. Het resultaat is <BM>{variables.α} = {α}.</BM> Hiermee is de gevraagde hoek berekend. Het zou overeen komen met een waarde van <M>{variables.α} \approx {new PrecisionNumber(roundToDigits(α.toNumber(), 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]

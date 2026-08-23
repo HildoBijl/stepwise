@@ -1,4 +1,4 @@
-import { Float } from '../Float'
+import { PrecisionNumber } from '../PrecisionNumber'
 import { Unit } from '../Unit'
 
 import { FloatUnit, asFloatUnit } from './FloatUnit'
@@ -15,12 +15,12 @@ describe('FloatUnit', () => {
 		})
 		test('constructs from objects', () => {
 			const x = new FloatUnit({ value: '3.14', unit: 'm / s' })
-			expect(x.value).toEqual(new Float('3.14'))
+			expect(x.value).toEqual(new PrecisionNumber('3.14'))
 			expect(x.unit).toEqual(new Unit('m / s'))
 		})
-		test('constructs from numbers and Floats', () => {
+		test('constructs from numbers and PrecisionNumber instances', () => {
 			expect(new FloatUnit(3.14).toString()).toBe('3.14')
-			expect(new FloatUnit(new Float('3.14')).toString()).toBe('3.14')
+			expect(new FloatUnit(new PrecisionNumber('3.14')).toString()).toBe('3.14')
 		})
 		test('asFloatUnit keeps existing instances', () => {
 			const x = new FloatUnit('3.14 m')
@@ -54,7 +54,7 @@ describe('FloatUnit', () => {
 			expect(deserializeFloatUnit(serialized)).toEqual(x)
 		})
 		test('rejects malformed serialized quantities', () => {
-			expect(() => deserializeFloatUnit({ type: 'Float', value: {} })).toThrow(/serialized FloatUnit/)
+			expect(() => deserializeFloatUnit({ type: 'PrecisionNumber', value: {} })).toThrow(/serialized FloatUnit/)
 			expect(() => deserializeFloatUnit({ type: 'FloatUnit', value: { value: { number: 1, significantDigits: 1 }, unit: { extra: true } } })).toThrow(/UnitStorageValue/)
 		})
 	})

@@ -1,6 +1,6 @@
 import { CharString } from '../TextInput'
 
-export function Float({ value, cursor }) {
+export function PrecisionNumber({ value, cursor }) {
 	const { number, power } = value
 	const showPower = power !== '' || (cursor?.part === 'power')
 	return <>

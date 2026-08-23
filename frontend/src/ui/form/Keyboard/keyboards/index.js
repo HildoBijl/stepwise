@@ -7,7 +7,7 @@ export * from './util'
 // This is the order in which the tabs appear in the keyboard bar.
 export const tabs = [
 	'int',
-	'float',
+	'precisionNumber',
 	'unit',
 	'textMath',
 	'basicMath',

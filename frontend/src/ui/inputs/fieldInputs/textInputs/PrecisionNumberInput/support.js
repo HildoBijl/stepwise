@@ -6,7 +6,7 @@ import { getClickPosition } from '../TextInput'
 import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
 
 // Define various trivial objects and functions.
-export const type = 'Float'
+export const type = 'PrecisionNumber'
 export const initialValue = {}
 export const parts = ['number', 'power']
 export const isEmpty = ({ number, power }) => number === '' && power === ''
@@ -43,7 +43,7 @@ export function keyboardSettings(FI, positive = false, allowPower = true) {
 	// Pass on settings.
 	return {
 		keySettings,
-		float: {
+		precisionNumber: {
 			positive: !!positive,
 			allowPower: !!allowPower,
 		},
@@ -167,7 +167,7 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 // errorToMessage turns an error during interpretation into a message to be displayed.
 export function errorToMessage(error) {
 	switch (error.code) {
-		case 'DecimalSeparator': return <Translation path="inputs" entry="floatInput.validation.onlyDecimalSeparator">A decimal separator on its own is not a number.</Translation>
+		case 'DecimalSeparator': return <Translation path="inputs" entry="precisionNumberInput.validation.onlyDecimalSeparator">A decimal separator on its own is not a number.</Translation>
 		default: return integerErrorToMessage(error)
 	}
 }

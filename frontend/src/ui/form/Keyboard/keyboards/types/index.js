@@ -1,4 +1,4 @@
-export * as float from './float'
+export * as precisionNumber from './precisionNumber'
 export * as int from './int'
 export * as unit from './unit'
 export * as textUnit from './textUnit'

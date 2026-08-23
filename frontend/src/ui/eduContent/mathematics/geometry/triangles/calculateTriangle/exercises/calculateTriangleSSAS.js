@@ -2,7 +2,7 @@ import React from 'react'
 
 import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
@@ -101,7 +101,7 @@ const steps = [
 					<BMPart>{variables.b}_1 = {b1},</BMPart>
 					<BMPart>{variables.b}_2 = {b2}.</BMPart>
 				</BMList>
-					Eventueel kunnen we deze oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.b}_1 \approx {new Float(roundToDigits(b1.toNumber(), 3))}</M> en <M>{variables.b}_2 \approx {new Float(roundToDigits(b2.toNumber(), 3))}.</M> Beide getallen zijn positief, en dus geldige afstanden.</Par>
+					Eventueel kunnen we deze oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.b}_1 \approx {new PrecisionNumber(roundToDigits(b1.toNumber(), 3))}</M> en <M>{variables.b}_2 \approx {new PrecisionNumber(roundToDigits(b2.toNumber(), 3))}.</M> Beide getallen zijn positief, en dus geldige afstanden.</Par>
 				<Par>Overigens is de bij de vraag getekende figuur gebaseerd op <M>{variables.b}_2.</M> We kunnen met <M>{variables.b}_1</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
 				<ExerciseFigure useAlternative={true} />
 			</>

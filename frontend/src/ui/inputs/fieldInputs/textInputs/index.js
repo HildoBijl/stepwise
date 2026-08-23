@@ -1,4 +1,4 @@
 export { IntegerInput } from './IntegerInput'
-export { FloatInput } from './FloatInput'
+export { PrecisionNumberInput } from './PrecisionNumberInput'
 export { UnitInput } from './UnitInput'
 export { FloatUnitInput } from './FloatUnitInput'

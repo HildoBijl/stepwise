@@ -117,7 +117,7 @@ export function acceptsKey(keyInfo, FI, settings) {
 	if (isLetter(key) || isNumeric(key))
 		return true
 	if (key === '.' || key === ',')
-		return settings.float
+		return settings.precisionNumber
 	if (key === '+')
 		return settings.plus
 	if (key === '-')

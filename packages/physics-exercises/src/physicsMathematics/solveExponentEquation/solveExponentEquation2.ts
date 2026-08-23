@@ -1,20 +1,20 @@
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloat, getRandomExponentialFloat } from '@step-wise/physics-core'
+import { getRandomPrecisionNumber, getRandomExponentialPrecisionNumber } from '@step-wise/physics-core'
 
 // a + b*x^p = c
 
 export default buildMonoExercise({
 	metadata: {
 		skill: 'solveExponentEquation',
-		comparisons: { Float: { significantDigitTolerance: 2 } },
+		comparisons: { PrecisionNumber: { significantDigitTolerance: 2 } },
 	},
 
 	generateParameters() {
-		const a = getRandomFloat({ min: -20, max: 20, significantDigits: 2, prevent: 0 })
-		const c = getRandomFloat({ min: -20, max: 20, significantDigits: 2, prevent: [0, a.number] })
-		const x = getRandomExponentialFloat({ min: 0.2, max: 40, prevent: 1 })
-		const p = getRandomFloat({ min: -3, max: 3, significantDigits: 2, prevent: 0 })
+		const a = getRandomPrecisionNumber({ min: -20, max: 20, significantDigits: 2, prevent: 0 })
+		const c = getRandomPrecisionNumber({ min: -20, max: 20, significantDigits: 2, prevent: [0, a.number] })
+		const x = getRandomExponentialPrecisionNumber({ min: 0.2, max: 40, prevent: 1 })
+		const p = getRandomPrecisionNumber({ min: -3, max: 3, significantDigits: 2, prevent: 0 })
 		const b = c.subtract(a).divide(x.toPower(p)).setSignificantDigits(2).roundToPrecision()
 		return { a, b, p, c }
 	},

@@ -22,7 +22,7 @@ export const elementary = {
 	basicMath: true,
 	textMath: true,
 	greek: false,
-	float: false,
+	precisionNumber: false,
 	divide: false,
 	plusMinus: false,
 	pi: false,
@@ -63,7 +63,7 @@ export const basicTrigonometryInDegrees = {
 export const allMathSimpleVariables = {
 	...simpleVariables,
 	greek: false,
-	float: false,
+	precisionNumber: false,
 }
 
 // The following are adjustments for numeric situations.

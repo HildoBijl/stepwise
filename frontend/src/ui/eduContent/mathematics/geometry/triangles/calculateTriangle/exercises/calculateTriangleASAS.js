@@ -2,7 +2,7 @@ import React from 'react'
 
 import { degreesToRadians, roundToDigits, integerRange } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
@@ -109,7 +109,7 @@ const steps = [
 			</>
 		},
 		Solution: ({ aRaw, equation, variables }) => {
-			return <Par>Om <M>{variables.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.toNumber(), 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{variables.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{variables.a} \approx {new PrecisionNumber(roundToDigits(aRaw.toNumber(), 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]

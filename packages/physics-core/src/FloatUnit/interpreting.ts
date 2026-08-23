@@ -1,30 +1,30 @@
-import { type FloatInput, type FloatStorageValue, Float, asFloat, floatPattern } from '../Float'
+import { type PrecisionNumberInput, type PrecisionNumberStorageValue, PrecisionNumber, asPrecisionNumber, precisionNumberPattern } from '../PrecisionNumber'
 import { type UnitInput, type UnitStorageValue, Unit, asUnit, unitPattern } from '../Unit'
 
 export const FloatUnitType = 'FloatUnit'
 export type FloatUnitType = typeof FloatUnitType
 
 export type FloatUnitStorageValue = {
-	value: FloatStorageValue
+	value: PrecisionNumberStorageValue
 	unit: UnitStorageValue
 }
 
 export type FloatUnitParameters = {
-	value: Float
+	value: PrecisionNumber
 	unit: Unit
 }
 
-export type FloatUnitInput = string | number | Float | FloatUnitStorageValue | {
-	value: FloatInput
+export type FloatUnitInput = string | number | PrecisionNumber | FloatUnitStorageValue | {
+	value: PrecisionNumberInput
 	unit?: UnitInput
 }
 
-export const floatUnitPattern = `(${floatPattern})\\s*(${unitPattern})?`
+export const floatUnitPattern = `(${precisionNumberPattern})\\s*(${unitPattern})?`
 export const floatUnitRegex = new RegExp(`^${floatUnitPattern}$`)
 
 export function floatUnitInputToParameters(input: FloatUnitInput): FloatUnitParameters {
-	if (input instanceof Float) return { value: input, unit: new Unit() }
-	if (typeof input === 'number') return { value: new Float(input), unit: new Unit() }
+	if (input instanceof PrecisionNumber) return { value: input, unit: new Unit() }
+	if (typeof input === 'number') return { value: new PrecisionNumber(input), unit: new Unit() }
 	if (typeof input === 'string') return floatUnitStorageValueToParameters(splitFloatUnitString(input))
 	return floatUnitStorageValueToParameters(input)
 }
@@ -38,9 +38,9 @@ export function splitFloatUnitString(str: string): { value: string, unit?: strin
 	return { value, unit }
 }
 
-export function floatUnitStorageValueToParameters(value: FloatUnitStorageValue | { value: FloatInput, unit?: UnitInput }): FloatUnitParameters {
+export function floatUnitStorageValueToParameters(value: FloatUnitStorageValue | { value: PrecisionNumberInput, unit?: UnitInput }): FloatUnitParameters {
 	return {
-		value: asFloat(value.value),
+		value: asPrecisionNumber(value.value),
 		unit: asUnit(value.unit ?? {}),
 	}
 }

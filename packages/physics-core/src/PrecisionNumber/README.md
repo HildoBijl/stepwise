@@ -1,27 +1,27 @@
-# Float
+# PrecisionNumber
 
-The `Float` class represents a numerical quantity having a specific accuracy. It distinguishes `3.1` from `3.14159` from `314159 * 10^(-5)`.
+The `PrecisionNumber` class represents a numerical quantity having a specific accuracy. It distinguishes `3.1` from `3.14159` from `314159 * 10^(-5)`.
 
 
 ## Creation
 
-Setting up a new `Float` object can be done in various ways.
+Setting up a new `PrecisionNumber` object can be done in various ways.
 
 ```
-import { asFloat, Float } from '@step-wise/physics-core'
-const c = new Float('2.99792458 * 10^8') // String, constructor
-const h = asFloat('6.62607015 * 10^-34') // String, function
-const k = new Float({ number: 1.380649, significantDigits: 7, power: -23 }) // Object, constructor
-const N = asFloat({ number: 602214076, significantDigits: 8, power: 23 }) // Object, function
-const R = asFloat({ number: 8.314462618, significantDigits: 10 }) // Note: power is optional, the other attributes are not
+import { asPrecisionNumber, PrecisionNumber } from '@step-wise/physics-core'
+const c = new PrecisionNumber('2.99792458 * 10^8') // String, constructor
+const h = asPrecisionNumber('6.62607015 * 10^-34') // String, function
+const k = new PrecisionNumber({ number: 1.380649, significantDigits: 7, power: -23 }) // Object, constructor
+const N = asPrecisionNumber({ number: 602214076, significantDigits: 8, power: 23 }) // Object, function
+const R = asPrecisionNumber({ number: 8.314462618, significantDigits: 10 }) // Note: power is optional, the other attributes are not
 ```
 
-The resulting `Float` object has a variety of properties and methods.
+The resulting `PrecisionNumber` object has a variety of properties and methods.
 
 
 ## Display
 
-Common ways to display a `Float` are:
+Common ways to display a `PrecisionNumber` are:
 
 ```
 console.log(c.str) // String representation
@@ -65,12 +65,12 @@ It is possible to adjust the precision with which the number is stored; its sign
 
 ## Comparison
 
-Comparing `Float` objects can be done through their absolute difference or relative difference.
+Comparing `PrecisionNumber` objects can be done through their absolute difference or relative difference.
 
 - The absolute difference is defined through `abs(a - b)`.
 - The relative difference is defined through `abs(a - b)/max(abs(a), abs(b))`. So if you for example compare numbers `18` and `20` then the relative difference is `0.1` (being `10%` of the largest of the two).
 
-To compare `Float` objects, you first have to set up an `equalityOptions` object. This object can have the following properties (all optional).
+To compare `PrecisionNumber` objects, you first have to set up an `equalityOptions` object. This object can have the following properties (all optional).
 
 - `absoluteTolerance` (default 0): defines how small the absolute difference must be to consider the numbers as equal. If you have the numbers `3.14159 * 10^2` and `3.142 * 10^2` then their difference is `0.041`. So if given an `absoluteTolerance` of for instance `0.05` then these numbers are considered equal.
 - `relativeTolerance` (default 0): defines how small the relative difference must be to consider the numbers as equal. If you compare `18` to `20` then a relative tolerance of `0.1` will consider these numbers equal (though barely).
@@ -79,38 +79,38 @@ To compare `Float` objects, you first have to set up an `equalityOptions` object
 
 There are three important notes with the above options.
 
-- All three criteria (number, significantDigits and power) have to match for the full `Float` to be considered equal. (Obviously if the power is not checked, it's always considered OK.)
+- All three criteria (number, significantDigits and power) have to match for the full `PrecisionNumber` to be considered equal. (Obviously if the power is not checked, it's always considered OK.)
 - For the number: when both an `absoluteTolerance` and a `relativeTolerance` are used, only *one* of them (or both) has to match for the *number* to be considered equal. It's relatively loose that way.
-- The absolute tolerance is always *at minimum* the precision of the number. (This bound is applied internally and cannot be changed.) So let's say we compare `{ number: 3.14159, significantDigits: 2 }` with `{ number: 3.1, significantDigits: 5 }`. Because the comparing object (the first-mentioned `Float` or the `this` object) has two significant digits, it is displayed as `3.1`. As a result, its *minimum absolute tolerance* is `±0.05`. So any number between `3.09159` and `3.19159` will be considered equal. (The number of significant digits of the other number is irrelevant here.) Setting an `absoluteTolerance` larger than this may widen it, but setting the tolerance smaller than this (or `0`) will keep it on this minimum.
+- The absolute tolerance is always *at minimum* the precision of the number. (This bound is applied internally and cannot be changed.) So let's say we compare `{ number: 3.14159, significantDigits: 2 }` with `{ number: 3.1, significantDigits: 5 }`. Because the comparing object (the first-mentioned `PrecisionNumber` or the `this` object) has two significant digits, it is displayed as `3.1`. As a result, its *minimum absolute tolerance* is `±0.05`. So any number between `3.09159` and `3.19159` will be considered equal. (The number of significant digits of the other number is irrelevant here.) Setting an `absoluteTolerance` larger than this may widen it, but setting the tolerance smaller than this (or `0`) will keep it on this minimum.
 
 Once you have set up your equality options, you can do the comparison. There are two useful methods here.
 
 ```
-asFloat('3.14').equals('3.14159') // Returns true. Though the default tolerances are zero, the minimum absolute tolerance (here 0.005) is always applied, and the number falls within it.
-asFloat('3.14159').equals('3.14') // Returns false. The default (minimum) absolute tolerance is now 0.000005 which is not wide enough.
-asFloat('3.14').checkEquality('3.14159') // Returns an object functioning as a full comparison report. If the numbers are not true, you an see which checks it failed and why. This can be useful for giving feedback.
-asFloat('3.14').equals('317 * 10^(-2)', { absoluteTolerance: 0.02, relativeTolerance: 0.01 }) // Returns true: the absolute tolerance is too narrow for equality, but the relative tolerance is wide enough, so the numbers are considered equal. By default, the `significantDigitTolerance` is zero, but that's OK here since the numbers are equally accurate. We also (by default) don't care about powers.
+asPrecisionNumber('3.14').equals('3.14159') // Returns true. Though the default tolerances are zero, the minimum absolute tolerance (here 0.005) is always applied, and the number falls within it.
+asPrecisionNumber('3.14159').equals('3.14') // Returns false. The default (minimum) absolute tolerance is now 0.000005 which is not wide enough.
+asPrecisionNumber('3.14').checkEquality('3.14159') // Returns an object functioning as a full comparison report. If the numbers are not true, you an see which checks it failed and why. This can be useful for giving feedback.
+asPrecisionNumber('3.14').equals('317 * 10^(-2)', { absoluteTolerance: 0.02, relativeTolerance: 0.01 }) // Returns true: the absolute tolerance is too narrow for equality, but the relative tolerance is wide enough, so the numbers are considered equal. By default, the `significantDigitTolerance` is zero, but that's OK here since the numbers are equally accurate. We also (by default) don't care about powers.
 ```
 
-Note that the `equals` and `checkEquality` function accept `Float` objects, but also inputs that can be interpreted as `Float` objects.
+Note that the `equals` and `checkEquality` function accept `PrecisionNumber` objects, but also inputs that can be interpreted as `PrecisionNumber` objects.
 
 
 ## Random generation
 
-To randomly generate `Float` objects, there are two functions.
+To randomly generate `PrecisionNumber` objects, there are two functions.
 
-- `getRandomFloat(options)` gives a float according to a uniform distribution. Use for instance `getRandomFloat({ min: 3, max: 6 })`.
-- `getRandomExponentialFloat(options)` gives a float where `log(x)` satisfies a uniform distribution. Use for instance `getRandomExponentialFloat({ min: 1000, max: 10 ** 6 })`. The minimum and maximum must be positive.
+- `getRandomPrecisionNumber(options)` gives a precisionNumber according to a uniform distribution. Use for instance `getRandomPrecisionNumber({ min: 3, max: 6 })`.
+- `getRandomExponentialPrecisionNumber(options)` gives a precisionNumber where `log(x)` satisfies a uniform distribution. Use for instance `getRandomExponentialPrecisionNumber({ min: 1000, max: 10 ** 6 })`. The minimum and maximum must be positive.
 
 Other options the can be included are:
 
-- `significantDigits`: how many significant digits the `Float` should have.
-- `decimals`: how many decimals the `Float` should have. Cannot be combined with `significantDigits`.
-- `round`: should the `Float` be rounded to its precision? Default `true`: this ensures that a random value of `3.4` is not behind the scenes actually `3.34499999`.
-- `negative`: only for `getRandomExponentialFloat`, makes the outcome negative.
-- `randomSign`: only for `getRandomExponentialFloat`, makes the outcome have a random sign. Cannot be combined with `negative`.
+- `significantDigits`: how many significant digits the `PrecisionNumber` should have.
+- `decimals`: how many decimals the `PrecisionNumber` should have. Cannot be combined with `significantDigits`.
+- `round`: should the `PrecisionNumber` be rounded to its precision? Default `true`: this ensures that a random value of `3.4` is not behind the scenes actually `3.34499999`.
+- `negative`: only for `getRandomExponentialPrecisionNumber`, makes the outcome negative.
+- `randomSign`: only for `getRandomExponentialPrecisionNumber`, makes the outcome have a random sign. Cannot be combined with `negative`.
 
 
 ## Serialization
 
-See the [serialization](./serialization.ts) and [inputValue](./inputValue.ts) files to learn more about how `Float` objects are serialized and/or created as input.
+See the [serialization](./serialization.ts) and [inputValue](./inputValue.ts) files to learn more about how `PrecisionNumber` objects are serialized and/or created as input.

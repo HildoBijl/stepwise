@@ -6,7 +6,7 @@
       "onlyMinusSign": "Nur ein Minuszeichen ist keine Zahl."
     }
   },
-  "floatInput": {
+  "precisionNumberInput": {
     "placeHolder": "Kommazahl",
     "validation": {
       "onlyDecimalSeparator": "Nur ein Komma ist keine Zahl."

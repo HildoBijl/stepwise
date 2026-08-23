@@ -1,7 +1,7 @@
 import { randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomFloat, getRandomFloatUnit } from '@step-wise/physics-core'
+import { getRandomPrecisionNumber, getRandomFloatUnit } from '@step-wise/physics-core'
 
 export default buildStepExercise({
 	metadata: {
@@ -19,7 +19,7 @@ export default buildStepExercise({
 		const T2 = getRandomFloatUnit({ min: 80, max: 100, unit: 'dC', decimals: 0 })
 		const t1 = getRandomFloatUnit({ min: 10, max: 30, unit: 's', decimals: 0 })
 		const t2 = getRandomFloatUnit({ min: 80, max: 160, unit: 's', decimals: 0 })
-		const x = getRandomFloat({ min: 0.1, max: 0.9 })
+		const x = getRandomPrecisionNumber({ min: 0.1, max: 0.9 })
 
 		if (type === 1) {
 			const T = T1.add(T2.subtract(T1).multiply(x)).roundToPrecision()

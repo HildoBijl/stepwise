@@ -1,6 +1,6 @@
 import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 import { describe, expect, it } from 'vitest'
 
 import { compareInputs } from './compareInputs'
@@ -12,7 +12,7 @@ describe('temporary domain comparison routing', () => {
 	})
 
 	it('routes physics comparisons', () => {
-		expect(compareInputs('x', makeCheckInputData({ x: { type: 'Float', value: { number: '3.0' } } }, { x: new Float('3.0') }))).toBe(true)
+		expect(compareInputs('x', makeCheckInputData({ x: { type: 'PrecisionNumber', value: { number: '3.0' } } }, { x: new PrecisionNumber('3.0') }))).toBe(true)
 	})
 
 	it('routes geometry comparisons', () => {

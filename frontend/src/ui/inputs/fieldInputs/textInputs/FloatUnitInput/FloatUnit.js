@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Float, isEmpty as isFloatEmpty } from '../FloatInput'
+import { PrecisionNumber, isEmpty as isPrecisionNumberEmpty } from '../PrecisionNumberInput'
 import { Unit } from '../UnitInput'
 
-import { isEmpty, isUnitVisible, getFloatFI, getUnitFI } from './support'
+import { isEmpty, isUnitVisible, getPrecisionNumberFI, getUnitFI } from './support'
 
 // FloatUnit takes an FI object and shows the corresponding contents as JSX render.
 export function FloatUnit(FI) {
@@ -15,13 +15,13 @@ export function FloatUnit(FI) {
 		return null
 
 	// Show the FloatUnit.
-	const showFloatFiller = isFloatEmpty(numericValue) && cursor?.part !== 'value'
+	const showPrecisionNumberFiller = isPrecisionNumberEmpty(numericValue) && cursor?.part !== 'value'
 	return <>
 		<span className="value">
 			{
-				showFloatFiller ?
+				showPrecisionNumberFiller ?
 					<span className="char filler">?</span> :
-					<Float {...getFloatFI(FI)} />
+					<PrecisionNumber {...getPrecisionNumberFI(FI)} />
 			}
 		</span>
 		{

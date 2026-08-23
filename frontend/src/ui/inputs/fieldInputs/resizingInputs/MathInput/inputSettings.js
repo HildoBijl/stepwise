@@ -15,7 +15,7 @@ export const defaultInputSettings = {
 	brackets: true,
 	pi: true,
 	eMath: true,
-	float: true,
+	precisionNumber: true,
 	greek: true,
 
 	// Settings also checked during interpretation.

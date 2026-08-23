@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Float } from '@step-wise/physics-core'
+import { PrecisionNumber } from '@step-wise/physics-core'
 
 import { Head, Par, List, M, BM, Term, Emp, Warning } from 'ui/components'
 import { SkillLink } from 'ui/eduTools'
@@ -53,7 +53,7 @@ export default function Component() {
 		]} />
 		<Par>Je kunt de <M>n</M>-waarde ook zien als een mate van de steilheid van het proces in een <M>p</M>-<M>V</M>-diagram. Hoe hoger de waarde van <M>n,</M> hoe steiler de lijn in het diagram.</Par>
 		<Warning>Let op: het is een veelgemaakte fout om <M>n</M> en <M>k</M> door elkaar te halen. <M>n</M> is de <Emp>procescoëfficiënt</Emp>: hij bepaalt <Emp>wat we doen</Emp> met het gas. <M>k</M> is een <Emp>gaseigenschap</Emp>: deze is afhankelijk van <Emp>welk gas</Emp> we gebruiken. Alleen bij een isentroop proces geldt dat <M>n</M> gelijk is aan <M>k.</M></Warning>
-		<Par>Naast de bovenstaande vier processen zijn er ook nog tal van andere processen met andere <M>n</M>-waarden. Bijvoorbeeld een proces met (willekeurig gekozen) <M>n = {new Float('1.2')}.</M> Dit proces heeft geen eigen naam, maar elk proces waarbij er een <M>n</M> bestaat zodat <M>pV^n = (\rm constant)</M> noemen we een <Term>polytroop</Term> proces. Een proces met <M>n = {new Float('1.2')}</M> is, gezien de <M>n</M>-waarde, een proces dat ergens tussen een isotherm en een isentroop proces invalt. Denk aan het indrukken van een fietspomp met een klein beetje isolatie: er is wel warmteuitwisseling, maar niet genoeg om de temperatuur constant te houden.</Par>
+		<Par>Naast de bovenstaande vier processen zijn er ook nog tal van andere processen met andere <M>n</M>-waarden. Bijvoorbeeld een proces met (willekeurig gekozen) <M>n = {new PrecisionNumber('1.2')}.</M> Dit proces heeft geen eigen naam, maar elk proces waarbij er een <M>n</M> bestaat zodat <M>pV^n = (\rm constant)</M> noemen we een <Term>polytroop</Term> proces. Een proces met <M>n = {new PrecisionNumber('1.2')}</M> is, gezien de <M>n</M>-waarde, een proces dat ergens tussen een isotherm en een isentroop proces invalt. Denk aan het indrukken van een fietspomp met een klein beetje isolatie: er is wel warmteuitwisseling, maar niet genoeg om de temperatuur constant te houden.</Par>
 		<Par>Onthoud: een polytroop proces is een verzamelnaam. Isobare, isochore, isotherme en isentrope processen zijn allemaal vormen van polytrope processen, maar een polytroop proces is niet altijd isobaar of isochoor.</Par>
 
 		<Head>Hoe het werkt</Head>

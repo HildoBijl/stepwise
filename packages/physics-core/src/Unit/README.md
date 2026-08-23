@@ -85,7 +85,7 @@ When simplifying the unit, the actual value of the quantity may change. To accou
 
 - `unit` is the new unit.
 - `factor` is what the original number should be multiplied with. For instance, when turning hours to seconds, this will be `3600`.
-- `exponent` is what the exponent of the original number should be incremented by. Going from `km` to `m` this will be `3`: the exponent of the `Float` number should be `3` higher.
+- `exponent` is what the exponent of the original number should be incremented by. Going from `km` to `m` this will be `3`: the exponent of the `PrecisionNumber` number should be `3` higher.
 - `difference` is what should be added to the original number. Going from `°C` to `K` this will be `273.15`.
 
 This allows a calling function to potentially adjust the given number, based on changes in the unit's simplified form.

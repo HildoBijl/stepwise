@@ -8,11 +8,11 @@ The `FloatUnit` class represents a numerical quantity having a specific accuracy
 Setting up a new `FloatUnit` object can be done in various ways.
 
 ```
-import { asFloatUnit, FloatUnit, asFloat, asUnit } from '@step-wise/physics-core'
+import { asFloatUnit, FloatUnit, asPrecisionNumber, asUnit } from '@step-wise/physics-core'
 const c = new FloatUnit('2.99792458 * 10^8 m/s') // String, constructor
 const h = asFloatUnit('6.62607015 * 10^-34 J * s') // String, function
 const k = asFloatUnit({ value: { number: 1.380649, significantDigits: 7, power: -23 }, unit: 'J / K'}) // Object, where value and unit can be strings, objects, etcetera.
-const pi = asFloatUnit(3.14159265358979) // Directly from a number or Float object. Will have no unit then.
+const pi = asFloatUnit(3.14159265358979) // Directly from a number or PrecisionNumber object. Will have no unit then.
 ```
 
 The resulting `FloatUnit` object has a variety of properties and methods.
@@ -20,7 +20,7 @@ The resulting `FloatUnit` object has a variety of properties and methods.
 
 ## Display
 
-The `FloatUnit` has the same display functions as the `Float` object. The most common ones are:
+The `FloatUnit` has the same display functions as the `PrecisionNumber` object. The most common ones are:
 
 ```
 console.log(c.str) // String representation
@@ -30,7 +30,7 @@ console.log(c.tex) // Tex representation
 
 ## Arithmetics
 
-To manipulate the numbers, there is a variety of functions, identical to the `Float` object.
+To manipulate the numbers, there is a variety of functions, identical to the `PrecisionNumber` object.
 
 - `negate()`: turns `x` into `-x`.
 - `abs()`: turns a negative number into a positive one (and keeps positive numbers as is).
@@ -46,7 +46,7 @@ Any operation that requires the parameters to have the same unit will check this
 
 ## Precision operations
 
-It is possible to adjust the precision with which the number is stored; its significant digits. There are various functions here, identical to the `Float` object.
+It is possible to adjust the precision with which the number is stored; its significant digits. There are various functions here, identical to the `PrecisionNumber` object.
 
 - `setSignificantDigits(significantDigits)`: directly sets the significant digits.
 - `makeExact()`: sets the significant digits to infinity.
@@ -71,12 +71,12 @@ Simplifying a `FloatUnit` object is done through the `simplify(options)` functio
 - `target`: (default `'standard'`) either `'unchanged'`, `'noPrefixes'`, `'standard'` or `'base'`. How much should the unit be simplified? It can turn `mbar` into `bar`, `Pa` or `kg / m * s^2`. Quantities are adjusted accordingly.
 - `combine`: (default `true`) should `m * m^2` be combined into `m^3`?
 - `sort`: (default `true`) should units be sorted in the default way?
-- `simplifyFloat`: (default `true`) should the display power of the `Float` part be set to `undefined` to allow for intelligent displaying?
+- `simplifyPrecisionNumber`: (default `true`) should the display power of the `PrecisionNumber` part be set to `undefined` to allow for intelligent displaying?
 
 
 ## Comparison
 
-To compare `FloatUnit` objects, we separately compare `Float` and `Unit` objects. As is the case with these classes too, there are two functions.
+To compare `FloatUnit` objects, we separately compare `PrecisionNumber` and `Unit` objects. As is the case with these classes too, there are two functions.
 
 - `equals(otherFloatUnit, equalityOptions)`: checks for equality and returns `true`/`false`.
 - `checkEquality(otherFloatUnit, equalityOptions)`: gives a report (as an object) with data on equality and which checks failed/passed.
@@ -109,11 +109,11 @@ To randomly generate `FloatUnit` objects, there are two functions.
 Other options the can be included are:
 
 - `unit`: which unit the `FloatUnit` will have. Default is `undefined` (no unit) but use for instance `kg * m / s^2` to get this unit. It will be converted into a `Unit` object internally.
-- `significantDigits`: how many significant digits the `Float` should have.
+- `significantDigits`: how many significant digits the `PrecisionNumber` should have.
 - `decimals`: how many decimals the `FloatUnit` should have. Cannot be combined with `significantDigits`.
 - `round`: should the `FloatUnit` be rounded to its precision? Default `true`: this ensures that a random value of `3.4` is not behind the scenes actually `3.34499999`.
-- `negative`: only for `getRandomExponentialFloat`, makes the outcome negative.
-- `randomSign`: only for `getRandomExponentialFloat`, makes the outcome have a random sign. Cannot be combined with `negative`.
+- `negative`: only for `getRandomExponentialPrecisionNumber`, makes the outcome negative.
+- `randomSign`: only for `getRandomExponentialPrecisionNumber`, makes the outcome have a random sign. Cannot be combined with `negative`.
 
 
 ## Serialization

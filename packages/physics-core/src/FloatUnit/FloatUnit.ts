@@ -1,4 +1,4 @@
-import { type TexDisplayOptionsInput, Float } from '../Float'
+import { type TexDisplayOptionsInput, PrecisionNumber } from '../PrecisionNumber'
 import { type UnitLike, Unit, asUnit, unitsEquivalent } from '../Unit'
 
 import { type FloatUnitInput, type FloatUnitStorageValue, FloatUnitType, floatUnitInputToParameters } from './interpreting'
@@ -12,7 +12,7 @@ export function asFloatUnit(input: FloatUnitLike): FloatUnit {
 }
 
 export class FloatUnit {
-	readonly value: Float
+	readonly value: PrecisionNumber
 	readonly unit: Unit
 
 	/*
@@ -77,19 +77,19 @@ export class FloatUnit {
 	}
 
 	/*
-	 * Float arithmetics
+	 * PrecisionNumber arithmetics
 	 */
 
-	mapFloat(mapper: (value: Float) => Float): FloatUnit {
+	mapPrecisionNumber(mapper: (value: PrecisionNumber) => PrecisionNumber): FloatUnit {
 		return new FloatUnit({ value: mapper(this.value), unit: this.unit })
 	}
 
 	negate(): FloatUnit {
-		return this.mapFloat(value => value.negate())
+		return this.mapPrecisionNumber(value => value.negate())
 	}
 
 	abs(): FloatUnit {
-		return this.mapFloat(value => value.abs())
+		return this.mapPrecisionNumber(value => value.abs())
 	}
 
 	add(input: FloatUnitLike, keepDecimals = false): FloatUnit {
@@ -117,10 +117,10 @@ export class FloatUnit {
 		return this.multiply(asFloatUnit(input).invert(), keepDigits, combineUnit)
 	}
 
-	toPower(power: number | Float | FloatUnit): FloatUnit {
+	toPower(power: number | PrecisionNumber | FloatUnit): FloatUnit {
 		if (power instanceof FloatUnit && !unitsEquivalent(power.unit, '')) throw new Error(`Invalid toPower call: cannot raise a FloatUnit to a power containing a unit.`)
 		const decimalExponent = power instanceof FloatUnit ? power.simplify().value : power
-		const decimalExponentNumber = decimalExponent instanceof Float ? decimalExponent.number : decimalExponent
+		const decimalExponentNumber = decimalExponent instanceof PrecisionNumber ? decimalExponent.number : decimalExponent
 		return new FloatUnit({
 			value: this.value.toPower(decimalExponentNumber),
 			unit: this.unit.toPower(decimalExponentNumber),
@@ -128,39 +128,39 @@ export class FloatUnit {
 	}
 
 	/*
-	 * Float precision operations
+	 * PrecisionNumber precision operations
 	 */
 
 	setSignificantDigits(significantDigits: number): FloatUnit {
-		return this.mapFloat(value => value.setSignificantDigits(significantDigits))
+		return this.mapPrecisionNumber(value => value.setSignificantDigits(significantDigits))
 	}
 
 	makeExact(): FloatUnit {
-		return this.mapFloat(value => value.makeExact())
+		return this.mapPrecisionNumber(value => value.makeExact())
 	}
 
 	adjustSignificantDigits(delta: number): FloatUnit {
-		return this.mapFloat(value => value.adjustSignificantDigits(delta))
+		return this.mapPrecisionNumber(value => value.adjustSignificantDigits(delta))
 	}
 
 	setMinimumSignificantDigits(significantDigits: number): FloatUnit {
-		return this.mapFloat(value => value.setMinimumSignificantDigits(significantDigits))
+		return this.mapPrecisionNumber(value => value.setMinimumSignificantDigits(significantDigits))
 	}
 
 	setDecimals(decimals: number): FloatUnit {
-		return this.mapFloat(value => value.setDecimals(decimals))
+		return this.mapPrecisionNumber(value => value.setDecimals(decimals))
 	}
 
 	roundToPrecision(): FloatUnit {
-		return this.mapFloat(value => value.roundToPrecision())
+		return this.mapPrecisionNumber(value => value.roundToPrecision())
 	}
 
 	clearDisplayPower(): FloatUnit {
-		return this.mapFloat(value => value.clearDisplayPower())
+		return this.mapPrecisionNumber(value => value.clearDisplayPower())
 	}
 
 	setDisplayPower(power: number) {
-		return this.mapFloat(value => value.setDisplayPower(power))
+		return this.mapPrecisionNumber(value => value.setDisplayPower(power))
 	}
 
 	/*
@@ -176,7 +176,7 @@ export class FloatUnit {
 		const unit = asUnit(input)
 		if (this.unit.equals(unit, { target: 'unchanged', checkSize: true })) return this
 		if (!this.unit.equals(unit, { target: 'base', checkSize: false })) throw new Error(`Invalid unit given: cannot transform "${this.str}" to unit "${unit.str}". These units are not similar.`)
-		const current = this.simplify({ target: 'standard', combine: true, sort: true, simplifyFloat: false })
+		const current = this.simplify({ target: 'standard', combine: true, sort: true, simplifyPrecisionNumber: false })
 		const targetData = unit.simplifyWithData({ target: 'standard', combine: true, sort: true })
 
 		// Apply any offsets to the value, and combine it with the given unit.
@@ -193,7 +193,7 @@ export class FloatUnit {
 
 	simplify(options?: FloatUnitSimplificationOptionsInput): FloatUnit {
 		// Transform the unit.
-		const { target, combine, sort, simplifyFloat } = resolveFloatUnitSimplificationOptions(options)
+		const { target, combine, sort, simplifyPrecisionNumber } = resolveFloatUnitSimplificationOptions(options)
 		const { unit, decimalExponent, factor, offset } = this.unit.simplifyWithData({ target, combine, sort })
 
 		// Adjust the value.
@@ -201,7 +201,7 @@ export class FloatUnit {
 		if (offset !== 0) value = value.add({ number: offset, significantDigits: Infinity })
 		if (factor !== 1) value = value.multiply({ number: factor, significantDigits: Infinity })
 		if (decimalExponent !== 0) value = value.adjustPower(decimalExponent)
-		if (simplifyFloat) value = value.clearDisplayPower()
+		if (simplifyPrecisionNumber) value = value.clearDisplayPower()
 
 		// Assemble the outcome.
 		return new FloatUnit({ value, unit })
@@ -228,15 +228,15 @@ export class FloatUnit {
 		const unitResult = this.unit.checkEquality(x.unit, equalityOptions.unit)
 
 		// Check the value.
-		const simplificationOptions = { target: equalityOptions.unit.target, combine: true, sort: true, simplifyFloat: false }
+		const simplificationOptions = { target: equalityOptions.unit.target, combine: true, sort: true, simplifyPrecisionNumber: false }
 		const inputSimplified = x.simplify(simplificationOptions)
 		const referenceSimplified = this.simplify(simplificationOptions)
-		const floatResult = referenceSimplified.value.checkEquality(inputSimplified.value, equalityOptions.value)
+		const precisionNumberResult = referenceSimplified.value.checkEquality(inputSimplified.value, equalityOptions.value)
 
 		// Run the respective comparisons.
 		return {
-			equal: floatResult.equal && unitResult.equal,
-			value: floatResult,
+			equal: precisionNumberResult.equal && unitResult.equal,
+			value: precisionNumberResult,
 			unit: unitResult,
 		}
 	}

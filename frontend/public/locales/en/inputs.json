@@ -6,7 +6,7 @@
       "onlyMinusSign": "A minus sign on its own is not a number."
     }
   },
-  "floatInput": {
+  "precisionNumberInput": {
     "placeHolder": "Floating point number",
     "validation": {
       "onlyDecimalSeparator": "A decimal separator on its own is not a number."
