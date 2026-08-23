@@ -6,6 +6,9 @@ import { asExpression, asEquation } from '@step-wise/cas'
 import { Vector, Line, LineSegment, Rectangle } from '@step-wise/geometry'
 
 import { compare } from './compare'
+import { compareList, compareListEntry } from './compareList'
+import { compareInteger } from './objects/Integer'
+import { compareMultipleChoice } from './objects/MultipleChoice'
 
 function makeData(rawInput: Record<string, InputValue>, solution: Record<string, unknown>, compareOptions = {}) {
 	return {
@@ -46,6 +49,29 @@ describe('compare', () => {
 		expect(compare(['x', 'y'], makeData({ x: { type: IntegerType, value: '151' }, y: { type: IntegerType, value: '199' } }, { x: 150, y: 200 }, { x: { absoluteTolerance: 1 }, y: { absoluteTolerance: 1 } }))).toBe(true)
 		expect(compare(['x', 'y'], makeData({ x: { type: IntegerType, value: '151' }, y: { type: IntegerType, value: '199' } }, { x: 150, y: 200 }, { [IntegerType]: { absoluteTolerance: 1 } }))).toBe(true)
 		expect(compare(['x', 'y'], makeData({ x: { type: IntegerType, value: '151' }, y: { type: IntegerType, value: '199' } }, { x: 150, y: 200 }, { x: { absoluteTolerance: 1 } }))).toBe(false)
+	})
+
+	it('validates every key before comparing', () => {
+		const data = makeData({ x: { type: IntegerType, value: '1' } }, { x: 2 })
+		expect(() => compare(['x', 'missing'], data)).toThrow(/missing/)
+	})
+
+	it('rejects empty comparisons', () => {
+		const data = makeData({}, {})
+		expect(() => compare([], data)).toThrow(RangeError)
+		expect(() => compareList([], data)).toThrow(RangeError)
+	})
+
+	it('validates comparison settings and custom comparison results', () => {
+		const input = { x: { type: IntegerType, value: '1' } }
+		expect(() => compare('x', makeData(input, { x: 1 }, { x: [] } as never))).toThrow(TypeError)
+		expect(() => compare('x', makeData(input, { x: 1 }, { x: (() => 'yes') as never }))).toThrow(TypeError)
+	})
+
+	it('validates keys when comparing individual list entries', () => {
+		const data = makeData({ x: { type: IntegerType, value: '1' } }, { x: 1 })
+		expect(() => compareListEntry('missing', 'x', data)).toThrow(/missing/)
+		expect(() => compareListEntry('x', 'missing', data)).toThrow(/missing/)
 	})
 
 	it('supports custom compare functions', () => {
@@ -136,5 +162,22 @@ describe('compare', () => {
 			expect(compare('x', makeData({ x: { type: 'Rectangle', value: { min: [2, 3], max: [3, 4] } } }, { x: new Rectangle([2, 3], [3, 4]) }))).toBe(true)
 			expect(compare('x', makeData({ x: { type: 'Rectangle', value: { min: [2, 3], max: [3, 4] } } }, { x: new Rectangle([2, 3], [3, 5]) }))).toBe(false)
 		})
+	})
+})
+
+describe('standalone comparison functions', () => {
+	it('requires finite integers', () => {
+		expect(compareInteger(2, 2)).toBe(true)
+		expect(() => compareInteger(2.5, 2)).toThrow()
+		expect(() => compareInteger(2, Number.POSITIVE_INFINITY)).toThrow()
+		expect(() => compareInteger(Number.NaN, 2)).toThrow()
+	})
+
+	it('compares unique non-negative multiple-choice options', () => {
+		expect(compareMultipleChoice([1, 2], [2, 1])).toBe(true)
+		expect(compareMultipleChoice([1, 2], [1, 3])).toBe(false)
+		expect(() => compareMultipleChoice([1, 1], [1, 2])).toThrow(/duplicate/)
+		expect(() => compareMultipleChoice([-1], [1])).toThrow()
+		expect(() => compareMultipleChoice([1.5], [1])).toThrow()
 	})
 })

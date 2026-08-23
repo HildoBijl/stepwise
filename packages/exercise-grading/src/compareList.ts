@@ -8,8 +8,9 @@ import { compareValues } from './compareValues'
 export function compareList<TData extends CheckInputData>(keys: readonly InputKey<TData>[], data: TData): boolean {
 	const { rawInput, input, solution } = data
 
-	// Check the input given.
+	// Check the input.
 	if (solution === undefined) throw new Error(`Invalid compareList call: cannot compare values for an exercise that has no solution defined.`)
+	if (keys.length === 0) throw new RangeError(`Invalid compareList call: expected at least one key.`)
 	for (const key of keys) {
 		if (!(key in rawInput) || !(key in input)) throw new Error(`Invalid compareList call: did not find an input for key "${key}".`)
 		if (!(key in solution)) throw new Error(`Invalid compareList call: the solution did not contain a parameter with key "${key}".`)
@@ -21,8 +22,13 @@ export function compareList<TData extends CheckInputData>(keys: readonly InputKe
 
 export function compareListEntry<TData extends CheckInputData>(inputKey: InputKey<TData>, solutionKey: InputKey<TData>, data: TData): boolean {
 	const { rawInput, input, solution } = data
-	if (solution === undefined) throw new Error(`Invalid compareList call: cannot compare values for an exercise that has no solution defined.`)
 
+	// Check the input.
+	if (solution === undefined) throw new Error(`Invalid compareList call: cannot compare values for an exercise that has no solution defined.`)
+	if (!(inputKey in rawInput) || !(inputKey in input)) throw new Error(`Invalid compareListEntry call: did not find an input for key "${inputKey}".`)
+	if (!(solutionKey in solution)) throw new Error(`Invalid compareListEntry call: the solution did not contain a parameter with key "${solutionKey}".`)
+
+	// Check for equality.
 	const type = rawInput[inputKey].type
 	const currInput = input[inputKey]
 	const currCorrect = solution[solutionKey]
