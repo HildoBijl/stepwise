@@ -1,4 +1,4 @@
 export * from './Matrix'
 export * from './utils'
-export * from './support'
+export { isMatrixArray } from './support'
 export * from './serialization'

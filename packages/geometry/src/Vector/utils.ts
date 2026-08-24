@@ -6,12 +6,20 @@ export function isVectorLike(value: unknown): value is VectorLike {
 	return value instanceof Vector || isVectorInput(value)
 }
 
+export type EnsureVectorOptions = {
+	dimension?: number
+	defaultZero?: boolean
+	nonZero?: boolean
+}
+
 // Turn into a Vector (with optional property requirements) or throw an error.
-export function ensureVector(vector: VectorLike | undefined, dimension?: number, useDefaultZero = false, preventZero = false): Vector {
+export function ensureVector(vector: VectorLike | undefined, options: EnsureVectorOptions = {}): Vector {
+	const { dimension, defaultZero = false, nonZero = false } = options
+
 	// Check default fallbacks.
-	if (useDefaultZero && preventZero) throw new Error(`Invalid ensureVector settings: you have set "useDefaultZero" to true but "preventZero" also to true. That's a contradiction in itself.`)
+	if (defaultZero && nonZero) throw new Error(`Invalid ensureVector options: "defaultZero" and "nonZero" cannot both be true.`)
 	if (vector === undefined) {
-		if (useDefaultZero) {
+		if (defaultZero) {
 			if (dimension === undefined) throw new Error(`Invalid ensureVector call: cannot use a default zero vector without specifying a dimension.`)
 			return Vector.getZero(dimension)
 		}
@@ -21,18 +29,24 @@ export function ensureVector(vector: VectorLike | undefined, dimension?: number,
 	// Set up the vector and check it.
 	const ensuredVector = new Vector(vector as VectorLike)
 	if (dimension !== undefined && ensuredVector.dimension !== dimension) throw new Error(`Invalid Vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${ensuredVector.dimension}.`)
-	if (preventZero && ensuredVector.isZero()) throw new Error(`Invalid Vector: received a zero vector (dimension ${ensuredVector.dimension}) but this is not allowed.`)
+	if (nonZero && ensuredVector.isZero()) throw new Error(`Invalid Vector: received a zero vector (dimension ${ensuredVector.dimension}) but this is not allowed.`)
 	return ensuredVector
 }
 
+export type EnsureVectorArrayOptions = {
+	dimension?: number
+	length?: number
+}
+
 // Turn into a Vector list (with optional requirements) or throw an error.
-export function ensureVectorArray(vectors: VectorLike[], dimension?: number, numElements?: number): Vector[] {
+export function ensureVectorArray(vectors: VectorLike[], options: EnsureVectorArrayOptions = {}): Vector[] {
+	const { dimension, length } = options
 	if (!Array.isArray(vectors)) throw new Error(`Invalid Vector array: expected an array of vectors or vector-like objects (arrays or objects with coordinates) but received a parameter of type "${typeof vectors}".`)
-	if (numElements !== undefined && vectors.length !== numElements) throw new Error(`Invalid Vector array: expected an array with ${numElements} vectors, but the array had ${vectors.length} elements instead.`)
-	return vectors.map(vector => ensureVector(vector, dimension))
+	if (length !== undefined && vectors.length !== length) throw new Error(`Invalid Vector array: expected an array with ${length} vectors, but the array had ${vectors.length} elements instead.`)
+	return vectors.map(vector => ensureVector(vector, { dimension }))
 }
 
 // Turn into a list of three Vector objects or throw an error.
-export function ensureCorner(points: VectorLike[], dimension = 2): [Vector, Vector, Vector] {
-	return ensureVectorArray(points, dimension, 3) as [Vector, Vector, Vector]
+export function ensureCorner(points: VectorLike[], options: { dimension?: number } = {}): [Vector, Vector, Vector] {
+	return ensureVectorArray(points, { dimension: options.dimension ?? 2, length: 3 }) as [Vector, Vector, Vector]
 }

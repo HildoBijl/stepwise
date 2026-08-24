@@ -20,7 +20,7 @@ export const defaultText = {
 export const Text = forwardRef((props, ref) => {
 	// Process the input.
 	let { point, graphicalPoint, anchor, className, style, children } = mergeDefaults(props, defaultText)
-	point = ensureVector(useGraphicalVector(point, graphicalPoint), 2)
+	point = ensureVector(useGraphicalVector(point, graphicalPoint), { dimension: 2 })
 	anchor = ensureString(anchor)
 	className = ensureString(className)
 	style = { ...defaultText.style, ...ensureObject(style) }

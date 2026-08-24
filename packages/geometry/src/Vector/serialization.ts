@@ -1,12 +1,12 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { type VectorData } from './types'
+import { type VectorStorageValue } from './types'
 import { Vector } from './Vector'
 import { isCoordinateList } from './support'
 
 export type SerializedVector = {
 	type: typeof Vector.type
-	value: VectorData
+	value: VectorStorageValue
 }
 
 export function serializeVector(vector: Vector): SerializedVector {

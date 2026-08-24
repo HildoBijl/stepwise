@@ -2,9 +2,9 @@ import { isPlainObject } from '@step-wise/js-utils'
 
 import { type VectorLike, isVectorLike, Vector, ensureVector } from '../Vector'
 
-import type { RectangleInput, RectangleObject } from './types'
+import type { RectangleInput } from './types'
 
-export function isRectangleObject(value: unknown): value is RectangleObject {
+export function isRectangleObject(value: unknown): value is RectangleInput {
 	if (!isPlainObject(value)) return false
 
 	const hasMin = value.min !== undefined
@@ -26,7 +26,7 @@ export function isRectangleInput(value: unknown): value is RectangleInput {
 
 export function getMinAndMax(start: VectorLike, end: VectorLike): [Vector, Vector] {
 	const ensuredStart = ensureVector(start)
-	const ensuredEnd = ensureVector(end, ensuredStart.dimension)
+	const ensuredEnd = ensureVector(end, { dimension: ensuredStart.dimension })
 
 	const min = new Vector(ensuredStart.coordinates.map((coordinate, axis) => Math.min(coordinate, ensuredEnd.getCoordinate(axis))))
 	const max = new Vector(ensuredStart.coordinates.map((coordinate, axis) => Math.max(coordinate, ensuredEnd.getCoordinate(axis))))

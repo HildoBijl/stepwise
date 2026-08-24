@@ -62,7 +62,7 @@ export function shouldApplySelecting(mouseDownData, applySelecting, endSelect) {
 // getSelectionRectangle returns the selection rectangle based on two mouse data objects.
 export function getSelectionRectangle(downPosition, upPosition, bounds) {
 	return new Rectangle({
-		min: bounds.applyBounds(downPosition),
-		max: bounds.applyBounds(upPosition),
+		min: bounds.clampPoint(downPosition),
+		max: bounds.clampPoint(upPosition),
 	})
 }

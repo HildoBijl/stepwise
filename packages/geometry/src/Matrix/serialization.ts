@@ -1,12 +1,12 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { type MatrixArray } from './types'
+import { type MatrixArray as MatrixStorageValue } from './types'
 import { Matrix } from './Matrix'
 import { isMatrixArray } from './support'
 
 export type SerializedMatrix = {
 	type: typeof Matrix.type
-	value: MatrixArray
+	value: MatrixStorageValue
 }
 
 export function serializeMatrix(matrix: Matrix): SerializedMatrix {

@@ -77,7 +77,7 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 		</Group>)}
 
 		{/* Axis labels. */}
-		{xLabel ? <Label position={[bounds.middle.x, 0]} graphicalDistance={tickSize + 12 + xLabelShift} angle={Math.PI / 2} scale={textScale}>{xLabel}</Label> : null}
-		{yLabel ? <Label position={[0, bounds.middle.y]} graphicalDistance={tickSize + 17 + yLabelShift} angle={Math.PI} rotate={-Math.PI / 2} scale={textScale}>{yLabel}</Label> : null}
+		{xLabel ? <Label position={[bounds.midpoint.x, 0]} graphicalDistance={tickSize + 12 + xLabelShift} angle={Math.PI / 2} scale={textScale}>{xLabel}</Label> : null}
+		{yLabel ? <Label position={[0, bounds.midpoint.y]} graphicalDistance={tickSize + 17 + yLabelShift} angle={Math.PI} rotate={-Math.PI / 2} scale={textScale}>{yLabel}</Label> : null}
 	</Group >
 })

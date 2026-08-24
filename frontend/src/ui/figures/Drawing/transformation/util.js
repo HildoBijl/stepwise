@@ -17,7 +17,7 @@ export function useConsistentPoints(points) {
 		const currentKeys = Object.keys(current)
 		const previousKeys = Object.keys(previous)
 		return currentKeys.length === previousKeys.length && currentKeys.every(key =>
-			Object.prototype.hasOwnProperty.call(previous, key) && ensureVector(current[key], 2).equals(ensureVector(previous[key], 2)),
+			Object.prototype.hasOwnProperty.call(previous, key) && ensureVector(current[key], { dimension: 2 }).equals(ensureVector(previous[key], { dimension: 2 })),
 		)
 	})
 }
@@ -26,7 +26,7 @@ export function useConsistentPoints(points) {
 export function getBoundingRectangle(points) {
 	let minX, maxX, minY, maxY
 	mapValues(points, point => {
-		point = ensureVector(point, 2)
+		point = ensureVector(point, { dimension: 2 })
 		if (minX === undefined || point.x < minX)
 			minX = point.x
 		if (maxX === undefined || point.x > maxX)
@@ -83,7 +83,7 @@ export function applyTransformation(points, transformation, preventShift) {
 
 	// If the points parameter is a single vector, apply it.
 	if (isTransformable(points))
-		return transformation.transform(points, preventShift)
+		return transformation.transform(points, { applyTranslation: !preventShift })
 
 	// Apply the transformation to each element of the given array/object.
 	return mapValues(points, point => applyTransformation(point, transformation, preventShift))
@@ -95,7 +95,7 @@ export function useRotationReflectionTransformation(rotation = 0, reflection = t
 	return useMemo(() => {
 		let transformation = Transformation.fromRotation(rotation)
 		if (reflection)
-			transformation = Transformation.fromReflection(Vector.getUnitVector(0, 2)).then(transformation)
-		return transformation.relativeTo(relativeTo)
+			transformation = Transformation.fromHyperplaneReflection(Vector.getUnitVector(0, 2)).then(transformation)
+		return transformation.around(relativeTo)
 	}, [rotation, reflection, relativeTo])
 }

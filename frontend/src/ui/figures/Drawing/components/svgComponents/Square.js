@@ -18,7 +18,7 @@ export const defaultSquare = {
 export const Square = forwardRef((props, ref) => {
 	// Process the input.
 	let { center, graphicalCenter, side, graphicalSide, className, style } = mergeDefaults(props, defaultSquare)
-	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
+	center = ensureVector(useGraphicalVector(center, graphicalCenter), { dimension: 2 })
 	side = useGraphicalDistance(side, graphicalSide)
 	className = ensureString(className)
 	style = { ...defaultSquare.style, ...ensureObject(style) }

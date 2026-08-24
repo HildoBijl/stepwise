@@ -16,5 +16,5 @@ export type CoordinateObject3D = {
 export type CoordinateObject = CoordinateObject1D | CoordinateObject2D | CoordinateObject3D
 export type CoordinateList = number[]
 
-export type VectorData = CoordinateList
+export type VectorStorageValue = CoordinateList
 export type VectorInput = CoordinateObject | CoordinateList

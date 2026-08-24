@@ -9,7 +9,7 @@ export function createNamedPoint(point: NamedPointLike): NamedPoint {
 	if (!isPlainObject(point)) throw new TypeError(`Invalid named point: expected a plain object.`)
 	return {
 		name: ensureString(point.name, { nonEmpty: true }),
-		position: ensureVector(point.position, 2),
+		position: ensureVector(point.position, { dimension: 2 }),
 	}
 }
 

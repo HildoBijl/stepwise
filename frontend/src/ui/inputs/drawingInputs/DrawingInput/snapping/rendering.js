@@ -20,7 +20,7 @@ export function SnapLines() {
 	// Render the snap lines.
 	const { snapLines } = mouseData
 	return snapLines.map((line, index) => {
-		const lineSegment = bounds.getLineSegment(line)
+		const lineSegment = bounds.getLineIntersection(line)
 		return <SvgLine key={index} points={[lineSegment.start, lineSegment.end]} style={{
 			stroke: theme.palette.primary.main,
 			strokeWidth: 1,
@@ -63,7 +63,7 @@ export function useShowSnapMarking() {
 
 	// On an out of bounds position, do not show anything.
 	const { position, isSnapped } = mouseData
-	if (!bounds.contains(position))
+	if (!bounds.containsPoint(position))
 		return false
 
 	// If the mouse position is not at a snapping point, there is no snap that can be done.

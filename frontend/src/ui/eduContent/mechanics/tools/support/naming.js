@@ -77,12 +77,12 @@ export function getForceNamesForPoint(forces, point, pointName) {
 
 	// On two forces that are horizontal and vertical, use F_{Ax} and F_{Ay}.
 	if (forces.length === 2 && pointName) {
-		if (forces[0].force.vector.isEqualDirection(Vector.i, true) && forces[1].force.vector.isEqualDirection(Vector.j, true)) {
+		if (forces[0].force.vector.hasSameDirection(Vector.i, true) && forces[1].force.vector.hasSameDirection(Vector.j, true)) {
 			return [
 				{ load: forces[0], name: `F${pointName}x`, variable: asExpression(`F_(${pointName}x)`), point: point || forces[0].force.start },
 				{ load: forces[1], name: `F${pointName}y`, variable: asExpression(`F_(${pointName}y)`), point: point || forces[1].force.start },
 			]
-		} else if (forces[0].force.vector.isEqualDirection(Vector.j, true) && forces[1].force.vector.isEqualDirection(Vector.i, true)) {
+		} else if (forces[0].force.vector.hasSameDirection(Vector.j, true) && forces[1].force.vector.hasSameDirection(Vector.i, true)) {
 			return [
 				{ load: forces[1], name: `F${pointName}x`, variable: asExpression(`F_(${pointName}x)`), point: point || forces[1].force.start },
 				{ load: forces[0], name: `F${pointName}y`, variable: asExpression(`F_(${pointName}y)`), point: point || forces[0].force.start },
@@ -91,7 +91,7 @@ export function getForceNamesForPoint(forces, point, pointName) {
 	}
 
 	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth. Make sure a vector pointing upwards gets the first number, and clockwise afterwards.
-	forces = sortBy(forces, forces.map(force => mod(force.force.vector.argument + Math.PI / 2, 2 * Math.PI)))
+	forces = sortBy(forces, forces.map(force => mod(force.force.vector.angle + Math.PI / 2, 2 * Math.PI)))
 	return forces.map((force, index) => ({ load: force, name: pointName ? `F${pointName}${index + 1}` : `F${index + 1}`, variable: asExpression(pointName ? `F_(${pointName}${index + 1})` : `F_(${index + 1})`), point: point || force.force.start }))
 }
 

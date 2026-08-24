@@ -31,7 +31,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	const theme = useTheme()
 	const { plotBounds } = useTransformationSettings()
 	const mousePosition = useMousePosition()
-	const mouseInPlot = !!mousePosition && plotBounds.contains(mousePosition)
+	const mouseInPlot = !!mousePosition && plotBounds.containsPoint(mousePosition)
 
 	// Process options.
 	let { lineStyle, circleStyle, showAxisLabels, labelStyle, valueToLabel, xValueToLabel, yValueToLabel, pointToLabel } = mergeDefaults(options, defaultMouseLinesOptions)

@@ -82,10 +82,10 @@ export const Drawing = forwardRef((options, ref) => {
 		contains(dPoint) {
 			if (!dPoint)
 				return false
-			return transformationSettings.bounds.contains(dPoint)
+			return transformationSettings.bounds.containsPoint(dPoint)
 		},
 		applyBounds(dPoint) {
-			return transformationSettings.bounds.applyBounds(dPoint)
+			return transformationSettings.bounds.clampPoint(dPoint)
 		},
 	}))
 
@@ -142,7 +142,7 @@ function getGraphicalCoordinates(clientCoordinates, transformationSettings, figu
 	}
 
 	// Calculate the position.
-	clientCoordinates = ensureVector(clientCoordinates, 2)
+	clientCoordinates = ensureVector(clientCoordinates, { dimension: 2 })
 	return new Vector([
 		(clientCoordinates.x - figureRect.x) * transformationSettings.graphicalBounds.width / figureRect.width,
 		(clientCoordinates.y - figureRect.y) * transformationSettings.graphicalBounds.height / figureRect.height,

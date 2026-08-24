@@ -20,7 +20,7 @@ export const defaultArrowHead = {
 export const ArrowHead = forwardRef((props, ref) => {
 	// Check input.
 	let { position, graphicalPosition, angle, size, color, className, style } = mergeDefaults(props, defaultArrowHead)
-	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	angle = ensureNumber(angle)
 	size = ensureNumber(size)
 	color = ensureString(color)

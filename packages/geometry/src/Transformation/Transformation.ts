@@ -6,13 +6,13 @@ import { type LineSegmentLike, LineSegment, ensureLineSegment, isLineSegmentLike
 import { type RectangleLike, Rectangle, ensureRectangle, isRectangleLike } from '../Rectangle'
 import { type MatrixLike, Matrix, ensureSquareMatrix } from '../Matrix'
 
-import type { TransformationInput, TransformationData, TransformableLike } from './types'
+import type { TransformableLike, TransformationInput, TransformationStorageValue } from './types'
 import { isTransformationObject } from './support'
 
 export const TransformationType = 'Transformation'
 export type TransformationType = typeof TransformationType
 
-export type { TransformationData }
+export type { TransformationStorageValue }
 export type TransformationLike = Transformation | TransformationInput
 
 export class Transformation {
@@ -23,8 +23,8 @@ export class Transformation {
 	 * Common transformations.
 	 */
 
-	static readonly horizontalFlip = Transformation.fromReflection([1, 0])
-	static readonly verticalFlip = Transformation.fromReflection([0, 1])
+	static readonly horizontalFlip = Transformation.fromHyperplaneReflection([1, 0])
+	static readonly verticalFlip = Transformation.fromHyperplaneReflection([0, 1])
 
 	/*
 	 * Constructor.
@@ -63,7 +63,7 @@ export class Transformation {
 
 		// Check and store the matrix and translation.
 		this._matrix = ensureSquareMatrix(matrix)
-		this._translation = translation === undefined ? Vector.getZero(this._matrix.width) : ensureVector(translation, this._matrix.width)
+		this._translation = translation === undefined ? Vector.getZero(this._matrix.columnCount) : ensureVector(translation, { dimension: this._matrix.columnCount })
 	}
 
 	/*
@@ -88,14 +88,14 @@ export class Transformation {
 		return new Transformation(this._matrix, this._translation)
 	}
 
-	toStorageValue(): TransformationData {
+	toStorageValue(): TransformationStorageValue {
 		return {
 			matrix: this._matrix.toStorageValue(),
 			translation: this._translation.toStorageValue(),
 		}
 	}
 
-	static fromStorageValue(value: TransformationData): Transformation {
+	static fromStorageValue(value: TransformationStorageValue): Transformation {
 		return new Transformation(value)
 	}
 
@@ -114,7 +114,7 @@ export class Transformation {
 	 */
 
 	get dimension(): number {
-		return this._matrix.width
+		return this._matrix.columnCount
 	}
 
 	get determinant(): number {
@@ -170,8 +170,8 @@ export class Transformation {
 	}
 
 	// Returns a new transformation applied relative to the given point.
-	relativeTo(relativeTo: VectorLike = Vector.getZero(this.dimension)): Transformation {
-		const origin = ensureVector(relativeTo, this.dimension)
+	around(point: VectorLike = Vector.getZero(this.dimension)): Transformation {
+		const origin = ensureVector(point, { dimension: this.dimension })
 		const translation = this._translation.add(origin).subtract(this._matrix.multiply(origin))
 		return new Transformation(this._matrix, translation)
 	}
@@ -180,35 +180,37 @@ export class Transformation {
 	 * Transformations.
 	 */
 
-	transform(vector: VectorLike, preventTranslation?: boolean): Vector
-	transform(line: LineLike, preventTranslation?: boolean): Line
-	transform(lineSegment: LineSegmentLike, preventTranslation?: boolean): LineSegment
-	transform(rectangle: RectangleLike, preventTranslation?: boolean): Rectangle
-	transform(value: TransformableLike, preventTranslation = false): TransformableLike {
+	transform(vector: VectorLike, options?: { applyTranslation?: boolean }): Vector
+	transform(line: LineLike, options?: { applyTranslation?: boolean }): Line
+	transform(lineSegment: LineSegmentLike, options?: { applyTranslation?: boolean }): LineSegment
+	transform(rectangle: RectangleLike, options?: { applyTranslation?: boolean }): Rectangle
+	transform(value: TransformableLike, options: { applyTranslation?: boolean } = {}): TransformableLike {
+		const { applyTranslation = true } = options
+
 		// Transform a vector.
 		if (isVectorLike(value)) {
-			const vector = ensureVector(value, this.dimension)
+			const vector = ensureVector(value, { dimension: this.dimension })
 			const transformedWithoutTranslation = this._matrix.multiply(vector)
-			return preventTranslation ? transformedWithoutTranslation : transformedWithoutTranslation.add(this._translation)
+			return applyTranslation ? transformedWithoutTranslation.add(this._translation) : transformedWithoutTranslation
 		}
 
 		// Transform a Line by transforming two points on it.
 		if (isLineLike(value)) {
-			const line = ensureLine(value, this.dimension)
-			return Line.fromPoints(this.transform(line.start, preventTranslation), this.transform(line.secondPoint, preventTranslation))
+			const line = ensureLine(value, { dimension: this.dimension })
+			return Line.fromPoints(this.transform(line.start, options), this.transform(line.secondPoint, options))
 		}
 
 		// Transform a LineSegment by transforming its endpoints.
 		if (isLineSegmentLike(value)) {
-			const lineSegment = ensureLineSegment(value, this.dimension)
-			return new LineSegment(this.transform(lineSegment.start, preventTranslation), this.transform(lineSegment.end, preventTranslation))
+			const lineSegment = ensureLineSegment(value, { dimension: this.dimension })
+			return new LineSegment(this.transform(lineSegment.start, options), this.transform(lineSegment.end, options))
 		}
 
 		// Transform a Rectangle by transforming its min/max.
 		if (isRectangleLike(value)) {
-			const rectangle = ensureRectangle(value, this.dimension)
+			const rectangle = ensureRectangle(value, { dimension: this.dimension })
 			if (!this.matrix.isMonomial()) throw new Error(`Invalid transform input: tried to transform a Rectangle using a matrix that is not monomial. The transformation will not be an axis-aligned Rectangle.`)
-			return new Rectangle(this.transform(rectangle.min, preventTranslation), this.transform(rectangle.max, preventTranslation))
+			return new Rectangle(this.transform(rectangle.min, options), this.transform(rectangle.max, options))
 		}
 
 		throw new Error(`Invalid transform input: expected a Vector, Line, LineSegment or Rectangle, but received something else.`)
@@ -233,7 +235,7 @@ export class Transformation {
 		const safeScales = scales.map(scale => ensureNumber(scale))
 		const matrix = Matrix.fromDiagonal(safeScales)
 		const translation = Vector.getZero(safeScales.length)
-		return new Transformation(matrix, translation).relativeTo(relativeTo)
+		return new Transformation(matrix, translation).around(relativeTo)
 	}
 
 	static fromUniformScale(scale: number, dimension: number, relativeTo?: VectorLike): Transformation {
@@ -245,16 +247,16 @@ export class Transformation {
 	static fromRotation(rotation: number, relativeTo?: VectorLike): Transformation {
 		const angle = ensureNumber(rotation)
 		const matrix = new Matrix([[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]])
-		return new Transformation(matrix, Vector.getZero(2)).relativeTo(relativeTo)
+		return new Transformation(matrix, Vector.getZero(2)).around(relativeTo)
 	}
 
 	// Reflect across the hyperplane perpendicular to the given normal vector. By default, negate the x-coordinate by reflecting across the y-axis.
-	static fromReflection(normal: VectorLike = [1, 0], relativeTo?: VectorLike): Transformation {
-		const axis = ensureVector(normal, undefined, false, true)
+	static fromHyperplaneReflection(normal: VectorLike = [1, 0], relativeTo?: VectorLike): Transformation {
+		const axis = ensureVector(normal, { nonZero: true })
 
 		// Reflection across the hyperplane with unit normal u: transform using I - 2uu^T.
-		const u = Matrix.fromVector(axis.normalize())
+		const u = Matrix.fromColumnVector(axis.normalize())
 		const matrix = Matrix.getIdentity(axis.dimension).subtract(u.multiply(u.transpose()).multiply(2))
-		return new Transformation(matrix, Vector.getZero(axis.dimension)).relativeTo(relativeTo)
+		return new Transformation(matrix, Vector.getZero(axis.dimension)).around(relativeTo)
 	}
 }

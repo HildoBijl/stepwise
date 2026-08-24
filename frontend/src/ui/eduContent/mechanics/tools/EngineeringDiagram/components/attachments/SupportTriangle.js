@@ -22,7 +22,7 @@ export const defaultSupportTriangle = {
 export const SupportTriangle = forwardRef((props, ref) => {
 	// Check input.
 	let { position, graphicalPosition, color, thickness, width, height, className, style } = mergeDefaults(props, defaultSupportTriangle)
-	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
 	width = ensureNumber(width)

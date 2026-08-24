@@ -23,11 +23,11 @@ export const Label = forwardRef((props, ref) => {
 	// Check input.
 	let { children, position, graphicalPosition, distance, graphicalDistance, angle, anchor, rotate } = mergeDefaults(props, defaultLabel)
 	children = ensureReactElement(children)
-	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	distance = ensureNumber(useGraphicalDistance(distance, graphicalDistance))
 	angle = ensureNumber(angle)
 	rotate = ensureNumber(rotate)
-	anchor = anchor === undefined ? getAnchorFromAngle(angle - rotate + Math.PI) : ensureVector(anchor, 2)
+	anchor = anchor === undefined ? getAnchorFromAngle(angle - rotate + Math.PI) : ensureVector(anchor, { dimension: 2 })
 
 	// Find the position shift and apply it.
 	const delta = Vector.fromPolar(distance, angle)

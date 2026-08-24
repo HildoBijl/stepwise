@@ -8,7 +8,7 @@ export function createForce(value: ForceLike): Force {
 	if (isForce(value)) return value
 	return {
 		type: loadTypes.force,
-		position: ensureVector(value.position, 2),
+		position: ensureVector(value.position, { dimension: 2 }),
 		angle: normalizeAngle(value.angle),
 		applicationPointAt: ensureApplicationPointPosition(value.applicationPointAt ?? 'end'),
 		magnitudeFactor: ensureNumber(value.magnitudeFactor ?? 1, { nonNegative: true, nonZero: true }),
@@ -19,7 +19,7 @@ export function createMoment(value: MomentLike): Moment {
 	if (isMoment(value)) return value
 	return {
 		type: loadTypes.moment,
-		position: ensureVector(value.position, 2),
+		position: ensureVector(value.position, { dimension: 2 }),
 		clockwise: value.clockwise,
 		openingAngle: normalizeAngle(value.openingAngle ?? 0),
 	}

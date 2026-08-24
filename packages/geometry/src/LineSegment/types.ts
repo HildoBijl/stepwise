@@ -1,14 +1,12 @@
-import type { VectorData, VectorLike } from '../Vector'
+import type { VectorLike, VectorStorageValue } from '../Vector'
 
-export type LineSegmentObject = {
+export type LineSegmentInput = {
 	start?: VectorLike
 	end?: VectorLike
 	vector?: VectorLike
 }
 
-export type LineSegmentData = {
-	start: VectorData
-	end: VectorData
+export type LineSegmentStorageValue = {
+	start: VectorStorageValue
+	end: VectorStorageValue
 }
-
-export type LineSegmentInput = LineSegmentObject

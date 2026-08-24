@@ -63,7 +63,7 @@ function compareForcePositions(input: Force, solution: Force, comparison: ForceP
 		case 'equal': return solution.position.equals(input.position)
 		case 'equalLine':
 			const relativePosition = input.position.subtract(solution.position)
-			return relativePosition.isZero() || anglesEqual(solution.angle, relativePosition.argument, Math.PI)
+			return relativePosition.isZero() || anglesEqual(solution.angle, relativePosition.angle, Math.PI)
 		case 'ignore': return true
 	}
 }

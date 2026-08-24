@@ -77,7 +77,7 @@ export function getDragObjectData(downData, upData, options) {
 
 	// On a double snap, always give a Force ending at the snapped mouse position.
 	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
-		return createForce({ position: upData.snappedPosition, angle: snappedVector.argument, applicationPointAt: 'end' })
+		return createForce({ position: upData.snappedPosition, angle: snappedVector.angle, applicationPointAt: 'end' })
 	}
 
 	// On a very short vector show a Drag Marker.
@@ -86,13 +86,13 @@ export function getDragObjectData(downData, upData, options) {
 
 	// On a short distance return a Moment.
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
-		const angle = vector.argument
-		const openingAngle = snappedVector.argument
+		const angle = vector.angle
+		const openingAngle = snappedVector.angle
 		return createMoment({ position: downData.snappedPosition, openingAngle, clockwise: mod(angle - openingAngle, 2 * Math.PI) > Math.PI })
 	}
 
 	// Otherwise return a force connected to the point where the drag started.
-	return createForce({ position: downData.snappedPosition, angle: snappedVector.argument, applicationPointAt: 'start' })
+	return createForce({ position: downData.snappedPosition, angle: snappedVector.angle, applicationPointAt: 'start' })
 }
 
 // removeHovering takes an FI and makes sure that no load in it has hovering set to true.

@@ -1,14 +1,12 @@
-import type { VectorData, VectorLike } from '../Vector'
+import type { VectorLike, VectorStorageValue } from '../Vector'
 
-export type RectangleObject = {
+export type RectangleInput = {
 	min?: VectorLike
 	max?: VectorLike
 	size?: VectorLike
 }
 
-export type RectangleData = {
-	min: VectorData
-	max: VectorData
+export type RectangleStorageValue = {
+	min: VectorStorageValue
+	max: VectorStorageValue
 }
-
-export type RectangleInput = RectangleObject

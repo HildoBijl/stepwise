@@ -1,4 +1,4 @@
 export * from './Vector'
 export * from './utils'
-export * from './support'
+export { isCoordinateList, isCoordinateObject } from './support'
 export * from './serialization'

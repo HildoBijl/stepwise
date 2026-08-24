@@ -22,7 +22,7 @@ export const defaultArc = {
 export const Arc = forwardRef((props, ref) => {
 	// Check input.
 	let { center, graphicalCenter, radius, graphicalRadius, startAngle, endAngle, className, style } = mergeDefaults(props, defaultArc)
-	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
+	center = ensureVector(useGraphicalVector(center, graphicalCenter), { dimension: 2 })
 	radius = useGraphicalDistance(radius, graphicalRadius)
 	startAngle = ensureNumber(startAngle)
 	endAngle = ensureNumber(endAngle)

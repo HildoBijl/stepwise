@@ -1,12 +1,12 @@
 import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-utils'
 
-import type { CoordinateList, VectorData, VectorInput } from './types'
+import type { CoordinateList, VectorInput, VectorStorageValue } from './types'
 import { isCoordinateList, isCoordinateObject, coordinatesFromObject } from './support'
 
 export const VectorType = 'Vector'
 export type VectorType = typeof VectorType
 
-export type { VectorData }
+export type { VectorStorageValue }
 export type VectorLike = Vector | VectorInput
 
 export class Vector {
@@ -88,11 +88,11 @@ export class Vector {
 		return new Vector(this._coordinates)
 	}
 
-	toStorageValue(): VectorData {
+	toStorageValue(): VectorStorageValue {
 		return this.coordinates
 	}
 
-	static fromStorageValue(coordinates: VectorData): Vector {
+	static fromStorageValue(coordinates: VectorStorageValue): Vector {
 		return new Vector(coordinates)
 	}
 
@@ -149,13 +149,9 @@ export class Vector {
 		return Math.sqrt(this.squaredMagnitude)
 	}
 
-	get unitVector(): Vector {
-		return this.normalize()
-	}
-
-	// The argument of a 2D vector in radians, measured counterclockwise from the positive x-axis.
-	get argument(): number {
-		if (this.dimension !== 2) throw new Error(`Invalid argument call: cannot calculate the argument of a ${this.dimension}D vector.`)
+	// The angle of a 2D vector in radians, measured counterclockwise from the positive x-axis.
+	get angle(): number {
+		if (this.dimension !== 2) throw new Error(`Invalid angle call: cannot calculate the angle of a ${this.dimension}D vector.`)
 		return Math.atan2(this.y!, this.x!)
 	}
 
@@ -184,18 +180,18 @@ export class Vector {
 		return this.dimension === other.dimension && this._coordinates.every((value, index) => approximatelyEqual(value, other._coordinates[index]))
 	}
 
-	isEqualMagnitude(vector: VectorLike): boolean {
+	hasEqualMagnitude(vector: VectorLike): boolean {
 		return approximatelyEqual(this.squaredMagnitude, this.coerceVector(vector).squaredMagnitude)
 	}
 
-	isEqualDirection(vector: VectorLike, allowReverse = false): boolean {
+	hasSameDirection(vector: VectorLike, allowReverse = false): boolean {
 		const other = this.coerceVector(vector)
-		if (this.isZero() || other.isZero()) throw new Error(`Invalid isEqualDirection call: cannot compare direction with the zero vector.`)
+		if (this.isZero() || other.isZero()) throw new Error(`Invalid hasSameDirection call: cannot compare direction with the zero vector.`)
 		const dotProduct = this.dotProduct(other)
 		return approximatelyEqual(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * other.magnitude)
 	}
 
-	isOrthogonal(vector: VectorLike): boolean {
+	isOrthogonalTo(vector: VectorLike): boolean {
 		return approximatelyEqual(this.dotProduct(this.coerceVector(vector)), 0)
 	}
 
@@ -203,7 +199,7 @@ export class Vector {
 	 * Operations.
 	 */
 
-	reverse(): Vector {
+	negate(): Vector {
 		return this.multiply(-1)
 	}
 
@@ -213,7 +209,7 @@ export class Vector {
 	}
 
 	subtract(vector: VectorLike): Vector {
-		return this.add(this.coerceVector(vector).reverse())
+		return this.add(this.coerceVector(vector).negate())
 	}
 
 	// Multiply the vector by a scalar.
@@ -317,7 +313,7 @@ export class Vector {
 		return new Vector(coordinates)
 	}
 
-	static fromPolar(magnitude: number, argument: number): Vector {
-		return new Vector(magnitude * Math.cos(argument), magnitude * Math.sin(argument))
+	static fromPolar(magnitude: number, angle: number): Vector {
+		return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle))
 	}
 }

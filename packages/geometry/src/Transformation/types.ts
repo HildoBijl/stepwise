@@ -1,19 +1,19 @@
-import type { VectorData, VectorLike } from '../Vector'
+import type { VectorLike, VectorStorageValue } from '../Vector'
 import type { LineLike } from '../Line'
 import type { LineSegmentLike } from '../LineSegment'
 import type { RectangleLike } from '../Rectangle'
-import type { MatrixData, MatrixLike } from '../Matrix'
+import type { MatrixLike, MatrixStorageValue } from '../Matrix'
 
-export type TransformationData = {
-	matrix: MatrixData,
-	translation: VectorData,
+export type TransformationStorageValue = {
+	matrix: MatrixStorageValue
+	translation: VectorStorageValue
 }
 
-export type TransformationDescription = {
+export type TransformationObjectInput = {
 	matrix: MatrixLike
 	translation?: VectorLike
 }
 
-export type TransformationInput = MatrixLike | TransformationDescription
+export type TransformationInput = MatrixLike | TransformationObjectInput
 
 export type TransformableLike = VectorLike | LineLike | LineSegmentLike | RectangleLike

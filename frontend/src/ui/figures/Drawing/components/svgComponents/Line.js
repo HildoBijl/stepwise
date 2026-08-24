@@ -25,7 +25,7 @@ export const defaultLine = {
 export const Line = forwardRef((props, ref) => {
 	// Process the input.
 	let { points, graphicalPoints, close, className, style } = mergeDefaults(props, defaultLine)
-	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), { dimension: 2 })
 	close = ensureBoolean(close)
 	className = ensureString(className)
 	style = { ...defaultLine.style, ...ensureObject(style) }

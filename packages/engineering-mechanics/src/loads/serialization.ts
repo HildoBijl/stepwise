@@ -1,4 +1,4 @@
-import { type VectorData, Vector } from '@step-wise/geometry'
+import { type VectorStorageValue, Vector } from '@step-wise/geometry'
 
 import { type ApplicationPointPosition, type Force, type Load, type Moment, loadTypes } from './types'
 import { createForce, createMoment } from './creation'
@@ -9,7 +9,7 @@ import { createForce, createMoment } from './creation'
 
 export type SerializedForce = {
 	type: typeof loadTypes.force
-	position: VectorData
+	position: VectorStorageValue
 	angle: number
 	applicationPointAt: ApplicationPointPosition
 	magnitudeFactor: number
@@ -40,7 +40,7 @@ export function deserializeForce(force: SerializedForce): Force {
 
 export type SerializedMoment = {
 	type: typeof loadTypes.moment
-	position: VectorData
+	position: VectorStorageValue
 	clockwise: boolean
 	openingAngle: number
 }

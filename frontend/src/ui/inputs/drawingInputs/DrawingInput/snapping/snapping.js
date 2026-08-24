@@ -101,7 +101,7 @@ function snapMousePosition(position, lines, graphicalLines, transformationSettin
 	const graphicalSnapLines = selectedLines.map(index => graphicalLines[index])
 	const isSnapped = snapLines.length > 0
 	const isSnappedTwice = snapLines.length > 1
-	const mouseInDrawing = bounds.contains(position)
+	const mouseInDrawing = bounds.containsPoint(position)
 
 	// Return the outcome.
 	return { position, snappedPosition, graphicalPosition, graphicalSnappedPosition, mouseInDrawing, snapLines, graphicalSnapLines, isSnapped, isSnappedTwice }

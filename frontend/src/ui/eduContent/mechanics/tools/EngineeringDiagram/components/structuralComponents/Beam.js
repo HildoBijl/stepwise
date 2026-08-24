@@ -21,7 +21,7 @@ export const defaultBeam = {
 export const Beam = forwardRef((props, ref) => {
 	// Check input.
 	let { points, graphicalPoints, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = mergeDefaults(props, defaultBeam)
-	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), { dimension: 2 })
 	thickness = ensureNumber(thickness)
 	strutSize = ensureNumber(strutSize)
 	strutOpacity = ensureNumber(strutOpacity)

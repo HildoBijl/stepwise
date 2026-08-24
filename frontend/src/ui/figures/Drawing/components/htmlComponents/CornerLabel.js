@@ -22,7 +22,7 @@ export const CornerLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, size, graphicalSize } = mergeDefaults(props, defaultCornerLabel)
 	children = ensureReactElement(children)
-	points = ensureCorner(useGraphicalVector(points, graphicalPoints), 2)
+	points = ensureCorner(useGraphicalVector(points, graphicalPoints), { dimension: 2 })
 	size = ensureNumber(useGraphicalDistance(size, graphicalSize))
 
 	// Calculate the given position. Use an adjustment on the size of the corner: smaller angles should give a larger distance. For this adjustment, pretend the label is circular with the given size as double the radius.

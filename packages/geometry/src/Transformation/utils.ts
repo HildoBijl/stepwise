@@ -11,13 +11,13 @@ export function isTransformationLike(value: unknown): value is TransformationLik
 	return value instanceof Transformation || isTransformationInput(value)
 }
 
-export function ensureTransformation(transformation: TransformationLike, dimension?: number, requireInvertible = false): Transformation {
+export function ensureTransformation(transformation: TransformationLike, options: { dimension?: number, invertible?: boolean } = {}): Transformation {
 	const ensuredTransformation = new Transformation(transformation)
-	if (dimension !== undefined && ensuredTransformation.dimension !== dimension) throw new Error(`Invalid Transformation dimension: expected a transformation of dimension ${dimension} but received a transformation of dimension ${ensuredTransformation.dimension}.`)
-	if (requireInvertible && !ensuredTransformation.isInvertible()) throw new Error(`Invalid Transformation: required an invertible transformation, but received one that was not invertible.`)
+	if (options.dimension !== undefined && ensuredTransformation.dimension !== options.dimension) throw new Error(`Invalid Transformation dimension: expected a transformation of dimension ${options.dimension} but received a transformation of dimension ${ensuredTransformation.dimension}.`)
+	if (options.invertible && !ensuredTransformation.isInvertible()) throw new Error(`Invalid Transformation: required an invertible transformation, but received one that was not invertible.`)
 	return ensuredTransformation
 }
 
-export function isTransformable(value: TransformableLike): value is TransformableLike {
+export function isTransformable(value: unknown): value is TransformableLike {
 	return isVectorLike(value) || isLineLike(value) || isLineSegmentLike(value) || isRectangleLike(value)
 }

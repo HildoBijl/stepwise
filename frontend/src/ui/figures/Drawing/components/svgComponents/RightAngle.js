@@ -21,7 +21,7 @@ export const defaultRightAngle = {
 export const RightAngle = forwardRef((props, ref) => {
 	// Process the input.
 	let { points, graphicalPoints, size, graphicalSize } = mergeDefaults(props, defaultRightAngle)
-	points = ensureCorner(useGraphicalVector(points, graphicalPoints), 2)
+	points = ensureCorner(useGraphicalVector(points, graphicalPoints), { dimension: 2 })
 	if (points.length !== 3)
 		throw new Error(`Invalid RightAngle points: expected exactly three points, of which the middle one is the given corner, but received ${points.length} points.`)
 	size = useGraphicalDistance(size, graphicalSize)

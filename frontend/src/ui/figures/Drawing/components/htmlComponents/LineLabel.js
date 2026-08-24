@@ -22,14 +22,14 @@ export const LineLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = mergeDefaults(props, defaultLineLabel)
 	children = ensureReactElement(children)
-	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2, 2)
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), { dimension: 2, length: 2 })
 	oppositeTo = ensureVector(useGraphicalVector(oppositeTo, graphicalOppositeTo))
 
 	// Determine the angle.
 	const delta = points[1].subtract(points[0])
 	const relative = oppositeTo.subtract(points[0])
 	const sign = Math.sign(delta.y * relative.x - delta.x * relative.y) // Cross product.
-	const angle = delta.argument + sign * Math.PI / 2
+	const angle = delta.angle + sign * Math.PI / 2
 
 	// Set up the Label.
 	const position = points[0].interpolate(points[1])

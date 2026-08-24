@@ -1,13 +1,13 @@
 import { Vector, type VectorLike, ensureVector } from '../Vector'
 import { Line, type LineLike, ensureLine } from '../Line'
 
-import type { LineSegmentData, LineSegmentInput } from './types'
+import type { LineSegmentInput, LineSegmentStorageValue } from './types'
 import { isLineSegmentObject } from './support'
 
 export const LineSegmentType = 'LineSegment'
 export type LineSegmentType = typeof LineSegmentType
 
-export type { LineSegmentData }
+export type { LineSegmentStorageValue }
 export type LineSegmentLike = LineSegment | LineSegmentInput
 
 const pointNames = ['start', 'end'] as const
@@ -43,25 +43,25 @@ export class LineSegment {
 
 			if (!hasEnd) {
 				this._start = ensureVector(value.start)
-				const vector = ensureVector(value.vector, this._start.dimension)
+				const vector = ensureVector(value.vector, { dimension: this._start.dimension })
 				this._end = this._start.add(vector)
 				return
 			}
 
 			if (!hasStart) {
 				this._end = ensureVector(value.end)
-				const vector = ensureVector(value.vector, this._end.dimension)
+				const vector = ensureVector(value.vector, { dimension: this._end.dimension })
 				this._start = this._end.subtract(vector)
 				return
 			}
 
 			this._start = ensureVector(value.start)
-			this._end = ensureVector(value.end, this._start.dimension)
+			this._end = ensureVector(value.end, { dimension: this._start.dimension })
 
 			// On all three parameters, run a check to see if they match.
 			if (hasVector) {
 				const actualVector = this._end.subtract(this._start)
-				const givenVector = ensureVector(value.vector, this._start.dimension)
+				const givenVector = ensureVector(value.vector, { dimension: this._start.dimension })
 				if (!actualVector.equals(givenVector)) throw new Error(`Invalid LineSegment: the given vector "${givenVector}" is not the difference between the start "${this._start}" and the end "${this._end}".`)
 			}
 			return
@@ -69,7 +69,7 @@ export class LineSegment {
 
 		if (args.length === 2) {
 			this._start = ensureVector(args[0])
-			this._end = ensureVector(args[1], this._start.dimension)
+			this._end = ensureVector(args[1], { dimension: this._start.dimension })
 			return
 		}
 
@@ -102,14 +102,14 @@ export class LineSegment {
 		return new LineSegment({ start: this._start, end: this._end })
 	}
 
-	toStorageValue(): LineSegmentData {
+	toStorageValue(): LineSegmentStorageValue {
 		return {
 			start: this._start.toStorageValue(),
 			end: this._end.toStorageValue(),
 		}
 	}
 
-	static fromStorageValue(value: LineSegmentData): LineSegment {
+	static fromStorageValue(value: LineSegmentStorageValue): LineSegment {
 		return new LineSegment(value)
 	}
 
@@ -160,35 +160,35 @@ export class LineSegment {
 		return false
 	}
 
-	hasPoint(point: VectorLike): boolean {
-		const ensuredPoint = ensureVector(point, this.dimension)
+	hasEndpoint(point: VectorLike): boolean {
+		const ensuredPoint = ensureVector(point, { dimension: this.dimension })
 		return pointNames.some(pointName => this[pointName].equals(ensuredPoint))
 	}
 
-	hasMatchingPoint(lineSegment: LineSegmentLike): boolean {
+	sharesEndpointWith(lineSegment: LineSegmentLike): boolean {
 		const other = this.coerceLineSegment(lineSegment)
-		return pointNames.some(pointName => this.hasPoint(other[pointName]))
+		return pointNames.some(pointName => this.hasEndpoint(other[pointName]))
 	}
 
-	isAlongLine(line: LineLike, requireSameDirection = false): boolean {
-		const ensuredLine = ensureLine(line, this.dimension)
+	liesOnLine(line: LineLike, requireSameDirection = false): boolean {
+		const ensuredLine = ensureLine(line, { dimension: this.dimension })
 		if (this.vector.isZero()) return !requireSameDirection && ensuredLine.containsPoint(this._start)
 		return this.line.equals(ensuredLine, requireSameDirection)
 	}
 
-	alongEqualLine(lineSegment: LineSegmentLike, requireSameDirection = false, requireMatchingPoint = false): boolean {
+	isCollinearWith(lineSegment: LineSegmentLike, requireSameDirection = false, requireMatchingPoint = false): boolean {
 		const other = this.coerceLineSegment(lineSegment)
-		if (requireMatchingPoint && !this.hasMatchingPoint(other)) return false
+		if (requireMatchingPoint && !this.sharesEndpointWith(other)) return false
 		if (other.vector.isZero()) {
 			if (this.vector.isZero()) return true
-			return other.isAlongLine(this.line, requireSameDirection)
+			return other.liesOnLine(this.line, requireSameDirection)
 		}
-		return this.isAlongLine(other.line, requireSameDirection)
+		return this.liesOnLine(other.line, requireSameDirection)
 	}
 
-	isOrthogonal(lineSegment: LineSegmentLike): boolean {
+	isOrthogonalTo(lineSegment: LineSegmentLike): boolean {
 		const other = this.coerceLineSegment(lineSegment)
-		return this.vector.isOrthogonal(other.vector)
+		return this.vector.isOrthogonalTo(other.vector)
 	}
 
 	/*
@@ -204,12 +204,12 @@ export class LineSegment {
 	}
 
 	add(vector: VectorLike): LineSegment {
-		const offset = ensureVector(vector, this.dimension)
+		const offset = ensureVector(vector, { dimension: this.dimension })
 		return new LineSegment({ start: this._start.add(offset), end: this._end.add(offset) })
 	}
 
 	subtract(vector: VectorLike): LineSegment {
-		const offset = ensureVector(vector, this.dimension)
+		const offset = ensureVector(vector, { dimension: this.dimension })
 		return new LineSegment({ start: this._start.subtract(offset), end: this._end.subtract(offset) })
 	}
 }

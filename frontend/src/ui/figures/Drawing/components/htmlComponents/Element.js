@@ -33,10 +33,10 @@ export const Element = forwardRef((props, ref) => {
 	// Check input.
 	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style, className } = mergeDefaults(props, defaultElement)
 	children = ensureReactElement(children)
-	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
-	anchor = ensureVector(anchor, 2)
+	anchor = ensureVector(anchor, { dimension: 2 })
 	ignoreMouse = ensureBoolean(ignoreMouse)
 	style = { ...defaultElement.style, ...ensureObject(style) }
 

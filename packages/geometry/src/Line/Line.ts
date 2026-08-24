@@ -2,13 +2,13 @@ import { ensureInteger, ensureNumber, approximatelyEqual } from '@step-wise/js-u
 
 import { Vector, type VectorLike, ensureVector } from '../Vector'
 
-import type { LineData, LineInput } from './types'
+import type { LineInput, LineStorageValue } from './types'
 import { isLineObject } from './support'
 
 export const LineType = 'Line'
 export type LineType = typeof LineType
 
-export type { LineData }
+export type { LineStorageValue }
 export type LineLike = Line | LineInput
 
 export class Line {
@@ -60,7 +60,7 @@ export class Line {
 		}
 
 		this._start = ensureVector(start)
-		this._direction = ensureVector(direction, this._start.dimension)
+		this._direction = ensureVector(direction, { dimension: this._start.dimension })
 		if (this._direction.isZero()) throw new Error(`Invalid Line direction: cannot accept a direction Vector with zero magnitude.`)
 	}
 
@@ -86,14 +86,14 @@ export class Line {
 		return new Line(this._start, this._direction)
 	}
 
-	toStorageValue(): LineData {
+	toStorageValue(): LineStorageValue {
 		return {
 			start: this._start.toStorageValue(),
 			direction: this._direction.toStorageValue(),
 		}
 	}
 
-	static fromStorageValue(value: LineData): Line {
+	static fromStorageValue(value: LineStorageValue): Line {
 		return new Line(value)
 	}
 
@@ -125,7 +125,7 @@ export class Line {
 
 	get angle(): number {
 		if (this.dimension !== 2) throw new Error(`Invalid angle call: cannot retrieve the angle of a ${this.dimension}D line.`)
-		return this._direction.argument
+		return this._direction.angle
 	}
 
 	get originOffset(): Vector {
@@ -149,21 +149,21 @@ export class Line {
 	*/
 
 	containsPoint(vector: VectorLike): boolean {
-		const point = ensureVector(vector, this.dimension)
+		const point = ensureVector(vector, { dimension: this.dimension })
 		const relativeFromStart = point.subtract(this._start)
 		const relativeFromLine = relativeFromStart.orthogonalComponent(this._direction)
 		return relativeFromLine.isZero()
 	}
 
 	getClosestPoint(vector: VectorLike): Vector {
-		const point = ensureVector(vector, this.dimension)
+		const point = ensureVector(vector, { dimension: this.dimension })
 		const relativeVector = point.subtract(this._start)
 		const projection = relativeVector.projectOnto(this._direction)
 		return this._start.add(projection)
 	}
 
 	getSquaredDistanceFrom(vector: VectorLike): number {
-		const point = ensureVector(vector, this.dimension)
+		const point = ensureVector(vector, { dimension: this.dimension })
 		const closestPoint = this.getClosestPoint(point)
 		return point.subtract(closestPoint).squaredMagnitude
 	}
@@ -173,30 +173,30 @@ export class Line {
 	}
 
 	// Get the point p on the line such that p[axis] = value.
-	getPointWithCoordinate(axis: number, value: number): Vector {
-		const factor = this.getFactorOfPointWithCoordinate(axis, value)
-		return this.getPointWithFactor(factor)
+	getPointAtCoordinate(axis: number, value: number): Vector {
+		const factor = this.getFactorAtCoordinate(axis, value)
+		return this.getPointAtFactor(factor)
 	}
 
 	// Find factor a such that start + a * direction is the closest point on the line.
-	getDirectionFactor(vector: VectorLike): number {
+	getClosestPointFactor(vector: VectorLike): number {
 		const closestPoint = this.getClosestPoint(vector)
 		const relativeVector = closestPoint.subtract(this._start)
 		return this._direction.dotProduct(relativeVector) / this._direction.squaredMagnitude
 	}
 
 	// Find the point p = start + factor * direction.
-	getPointWithFactor(factor: number): Vector {
+	getPointAtFactor(factor: number): Vector {
 		return this._start.add(this._direction.multiply(ensureNumber(factor)))
 	}
 
 	// Find the factor of the point p on the line satisfying p[axis] = value.
-	getFactorOfPointWithCoordinate(axis: number, value = 0): number {
+	getFactorAtCoordinate(axis: number, value = 0): number {
 		axis = ensureInteger(axis, { nonNegative: true })
 		value = ensureNumber(value)
 		if (axis >= this.dimension) throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
 		const directionCoordinate = this._direction.getCoordinate(axis)
-		if (approximatelyEqual(directionCoordinate, 0)) throw new Error(`Invalid getPointWithCoordinate call: the line is parallel to the given axis (${axis}), so no intersecting point can be computed.`)
+		if (approximatelyEqual(directionCoordinate, 0)) throw new Error(`Invalid getPointAtCoordinate call: the line does not vary along axis ${axis}, so no unique point can be computed.`)
 		return (value - this._start.getCoordinate(axis)) / directionCoordinate
 	}
 
@@ -211,9 +211,9 @@ export class Line {
 		return approximatelyEqual(requireSameDirection ? dotProduct : Math.abs(dotProduct), 1)
 	}
 
-	isOrthogonal(line: LineLike): boolean {
+	isOrthogonalTo(line: LineLike): boolean {
 		const other = this.coerceLine(line)
-		return this._direction.isOrthogonal(other._direction)
+		return this._direction.isOrthogonalTo(other._direction)
 	}
 
 	intersects(line: LineLike): boolean {
@@ -250,7 +250,7 @@ export class Line {
 	}
 
 	reverse(): Line {
-		return new Line(this._start, this._direction.reverse())
+		return new Line(this._start, this._direction.negate())
 	}
 
 	/*
@@ -259,7 +259,7 @@ export class Line {
 
 	static fromPoints(point1: VectorLike, point2: VectorLike): Line {
 		const start = ensureVector(point1)
-		const end = ensureVector(point2, start.dimension)
+		const end = ensureVector(point2, { dimension: start.dimension })
 		return new Line(start, end.subtract(start))
 	}
 
@@ -268,7 +268,7 @@ export class Line {
 	}
 
 	static fromPointAndAngle(point: VectorLike, angle: number): Line {
-		const start = ensureVector(point, 2)
+		const start = ensureVector(point, { dimension: 2 })
 		return new Line(start, Vector.fromPolar(1, angle))
 	}
 

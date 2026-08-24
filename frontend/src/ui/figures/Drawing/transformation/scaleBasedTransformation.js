@@ -29,7 +29,7 @@ export function useScaleBasedTransformationSettings(points, options = {}) {
 		// Pretransform the points, scale them, find their bounds, use this to determine their shift and then shift the points.
 		let transformedPoints = mapValues(points, point => pretransformation.transform(point))
 		const scaleTransformation = Transformation.fromScale(scale)
-		transformedPoints = mapValues(transformedPoints, point => scaleTransformation.transform(ensureVector(point, 2)))
+		transformedPoints = mapValues(transformedPoints, point => scaleTransformation.transform(ensureVector(point, { dimension: 2 })))
 		const currBounds = getBoundingRectangle(transformedPoints)
 		const shift = new Vector(...[0, 1].map(axis => -currBounds.getBounds(axis)[0] + margin[axis][0]))
 		const shiftTransformation = Transformation.fromTranslation(shift)

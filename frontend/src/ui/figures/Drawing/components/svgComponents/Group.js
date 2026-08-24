@@ -21,7 +21,7 @@ export const defaultGroup = {
 export const Group = forwardRef((props, ref) => {
 	// Process the input.
 	let { position, graphicalPosition, rotate, scale, overflow, className, style, children } = mergeDefaults(props, defaultGroup)
-	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
 	overflow = ensureBoolean(overflow)

@@ -21,7 +21,7 @@ export const defaultSupportBlock = {
 export const SupportBlock = forwardRef((props, ref) => {
 	// Check input.
 	let { position, graphicalPosition, color, width, height, className, style } = mergeDefaults(props, defaultSupportBlock)
-	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), { dimension: 2 })
 	color = ensureString(color)
 	width = ensureNumber(width)
 	height = ensureNumber(height)

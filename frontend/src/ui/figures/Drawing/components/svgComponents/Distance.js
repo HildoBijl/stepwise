@@ -29,8 +29,8 @@ export const defaultDistance = {
 export const Distance = forwardRef((props, ref) => {
 	// Process the input.
 	let { lineSegment, graphicalLineSegment, shift, graphicalShift, style, className } = mergeDefaults(props, defaultDistance)
-	lineSegment = ensureLineSegment(useGraphicalObject(lineSegment, graphicalLineSegment), 2)
-	shift = ensureVector(useGraphicalVector(shift, graphicalShift, true), 2)
+	lineSegment = ensureLineSegment(useGraphicalObject(lineSegment, graphicalLineSegment), { dimension: 2 })
+	shift = ensureVector(useGraphicalVector(shift, graphicalShift, true), { dimension: 2 })
 	style = { ...defaultDistance.style, ...ensureObject(style) }
 	className = ensureString(className)
 	ref = useRefWithEventHandlers(props, ref)

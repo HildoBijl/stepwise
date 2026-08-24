@@ -1,13 +1,11 @@
-import type { VectorData, VectorLike } from '../Vector'
+import type { VectorLike, VectorStorageValue } from '../Vector'
 
-export type LineObject = {
+export type LineInput = {
 	start: VectorLike
 	direction: VectorLike
 }
 
-export type LineData = {
-	start: VectorData
-	direction: VectorData
+export type LineStorageValue = {
+	start: VectorStorageValue
+	direction: VectorStorageValue
 }
-
-export type LineInput = LineObject

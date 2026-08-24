@@ -27,7 +27,7 @@ export const defaultCurve = {
 export const Curve = forwardRef((props, ref) => {
 	// Process the input.
 	let { points, graphicalPoints, spread, graphicalSpread, part, through, close, className, style } = mergeDefaults(props, defaultCurve)
-	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), { dimension: 2 })
 	spread = useGraphicalDistance(spread, graphicalSpread)
 	part = ensureNumber(part)
 	through = ensureBoolean(through)

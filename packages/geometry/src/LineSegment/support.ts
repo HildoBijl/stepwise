@@ -2,9 +2,9 @@ import { isPlainObject } from '@step-wise/js-utils'
 
 import { isVectorLike } from '../Vector'
 
-import type { LineSegmentInput, LineSegmentObject } from './types'
+import type { LineSegmentInput } from './types'
 
-export function isLineSegmentObject(value: unknown): value is LineSegmentObject {
+export function isLineSegmentObject(value: unknown): value is LineSegmentInput {
 	if (!isPlainObject(value)) return false
 
 	const hasStart = value.start !== undefined

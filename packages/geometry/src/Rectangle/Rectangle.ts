@@ -4,13 +4,13 @@ import { type VectorLike, Vector, ensureVector } from '../Vector'
 import { type LineLike, ensureLine } from '../Line'
 import { type LineSegmentLike, LineSegment, ensureLineSegment } from '../LineSegment'
 
-import type { RectangleData, RectangleInput } from './types'
+import type { RectangleInput, RectangleStorageValue } from './types'
 import { isRectangleObject, getMinAndMax } from './support'
 
 export const RectangleType = 'Rectangle'
 export type RectangleType = typeof RectangleType
 
-export type { RectangleData }
+export type { RectangleStorageValue }
 export type RectangleLike = Rectangle | RectangleInput
 
 function isApproximatelyAtLeast(value: number, lowerBound: number): boolean {
@@ -53,22 +53,22 @@ export class Rectangle {
 
 			if (!hasMax) {
 				this._min = ensureVector(value.min)
-				const size = ensureVector(value.size, this._min.dimension)
+				const size = ensureVector(value.size, { dimension: this._min.dimension })
 				this._max = this._min.add(size)
 			} else if (!hasMin) {
 				this._max = ensureVector(value.max)
-				const size = ensureVector(value.size, this._max.dimension)
+				const size = ensureVector(value.size, { dimension: this._max.dimension })
 				this._min = this._max.subtract(size)
 			} else {
 				this._min = ensureVector(value.min)
-				this._max = ensureVector(value.max, this._min.dimension);
+				this._max = ensureVector(value.max, { dimension: this._min.dimension });
 			}
 			[this._min, this._max] = getMinAndMax(this._min, this._max)
 
 			// On all three parameters, run a check to see if they match.
 			if (hasSize) {
 				const actualSize = this._max.subtract(this._min)
-				const givenSize = ensureVector(value.size, this._min.dimension)
+				const givenSize = ensureVector(value.size, { dimension: this._min.dimension })
 				if (!actualSize.equals(givenSize)) throw new Error(`Invalid Rectangle: the given size "${givenSize}" is not the difference between the minimum "${this._min}" and the maximum "${this._max}" values.`)
 			}
 			return
@@ -100,22 +100,18 @@ export class Rectangle {
 		return this._max.clone()
 	}
 
-	get vector(): Vector {
-		return this._max.subtract(this._min)
-	}
-
 	clone(): Rectangle {
 		return new Rectangle({ min: this._min, max: this._max })
 	}
 
-	toStorageValue(): RectangleData {
+	toStorageValue(): RectangleStorageValue {
 		return {
 			min: this._min.toStorageValue(),
 			max: this._max.toStorageValue(),
 		}
 	}
 
-	static fromStorageValue(value: RectangleData): Rectangle {
+	static fromStorageValue(value: RectangleStorageValue): Rectangle {
 		return new Rectangle(value)
 	}
 
@@ -179,9 +175,6 @@ export class Rectangle {
 	get midpoint(): Vector {
 		return this._min.interpolate(this._max)
 	}
-	get middle(): Vector {
-		return this.midpoint
-	}
 
 	// left, right, top and bottom are the four sides of the two-dimensional rectangle. We find the respective coordinate value.
 	private runNamedPointCheck() {
@@ -211,7 +204,7 @@ export class Rectangle {
 	}
 	get topMiddle(): Vector {
 		this.runNamedPointCheck()
-		return new Vector(this.middle.x, this.max.y)
+		return new Vector(this.midpoint.x, this.max.y)
 	}
 	get topRight(): Vector {
 		this.runNamedPointCheck()
@@ -219,7 +212,7 @@ export class Rectangle {
 	}
 	get middleRight(): Vector {
 		this.runNamedPointCheck()
-		return new Vector(this.max.x, this.middle.y)
+		return new Vector(this.max.x, this.midpoint.y)
 	}
 	get bottomRight(): Vector {
 		this.runNamedPointCheck()
@@ -227,7 +220,7 @@ export class Rectangle {
 	}
 	get bottomMiddle(): Vector {
 		this.runNamedPointCheck()
-		return new Vector(this.middle.x, this.min.y)
+		return new Vector(this.midpoint.x, this.min.y)
 	}
 	get bottomLeft(): Vector {
 		this.runNamedPointCheck()
@@ -235,31 +228,7 @@ export class Rectangle {
 	}
 	get middleLeft(): Vector {
 		this.runNamedPointCheck()
-		return new Vector(this.min.x, this.middle.y)
-	}
-	get leftTop(): Vector {
-		return this.topLeft
-	}
-	get middleTop(): Vector {
-		return this.topMiddle
-	}
-	get rightTop(): Vector {
-		return this.topRight
-	}
-	get rightMiddle(): Vector {
-		return this.middleRight
-	}
-	get rightBottom(): Vector {
-		return this.bottomRight
-	}
-	get middleBottom(): Vector {
-		return this.bottomMiddle
-	}
-	get leftBottom(): Vector {
-		return this.bottomLeft
-	}
-	get leftMiddle(): Vector {
-		return this.middleLeft
+		return new Vector(this.min.x, this.midpoint.y)
 	}
 
 	/*
@@ -267,8 +236,8 @@ export class Rectangle {
 	 */
 
 	// Check if a given point is within (or on the bounds of) the Rectangle.
-	contains(vector: VectorLike): boolean {
-		const point = ensureVector(vector, this.dimension)
+	containsPoint(vector: VectorLike): boolean {
+		const point = ensureVector(vector, { dimension: this.dimension })
 		return integerRange(0, this.dimension - 1).every(axis => {
 			const coordinate = point.getCoordinate(axis)
 			const [min, max] = this.getBounds(axis)
@@ -277,18 +246,18 @@ export class Rectangle {
 	}
 
 	// Check if a given point is exactly on the bounds of the Rectangle.
-	onBounds(vector: VectorLike): boolean {
-		const point = ensureVector(vector, this.dimension)
-		return this.contains(point) && integerRange(0, this.dimension - 1).some(axis => this.getBounds(axis).some(bound => approximatelyEqual(point.getCoordinate(axis), bound)))
+	isPointOnBoundary(vector: VectorLike): boolean {
+		const point = ensureVector(vector, { dimension: this.dimension })
+		return this.containsPoint(point) && integerRange(0, this.dimension - 1).some(axis => this.getBounds(axis).some(bound => approximatelyEqual(point.getCoordinate(axis), bound)))
 	}
 
 	// Find the closest point within the Rectangle. Points within the Rectangle are kept, unless the alwaysPutOnEdge flag is set to true, in which case the closest point on the Rectangle's edge is given.
-	applyBounds(vector: VectorLike, alwaysPutOnEdge = false): Vector {
-		const point = ensureVector(vector, this.dimension)
+	clampPoint(vector: VectorLike, options: { forceBoundary?: boolean } = {}): Vector {
+		const point = ensureVector(vector, { dimension: this.dimension })
 		const boundedPoint = new Vector(point.coordinates.map((coordinate, axis) => clamp(coordinate, ...this.getBounds(axis))))
 
 		// If we don't have an internal point to put on the edge, coordinate-wise clamping is sufficient.
-		if (!alwaysPutOnEdge || !this.contains(point)) return boundedPoint
+		if (!options.forceBoundary || !this.containsPoint(point)) return boundedPoint
 
 		// We have an internal point to put on the edge. Find the axis where the distance is the smallest.
 		const distancesAlongAxes = boundedPoint.coordinates.map((coordinate, axis) => Math.min(...this.getBounds(axis).map(bound => Math.abs(bound - coordinate))))
@@ -305,20 +274,20 @@ export class Rectangle {
 	}
 
 	// Find the distance of a point to the Rectangle. A point inside the Rectangle always has distance zero, unless toBounds is set to true, in which case the distance to the nearest bound is taken.
-	distanceTo(vector: VectorLike, toBounds = false): number {
-		const point = ensureVector(vector, this.dimension)
-		return this.applyBounds(point, toBounds).subtract(point).magnitude
+	getDistanceToPoint(vector: VectorLike, options: { toBoundary?: boolean } = {}): number {
+		const point = ensureVector(vector, { dimension: this.dimension })
+		return this.clampPoint(point, { forceBoundary: options.toBoundary }).subtract(point).magnitude
 	}
 
 	// Check if a circle is fully encompassed by the Rectangle.
 	containsCircle(center: VectorLike, radius: number): boolean {
-		const ensuredCenter = ensureVector(center, this.dimension)
-		return this.contains(ensuredCenter) && isApproximatelyAtLeast(this.distanceTo(ensuredCenter, true), ensureNumber(radius, { nonNegative: true }))
+		const ensuredCenter = ensureVector(center, { dimension: this.dimension })
+		return this.containsPoint(ensuredCenter) && isApproximatelyAtLeast(this.getDistanceToPoint(ensuredCenter, { toBoundary: true }), ensureNumber(radius, { nonNegative: true }))
 	}
 
 	// Check if a circle and the Rectangle share any point, including when either fully contains the other.
 	intersectsCircle(center: VectorLike, radius: number): boolean {
-		return isApproximatelyAtMost(this.distanceTo(ensureVector(center, this.dimension)), ensureNumber(radius, { nonNegative: true }))
+		return isApproximatelyAtMost(this.getDistanceToPoint(ensureVector(center, { dimension: this.dimension })), ensureNumber(radius, { nonNegative: true }))
 	}
 
 	/*
@@ -327,17 +296,17 @@ export class Rectangle {
 
 	// Check if the Rectangle completely envelopes a LineSegment.
 	containsLineSegment(lineSegment: LineSegmentLike): boolean {
-		const ensuredLineSegment = ensureLineSegment(lineSegment, this.dimension)
-		return this.contains(ensuredLineSegment.start) && this.contains(ensuredLineSegment.end)
+		const ensuredLineSegment = ensureLineSegment(lineSegment, { dimension: this.dimension })
+		return this.containsPoint(ensuredLineSegment.start) && this.containsPoint(ensuredLineSegment.end)
 	}
 
 	// Check if a LineSegment and the Rectangle share any point, including complete containment.
 	intersectsLineSegment(lineSegment: LineSegmentLike): boolean {
-		const ensuredLineSegment = ensureLineSegment(lineSegment, this.dimension)
-		if (ensuredLineSegment.vector.isZero()) return this.contains(ensuredLineSegment.start)
+		const ensuredLineSegment = ensureLineSegment(lineSegment, { dimension: this.dimension })
+		if (ensuredLineSegment.vector.isZero()) return this.containsPoint(ensuredLineSegment.start)
 
 		// Check if the LineSegment's Line intersects the Rectangle.
-		const linePartFactors = this.getLineSegmentFactors(ensuredLineSegment.line)
+		const linePartFactors = this.getLineIntersectionFactors(ensuredLineSegment.line)
 		if (!linePartFactors) return false
 
 		// Check which part of the Line falls within the Rectangle.
@@ -346,19 +315,19 @@ export class Rectangle {
 	}
 
 	// Find the LineSegment lying on a line that falls within the Rectangle. Returns undefined if the Line does not intersect the Rectangle.
-	getLineSegment(line: LineLike): LineSegment | undefined {
-		const ensuredLine = ensureLine(line, this.dimension)
-		const linePartFactors = this.getLineSegmentFactors(ensuredLine)
+	getLineIntersection(line: LineLike): LineSegment | undefined {
+		const ensuredLine = ensureLine(line, { dimension: this.dimension })
+		const linePartFactors = this.getLineIntersectionFactors(ensuredLine)
 		if (!linePartFactors) return undefined
 		return new LineSegment({
-			start: ensuredLine.getPointWithFactor(linePartFactors[0]),
-			end: ensuredLine.getPointWithFactor(linePartFactors[1]),
+			start: ensuredLine.getPointAtFactor(linePartFactors[0]),
+			end: ensuredLine.getPointAtFactor(linePartFactors[1]),
 		})
 	}
 
 	// Find which parts of a Line fall within the Rectangle. Return the respective Line factors. If the Line does not intersect the Rectangle, undefined is returned.
-	getLineSegmentFactors(line: LineLike): [number, number] | undefined {
-		const ensuredLine = ensureLine(line, this.dimension)
+	private getLineIntersectionFactors(line: LineLike): [number, number] | undefined {
+		const ensuredLine = ensureLine(line, { dimension: this.dimension })
 
 		// Get the minimum and maximum factor of all the intersection points of the line with the box.
 		let lower: number | undefined
@@ -376,7 +345,7 @@ export class Rectangle {
 			}
 
 			// Find the factors of the points at which the line intersects with the given coordinates.
-			const newLowerUpperBounds = this.getBounds(axis).map(bound => ensuredLine.getFactorOfPointWithCoordinate(axis, bound)).sort((a, b) => a - b)
+			const newLowerUpperBounds = this.getBounds(axis).map(bound => ensuredLine.getFactorAtCoordinate(axis, bound)).sort((a, b) => a - b)
 			if (lower === undefined || newLowerUpperBounds[0] > lower) lower = newLowerUpperBounds[0]
 			if (upper === undefined || newLowerUpperBounds[1] < upper) upper = newLowerUpperBounds[1]
 		})
