@@ -2,6 +2,8 @@ export * from './refrigerantTables'
 export * from './refrigerantProperties'
 
 import { type RefrigerantDataset } from './refrigerantTables'
-import * as R134A from './R134A'
+import { criticalPoint, saturationTable, tablesByPressure } from './R134A'
 
-export const refrigerantDatasets: Readonly<Record<string, RefrigerantDataset>> = Object.freeze({ R134A: Object.freeze(R134A) })
+const R134A: RefrigerantDataset = Object.freeze({ criticalPoint, saturationTable, tablesByPressure })
+
+export const refrigerantDatasets: Readonly<Record<string, RefrigerantDataset>> = Object.freeze({ R134A })
