@@ -54,6 +54,10 @@ describe('Quantity', () => {
 				},
 			})
 			expect(deserializeQuantity(serialized)).toEqual(x)
+			const exact = new Quantity(2)
+			const jsonValue = JSON.parse(JSON.stringify(serializeQuantity(exact)))
+			expect(jsonValue.value.value.significantDigits).toBe('Infinity')
+			expect(deserializeQuantity(jsonValue)).toEqual(exact)
 		})
 		test('rejects malformed serialized quantities', () => {
 			expect(() => deserializeQuantity({ type: 'PrecisionNumber', value: {} })).toThrow(/serialized Quantity/)

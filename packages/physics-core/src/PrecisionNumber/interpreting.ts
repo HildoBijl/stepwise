@@ -1,13 +1,15 @@
-import { isInteger, isPlainObject, hasOnlyKeys, ensureNumber } from '@step-wise/js-utils'
+import { isPlainObject, hasOnlyKeys, ensureInteger, ensureNumber } from '@step-wise/js-utils'
 
 export const PrecisionNumberType = 'PrecisionNumber'
 export type PrecisionNumberType = typeof PrecisionNumberType
 
 export type PrecisionNumberStorageValue = {
 	number: number
-	significantDigits: number
+	significantDigits: number | 'Infinity'
 	power?: number
 }
+
+type ResolvedPrecisionNumberStorageValue = Omit<PrecisionNumberStorageValue, 'significantDigits'> & { significantDigits: number }
 
 export type PrecisionNumberInput = string | number | PrecisionNumberStorageValue
 
@@ -29,10 +31,10 @@ export function isNumberString(str: string): boolean {
 }
 
 // Turn any PrecisionNumber constructor input into a complete PrecisionNumberStorageValue.
-export function precisionNumberInputToStorageValue(input: PrecisionNumberInput = defaultPrecisionNumberStorageValue): PrecisionNumberStorageValue {
-	if (typeof input === 'string') return validatePrecisionNumberStorageValue(stringToPrecisionNumberStorageValue(input))
-	if (typeof input === 'number') return validatePrecisionNumberStorageValue(numberToPrecisionNumberStorageValue(input))
-	return validatePrecisionNumberStorageValue(input)
+export function precisionNumberInputToStorageValue(input: PrecisionNumberInput = defaultPrecisionNumberStorageValue): ResolvedPrecisionNumberStorageValue {
+	if (typeof input === 'string') return ensurePrecisionNumberStorageValue(stringToPrecisionNumberStorageValue(input))
+	if (typeof input === 'number') return ensurePrecisionNumberStorageValue(numberToPrecisionNumberStorageValue(input))
+	return ensurePrecisionNumberStorageValue(input)
 }
 
 // Turn a string of a precisionNumber, like '031.41500' into a PrecisionNumberStorageValue { number: 31.415, significantDigits: 7, power: 0 }.
@@ -65,11 +67,12 @@ export function numberToPrecisionNumberStorageValue(number: number): PrecisionNu
 }
 
 // Check if a PrecisionNumberStorageValue has valid parameter values.
-export function validatePrecisionNumberStorageValue(value: unknown): PrecisionNumberStorageValue {
+export function ensurePrecisionNumberStorageValue(value: unknown): ResolvedPrecisionNumberStorageValue {
 	if (!isPlainObject(value) || !hasOnlyKeys(value, ['number', 'significantDigits', 'power'])) throw new TypeError(`Invalid PrecisionNumberStorageValue: expected an object containing only "number", "significantDigits" and optionally "power".`)
 	const { number, significantDigits, power } = value
-	ensureNumber(number)
-	if (significantDigits !== Infinity && (!isInteger(significantDigits) || significantDigits < 0)) throw new Error(`Invalid PrecisionNumberStorageValue: expected "significantDigits" to be a non-negative integer or Infinity, but received "${significantDigits}".`)
-	if (power !== undefined && !isInteger(power)) throw new Error(`Invalid PrecisionNumberStorageValue: expected "power" to be an integer or undefined, but received "${power}".`)
-	return value as PrecisionNumberStorageValue
+	return {
+		number: ensureNumber(number),
+		significantDigits: ensureInteger(significantDigits === 'Infinity' ? Infinity : significantDigits, { nonNegative: true, allowInfinity: true }),
+		...(power === undefined ? {} : { power: ensureInteger(power) }),
+	}
 }

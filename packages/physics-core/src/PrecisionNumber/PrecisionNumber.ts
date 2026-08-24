@@ -31,7 +31,7 @@ export class PrecisionNumber {
 	toStorageValue(): PrecisionNumberStorageValue {
 		return {
 			number: this.number,
-			significantDigits: this.significantDigits,
+			significantDigits: this.significantDigits === Infinity ? 'Infinity' : this.significantDigits, // Work around JSON's inability to store Infinity.
 			...(this.power === undefined ? {} : { power: this.power }),
 		}
 	}

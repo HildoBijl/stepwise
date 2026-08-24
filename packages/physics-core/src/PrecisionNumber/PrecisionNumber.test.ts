@@ -12,14 +12,16 @@ describe('PrecisionNumber', () => {
 			expect(x.number).toBe(31.415)
 			expect(x.significantDigits).toBe(5)
 			expect(x.power).toBe(0)
+			expect(new PrecisionNumber({ number: 2, significantDigits: 'Infinity' }).significantDigits).toBe(Infinity)
+			expect(new PrecisionNumber({ number: 2, significantDigits: Infinity }).significantDigits).toBe(Infinity)
 		})
 		test('constructs from strings', () => {
 			expect(new PrecisionNumber('031.41500').toStorageValue()).toEqual({ number: 31.415, significantDigits: 7, power: 0 })
 			expect(new PrecisionNumber('3.14 * 10^2').toStorageValue()).toEqual({ number: 314, significantDigits: 3, power: 2 })
-			expect(new PrecisionNumber('10^(-3)').toStorageValue()).toEqual({ number: 0.001, significantDigits: Infinity, power: -3 })
+			expect(new PrecisionNumber('10^(-3)').toStorageValue()).toEqual({ number: 0.001, significantDigits: 'Infinity', power: -3 })
 		})
 		test('constructs from numbers as exact values', () => {
-			expect(new PrecisionNumber(3.14).toStorageValue()).toEqual({ number: 3.14, significantDigits: Infinity })
+			expect(new PrecisionNumber(3.14).toStorageValue()).toEqual({ number: 3.14, significantDigits: 'Infinity' })
 		})
 		test('asPrecisionNumber keeps existing PrecisionNumber instances', () => {
 			const x = new PrecisionNumber('3.14')
@@ -29,6 +31,7 @@ describe('PrecisionNumber', () => {
 		test('rejects non-finite values', () => {
 			expect(() => new PrecisionNumber(Infinity)).toThrow(/finite/)
 			expect(() => new PrecisionNumber(-Infinity)).toThrow(/finite/)
+			expect(() => new PrecisionNumber({ number: 2, significantDigits: '-Infinity' as never })).toThrow()
 		})
 	})
 
@@ -135,6 +138,10 @@ describe('PrecisionNumber', () => {
 				value: { number: 314, significantDigits: 3, power: 2 },
 			})
 			expect(deserializePrecisionNumber(serialized)).toEqual(x)
+			const exact = new PrecisionNumber(2)
+			const jsonValue = JSON.parse(JSON.stringify(serializePrecisionNumber(exact)))
+			expect(jsonValue.value.significantDigits).toBe('Infinity')
+			expect(deserializePrecisionNumber(jsonValue)).toEqual(exact)
 		})
 		test('rejects invalid serialized values', () => {
 			expect(() => deserializePrecisionNumber({ type: 'Unit', value: { number: 3, significantDigits: 1 } })).toThrow(/serialized PrecisionNumber/)
