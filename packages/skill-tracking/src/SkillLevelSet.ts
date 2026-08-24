@@ -231,56 +231,61 @@ export class SkillLevelSet {
 
 	// Apply an observation to the skill levels to update them. Returns the new coefficients of adjusted skills.
 	processObservation(observation: SkillObservation): SkillLevelUpdateSet {
-		// Check that the set-up is valid and has data present.
-		const { setup, correct } = observation
-		if (!setup.isDeterministic()) throw new TypeError(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
-		const skillIds = setup.getSkillList()
-		if (skillIds.some(skillId => !this.hasDataOn(skillId))) throw new Error(`Invalid observation processing: the skill level data on the relevant skills has not been loaded yet. Data on "${skillIds.find(skillId => !this.hasDataOn(skillId))}" and/or its prerequisites/links is not loaded in.`)
+		return this.processObservations([observation])
+	}
 
-		// Gather general data.
+	// Apply observations simultaneously. Returns the new coefficients of adjusted skills.
+	processObservations(observations: SkillObservation[]): SkillLevelUpdateSet {
+		// Validate the complete batch before calculating or applying any updates.
+		const observationSkillIds = observations.map(({ setup }) => {
+			if (!setup.isDeterministic()) throw new TypeError(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
+			const skillIds = setup.getSkillList()
+			const missingSkillId = skillIds.find(skillId => !this.hasDataOn(skillId))
+			if (missingSkillId) throw new Error(`Invalid observation processing: the skill level data on the relevant skills has not been loaded yet. Data on "${missingSkillId}" and/or its prerequisites/links is not loaded in.`)
+			return skillIds
+		})
+		if (observations.length === 0) return {}
+
+		// Take one inferred snapshot. Every observation in the batch must use the same prior information.
+		const allSkillIds = [...new Set(observationSkillIds.flat())]
+		const inferredCoefficients = fromKeys(allSkillIds, skillId => this.getCoefficients(skillId))
+		const likelihoods = fromKeys(allSkillIds, () => [] as BernsteinCoefficients[])
+
+		observations.forEach(({ setup, correct }, observationIndex) => {
+			const skillIds = observationSkillIds[observationIndex]
+			const polynomial = correct ? setup.getPolynomial() : oneMinusPolynomial(setup.getPolynomial())
+			skillIds.forEach(skillId => {
+				// Integrate out every other skill, leaving a likelihood polynomial for the current skill.
+				const skillIdsWithoutCurrent = skillIds.filter(currentSkillId => currentSkillId !== skillId)
+				const getIndividualMoment = (variable: string, exponent: number) => getBernsteinMoment(inferredCoefficients[variable], exponent)
+				const skillPolynomial = substitutePolynomialMoments(polynomial, getIndividualMoment, skillIdsWithoutCurrent)
+				const polynomialCoefficients = skillPolynomial.coefficients as number[]
+
+				// Shift the likelihood polynomial to the Bernstein basis.
+				const degree = polynomialCoefficients.length - 1
+				likelihoods[skillId].push(repeat(degree + 1, index => sum(repeat(index + 1, polynomialIndex => binomialCoefficient(degree - polynomialIndex, index - polynomialIndex) * polynomialCoefficients[polynomialIndex])) / binomialCoefficient(degree, index)))
+			})
+		})
+
+		// Merge each skill's prior and likelihoods once, then compare the final result with its highest level.
 		const now = new Date()
-		const polynomial = correct ? setup.getPolynomial() : oneMinusPolynomial(setup.getPolynomial())
-		const inferredCoefficients = fromKeys(skillIds, skillId => this.getCoefficients(skillId))
-
-		// Walk through the skill list and perform the update.
-		const updateSet = fromKeys(skillIds, skillId => {
-			// Find the expected value of the skill polynomial with as only remaining parameter the current skill.
-			const skillIdsWithoutCurrent = skillIds.filter(currSkillId => currSkillId !== skillId)
-			const getIndividualMoment = (variable: string, exponent: number) => getBernsteinMoment(inferredCoefficients[variable], exponent)
-			const skillPolynomial = substitutePolynomialMoments(polynomial, getIndividualMoment, skillIdsWithoutCurrent)
-			const polynomialCoefficients = skillPolynomial.coefficients as number[]
-
-			// Shift the coefficients of the polynomial to the Bernstein basis.
-			const n = polynomialCoefficients.length - 1
-			const shiftedCoefficients = repeat(n + 1, i => sum(repeat(i + 1, j => binomialCoefficient(n - j, i - j) * polynomialCoefficients[j])) / binomialCoefficient(n, i))
-
-			// Merge the two coefficient sets together.
-			const previousCoefficients = this.getSmoothedCoefficients(skillId)
-			const coefficients = multiplyBernsteinPDFs(shiftedCoefficients, previousCoefficients)
-
-			// Set up the result object.
+		const updateSet = fromKeys(allSkillIds, skillId => {
 			const skillLevel = this.getSkillLevelObject(skillId)
-			const result: SkillLevelUpdate = { coefficients, coefficientsOn: now, numPracticed: skillLevel.numPracticed + 1 }
-
-			// If the new coefficients are higher than the previous highest (after immediate smoothing) then update those too.
-			const previousHighest = skillLevel.highestCoefficients
+			const coefficients = multiplyBernsteinPDFs(this.getSmoothedCoefficients(skillId), ...likelihoods[skillId])
+			const result: SkillLevelUpdate = {
+				coefficients,
+				coefficientsOn: now,
+				numPracticed: skillLevel.numPracticed + likelihoods[skillId].length,
+			}
 			const potentialNewHighest = smoothBernsteinCoefficients(coefficients, { time: 0, applyPracticeDecay: true, numProblemsPracticed: result.numPracticed })
-			if (getBernsteinExpectedValue(potentialNewHighest) > getBernsteinExpectedValue(previousHighest)) {
+			if (getBernsteinExpectedValue(potentialNewHighest) > getBernsteinExpectedValue(skillLevel.highestCoefficients)) {
 				result.highest = potentialNewHighest
 				result.highestOn = now
 			}
-
-			// All done.
 			return result
 		})
 
-		// Apply the updates internally and then return them.
 		this.update(updateSet)
 		return updateSet
-	}
-
-	// Apply a set of observations to implement at the same time. Returns the new coefficients of adjusted skills.
-	processObservations(observations: SkillObservation[]): SkillLevelUpdateSet {
-		return Object.assign({}, ...observations.map(observation => this.processObservation(observation)))
 	}
 }

@@ -269,4 +269,31 @@ describe('Skill updates:', () => {
 			expect(expectedValue).toBeLessThan(2 / 3)
 		})
 	})
+
+	describe('Multiple observations are processed simultaneously', () => {
+		it('Produces the same result regardless of observation order', () => {
+			const observations = [
+				{ setup: skill('a'), correct: true },
+				{ setup: and('a', 'b'), correct: false },
+			]
+			const rawSkillLevels = {
+				a: coefficientsToRawSkillLevel([1], now, Infinity),
+				b: coefficientsToRawSkillLevel([0, 1], now, Infinity),
+			}
+			const forward = new SkillLevelSet(skillTree, rawSkillLevels).processObservations(observations)
+			const backward = new SkillLevelSet(skillTree, rawSkillLevels).processObservations([...observations].reverse())
+			expect(compareNumberArrays(forward.a.coefficients, backward.a.coefficients)).toBe(true)
+			expect(compareNumberArrays(forward.b.coefficients, backward.b.coefficients)).toBe(true)
+		})
+
+		it('Compares only the final result with the previous highest level', () => {
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity) })
+			const result = skillLevelSet.processObservations([
+				{ setup: skill('a'), correct: true },
+				{ setup: skill('a'), correct: false },
+			])
+			expect(result.a).not.toHaveProperty('highest')
+			expect(skillLevelSet.getHighestCoefficients('a')).toEqual([1])
+		})
+	})
 })
