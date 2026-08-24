@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { serializeAll } from '@step-wise/serialization'
+import { serializeData } from '@step-wise/serialization'
 import { compareInputs } from '@step-wise/exercise-grading'
 
 import { Par, M } from 'ui/components'
@@ -65,7 +65,7 @@ function TestDrawingInput() {
 		clean={FI => FI.map(circle => {
 			circle = { ...circle }
 			delete circle.selected
-			return serializeAll(circle)
+			return serializeData(circle)
 		})}
 		transformationSettings={transformationSettings}
 		snappers={snappers}

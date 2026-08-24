@@ -1,14 +1,14 @@
 import { type Expression as ExpressionType, type SerializedExpression, serializeExpression, deserializeExpression } from '@step-wise/cas'
 import { type Equation as EquationType, type SerializedEquation, serializeEquation, deserializeEquation } from '@step-wise/cas'
 
-import type { SerializerEntry } from '../types'
+import type { SerializationAdapter } from '../types'
 
-export const Expression = {
+export const expressionAdapter = {
 	serialize: serializeExpression,
 	deserialize: deserializeExpression,
-} satisfies SerializerEntry<ExpressionType, SerializedExpression>
+} satisfies SerializationAdapter<ExpressionType, SerializedExpression>
 
-export const Equation = {
+export const equationAdapter = {
 	serialize: serializeEquation,
 	deserialize: deserializeEquation,
-} satisfies SerializerEntry<EquationType, SerializedEquation>
+} satisfies SerializationAdapter<EquationType, SerializedEquation>

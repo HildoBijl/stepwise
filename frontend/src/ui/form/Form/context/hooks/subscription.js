@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 
 import { mergeDefaults, deepEqual, noop } from '@step-wise/js-utils'
-import { serializeAll, deserializeAll } from '@step-wise/serialization'
+import { deserializeData, serializeData } from '@step-wise/serialization'
 
 import { useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests due to Jest using the Node util package instead.
 
@@ -21,8 +21,8 @@ export const defaultUseFormParameterOptions = {
 	id: undefined,
 	initialSI: undefined,
 	validate: noop,
-	clean: FO => serializeAll(FO),
-	functionalize: SI => deserializeAll(SI),
+	clean: FO => serializeData(FO),
+	functionalize: SI => deserializeData(SI),
 	feedbackCoupling: [],
 	persistent: false,
 	equals: deepEqual,

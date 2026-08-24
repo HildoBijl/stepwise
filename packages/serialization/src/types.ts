@@ -1,13 +1,13 @@
-export type SerializableObject = {
+export type SerializableDomainObject = {
 	type: string
 }
 
-export type SerializedObject<Type extends string = string, SerializedValue = unknown> = {
+export type SerializedDomainObject<Type extends string = string, SerializedValue = unknown> = {
 	type: Type
 	value: SerializedValue
 }
 
-export type SerializerEntry<DomainValue extends SerializableObject, Serialized extends SerializedObject> = {
-	serialize: (domainValue: DomainValue) => Serialized
-	deserialize: (serialized: Serialized) => DomainValue
+export type SerializationAdapter<TDomainValue extends SerializableDomainObject, TSerialized extends SerializedDomainObject> = {
+	serialize: (domainValue: TDomainValue) => TSerialized
+	deserialize: (serializedValue: TSerialized) => TDomainValue
 }

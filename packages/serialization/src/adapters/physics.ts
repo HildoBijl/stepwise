@@ -2,19 +2,19 @@ import { type PrecisionNumber as PrecisionNumberType, type SerializedPrecisionNu
 import { type Unit as UnitType, type SerializedUnit, serializeUnit, deserializeUnit } from '@step-wise/physics-core'
 import { type Quantity as QuantityType, type SerializedQuantity, serializeQuantity, deserializeQuantity } from '@step-wise/physics-core'
 
-import type { SerializerEntry } from '../types'
+import type { SerializationAdapter } from '../types'
 
-export const PrecisionNumber = {
+export const precisionNumberAdapter = {
 	serialize: serializePrecisionNumber,
 	deserialize: deserializePrecisionNumber,
-} satisfies SerializerEntry<PrecisionNumberType, SerializedPrecisionNumber>
+} satisfies SerializationAdapter<PrecisionNumberType, SerializedPrecisionNumber>
 
-export const Unit = {
+export const unitAdapter = {
 	serialize: serializeUnit,
 	deserialize: deserializeUnit,
-} satisfies SerializerEntry<UnitType, SerializedUnit>
+} satisfies SerializationAdapter<UnitType, SerializedUnit>
 
-export const Quantity = {
+export const quantityAdapter = {
 	serialize: serializeQuantity,
 	deserialize: deserializeQuantity,
-} satisfies SerializerEntry<QuantityType, SerializedQuantity>
+} satisfies SerializationAdapter<QuantityType, SerializedQuantity>

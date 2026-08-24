@@ -1,4 +1,4 @@
-import { deserializeAll } from '@step-wise/serialization'
+import { deserializeData } from '@step-wise/serialization'
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 import { createClient } from '../../../support/client.ts'
 import { stringifyGraphQLInput } from '../../../support/utils.ts'
@@ -62,7 +62,7 @@ describe('resolve group exercise:', () => {
 		await client.loginSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {parameters}}` })
-		const parameters = deserializeAll(exercise.parameters) as any
+		const parameters = deserializeData(exercise.parameters) as any
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${stringifyGraphQLInput(inputAction(parameters.x + 1))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
 		await client.logout()

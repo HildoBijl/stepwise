@@ -3,24 +3,24 @@ import { type Line as LineType, type SerializedLine, serializeLine, deserializeL
 import { type LineSegment as LineSegmentType, type SerializedLineSegment, serializeLineSegment, deserializeLineSegment } from '@step-wise/geometry'
 import { type Rectangle as RectangleType, type SerializedRectangle, serializeRectangle, deserializeRectangle } from '@step-wise/geometry'
 
-import type { SerializerEntry } from '../types'
+import type { SerializationAdapter } from '../types'
 
-export const Vector = {
+export const vectorAdapter = {
 	serialize: serializeVector,
 	deserialize: deserializeVector,
-} satisfies SerializerEntry<VectorType, SerializedVector>
+} satisfies SerializationAdapter<VectorType, SerializedVector>
 
-export const Line = {
+export const lineAdapter = {
 	serialize: serializeLine,
 	deserialize: deserializeLine,
-} satisfies SerializerEntry<LineType, SerializedLine>
+} satisfies SerializationAdapter<LineType, SerializedLine>
 
-export const LineSegment = {
+export const lineSegmentAdapter = {
 	serialize: serializeLineSegment,
 	deserialize: deserializeLineSegment,
-} satisfies SerializerEntry<LineSegmentType, SerializedLineSegment>
+} satisfies SerializationAdapter<LineSegmentType, SerializedLineSegment>
 
-export const Rectangle = {
+export const rectangleAdapter = {
 	serialize: serializeRectangle,
 	deserialize: deserializeRectangle,
-} satisfies SerializerEntry<RectangleType, SerializedRectangle>
+} satisfies SerializationAdapter<RectangleType, SerializedRectangle>

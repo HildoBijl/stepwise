@@ -1,4 +1,4 @@
-import { deserializeAll } from '@step-wise/serialization'
+import { deserializeData } from '@step-wise/serialization'
 import surfConextMockData from '../../../../src/modules/authentication/surfConext/mockData.json' with { type: 'json' }
 import { createClient } from '../../../support/client.ts'
 import { stringifyGraphQLInput } from '../../../support/utils.ts'
@@ -53,7 +53,7 @@ describe('submitExerciseAction', () => {
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const parameters = deserializeAll(exercise.parameters) as any
+		const parameters = deserializeData(exercise.parameters) as any
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
 
 		// Submit a wrong solution.
@@ -81,7 +81,7 @@ describe('submitExerciseAction', () => {
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId parameters active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const parameters = deserializeAll(exercise.parameters) as any
+		const parameters = deserializeData(exercise.parameters) as any
 		expect(client.countEvents('SKILLS_UPDATED')).toStrictEqual(0)
 
 		// Submit a right solution.

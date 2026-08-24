@@ -1,21 +1,21 @@
 import { isObject, isPlainObject, mapValues } from '@step-wise/js-utils'
 
-import type { SerializableObject, SerializedObject } from './types'
-import { serializers } from './objects'
+import type { SerializableDomainObject, SerializedDomainObject } from './types'
+import { serializationAdapters } from './adapters'
 
-export type SerializedData = null | string | number | boolean | SerializedObject | SerializedData[] | { [key: string]: SerializedData }
+export type SerializedData = null | string | number | boolean | SerializedDomainObject | SerializedData[] | { [key: string]: SerializedData }
 
-export function serialize<Serialized extends SerializedObject = SerializedObject, DomainValue extends SerializableObject = SerializableObject>(value: DomainValue): Serialized {
-	const candidate: unknown = value
-	if (!isObject(candidate) || isPlainObject(candidate)) throw new TypeError(`Invalid serialize call: expected a non-plain object with a type.`)
-	const type = (candidate as { type?: unknown }).type
-	if (typeof type !== 'string') throw new TypeError(`Invalid serialize call: expected an object with a string type.`)
-	const entry = serializers[type as keyof typeof serializers]
-	if (entry === undefined) throw new TypeError(`Invalid serialize call: unknown type "${type}".`)
-	return entry.serialize(candidate as never) as Serialized
+export function serializeDomainObject<TSerialized extends SerializedDomainObject = SerializedDomainObject, TDomainValue extends SerializableDomainObject = SerializableDomainObject>(domainValue: TDomainValue): TSerialized {
+	const value: unknown = domainValue
+	if (!isObject(value) || isPlainObject(value)) throw new TypeError(`Invalid serializeDomainObject call: expected a non-plain object with a type.`)
+	const type = (value as { type?: unknown }).type
+	if (typeof type !== 'string') throw new TypeError(`Invalid serializeDomainObject call: expected an object with a string type.`)
+	const adapter = serializationAdapters[type as keyof typeof serializationAdapters]
+	if (adapter === undefined) throw new TypeError(`Invalid serializeDomainObject call: unknown type "${type}".`)
+	return adapter.serialize(value as never) as TSerialized
 }
 
-export function serializeAll(value: unknown): SerializedData {
+export function serializeData(value: unknown): SerializedData {
 	return serializeValue(value, new WeakSet())
 }
 
@@ -23,18 +23,18 @@ function serializeValue(value: unknown, ancestors: WeakSet<object>): SerializedD
 	// Handle fundamental types.
 	if (value === null || typeof value === 'string' || typeof value === 'boolean') return value
 	if (typeof value === 'number') {
-		if (!Number.isFinite(value)) throw new TypeError(`Invalid serializeAll call: expected numbers to be finite.`)
+		if (!Number.isFinite(value)) throw new TypeError(`Invalid serializeData call: expected numbers to be finite.`)
 		return value
 	}
 
 	// Handle arrays/plain objects.
 	if (Array.isArray(value) || isPlainObject(value)) {
-		if (ancestors.has(value)) throw new TypeError(`Invalid serializeAll call: cannot serialize circular data.`)
+		if (ancestors.has(value)) throw new TypeError(`Invalid serializeData call: cannot serialize circular data.`)
 		ancestors.add(value)
 		try {
 			if (Array.isArray(value)) {
 				for (let index = 0; index < value.length; index++) {
-					if (!Object.hasOwn(value, index)) throw new TypeError(`Invalid serializeAll call: cannot serialize sparse arrays.`)
+					if (!Object.hasOwn(value, index)) throw new TypeError(`Invalid serializeData call: cannot serialize sparse arrays.`)
 				}
 				return value.map(item => serializeValue(item, ancestors))
 			}
@@ -45,8 +45,8 @@ function serializeValue(value: unknown, ancestors: WeakSet<object>): SerializedD
 	}
 
 	// Handle domain values.
-	if (isObject(value)) return serialize(value as SerializableObject)
+	if (isObject(value)) return serializeDomainObject(value as SerializableDomainObject)
 
 	// Should never happen.
-	throw new TypeError(`Invalid serializeAll call: cannot serialize value of type "${typeof value}".`)
+	throw new TypeError(`Invalid serializeData call: cannot serialize value of type "${typeof value}".`)
 }

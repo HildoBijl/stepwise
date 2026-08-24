@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
-import { deserializeAll } from '@step-wise/serialization'
+import { deserializeData } from '@step-wise/serialization'
 import { getCurrentState } from '@step-wise/exercise-definition'
 import { getSkill } from '@step-wise/skill-tree'
 import { getExercise } from '@step-wise/exercises'
@@ -44,7 +44,7 @@ export function ExerciseContainer({ skillId, exercise, groupExercise, submitting
 	useEffect(reload, [setLoading, skillId, exerciseId])
 
 	// Assemble the parameters as Functional Object.
-	const parametersFO = useMemo(() => deserializeAll(parameters), [parameters])
+	const parametersFO = useMemo(() => deserializeData(parameters), [parameters])
 
 	// Ensure that the state has a consistent reference.
 	const state = useConsistentValue(inspection ? (exercise.history[historyIndex]?.state ?? exercise.initialState) : getCurrentState(instance))
