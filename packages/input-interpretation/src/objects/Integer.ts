@@ -9,14 +9,15 @@ export type IntegerInputValue = InputValue<IntegerType, string>
 
 function interpretInteger(inputValue: IntegerInputValue): number {
 	const { value } = inputValue
+	if (typeof value !== 'string') throw new InterpretationError(`Could not interpret a non-string value as an integer.`, 'InvalidInteger')
 	if (value === '') throw new InterpretationError('Could not interpret an empty string into an integer.', 'Empty')
 	if (value === '-') throw new InterpretationError('Could not interpret a number consisting only of a minus sign.', 'MinusSign')
-	if (!isNumericInteger(value)) throw new InterpretationError(`Could not interpret "${value}" as an integer.`, 'InvalidInteger')
-	return ensureNumericInteger(value)
+	if (!isNumericInteger(value) || !Number.isSafeInteger(Number(value.trim()))) throw new InterpretationError(`Could not interpret "${value}" as a safe integer.`, 'InvalidInteger')
+	return ensureNumericInteger(value, { safe: true })
 }
 
 function integerToInputValue(integer: number): IntegerInputValue {
-	return makeInputValue(IntegerType, ensureInteger(integer).toString())
+	return makeInputValue(IntegerType, ensureInteger(integer, { safe: true }).toString())
 }
 
 export const IntegerInterpreter = {

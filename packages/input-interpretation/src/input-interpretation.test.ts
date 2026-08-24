@@ -16,6 +16,13 @@ describe('input interpretation', () => {
 		})
 		test('throws on unknown individual types', () => {
 			expect(() => interpretInputValue({ type: 'Unknown', value: 3 })).toThrow()
+			expect(() => interpretInputValue({ type: 'toString', value: 3 })).toThrow(/unknown type/)
+		})
+		test('validates integer and multiple-choice input values', () => {
+			expect(() => interpretInputValue({ type: 'Integer', value: 42 })).toThrow()
+			expect(() => interpretInputValue({ type: 'Integer', value: String(Number.MAX_SAFE_INTEGER + 1) })).toThrow()
+			expect(() => interpretInputValue({ type: 'MultipleChoice', value: [1, 1] })).toThrow(/duplicate/i)
+			expect(() => interpretInputValue({ type: 'MultipleChoice', value: Number.MAX_SAFE_INTEGER + 1 })).toThrow()
 		})
 	})
 
@@ -29,7 +36,13 @@ describe('input interpretation', () => {
 		})
 		test('throws on unknown types', () => {
 			expect(() => toInputValue(3, 'Unknown')).toThrow()
+			expect(() => toInputValue(3, 'toString')).toThrow(/unknown type/)
 			expect(() => toInputValue(3, undefined as never)).toThrow(/string type/)
+		})
+		test('validates integer and multiple-choice domain values', () => {
+			expect(() => toInputValue(Number.MAX_SAFE_INTEGER + 1, 'Integer')).toThrow()
+			expect(() => toInputValue([1, 1], 'MultipleChoice')).toThrow(/duplicate/i)
+			expect(() => toInputValue([Number.MAX_SAFE_INTEGER + 1], 'MultipleChoice')).toThrow()
 		})
 	})
 
@@ -61,6 +74,22 @@ describe('input interpretation', () => {
 				value: 3,
 				nested: { a: 2 },
 			})
+		})
+		test('commits to recognized input types', () => {
+			expect(() => interpretAllInputValues({ type: 'Integer' })).toThrow(/type and value/)
+		})
+		test('rejects sparse and circular data while allowing repeated references', () => {
+			expect(() => interpretAllInputValues(new Array(1))).toThrow(/sparse/)
+
+			const sparseValue = new Array(1)
+			expect(() => interpretAllInputValues({ type: 'MultipleChoice', value: sparseValue })).toThrow(/sparse/)
+
+			const circular: { self?: unknown } = {}
+			circular.self = circular
+			expect(() => interpretAllInputValues(circular)).toThrow(/circular/)
+
+			const shared = { value: 1 }
+			expect(interpretAllInputValues({ first: shared, second: shared })).toEqual({ first: { value: 1 }, second: { value: 1 } })
 		})
 	})
 })

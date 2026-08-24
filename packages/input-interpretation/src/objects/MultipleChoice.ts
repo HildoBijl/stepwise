@@ -1,4 +1,4 @@
-import { isInteger, ensureInteger, InterpretationError } from '@step-wise/js-utils'
+import { ensureInteger, hasDuplicates, isInteger, InterpretationError } from '@step-wise/js-utils'
 
 import type { InputValue, InterpreterEntry } from '../types'
 import { makeInputValue } from '../support'
@@ -11,16 +11,24 @@ export type MultipleChoiceInputValue = InputValue<MultipleChoiceType, MultipleCh
 
 function interpretMultipleChoice(inputValue: MultipleChoiceInputValue): MultipleChoiceValue {
 	const { value } = inputValue
-	return Array.isArray(value) ? value.map(validateOption) : validateOption(value)
+	if (!Array.isArray(value)) return validateOption(value)
+	return validateOptions(value)
 }
 
 function multipleChoiceToInputValue(value: MultipleChoiceValue): MultipleChoiceInputValue {
-	return Array.isArray(value) ? makeInputValue(MultipleChoiceType, value.map(validateOption)) : makeInputValue(MultipleChoiceType, validateOption(value))
+	if (!Array.isArray(value)) return makeInputValue(MultipleChoiceType, validateOption(value))
+	return makeInputValue(MultipleChoiceType, validateOptions(value))
 }
 
-function validateOption(value: number): number {
-	if (!isInteger(value) || value < 0) throw new InterpretationError(`Invalid multiple choice option: expected a non-negative integer but received "${value}".`, 'InvalidOption')
-	return ensureInteger(value, { nonNegative: true })
+function validateOptions(values: unknown[]): number[] {
+	const options = values.map(validateOption)
+	if (hasDuplicates(options)) throw new InterpretationError(`Invalid multiple choice selection: duplicate options are not allowed.`, 'DuplicateOptions')
+	return options
+}
+
+function validateOption(value: unknown): number {
+	if (!isInteger(value) || !Number.isSafeInteger(value) || value < 0) throw new InterpretationError(`Invalid multiple choice option: expected a non-negative safe integer but received "${value}".`, 'InvalidOption')
+	return ensureInteger(value, { nonNegative: true, safe: true })
 }
 
 export const MultipleChoiceInterpreter = {
