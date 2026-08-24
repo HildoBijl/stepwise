@@ -10,7 +10,7 @@ export type { VectorData }
 export type VectorLike = Vector | VectorInput
 
 export class Vector {
-	private _coordinates: CoordinateList
+	private readonly _coordinates: CoordinateList
 
 	/*
 	 * Common vectors.
@@ -19,12 +19,12 @@ export class Vector {
 	static readonly zero = new Vector(0, 0)
 	static readonly i = new Vector(1, 0)
 	static readonly j = new Vector(0, 1)
-	static readonly ['3D'] = {
+	static readonly ['3D'] = Object.freeze({
 		zero: new Vector(0, 0, 0),
 		i: new Vector(1, 0, 0),
 		j: new Vector(0, 1, 0),
 		k: new Vector(0, 0, 1),
-	}
+	})
 
 	/*
 	 * Constructor.
@@ -131,22 +131,6 @@ export class Vector {
 
 	getCoordinate(index: number): number {
 		return this._coordinates[this.ensureValidIndex(index)]
-	}
-
-	set x(x: number) {
-		this.setCoordinate(0, x)
-	}
-
-	set y(y: number) {
-		this.setCoordinate(1, y)
-	}
-
-	set z(z: number) {
-		this.setCoordinate(2, z)
-	}
-
-	setCoordinate(index: number, value: number): void {
-		this._coordinates[this.ensureValidIndex(index)] = ensureNumber(value)
 	}
 
 	/*

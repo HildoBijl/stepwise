@@ -16,8 +16,8 @@ export type { TransformationData }
 export type TransformationLike = Transformation | TransformationInput
 
 export class Transformation {
-	private _matrix: Matrix
-	private _translation: Vector
+	private readonly _matrix: Matrix
+	private readonly _translation: Vector
 
 	/*
 	 * Common transformations.

@@ -12,7 +12,7 @@ export type { MatrixArray as MatrixData }
 export type MatrixLike = Matrix | MatrixInput
 
 export class Matrix {
-	private _rows: MatrixArray
+	private readonly _rows: MatrixArray
 
 	/*
 	 * Common matrices.
@@ -117,11 +117,6 @@ export class Matrix {
 	getEntry(row: number, column: number): number {
 		const [safeRow, safeColumn] = this.ensureValidIndices(row, column)
 		return this._rows[safeRow]![safeColumn]!
-	}
-
-	setEntry(row: number, column: number, value: number): void {
-		const [safeRow, safeColumn] = this.ensureValidIndices(row, column)
-		this._rows[safeRow]![safeColumn] = ensureNumber(value)
 	}
 
 	getRow(index: number): Vector {

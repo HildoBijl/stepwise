@@ -22,8 +22,8 @@ function isApproximatelyAtMost(value: number, upperBound: number): boolean {
 }
 
 export class Rectangle {
-	private _min: Vector
-	private _max: Vector
+	private readonly _min: Vector
+	private readonly _max: Vector
 
 	/*
 	 * Constructor.
@@ -284,16 +284,18 @@ export class Rectangle {
 
 	// Find the closest point within the Rectangle. Points within the Rectangle are kept, unless the alwaysPutOnEdge flag is set to true, in which case the closest point on the Rectangle's edge is given.
 	applyBounds(vector: VectorLike, alwaysPutOnEdge = false): Vector {
-		// If we don't have an internal point to put on the edge, the logic is easy: bound the coordinates to the rectangle's range.
 		const point = ensureVector(vector, this.dimension)
-		if (!alwaysPutOnEdge || !this.contains(vector)) return new Vector(point.coordinates.map((coordinate, axis) => clamp(coordinate, ...this.getBounds(axis))))
+		const boundedPoint = new Vector(point.coordinates.map((coordinate, axis) => clamp(coordinate, ...this.getBounds(axis))))
+
+		// If we don't have an internal point to put on the edge, coordinate-wise clamping is sufficient.
+		if (!alwaysPutOnEdge || !this.contains(point)) return boundedPoint
 
 		// We have an internal point to put on the edge. Find the axis where the distance is the smallest.
-		const distancesAlongAxes = point.coordinates.map((coordinate, axis) => Math.min(...this.getBounds(axis).map(bound => Math.abs(bound - coordinate))))
+		const distancesAlongAxes = boundedPoint.coordinates.map((coordinate, axis) => Math.min(...this.getBounds(axis).map(bound => Math.abs(bound - coordinate))))
 		const shiftAxis = findOptimumIndex(distancesAlongAxes, (a, b) => a < b)
 
 		// Shift the point along the given axis to the nearest bound.
-		return new Vector(point.coordinates.map((coordinate, axis) => {
+		return new Vector(boundedPoint.coordinates.map((coordinate, axis) => {
 			if (axis !== shiftAxis) return coordinate
 			const bounds = this.getBounds(axis)
 			const distances = bounds.map(bound => Math.abs(bound - coordinate))

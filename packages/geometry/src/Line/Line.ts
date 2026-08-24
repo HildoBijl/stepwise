@@ -12,8 +12,8 @@ export type { LineData }
 export type LineLike = Line | LineInput
 
 export class Line {
-	private _start: Vector
-	private _direction: Vector
+	private readonly _start: Vector
+	private readonly _direction: Vector
 
 	/*
 	 * Common lines.
@@ -21,11 +21,11 @@ export class Line {
 
 	static readonly xAxis = Line.getAxisLineThrough(Vector.zero, 0)
 	static readonly yAxis = Line.getAxisLineThrough(Vector.zero, 1)
-	static readonly ['3D'] = {
+	static readonly ['3D'] = Object.freeze({
 		xAxis: Line.getAxisLineThrough(Vector['3D'].zero, 0),
 		yAxis: Line.getAxisLineThrough(Vector['3D'].zero, 1),
 		zAxis: Line.getAxisLineThrough(Vector['3D'].zero, 2),
-	}
+	})
 
 	/*
 	 * Constructor.

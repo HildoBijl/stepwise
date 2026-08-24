@@ -13,8 +13,8 @@ export type LineSegmentLike = LineSegment | LineSegmentInput
 const pointNames = ['start', 'end'] as const
 
 export class LineSegment {
-	private _start: Vector
-	private _end: Vector
+	private readonly _start: Vector
+	private readonly _end: Vector
 
 	/*
 	 * Constructor.
