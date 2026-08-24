@@ -61,7 +61,7 @@ export class Rectangle {
 			if (hasSize) {
 				const actualSize = this._max.subtract(this._min)
 				const givenSize = ensureVector(value.size, this._min.dimension)
-				if (!actualSize.equals(givenSize)) throw new Error(`Invalid LineSegment: the given size "${givenSize}" is not the difference between the minimum "${this._min}" and the maximum "${this._max}" values.`)
+				if (!actualSize.equals(givenSize)) throw new Error(`Invalid Rectangle: the given size "${givenSize}" is not the difference between the minimum "${this._min}" and the maximum "${this._max}" values.`)
 			}
 			return
 		}
@@ -320,6 +320,7 @@ export class Rectangle {
 	// Check if a LineSegment intersects the Rectangle's bounds.
 	touchesLineSegment(lineSegment: LineSegmentLike): boolean {
 		const ensuredLineSegment = ensureLineSegment(lineSegment, this.dimension)
+		if (ensuredLineSegment.vector.isZero()) return this.contains(ensuredLineSegment.start)
 
 		// Check if the LineSegment's Line intersects the Rectangle.
 		const linePartFactors = this.getLineSegmentFactors(ensuredLineSegment.line)

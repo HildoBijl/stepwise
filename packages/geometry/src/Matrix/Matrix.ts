@@ -243,7 +243,6 @@ export class Matrix {
 		if (!this.isSquare()) throw new Error(`Invalid determinant call: can only take the determinant of a square matrix.`)
 
 		// Base cases.
-		if (this.height === 0) return 1
 		if (this.height === 1) return this.getEntry(0, 0)
 		if (this.height === 2) return this.getEntry(0, 0) * this.getEntry(1, 1) - this.getEntry(0, 1) * this.getEntry(1, 0)
 
@@ -262,6 +261,7 @@ export class Matrix {
 
 	get adjugate(): Matrix {
 		if (!this.isSquare()) throw new Error(`Invalid adjugate call: can only take the adjugate of a square matrix.`)
+		if (this.height === 1) return new Matrix([[1]])
 		return new Matrix(this._rows.map((row, rowIndex) => row.map((_, columnIndex) => ((rowIndex + columnIndex) % 2 === 0 ? 1 : -1) * this.getMinor(rowIndex, columnIndex).determinant))).transpose()
 	}
 
@@ -276,8 +276,8 @@ export class Matrix {
 	 */
 
 	static getZero(rowCount: number, columnCount = rowCount): Matrix {
-		rowCount = ensureInteger(rowCount, { nonNegative: true })
-		columnCount = ensureInteger(columnCount, { nonNegative: true })
+		rowCount = ensureInteger(rowCount, { nonNegative: true, nonZero: true })
+		columnCount = ensureInteger(columnCount, { nonNegative: true, nonZero: true })
 		return new Matrix(new Array(rowCount).fill(0).map(() => new Array(columnCount).fill(0)))
 	}
 
@@ -287,7 +287,7 @@ export class Matrix {
 	}
 
 	static getIdentity(size: number): Matrix {
-		size = ensureInteger(size, { nonNegative: true })
+		size = ensureInteger(size, { nonNegative: true, nonZero: true })
 		return Matrix.fromDiagonal(new Array(size).fill(1))
 	}
 

@@ -219,7 +219,7 @@ export class Line {
 	intersects(line: LineLike): boolean {
 		const other = this.coerceLine(line)
 		if (this.dimension === 1) return true
-		return this.getIntersection(other) !== null
+		return this.equals(other) || this.getIntersection(other) !== null
 	}
 
 	// Find the intersection point of two 2D lines. Returns null if no unique intersection exists.

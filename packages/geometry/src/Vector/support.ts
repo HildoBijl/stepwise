@@ -10,7 +10,7 @@ export function getCoordinateObjectDimension(coordinates: Record<string, unknown
 
 // Check if the given value is a coordinate list.
 export function isCoordinateList(value: unknown): value is CoordinateList {
-	return Array.isArray(value) && value.length > 0 && value.length <= coordinateKeys.length && value.every(item => isNumber(item))
+	return Array.isArray(value) && value.length > 0 && value.every(item => isNumber(item))
 }
 
 // Check if the given value is a coordinate object.

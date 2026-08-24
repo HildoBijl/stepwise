@@ -39,6 +39,10 @@ export class Vector {
 		// Handle constructor(VectorLike).
 		if (args.length === 1) {
 			const value = args[0]
+			if (typeof value === 'number') {
+				this._coordinates = [ensureNumber(value)]
+				return
+			}
 
 			// On a Vector, become it.
 			if (value instanceof Vector) {
@@ -308,7 +312,7 @@ export class Vector {
 
 	// Get the zero vector, in the given dimension.
 	static getZero(dimension: number): Vector {
-		dimension = ensureInteger(dimension, { nonNegative: true })
+		dimension = ensureInteger(dimension, { nonNegative: true, nonZero: true })
 		return new Vector(new Array(dimension).fill(0))
 	}
 
@@ -316,7 +320,7 @@ export class Vector {
 	static getUnitVector(axis: number, dimension: number): Vector {
 		// Check input.
 		axis = ensureInteger(axis, { nonNegative: true })
-		dimension = ensureInteger(dimension, { nonNegative: true })
+		dimension = ensureInteger(dimension, { nonNegative: true, nonZero: true })
 		if (axis >= dimension) throw new Error(`Invalid axis: cannot have an axis (${axis}) equal to or larger than the dimension (${dimension}).`)
 
 		// Generate the vector.

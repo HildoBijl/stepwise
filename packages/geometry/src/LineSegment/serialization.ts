@@ -1,3 +1,7 @@
+import { isPlainObject } from '@step-wise/js-utils'
+
+import { isCoordinateList } from '../Vector'
+
 import { type LineSegmentData } from './types'
 import { LineSegment } from './LineSegment'
 
@@ -13,6 +17,7 @@ export function serializeLineSegment(lineSegment: LineSegment): SerializedLineSe
 	}
 }
 
-export function deserializeLineSegment(serializedLineSegment: SerializedLineSegment): LineSegment {
-	return LineSegment.fromStorageValue(serializedLineSegment.value)
+export function deserializeLineSegment(serializedLineSegment: unknown): LineSegment {
+	if (!isPlainObject(serializedLineSegment) || Object.keys(serializedLineSegment).length !== 2 || serializedLineSegment.type !== LineSegment.type || !isPlainObject(serializedLineSegment.value) || Object.keys(serializedLineSegment.value).length !== 2 || !isCoordinateList(serializedLineSegment.value.start) || !isCoordinateList(serializedLineSegment.value.end)) throw new Error(`Invalid serialized LineSegment.`)
+	return LineSegment.fromStorageValue(serializedLineSegment.value as LineSegmentData)
 }

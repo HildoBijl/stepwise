@@ -219,7 +219,7 @@ export class Transformation {
 	 */
 
 	static getIdentity(dimension: number): Transformation {
-		dimension = ensureInteger(dimension, { nonNegative: true })
+		dimension = ensureInteger(dimension, { nonNegative: true, nonZero: true })
 		return new Transformation(Matrix.getIdentity(dimension), Vector.getZero(dimension))
 	}
 
@@ -229,6 +229,7 @@ export class Transformation {
 	}
 
 	static fromScale(scales: number[], relativeTo?: VectorLike): Transformation {
+		if (!Array.isArray(scales) || scales.length === 0) throw new Error(`Invalid scale transformation: expected at least one scale.`)
 		const safeScales = scales.map(scale => ensureNumber(scale))
 		const matrix = Matrix.fromDiagonal(safeScales)
 		const translation = Vector.getZero(safeScales.length)
@@ -236,7 +237,7 @@ export class Transformation {
 	}
 
 	static fromUniformScale(scale: number, dimension: number, relativeTo?: VectorLike): Transformation {
-		dimension = ensureInteger(dimension, { nonNegative: true })
+		dimension = ensureInteger(dimension, { nonNegative: true, nonZero: true })
 		const safeScale = ensureNumber(scale)
 		return Transformation.fromScale(new Array(dimension).fill(safeScale), relativeTo)
 	}
@@ -247,11 +248,11 @@ export class Transformation {
 		return new Transformation(matrix, Vector.getZero(2)).relativeTo(relativeTo)
 	}
 
-	// Reflect along the given direction. Default: reflect along the x-axis.
-	static fromReflection(direction: VectorLike = [1, 0], relativeTo?: VectorLike): Transformation {
-		const axis = ensureVector(direction, undefined, false, true)
+	// Reflect across the hyperplane perpendicular to the given normal vector. By default, negate the x-coordinate by reflecting across the y-axis.
+	static fromReflection(normal: VectorLike = [1, 0], relativeTo?: VectorLike): Transformation {
+		const axis = ensureVector(normal, undefined, false, true)
 
-		// Reflection along axis u: transform using I - 2uu^T.
+		// Reflection across the hyperplane with unit normal u: transform using I - 2uu^T.
 		const u = Matrix.fromVector(axis.normalize())
 		const matrix = Matrix.getIdentity(axis.dimension).subtract(u.multiply(u.transpose()).multiply(2))
 		return new Transformation(matrix, Vector.getZero(axis.dimension)).relativeTo(relativeTo)
