@@ -1,4 +1,5 @@
 import { interpolateRange, getInterpolationFraction, getBracketingIndices, interpolateTable, interpolateTableOutputs, interpolateTableInput, isInterpolationFraction } from '@step-wise/interpolation'
+import { approximatelyEqual } from '@step-wise/js-utils'
 import { Quantity } from '@step-wise/physics-core'
 
 import { type RefrigerantPressureTable, type RefrigerantData } from './types'
@@ -69,7 +70,12 @@ export function getPhaseFromPressureAndEntropy(data: RefrigerantData, pressure: 
 function vaporFractionToPhase(vaporFraction: Quantity | undefined): RefrigerantPhase | undefined {
 	if (vaporFraction === undefined) return undefined
 	const x = vaporFraction.setUnit('').number
-	return x <= 0 ? 'liquid' : x >= 1 ? 'gas' : 'vapor'
+	return x < 0 || approximatelyEqual(x, 0) ? 'liquid' : x > 1 || approximatelyEqual(x, 1) ? 'gas' : 'vapor'
+}
+
+function isPhysicalVaporFraction(vaporFraction: Quantity): boolean {
+	const x = vaporFraction.setUnit('').number
+	return (x >= 0 || approximatelyEqual(x, 0)) && (x <= 1 || approximatelyEqual(x, 1))
 }
 
 /*
@@ -116,7 +122,10 @@ export function getVaporLinePropertiesFromPressure(data: RefrigerantData, pressu
 // From temperature and vapor fraction, get all properties.
 export function getVaporPropertiesFromTemperature(data: RefrigerantData, temperature: Quantity, vaporFraction: Quantity): RefrigerantProperties | undefined {
 	vaporFraction = vaporFraction.setUnit('')
-	const vaporFractionNumber = vaporFraction.number
+	let vaporFractionNumber = vaporFraction.number
+	if (approximatelyEqual(vaporFractionNumber, 0)) vaporFraction = new Quantity(0)
+	else if (approximatelyEqual(vaporFractionNumber, 1)) vaporFraction = new Quantity(1)
+	vaporFractionNumber = vaporFraction.number
 	if (vaporFractionNumber < 0 || vaporFractionNumber > 1) throw new Error(`Invalid vapor fraction: it has to be a number between 0 and 1, and not ${vaporFraction}.`)
 	const { pressure, enthalpyLiquid, enthalpyVapor, entropyLiquid, entropyVapor } = interpolateTableOutputs(temperature, data.boilingData, ['pressure', 'enthalpyLiquid', 'enthalpyVapor', 'entropyLiquid', 'entropyVapor'])
 	if (pressure === undefined || enthalpyLiquid === undefined || enthalpyVapor === undefined || entropyLiquid === undefined || entropyVapor === undefined) return undefined
@@ -159,7 +168,7 @@ export function getRefrigerantPropertiesFromTemperature(data: RefrigerantData, p
 export function getRefrigerantPropertiesFromEnthalpy(data: RefrigerantData, pressure: Quantity, enthalpy: Quantity): RefrigerantProperties | undefined {
 	const vaporFraction = getVaporFractionFromPressureAndEnthalpy(data, pressure, enthalpy)
 	if (vaporFraction === undefined) return undefined
-	if (vaporFractionToPhase(vaporFraction) === 'vapor') return getVaporPropertiesFromPressure(data, pressure, vaporFraction)
+	if (isPhysicalVaporFraction(vaporFraction)) return getVaporPropertiesFromPressure(data, pressure, vaporFraction)
 
 	const temperature = getRefrigerantTemperatureFromParameter(data, pressure, enthalpy, 'enthalpy', vaporFractionToPhase(vaporFraction) as SinglePhase)
 	return temperature && getRefrigerantPropertiesFromTemperature(data, pressure, temperature)
@@ -167,8 +176,8 @@ export function getRefrigerantPropertiesFromEnthalpy(data: RefrigerantData, pres
 export function getRefrigerantPropertiesFromEntropy(data: RefrigerantData, pressure: Quantity, entropy: Quantity): RefrigerantProperties | undefined {
 	const vaporFraction = getVaporFractionFromPressureAndEntropy(data, pressure, entropy)
 	if (vaporFraction === undefined) return undefined
-	if (vaporFractionToPhase(vaporFraction) === 'vapor') return getVaporPropertiesFromPressure(data, pressure, vaporFraction)
-		
+	if (isPhysicalVaporFraction(vaporFraction)) return getVaporPropertiesFromPressure(data, pressure, vaporFraction)
+
 	const temperature = getRefrigerantTemperatureFromParameter(data, pressure, entropy, 'entropy', vaporFractionToPhase(vaporFraction) as SinglePhase)
 	return temperature && getRefrigerantPropertiesFromTemperature(data, pressure, temperature)
 }
@@ -177,27 +186,50 @@ export function getRefrigerantPropertiesFromEntropy(data: RefrigerantData, press
 function getRefrigerantTemperatureFromParameter(data: RefrigerantData, pressure: Quantity, parameter: Quantity, parameterLabel: RefrigerantPropertyLabel, phase: SinglePhase): Quantity | undefined {
 	const subTables = getRefrigerantSubTables(data, pressure)
 	if (subTables === undefined) return undefined
+	const boilingTemperature = getBoilingTemperature(data, pressure)
+	if (boilingTemperature === undefined) return undefined
+	const offsetBounds = getTemperatureOffsetBounds(data, subTables, phase)
+	if (offsetBounds === undefined) return undefined
+
+	// Find the range in which the given point falls.
 	const saturationParameter = getSaturationProperty(data, pressure, parameterLabel, phase)
-	if (saturationParameter === undefined) return undefined
-	const parameterOffset = parameter.subtract(saturationParameter)
+	const outerTemperature = boilingTemperature.add(new Quantity({ value: phase === 'liquid' ? offsetBounds[0] : offsetBounds[1], unit: boilingTemperature.unit }))
+	const outerParameter = getRefrigerantPropertyFromSubTables(data, subTables, outerTemperature, boilingTemperature, parameterLabel)
+	if (saturationParameter === undefined || outerParameter === undefined) return undefined
+	const [minimumParameter, maximumParameter] = phase === 'liquid' ? [outerParameter, saturationParameter] : [saturationParameter, outerParameter]
+	if (parameter.compare(minimumParameter) < 0 || parameter.compare(maximumParameter) > 0) return undefined
 
-	const getTemperature = (table: RefrigerantPressureTable): Quantity | undefined => {
-		const tableSaturationParameter = getSaturationProperty(data, table.pressure, parameterLabel, phase)
-		return tableSaturationParameter && interpolatePressureTableInput(tableSaturationParameter.add(parameterOffset), table, parameterLabel, phase)
+	// Use binary search to find the exact inverse point.
+	let [minimumOffset, maximumOffset] = offsetBounds
+	for (let iteration = 0; iteration < 24; iteration++) {
+		const middleOffset = (minimumOffset + maximumOffset) / 2
+		const middleTemperature = boilingTemperature.add(new Quantity({ value: middleOffset, unit: boilingTemperature.unit }))
+		const middleParameter = getRefrigerantPropertyFromSubTables(data, subTables, middleTemperature, boilingTemperature, parameterLabel)
+		if (middleParameter === undefined) return undefined
+		if (middleParameter.compare(parameter) < 0) minimumOffset = middleOffset
+		else maximumOffset = middleOffset
 	}
-	if (subTables.part === 0) return getTemperature(subTables.tables[0])
-	if (subTables.part === 1) return getTemperature(subTables.tables[1])
-
-	const temperatures = subTables.tables.map(getTemperature)
-	if (temperatures[0] === undefined || temperatures[1] === undefined) return undefined
-
-	return interpolateRange(subTables.part, [temperatures[0], temperatures[1]], [0, 1])
+	return boilingTemperature.add(new Quantity({ value: (minimumOffset + maximumOffset) / 2, unit: boilingTemperature.unit }))
 }
 
 function getSaturationProperty(data: RefrigerantData, pressure: Quantity, propertyLabel: RefrigerantPropertyLabel, phase: SinglePhase): Quantity | undefined {
 	const boilingTemperature = getBoilingTemperature(data, pressure)
 	if (boilingTemperature === undefined) return undefined
 	return interpolateTable(boilingTemperature, data.boilingData, `${propertyLabel}${phase === 'liquid' ? 'Liquid' : 'Vapor'}`)
+}
+
+function getTemperatureOffsetBounds(data: RefrigerantData, subTables: SubTables, phase: SinglePhase): [number, number] | undefined {
+	const tables = subTables.part === 0 ? [subTables.tables[0]] : subTables.part === 1 ? [subTables.tables[1]] : subTables.tables
+	const outerOffsets = tables.map(table => {
+		const boilingTemperature = getBoilingTemperature(data, table.pressure)
+		if (boilingTemperature === undefined) return undefined
+		const temperatureAxis = table.table.inputAxes[0]
+		const outerTemperature = phase === 'liquid' ? temperatureAxis[0] : temperatureAxis[temperatureAxis.length - 1]
+		return outerTemperature.subtract(boilingTemperature).number
+	})
+	if (outerOffsets.some(offset => offset === undefined)) return undefined
+	const definedOuterOffsets = outerOffsets as number[]
+	return phase === 'liquid' ? [Math.max(...definedOuterOffsets), 0] : [0, Math.min(...definedOuterOffsets)]
 }
 
 function getRefrigerantSubTables(data: RefrigerantData, pressure: Quantity): SubTables | undefined {
@@ -220,25 +252,4 @@ function getRefrigerantPropertyFromSubTables(data: RefrigerantData, subTables: S
 	const values = subTables.tables.map(getValue)
 	if (values[0] === undefined || values[1] === undefined) return undefined
 	return interpolateRange(subTables.part, [values[0], values[1]], [0, 1])
-}
-
-function interpolatePressureTableInput(parameter: Quantity, pressureTable: RefrigerantPressureTable, propertyLabel: RefrigerantPropertyLabel, phase: SinglePhase): Quantity | undefined {
-	const table = pressureTable.table
-	const temperatureAxis = table.inputAxes[0]
-	const propertySeries = table.outputGrids[table.outputLabels.indexOf(propertyLabel)]
-	const saturationIndex = temperatureAxis.findIndex((temperature, index) => index < temperatureAxis.length - 1 && temperature.compare(temperatureAxis[index + 1]) === 0)
-	if (saturationIndex === -1) throw new RangeError(`Invalid refrigerant pressure table: expected a duplicated saturation temperature.`)
-
-	const start = phase === 'liquid' ? 0 : saturationIndex + 1
-	const end = phase === 'liquid' ? saturationIndex : temperatureAxis.length - 1
-	const length = end - start + 1
-	const [relativeMin, relativeMax] = getBracketingIndices(parameter, index => propertySeries[start + index] as Quantity, length)
-	const min = start + relativeMin
-	const max = start + relativeMax
-	const minValue = propertySeries[min] as Quantity
-	const maxValue = propertySeries[max] as Quantity
-	if (parameter.compare(minValue) === 0) return temperatureAxis[min]
-	if (parameter.compare(maxValue) === 0) return temperatureAxis[max]
-	if (min === max) return undefined
-	return interpolateRange(parameter, [temperatureAxis[min], temperatureAxis[max]], [minValue, maxValue])
 }
