@@ -181,10 +181,14 @@ function getRefrigerantTemperatureFromParameter(data: RefrigerantData, pressure:
 	if (saturationParameter === undefined) return undefined
 	const parameterOffset = parameter.subtract(saturationParameter)
 
-	const temperatures = subTables.tables.map(table => {
+	const getTemperature = (table: RefrigerantPressureTable): Quantity | undefined => {
 		const tableSaturationParameter = getSaturationProperty(data, table.pressure, parameterLabel, phase)
 		return tableSaturationParameter && interpolatePressureTableInput(tableSaturationParameter.add(parameterOffset), table, parameterLabel, phase)
-	})
+	}
+	if (subTables.part === 0) return getTemperature(subTables.tables[0])
+	if (subTables.part === 1) return getTemperature(subTables.tables[1])
+
+	const temperatures = subTables.tables.map(getTemperature)
 	if (temperatures[0] === undefined || temperatures[1] === undefined) return undefined
 
 	return interpolateRange(subTables.part, [temperatures[0], temperatures[1]], [0, 1])
@@ -206,10 +210,14 @@ function getRefrigerantSubTables(data: RefrigerantData, pressure: Quantity): Sub
 
 function getRefrigerantPropertyFromSubTables(data: RefrigerantData, subTables: SubTables, temperature: Quantity, boilingTemperature: Quantity, outputLabel: RefrigerantPropertyLabel): Quantity | undefined {
 	const temperatureOffset = temperature.subtract(boilingTemperature)
-	const values = subTables.tables.map(table => {
+	const getValue = (table: RefrigerantPressureTable): Quantity | undefined => {
 		const tableBoilingTemperature = getBoilingTemperature(data, table.pressure)
 		return tableBoilingTemperature && interpolateTable(tableBoilingTemperature.add(temperatureOffset), table.table, outputLabel)
-	})
+	}
+	if (subTables.part === 0) return getValue(subTables.tables[0])
+	if (subTables.part === 1) return getValue(subTables.tables[1])
+
+	const values = subTables.tables.map(getValue)
 	if (values[0] === undefined || values[1] === undefined) return undefined
 	return interpolateRange(subTables.part, [values[0], values[1]], [0, 1])
 }
