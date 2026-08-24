@@ -2,7 +2,7 @@ import { sample, randomBoolean } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity, getRandomExponentialQuantity } from '@step-wise/physics-core'
-import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getRefrigerantPropertiesFromEntropy, getVaporPropertiesFromTemperature } from '@step-wise/physics-data'
+import { refrigerantDatasets, getRefrigerantPropertiesFromPressureAndTemperature, getRefrigerantPropertiesFromPressureAndEnthalpy, getRefrigerantPropertiesFromPressureAndEntropy, getSaturatedMixturePropertiesFromTemperature } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
 	metadata: {
@@ -12,15 +12,15 @@ export default buildMonoExercise({
 
 	generateParameters() {
 		while (true) {
-			const refrigerant = sample(Object.keys(refrigerants))
-			const refrigerantData = refrigerants[refrigerant]
+			const refrigerant = sample(Object.keys(refrigerantDatasets))
+			const refrigerantData = refrigerantDatasets[refrigerant]
 			const minPressure = refrigerantData.tablesByPressure[0].pressure.setUnit('bar').number
 			const maxPressure = refrigerantData.criticalPoint.pressure.setUnit('bar').number * 0.8
 			const pressure1 = getRandomExponentialQuantity({ min: minPressure, max: minPressure * 6, unit: 'bar' })
 			const pressure2 = getRandomExponentialQuantity({ min: maxPressure / 6, max: maxPressure, unit: 'bar' })
-			let point2 = getRefrigerantPropertiesFromEnthalpy(refrigerantData, pressure2, getRandomQuantity({ min: 350, max: 500, unit: 'kJ/kg' }))
+			let point2 = getRefrigerantPropertiesFromPressureAndEnthalpy(refrigerantData, pressure2, getRandomQuantity({ min: 350, max: 500, unit: 'kJ/kg' }))
 			if (!point2) continue
-			let point1 = getRefrigerantPropertiesFromEntropy(refrigerantData, pressure1, point2.entropy)
+			let point1 = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, pressure1, point2.entropy)
 			if (!point1) continue
 			if (randomBoolean()) [point1, point2] = [point2, point1]
 
@@ -28,14 +28,14 @@ export default buildMonoExercise({
 				refrigerant,
 				phase1: point1.phase,
 				T1: point1.temperature.setDecimals(0).roundToPrecision(),
-				x1: point1.phase === 'vapor' ? point1.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) : undefined,
-				p1: point1.phase === 'vapor' ? undefined : point1.pressure.setSignificantDigits(2).roundToPrecision(),
+				x1: point1.phase === 'mixture' ? point1.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) : undefined,
+				p1: point1.phase === 'mixture' ? undefined : point1.pressure.setSignificantDigits(2).roundToPrecision(),
 				p2: point2.pressure.setSignificantDigits(2).roundToPrecision(),
 			}
 			try {
-				const checkedPoint1 = parameters.phase1 === 'vapor' ? getVaporPropertiesFromTemperature(refrigerantData, parameters.T1, parameters.x1!) : getRefrigerantPropertiesFromTemperature(refrigerantData, parameters.p1!, parameters.T1)
+				const checkedPoint1 = parameters.phase1 === 'mixture' ? getSaturatedMixturePropertiesFromTemperature(refrigerantData, parameters.T1, parameters.x1!) : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, parameters.p1!, parameters.T1)
 				if (!checkedPoint1) continue
-				const checkedPoint2 = getRefrigerantPropertiesFromEntropy(refrigerantData, parameters.p2, checkedPoint1.entropy)
+				const checkedPoint2 = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, parameters.p2, checkedPoint1.entropy)
 				if (!checkedPoint2) continue
 				return parameters
 			} catch { }
@@ -43,9 +43,9 @@ export default buildMonoExercise({
 	},
 
 	getSolution({ refrigerant, phase1, T1, x1, p1, p2 }) {
-		const refrigerantData = refrigerants[refrigerant]
-		const point1 = phase1 === 'vapor' ? getVaporPropertiesFromTemperature(refrigerantData, T1, x1!)! : getRefrigerantPropertiesFromTemperature(refrigerantData, p1!, T1)!
-		const point2 = getRefrigerantPropertiesFromEntropy(refrigerantData, p2, point1.entropy)!
+		const refrigerantData = refrigerantDatasets[refrigerant]
+		const point1 = phase1 === 'mixture' ? getSaturatedMixturePropertiesFromTemperature(refrigerantData, T1, x1!)! : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, p1!, T1)!
+		const point2 = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, p2, point1.entropy)!
 		return {
 			refrigerant,
 			phase1,

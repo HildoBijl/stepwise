@@ -1,7 +1,7 @@
 import { interpolateTableOutputs } from '@step-wise/interpolation'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
+import { saturatedSteamPropertiesByPressure, superheatedSteamProperties } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
 
@@ -21,7 +21,7 @@ export default buildStepExercise({
 	},
 
 	getSolution({ pc, pe, T2 }) {
-		const saturatedProperties = interpolateTableOutputs(pc, saturatedSteamByPressure)
+		const saturatedProperties = interpolateTableOutputs(pc, saturatedSteamPropertiesByPressure)
 		const hx0 = saturatedProperties.enthalpyLiquid!
 		const hx1 = saturatedProperties.enthalpyVapor!
 		const sx0 = saturatedProperties.entropyLiquid!
@@ -31,7 +31,7 @@ export default buildStepExercise({
 		const h4 = h1
 		const s4 = s1
 
-		const superheatedProperties = interpolateTableOutputs([pe, T2], superheatedSteam)
+		const superheatedProperties = interpolateTableOutputs([pe, T2], superheatedSteamProperties)
 		const h2 = superheatedProperties.enthalpy!
 		const s2 = superheatedProperties.entropy!
 

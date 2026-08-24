@@ -2,7 +2,7 @@ import { randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { superheatedSteam } from '@step-wise/physics-data'
+import { superheatedSteamProperties } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
 	metadata: {
@@ -12,16 +12,16 @@ export default buildMonoExercise({
 	},
 
 	generateParameters() {
-		const pressureRange = superheatedSteam.inputAxes[0]
+		const pressureRange = superheatedSteamProperties.inputAxes[0]
 		const p = pressureRange[randomInteger(3, Math.min(20, pressureRange.length))]
-		const temperatureRange = superheatedSteam.inputAxes[1]
+		const temperatureRange = superheatedSteamProperties.inputAxes[1]
 		const T = temperatureRange[randomInteger(6, Math.min(24, temperatureRange.length))]
 		return { p, T }
 	},
 
 	getSolution({ p, T }) {
-		const h = interpolateTable([p, T], superheatedSteam, 'enthalpy')
-		const s = interpolateTable([p, T], superheatedSteam, 'entropy')
+		const h = interpolateTable([p, T], superheatedSteamProperties, 'enthalpy')
+		const s = interpolateTable([p, T], superheatedSteamProperties, 'entropy')
 		return { p, T, h, s }
 	},
 

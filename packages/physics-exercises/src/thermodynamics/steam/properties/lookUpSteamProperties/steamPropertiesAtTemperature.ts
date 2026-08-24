@@ -2,7 +2,7 @@ import { randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { saturatedSteamByTemperature } from '@step-wise/physics-data'
+import { saturatedSteamPropertiesByTemperature } from '@step-wise/physics-data'
 
 export default buildMonoExercise({
 	metadata: {
@@ -11,16 +11,16 @@ export default buildMonoExercise({
 	},
 
 	generateParameters() {
-		const temperatureRange = saturatedSteamByTemperature.inputAxes[0]
+		const temperatureRange = saturatedSteamPropertiesByTemperature.inputAxes[0]
 		const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]
 		const type = randomInteger(1, 2)
 		return { T, type }
 	},
 
 	getSolution({ T, type }) {
-		const p = interpolateTable(T, saturatedSteamByTemperature, 'boilingPressure')
-		const h = interpolateTable(T, saturatedSteamByTemperature, type === 1 ? 'enthalpyLiquid' : 'enthalpyVapor')
-		const s = interpolateTable(T, saturatedSteamByTemperature, type === 1 ? 'entropyLiquid' : 'entropyVapor')
+		const p = interpolateTable(T, saturatedSteamPropertiesByTemperature, 'boilingPressure')
+		const h = interpolateTable(T, saturatedSteamPropertiesByTemperature, type === 1 ? 'enthalpyLiquid' : 'enthalpyVapor')
+		const s = interpolateTable(T, saturatedSteamPropertiesByTemperature, type === 1 ? 'entropyLiquid' : 'entropyVapor')
 		return { T, type, p, h, s }
 	},
 

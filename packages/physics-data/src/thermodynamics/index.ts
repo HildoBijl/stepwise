@@ -1,4 +1,4 @@
 export * from './gasProperties'
-export * from './moistureProperties'
+export * from './humidityProperties'
 export * from './steamProperties'
 export * from './refrigerants'
