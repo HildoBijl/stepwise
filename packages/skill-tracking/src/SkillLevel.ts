@@ -78,7 +78,7 @@ export class SkillLevel {
 			const now = new Date()
 			this._cache.smoothed = {
 				coefficients: smoothBernsteinCoefficients(this.rawCoefficients, {
-					time: now.getTime() - this.rawSkillLevel.coefficientsOn.getTime(),
+					time: Math.max(0, now.getTime() - this.rawSkillLevel.coefficientsOn.getTime()),
 					applyPracticeDecay: true,
 					numProblemsPracticed: this.numPracticed,
 				}),

@@ -6,6 +6,7 @@ import { createSkillTree } from '@step-wise/skill-definition'
 import type { RawSkillLevel } from './types'
 import { SkillLevelSet } from './SkillLevelSet'
 import { defaultLinkCorrelation } from './settings'
+import { type BernsteinSmoothingOptions, smoothBernsteinCoefficients } from './smoothing'
 import { ensureSkillLevel, ensureSkillLevelUpdate } from './utils'
 
 // Set up time parameters to be used in the code.
@@ -66,6 +67,31 @@ describe('Skill level validation:', () => {
 		returnedCoefficients[0] = 0
 		expect(skillLevelSet.getCoefficients('a')).toEqual([1])
 		expect(skillLevelSet.getSnapshot().a.coefficientsOn).toEqual(now)
+	})
+})
+
+describe('Skill level smoothing:', () => {
+	const invalidOptions: [string, BernsteinSmoothingOptions][] = [
+		['negative elapsed time', { time: -1 }],
+		['a non-boolean practice-decay flag', { applyPracticeDecay: 1 } as unknown as BernsteinSmoothingOptions],
+		['a fractional practice count', { numProblemsPracticed: 1.5 }],
+		['a zero time-decay half-life', { decayHalfLife: 0 }],
+		['a negative initial practice-decay time', { initialPracticeDecayTime: -1 }],
+		['a zero practice-decay half-life', { practiceDecayHalfLife: 0 }],
+	]
+
+	it.each(invalidOptions)('Rejects %s', (_description, options) => {
+		expect(() => smoothBernsteinCoefficients([0, 1], options)).toThrow()
+	})
+
+	it('Rejects invalid coefficient arrays', () => {
+		expect(() => smoothBernsteinCoefficients([0.2, 0.2])).toThrow()
+	})
+
+	it('Treats future coefficient dates as having zero elapsed time', () => {
+		const future = new Date(now.getTime() + 60_000)
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([0, 1], future, effectivelyInfinitePracticeCount) })
+		expect(skillLevelSet.getCoefficients('a')).toEqual([0, 1])
 	})
 })
 

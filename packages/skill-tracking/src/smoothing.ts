@@ -1,5 +1,5 @@
-import { mergeDefaults } from '@step-wise/js-utils'
-import { type BernsteinCoefficients, smoothBernsteinCoefficientsWithRetentionFactor } from '@step-wise/bernstein-polynomials'
+import { type BernsteinCoefficients, ensureBernsteinCoefficients, smoothBernsteinCoefficientsWithRetentionFactor } from '@step-wise/bernstein-polynomials'
+import { ensureBoolean, ensureInteger, ensureNumber, mergeDefaults } from '@step-wise/js-utils'
 
 import { decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } from './settings'
 
@@ -27,13 +27,19 @@ const defaultSmoothingOptions: Required<BernsteinSmoothingOptions> = {
  * - numProblemsPracticed (default 0): how many times has the user practiced this skill before?
  */
 function getBernsteinSmoothingFactor(options: BernsteinSmoothingOptions = {}): number {
-	const { time, applyPracticeDecay, numProblemsPracticed, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = mergeDefaults(options, defaultSmoothingOptions)
-	const practiceDecayTime = applyPracticeDecay ? initialPracticeDecayTime * (1 / 2) ** (numProblemsPracticed / practiceDecayHalfLife) : 0
+	const mergedOptions = mergeDefaults(options, defaultSmoothingOptions)
+	const time = ensureNumber(mergedOptions.time, { nonNegative: true })
+	const applyPracticeDecay = ensureBoolean(mergedOptions.applyPracticeDecay)
+	const numProblemsPracticed = ensureInteger(mergedOptions.numProblemsPracticed, { nonNegative: true, safe: true })
+	const ensuredDecayHalfLife = ensureNumber(mergedOptions.decayHalfLife, { nonNegative: true, nonZero: true })
+	const ensuredInitialPracticeDecayTime = ensureNumber(mergedOptions.initialPracticeDecayTime, { nonNegative: true })
+	const ensuredPracticeDecayHalfLife = ensureNumber(mergedOptions.practiceDecayHalfLife, { nonNegative: true, nonZero: true })
+	const practiceDecayTime = applyPracticeDecay ? ensuredInitialPracticeDecayTime * (1 / 2) ** (numProblemsPracticed / ensuredPracticeDecayHalfLife) : 0
 	const equivalentTime = time + practiceDecayTime
-	return (1 / 2) ** (equivalentTime / decayHalfLife)
+	return (1 / 2) ** (equivalentTime / ensuredDecayHalfLife)
 }
 
 // Smooth a set of coefficients by determining a smoothing factor from the given options.
 export function smoothBernsteinCoefficients(coefficients: BernsteinCoefficients, options?: BernsteinSmoothingOptions): BernsteinCoefficients {
-	return smoothBernsteinCoefficientsWithRetentionFactor(coefficients, getBernsteinSmoothingFactor(options))
+	return smoothBernsteinCoefficientsWithRetentionFactor(ensureBernsteinCoefficients(coefficients), getBernsteinSmoothingFactor(options))
 }
