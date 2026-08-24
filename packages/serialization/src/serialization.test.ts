@@ -15,6 +15,9 @@ describe('serialization', () => {
 		test('throws on unknown individual types', () => {
 			expect(() => serialize({ type: 'Unknown' } as never)).toThrow()
 		})
+		test('rejects plain objects as domain values', () => {
+			expect(() => serialize({ type: 'PrecisionNumber', number: 2 } as never)).toThrow(/non-plain/)
+		})
 	})
 
 	describe('deserialize', () => {
@@ -51,7 +54,20 @@ describe('serialization', () => {
 		})
 		test('throws on non-plain objects with unknown type', () => {
 			class UnknownSerializable { readonly type = 'Unknown' }
-			expect(() => deserializeAll(new UnknownSerializable())).toThrow()
+			expect(() => serializeAll(new UnknownSerializable())).toThrow()
+		})
+		test('rejects values that cannot safely round-trip through JSON', () => {
+			expect(() => serializeAll(undefined)).toThrow()
+			expect(() => serializeAll(Number.NaN)).toThrow()
+			expect(() => serializeAll(Number.POSITIVE_INFINITY)).toThrow()
+			expect(() => serializeAll(new Array(1))).toThrow(/sparse/)
+		})
+		test('rejects circular data while allowing repeated references', () => {
+			const circular: { self?: unknown } = {}
+			circular.self = circular
+			expect(() => serializeAll(circular)).toThrow(/circular/)
+			const shared = { value: 1 }
+			expect(serializeAll({ first: shared, second: shared })).toEqual({ first: { value: 1 }, second: { value: 1 } })
 		})
 	})
 
@@ -76,6 +92,18 @@ describe('serialization', () => {
 		})
 		test('leaves plain objects with unknown type untouched during deserializeAll', () => {
 			expect(deserializeAll({ type: 'Unknown', value: 3, nested: { a: { type: 'PrecisionNumber', value: { number: 2, significantDigits: Infinity } } } })).toEqual({ type: 'Unknown', value: 3, nested: { a: new PrecisionNumber(2) } })
+		})
+		test('commits to recognized serialized types', () => {
+			expect(() => deserializeAll({ type: 'PrecisionNumber' })).toThrow()
+		})
+		test('rejects unsafe primitive values and circular data', () => {
+			expect(() => deserializeAll(undefined)).toThrow()
+			expect(() => deserializeAll(Number.NEGATIVE_INFINITY)).toThrow()
+			expect(() => deserializeAll(new Array(1))).toThrow(/sparse/)
+			const circular: unknown[] = []
+			circular.push(circular)
+			expect(() => deserializeAll(circular)).toThrow(/circular/)
+			expect(() => deserializeAll({ type: 'Vector', value: circular })).toThrow(/circular/)
 		})
 	})
 })
