@@ -98,6 +98,35 @@ describe('Skill observation validation:', () => {
 	})
 })
 
+describe('Skill level update ordering:', () => {
+	it.each([
+		['an older date with a higher practice count', new Date(now.getTime() - 1), 3],
+		['a newer date with a lower practice count', new Date(now.getTime() + 1), 1],
+	])('Rejects %s', (_description, coefficientsOn, numPracticed) => {
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, 2) })
+		expect(() => skillLevelSet.update({ a: { coefficients: [0, 1], coefficientsOn, numPracticed } })).toThrow(/Conflicting skill level update/)
+	})
+
+	it('Allows the practice count to advance within the same millisecond', () => {
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, 2) })
+		skillLevelSet.update({ a: { coefficients: [0, 1], coefficientsOn: now, numPracticed: 3 } })
+		expect(skillLevelSet.getSnapshot().a.numPracticed).toBe(3)
+	})
+
+	it('Rejects a conflicting update set atomically', () => {
+		const skillLevelSet = new SkillLevelSet(skillTree, {
+			a: coefficientsToRawSkillLevel([1], now, 2),
+			b: coefficientsToRawSkillLevel([1], now, 2),
+		})
+		expect(() => skillLevelSet.update({
+			a: { coefficients: [0, 1], coefficientsOn: new Date(now.getTime() + 1), numPracticed: 3 },
+			b: { coefficients: [0, 1], coefficientsOn: new Date(now.getTime() - 1), numPracticed: 3 },
+		})).toThrow(/Conflicting skill level update/)
+		expect(skillLevelSet.getSnapshot().a.numPracticed).toBe(2)
+		expect(skillLevelSet.getSnapshot().a.rawCoefficients).toEqual([1])
+	})
+})
+
 describe('Skill level smoothing:', () => {
 	const invalidOptions: [string, BernsteinSmoothingOptions][] = [
 		['negative elapsed time', { time: -1 }],

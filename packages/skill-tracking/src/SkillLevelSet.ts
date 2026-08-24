@@ -192,31 +192,39 @@ export class SkillLevelSet {
 
 	update(skillLevelUpdateSet: SkillLevelUpdateSet): void {
 		const ensuredUpdateSet = fromKeys(Object.keys(skillLevelUpdateSet), skillId => ensureSkillLevelUpdate(skillLevelUpdateSet[skillId]))
+		const updatesToApply: SkillLevelUpdateSet = {}
 
-		// Determine when a skill should update.
-		const shouldUpdateSkill = (skillId: SkillId): boolean => {
+		// Classify the complete update set before changing anything.
+		Object.keys(ensuredUpdateSet).forEach(skillId => {
+			this.ensureSkillId(skillId)
 			const currentSkillLevel = this.skillLevels[skillId]
-			if (!currentSkillLevel) return true
-
 			const skillLevelUpdate = ensuredUpdateSet[skillId]
-			if (currentSkillLevel.coefficientsOn.getTime() < skillLevelUpdate.coefficientsOn.getTime()) return true
-			if (currentSkillLevel.numPracticed < skillLevelUpdate.numPracticed) return true
-			return false
-		}
-		if (Object.keys(ensuredUpdateSet).every(skillId => !shouldUpdateSkill(skillId))) return
+			if (!currentSkillLevel) {
+				if (!('highest' in skillLevelUpdate) || !('highestOn' in skillLevelUpdate)) throw new TypeError(`Invalid skill level update: tried to update the skill level of skill "${skillId}" but this skill level was not known before, and only incomplete update data was provided.`)
+				updatesToApply[skillId] = skillLevelUpdate
+				return
+			}
+
+			const dateDifference = skillLevelUpdate.coefficientsOn.getTime() - currentSkillLevel.coefficientsOn.getTime()
+			const practiceDifference = skillLevelUpdate.numPracticed - currentSkillLevel.numPracticed
+			if (dateDifference >= 0 && practiceDifference >= 0) {
+				if (dateDifference > 0 || practiceDifference > 0) updatesToApply[skillId] = skillLevelUpdate
+				return
+			}
+			if (dateDifference <= 0 && practiceDifference <= 0) return
+			throw new Error(`Conflicting skill level update for skill "${skillId}": coefficientsOn and numPracticed do not consistently describe a newer or older state.`)
+		})
+		if (Object.keys(updatesToApply).length === 0) return
 
 		// When updates are necessary, set up an updated skillLevels object.
 		this.skillLevels = { ...this.skillLevels }
-		Object.keys(ensuredUpdateSet).forEach(skillId => {
-			const skill = this.skillTree[this.ensureSkillId(skillId)]
-			if (!shouldUpdateSkill(skillId)) return
-
+		Object.keys(updatesToApply).forEach(skillId => {
+			const skill = this.skillTree[skillId]
 			const existingSkillLevel = this.skillLevels[skillId]
-			const skillLevelUpdate = ensuredUpdateSet[skillId]
+			const skillLevelUpdate = updatesToApply[skillId]
 			if (existingSkillLevel) {
 				existingSkillLevel.update(skillLevelUpdate)
 			} else {
-				if (!('highest' in skillLevelUpdate) || !('highestOn' in skillLevelUpdate)) throw new TypeError(`Invalid skill level update: tried to update the skill level of skill "${skillId}" but this skill level was not known before, and only incomplete update data was provided.`)
 				this.skillLevels[skillId] = new SkillLevel(skill, skillLevelUpdate as RawSkillLevel)
 			}
 		})
