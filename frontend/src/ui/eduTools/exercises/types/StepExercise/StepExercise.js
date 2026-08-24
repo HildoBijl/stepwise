@@ -27,7 +27,7 @@ export function StepExercise(props) {
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const translate = useTranslator()
 	const exerciseData = useExerciseData()
-	const { parameters, state, history, startNewExercise, example, inspection } = exerciseData
+	const { instance, parameters, state, history, startNewExercise, example, inspection } = exerciseData
 	const userId = useUserId()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
@@ -42,7 +42,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	}, [MainProblem, state, lastEventId, activateFirst])
 
 	// Determine what to show.
-	const hasMainProblemActions = hasPreviousInputAtStep(exerciseData, 0, userId)
+	const hasMainProblemActions = hasPreviousInputAtStep(instance, 0, userId)
 	const doneWithMainProblem = state.done || state.split
 	const readOnly = inspection ? true : (example ? state.split : doneWithMainProblem)
 	const showInputSpace = !state.split && (!inspection || hasMainProblemActions)
