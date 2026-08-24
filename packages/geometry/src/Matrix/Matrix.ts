@@ -213,7 +213,10 @@ export class Matrix {
 	multiply(vector: VectorLike): Vector
 	multiply(value: number | MatrixLike | VectorLike): Matrix | Vector {
 		// On a number, multiply element-wise.
-		if (typeof value === 'number') return new Matrix(this._rows.map(row => row.map(entry => entry * value)))
+		if (typeof value === 'number') {
+			const scalar = ensureNumber(value)
+			return new Matrix(this._rows.map(row => row.map(entry => entry * scalar)))
+		}
 
 		// On a Vector, set up the output vector.
 		if (isVectorLike(value)) {
@@ -227,7 +230,7 @@ export class Matrix {
 	}
 
 	divide(scalar: number): Matrix {
-		return this.multiply(1 / scalar)
+		return this.multiply(1 / ensureNumber(scalar, { nonZero: true }))
 	}
 
 	transpose(): Matrix {

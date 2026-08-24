@@ -234,17 +234,19 @@ export class Vector {
 
 	// Multiply the vector by a scalar.
 	multiply(value: number): Vector {
-		return new Vector(this._coordinates.map(coordinate => coordinate * value))
+		const scalar = ensureNumber(value)
+		return new Vector(this._coordinates.map(coordinate => coordinate * scalar))
 	}
 
 	// Divide the vector by a scalar.
 	divide(value: number): Vector {
-		return this.multiply(1 / value)
+		return this.multiply(1 / ensureNumber(value, { nonZero: true }))
 	}
 
 	// Interpolate between this vector and another vector. factor = 0 keeps this vector; factor = 1 uses the other vector.
 	interpolate(vector: VectorLike, factor = 0.5): Vector {
-		return this.multiply(1 - factor).add(this.coerceVector(vector).multiply(factor))
+		const safeFactor = ensureNumber(factor)
+		return this.multiply(1 - safeFactor).add(this.coerceVector(vector).multiply(safeFactor))
 	}
 
 	normalize(): Vector {
@@ -253,7 +255,7 @@ export class Vector {
 
 	setMagnitude(magnitude: number): Vector {
 		if (this.isZero()) throw new Error(`Invalid setMagnitude call: cannot set the magnitude of the zero vector.`)
-		return this.multiply(magnitude / this.magnitude)
+		return this.multiply(ensureNumber(magnitude, { nonNegative: true }) / this.magnitude)
 	}
 
 	// Round each coordinate of the vector.
@@ -263,7 +265,9 @@ export class Vector {
 
 	// Shorten the vector by a given distance while keeping its direction. If the distance is larger than the magnitude, the zero vector is returned.
 	shorten(distance: number): Vector {
-		return this.multiply(Math.max(0, 1 - distance / this.magnitude))
+		const safeDistance = ensureNumber(distance, { nonNegative: true })
+		if (this.isZero()) return this.clone()
+		return this.multiply(Math.max(0, 1 - safeDistance / this.magnitude))
 	}
 
 	dotProduct(vector: VectorLike): number {
