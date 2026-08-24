@@ -7,21 +7,19 @@ import {
 import type { InputValue, InputValueAdapter } from '../types'
 import { createInputValue } from '../support'
 
-export { PrecisionNumberType, UnitType, QuantityType }
-
-export type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInnerInputValue>
+type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInnerInputValue>
 export const precisionNumberInputValueAdapter = {
 	interpret: inputValue => interpretPrecisionNumberInputValue(inputValue.value),
 	toInputValue: precisionNumber => createInputValue(PrecisionNumberType, precisionNumberToInputValue(precisionNumber)),
 } satisfies InputValueAdapter<PrecisionNumberInputValue, PrecisionNumberDomainValue>
 
-export type UnitInputValue = InputValue<UnitType, UnitInnerInputValue>
+type UnitInputValue = InputValue<UnitType, UnitInnerInputValue>
 export const unitInputValueAdapter = {
 	interpret: inputValue => interpretUnitInputValue(inputValue.value),
 	toInputValue: unit => createInputValue(UnitType, unitToInputValue(unit)),
 } satisfies InputValueAdapter<UnitInputValue, UnitDomainValue>
 
-export type QuantityInputValue = InputValue<QuantityType, QuantityInnerInputValue>
+type QuantityInputValue = InputValue<QuantityType, QuantityInnerInputValue>
 export const quantityInputValueAdapter = {
 	interpret: inputValue => interpretQuantityInputValue(inputValue.value),
 	toInputValue: quantity => createInputValue(QuantityType, quantityToInputValue(quantity)),

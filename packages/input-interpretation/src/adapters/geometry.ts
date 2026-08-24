@@ -7,27 +7,21 @@ import {
 
 import type { InputValueAdapter } from '../types'
 
-export { VectorType, LineType, LineSegmentType, RectangleType }
-
-export type VectorInputValue = SerializedVector
 export const vectorInputValueAdapter = {
 	interpret: deserializeVector,
 	toInputValue: serializeVector,
 } satisfies InputValueAdapter<SerializedVector, Vector>
 
-export type LineInputValue = SerializedLine
 export const lineInputValueAdapter = {
 	interpret: deserializeLine,
 	toInputValue: serializeLine,
 } satisfies InputValueAdapter<SerializedLine, Line>
 
-export type LineSegmentInputValue = SerializedLineSegment
 export const lineSegmentInputValueAdapter = {
 	interpret: deserializeLineSegment,
 	toInputValue: serializeLineSegment,
 } satisfies InputValueAdapter<SerializedLineSegment, LineSegment>
 
-export type RectangleInputValue = SerializedRectangle
 export const rectangleInputValueAdapter = {
 	interpret: deserializeRectangle,
 	toInputValue: serializeRectangle,

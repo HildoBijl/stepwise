@@ -5,8 +5,6 @@ import {
 
 import type { InputValueAdapter } from '../types'
 
-export { type ExpressionInputValue, type EquationInputValue, ExpressionType, EquationType }
-
 export const expressionInputValueAdapter = {
 	interpret: interpretExpressionInputValue,
 	toInputValue: expressionToInputValue,

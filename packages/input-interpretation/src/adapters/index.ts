@@ -1,6 +1,3 @@
 export { type IntegerInputValue, IntegerType } from './integer'
 export { type MultipleChoiceSelection, type MultipleChoiceInputValue, MultipleChoiceType } from './multipleChoice'
-export { type PrecisionNumberInputValue, type UnitInputValue, type QuantityInputValue, PrecisionNumberType, UnitType, QuantityType } from './physics'
-export { type ExpressionInputValue, type EquationInputValue, ExpressionType, EquationType } from './cas'
-export { type VectorInputValue, type LineInputValue, type LineSegmentInputValue, type RectangleInputValue, VectorType, LineType, LineSegmentType, RectangleType } from './geometry'
 export { type FreeBodyDiagramInputValue, FreeBodyDiagramType } from './mechanics'

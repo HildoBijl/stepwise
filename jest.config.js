@@ -10,6 +10,7 @@ module.exports = {
 		'<rootDir>/packages/exercise-definition/',
 		'<rootDir>/packages/exercise-grading/',
 		'<rootDir>/packages/input-exercises/',
+		'<rootDir>/packages/input-interpretation/',
 		'<rootDir>/packages/interpolation/',
 		'<rootDir>/packages/js-utils/',
 		'<rootDir>/packages/math-tools/',
