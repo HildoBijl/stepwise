@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { pressureBar as pConversion } from '@step-wise/physics-data'
+import { barToPascalFactor as pConversion } from '@step-wise/physics-data'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

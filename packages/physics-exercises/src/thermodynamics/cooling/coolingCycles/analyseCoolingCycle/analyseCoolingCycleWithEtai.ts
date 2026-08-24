@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { refrigerants, getBoilingPressure, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
+import { refrigerantDatasets, getSaturationPressure, getRefrigerantPropertiesFromPressureAndTemperature, getRefrigerantPropertiesFromPressureAndEntropy } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
 
@@ -34,16 +34,16 @@ export default buildStepExercise({
 	},
 
 	getSolution({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling, etai, P }) {
-		const refrigerantData = refrigerants[refrigerant]
+		const refrigerantData = refrigerantDatasets[refrigerant]
 		const TEvap = TCold.subtract(dTCold)
 		const TCond = TWarm.add(dTWarm)
 		const T1 = TEvap.add(dTSuperheating)
 		const T3 = TCond.subtract(dTSubcooling)
-		const pEvap = getBoilingPressure(refrigerantData, TEvap)!.setSignificantDigits(2)
-		const pCond = getBoilingPressure(refrigerantData, TCond)!.setSignificantDigits(2)
-		const point1 = getRefrigerantPropertiesFromTemperature(refrigerantData, pEvap, T1)!
-		const point2p = getRefrigerantPropertiesFromEntropy(refrigerantData, pCond, point1.entropy)!
-		const point3 = getRefrigerantPropertiesFromTemperature(refrigerantData, pCond, T3)!
+		const pEvap = getSaturationPressure(refrigerantData, TEvap)!.setSignificantDigits(2)
+		const pCond = getSaturationPressure(refrigerantData, TCond)!.setSignificantDigits(2)
+		const point1 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pEvap, T1)!
+		const point2p = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, pCond, point1.entropy)!
+		const point3 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pCond, T3)!
 		const h1 = point1.enthalpy.setUnit('kJ/kg').setDecimals(0)
 		const h2p = point2p.enthalpy.setUnit('kJ/kg').setDecimals(0)
 		const h3 = point3.enthalpy.setUnit('kJ/kg').setDecimals(0)

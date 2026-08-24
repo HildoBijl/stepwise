@@ -15,6 +15,7 @@ module.exports = {
 		'<rootDir>/packages/js-utils/',
 		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/physics-core/',
+		'<rootDir>/packages/physics-data/',
 		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/serialization/',
 		'<rootDir>/packages/settings/',
