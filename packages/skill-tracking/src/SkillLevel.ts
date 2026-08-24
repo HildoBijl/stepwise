@@ -4,7 +4,7 @@ import type { Skill } from '@step-wise/skill-definition'
 
 import type { StoredSkillLevel, StoredSkillLevelUpdate } from './types'
 import { inferenceCacheDuration } from './settings'
-import { applySkillLevelDecay } from './smoothing'
+import { applySkillLevelDecay } from './decay'
 import { ensureSkillLevel, ensureStoredSkillLevelUpdate } from './utils'
 
 // Types for the internal cache.

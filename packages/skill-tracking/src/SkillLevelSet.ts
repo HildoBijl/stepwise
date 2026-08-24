@@ -7,7 +7,7 @@ import { type SkillId, type SkillTree, ensureSkillId, expandSkillIdsWithDirectPr
 
 import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types'
 import { inferenceCacheDuration } from './settings'
-import { applySkillLevelDecay } from './smoothing'
+import { applySkillLevelDecay } from './decay'
 import { getSetupExpectedSuccessRate, inferSetupCoefficients, inferSkillCoefficients } from './inference'
 import { SkillLevel } from './SkillLevel'
 import { ensureStoredSkillLevelUpdate, ensureSkillObservation } from './utils'

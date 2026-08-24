@@ -1,7 +1,7 @@
 export * from './types'
 export * from './settings'
 export * from './utils'
-export * from './smoothing'
+export * from './decay'
 export * from './SkillLevelSet'
 
 // Keep the public name used by the frontend while the implementation lives in
