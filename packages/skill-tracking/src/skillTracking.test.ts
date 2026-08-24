@@ -97,6 +97,11 @@ describe('Skill link correlations:', () => {
 
 // Run tests for the inference of a set-up.
 describe('Skill inference for set-ups:', () => {
+	it('Preserves the uncertainty in the skill distributions', () => {
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity) })
+		expect(compareNumberArrays(skillLevelSet.getSetupCoefficients(skill('a'), 4), [1 / 5, 1 / 5, 1 / 5, 1 / 5, 1 / 5])).toBe(true)
+	})
+
 	it('The and-set-up is properly inferred', () => {
 		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
 		const setup = and('a', 'b')
