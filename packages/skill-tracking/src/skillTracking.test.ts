@@ -7,7 +7,7 @@ import type { RawSkillLevel } from './types'
 import { SkillLevelSet } from './SkillLevelSet'
 import { defaultLinkCorrelation } from './settings'
 import { type BernsteinSmoothingOptions, smoothBernsteinCoefficients } from './smoothing'
-import { ensureSkillLevel, ensureSkillLevelUpdate } from './utils'
+import { ensureSkillLevel, ensureSkillLevelUpdate, ensureSkillObservation } from './utils'
 
 // Set up time parameters to be used in the code.
 const now = new Date()
@@ -67,6 +67,34 @@ describe('Skill level validation:', () => {
 		returnedCoefficients[0] = 0
 		expect(skillLevelSet.getCoefficients('a')).toEqual([1])
 		expect(skillLevelSet.getSnapshot().a.coefficientsOn).toEqual(now)
+	})
+})
+
+describe('Skill observation validation:', () => {
+	it('Normalizes skill setup inputs', () => {
+		expect(ensureSkillObservation({ setup: 'a', correct: true }).setup).toEqual(skill('a'))
+	})
+
+	it.each([
+		null,
+		{ setup: {}, correct: true },
+		{ setup: skill('a'), correct: 'true' },
+	])('Rejects invalid observation %#', observation => {
+		expect(() => ensureSkillObservation(observation)).toThrow()
+	})
+
+	it('Rejects a non-array observation batch', () => {
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1]) })
+		expect(() => skillLevelSet.processObservations({} as never)).toThrow()
+	})
+
+	it('Validates the complete batch before applying updates', () => {
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1]) })
+		expect(() => skillLevelSet.processObservations([
+			{ setup: skill('a'), correct: true },
+			{ setup: skill('a'), correct: 'false' } as never,
+		])).toThrow()
+		expect(skillLevelSet.getSnapshot().a.numPracticed).toBe(0)
 	})
 })
 

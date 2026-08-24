@@ -1,7 +1,8 @@
-import { ensureDate, ensureInteger, ensurePlainObject } from '@step-wise/js-utils'
+import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { ensureBernsteinCoefficients } from '@step-wise/bernstein-polynomials'
+import { ensureBoolean, ensureDate, ensureInteger, ensurePlainObject } from '@step-wise/js-utils'
 
-import type { RawSkillLevel, SkillLevelUpdate } from './types'
+import type { RawSkillLevel, SkillLevelUpdate, SkillObservation } from './types'
 
 export function getInitialSkillLevel(date = new Date()): RawSkillLevel {
 	const ensuredDate = ensureDate(date)
@@ -38,5 +39,13 @@ export function ensureSkillLevelUpdate(value: unknown): SkillLevelUpdate {
 			highest: ensureBernsteinCoefficients(obj.highest),
 			highestOn: new Date(ensureDate(obj.highestOn)),
 		} : {}),
+	}
+}
+
+export function ensureSkillObservation(value: unknown): SkillObservation {
+	const obj = ensurePlainObject(value)
+	return {
+		setup: ensureSetup(obj.setup as SkillSetupLike),
+		correct: ensureBoolean(obj.correct),
 	}
 }

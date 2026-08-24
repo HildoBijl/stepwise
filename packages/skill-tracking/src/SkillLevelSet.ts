@@ -1,4 +1,4 @@
-import { isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
+import { ensureArray, isPlainObject, fromKeys, repeat, sum, count } from '@step-wise/js-utils'
 import { binomialCoefficient } from '@step-wise/math-tools'
 import { oneMinusPolynomial, substitutePolynomialMoments } from '@step-wise/polynomials'
 import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMoment, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
@@ -10,7 +10,7 @@ import { maxSkillLevelCacheTime } from './settings'
 import { smoothBernsteinCoefficients } from './smoothing'
 import { getSetupExpectedValue, getSetupCoefficients, applyInferenceForSkill } from './inference'
 import { SkillLevel } from './SkillLevel'
-import { ensureSkillLevelUpdate } from './utils'
+import { ensureSkillLevelUpdate, ensureSkillObservation } from './utils'
 
 export class SkillLevelSet {
 	private skillLevels: Record<string, SkillLevel> = {}
@@ -240,21 +240,22 @@ export class SkillLevelSet {
 	// Apply observations simultaneously. Returns the new coefficients of adjusted skills.
 	processObservations(observations: SkillObservation[]): SkillLevelUpdateSet {
 		// Validate the complete batch before calculating or applying any updates.
-		const observationSkillIds = observations.map(({ setup }) => {
+		const ensuredObservations = ensureArray(observations).map(ensureSkillObservation)
+		const observationSkillIds = ensuredObservations.map(({ setup }) => {
 			if (!setup.isDeterministic()) throw new TypeError(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
 			const skillIds = setup.getSkillList()
 			const missingSkillId = skillIds.find(skillId => !this.hasDataOn(skillId))
 			if (missingSkillId) throw new Error(`Invalid observation processing: the skill level data on the relevant skills has not been loaded yet. Data on "${missingSkillId}" and/or its prerequisites/links is not loaded in.`)
 			return skillIds
 		})
-		if (observations.length === 0) return {}
+		if (ensuredObservations.length === 0) return {}
 
 		// Take one inferred snapshot. Every observation in the batch must use the same prior information.
 		const allSkillIds = [...new Set(observationSkillIds.flat())]
 		const inferredCoefficients = fromKeys(allSkillIds, skillId => this.getCoefficients(skillId))
 		const likelihoods = fromKeys(allSkillIds, () => [] as BernsteinCoefficients[])
 
-		observations.forEach(({ setup, correct }, observationIndex) => {
+		ensuredObservations.forEach(({ setup, correct }, observationIndex) => {
 			const skillIds = observationSkillIds[observationIndex]
 			const polynomial = correct ? setup.getPolynomial() : oneMinusPolynomial(setup.getPolynomial())
 			skillIds.forEach(skillId => {
