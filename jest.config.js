@@ -15,6 +15,7 @@ module.exports = {
 		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/physics-core/',
 		'<rootDir>/packages/polynomials/',
+		'<rootDir>/packages/serialization/',
 		'<rootDir>/packages/settings/',
 		'<rootDir>/packages/skill-definition/',
 		'<rootDir>/packages/skill-setup/',
