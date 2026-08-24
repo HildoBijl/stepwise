@@ -9,6 +9,7 @@ module.exports = {
 		'<rootDir>/packages/exercise-bundling/',
 		'<rootDir>/packages/exercise-definition/',
 		'<rootDir>/packages/exercise-grading/',
+		'<rootDir>/packages/geometry/',
 		'<rootDir>/packages/input-exercises/',
 		'<rootDir>/packages/input-interpretation/',
 		'<rootDir>/packages/interpolation/',
