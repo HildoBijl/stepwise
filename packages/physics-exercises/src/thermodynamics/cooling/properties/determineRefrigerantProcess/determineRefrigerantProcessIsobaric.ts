@@ -1,8 +1,19 @@
 import { sample, randomBoolean } from '@step-wise/js-utils'
 import { buildMonoExercise } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { getRandomQuantity, getRandomExponentialQuantity } from '@step-wise/physics-core'
-import { refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getVaporPropertiesFromTemperature, getVaporPropertiesFromPressure } from '@step-wise/physics-data'
+import { type Quantity, getRandomQuantity, getRandomExponentialQuantity } from '@step-wise/physics-core'
+import { type RefrigerantPhase, refrigerants, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEnthalpy, getVaporPropertiesFromTemperature, getVaporPropertiesFromPressure } from '@step-wise/physics-data'
+
+type DetermineRefrigerantProcessIsobaricParameters = {
+	refrigerant: string
+	phase1: RefrigerantPhase
+	T1: Quantity
+	x1?: Quantity
+	p1?: Quantity
+	phase2: RefrigerantPhase
+	x2?: Quantity
+	T2?: Quantity
+}
 
 export default buildMonoExercise({
 	metadata: {
@@ -10,7 +21,7 @@ export default buildMonoExercise({
 		comparisons: { Quantity: { value: { absoluteTolerance: 4000, significantDigitTolerance: 2 } } },
 	},
 
-	generateParameters() {
+	generateParameters(): DetermineRefrigerantProcessIsobaricParameters {
 		while (true) {
 			const refrigerant = sample(Object.keys(refrigerants))
 			const refrigerantData = refrigerants[refrigerant]
@@ -24,7 +35,7 @@ export default buildMonoExercise({
 			if (!point1 || !point2) continue
 			if (randomBoolean()) [point1, point2] = [point2, point1]
 
-			const parameters = {
+			const parameters: DetermineRefrigerantProcessIsobaricParameters = {
 				refrigerant,
 				phase1: point1.phase,
 				T1: point1.temperature.setDecimals(0).roundToPrecision(),
