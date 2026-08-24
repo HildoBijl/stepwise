@@ -67,7 +67,7 @@ export function getPhaseFromPressureAndEntropy(data: RefrigerantData, pressure: 
 function vaporFractionToPhase(vaporFraction: Quantity | undefined): RefrigerantPhase | undefined {
 	if (vaporFraction === undefined) return undefined
 	const x = vaporFraction.setUnit('').number
-	return x < 0 ? 'liquid' : x > 1 ? 'gas' : 'vapor'
+	return x <= 0 ? 'liquid' : x >= 1 ? 'gas' : 'vapor'
 }
 
 /*
@@ -123,7 +123,7 @@ export function getVaporPropertiesFromTemperature(data: RefrigerantData, tempera
 	const entropy = interpolateRange(vaporFraction, [entropyLiquid, entropyVapor], [new Quantity(0), new Quantity(1)])
 	if (enthalpy === undefined || entropy === undefined) return undefined
 
-	return { temperature, pressure, enthalpy, entropy, phase: 'vapor', vaporFraction }
+	return { temperature, pressure, enthalpy, entropy, phase: vaporFractionToPhase(vaporFraction) as RefrigerantPhase, vaporFraction }
 }
 
 // From pressure and vapor fraction, get all properties.

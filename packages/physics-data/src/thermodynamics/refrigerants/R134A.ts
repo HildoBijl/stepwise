@@ -9,12 +9,12 @@ import { type CriticalPoint, type RefrigerantPressureTable, createRefrigerantTab
  * Critical point
  */
 
-export const criticalPoint: CriticalPoint = {
+export const criticalPoint: CriticalPoint = Object.freeze({
 	pressure: new Quantity({ value: '40.592', unit: 'bar' }),
 	temperature: new Quantity({ value: '101.061', unit: 'dC' }),
 	enthalpy: new Quantity({ value: '389.64', unit: 'kJ/kg' }),
 	entropy: new Quantity({ value: '1.5621', unit: 'kJ/kg * K' }),
-}
+})
 
 /*
  * Boiling point
@@ -43,7 +43,7 @@ export const boilingData = createInterpolationTable({
  * General properties
  */
 
-export const tablesByPressure: RefrigerantPressureTable[] = [
+export const tablesByPressure: readonly RefrigerantPressureTable[] = Object.freeze([
 	createRefrigerantTable(
 		new Quantity({ value: '0.5', unit: 'bar' }).makeExact(),
 		exactQuantitys([-50, -45, -40.454, -40.454, -40, -35, -30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160], 'dC'),
@@ -170,4 +170,4 @@ export const tablesByPressure: RefrigerantPressureTable[] = [
 		quantityGrid(['137.64', '143.80', '150.01', '156.25', '162.53', '168.86', '175.23', '181.64', '188.10', '194.61', '201.18', '207.80', '214.48', '221.22', '228.03', '234.91', '241.86', '248.90', '256.04', '263.27', '270.61', '278.07', '285.68', '293.45', '301.40', '309.59', '318.05', '326.86', '336.15', '346.12', '357.21', '370.56', '391.02', '421.27', '440.09', '453.04', '463.66', '473.05', '481.69', '489.83', '497.61', '505.12', '512.42'], 'kJ/kg'),
 		quantityGrid(['0.73446', '0.76178', '0.78868', '0.81518', '0.84128', '0.86703', '0.89244', '0.91753', '0.94233', '0.96684', '0.99110', '1.0151', '1.0389', '1.0625', '1.0859', '1.1092', '1.1323', '1.1554', '1.1783', '1.2012', '1.2241', '1.2471', '1.2701', '1.2932', '1.3166', '1.3402', '1.3644', '1.3892', '1.4149', '1.4422', '1.4721', '1.5076', '1.5613', '1.6398', '1.6880', '1.7207', '1.7472', '1.7704', '1.7914', '1.8110', '1.8295', '1.8472', '1.8641'], 'kJ/kg * K'),
 	),
-]
+])

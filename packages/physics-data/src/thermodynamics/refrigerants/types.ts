@@ -3,14 +3,14 @@ import { createInterpolationTable } from '@step-wise/interpolation'
 
 import { type QuantityGrid, type QuantityTable } from '../../utils'
 
-export type CriticalPoint = { pressure: Quantity, temperature: Quantity, enthalpy: Quantity, entropy: Quantity }
-export type RefrigerantPressureTable = { pressure: Quantity, table: QuantityTable }
+export type CriticalPoint = { readonly pressure: Quantity, readonly temperature: Quantity, readonly enthalpy: Quantity, readonly entropy: Quantity }
+export type RefrigerantPressureTable = { readonly pressure: Quantity, readonly table: QuantityTable }
 export type RefrigerantTable = readonly RefrigerantPressureTable[]
-export type RefrigerantData = { criticalPoint: CriticalPoint, boilingData: QuantityTable, tablesByPressure: RefrigerantTable }
+export type RefrigerantData = { readonly criticalPoint: CriticalPoint, readonly boilingData: QuantityTable, readonly tablesByPressure: RefrigerantTable }
 
 export function createRefrigerantTable(pressure: Quantity, temperature: Quantity[], enthalpy: QuantityGrid, entropy: QuantityGrid): RefrigerantPressureTable {
-	return {
+	return Object.freeze({
 		pressure,
 		table: createInterpolationTable({ inputLabels: ['temperature'], inputAxes: [temperature], outputLabels: ['enthalpy', 'entropy'], outputGrids: [enthalpy, entropy] }),
-	}
+	})
 }
