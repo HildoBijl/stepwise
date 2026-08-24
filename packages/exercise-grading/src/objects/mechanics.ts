@@ -1,5 +1,5 @@
 import { type LoadComparisonOptionsInput, isLoad, equalLoadSets, resolveLoadComparisonOptions, FBDComparison } from '@step-wise/engineering-mechanics'
-import { FBDType } from '@step-wise/input-interpretation'
+import { FreeBodyDiagramType } from '@step-wise/input-interpretation'
 
 import type { TypeCompareFunction } from '../types'
 
@@ -13,5 +13,5 @@ export function compareFBD(inputValue: unknown, expectedValue: unknown, options:
 }
 
 export const mechanicsCompareFunctions = {
-	[FBDType]: compareFBD,
+	[FreeBodyDiagramType]: compareFBD,
 } satisfies Record<string, TypeCompareFunction>

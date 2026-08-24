@@ -1,23 +1,23 @@
 import { ensureInteger, hasDuplicates, isInteger, InterpretationError } from '@step-wise/js-utils'
 
-import type { InputValue, InterpreterEntry } from '../types'
-import { makeInputValue } from '../support'
+import type { InputValue, InputValueAdapter } from '../types'
+import { createInputValue } from '../support'
 
 export const MultipleChoiceType = 'MultipleChoice'
 export type MultipleChoiceType = typeof MultipleChoiceType
 
-export type MultipleChoiceValue = number | number[]
-export type MultipleChoiceInputValue = InputValue<MultipleChoiceType, MultipleChoiceValue>
+export type MultipleChoiceSelection = number | number[]
+export type MultipleChoiceInputValue = InputValue<MultipleChoiceType, MultipleChoiceSelection>
 
-function interpretMultipleChoice(inputValue: MultipleChoiceInputValue): MultipleChoiceValue {
+function interpretMultipleChoice(inputValue: MultipleChoiceInputValue): MultipleChoiceSelection {
 	const { value } = inputValue
 	if (!Array.isArray(value)) return validateOption(value)
 	return validateOptions(value)
 }
 
-function multipleChoiceToInputValue(value: MultipleChoiceValue): MultipleChoiceInputValue {
-	if (!Array.isArray(value)) return makeInputValue(MultipleChoiceType, validateOption(value))
-	return makeInputValue(MultipleChoiceType, validateOptions(value))
+function multipleChoiceToInputValue(value: MultipleChoiceSelection): MultipleChoiceInputValue {
+	if (!Array.isArray(value)) return createInputValue(MultipleChoiceType, validateOption(value))
+	return createInputValue(MultipleChoiceType, validateOptions(value))
 }
 
 function validateOptions(values: unknown[]): number[] {
@@ -31,7 +31,7 @@ function validateOption(value: unknown): number {
 	return ensureInteger(value, { nonNegative: true, safe: true })
 }
 
-export const MultipleChoiceInterpreter = {
+export const multipleChoiceInputValueAdapter = {
 	interpret: interpretMultipleChoice,
 	toInputValue: multipleChoiceToInputValue,
-} satisfies InterpreterEntry<MultipleChoiceInputValue, MultipleChoiceValue>
+} satisfies InputValueAdapter<MultipleChoiceInputValue, MultipleChoiceSelection>

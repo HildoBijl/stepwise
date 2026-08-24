@@ -2,7 +2,7 @@ import { PrecisionNumber } from '@step-wise/physics-core'
 import { asExpression } from '@step-wise/cas'
 import { Vector } from '@step-wise/geometry'
 
-import { interpretInputValue, interpretAllInputValues } from './interpret'
+import { interpretInputData, interpretInputValue } from './interpret'
 import { toInputValue } from './toInputValue'
 
 describe('input interpretation', () => {
@@ -46,7 +46,7 @@ describe('input interpretation', () => {
 		})
 	})
 
-	describe('interpretAllInputValues', () => {
+	describe('interpretInputData', () => {
 		test('interprets nested data structures', () => {
 			const data = {
 				a: { type: 'Vector', value: [1, 2] },
@@ -57,15 +57,15 @@ describe('input interpretation', () => {
 				c: { type: 'Integer', value: '3' },
 				d: null,
 			}
-			const result = interpretAllInputValues(data) as any
+			const result = interpretInputData(data) as any
 			expect(result.a).toEqual(new Vector(1, 2))
 			expect(result.b[0]).toEqual(asExpression('x+2'))
 			expect(result.b[1]).toEqual(new PrecisionNumber('2.50'))
 			expect(result.c).toBe(3)
 			expect(result.d).toBeNull()
 		})
-		test('leaves plain objects with unknown type untouched during interpretAllInputValues', () => {
-			expect(interpretAllInputValues({
+		test('leaves plain objects with unknown type untouched during interpretInputData', () => {
+			expect(interpretInputData({
 				type: 'Unknown',
 				value: 3,
 				nested: { a: { type: 'Integer', value: '2' } },
@@ -76,20 +76,20 @@ describe('input interpretation', () => {
 			})
 		})
 		test('commits to recognized input types', () => {
-			expect(() => interpretAllInputValues({ type: 'Integer' })).toThrow(/type and value/)
+			expect(() => interpretInputData({ type: 'Integer' })).toThrow(/type and value/)
 		})
 		test('rejects sparse and circular data while allowing repeated references', () => {
-			expect(() => interpretAllInputValues(new Array(1))).toThrow(/sparse/)
+			expect(() => interpretInputData(new Array(1))).toThrow(/sparse/)
 
 			const sparseValue = new Array(1)
-			expect(() => interpretAllInputValues({ type: 'MultipleChoice', value: sparseValue })).toThrow(/sparse/)
+			expect(() => interpretInputData({ type: 'MultipleChoice', value: sparseValue })).toThrow(/sparse/)
 
 			const circular: { self?: unknown } = {}
 			circular.self = circular
-			expect(() => interpretAllInputValues(circular)).toThrow(/circular/)
+			expect(() => interpretInputData(circular)).toThrow(/circular/)
 
 			const shared = { value: 1 }
-			expect(interpretAllInputValues({ first: shared, second: shared })).toEqual({ first: { value: 1 }, second: { value: 1 } })
+			expect(interpretInputData({ first: shared, second: shared })).toEqual({ first: { value: 1 }, second: { value: 1 } })
 		})
 	})
 })

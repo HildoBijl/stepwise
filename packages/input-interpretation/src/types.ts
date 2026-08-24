@@ -1,8 +1,8 @@
 import type { PlainDataValue } from '@step-wise/js-utils'
 
-export type InputValue<Type extends string = string, Value extends PlainDataValue = PlainDataValue> = { type: Type, value: Value }
+export type InputValue<TType extends string = string, TValue extends PlainDataValue = PlainDataValue> = { type: TType, value: TValue }
 
-export type InterpreterEntry<InputValue, DomainValue> = {
-	interpret: (inputValue: InputValue) => DomainValue
-	toInputValue: (domainValue: DomainValue) => InputValue
+export type InputValueAdapter<TInputValue, TDomainValue> = {
+	interpret: (inputValue: TInputValue) => TDomainValue
+	toInputValue: (domainValue: TDomainValue) => TInputValue
 }

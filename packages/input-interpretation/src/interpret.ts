@@ -1,37 +1,37 @@
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
 
 import type { InputValue } from './types'
-import { interpreters } from './objects'
+import { inputValueAdapters } from './adapters/registry'
 
 export function interpretInputValue<DomainValue = unknown, Input extends InputValue = InputValue>(inputValue: Input): DomainValue {
 	if (!isPlainObject(inputValue) || typeof inputValue.type !== 'string' || !Object.hasOwn(inputValue, 'value')) throw new Error(`Invalid input value: expected an object with a type and value.`)
 	ensureValidStructure(inputValue, new WeakSet())
-	const interpreter = Object.hasOwn(interpreters, inputValue.type) ? interpreters[inputValue.type as keyof typeof interpreters] : undefined
-	if (interpreter === undefined) throw new Error(`Invalid input value: unknown type "${inputValue.type}".`)
-	return interpreter.interpret(inputValue as never) as DomainValue
+	const adapter = Object.hasOwn(inputValueAdapters, inputValue.type) ? inputValueAdapters[inputValue.type as keyof typeof inputValueAdapters] : undefined
+	if (adapter === undefined) throw new Error(`Invalid input value: unknown type "${inputValue.type}".`)
+	return adapter.interpret(inputValue as never) as DomainValue
 }
 
-export function interpretAllInputValues(value: unknown): unknown {
+export function interpretInputData(value: unknown): unknown {
 	return interpretValue(value, new WeakSet())
 }
 
 function interpretValue(value: unknown, ancestors: WeakSet<object>): unknown {
 	if (value === null || value === undefined || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return value
 	if (Array.isArray(value) || isPlainObject(value)) {
-		if (ancestors.has(value)) throw new Error(`Invalid interpretAllInputValues call: cannot interpret circular data.`)
+		if (ancestors.has(value)) throw new Error(`Invalid interpretInputData call: cannot interpret circular data.`)
 		ancestors.add(value)
 		try {
 			if (Array.isArray(value)) {
 				ensureDenseArray(value)
 				return value.map(item => interpretValue(item, ancestors))
 			}
-			if (typeof value.type === 'string' && Object.hasOwn(interpreters, value.type)) return interpretInputValue(value as InputValue)
+			if (typeof value.type === 'string' && Object.hasOwn(inputValueAdapters, value.type)) return interpretInputValue(value as InputValue)
 			return mapValues(value, item => interpretValue(item, ancestors))
 		} finally {
 			ancestors.delete(value)
 		}
 	}
-	throw new Error(`Invalid interpretAllInputValues call: cannot interpret value of type "${typeof value}". Only plain objects, arrays and basic types are expected.`)
+	throw new Error(`Invalid interpretInputData call: cannot interpret value of type "${typeof value}". Only plain objects, arrays and basic types are expected.`)
 }
 
 function ensureValidStructure(value: unknown, ancestors: WeakSet<object>): void {

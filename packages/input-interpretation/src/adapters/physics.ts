@@ -4,31 +4,31 @@ import {
 	type Quantity as QuantityDomainValue, type QuantityInputValue as QuantityInnerInputValue, QuantityType, interpretQuantityInputValue, quantityToInputValue,
 } from '@step-wise/physics-core'
 
-import type { InputValue, InterpreterEntry } from '../types'
-import { makeInputValue } from '../support'
+import type { InputValue, InputValueAdapter } from '../types'
+import { createInputValue } from '../support'
 
 export { PrecisionNumberType, UnitType, QuantityType }
 
 export type PrecisionNumberInputValue = InputValue<PrecisionNumberType, PrecisionNumberInnerInputValue>
-export const PrecisionNumberInterpreter = {
+export const precisionNumberInputValueAdapter = {
 	interpret: inputValue => interpretPrecisionNumberInputValue(inputValue.value),
-	toInputValue: precisionNumber => makeInputValue(PrecisionNumberType, precisionNumberToInputValue(precisionNumber)),
-} satisfies InterpreterEntry<PrecisionNumberInputValue, PrecisionNumberDomainValue>
+	toInputValue: precisionNumber => createInputValue(PrecisionNumberType, precisionNumberToInputValue(precisionNumber)),
+} satisfies InputValueAdapter<PrecisionNumberInputValue, PrecisionNumberDomainValue>
 
 export type UnitInputValue = InputValue<UnitType, UnitInnerInputValue>
-export const UnitInterpreter = {
+export const unitInputValueAdapter = {
 	interpret: inputValue => interpretUnitInputValue(inputValue.value),
-	toInputValue: unit => makeInputValue(UnitType, unitToInputValue(unit)),
-} satisfies InterpreterEntry<UnitInputValue, UnitDomainValue>
+	toInputValue: unit => createInputValue(UnitType, unitToInputValue(unit)),
+} satisfies InputValueAdapter<UnitInputValue, UnitDomainValue>
 
 export type QuantityInputValue = InputValue<QuantityType, QuantityInnerInputValue>
-export const QuantityInterpreter = {
+export const quantityInputValueAdapter = {
 	interpret: inputValue => interpretQuantityInputValue(inputValue.value),
-	toInputValue: quantity => makeInputValue(QuantityType, quantityToInputValue(quantity)),
-} satisfies InterpreterEntry<QuantityInputValue, QuantityDomainValue>
+	toInputValue: quantity => createInputValue(QuantityType, quantityToInputValue(quantity)),
+} satisfies InputValueAdapter<QuantityInputValue, QuantityDomainValue>
 
-export const physicsInterpreters = {
-	[PrecisionNumberType]: PrecisionNumberInterpreter,
-	[UnitType]: UnitInterpreter,
-	[QuantityType]: QuantityInterpreter,
+export const physicsInputValueAdapters = {
+	[PrecisionNumberType]: precisionNumberInputValueAdapter,
+	[UnitType]: unitInputValueAdapter,
+	[QuantityType]: quantityInputValueAdapter,
 }

@@ -1,4 +1,4 @@
 export * from './types'
-export * from './objects'
+export * from './adapters'
 export * from './interpret'
 export * from './toInputValue'

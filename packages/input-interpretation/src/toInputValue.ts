@@ -1,9 +1,9 @@
 import type { InputValue } from './types'
-import { interpreters } from './objects'
+import { inputValueAdapters } from './adapters/registry'
 
 export function toInputValue<Input extends InputValue = InputValue, DomainValue = unknown>(value: DomainValue, type: string): Input {
 	if (typeof type !== 'string') throw new TypeError(`Invalid toInputValue call: expected a string type.`)
-	const interpreter = Object.hasOwn(interpreters, type) ? interpreters[type as keyof typeof interpreters] : undefined
-	if (interpreter === undefined) throw new Error(`Invalid toInputValue call: unknown type "${type}".`)
-	return interpreter.toInputValue(value as never) as Input
+	const adapter = Object.hasOwn(inputValueAdapters, type) ? inputValueAdapters[type as keyof typeof inputValueAdapters] : undefined
+	if (adapter === undefined) throw new Error(`Invalid toInputValue call: unknown type "${type}".`)
+	return adapter.toInputValue(value as never) as Input
 }

@@ -1,7 +1,7 @@
 import { isNumericInteger, ensureInteger, ensureNumericInteger, InterpretationError } from '@step-wise/js-utils'
 
-import type { InputValue, InterpreterEntry } from '../types'
-import { makeInputValue } from '../support'
+import type { InputValue, InputValueAdapter } from '../types'
+import { createInputValue } from '../support'
 
 export const IntegerType = 'Integer'
 export type IntegerType = typeof IntegerType
@@ -17,10 +17,10 @@ function interpretInteger(inputValue: IntegerInputValue): number {
 }
 
 function integerToInputValue(integer: number): IntegerInputValue {
-	return makeInputValue(IntegerType, ensureInteger(integer, { safe: true }).toString())
+	return createInputValue(IntegerType, ensureInteger(integer, { safe: true }).toString())
 }
 
-export const IntegerInterpreter = {
+export const integerInputValueAdapter = {
 	interpret: interpretInteger,
 	toInputValue: integerToInputValue,
-} satisfies InterpreterEntry<IntegerInputValue, number>
+} satisfies InputValueAdapter<IntegerInputValue, number>

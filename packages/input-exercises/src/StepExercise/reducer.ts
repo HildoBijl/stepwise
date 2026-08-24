@@ -1,5 +1,5 @@
 import type { SkillSetupLike } from '@step-wise/skill-setup'
-import { interpretAllInputValues } from '@step-wise/input-interpretation'
+import { interpretInputData } from '@step-wise/input-interpretation'
 import { type GroupExerciseReducer, type SoloExerciseReducer, resolveExerciseParameters } from '@step-wise/exercise-definition'
 
 import { type InputExerciseAction, type InputExerciseInput, type InputExerciseParameters, type InputExerciseSolution, resolveSolution } from '../InputExercise'
@@ -57,7 +57,7 @@ function reduceMainProblem<TParameters extends InputExerciseParameters = InputEx
 	// Check all input actions.
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, 0, 0)
 	})
@@ -114,7 +114,7 @@ function reduceStepWithoutSubsteps<TParameters extends InputExerciseParameters =
 	// Check all input actions.
 	const correct = actions.map(userAction => {
 		if (userAction.action.type !== 'input') return false
-		const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
+		const exerciseInput = interpretInputData(userAction.action.input) as InputExerciseInput
 		const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 		return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, 0)
 	})
@@ -167,7 +167,7 @@ function reduceStepWithSubsteps<TParameters extends InputExerciseParameters = In
 		// Check all input actions.
 		const correct = actions.map(userAction => {
 			if (userAction.action.type !== 'input') return false
-			const exerciseInput = interpretAllInputValues(userAction.action.input) as InputExerciseInput
+			const exerciseInput = interpretInputData(userAction.action.input) as InputExerciseInput
 			const solution = staticSolution ?? (getSolution ? resolveSolution(getSolution, parameters, exerciseInput) : undefined)
 			return checkInput({ metadata, parameters, rawInput: userAction.action.input, input: exerciseInput, solution }, step, substep)
 		})

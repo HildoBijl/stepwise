@@ -5,37 +5,37 @@ import {
 	type Rectangle, type SerializedRectangle, RectangleType, serializeRectangle, deserializeRectangle,
 } from '@step-wise/geometry'
 
-import type { InterpreterEntry } from '../types'
+import type { InputValueAdapter } from '../types'
 
 export { VectorType, LineType, LineSegmentType, RectangleType }
 
 export type VectorInputValue = SerializedVector
-export const VectorInterpreter = {
+export const vectorInputValueAdapter = {
 	interpret: deserializeVector,
 	toInputValue: serializeVector,
-} satisfies InterpreterEntry<SerializedVector, Vector>
+} satisfies InputValueAdapter<SerializedVector, Vector>
 
 export type LineInputValue = SerializedLine
-export const LineInterpreter = {
+export const lineInputValueAdapter = {
 	interpret: deserializeLine,
 	toInputValue: serializeLine,
-} satisfies InterpreterEntry<SerializedLine, Line>
+} satisfies InputValueAdapter<SerializedLine, Line>
 
 export type LineSegmentInputValue = SerializedLineSegment
-export const LineSegmentInterpreter = {
+export const lineSegmentInputValueAdapter = {
 	interpret: deserializeLineSegment,
 	toInputValue: serializeLineSegment,
-} satisfies InterpreterEntry<SerializedLineSegment, LineSegment>
+} satisfies InputValueAdapter<SerializedLineSegment, LineSegment>
 
 export type RectangleInputValue = SerializedRectangle
-export const RectangleInterpreter = {
+export const rectangleInputValueAdapter = {
 	interpret: deserializeRectangle,
 	toInputValue: serializeRectangle,
-} satisfies InterpreterEntry<SerializedRectangle, Rectangle>
+} satisfies InputValueAdapter<SerializedRectangle, Rectangle>
 
-export const geometryInterpreters = {
-	[VectorType]: VectorInterpreter,
-	[LineType]: LineInterpreter,
-	[LineSegmentType]: LineSegmentInterpreter,
-	[RectangleType]: RectangleInterpreter,
+export const geometryInputValueAdapters = {
+	[VectorType]: vectorInputValueAdapter,
+	[LineType]: lineInputValueAdapter,
+	[LineSegmentType]: lineSegmentInputValueAdapter,
+	[RectangleType]: rectangleInputValueAdapter,
 }

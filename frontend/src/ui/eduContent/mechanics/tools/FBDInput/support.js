@@ -1,19 +1,19 @@
 import { mod, omitKeys } from '@step-wise/js-utils'
-import { FBDInterpreter } from '@step-wise/input-interpretation'
+import { FreeBodyDiagramType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
 import { createForce, createMoment, equalLoadSets, isLoad } from '@step-wise/engineering-mechanics'
 
 import { doesLoadTouchRectangle, getScaleFactor } from './selection'
 
 export function clean(FI) {
-	return FBDInterpreter.toInputValue(FI.map(load => omitKeys(load, ['selected', 'hovering'])))
+	return toInputValue(FI.map(load => omitKeys(load, ['selected', 'hovering'])), FreeBodyDiagramType)
 }
 
 export function functionalize(SI) {
-	return FBDInterpreter.interpret(SI).map(load => ({ ...load, selected: false }))
+	return interpretInputValue(SI).map(load => ({ ...load, selected: false }))
 }
 
 export function equals(a, b) {
-	return equalLoadSets(FBDInterpreter.interpret(a), FBDInterpreter.interpret(b))
+	return equalLoadSets(interpretInputValue(a), interpretInputValue(b))
 }
 
 export function applySnapping(FI) {

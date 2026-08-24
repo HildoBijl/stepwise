@@ -1,4 +1,4 @@
-import { interpretAllInputValues } from '@step-wise/input-interpretation'
+import { interpretInputData } from '@step-wise/input-interpretation'
 
 import type { InputExerciseHistoryInstance, InputExerciseInput, InputExerciseRawInput } from './types'
 
@@ -32,7 +32,7 @@ export function getLastRawInput(instance: InputExerciseHistoryInstance, userId?:
 // Get the last given input from the user and interpret all its values.
 export function getLastInput(instance: InputExerciseHistoryInstance, userId?: string, options: LastInputOptions = {}): InputExerciseInput | undefined {
 	const rawInput = getLastRawInput(instance, userId, options)
-	return rawInput === undefined ? undefined : interpretAllInputValues(rawInput) as InputExerciseInput
+	return rawInput === undefined ? undefined : interpretInputData(rawInput) as InputExerciseInput
 }
 
 // Check if a user has made a previous input at the given step.

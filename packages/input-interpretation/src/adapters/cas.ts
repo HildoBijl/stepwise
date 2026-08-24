@@ -3,21 +3,21 @@ import {
 	type Equation, type EquationInputValue, EquationType, interpretEquationInputValue, equationToInputValue,
 } from '@step-wise/cas'
 
-import type { InterpreterEntry } from '../types'
+import type { InputValueAdapter } from '../types'
 
 export { type ExpressionInputValue, type EquationInputValue, ExpressionType, EquationType }
 
-export const ExpressionInterpreter = {
+export const expressionInputValueAdapter = {
 	interpret: interpretExpressionInputValue,
 	toInputValue: expressionToInputValue,
-} satisfies InterpreterEntry<ExpressionInputValue, Expression>
+} satisfies InputValueAdapter<ExpressionInputValue, Expression>
 
-export const EquationInterpreter = {
+export const equationInputValueAdapter = {
 	interpret: interpretEquationInputValue,
 	toInputValue: equationToInputValue,
-} satisfies InterpreterEntry<EquationInputValue, Equation>
+} satisfies InputValueAdapter<EquationInputValue, Equation>
 
-export const casInterpreters = {
-	[ExpressionType]: ExpressionInterpreter,
-	[EquationType]: EquationInterpreter,
+export const casInputValueAdapters = {
+	[ExpressionType]: expressionInputValueAdapter,
+	[EquationType]: equationInputValueAdapter,
 }
