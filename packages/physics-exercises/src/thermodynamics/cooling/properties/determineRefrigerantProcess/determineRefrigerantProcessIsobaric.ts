@@ -28,11 +28,13 @@ export default buildMonoExercise({
 				refrigerant,
 				phase1: point1.phase,
 				T1: point1.temperature.setDecimals(0).roundToPrecision(),
-				x1: point1.phase === 'vapor' ? point1.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) : undefined,
-				p1: point1.phase === 'vapor' ? undefined : point1.pressure.setSignificantDigits(2).roundToPrecision(),
+				...(point1.phase === 'vapor'
+					? { x1: point1.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) }
+					: { p1: point1.pressure.setSignificantDigits(2).roundToPrecision() }),
 				phase2: point2.phase,
-				x2: point2.phase === 'vapor' ? point2.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) : undefined,
-				T2: point2.phase === 'vapor' ? undefined : point2.temperature.setDecimals(0).roundToPrecision(),
+				...(point2.phase === 'vapor'
+					? { x2: point2.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) }
+					: { T2: point2.temperature.setDecimals(0).roundToPrecision() }),
 			}
 			try {
 				const checkedPoint1 = parameters.phase1 === 'vapor' ? getVaporPropertiesFromTemperature(refrigerantData, parameters.T1, parameters.x1!) : getRefrigerantPropertiesFromTemperature(refrigerantData, parameters.p1!, parameters.T1)

@@ -28,8 +28,9 @@ export default buildMonoExercise({
 				refrigerant,
 				phase1: point1.phase,
 				T1: point1.temperature.setDecimals(0).roundToPrecision(),
-				x1: point1.phase === 'vapor' ? point1.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) : undefined,
-				p1: point1.phase === 'vapor' ? undefined : point1.pressure.setSignificantDigits(2).roundToPrecision(),
+				...(point1.phase === 'vapor'
+					? { x1: point1.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) }
+					: { p1: point1.pressure.setSignificantDigits(2).roundToPrecision() }),
 				p2: point2.pressure.setSignificantDigits(2).roundToPrecision(),
 			}
 			try {
