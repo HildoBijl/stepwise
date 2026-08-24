@@ -1,6 +1,6 @@
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { refrigerants, getBoilingTemperature, getRefrigerantPropertiesFromTemperature, getRefrigerantPropertiesFromEntropy } from '@step-wise/physics-data'
+import { refrigerantDatasets, getSaturationTemperature, getRefrigerantPropertiesFromPressureAndTemperature, getRefrigerantPropertiesFromPressureAndEntropy } from '@step-wise/physics-data'
 
 import { getCycle } from '../tools'
 
@@ -33,15 +33,15 @@ export default buildStepExercise({
 	},
 
 	getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }) {
-		const refrigerantData = refrigerants[refrigerant]
-		const TEvap = getBoilingTemperature(refrigerantData, pEvap)!.setDecimals(0)
-		const TCond = getBoilingTemperature(refrigerantData, pCond)!.setDecimals(0)
+		const refrigerantData = refrigerantDatasets[refrigerant]
+		const TEvap = getSaturationTemperature(refrigerantData, pEvap)!.setDecimals(0)
+		const TCond = getSaturationTemperature(refrigerantData, pCond)!.setDecimals(0)
 		const T1 = TEvap.add(dTSuperheating)
 		const T3 = TCond.subtract(dTSubcooling)
-		const point1 = getRefrigerantPropertiesFromTemperature(refrigerantData, pEvap, T1)!
-		const point2p = getRefrigerantPropertiesFromEntropy(refrigerantData, pCond, point1.entropy)!
-		const point2 = getRefrigerantPropertiesFromTemperature(refrigerantData, pCond, T2)!
-		const point3 = getRefrigerantPropertiesFromTemperature(refrigerantData, pCond, T3)!
+		const point1 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pEvap, T1)!
+		const point2p = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, pCond, point1.entropy)!
+		const point2 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pCond, T2)!
+		const point3 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pCond, T3)!
 		const h1 = point1.enthalpy.setUnit('kJ/kg').setDecimals(0)
 		const h2p = point2p.enthalpy.setUnit('kJ/kg').setDecimals(0)
 		const h2 = point2.enthalpy.setUnit('kJ/kg').setDecimals(0)

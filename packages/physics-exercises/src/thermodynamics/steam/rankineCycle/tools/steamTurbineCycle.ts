@@ -1,23 +1,23 @@
 import { integerRange, sample, randomInteger } from '@step-wise/js-utils'
 import { interpolateTable } from '@step-wise/interpolation'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
-import { saturatedSteamByPressure, superheatedSteam } from '@step-wise/physics-data'
+import { saturatedSteamPropertiesByPressure, superheatedSteamProperties } from '@step-wise/physics-data'
 
 export function getCycle() {
 	while (true) {
 		// Get pressure in condensor and evaporator.
-		const pressureRangeTable1 = saturatedSteamByPressure.inputAxes[0]
+		const pressureRangeTable1 = saturatedSteamPropertiesByPressure.inputAxes[0]
 		const condenserIndex = randomInteger(3, 8)
 		const pc = pressureRangeTable1[condenserIndex]
-		const Tc = interpolateTable(pc, saturatedSteamByPressure, 'boilingTemperature')!
-		const pressureRangeTable2 = superheatedSteam.inputAxes[superheatedSteam.inputLabels.indexOf('pressure')]
+		const Tc = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'boilingTemperature')!
+		const pressureRangeTable2 = superheatedSteamProperties.inputAxes[superheatedSteamProperties.inputLabels.indexOf('pressure')]
 		const evaporatorIndex = randomInteger(13, 19)
 		const pe = pressureRangeTable2[evaporatorIndex]
-		const Te = interpolateTable(pe, saturatedSteamByPressure, 'boilingTemperature')!
+		const Te = interpolateTable(pe, saturatedSteamPropertiesByPressure, 'boilingTemperature')!
 		const x3 = getRandomQuantity({ min: 0.95, max: 1, unit: '' })
 
 		// Check which rows (that is, temperatures) from the enthalpy table are suitable. Pick one randomly.
-		const temperatureRange = superheatedSteam.inputAxes[superheatedSteam.inputLabels.indexOf('temperature')]
+		const temperatureRange = superheatedSteamProperties.inputAxes[superheatedSteamProperties.inputLabels.indexOf('temperature')]
 		const temperatureIndexOptions = integerRange(3, 25).filter(temperatureIndex => {
 			const T = temperatureRange[temperatureIndex]
 			if (T.compare(Te) < 0) return false
@@ -61,15 +61,15 @@ export function getCycle() {
 function getCycleProperties(pc: Quantity, pe: Quantity, T2: Quantity, x3: Quantity) {
 	while (true) {
 		// Liquid and vapor points.
-		const hx0 = interpolateTable(pc, saturatedSteamByPressure, 'enthalpyLiquid')
-		const hx1 = interpolateTable(pc, saturatedSteamByPressure, 'enthalpyVapor')
-		const sx0 = interpolateTable(pc, saturatedSteamByPressure, 'entropyLiquid')
-		const sx1 = interpolateTable(pc, saturatedSteamByPressure, 'entropyVapor')
+		const hx0 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'enthalpyLiquid')
+		const hx1 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'enthalpyVapor')
+		const sx0 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'entropyLiquid')
+		const sx1 = interpolateTable(pc, saturatedSteamPropertiesByPressure, 'entropyVapor')
 		if (hx0 === undefined || hx1 === undefined || sx0 === undefined || sx1 === undefined) return undefined
 
 		// Point 2.
-		const h2 = interpolateTable([pe, T2], superheatedSteam, 'enthalpy')
-		const s2 = interpolateTable([pe, T2], superheatedSteam, 'entropy')
+		const h2 = interpolateTable([pe, T2], superheatedSteamProperties, 'enthalpy')
+		const s2 = interpolateTable([pe, T2], superheatedSteamProperties, 'entropy')
 		if (h2 === undefined || s2 === undefined) return undefined
 
 		// Point 3-prime.

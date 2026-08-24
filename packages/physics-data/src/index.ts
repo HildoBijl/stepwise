@@ -1,3 +1,3 @@
 export * from './constants'
-export * from './conversionFactors'
+export * from './unitConversions'
 export * from './thermodynamics'

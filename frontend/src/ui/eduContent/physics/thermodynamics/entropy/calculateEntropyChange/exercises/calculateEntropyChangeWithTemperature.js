@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { temperatureCelsius as TConversion } from '@step-wise/physics-data'
+import { celsiusToKelvinOffset as TConversion } from '@step-wise/physics-data'
 
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'

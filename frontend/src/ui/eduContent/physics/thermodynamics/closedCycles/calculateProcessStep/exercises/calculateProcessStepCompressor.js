@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { temperatureCelsius as TConversion, volumeLiter as VConversion, massGram as mConversion } from '@step-wise/physics-data'
+import { celsiusToKelvinOffset as TConversion, cubicMetersToLitersFactor as VConversion, kilogramsToGramsFactor as mConversion } from '@step-wise/physics-data'
 
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'

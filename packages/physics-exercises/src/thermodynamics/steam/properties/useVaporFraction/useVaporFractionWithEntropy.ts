@@ -4,7 +4,7 @@ import { and } from '@step-wise/skill-setup'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
-import { saturatedSteamByTemperature, saturatedSteamByPressure } from '@step-wise/physics-data'
+import { saturatedSteamPropertiesByTemperature, saturatedSteamPropertiesByPressure } from '@step-wise/physics-data'
 
 export default buildStepExercise({
 	metadata: {
@@ -22,24 +22,24 @@ export default buildStepExercise({
 		const type = randomInteger(1, 2)
 		const x = getRandomQuantity({ min: 0.1, max: 0.9, unit: '' })
 		if (type === 1) {
-			const temperatureRange = saturatedSteamByTemperature.inputAxes[0]
+			const temperatureRange = saturatedSteamPropertiesByTemperature.inputAxes[0]
 			const T = temperatureRange[randomInteger(0, Math.min(25, temperatureRange.length))]
-			const sx0 = interpolateTable(T, saturatedSteamByTemperature, 'entropyLiquid')!
-			const sx1 = interpolateTable(T, saturatedSteamByTemperature, 'entropyVapor')!
+			const sx0 = interpolateTable(T, saturatedSteamPropertiesByTemperature, 'entropyLiquid')!
+			const sx1 = interpolateTable(T, saturatedSteamPropertiesByTemperature, 'entropyVapor')!
 			const s = sx0.add(x.multiply(sx1.subtract(sx0))).setDecimals(3).roundToPrecision()
 			return { type, T, s }
 		}
-		const pressureRange = saturatedSteamByPressure.inputAxes[0]
+		const pressureRange = saturatedSteamPropertiesByPressure.inputAxes[0]
 		const p = pressureRange[randomInteger(0, Math.min(25, pressureRange.length))]
-		const sx0 = interpolateTable(p, saturatedSteamByPressure, 'entropyLiquid')!
-		const sx1 = interpolateTable(p, saturatedSteamByPressure, 'entropyVapor')!
+		const sx0 = interpolateTable(p, saturatedSteamPropertiesByPressure, 'entropyLiquid')!
+		const sx1 = interpolateTable(p, saturatedSteamPropertiesByPressure, 'entropyVapor')!
 		const s = sx0.add(x.multiply(sx1.subtract(sx0))).setDecimals(3).roundToPrecision()
 		return { type, p, s }
 	},
 
 	getSolution({ type, T, p, s }) {
 		const value = type === 1 ? T! : p!
-		const table = type === 1 ? saturatedSteamByTemperature : saturatedSteamByPressure
+		const table = type === 1 ? saturatedSteamPropertiesByTemperature : saturatedSteamPropertiesByPressure
 		const hx0 = interpolateTable(value, table, 'enthalpyLiquid')!
 		const hx1 = interpolateTable(value, table, 'enthalpyVapor')!
 		const sx0 = interpolateTable(value, table, 'entropyLiquid')!
