@@ -99,7 +99,9 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		const newInput = fromKeys(getFieldIds(), (key) => {
 			if (solution[key] === undefined)
 				return oldInput[key]
-			let currNewInput = toInputValue(solution[key], oldInput[key]?.type)
+			const type = oldInput[key]?.type
+			if (typeof type !== 'string') throw new TypeError(`Cannot insert the solution for input field "${key}": expected the field to have a string type.`)
+			let currNewInput = toInputValue(solution[key], type)
 			if (isPlainObject(currNewInput))
 				currNewInput = { ...oldInput[key], ...currNewInput } // Keep other parameters like input field settings for expressions.
 			return currNewInput

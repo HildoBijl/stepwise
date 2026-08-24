@@ -29,6 +29,7 @@ describe('input interpretation', () => {
 		})
 		test('throws on unknown types', () => {
 			expect(() => toInputValue(3, 'Unknown')).toThrow()
+			expect(() => toInputValue(3, undefined as never)).toThrow(/string type/)
 		})
 	})
 
