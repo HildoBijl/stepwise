@@ -1,4 +1,4 @@
-import { ensureNumber, approximatelyEqual, clamp, isBetween, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
+import { ensureNumber, approximatelyEqual, clamp, integerRange, findOptimumIndex, repeat } from '@step-wise/js-utils'
 
 import { type VectorLike, Vector, ensureVector } from '../Vector'
 import { type LineLike, ensureLine } from '../Line'
@@ -12,6 +12,14 @@ export type RectangleType = typeof RectangleType
 
 export type { RectangleData }
 export type RectangleLike = Rectangle | RectangleInput
+
+function isApproximatelyAtLeast(value: number, lowerBound: number): boolean {
+	return value > lowerBound || approximatelyEqual(value, lowerBound)
+}
+
+function isApproximatelyAtMost(value: number, upperBound: number): boolean {
+	return value < upperBound || approximatelyEqual(value, upperBound)
+}
 
 export class Rectangle {
 	private _min: Vector
@@ -261,7 +269,11 @@ export class Rectangle {
 	// Check if a given point is within (or on the bounds of) the Rectangle.
 	contains(vector: VectorLike): boolean {
 		const point = ensureVector(vector, this.dimension)
-		return integerRange(0, this.dimension - 1).every(axis => isBetween(point.getCoordinate(axis), ...this.getBounds(axis)))
+		return integerRange(0, this.dimension - 1).every(axis => {
+			const coordinate = point.getCoordinate(axis)
+			const [min, max] = this.getBounds(axis)
+			return isApproximatelyAtLeast(coordinate, min) && isApproximatelyAtMost(coordinate, max)
+		})
 	}
 
 	// Check if a given point is exactly on the bounds of the Rectangle.
@@ -299,12 +311,12 @@ export class Rectangle {
 	// Check if a circle is fully encompassed by the Rectangle.
 	containsCircle(center: VectorLike, radius: number): boolean {
 		const ensuredCenter = ensureVector(center, this.dimension)
-		return this.contains(ensuredCenter) && this.distanceTo(ensuredCenter, true) >= ensureNumber(radius, { nonNegative: true })
+		return this.contains(ensuredCenter) && isApproximatelyAtLeast(this.distanceTo(ensuredCenter, true), ensureNumber(radius, { nonNegative: true }))
 	}
 
 	// Check if a circle and the Rectangle share any point, including when either fully contains the other.
 	intersectsCircle(center: VectorLike, radius: number): boolean {
-		return this.distanceTo(ensureVector(center, this.dimension)) <= ensureNumber(radius, { nonNegative: true })
+		return isApproximatelyAtMost(this.distanceTo(ensureVector(center, this.dimension)), ensureNumber(radius, { nonNegative: true }))
 	}
 
 	/*
@@ -328,7 +340,7 @@ export class Rectangle {
 
 		// Check which part of the Line falls within the Rectangle.
 		const [lower, upper] = linePartFactors
-		return lower <= 1 && upper >= 0
+		return isApproximatelyAtMost(lower, 1) && isApproximatelyAtLeast(upper, 0)
 	}
 
 	// Find the LineSegment lying on a line that falls within the Rectangle. Returns undefined if the Line does not intersect the Rectangle.
@@ -354,7 +366,7 @@ export class Rectangle {
 			if (approximatelyEqual(ensuredLine.direction.getCoordinate(axis), 0)) {
 				const coordinate = ensuredLine.start.getCoordinate(axis)
 				const bounds = this.getBounds(axis)
-				if (coordinate < bounds[0] || coordinate > bounds[1]) {
+				if (!isApproximatelyAtLeast(coordinate, bounds[0]) || !isApproximatelyAtMost(coordinate, bounds[1])) {
 					lower = Infinity
 					upper = -Infinity
 				}
@@ -368,7 +380,8 @@ export class Rectangle {
 		})
 
 		// Find if the line goes through the rectangle.
-		if (lower === undefined || upper === undefined || upper < lower) return undefined
+		if (lower === undefined || upper === undefined || (upper < lower && !approximatelyEqual(upper, lower))) return undefined
+		if (approximatelyEqual(lower, upper)) return [(lower + upper) / 2, (lower + upper) / 2]
 		return [lower, upper]
 	}
 
