@@ -229,6 +229,7 @@ export class SkillLevelSet {
 				this.skillLevels[skillId] = new SkillLevel(skill, skillLevelUpdate as RawSkillLevel)
 			}
 		})
+		Object.values(this.skillLevels).forEach(skillLevel => skillLevel.invalidateInferenceCache())
 		this.snapshot = {}
 		for (const listener of this.listeners) { listener() }
 	}

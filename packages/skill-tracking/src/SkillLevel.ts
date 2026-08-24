@@ -71,6 +71,11 @@ export class SkillLevel {
 		this._cache = {}
 	}
 
+	invalidateInferenceCache(): void {
+		delete this._cache.inferred
+		delete this._cache.inferredHighest
+	}
+
 	// Smoothed coefficients.
 
 	get smoothedCoefficients(): BernsteinCoefficients {

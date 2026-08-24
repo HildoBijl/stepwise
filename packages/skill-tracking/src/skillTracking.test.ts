@@ -141,6 +141,25 @@ describe('Skill level subscriptions:', () => {
 	})
 })
 
+describe('Skill level cache invalidation:', () => {
+	it('Invalidates dependent inference when an update reuses a coefficient timestamp', () => {
+		const linkedSkillTree = createSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
+		const skillLevelSet = new SkillLevelSet(linkedSkillTree, {
+			a: coefficientsToRawSkillLevel([1], now, 0),
+			b: coefficientsToRawSkillLevel([1], now, 0),
+		})
+		jest.setSystemTime(new Date(now.getTime() + 1))
+		try {
+			const coefficientsBefore = skillLevelSet.getCoefficients('a')
+			skillLevelSet.update({ b: { coefficients: [0, 1], coefficientsOn: now, numPracticed: 1 } })
+			const coefficientsAfter = skillLevelSet.getCoefficients('a')
+			expect(compareNumberArrays(coefficientsAfter, coefficientsBefore)).toBe(false)
+		} finally {
+			jest.setSystemTime(now)
+		}
+	})
+})
+
 describe('Skill level smoothing:', () => {
 	const invalidOptions: [string, BernsteinSmoothingOptions][] = [
 		['negative elapsed time', { time: -1 }],
