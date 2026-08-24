@@ -164,7 +164,7 @@ function SkillFlaskWithNumbers({ skillId, student, overview }) {
 
 	// Render the flask with the numbers.
 	return <Box sx={{ position: 'relative', display: 'inline-block' }}>
-		<SkillFlask skillId={skillId} coef={skillLevelSet.getCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} tooltip={false} />
+		<SkillFlask skillId={skillId} coef={skillLevelSet.getInferredCoefficients(skillId)} isPriorKnowledge={isPriorKnowledge} size={40} tooltip={false} />
 		<Box sx={{ position: 'absolute', right: -12, top: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', fontSize: 10, fontWeight: 700, lineHeight: 1 }}>
 			{numCorrect === 0 ? null : <Box component="span" sx={{ color: 'success.main' }}>{numCorrect}</Box>}
 			{numPartiallyCorrect === 0 ? null : <Box component="span" sx={{ color: 'warning.main' }}>{numPartiallyCorrect}</Box>}

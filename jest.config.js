@@ -22,6 +22,7 @@ module.exports = {
 		'<rootDir>/packages/settings/',
 		'<rootDir>/packages/skill-definition/',
 		'<rootDir>/packages/skill-setup/',
+		'<rootDir>/packages/skill-tracking/',
 		'<rootDir>/packages/skill-tree/',
 	],
 	moduleNameMapper: {

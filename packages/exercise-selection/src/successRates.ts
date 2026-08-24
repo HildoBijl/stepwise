@@ -14,5 +14,5 @@ export async function getExerciseSuccessRates(exerciseMetadataList: ExerciseMeta
 	const skillLevelSet = await getSkillLevelSet([...exerciseSkillIds])
 
 	// Walk through the exercises to calculate success rates.
-	return exerciseMetadataList.map(exerciseMetadata => skillLevelSet.getSetupsExpectedValues([exerciseMetadata.skill, exerciseMetadata.setup], [undefined, exerciseMetadata.setupInferenceOrder]))
+	return exerciseMetadataList.map(exerciseMetadata => skillLevelSet.getCombinedSetupExpectedSuccessRate([exerciseMetadata.skill, exerciseMetadata.setup], [undefined, exerciseMetadata.setupInferenceOrder]))
 }

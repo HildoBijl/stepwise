@@ -19,7 +19,7 @@ export function SkillIndicator() {
 function SkillIndicatorForSelf() {
 	const { skillId } = useParams()
 	const skillLevelSet = useSkillLevel(skillId)
-	if (!skillLevelSet.hasDataOn(skillId))
+	if (!skillLevelSet.hasRequiredDataFor(skillId))
 		return null
 	const skillLevel = skillLevelSet.getSkillLevel(skillId)
 	return <SkillIndicatorGraphics skillLevel={skillLevel} />

@@ -5,7 +5,7 @@ import { Check as CheckIcon, Clear as ClearIcon, Replay as ReplayIcon } from '@m
 
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum } from '@step-wise/bernstein-polynomials'
 import { skill } from '@step-wise/skill-setup'
-import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
+import { applySkillLevelDecay } from '@step-wise/skill-tracking'
 
 import { useIsSignedIn } from 'api'
 import { TranslationSection, Translation, Check } from 'i18n'
@@ -192,11 +192,11 @@ function SingleSkillTrial() {
 	const [numPracticed, setNumPracticed] = useState(0)
 	const applyUpdate = (correct) => {
 		const options = {
-			time: 0,
-			applyPracticeDecay: true,
-			numProblemsPracticed: numPracticed,
+			elapsedTime: 0,
+			applyPracticeEffect: true,
+			practiceCount: numPracticed,
 		}
-		const coefficientSet = { [label]: smoothBernsteinCoefficients(coef, options) }
+		const coefficientSet = { [label]: applySkillLevelDecay(coef, options) }
 		const setup = skill(label)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[label])
@@ -211,11 +211,11 @@ function SingleSkillTrial() {
 
 	// Apply smoothing based on the latest data.
 	const options = {
-		time: 0,
-		applyPracticeDecay: true,
-		numProblemsPracticed: numPracticed,
+		elapsedTime: 0,
+		applyPracticeEffect: true,
+		practiceCount: numPracticed,
 	}
-	const smoothedCoef = smoothBernsteinCoefficients(coef, options)
+	const smoothedCoef = applySkillLevelDecay(coef, options)
 
 	// Render contents.
 	return <TranslationSection entry="applet">

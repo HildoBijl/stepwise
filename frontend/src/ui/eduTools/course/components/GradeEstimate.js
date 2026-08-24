@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from '@mui/material'
 
 import { fromKeys } from '@step-wise/js-utils'
-import { getQuantileFunction } from '@step-wise/skill-tracking'
+import { getBernsteinQuantileFunction } from '@step-wise/bernstein-polynomials'
 
 import { Translation } from 'i18n'
 
@@ -20,7 +20,7 @@ export function GradeEstimate() {
 	const coefficientSet = fromKeys(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
 	const EV = setup.getExpectedValue(coefficientSet)
 	const distribution = setup.getDistribution(coefficientSet)
-	const quantile = getQuantileFunction(distribution)
+	const quantile = getBernsteinQuantileFunction(distribution)
 
 	// Display the grade estimate.
 	const scoreToPercentage = score => `${Math.round(score * 100)}%`
