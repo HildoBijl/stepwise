@@ -15,6 +15,7 @@ import { ensureSkillLevelUpdate, ensureSkillObservation } from './utils'
 export class SkillLevelSet {
 	private skillLevels: Record<string, SkillLevel> = {}
 	private listeners = new Set<() => void>()
+	private snapshot = {}
 
 	constructor(private readonly skillTree: SkillTree, rawSkillLevelSet: RawSkillLevelSet = {}) {
 		if (!isPlainObject(skillTree)) throw new Error(`Invalid skill tree: expected a plain object but received something of type "${typeof skillTree}".`)
@@ -182,8 +183,8 @@ export class SkillLevelSet {
 		return () => { this.listeners.delete(listener) }
 	}
 
-	getSnapshot(): Readonly<Record<string, SkillLevel>> {
-		return this.skillLevels
+	getSnapshot(): object {
+		return this.snapshot
 	}
 
 	/*
@@ -228,11 +229,13 @@ export class SkillLevelSet {
 				this.skillLevels[skillId] = new SkillLevel(skill, skillLevelUpdate as RawSkillLevel)
 			}
 		})
+		this.snapshot = {}
 		for (const listener of this.listeners) { listener() }
 	}
 
 	clear(): void {
 		this.skillLevels = {}
+		this.snapshot = {}
 		for (const listener of this.listeners) { listener() }
 	}
 
