@@ -10,6 +10,7 @@ import { maxSkillLevelCacheTime } from './settings'
 import { smoothBernsteinCoefficients } from './smoothing'
 import { getSetupExpectedValue, getSetupCoefficients, applyInferenceForSkill } from './inference'
 import { SkillLevel } from './SkillLevel'
+import { ensureSkillLevelUpdate } from './utils'
 
 export class SkillLevelSet {
 	private skillLevels: Record<string, SkillLevel> = {}
@@ -67,7 +68,7 @@ export class SkillLevelSet {
 				on: new Date(),
 			}
 		}
-		return skillLevel.cache.inferred!.coefficients
+		return [...skillLevel.cache.inferred!.coefficients]
 	}
 
 	private isCoefficientsCacheValid(skillId: SkillId): boolean {
@@ -125,7 +126,7 @@ export class SkillLevelSet {
 				on: new Date(),
 			}
 		}
-		return skillLevel.cache.inferredHighest!.coefficients
+		return [...skillLevel.cache.inferredHighest!.coefficients]
 	}
 
 	private isHighestCacheValid(skillId: SkillId): boolean {
@@ -190,26 +191,28 @@ export class SkillLevelSet {
 	 */
 
 	update(skillLevelUpdateSet: SkillLevelUpdateSet): void {
+		const ensuredUpdateSet = fromKeys(Object.keys(skillLevelUpdateSet), skillId => ensureSkillLevelUpdate(skillLevelUpdateSet[skillId]))
+
 		// Determine when a skill should update.
 		const shouldUpdateSkill = (skillId: SkillId): boolean => {
 			const currentSkillLevel = this.skillLevels[skillId]
 			if (!currentSkillLevel) return true
 
-			const skillLevelUpdate = skillLevelUpdateSet[skillId]
+			const skillLevelUpdate = ensuredUpdateSet[skillId]
 			if (currentSkillLevel.coefficientsOn.getTime() < skillLevelUpdate.coefficientsOn.getTime()) return true
 			if (currentSkillLevel.numPracticed < skillLevelUpdate.numPracticed) return true
 			return false
 		}
-		if (Object.keys(skillLevelUpdateSet).every(skillId => !shouldUpdateSkill(skillId))) return
+		if (Object.keys(ensuredUpdateSet).every(skillId => !shouldUpdateSkill(skillId))) return
 
 		// When updates are necessary, set up an updated skillLevels object.
 		this.skillLevels = { ...this.skillLevels }
-		Object.keys(skillLevelUpdateSet).forEach(skillId => {
+		Object.keys(ensuredUpdateSet).forEach(skillId => {
 			const skill = this.skillTree[this.ensureSkillId(skillId)]
 			if (!shouldUpdateSkill(skillId)) return
 
 			const existingSkillLevel = this.skillLevels[skillId]
-			const skillLevelUpdate = skillLevelUpdateSet[skillId]
+			const skillLevelUpdate = ensuredUpdateSet[skillId]
 			if (existingSkillLevel) {
 				existingSkillLevel.update(skillLevelUpdate)
 			} else {

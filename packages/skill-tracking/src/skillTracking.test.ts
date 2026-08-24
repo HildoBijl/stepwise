@@ -6,6 +6,7 @@ import { createSkillTree } from '@step-wise/skill-definition'
 import type { RawSkillLevel } from './types'
 import { SkillLevelSet } from './SkillLevelSet'
 import { defaultLinkCorrelation } from './settings'
+import { ensureSkillLevel, ensureSkillLevelUpdate } from './utils'
 
 // Set up time parameters to be used in the code.
 const now = new Date()
@@ -35,6 +36,38 @@ const coefficientsToRawSkillLevel = (coefficients: BernsteinCoefficients, date =
 
 // Define other settings.
 const inferenceOrder = 10
+const effectivelyInfinitePracticeCount = 1_000_000
+
+describe('Skill level validation:', () => {
+	it.each([-1, 1.5, Infinity, Number.MAX_SAFE_INTEGER + 1])('Rejects invalid practice count %s', numPracticed => {
+		expect(() => ensureSkillLevel(coefficientsToRawSkillLevel([1], now, numPracticed))).toThrow()
+	})
+
+	it('Requires highest coefficients and their date together in updates', () => {
+		expect(() => ensureSkillLevelUpdate({ coefficients: [1], coefficientsOn: now, highest: [1], numPracticed: 0 })).toThrow()
+		expect(() => ensureSkillLevelUpdate({ coefficients: [1], coefficientsOn: now, highestOn: now, numPracticed: 0 })).toThrow()
+	})
+
+	it('Copies mutable input and output values', () => {
+		const coefficients = [1]
+		const date = new Date(now)
+		const skillLevelSet = new SkillLevelSet(skillTree, {
+			a: {
+				coefficients,
+				coefficientsOn: date,
+				highest: coefficients,
+				highestOn: date,
+				numPracticed: 0,
+			},
+		})
+		coefficients[0] = 0
+		date.setFullYear(date.getFullYear() - 1)
+		const returnedCoefficients = skillLevelSet.getCoefficients('a') as number[]
+		returnedCoefficients[0] = 0
+		expect(skillLevelSet.getCoefficients('a')).toEqual([1])
+		expect(skillLevelSet.getSnapshot().a.coefficientsOn).toEqual(now)
+	})
+})
 
 // Run tests for inference of a skill.
 describe('Skill inference for elementary skills:', () => {
@@ -45,7 +78,7 @@ describe('Skill inference for elementary skills:', () => {
 	})
 
 	it('Skills with infinite practice are not smoothed', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		expect(skillLevelSet.getCoefficients('a')).toEqual([0, 1])
 		expect(approximatelyEqual(skillLevelSet.getExpectedValue('a'), 2 / 3)).toBe(true)
 	})
@@ -58,7 +91,7 @@ describe('Skill inference for elementary skills:', () => {
 	})
 
 	it('Skills with time decay are smoothed', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([0, 1], twoMonthsAgo, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([0, 1], twoMonthsAgo, effectivelyInfinitePracticeCount) })
 		const expectedValue = skillLevelSet.getExpectedValue('a')
 		expect(expectedValue).toBeGreaterThan(1 / 2)
 		expect(expectedValue).toBeLessThan(2 / 3)
@@ -90,7 +123,7 @@ describe('Skill link correlations:', () => {
 	it('Skill tracking uses the default correlation when none is specified', () => {
 		const defaultTree = createSkillTree({ a: { name: 'A', links: 'b' }, b: { name: 'B' } })
 		const explicitTree = createSkillTree({ a: { name: 'A', links: { skillId: 'b', correlation: defaultLinkCorrelation } }, b: { name: 'B' } })
-		const data = { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) }
+		const data = { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) }
 		expect(new SkillLevelSet(defaultTree, data).getCoefficients('a')).toEqual(new SkillLevelSet(explicitTree, data).getCoefficients('a'))
 	})
 })
@@ -98,12 +131,12 @@ describe('Skill link correlations:', () => {
 // Run tests for the inference of a set-up.
 describe('Skill inference for set-ups:', () => {
 	it('Preserves the uncertainty in the skill distributions', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount) })
 		expect(compareNumberArrays(skillLevelSet.getSetupCoefficients(skill('a'), 4), [1 / 5, 1 / 5, 1 / 5, 1 / 5, 1 / 5])).toBe(true)
 	})
 
 	it('The and-set-up is properly inferred', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		const setup = and('a', 'b')
 		const target = 1 / 3
 		expect(approximatelyEqual(skillLevelSet.getSetupExpectedValue(setup), target)).toBe(true)
@@ -114,7 +147,7 @@ describe('Skill inference for set-ups:', () => {
 	})
 
 	it('The or-set-up is properly inferred', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		const setup = or('a', 'b')
 		const target = 5 / 6
 		expect(approximatelyEqual(skillLevelSet.getSetupExpectedValue(setup), target)).toBe(true)
@@ -125,7 +158,7 @@ describe('Skill inference for set-ups:', () => {
 	})
 
 	it('The repeat-set-up is properly inferred', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		const setup = repeat('b', 3)
 		const target = 2 / 5
 		expect(approximatelyEqual(skillLevelSet.getSetupExpectedValue(setup), target)).toBe(true)
@@ -136,7 +169,7 @@ describe('Skill inference for set-ups:', () => {
 	})
 
 	it('The pick-set-up is properly inferred', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		const setup = pick(['a', 'b'], 1, [3, 1])
 		const target = 13 / 24
 		expect(approximatelyEqual(skillLevelSet.getSetupExpectedValue(setup), target)).toBe(true)
@@ -147,7 +180,7 @@ describe('Skill inference for set-ups:', () => {
 	})
 
 	it('The part-set-up within an and-set-up is properly inferred', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		const setup = and('a', part('b', 3 / 4))
 		const target = 3 / 8
 		expect(approximatelyEqual(skillLevelSet.getSetupExpectedValue(setup), target)).toBe(true)
@@ -158,7 +191,7 @@ describe('Skill inference for set-ups:', () => {
 	})
 
 	it('The part-set-up within an or-set-up is properly inferred', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		const setup = or('a', part('b', 3 / 4))
 		const target = 3 / 4
 		expect(approximatelyEqual(skillLevelSet.getSetupExpectedValue(setup), target)).toBe(true)
@@ -169,7 +202,7 @@ describe('Skill inference for set-ups:', () => {
 	})
 
 	it('Set-ups with skills with unknown data will throw', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount) })
 		const setup = repeat('b', 3)
 		expect(() => skillLevelSet.getSetupExpectedValue(setup)).toThrow()
 	})
@@ -180,13 +213,13 @@ describe('Skill updates:', () => {
 	describe('A skill-observation is properly updated', () => {
 		const setup = skill('a')
 		it('on a correct observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: true })
 			expect(compareNumberArrays(result.a.coefficients, [0, 1])).toBe(true)
 			expect(result).not.toHaveProperty('b')
 		})
 		it('on an incorrect observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: false })
 			expect(compareNumberArrays(result.a.coefficients, [1, 0])).toBe(true)
 			expect(result).not.toHaveProperty('b')
@@ -196,13 +229,13 @@ describe('Skill updates:', () => {
 	describe('An and-observation is properly updated', () => {
 		const setup = and('a', 'b')
 		it('on a correct observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: true })
 			expect(compareNumberArrays(result.a.coefficients, [0, 1])).toBe(true)
 			expect(compareNumberArrays(result.b.coefficients, [0, 0, 1])).toBe(true)
 		})
 		it('on an incorrect observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: false })
 			expect(compareNumberArrays(result.a.coefficients, [3 / 4, 1 / 4])).toBe(true)
 			expect(compareNumberArrays(result.b.coefficients, [0, 1 / 2, 1 / 2])).toBe(true)
@@ -212,13 +245,13 @@ describe('Skill updates:', () => {
 	describe('An or-observation is properly updated', () => {
 		const setup = or('a', 'b')
 		it('on a correct observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: true })
 			expect(compareNumberArrays(result.a.coefficients, [2 / 5, 3 / 5])).toBe(true)
 			expect(compareNumberArrays(result.b.coefficients, [0, 1 / 5, 4 / 5])).toBe(true)
 		})
 		it('on an incorrect observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: false })
 			expect(compareNumberArrays(result.a.coefficients, [1, 0])).toBe(true)
 			expect(compareNumberArrays(result.b.coefficients, [0, 1, 0])).toBe(true)
@@ -228,13 +261,13 @@ describe('Skill updates:', () => {
 	describe('A repeat-observation is properly updated', () => {
 		const setup = repeat('b', 3)
 		it('on a correct observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: true })
 			expect(result).not.toHaveProperty('a')
 			expect(compareNumberArrays(result.b.coefficients, [0, 0, 0, 0, 1])).toBe(true)
 		})
 		it('on an incorrect observation', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservation({ setup, correct: false })
 			expect(result).not.toHaveProperty('a')
 			expect(compareNumberArrays(result.b.coefficients, [0, 1 / 6, 1 / 3, 1 / 2, 0])).toBe(true)
@@ -242,7 +275,7 @@ describe('Skill updates:', () => {
 	})
 
 	describe('Non-deterministic set-ups cannot be used in updates', () => {
-		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity), b: coefficientsToRawSkillLevel([0, 1], now, Infinity) })
+		const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount), b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount) })
 		it('pick will throw', () => {
 			expect(() => skillLevelSet.processObservation({ setup: pick(['a', 'b'], 1, [3, 1]), correct: true })).toThrow()
 		})
@@ -256,7 +289,7 @@ describe('Skill updates:', () => {
 
 	describe('Updates are automatically stored', () => {
 		it('In case of no smoothing afterwards', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], twoMonthsAgo, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], twoMonthsAgo, effectivelyInfinitePracticeCount) })
 			skillLevelSet.processObservation({ setup: skill('a'), correct: true })
 			const coefficients = skillLevelSet.getCoefficients('a')
 			expect(compareNumberArrays(coefficients, [0, 1])).toBe(true)
@@ -277,8 +310,8 @@ describe('Skill updates:', () => {
 				{ setup: and('a', 'b'), correct: false },
 			]
 			const rawSkillLevels = {
-				a: coefficientsToRawSkillLevel([1], now, Infinity),
-				b: coefficientsToRawSkillLevel([0, 1], now, Infinity),
+				a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount),
+				b: coefficientsToRawSkillLevel([0, 1], now, effectivelyInfinitePracticeCount),
 			}
 			const forward = new SkillLevelSet(skillTree, rawSkillLevels).processObservations(observations)
 			const backward = new SkillLevelSet(skillTree, rawSkillLevels).processObservations([...observations].reverse())
@@ -287,7 +320,7 @@ describe('Skill updates:', () => {
 		})
 
 		it('Compares only the final result with the previous highest level', () => {
-			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, Infinity) })
+			const skillLevelSet = new SkillLevelSet(skillTree, { a: coefficientsToRawSkillLevel([1], now, effectivelyInfinitePracticeCount) })
 			const result = skillLevelSet.processObservations([
 				{ setup: skill('a'), correct: true },
 				{ setup: skill('a'), correct: false },

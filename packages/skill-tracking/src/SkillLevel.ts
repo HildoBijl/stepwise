@@ -5,6 +5,7 @@ import type { Skill } from '@step-wise/skill-definition'
 import type { RawSkillLevel, SkillLevelUpdate } from './types'
 import { maxSkillLevelCacheTime } from './settings'
 import { smoothBernsteinCoefficients } from './smoothing'
+import { ensureSkillLevel, ensureSkillLevelUpdate } from './utils'
 
 // Types for the internal cache.
 export type SkillLevelCache = {
@@ -19,33 +20,40 @@ export type SkillLevelCacheEntry = {
 
 export class SkillLevel {
 	private _cache: SkillLevelCache
+	private _rawSkillLevel: RawSkillLevel
 
-	constructor(private readonly _skill: Skill, private _rawSkillLevel: RawSkillLevel) {
+	constructor(private readonly _skill: Skill, rawSkillLevel: RawSkillLevel) {
 		if (!_skill || !isPlainObject(_skill)) throw new Error(`Invalid skill: expected a skill object from the skill tree, but received something of type "${typeof _skill}".`)
-		if (!_rawSkillLevel || !isPlainObject(_rawSkillLevel)) throw new Error(`Invalid raw skill level: expected a raw skill level object for skill "${_skill.id}" but received something of type "${typeof _rawSkillLevel}".`)
+		this._rawSkillLevel = ensureSkillLevel(rawSkillLevel)
 		this._cache = {}
 	}
 
 	// Getters for skill level data.
 
 	get rawSkillLevel(): RawSkillLevel {
-		return this._rawSkillLevel
+		return {
+			coefficients: [...this._rawSkillLevel.coefficients],
+			coefficientsOn: new Date(this._rawSkillLevel.coefficientsOn),
+			highest: [...this._rawSkillLevel.highest],
+			highestOn: new Date(this._rawSkillLevel.highestOn),
+			numPracticed: this._rawSkillLevel.numPracticed,
+		}
 	}
 
 	get rawCoefficients(): BernsteinCoefficients {
-		return this._rawSkillLevel.coefficients
+		return [...this._rawSkillLevel.coefficients]
 	}
 
 	get coefficientsOn(): Date {
-		return this._rawSkillLevel.coefficientsOn
+		return new Date(this._rawSkillLevel.coefficientsOn)
 	}
 
 	get highestCoefficients(): BernsteinCoefficients {
-		return this._rawSkillLevel.highest
+		return [...this._rawSkillLevel.highest]
 	}
 
 	get highestOn(): Date {
-		return this._rawSkillLevel.highestOn
+		return new Date(this._rawSkillLevel.highestOn)
 	}
 
 	get numPracticed(): number {
@@ -59,7 +67,7 @@ export class SkillLevel {
 	}
 
 	update(skillLevelUpdate: SkillLevelUpdate): void {
-		this._rawSkillLevel = { ...this._rawSkillLevel, ...skillLevelUpdate }
+		this._rawSkillLevel = { ...this._rawSkillLevel, ...ensureSkillLevelUpdate(skillLevelUpdate) }
 		this._cache = {}
 	}
 
