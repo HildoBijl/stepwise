@@ -302,8 +302,8 @@ export class Rectangle {
 		return this.contains(ensuredCenter) && this.distanceTo(ensuredCenter, true) >= ensureNumber(radius, { nonNegative: true })
 	}
 
-	// Check if a circle intersects the Rectangle's bounds.
-	touchesCircle(center: VectorLike, radius: number): boolean {
+	// Check if a circle and the Rectangle share any point, including when either fully contains the other.
+	intersectsCircle(center: VectorLike, radius: number): boolean {
 		return this.distanceTo(ensureVector(center, this.dimension)) <= ensureNumber(radius, { nonNegative: true })
 	}
 
@@ -317,8 +317,8 @@ export class Rectangle {
 		return this.contains(ensuredLineSegment.start) && this.contains(ensuredLineSegment.end)
 	}
 
-	// Check if a LineSegment intersects the Rectangle's bounds.
-	touchesLineSegment(lineSegment: LineSegmentLike): boolean {
+	// Check if a LineSegment and the Rectangle share any point, including complete containment.
+	intersectsLineSegment(lineSegment: LineSegmentLike): boolean {
 		const ensuredLineSegment = ensureLineSegment(lineSegment, this.dimension)
 		if (ensuredLineSegment.vector.isZero()) return this.contains(ensuredLineSegment.start)
 

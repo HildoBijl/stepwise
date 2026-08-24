@@ -161,7 +161,7 @@ function mouseDataToCircle(mouseDownData, mouseUpData) {
 	}
 }
 function applySelectionRectangle(FI, rectangle, keys) {
-	return FI.map(circle => ({ ...circle, selected: (keys.shift && circle.selected) || rectangle.touchesCircle(circle.center, circle.radius) }))
+	return FI.map(circle => ({ ...circle, selected: (keys.shift && circle.selected) || rectangle.intersectsCircle(circle.center, circle.radius) }))
 }
 ```
 

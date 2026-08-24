@@ -5,9 +5,9 @@ import { defaultGraphicalForceLength, defaultGraphicalMomentRadius } from '../su
 
 export function doesLoadTouchRectangle(load, rectangle, scale) {
 	if (isForce(load))
-		return rectangle.touchesLineSegment(getForceLineSegment(load, scale))
+		return rectangle.intersectsLineSegment(getForceLineSegment(load, scale))
 	if (isMoment(load))
-		return rectangle.touchesCircle(load.position, defaultGraphicalMomentRadius / scale)
+		return rectangle.intersectsCircle(load.position, defaultGraphicalMomentRadius / scale)
 	return false
 }
 

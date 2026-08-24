@@ -84,7 +84,7 @@ function TestDrawingInput() {
 }
 
 function applySelectionRectangle(input, rectangle, keys) {
-	return input.map(circle => ({ ...circle, selected: (keys.shift && circle.selected) || rectangle.touchesCircle(circle.center, circle.radius) }))
+	return input.map(circle => ({ ...circle, selected: (keys.shift && circle.selected) || rectangle.intersectsCircle(circle.center, circle.radius) }))
 }
 
 function Circles() {
