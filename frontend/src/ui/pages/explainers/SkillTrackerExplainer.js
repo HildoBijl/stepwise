@@ -5,7 +5,7 @@ import { Check, Clear, Replay } from '@mui/icons-material'
 import { fromKeys, mapValues } from '@step-wise/js-utils'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { and, repeat, skill } from '@step-wise/skill-setup'
-import { smoothBernsteinCoefficients } from '@step-wise/skill-tracking'
+import { applySkillLevelDecay } from '@step-wise/skill-tracking'
 import { getSelectionRates } from '@step-wise/exercise-selection'
 
 import { Par, Head, Button, M } from 'ui/components'
@@ -131,11 +131,11 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	const [months, setMonths] = useState(0)
 	const applyUpdate = (correct) => {
 		const options = {
-			time: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
-			applyPracticeDecay: true,
-			numProblemsPracticed: numPracticed,
+			elapsedTime: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
+			applyPracticeEffect: true,
+			practiceCount: numPracticed,
 		}
-		const coefficientSet = { [lastLabel]: smoothBernsteinCoefficients(coef, options) }
+		const coefficientSet = { [lastLabel]: applySkillLevelDecay(coef, options) }
 		const setup = skill(lastLabel)
 		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
 		setCoef(newCoefficientSet[lastLabel])
@@ -152,11 +152,11 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 
 	// Apply smoothing based on the latest data.
 	const options = {
-		time: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
-		applyPracticeDecay: true,
-		numProblemsPracticed: numPracticed,
+		elapsedTime: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
+		applyPracticeEffect: true,
+		practiceCount: numPracticed,
 	}
-	const smoothedCoef = smoothBernsteinCoefficients(coef, options)
+	const smoothedCoef = applySkillLevelDecay(coef, options)
 
 	// Render contents.
 	return <Box sx={appletStyle}>
@@ -191,11 +191,11 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		// First smooth all related coefficients.
 		let newCoefficientSet
 		if (label === lastLabel)
-			newCoefficientSet = mapValues(coefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+			newCoefficientSet = mapValues(coefficientSet, (coef, label) => applySkillLevelDecay(coef, { applyPracticeEffect: true, practiceCount: numsPracticed[label] }))
 		else
 			newCoefficientSet = {
 				...coefficientSet,
-				[label]: smoothBernsteinCoefficients(coefficientSet[label], { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }),
+				[label]: applySkillLevelDecay(coefficientSet[label], { applyPracticeEffect: true, practiceCount: numsPracticed[label] }),
 			}
 
 		// Then apply the relevant updates.
@@ -210,7 +210,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setNumsPracticed(newNumsPracticed)
 
 		// Update the passed parameter.
-		const smoothedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
+		const smoothedCoefficientSet = mapValues(newCoefficientSet, (coef, label) => applySkillLevelDecay(coef, { applyPracticeEffect: true, practiceCount: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
 			const EV = getBernsteinExpectedValue(smoothedCoefficientSet[label])
 			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
@@ -223,7 +223,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	}
 
 	// Make the inference towards X. For this first smooth all distributions and then run the inference and merging.
-	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => smoothBernsteinCoefficients(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+	const coefficientSetNow = mapValues(coefficientSet, (coef, label) => applySkillLevelDecay(coef, { applyPracticeEffect: true, practiceCount: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
 	coefficientSetNow[lastLabel] = multiplyBernsteinPDFs(inference, coefficientSetNow[lastLabel])
 

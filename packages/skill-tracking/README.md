@@ -8,10 +8,10 @@ Before using this package, make sure to [define a Skill Tree](../skill-definitio
 
 ## Setting up
 
-The main class in this package is the `SkillLevelSet`. It requires a (processed) skill tree and a set of `RawSkillLevelData`. We may for instance have
+The main class in this package is the `SkillLevelSet`. It requires a processed skill tree and a `StoredSkillLevelSet`. We may for instance have
 
 ```
-rawSkillLevelData = {
+storedSkillLevelSet = {
 	someSkillId: {
 		coefficients: BernsteinCoefficients
 		coefficientsOn: Date
@@ -28,38 +28,38 @@ Given this data, we can set up a `SkillLevelSet` through
 
 ```
 import { SkillLevelSet } from '@step-wise/skill-tracking'
-const skillLevelSet = new SkillLevelSet(skillTree, rawSkillLevelData)
+const skillLevelSet = new SkillLevelSet(skillTree, storedSkillLevelSet)
 ```
 
 If new data is received, for instance from the API, then this can be added through
 
 ```
-skillLevelSet.update(rawSkillLevelUpdateData)
+skillLevelSet.applyUpdates(storedSkillLevelUpdateSet)
 ```
 
 ## Extracting data
 
 The coefficients in the raw data is only based on observations for each individual skill. However, skills are linked. Given these links, we can find *inferred coefficients* for each skill too. If we ask the `SkillLevelSet` for coefficients, it will give us these *inferred* coefficients. This is done through
 
-Links without an explicit correlation use `defaultLinkCorrelation`, which is exported by this package and defaults to `0.5`.
+Links without an explicit correlation use `defaultSkillLinkCorrelation`, which is exported by this package and defaults to `0.5`.
 
 ```
-const expectedValue = skillLevelSet.getExpectedValue('someSkillId')
-const coefficients = skillLevelSet.getCoefficients('someSkillId')
+const expectedSuccessRate = skillLevelSet.getExpectedSuccessRate('someSkillId')
+const coefficients = skillLevelSet.getInferredCoefficients('someSkillId')
 ```
 
 We also track the highest (inferred) coefficients ever obtained. The API here is similar.
 
 ```
-const highestExpectedValue = skillLevelSet.getHighestExpectedValue('someSkillId')
-const highestCefficients = skillLevelSet.getHighestCoefficients('someSkillId')
+const highestExpectedSuccessRate = skillLevelSet.getHighestExpectedSuccessRate('someSkillId')
+const highestCoefficients = skillLevelSet.getInferredHighestCoefficients('someSkillId')
 ```
 
 It may happen that you have some exercise with a given skill set-up, and you want to find the distribution of the success rate for this exercise.
 
 ```
-const setupExpectedValue = skillLevelSet.getSetupExpectedValue(setup)
-const setupCoefficients = skillLevelSet.getSetupCoefficients(setup)
+const setupExpectedSuccessRate = skillLevelSet.getSetupExpectedSuccessRate(setup)
+const setupCoefficients = skillLevelSet.getSetupInferredCoefficients(setup)
 ```
 
 ## Implementing observations
@@ -67,13 +67,13 @@ const setupCoefficients = skillLevelSet.getSetupCoefficients(setup)
 When the student does an exercise, we gather data. Such an observation always takes the form `{ setup: SkillSetup, correct: boolean }`. We can implement this observation into the `SkillLevelSet`, to update the skill levels. This is done through
 
 ```
-const result = skillLevelSet.processObservation({ setup, correct })
+const result = skillLevelSet.applyObservation({ setup, correct })
 ```
 
-The result is a `rawSkillLevelUpdateData` object containing only the data that was updated. This also includes "highest" data: that is only added when relevant. So an example object that is returned may be:
+The result is a `StoredSkillLevelUpdateSet` containing only the data that was updated. This also includes "highest" data: that is only added when relevant. So an example object that is returned may be:
 
 ```
-rawSkillLevelData = {
+storedSkillLevelUpdateSet = {
 	someSkillId: {
 		coefficients: [0, 1],
 		coefficientsOn: now,
@@ -93,7 +93,7 @@ rawSkillLevelData = {
 It is also possible to process multiple observations at the same time. This is done through
 
 ```
-const result = skillLevelSet.processObservations([observation1, observation2, ...])
+const result = skillLevelSet.applyObservations([observation1, observation2, ...])
 ```
 
 The result object is a merged collection of all updates. It can be used to update the database.

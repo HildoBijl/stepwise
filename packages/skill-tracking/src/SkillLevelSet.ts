@@ -5,26 +5,26 @@ import { type BernsteinCoefficients, getBernsteinExpectedValue, getBernsteinMome
 import { type SkillSetupLike, ensureSetup } from '@step-wise/skill-setup'
 import { type SkillId, type SkillTree, ensureSkillId, expandSkillIdsWithDirectPrerequisitesAndLinks } from '@step-wise/skill-definition'
 
-import type { RawSkillLevel, RawSkillLevelSet, SkillLevelOutput, SkillObservation, SkillLevelUpdate, SkillLevelUpdateSet } from './types'
-import { maxSkillLevelCacheTime } from './settings'
-import { smoothBernsteinCoefficients } from './smoothing'
-import { getSetupExpectedValue, getSetupCoefficients, applyInferenceForSkill } from './inference'
+import type { StoredSkillLevel, StoredSkillLevelSet, SkillLevelData, SkillObservation, StoredSkillLevelUpdate, StoredSkillLevelUpdateSet } from './types'
+import { inferenceCacheDuration } from './settings'
+import { applySkillLevelDecay } from './smoothing'
+import { getSetupExpectedSuccessRate, inferSetupCoefficients, inferSkillCoefficients } from './inference'
 import { SkillLevel } from './SkillLevel'
-import { ensureSkillLevelUpdate, ensureSkillObservation } from './utils'
+import { ensureStoredSkillLevelUpdate, ensureSkillObservation } from './utils'
 
 export class SkillLevelSet {
 	private skillLevels: Record<string, SkillLevel> = {}
 	private listeners = new Set<() => void>()
 	private snapshot = {}
 
-	constructor(private readonly skillTree: SkillTree, rawSkillLevelSet: RawSkillLevelSet = {}) {
+	constructor(private readonly skillTree: SkillTree, storedSkillLevelSet: StoredSkillLevelSet = {}) {
 		if (!isPlainObject(skillTree)) throw new Error(`Invalid skill tree: expected a plain object but received something of type "${typeof skillTree}".`)
-		if (!isPlainObject(rawSkillLevelSet)) throw new Error(`Invalid raw skill level set: expected a plain object but received something of type "${typeof rawSkillLevelSet}".`)
+		if (!isPlainObject(storedSkillLevelSet)) throw new Error(`Invalid stored skill level set: expected a plain object but received something of type "${typeof storedSkillLevelSet}".`)
 
-		Object.keys(rawSkillLevelSet).forEach(skillId => {
+		Object.keys(storedSkillLevelSet).forEach(skillId => {
 			const skill = this.skillTree[skillId]
-			if (!skill) throw new Error(`Invalid skill given: a skill ID "${skillId}" was supplied inside of a raw skill level set, but this skill is not known in the full skill tree.`)
-			this.skillLevels[skillId] = new SkillLevel(skill, rawSkillLevelSet[skillId])
+			if (!skill) throw new Error(`Invalid skill given: a skill ID "${skillId}" was supplied inside of a stored skill level set, but this skill is not known in the full skill tree.`)
+			this.skillLevels[skillId] = new SkillLevel(skill, storedSkillLevelSet[skillId])
 		})
 	}
 
@@ -38,18 +38,18 @@ export class SkillLevelSet {
 
 	private getSkillLevelObject(skillId: SkillId): SkillLevel {
 		const skillLevel = this.skillLevels[this.ensureSkillId(skillId)]
-		if (!skillLevel) throw new Error(`Invalid raw skill level: tried to access information about the skill "${skillId}" but the skill level for this skill is unknown.`)
+		if (!skillLevel) throw new Error(`Invalid stored skill level: tried to access information about the skill "${skillId}" but the skill level for this skill is unknown.`)
 		return skillLevel
 	}
 
-	hasSkill(skillId: SkillId): boolean {
+	hasSkillLevel(skillId: SkillId): boolean {
 		return !!this.skillLevels[this.ensureSkillId(skillId)]
 	}
 
-	hasDataOn(skillId: SkillId): boolean {
+	hasRequiredDataFor(skillId: SkillId): boolean {
 		const skill = this.skillTree[this.ensureSkillId(skillId)]
 		const linkedSkillIds = expandSkillIdsWithDirectPrerequisitesAndLinks(this.skillTree, [skill.id])
-		return linkedSkillIds.every(linkedSkillId => this.hasSkill(linkedSkillId))
+		return linkedSkillIds.every(linkedSkillId => this.hasSkillLevel(linkedSkillId))
 	}
 
 	/*
@@ -60,12 +60,12 @@ export class SkillLevelSet {
 		return this.getSkillLevelObject(skillId).smoothedCoefficients
 	}
 
-	getCoefficients(skillId: SkillId): BernsteinCoefficients {
+	getInferredCoefficients(skillId: SkillId): BernsteinCoefficients {
 		const skill = this.skillTree[this.ensureSkillId(skillId)]
 		const skillLevel = this.getSkillLevelObject(skillId)
 		if (!this.isCoefficientsCacheValid(skillId)) {
 			skillLevel.cache.inferred = {
-				coefficients: applyInferenceForSkill(skill, relatedSkillId => this.getSmoothedCoefficients(relatedSkillId)),
+				coefficients: inferSkillCoefficients(skill, relatedSkillId => this.getSmoothedCoefficients(relatedSkillId)),
 				on: new Date(),
 			}
 		}
@@ -77,36 +77,36 @@ export class SkillLevelSet {
 		const skillLevel = this.getSkillLevelObject(skillId)
 		const cacheEntry = skillLevel.cache.inferred
 		if (!cacheEntry) return false
-		if (Date.now() - cacheEntry.on.getTime() >= maxSkillLevelCacheTime) return false
+		if (Date.now() - cacheEntry.on.getTime() >= inferenceCacheDuration) return false
 		if (skillLevel.coefficientsOn >= cacheEntry.on) return false
 		if (skill.prerequisiteIds.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).coefficientsOn >= cacheEntry.on)) return false
 		if (skill.linkedSkillIds.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).coefficientsOn >= cacheEntry.on)) return false
 		return true
 	}
 
-	getExpectedValue(skillId: SkillId): number {
-		return getBernsteinExpectedValue(this.getCoefficients(skillId))
+	getExpectedSuccessRate(skillId: SkillId): number {
+		return getBernsteinExpectedValue(this.getInferredCoefficients(skillId))
 	}
 
 	/*
 	 * Getters for inferred setups.
 	 */
 
-	getSetupExpectedValue(setup: SkillSetupLike): number {
-		return getSetupExpectedValue(ensureSetup(setup), skillId => this.getSmoothedCoefficients(skillId))
+	getSetupExpectedSuccessRate(setup: SkillSetupLike): number {
+		return getSetupExpectedSuccessRate(ensureSetup(setup), skillId => this.getSmoothedCoefficients(skillId))
 	}
 
-	getSetupCoefficients(setup: SkillSetupLike, inferenceOrder?: number): BernsteinCoefficients {
-		return getSetupCoefficients(ensureSetup(setup), skillId => this.getSmoothedCoefficients(skillId), inferenceOrder)
+	getSetupInferredCoefficients(setup: SkillSetupLike, inferenceOrder?: number): BernsteinCoefficients {
+		return inferSetupCoefficients(ensureSetup(setup), skillId => this.getSmoothedCoefficients(skillId), inferenceOrder)
 	}
 
-	getSetupsExpectedValues(setups: (SkillSetupLike | undefined)[], inferenceOrders?: number | (number | undefined)[]): number {
-		if (count(setups, setup => !!setup) === 1) return this.getSetupExpectedValue(setups.find(setup => !!setup) as SkillSetupLike)
-		return getBernsteinExpectedValue(this.getSetupsCoefficients(setups, inferenceOrders))
+	getCombinedSetupExpectedSuccessRate(setups: (SkillSetupLike | undefined)[], inferenceOrders?: number | (number | undefined)[]): number {
+		if (count(setups, setup => !!setup) === 1) return this.getSetupExpectedSuccessRate(setups.find(setup => !!setup) as SkillSetupLike)
+		return getBernsteinExpectedValue(this.getCombinedSetupCoefficients(setups, inferenceOrders))
 	}
 
-	getSetupsCoefficients(setups: (SkillSetupLike | undefined)[], inferenceOrders?: number | (number | undefined)[]): BernsteinCoefficients {
-		const coefficients = setups.map((setup, index) => setup ? this.getSetupCoefficients(setup, Array.isArray(inferenceOrders) ? inferenceOrders[index] : inferenceOrders) : undefined)
+	getCombinedSetupCoefficients(setups: (SkillSetupLike | undefined)[], inferenceOrders?: number | (number | undefined)[]): BernsteinCoefficients {
+		const coefficients = setups.map((setup, index) => setup ? this.getSetupInferredCoefficients(setup, Array.isArray(inferenceOrders) ? inferenceOrders[index] : inferenceOrders) : undefined)
 		return multiplyBernsteinPDFs(...coefficients.filter(coefficient => !!coefficient))
 	}
 
@@ -114,16 +114,16 @@ export class SkillLevelSet {
 	 * Getters for the inferred highest coefficients of skills.
 	 */
 
-	private getRawHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
+	private getStoredHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
 		return this.getSkillLevelObject(skillId).highestCoefficients
 	}
 
-	getHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
+	getInferredHighestCoefficients(skillId: SkillId): BernsteinCoefficients {
 		const skill = this.skillTree[this.ensureSkillId(skillId)]
 		const skillLevel = this.getSkillLevelObject(skillId)
 		if (!this.isHighestCacheValid(skillId)) {
 			skillLevel.cache.inferredHighest = {
-				coefficients: applyInferenceForSkill(skill, relatedSkillId => this.getRawHighestCoefficients(relatedSkillId)),
+				coefficients: inferSkillCoefficients(skill, relatedSkillId => this.getStoredHighestCoefficients(relatedSkillId)),
 				on: new Date(),
 			}
 		}
@@ -135,40 +135,40 @@ export class SkillLevelSet {
 		const skillLevel = this.getSkillLevelObject(skillId)
 		const cacheEntry = skillLevel.cache.inferredHighest
 		if (!cacheEntry) return false
-		if (Date.now() - cacheEntry.on.getTime() >= maxSkillLevelCacheTime) return false
+		if (Date.now() - cacheEntry.on.getTime() >= inferenceCacheDuration) return false
 		if (skillLevel.highestOn >= cacheEntry.on) return false
 		if (skill.prerequisiteIds.some(prerequisiteId => this.getSkillLevelObject(prerequisiteId).highestOn >= cacheEntry.on)) return false
 		if (skill.linkedSkillIds.some(linkedSkillId => this.getSkillLevelObject(linkedSkillId).highestOn >= cacheEntry.on)) return false
 		return true
 	}
 
-	getHighestExpectedValue(skillId: SkillId): number {
-		return getBernsteinExpectedValue(this.getHighestCoefficients(skillId))
+	getHighestExpectedSuccessRate(skillId: SkillId): number {
+		return getBernsteinExpectedValue(this.getInferredHighestCoefficients(skillId))
 	}
 
 	/*
 	 * Getters for the inferred highest coefficients of setups.
 	 */
 
-	getSetupHighestExpectedValue(setup: SkillSetupLike): number {
-		return getSetupExpectedValue(ensureSetup(setup), skillId => this.getRawHighestCoefficients(skillId))
+	getSetupHighestExpectedSuccessRate(setup: SkillSetupLike): number {
+		return getSetupExpectedSuccessRate(ensureSetup(setup), skillId => this.getStoredHighestCoefficients(skillId))
 	}
 
-	getSetupHighestCoefficients(setup: SkillSetupLike, inferenceOrder: number): BernsteinCoefficients {
-		return getSetupCoefficients(ensureSetup(setup), skillId => this.getRawHighestCoefficients(skillId), inferenceOrder)
+	getSetupInferredHighestCoefficients(setup: SkillSetupLike, inferenceOrder: number): BernsteinCoefficients {
+		return inferSetupCoefficients(ensureSetup(setup), skillId => this.getStoredHighestCoefficients(skillId), inferenceOrder)
 	}
 
 	/*
 	 * Aggregated getters for inferred coefficients.
 	 */
 
-	getSkillLevel(skillId: SkillId): SkillLevelOutput {
+	getSkillLevel(skillId: SkillId): SkillLevelData {
 		const skillLevelObject = this.getSkillLevelObject(skillId)
 		return {
 			skillId,
-			coefficients: this.getCoefficients(skillId),
+			coefficients: this.getInferredCoefficients(skillId),
 			coefficientsOn: skillLevelObject.coefficientsOn,
-			highest: this.getHighestCoefficients(skillId),
+			highest: this.getInferredHighestCoefficients(skillId),
 			highestOn: skillLevelObject.highestOn,
 			numPracticed: skillLevelObject.numPracticed,
 		}
@@ -191,9 +191,9 @@ export class SkillLevelSet {
 	 * Updaters.
 	 */
 
-	update(skillLevelUpdateSet: SkillLevelUpdateSet): void {
-		const ensuredUpdateSet = fromKeys(Object.keys(skillLevelUpdateSet), skillId => ensureSkillLevelUpdate(skillLevelUpdateSet[skillId]))
-		const updatesToApply: SkillLevelUpdateSet = {}
+	applyUpdates(skillLevelUpdateSet: StoredSkillLevelUpdateSet): void {
+		const ensuredUpdateSet = fromKeys(Object.keys(skillLevelUpdateSet), skillId => ensureStoredSkillLevelUpdate(skillLevelUpdateSet[skillId]))
+		const updatesToApply: StoredSkillLevelUpdateSet = {}
 
 		// Classify the complete update set before changing anything.
 		Object.keys(ensuredUpdateSet).forEach(skillId => {
@@ -226,7 +226,7 @@ export class SkillLevelSet {
 			if (existingSkillLevel) {
 				existingSkillLevel.update(skillLevelUpdate)
 			} else {
-				this.skillLevels[skillId] = new SkillLevel(skill, skillLevelUpdate as RawSkillLevel)
+				this.skillLevels[skillId] = new SkillLevel(skill, skillLevelUpdate as StoredSkillLevel)
 			}
 		})
 		Object.values(this.skillLevels).forEach(skillLevel => skillLevel.invalidateInferenceCache())
@@ -245,18 +245,18 @@ export class SkillLevelSet {
 	 */
 
 	// Apply an observation to the skill levels to update them. Returns the new coefficients of adjusted skills.
-	processObservation(observation: SkillObservation): SkillLevelUpdateSet {
-		return this.processObservations([observation])
+	applyObservation(observation: SkillObservation): StoredSkillLevelUpdateSet {
+		return this.applyObservations([observation])
 	}
 
 	// Apply observations simultaneously. Returns the new coefficients of adjusted skills.
-	processObservations(observations: SkillObservation[]): SkillLevelUpdateSet {
+	applyObservations(observations: SkillObservation[]): StoredSkillLevelUpdateSet {
 		// Validate the complete batch before calculating or applying any updates.
 		const ensuredObservations = ensureArray(observations).map(ensureSkillObservation)
 		const observationSkillIds = ensuredObservations.map(({ setup }) => {
 			if (!setup.isDeterministic()) throw new TypeError(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
 			const skillIds = setup.getSkillList()
-			const missingSkillId = skillIds.find(skillId => !this.hasDataOn(skillId))
+			const missingSkillId = skillIds.find(skillId => !this.hasRequiredDataFor(skillId))
 			if (missingSkillId) throw new Error(`Invalid observation processing: the skill level data on the relevant skills has not been loaded yet. Data on "${missingSkillId}" and/or its prerequisites/links is not loaded in.`)
 			return skillIds
 		})
@@ -264,7 +264,7 @@ export class SkillLevelSet {
 
 		// Take one inferred snapshot. Every observation in the batch must use the same prior information.
 		const allSkillIds = [...new Set(observationSkillIds.flat())]
-		const inferredCoefficients = fromKeys(allSkillIds, skillId => this.getCoefficients(skillId))
+		const inferredCoefficients = fromKeys(allSkillIds, skillId => this.getInferredCoefficients(skillId))
 		const likelihoods = fromKeys(allSkillIds, () => [] as BernsteinCoefficients[])
 
 		ensuredObservations.forEach(({ setup, correct }, observationIndex) => {
@@ -288,12 +288,12 @@ export class SkillLevelSet {
 		const updateSet = fromKeys(allSkillIds, skillId => {
 			const skillLevel = this.getSkillLevelObject(skillId)
 			const coefficients = multiplyBernsteinPDFs(this.getSmoothedCoefficients(skillId), ...likelihoods[skillId])
-			const result: SkillLevelUpdate = {
+			const result: StoredSkillLevelUpdate = {
 				coefficients,
 				coefficientsOn: now,
 				numPracticed: skillLevel.numPracticed + likelihoods[skillId].length,
 			}
-			const potentialNewHighest = smoothBernsteinCoefficients(coefficients, { time: 0, applyPracticeDecay: true, numProblemsPracticed: result.numPracticed })
+			const potentialNewHighest = applySkillLevelDecay(coefficients, { elapsedTime: 0, applyPracticeEffect: true, practiceCount: result.numPracticed })
 			if (getBernsteinExpectedValue(potentialNewHighest) > getBernsteinExpectedValue(skillLevel.highestCoefficients)) {
 				result.highest = potentialNewHighest
 				result.highestOn = now
@@ -301,7 +301,7 @@ export class SkillLevelSet {
 			return result
 		})
 
-		this.update(updateSet)
+		this.applyUpdates(updateSet)
 		return updateSet
 	}
 }

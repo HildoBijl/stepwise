@@ -1,5 +1,4 @@
 import { mergeDefaults } from '@step-wise/js-utils'
-import { getBernsteinExpectedValue } from '@step-wise/bernstein-polynomials'
 
 const defaultSkillThresholds = {
 	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.
@@ -17,7 +16,7 @@ export { defaultSkillThresholds }
  */
 export function isPracticeNeeded(skillLevelSet, skillId, priorKnowledge = false, skillThresholds = {}) {
 	// If there is no skill data, return undefined.
-	if (!skillLevelSet.hasDataOn(skillId))
+	if (!skillLevelSet.hasRequiredDataFor(skillId))
 		return undefined
 
 	// Determine the thresholds to apply.
@@ -26,14 +25,14 @@ export function isPracticeNeeded(skillLevelSet, skillId, priorKnowledge = false,
 	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 
 	// Check if the thresholds are satisfied.
-	const EV = getBernsteinExpectedValue(skillLevelSet.getCoefficients(skillId))
+	const EV = skillLevelSet.getExpectedSuccessRate(skillId)
 	if (EV > pass)
 		return 0 // Sufficient mastery!
 	if (EV < recap)
 		return 2 // Not there yet.
 	if (priorKnowledge)
 		return 1 // It's prior knowledge: we can work but don't really have to.
-	if (getBernsteinExpectedValue(skillLevelSet.getHighestCoefficients(skillId)) > pass)
+	if (skillLevelSet.getHighestExpectedSuccessRate(skillId) > pass)
 		return 1 // There has been mastery in the past, so it's not completely necessary.
 	return 2 // There has never been mastery yet: keep on working!
 }

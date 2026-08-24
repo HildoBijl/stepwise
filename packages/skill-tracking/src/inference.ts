@@ -5,10 +5,10 @@ import { binomialCoefficient } from '@step-wise/math-tools'
 import type { SkillSetup } from '@step-wise/skill-setup'
 import type { Skill } from '@step-wise/skill-definition'
 
-import { defaultInferenceOrder, defaultLinkCorrelation } from './settings'
+import { defaultInferenceOrder, defaultSkillLinkCorrelation } from './settings'
 
 // Find the expected value of a set-up.
-export function getSetupExpectedValue(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients): number {
+export function getSetupExpectedSuccessRate(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients): number {
 	const polynomial = setup.getPolynomial()
 	const getIndividualMoment = (skillId: string, exponent: number) => getBernsteinMoment(getCoefficients(skillId), exponent)
 	const expectedValuePolynomial = substitutePolynomialMoments(polynomial, getIndividualMoment, polynomial.variables)
@@ -70,7 +70,7 @@ function getSetupPowerExpectedValues(polynomial: Polynomial, getCoefficients: (s
 }
 
 // Find the distribution of a set-up using equation (23) from the PDT paper.
-export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients, inferenceOrder = defaultInferenceOrder): BernsteinCoefficients {
+export function inferSetupCoefficients(setup: SkillSetup, getCoefficients: (skillId: string) => BernsteinCoefficients, inferenceOrder = defaultInferenceOrder): BernsteinCoefficients {
 	const order = ensureInteger(inferenceOrder, { nonNegative: true, safe: true })
 	const powerExpectedValues = getSetupPowerExpectedValues(setup.getPolynomial(), getCoefficients, order)
 	const coefficients = repeat(order + 1, index => {
@@ -84,19 +84,19 @@ export function getSetupCoefficients(setup: SkillSetup, getCoefficients: (skillI
 }
 
 // Get the distributions of a skill based only on linked skills, one coefficient array per link.
-function getLinkCoefficients(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients[] {
+function inferLinkCoefficients(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients[] {
 	return (skill.links ?? []).map(link => {
-		const smoothedCoefficients = link.skillIds.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithRetentionFactor(coefficients, link.correlation ?? defaultLinkCorrelation))
+		const smoothedCoefficients = link.skillIds.map(getCoefficients).map(coefficients => smoothBernsteinCoefficientsWithRetentionFactor(coefficients, link.correlation ?? defaultSkillLinkCorrelation))
 		return multiplyBernsteinCoefficientsElementwise(...smoothedCoefficients)
 	})
 }
 
 // Apply inference to a skill, based on the skill itself, its setup and linked skills.
-export function applyInferenceForSkill(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients {
+export function inferSkillCoefficients(skill: Skill, getCoefficients: (skillId: string) => BernsteinCoefficients): BernsteinCoefficients {
 	const coefficientsToMerge = [
 		getCoefficients(skill.id),
-		...(skill.setup ? [getSetupCoefficients(skill.setup, getCoefficients)] : []),
-		...getLinkCoefficients(skill, getCoefficients),
+		...(skill.setup ? [inferSetupCoefficients(skill.setup, getCoefficients)] : []),
+		...inferLinkCoefficients(skill, getCoefficients),
 	]
 	return multiplyBernsteinPDFs(...coefficientsToMerge)
 }

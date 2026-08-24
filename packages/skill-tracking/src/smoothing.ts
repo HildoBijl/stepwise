@@ -1,45 +1,45 @@
 import { type BernsteinCoefficients, ensureBernsteinCoefficients, smoothBernsteinCoefficientsWithRetentionFactor } from '@step-wise/bernstein-polynomials'
 import { ensureBoolean, ensureInteger, ensureNumber, mergeDefaults } from '@step-wise/js-utils'
 
-import { decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } from './settings'
+import { timeDecayHalfLife, initialPracticeDecayTime, practiceCountHalfLife } from './settings'
 
-export type BernsteinSmoothingOptions = {
-	time?: number
-	applyPracticeDecay?: boolean
-	numProblemsPracticed?: number
-	decayHalfLife?: number
+export type SkillLevelDecayOptions = {
+	elapsedTime?: number
+	applyPracticeEffect?: boolean
+	practiceCount?: number
+	timeDecayHalfLife?: number
 	initialPracticeDecayTime?: number
-	practiceDecayHalfLife?: number
+	practiceCountHalfLife?: number
 }
 
-const defaultSmoothingOptions: Required<BernsteinSmoothingOptions> = {
-	time: 0,
-	applyPracticeDecay: false,
-	numProblemsPracticed: 0,
-	decayHalfLife,
+const defaultDecayOptions: Required<SkillLevelDecayOptions> = {
+	elapsedTime: 0,
+	applyPracticeEffect: false,
+	practiceCount: 0,
+	timeDecayHalfLife,
 	initialPracticeDecayTime,
-	practiceDecayHalfLife,
+	practiceCountHalfLife,
 }
 
-/* Get the smoothing factor based on the given options:
- * - time (default 0): how much time in milliseconds has passed since the last exercise?
- * - applyPracticeDecay (default false): should practice decay be applied?
- * - numProblemsPracticed (default 0): how many times has the user practiced this skill before?
+/* Get the retention factor based on the given options:
+ * - elapsedTime (default 0): how much time in milliseconds has passed since the last exercise?
+ * - applyPracticeEffect (default false): should practice decay be applied?
+ * - practiceCount (default 0): how many times has the user practiced this skill before?
  */
-function getBernsteinSmoothingFactor(options: BernsteinSmoothingOptions = {}): number {
-	const mergedOptions = mergeDefaults(options, defaultSmoothingOptions)
-	const time = ensureNumber(mergedOptions.time, { nonNegative: true })
-	const applyPracticeDecay = ensureBoolean(mergedOptions.applyPracticeDecay)
-	const numProblemsPracticed = ensureInteger(mergedOptions.numProblemsPracticed, { nonNegative: true, safe: true })
-	const ensuredDecayHalfLife = ensureNumber(mergedOptions.decayHalfLife, { nonNegative: true, nonZero: true })
+function getSkillLevelRetentionFactor(options: SkillLevelDecayOptions = {}): number {
+	const mergedOptions = mergeDefaults(options, defaultDecayOptions)
+	const elapsedTime = ensureNumber(mergedOptions.elapsedTime, { nonNegative: true })
+	const applyPracticeEffect = ensureBoolean(mergedOptions.applyPracticeEffect)
+	const practiceCount = ensureInteger(mergedOptions.practiceCount, { nonNegative: true, safe: true })
+	const ensuredDecayHalfLife = ensureNumber(mergedOptions.timeDecayHalfLife, { nonNegative: true, nonZero: true })
 	const ensuredInitialPracticeDecayTime = ensureNumber(mergedOptions.initialPracticeDecayTime, { nonNegative: true })
-	const ensuredPracticeDecayHalfLife = ensureNumber(mergedOptions.practiceDecayHalfLife, { nonNegative: true, nonZero: true })
-	const practiceDecayTime = applyPracticeDecay ? ensuredInitialPracticeDecayTime * (1 / 2) ** (numProblemsPracticed / ensuredPracticeDecayHalfLife) : 0
-	const equivalentTime = time + practiceDecayTime
+	const ensuredPracticeDecayHalfLife = ensureNumber(mergedOptions.practiceCountHalfLife, { nonNegative: true, nonZero: true })
+	const practiceDecayTime = applyPracticeEffect ? ensuredInitialPracticeDecayTime * (1 / 2) ** (practiceCount / ensuredPracticeDecayHalfLife) : 0
+	const equivalentTime = elapsedTime + practiceDecayTime
 	return (1 / 2) ** (equivalentTime / ensuredDecayHalfLife)
 }
 
-// Smooth a set of coefficients by determining a smoothing factor from the given options.
-export function smoothBernsteinCoefficients(coefficients: BernsteinCoefficients, options?: BernsteinSmoothingOptions): BernsteinCoefficients {
-	return smoothBernsteinCoefficientsWithRetentionFactor(ensureBernsteinCoefficients(coefficients), getBernsteinSmoothingFactor(options))
+// Apply decay to a set of coefficients by determining a retention factor from the given options.
+export function applySkillLevelDecay(coefficients: BernsteinCoefficients, options?: SkillLevelDecayOptions): BernsteinCoefficients {
+	return smoothBernsteinCoefficientsWithRetentionFactor(ensureBernsteinCoefficients(coefficients), getSkillLevelRetentionFactor(options))
 }
