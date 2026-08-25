@@ -1,8 +1,8 @@
+import { ensureBoolean } from '@step-wise/js-utils'
 import type { SkillId } from '@step-wise/skill-setup'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 import { type Exercise, type ExerciseMode, resolveExerciseParameters, resolveInitialState } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection } from '@step-wise/exercise-bundling'
-import { ensureBoolean } from '@step-wise/js-utils'
 
 import type { ExerciseInstance, PreviousExercise } from './types'
 import { selectRandomExercise, selectSkillBasedExercise } from './selectExercise'
