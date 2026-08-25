@@ -227,14 +227,14 @@ const serialized = serializeLoad(force)
 //   type: 'Force',
 //   position: [2, 1],
 //   angle: Math.PI / 4,
-//   applicationPointAt: 'end',
-//   relativeMagnitude: 1,
 // }
 
 deserializeLoad(serialized)
 ```
 
-Deserialization rejects unknown discriminators, missing or additional properties, malformed coordinates, invalid dimensions, non-finite angles, invalid booleans and non-positive relative magnitudes. The exported storage types are `SerializedForce`, `SerializedMoment` and `SerializedLoad`.
+Properties equal to their creation defaults are omitted to reduce storage: forces omit `applicationPointAt: 'end'` and `relativeMagnitude: 1`, while moments omit `openingDirection: 0`. Deserialization accepts both compact values and expanded values containing those defaults.
+
+Deserialization rejects unknown discriminators, missing required or additional properties, malformed coordinates, invalid dimensions, non-finite angles, invalid booleans and non-positive relative magnitudes. The exported storage types are `SerializedForce`, `SerializedMoment` and `SerializedLoad`.
 
 
 ## Errors and constraints

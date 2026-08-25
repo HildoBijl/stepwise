@@ -12,6 +12,20 @@ describe('load serialization', () => {
 		expect(deserializeLoad(serializeLoad(moment))).toEqual(moment)
 	})
 
+	it('omits default properties and restores them during deserialization', () => {
+		const serializedForce = serializeForce(createForce({ position: [0, 0], angle: 0 }))
+		const serializedMoment = serializeMoment(createMoment({ position: [0, 0], clockwise: false }))
+		expect(serializedForce).toEqual({ type: 'Force', position: [0, 0], angle: 0 })
+		expect(serializedMoment).toEqual({ type: 'Moment', position: [0, 0], clockwise: false })
+		expect(deserializeForce(serializedForce)).toMatchObject({ applicationPointAt: 'end', relativeMagnitude: 1 })
+		expect(deserializeMoment(serializedMoment)).toMatchObject({ openingDirection: 0 })
+	})
+
+	it('accepts expanded storage containing explicit defaults', () => {
+		expect(deserializeForce({ type: 'Force', position: [0, 0], angle: 0, applicationPointAt: 'end', relativeMagnitude: 1 })).toEqual(createForce({ position: [0, 0], angle: 0 }))
+		expect(deserializeMoment({ type: 'Moment', position: [0, 0], clockwise: true, openingDirection: 0 })).toEqual(createMoment({ position: [0, 0], clockwise: true }))
+	})
+
 	it('rejects missing, additional, and malformed force data', () => {
 		const force = serializeForce(createForce({ position: [0, 0], angle: 0 }))
 		expect(() => deserializeForce({ ...force, extra: true })).toThrow()
