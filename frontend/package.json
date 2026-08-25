@@ -60,7 +60,7 @@
 		"uuid": "^14.0.1"
 	},
 	"scripts": {
-		"start": "vite",
+		"start": "vite --open",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest run",
