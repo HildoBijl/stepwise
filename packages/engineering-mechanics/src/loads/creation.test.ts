@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { ForceType, MomentType, createForce, createLoad, createMoment, isForce, isLoad, isMoment } from '../..'
+import { ForceType, MomentType } from './types'
+import { isForce, isLoad, isMoment } from './checks'
+import { createForce, createLoad, createMoment } from './creation'
 
 describe('load creation and checks', () => {
 	it('creates canonical forces with defaults and normalized angles', () => {

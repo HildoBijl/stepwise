@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import { createForce, createLoadName, createNamedLoad, createNamedPoint, isLoadName, isNamedLoad, isNamedPoint } from '../..'
+import { createForce } from '../loads'
+
+import { isLoadName, isNamedLoad, isNamedPoint } from './checks'
+import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
 
 describe('named-load creation and checks', () => {
 	it('creates canonical named points', () => {

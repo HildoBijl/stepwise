@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { compareForces, compareLoads, compareMoments, createForce, createMoment, loadsEqual } from '../..'
+import { createForce, createMoment } from './creation'
+import { compareForces, compareLoads, compareMoments, loadsEqual } from './comparison'
 
 describe('load comparison', () => {
 	it('compares force positions using equal, sameLine, and ignore', () => {
