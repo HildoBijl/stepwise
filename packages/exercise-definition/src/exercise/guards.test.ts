@@ -20,7 +20,7 @@ describe('isExerciseSpec', () => {
 		expect(isExerciseSpec(value)).toBe(false)
 	})
 
-	it.each([undefined, null, [], 3])('rejects invalid metadata: %p', metadata => {
+	it.each([undefined, null, [], 3, { weight: -1 }, { repeatAfter: 1.5 }, { setup: 'addition' }])('rejects invalid metadata: %p', metadata => {
 		expect(isExerciseSpec({ metadata })).toBe(false)
 	})
 

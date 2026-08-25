@@ -3,9 +3,10 @@ import { isPlainObject } from '@step-wise/js-utils'
 import { type ExerciseMode, ensureExerciseMode, exerciseModes, exerciseReducerNameByMode } from '../modes'
 
 import type { Exercise, ExerciseSpec } from './types'
+import { isExerciseMetadata } from './metadata'
 
 export function isExerciseSpec(obj: unknown): obj is ExerciseSpec<any, any> {
-	return isPlainObject(obj) && isPlainObject(obj.metadata) && (obj.generateParameters === undefined || typeof obj.generateParameters === 'function') && (obj.getInitialState === undefined || typeof obj.getInitialState === 'function')
+	return isPlainObject(obj) && isExerciseMetadata(obj.metadata) && (obj.generateParameters === undefined || typeof obj.generateParameters === 'function') && (obj.getInitialState === undefined || typeof obj.getInitialState === 'function')
 }
 
 export function isExercise(obj: unknown): obj is Exercise<any, any, any, any> {
