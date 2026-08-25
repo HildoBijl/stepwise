@@ -2,7 +2,7 @@ import { Vector } from '@step-wise/geometry'
 import { getRandomQuantity, Quantity } from '@step-wise/physics-core'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { createForce, createMoment, FBDComparison } from '@step-wise/engineering-mechanics'
+import { createForce, createMoment, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
 
 import { getDynamicSolution, getInputDependency } from './common'
 
@@ -11,7 +11,7 @@ const metadata = {
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', 'calculateForceOrMoment', undefined, 'calculateForceOrMoment']),
 	comparisons: {
 		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-		loads: FBDComparison,
+		loads: freeBodyDiagramComparisonOptions,
 	},
 }
 

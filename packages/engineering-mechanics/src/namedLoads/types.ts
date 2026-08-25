@@ -1,6 +1,6 @@
 import type { Vector, VectorLike } from '@step-wise/geometry'
 
-import type { Load, LoadLike } from '../loads'
+import type { Load, LoadInput } from '../loads'
 
 /*
  * Points
@@ -11,7 +11,7 @@ export type NamedPoint = {
 	readonly position: Vector
 }
 
-export type NamedPointLike = {
+export type NamedPointInput = {
 	readonly name: string
 	readonly position: VectorLike
 }
@@ -31,7 +31,7 @@ export type NamedLoad = {
 	readonly name: LoadName
 }
 
-export type NamedLoadLike = {
-	readonly load: LoadLike
+export type NamedLoadInput = {
+	readonly load: LoadInput
 	readonly name: LoadName
 }

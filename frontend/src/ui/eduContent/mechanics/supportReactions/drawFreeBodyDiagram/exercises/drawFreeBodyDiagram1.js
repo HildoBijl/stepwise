@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { ensureNumber, ensureString, getOneToOneMatching, invertOneToOneMatching } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { Quantity } from '@step-wise/physics-core'
-import { FBDComparison, equalLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+import { freeBodyDiagramComparisonOptions, loadsEqual, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
@@ -95,8 +95,8 @@ const steps = [
 function getFeedback(data) {
 	const { input, solution } = data
 	const supportParameters = {
-		...(input.loadsLeft ? { loadsLeft: { comparison: FBDComparison } } : {}),
-		...(input.loadsRight ? { loadsRight: { comparison: FBDComparison } } : {}),
+		...(input.loadsLeft ? { loadsLeft: { comparison: freeBodyDiagramComparisonOptions } } : {}),
+		...(input.loadsRight ? { loadsRight: { comparison: freeBodyDiagramComparisonOptions } } : {}),
 	}
 
 	return {
@@ -138,10 +138,10 @@ function getCustomFBDFeedback(input, solution, A, B) {
 function getLoadMatching(input, solution) {
 	const externalSolutionIndex = solution.length - 1
 	const externalLoad = solution[externalSolutionIndex]
-	const externalInputIndex = input.findIndex(load => equalLoads(load, externalLoad, externalLoadComparison))
+	const externalInputIndex = input.findIndex(load => loadsEqual(load, externalLoad, externalLoadComparison))
 	const reactionInputIndices = input.map((_, index) => index).filter(index => index !== externalInputIndex)
 	const reactionSolution = solution.slice(0, -1)
-	const reactionMatching = getOneToOneMatching(reactionInputIndices, reactionSolution, (inputIndex, solutionLoad) => equalLoads(input[inputIndex], solutionLoad, FBDComparison))
+	const reactionMatching = getOneToOneMatching(reactionInputIndices, reactionSolution, (inputIndex, solutionLoad) => loadsEqual(input[inputIndex], solutionLoad, freeBodyDiagramComparisonOptions))
 	const inputMatching = input.map(() => undefined)
 	if (externalInputIndex !== -1) inputMatching[externalInputIndex] = externalSolutionIndex
 	reactionInputIndices.forEach((inputIndex, index) => { inputMatching[inputIndex] = reactionMatching[index] })
@@ -149,8 +149,8 @@ function getLoadMatching(input, solution) {
 }
 
 const externalLoadComparison = {
-	Force: { direction: 'equal', applicationPointAt: 'ignore' },
-	Moment: { direction: 'equal', openingAngle: 'ignore' },
+	force: { direction: 'equal', applicationPointAt: 'ignore' },
+	moment: { direction: 'equal', openingDirection: 'ignore' },
 }
 
 function Diagram({ isInputField = false, id, showSupports = true, showSolution = false, zoom = undefined }) {

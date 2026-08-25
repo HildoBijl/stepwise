@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo } from 'react'
 
 import { mapValues, omitKeys } from '@step-wise/js-utils'
-import { equalLoads, isLoad } from '@step-wise/engineering-mechanics'
+import { loadsEqual, isLoad } from '@step-wise/engineering-mechanics'
 
 import { useScaling } from 'ui/figures'
 import { useDrawingInputData, useFeedbackResult } from 'ui/inputs'
@@ -56,7 +56,7 @@ export function useStyledInputLoad(load, index) {
 	}
 
 	// On feedback apply the specific color.
-	if (feedbackResult && feedbackResult.affectedLoads && feedbackResult.affectedLoads.some(affectedLoad => equalLoads(load, affectedLoad)))
+	if (feedbackResult && feedbackResult.affectedLoads && feedbackResult.affectedLoads.some(affectedLoad => loadsEqual(load, affectedLoad)))
 		load.color = feedbackResult.color
 
 	// All done. Remove selection data and return the outcome.

@@ -3,10 +3,10 @@ import { ensureVector } from '@step-wise/geometry'
 
 import { createLoad } from '../loads'
 
-import type { LoadName, NamedLoad, NamedLoadLike, NamedPoint, NamedPointLike } from './types'
-import { isLoadName, isNamedLoad, isNamedPoint } from './validation'
+import type { LoadName, NamedLoad, NamedLoadInput, NamedPoint, NamedPointInput } from './types'
+import { isLoadName, isNamedLoad, isNamedPoint } from './checks'
 
-export function createNamedPoint(point: NamedPointLike): NamedPoint {
+export function createNamedPoint(point: NamedPointInput): NamedPoint {
 	if (!isPlainObject(point)) throw new TypeError(`Invalid named point: expected a plain object.`)
 	if (isNamedPoint(point) && Object.isFrozen(point)) return point
 	return Object.freeze({
@@ -29,7 +29,7 @@ export function createLoadName(name: LoadName): LoadName {
 	return Object.freeze(result)
 }
 
-export function createNamedLoad(namedLoad: NamedLoadLike): NamedLoad {
+export function createNamedLoad(namedLoad: NamedLoadInput): NamedLoad {
 	if (!isPlainObject(namedLoad)) throw new TypeError(`Invalid named load: expected a plain object.`)
 	if (isNamedLoad(namedLoad) && Object.isFrozen(namedLoad)) return namedLoad
 	return Object.freeze({

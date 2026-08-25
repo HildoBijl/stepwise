@@ -1,22 +1,22 @@
 import { ensureString, anglesEqual, normalizeAngle } from '@step-wise/js-utils'
 
-import { type Load, type LoadComparisonOptionsInput, equalLoads, isForce, isLoadAtPoint, isMoment } from '../loads'
+import { type Load, type LoadComparisonOptionsInput, loadsEqual, isForce, isLoadAtPoint, isMoment } from '../loads'
 
-import type { LoadName, NamedLoad, NamedPointLike } from './types'
+import type { LoadName, NamedLoad, NamedPointInput } from './types'
 import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
 
 export type LoadNamingOptions = {
 	forceSymbol?: string
 	momentSymbol?: string
-	predefinedComparison?: LoadComparisonOptionsInput
+	predefinedLoadComparison?: LoadComparisonOptionsInput
 }
 
-export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPointLike[] = [], predefinedLoads: readonly NamedLoad[] = [], options: LoadNamingOptions = {}): NamedLoad[] {
+export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPointInput[] = [], predefinedNamedLoads: readonly NamedLoad[] = [], options: LoadNamingOptions = {}): NamedLoad[] {
 	// Process the input.
 	const forceSymbol = ensureString(options.forceSymbol ?? 'F', { nonEmpty: true })
 	const momentSymbol = ensureString(options.momentSymbol ?? 'M', { nonEmpty: true })
 	const namedPoints = points.map(createNamedPoint)
-	const canonicalPredefinedLoads = predefinedLoads.map(createNamedLoad)
+	const canonicalPredefinedLoads = predefinedNamedLoads.map(createNamedLoad)
 	ensureUniqueNamedPoints(namedPoints)
 	ensureUniqueLoadNames(canonicalPredefinedLoads)
 
@@ -26,7 +26,7 @@ export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPo
 
 	// Find loads matching predefined loads and copy their names.
 	canonicalPredefinedLoads.forEach(predefinedLoad => {
-		const index = loads.findIndex((load, index) => !named[index] && equalLoads(load, predefinedLoad.load, options.predefinedComparison))
+		const index = loads.findIndex((load, index) => !named[index] && loadsEqual(load, predefinedLoad.load, options.predefinedLoadComparison))
 		if (index === -1) return
 		named[index] = true
 		result.push({ load: loads[index], name: createLoadName(predefinedLoad.name) })
@@ -85,7 +85,7 @@ function deriveForceNames(forces: readonly Load[], point: string | undefined, sy
 function deriveMomentNames(moments: readonly Load[], point: string | undefined, symbol: string): NamedLoad[] {
 	const momentLoads = moments.filter(isMoment)
 	if (momentLoads.length === 1) return [{ load: momentLoads[0], name: { symbol, ...(point === undefined ? {} : { point }) } }]
-	return [...momentLoads].sort((a, b) => Number(b.clockwise) - Number(a.clockwise) || a.openingAngle - b.openingAngle).map((load, index) => ({ load, name: getIndexedName(symbol, point, index) }))
+	return [...momentLoads].sort((a, b) => Number(b.clockwise) - Number(a.clockwise) || a.openingDirection - b.openingDirection).map((load, index) => ({ load, name: getIndexedName(symbol, point, index) }))
 }
 
 function getIndexedName(symbol: string, point: string | undefined, index: number): LoadName {

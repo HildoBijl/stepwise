@@ -2,7 +2,7 @@ import React from 'react'
 
 import { degreesToRadians } from '@step-wise/js-utils'
 import { Vector, Line } from '@step-wise/geometry'
-import { equalLoads, FBDComparison, isForce, isMoment } from '@step-wise/engineering-mechanics'
+import { loadsEqual, freeBodyDiagramComparisonOptions, isForce, isMoment } from '@step-wise/engineering-mechanics'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
@@ -130,7 +130,7 @@ function getFeedback(data) {
 	const forcesAlongSameLine = (input, correct) => {
 		const forces = input.filter(isForce)
 		const correctForce = correct.find(isForce)
-		return forces.length === 1 && !equalLoads(forces[0], correctForce, FBDComparison) && { text: <>De getekende reactiekracht heeft niet de juiste richting.</>, affectedLoads: forces }
+		return forces.length === 1 && !loadsEqual(forces[0], correctForce, freeBodyDiagramComparisonOptions) && { text: <>De getekende reactiekracht heeft niet de juiste richting.</>, affectedLoads: forces }
 	}
 	const wrongNumberOfMoments = input => {
 		const moments = input.filter(isMoment)
@@ -144,7 +144,7 @@ function getFeedback(data) {
 			forceParallel: { step: 2, incorrectText: forceParallelText },
 			moment: { step: 3, incorrectText: momentText },
 		}),
-		...getFBDFeedback(data, { loads: { comparison: FBDComparison, feedbackChecks: loadsChecks } }),
+		...getFBDFeedback(data, { loads: { comparison: freeBodyDiagramComparisonOptions, feedbackChecks: loadsChecks } }),
 	}
 }
 

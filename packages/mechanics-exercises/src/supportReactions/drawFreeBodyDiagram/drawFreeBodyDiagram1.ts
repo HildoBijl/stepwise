@@ -2,7 +2,7 @@ import { randomBoolean, randomInteger } from '@step-wise/js-utils'
 import { Vector } from '@step-wise/geometry'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { type Load, FBDComparison, compareLoadSets, createForce, createMoment, equalLoads, isLoad } from '@step-wise/engineering-mechanics'
+import { type Load, freeBodyDiagramComparisonOptions, compareLoadLists, createForce, createMoment, loadsEqual, isLoad } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
 	metadata: {
@@ -47,7 +47,7 @@ export default buildStepExercise({
 		if (loadPositionIndex === 1) points.splice(2, 0, loadPoint)
 		const externalLoad = loadProperties.isForce
 			? createForce({ position: loadPoint, angle: loadProperties.isPositiveDirection ? Math.PI / 2 : -Math.PI / 2 })
-			: createMoment({ position: loadPoint, clockwise: loadProperties.isPositiveDirection, openingAngle: loadPositionIndex === 0 ? 0 : Math.PI })
+			: createMoment({ position: loadPoint, clockwise: loadProperties.isPositiveDirection, openingDirection: loadPositionIndex === 0 ? 0 : Math.PI })
 
 		const loadsLeft = getReactionLoads(supportTypes[0], A, isAEnd, true)
 		const loadsRight = getReactionLoads(supportTypes[1], B, isBEnd, !isBEnd)
@@ -67,7 +67,7 @@ export default buildStepExercise({
 function getReactionLoads(supportType: number, point = Vector.zero, rotated = false, toRight = true): Load[] {
 	const horizontal = createForce({ position: point, angle: toRight ? 0 : Math.PI })
 	const vertical = createForce({ position: point, angle: -Math.PI / 2 })
-	const moment = createMoment({ position: point, clockwise: toRight, openingAngle: toRight ? 0 : Math.PI })
+	const moment = createMoment({ position: point, clockwise: toRight, openingDirection: toRight ? 0 : Math.PI })
 	switch (supportType) {
 		case 0: return [horizontal, vertical, moment]
 		case 1: return [horizontal, vertical]
@@ -79,22 +79,22 @@ function getReactionLoads(supportType: number, point = Vector.zero, rotated = fa
 
 function compareReactionLoads(input: unknown, solution: unknown): boolean {
 	if (!isLoadArray(input) || !isLoadArray(solution)) return false
-	return compareLoadSets(input, solution, FBDComparison).equal
+	return compareLoadLists(input, solution, freeBodyDiagramComparisonOptions).equal
 }
 
 function compareAllLoads(input: unknown, solution: unknown): boolean {
 	if (!isLoadArray(input) || !isLoadArray(solution) || solution.length === 0) return false
 	const externalLoad = solution[solution.length - 1]
-	const externalInputIndex = input.findIndex(load => equalLoads(load, externalLoad, externalLoadComparison))
+	const externalInputIndex = input.findIndex(load => loadsEqual(load, externalLoad, externalLoadComparison))
 	if (externalInputIndex === -1) return false
 	const reactionInput = input.filter((_, index) => index !== externalInputIndex)
 	const reactionSolution = solution.slice(0, -1)
-	return input.length === solution.length && compareLoadSets(reactionInput, reactionSolution, FBDComparison).equal
+	return input.length === solution.length && compareLoadLists(reactionInput, reactionSolution, freeBodyDiagramComparisonOptions).equal
 }
 
 const externalLoadComparison = {
-	Force: { direction: 'equal', applicationPointAt: 'ignore' },
-	Moment: { direction: 'equal', openingAngle: 'ignore' },
+	force: { direction: 'equal', applicationPointAt: 'ignore' },
+	moment: { direction: 'equal', openingDirection: 'ignore' },
 } as const
 
 function isLoadArray(value: unknown): value is Load[] {

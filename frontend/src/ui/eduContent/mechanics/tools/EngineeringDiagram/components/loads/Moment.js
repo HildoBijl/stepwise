@@ -21,22 +21,22 @@ export const defaultMoment = {
 	color: defaultForce.color,
 	radius: 0,
 	graphicalRadius: defaultGraphicalMomentRadius,
-	openingAngle: 0, // The position of the opening in radians, measured clockwise from right.
+	openingDirection: 0, // The position of the opening in radians, measured clockwise from right.
 	opening: undefined, // Legacy option used by exercises that have not been converted yet.
 	spread: 7 / 4 * Math.PI, // Which angle (part of the circle) is drawn?
 	arrowHeadDelta: 2.5, // The angle of the arrow head is manually adjusted to make it look OK. This factor is responsible. Increase or decrease it at will.
 	className: 'moment',
 }
 
-// Moment draws a moment vector. The moment must have a position property (a Vector) and a clockwise property (boolean). The options (all optional) include the color, the size (thickness of the line), the radius, the openingAngle (the angle where the opening is in the moment arrow, by default being 0 which means to the right) and the spread (how large the circle arc is). The properties can also contain an extra style parameter to be applied.
+// Moment draws a moment vector. The moment must have a position property (a Vector) and a clockwise property (boolean). The options (all optional) include the color, the size (thickness of the line), the radius, the openingDirection (the angle where the opening is in the moment arrow, by default being 0 which means to the right) and the spread (how large the circle arc is). The properties can also contain an extra style parameter to be applied.
 export const Moment = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, clockwise, size, color, radius, graphicalRadius, openingAngle, opening, spread, arrowHeadDelta, className, style } = mergeDefaults(props, defaultMoment)
+	let { position, graphicalPosition, clockwise, size, color, radius, graphicalRadius, openingDirection, opening, spread, arrowHeadDelta, className, style } = mergeDefaults(props, defaultMoment)
 	clockwise = ensureBoolean(clockwise)
 	size = ensureNumber(size)
 	color = ensureString(color)
 	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius))
-	openingAngle = ensureNumber(opening === undefined ? openingAngle : opening)
+	openingDirection = ensureNumber(opening === undefined ? openingDirection : opening)
 	spread = ensureNumber(spread)
 	arrowHeadDelta = ensureNumber(arrowHeadDelta)
 	ref = useRefWithEventHandlers(props, ref)
@@ -48,7 +48,7 @@ export const Moment = forwardRef((props, ref) => {
 	const endAngleShortened = endAngle - 2 * factor * size / radius // Shorten the line to prevent passing by the arrow head.
 
 	// Draw a horizontal moment around (0, 0) and transform it to position it.
-	return <Group ref={ref} rotate={openingAngle} className={className} {...{ position, graphicalPosition, style }}>
+	return <Group ref={ref} rotate={openingDirection} className={className} {...{ position, graphicalPosition, style }}>
 		<Arc graphicalRadius={radius} startAngle={startAngle} endAngle={endAngleShortened} className="momentLine" style={{ fill: 'none', stroke: color, strokeWidth: size }} />
 		<ArrowHead
 			graphicalPosition={Vector.fromPolar(radius, endAngle)}

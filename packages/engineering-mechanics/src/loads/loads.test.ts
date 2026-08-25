@@ -1,13 +1,13 @@
 import { Vector } from '@step-wise/geometry'
 
-import { isForce, isMoment } from './validation'
+import { isForce, isMoment } from './checks'
 import { createForce, createLoad, createMoment } from './creation'
 import { serializeForce, serializeLoad, deserializeForce, deserializeLoad } from './serialization'
-import { isLoadAtPoint } from './checks'
-import { reverseForce, reverseMoment, getAxisComponents } from './manipulation'
-import { compareLoads, equalLoads } from './comparison'
-import { defaultLoadComparison, resolveLoadComparisonOptions } from './comparisonOptions'
-import { compareLoadSets } from './matching'
+import { isLoadAtPoint } from './relationships'
+import { reverseForce, reverseMoment, decomposeForceIntoAxisComponents } from './manipulation'
+import { compareLoads, loadsEqual } from './comparison'
+import { defaultLoadComparisonOptions, resolveLoadComparisonOptions } from './comparisonOptions'
+import { compareLoadLists } from './matching'
 
 describe('loads', () => {
 	describe('creation and validation', () => {
@@ -17,24 +17,24 @@ describe('loads', () => {
 			expect(force.position).toEqual(new Vector(1, 2))
 			expect(force.angle).toBe(3 * Math.PI / 2)
 			expect(force.applicationPointAt).toBe('end')
-			expect(force.magnitudeFactor).toBe(1)
+			expect(force.relativeMagnitude).toBe(1)
 		})
 
 		test('creates canonical moments', () => {
-			const moment = createMoment({ position: [1, 2], clockwise: true, openingAngle: -Math.PI / 2 })
+			const moment = createMoment({ position: [1, 2], clockwise: true, openingDirection: -Math.PI / 2 })
 			expect(isMoment(moment)).toBe(true)
 			expect(moment.position).toEqual(new Vector(1, 2))
 			expect(moment.clockwise).toBe(true)
-			expect(moment.openingAngle).toBe(3 * Math.PI / 2)
+			expect(moment.openingDirection).toBe(3 * Math.PI / 2)
 		})
 
 		test('rejects invalid runtime values and freezes canonical loads', () => {
-			const mutableForce = { type: 'Force' as const, position: new Vector(1, 2), angle: 0, applicationPointAt: 'end' as const, magnitudeFactor: 1 }
+			const mutableForce = { type: 'Force' as const, position: new Vector(1, 2), angle: 0, applicationPointAt: 'end' as const, relativeMagnitude: 1 }
 			const force = createLoad(mutableForce)
 			expect(force).not.toBe(mutableForce)
 			expect(Object.isFrozen(force)).toBe(true)
 			expect(isForce({ ...force, angle: NaN })).toBe(false)
-			expect(isMoment({ ...createMoment({ position: [0, 0], clockwise: true }), openingAngle: NaN })).toBe(false)
+			expect(isMoment({ ...createMoment({ position: [0, 0], clockwise: true }), openingDirection: NaN })).toBe(false)
 			expect(() => createMoment({ position: [0, 0], clockwise: 'yes' as unknown as boolean })).toThrow()
 			expect(() => createLoad({ type: 'Unknown' } as never)).toThrow()
 		})
@@ -51,44 +51,44 @@ describe('loads', () => {
 		})
 
 		test('returns valid axis components', () => {
-			const force = createForce({ position: Vector.zero, angle: 7 * Math.PI / 4, magnitudeFactor: 2 })
-			const components = getAxisComponents(force)
+			const force = createForce({ position: Vector.zero, angle: 7 * Math.PI / 4, relativeMagnitude: 2 })
+			const components = decomposeForceIntoAxisComponents(force)
 			expect(components.every(isForce)).toBe(true)
 			expect(components.map(component => component.angle)).toEqual([0, 3 * Math.PI / 2])
-			expect(components.map(component => component.magnitudeFactor)).toEqual([
+			expect(components.map(component => component.relativeMagnitude)).toEqual([
 				2 * Math.abs(Math.cos(force.angle)),
 				2 * Math.abs(Math.sin(force.angle)),
 			])
 		})
 
 		test('omits zero axis components', () => {
-			const force = createForce({ position: Vector.zero, angle: 0, magnitudeFactor: 2 })
-			expect(getAxisComponents(force)).toEqual([force])
+			const force = createForce({ position: Vector.zero, angle: 0, relativeMagnitude: 2 })
+			expect(decomposeForceIntoAxisComponents(force)).toEqual([force])
 		})
 	})
 
 	describe('comparison', () => {
 		test('compares force directions and lines', () => {
 			const input = createForce({ position: [1, 0], angle: Math.PI })
-			const solution = createForce({ position: [0, 0], angle: 0, magnitudeFactor: 2 })
-			expect(equalLoads(input, solution)).toBe(false)
-			expect(equalLoads(input, solution, { Force: { position: 'equalLine', direction: 'parallel', applicationPointAt: 'ignore' } })).toBe(true)
+			const solution = createForce({ position: [0, 0], angle: 0, relativeMagnitude: 2 })
+			expect(loadsEqual(input, solution)).toBe(false)
+			expect(loadsEqual(input, solution, { force: { position: 'sameLine', direction: 'parallel', applicationPointAt: 'ignore' } })).toBe(true)
 		})
 
-		test('compares moment directions and opening angles', () => {
-			const input = createMoment({ position: Vector.zero, clockwise: true, openingAngle: 0 })
-			const solution = createMoment({ position: Vector.zero, clockwise: true, openingAngle: Math.PI })
-			expect(equalLoads(input, solution, { Moment: { openingAngle: 'ignore' } })).toBe(true)
-			expect(compareLoads(input, solution)).toEqual({ equal: false, differences: [{ type: 'openingAngle', comparison: 'equal' }] })
+		test('compares moment directions and opening directions', () => {
+			const input = createMoment({ position: Vector.zero, clockwise: true, openingDirection: 0 })
+			const solution = createMoment({ position: Vector.zero, clockwise: true, openingDirection: Math.PI })
+			expect(loadsEqual(input, solution, { moment: { openingDirection: 'ignore' } })).toBe(true)
+			expect(compareLoads(input, solution)).toEqual({ equal: false, differences: [{ type: 'openingDirection', comparison: 'equal' }] })
 		})
 	})
 
-	describe('load sets', () => {
+	describe('load lists', () => {
 		test('matches reordered sets one-to-one', () => {
 			const force = createForce({ position: Vector.zero, angle: 0 })
 			const moment = createMoment({ position: [1, 0], clockwise: true })
-			expect(compareLoadSets([force, moment], [moment, force]).equal).toBe(true)
-			expect(compareLoadSets([force], [force, force]).equal).toBe(false)
+			expect(compareLoadLists([force, moment], [moment, force]).equal).toBe(true)
+			expect(compareLoadLists([force], [force, force]).equal).toBe(false)
 		})
 	})
 
@@ -112,11 +112,11 @@ describe('loads', () => {
 
 	describe('comparison options', () => {
 		test('returns frozen defaults and resolved options', () => {
-			expect(Object.isFrozen(defaultLoadComparison)).toBe(true)
-			expect(Object.isFrozen(defaultLoadComparison.Force)).toBe(true)
-			const options = resolveLoadComparisonOptions({ Force: { direction: 'parallel' } })
+			expect(Object.isFrozen(defaultLoadComparisonOptions)).toBe(true)
+			expect(Object.isFrozen(defaultLoadComparisonOptions.force)).toBe(true)
+			const options = resolveLoadComparisonOptions({ force: { direction: 'parallel' } })
 			expect(Object.isFrozen(options)).toBe(true)
-			expect(Object.isFrozen(options.Force)).toBe(true)
+			expect(Object.isFrozen(options.force)).toBe(true)
 		})
 	})
 })

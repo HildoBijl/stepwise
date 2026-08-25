@@ -101,7 +101,7 @@ export function getMomentNamesForPoint(moments, point, pointName) {
 	if (moments.length === 1)
 		return [{ load: moments[0], name: pointName ? `M${pointName}` : `M`, variable: asExpression(pointName ? `M_(${pointName})` : `M`), point: point || moments[0].position }]
 
-	// Otherwise sort them, first by whether they're clockwise or counter-clockwise, and then by opening angle.
+	// Otherwise sort them, first by whether they're clockwise or counter-clockwise, and then by opening direction.
 	const momentsByDirection = [moments.filter(moment => moment.clockwise),
 	moments.filter(moment => !moment.clockwise)]
 	moments = momentsByDirection.map(momentsList => sortBy(momentsList, momentsList.map(moment => mod(moment.opening, 2 * Math.PI)))).flat()

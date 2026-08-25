@@ -1,7 +1,7 @@
 import { isValidElement } from 'react'
 
 import { isPlainObject, mapValues } from '@step-wise/js-utils'
-import { compareLoadSets, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+import { compareLoadLists, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
@@ -44,7 +44,7 @@ export function getIndividualFBDFeedback(exerciseData, currParameter, currInput,
 	const { comparison, feedbackChecks, feedbackFunction } = currOptions
 
 	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
-	const comparisonReport = typeof comparison === 'function' ? undefined : compareLoadSets(currInput, currSolution, comparison)
+	const comparisonReport = typeof comparison === 'function' ? undefined : compareLoadLists(currInput, currSolution, comparison)
 	const correct = typeof comparison === 'function' ? comparison(currInput, currSolution, solution, exerciseData) : comparisonReport.equal
 
 	// Walk through the feedback checks and see if one fires.

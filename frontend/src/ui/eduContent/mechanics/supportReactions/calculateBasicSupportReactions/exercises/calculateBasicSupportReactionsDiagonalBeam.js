@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Vector, Line } from '@step-wise/geometry'
-import { FBDComparison, compareLoadSets } from '@step-wise/engineering-mechanics'
+import { freeBodyDiagramComparisonOptions, compareLoadLists } from '@step-wise/engineering-mechanics'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
 
 import { Translation, Check } from 'i18n'
@@ -198,8 +198,8 @@ function getFeedback(data) {
 	const { input, state, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { comparison: FBDComparison } })
-	const loadsCorrect = input.loads && compareLoadSets(input.loads, solution.loads, FBDComparison).equal
+	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { comparison: freeBodyDiagramComparisonOptions } })
+	const loadsCorrect = input.loads && compareLoadLists(input.loads, solution.loads, freeBodyDiagramComparisonOptions).equal
 	if (getCurrentStep(state) === 0 && !loadsCorrect)
 		return loadsFeedback
 

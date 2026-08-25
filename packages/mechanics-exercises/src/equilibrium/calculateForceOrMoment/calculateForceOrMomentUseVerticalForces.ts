@@ -3,7 +3,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
-import { type Load, createForce, deriveLoadNames, getAxisComponents } from '@step-wise/engineering-mechanics'
+import { type Load, createForce, deriveLoadNames, decomposeForceIntoAxisComponents } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
 	metadata: {
@@ -42,7 +42,7 @@ export default buildStepExercise({
 		const loadNames = deriveLoadNames(loads, namedPoints)
 
 		// Decompose diagonal loads and add names.
-		const decomposedLoads = loads.flatMap(load => !isMultipleOf(load.angle, Math.PI / 2) ? getAxisComponents(load) : load)
+		const decomposedLoads = loads.flatMap(load => !isMultipleOf(load.angle, Math.PI / 2) ? decomposeForceIntoAxisComponents(load) : load)
 		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints)
 
 		// Calculate the respective load.

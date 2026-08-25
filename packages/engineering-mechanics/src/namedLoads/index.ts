@@ -1,5 +1,5 @@
 export * from './types'
 export * from './creation'
-export * from './validation'
+export * from './checks'
 export * from './formatting'
-export * from './derivation'
+export * from './nameDerivation'

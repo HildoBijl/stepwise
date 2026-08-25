@@ -2,16 +2,16 @@ import { type OneToOneMatching, getOneToOneMatching, invertOneToOneMatching } fr
 
 import type { Load } from './types'
 import type { LoadComparisonOptionsInput } from './comparisonOptions'
-import { equalLoads } from './comparison'
+import { loadsEqual } from './comparison'
 
-export type LoadSetComparisonReport = {
+export type LoadListComparisonReport = {
 	equal: boolean
 	inputMatching: OneToOneMatching
 	solutionMatching: OneToOneMatching
 }
 
-export function compareLoadSets(input: readonly Load[], solution: readonly Load[], options: LoadComparisonOptionsInput = {}): LoadSetComparisonReport {
-	const inputMatching = getOneToOneMatching(input, solution, (inputLoad, solutionLoad) => equalLoads(inputLoad, solutionLoad, options))
+export function compareLoadLists(input: readonly Load[], solution: readonly Load[], options: LoadComparisonOptionsInput = {}): LoadListComparisonReport {
+	const inputMatching = getOneToOneMatching(input, solution, (inputLoad, solutionLoad) => loadsEqual(inputLoad, solutionLoad, options))
 	return {
 		equal: input.length === solution.length && inputMatching.every(index => index !== undefined),
 		inputMatching,
@@ -19,6 +19,6 @@ export function compareLoadSets(input: readonly Load[], solution: readonly Load[
 	}
 }
 
-export function equalLoadSets(input: readonly Load[], solution: readonly Load[], options: LoadComparisonOptionsInput = {}): boolean {
-	return compareLoadSets(input, solution, options).equal
+export function loadListsEqual(input: readonly Load[], solution: readonly Load[], options: LoadComparisonOptionsInput = {}): boolean {
+	return compareLoadLists(input, solution, options).equal
 }

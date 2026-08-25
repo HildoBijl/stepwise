@@ -1,6 +1,6 @@
 import { mod, omitKeys } from '@step-wise/js-utils'
 import { FreeBodyDiagramType, interpretInputValue, toInputValue } from '@step-wise/input-interpretation'
-import { createForce, createMoment, equalLoadSets, isLoad } from '@step-wise/engineering-mechanics'
+import { createForce, createMoment, loadListsEqual, isLoad } from '@step-wise/engineering-mechanics'
 
 import { doesLoadTouchRectangle, getScaleFactor } from './selection'
 
@@ -13,7 +13,7 @@ export function functionalize(SI) {
 }
 
 export function equals(a, b) {
-	return equalLoadSets(interpretInputValue(a), interpretInputValue(b))
+	return loadListsEqual(interpretInputValue(a), interpretInputValue(b))
 }
 
 export function applySnapping(FI) {
@@ -87,8 +87,8 @@ export function getDragObjectData(downData, upData, options) {
 	// On a short distance return a Moment.
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.angle
-		const openingAngle = snappedVector.angle
-		return createMoment({ position: downData.snappedPosition, openingAngle, clockwise: mod(angle - openingAngle, 2 * Math.PI) > Math.PI })
+		const openingDirection = snappedVector.angle
+		return createMoment({ position: downData.snappedPosition, openingDirection, clockwise: mod(angle - openingDirection, 2 * Math.PI) > Math.PI })
 	}
 
 	// Otherwise return a force connected to the point where the drag started.

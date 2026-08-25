@@ -3,9 +3,9 @@ import { Vector } from '@step-wise/geometry'
 import { createForce, createMoment } from '../loads'
 
 import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
-import { isLoadName, isNamedLoad } from './validation'
+import { isLoadName, isNamedLoad } from './checks'
 import { getLoadNameSubscript } from './formatting'
-import { deriveLoadNames } from './derivation'
+import { deriveLoadNames } from './nameDerivation'
 
 describe('named loads', () => {
 	test('creates, validates and formats structured load names', () => {
@@ -42,7 +42,7 @@ describe('named loads', () => {
 	test('uses predefined names and keeps the matching input load', () => {
 		const input = createForce({ position: Vector.zero, angle: Math.PI })
 		const predefined = createForce({ position: Vector.zero, angle: 0 })
-		const [namedLoad] = deriveLoadNames([input], [], [{ load: predefined, name: { symbol: 'P' } }], { predefinedComparison: { Force: { direction: 'parallel' } } })
+		const [namedLoad] = deriveLoadNames([input], [], [{ load: predefined, name: { symbol: 'P' } }], { predefinedLoadComparison: { force: { direction: 'parallel' } } })
 		expect(namedLoad).toEqual({ load: input, name: { symbol: 'P' } })
 		expect(namedLoad.load).toBe(input)
 	})
