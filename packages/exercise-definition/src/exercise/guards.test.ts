@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { exerciseModes, exerciseReducerNameByMode } from '../modes'
-
-import { isExercise, isExerciseSpec } from './guards'
+import { exerciseSupportsMode, isExercise, isExerciseSpec } from './guards'
 
 const generateParameters = () => ({})
 const getInitialState = () => ({})
@@ -58,7 +56,27 @@ describe('isExercise', () => {
 		expect(isExercise({ ...baseExercise, [reducerName]: {} })).toBe(false)
 	})
 
-	it('defines a reducer name for every registered mode', () => {
-		expect(Object.keys(exerciseReducerNameByMode).sort()).toEqual([...exerciseModes].sort())
+})
+
+describe('exerciseSupportsMode', () => {
+	const baseExercise = { metadata: {}, generateParameters, getInitialState }
+	const soloExercise = { ...baseExercise, processSoloAction }
+	const groupExercise = { ...baseExercise, processGroupActions }
+	const dualModeExercise = { ...baseExercise, processSoloAction, processGroupActions }
+
+	it('recognizes supported and unsupported modes', () => {
+		expect(exerciseSupportsMode(soloExercise, 'solo')).toBe(true)
+		expect(exerciseSupportsMode(soloExercise, 'group')).toBe(false)
+		expect(exerciseSupportsMode(groupExercise, 'solo')).toBe(false)
+		expect(exerciseSupportsMode(groupExercise, 'group')).toBe(true)
+	})
+
+	it('recognizes every mode of a multi-mode exercise', () => {
+		expect(exerciseSupportsMode(dualModeExercise, 'solo')).toBe(true)
+		expect(exerciseSupportsMode(dualModeExercise, 'group')).toBe(true)
+	})
+
+	it('rejects an unknown mode at runtime', () => {
+		expect(() => exerciseSupportsMode(soloExercise, 'unknown' as never)).toThrow(TypeError)
 	})
 })

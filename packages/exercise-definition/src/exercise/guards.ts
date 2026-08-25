@@ -1,6 +1,6 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { exerciseModes, exerciseReducerNameByMode } from '../modes'
+import { type ExerciseMode, ensureExerciseMode, exerciseModes, exerciseReducerNameByMode } from '../modes'
 
 import type { Exercise, ExerciseSpec } from './types'
 
@@ -9,8 +9,10 @@ export function isExerciseSpec(obj: unknown): obj is ExerciseSpec<any, any> {
 }
 
 export function isExercise(obj: unknown): obj is Exercise<any, any, any, any> {
-	return isExerciseSpec(obj) && typeof obj.generateParameters === 'function' && typeof obj.getInitialState === 'function' && exerciseModes.some(mode => {
-		const reducerName = exerciseReducerNameByMode[mode]
-		return typeof Reflect.get(obj, reducerName) === 'function'
-	})
+	return isExerciseSpec(obj) && typeof obj.generateParameters === 'function' && typeof obj.getInitialState === 'function' && exerciseModes.some(mode => exerciseSupportsMode(obj as Exercise, mode))
+}
+
+export function exerciseSupportsMode(exercise: Exercise, mode: ExerciseMode): boolean {
+	const reducerName = exerciseReducerNameByMode[ensureExerciseMode(mode)]
+	return typeof exercise[reducerName] === 'function'
 }
