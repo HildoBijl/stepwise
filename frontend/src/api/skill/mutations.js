@@ -13,7 +13,8 @@ export function useStartExerciseMutation(skillId) {
 	return useMutation(START_EXERCISE, {
 		variables: { skillId },
 		update: (cache, { data: { startExercise: exercise } }) => {
-			const now = new Date()
+			// This is only a client-side placeholder. Keep its timestamp older than any real server state so clock skew cannot make it appear newer.
+			const placeholderDate = new Date(0)
 			const skillRef = cache.identify({
 				__typename: "SkillWithExercises",
 				userId,
@@ -43,11 +44,11 @@ export function useStartExerciseMutation(skillId) {
 						skillId,
 						numPracticed: 0,
 						coefficients: [1],
-						coefficientsOn: now,
+						coefficientsOn: placeholderDate,
 						highest: [1],
-						highestOn: now,
-						createdAt: now,
-						updatedAt: now,
+						highestOn: placeholderDate,
+						createdAt: placeholderDate,
+						updatedAt: placeholderDate,
 						exercises: [exercise],
 						activeExercise: exercise,
 					},

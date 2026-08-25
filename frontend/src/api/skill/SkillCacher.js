@@ -46,7 +46,7 @@ export default function SkillCacher({ children }) {
 
 		// Fill up the loaded skills with default skills when missing (that is, not in the database yet), process them, and incorporate them into the data set.
 		const skillsAsObject = fromKeysAndValues(skills.map(skill => skill.skillId), skills.map(skill => ensureSkillLevel(skill)))
-		const storedSkillLevelSet = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel())
+		const storedSkillLevelSet = fromKeys(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] ?? getInitialSkillLevel(new Date(0)))
 		skillLevelSet.applyUpdates(storedSkillLevelSet)
 	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, skillLevelSet])
 
