@@ -27,7 +27,7 @@ export default buildStepExercise({
 			loads: [
 				createForce({ position: A, angle: degreesToRadians(wallRotation) }),
 				createForce({ position: A, angle: degreesToRadians(wallRotation + 90) }),
-				createMoment({ position: A, clockwise: true, openingAngle: degreesToRadians(wallRotation + beamRotation) }),
+				createMoment({ position: A, clockwise: true, openingDirection: degreesToRadians(wallRotation + beamRotation) }),
 			],
 			forcePerpendicular: 0,
 			forceParallel: 0,

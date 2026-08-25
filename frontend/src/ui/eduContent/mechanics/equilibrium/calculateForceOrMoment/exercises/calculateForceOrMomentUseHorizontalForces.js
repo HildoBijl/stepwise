@@ -95,7 +95,7 @@ function Diagram({ decompose = false }) {
 	const grid = integerRange(0, 4).map(x => integerRange(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ min: new Vector(-rectangleMargin, -rectangleMargin), max: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 	const force = loads[3]
-	const forceStart = force.position.subtract(Vector.fromPolar(force.magnitudeFactor * defaultGraphicalForceLength / scale, force.angle))
+	const forceStart = force.position.subtract(Vector.fromPolar(force.relativeMagnitude * defaultGraphicalForceLength / scale, force.angle))
 	const lineEndpoint = new Vector(force.position.x, forceStart.y)
 	const displayedLoads = decompose ? decomposedLoads : loads
 

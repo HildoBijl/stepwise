@@ -3,7 +3,7 @@ import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { Vector } from '@step-wise/geometry'
-import { type Load, createForce, createMoment, deriveLoadNames, getAxisComponents, isForce } from '@step-wise/engineering-mechanics'
+import { type Load, createForce, createMoment, deriveLoadNames, decomposeForceIntoAxisComponents, isForce } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
 	metadata: {
@@ -57,7 +57,7 @@ export default buildStepExercise({
 		]
 		const namedPoints = points.map((position, index) => ({ name: ['A', 'B', 'C', 'D'][index], position }))
 		const loadNames = deriveLoadNames(loads, namedPoints)
-		const decomposedLoads = loads.flatMap((load, index) => index === 0 && isForce(load) ? getAxisComponents(load) : load)
+		const decomposedLoads = loads.flatMap((load, index) => index === 0 && isForce(load) ? decomposeForceIntoAxisComponents(load) : load)
 		const decomposedLoadNames = deriveLoadNames(decomposedLoads, namedPoints)
 
 		return { ...parameters, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, intersection, clockwise, rA, rAy, FAy, FA }

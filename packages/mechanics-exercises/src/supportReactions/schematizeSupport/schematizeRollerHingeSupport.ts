@@ -2,7 +2,7 @@ import { degreesToRadians, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
-import { compareLoadSets, createForce, isLoad } from '@step-wise/engineering-mechanics'
+import { compareLoadLists, createForce, isLoad } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
 	metadata: {
@@ -43,5 +43,5 @@ export default buildStepExercise({
 
 function compareSupportLoads(input: unknown, solution: unknown): boolean {
 	if (!Array.isArray(input) || !input.every(isLoad) || !Array.isArray(solution) || !solution.every(isLoad)) return false
-	return compareLoadSets(input, solution, { Force: { direction: 'parallel', applicationPointAt: 'ignore' } }).equal
+	return compareLoadLists(input, solution, { force: { direction: 'parallel', applicationPointAt: 'ignore' } }).equal
 }

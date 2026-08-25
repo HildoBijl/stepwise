@@ -2,7 +2,7 @@ import { degreesToRadians, randomInteger } from '@step-wise/js-utils'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 import { Vector } from '@step-wise/geometry'
-import { compareLoadSets, createForce, createMoment, isLoad } from '@step-wise/engineering-mechanics'
+import { compareLoadLists, createForce, createMoment, isLoad } from '@step-wise/engineering-mechanics'
 
 export default buildStepExercise({
 	metadata: {
@@ -26,7 +26,7 @@ export default buildStepExercise({
 			points: [A],
 			loads: [
 				createForce({ position: A, angle: degreesToRadians(wallRotation) }),
-				createMoment({ position: A, clockwise: true, openingAngle: degreesToRadians(wallRotation + beamRotation) }),
+				createMoment({ position: A, clockwise: true, openingDirection: degreesToRadians(wallRotation + beamRotation) }),
 			],
 			forcePerpendicular: 0,
 			forceParallel: 3,
@@ -46,8 +46,8 @@ export default buildStepExercise({
 
 function compareSupportLoads(input: unknown, solution: unknown): boolean {
 	if (!Array.isArray(input) || !input.every(isLoad) || !Array.isArray(solution) || !solution.every(isLoad)) return false
-	return compareLoadSets(input, solution, {
-		Force: { direction: 'parallel', applicationPointAt: 'ignore' },
-		Moment: { direction: 'ignore', openingAngle: 'ignore' },
+	return compareLoadLists(input, solution, {
+		force: { direction: 'parallel', applicationPointAt: 'ignore' },
+		moment: { direction: 'ignore', openingDirection: 'ignore' },
 	}).equal
 }

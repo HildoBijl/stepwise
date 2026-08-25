@@ -1,4 +1,4 @@
-import { equalLoads, isLoadAtPoint } from '@step-wise/engineering-mechanics'
+import { loadsEqual, isLoadAtPoint } from '@step-wise/engineering-mechanics'
 
 import { Translation, Plurals } from 'i18n'
 import { selectRandomEmpty } from 'ui/inputs'
@@ -19,7 +19,7 @@ export function nonEmptyNoDoubles(data) {
 		return nonEmptyValidation
 
 	// Check for doubles.
-	const getEqualLoadIndex = (index) => data.findIndex((load, loadIndex) => index !== loadIndex && equalLoads(data[index], load))
+	const getEqualLoadIndex = (index) => data.findIndex((load, loadIndex) => index !== loadIndex && loadsEqual(data[index], load))
 	const doubleLoadIndex = data.findIndex((_, index) => getEqualLoadIndex(index) !== -1)
 	if (doubleLoadIndex !== -1) {
 		const otherIndex = getEqualLoadIndex(doubleLoadIndex)

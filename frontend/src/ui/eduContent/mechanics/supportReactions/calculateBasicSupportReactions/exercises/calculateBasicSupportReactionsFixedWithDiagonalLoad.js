@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Vector, Line } from '@step-wise/geometry'
 import { loadNameToVariable } from '@step-wise/mechanics-exercises'
-import { FBDComparison, compareLoadSets, equalLoads } from '@step-wise/engineering-mechanics'
+import { freeBodyDiagramComparisonOptions, compareLoadLists, loadsEqual } from '@step-wise/engineering-mechanics'
 
 import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
@@ -170,7 +170,7 @@ function Schematics({ l1, l2, angle, points, loads, externalLoad, loadNameDefini
 	const distanceLabelStyle = { background, padding: '0.3rem' }
 	const loadNames = getNamedLoads(loads, { points, externalLoad, loadNameDefinitions })
 	const { A, B, C } = points
-	const displayedExternalLoad = loads.find(load => equalLoads(load, externalLoad))
+	const displayedExternalLoad = loads.find(load => loadsEqual(load, externalLoad))
 
 	return <>
 		<Beam points={[A, C]} />
@@ -199,8 +199,8 @@ function getFeedback(data) {
 	const { input, state, solution } = data
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { comparison: FBDComparison } })
-	const loadsCorrect = input.loads && compareLoadSets(input.loads, solution.loads, FBDComparison).equal
+	const loadsFeedback = input.loads && getFBDFeedback(data, { loads: { comparison: freeBodyDiagramComparisonOptions } })
+	const loadsCorrect = input.loads && compareLoadLists(input.loads, solution.loads, freeBodyDiagramComparisonOptions).equal
 	if (getCurrentStep(state) === 0 && !loadsCorrect)
 		return loadsFeedback
 

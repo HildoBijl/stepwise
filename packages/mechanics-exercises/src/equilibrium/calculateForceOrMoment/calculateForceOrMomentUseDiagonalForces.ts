@@ -45,8 +45,8 @@ export default buildStepExercise({
 
 		// Decompose FD parallel and perpendicular to FB and FC.
 		const decomposedDLoads = [
-			createForce({ position: D, angle: angle + Math.PI, magnitudeFactor: 1 / Math.sqrt(2) }),
-			createForce({ position: D, angle: angle + Math.PI + ((Number(up) + Number(right) + Number(horizontal)) % 2 === 0 ? -1 : 1) * Math.PI / 2, magnitudeFactor: 1 / Math.sqrt(2) }),
+			createForce({ position: D, angle: angle + Math.PI, relativeMagnitude: 1 / Math.sqrt(2) }),
+			createForce({ position: D, angle: angle + Math.PI + ((Number(up) + Number(right) + Number(horizontal)) % 2 === 0 ? -1 : 1) * Math.PI / 2, relativeMagnitude: 1 / Math.sqrt(2) }),
 		]
 		const decomposedLoads: Load[] = loads.flatMap((load, index) => index === 3 ? decomposedDLoads : load)
 		const predefinedLoadNames: NamedLoad[] = [

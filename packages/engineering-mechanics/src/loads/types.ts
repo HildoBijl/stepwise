@@ -4,51 +4,53 @@ import type { Vector, VectorLike } from '@step-wise/geometry'
  * Types of loads
  */
 
-export const loadTypes = {
-	force: 'Force',
-	moment: 'Moment',
-} as const
-export type LoadType = typeof loadTypes[keyof typeof loadTypes]
+export const ForceType = 'Force'
+export type ForceType = typeof ForceType
+export const MomentType = 'Moment'
+export type MomentType = typeof MomentType
+export type LoadType = ForceType | MomentType
 
 /*
  * Load creation
  */
 
-export type ForceLike = {
-	position: VectorLike
-	angle: number
-	applicationPointAt?: ApplicationPointPosition
-	magnitudeFactor?: number
+export type ForceInput = {
+	readonly position: VectorLike
+	readonly angle: number
+	readonly applicationPointAt?: ApplicationPointPosition
+	readonly relativeMagnitude?: number
 }
 
-export type MomentLike = {
-	position: VectorLike
-	clockwise: boolean
-	openingAngle?: number
+export type MomentInput = {
+	readonly position: VectorLike
+	readonly clockwise: boolean
+	readonly openingDirection?: number
 }
 
-export type LoadLike = (ForceLike & { type: typeof loadTypes.force }) | (MomentLike & { type: typeof loadTypes.moment })
+export type LoadInput = (ForceInput & { readonly type: ForceType }) | (MomentInput & { readonly type: MomentType })
 
 /*
  * Loads
  */
 
-export const applicationPointPositions = ['start', 'end'] as const
+const applicationPointPositions = ['start', 'end'] as const
 export type ApplicationPointPosition = typeof applicationPointPositions[number]
 
+export { applicationPointPositions as loadApplicationPointPositions }
+
 export type Force = {
-	type: typeof loadTypes.force
-	position: Vector
-	angle: number
-	applicationPointAt: ApplicationPointPosition
-	magnitudeFactor: number
+	readonly type: ForceType
+	readonly position: Vector
+	readonly angle: number
+	readonly applicationPointAt: ApplicationPointPosition
+	readonly relativeMagnitude: number
 }
 
 export type Moment = {
-	type: typeof loadTypes.moment
-	position: Vector
-	clockwise: boolean
-	openingAngle: number
+	readonly type: MomentType
+	readonly position: Vector
+	readonly clockwise: boolean
+	readonly openingDirection: number
 }
 
 export type Load = Force | Moment

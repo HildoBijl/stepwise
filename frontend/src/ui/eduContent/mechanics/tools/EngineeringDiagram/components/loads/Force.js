@@ -16,7 +16,7 @@ export const defaultForce = {
 	position: undefined,
 	angle: undefined,
 	applicationPointAt: 'end',
-	magnitudeFactor: 1,
+	relativeMagnitude: 1,
 	magnitude: undefined,
 	graphicalMagnitude: defaultGraphicalForceLength,
 	force: undefined,
@@ -29,9 +29,9 @@ export const defaultForce = {
 // Force draws a force vector. It must have a force parameter (a LineSegment object), can have a size and a color.
 export const Force = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, applicationPointAt, magnitudeFactor, magnitude, graphicalMagnitude, size, color, className, style } = mergeDefaults(props, defaultForce)
-	magnitudeFactor = ensureNumber(magnitudeFactor, { nonNegative: true, nonZero: true })
-	magnitude = magnitudeFactor * ensureNumber(useGraphicalDistance(magnitude, graphicalMagnitude))
+	let { position, angle, applicationPointAt, relativeMagnitude, magnitude, graphicalMagnitude, size, color, className, style } = mergeDefaults(props, defaultForce)
+	relativeMagnitude = ensureNumber(relativeMagnitude, { nonNegative: true, nonZero: true })
+	magnitude = relativeMagnitude * ensureNumber(useGraphicalDistance(magnitude, graphicalMagnitude))
 	const graphicalPosition = applicationPointAt === 'end' ? Vector.zero : Vector.fromPolar(magnitude, angle)
 	size = ensureNumber(size)
 	color = ensureString(color)

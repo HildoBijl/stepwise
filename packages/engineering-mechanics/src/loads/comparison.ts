@@ -1,7 +1,7 @@
 import { anglesEqual } from '@step-wise/js-utils'
 
-import { type Force, type Load, type LoadType, type Moment, loadTypes } from './types'
-import { type ForceApplicationComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentOpeningAngleComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
+import { type Force, type Load, type LoadType, type Moment, ForceType, MomentType } from './types'
+import { type ForceApplicationComparison, type ForceComparisonOptionsInput, type ForceDirectionComparison, type ForcePositionComparison, type LoadComparisonOptionsInput, type MomentComparisonOptionsInput, type MomentDirectionComparison, type MomentOpeningDirectionComparison, type MomentPositionComparison, resolveForceComparisonOptions, resolveLoadComparisonOptions, resolveMomentComparisonOptions, } from './comparisonOptions'
 
 /*
  * Types to report comparison differences.
@@ -12,7 +12,7 @@ export type LoadComparisonDifference =
 	| { type: 'position', comparison: ForcePositionComparison | MomentPositionComparison }
 	| { type: 'direction', comparison: ForceDirectionComparison | MomentDirectionComparison }
 	| { type: 'applicationPointAt', comparison: ForceApplicationComparison }
-	| { type: 'openingAngle', comparison: MomentOpeningAngleComparison }
+	| { type: 'openingDirection', comparison: MomentOpeningDirectionComparison }
 
 export type LoadComparisonReport = {
 	equal: boolean
@@ -37,7 +37,7 @@ export function compareMoments(input: Moment, solution: Moment, options: MomentC
 	const differences: LoadComparisonDifference[] = []
 	if (!compareMomentPositions(input, solution, resolvedOptions.position)) differences.push({ type: 'position', comparison: resolvedOptions.position })
 	if (!compareMomentDirections(input, solution, resolvedOptions.direction)) differences.push({ type: 'direction', comparison: resolvedOptions.direction })
-	if (!compareMomentOpeningAngles(input, solution, resolvedOptions.openingAngle)) differences.push({ type: 'openingAngle', comparison: resolvedOptions.openingAngle })
+	if (!compareMomentOpeningDirections(input, solution, resolvedOptions.openingDirection)) differences.push({ type: 'openingDirection', comparison: resolvedOptions.openingDirection })
 	return { equal: differences.length === 0, differences }
 }
 
@@ -45,12 +45,12 @@ export function compareLoads(input: Load, solution: Load, options: LoadCompariso
 	if (input.type !== solution.type) return { equal: false, differences: [{ type: 'loadType', input: input.type, solution: solution.type }] }
 	const resolvedOptions = resolveLoadComparisonOptions(options)
 	switch (input.type) {
-		case loadTypes.force: return compareForces(input, solution as Force, resolvedOptions.Force)
-		case loadTypes.moment: return compareMoments(input, solution as Moment, resolvedOptions.Moment)
+		case ForceType: return compareForces(input, solution as Force, resolvedOptions.force)
+		case MomentType: return compareMoments(input, solution as Moment, resolvedOptions.moment)
 	}
 }
 
-export function equalLoads(input: Load, solution: Load, options: LoadComparisonOptionsInput = {}): boolean {
+export function loadsEqual(input: Load, solution: Load, options: LoadComparisonOptionsInput = {}): boolean {
 	return compareLoads(input, solution, options).equal
 }
 
@@ -61,7 +61,7 @@ export function equalLoads(input: Load, solution: Load, options: LoadComparisonO
 function compareForcePositions(input: Force, solution: Force, comparison: ForcePositionComparison): boolean {
 	switch (comparison) {
 		case 'equal': return solution.position.equals(input.position)
-		case 'equalLine':
+		case 'sameLine':
 			const relativePosition = input.position.subtract(solution.position)
 			return relativePosition.isZero() || anglesEqual(solution.angle, relativePosition.angle, Math.PI)
 		case 'ignore': return true
@@ -90,9 +90,9 @@ function compareMomentDirections(input: Moment, solution: Moment, comparison: Mo
 	}
 }
 
-function compareMomentOpeningAngles(input: Moment, solution: Moment, comparison: MomentOpeningAngleComparison): boolean {
+function compareMomentOpeningDirections(input: Moment, solution: Moment, comparison: MomentOpeningDirectionComparison): boolean {
 	switch (comparison) {
-		case 'equal': return anglesEqual(input.openingAngle, solution.openingAngle)
+		case 'equal': return anglesEqual(input.openingDirection, solution.openingDirection)
 		case 'ignore': return true
 	}
 }

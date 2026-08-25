@@ -1,29 +1,32 @@
 import { ensureString, anglesEqual, normalizeAngle } from '@step-wise/js-utils'
 
-import { type Load, type LoadComparisonOptionsInput, equalLoads, isForce, isLoadAtPoint, isMoment } from '../loads'
+import { type Load, type LoadComparisonOptionsInput, loadsEqual, isForce, isLoadAtPoint, isMoment } from '../loads'
 
-import type { LoadName, NamedLoad, NamedPointLike } from './types'
-import { createLoadName, createNamedPoint } from './creation'
+import type { LoadName, NamedLoad, NamedPointInput } from './types'
+import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
 
 export type LoadNamingOptions = {
 	forceSymbol?: string
 	momentSymbol?: string
-	predefinedComparison?: LoadComparisonOptionsInput
+	predefinedLoadComparison?: LoadComparisonOptionsInput
 }
 
-export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPointLike[] = [], predefinedLoads: readonly NamedLoad[] = [], options: LoadNamingOptions = {}): NamedLoad[] {
+export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPointInput[] = [], predefinedNamedLoads: readonly NamedLoad[] = [], options: LoadNamingOptions = {}): NamedLoad[] {
 	// Process the input.
 	const forceSymbol = ensureString(options.forceSymbol ?? 'F', { nonEmpty: true })
 	const momentSymbol = ensureString(options.momentSymbol ?? 'M', { nonEmpty: true })
 	const namedPoints = points.map(createNamedPoint)
+	const canonicalPredefinedLoads = predefinedNamedLoads.map(createNamedLoad)
+	ensureUniqueNamedPoints(namedPoints)
+	ensureUniqueLoadNames(canonicalPredefinedLoads)
 
 	// Set up iteration containers.
 	const result: NamedLoad[] = []
 	const named = loads.map(() => false)
 
 	// Find loads matching predefined loads and copy their names.
-	predefinedLoads.forEach(predefinedLoad => {
-		const index = loads.findIndex((load, index) => !named[index] && equalLoads(load, predefinedLoad.load, options.predefinedComparison))
+	canonicalPredefinedLoads.forEach(predefinedLoad => {
+		const index = loads.findIndex((load, index) => !named[index] && loadsEqual(load, predefinedLoad.load, options.predefinedLoadComparison))
 		if (index === -1) return
 		named[index] = true
 		result.push({ load: loads[index], name: createLoadName(predefinedLoad.name) })
@@ -39,7 +42,21 @@ export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPo
 	// Name remaining loads not connected to a point.
 	const remainingLoads = loads.filter((_, index) => !named[index])
 	result.push(...deriveNamesAtPoint(remainingLoads, undefined, forceSymbol, momentSymbol))
-	return result
+	const canonicalResult = result.map(createNamedLoad)
+	ensureUniqueLoadNames(canonicalResult)
+	return canonicalResult
+}
+
+function ensureUniqueNamedPoints(points: readonly ReturnType<typeof createNamedPoint>[]): void {
+	points.forEach((point, index) => {
+		if (points.slice(0, index).some(previousPoint => previousPoint.name === point.name)) throw new Error(`Invalid named points: the name "${point.name}" occurs more than once.`)
+		if (points.slice(0, index).some(previousPoint => previousPoint.position.equals(point.position))) throw new Error(`Invalid named points: the position ${point.position} occurs more than once.`)
+	})
+}
+
+function ensureUniqueLoadNames(namedLoads: readonly NamedLoad[]): void {
+	const keys = namedLoads.map(({ name }) => JSON.stringify([name.symbol, `${name.point ?? ''}${name.suffix ?? ''}`]))
+	if (new Set(keys).size !== keys.length) throw new Error(`Invalid named loads: multiple loads received the same complete name.`)
 }
 
 function deriveNamesAtPoint(loads: readonly Load[], point: string | undefined, forceSymbol: string, momentSymbol: string): NamedLoad[] {
@@ -68,7 +85,7 @@ function deriveForceNames(forces: readonly Load[], point: string | undefined, sy
 function deriveMomentNames(moments: readonly Load[], point: string | undefined, symbol: string): NamedLoad[] {
 	const momentLoads = moments.filter(isMoment)
 	if (momentLoads.length === 1) return [{ load: momentLoads[0], name: { symbol, ...(point === undefined ? {} : { point }) } }]
-	return [...momentLoads].sort((a, b) => Number(b.clockwise) - Number(a.clockwise) || a.openingAngle - b.openingAngle).map((load, index) => ({ load, name: getIndexedName(symbol, point, index) }))
+	return [...momentLoads].sort((a, b) => Number(b.clockwise) - Number(a.clockwise) || a.openingDirection - b.openingDirection).map((load, index) => ({ load, name: getIndexedName(symbol, point, index) }))
 }
 
 function getIndexedName(symbol: string, point: string | undefined, index: number): LoadName {

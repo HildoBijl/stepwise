@@ -3,7 +3,7 @@ import { Vector } from '@step-wise/geometry'
 import { Quantity, getRandomQuantity } from '@step-wise/physics-core'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
-import { createForce, createMoment, FBDComparison } from '@step-wise/engineering-mechanics'
+import { createForce, createMoment, freeBodyDiagramComparisonOptions } from '@step-wise/engineering-mechanics'
 
 import { getDynamicSolution, getInputDependency } from './common'
 
@@ -12,7 +12,7 @@ const metadata = {
 	...createStepExerciseMetadata(['drawFreeBodyDiagram', undefined, 'calculateForceOrMoment', 'calculateForceOrMoment']),
 	comparisons: {
 		Quantity: { value: { relativeTolerance: 0.01, significantDigitTolerance: 1 } },
-		loads: FBDComparison
+		loads: freeBodyDiagramComparisonOptions
 	},
 }
 
@@ -28,7 +28,7 @@ function getStaticSolution(parameters: any) {
 	const angle = Math.atan2(l3.number, l.number)
 
 	const loads = [
-		createMoment({ position: B, clockwise, openingAngle: -angle }),
+		createMoment({ position: B, clockwise, openingDirection: -angle }),
 		createForce({ position: A, angle: 0 }),
 		createForce({ position: A, angle: (clockwise ? 1 : -1) * Math.PI / 2, applicationPointAt: clockwise ? 'end' : 'start' }),
 		createForce({ position: C, angle: (clockwise ? -1 : 1) * Math.PI / 2, applicationPointAt: clockwise ? 'start' : 'end' }),
