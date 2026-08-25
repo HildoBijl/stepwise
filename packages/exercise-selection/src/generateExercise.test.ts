@@ -21,4 +21,15 @@ describe('generateRandomExerciseInstance', () => {
 			history: [],
 		})
 	})
+
+	test('throws when the collection has no exercise for the requested mode', () => {
+		const exercise: Exercise = {
+			metadata: {},
+			generateParameters: () => ({}),
+			getInitialState: () => ({}),
+			processSoloAction: ({ state }) => state,
+		}
+
+		expect(() => generateRandomExerciseInstance({ sample: exercise }, 'group')).toThrow(/mode "group"/)
+	})
 })

@@ -14,7 +14,7 @@ export async function generateSkillBasedExerciseInstance(exercises: ExerciseColl
 
 // Get a random exercise (ignores skill data).
 export function generateRandomExerciseInstance(exercises: ExerciseCollection, mode: ExerciseMode, example?: boolean): ExerciseInstance {
-	const exerciseId = selectRandomExercise(exercises)
+	const exerciseId = selectRandomExercise(exercises, mode)
 	return generateExerciseInstance(exerciseId, exercises[exerciseId], mode, example)
 }
 
