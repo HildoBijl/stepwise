@@ -3,7 +3,7 @@ import { ensureString, anglesEqual, normalizeAngle } from '@step-wise/js-utils'
 import { type Load, type LoadComparisonOptionsInput, equalLoads, isForce, isLoadAtPoint, isMoment } from '../loads'
 
 import type { LoadName, NamedLoad, NamedPointLike } from './types'
-import { createLoadName, createNamedPoint } from './creation'
+import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
 
 export type LoadNamingOptions = {
 	forceSymbol?: string
@@ -16,13 +16,16 @@ export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPo
 	const forceSymbol = ensureString(options.forceSymbol ?? 'F', { nonEmpty: true })
 	const momentSymbol = ensureString(options.momentSymbol ?? 'M', { nonEmpty: true })
 	const namedPoints = points.map(createNamedPoint)
+	const canonicalPredefinedLoads = predefinedLoads.map(createNamedLoad)
+	ensureUniqueNamedPoints(namedPoints)
+	ensureUniqueLoadNames(canonicalPredefinedLoads)
 
 	// Set up iteration containers.
 	const result: NamedLoad[] = []
 	const named = loads.map(() => false)
 
 	// Find loads matching predefined loads and copy their names.
-	predefinedLoads.forEach(predefinedLoad => {
+	canonicalPredefinedLoads.forEach(predefinedLoad => {
 		const index = loads.findIndex((load, index) => !named[index] && equalLoads(load, predefinedLoad.load, options.predefinedComparison))
 		if (index === -1) return
 		named[index] = true
@@ -39,7 +42,21 @@ export function deriveLoadNames(loads: readonly Load[], points: readonly NamedPo
 	// Name remaining loads not connected to a point.
 	const remainingLoads = loads.filter((_, index) => !named[index])
 	result.push(...deriveNamesAtPoint(remainingLoads, undefined, forceSymbol, momentSymbol))
-	return result
+	const canonicalResult = result.map(createNamedLoad)
+	ensureUniqueLoadNames(canonicalResult)
+	return canonicalResult
+}
+
+function ensureUniqueNamedPoints(points: readonly ReturnType<typeof createNamedPoint>[]): void {
+	points.forEach((point, index) => {
+		if (points.slice(0, index).some(previousPoint => previousPoint.name === point.name)) throw new Error(`Invalid named points: the name "${point.name}" occurs more than once.`)
+		if (points.slice(0, index).some(previousPoint => previousPoint.position.equals(point.position))) throw new Error(`Invalid named points: the position ${point.position} occurs more than once.`)
+	})
+}
+
+function ensureUniqueLoadNames(namedLoads: readonly NamedLoad[]): void {
+	const keys = namedLoads.map(({ name }) => JSON.stringify([name.symbol, `${name.point ?? ''}${name.suffix ?? ''}`]))
+	if (new Set(keys).size !== keys.length) throw new Error(`Invalid named loads: multiple loads received the same complete name.`)
 }
 
 function deriveNamesAtPoint(loads: readonly Load[], point: string | undefined, forceSymbol: string, momentSymbol: string): NamedLoad[] {

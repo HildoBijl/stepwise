@@ -7,13 +7,13 @@ import type { Load, LoadLike } from '../loads'
  */
 
 export type NamedPoint = {
-	name: string
-	position: Vector
+	readonly name: string
+	readonly position: Vector
 }
 
 export type NamedPointLike = {
-	name: string
-	position: VectorLike
+	readonly name: string
+	readonly position: VectorLike
 }
 
 /*
@@ -21,17 +21,17 @@ export type NamedPointLike = {
  */
 
 export type LoadName = {
-	symbol: string
-	point?: string
-	suffix?: string | number
+	readonly symbol: string
+	readonly point?: string
+	readonly suffix?: string | number
 }
 
 export type NamedLoad = {
-	load: Load
-	name: LoadName
+	readonly load: Load
+	readonly name: LoadName
 }
 
 export type NamedLoadLike = {
-	load: LoadLike
-	name: LoadName
+	readonly load: LoadLike
+	readonly name: LoadName
 }

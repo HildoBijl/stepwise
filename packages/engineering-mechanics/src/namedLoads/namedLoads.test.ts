@@ -2,7 +2,7 @@ import { Vector } from '@step-wise/geometry'
 
 import { createForce, createMoment } from '../loads'
 
-import { createLoadName } from './creation'
+import { createLoadName, createNamedLoad, createNamedPoint } from './creation'
 import { isLoadName, isNamedLoad } from './validation'
 import { getLoadNameSubscript } from './formatting'
 import { deriveLoadNames } from './derivation'
@@ -14,6 +14,15 @@ describe('named loads', () => {
 		expect(getLoadNameSubscript(name)).toBe('Ax')
 		expect(getLoadNameSubscript({ symbol: 'M' })).toBeUndefined()
 		expect(() => createLoadName({ symbol: '', point: 'A' })).toThrow()
+	})
+
+	test('creates immutable named objects', () => {
+		const point = createNamedPoint({ name: 'A', position: [1, 2] })
+		const namedLoad = createNamedLoad({ load: createForce({ position: [1, 2], angle: 0 }), name: { symbol: 'F', point: 'A' } })
+		expect(Object.isFrozen(point)).toBe(true)
+		expect(Object.isFrozen(namedLoad)).toBe(true)
+		expect(Object.isFrozen(namedLoad.name)).toBe(true)
+		expect(Object.isFrozen(namedLoad.load)).toBe(true)
 	})
 
 	test('derives component and moment names at a named point', () => {
@@ -46,5 +55,15 @@ describe('named loads', () => {
 			{ load: down, name: { symbol: 'F', suffix: 1 } },
 			{ load: right, name: { symbol: 'F', suffix: 2 } },
 		])
+	})
+
+	test('rejects conflicting points and duplicate complete names', () => {
+		const force = createForce({ position: [0, 0], angle: 0 })
+		expect(() => deriveLoadNames([force], [{ name: 'A', position: [0, 0] }, { name: 'B', position: [0, 0] }])).toThrow()
+		expect(() => deriveLoadNames([force], [{ name: 'A', position: [0, 0] }, { name: 'A', position: [1, 0] }])).toThrow()
+		expect(() => deriveLoadNames([force], [], [
+			{ load: force, name: { symbol: 'F', point: 'A' } },
+			{ load: force, name: { symbol: 'F', suffix: 'A' } },
+		])).toThrow()
 	})
 })

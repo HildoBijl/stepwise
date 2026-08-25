@@ -1,3 +1,5 @@
+import { approximatelyEqual } from '@step-wise/js-utils'
+
 import { type Force, type Load, type Moment, loadTypes } from './types'
 import { createForce, createMoment } from './creation'
 
@@ -25,11 +27,12 @@ export function reverseLoad(load: Load): Load {
 	}
 }
 
-export function getAxisComponents(force: Force): [Force, Force] {
+export function getAxisComponents(force: Force): Force[] {
 	const xAngle = Math.round(force.angle / Math.PI) * Math.PI
 	const yAngle = (Math.round(force.angle / Math.PI - 1 / 2) + 1 / 2) * Math.PI
-	return [
-		createForce({ ...force, angle: xAngle, magnitudeFactor: force.magnitudeFactor * Math.abs(Math.cos(force.angle)) }),
-		createForce({ ...force, angle: yAngle, magnitudeFactor: force.magnitudeFactor * Math.abs(Math.sin(force.angle)) }),
+	const components = [
+		{ angle: xAngle, magnitudeFactor: force.magnitudeFactor * Math.abs(Math.cos(force.angle)) },
+		{ angle: yAngle, magnitudeFactor: force.magnitudeFactor * Math.abs(Math.sin(force.angle)) },
 	]
+	return components.filter(component => !approximatelyEqual(component.magnitudeFactor, 0)).map(component => createForce({ ...force, ...component }))
 }

@@ -1,11 +1,12 @@
 import { Vector } from '@step-wise/geometry'
 
 import { isForce, isMoment } from './validation'
-import { createForce, createMoment } from './creation'
-import { serializeLoad, deserializeLoad } from './serialization'
+import { createForce, createLoad, createMoment } from './creation'
+import { serializeForce, serializeLoad, deserializeForce, deserializeLoad } from './serialization'
 import { isLoadAtPoint } from './checks'
 import { reverseForce, reverseMoment, getAxisComponents } from './manipulation'
 import { compareLoads, equalLoads } from './comparison'
+import { defaultLoadComparison, resolveLoadComparisonOptions } from './comparisonOptions'
 import { compareLoadSets } from './matching'
 
 describe('loads', () => {
@@ -25,6 +26,17 @@ describe('loads', () => {
 			expect(moment.position).toEqual(new Vector(1, 2))
 			expect(moment.clockwise).toBe(true)
 			expect(moment.openingAngle).toBe(3 * Math.PI / 2)
+		})
+
+		test('rejects invalid runtime values and freezes canonical loads', () => {
+			const mutableForce = { type: 'Force' as const, position: new Vector(1, 2), angle: 0, applicationPointAt: 'end' as const, magnitudeFactor: 1 }
+			const force = createLoad(mutableForce)
+			expect(force).not.toBe(mutableForce)
+			expect(Object.isFrozen(force)).toBe(true)
+			expect(isForce({ ...force, angle: NaN })).toBe(false)
+			expect(isMoment({ ...createMoment({ position: [0, 0], clockwise: true }), openingAngle: NaN })).toBe(false)
+			expect(() => createMoment({ position: [0, 0], clockwise: 'yes' as unknown as boolean })).toThrow()
+			expect(() => createLoad({ type: 'Unknown' } as never)).toThrow()
 		})
 	})
 
@@ -47,6 +59,11 @@ describe('loads', () => {
 				2 * Math.abs(Math.cos(force.angle)),
 				2 * Math.abs(Math.sin(force.angle)),
 			])
+		})
+
+		test('omits zero axis components', () => {
+			const force = createForce({ position: Vector.zero, angle: 0, magnitudeFactor: 2 })
+			expect(getAxisComponents(force)).toEqual([force])
 		})
 	})
 
@@ -82,6 +99,24 @@ describe('loads', () => {
 			expect(deserialized).toEqual(force)
 			expect(isLoadAtPoint(deserialized, [2, 3])).toBe(true)
 			expect(isLoadAtPoint(deserialized, [3, 3])).toBe(false)
+		})
+
+		test('strictly rejects malformed serialized loads', () => {
+			const serialized = serializeForce(createForce({ position: [2, 3], angle: 0 }))
+			expect(deserializeForce(serialized)).toEqual(createForce({ position: [2, 3], angle: 0 }))
+			expect(() => deserializeForce({ ...serialized, extra: true })).toThrow()
+			expect(() => deserializeForce({ ...serialized, angle: NaN })).toThrow()
+			expect(() => deserializeLoad({ ...serialized, type: 'Unknown' })).toThrow()
+		})
+	})
+
+	describe('comparison options', () => {
+		test('returns frozen defaults and resolved options', () => {
+			expect(Object.isFrozen(defaultLoadComparison)).toBe(true)
+			expect(Object.isFrozen(defaultLoadComparison.Force)).toBe(true)
+			const options = resolveLoadComparisonOptions({ Force: { direction: 'parallel' } })
+			expect(Object.isFrozen(options)).toBe(true)
+			expect(Object.isFrozen(options.Force)).toBe(true)
 		})
 	})
 })

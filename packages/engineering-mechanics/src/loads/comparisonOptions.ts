@@ -10,9 +10,9 @@ export type ForceDirectionComparison = typeof forceDirectionComparisons[number]
 export type ForceApplicationComparison = typeof forceApplicationComparisons[number]
 
 export type ForceComparisonOptions = {
-	position: ForcePositionComparison
-	direction: ForceDirectionComparison
-	applicationPointAt: ForceApplicationComparison
+	readonly position: ForcePositionComparison
+	readonly direction: ForceDirectionComparison
+	readonly applicationPointAt: ForceApplicationComparison
 }
 export type ForceComparisonOptionsInput = Partial<ForceComparisonOptions>
 
@@ -26,51 +26,51 @@ export type MomentDirectionComparison = typeof momentDirectionComparisons[number
 export type MomentOpeningAngleComparison = typeof momentOpeningAngleComparisons[number]
 
 export type MomentComparisonOptions = {
-	position: MomentPositionComparison
-	direction: MomentDirectionComparison
-	openingAngle: MomentOpeningAngleComparison
+	readonly position: MomentPositionComparison
+	readonly direction: MomentDirectionComparison
+	readonly openingAngle: MomentOpeningAngleComparison
 }
 export type MomentComparisonOptionsInput = Partial<MomentComparisonOptions>
 
 // Define Load types.
 export type LoadComparisonOptions = {
-	Force: ForceComparisonOptions
-	Moment: MomentComparisonOptions
+	readonly Force: ForceComparisonOptions
+	readonly Moment: MomentComparisonOptions
 }
 export type LoadComparisonOptionsInput = {
-	Force?: ForceComparisonOptionsInput
-	Moment?: MomentComparisonOptionsInput
+	readonly Force?: ForceComparisonOptionsInput
+	readonly Moment?: MomentComparisonOptionsInput
 }
 
 // Set up defaults.
-export const defaultForceComparison: ForceComparisonOptions = {
+export const defaultForceComparison: ForceComparisonOptions = Object.freeze({
 	position: 'equal',
 	direction: 'equal',
 	applicationPointAt: 'equal',
-}
-export const defaultMomentComparison: MomentComparisonOptions = {
+})
+export const defaultMomentComparison: MomentComparisonOptions = Object.freeze({
 	position: 'equal',
 	direction: 'equal',
 	openingAngle: 'equal',
-}
-export const defaultLoadComparison: LoadComparisonOptions = {
+})
+export const defaultLoadComparison: LoadComparisonOptions = Object.freeze({
 	Force: defaultForceComparison,
 	Moment: defaultMomentComparison,
-}
+})
 
 // Set up resolving functions.
 export function resolveForceComparisonOptions(options: ForceComparisonOptionsInput = {}, defaults = defaultForceComparison): ForceComparisonOptions {
 	const resolvedOptions = mergeDefaults(options, defaults)
-	return validateForceComparisonOptions(resolvedOptions)
+	return Object.freeze(validateForceComparisonOptions(resolvedOptions))
 }
 export function resolveMomentComparisonOptions(options: MomentComparisonOptionsInput = {}, defaults = defaultMomentComparison): MomentComparisonOptions {
-	return validateMomentComparisonOptions(mergeDefaults(options, defaults))
+	return Object.freeze(validateMomentComparisonOptions(mergeDefaults(options, defaults)))
 }
 export function resolveLoadComparisonOptions(options: LoadComparisonOptionsInput = {}, defaults = defaultLoadComparison): LoadComparisonOptions {
-	return {
+	return Object.freeze({
 		Force: resolveForceComparisonOptions(options.Force, defaults.Force),
 		Moment: resolveMomentComparisonOptions(options.Moment, defaults.Moment),
-	}
+	})
 }
 
 export function validateForceComparisonOptions(options: ForceComparisonOptions): ForceComparisonOptions {
