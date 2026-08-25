@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { type Exercise } from '@step-wise/exercise-definition'
 
-import { isEmptyExerciseCollection, isExerciseCollection } from './exerciseCollection'
+import { filterExerciseCollectionByMode, isEmptyExerciseCollection, isExerciseCollection } from './exerciseCollection'
 
 const exercise = {
 	metadata: {},
@@ -62,5 +62,40 @@ describe('isEmptyExerciseCollection', () => {
 		isEmptyExerciseCollection(collection)
 
 		expect(Object.entries(collection)).toEqual(entries)
+	})
+})
+
+describe('filterExerciseCollectionByMode', () => {
+	const baseExercise = {
+		metadata: {},
+		generateParameters: () => ({}),
+		getInitialState: () => ({}),
+	}
+	const soloExercise = { ...baseExercise, processSoloAction: () => ({}) } satisfies Exercise
+	const groupExercise = { ...baseExercise, processGroupActions: () => ({}) } satisfies Exercise
+	const dualModeExercise = { ...baseExercise, processSoloAction: () => ({}), processGroupActions: () => ({}) } satisfies Exercise
+	const collection = { soloExercise, groupExercise, dualModeExercise }
+
+	it('keeps solo and dual-mode exercises for solo mode', () => {
+		expect(filterExerciseCollectionByMode(collection, 'solo')).toEqual({ soloExercise, dualModeExercise })
+	})
+
+	it('keeps group and dual-mode exercises for group mode', () => {
+		expect(filterExerciseCollectionByMode(collection, 'group')).toEqual({ groupExercise, dualModeExercise })
+	})
+
+	it('returns an empty collection when no exercise supports the mode', () => {
+		expect(filterExerciseCollectionByMode({ soloExercise }, 'group')).toEqual({})
+	})
+
+	it('returns a new collection without modifying the original exercises', () => {
+		const filtered = filterExerciseCollectionByMode(collection, 'solo')
+		expect(filtered).not.toBe(collection)
+		expect(collection).toEqual({ soloExercise, groupExercise, dualModeExercise })
+		expect(filtered.soloExercise).toBe(soloExercise)
+	})
+
+	it('rejects an unknown mode, including for an empty collection', () => {
+		expect(() => filterExerciseCollectionByMode({}, 'unknown' as never)).toThrow(TypeError)
 	})
 })

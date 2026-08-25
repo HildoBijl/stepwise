@@ -170,7 +170,11 @@ Group action lookups require a `userId` and throw when it is missing. Solo actio
 
 - `skill` identifies one directly practiced skill.
 - `setup` describes a more involved skill setup.
-- `setupInferenceOrder`, `weight`, and `repeatAfter` provide exercise-selection metadata.
+- `weight` is a non-negative relative selection weight and defaults to `1`.
+- `repeatAfter` is the non-negative number of intervening exercises preferred before repetition and defaults to `1`.
+- `setupInferenceOrder` sets a non-negative integer inference order when a custom resolution is needed.
+
+Use `resolveExerciseMetadata(metadata)` to validate these standard properties, preserve any specialized properties, and apply the `weight` and `repeatAfter` defaults. The returned `ResolvedExerciseMetadata` type exposes both defaulted properties as required numbers. `isExerciseMetadata(value)` provides the corresponding non-throwing check.
 
 Reducers may call the optional `updateSkills(setup, correct, userId?)` function supplied in their input. A group reducer can provide the relevant user ID for each update.
 
@@ -184,7 +188,7 @@ See [@step-wise/skill-setup](https://www.npmjs.com/package/@step-wise/skill-setu
 - `isExerciseSpec(value)` checks the specification structure.
 - `isExercise(value)` checks the resolved factories and verifies that a reducer exists for at least one registered mode.
 
-These guards validate the general exercise structure. Individual exercise types remain responsible for validating their own parameters, actions, and state.
+These guards also validate the standard exercise metadata. Individual exercise types remain responsible for validating their additional metadata, parameters, actions, and state.
 
 
 ## Specialized exercise types

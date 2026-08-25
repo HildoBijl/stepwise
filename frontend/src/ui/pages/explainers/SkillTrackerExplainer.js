@@ -6,7 +6,7 @@ import { fromKeys, mapValues } from '@step-wise/js-utils'
 import { getBernsteinExpectedValue, getBernsteinPDFMaximum, multiplyBernsteinPDFs } from '@step-wise/bernstein-polynomials'
 import { and, repeat, skill } from '@step-wise/skill-setup'
 import { applySkillLevelDecay } from '@step-wise/skill-tracking'
-import { getSelectionRates } from '@step-wise/exercise-selection'
+import { getSelectionProbabilities } from '@step-wise/exercise-selection'
 
 import { Par, Head, Button, M } from 'ui/components'
 import { defaultSkillThresholds, SkillFlask } from 'ui/eduTools'
@@ -263,7 +263,7 @@ function ExerciseOverview({ coefficientSet, pass, exercises }) {
 
 	// Calculate success rates.
 	const successRates = exercises.map(exercise => exercise.setup.getExpectedValue(coefficientSet))
-	const selectionRates = getSelectionRates(successRates)
+	const selectionProbabilities = getSelectionProbabilities(successRates)
 
 	// Render contents.
 	return (
@@ -305,7 +305,7 @@ function ExerciseOverview({ coefficientSet, pass, exercises }) {
 							<td className="number">{i + 1}</td>
 							<td className="exerciseName">{exercise.name}</td>
 							<td className="successRate">{Math.round(successRates[i] * 100)}%</td>
-							<td className="selectionRate">{Math.round(selectionRates[i] * 100)}%</td>
+							<td className="selectionRate">{Math.round(selectionProbabilities[i] * 100)}%</td>
 						</tr>
 					))}
 				</tbody>

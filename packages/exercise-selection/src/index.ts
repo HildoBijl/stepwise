@@ -1,2 +1,3 @@
-export * from './generateExercise'
-export * from './selectExercise'
+export type { ExerciseInstance, PreviousExercise } from './types'
+export { generateRandomExerciseInstance, generateSkillBasedExerciseInstance } from './generateExercise'
+export { getSelectionProbabilities, selectRandomExercise, selectSkillBasedExercise } from './selectExercise'
