@@ -3,8 +3,7 @@ import { type ExerciseId } from '@step-wise/exercise-bundling'
 
 export type PreviousExercise = {
 	exerciseId: ExerciseId
-	createdAt: number
-	updatedAt: number
+	createdAt: Date
 }
 
 export type ExerciseInstance = BaseExerciseInstance & {

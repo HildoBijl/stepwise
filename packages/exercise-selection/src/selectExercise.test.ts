@@ -30,7 +30,7 @@ describe('selectExercise', () => {
 	})
 
 	test('keeps the repeat-delay fallback restricted to solo exercises', async () => {
-		const previousExercises = [{ exerciseId: 'soloExercise', createdAt: 1, updatedAt: 1 }]
+		const previousExercises = [{ exerciseId: 'soloExercise', createdAt: new Date() }]
 		await expect(selectExercise({ groupExercise, soloExercise }, getSkillLevelSet, previousExercises)).resolves.toBe('soloExercise')
 	})
 })
