@@ -31,8 +31,8 @@ export function useBoundsBasedTransformationSettings(points, options = {}) {
 
 		// Process the input.
 		let { maxWidth, maxHeight, maxScale, margin, uniform, pretransformation, processBounds } = mergeDefaults(options, defaultBoundsBasedTransformationOptions)
-		maxWidth = ensureNumber(maxWidth)
-		maxHeight = ensureNumber(maxHeight)
+		maxWidth = ensureNumber(maxWidth, { allowInfinity: true })
+		maxHeight = ensureNumber(maxHeight, { allowInfinity: true })
 		maxScale = ensureScale(maxScale)
 		margin = ensureMargin(margin)
 		uniform = ensureBoolean(uniform)

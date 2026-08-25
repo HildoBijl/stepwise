@@ -80,7 +80,7 @@ export function processStudent(student, overview) {
 	const numCompletedPerBlock = overview.blocks.map(block => getNumCompleted(block.contentSkillIds))
 
 	// Determine the last activity for the student. (Use the original skills and not the newly added skills, that have more recent dates.)
-	const activityPerSkill = existingSkills.filter(skill => overview.allSkillIds.includes(skill.skillId)).map(skill => skill.updatedAt)
+	const activityPerSkill = existingSkills.filter(skill => overview.allSkillIds.includes(skill.skillId)).map(skill => new Date(skill.updatedAt))
 	const lastActive = findOptimum(activityPerSkill, (a, b) => a > b)
 
 	// Return all data.
