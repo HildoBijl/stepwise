@@ -1,7 +1,7 @@
 import type { Exercise } from '@step-wise/exercise-definition'
 import type { SkillLevelSet } from '@step-wise/skill-tracking'
 
-import { selectExercise, selectRandomExercise } from './selectExercise'
+import { selectRandomExercise, selectSkillBasedExercise } from './selectExercise'
 
 const baseExercise = {
 	metadata: {},
@@ -12,26 +12,26 @@ const soloExercise = { ...baseExercise, processSoloAction: () => ({}) } satisfie
 const groupExercise = { ...baseExercise, processGroupActions: () => ({}) } satisfies Exercise
 const dualModeExercise = { ...baseExercise, processSoloAction: () => ({}), processGroupActions: () => ({}) } satisfies Exercise
 
-describe('selectExercise', () => {
-	const getSkillLevelSet = async () => ({
+describe('selectSkillBasedExercise', () => {
+	const loadSkillLevelSet = async () => ({
 		getCombinedSetupExpectedSuccessRate: () => 0.5,
 	}) as unknown as SkillLevelSet
 
 	test('only selects exercises that support solo mode', async () => {
-		await expect(selectExercise({ groupExercise, soloExercise }, getSkillLevelSet)).resolves.toBe('soloExercise')
+		await expect(selectSkillBasedExercise({ groupExercise, soloExercise }, loadSkillLevelSet)).resolves.toBe('soloExercise')
 	})
 
 	test('accepts a dual-mode exercise', async () => {
-		await expect(selectExercise({ dualModeExercise }, getSkillLevelSet)).resolves.toBe('dualModeExercise')
+		await expect(selectSkillBasedExercise({ dualModeExercise }, loadSkillLevelSet)).resolves.toBe('dualModeExercise')
 	})
 
 	test('throws when no exercise supports solo mode', async () => {
-		await expect(selectExercise({ groupExercise }, getSkillLevelSet)).rejects.toThrow(/mode "solo"/)
+		await expect(selectSkillBasedExercise({ groupExercise }, loadSkillLevelSet)).rejects.toThrow(/mode "solo"/)
 	})
 
 	test('keeps the repeat-delay fallback restricted to solo exercises', async () => {
 		const previousExercises = [{ exerciseId: 'soloExercise', createdAt: new Date() }]
-		await expect(selectExercise({ groupExercise, soloExercise }, getSkillLevelSet, previousExercises)).resolves.toBe('soloExercise')
+		await expect(selectSkillBasedExercise({ groupExercise, soloExercise }, loadSkillLevelSet, previousExercises)).resolves.toBe('soloExercise')
 	})
 })
 

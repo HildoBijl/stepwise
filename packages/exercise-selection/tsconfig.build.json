@@ -11,6 +11,7 @@
   "references": [
     { "path": "../exercise-bundling/tsconfig.build.json" },
     { "path": "../exercise-definition/tsconfig.build.json" },
+    { "path": "../math-tools/tsconfig.build.json" },
     { "path": "../skill-setup/tsconfig.build.json" },
     { "path": "../skill-tracking/tsconfig.build.json" },
     { "path": "../js-utils/tsconfig.build.json" }
