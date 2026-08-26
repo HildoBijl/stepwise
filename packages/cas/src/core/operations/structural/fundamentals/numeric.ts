@@ -13,6 +13,14 @@ export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionS
 	return approximatelyEqual(number, 0) ? 0 : number
 }
 
+export function tryNumericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number | undefined {
+	try {
+		return numericNodeToNumber(node, settings)
+	} catch {
+		return undefined
+	}
+}
+
 function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): number {
 	const number = evaluateNode(node, settings)
 	if (!Number.isFinite(number)) throw new Error('Invalid toNumber call: the expression does not have a finite real value.')

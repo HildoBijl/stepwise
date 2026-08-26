@@ -1,15 +1,11 @@
 import { type LogLike } from '../../../../construction'
 
-import { isNumeric, isSingular, numericNodeToNumber } from '../../../structural'
+import { isNumeric, isSingular, tryNumericNodeToNumber } from '../../../structural'
 
 // Symbolic bases retain the usual logarithm domain assumption. Explicit numeric bases must be valid.
 export function hasValidLogarithmBase(node: LogLike): boolean {
 	if (!isNumeric(node.base)) return true
 	if (!isSingular(node.base)) return false
-	try {
-		const base = numericNodeToNumber(node.base)
-		return base > 0 && base !== 1
-	} catch {
-		return false
-	}
+	const base = tryNumericNodeToNumber(node.base)
+	return base !== undefined && base > 0 && base !== 1
 }

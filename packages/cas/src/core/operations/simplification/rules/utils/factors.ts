@@ -2,7 +2,7 @@ import { partition } from '@step-wise/js-utils'
 
 import { type ExpressionNode, negative, recreateSignNode, sum, product, power } from '../../../../construction'
 
-import { equalNodes, isMinus, isSignNode, isZero, isOne, isNumeric, isSingular, subtract, numericNodeToNumber } from '../../../structural'
+import { equalNodes, isMinus, isSignNode, isZero, isOne, isNumeric, isSingular, subtract, tryNumericNodeToNumber } from '../../../structural'
 
 import { getBaseAndExponent, getProductFactors } from '../utils'
 
@@ -25,7 +25,11 @@ export function getCommonFactors(...terms: readonly ExpressionNode[]): Expressio
 function getCommonExponent(a: ExpressionNode, b: ExpressionNode): ExpressionNode {
 	// Check edge cases.
 	if (equalNodes(a, b)) return a
-	if (isNumeric(a) && isSingular(a) && isNumeric(b) && isSingular(b)) return numericNodeToNumber(a) < numericNodeToNumber(b) ? a : b
+	if (isNumeric(a) && isSingular(a) && isNumeric(b) && isSingular(b)) {
+		const aValue = tryNumericNodeToNumber(a)
+		const bValue = tryNumericNodeToNumber(b)
+		if (aValue !== undefined && bValue !== undefined) return aValue < bValue ? a : b
+	}
 
 	// Get the smallest constant and variable part separately.
 	const isSingularNumeric = (node: ExpressionNode) => isNumeric(node) && isSingular(node)
