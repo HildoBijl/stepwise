@@ -1,3 +1,5 @@
+import { describe, expect, it, test } from 'vitest'
+
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
 import { isInputExercise, resolveSolution } from '@step-wise/input-exercises'
