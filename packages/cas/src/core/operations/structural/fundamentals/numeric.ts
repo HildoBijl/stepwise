@@ -10,6 +10,7 @@ import { isSingular } from './algebraicChecks'
 export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {
 	if (!isSingular(node)) throw new Error('Invalid toNumber call: cannot turn a plural expression into a single number.')
 	const number = toNumberInternal(node, resolveExpressionSettings(settings))
+	if (!Number.isFinite(number)) throw new Error('Invalid toNumber call: the expression does not have a finite real value.')
 	return approximatelyEqual(number, 0) ? 0 : number
 }
 
@@ -22,7 +23,7 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 	if (isPlusMinus(node)) throw new Error('Invalid toNumber call: cannot turn a plus-minus into a single number.')
 
 	// Variables
-	if (isVariable(node)) new Error(`Invalid toNumber call: cannot turn a variable "${variableToString(node)}" into a number.`)
+	if (isVariable(node)) throw new Error(`Invalid toNumber call: cannot turn a variable "${variableToString(node)}" into a number.`)
 
 	// Lists
 	if (isSum(node)) return node.terms.reduce((sum, term) => sum + toNumberInternal(term, settings), 0)
