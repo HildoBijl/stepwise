@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/js-utils'
+import { isPlainObject, mergeDefaults } from '@step-wise/js-utils'
 
 export const defaultInterpretationSettings = {
 	eAsConstant: true, // Should e be interpreted as the named constant (Euler's number)? Or as regular variable e?
@@ -13,6 +13,10 @@ export const defaultInterpretationSettings = {
 
 export type InterpretationSettings = typeof defaultInterpretationSettings
 export type InterpretationSettingsInput = Partial<InterpretationSettings>
+
+export function isInterpretationSettingsInput(value: unknown): value is InterpretationSettingsInput {
+	return isPlainObject(value) && Object.keys(defaultInterpretationSettings).every(key => value[key] === undefined || typeof value[key] === 'boolean')
+}
 
 export function resolveInterpretationSettings(settings?: InterpretationSettingsInput): InterpretationSettings {
 	return mergeDefaults(settings ?? {}, defaultInterpretationSettings)

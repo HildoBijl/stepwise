@@ -1,8 +1,7 @@
 import { indexOfAnyCharacter, last, InterpretationError } from '@step-wise/js-utils'
 
-import type { InputCursorEnd, InputValuePart } from '../types'
-import { isTextPart } from '../utils'
 import { opensExternalGroup } from '../definitions'
+import { type InputCursorEnd, type InputValuePart, isTextPart } from '../types'
 
 export const roundBrackets = ['(', ')'] as const
 export const squareBrackets = ['[', ']'] as const

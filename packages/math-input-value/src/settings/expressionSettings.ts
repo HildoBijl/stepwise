@@ -1,4 +1,4 @@
-import { mergeDefaults } from '@step-wise/js-utils'
+import { isPlainObject, mergeDefaults } from '@step-wise/js-utils'
 
 export const defaultExpressionSettings = {
 	degrees: false, // Affects for instance how trigonometric functions like sine can be reduced to numbers.
@@ -6,6 +6,10 @@ export const defaultExpressionSettings = {
 
 export type ExpressionSettings = typeof defaultExpressionSettings
 export type ExpressionSettingsInput = Partial<ExpressionSettings>
+
+export function isExpressionSettingsInput(value: unknown): value is ExpressionSettingsInput {
+	return isPlainObject(value) && Object.keys(defaultExpressionSettings).every(key => value[key] === undefined || typeof value[key] === 'boolean')
+}
 
 export function resolveExpressionSettings(settings?: ExpressionSettingsInput): ExpressionSettings {
 	return mergeDefaults(settings ?? {}, defaultExpressionSettings)

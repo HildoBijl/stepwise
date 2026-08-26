@@ -1,8 +1,7 @@
 import { last } from '@step-wise/js-utils'
 
-import type { ExpressionValue, InputValuePart } from '../types'
+import { type ExpressionValue, type InputValuePart, isTextPart } from '../types'
 
-import { isTextPart } from './fundamentals'
 import { getStartCursor, getEndCursor } from './cursors'
 
 export function getSubExpression<TAdditionalPart = never>(value: (InputValuePart | TAdditionalPart)[], left = getStartCursor(value), right = getEndCursor(value)): (InputValuePart | TAdditionalPart)[] {

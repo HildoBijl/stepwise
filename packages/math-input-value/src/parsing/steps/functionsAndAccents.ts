@@ -1,9 +1,9 @@
 import { isLetter } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
-import type { ExpressionValue, InputCursorEnd } from '../../types'
 import { accents, constructDefinitions, getConstructTypeFromAlias } from '../../definitions'
-import { getStartCursor, getEndCursor, getSubExpression, isTextPart, shiftPositionLeft, shiftPositionRight, mergeAdjacentTextParts } from '../../utils'
+import { type ExpressionValue, type InputCursorEnd, isTextPart } from '../../types'
+import { getStartCursor, getEndCursor, getSubExpression, shiftPositionLeft, shiftPositionRight, mergeAdjacentTextParts } from '../../utils'
 
 import { squareBrackets, getMatchingBrackets, findCharacterAtZeroBracketCount } from '../support'
 

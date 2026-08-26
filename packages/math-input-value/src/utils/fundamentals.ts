@@ -1,19 +1,7 @@
-import { first, isPlainObject, isEmptyObject, omitDefaults } from '@step-wise/js-utils'
+import { first, isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
 import type { ExpressionInputValue, EquationInputValue, InputValue, ExpressionValue } from '../types'
-
-export function isExpressionInputValue(element: unknown): element is ExpressionInputValue {
-	return isPlainObject(element) && element.type === 'Expression' && Array.isArray(element.value)
-}
-
-export function isEquationInputValue(element: unknown): element is EquationInputValue {
-	return isPlainObject(element) && element.type === 'Equation' && Array.isArray(element.value)
-}
-
-export function isTextPart(element: unknown): element is string {
-	return typeof element === 'string'
-}
 
 export function isEmptyExpressionValue(value: ExpressionValue): boolean {
 	if (value.length === 0) throw new Error(`Invalid expression InputValue: it can never be an empty array. There must always be at least one text part.`)

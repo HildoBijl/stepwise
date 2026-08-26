@@ -1,8 +1,8 @@
 import { first, last } from '@step-wise/js-utils'
 
-import type { InputCursorEnd, InputValuePart } from '../types'
+import { type InputCursorEnd, type InputValuePart, isTextPart } from '../types'
 
-import { isTextPart, getEmptyExpressionValue } from './fundamentals'
+import { getEmptyExpressionValue } from './fundamentals'
 
 export function equalCursor(a: InputCursorEnd, b: InputCursorEnd): boolean {
 	return a.part === b.part && a.cursor === b.cursor
