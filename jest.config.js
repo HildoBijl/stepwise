@@ -20,6 +20,7 @@ module.exports = {
 		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/physics-core/',
 		'<rootDir>/packages/physics-data/',
+		'<rootDir>/packages/physics-exercises/',
 		'<rootDir>/packages/polynomials/',
 		'<rootDir>/packages/serialization/',
 		'<rootDir>/packages/settings/',
