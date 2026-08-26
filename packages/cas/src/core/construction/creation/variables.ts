@@ -29,7 +29,7 @@ export const variable = (symbol: string, subscript?: string, accent?: AccentName
 export function variableToString(node: Variable): string {
 	let result = node.symbol
 	if (node.accent) result = `${node.accent}(${result})`
-	if (node.subscript) result = node.subscript.length > 1 ? `${result}_(${node.subscript})` : `${result}_${node.subscript}`
+	if (node.subscript) result = node.subscript.length > 1 || node.subscript.includes('_') ? `${result}_(${node.subscript})` : `${result}_${node.subscript}`
 	return result
 }
 
