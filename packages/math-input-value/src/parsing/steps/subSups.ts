@@ -28,6 +28,7 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 			subscript = part.substring(position + 2, end)
 			position = end + 1
 		} else {
+			if (position + 1 >= part.length) throw new InterpretationError('Could not interpret the expression due to a subscript with no character after it.', 'EmptySubscript', position)
 			subscript = part[position + 1]
 			position += 2
 		}
