@@ -23,8 +23,7 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 
 		// In x_(...), take all text between the brackets. In x_1, take only the single character after the underscore.
 		if (part[position + 1] === '(') {
-			const end = part.indexOf(')', position)
-			if (end === -1) throw new Error('Invalid subscript: missing closing bracket.')
+			const end = getBracketEnd(part, position + 1)
 			subscript = part.substring(position + 2, end)
 			position = end + 1
 		} else {
