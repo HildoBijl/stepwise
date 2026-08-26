@@ -22,15 +22,17 @@ export default buildStepExercise({
 		const variableSet = sample(availableVariableSets)
 		const x = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 		const y = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
-		let a, b, d, e
+		let a = 0, b = 0, d = 0, e = 0
 
 		// On a non-invertible system, redo the generation.
-		do {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 			b = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 			d = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
 			e = randomInteger(example ? -8 : -12, example ? 8 : 12, { exclude: [0] })
-		} while (a * e - b * d === 0)
+			if (a * e - b * d !== 0) break
+		}
+		if (a * e - b * d === 0) throw new Error('Failed to generate an invertible linear system after 100 attempts.')
 
 		// Set up parameters.
 		const c = a * x + b * y

@@ -22,11 +22,13 @@ export default buildStepExercise({
 
 	generateParameters() {
 		let a = 0, b = 0, c = 0
-		while (a === 0 || b ** 2 - 4 * a * c >= 0) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(-6, 6, { exclude: [0] })
 			b = randomInteger(-12, 12)
 			c = randomInteger(-40, 40)
+			if (b ** 2 - 4 * a * c < 0) break
 		}
+		if (b ** 2 - 4 * a * c >= 0) throw new Error('Failed to generate a quadratic equation without real solutions after 100 attempts.')
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 

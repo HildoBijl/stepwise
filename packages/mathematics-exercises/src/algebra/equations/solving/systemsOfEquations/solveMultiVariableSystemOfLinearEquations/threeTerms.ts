@@ -26,15 +26,17 @@ export default buildStepExercise({
 
 	generateParameters() {
 		const variableSet = sample(availableVariableSets)
-		let a, b, e, f
+		let a = 0, b = 0, e = 0, f = 0
 
 		// On a non-invertible system, redo the generation.
-		do {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(-6, 6, { exclude: [0, 1] })
 			b = randomInteger(-6, 6, { exclude: [0, 1] })
 			e = randomInteger(-6, 6, { exclude: [0, 1] })
 			f = randomInteger(-6, 6, { exclude: [0, 1] })
-		} while (a * f - b * e === 0)
+			if (a * f - b * e !== 0) break
+		}
+		if (a * f - b * e === 0) throw new Error('Failed to generate an invertible multi-variable linear system after 100 attempts.')
 
 		const c = randomInteger(-6, 6, { exclude: [0, 1] })
 		const d = randomInteger(-16, 16)

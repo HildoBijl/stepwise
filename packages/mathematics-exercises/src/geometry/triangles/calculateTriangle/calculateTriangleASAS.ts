@@ -13,15 +13,13 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		// Determine the angles and check if they match the conditions.
-		let α, β
-		do {
-			α = randomInteger(5, 12) * 5
-			β = randomInteger(5, 24, { exclude: [18, 18 - α / 5] }) * 5 // Ensure there is no 90 degree angle.
-		} while (α + β > 155)
-
-		// Gather all data into a parameters.
-		return { α: asExpression(α), β: asExpression(β), a: asExpression(sample(variableSet)), c: asExpression(randomInteger(2, 12)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const α = randomInteger(5, 12) * 5
+			const β = randomInteger(5, 24, { exclude: [18, 18 - α / 5] }) * 5 // Ensure there is no 90 degree angle.
+			if (α + β > 155) continue
+			return { α: asExpression(α), β: asExpression(β), a: asExpression(sample(variableSet)), c: asExpression(randomInteger(2, 12)), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		}
+		throw new Error('Failed to generate valid angle-side-angle triangle parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

@@ -25,7 +25,7 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const p = randomInteger(1, 4)
 			const q = randomInteger(0, 3, { exclude: [p] })
 			const s = randomInteger(0, 3, { exclude: [q] })
@@ -41,6 +41,7 @@ export default buildStepExercise({
 				switch: randomBoolean(),
 			}
 		}
+		throw new Error('Failed to generate valid higher-power bracket parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

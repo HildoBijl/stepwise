@@ -14,16 +14,14 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		// Determine sides and check the triangle inequality.
-		let a, b, c
-		do {
-			a = randomInteger(2, 12)
-			b = randomInteger(2, 12)
-			c = randomInteger(2, 12)
-		} while (a + b <= c || a + c <= b || b + c <= a)
-
-		// Assemble the parameters.
-		return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const a = randomInteger(2, 12)
+			const b = randomInteger(2, 12)
+			const c = randomInteger(2, 12)
+			if (a + b <= c || a + c <= b || b + c <= a) continue
+			return { α: asExpression(sample(variableSet)), a: asExpression(a), b: asExpression(b), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		}
+		throw new Error('Failed to generate valid side-side-side triangle parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

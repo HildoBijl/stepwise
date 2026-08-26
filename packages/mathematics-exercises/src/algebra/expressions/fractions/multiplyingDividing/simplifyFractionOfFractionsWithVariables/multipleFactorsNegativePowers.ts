@@ -25,7 +25,7 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const a = randomInteger(-12, 12, { exclude: [-1, 0, 1] })
 			const b = randomInteger(-12, 12, { exclude: [-1, 0, 1, a] })
 			const c = randomInteger(-4, 4)
@@ -37,7 +37,7 @@ export default buildStepExercise({
 			const r = randomInteger(-4, 4, { exclude: [0, q] })
 			const s = randomInteger(-4, 4, { exclude: [0] })
 			const t = randomInteger(-4, 4, { exclude: [0, p] })
-			if (Math.sign(p) === Math.sign(q) && Math.sign(p) === Math.sign(r) && Math.sign(p) === Math.sign(s) && Math.sign(t)) continue
+			if (Math.sign(p) === Math.sign(q) && Math.sign(p) === Math.sign(r) && Math.sign(p) === Math.sign(s) && Math.sign(p) === Math.sign(t)) continue
 			if (Math.sign(q) !== Math.sign(r) && Math.sign(p) !== Math.sign(t)) continue
 			return {
 				x: sample(variableSet),
@@ -47,6 +47,7 @@ export default buildStepExercise({
 				flip: randomBoolean(),
 			}
 		}
+		throw new Error('Failed to generate valid negative-power fraction parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

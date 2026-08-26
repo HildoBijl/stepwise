@@ -28,11 +28,15 @@ export default buildStepExercise({
 
 	generateParameters() {
 		let a = 0, b = 0, c = 0
-		while (a === 0 || b ** 2 - 4 * a * c <= 0) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(-6, 6, { exclude: [0] })
 			b = randomInteger(-12, 12)
 			c = randomInteger(-40, 40)
+			const discriminant = b ** 2 - 4 * a * c
+			if (discriminant > 0 && !Number.isInteger(Math.sqrt(discriminant))) break
 		}
+		const discriminant = b ** 2 - 4 * a * c
+		if (discriminant <= 0 || Number.isInteger(Math.sqrt(discriminant))) throw new Error('Failed to generate a quadratic equation with two non-integer solutions after 100 attempts.')
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 

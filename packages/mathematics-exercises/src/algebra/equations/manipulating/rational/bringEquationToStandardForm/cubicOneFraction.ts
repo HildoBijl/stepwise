@@ -54,8 +54,12 @@ export default buildStepExercise({
 		const flip = example ? false : randomBoolean()
 
 		// Set up parameters for the equation. Ensure that (on a non-normalize exercise) there is a factor to divide by.
-		let parameters = getParameters()
-		while (!normalize && gcd(...getCoefficients(parameters, flip)) === 1) parameters = getParameters()
+		let parameters: ReturnType<typeof getParameters> | undefined
+		for (let attempt = 0; attempt < 100; attempt++) {
+			parameters = getParameters()
+			if (normalize || gcd(...getCoefficients(parameters, flip)) !== 1) break
+		}
+		if (!parameters || (!normalize && gcd(...getCoefficients(parameters, flip)) === 1)) throw new Error('Failed to generate non-normalized cubic-equation coefficients after 100 attempts.')
 
 		// All done. Return the parameters.
 		const [a, b, c, d, e] = parameters

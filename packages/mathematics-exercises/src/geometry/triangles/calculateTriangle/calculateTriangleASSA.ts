@@ -14,17 +14,15 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		// Generate numbers and ensure that there are two solutions.
-		let α, a, c
-		do {
-			α = randomInteger(5, 17) * 5
-			c = randomInteger(6, 12)
-			a = randomInteger(2, c - 1)
-		} while (a <= c * Math.sin(degreesToRadians(α)) + epsilon)
-
-		// Assemble the parameters.
-		const variables = selectRandomVariables(variableSet, ['β', 'γ'])
-		return { α: asExpression(α), β: variables.β, γ: variables.γ, a: asExpression(a), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const α = randomInteger(5, 17) * 5
+			const c = randomInteger(6, 12)
+			const a = randomInteger(2, c - 1)
+			if (a <= c * Math.sin(degreesToRadians(α)) + epsilon) continue
+			const variables = selectRandomVariables(variableSet, ['β', 'γ'])
+			return { α: asExpression(α), β: variables.β, γ: variables.γ, a: asExpression(a), c: asExpression(c), rotation: randomNumber(0, 2 * Math.PI), reflection: randomBoolean() }
+		}
+		throw new Error('Failed to generate valid angle-side-side triangle parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {
