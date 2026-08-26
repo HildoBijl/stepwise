@@ -1,4 +1,4 @@
-import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsOptions, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, nodeToTree } from '../../construction'
 
@@ -8,7 +8,7 @@ import { type SimplificationOptionsInput, resolveSimplificationOptions, resolveS
 import { applySimplificationRules, type AnySimplificationRule, type SimplificationContext, type SimplificationRules } from './rules'
 
 // Take some form of simplification option input, process/check it, and apply it to the node and its children.
-export function simplify(node: ExpressionNode, settings?: ExpressionSettingsInput, options?: SimplificationOptionsInput): ExpressionNode {
+export function simplify(node: ExpressionNode, settings?: ExpressionSettingsOptions, options?: SimplificationOptionsInput): ExpressionNode {
 	const expressionSettings = resolveExpressionSettings(settings)
 	const simplificationOptions = validateSimplificationOptions(resolveSimplificationOptions(options))
 	return simplifyWithRules(node, expressionSettings, resolveSimplificationRules(simplificationOptions))

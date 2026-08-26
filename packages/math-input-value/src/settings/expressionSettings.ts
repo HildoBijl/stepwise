@@ -5,12 +5,12 @@ export const defaultExpressionSettings = {
 }
 
 export type ExpressionSettings = typeof defaultExpressionSettings
-export type ExpressionSettingsInput = Partial<ExpressionSettings>
+export type ExpressionSettingsOptions = Partial<ExpressionSettings>
 
-export function isExpressionSettingsInput(value: unknown): value is ExpressionSettingsInput {
+export function isExpressionSettingsOptions(value: unknown): value is ExpressionSettingsOptions {
 	return isPlainObject(value) && Object.keys(defaultExpressionSettings).every(key => value[key] === undefined || typeof value[key] === 'boolean')
 }
 
-export function resolveExpressionSettings(settings?: ExpressionSettingsInput): ExpressionSettings {
+export function resolveExpressionSettings(settings?: ExpressionSettingsOptions): ExpressionSettings {
 	return mergeDefaults(settings ?? {}, defaultExpressionSettings)
 }

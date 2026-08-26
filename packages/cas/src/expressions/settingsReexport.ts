@@ -1,8 +1,8 @@
 // Interpretation settings
-export { type InterpretationSettings, type InterpretationSettingsInput, defaultInterpretationSettings, resolveInterpretationSettings } from '@step-wise/math-input-value'
+export { type InterpretationSettings, type InterpretationSettingsOptions, defaultInterpretationSettings, resolveInterpretationSettings } from '@step-wise/math-input-value'
 
 // Expression settings
-export { type ExpressionSettings, type ExpressionSettingsInput, defaultExpressionSettings, resolveExpressionSettings } from '@step-wise/math-input-value'
+export { type ExpressionSettings, type ExpressionSettingsOptions, defaultExpressionSettings, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 // Input value
 export { type ExpressionInputValue } from '@step-wise/math-input-value'
@@ -15,6 +15,6 @@ export { flatten, removeTrivial, mergeNumbers, cancel, combine, expand, sort, no
 export { type TexDisplayOptions, type TexDisplayOptionsInput, defaultTexDisplayOptions, resolveTexDisplayOptions as asTexDisplayOptions } from '../core'
 
 // Accents, constructs and text functions
-export { type AccentName, accents } from '@step-wise/math-input-value'
-export { type ConstructType, constructs } from '../core'
+export { type AccentName, accentNames } from '@step-wise/math-input-value'
+export { type ConstructType, constructTypes } from '../core'
 export { type TextFunctionName, textFunctions } from '../core'

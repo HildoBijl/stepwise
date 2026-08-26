@@ -4,11 +4,11 @@ import { type InterpretationSettings } from '../../settings'
 import type { ExpressionValue, InputValuePart, SubSupInputValue } from '../../types'
 
 // Turn underscores and power symbols in text parts into SubSup constructs. Existing constructs pass through unchanged.
-export function processSubSups(value: ExpressionValue, settings: InterpretationSettings, processExpressionString: (str: string, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
-	return value.flatMap(part => processExpressionPartSubSups(part, settings, processExpressionString))
+export function parseSubSups(value: ExpressionValue, settings: InterpretationSettings, parseExpressionString: (source: string, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
+	return value.flatMap(part => parseSubSupsInTextPart(part, settings, parseExpressionString))
 }
 
-function processExpressionPartSubSups(part: InputValuePart, settings: InterpretationSettings, processExpressionString: (str: string, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
+function parseSubSupsInTextPart(part: InputValuePart, settings: InterpretationSettings, parseExpressionString: (source: string, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
 	if (typeof part !== 'string') return [part]
 
 	const result: ExpressionValue = []
@@ -23,7 +23,7 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 
 		// In x_(...), take all text between the brackets. In x_1, take only the single character after the underscore.
 		if (part[position + 1] === '(') {
-			const end = getBracketEnd(part, position + 1)
+			const end = findClosingParenthesisIndex(part, position + 1)
 			subscript = part.substring(position + 2, end)
 			position = end + 1
 		} else {
@@ -39,19 +39,19 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 
 		// Bracketed superscripts may contain full nested expressions.
 		if (part[position + 1] === '(') {
-			const end = getBracketEnd(part, position + 1)
-			superscript = processExpressionString(part.substring(position + 2, end), settings)
+			const end = findClosingParenthesisIndex(part, position + 1)
+			superscript = parseExpressionString(part.substring(position + 2, end), settings)
 			position = end + 1
 		} else {
 			// Unbracketed numeric powers consume the complete number, including a possible minus sign and decimal part.
 			const match = part.substring(position + 1).match(/^-?(?:\d+(?:\.\d*)?|\.\d+)/)
 			if (match) {
-				superscript = processExpressionString(match[0], settings)
+				superscript = parseExpressionString(match[0], settings)
 				position += 1 + match[0].length
 			} else {
 				// Other unbracketed powers consume only one symbol: x^abc becomes x^a followed by bc.
 				if (position + 1 >= part.length) throw new InterpretationError('Could not interpret the expression due to a superscript with no character after it.', 'EmptySuperscript', position)
-				superscript = processExpressionString(part[position + 1], settings)
+				superscript = parseExpressionString(part[position + 1], settings)
 				position += 2
 			}
 		}
@@ -80,16 +80,16 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 	return result
 }
 
-function getBracketEnd(str: string, from: number): number {
-	if (str[from] !== '(') throw new Error(`Invalid getBracketEnd call: expected "(" at index ${from} in "${str}".`)
+function findClosingParenthesisIndex(source: string, openingIndex: number): number {
+	if (source[openingIndex] !== '(') throw new Error(`Invalid findClosingParenthesisIndex call: expected "(" at index ${openingIndex} in "${source}".`)
 
-	// Walk through nested brackets, returning when the opening bracket at `from` is balanced.
+	// Walk through nested brackets, returning when the bracket at `openingIndex` is balanced.
 	let counter = 0
-	let nextBracket = indexOfAnyCharacter(str, ['(', ')'], from)
+	let nextBracket = indexOfAnyCharacter(source, ['(', ')'], openingIndex)
 	while (nextBracket !== -1) {
-		counter += str[nextBracket] === '(' ? 1 : -1
+		counter += source[nextBracket] === '(' ? 1 : -1
 		if (counter === 0) return nextBracket
-		nextBracket = indexOfAnyCharacter(str, ['(', ')'], nextBracket + 1)
+		nextBracket = indexOfAnyCharacter(source, ['(', ')'], nextBracket + 1)
 	}
 	throw new Error('Invalid brackets: missing closing bracket.')
 }

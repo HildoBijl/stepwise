@@ -1,9 +1,9 @@
-import { type AccentName, accents, isAccent } from '@step-wise/math-input-value'
+import { type AccentName, accentNames, isAccentName } from '@step-wise/math-input-value'
 
 import { Variable } from '../nodes'
 
 // Define variable patterns.
-const accentPattern = `(?:(?<accent>${accents.join('|')})\\((?<accentedSymbol>[^()_]+)\\))`
+const accentPattern = `(?:(?<accent>${accentNames.join('|')})\\((?<accentedSymbol>[^()_]+)\\))`
 const plainPattern = `(?<plainSymbol>[^()_]+)`
 const subscriptPattern = `(?:_\\((?<longSubscript>[^()]+)\\)|_(?<shortSubscript>[^()_]+))?`
 const pattern = new RegExp(`^(?:${accentPattern}|${plainPattern})${subscriptPattern}$`)
@@ -18,7 +18,7 @@ export function stringToVariable(input: string): Variable {
 	const symbol = match.groups.accentedSymbol ?? match.groups.plainSymbol
 	const subscript = match.groups.longSubscript ?? match.groups.shortSubscript
 	const accent = match.groups.accent
-	if (accent !== undefined && !isAccent(accent)) throw new Error(`Unknown accent "${accent}".`)
+	if (accent !== undefined && !isAccentName(accent)) throw new Error(`Unknown accent "${accent}".`)
 	return new Variable(symbol, subscript, accent)
 }
 

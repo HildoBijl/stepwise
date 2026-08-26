@@ -12,7 +12,7 @@ import {
 	type TexDisplayOptionsInput, getNodeInterpretationSettingsInput, nodeToString, nodeToTex, nodeToInputValue, nodeToStorageValue, storageValueToNode, // Printing
 } from '../core'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settingsReexport'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type ExpressionSettings, type ExpressionInputValue, resolveExpressionSettings } from './settingsReexport'
 import { type ExpressionEqualityOptionsInput, asExpressionEqualityOptions } from './equalityOptions'
 import { type ExpressionInput } from './types'
 import { isExpressionInput, interpretExpressionInput } from './interpretation'
@@ -30,7 +30,7 @@ export type ExpressionFunction = (expression: Expression, ancestors: ExpressionA
 export function isExpressionLike(value: unknown): value is ExpressionLike {
 	return value instanceof Expression || isExpressionInput(value)
 }
-export function asExpression(value: ExpressionLike, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Expression {
+export function asExpression(value: ExpressionLike, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): Expression {
 	if (value instanceof Expression) return expressionSettings ? value.withSettings(expressionSettings) : value
 	const expressionParts = interpretExpressionInput(value, interpretationSettings, expressionSettings)
 	return new Expression(expressionParts.node, expressionParts.expressionSettings)
@@ -47,7 +47,7 @@ export class Expression {
 	 * Creation methods
 	 */
 
-	constructor(private readonly node: ExpressionNode, settings?: ExpressionSettingsInput) {
+	constructor(private readonly node: ExpressionNode, settings?: ExpressionSettingsOptions) {
 		this.settings = resolveExpressionSettings(settings)
 	}
 	get subtype() { return this.node.subtype }
@@ -56,7 +56,7 @@ export class Expression {
 		return node === this.node ? this : new Expression(node, this.settings)
 	}
 
-	withSettings(newSettings: ExpressionSettingsInput = {}): Expression {
+	withSettings(newSettings: ExpressionSettingsOptions = {}): Expression {
 		return deepEqual(newSettings, this.settings) ? this : new Expression(convertExpressionSettings(this.node, this.settings, newSettings), newSettings)
 	}
 
@@ -100,11 +100,11 @@ export class Expression {
 
 	toStorageValue(): ExpressionNodeStorageValue { return nodeToStorageValue(this.node) }
 	get SO(): ExpressionNodeStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings?: ExpressionSettingsInput): Expression {
+	static fromStorageValue(nodeStorageValue: ExpressionNodeStorageValue, settings?: ExpressionSettingsOptions): Expression {
 		return new Expression(storageValueToNode(nodeStorageValue), resolveExpressionSettings(settings))
 	}
 
-	getInterpretationSettings(): InterpretationSettingsInput {
+	getInterpretationSettings(): InterpretationSettingsOptions {
 		return getNodeInterpretationSettingsInput(this.node)
 	}
 
@@ -113,7 +113,7 @@ export class Expression {
 	 */
 
 	// String
-	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return nodeToString(this.node, settings) }
+	toString(settings: InterpretationSettingsOptions = this.getInterpretationSettings()): string { return nodeToString(this.node, settings) }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
@@ -126,7 +126,7 @@ export class Expression {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): ExpressionInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.getInterpretationSettings()): ExpressionInputValue {
 		return nodeToInputValue(this.node, interpretationSettings, this.settings)
 	}
 

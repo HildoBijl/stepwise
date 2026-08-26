@@ -1,4 +1,4 @@
-import { type ExpressionSettingsInput } from '@step-wise/math-input-value'
+import { type ExpressionSettingsOptions } from '@step-wise/math-input-value'
 
 import { type ExpressionNodeInput, asExpressionNode, nodeToTree } from '../construction'
 import { type SimplificationOptionsInput, equalNodes, simplify } from '../operations'
@@ -14,7 +14,7 @@ export function expectNodeToEqual(result: ExpressionNodeInput, expected: Express
 	Expected output structure: ${nodeToTree(expectedValue)}`)
 }
 
-export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: ExpressionSettingsInput = {}) {
+export function expectSimplifyToGive(input: ExpressionNodeInput, output: ExpressionNodeInput, options: SimplificationOptionsInput, expressionSettings: ExpressionSettingsOptions = {}) {
 	const inputValue = asExpressionNode(input)
 	const outputValue = asExpressionNode(output)
 	const result = simplify(inputValue, expressionSettings, options)

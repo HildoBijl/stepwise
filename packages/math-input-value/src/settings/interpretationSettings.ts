@@ -12,12 +12,12 @@ export const defaultInterpretationSettings = {
 }
 
 export type InterpretationSettings = typeof defaultInterpretationSettings
-export type InterpretationSettingsInput = Partial<InterpretationSettings>
+export type InterpretationSettingsOptions = Partial<InterpretationSettings>
 
-export function isInterpretationSettingsInput(value: unknown): value is InterpretationSettingsInput {
+export function isInterpretationSettingsOptions(value: unknown): value is InterpretationSettingsOptions {
 	return isPlainObject(value) && Object.keys(defaultInterpretationSettings).every(key => value[key] === undefined || typeof value[key] === 'boolean')
 }
 
-export function resolveInterpretationSettings(settings?: InterpretationSettingsInput): InterpretationSettings {
+export function resolveInterpretationSettings(settings?: InterpretationSettingsOptions): InterpretationSettings {
 	return mergeDefaults(settings ?? {}, defaultInterpretationSettings)
 }

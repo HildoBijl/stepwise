@@ -1,5 +1,5 @@
 import { mergeDefaults } from '@step-wise/js-utils'
-import { type InterpretationSettings, type InterpretationSettingsInput, defaultInterpretationSettings } from '@step-wise/math-input-value'
+import { type InterpretationSettings, type InterpretationSettingsOptions, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, type ConstantNode, type SignNode, type Sum, type Product, type Fraction, type Power, type FunctionNode, variableToString } from '../../construction'
 import { isConstantNode, isNamedConstant, isSignNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isFunctionNode } from '../../operations'
@@ -8,7 +8,7 @@ import { bracketLevels, requiresBracketsFor } from './bracketSupport'
 import { requiresPlusBetweenNodes, requiresTimesBetweenFactors } from './listSupport'
 import { getNodeInterpretationSettingsInput } from './getInterpretationSettings'
 
-export function nodeToString(node: ExpressionNode, interpretationSettings: InterpretationSettingsInput = getNodeInterpretationSettingsInput(node)) {
+export function nodeToString(node: ExpressionNode, interpretationSettings: InterpretationSettingsOptions = getNodeInterpretationSettingsInput(node)) {
 	const settings = mergeDefaults(interpretationSettings, defaultInterpretationSettings)
 	if (isConstantNode(node)) return constantToString(node, settings)
 	if (isSignNode(node)) return signToString(node, settings)

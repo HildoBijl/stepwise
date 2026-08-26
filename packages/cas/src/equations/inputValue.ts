@@ -1,4 +1,4 @@
-import { type EquationInputValue, stringToInputValue } from '@step-wise/math-input-value'
+import { type EquationInputValue, parseEquationInputValue } from '@step-wise/math-input-value'
 
 import { type Equation, asEquation } from './Equation'
 
@@ -9,5 +9,5 @@ export function interpretEquationInputValue(inputValue: EquationInputValue): Equ
 }
 
 export function equationToInputValue(equation: Equation): EquationInputValue {
-	return stringToInputValue(equation.toString(), equation.getInterpretationSettings(), equation.settings, true)
+	return parseEquationInputValue(equation.toString(), equation.getInterpretationSettings(), equation.settings)
 }

@@ -1,5 +1,5 @@
 import { omitDefaults } from '@step-wise/js-utils'
-import { type InterpretationSettings, type InterpretationSettingsInput, defaultInterpretationSettings } from '@step-wise/math-input-value'
+import { type InterpretationSettings, type InterpretationSettingsOptions, defaultInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, namedConstants, variable } from '../../construction'
 import { someDescendant, isNamedConstant, equalConstants, isVariable, equalVariables, hasLog, hasTrigonometry, hasMultiCharacterVariables } from '../../operations'
@@ -13,7 +13,7 @@ export function getNodeInterpretationSettings(node: ExpressionNode): Interpretat
 	}
 }
 
-export function getNodeInterpretationSettingsInput(node: ExpressionNode): InterpretationSettingsInput {
+export function getNodeInterpretationSettingsInput(node: ExpressionNode): InterpretationSettingsOptions {
 	return omitDefaults(getNodeInterpretationSettings(node), defaultInterpretationSettings)
 }
 

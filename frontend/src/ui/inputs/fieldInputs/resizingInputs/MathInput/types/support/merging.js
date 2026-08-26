@@ -1,4 +1,4 @@
-import { getSubExpression, findEndOfFactor } from '@step-wise/math-input-value'
+import { sliceExpressionValue, findEndOfFactor } from '@step-wise/math-input-value'
 
 import { expressionFunctions, getFIStartCursor, getFIEndCursor, getConstructPart, getFirstConstructPart } from '..'
 
@@ -108,11 +108,11 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 
 	// Apply the proper split.
 	const toPullIn = toRight ?
-		getSubExpression(expressionValue, cursorAtEdgeOfElement, cursorAtBreak) :
-		getSubExpression(expressionValue, cursorAtBreak, cursorAtEdgeOfElement)
+		sliceExpressionValue(expressionValue, cursorAtEdgeOfElement, cursorAtBreak) :
+		sliceExpressionValue(expressionValue, cursorAtBreak, cursorAtEdgeOfElement)
 	const toLeaveBehind = toRight ?
-		getSubExpression(expressionValue, cursorAtBreak, cursorAtEnd) :
-		getSubExpression(expressionValue, cursorAtEnd, cursorAtBreak)
+		sliceExpressionValue(expressionValue, cursorAtBreak, cursorAtEnd) :
+		sliceExpressionValue(expressionValue, cursorAtEnd, cursorAtBreak)
 
 	// Return the result, including cursors.
 	return {

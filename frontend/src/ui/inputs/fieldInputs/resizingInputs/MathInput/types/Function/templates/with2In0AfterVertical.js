@@ -1,6 +1,6 @@
 // This is the template for functions like frac(...)(...) or SubSup which have two parameters that are vertically above each other.
 
-import { getSubExpression, findEndOfFactor, addExpressionWrapper } from '@step-wise/math-input-value'
+import { sliceExpressionValue, findEndOfFactor, createExpressionInputValue } from '@step-wise/math-input-value'
 
 import { charElementsToBounds, getClosestElement } from '../../..'
 
@@ -38,8 +38,8 @@ function create(expressionFI, part, position, name, alias) {
 
 	// Set up the arguments.
 	const parameters = [
-		addExpressionWrapper(getSubExpression(value, leftSide, beforeAlias)),
-		addExpressionWrapper(getSubExpression(value, afterAlias, rightSide)),
+		createExpressionInputValue(sliceExpressionValue(value, leftSide, beforeAlias)),
+		createExpressionInputValue(sliceExpressionValue(value, afterAlias, rightSide)),
 	]
 
 	// Set up the element.
@@ -48,9 +48,9 @@ function create(expressionFI, part, position, name, alias) {
 
 	// Build the new Expression around it.
 	value = [
-		...getSubExpression(value, start, leftSide),
+		...sliceExpressionValue(value, start, leftSide),
 		functionElement,
-		...getSubExpression(value, rightSide, end),
+		...sliceExpressionValue(value, rightSide, end),
 	]
 	return {
 		...expressionFI,

@@ -1,7 +1,7 @@
 import { approximatelyEqual, deepEqual, identity } from '@step-wise/js-utils'
-import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, addEquationWrapper, mergeAdjacentTextParts } from '@step-wise/math-input-value'
+import { type ExpressionSettings, type EquationInputValue, resolveExpressionSettings, defaultExpressionSettings, createEquationInputValue, mergeAdjacentTextParts } from '@step-wise/math-input-value'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, type TexDisplayOptionsInput, type VariableLike, type ExpressionLike, type SimplificationOptionsInput, type SubstitutionMap, asExpression, Expression } from '../expressions'
 
 import { type EquationInput, type EquationStorageValue, type EquationSideName, type EquationSideCheck, type EquationSideTransform, type EquationSideFunction, type ExpressionInEquationCheck, type ExpressionInEquationTransform, type ExpressionInEquationFunction, equationSideNames } from './types'
 import { type EquationEqualityOptionsInput, asEquationEqualityOptions } from './equalityOptions'
@@ -12,7 +12,7 @@ export type EquationLike = Equation | EquationInput
 export function isEquationLike(value: unknown): value is EquationLike {
 	return value instanceof Equation || isEquationInput(value)
 }
-export function asEquation(value: EquationLike, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): Equation {
+export function asEquation(value: EquationLike, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): Equation {
 	if (value instanceof Equation) return expressionSettings ? value.withSettings(expressionSettings) : value
 	const equationParts = interpretEquationInput(value, interpretationSettings, expressionSettings)
 	return new Equation(equationParts.left, equationParts.right, equationParts.settings)
@@ -31,7 +31,7 @@ export class Equation {
 	 * Creation methods
 	 */
 
-	constructor(left: ExpressionLike, right: ExpressionLike, settings?: ExpressionSettingsInput) {
+	constructor(left: ExpressionLike, right: ExpressionLike, settings?: ExpressionSettingsOptions) {
 		// Determine the expression settings used.
 		if (settings) this.settings = resolveExpressionSettings(settings)
 		else if (left instanceof Expression) this.settings = left.settings
@@ -47,7 +47,7 @@ export class Equation {
 		return left === this.left && right === this.right ? this : new Equation(left, right, this.settings)
 	}
 
-	withSettings(newSettings: ExpressionSettingsInput = {}): Equation {
+	withSettings(newSettings: ExpressionSettingsOptions = {}): Equation {
 		return deepEqual(newSettings, this.settings) ? this : new Equation(this.left, this.right, newSettings)
 	}
 
@@ -67,11 +67,11 @@ export class Equation {
 		return { left: this.left.toStorageValue(), right: this.right.toStorageValue() }
 	}
 	get SO(): EquationStorageValue { return this.toStorageValue() } // SO Legacy
-	static fromStorageValue(storageValue: EquationStorageValue, settings: ExpressionSettingsInput = {}): Equation {
+	static fromStorageValue(storageValue: EquationStorageValue, settings: ExpressionSettingsOptions = {}): Equation {
 		return new Equation(Expression.fromStorageValue(storageValue.left, settings), Expression.fromStorageValue(storageValue.right, settings), settings)
 	}
 
-	getInterpretationSettings(): InterpretationSettingsInput {
+	getInterpretationSettings(): InterpretationSettingsOptions {
 		return { ...this.left.getInterpretationSettings(), ...this.right.getInterpretationSettings() }
 	}
 
@@ -80,7 +80,7 @@ export class Equation {
 	 */
 
 	// String
-	toString(settings: InterpretationSettingsInput = this.getInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
+	toString(settings: InterpretationSettingsOptions = this.getInterpretationSettings()): string { return `${this.left.toString(settings)}=${this.right.toString(settings)}` }
 	get str() { return this.toString() }
 	print() { console.log(this.toString()) }
 
@@ -93,10 +93,10 @@ export class Equation {
 	get tree() { return this.toTree() }
 
 	// InputValue
-	toInputValue(interpretationSettings: InterpretationSettingsInput = this.getInterpretationSettings()): EquationInputValue {
+	toInputValue(interpretationSettings: InterpretationSettingsOptions = this.getInterpretationSettings()): EquationInputValue {
 		const leftInputValue = this.left.toInputValue(interpretationSettings)
 		const rightInputValue = this.right.toInputValue(interpretationSettings)
-		return addEquationWrapper(mergeAdjacentTextParts([...leftInputValue.value, '=', ...rightInputValue.value]), interpretationSettings, this.settings)
+		return createEquationInputValue(mergeAdjacentTextParts([...leftInputValue.value, '=', ...rightInputValue.value]), interpretationSettings, this.settings)
 	}
 
 	/*

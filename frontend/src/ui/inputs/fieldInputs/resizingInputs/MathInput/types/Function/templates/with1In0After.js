@@ -1,6 +1,6 @@
 // This is the template for functions like sqrt(...) which have a parameter after their term and have no other parameters.
 
-import { getSubExpression, findNextClosingBracket } from '@step-wise/math-input-value'
+import { sliceExpressionValue, findClosingBracket } from '@step-wise/math-input-value'
 
 import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty, createConstruct } from '../..'
 import { mergeWithRight, splitToRight } from '../../support'
@@ -27,7 +27,7 @@ function create(expressionFI, part, position, name, alias) {
 	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
-	const endOfTerm = findNextClosingBracket(value, afterAlias)
+	const endOfTerm = findClosingBracket(value, afterAlias)
 	const end = getFIEndCursor(expressionFI)
 
 	// Check if there is a bracket at the end of the term. If not, put everything in the function.
@@ -38,7 +38,7 @@ function create(expressionFI, part, position, name, alias) {
 	// Set up the new function element. 
 	const parameter = {
 		type: 'Expression',
-		value: getSubExpression(value, afterAlias, endOfTerm),
+		value: sliceExpressionValue(value, afterAlias, endOfTerm),
 	}
 	const parameters = name === 'Root' ? [{ type: 'Expression', value: [''] }, parameter] : [parameter]
 	const functionElement = createConstruct(name, alias, parameters)
@@ -46,9 +46,9 @@ function create(expressionFI, part, position, name, alias) {
 
 	// Build the new Expression around it.
 	value = [
-		...getSubExpression(value, start, beforeAlias),
+		...sliceExpressionValue(value, start, beforeAlias),
 		functionElement,
-		...getSubExpression(value, endOfTermAfterBracket, end),
+		...sliceExpressionValue(value, endOfTermAfterBracket, end),
 	]
 	return {
 		...expressionFI,

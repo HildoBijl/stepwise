@@ -13,7 +13,7 @@ export type InputValuePartCursor = TextPartCursor | FractionCursor | SquareRootC
 export type ExpressionCursor = { part: number, cursor: InputValuePartCursor }
 
 // A flat position within a text part of an expression array. Parsing and manipulation utilities use this to mark expression boundaries.
-export type InputCursorEnd = { part: number, cursor: TextPartCursor }
+export type ExpressionPosition = { part: number, cursor: TextPartCursor }
 
 // Add a cursor to the input value to get an input state.
 export type ExpressionInputState = ExpressionInputValue & { cursor: ExpressionCursor }

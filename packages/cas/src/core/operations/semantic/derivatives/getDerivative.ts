@@ -1,4 +1,4 @@
-import { type ExpressionSettingsInput, resolveExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsOptions, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, type VariableInput, asVariable } from '../../../construction'
 
@@ -7,7 +7,7 @@ import { simplify, removeTrivial } from '../../simplification'
 import { type DerivativeContext } from './types'
 import { applyDerivativeRules } from './rules'
 
-export function getDerivative(node: ExpressionNode, variable: VariableInput, settings?: ExpressionSettingsInput): ExpressionNode {
+export function getDerivative(node: ExpressionNode, variable: VariableInput, settings?: ExpressionSettingsOptions): ExpressionNode {
 	// Set up the context.
 	const context: DerivativeContext = {
 		variable: asVariable(variable),

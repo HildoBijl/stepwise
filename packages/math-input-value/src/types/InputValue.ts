@@ -1,5 +1,5 @@
+import type { InterpretationSettingsOptions, ExpressionSettingsOptions } from '../settings'
 import type { AccentName } from '../definitions/accents'
-import type { InterpretationSettingsInput, ExpressionSettingsInput } from '../settings'
 
 export type ExpressionValue = InputValuePart[]
 
@@ -13,7 +13,7 @@ export type ConstructInputValue = FractionInputValue | SquareRootInputValue | Ro
 export type AccentInputValue = { type: 'Accent', name: AccentName, alias?: string, value: string }
 export type InputValuePart = string | ConstructInputValue | AccentInputValue
 
-type MathInputValueBase = { value: ExpressionValue, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput }
+type MathInputValueBase = { value: ExpressionValue, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions }
 export type ExpressionInputValue = { type: 'Expression' } & MathInputValueBase
 export type EquationInputValue = { type: 'Equation' } & MathInputValueBase
 export type InputValue = ExpressionInputValue | EquationInputValue

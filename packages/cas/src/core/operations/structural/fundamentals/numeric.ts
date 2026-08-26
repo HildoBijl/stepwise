@@ -1,12 +1,12 @@
 import { approximatelyEqual } from '@step-wise/js-utils'
-import { type ExpressionSettingsInput, type ExpressionSettings, resolveExpressionSettings } from '@step-wise/math-input-value'
+import { type ExpressionSettingsOptions, type ExpressionSettings, resolveExpressionSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, variableToString } from '../../../construction'
 
 import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
-export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsInput): number {
+export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {
 	const number = toNumberInternal(node, resolveExpressionSettings(settings))
 	return approximatelyEqual(number, 0) ? 0 : number
 }
@@ -61,6 +61,6 @@ function radiansToDegrees(value: number, settings: ExpressionSettings): number {
 }
 
 // Check if two numeric expressions are equal. Throws when given non-numeric expressions.
-export function equalNumbers(a: ExpressionNode, b: ExpressionNode, aSettings: ExpressionSettingsInput = {}, bSettings: ExpressionSettingsInput = aSettings): boolean {
+export function equalNumbers(a: ExpressionNode, b: ExpressionNode, aSettings: ExpressionSettingsOptions = {}, bSettings: ExpressionSettingsOptions = aSettings): boolean {
 	return approximatelyEqual(numericNodeToNumber(a, aSettings), numericNodeToNumber(b, bSettings))
 }

@@ -1,6 +1,6 @@
 import { first, isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
-import { type InterpretationSettingsInput, type ExpressionSettingsInput, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
+import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
 import { type ExpressionInputValue, type EquationInputValue, type InputValue, type ExpressionValue, isExpressionValue } from '../types'
 
 export function isEmptyExpressionValue(value: ExpressionValue): boolean {
@@ -8,31 +8,31 @@ export function isEmptyExpressionValue(value: ExpressionValue): boolean {
 	return value.length === 1 && first(value) === ''
 }
 
-export function getEmptyExpressionValue(): ExpressionValue {
+export function createEmptyExpressionValue(): ExpressionValue {
 	return ['']
 }
 
-export function getEmptyExpression(): ExpressionInputValue {
-	return getExpressionWith('')
+export function createEmptyExpressionInputValue(): ExpressionInputValue {
+	return createExpressionInputValueFromText('')
 }
 
-export function addExpressionWrapper(value: ExpressionValue, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): ExpressionInputValue {
+export function createExpressionInputValue(value: ExpressionValue, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): ExpressionInputValue {
 	if (!isExpressionValue(value)) throw new TypeError('Cannot wrap an invalid expression value.')
 	const result: ExpressionInputValue = { type: 'Expression', value }
-	return addPotentialSettings(result, interpretationSettings, expressionSettings)
+	return addNonDefaultSettings(result, interpretationSettings, expressionSettings)
 }
 
-export function addEquationWrapper(value: ExpressionValue, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationInputValue {
+export function createEquationInputValue(value: ExpressionValue, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): EquationInputValue {
 	if (!isExpressionValue(value)) throw new TypeError('Cannot wrap an invalid expression value.')
 	const result: EquationInputValue = { type: 'Equation', value }
-	return addPotentialSettings(result, interpretationSettings, expressionSettings)
+	return addNonDefaultSettings(result, interpretationSettings, expressionSettings)
 }
 
-export function getExpressionWith(value: string): ExpressionInputValue {
-	return addExpressionWrapper([value])
+export function createExpressionInputValueFromText(value: string): ExpressionInputValue {
+	return createExpressionInputValue([value])
 }
 
-function addPotentialSettings<T extends InputValue>(value: T, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): T {
+function addNonDefaultSettings<T extends InputValue>(value: T, interpretationSettings?: InterpretationSettingsOptions, expressionSettings?: ExpressionSettingsOptions): T {
 	if (interpretationSettings !== undefined) {
 		interpretationSettings = omitDefaults(interpretationSettings, defaultInterpretationSettings)
 		if (!isEmptyObject(interpretationSettings)) value.interpretationSettings = interpretationSettings

@@ -1,7 +1,7 @@
 import { isPlainObject } from '@step-wise/js-utils'
 
-import { isInterpretationSettingsInput, isExpressionSettingsInput } from '../settings'
-import { isAccent } from '../definitions'
+import { isInterpretationSettingsOptions, isExpressionSettingsOptions } from '../settings'
+import { isAccentName } from '../definitions'
 
 import type { AccentInputValue, ConstructInputValue, EquationInputValue, ExpressionInputValue, ExpressionValue, InputValue, InputValuePart } from './InputValue'
 
@@ -14,7 +14,7 @@ export function isEquationInputValue(value: unknown): value is EquationInputValu
 }
 
 function isMathInputValue(value: unknown): value is Record<string, unknown> & Omit<InputValue, 'type'> {
-	return isPlainObject(value) && isExpressionValue(value.value) && (value.interpretationSettings === undefined || isInterpretationSettingsInput(value.interpretationSettings)) && (value.expressionSettings === undefined || isExpressionSettingsInput(value.expressionSettings))
+	return isPlainObject(value) && isExpressionValue(value.value) && (value.interpretationSettings === undefined || isInterpretationSettingsOptions(value.interpretationSettings)) && (value.expressionSettings === undefined || isExpressionSettingsOptions(value.expressionSettings))
 }
 
 export function isExpressionValue(value: unknown): value is ExpressionValue {
@@ -60,7 +60,7 @@ function validateConstructInputValue(value: unknown, ancestors: Set<object>): va
 }
 
 export function isAccentInputValue(value: unknown): value is AccentInputValue {
-	return isPlainObject(value) && value.type === 'Accent' && typeof value.name === 'string' && isAccent(value.name) && (value.alias === undefined || typeof value.alias === 'string') && typeof value.value === 'string'
+	return isPlainObject(value) && value.type === 'Accent' && typeof value.name === 'string' && isAccentName(value.name) && (value.alias === undefined || typeof value.alias === 'string') && typeof value.value === 'string'
 }
 
 export function isTextPart(value: unknown): value is string {

@@ -1,5 +1,5 @@
 import { last } from '@step-wise/js-utils'
-import { getEmptyExpressionValue } from '@step-wise/math-input-value'
+import { createEmptyExpressionValue } from '@step-wise/math-input-value'
 
 import { removeCursor } from '../../../../FieldInput'
 
@@ -78,7 +78,7 @@ function alternateExpressionParts(FI, settings) {
 
 	// Check a special case.
 	if (value.length === 0)
-		return { type: 'Expression', value: getEmptyExpressionValue(), cursor: expressionFunctions.getStartCursor() }
+		return { type: 'Expression', value: createEmptyExpressionValue(), cursor: expressionFunctions.getStartCursor() }
 
 	// Set up result parameters.
 	const newValue = []
