@@ -8,6 +8,8 @@ import type { InterpreterContext } from '../types'
 // Incorporate subscript/superscript into the ALREADY EXISTING previous term.
 export function incorporateSubSup(element: SubSupInputValue, result: ExpressionNode[], context: InterpreterContext) {
 	const { subscript, superscript } = element
+	if (subscript === undefined && superscript === undefined) throw new InterpretationError('Could not interpret an empty subscript/superscript construct.', 'EmptySubSup')
+	if (subscript === '') throw new InterpretationError('Could not interpret an empty subscript.', 'EmptySubscript')
 	const previousTerm = last(result)
 
 	// Fix the subscript.

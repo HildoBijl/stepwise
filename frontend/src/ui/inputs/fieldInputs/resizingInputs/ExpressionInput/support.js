@@ -89,6 +89,8 @@ export function errorToMessage(error) {
 			return <Translation path={translationPath} entry={`${translationEntry}.emptySubscript`}>There is a subscript symbol "_" without a character after it.</Translation>
 		case 'EmptySuperscript':
 			return <Translation path={translationPath} entry={`${translationEntry}.emptySuperscript`}>There is an exponent symbol "^" without a character after it.</Translation>
+		case 'EmptySubSup':
+			return <Translation path={translationPath} entry={`${translationEntry}.emptySubSup`}>There is an empty subscript/superscript.</Translation>
 
 		default:
 			console.error(error) // Display the error.
