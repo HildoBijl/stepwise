@@ -1,4 +1,4 @@
-import { type ExpressionInputValue, type InterpretationSettings, resolveInterpretationSettings } from '@step-wise/math-input-value'
+import { type ExpressionInputValue, type InterpretationSettings, isExpressionInputValue, resolveInterpretationSettings } from '@step-wise/math-input-value'
 
 import { type ExpressionNode, Variable, isNamedConstantReferral, getNamedConstant } from '../nodes'
 
@@ -7,6 +7,7 @@ import { interpretBrackets, interpretProducts, interpretStringsAndElements, inte
 
 // Turn an InputValue to an ExpressionNode. Interpreting functions successively call themselves.
 export function inputValueToNode(input: ExpressionInputValue): ExpressionNode {
+	if (!isExpressionInputValue(input)) throw new TypeError('Invalid expression input value: expected a structurally valid ExpressionInputValue.')
 	const interpretationSettings = resolveInterpretationSettings(input.interpretationSettings)
 	const context: InterpreterContext = { interpretationSettings, interpretBrackets, interpretSums, interpretProducts, interpretStringsAndElements } satisfies InterpreterContext
 	const result = interpretBrackets(input.value, context)
