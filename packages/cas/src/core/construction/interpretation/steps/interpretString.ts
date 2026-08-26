@@ -13,17 +13,20 @@ export function interpretString(str: string, context: InterpreterContext): Expre
 
 // Check that no illegal formats appear.
 const regInvalidSymbols = new RegExp(`[^a-zα-ω0-9.∞]`, 'i')
-const regSingleDecimalSeparator = new RegExp(`(([^0-9]\\.[^0-9])|(^\\.[^0-9])|([^0-9]\\.$))`) // Period without any numbers.
 const regMultipleDecimalSeparator = new RegExp(`\\.[0-9]*\\.`) // Number with two periods.
 function checkStringFormat(str: string): void {
 	const invalidSymbolMatch = str.match(regInvalidSymbols)
 	if (invalidSymbolMatch) throw new InterpretationError(`Could not interpret the string "${str}".`, 'InvalidSymbol', invalidSymbolMatch[0])
 
-	const singleDecimalSeparatorMatch = str.match(regSingleDecimalSeparator)
-	if (singleDecimalSeparatorMatch) throw new InterpretationError(`Could not interpret the string "${str}".`, 'SingleDecimalSeparator', singleDecimalSeparatorMatch[0])
-
 	const multipleDecimalSeparatorMatch = str.match(regMultipleDecimalSeparator)
 	if (multipleDecimalSeparatorMatch) throw new InterpretationError(`Could not interpret the string "${str}".`, 'MultipleDecimalSeparator', multipleDecimalSeparatorMatch[0])
+
+	const loneDecimalSeparator = [...str].find((symbol, index) => symbol === '.' && !isDigit(str[index - 1]) && !isDigit(str[index + 1]))
+	if (loneDecimalSeparator) throw new InterpretationError(`Could not interpret the string "${str}".`, 'SingleDecimalSeparator', loneDecimalSeparator)
+}
+
+function isDigit(value: string | undefined): boolean {
+	return value !== undefined && value >= '0' && value <= '9'
 }
 
 // In the single-character variable case, walk through the string and add single characters as variables.
@@ -44,7 +47,9 @@ function interpretStringWithSingleCharacterVariables(str: string): ExpressionNod
 // In the multi-character case, turn leading numbers into numbers and everything else into one large variable.
 const variableStart = `a-zα-ω`
 const variableRest = `${variableStart}0-9`
-const regMultiCharacterToken = new RegExp(`[0-9]+(?:\\.[0-9]+)?|\\.[0-9]+|∞|[${variableStart}][${variableRest}]*`, 'gi')
+const unsignedNumberPattern = `(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)`
+const regNumber = new RegExp(`^${unsignedNumberPattern}$`)
+const regMultiCharacterToken = new RegExp(`${unsignedNumberPattern}|∞|[${variableStart}][${variableRest}]*`, 'gi')
 function interpretStringWithMultiCharacterVariables(str: string): ExpressionNode[] {
 	const matches = [...str.matchAll(regMultiCharacterToken)]
 	if (matches.map(match => match[0]).join('') !== str) throw new InterpretationError(`Could not interpret the string "${str}".`, 'InvalidSymbol', getFirstUnmatchedPart(str, matches))
@@ -52,7 +57,7 @@ function interpretStringWithMultiCharacterVariables(str: string): ExpressionNode
 }
 
 function isNumberString(token: string): boolean {
-	return /^[0-9]+(?:\.[0-9]+)?|\.[0-9]+$/.test(token)
+	return regNumber.test(token)
 }
 
 function getFirstUnmatchedPart(str: string, matches: RegExpMatchArray[]): string {
