@@ -1,5 +1,5 @@
 import { InterpretationError, indexOfAnyCharacter } from '@step-wise/js-utils'
-import { type ExpressionPosition, getExpressionEnd, getExpressionStart, sliceExpressionValue, isTextPart, shiftExpressionPositionRight, areExpressionPositionsEqual } from '@step-wise/math-input-value'
+import { type ExpressionTextCursor, getExpressionEndCursor, getExpressionStartCursor, sliceExpressionValue, isTextPart, shiftExpressionTextCursorRight, areExpressionTextCursorsEqual } from '@step-wise/math-input-value'
 
 import { ExpressionNode, Minus, PlusMinus, Sum } from '../../nodes'
 
@@ -10,8 +10,8 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 	// Set up a handler to add terms to the sum.
 	const terms: ExpressionNode[] = []
 	let symbolBefore = ''
-	const addTerm = (start: ExpressionPosition, end: ExpressionPosition, symbolBefore: string) => {
-		if (areExpressionPositionsEqual(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
+	const addTerm = (start: ExpressionTextCursor, end: ExpressionTextCursor, symbolBefore: string) => {
+		if (areExpressionTextCursorsEqual(start, end)) return // Don't add things if the start and the end collide. (Like with a minus at the start of "-3x".)
 		let expression = context.interpretProducts(sliceExpressionValue<ExpressionNode>(value, start, end), context)
 		if (symbolBefore === '-') expression = new Minus(expression)
 		if (symbolBefore === '±') expression = new PlusMinus(expression)
@@ -19,7 +19,7 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 	}
 
 	// Walk through all expression parts, find pluses and minuses, and split the expressions up there.
-	let start = getExpressionStart<ExpressionNode>(value)
+	let start = getExpressionStartCursor<ExpressionNode>(value)
 	value.forEach((element, part) => {
 		if (!isTextPart(element)) return
 		const str = element
@@ -30,10 +30,10 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 
 			// Run checks: no plus at the start, and no two consecutive pluses/minuses, although "+-" like in "x+-3" is allowed.
 			if (end.part === 0 && end.cursor === 0 && symbolAfter === '+') throw new InterpretationError('Could not interpret the Expression due to it starting with a plus.', 'PlusAtStart', '+')
-			if (areExpressionPositionsEqual(start, end) && (symbolBefore === symbolAfter || symbolAfter === '+')) throw new InterpretationError('Could not interpret the Expression due to a double plus/minus.', 'DoublePlusMinus', `${symbolBefore}${symbolAfter}`)
+			if (areExpressionTextCursorsEqual(start, end) && (symbolBefore === symbolAfter || symbolAfter === '+')) throw new InterpretationError('Could not interpret the Expression due to a double plus/minus.', 'DoublePlusMinus', `${symbolBefore}${symbolAfter}`)
 
 			// On "2+-3", "2±-3", "2-±3" or similar, ignore the second sign symbol: incorporate it later.
-			if (areExpressionPositionsEqual(start, end)) {
+			if (areExpressionTextCursorsEqual(start, end)) {
 				nextPlusMinus = getNextPlusMinus(nextPlusMinus)
 				if (nextPlusMinus === -1) break
 				symbolAfter = str[nextPlusMinus]
@@ -46,13 +46,13 @@ export function interpretSums(value: IntermediateInterpretationPart[], context: 
 			// Extract the term, process it, and shift cursors.
 			addTerm(start, end, symbolBefore)
 			symbolBefore = symbolAfter
-			start = shiftExpressionPositionRight(end)
+			start = shiftExpressionTextCursorRight(end)
 		}
 	})
 
 	// Add the remaining part (assuming there's no plus or minus at the end).
-	const end = getExpressionEnd<ExpressionNode>(value)
-	if (areExpressionPositionsEqual(start, end) && symbolBefore) throw new InterpretationError(`Could not interpret the Expression due to it ending with "${symbolBefore}".`, 'PlusMinusAtEnd', symbolBefore)
+	const end = getExpressionEndCursor<ExpressionNode>(value)
+	if (areExpressionTextCursorsEqual(start, end) && symbolBefore) throw new InterpretationError(`Could not interpret the Expression due to it ending with "${symbolBefore}".`, 'PlusMinusAtEnd', symbolBefore)
 	addTerm(start, end, symbolBefore)
 
 	// Assemble the result in a sum.

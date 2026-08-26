@@ -1,17 +1,17 @@
 import { indexOfAnyCharacter, last, InterpretationError } from '@step-wise/js-utils'
 
 import { opensExternalBracketGroup } from '../definitions'
-import { type ExpressionPosition, type InputValuePart, isTextPart } from '../types'
+import { type ExpressionTextCursor, type InputValuePart, isTextPart } from '../types'
 
 export const roundBrackets = ['(', ')'] as const
 export const squareBrackets = ['[', ']'] as const
 export type BracketPair = typeof roundBrackets | typeof squareBrackets
 
 type TargetSymbol = string | string[] | ((symbol: string | InputValuePart) => boolean)
-type BracketMatch = { opening: ExpressionPosition, closing: ExpressionPosition }
+type BracketMatch = { opening: ExpressionTextCursor, closing: ExpressionTextCursor }
 
 // Walk through an expression and find a wanted character at net bracket count zero.
-export function findPositionAtBracketDepthZero(value: InputValuePart[], cursor: ExpressionPosition, target: TargetSymbol, searchRight = true, skipStartingPosition = false, brackets: BracketPair = roundBrackets): ExpressionPosition {
+export function findCursorAtBracketDepthZero(value: InputValuePart[], cursor: ExpressionTextCursor, target: TargetSymbol, searchRight = true, skipStartingCursor = false, brackets: BracketPair = roundBrackets): ExpressionTextCursor {
 	const isTarget = typeof target === 'function' ? target : (symbol: string | InputValuePart) => typeof symbol === 'string' && (Array.isArray(target) ? target : [target]).includes(symbol)
 
 	// Define iterators.
@@ -58,7 +58,7 @@ export function findPositionAtBracketDepthZero(value: InputValuePart[], cursor: 
 		const nextSymbol = getNextSymbol()
 
 		// Return on a wanted character at bracket count zero.
-		if (bracketCount <= 0 && isTarget(nextSymbol) && (!skipStartingPosition || !isFirst)) return { part: partIterator, cursor: cursorIterator }
+		if (bracketCount <= 0 && isTarget(nextSymbol) && (!skipStartingCursor || !isFirst)) return { part: partIterator, cursor: cursorIterator }
 
 		// Adjust bracket count. Constructs with an external group count as a round opening bracket too.
 		if (nextSymbol === brackets[0]) bracketCount += searchRight ? 1 : -1
@@ -73,38 +73,38 @@ export function findPositionAtBracketDepthZero(value: InputValuePart[], cursor: 
 	return { part: partIterator, cursor: cursorIterator }
 }
 
-export function findClosingBracket(value: InputValuePart[], cursor: ExpressionPosition): ExpressionPosition {
-	return findPositionAtBracketDepthZero(value, cursor, ')')
+export function findClosingBracket(value: InputValuePart[], cursor: ExpressionTextCursor): ExpressionTextCursor {
+	return findCursorAtBracketDepthZero(value, cursor, ')')
 }
 
-export function findEndOfFactor(value: InputValuePart[], cursor: ExpressionPosition, searchRight = true, skipStartingPosition = false): ExpressionPosition {
+export function findEndOfFactor(value: InputValuePart[], cursor: ExpressionTextCursor, searchRight = true, skipStartingCursor = false): ExpressionTextCursor {
 	const endOfFactorCharacters = ['=', '+', '-', '±', '*', '/', searchRight ? ')' : '(']
-	return findPositionAtBracketDepthZero(value, cursor, endOfFactorCharacters, searchRight, skipStartingPosition)
+	return findCursorAtBracketDepthZero(value, cursor, endOfFactorCharacters, searchRight, skipStartingCursor)
 }
 
-export function findEndOfExponent(value: InputValuePart[], cursor: ExpressionPosition): ExpressionPosition {
+export function findEndOfExponent(value: InputValuePart[], cursor: ExpressionTextCursor): ExpressionTextCursor {
 	const endOfExponentCharacters = ['=', '+', '-', '±', '*', '/', ')', '^']
-	return findPositionAtBracketDepthZero(value, cursor, endOfExponentCharacters, true, true)
+	return findCursorAtBracketDepthZero(value, cursor, endOfExponentCharacters, true, true)
 }
 
 // Return top-level matching brackets; nested brackets are assumed to match.
 export function getTopLevelBracketMatches(value: InputValuePart[]): BracketMatch[] {
 	const brackets: Partial<BracketMatch>[] = []
-	const openingBrackets: { bracket: typeof roundBrackets[0] | typeof squareBrackets[0], position: ExpressionPosition }[] = []
+	const openingBrackets: { bracket: typeof roundBrackets[0] | typeof squareBrackets[0], cursor: ExpressionTextCursor }[] = []
 
-	// Define handlers to register bracket positions.
-	const noteOpeningBracket = (bracket: typeof roundBrackets[0] | typeof squareBrackets[0], position: ExpressionPosition) => {
-		if (openingBrackets.length === 0) brackets.push({ opening: position })
-		openingBrackets.push({ bracket, position })
+	// Define handlers to register bracket cursors.
+	const noteOpeningBracket = (bracket: typeof roundBrackets[0] | typeof squareBrackets[0], cursor: ExpressionTextCursor) => {
+		if (openingBrackets.length === 0) brackets.push({ opening: cursor })
+		openingBrackets.push({ bracket, cursor })
 	}
-	const noteClosingBracket = (bracket: typeof roundBrackets[1] | typeof squareBrackets[1], position: ExpressionPosition) => {
-		if (openingBrackets.length === 0) throw new InterpretationError('Could not interpret the expression due to a missing opening bracket.', 'UnmatchedClosingBracket', position)
+	const noteClosingBracket = (bracket: typeof roundBrackets[1] | typeof squareBrackets[1], cursor: ExpressionTextCursor) => {
+		if (openingBrackets.length === 0) throw new InterpretationError('Could not interpret the expression due to a missing opening bracket.', 'UnmatchedClosingBracket', cursor)
 
 		const openingBracket = last(openingBrackets)
 		const expectedClosingBracket = openingBracket.bracket === roundBrackets[0] ? roundBrackets[1] : squareBrackets[1]
-		if (bracket !== expectedClosingBracket) throw new InterpretationError('Could not interpret the expression part due to a missing closing bracket.', 'UnmatchedOpeningBracket', openingBracket.position)
+		if (bracket !== expectedClosingBracket) throw new InterpretationError('Could not interpret the expression part due to a missing closing bracket.', 'UnmatchedOpeningBracket', openingBracket.cursor)
 
-		if (openingBrackets.length === 1) last(brackets).closing = position
+		if (openingBrackets.length === 1) last(brackets).closing = cursor
 		openingBrackets.pop()
 	}
 
@@ -116,16 +116,16 @@ export function getTopLevelBracketMatches(value: InputValuePart[]): BracketMatch
 
 		// Walk through the text part.
 		const textPart = element
-		const getNextBracket = (fromPosition = -1) => indexOfAnyCharacter(textPart, ['(', ')', '[', ']'], fromPosition + 1)
+		const getNextBracket = (fromCursor = -1) => indexOfAnyCharacter(textPart, ['(', ')', '[', ']'], fromCursor + 1)
 		for (let nextBracket = getNextBracket(); nextBracket !== -1; nextBracket = getNextBracket(nextBracket)) {
-			const bracketPosition = { part, cursor: nextBracket }
+			const bracketCursor = { part, cursor: nextBracket }
 			const bracket = textPart[nextBracket]
-			if (bracket === roundBrackets[0] || bracket === squareBrackets[0]) noteOpeningBracket(bracket, bracketPosition)
-			else noteClosingBracket(bracket as typeof roundBrackets[1] | typeof squareBrackets[1], bracketPosition)
+			if (bracket === roundBrackets[0] || bracket === squareBrackets[0]) noteOpeningBracket(bracket, bracketCursor)
+			else noteClosingBracket(bracket as typeof roundBrackets[1] | typeof squareBrackets[1], bracketCursor)
 		}
 	})
 
 	// Finalize the bracket pairing.
-	if (openingBrackets.length > 0) throw new InterpretationError('Could not interpret the expression part due to a missing closing bracket.', 'UnmatchedOpeningBracket', last(openingBrackets).position)
+	if (openingBrackets.length > 0) throw new InterpretationError('Could not interpret the expression part due to a missing closing bracket.', 'UnmatchedOpeningBracket', last(openingBrackets).cursor)
 	return brackets as BracketMatch[]
 }

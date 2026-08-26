@@ -71,14 +71,14 @@ describe('parseExpressionInputValue', () => {
 	})
 
 	test('stores non-default interpretation and expression settings', () => {
-		expect(parseExpressionInputValue('x', { eAsConstant: false }, { degrees: true })).toEqual({
+		expect(parseExpressionInputValue('x', { interpretEAsConstant: false }, { angleUnit: 'degrees' })).toEqual({
 			...expression('x'),
-			interpretationSettings: { eAsConstant: false },
-			expressionSettings: { degrees: true },
+			interpretationSettings: { interpretEAsConstant: false },
+			expressionSettings: { angleUnit: 'degrees' },
 		})
 	})
 
 	test('omits explicitly supplied default settings', () => {
-		expect(parseExpressionInputValue('x', { eAsConstant: true }, { degrees: false })).toEqual(expression('x'))
+		expect(parseExpressionInputValue('x', { interpretEAsConstant: true }, { angleUnit: 'radians' })).toEqual(expression('x'))
 	})
 })

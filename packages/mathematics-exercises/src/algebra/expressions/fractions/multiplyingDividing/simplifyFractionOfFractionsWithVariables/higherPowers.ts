@@ -43,8 +43,8 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const variables = filterVariables(parameters, usedVariables, constants)
-		const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-		const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const fraction1 = asExpression('((a*(x+e)^p)/(b*(x+f)^q))', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const fraction2 = asExpression('((c*(x+e)^r)/(d*(x+f)^s))', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 		const baseExpression = fraction1.divide(fraction2)
 		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial([], ['mergeFractionMinuses'])
 		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])

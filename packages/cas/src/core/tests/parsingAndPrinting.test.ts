@@ -146,25 +146,25 @@ describe('multi-character variable interpretation', () => {
 		expectNodeToEqual(stringToNode('23xy2', {}), product(23, 'x', 'y', 2))
 	})
 	test('interprets adjacent letters as one variable when enabled', () => {
-		expectNodeToEqual(stringToNode('xy', { multiCharacterVariables: true }), variable('xy'))
-		expectNodeToEqual(stringToNode('xy2', { multiCharacterVariables: true }), variable('xy2'))
-		expectNodeToEqual(stringToNode('23xy2', { multiCharacterVariables: true }), product(23, variable('xy2')))
+		expectNodeToEqual(stringToNode('xy', { allowMultiCharacterVariables: true }), variable('xy'))
+		expectNodeToEqual(stringToNode('xy2', { allowMultiCharacterVariables: true }), variable('xy2'))
+		expectNodeToEqual(stringToNode('23xy2', { allowMultiCharacterVariables: true }), product(23, variable('xy2')))
 	})
 	test('keeps infinity separate from variables', () => {
-		expectNodeToEqual(stringToNode('∞xy', { multiCharacterVariables: true }), product(namedConstants.infinity, variable('xy')))
-		expectNodeToEqual(stringToNode('23∞45xy', { multiCharacterVariables: true }), product(23, namedConstants.infinity, 45, variable('xy')))
+		expectNodeToEqual(stringToNode('∞xy', { allowMultiCharacterVariables: true }), product(namedConstants.infinity, variable('xy')))
+		expectNodeToEqual(stringToNode('23∞45xy', { allowMultiCharacterVariables: true }), product(23, namedConstants.infinity, 45, variable('xy')))
 	})
 	test('prints products implicitly by default', () => {
 		expect(nodeToString(product('x', 'y'))).toBe('xy')
 		expect(nodeToString(product(23, 'x', 'y', 2))).toBe('23xy*2')
 	})
 	test('prints products explicitly when multi-character variables are enabled', () => {
-		expect(nodeToString(product('x', 'y'), { multiCharacterVariables: true })).toBe('x*y')
-		expect(nodeToString(product(23, 'x', 'y', 2), { multiCharacterVariables: true })).toBe('23x*y*2')
+		expect(nodeToString(product('x', 'y'), { allowMultiCharacterVariables: true })).toBe('x*y')
+		expect(nodeToString(product(23, 'x', 'y', 2), { allowMultiCharacterVariables: true })).toBe('23x*y*2')
 	})
 	test('derives interpretation settings from multi-character variables', () => {
 		const node = product(variable('xy'), 'z')
-		expect(getNodeInterpretationSettingsInput(node)).toEqual({ multiCharacterVariables: true })
+		expect(getNodeInterpretationSettingsInput(node)).toEqual({ allowMultiCharacterVariables: true })
 		expect(nodeToString(node, getNodeInterpretationSettingsInput(node))).toBe('xy*z')
 	})
 	test('does not enable multi-character variables for single-character variables', () => {

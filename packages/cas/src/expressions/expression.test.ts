@@ -24,7 +24,7 @@ describe('expression evaluation', () => {
 		expect(() => asExpression('x+y').evaluateAt(2)).toThrow()
 	})
 	test('evaluates trigonometry with settings', () => {
-		expect(asExpression('sin(90)', {}, { degrees: true }).evaluateAt({})).toBeCloseTo(1)
+		expect(asExpression('sin(90)', {}, { angleUnit: 'degrees' }).evaluateAt({})).toBeCloseTo(1)
 	})
 })
 
@@ -49,8 +49,8 @@ describe('expression simplification presets', () => {
 
 describe('expression comparison', () => {
 	test('handles equivalent expressions with different trigonometric settings', () => {
-		expectExpressionToEqual(asExpression('sin(x)', {}, { degrees: true }), asExpression('sin(x*π/180)', {}, { degrees: false }))
-		expectExpressionToEqual(asExpression('arcsin(x)', {}, { degrees: true }), asExpression('arcsin(x)*180/π', {}, { degrees: false }))
+		expectExpressionToEqual(asExpression('sin(x)', {}, { angleUnit: 'degrees' }), asExpression('sin(x*π/180)', {}, { angleUnit: 'radians' }))
+		expectExpressionToEqual(asExpression('arcsin(x)', {}, { angleUnit: 'degrees' }), asExpression('arcsin(x)*180/π', {}, { angleUnit: 'radians' }))
 	})
 })
 
@@ -106,14 +106,14 @@ describe('expression input value conversion', () => {
 			asExpression('x_1+x_2^2+dot(x)_3'),
 			asExpression('(x+y)/z'),
 			asExpression('sqrt(x^2+1)'),
-			asExpression('sin(x)', {}, { degrees: true }),
+			asExpression('sin(x)', {}, { angleUnit: 'degrees' }),
 		]
 		expressions.forEach(expression => {
 			expectExpressionToEqual(asExpression(expression.toInputValue()), expression)
 		})
 	})
 	test('round-trips expressions with multi-character variables through input values', () => {
-		const expression = asExpression('xy+2*z', { multiCharacterVariables: true })
+		const expression = asExpression('xy+2*z', { allowMultiCharacterVariables: true })
 		expectExpressionToEqual(asExpression(expression.toInputValue()), expression)
 	})
 })

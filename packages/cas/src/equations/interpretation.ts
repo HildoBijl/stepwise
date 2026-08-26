@@ -1,5 +1,5 @@
 import { isPlainObject, InterpretationError } from '@step-wise/js-utils'
-import { type ExpressionInputValue, type EquationInputValue, type ExpressionPosition, shiftExpressionPositionRight, sliceExpressionValue, isEquationInputValue, isTextPart, parseEquationInputValue } from '@step-wise/math-input-value'
+import { type ExpressionInputValue, type EquationInputValue, type ExpressionTextCursor, shiftExpressionTextCursorRight, sliceExpressionValue, isEquationInputValue, isTextPart, parseEquationInputValue } from '@step-wise/math-input-value'
 
 import { type InterpretationSettingsOptions, type ExpressionSettingsOptions, isExpressionLike, Expression, asExpression } from '../expressions'
 
@@ -16,9 +16,9 @@ export function isEquationInput(value: unknown): value is EquationInput {
 }
 
 function interpretInputValue(value: EquationInputValue): EquationParts {
-	const equalsPosition = findEqualsPosition(value)
-	const left: ExpressionInputValue = { ...value, value: sliceExpressionValue(value.value, undefined, equalsPosition), type: 'Expression' }
-	const right: ExpressionInputValue = { ...value, value: sliceExpressionValue(value.value, shiftExpressionPositionRight(equalsPosition), undefined), type: 'Expression' }
+	const equalsCursor = findEqualsCursor(value)
+	const left: ExpressionInputValue = { ...value, value: sliceExpressionValue(value.value, undefined, equalsCursor), type: 'Expression' }
+	const right: ExpressionInputValue = { ...value, value: sliceExpressionValue(value.value, shiftExpressionTextCursorRight(equalsCursor), undefined), type: 'Expression' }
 	return { left: asExpression(left), right: asExpression(right), settings: value.expressionSettings }
 }
 
@@ -39,9 +39,9 @@ export function interpretEquationInput(value: EquationInput, interpretationSetti
 	throw new Error(`Invalid equation interpretation: cannot turn input of type "${typeof value}" into an equation.`)
 }
 
-// Find the position of the equals sign in the ExpressionInputValue. Throw an error if there's zero or 2+.
-function findEqualsPosition(value: EquationInputValue): ExpressionPosition {
-	let result: ExpressionPosition | undefined
+// Find the cursor of the equals sign in the ExpressionInputValue. Throw an error if there's zero or 2+.
+function findEqualsCursor(value: EquationInputValue): ExpressionTextCursor {
+	let result: ExpressionTextCursor | undefined
 	value.value.forEach((part, partIndex) => {
 		if (!isTextPart(part)) return
 		const cursor = part.indexOf('=')

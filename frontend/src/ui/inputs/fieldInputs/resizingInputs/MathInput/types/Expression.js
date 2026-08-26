@@ -1,5 +1,5 @@
 import { insertAt, first, last, sum } from '@step-wise/js-utils'
-import { isEmptyExpressionValue, createEmptyExpressionValue, getExpressionStart as getStartCursor, getExpressionEnd as getEndCursor, opensExternalBracketGroup } from '@step-wise/math-input-value'
+import { isEmptyExpressionValue, createEmptyExpressionValue, getExpressionStartCursor as getStartCursor, getExpressionEndCursor as getEndCursor, opensExternalBracketGroup } from '@step-wise/math-input-value'
 
 import { addCursor } from '../../../FieldInput'
 

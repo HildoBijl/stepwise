@@ -32,12 +32,12 @@ export default buildStepExercise({
 
 		// Define solution method data.
 		const rule = 1 // Use the cosine rule.
-		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { degrees: true }).substitute(variables)
+		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation = equationRaw.combine()
 		const numSolutions = 1
 
 		// Determine the remaining side a.
-		const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', undefined, { degrees: true }).substitute(variables).combine()
+		const intermediateEquation = asEquation('cos(α) = (b^2 + c^2 - a^2)/(2*b*c)', undefined, { angleUnit: 'degrees' }).substitute(variables).combine()
 		α = intermediateEquation.right.arccos()
 		return { ...parameters, variables, rule, equationRaw, equation, numSolutions, intermediateEquation, α }
 	},

@@ -53,11 +53,11 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 }
 
 function degreesToRadians(value: number, settings: ExpressionSettings): number {
-	return settings.degrees ? value * Math.PI / 180 : value
+	return settings.angleUnit === 'degrees' ? value * Math.PI / 180 : value
 }
 
 function radiansToDegrees(value: number, settings: ExpressionSettings): number {
-	return settings.degrees ? value * 180 / Math.PI : value
+	return settings.angleUnit === 'degrees' ? value * 180 / Math.PI : value
 }
 
 // Check if two numeric expressions are equal. Throws when given non-numeric expressions.

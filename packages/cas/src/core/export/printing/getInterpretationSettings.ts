@@ -6,10 +6,10 @@ import { someDescendant, isNamedConstant, equalConstants, isVariable, equalVaria
 
 export function getNodeInterpretationSettings(node: ExpressionNode): InterpretationSettings {
 	return {
-		eAsConstant: getEAsConstantSetting(node),
-		logarithms: defaultInterpretationSettings.logarithms || hasLog(node),
-		trigonometry: defaultInterpretationSettings.trigonometry || hasTrigonometry(node),
-		multiCharacterVariables: defaultInterpretationSettings.multiCharacterVariables || hasMultiCharacterVariables(node),
+		interpretEAsConstant: getEAsConstantSetting(node),
+		recognizeLogarithms: defaultInterpretationSettings.recognizeLogarithms || hasLog(node),
+		recognizeTrigonometricFunctions: defaultInterpretationSettings.recognizeTrigonometricFunctions || hasTrigonometry(node),
+		allowMultiCharacterVariables: defaultInterpretationSettings.allowMultiCharacterVariables || hasMultiCharacterVariables(node),
 	}
 }
 
@@ -25,6 +25,6 @@ function getEAsConstantSetting(node: ExpressionNode): boolean {
 		else return true
 	} else {
 		if (hasVariableE) return false
-		return defaultInterpretationSettings.eAsConstant
+		return defaultInterpretationSettings.interpretEAsConstant
 	}
 }

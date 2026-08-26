@@ -27,9 +27,9 @@ export function getArctanDerivative(node: Arctan, context: DerivativeContext): E
 }
 
 function getTrigonometryDerivativeFactor(context: DerivativeContext): ExpressionNode {
-	return context.expressionSettings.degrees ? fraction(namedConstants.pi, 180) : Integer.one
+	return context.expressionSettings.angleUnit === 'degrees' ? fraction(namedConstants.pi, 180) : Integer.one
 }
 
 function getInverseTrigonometryDerivativeFactor(context: DerivativeContext): ExpressionNode {
-	return context.expressionSettings.degrees ? fraction(180, namedConstants.pi) : Integer.one
+	return context.expressionSettings.angleUnit === 'degrees' ? fraction(180, namedConstants.pi) : Integer.one
 }

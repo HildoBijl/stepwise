@@ -41,21 +41,21 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Extract parameters variables.
 		const variables = filterVariables(parameters, usedVariables, constants)
-		const eq1 = asEquation('ax + by = c', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const eq2 = asEquation('dx + ey = f', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const eq1 = asEquation('ax + by = c', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const eq2 = asEquation('dx + ey = f', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 
 		// Solve the steps.
-		const eq1Solution = asExpression('(c-b*y)/a', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const eq1Solution = asExpression('(c-b*y)/a', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const eq2Substituted = eq2.substitute(variables.x, eq1Solution)
-		const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f', { eAsConstant: false }).substitute(variables).removeTrivial()
-		const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f', { eAsConstant: false }).substitute(variables).cancel()
-		const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c', { eAsConstant: false }).substitute(variables).combine()
-		const eq2SubstitutedStep4 = asExpression('a*f-d*c', { eAsConstant: false }).substitute(variables).cancel().divide(asExpression('a*e-d*b', { eAsConstant: false }).substitute(variables).cancel())
+		const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
+		const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f', { interpretEAsConstant: false }).substitute(variables).cancel()
+		const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c', { interpretEAsConstant: false }).substitute(variables).combine()
+		const eq2SubstitutedStep4 = asExpression('a*f-d*c', { interpretEAsConstant: false }).substitute(variables).cancel().divide(asExpression('a*e-d*b', { interpretEAsConstant: false }).substitute(variables).cancel())
 
 		// Find the solution.
 		const { a, b, c, d, e, f } = parameters
-		const x = asExpression((b * f - e * c) / (b * d - a * e), { eAsConstant: false })
-		const y = asExpression((a * f - d * c) / (a * e - b * d), { eAsConstant: false })
+		const x = asExpression((b * f - e * c) / (b * d - a * e), { interpretEAsConstant: false })
+		const y = asExpression((a * f - d * c) / (a * e - b * d), { interpretEAsConstant: false })
 		return { ...parameters, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
 	},
 

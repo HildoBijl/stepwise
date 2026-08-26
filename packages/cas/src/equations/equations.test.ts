@@ -116,14 +116,14 @@ describe('equation input value conversion', () => {
 			asEquation('x_1+x_2^2+dot(x)_3=0'),
 			asEquation('(x+y)/z=2'),
 			asEquation('sqrt(x^2+1)=y'),
-			asEquation('sin(x)=1', {}, { degrees: true }),
+			asEquation('sin(x)=1', {}, { angleUnit: 'degrees' }),
 		]
 		equations.forEach(equation => {
 			expectEquationToEqual(asEquation(equation.toInputValue()), equation)
 		})
 	})
 	test('round-trips equations with multi-character variables through input values', () => {
-		const equation = asEquation('xy+2*z=5', { multiCharacterVariables: true })
+		const equation = asEquation('xy+2*z=5', { allowMultiCharacterVariables: true })
 		expectEquationToEqual(asEquation(equation.toInputValue()), equation)
 	})
 })

@@ -46,8 +46,8 @@ export default buildStepExercise({
 
 		// Determine which rule to apply: sine (0), cosine (1) or tangent (2).
 		const rule = notGiven
-		const equation = asEquation(['sin(β) = b/c', 'cos(β) = a/c', 'tan(β) = b/a'][rule], undefined, { degrees: true }).substitute(variables)
-		const ansRaw = asExpression(['asin(b/c)', 'acos(a/c)', 'atan(b/a)'][rule], undefined, { degrees: true }).substitute(variables)
+		const equation = asEquation(['sin(β) = b/c', 'cos(β) = a/c', 'tan(β) = b/a'][rule], undefined, { angleUnit: 'degrees' }).substitute(variables)
+		const ansRaw = asExpression(['asin(b/c)', 'acos(a/c)', 'atan(b/a)'][rule], undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const ans = ansRaw.combine()
 		const canSimplifyAns = !expressionComparisons.exactEqual(ans, ansRaw)
 

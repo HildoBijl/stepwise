@@ -33,17 +33,17 @@ export default buildStepExercise({
 
 		// Determine a through the cosine rule.
 		const numSolutions = 1
-		const equation1Raw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { degrees: true }).substitute(variables)
+		const equation1Raw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation1 = equation1Raw.combine()
 		const aRaw = equation1.right.sqrt()
 		a = aRaw.combine()
 
 		// Determine beta through the cosine rule.
-		const equation2Raw = asEquation('b^2 = c^2 + a^2 - 2*c*a*cos(β)', undefined, { degrees: true }).substitute(variables)
+		const equation2Raw = asEquation('b^2 = c^2 + a^2 - 2*c*a*cos(β)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation2 = equation2Raw.combine()
-		const intermediateEquation = asEquation('cos(β) = (c^2 + a^2 - b^2)/(2*c*a)', undefined, { degrees: true }).substitute(variables).combine()
+		const intermediateEquation = asEquation('cos(β) = (c^2 + a^2 - b^2)/(2*c*a)', undefined, { angleUnit: 'degrees' }).substitute(variables).combine()
 		const βRaw = intermediateEquation.right.arccos()
-		β = asExpression('acos((c-b*cos(α))/a)', undefined, { degrees: true }).substitute({ ...variables, a }).combine()
+		β = asExpression('acos((c-b*cos(α))/a)', undefined, { angleUnit: 'degrees' }).substitute({ ...variables, a }).combine()
 		return { ...parameters, variables, numSolutions, equation1Raw, equation1, aRaw, a, equation2Raw, equation2, intermediateEquation, βRaw, β }
 	},
 

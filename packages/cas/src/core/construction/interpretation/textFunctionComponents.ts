@@ -44,7 +44,7 @@ export function isTextFunction(name: string): name is TextFunctionName {
 export function isTextFunctionInterpreted(name: TextFunctionName, settings: InterpretationSettings) {
 	if (!isTextFunction(name)) return false
 	const category = textFunctionCategories[name]
-	if (category === 'logarithms') return settings.logarithms
-	if (category === 'trigonometry') return settings.trigonometry
+	if (category === 'logarithms') return settings.recognizeLogarithms
+	if (category === 'trigonometry') return settings.recognizeTrigonometricFunctions
 	return false
 }

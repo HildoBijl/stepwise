@@ -69,7 +69,7 @@ describe('derivatives', () => {
 	})
 
 	test('uses degree factors for trigonometry', () => {
-		expectDerivativeToGive(sin(x), 'x', product(cos(x), fraction(namedConstants.pi, 180)), { degrees: true })
-		expectDerivativeToGive(arcsin(x), 'x', product(fraction(1, sqrt(sum(1, negative(power(x, 2))))), fraction(180, namedConstants.pi)), { degrees: true })
+		expectDerivativeToGive(sin(x), 'x', product(cos(x), fraction(namedConstants.pi, 180)), { angleUnit: 'degrees' })
+		expectDerivativeToGive(arcsin(x), 'x', product(fraction(1, sqrt(sum(1, negative(power(x, 2))))), fraction(180, namedConstants.pi)), { angleUnit: 'degrees' })
 	})
 })

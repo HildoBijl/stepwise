@@ -8,7 +8,7 @@ import type { InterpreterContext } from '../types'
 // Interpret a string like "a2.3bc" as [a, 2.3, b, c]. If multi-character variables are turned on, "a2.3bc" is not allowed, as the distinction between number and variable is not clear. In that case "23xy6" becomes the product of 23 and variable "xy6": leading numbers are multiplications, while trailing numbers are part of the variable.
 export function interpretString(str: string, context: InterpreterContext): ExpressionNode[] {
 	checkStringFormat(str)
-	return context.interpretationSettings.multiCharacterVariables ? interpretStringWithMultiCharacterVariables(str) : interpretStringWithSingleCharacterVariables(str)
+	return context.interpretationSettings.allowMultiCharacterVariables ? interpretStringWithMultiCharacterVariables(str) : interpretStringWithSingleCharacterVariables(str)
 }
 
 // Check that no illegal formats appear.

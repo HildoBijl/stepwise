@@ -69,7 +69,7 @@ describe('expression input value interpretation', () => {
 	})
 
 	test('uses interpretation settings from the input value', () => {
-		const input: ExpressionInputValue = { ...expression('xy'), interpretationSettings: { multiCharacterVariables: true } }
+		const input: ExpressionInputValue = { ...expression('xy'), interpretationSettings: { allowMultiCharacterVariables: true } }
 		expectNodeToEqual(inputValueToNode(input), variable('xy'))
 	})
 })
@@ -88,8 +88,8 @@ describe('equation input value interpretation', () => {
 	})
 
 	test('preserves expression settings', () => {
-		const input: EquationInputValue = { type: 'Equation', value: ['sin(90)=1'], expressionSettings: { degrees: true } }
-		expect(asEquation(input).settings.degrees).toBe(true)
+		const input: EquationInputValue = { type: 'Equation', value: ['sin(90)=1'], expressionSettings: { angleUnit: 'degrees' } }
+		expect(asEquation(input).settings.angleUnit).toBe('degrees')
 	})
 
 	test('rejects missing and multiple equals signs', () => {

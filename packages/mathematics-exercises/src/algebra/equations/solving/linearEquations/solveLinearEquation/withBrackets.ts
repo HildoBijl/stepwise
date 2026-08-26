@@ -37,7 +37,7 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		const { a, b, c, d, e, switchSides, bracketsRight } = parameters
 		const variables = filterVariables(parameters, usedVariables, constants)
-		const baseEquation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const baseEquation = asEquation(bracketsRight ? 'a*(x+b)+e=c*(x+d)' : 'a*(x+b)+e=c*x+d', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
 		const baseMoved = asEquation(`a*x-c*x=${bracketsRight ? c * d : d}-(${a * b + e})`).substitute(variables).removeTrivial(['expandMinusSums'])
 		const moved = switchSides ? baseMoved.negate().removeTrivial(['expandMinusSums', 'removeDoubleNegatives']) : baseMoved.self()

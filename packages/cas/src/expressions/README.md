@@ -34,7 +34,7 @@ Example usage is as follows.
 
 ```
 const ex = asExpression('2e') // Gives the number "2e" which is roughly 5.44.
-const ex = asExpression('2e', { eAsConstant: false }) // Gives the expression "2*e" with e as a variable.
+const ex = asExpression('2e', { interpretEAsConstant: false }) // Gives the expression "2*e" with e as a variable.
 ```
 
 
@@ -46,7 +46,7 @@ Example usage is as follows.
 
 ```
 const ex = asExpression('sin(180)') // Will evaluate as -0.80115...
-const ex = asExpression('sin(180)', undefined, { degrees: true }) // Will evaluate as 0.
+const ex = asExpression('sin(180)', undefined, { angleUnit: 'degrees' }) // Will evaluate as 0.
 ```
 
 

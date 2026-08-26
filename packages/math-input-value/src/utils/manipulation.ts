@@ -1,22 +1,22 @@
 import { last } from '@step-wise/js-utils'
 
-import { type ExpressionValue, type ExpressionPosition, type InputValuePart, isTextPart } from '../types'
+import { type ExpressionValue, type ExpressionTextCursor, type InputValuePart, isTextPart } from '../types'
 
-import { getExpressionStart, getExpressionEnd } from './positions'
+import { getExpressionStartCursor, getExpressionEndCursor } from './cursors'
 
-export function sliceExpressionValue<TAdditionalPart = never>(value: (InputValuePart | TAdditionalPart)[], left = getExpressionStart(value), right = getExpressionEnd(value)): (InputValuePart | TAdditionalPart)[] {
-	const leftElement = getPositionTextPart(value, left, 'left')
-	const rightElement = getPositionTextPart(value, right, 'right')
-	if (left.part > right.part || (left.part === right.part && left.cursor > right.cursor)) throw new RangeError('The left sliceExpressionValue position cannot come after the right position.')
+export function sliceExpressionValue<TAdditionalPart = never>(value: (InputValuePart | TAdditionalPart)[], left = getExpressionStartCursor(value), right = getExpressionEndCursor(value)): (InputValuePart | TAdditionalPart)[] {
+	const leftElement = getCursorTextPart(value, left, 'left')
+	const rightElement = getCursorTextPart(value, right, 'right')
+	if (left.part > right.part || (left.part === right.part && left.cursor > right.cursor)) throw new RangeError('The left sliceExpressionValue cursor cannot come after the right cursor.')
 	if (left.part === right.part) return [leftElement.substring(left.cursor, right.cursor)]
 	return [leftElement.substring(left.cursor), ...value.slice(left.part + 1, right.part), rightElement.substring(0, right.cursor)]
 }
 
-function getPositionTextPart<TAdditionalPart>(value: (InputValuePart | TAdditionalPart)[], position: ExpressionPosition, name: string): string {
-	if (!Number.isInteger(position.part) || position.part < 0 || position.part >= value.length) throw new RangeError(`The ${name} sliceExpressionValue position has an invalid part index.`)
-	const part = value[position.part]
-	if (!isTextPart(part)) throw new TypeError(`The ${name} sliceExpressionValue position must point to a text part.`)
-	if (!Number.isInteger(position.cursor) || position.cursor < 0 || position.cursor > part.length) throw new RangeError(`The ${name} sliceExpressionValue position is outside its text part.`)
+function getCursorTextPart<TAdditionalPart>(value: (InputValuePart | TAdditionalPart)[], cursor: ExpressionTextCursor, name: string): string {
+	if (!Number.isInteger(cursor.part) || cursor.part < 0 || cursor.part >= value.length) throw new RangeError(`The ${name} sliceExpressionValue cursor has an invalid part index.`)
+	const part = value[cursor.part]
+	if (!isTextPart(part)) throw new TypeError(`The ${name} sliceExpressionValue cursor must point to a text part.`)
+	if (!Number.isInteger(cursor.cursor) || cursor.cursor < 0 || cursor.cursor > part.length) throw new RangeError(`The ${name} sliceExpressionValue cursor is outside its text part.`)
 	return part
 }
 

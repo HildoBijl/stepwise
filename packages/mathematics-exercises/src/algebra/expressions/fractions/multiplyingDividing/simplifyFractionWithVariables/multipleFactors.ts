@@ -43,7 +43,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const variables = filterVariables(parameters, usedVariables, constants)
-		const baseExpression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const baseExpression = asExpression('(a*(x+c)^p*(x+e)*(x+d))/(b*(x+d)^p*(x+c))', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const expression = parameters.switch ? baseExpression.invert() : baseExpression.self()
 		const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
 		const factor2 = asExpression('x+d').substitute(variables).removeTrivial()

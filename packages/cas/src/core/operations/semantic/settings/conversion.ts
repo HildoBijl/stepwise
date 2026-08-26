@@ -8,6 +8,6 @@ import { convertDegreesToRadians, convertRadiansToDegrees } from './degrees'
 export function convertExpressionSettings(node: ExpressionNode, oldSettings?: ExpressionSettingsOptions, newSettings?: ExpressionSettingsOptions): ExpressionNode {
 	const oldFullSettings = resolveExpressionSettings(oldSettings)
 	const newFullSettings = resolveExpressionSettings(newSettings)
-	if (oldFullSettings.degrees !== newFullSettings.degrees) node = oldFullSettings.degrees ? convertDegreesToRadians(node) : convertRadiansToDegrees(node)
+	if (oldFullSettings.angleUnit !== newFullSettings.angleUnit) node = oldFullSettings.angleUnit === 'degrees' ? convertDegreesToRadians(node) : convertRadiansToDegrees(node)
 	return node
 }

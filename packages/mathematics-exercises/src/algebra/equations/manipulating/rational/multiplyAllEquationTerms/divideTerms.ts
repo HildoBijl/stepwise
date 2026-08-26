@@ -52,7 +52,7 @@ export default buildStepExercise({
 			else right = right.add(term)
 		})
 		const equation = asEquation({ left, right }).removeTrivial()
-		const factor = asExpression('e*x^n', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const factor = asExpression('e*x^n', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 
 		// Manipulate the equation.
 		const form = equation.divide(factor)

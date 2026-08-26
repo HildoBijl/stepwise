@@ -65,11 +65,11 @@ export default buildStepExercise({
 		// Assemble the equation.
 		const { a, b, c, d, e, flip, normalize } = parameters
 		const variables = filterVariables(parameters, usedVariables, constants)
-		const baseEquation = asEquation('a/(x+b) + c = d/(x+e)', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const baseEquation = asEquation('a/(x+b) + c = d/(x+e)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = flip ? baseEquation.switch() : baseEquation.self()
 
 		// Rewrite the equation in various ways.
-		const baseMultiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)', { eAsConstant: false }).substitute(variables).removeTrivial()
+		const baseMultiplied = asEquation('a*(x+e) + c*(x+b)*(x+e) = d*(x+b)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const multiplied = flip ? baseMultiplied.switch() : baseMultiplied.self()
 		const expanded = multiplied.cancel(['expandProductsOfSums', 'expandPowersOfSums', 'mergeProductFactors'], ['mergeSumNumbers', 'groupSumTerms']).mapEvery(term => term.isPower() ? term.combine() : term).cancel([], ['mergeSumNumbers', 'groupSumTerms']) // Expand brackets while not merging number terms. Then only merge number terms in powers (turning x^(1+1) into x^2 and 3^(1+1) into 3^2) and then finalize cleaning.
 		const merged = expanded.combine(['sortSums'])

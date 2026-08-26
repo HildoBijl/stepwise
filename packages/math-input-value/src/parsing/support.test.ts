@@ -1,6 +1,6 @@
 import type { ExpressionValue } from '../types'
 
-import { findPositionAtBracketDepthZero, findEndOfExponent, findEndOfFactor, findClosingBracket, getTopLevelBracketMatches } from './support'
+import { findCursorAtBracketDepthZero, findEndOfExponent, findEndOfFactor, findClosingBracket, getTopLevelBracketMatches } from './support'
 
 describe('bracket matching', () => {
 	test('finds top-level matching brackets while ignoring nested pairs', () => {
@@ -30,8 +30,8 @@ describe('bracket matching', () => {
 describe('zero-depth searching', () => {
 	test('skips wanted characters inside brackets', () => {
 		const value = ['a+(b+c)+d']
-		expect(findPositionAtBracketDepthZero(value, { part: 0, cursor: 0 }, '+')).toEqual({ part: 0, cursor: 1 })
-		expect(findPositionAtBracketDepthZero(value, { part: 0, cursor: 2 }, '+')).toEqual({ part: 0, cursor: 7 })
+		expect(findCursorAtBracketDepthZero(value, { part: 0, cursor: 0 }, '+')).toEqual({ part: 0, cursor: 1 })
+		expect(findCursorAtBracketDepthZero(value, { part: 0, cursor: 2 }, '+')).toEqual({ part: 0, cursor: 7 })
 	})
 
 	test('finds factor boundaries in both directions', () => {

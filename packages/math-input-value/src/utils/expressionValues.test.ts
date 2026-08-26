@@ -1,33 +1,33 @@
 import type { AccentInputValue, ExpressionValue } from '../types'
 
-import { areExpressionPositionsEqual, createEmptyExpressionValue, getExpressionEnd, getExpressionStart, sliceExpressionValue, isEmptyExpressionValue, mergeAdjacentTextParts, shiftExpressionPositionLeft, shiftExpressionPositionRight } from './index'
+import { areExpressionTextCursorsEqual, createEmptyExpressionValue, getExpressionEndCursor, getExpressionStartCursor, sliceExpressionValue, isEmptyExpressionValue, mergeAdjacentTextParts, shiftExpressionTextCursorLeft, shiftExpressionTextCursorRight } from './index'
 
 const accent = (value: string): AccentInputValue => ({ type: 'Accent', name: 'dot', value })
 
 describe('expression cursors', () => {
 	test('returns the boundaries of an expression value', () => {
 		const value: ExpressionValue = ['ab', accent('x'), 'cde']
-		expect(getExpressionStart(value)).toEqual({ part: 0, cursor: 0 })
-		expect(getExpressionEnd(value)).toEqual({ part: 2, cursor: 3 })
+		expect(getExpressionStartCursor(value)).toEqual({ part: 0, cursor: 0 })
+		expect(getExpressionEndCursor(value)).toEqual({ part: 2, cursor: 3 })
 	})
 
 	test('uses an empty expression value by default', () => {
-		expect(getExpressionStart()).toEqual({ part: 0, cursor: 0 })
-		expect(getExpressionEnd()).toEqual({ part: 0, cursor: 0 })
+		expect(getExpressionStartCursor()).toEqual({ part: 0, cursor: 0 })
+		expect(getExpressionEndCursor()).toEqual({ part: 0, cursor: 0 })
 	})
 
 	test('moves and compares cursor ends', () => {
 		const cursor = { part: 2, cursor: 3 }
-		expect(shiftExpressionPositionLeft(cursor, 2)).toEqual({ part: 2, cursor: 1 })
-		expect(shiftExpressionPositionRight(cursor, 2)).toEqual({ part: 2, cursor: 5 })
-		expect(areExpressionPositionsEqual(cursor, { part: 2, cursor: 3 })).toBe(true)
-		expect(areExpressionPositionsEqual(cursor, { part: 1, cursor: 3 })).toBe(false)
+		expect(shiftExpressionTextCursorLeft(cursor, 2)).toEqual({ part: 2, cursor: 1 })
+		expect(shiftExpressionTextCursorRight(cursor, 2)).toEqual({ part: 2, cursor: 5 })
+		expect(areExpressionTextCursorsEqual(cursor, { part: 2, cursor: 3 })).toBe(true)
+		expect(areExpressionTextCursorsEqual(cursor, { part: 1, cursor: 3 })).toBe(false)
 	})
 
 	test('rejects expression values without text boundaries', () => {
 		const value = [accent('x')]
-		expect(() => getExpressionStart(value)).toThrow('instead of a text part')
-		expect(() => getExpressionEnd(value)).toThrow('instead of a text part')
+		expect(() => getExpressionStartCursor(value)).toThrow('instead of a text part')
+		expect(() => getExpressionEndCursor(value)).toThrow('instead of a text part')
 	})
 })
 

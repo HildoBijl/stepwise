@@ -29,19 +29,19 @@ export default buildStepExercise({
 		const variables = { α, β, a, c }
 
 		// Determine gamma.
-		const γRaw = asExpression('180-α-β', undefined, { degrees: true }).substitute(variables)
+		const γRaw = asExpression('180-α-β', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const γ = γRaw.combine()
 		const allVariables = { ...variables, γ }
 
 		// Define solution method data.
 		const rule = 0 // Use the sine rule.
-		const equation = asEquation('a/sin(α)=c/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
+		const equation = asEquation('a/sin(α)=c/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(allVariables)
 		const numSolutions = 1
 
 		// Determine a and b.
-		const aRaw = asExpression('c*sin(α)/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
+		const aRaw = asExpression('c*sin(α)/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(allVariables)
 		a = aRaw.combine()
-		const bRaw = asExpression('c*sin(β)/sin(γ)', undefined, { degrees: true }).substitute(allVariables)
+		const bRaw = asExpression('c*sin(β)/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(allVariables)
 		const b = bRaw.combine()
 		return { ...parameters, variables: allVariables, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
 	},

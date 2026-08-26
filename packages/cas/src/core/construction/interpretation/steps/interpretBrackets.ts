@@ -1,5 +1,5 @@
 import { InterpretationError, isLetter } from '@step-wise/js-utils'
-import { type InputValuePart, getExpressionEnd, getTopLevelBracketMatches, getExpressionStart, sliceExpressionValue, isEmptyExpressionValue, isTextPart, shiftExpressionPositionRight } from '@step-wise/math-input-value'
+import { type InputValuePart, getExpressionEndCursor, getTopLevelBracketMatches, getExpressionStartCursor, sliceExpressionValue, isEmptyExpressionValue, isTextPart, shiftExpressionTextCursorRight } from '@step-wise/math-input-value'
 
 import { ExpressionNode } from '../../nodes'
 
@@ -15,7 +15,7 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 	// Walk through matching brackets and add each interpreted part in order.
 	const bracketSets = getTopLevelBracketMatches(value)
 	const result: IntermediateInterpretationPart[] = []
-	let lastPosition = getExpressionStart(value)
+	let lastCursor = getExpressionStartCursor(value)
 	bracketSets.forEach(({ opening, closing }) => {
 		const openingPart = value[opening.part]
 		const end = { ...opening }
@@ -26,15 +26,15 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 			const precedingPart = value[opening.part - 1]
 			if (!isTextPart(precedingPart)) throw new Error('Invalid logarithm position: a logarithm must be preceded by a text part.')
 
-			result.push(...sliceExpressionValue(value, lastPosition, { part: opening.part - 1, cursor: precedingPart.length }))
+			result.push(...sliceExpressionValue(value, lastCursor, { part: opening.part - 1, cursor: precedingPart.length }))
 			const argument = context.interpretBrackets(sliceExpressionValue(value, { part: opening.part + 1, cursor: 0 }, closing), context)
 			result.push(interpretLogarithm(openingPart, argument, context))
-			lastPosition = shiftExpressionPositionRight(closing)
+			lastCursor = shiftExpressionTextCursorRight(closing)
 			return
 		}
 
 		// Interpret regular brackets like sin(...) and x(...).
-		const partBetweenBrackets = sliceExpressionValue(value, shiftExpressionPositionRight(opening), closing)
+		const partBetweenBrackets = sliceExpressionValue(value, shiftExpressionTextCursorRight(opening), closing)
 		const interpretedExpression = context.interpretBrackets(partBetweenBrackets, context)
 		let movingCursor = end.cursor
 		while (openingPart[movingCursor - 1] && isLetter(openingPart[movingCursor - 1])) movingCursor--
@@ -43,18 +43,18 @@ export function interpretBrackets(value: InputValuePart[], context: InterpreterC
 		// If the function name is in the allowed text-function list, add it as a function node.
 		if (isTextFunction(functionName) && isTextFunctionInterpreted(functionName, context.interpretationSettings)) {
 			end.cursor -= functionName.length
-			result.push(...sliceExpressionValue(value, lastPosition, end))
+			result.push(...sliceExpressionValue(value, lastCursor, end))
 			result.push(new textFunctionComponents[functionName as TextFunctionName](interpretedExpression))
-			lastPosition = shiftExpressionPositionRight(closing)
+			lastCursor = shiftExpressionTextCursorRight(closing)
 			return
 		}
 
 		// Otherwise keep it as an ordinary multiplication-like bracket.
-		result.push(...sliceExpressionValue(value, lastPosition, end))
+		result.push(...sliceExpressionValue(value, lastCursor, end))
 		result.push(interpretedExpression)
-		lastPosition = shiftExpressionPositionRight(closing)
+		lastCursor = shiftExpressionTextCursorRight(closing)
 	})
 
-	result.push(...sliceExpressionValue(value, lastPosition, getExpressionEnd(value)))
+	result.push(...sliceExpressionValue(value, lastCursor, getExpressionEndCursor(value)))
 	return context.interpretSums(result, context)
 }

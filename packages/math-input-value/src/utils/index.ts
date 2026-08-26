@@ -1,3 +1,3 @@
 export * from './fundamentals'
-export * from './positions'
+export * from './cursors'
 export * from './manipulation'

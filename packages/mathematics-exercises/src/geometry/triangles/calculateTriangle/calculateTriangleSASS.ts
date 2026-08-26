@@ -29,7 +29,7 @@ export default buildStepExercise({
 
 		// Define solution method data.
 		const rule = 1 // Use the cosine rule.
-		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { degrees: true }).substitute(variables)
+		const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*b*c*cos(α)', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		const equation = equationRaw.combine()
 		const numSolutions = 1
 

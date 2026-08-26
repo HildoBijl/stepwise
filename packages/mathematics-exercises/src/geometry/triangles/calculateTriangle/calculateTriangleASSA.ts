@@ -33,19 +33,19 @@ export default buildStepExercise({
 
 		// Determine γ.
 		const rule = 0 // Use the sine rule.
-		const equation = asEquation('a/sin(α) = c/sin(γ)', undefined, { degrees: true }).substitute(variables)
-		const intermediateEquation = asEquation('sin(γ) = c/a*sin(α)', undefined, { degrees: true }).substitute(variables).combine()
+		const equation = asEquation('a/sin(α) = c/sin(γ)', undefined, { angleUnit: 'degrees' }).substitute(variables)
+		const intermediateEquation = asEquation('sin(γ) = c/a*sin(α)', undefined, { angleUnit: 'degrees' }).substitute(variables).combine()
 		const γ1 = intermediateEquation.right.arcsin()
-		const γ2 = asExpression(180, undefined, { degrees: true }).subtract(γ1).combine()
+		const γ2 = asExpression(180, undefined, { angleUnit: 'degrees' }).subtract(γ1).combine()
 		const numSolutions = 2
 
 		// Determine β.
-		const β1 = asExpression(180, undefined, { degrees: true }).subtract(α).subtract(γ1).combine()
-		const β2 = asExpression(180, undefined, { degrees: true }).subtract(α).subtract(γ2).combine()
+		const β1 = asExpression(180, undefined, { angleUnit: 'degrees' }).subtract(α).subtract(γ1).combine()
+		const β2 = asExpression(180, undefined, { angleUnit: 'degrees' }).subtract(α).subtract(γ2).combine()
 
 		// Determine corresponding b values.
-		const b1 = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
-		const b2 = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { degrees: true }).substitute(variables)
+		const b1 = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { angleUnit: 'degrees' }).substitute(variables)
+		const b2 = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', undefined, { angleUnit: 'degrees' }).substitute(variables)
 		return { ...parameters, variables, rule, equation, intermediateEquation, γ1, γ2, β1, β2, b1, b2, numSolutions }
 	},
 

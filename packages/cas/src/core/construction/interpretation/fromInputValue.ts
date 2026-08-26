@@ -17,6 +17,6 @@ export function inputValueToNode(input: ExpressionInputValue): ExpressionNode {
 function insertNamedConstants(node: ExpressionNode, interpretationSettings: InterpretationSettings): ExpressionNode {
 	if (!(node instanceof Variable)) return node.recreateWithChildren(node.children.map(child => insertNamedConstants(child, interpretationSettings)))
 	if (!isNamedConstantReferral(node.symbol) || node.subscript || node.accent) return node
-	if (node.symbol === 'e' && !interpretationSettings.eAsConstant) return node
+	if (node.symbol === 'e' && !interpretationSettings.interpretEAsConstant) return node
 	return getNamedConstant(node.symbol)
 }

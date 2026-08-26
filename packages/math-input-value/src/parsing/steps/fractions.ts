@@ -2,8 +2,8 @@ import { first, last } from '@step-wise/js-utils'
 
 import { type InterpretationSettings } from '../../settings'
 import { constructDefinitions } from '../../definitions'
-import type { ExpressionValue, ExpressionPosition } from '../../types'
-import { getExpressionStart, getExpressionEnd, sliceExpressionValue, shiftExpressionPositionRight } from '../../utils'
+import type { ExpressionValue, ExpressionTextCursor } from '../../types'
+import { getExpressionStartCursor, getExpressionEndCursor, sliceExpressionValue, shiftExpressionTextCursorRight } from '../../utils'
 
 import { findEndOfFactor } from '../support'
 
@@ -18,13 +18,13 @@ export function parseFractions(value: ExpressionValue, settings: InterpretationS
 }
 
 // Turn a fraction at a given position into a fraction construct.
-function replaceSlashWithFraction(value: ExpressionValue, cursor: ExpressionPosition, settings: InterpretationSettings, parseExpressionValue: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
-	const start = getExpressionStart(value)
+function replaceSlashWithFraction(value: ExpressionValue, cursor: ExpressionTextCursor, settings: InterpretationSettings, parseExpressionValue: (value: ExpressionValue, settings: InterpretationSettings) => ExpressionValue): ExpressionValue {
+	const start = getExpressionStartCursor(value)
 	const beforeSymbol = cursor
-	const afterSymbol = shiftExpressionPositionRight(cursor)
+	const afterSymbol = shiftExpressionTextCursorRight(cursor)
 	const leftSide = findEndOfFactor(value, beforeSymbol, false, false)
 	const rightSide = findEndOfFactor(value, afterSymbol, true, true)
-	const end = getExpressionEnd(value)
+	const end = getExpressionEndCursor(value)
 	const numerator = removeSurroundingBrackets(parseExpressionValue(sliceExpressionValue(value, leftSide, beforeSymbol) as ExpressionValue, settings))
 	const denominator = removeSurroundingBrackets(parseExpressionValue(sliceExpressionValue(value, afterSymbol, rightSide) as ExpressionValue, settings))
 	return [

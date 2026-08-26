@@ -51,8 +51,8 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const variables = filterVariables(parameters, usedVariables, constants)
-		const part1 = asExpression('a*(x+c)^p*(x+d)^q', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
-		const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { eAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const part1 = asExpression('a*(x+c)^p*(x+d)^q', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
+		const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 		const expression = (parameters.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial([], ['mergeFractionMinuses'])
 		const part1WithoutNegativeExponents = part1.removeTrivial(['convertNegativePowers'])
 		const part2WithoutNegativeExponents = part2.removeTrivial(['convertNegativePowers'])

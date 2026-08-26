@@ -17,7 +17,7 @@ export function requiresTimesBetweenFactors(nextNode: ExpressionNode, previousNo
 	if (isFraction(previousNode) || isFraction(nextNode)) return true
 	if (isPower(nextNode)) return requiresTimesBetweenFactors(nextNode.base, previousNode, settings)
 	if (isFunctionNode(nextNode)) return isVariable(previousNode)
-	if (isVariable(previousNode) && settings.multiCharacterVariables) return true
+	if (isVariable(previousNode) && settings.allowMultiCharacterVariables) return true
 	return false
 }
 export function requiresTimesBetweenFactorsTex(nextNode: ExpressionNode, previousNode: ExpressionNode, settings: InterpretationSettings): boolean {
