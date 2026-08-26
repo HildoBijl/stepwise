@@ -22,7 +22,7 @@ export default buildMonoExercise({
 	},
 
 	generateParameters(): DetermineRefrigerantProcessIsobaricParameters {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const refrigerant = sample(Object.keys(refrigerantDatasets))
 			const refrigerantData = refrigerantDatasets[refrigerant]
 			const pressure = getRandomExponentialQuantity({
@@ -47,14 +47,13 @@ export default buildMonoExercise({
 					? { x2: point2.vaporFraction!.setDecimals(2).roundToPrecision().setDisplayPower(0) }
 					: { T2: point2.temperature.setDecimals(0).roundToPrecision() }),
 			}
-			try {
-				const checkedPoint1 = parameters.phase1 === 'mixture' ? getSaturatedMixturePropertiesFromTemperature(refrigerantData, parameters.T1, parameters.x1!) : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, parameters.p1!, parameters.T1)
-				if (!checkedPoint1) continue
-				const checkedPoint2 = parameters.phase2 === 'mixture' ? getSaturatedMixturePropertiesFromPressure(refrigerantData, checkedPoint1.pressure, parameters.x2!) : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, checkedPoint1.pressure, parameters.T2!)
-				if (!checkedPoint2) continue
-				return parameters
-			} catch { }
+			const checkedPoint1 = parameters.phase1 === 'mixture' ? getSaturatedMixturePropertiesFromTemperature(refrigerantData, parameters.T1, parameters.x1!) : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, parameters.p1!, parameters.T1)
+			if (!checkedPoint1) continue
+			const checkedPoint2 = parameters.phase2 === 'mixture' ? getSaturatedMixturePropertiesFromPressure(refrigerantData, checkedPoint1.pressure, parameters.x2!) : getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, checkedPoint1.pressure, parameters.T2!)
+			if (!checkedPoint2) continue
+			return parameters
 		}
+		throw new Error('Failed to generate a valid isobaric refrigerant process after 100 attempts.')
 	},
 
 	getSolution({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {
