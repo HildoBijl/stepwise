@@ -10,11 +10,16 @@ import { isSingular } from './algebraicChecks'
 export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {
 	if (!isSingular(node)) throw new Error('Invalid toNumber call: cannot turn a plural expression into a single number.')
 	const number = toNumberInternal(node, resolveExpressionSettings(settings))
-	if (!Number.isFinite(number)) throw new Error('Invalid toNumber call: the expression does not have a finite real value.')
 	return approximatelyEqual(number, 0) ? 0 : number
 }
 
 function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): number {
+	const number = evaluateNode(node, settings)
+	if (!Number.isFinite(number)) throw new Error('Invalid toNumber call: the expression does not have a finite real value.')
+	return number
+}
+
+function evaluateNode(node: ExpressionNode, settings: ExpressionSettings): number {
 	// Constants
 	if (isConstantNode(node)) return node.value
 
