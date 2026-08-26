@@ -76,11 +76,11 @@ describe('exercise registry', () => {
 								const initialState = exercise.getInitialState(storedParameters)
 								expect(isPlainObject(initialState)).toBe(true)
 
-							if (isInputExercise(exercise) && exercise.getSolution !== undefined) {
-								const parameters = deserializeData(storedParameters)
-								expect(isPlainObject(parameters)).toBe(true)
-								if (!isPlainObject(parameters)) return
-								const solution = resolveSolution(exercise.getSolution, parameters)
+								if (isInputExercise(exercise) && exercise.getSolution !== undefined) {
+									const parameters = deserializeData(storedParameters)
+									expect(isPlainObject(parameters)).toBe(true)
+									if (!isPlainObject(parameters)) return
+									const solution = resolveSolution(exercise.getSolution, parameters)
 									expect(isPlainObject(solution)).toBe(true)
 								}
 							})

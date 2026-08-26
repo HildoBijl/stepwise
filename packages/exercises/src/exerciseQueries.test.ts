@@ -10,12 +10,11 @@ const skillsAndBundles = Object.values(skillTree).map(skill => ({
 	bundle: getByPath(exerciseRegistry, [...skill.groupPath, skill.id]),
 }))
 const populatedEntry = skillsAndBundles.find(({ bundle }) => isPlainObject(bundle) && isPlainObject(bundle.exercises) && Object.keys(bundle.exercises).length > 0)
-const absentEntry = skillsAndBundles.find(({ bundle }) => bundle === undefined)
 
 if (!populatedEntry) throw new Error('Test setup error: expected at least one skill with exercises.')
 
 describe('exercise queries', () => {
-	it('retrieves a skill’s examples and exercises', () => {
+	it("retrieves a skill's examples and exercises", () => {
 		const { skill, bundle } = populatedEntry
 		expect(isPlainObject(bundle)).toBe(true)
 		if (!isPlainObject(bundle)) return
@@ -25,12 +24,20 @@ describe('exercise queries', () => {
 		expect(hasExamples(skill.id)).toBe(Object.keys(bundle.examples as object).length > 0)
 	})
 
-	it('returns undefined collections for a skill without an exercise bundle', () => {
-		if (!absentEntry) return
-		expect(getExercises(absentEntry.skill.id)).toBeUndefined()
-		expect(getExamples(absentEntry.skill.id)).toBeUndefined()
-		expect(hasExercises(absentEntry.skill.id)).toBe(false)
-		expect(hasExamples(absentEntry.skill.id)).toBe(false)
+	it('returns undefined collections for a skill without an exercise bundle', async () => {
+		const { skill } = populatedEntry
+		const [registryExport] = skill.groupPath.length > 0 ? skill.groupPath : [skill.id]
+		vi.resetModules()
+		vi.doMock('./exerciseRegistry', () => ({ [registryExport]: {} }))
+		try {
+			const mockedQueries = await import('./exerciseQueries')
+			expect(mockedQueries.getExercises(skill.id)).toBeUndefined()
+			expect(mockedQueries.getExamples(skill.id)).toBeUndefined()
+			expect(mockedQueries.hasExercises(skill.id)).toBe(false)
+			expect(mockedQueries.hasExamples(skill.id)).toBe(false)
+		} finally {
+			vi.doUnmock('./exerciseRegistry')
+		}
 	})
 
 	it('combines examples and exercises and retrieves definitions by ID', () => {
