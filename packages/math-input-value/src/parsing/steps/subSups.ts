@@ -44,7 +44,7 @@ function processExpressionPartSubSups(part: InputValuePart, settings: Interpreta
 			position = end + 1
 		} else {
 			// Unbracketed numeric powers consume the complete number, including a possible minus sign and decimal part.
-			const match = part.substring(position + 1).match(/^-?[0-9.]+/)
+			const match = part.substring(position + 1).match(/^-?(?:\d+(?:\.\d*)?|\.\d+)/)
 			if (match) {
 				superscript = processExpressionString(match[0], settings)
 				position += 1 + match[0].length
