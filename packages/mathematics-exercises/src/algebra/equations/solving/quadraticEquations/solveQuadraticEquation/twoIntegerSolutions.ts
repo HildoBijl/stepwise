@@ -3,7 +3,7 @@ import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -30,7 +30,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())

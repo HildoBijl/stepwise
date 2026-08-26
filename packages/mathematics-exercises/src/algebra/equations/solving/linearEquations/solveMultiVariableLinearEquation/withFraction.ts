@@ -4,7 +4,7 @@ import { type Equation, asEquation, expressionComparisons, equationComparisons }
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // x/y + a = bz + cx.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -33,7 +33,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('x/y + a = bz + cx').substitute(variables).removeTrivial()
 
 		// Find the solution.

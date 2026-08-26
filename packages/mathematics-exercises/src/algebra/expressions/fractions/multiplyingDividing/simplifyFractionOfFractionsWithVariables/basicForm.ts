@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -40,7 +40,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseExpression = asExpression('(a(x+c)^p)/(b(x+c)^q/(x+d)^r)').substitute(variables)
 		const expression = (parameters.flip ? baseExpression.invert() : baseExpression.self()).removeTrivial()
 		const singleFraction = expression.flatten(['mergeFractionProducts', 'flattenFractions'])

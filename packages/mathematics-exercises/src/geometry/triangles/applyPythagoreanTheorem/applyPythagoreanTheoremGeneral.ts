@@ -14,28 +14,25 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		// Generate random data.
 		const toFind = randomInteger(0, 2) // Find a, b or c?
 		const usePythagoreanTriplet = randomBoolean() // Use a predefined triplet?
-		let triplet: number[]
-
-		// Check if it is valid.
-		do {
-			triplet = usePythagoreanTriplet ? sample(pythagoreanTriplets) : [
+		for (let attempt = 0; attempt < 100; attempt++) {
+			const triplet = usePythagoreanTriplet ? sample(pythagoreanTriplets) : [
 				randomInteger(1, 10), // a
 				randomInteger(1, 10), // b
 				randomInteger(1, 12), // c
 			]
-		} while ((toFind === 0 && triplet[1] >= triplet[2]) || (toFind === 1 && triplet[0] >= triplet[2]))
-
-		const x = asExpression(sample(variableSet))
-		return {
-			a: toFind === 0 ? x : asExpression(triplet[0]),
-			b: toFind === 1 ? x : asExpression(triplet[1]),
-			c: toFind === 2 ? x : asExpression(triplet[2]),
-			rotation: randomNumber(0, 2 * Math.PI),
-			reflection: randomBoolean(),
+			if ((toFind === 0 && triplet[1] >= triplet[2]) || (toFind === 1 && triplet[0] >= triplet[2])) continue
+			const x = asExpression(sample(variableSet))
+			return {
+				a: toFind === 0 ? x : asExpression(triplet[0]),
+				b: toFind === 1 ? x : asExpression(triplet[1]),
+				c: toFind === 2 ? x : asExpression(triplet[2]),
+				rotation: randomNumber(0, 2 * Math.PI),
+				reflection: randomBoolean(),
+			}
 		}
+		throw new Error('Failed to generate valid Pythagorean-theorem parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

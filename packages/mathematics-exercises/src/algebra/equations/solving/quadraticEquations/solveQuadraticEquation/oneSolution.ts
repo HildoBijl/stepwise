@@ -3,7 +3,7 @@ import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -23,18 +23,20 @@ export default buildStepExercise({
 	generateParameters() {
 		// We want integer coefficients in the equation, but a possibly non-integer solution "numerator/denominator". So we set up the equation a*(x - numerator/denominator)^2 = 0, rewrite it to a*x^2 - 2*a*(numerator/denominator) + a*(numerator/denominator)^2 = 0, and check if this gives integer coefficients.
 		let a = 0, denominator = 1, numerator = 0
-		while (a === 0 || 2 * a * numerator % denominator !== 0 || a * numerator ** 2 % denominator ** 2 !== 0 || numerator === 0) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			a = randomInteger(-6, 6, { exclude: [0] })
 			numerator = randomInteger(-12, 12)
 			denominator = randomInteger(-6, 6, { exclude: [0] })
+			if (2 * a * numerator % denominator === 0 && a * numerator ** 2 % denominator ** 2 === 0 && numerator !== 0) break
 		}
+		if (2 * a * numerator % denominator !== 0 || a * numerator ** 2 % denominator ** 2 !== 0 || numerator === 0) throw new Error('Failed to generate a quadratic equation with one solution after 100 attempts.')
 		const b = -2 * a * numerator / denominator
 		const c = a * (numerator / denominator) ** 2
 		return { x: sample(variableSet), a: asExpression(a), b: asExpression(b), c: asExpression(c) }
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x^2 + b*x + c = 0').substitute(variables).removeTrivial()
 		const solutionFull = asExpression('(-b±sqrt(b^2-4*a*c))/(2a)').substitute(variables).removeTrivial()
 		const rootFull = solutionFull.find(term => term.isSqrt())

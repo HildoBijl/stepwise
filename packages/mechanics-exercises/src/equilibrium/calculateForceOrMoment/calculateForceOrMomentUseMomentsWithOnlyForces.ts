@@ -13,7 +13,7 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const points = integerRange(0, 3).map(() => new Vector(randomInteger(0, 4), randomInteger(0, 4)))
 			const angle = randomInteger(5, 13, { exclude: [9] }) * 5
 			const up = randomBoolean()
@@ -25,6 +25,7 @@ export default buildStepExercise({
 			if (points[3].x === points[1].x || points[3].y === points[2].y) continue
 			return { points, angle, up, right, horizontal, FD }
 		}
+		throw new Error('Failed to generate valid calculate-force-or-moment parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {

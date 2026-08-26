@@ -3,7 +3,7 @@ import { type AnyExercise, type ExerciseMode, ensureExerciseMode, exerciseSuppor
 
 // A keyed collection of exercises.
 export type ExerciseId = string
-export type ExerciseCollection = Record<ExerciseId, AnyExercise>
+export type ExerciseCollection = Readonly<Record<ExerciseId, AnyExercise>>
 
 // Check if a value is an exercise collection.
 export function isExerciseCollection(obj: unknown): obj is ExerciseCollection {

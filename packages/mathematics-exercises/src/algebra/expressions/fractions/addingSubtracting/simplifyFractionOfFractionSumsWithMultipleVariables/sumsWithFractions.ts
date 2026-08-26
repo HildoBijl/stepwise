@@ -4,7 +4,7 @@ import { type Expression, asExpression, expressionComparisons, expressionChecks,
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 const { equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = expressionChecks
@@ -35,7 +35,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fraction1 = asExpression('a/w').substitute(variables)
 		const fraction2 = asExpression('b/x').substitute(variables)
 		const fraction3 = asExpression('c/y').substitute(variables)

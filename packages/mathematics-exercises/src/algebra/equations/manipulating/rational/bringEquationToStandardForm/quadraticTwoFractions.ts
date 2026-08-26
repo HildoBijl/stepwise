@@ -5,7 +5,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, equa
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons
@@ -53,8 +53,12 @@ export default buildStepExercise({
 		const flip = example ? false : randomBoolean()
 
 		// Set up parameters for the equation. Ensure that (on a non-normalize exercise) there is a factor to divide by.
-		let parameters = getParameters(example)
-		while (!normalize && gcd(...getCoefficients(parameters, flip)) === 1) parameters = getParameters(example)
+		let parameters: ReturnType<typeof getParameters> | undefined
+		for (let attempt = 0; attempt < 100; attempt++) {
+			parameters = getParameters(example)
+			if (normalize || gcd(...getCoefficients(parameters, flip)) !== 1) break
+		}
+		if (!parameters || (!normalize && gcd(...getCoefficients(parameters, flip)) === 1)) throw new Error('Failed to generate non-normalized quadratic-equation coefficients after 100 attempts.')
 
 		// All done. Return the parameters.
 		const [a, b, c, d, e] = parameters
@@ -64,7 +68,7 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Assemble the equation.
 		const { a, b, c, d, e, flip, normalize } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('a/(x+b) + c = d/(x+e)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = flip ? baseEquation.switch() : baseEquation.self()
 

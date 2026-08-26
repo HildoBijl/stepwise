@@ -3,7 +3,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, expr
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // (ax-x^2/y)/(bx^2) = cz.
 const availableVariableSets = [['a', 'b', 'c'], ['w', 'x', 'y'], ['p', 'q', 'r']]
@@ -32,7 +32,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Extract parameters variables.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('(ax-x^2/y)/(bx^2) = cz').substitute(variables).removeTrivial()
 
 		// Find the solution.

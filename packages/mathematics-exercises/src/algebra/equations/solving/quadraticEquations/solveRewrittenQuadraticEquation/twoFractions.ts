@@ -4,7 +4,7 @@ import { Expression, asExpression, asEquation, expressionComparisons } from '@st
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
 
@@ -58,12 +58,16 @@ export default buildStepExercise({
 		const flip = example ? false : randomBoolean()
 
 		// Set up parameters for the equation. Ensure that the number of solutions (zero or non-zero) matches the desired setting.
-		let parameters = getParameters(example)
 		const hasZeroSolutions = (parameters: [number, number, number, number, number]) => {
 			const [p, q, r] = getCoefficients(parameters, flip)
 			return q ** 2 - 4 * p * r < 0
 		}
-		while (zeroSolutions !== hasZeroSolutions(parameters)) parameters = getParameters(example)
+		let parameters: ReturnType<typeof getParameters> | undefined
+		for (let attempt = 0; attempt < 100; attempt++) {
+			parameters = getParameters(example)
+			if (zeroSolutions === hasZeroSolutions(parameters)) break
+		}
+		if (!parameters || zeroSolutions !== hasZeroSolutions(parameters)) throw new Error('Failed to generate rewritten quadratic-equation parameters with the requested solution count after 100 attempts.')
 
 		// All done. Return the parameters.
 		const [a, b, c, d, e] = parameters
@@ -73,7 +77,7 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Assemble the equation.
 		const { a, b, c, d, e, flip } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equationBase = asEquation('a/(x+b) + c = d/(x+e)', { interpretEAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = flip ? equationBase.switch() : equationBase.self()
 

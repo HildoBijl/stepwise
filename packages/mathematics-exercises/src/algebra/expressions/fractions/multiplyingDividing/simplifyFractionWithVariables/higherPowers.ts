@@ -5,7 +5,7 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 
@@ -43,7 +43,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression(parameters.switch ? '(a*(x+d)^q*(x+c)^p)/(b*(x+c)^s*(x+d)^r)' : '(a*(x+c)^p*(x+d)^q)/(b*(x+d)^r*(x+c)^s)').substitute(variables).removeTrivial()
 		const factor1 = asExpression('x+c').substitute(variables).removeTrivial()
 		const factor2 = asExpression('x+d').substitute(variables).removeTrivial()

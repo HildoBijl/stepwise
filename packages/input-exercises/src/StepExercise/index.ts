@@ -1,4 +1,5 @@
 export * from './types'
+export * from './guards'
 export { createStepExerciseMetadata } from './preprocessing'
 export * from './support'
 export * from './reducer'

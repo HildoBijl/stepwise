@@ -4,18 +4,22 @@ import { type Exercise } from '@step-wise/exercise-definition'
 import { type ExerciseId, type ExerciseCollection, isExerciseCollection, isEmptyExerciseCollection } from '@step-wise/exercise-bundling'
 import { getSkill } from '@step-wise/skill-tree'
 
-import * as allExercises from './exerciseGatherer'
+import * as exerciseRegistry from './exerciseRegistry'
 
-// Extract all exercises defined for a certain skill.
-export function getExercises(skillId: SkillId, examples = false): ExerciseCollection | undefined {
+function getExerciseCollection(skillId: SkillId, collectionName: 'examples' | 'exercises'): ExerciseCollection | undefined {
 	const skill = getSkill(skillId)
-	const skillExerciseBundle = getByPath(allExercises, [...skill.groupPath, skill.id])
+	const skillExerciseBundle = getByPath(exerciseRegistry, [...skill.groupPath, skill.id])
 	if (skillExerciseBundle === undefined) return undefined
 	if (!isPlainObject(skillExerciseBundle)) throw new Error(`Invalid exercises found at skill ${skillId}: the skill definitions did not return a plain object but gave something of type "${typeof skillExerciseBundle}".`)
-	const label = examples ? 'examples' : 'exercises'
-	const exercises = skillExerciseBundle[label]
-	if (!isExerciseCollection(exercises)) throw new Error(`Invalid exercises found at skill ${skillId}: the "${label}" property was not an exercise collection.`)
-	return exercises
+	Object.freeze(skillExerciseBundle)
+	const exercises = skillExerciseBundle[collectionName]
+	if (!isExerciseCollection(exercises)) throw new Error(`Invalid exercises found at skill ${skillId}: the "${collectionName}" property was not an exercise collection.`)
+	return Object.freeze(exercises)
+}
+
+// Extract all exercises defined for a certain skill.
+export function getExercises(skillId: SkillId): ExerciseCollection | undefined {
+	return getExerciseCollection(skillId, 'exercises')
 }
 
 export function hasExercises(skillId: SkillId): boolean {
@@ -24,7 +28,7 @@ export function hasExercises(skillId: SkillId): boolean {
 
 // Extract all examples defined for a certain skill.
 export function getExamples(skillId: SkillId): ExerciseCollection | undefined {
-	return getExercises(skillId, true)
+	return getExerciseCollection(skillId, 'examples')
 }
 
 export function hasExamples(skillId: SkillId): boolean {
@@ -33,10 +37,12 @@ export function hasExamples(skillId: SkillId): boolean {
 
 // Extract examples and exercises combined.
 export function getAllExercises(skillId: SkillId): ExerciseCollection {
-	return {
-		...(getExamples(skillId) ?? {}),
-		...(getExercises(skillId) ?? {}),
+	const examples = getExamples(skillId) ?? {}
+	const exercises = getExercises(skillId) ?? {}
+	for (const [exerciseId, example] of Object.entries(examples)) {
+		if (Object.hasOwn(exercises, exerciseId) && exercises[exerciseId] !== example) throw new Error(`Invalid exercises found at skill ${skillId}: example and exercise "${exerciseId}" use different definitions.`)
 	}
+	return Object.freeze({ ...examples, ...exercises })
 }
 
 // Extract a certain exercise.

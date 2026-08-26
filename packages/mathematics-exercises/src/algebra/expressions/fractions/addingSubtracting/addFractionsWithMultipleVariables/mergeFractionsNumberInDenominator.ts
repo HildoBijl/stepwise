@@ -4,7 +4,7 @@ import { asExpression, expressionComparisons, expressionOperations } from '@step
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges } = expressionComparisons
 const { multiplyNumeratorAndDenominator } = expressionOperations
@@ -31,7 +31,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const { plus, a, b } = parameters
 		const leftExpression = asExpression('1/(ax)').substitute(variables)
 		const rightExpression = asExpression('1/(by)').substitute(variables)

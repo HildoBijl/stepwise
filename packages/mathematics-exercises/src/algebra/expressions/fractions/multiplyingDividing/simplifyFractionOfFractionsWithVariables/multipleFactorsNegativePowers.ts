@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasNegativeExponent, hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -25,7 +25,7 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		while (true) {
+		for (let attempt = 0; attempt < 100; attempt++) {
 			const a = randomInteger(-12, 12, { exclude: [-1, 0, 1] })
 			const b = randomInteger(-12, 12, { exclude: [-1, 0, 1, a] })
 			const c = randomInteger(-4, 4)
@@ -37,7 +37,7 @@ export default buildStepExercise({
 			const r = randomInteger(-4, 4, { exclude: [0, q] })
 			const s = randomInteger(-4, 4, { exclude: [0] })
 			const t = randomInteger(-4, 4, { exclude: [0, p] })
-			if (Math.sign(p) === Math.sign(q) && Math.sign(p) === Math.sign(r) && Math.sign(p) === Math.sign(s) && Math.sign(t)) continue
+			if (Math.sign(p) === Math.sign(q) && Math.sign(p) === Math.sign(r) && Math.sign(p) === Math.sign(s) && Math.sign(p) === Math.sign(t)) continue
 			if (Math.sign(q) !== Math.sign(r) && Math.sign(p) !== Math.sign(t)) continue
 			return {
 				x: sample(variableSet),
@@ -47,10 +47,11 @@ export default buildStepExercise({
 				flip: randomBoolean(),
 			}
 		}
+		throw new Error('Failed to generate valid negative-power fraction parameters after 100 attempts.')
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const part1 = asExpression('a*(x+c)^p*(x+d)^q', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 		const part2 = asExpression('b*(x+d)^r*(x+e)^s*(x+c)^t', { interpretEAsConstant: false }).substitute(variables).removeTrivial([], ['mergeFractionMinuses'])
 		const expression = (parameters.flip ? part2.divide(part1) : part1.divide(part2)).removeTrivial([], ['mergeFractionMinuses'])

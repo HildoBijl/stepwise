@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionChecks, expressionComparisons 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasSumWithinProduct } = expressionChecks
 const { onlyOrderChanges, equivalent } = expressionComparisons
@@ -36,7 +36,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x').substitute(variables).removeTrivial()
 		const sum = asExpression(parameters.descending ? 'b*x^2+c*x+d' : 'd+c*x+b*x^2').substitute(variables).removeTrivial()
 		const expression = factor.multiply(sum).removeTrivial()

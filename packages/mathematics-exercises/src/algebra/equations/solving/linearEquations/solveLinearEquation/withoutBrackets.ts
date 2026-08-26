@@ -3,7 +3,7 @@ import { asExpression, asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -33,7 +33,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { a, b, c, d } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a*x+b=c*x+d').substitute(variables).removeTrivial()
 		const moved = asEquation('a*x-c*x=d-b').substitute(variables).removeTrivial()
 		const cleaned = moved.combine()

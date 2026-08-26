@@ -12,12 +12,27 @@ export default buildStepExercise({
 	},
 
 	generateParameters() {
-		let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling } = getBasicCycle()
-		pEvap = pEvap.setUnit('bar').setSignificantDigits(2).roundToPrecision()
-		pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()
-		dTSuperheating = dTSuperheating.setDecimals(0).roundToPrecision()
-		dTSubcooling = dTSubcooling.setDecimals(0).roundToPrecision()
-		return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }
+		for (let attempt = 0; attempt < 100; attempt++) {
+			let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling } = getBasicCycle()
+			pEvap = pEvap.setUnit('bar').setSignificantDigits(2).roundToPrecision()
+			pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()
+			dTSuperheating = dTSuperheating.setDecimals(0).roundToPrecision()
+			dTSubcooling = dTSubcooling.setDecimals(0).roundToPrecision()
+
+			const refrigerantData = refrigerantDatasets[refrigerant]
+			const TEvap = getSaturationTemperature(refrigerantData, pEvap)
+			const TCond = getSaturationTemperature(refrigerantData, pCond)
+			if (!TEvap || !TCond) continue
+			const point1 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pEvap, TEvap.add(dTSuperheating))
+			if (!point1) continue
+			const point2 = getRefrigerantPropertiesFromPressureAndEntropy(refrigerantData, pCond, point1.entropy)
+			const point3 = getRefrigerantPropertiesFromPressureAndTemperature(refrigerantData, pCond, TCond.subtract(dTSubcooling))
+			if (!point2 || !point3) continue
+			const point4 = getRefrigerantPropertiesFromPressureAndEnthalpy(refrigerantData, pEvap, point3.enthalpy)
+			if (!point4) continue
+			return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }
+		}
+		throw new Error('Failed to generate valid rounded cooling-cycle pressures after 100 attempts.')
 	},
 
 	getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }) {

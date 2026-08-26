@@ -3,7 +3,7 @@ import { asExpression, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges } = expressionComparisons
 
@@ -29,7 +29,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const sign = parameters.plus ? '+' : '-'
 		const expression = asExpression(`(ay^2${sign}bxz)/(xy)`).substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])
 		const leftExpression = asExpression('(ay^2)/(xy)').substitute(variables).removeTrivial(['mergeProductNumbers', 'sortProducts'])

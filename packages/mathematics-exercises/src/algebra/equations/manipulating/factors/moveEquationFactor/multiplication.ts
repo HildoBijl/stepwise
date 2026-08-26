@@ -3,7 +3,7 @@ import { type Expression, type Equation, asEquation, expressionComparisons, equa
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasFractionWithinFraction } = equationChecks
@@ -39,7 +39,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = [variables.c, variables.x, variables.c.multiply(variables.x)][parameters.type].removeTrivial()
 		const baseEquation = asEquation('a=b/(c*x)')
 		const equation = (parameters.switchSides ? baseEquation.switch() : baseEquation.self()).substitute(variables).removeTrivial()

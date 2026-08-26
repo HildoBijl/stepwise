@@ -4,7 +4,7 @@ import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -39,7 +39,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { switchSides } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('ax/b=c/d').substitute(variables).removeTrivial()
 		const equation = switchSides ? baseEquation.switch() : baseEquation.self()
 		const baseIsolated = asEquation('x = (cb)/(da)').substitute(variables).flatten()
