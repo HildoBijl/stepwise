@@ -16,6 +16,7 @@ module.exports = {
 		'<rootDir>/packages/input-interpretation/',
 		'<rootDir>/packages/interpolation/',
 		'<rootDir>/packages/js-utils/',
+		'<rootDir>/packages/math-input-value/',
 		'<rootDir>/packages/math-tools/',
 		'<rootDir>/packages/physics-core/',
 		'<rootDir>/packages/physics-data/',

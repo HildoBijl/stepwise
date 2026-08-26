@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest'
+
 import type { ExpressionValue } from '../types'
 
 import { findCursorAtBracketDepthZero, findEndOfExponent, findEndOfFactor, findClosingBracket, getTopLevelBracketMatches } from './support'
