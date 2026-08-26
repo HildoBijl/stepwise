@@ -31,7 +31,7 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 
 	// Functions
 	if (isFraction(node)) return toNumberInternal(node.numerator, settings) / toNumberInternal(node.denominator, settings)
-	if (isPower(node)) return toNumberInternal(node.base, settings) ** toNumberInternal(node.exponent, settings)
+	if (isPower(node)) return evaluatePower(toNumberInternal(node.base, settings), toNumberInternal(node.exponent, settings))
 	if (isRoot(node)) return evaluateRoot(toNumberInternal(node.radicand, settings), toNumberInternal(node.degree, settings))
 	if (isSqrt(node)) return Math.sqrt(toNumberInternal(node.radicand, settings))
 	if (isLn(node)) return Math.log(toNumberInternal(node.argument, settings))
@@ -53,6 +53,11 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 
 	// Fallback
 	throw new Error(`Invalid toNumber call: no numeric evaluation implemented for subtype "${node.subtype}".`)
+}
+
+function evaluatePower(base: number, exponent: number): number {
+	if (approximatelyEqual(base, 0) && approximatelyEqual(exponent, 0)) return NaN
+	return base ** exponent
 }
 
 function evaluateRoot(radicand: number, degree: number): number {
