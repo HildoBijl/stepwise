@@ -38,8 +38,8 @@ export class NamedConstant extends ConstantNode {
 
 // Find the constant definition from a name or nickname.
 function getNamedConstantDefinition(referral: NamedConstantReferral): NamedConstantDefinition | undefined {
-	if (referral in namedConstantDefinitionsBySymbol) return namedConstantDefinitionsBySymbol[referral as NamedConstantSymbol]
-	if (referral in namedConstantDefinitionsByName) return namedConstantDefinitionsByName[referral as NamedConstantName]
+	if (Object.hasOwn(namedConstantDefinitionsBySymbol, referral)) return namedConstantDefinitionsBySymbol[referral as NamedConstantSymbol]
+	if (Object.hasOwn(namedConstantDefinitionsByName, referral)) return namedConstantDefinitionsByName[referral as NamedConstantName]
 }
 
 // Export easy-access object of premade named constants.
@@ -55,5 +55,5 @@ export function getNamedConstant(referral: string): NamedConstant {
 
 // Checker to see if a string is a valid named constant.
 export function isNamedConstantReferral(referral: string): referral is NamedConstantReferral {
-	return referral in namedConstants
+	return Object.hasOwn(namedConstants, referral)
 }

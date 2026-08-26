@@ -37,7 +37,7 @@ export const textFunctionCategories = {
 
 // Check if a given function name is a text function.
 export function isTextFunction(name: string): name is TextFunctionName {
-	return name in textFunctionCategories
+	return Object.hasOwn(textFunctionCategories, name)
 }
 
 // Check if a given function can be interpreted, according to the interpretation settings.
