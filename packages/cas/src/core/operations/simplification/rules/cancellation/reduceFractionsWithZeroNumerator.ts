@@ -5,7 +5,7 @@ import { isFraction, isZero } from '../../../structural'
 import { defineRule } from '../ruleDefinition'
 
 function transform(node: Fraction): ExpressionNode {
-	return isZero(node.numerator) ? node.numerator : node
+	return isZero(node.numerator) && !isZero(node.denominator) ? node.numerator : node
 }
 
 export const reduceFractionsWithZeroNumerator = defineRule({
