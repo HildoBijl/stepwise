@@ -4,9 +4,11 @@ import { type ExpressionSettingsOptions, type ExpressionSettings, resolveExpress
 import { type ExpressionNode, variableToString } from '../../../construction'
 
 import { isConstantNode, isMinus, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRoot, isSqrt, isLn, isLog, isTrigonometricFunction, isInverseTrigonometricFunction, isSin, isCos, isTan, isArcsin, isArccos, isArctan } from './typeChecks'
+import { isSingular } from './algebraicChecks'
 
 // Turn a numeric expression into a Javascript number. Throws on non-numeric elements.
 export function numericNodeToNumber(node: ExpressionNode, settings?: ExpressionSettingsOptions): number {
+	if (!isSingular(node)) throw new Error('Invalid toNumber call: cannot turn a plural expression into a single number.')
 	const number = toNumberInternal(node, resolveExpressionSettings(settings))
 	return approximatelyEqual(number, 0) ? 0 : number
 }

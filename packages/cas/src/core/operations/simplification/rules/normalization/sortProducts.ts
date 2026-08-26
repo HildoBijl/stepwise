@@ -1,6 +1,6 @@
 import { type ExpressionNode, type Product, product } from '../../../../construction'
 
-import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
+import { isProduct, isInteger, isFloat, isVariable, isPower, isSum, isNumeric, isSingular, someDescendant, numericNodeToNumber, getVariables } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
 import { compareVariableNodes } from '../utils'
@@ -20,7 +20,7 @@ function orderProductFactors(a: ExpressionNode, b: ExpressionNode): number {
 	if (!test(b)) return -1
 
 	// On numbers, sort small to large.
-	if (index === 0 || index === 1) return numericNodeToNumber(a) - numericNodeToNumber(b)
+	if (index === 0 || index === 1) return isSingular(a) && isSingular(b) ? numericNodeToNumber(a) - numericNodeToNumber(b) : 0
 
 	// On single-variable factors, sort by variable name.
 	if (index === 2) {

@@ -1,7 +1,7 @@
 import { type VariableInput, ExpressionNode, Variable, variableToString, asVariable } from '../../../construction'
 
-import { isVariable } from '../fundamentals'
-import { equalVariables } from '../comparisons'
+import { isVariable } from './typeChecks'
+import { equalVariables } from './equality'
 
 import { someDescendant, everyDescendant, forEachDescendant } from './traversal'
 

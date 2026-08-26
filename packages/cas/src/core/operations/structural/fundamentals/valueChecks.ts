@@ -1,6 +1,6 @@
 import { ExpressionNode, SignNode, ConstantNode, Integer, Float } from '../../../construction'
 
-import { isIntegerNode, isFloatNode, isConstantNode, isMinus } from '../fundamentals'
+import { isIntegerNode, isFloatNode, isConstantNode, isMinus } from './typeChecks'
 
 // Specific values
 export function isZero(node: ExpressionNode): node is ConstantNode { return isConstantNode(node) && node.value === 0 }

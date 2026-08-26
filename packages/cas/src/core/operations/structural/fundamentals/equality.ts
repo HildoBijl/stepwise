@@ -2,7 +2,7 @@ import { approximatelyEqual } from '@step-wise/js-utils'
 
 import type { ExpressionNode, SignNode, ConstantNode, FunctionNode, ListNode, Variable } from '../../../construction'
 
-import { isSignNode, isConstantNode, isNamedConstant, isFunctionNode, isListNode, isVariable } from '../fundamentals'
+import { isSignNode, isConstantNode, isNamedConstant, isFunctionNode, isListNode, isVariable } from './typeChecks'
 
 export function equalNodes(a: ExpressionNode, b: ExpressionNode, allowOrderChanges = true): boolean {
 	if (isConstantNode(a) && isConstantNode(b)) return equalConstants(a, b)

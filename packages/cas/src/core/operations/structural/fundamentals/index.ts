@@ -1,2 +1,7 @@
 export * from './typeChecks'
+export * from './equality'
 export * from './numeric'
+export * from './traversal'
+export * from './valueChecks'
+export * from './algebraicChecks'
+export * from './dependencyChecks'

@@ -1,6 +1,6 @@
 import { type ExpressionNode } from '../../../construction'
 
-import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootLike, isLogLike, isTrigonometryLike } from '../fundamentals'
+import { isFloatNode, isIntegerNode, isSignNode, isPlusMinus, isVariable, isSum, isProduct, isFraction, isPower, isRootLike, isLogLike, isTrigonometryLike } from './typeChecks'
 
 import { someDescendant } from './traversal'
 import { isInteger } from './valueChecks'
@@ -38,7 +38,7 @@ export function hasTrigonometry(node: ExpressionNode): boolean {
 
 // Check if an expression is plural-valued or single-valued.
 export function isPlural(node: ExpressionNode): boolean {
-	return someDescendant(node, descendant => isPlusMinus(descendant))
+	return someDescendant(node, isPlusMinus)
 }
 export function isSingular(node: ExpressionNode): boolean {
 	return !isPlural(node)

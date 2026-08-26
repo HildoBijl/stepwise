@@ -1,9 +1,6 @@
 import { type VariableInput, type ExpressionNode, type ExpressionNodeInput, asExpressionNode, asVariable } from '../../../construction'
 
-import { isVariable } from '../fundamentals'
-import { equalVariables } from '../comparisons'
-
-import { type NodeAncestors, type OrderedTraversalOptions } from '../checks'
+import { type NodeAncestors, type OrderedTraversalOptions, isVariable, equalVariables } from '../fundamentals'
 
 export type NodeTransform = (node: ExpressionNode, parents: readonly ExpressionNode[]) => ExpressionNode
 

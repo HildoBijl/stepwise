@@ -2,7 +2,7 @@ import { last, repeat, ensureInteger } from '@step-wise/js-utils'
 
 import { type ExpressionNode, type Variable, Integer, power, product, sum } from '../../../../construction'
 
-import { subtract, multiply, divide, equalVariables, getVariables, isNumeric, isZero, isPolynomial, isPower, isVariable, numericNodeToNumber } from '../../../structural'
+import { subtract, multiply, divide, equalVariables, getVariables, isNumeric, isSingular, isZero, isPolynomial, isPower, isVariable, numericNodeToNumber } from '../../../structural'
 
 import { getSumTerms, getConstantAndVariablePart } from './defaults'
 
@@ -73,7 +73,7 @@ function coefficientsToPolynomial(coefficients: ExpressionNode[], variable: Vari
 function getTermOrder(variablePart: ExpressionNode, variable: Variable): number | undefined {
 	if (isNumeric(variablePart)) return 0
 	if (isVariable(variablePart) && equalVariables(variablePart, variable)) return 1
-	if (isPower(variablePart) && isVariable(variablePart.base) && equalVariables(variablePart.base, variable) && isNumeric(variablePart.exponent)) {
+	if (isPower(variablePart) && isVariable(variablePart.base) && equalVariables(variablePart.base, variable) && isNumeric(variablePart.exponent) && isSingular(variablePart.exponent)) {
 		const order = numericNodeToNumber(variablePart.exponent)
 		return Number.isInteger(order) && order >= 0 ? order : undefined
 	}

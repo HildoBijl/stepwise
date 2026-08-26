@@ -1,6 +1,6 @@
 import { type ExpressionNode, variable, sum, product, fraction, negative, power, plusMinus } from '../../../construction'
 
-import { equalNodes } from '../comparisons'
+import { equalNodes } from '../fundamentals'
 
 import { add, subtract, multiply, divide } from './arithmetic'
 import { expandToSingulars } from './plurals'

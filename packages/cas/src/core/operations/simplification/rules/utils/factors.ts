@@ -2,7 +2,7 @@ import { partition } from '@step-wise/js-utils'
 
 import { type ExpressionNode, negative, recreateSignNode, sum, product, power } from '../../../../construction'
 
-import { equalNodes, isMinus, isSignNode, isZero, isOne, isNumeric, subtract, numericNodeToNumber } from '../../../structural'
+import { equalNodes, isMinus, isSignNode, isZero, isOne, isNumeric, isSingular, subtract, numericNodeToNumber } from '../../../structural'
 
 import { getBaseAndExponent, getProductFactors } from '../utils'
 
@@ -25,11 +25,12 @@ export function getCommonFactors(...terms: readonly ExpressionNode[]): Expressio
 function getCommonExponent(a: ExpressionNode, b: ExpressionNode): ExpressionNode {
 	// Check edge cases.
 	if (equalNodes(a, b)) return a
-	if (isNumeric(a) && isNumeric(b)) return numericNodeToNumber(a) < numericNodeToNumber(b) ? a : b
+	if (isNumeric(a) && isSingular(a) && isNumeric(b) && isSingular(b)) return numericNodeToNumber(a) < numericNodeToNumber(b) ? a : b
 
 	// Get the smallest constant and variable part separately.
-	const [aConstantTerms, aVariableTerms] = partition(getSumTerms(a), isNumeric)
-	const [bConstantTerms, bVariableTerms] = partition(getSumTerms(b), isNumeric)
+	const isSingularNumeric = (node: ExpressionNode) => isNumeric(node) && isSingular(node)
+	const [aConstantTerms, aVariableTerms] = partition(getSumTerms(a), isSingularNumeric)
+	const [bConstantTerms, bVariableTerms] = partition(getSumTerms(b), isSingularNumeric)
 	const constantSumPart = getCommonExponent(sum(...aConstantTerms), sum(...bConstantTerms)) // For the constant part, pick the smallest number.
 	const variableSumPart = sum(
 		...aVariableTerms.filter(aTerm => isMinus(aTerm) || bVariableTerms.some(bTerm => equalNodes(aTerm, bTerm))), // Keep negative terms. For positive terms, only keep those present in both.
