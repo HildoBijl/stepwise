@@ -27,5 +27,7 @@ export function mergeAdjacentTextParts(value: ExpressionValue): ExpressionValue 
 		if (isTextPart(part) && isTextPart(previousPart)) result[result.length - 1] = `${previousPart}${part}`
 		else result.push(part)
 	})
+	if (!isTextPart(result[0])) result.unshift('')
+	if (!isTextPart(last(result))) result.push('')
 	return result
 }

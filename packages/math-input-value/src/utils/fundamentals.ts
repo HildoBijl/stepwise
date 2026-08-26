@@ -1,7 +1,7 @@
 import { first, isEmptyObject, omitDefaults } from '@step-wise/js-utils'
 
 import { type InterpretationSettingsInput, type ExpressionSettingsInput, defaultInterpretationSettings, defaultExpressionSettings } from '../settings'
-import type { ExpressionInputValue, EquationInputValue, InputValue, ExpressionValue } from '../types'
+import { type ExpressionInputValue, type EquationInputValue, type InputValue, type ExpressionValue, isExpressionValue } from '../types'
 
 export function isEmptyExpressionValue(value: ExpressionValue): boolean {
 	if (value.length === 0) throw new Error(`Invalid expression InputValue: it can never be an empty array. There must always be at least one text part.`)
@@ -17,11 +17,13 @@ export function getEmptyExpression(): ExpressionInputValue {
 }
 
 export function addExpressionWrapper(value: ExpressionValue, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): ExpressionInputValue {
+	if (!isExpressionValue(value)) throw new TypeError('Cannot wrap an invalid expression value.')
 	const result: ExpressionInputValue = { type: 'Expression', value }
 	return addPotentialSettings(result, interpretationSettings, expressionSettings)
 }
 
 export function addEquationWrapper(value: ExpressionValue, interpretationSettings?: InterpretationSettingsInput, expressionSettings?: ExpressionSettingsInput): EquationInputValue {
+	if (!isExpressionValue(value)) throw new TypeError('Cannot wrap an invalid expression value.')
 	const result: EquationInputValue = { type: 'Equation', value }
 	return addPotentialSettings(result, interpretationSettings, expressionSettings)
 }
