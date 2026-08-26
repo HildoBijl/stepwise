@@ -58,5 +58,5 @@ function simplifyUntilStable(node: ExpressionNode, context: SimplificationContex
 
 // Run a set of simplification operations once on all nodes.
 function simplifyOnce(node: ExpressionNode, context: SimplificationContext): ExpressionNode {
-	return mapDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }), true)
+	return mapDescendants(node, (descendant, parents) => applySimplificationRules(descendant, { ...context, parents }), { childrenFirst: true })
 }

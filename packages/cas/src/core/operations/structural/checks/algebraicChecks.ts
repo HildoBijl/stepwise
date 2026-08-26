@@ -7,7 +7,7 @@ import { isInteger } from './valueChecks'
 
 // Check if an expression contains variables.
 export function hasVariables(node: ExpressionNode): boolean {
-	return someDescendant(node, isVariable, true)
+	return someDescendant(node, isVariable)
 }
 
 // Check if an expression is numeric: no variables except known numeric constants.
@@ -17,28 +17,28 @@ export function isNumeric(node: ExpressionNode): boolean {
 
 // Check if there any multi-character variables. (Needed for determining interpretation settings.)
 export function hasMultiCharacterVariables(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isVariable(node) && node.symbol.length > 1, true)
+	return someDescendant(node, node => isVariable(node) && node.symbol.length > 1)
 }
 
 // Check if an expression has any float.
 export function hasFloat(node: ExpressionNode): boolean {
-	return someDescendant(node, isFloatNode, true)
+	return someDescendant(node, isFloatNode)
 }
 
 // Check if there are specific types of functions.
 export function hasRoot(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isRootLike(node), true)
+	return someDescendant(node, node => isRootLike(node))
 }
 export function hasLog(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isLogLike(node), true)
+	return someDescendant(node, node => isLogLike(node))
 }
 export function hasTrigonometry(node: ExpressionNode): boolean {
-	return someDescendant(node, node => isTrigonometryLike(node), true)
+	return someDescendant(node, node => isTrigonometryLike(node))
 }
 
 // Check if an expression is plural-valued or single-valued.
 export function isPlural(node: ExpressionNode): boolean {
-	return someDescendant(node, descendant => isPlusMinus(descendant), true)
+	return someDescendant(node, descendant => isPlusMinus(descendant))
 }
 export function isSingular(node: ExpressionNode): boolean {
 	return !isPlural(node)

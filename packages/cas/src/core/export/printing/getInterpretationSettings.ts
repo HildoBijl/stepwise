@@ -18,7 +18,7 @@ export function getNodeInterpretationSettingsInput(node: ExpressionNode): Interp
 }
 
 function getEAsConstantSetting(node: ExpressionNode): boolean {
-	const hasConstantE = someDescendant(node, (node: ExpressionNode) => isNamedConstant(node) && equalConstants(node, namedConstants.e), true)
+	const hasConstantE = someDescendant(node, (node: ExpressionNode) => isNamedConstant(node) && equalConstants(node, namedConstants.e))
 	const hasVariableE = someDescendant(node, (node: ExpressionNode) => isVariable(node) && equalVariables(node, variable('e')))
 	if (hasConstantE) {
 		if (hasVariableE) throw new Error(`Invalid expression interpretation: encountered an expression that both has a variable "e" and a named constant "e". Cannot set up a string that can properly be reinterpreted.`)
