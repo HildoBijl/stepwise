@@ -32,7 +32,7 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 	// Functions
 	if (isFraction(node)) return toNumberInternal(node.numerator, settings) / toNumberInternal(node.denominator, settings)
 	if (isPower(node)) return toNumberInternal(node.base, settings) ** toNumberInternal(node.exponent, settings)
-	if (isRoot(node)) return toNumberInternal(node.radicand, settings) ** (1 / toNumberInternal(node.degree, settings))
+	if (isRoot(node)) return evaluateRoot(toNumberInternal(node.radicand, settings), toNumberInternal(node.degree, settings))
 	if (isSqrt(node)) return Math.sqrt(toNumberInternal(node.radicand, settings))
 	if (isLn(node)) return Math.log(toNumberInternal(node.argument, settings))
 	if (isLog(node)) return Math.log(toNumberInternal(node.argument, settings)) / Math.log(toNumberInternal(node.base, settings))
@@ -53,6 +53,13 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 
 	// Fallback
 	throw new Error(`Invalid toNumber call: no numeric evaluation implemented for subtype "${node.subtype}".`)
+}
+
+function evaluateRoot(radicand: number, degree: number): number {
+	if (radicand >= 0) return radicand ** (1 / degree)
+	const roundedDegree = Math.round(degree)
+	if (!approximatelyEqual(degree, roundedDegree) || Math.abs(roundedDegree) % 2 !== 1) return NaN
+	return -((-radicand) ** (1 / degree))
 }
 
 function degreesToRadians(value: number, settings: ExpressionSettings): number {
