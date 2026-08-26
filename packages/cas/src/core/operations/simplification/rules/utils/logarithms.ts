@@ -6,6 +6,10 @@ import { isNumeric, isSingular, numericNodeToNumber } from '../../../structural'
 export function hasValidLogarithmBase(node: LogLike): boolean {
 	if (!isNumeric(node.base)) return true
 	if (!isSingular(node.base)) return false
-	const base = numericNodeToNumber(node.base)
-	return base > 0 && base !== 1
+	try {
+		const base = numericNodeToNumber(node.base)
+		return base > 0 && base !== 1
+	} catch {
+		return false
+	}
 }
