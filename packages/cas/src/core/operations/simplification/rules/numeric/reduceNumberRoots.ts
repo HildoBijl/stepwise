@@ -1,8 +1,8 @@
 import { isPerfectPower } from '@step-wise/math-tools'
 
-import { type ExpressionNode, type RootLike, type Power, integer, float } from '../../../../construction'
+import { type ExpressionNode, type RootLike, type Power, integer, float, root } from '../../../../construction'
 
-import { isPower, isRootLike, isOne, isNumberNode, isFloatNode, isIntegerNode, isFraction } from '../../../structural'
+import { isPower, isRootLike, isOne, isNumberNode, isFloat, isInteger, isIntegerNode, isFraction, numericNodeToNumber } from '../../../structural'
 
 import { defineRule } from '../ruleDefinition'
 
@@ -21,9 +21,12 @@ function transform(node: Power | RootLike): ExpressionNode {
 	}
 
 	// Check if it can be simplified.
-	if (!isNumberNode(radicand) || !isNumberNode(degree)) return node
-	if (isFloatNode(radicand)) return float(radicand.value ** (1 / degree.value))
-	if (isIntegerNode(radicand) && isIntegerNode(degree) && isPerfectPower(radicand.value, degree.value)) return integer(Math.round(radicand.value ** (1 / degree.value)))
+	if ((!isInteger(radicand) && !isFloat(radicand)) || !isNumberNode(degree) || degree.value === 0) return node
+	const radicandValue = numericNodeToNumber(radicand)
+	if (radicandValue < 0 && (!isIntegerNode(degree) || degree.value % 2 === 0)) return node
+	const rootValue = numericNodeToNumber(isPower(node) ? root(radicand, degree) : node)
+	if (isFloat(radicand)) return float(rootValue)
+	if (isIntegerNode(degree) && isPerfectPower(radicandValue, degree.value)) return integer(Math.round(rootValue))
 	return node
 }
 
