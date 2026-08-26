@@ -56,6 +56,7 @@ function toNumberInternal(node: ExpressionNode, settings: ExpressionSettings): n
 }
 
 function evaluateRoot(radicand: number, degree: number): number {
+	if (approximatelyEqual(degree, 0)) return NaN
 	if (radicand >= 0) return radicand ** (1 / degree)
 	const roundedDegree = Math.round(degree)
 	if (!approximatelyEqual(degree, roundedDegree) || Math.abs(roundedDegree) % 2 !== 1) return NaN
