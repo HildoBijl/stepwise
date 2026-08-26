@@ -4,7 +4,7 @@ import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
 import { skillTree } from '@step-wise/skill-tree'
 
-import * as allExercises from './exerciseGatherer'
+import * as exerciseRegistry from './exerciseRegistry'
 
 // Prepare by getting all skill paths, and preparing a list of exercises that are discovered.
 const skillsByPath = new Map(Object.values(skillTree).map(skill => [[...skill.groupPath, skill.id].join('/'), skill] as const))
@@ -28,7 +28,7 @@ function collectExportedSkillExerciseBundle(value: unknown, path: string[] = [])
 	if (!isObject(value) || Array.isArray(value)) return
 	for (const [key, child] of Object.entries(value)) collectExportedSkillExerciseBundle(child, [...path, key])
 }
-for (const [key, value] of Object.entries(allExercises)) collectExportedSkillExerciseBundle(value, [key])
+for (const [key, value] of Object.entries(exerciseRegistry)) collectExportedSkillExerciseBundle(value, [key])
 
 // For each of the gathered skills with exercises, check if the given exercises are in the right format.
 describe('Gathered exercises', () => {
