@@ -1,4 +1,5 @@
 export * from './types'
+export * from './guards'
 export * from './getInput'
 export * from './history'
 export * from './solutions'

@@ -1,16 +1,12 @@
 import { isExercise } from '@step-wise/exercise-definition'
 import { isExerciseCollection } from '@step-wise/exercise-bundling'
-import { type SolutionDefinition, resolveSolution } from '@step-wise/input-exercises'
+import { isInputExercise, resolveSolution } from '@step-wise/input-exercises'
 import { deserializeData } from '@step-wise/serialization'
 import type { Skill } from '@step-wise/skill-definition'
 import { skillTree } from '@step-wise/skill-tree'
 import { isObject, isPlainObject } from '@step-wise/js-utils'
 
 import * as exerciseRegistry from './exerciseRegistry'
-
-type SolvableExercise = {
-	getSolution?: SolutionDefinition
-}
 
 const skillsByPath = new Map(Object.values(skillTree).map(skill => [[...skill.groupPath, skill.id].join('/'), skill] as const))
 const skillExerciseExports: { path: string[], skill: Skill, bundle: unknown }[] = []
@@ -80,12 +76,11 @@ describe('exercise registry', () => {
 								const initialState = exercise.getInitialState(storedParameters)
 								expect(isPlainObject(initialState)).toBe(true)
 
-								const { getSolution } = exercise as typeof exercise & SolvableExercise
-								if (getSolution !== undefined) {
-									const parameters = deserializeData(storedParameters)
-									expect(isPlainObject(parameters)).toBe(true)
-									if (!isPlainObject(parameters)) return
-									const solution = resolveSolution(getSolution, parameters)
+							if (isInputExercise(exercise) && exercise.getSolution !== undefined) {
+								const parameters = deserializeData(storedParameters)
+								expect(isPlainObject(parameters)).toBe(true)
+								if (!isPlainObject(parameters)) return
+								const solution = resolveSolution(exercise.getSolution, parameters)
 									expect(isPlainObject(solution)).toBe(true)
 								}
 							})

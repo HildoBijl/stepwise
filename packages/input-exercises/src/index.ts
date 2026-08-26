@@ -1,4 +1,6 @@
 export * from './InputExercise'
 export * from './MonoExercise'
 export * from './StepExercise'
+export * from './types'
+export * from './guards'
 export * from './generationSupport'
