@@ -11,6 +11,7 @@ module.exports = {
 		'<rootDir>/packages/exercise-definition/',
 		'<rootDir>/packages/exercise-grading/',
 		'<rootDir>/packages/exercise-selection/',
+		'<rootDir>/packages/exercises/',
 		'<rootDir>/packages/geometry/',
 		'<rootDir>/packages/input-exercises/',
 		'<rootDir>/packages/input-interpretation/',
