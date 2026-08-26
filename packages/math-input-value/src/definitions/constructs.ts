@@ -24,7 +24,7 @@ export type ConstructDefinition = typeof constructDefinitions[ConstructType]
 export const constructs = Object.keys(constructDefinitions) as ConstructType[]
 
 export function isConstructType(type: string): type is ConstructType {
-	return type in constructDefinitions
+	return Object.hasOwn(constructDefinitions, type)
 }
 
 export function getConstructTypeFromAlias(alias: string): ConstructType | undefined {
