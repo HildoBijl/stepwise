@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionComparisons, expressionChecks,
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasFractionWithinFraction } = expressionChecks
 const { equivalent, onlyOrderChanges } = expressionComparisons
@@ -50,7 +50,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const fractions = ['(a*x+b)/(c*x+d)', '(e*x+f)/(g*x+h)'].map(str => asExpression(str, { eAsConstant: false }).substitute(variables).removeTrivial())
 		const joinFractions = (items: Expression[]) => items[0].add(parameters.plus ? items[1] : items[1].negate()).removeTrivial()
 		const expression = joinFractions(fractions)

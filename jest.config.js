@@ -19,6 +19,7 @@ module.exports = {
 		'<rootDir>/packages/interpolation/',
 		'<rootDir>/packages/js-utils/',
 		'<rootDir>/packages/math-tools/',
+		'<rootDir>/packages/mathematics-exercises/',
 		'<rootDir>/packages/mechanics-exercises/',
 		'<rootDir>/packages/physics-core/',
 		'<rootDir>/packages/physics-data/',

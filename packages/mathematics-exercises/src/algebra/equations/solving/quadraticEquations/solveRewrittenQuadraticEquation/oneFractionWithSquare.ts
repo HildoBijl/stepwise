@@ -4,7 +4,7 @@ import { Expression, asExpression, asEquation, expressionComparisons } from '@st
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs, compareInputList } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, constantMultiple, exactEqual } = expressionComparisons
 
@@ -76,7 +76,7 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Assemble the equation.
 		const { a, b, c, d, flip } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equationBase = asEquation('(x+a)^2/(x+b) = cx+d').substitute(variables).removeTrivial()
 		const equation = flip ? equationBase.switch() : equationBase.self()
 

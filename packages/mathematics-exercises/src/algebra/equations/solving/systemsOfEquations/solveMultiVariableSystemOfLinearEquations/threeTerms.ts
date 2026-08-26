@@ -4,7 +4,7 @@ import { Expression, asExpression, asEquation, expressionComparisons, expression
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { selectRandomVariables, filterVariables } from '#generationTools'
+import { selectRandomVariables, selectExpressionParameters } from '#generationTools'
 
 // ax + by + cz = d.
 // ex + fy + gz = h.
@@ -47,7 +47,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Set up the equations.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const eq1 = asEquation('ax + by + cz = d', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const eq2 = asEquation('ex + fy + gz = h', { eAsConstant: false }).substitute(variables).removeTrivial()
 

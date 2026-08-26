@@ -5,7 +5,7 @@ import { type Equation, type Expression, asEquation, expressionComparisons, equa
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { hasVariableInDenominator, hasSumWithinProduct } = equationChecks
 const { exactEqual } = expressionComparisons
@@ -68,7 +68,7 @@ export default buildStepExercise({
 	getSolution(parameters) {
 		// Assemble the equation.
 		const { a, b, c, d, e, flip, normalize } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const baseEquation = asEquation('a/(x+b) + c = d/(x+e)', { eAsConstant: false }).substitute(variables).removeTrivial()
 		const equation = flip ? baseEquation.switch() : baseEquation.self()
 

@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionComparisons } from '@step-wise
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -47,7 +47,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const factor = asExpression('a*x^n').substitute(variables).removeTrivial()
 		const sum = asExpression(parameters.descending ? 'b*x+c' : 'c+b*x').substitute(variables).removeTrivial()
 		const ans = factor.multiply(sum).combine()

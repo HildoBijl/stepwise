@@ -3,7 +3,7 @@ import { type Expression, asExpression, asEquation, expressionComparisons, expre
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasSumWithinFraction } = expressionChecks
@@ -42,7 +42,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Assemble the equation.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const terms = ['a*x^4', 'b*x^3', 'c*x^2', 'd*x'].map(term => asExpression(term).substitute(variables))
 		const termsLeft = [parameters.aLeft, parameters.bLeft, parameters.cLeft, parameters.dLeft]
 		let left = asExpression(0)

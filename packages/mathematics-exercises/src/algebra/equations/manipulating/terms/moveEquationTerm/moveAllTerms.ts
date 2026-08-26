@@ -3,7 +3,7 @@ import { asEquation, expressionComparisons } from '@step-wise/cas'
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -37,7 +37,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		// Set up the equation.
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		let equation = asEquation('0=a*x^3+b*x^2+c*x+d').substitute(variables).removeTrivial()
 		const termsToSubtract = parameters.termsLeft.map(index => equation.right.terms[index])
 		termsToSubtract.forEach(termToSubtract => { equation = equation.subtract(termToSubtract).cancel() })

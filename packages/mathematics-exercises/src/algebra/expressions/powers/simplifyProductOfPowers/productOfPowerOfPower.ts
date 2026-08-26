@@ -3,7 +3,7 @@ import { type Expression, asExpression, expressionComparisons, expressionChecks 
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { equivalent, onlyOrderChanges } = expressionComparisons
 const { hasPowerWithinPowerBase } = expressionChecks
@@ -35,7 +35,7 @@ export default buildStepExercise({
 	},
 
 	getSolution(parameters) {
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const expression = asExpression('a*x^b(x^c)^d').substitute(variables).removeTrivial()
 		const powersReducedStep = expression.removeTrivial(['removePowersWithinPowers'])
 		const powersReduced = powersReducedStep.removeTrivial(['mergeProductNumbers', 'reduceNumberPowers'])

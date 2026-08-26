@@ -3,7 +3,7 @@ import { type Equation, type Expression, asExpression, asEquation, expressionCom
 import { buildStepExercise, createStepExerciseMetadata } from '@step-wise/input-exercises'
 import { compareInputs } from '@step-wise/exercise-grading'
 
-import { filterVariables } from '#generationTools'
+import { selectExpressionParameters } from '#generationTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasVariableInDenominator } = equationChecks
@@ -35,7 +35,7 @@ export default buildStepExercise({
 
 	getSolution(parameters) {
 		const { a, b, c, d } = parameters
-		const variables = filterVariables(parameters, usedVariables, constants)
+		const variables = selectExpressionParameters(parameters, usedVariables, constants)
 		const equation = asEquation('a/(x+b)=c/(x+d)').substitute(variables).removeTrivial()
 		const factorMoved = asEquation('a(x+d)=c(x+b)').substitute(variables).removeTrivial()
 		const expanded = factorMoved.combine(['expandProductsOfSums'])
