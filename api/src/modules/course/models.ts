@@ -65,7 +65,7 @@ export function createCourseModel(sequelize: Sequelize): CourseModel {
 		organization: { type: DataTypes.STRING, allowNull: false, defaultValue: 'stepwise' },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'course' })
+	}, { sequelize, modelName: 'course', indexes: [{ fields: ['code'], name: 'courses_code', unique: true }] })
 	return Course
 }
 
@@ -91,6 +91,6 @@ export function createCourseBlockModel(sequelize: Sequelize): CourseBlockModel {
 		goals: { type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'courseBlock', defaultScope: { order: [['index', 'ASC']] } })
+	}, { sequelize, modelName: 'courseBlock', defaultScope: { order: [['index', 'ASC']] }, indexes: [{ fields: ['courseId', 'index'], name: 'course_blocks_course_id_index', unique: true }] })
 	return CourseBlock
 }

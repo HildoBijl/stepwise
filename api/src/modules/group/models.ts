@@ -43,7 +43,7 @@ export function createGroupModel(sequelize: Sequelize): GroupModel {
 		code: { type: DataTypes.STRING, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'group' })
+	}, { sequelize, modelName: 'group', indexes: [{ fields: ['code'], name: 'groups_code', unique: true }] })
 	return Group
 }
 
