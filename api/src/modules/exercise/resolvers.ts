@@ -1,5 +1,4 @@
-import { isPlainDataObject } from '@step-wise/js-utils'
-import { type ExerciseAction, isStateDone } from '@step-wise/exercise-definition'
+import { ensureExerciseAction, isStateDone } from '@step-wise/exercise-definition'
 import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selection'
 import { getExercise, getExercises } from '@step-wise/exercises'
 import { ensureSkillId } from '@step-wise/skill-tree'
@@ -11,10 +10,6 @@ import type { ExerciseEventRecord, ExerciseSampleRecord, ExerciseSampleWithEvent
 import { getExerciseState, getLastEvent, getUserSkillWithExercises } from './service.ts'
 
 type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'loaders' | 'pubsub' | 'userId'>
-
-function isExerciseAction(value: unknown): value is ExerciseAction {
-	return isPlainDataObject(value) && typeof value.type === 'string'
-}
 
 export const exerciseResolvers = {
 	Skill: { __resolveType: (skill: UserSkillRecord) => skill.mayViewExercises ? 'SkillWithExercises' : 'SkillWithoutExercises' },
@@ -48,10 +43,10 @@ export const exerciseResolvers = {
 			return db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
 		},
 
-		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action }: { skillId: string; action: unknown }, { db, pubsub, ensureLoggedIn, userId }: ExerciseContext) => {
+		submitExerciseAction: async (_source: unknown, { skillId: rawSkillId, action: rawAction }: { skillId: string; action: unknown }, { db, pubsub, ensureLoggedIn, userId }: ExerciseContext) => {
 			ensureLoggedIn()
 			const skillId = ensureSkillId(rawSkillId)
-			if (!isExerciseAction(action)) throw new Error('Invalid exercise action: expected a plain data object with a string "type" property.')
+			const action = ensureExerciseAction(rawAction)
 
 			// Load in the active exercise and its scripts.
 			const skillData = await getUserSkillWithExercises(db, userId, skillId, { includeActiveExercise: true, requireActiveExercise: true })
