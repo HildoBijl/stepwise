@@ -1,6 +1,6 @@
 import { UniqueConstraintError } from 'sequelize'
 
-import { ForbiddenError, UserInputError } from '../../errors.ts'
+import { ForbiddenError, InvalidInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
@@ -35,7 +35,7 @@ export const groupResolvers = {
 				await getGroup(db, code)
 				return true
 			} catch (error) {
-				if (error instanceof UserInputError) return false
+				if (error instanceof InvalidInputError) return false
 				throw error
 			}
 		},
@@ -123,7 +123,7 @@ export const groupResolvers = {
 
 				// Validate the target before changing any memberships.
 				const group = user.groups.find(group => group.code === normalizedCode)
-				if (!group) throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
+				if (!group) throw new InvalidInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
 				const deactivatedGroups = await deactivateUserGroupMemberships(user, { exceptionCode: normalizedCode, transaction })
 				const member = group.members.find(member => member.id === userId)

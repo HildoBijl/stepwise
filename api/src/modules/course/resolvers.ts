@@ -3,7 +3,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 import { Course, validateCourseDiagnostics } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { AuthenticationError, UserInputError } from '../../errors.ts'
+import { ForbiddenError, InvalidInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
@@ -41,7 +41,7 @@ const courseForUserResolvers = {
 function validateCourse(input: CreateCourseInput | UpdateCourseInput, current?: CourseRecord) {
 	const nonNullableFields = ['code', 'name', 'goals', 'startingPoints', 'organization'] as const
 	nonNullableFields.forEach(field => {
-		if (Reflect.get(input, field) === null) throw new UserInputError(`Course field "${field}" cannot be null.`)
+		if (Reflect.get(input, field) === null) throw new InvalidInputError(`Course field "${field}" cannot be null.`)
 	})
 
 	const serializedSetup = input.setup === undefined ? current?.setup : input.setup
@@ -83,7 +83,7 @@ export const courseResolvers = {
 	Mutation: {
 		createCourse: async (_source: unknown, { input }: { input: CreateCourseInput }, { db, ensureLoggedIn, user }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
-			if (user.role !== 'teacher' && user.role !== 'admin') throw new AuthenticationError('Invalid createCourse call: user does not have the rights to create a new course.')
+			if (user.role !== 'teacher' && user.role !== 'admin') throw new ForbiddenError('Invalid createCourse call: user does not have the rights to create a new course.')
 			validateCourse(input)
 			return db.transaction(async transaction => {
 				const { blocks, ...courseData } = input
@@ -96,7 +96,7 @@ export const courseResolvers = {
 		updateCourse: async (_source: unknown, { courseId, input }: { courseId: string; input: UpdateCourseInput }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, { userId: user.id })
-			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Invalid updateCourse call: user does not have the rights to edit the course with courseId "${courseId}".`)
+			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new ForbiddenError(`Invalid updateCourse call: user does not have the rights to edit the course with courseId "${courseId}".`)
 			validateCourse(input, course)
 			return db.transaction(async transaction => {
 				const { blocks, ...courseData } = input
@@ -111,7 +111,7 @@ export const courseResolvers = {
 		deleteCourse: async (_source: unknown, { courseId }: { courseId: string }, { db, ensureLoggedIn, user, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, { userId: user.id })
-			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Invalid deleteCourse call: user does not have the rights to remove the course with courseId "${courseId}".`)
+			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new ForbiddenError(`Invalid deleteCourse call: user does not have the rights to remove the course with courseId "${courseId}".`)
 			await course.destroy()
 			return true
 		},
@@ -132,7 +132,7 @@ export const courseResolvers = {
 		promoteToTeacher: async (_source: unknown, { courseId, userId }: { courseId: string; userId: string }, { db, ensureLoggedIn, userId: currentUserId, isAdmin }: AuthenticatedCourseContext) => {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, { userId: currentUserId })
-			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new AuthenticationError(`Promotion to teacher failed: the user with ID "${currentUserId}" does not have the rights to assign teachers for the course with ID "${courseId}".`)
+			if (course.courseSubscription?.role !== 'teacher' && !isAdmin) throw new ForbiddenError(`Promotion to teacher failed: the user with ID "${currentUserId}" does not have the rights to assign teachers for the course with ID "${courseId}".`)
 			const [updatedCount] = await db.CourseSubscription.update({ role: 'teacher' }, { where: { courseId, userId } })
 			if (updatedCount === 0) throw new Error(`Promotion to teacher failed: it seems that the user with userId "${userId}" is not subscribed to the course with courseId "${courseId}" and so cannot be promoted to teacher.`)
 			return course

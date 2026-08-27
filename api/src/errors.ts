@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-export class AuthenticationError extends GraphQLError {
+export class UnauthenticatedError extends GraphQLError {
 	constructor(message: string) {
 		super(message, { extensions: { code: 'UNAUTHENTICATED' } })
 	}
@@ -12,7 +12,7 @@ export class ForbiddenError extends GraphQLError {
 	}
 }
 
-export class UserInputError extends GraphQLError {
+export class InvalidInputError extends GraphQLError {
 	constructor(message: string) {
 		super(message, { extensions: { code: 'BAD_USER_INPUT' } })
 	}

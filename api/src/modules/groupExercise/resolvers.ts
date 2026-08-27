@@ -5,7 +5,7 @@ import { type UpdateSkills, ensureExerciseAction, isStateDone } from '@step-wise
 import { generateRandomExerciseInstance } from '@step-wise/exercise-selection'
 import { getExercises, getExercise } from '@step-wise/exercises'
 
-import { UserInputError } from '../../errors.ts'
+import { InvalidInputError } from '../../errors.ts'
 
 import { createSubscriptionResolver } from '../subscriptions.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
@@ -23,7 +23,7 @@ function getGroupEventPerformedAt(event: GroupExerciseEventWithActions): Date {
 
 async function lockPendingGroupEvent(db: GroupExerciseDatabase, eventId: string, groupCode: string, transaction: Transaction): Promise<GroupExerciseEventWithActions> {
 	const event = await db.GroupExerciseEvent.findByPk(eventId, { transaction, lock: transaction.LOCK.UPDATE })
-	if (!event || event.state !== null) throw new UserInputError(`Could not update group event. The active event for group ${groupCode} has already been resolved.`)
+	if (!event || event.state !== null) throw new InvalidInputError(`Could not update group event. The active event for group ${groupCode} has already been resolved.`)
 	event.actions = await db.GroupExerciseAction.findAll({ where: { groupExerciseEventId: event.id }, transaction })
 	if (!hasLoadedGroupExerciseActions(event)) throw new Error(`Failed to load actions for group exercise event "${event.id}".`)
 	return event
@@ -113,7 +113,7 @@ export const groupExerciseResolvers = {
 
 			// Select a new exercise, store it, and right away add an empty event to couple actions to.
 			const skillExercises = getExercises(skillId)
-			if (!skillExercises) throw new UserInputError(`Cannot start group exercise: no exercises exist for skill "${skillId}".`)
+			if (!skillExercises) throw new InvalidInputError(`Cannot start group exercise: no exercises exist for skill "${skillId}".`)
 			const newExercise = generateRandomExerciseInstance(skillExercises, 'group')
 			let loadedExercise: GroupExerciseSampleWithEvents
 			try {
@@ -147,10 +147,10 @@ export const groupExerciseResolvers = {
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
-			if (!activeExercise) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
+			if (!activeExercise) throw new InvalidInputError(`Could not submit group action. The group ${group.code} does not have an active exercise.`)
 
 			const activeEvent = activeExercise.events.find(event => event.state === null)
-			if (!activeEvent) throw new UserInputError(`Could not submit group action. The group ${group.code} does not have an active event.`)
+			if (!activeEvent) throw new InvalidInputError(`Could not submit group action. The group ${group.code} does not have an active event.`)
 
 			await db.transaction(async transaction => {
 				const lockedEvent = await lockPendingGroupEvent(db, activeEvent.id, group.code, transaction)
@@ -176,9 +176,9 @@ export const groupExerciseResolvers = {
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
-			if (!activeExercise) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
+			if (!activeExercise) throw new InvalidInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
 			const activeEvent = activeExercise.events.find(event => event.state === null)
-			if (!activeEvent) throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
+			if (!activeEvent) throw new InvalidInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
 
 			// Lock the pending event before deleting an action, so resolution cannot process stale actions.
 			const actionWasCanceled = await db.transaction(async transaction => {
@@ -204,9 +204,9 @@ export const groupExerciseResolvers = {
 			const group = await getGroupWithActiveSkillExercise(db, code, skillId)
 			ensureActiveGroupMembership(group, userId)
 			const activeExercise = group.exercises[0]
-			if (!activeExercise) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
+			if (!activeExercise) throw new InvalidInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
 			const activeEvent = activeExercise.events.find(event => event.state === null)
-			if (!activeEvent) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
+			if (!activeEvent) throw new InvalidInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
 
 			const exercise = getExercise(skillId, activeExercise.exerciseId)
 			if (!exercise) throw new Error(`Invalid exercise: could not load the exercise at skill "${skillId}" with exerciseId "${activeExercise.exerciseId}".`)
@@ -221,8 +221,8 @@ export const groupExerciseResolvers = {
 
 				// Resolution requires at least two active members and an action from every active member.
 				const activeMembers = group.members.filter(member => member.groupMembership.active)
-				if (activeMembers.length < 2) throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
-				if (activeMembers.some(member => !lockedEvent.actions.some(userAction => userAction.userId === member.id))) throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
+				if (activeMembers.length < 2) throw new InvalidInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
+				if (activeMembers.some(member => !lockedEvent.actions.some(userAction => userAction.userId === member.id))) throw new InvalidInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
 
 				const skillObservations: UserSkillObservationInput[] = []
 				const updateSkills: UpdateSkills = (setup, correct, givenUserId) => {

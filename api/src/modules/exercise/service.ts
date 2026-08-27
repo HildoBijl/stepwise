@@ -5,7 +5,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 import type { ExerciseState } from '@step-wise/exercise-definition'
 import { getExercise } from '@step-wise/exercises'
 
-import { UserInputError } from '../../errors.ts'
+import { InvalidInputError } from '../../errors.ts'
 
 import type { ServiceOptions } from '../types.ts'
 import type { SkillDatabase, UserSkillRecord } from '../skill/index.ts'
@@ -63,7 +63,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	})
 	let skillWasCreated = false
 	if (!skill) {
-		if (requireActiveExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
+		if (requireActiveExercise) throw new InvalidInputError(`There is no active exercise for skill "${skillId}".`)
 		if (!createIfNoneExists) return null
 		const result = await db.UserSkill.findOrCreate({ where: { userId, skillId }, defaults: { userId, skillId }, ...(transaction ? { transaction } : {}) })
 		skill = result[0]
@@ -83,7 +83,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 		await activeExercise.update({ active: false }, transaction ? { transaction } : {})
 		activeExercise = undefined
 	}
-	if (requireActiveExercise && !activeExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
-	if (requireNoActiveExercise && activeExercise) throw new UserInputError(`There is still an active exercise for skill "${skillId}".`)
+	if (requireActiveExercise && !activeExercise) throw new InvalidInputError(`There is no active exercise for skill "${skillId}".`)
+	if (requireNoActiveExercise && activeExercise) throw new InvalidInputError(`There is still an active exercise for skill "${skillId}".`)
 	return { skill, exercises, activeExercise }
 }

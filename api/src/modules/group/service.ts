@@ -2,7 +2,7 @@ import type { PubSubEngine } from 'graphql-subscriptions'
 
 import { integerRange, sample } from '@step-wise/js-utils'
 
-import { ForbiddenError, UserInputError } from '../../errors.ts'
+import { ForbiddenError, InvalidInputError } from '../../errors.ts'
 
 import type { LockingServiceOptions, ServiceOptions } from '../types.ts'
 import type { UserDatabase } from '../user/index.ts'
@@ -25,7 +25,7 @@ export interface GroupUpdatedPayload {
 }
 
 export function ensureGroupMembership(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
-	if (!group) throw new UserInputError('No group with the given code exists.')
+	if (!group) throw new InvalidInputError('No group with the given code exists.')
 	const member = group.members.find(candidate => candidate.id === userId)
 	if (!member) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is not a member.`)
 }
@@ -93,7 +93,7 @@ export async function getGroup(db: GroupDatabase, code: string, { includeMembers
 		where: { code: code.toUpperCase() },
 		...(includeMembers ? { include: { association: 'members' } } : {}),
 	})
-	if (!group) throw new UserInputError('No such group.')
+	if (!group) throw new InvalidInputError('No such group.')
 	if (includeMembers && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)
 	return group
 }

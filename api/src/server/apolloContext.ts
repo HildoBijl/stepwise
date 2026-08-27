@@ -1,6 +1,6 @@
 import type { PubSubEngine } from 'graphql-subscriptions'
 
-import { AuthenticationError } from '../errors.ts'
+import { ForbiddenError, UnauthenticatedError } from '../errors.ts'
 import type { ApiContext, ApiLoaders, LoaderContext } from '../modules/index.ts'
 import type { UserRecord } from '../modules/user/index.ts'
 import type { Database } from '../database.ts'
@@ -40,10 +40,10 @@ export function createApolloContext(db: Database, pubsub: PubSubEngine): ApolloC
 			...(userId ? { userId } : {}),
 			user,
 			ensureLoggedIn: () => {
-				if (!user) throw new AuthenticationError('User not signed in.')
+				if (!user) throw new UnauthenticatedError('User not signed in.')
 			},
 			ensureAdmin: () => {
-				if (user?.role !== 'admin') throw new AuthenticationError('No admin rights.')
+				if (user?.role !== 'admin') throw new ForbiddenError('No admin rights.')
 			},
 			pubsub,
 		}

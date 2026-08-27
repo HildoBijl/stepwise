@@ -1,6 +1,6 @@
 import type { SkillId } from '@step-wise/skill-definition'
 
-import { AuthenticationError } from '../../errors.ts'
+import { ForbiddenError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
 
@@ -18,7 +18,7 @@ export async function loadVisibleSkills(targetUserId: string, skillIds: readonly
 		const { withExercises, withoutExercises } = await context.loaders.permittedSkillsForStudent.load(targetUserId)
 		if (skillIds && rejectInaccessible) {
 			const inaccessibleSkillId = skillIds.find(skillId => !withoutExercises.includes(skillId))
-			if (inaccessibleSkillId) throw new AuthenticationError(`Invalid skill request: the current user is not allowed to access skill "${inaccessibleSkillId}" of the user with ID "${targetUserId}".`)
+			if (inaccessibleSkillId) throw new ForbiddenError(`Invalid skill request: the current user is not allowed to access skill "${inaccessibleSkillId}" of the user with ID "${targetUserId}".`)
 		}
 		filteredSkillIds = skillIds ? skillIds.filter(skillId => withoutExercises.includes(skillId)) : withoutExercises
 		skillIdsWithExercisePermission = new Set(withExercises)

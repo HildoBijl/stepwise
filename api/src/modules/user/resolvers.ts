@@ -1,6 +1,6 @@
 import { currentPrivacyPolicyVersion, languages } from '@step-wise/settings'
 
-import { UserInputError } from '../../errors.ts'
+import { InvalidInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 
@@ -50,7 +50,7 @@ const userResolvers = {
 		},
 		deleteAccount: async (_source: unknown, { confirmEmail }: { confirmEmail: string }, { ensureLoggedIn, user }: UserContext) => {
 			ensureLoggedIn()
-			if (user!.email !== confirmEmail) throw new UserInputError('User shutdown denied: the confirmation email does not match.')
+			if (user!.email !== confirmEmail) throw new InvalidInputError('User shutdown denied: the confirmation email does not match.')
 			await user!.destroy()
 			return user!.id
 		},

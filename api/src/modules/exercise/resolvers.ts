@@ -5,7 +5,7 @@ import { generateSkillBasedExerciseInstance } from '@step-wise/exercise-selectio
 import { ensureSkillId } from '@step-wise/skill-tree'
 import { getExercise, getExercises } from '@step-wise/exercises'
 
-import { UserInputError } from '../../errors.ts'
+import { InvalidInputError } from '../../errors.ts'
 
 import type { AuthenticatedContext } from '../user/index.ts'
 import { type SkillObservationInput, type UserSkillRecord, applySkillObservationsForUser, getUserSkillLevelSet, skillEvents } from '../skill/index.ts'
@@ -17,7 +17,7 @@ type ExerciseContext = Pick<AuthenticatedContext, 'db' | 'ensureLoggedIn' | 'loa
 
 async function lockActiveExercise(db: ExerciseDatabase, exerciseId: string, skillId: string, transaction: Transaction): Promise<ExerciseSampleWithEvents> {
 	const exercise = await db.ExerciseSample.findByPk(exerciseId, { transaction, lock: transaction.LOCK.UPDATE })
-	if (!exercise || !exercise.active) throw new UserInputError(`Cannot submit action: there is no longer an active exercise for skill "${skillId}".`)
+	if (!exercise || !exercise.active) throw new InvalidInputError(`Cannot submit action: there is no longer an active exercise for skill "${skillId}".`)
 	exercise.events = await db.ExerciseEvent.findAll({ where: { exerciseSampleId: exercise.id }, order: [['createdAt', 'ASC']], transaction })
 	if (!hasLoadedExerciseEvents(exercise)) throw new Error(`Failed to load events for exercise "${exercise.id}".`)
 	return exercise
@@ -55,7 +55,7 @@ export const exerciseResolvers = {
 			try {
 				return await db.ExerciseSample.create({ userSkillId: skillData.skill.id, exerciseId: generated.exerciseId, parameters: generated.parameters, initialState: generated.initialState, active: true })
 			} catch (error) {
-				if (error instanceof UniqueConstraintError) throw new UserInputError(`There is still an active exercise for skill "${skillId}".`)
+				if (error instanceof UniqueConstraintError) throw new InvalidInputError(`There is still an active exercise for skill "${skillId}".`)
 				throw error
 			}
 		},
