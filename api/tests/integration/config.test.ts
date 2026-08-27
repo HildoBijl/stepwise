@@ -2,74 +2,56 @@ import { validateServerConfig } from '../../src/server/index.ts'
 
 import { defaultConfig } from '../support/client.ts'
 
-async function createServer({ config }: { config: unknown }): Promise<void> {
+function validateConfig(config: unknown): void {
 	validateServerConfig(config)
 }
 
 describe('config', () => {
-	it('accepts well-formed configuration', async () => {
-		expect(async () => await createServer({
-			config: defaultConfig
-		})).not.toThrow()
+	it('accepts well-formed configuration', () => {
+		expect(() => validateConfig(defaultConfig)).not.toThrow()
 
-		expect(async () => await createServer({
-			config: {
+		expect(() => validateConfig({
 				sslEnabled: false,
 				sessionSecret: '12345678901234567890',
 				sessionMaxAgeMillis: 0,
 				apiDomain: 'example.org',
 				homepageUrl: 'https://www.example.org/home',
 				corsUrls: ['https://www.example.org'],
-			}
 		})).not.toThrow()
 	})
 
-	it('rejects malformed configuration', async () => {
-		expect(async () => await createServer({
-			config: {
+	it('rejects malformed configuration', () => {
+		expect(() => validateConfig({
 				...defaultConfig,
 				sessionSecret: '12345', // too short
-			}
-		})).rejects.toThrow('sessionSecret')
+		})).toThrow('sessionSecret')
 
-		expect(async () => await createServer({
-			config: {
+		expect(() => validateConfig({
 				...defaultConfig,
 				sessionMaxAgeMillis: 'abc', // wrong type
-			}
-		})).rejects.toThrow('sessionMaxAgeMillis')
+		})).toThrow('sessionMaxAgeMillis')
 		for (const sessionMaxAgeMillis of [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, -1]) {
-			await expect(createServer({
-				config: { ...defaultConfig, sessionMaxAgeMillis },
-			})).rejects.toThrow('sessionMaxAgeMillis')
+			expect(() => validateConfig({ ...defaultConfig, sessionMaxAgeMillis })).toThrow('sessionMaxAgeMillis')
 		}
 
-		expect(async () => await createServer({
-			config: {
+		expect(() => validateConfig({
 				...defaultConfig,
 				homepageUrl: 'www.example.org', // wrong format
-			}
-		})).rejects.toThrow('homepageUrl')
+		})).toThrow('homepageUrl')
 
-		expect(async () => await createServer({
-			config: {
+		expect(() => validateConfig({
 				...defaultConfig,
 				apiDomain: 'foo', // not a domain
-			}
-		})).rejects.toThrow('apiDomain')
+		})).toThrow('apiDomain')
 
-		expect(async () => await createServer({
-			config: {
+		expect(() => validateConfig({
 				...defaultConfig,
 				corsUrls: ['example.org'], // wrong format
-			}
-		})).rejects.toThrow('corsUrls')
+		})).toThrow('corsUrls')
 
-		expect(async () => await createServer({
-			config: {
+		expect(() => validateConfig({
 				...defaultConfig,
 				sslEnabled: undefined, // absent
-			}
-		})).rejects.toThrow('sslEnabled')
+		})).toThrow('sslEnabled')
 	})
 })
