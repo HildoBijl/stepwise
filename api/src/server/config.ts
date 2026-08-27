@@ -26,7 +26,7 @@ export function validateServerConfig(config: unknown): void {
 	const value = config as Partial<ServerConfig> | null
 	if (typeof value?.sslEnabled !== 'boolean') throw new Error('Invalid server configuration: sslEnabled must be a boolean.')
 	if (typeof value.sessionSecret !== 'string' || value.sessionSecret.length < 20) throw new Error('Invalid server configuration: sessionSecret must contain at least 20 characters.')
-	if (typeof value.sessionMaxAgeMillis !== 'number') throw new Error('Invalid server configuration: sessionMaxAgeMillis must be a number.')
+	if (typeof value.sessionMaxAgeMillis !== 'number' || !Number.isFinite(value.sessionMaxAgeMillis) || value.sessionMaxAgeMillis < 0) throw new Error('Invalid server configuration: sessionMaxAgeMillis must be a finite, non-negative number.')
 	if (!isUrl(value.homepageUrl)) throw new Error('Invalid server configuration: homepageUrl must be a URL.')
 	if (!isDomain(value.apiDomain)) throw new Error('Invalid server configuration: apiDomain must be a domain.')
 	if (value.corsUrls !== undefined && (!Array.isArray(value.corsUrls) || !value.corsUrls.every(isUrl))) throw new Error('Invalid server configuration: corsUrls must contain only URLs.')

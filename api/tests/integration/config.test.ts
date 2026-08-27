@@ -16,7 +16,7 @@ describe('config', () => {
 			config: {
 				sslEnabled: false,
 				sessionSecret: '12345678901234567890',
-				sessionMaxAgeMillis: 24,
+				sessionMaxAgeMillis: 0,
 				apiDomain: 'example.org',
 				homepageUrl: 'https://www.example.org/home',
 				corsUrls: ['https://www.example.org'],
@@ -38,6 +38,11 @@ describe('config', () => {
 				sessionMaxAgeMillis: 'abc', // wrong type
 			}
 		})).rejects.toThrow('sessionMaxAgeMillis')
+		for (const sessionMaxAgeMillis of [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, -1]) {
+			await expect(createServer({
+				config: { ...defaultConfig, sessionMaxAgeMillis },
+			})).rejects.toThrow('sessionMaxAgeMillis')
+		}
 
 		expect(async () => await createServer({
 			config: {
