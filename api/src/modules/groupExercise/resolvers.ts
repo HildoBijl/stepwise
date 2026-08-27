@@ -225,12 +225,15 @@ export const groupExerciseResolvers = {
 			// Time to store things in the database.
 			let updatedSkillsPerUser: Record<string, UserSkillRecord[]> = {}
 			await db.transaction(async transaction => {
+				// Atomically claim this pending event. A concurrent resolver will wait for this transaction and then update zero rows.
+				const [claimedEventCount] = await db.GroupExerciseEvent.update({ state }, { where: { id: activeEvent.id, state: null }, transaction })
+				if (claimedEventCount === 0) throw new UserInputError(`Could not resolve group event. The active event for group ${group.code} has already been resolved.`)
+				activeEvent.state = state
+
 				// Apply all the skill updates that were collected so far.
 				updatedSkillsPerUser = await applySkillUpdates(db, skillUpdates, transaction)
 
-				// Store the state in the active event. If the exercise is done, note this. If not, prepare for future actions.
-				await activeEvent.update({ state }, { transaction })
-				activeEvent.state = state
+				// If the exercise is done, note this. If not, prepare for future actions.
 				if (isStateDone(state)) {
 					await activeExercise.update({ active: false }, { transaction })
 					activeExercise.active = false
