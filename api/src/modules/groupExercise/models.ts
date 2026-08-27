@@ -96,6 +96,6 @@ export function createGroupExerciseActionModel(sequelize: Sequelize): GroupExerc
 		action: { type: DataTypes.JSON, allowNull: false },
 		createdAt: { type: DataTypes.DATE, allowNull: false },
 		updatedAt: { type: DataTypes.DATE, allowNull: false },
-	}, { sequelize, modelName: 'groupExerciseAction', indexes: [{ fields: ['userId', 'groupExerciseEventId'], unique: true }] })
+	}, { sequelize, modelName: 'groupExerciseAction', indexes: [{ fields: ['userId', 'groupExerciseEventId'], name: 'group_exercise_actions_user_id_group_exercise_event_id', unique: true }] })
 	return GroupExerciseAction
 }

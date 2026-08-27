@@ -59,6 +59,7 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('userSkills', {
 		fields: ['userId', 'skillId'],
+		name: 'user_skills_user_id_skill_id',
 		unique: true,
 	})
 }

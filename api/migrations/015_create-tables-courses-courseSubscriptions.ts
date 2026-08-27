@@ -54,6 +54,7 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('courses', {
 		fields: ['code'],
+		name: 'courses_code',
 		unique: true,
 	})
 
@@ -95,9 +96,11 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('courseSubscriptions', {
 		fields: ['userId'],
+		name: 'course_subscriptions_user_id',
 	})
 	await queryInterface.addIndex('courseSubscriptions', {
 		fields: ['courseId'],
+		name: 'course_subscriptions_course_id',
 	})
 }
 

@@ -43,6 +43,7 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('courseBlocks', {
 		fields: ['courseId', 'index'],
+		name: 'course_blocks_course_id_index',
 		unique: true,
 	})
 }

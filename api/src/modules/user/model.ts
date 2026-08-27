@@ -27,7 +27,7 @@ export function createUserModel(sequelize: Sequelize): UserModel {
 		name: { type: DataTypes.TEXT },
 		givenName: { type: DataTypes.TEXT },
 		familyName: { type: DataTypes.TEXT },
-		email: { type: DataTypes.TEXT, unique: true, allowNull: false },
+		email: { type: DataTypes.TEXT, unique: 'users_email_key', allowNull: false },
 		role: { type: DataTypes.ENUM(...USER_ROLES), defaultValue: 'student', allowNull: false },
 		language: { type: DataTypes.STRING(5) },
 		privacyPolicyAcceptedVersion: { type: DataTypes.INTEGER, allowNull: true },

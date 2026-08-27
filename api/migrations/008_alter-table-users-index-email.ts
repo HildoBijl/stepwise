@@ -3,6 +3,7 @@ import type { MigrationParameters } from './types.ts'
 export async function up({ context: queryInterface }: MigrationParameters): Promise<void> {
 	await queryInterface.addIndex('users', {
 		fields: ['email'],
+		name: 'users_email',
 		unique: true,
 	})
 }

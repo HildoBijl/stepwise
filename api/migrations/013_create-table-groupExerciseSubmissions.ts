@@ -43,6 +43,7 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('groupExerciseSubmissions', {
 		fields: ['userId', 'groupExerciseEventId'],
+		name: 'group_exercise_submissions_user_id_group_exercise_event_id',
 		unique: true,
 	})
 }

@@ -25,6 +25,7 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('groups', {
 		fields: ['code'],
+		name: 'groups_code',
 		unique: true,
 	})
 
@@ -62,9 +63,11 @@ export async function up({ context: queryInterface }: MigrationParameters): Prom
 	})
 	await queryInterface.addIndex('groupMemberships', {
 		fields: ['userId'],
+		name: 'group_memberships_user_id',
 	})
 	await queryInterface.addIndex('groupMemberships', {
 		fields: ['groupId'],
+		name: 'group_memberships_group_id',
 	})
 }
 

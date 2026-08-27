@@ -23,6 +23,7 @@ export async function down({ context: queryInterface }: MigrationParameters): Pr
 
 	await queryInterface.addIndex('users', {
 		fields: ['email'],
+		name: 'users_email',
 		unique: true,
 	})
 }
