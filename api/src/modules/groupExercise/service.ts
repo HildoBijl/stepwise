@@ -42,7 +42,7 @@ async function getGroupWithExercises(code: string, db: GroupExerciseDatabase, wh
 	const group = await db.Group.findOne({
 		where: { code: code.toUpperCase() },
 		include: [{ association: 'members' }, {
-			association: 'exercises', where, required: false,
+			association: 'exercises', ...(where ? { where } : {}), required: false,
 			include: [{ association: 'events', required: false, include: [{ association: 'actions', required: false }] }],
 		}],
 	})

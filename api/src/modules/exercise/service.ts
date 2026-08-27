@@ -26,7 +26,7 @@ export interface GetUserSkillWithExercisesOptions {
 export interface UserSkillWithExercisesResult {
 	skill: UserSkillRecord
 	exercises: ExerciseSampleWithEvents[]
-	activeExercise?: ExerciseSampleWithEvents
+	activeExercise: ExerciseSampleWithEvents | undefined
 }
 
 type UserSkillWithLoadedExercises = UserSkillRecord & { exercises: ExerciseSampleRecord[] }
@@ -48,7 +48,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	const { includeActiveExercise = false, includeExercises = false, requireActiveExercise = false, requireNoActiveExercise = false, createIfNoneExists = false } = options
 	const loadExercises = includeActiveExercise || includeExercises || requireActiveExercise || requireNoActiveExercise
 	const exerciseInclude: IncludeOptions | undefined = loadExercises ? {
-		association: 'exercises', where: includeExercises ? undefined : { active: true }, required: false,
+		association: 'exercises', ...(includeExercises ? {} : { where: { active: true } }), required: false,
 		order: [['createdAt', 'ASC']], separate: true,
 		include: [{ association: 'events', required: false, order: [['createdAt', 'ASC']], separate: true }],
 	} : undefined
@@ -56,7 +56,7 @@ export async function getUserSkillWithExercises(db: ExerciseDatabase, userId: st
 	// Load in the skill.
 	let skill = await db.UserSkill.findOne({
 		where: { userId, skillId },
-		include: exerciseInclude,
+		...(exerciseInclude ? { include: exerciseInclude } : {}),
 	})
 	if (!skill) {
 		if (requireActiveExercise) throw new UserInputError(`There is no active exercise for skill "${skillId}".`)

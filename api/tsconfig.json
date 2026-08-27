@@ -16,6 +16,7 @@
 		"sourceMap": true,
 		"declaration": false,
 		"composite": false,
+		"exactOptionalPropertyTypes": true,
 		"noUncheckedIndexedAccess": true,
 		"types": ["node"]
 	},

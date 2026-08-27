@@ -20,7 +20,7 @@ export async function getCourses(database: CourseDatabase, userId?: string, only
 		include: [...participantAssociation(userId, onlyOwnCourses), { association: 'blocks' }],
 		order: [[{ model: database.CourseBlock, as: 'blocks' }, 'index', 'ASC']],
 	})
-	courses.forEach(course => { course.courseSubscription = course.participants?.[0]?.courseSubscription })
+	courses.forEach(course => setCourseSubscription(course, course.participants?.[0]?.courseSubscription))
 	return courses
 }
 
@@ -31,8 +31,13 @@ async function getCourse(database: CourseDatabase, where: Record<string, unknown
 		order: [[{ model: database.CourseBlock, as: 'blocks' }, 'index', 'ASC']],
 	})
 	if (!course) throw new Error(`Failed to load course with specifications "${JSON.stringify(where)}".`)
-	course.courseSubscription = course.participants?.[0]?.courseSubscription
+	setCourseSubscription(course, course.participants?.[0]?.courseSubscription)
 	return course
+}
+
+function setCourseSubscription(course: CourseRecord, subscription: CourseRecord['courseSubscription']): void {
+	if (subscription) course.courseSubscription = subscription
+	else delete course.courseSubscription
 }
 
 export function getCourseByCode(database: CourseDatabase, code: string, userId?: string): Promise<CourseRecord> {
@@ -46,8 +51,8 @@ export function createCourseFromRecord(course: CourseRecord): Course {
 	return new Course(skillTree, {
 		startingPointIds: course.startingPoints,
 		learningGoalIds: course.goals,
-		learningGoalWeights: course.goalWeights ?? undefined,
-		blockLearningGoalIds: course.blocks?.map(block => block.goals),
-		setup: course.setup ? deserializeSetup(course.setup) : undefined,
+		...(course.goalWeights ? { learningGoalWeights: course.goalWeights } : {}),
+		...(course.blocks ? { blockLearningGoalIds: course.blocks.map(block => block.goals) } : {}),
+		...(course.setup ? { setup: deserializeSetup(course.setup) } : {}),
 	})
 }

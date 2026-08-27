@@ -42,12 +42,14 @@ function validateCourse(input: CreateCourseInput | UpdateCourseInput, current?: 
 	const startingPointIds = input.startingPoints ?? current?.startingPoints
 	const learningGoalIds = input.goals ?? current?.goals
 	if (!startingPointIds || !learningGoalIds) throw new Error('Cannot validate a course without starting points and learning goals.')
+	const learningGoalWeights = input.goalWeights ?? current?.goalWeights
+	const blocks = input.blocks ?? current?.blocks
 	const data = {
 		startingPointIds,
 		learningGoalIds,
-		learningGoalWeights: input.goalWeights ?? current?.goalWeights ?? undefined,
-		blockLearningGoalIds: (input.blocks ?? current?.blocks)?.map(block => block.goals),
-		setup: serializedSetup ? deserializeSetup(serializedSetup) : undefined,
+		...(learningGoalWeights ? { learningGoalWeights } : {}),
+		...(blocks ? { blockLearningGoalIds: blocks.map(block => block.goals) } : {}),
+		...(serializedSetup ? { setup: deserializeSetup(serializedSetup) } : {}),
 	}
 	validateCourseDiagnostics(new Course(skillTree, data).diagnostics)
 }
@@ -118,7 +120,7 @@ export const courseResolvers = {
 			ensureLoggedIn()
 			const course = await getCourseById(db, courseId, userId)
 			await db.CourseSubscription.destroy({ where: { courseId, userId } })
-			course.courseSubscription = undefined
+			delete course.courseSubscription
 			return course
 		},
 		promoteToTeacher: async (_source: unknown, { courseId, userId }: { courseId: string; userId: string }, { db, ensureLoggedIn, userId: currentUserId, isAdmin }: AuthenticatedCourseContext) => {

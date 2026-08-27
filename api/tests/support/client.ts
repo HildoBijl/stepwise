@@ -14,7 +14,6 @@ export const defaultConfig: ServerConfig = Object.freeze({
 	sessionMaxAgeMillis: 1000 * 60,
 	apiDomain: 'api.step-wise.test',
 	homepageUrl: 'http://step-wise.test',
-	corsUrls: undefined,
 })
 
 const sequelize = createSequelize(true)
@@ -50,6 +49,7 @@ class Client {
 			.map((cookie: string) => cookie.substring(0, cookie.indexOf(';')))
 			.forEach(token => {
 				const [name, value] = token.split('=')
+				if (!name || value === undefined) throw new Error(`Invalid response cookie: "${token}".`)
 				this._cookies[name] = value
 			})
 	}
@@ -66,7 +66,7 @@ class Client {
 			.query({ redirect })
 			.expect(302)
 		this._storeCookies(response)
-		return response.headers['location']
+		return getLocation(response)
 	}
 
 	async loginSurfConext(surfConextSub: string): Promise<string> {
@@ -76,7 +76,7 @@ class Client {
 			.query({ sub: surfConextSub })
 			.expect(302)
 		this._storeCookies(response)
-		return response.headers['location']
+		return getLocation(response)
 	}
 
 	async loginGoogle(googleSub: string): Promise<string> {
@@ -85,7 +85,7 @@ class Client {
 			.send(`credential=${googleSub}`)
 			.expect(302)
 		this._storeCookies(response)
-		return response.headers['location']
+		return getLocation(response)
 	}
 
 	async logout(): Promise<string> {
@@ -94,7 +94,7 @@ class Client {
 			.set('Cookie', this._cookieHeader())
 			.expect(302)
 		this._storeCookies(response)
-		return response.headers['location']
+		return getLocation(response)
 	}
 
 	async graphql(query: Record<string, unknown>, expectedStatus = 200): Promise<any> {
@@ -120,6 +120,12 @@ export async function createClient(seedingProcedure: (database: Database) => Pro
 	return new Client(server, pubsub)
 }
 
+function getLocation(response: Response): string {
+	const location = response.headers['location']
+	if (!location) throw new Error('Expected the response to include a location header.')
+	return location
+}
+
 const pubsub = new PubSubMock() as PubSubMock & PubSubEngine
 let server: ApiServer | undefined
 
@@ -128,7 +134,6 @@ beforeAll(async () => {
 	server = await createServer({
 		database,
 		config: defaultConfig,
-		sessionStore: undefined,
 		surfConextClient: new SurfConext.MockClient(),
 		googleClient: new Google.MockClient(),
 		pubsub,

@@ -33,7 +33,7 @@ export async function getUserWithGroups(db: GroupDatabase, userId: string, onlyA
 	const user = await db.User.findByPk(userId, {
 		include: {
 			association: 'groups',
-			through: onlyActive ? { where: { active: true } } : undefined,
+			...(onlyActive ? { through: { where: { active: true } } } : {}),
 			include: [{ association: 'members' }],
 		},
 	})
@@ -70,7 +70,7 @@ export function getGroup(db: GroupDatabase, code: string, includeMembers?: false
 export async function getGroup(db: GroupDatabase, code: string, includeMembers = false): Promise<GroupRecord | GroupWithMembers> {
 	const group = await db.Group.findOne({
 		where: { code: code.toUpperCase() },
-		include: includeMembers ? { association: 'members' } : undefined,
+		...(includeMembers ? { include: { association: 'members' } } : {}),
 	})
 	if (!group) throw new UserInputError('No such group.')
 	if (includeMembers && !hasLoadedGroupMembers(group)) throw new Error(`Failed to load members of group "${group.code}".`)

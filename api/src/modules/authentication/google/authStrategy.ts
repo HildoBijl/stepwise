@@ -13,12 +13,10 @@ export class AuthStrategy {
 		const existingUser = await this.database.User.findOne({ where: { email: googleIdentity.email } })
 		if (existingUser) return existingUser
 		return this.database.User.create({
-			id: undefined,
-			name: googleIdentity.name,
-			givenName: googleIdentity.given_name,
-			familyName: googleIdentity.family_name,
+			name: googleIdentity.name ?? null,
+			givenName: googleIdentity.given_name ?? null,
+			familyName: googleIdentity.family_name ?? null,
 			email: googleIdentity.email,
-			role: undefined,
 		})
 	}
 }

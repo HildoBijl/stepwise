@@ -32,7 +32,7 @@ export async function applySkillUpdates(database: SkillDatabase, skillUpdates: r
 		userUpdates.push(update)
 	})
 	const userIds = Object.keys(updatesPerUser)
-	const result = []
+	const result: UserSkillRecord[][] = []
 	for (const userId of userIds) {
 		const userUpdates = updatesPerUser[userId]
 		if (!userUpdates) throw new Error(`Failed to collect skill updates for user "${userId}".`)
@@ -54,7 +54,7 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 	const storedSkillLevelSet = fromKeys(skillsToLoad, skillId => skillLevels[skillId] ?? getInitialSkillLevel())
 	const updates = new SkillLevelSet(skillTree, storedSkillLevelSet).applyObservations(observations)
 
-	const result = []
+	const result: UserSkillRecord[] = []
 	for (const skillId of Object.keys(updates)) {
 		const skill = skillsAsObject[skillId]
 		const update = updates[skillId]

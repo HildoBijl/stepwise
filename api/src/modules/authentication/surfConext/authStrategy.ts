@@ -28,20 +28,21 @@ export class AuthStrategy {
 		}
 
 		return this._db.transaction(async transaction => {
+			const role = getRole(surfRawData)
 			const [user] = await this._db.User.upsert({
-				id: userId || surfRawData.databaseId || undefined,
-				name: surfRawData.name || undefined,
-				givenName: surfRawData.given_name || undefined,
-				familyName: surfRawData.family_name || undefined,
+				...(userId || surfRawData.databaseId ? { id: userId || surfRawData.databaseId! } : {}),
+				...(surfRawData.name != null ? { name: surfRawData.name } : {}),
+				...(surfRawData.given_name != null ? { givenName: surfRawData.given_name } : {}),
+				...(surfRawData.family_name != null ? { familyName: surfRawData.family_name } : {}),
 				email,
-				role: getRole(surfRawData),
+				...(role ? { role } : {}),
 			}, { returning: true, transaction })
 			await this._db.SurfConextProfile.upsert({
 				id: surfRawData.sub,
 				userId: user.id,
-				schacHomeOrganization: surfRawData.schac_home_organization,
-				schacPersonalUniqueCode: surfRawData.schac_personal_unique_code,
-				locale: surfRawData.locale,
+				schacHomeOrganization: surfRawData.schac_home_organization ?? null,
+				schacPersonalUniqueCode: surfRawData.schac_personal_unique_code ?? null,
+				locale: surfRawData.locale ?? null,
 			}, { transaction })
 			return user
 		})

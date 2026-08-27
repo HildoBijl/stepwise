@@ -3,13 +3,13 @@ import { createClient } from '../../../support/client.ts'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
-const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)
+const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)!
 const BOB_ID = 'b0000000-0000-0000-0000-000000000000'
 const BOB_SURFSUB = 'b000000000000000000000000000000000000000'
-const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)
+const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)!
 const CAROL_ID = 'c0000000-0000-0000-0000-000000000000'
 const CAROL_SURFSUB = 'c000000000000000000000000000000000000000'
-const CAROL = surfConextMockData.find(surf => surf.sub === CAROL_SURFSUB)
+const CAROL = surfConextMockData.find(surf => surf.sub === CAROL_SURFSUB)!
 
 // Alex is an admin, Bob and Carol are students.
 async function seed(db) {

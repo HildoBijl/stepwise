@@ -17,7 +17,7 @@ export function loadConfig(environment: NodeJS.ProcessEnv): ApiConfig {
 			sessionMaxAgeMillis: sessionMaxAgeHours * 60 * 60 * 1000,
 			homepageUrl: readRequiredString(environment, 'HOMEPAGE_URL'),
 			apiDomain: readRequiredString(environment, 'API_DOMAIN'),
-			corsUrls: environment.CORS_URLS ? environment.CORS_URLS.split(';') : undefined,
+			...(environment.CORS_URLS ? { corsUrls: environment.CORS_URLS.split(';') } : {}),
 		},
 	}
 }

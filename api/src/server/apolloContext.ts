@@ -37,7 +37,7 @@ export function createApolloContext(database: Database, pubsub: PubSubEngine): A
 			db: database,
 			isLoggedIn: !!user,
 			isAdmin: user?.role === 'admin',
-			userId,
+			...(userId ? { userId } : {}),
 			user,
 			ensureLoggedIn: () => {
 				if (!user) throw new AuthenticationError('User not signed in.')

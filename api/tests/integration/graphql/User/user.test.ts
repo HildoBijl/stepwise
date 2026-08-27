@@ -4,10 +4,10 @@ import { createClient } from '../../../support/client.ts'
 
 const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
 const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
-const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)
+const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)!
 const BOB_ID = 'b0000000-0000-0000-0000-000000000000'
 const BOB_SURFSUB = 'b000000000000000000000000000000000000000'
-const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)
+const BOB = surfConextMockData.find(surf => surf.sub === BOB_SURFSUB)!
 const NONEXISTING_ID = '12345678-1234-1234-1234-1234567890ab'
 
 // Alex is an admin, Bob is a student.
