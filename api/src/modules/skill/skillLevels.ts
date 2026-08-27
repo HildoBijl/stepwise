@@ -28,12 +28,16 @@ export async function getUserSkillLevelSet(database: SkillDatabase, userId: stri
 export async function applySkillUpdates(database: SkillDatabase, skillUpdates: readonly UserSkillUpdate[], transaction: Transaction): Promise<Record<string, UserSkillRecord[]>> {
 	const updatesPerUser: Record<string, UserSkillUpdate[]> = {}
 	skillUpdates.forEach(update => {
-		if (!updatesPerUser[update.userId]) updatesPerUser[update.userId] = []
-		updatesPerUser[update.userId].push(update)
+		const userUpdates = updatesPerUser[update.userId] ??= []
+		userUpdates.push(update)
 	})
 	const userIds = Object.keys(updatesPerUser)
 	const result = []
-	for (const userId of userIds) result.push(await applySkillUpdatesForUser(database, userId, updatesPerUser[userId], transaction))
+	for (const userId of userIds) {
+		const userUpdates = updatesPerUser[userId]
+		if (!userUpdates) throw new Error(`Failed to collect skill updates for user "${userId}".`)
+		result.push(await applySkillUpdatesForUser(database, userId, userUpdates, transaction))
+	}
 	return fromKeysAndValues(userIds, result)
 }
 
@@ -53,7 +57,9 @@ export async function applySkillUpdatesForUser(database: SkillDatabase, userId: 
 	const result = []
 	for (const skillId of Object.keys(updates)) {
 		const skill = skillsAsObject[skillId]
-		result.push(skill ? await skill.update(updates[skillId], { transaction }) : await database.UserSkill.create({ userId, skillId, ...updates[skillId] }, { transaction }))
+		const update = updates[skillId]
+		if (!update) throw new Error(`Failed to calculate a skill update for skill "${skillId}".`)
+		result.push(skill ? await skill.update(update, { transaction }) : await database.UserSkill.create({ userId, skillId, ...update }, { transaction }))
 	}
 	return result
 }

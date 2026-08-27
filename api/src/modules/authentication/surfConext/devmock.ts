@@ -29,6 +29,7 @@ export function createPrefilledMemoryStore(): MemoryStore {
 	const memoryStore = new MemoryStore()
 	if (fs.existsSync(LAST_SESSION_DATA_PATH)) {
 		const [lastSessionId, userSub] = fs.readFileSync(LAST_SESSION_DATA_PATH, 'utf8').split('\n')
+		if (!lastSessionId) return memoryStore
 		const user = mockUsers.find(candidate => candidate.sub === userSub)
 		if (user?.databaseId) memoryStore.set(lastSessionId, { principal: { id: user.databaseId }, cookie: {} } as unknown as SessionData)
 	}

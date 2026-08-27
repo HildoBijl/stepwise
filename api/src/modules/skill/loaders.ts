@@ -39,10 +39,13 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 					if (!courseSkills[course.id]) {
 						const analyzedCourse = createCourseFromRecord(course)
 						courseSkills[course.id] = [...analyzedCourse.allSkillIds]
-						courseSkillsWithLinks[course.id] = [...expandSkillIdsWithDirectPrerequisitesAndLinks(courseSkills[course.id])]
+						courseSkillsWithLinks[course.id] = [...expandSkillIdsWithDirectPrerequisitesAndLinks(analyzedCourse.allSkillIds)]
 					}
-					courseSkills[course.id].forEach(skillId => withExercises.add(skillId))
-					courseSkillsWithLinks[course.id].forEach(skillId => withoutExercises.add(skillId))
+					const skills = courseSkills[course.id]
+					const skillsWithLinks = courseSkillsWithLinks[course.id]
+					if (!skills || !skillsWithLinks) throw new Error(`Failed to analyze skills for course "${course.id}".`)
+					skills.forEach(skillId => withExercises.add(skillId))
+					skillsWithLinks.forEach(skillId => withoutExercises.add(skillId))
 				})
 				return { withExercises: [...withExercises], withoutExercises: [...withoutExercises] }
 			})
@@ -51,8 +54,8 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 			const skills = await db.UserSkill.findAll({ where: { userId: { [Op.in]: userIds } } })
 			const skillsPerUser: Record<string, UserSkillRecord[]> = {}
 			skills.forEach(skill => {
-				if (!skillsPerUser[skill.userId]) skillsPerUser[skill.userId] = []
-				skillsPerUser[skill.userId].push(skill)
+				const userSkills = skillsPerUser[skill.userId] ??= []
+				userSkills.push(skill)
 			})
 			return userIds.map(userId => skillsPerUser[userId] ?? [])
 		}),
@@ -60,8 +63,8 @@ export function createSkillLoaders(context: LoaderContext, { coursesWithStudent 
 			const skills = await db.UserSkill.findAll({ where: { [Op.or]: [...combinations] } })
 			const skillsPerUser: Record<string, Record<string, UserSkillRecord>> = {}
 			skills.forEach(skill => {
-				if (!skillsPerUser[skill.userId]) skillsPerUser[skill.userId] = {}
-				skillsPerUser[skill.userId][skill.skillId] = skill
+				const userSkills = skillsPerUser[skill.userId] ??= {}
+				userSkills[skill.skillId] = skill
 			})
 			return combinations.map(({ userId, skillId }) => skillsPerUser[userId]?.[skillId] ?? null)
 		}),

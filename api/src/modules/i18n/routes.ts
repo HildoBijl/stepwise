@@ -36,7 +36,7 @@ async function updateLanguageFiles(request: Request, response: Response, next: N
 	try {
 		const updates = request.body as I18nUpdates
 		const files = Object.entries(updates).flatMap(([language, paths]) =>
-			Object.keys(paths).map(path => ({ language: language as Language, path })))
+			Object.entries(paths).map(([path, entries]) => ({ language: language as Language, path, entries })))
 
 		let log: JsonObject
 		try {
@@ -47,9 +47,9 @@ async function updateLanguageFiles(request: Request, response: Response, next: N
 		}
 
 		const now = new Date()
-		await Promise.all(files.map(async ({ language, path }) => {
+		await Promise.all(files.map(async ({ language, path, entries }) => {
 			let languageFile = parseJson(await fs.readFile(filePath(language, path), 'utf8'))
-			Object.entries(updates[language][path]).forEach(([entry, text]) => {
+			Object.entries(entries).forEach(([entry, text]) => {
 				const entryPath = entry.split('.')
 				const formerText = getByPath(languageFile, entryPath)
 				languageFile = setByPath(languageFile, entryPath, text) as JsonObject

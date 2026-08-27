@@ -25,8 +25,8 @@ export function createCourseLoaders(context: LoaderContext): CourseLoaders {
 		const users: Record<string, UserRecord[]> = {}
 		subscriptions.forEach(subscription => {
 			if (!subscription.user) throw new Error(`Failed to load the user for course subscription to course "${subscription.courseId}".`)
-			if (!users[subscription.courseId]) users[subscription.courseId] = []
-			users[subscription.courseId].push(subscription.user)
+			const courseUsers = users[subscription.courseId] ??= []
+			courseUsers.push(subscription.user)
 		})
 		return courseIds.map(courseId => users[courseId] ?? [])
 	})
@@ -43,8 +43,8 @@ export function createCourseLoaders(context: LoaderContext): CourseLoaders {
 			})
 			const coursesByStudent: Record<string, CourseRecord[]> = {}
 			courses.forEach(course => course.students?.forEach(student => {
-				if (!coursesByStudent[student.id]) coursesByStudent[student.id] = []
-				coursesByStudent[student.id].push(course)
+				const studentCourses = coursesByStudent[student.id] ??= []
+				studentCourses.push(course)
 			}))
 			return studentIds.map(studentId => coursesByStudent[studentId] ?? [])
 		}),
