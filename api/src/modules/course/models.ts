@@ -1,4 +1,4 @@
-import { type CreationOptional, type HasManyCreateAssociationMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
 import type { SerializedSkillSetup } from '@step-wise/skill-setup'
 import type { SkillId } from '@step-wise/skill-definition'
@@ -24,7 +24,6 @@ export class CourseRecord extends Model<InferAttributes<CourseRecord>, InferCrea
 	declare students?: NonAttribute<CourseParticipantRecord[]>
 	declare courseSubscription?: NonAttribute<CourseSubscriptionRecord>
 	declare createBlock: NonAttribute<HasManyCreateAssociationMixin<CourseBlockRecord, 'courseId'>>
-	declare setBlocks: NonAttribute<HasManySetAssociationsMixin<CourseBlockRecord, string>>
 }
 
 export class CourseSubscriptionRecord extends Model<InferAttributes<CourseSubscriptionRecord>, InferCreationAttributes<CourseSubscriptionRecord>> {

@@ -3,7 +3,7 @@ import type { SkillId } from '@step-wise/skill-definition'
 import { Course, validateCourseDiagnostics } from '@step-wise/course-definition'
 import { skillTree } from '@step-wise/skill-tree'
 
-import { AuthenticationError } from '../../errors.ts'
+import { AuthenticationError, UserInputError } from '../../errors.ts'
 
 import type { ApiContext } from '../types.ts'
 import type { AuthenticatedContext } from '../user/index.ts'
@@ -39,12 +39,17 @@ const courseForStudent = {
 }
 
 function validateCourse(input: CreateCourseInput | UpdateCourseInput, current?: CourseRecord) {
-	const serializedSetup = input.setup ?? current?.setup
-	const startingPointIds = input.startingPoints ?? current?.startingPoints
-	const learningGoalIds = input.goals ?? current?.goals
+	const nonNullableFields = ['code', 'name', 'goals', 'startingPoints', 'organization'] as const
+	nonNullableFields.forEach(field => {
+		if (Reflect.get(input, field) === null) throw new UserInputError(`Course field "${field}" cannot be null.`)
+	})
+
+	const serializedSetup = input.setup === undefined ? current?.setup : input.setup
+	const startingPointIds = input.startingPoints === undefined ? current?.startingPoints : input.startingPoints
+	const learningGoalIds = input.goals === undefined ? current?.goals : input.goals
 	if (!startingPointIds || !learningGoalIds) throw new Error('Cannot validate a course without starting points and learning goals.')
-	const learningGoalWeights = input.goalWeights ?? current?.goalWeights
-	const blocks = input.blocks ?? current?.blocks
+	const learningGoalWeights = input.goalWeights === undefined ? current?.goalWeights : input.goalWeights
+	const blocks = input.blocks === undefined ? current?.blocks : input.blocks
 	const data = {
 		startingPointIds,
 		learningGoalIds,
@@ -84,7 +89,7 @@ export const courseResolvers = {
 				const { blocks, ...courseData } = input
 				const course = await db.Course.create(courseData, { transaction })
 				course.courseSubscription = await db.CourseSubscription.create({ courseId: course.id, userId: user.id, role: 'teacher' }, { transaction })
-				if (blocks) course.blocks = await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index }, { transaction })))
+				course.blocks = blocks ? await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index }, { transaction }))) : []
 				return course
 			})
 		},
@@ -96,9 +101,9 @@ export const courseResolvers = {
 			return db.transaction(async transaction => {
 				const { blocks, ...courseData } = input
 				await course.update(courseData, { transaction })
-				if (blocks) {
-					await course.setBlocks([], { transaction })
-					course.blocks = await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index }, { transaction })))
+				if (blocks !== undefined) {
+					await db.CourseBlock.destroy({ where: { courseId: course.id }, transaction })
+					course.blocks = blocks ? await Promise.all(blocks.map((block, index) => course.createBlock({ ...block, index }, { transaction }))) : []
 				}
 				return course
 			})
