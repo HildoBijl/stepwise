@@ -1,9 +1,16 @@
 import { defineApiModule } from '../types.ts'
 
 import { exerciseTypeDefs } from './schema.ts'
-import { createExerciseEventModel, createExerciseSampleModel } from './models.ts'
+import { type ExerciseEventModel, type ExerciseSampleModel, createExerciseEventModel, createExerciseSampleModel } from './models.ts'
 import { createExerciseLoaders } from './loaders.ts'
 import { exerciseResolvers } from './resolvers.ts'
+
+declare module '../types.ts' {
+	interface ApiModels {
+		ExerciseSample: ExerciseSampleModel
+		ExerciseEvent: ExerciseEventModel
+	}
+}
 
 export const exerciseModule = defineApiModule({
 	models: { ExerciseSample: createExerciseSampleModel, ExerciseEvent: createExerciseEventModel },

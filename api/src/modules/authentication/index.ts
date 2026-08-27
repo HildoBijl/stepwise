@@ -1,6 +1,12 @@
 import { defineApiModule } from '../types.ts'
 
-import { createSurfConextProfileModel } from './model.ts'
+import { type SurfConextProfileModel, createSurfConextProfileModel } from './model.ts'
+
+declare module '../types.ts' {
+	interface ApiModels {
+		SurfConextProfile: SurfConextProfileModel
+	}
+}
 
 export const authenticationModule = defineApiModule({
 	models: { SurfConextProfile: createSurfConextProfileModel },

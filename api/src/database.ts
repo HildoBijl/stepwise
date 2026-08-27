@@ -5,15 +5,17 @@ import { type ApiModel, type ApiModels, type ModelFactory, apiModules } from './
 const modelFactories: Record<string, ModelFactory> = Object.assign({}, ...apiModules.map(module => module.models ?? {}))
 
 function initializeModels(sequelize: Sequelize): ApiModels {
-	const models = Object.fromEntries(Object.entries(modelFactories).map(([name, factory]) => [name, factory(sequelize)])) as ApiModels
-	Object.values(models).forEach((model: ApiModel) => model.associate?.(models))
-	apiModules.forEach(module => module.associate?.(models))
-	return models
+	const models: Partial<ApiModels> = {}
+	Object.entries(modelFactories).forEach(([name, factory]) => Object.assign(models, { [name]: factory(sequelize) }))
+	const initializedModels = models as ApiModels
+	Object.values(initializedModels).forEach((model: ApiModel) => model.associate?.(initializedModels))
+	apiModules.forEach(module => module.associate?.(initializedModels))
+	return initializedModels
 }
 
-export class Database {
-	[key: string]: any
+export interface Database extends ApiModels {}
 
+export class Database {
 	private readonly sequelize: Sequelize
 
 	constructor(sequelize: Sequelize) {

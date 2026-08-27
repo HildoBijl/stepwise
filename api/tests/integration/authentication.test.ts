@@ -59,8 +59,9 @@ describe('Authentication: SurfConext', () => {
 				givenName: 'Old given name',
 				familyName: 'Old family name',
 			})
-			await user.createSurfConextProfile({
+			await db.SurfConextProfile.create({
 				id: SPECIAL_USER_SURFSUB,
+				userId: user.id,
 			})
 		})
 
@@ -145,8 +146,8 @@ describe('Authentication: SurfConext', () => {
 			await db.User.create({
 				id: SPECIAL_USER_ID,
 				name: 'Steppy Wisey',
-				firstName: 'Steppy',
-				givenName: 'Wisey',
+				givenName: 'Steppy',
+				familyName: 'Wisey',
 				email: 'step@wise.com',
 			})
 		})

@@ -1,9 +1,17 @@
 import { defineApiModule } from '../types.ts'
 
 import { courseTypeDefs } from './schema.ts'
-import { createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models.ts'
+import { type CourseBlockModel, type CourseModel, type CourseSubscriptionModel, createCourseBlockModel, createCourseModel, createCourseSubscriptionModel } from './models.ts'
 import { createCourseLoaders } from './loaders.ts'
 import { courseResolvers } from './resolvers.ts'
+
+declare module '../types.ts' {
+	interface ApiModels {
+		Course: CourseModel
+		CourseSubscription: CourseSubscriptionModel
+		CourseBlock: CourseBlockModel
+	}
+}
 
 export const courseModule = defineApiModule({
 	models: {

@@ -1,7 +1,15 @@
 import { defineApiModule } from '../types.ts'
 import { groupExerciseResolvers } from './resolvers.ts'
-import { createGroupExerciseEventModel, createGroupExerciseSampleModel, createGroupExerciseActionModel } from './models.ts'
+import { type GroupExerciseActionModel, type GroupExerciseEventModel, type GroupExerciseSampleModel, createGroupExerciseActionModel, createGroupExerciseEventModel, createGroupExerciseSampleModel } from './models.ts'
 import { groupExerciseTypeDefs } from './schema.ts'
+
+declare module '../types.ts' {
+	interface ApiModels {
+		GroupExerciseSample: GroupExerciseSampleModel
+		GroupExerciseEvent: GroupExerciseEventModel
+		GroupExerciseAction: GroupExerciseActionModel
+	}
+}
 
 export const groupExerciseModule = defineApiModule({
 	models: {

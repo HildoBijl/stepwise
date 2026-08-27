@@ -10,6 +10,10 @@ async function seedTestData(db: Database): Promise<void> {
 	// Find a date two minutes ago to start adding elements.
 	const date = new Date()
 	date.setSeconds(date.getSeconds() - 120)
+	const getNextDate = () => {
+		date.setSeconds(date.getSeconds() + 1)
+		return new Date(date)
+	}
 	console.log('Filling database with sample data ...')
 
 	// Create a user.
@@ -19,37 +23,38 @@ async function seedTestData(db: Database): Promise<void> {
 		givenName: 'Step',
 		familyName: 'Wise',
 		email: 'step@wise.com',
-		createdAt: date.setSeconds(date.getSeconds() + 1)
+		createdAt: getNextDate(),
 	})
 	const surfConextMockUser = SurfConext.mockUsers.find(candidate => candidate.email === user.email)
 	if (surfConextMockUser) {
-		await user.createSurfConextProfile({
+		await db.SurfConextProfile.create({
 			id: surfConextMockUser.sub,
+			userId: user.id,
 			schacHomeOrganization: surfConextMockUser.schac_home_organization,
 		})
 	}
 
 	// Create skills for the user.
 	const skills = await Promise.all([
-		user.createSkill({ skillId: 'summation', coefficients: [0, 0, 1], highest: [0, 0, 1], numPracticed: 3, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		user.createSkill({ skillId: 'multiplication', coefficients: [0, 1], highest: [0, 0.2, 0.8], numPracticed: 2, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		user.createSkill({ skillId: 'summationAndMultiplication', coefficients: [1, 0], highest: [1], numPracticed: 1, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		db.UserSkill.create({ userId: user.id, skillId: 'summation', coefficients: [0, 0, 1], highest: [0, 0, 1], numPracticed: 3, createdAt: getNextDate() }),
+		db.UserSkill.create({ userId: user.id, skillId: 'multiplication', coefficients: [0, 1], highest: [0, 0.2, 0.8], numPracticed: 2, createdAt: getNextDate() }),
+		db.UserSkill.create({ userId: user.id, skillId: 'summationAndMultiplication', coefficients: [1, 0], highest: [1], numPracticed: 1, createdAt: getNextDate() }),
 	])
 
 	// Create exercises related to the example skill.
 	const summation = skills[0]
 	const multiplication = skills[1]
 	const exercises = await Promise.all([
-		summation.createExercise({ exerciseId: 'summation1', parameters: { a: { type: "Integer", value: "37" }, b: { type: "Integer", value: "42" } }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		summation.createExercise({ exerciseId: 'summation1', parameters: { a: { type: "Integer", value: "64" }, b: { type: "Integer", value: "32" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		multiplication.createExercise({ exerciseId: 'multiplication1', parameters: { a: { type: "Integer", value: "8" }, b: { type: "Integer", value: "4" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		db.ExerciseSample.create({ userSkillId: summation.id, exerciseId: 'summation1', parameters: { a: { type: "Integer", value: "37" }, b: { type: "Integer", value: "42" } }, active: false, createdAt: getNextDate() }),
+		db.ExerciseSample.create({ userSkillId: summation.id, exerciseId: 'summation1', parameters: { a: { type: "Integer", value: "64" }, b: { type: "Integer", value: "32" } }, active: true, createdAt: getNextDate() }),
+		db.ExerciseSample.create({ userSkillId: multiplication.id, exerciseId: 'multiplication1', parameters: { a: { type: "Integer", value: "8" }, b: { type: "Integer", value: "4" } }, active: true, createdAt: getNextDate() }),
 	])
 	const events = await Promise.all([
-		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '80' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '79' } } }, state: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[1].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '90' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '30' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '31' } } }, state: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		db.ExerciseEvent.create({ exerciseSampleId: exercises[0].id, action: { type: 'input', input: { ans: { type: 'Integer', value: '80' } } }, state: {}, createdAt: getNextDate() }),
+		db.ExerciseEvent.create({ exerciseSampleId: exercises[0].id, action: { type: 'input', input: { ans: { type: 'Integer', value: '79' } } }, state: { solved: true, done: true }, createdAt: getNextDate() }),
+		db.ExerciseEvent.create({ exerciseSampleId: exercises[1].id, action: { type: 'input', input: { ans: { type: 'Integer', value: '90' } } }, state: {}, createdAt: getNextDate() }),
+		db.ExerciseEvent.create({ exerciseSampleId: exercises[2].id, action: { type: 'input', input: { ans: { type: 'Integer', value: '30' } } }, state: {}, createdAt: getNextDate() }),
+		db.ExerciseEvent.create({ exerciseSampleId: exercises[2].id, action: { type: 'input', input: { ans: { type: 'Integer', value: '31' } } }, state: {}, createdAt: getNextDate() }),
 	])
 }
 

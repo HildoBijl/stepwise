@@ -9,23 +9,27 @@ import { createLoaders } from '../graphql/index.ts'
 import type { RequestWithSession } from './types.ts'
 import { getIdFromRequest } from './support.ts'
 
-export interface ApolloContext extends ApiContext {
-	db: Database
-	isLoggedIn: boolean
-	isAdmin: boolean
-	userId?: string
-	user: UserRecord | null
-	ensureLoggedIn: () => void
-	ensureAdmin: () => void
-	loaders: ApiLoaders
-	pubsub: PubSubEngine
+declare module '../modules/types.ts' {
+	interface ApiContext {
+		db: Database
+		isLoggedIn: boolean
+		isAdmin: boolean
+		userId?: string
+		user: UserRecord | null
+		ensureLoggedIn: () => void
+		ensureAdmin: () => void
+		loaders: ApiLoaders
+		pubsub: PubSubEngine
+	}
 }
+
+export interface ApolloContext extends ApiContext {}
 
 export function createApolloContext(database: Database, pubsub: PubSubEngine) {
 	return async ({ req }: { req: RequestWithSession }): Promise<ApolloContext> => {
 		// Determine whether there is a user.
 		const userId = getIdFromRequest(req)
-		const user = userId ? await database.User.findByPk(userId) as UserRecord | null : null
+		const user = userId ? await database.User.findByPk(userId) : null
 
 		// Set up a context object. Loaders receive the same context object that is returned to Apollo.
 		const context: ApolloContext = {

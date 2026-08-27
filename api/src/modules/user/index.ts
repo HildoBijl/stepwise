@@ -1,8 +1,14 @@
 import { defineApiModule } from '../types.ts'
 
 import { userTypeDefs } from './schema.ts'
-import { createUserModel } from './model.ts'
-import { createUserResolvers, type UserPrivateAccessRule } from './resolvers.ts'
+import { type UserModel, createUserModel } from './model.ts'
+import { type UserPrivateAccessRule, createUserResolvers } from './resolvers.ts'
+
+declare module '../types.ts' {
+	interface ApiModels {
+		User: UserModel
+	}
+}
 
 interface UserModuleOptions {
 	privateAccessRules?: UserPrivateAccessRule[]

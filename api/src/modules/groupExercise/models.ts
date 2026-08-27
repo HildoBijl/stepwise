@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute, Sequelize } from 'sequelize'
+import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
 export class GroupExerciseActionRecord extends Model<InferAttributes<GroupExerciseActionRecord>, InferCreationAttributes<GroupExerciseActionRecord>> {
 	declare id: CreationOptional<string>
@@ -33,7 +33,11 @@ export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerci
 	declare createEvent: NonAttribute<(values: any, options?: any) => Promise<GroupExerciseEventRecord>>
 }
 
-export function createGroupExerciseSampleModel(sequelize: Sequelize) {
+export type GroupExerciseActionModel = ModelStatic<GroupExerciseActionRecord>
+export type GroupExerciseEventModel = ModelStatic<GroupExerciseEventRecord>
+export type GroupExerciseSampleModel = ModelStatic<GroupExerciseSampleRecord>
+
+export function createGroupExerciseSampleModel(sequelize: Sequelize): GroupExerciseSampleModel {
 	class GroupExerciseSample extends GroupExerciseSampleRecord { }
 	GroupExerciseSample.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
@@ -49,7 +53,7 @@ export function createGroupExerciseSampleModel(sequelize: Sequelize) {
 	return GroupExerciseSample
 }
 
-export function createGroupExerciseEventModel(sequelize: Sequelize) {
+export function createGroupExerciseEventModel(sequelize: Sequelize): GroupExerciseEventModel {
 	class GroupExerciseEvent extends GroupExerciseEventRecord { }
 	GroupExerciseEvent.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
@@ -61,7 +65,7 @@ export function createGroupExerciseEventModel(sequelize: Sequelize) {
 	return GroupExerciseEvent
 }
 
-export function createGroupExerciseActionModel(sequelize: Sequelize) {
+export function createGroupExerciseActionModel(sequelize: Sequelize): GroupExerciseActionModel {
 	class GroupExerciseAction extends GroupExerciseActionRecord { }
 	GroupExerciseAction.init({
 		id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },

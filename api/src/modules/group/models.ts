@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute, Sequelize } from 'sequelize'
+import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
 export class GroupMembershipRecord extends Model<InferAttributes<GroupMembershipRecord>, InferCreationAttributes<GroupMembershipRecord>> {
 	declare userId: string
@@ -21,7 +21,10 @@ export class GroupRecord extends Model<InferAttributes<GroupRecord>, InferCreati
 	declare createExercise: NonAttribute<(values: any, options?: any) => Promise<any>>
 }
 
-export function createGroupModel(sequelize: Sequelize) {
+export type GroupModel = ModelStatic<GroupRecord>
+export type GroupMembershipModel = ModelStatic<GroupMembershipRecord>
+
+export function createGroupModel(sequelize: Sequelize): GroupModel {
 	class Group extends GroupRecord {}
 	Group.init({
 		id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
@@ -32,7 +35,7 @@ export function createGroupModel(sequelize: Sequelize) {
 	return Group
 }
 
-export function createGroupMembershipModel(sequelize: Sequelize) {
+export function createGroupMembershipModel(sequelize: Sequelize): GroupMembershipModel {
 	class GroupMembership extends GroupMembershipRecord {}
 	GroupMembership.init({
 		userId: { type: DataTypes.UUID, primaryKey: true },

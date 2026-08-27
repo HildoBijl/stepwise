@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute, Sequelize } from 'sequelize'
+import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
 
 import type { UserRecord } from '../user/index.ts'
 
@@ -13,7 +13,9 @@ export class SurfConextProfileRecord extends Model<InferAttributes<SurfConextPro
 	declare user?: NonAttribute<UserRecord>
 }
 
-export function createSurfConextProfileModel(sequelize: Sequelize) {
+export type SurfConextProfileModel = ModelStatic<SurfConextProfileRecord>
+
+export function createSurfConextProfileModel(sequelize: Sequelize): SurfConextProfileModel {
 	class SurfConextProfile extends SurfConextProfileRecord {}
 	SurfConextProfile.init({
 		id: { type: DataTypes.TEXT, allowNull: false, primaryKey: true },

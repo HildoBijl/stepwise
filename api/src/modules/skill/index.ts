@@ -1,9 +1,15 @@
 import { defineApiModule } from '../types.ts'
 
 import { skillTypeDefs } from './schema.ts'
-import { createUserSkillModel } from './model.ts'
+import { type UserSkillModel, createUserSkillModel } from './model.ts'
 import { createSkillLoaders } from './loaders.ts'
 import { skillResolvers } from './resolvers.ts'
+
+declare module '../types.ts' {
+	interface ApiModels {
+		UserSkill: UserSkillModel
+	}
+}
 
 export const skillModule = defineApiModule({
 	models: { UserSkill: createUserSkillModel },
