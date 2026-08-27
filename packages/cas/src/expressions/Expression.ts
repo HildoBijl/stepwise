@@ -471,9 +471,9 @@ export class Expression {
 
 	mapEvery(transform: ExpressionTransform, childrenFirst = true, includeSelf = true, ancestors: ExpressionAncestors = []): Expression {
 		let result: Expression = this
-		if (includeSelf && !childrenFirst) result = transform(result, ancestors)
+		if (includeSelf && !childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
 		result = this.recreateWith(result.node.recreateWithChildren(result.node.children.map(child => this.recreateWith(child).mapEvery(transform, childrenFirst, true, [...ancestors, result]).node)))
-		if (includeSelf && childrenFirst) result = transform(result, ancestors)
+		if (includeSelf && childrenFirst) result = transform(result, ancestors).withSettings(this.settings)
 		return result
 	}
 
