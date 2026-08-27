@@ -22,7 +22,7 @@ export interface GroupUpdatedPayload {
 	action: GroupUpdateAction
 }
 
-export function verifyGroupAccess(group: GroupWithMembers | null, userId: string): void {
+export function verifyGroupAccess(group: GroupWithMembers | null, userId: string): asserts group is GroupWithMembers {
 	if (!group) throw new UserInputError('No group with the given code exists.')
 	const member = group.members.find(candidate => candidate.id === userId)
 	if (!member) throw new ForbiddenError(`Access to group "${group.code}" is not allowed: the user is not a member.`)

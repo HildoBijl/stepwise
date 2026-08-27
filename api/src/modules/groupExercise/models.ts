@@ -1,10 +1,14 @@
-import { type CreationOptional, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import { type CreationOptional, type HasManyCreateAssociationMixin, type InferAttributes, type InferCreationAttributes, type ModelStatic, type NonAttribute, type Sequelize, DataTypes, Model } from 'sequelize'
+import type { SkillId } from '@step-wise/skill-definition'
+import type { ExerciseAction, ExerciseParameters, ExerciseState } from '@step-wise/exercise-definition'
+
+import type { GroupWithMembers } from '../group/index.ts'
 
 export class GroupExerciseActionRecord extends Model<InferAttributes<GroupExerciseActionRecord>, InferCreationAttributes<GroupExerciseActionRecord>> {
 	declare id: CreationOptional<string>
 	declare userId: string
 	declare groupExerciseEventId: string
-	declare action: unknown
+	declare action: ExerciseAction
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 }
@@ -12,25 +16,42 @@ export class GroupExerciseActionRecord extends Model<InferAttributes<GroupExerci
 export class GroupExerciseEventRecord extends Model<InferAttributes<GroupExerciseEventRecord>, InferCreationAttributes<GroupExerciseEventRecord>> {
 	declare id: CreationOptional<string>
 	declare groupExerciseSampleId: string
-	declare state: unknown | null
+	declare state: ExerciseState | null
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare actions?: NonAttribute<GroupExerciseActionRecord[]>
-	declare createAction: NonAttribute<(values: any, options?: any) => Promise<GroupExerciseActionRecord>>
+	declare createAction: NonAttribute<HasManyCreateAssociationMixin<GroupExerciseActionRecord, 'groupExerciseEventId'>>
 }
 
 export class GroupExerciseSampleRecord extends Model<InferAttributes<GroupExerciseSampleRecord>, InferCreationAttributes<GroupExerciseSampleRecord>> {
 	declare id: CreationOptional<string>
 	declare groupId: string
-	declare skillId: string
+	declare skillId: SkillId
 	declare exerciseId: string
-	declare parameters: unknown
-	declare initialState: CreationOptional<unknown>
+	declare parameters: ExerciseParameters
+	declare initialState: CreationOptional<ExerciseState>
 	declare active: CreationOptional<boolean>
 	declare createdAt: CreationOptional<Date>
 	declare updatedAt: CreationOptional<Date>
 	declare events?: NonAttribute<GroupExerciseEventRecord[]>
-	declare createEvent: NonAttribute<(values: any, options?: any) => Promise<GroupExerciseEventRecord>>
+	declare createEvent: NonAttribute<HasManyCreateAssociationMixin<GroupExerciseEventRecord, 'groupExerciseSampleId'>>
+}
+
+export type GroupExerciseEventWithActions = Omit<GroupExerciseEventRecord, 'actions'> & { actions: GroupExerciseActionRecord[] }
+export type GroupExerciseSampleWithEvents = Omit<GroupExerciseSampleRecord, 'events'> & { events: GroupExerciseEventWithActions[] }
+export type GroupWithExercises = GroupWithMembers & { exercises: GroupExerciseSampleWithEvents[] }
+
+export function hasLoadedGroupExerciseActions(event: GroupExerciseEventRecord): event is GroupExerciseEventWithActions {
+	return event.actions !== undefined
+}
+
+export function hasLoadedGroupExerciseEvents(exercise: GroupExerciseSampleRecord): exercise is GroupExerciseSampleWithEvents {
+	return exercise.events !== undefined && exercise.events.every(hasLoadedGroupExerciseActions)
+}
+
+export function hasLoadedGroupExercises(group: GroupWithMembers): group is GroupWithExercises {
+	const exercises = Reflect.get(group, 'exercises')
+	return Array.isArray(exercises) && exercises.every(hasLoadedGroupExerciseEvents)
 }
 
 export type GroupExerciseActionModel = ModelStatic<GroupExerciseActionRecord>
